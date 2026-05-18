@@ -497,9 +497,9 @@ jobs:
           gh api graphql -f query="mutation { createDiscussion(input: {repositoryId: \"$REPO_ID\", categoryId: \"$CAT_ID\", title: \"Week $WEEK — Tech Trends Summary\", body: $BODY}) { discussion { url } } }"
 
       - name: Post to webhook
-        if: vars.WEBHOOK_URL != ''
+        if: secrets.WEBHOOK_URL != ''
         env:
-          WEBHOOK_URL: ${{ vars.WEBHOOK_URL }}
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
         run: |
           SUMMARY=$(ls -t data/analyzed/*-summary.md | head -1)
           WEEK=$(basename "$SUMMARY" | sed 's/-summary.md//')

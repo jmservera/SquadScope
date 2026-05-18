@@ -78,13 +78,13 @@ gh secret list -R YOUR_USERNAME/SquadScope
 
 ### Step 4: Configure optional webhook notifications
 
-To notify a team channel whenever a weekly summary is published, add a repository variable named `WEBHOOK_URL` (a variable, not a secret, because notification-only webhook URLs are treated as configuration in this project):
+To notify a team channel whenever a weekly summary is published, add a repository secret named `WEBHOOK_URL` (a secret, not a variable, because webhook URLs are credentials that should be masked and protected):
 
 ```bash
-gh variable set WEBHOOK_URL --body "https://example.com/webhook" -R YOUR_USERNAME/SquadScope
+gh secret set WEBHOOK_URL --body "https://example.com/webhook" -R YOUR_USERNAME/SquadScope
 ```
 
-You can also add it in the GitHub UI under **Settings → Secrets and variables → Actions → Variables**.
+You can also add it in the GitHub UI under **Settings → Secrets and variables → Actions → Secrets**.
 
 Supported endpoints:
 
