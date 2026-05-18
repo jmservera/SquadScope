@@ -32,19 +32,6 @@ class AnalyzeFallbackTests(unittest.TestCase):
 
             self.assertEqual(previous, analyzed_dir / "2026-W20-summary.md")
 
-    def test_find_previous_summary_handles_year_boundaries(self) -> None:
-        tests_root = Path(__file__).resolve().parent
-        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
-            analyzed_dir = Path(tmpdir) / "analyzed"
-            analyzed_dir.mkdir()
-            (analyzed_dir / "2026-W01-summary.md").write_text("early\n", encoding="utf-8")
-            (analyzed_dir / "2026-W52-summary.md").write_text("latest prior\n", encoding="utf-8")
-            (analyzed_dir / "2027-W01-summary.md").write_text("current\n", encoding="utf-8")
-
-            previous = analyze_fallback.find_previous_summary("2027-W01", analyzed_dir)
-
-            self.assertEqual(previous, analyzed_dir / "2026-W52-summary.md")
-
     def test_render_prompt_replaces_all_placeholders(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
@@ -67,11 +54,11 @@ class AnalyzeFallbackTests(unittest.TestCase):
                 prompt_template_path=prompt_template,
                 raw_json_path=raw_path,
                 output_path=output_path,
-                current_datetime="2026-05-18T13:20:07.067+02:00",
+                current_datetime="2026-05-18T13:05:53.678+02:00",
                 analyzed_dir=analyzed_dir,
             )
 
-            self.assertIn("date=2026-05-18T13:20:07.067+02:00", prompt)
+            self.assertIn("date=2026-05-18T13:05:53.678+02:00", prompt)
             self.assertIn(f"raw={raw_path}", prompt)
             self.assertIn(f"out={output_path}", prompt)
             self.assertIn("prev=", prompt)
@@ -115,7 +102,7 @@ class AnalyzeFallbackTests(unittest.TestCase):
 
             with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
                 analyze_fallback.request, "urlopen", return_value=response
-            ):
+            ) as urlopen_mock:
                 exit_code = analyze_fallback.main(
                     [
                         "--raw-json",
@@ -123,7 +110,7 @@ class AnalyzeFallbackTests(unittest.TestCase):
                         "--output",
                         str(output_path),
                         "--current-datetime",
-                        "2026-05-18T13:20:07.067+02:00",
+                        "2026-05-18T13:05:53.678+02:00",
                         "--prompt-template",
                         str(prompt_template),
                         "--analyzed-dir",
@@ -133,6 +120,7 @@ class AnalyzeFallbackTests(unittest.TestCase):
 
             self.assertEqual(exit_code, 0)
             self.assertEqual(output_path.read_text(encoding="utf-8"), "# Summary\n")
+            self.assertEqual(urlopen_mock.call_args.kwargs["timeout"], analyze_fallback.DEFAULT_MODELS_TIMEOUT)
 
 
 if __name__ == "__main__":

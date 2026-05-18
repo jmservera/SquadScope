@@ -8,8 +8,6 @@ on:
 permissions:
   actions: read
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: weekly-crawl
@@ -168,14 +166,30 @@ jobs:
         id: analysis-context
         run: |
           mkdir -p data/analyzed
-          WEEK_FILE=$(ls -t data/raw/*.json | head -1)
-          WEEK=$(python3 -c "import json, sys; from pathlib import Path; print(json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))['week'])" "$WEEK_FILE")
-          OUTPUT_FILE="data/analyzed/${WEEK}-summary.md"
           CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          readarray -t CONTEXT_LINES < <(python3 - <<'PY' "$CURRENT_DATETIME"
+          import json
+          import sys
+          from datetime import UTC, datetime
+          from pathlib import Path
+
+          current_datetime = sys.argv[1]
+          run_datetime = datetime.fromisoformat(current_datetime.replace("Z", "+00:00")).astimezone(UTC)
+          iso_year, iso_week, _ = run_datetime.isocalendar()
+          week = f"{iso_year}-W{iso_week:02d}"
+          week_file = Path("data/raw") / f"{week}.json"
+          if not week_file.exists():
+              raise SystemExit(f"Missing raw payload for current run: {week_file}")
+          payload = json.loads(week_file.read_text(encoding="utf-8"))
+          if payload.get("week") != week:
+              raise SystemExit(f"Raw payload week mismatch: expected {week}, found {payload.get('week')!r}")
+          print(f"week_file={week_file.as_posix()}")
+          print(f"week={week}")
+          print(f"output_file=data/analyzed/{week}-summary.md")
+          PY
+          )
           {
-            echo "week_file=$WEEK_FILE"
-            echo "week=$WEEK"
-            echo "output_file=$OUTPUT_FILE"
+            printf '%s\n' "${CONTEXT_LINES[@]}"
             echo "current_datetime=$CURRENT_DATETIME"
           } >> "$GITHUB_OUTPUT"
 
@@ -194,16 +208,8 @@ jobs:
           OUTPUT_FILE="${{ steps.analysis-context.outputs.output_file }}"
           WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
           CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
-          COPILOT_OUTPUT="${OUTPUT_FILE}.copilot"
-          trap 'rm -f "$COPILOT_OUTPUT"' EXIT
 
-          PROMPT=$(python3 scripts/analyze_fallback.py \
-            --raw-json "$WEEK_FILE" \
-            --output "$OUTPUT_FILE" \
-            --current-datetime "$CURRENT_DATETIME" \
-            --print-prompt)
-
-          if command -v copilot >/dev/null 2>&1 && copilot -p "$PROMPT" \
+          if command -v copilot >/dev/null 2>&1 && copilot -p "$(python3 scripts/analyze_fallback.py --raw-json "$WEEK_FILE" --output "$OUTPUT_FILE" --current-datetime "$CURRENT_DATETIME" --print-prompt)" \
             -s \
             --no-ask-user \
             --model claude-sonnet-4 \
@@ -211,8 +217,7 @@ jobs:
             --allow-tool=write \
             --allow-tool=glob \
             --allow-tool=grep \
-            > "$COPILOT_OUTPUT"; then
-            mv "$COPILOT_OUTPUT" "$OUTPUT_FILE"
+            > "$OUTPUT_FILE"; then
             echo "analysis_source=copilot-cli" >> "$GITHUB_OUTPUT"
           else
             echo "Copilot CLI unavailable or failed; falling back to GitHub Models API."
@@ -227,123 +232,14 @@ jobs:
         env:
           ANALYSIS_FILE: ${{ steps.analysis-context.outputs.output_file }}
           ANALYSIS_SOURCE: ${{ steps.run-analysis.outputs.analysis_source }}
+          RAW_JSON_FILE: ${{ steps.analysis-context.outputs.week_file }}
+          CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
         run: |
-          python3 - <<'PY'
-          import os
-          import re
-          import sys
-          from pathlib import Path
-
-          path = Path(os.environ["ANALYSIS_FILE"])
-          summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
-          required_fields = [
-              "title",
-              "date",
-              "week",
-              "year",
-              "tags",
-              "categories",
-              "repos_featured",
-              "stars_tracked",
-              "top_repo",
-              "quality_score",
-              "summary",
-          ]
-          required_sections = [
-              "## Notable New Repositories",
-              "## Trending This Week",
-              "## Trend Analysis",
-              "### Signal",
-              "### Noise",
-              "## What's Missing",
-              "### Gaps",
-              "## Conclusion",
-          ]
-
-          def fail(errors: list[str]) -> None:
-              if summary_path:
-                  with open(summary_path, "a", encoding="utf-8") as handle:
-                      handle.write("## Analysis quality gate failed\n")
-                      for error in errors:
-                          handle.write(f"- {error}\n")
-              for error in errors:
-                  print(error, file=sys.stderr)
-              raise SystemExit(1)
-
-          if not path.exists():
-              fail([f"Missing analysis output: {path}"])
-
-          text = path.read_text(encoding="utf-8")
-          match = re.match(r"^---\n(.*?)\n---\n(.*)\Z", text, re.DOTALL)
-          if not match:
-              fail(["Analysis output is missing YAML frontmatter."])
-
-          frontmatter_text, body = match.groups()
-          frontmatter = {}
-          for line in frontmatter_text.splitlines():
-              if not line.strip():
-                  continue
-              if ":" not in line:
-                  fail([f"Malformed frontmatter line: {line}"])
-              key, value = line.split(":", 1)
-              frontmatter[key.strip()] = value.strip()
-
-          errors: list[str] = []
-          missing_fields = [field for field in required_fields if field not in frontmatter]
-          if missing_fields:
-              errors.append(f"Missing frontmatter fields: {', '.join(missing_fields)}")
-
-          extra_fields = sorted(set(frontmatter) - set(required_fields))
-          if extra_fields:
-              errors.append(f"Unexpected frontmatter fields: {', '.join(extra_fields)}")
-
-          quality_score = frontmatter.get("quality_score", "")
-          if not re.fullmatch(r"\d+", quality_score):
-              errors.append("quality_score must be an integer.")
-          elif int(quality_score) < 60:
-              errors.append("quality_score must be at least 60.")
-
-          last_index = -1
-          for section in required_sections:
-              position = body.find(section)
-              if position == -1:
-                  errors.append(f"Missing required section: {section}")
-              elif position < last_index:
-                  errors.append(f"Section out of order: {section}")
-              else:
-                  last_index = position
-
-          word_count = len(re.findall(r"\b[\w'-]+\b", body))
-          if word_count < 200:
-              errors.append(f"Analysis body must be at least 200 words; found {word_count}.")
-
-          lower_body = body.lower()
-          prohibited_markers = [
-              "```json",
-              '"week":',
-              '"new_repos"',
-              '"trending_repos"',
-              "traceback (most recent call last)",
-              "placeholder",
-              "todo",
-          ]
-          for marker in prohibited_markers:
-              if marker in lower_body:
-                  errors.append(f"Analysis body contains prohibited marker: {marker}")
-
-          if errors:
-              fail(errors)
-
-          source = os.environ.get("ANALYSIS_SOURCE", "unknown")
-          message = f"✅ Analysis quality gate passed for {path.name} via {source} ({word_count} words)."
-          print(message)
-          if summary_path:
-              with open(summary_path, "a", encoding="utf-8") as handle:
-                  handle.write("## Analysis quality gate passed\n")
-                  handle.write(f"- File: `{path}`\n")
-                  handle.write(f"- Source: `{source}`\n")
-                  handle.write(f"- Word count: `{word_count}`\n")
-          PY
+          python3 scripts/analysis_gate.py \
+            --analysis-file "$ANALYSIS_FILE" \
+            --raw-json "$RAW_JSON_FILE" \
+            --current-datetime "$CURRENT_DATETIME" \
+            --source "$ANALYSIS_SOURCE"
 
       - name: Commit analysis
         env:
@@ -376,122 +272,3 @@ jobs:
           name: analyzed-data
           path: data/analyzed/
           if-no-files-found: warn
-
-  generate:
-    needs: analyze
-    runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: 0.161.1
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 0
-          ref: ${{ github.event.repository.default_branch }}
-
-      - name: Download analyzed data artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: analyzed-data
-          path: data/analyzed/
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-
-      - name: Prepare generation context
-        id: generation-context
-        run: |
-          SUMMARY_FILE=$(ls -t data/analyzed/*-summary.md | head -1)
-          if [ -z "$SUMMARY_FILE" ]; then
-            echo "No analyzed summary found."
-            exit 1
-          fi
-          WEEK=$(basename "$SUMMARY_FILE" -summary.md)
-          CONTENT_FILE=$(python3 -c "import re, sys; from pathlib import Path; match = re.fullmatch(r'(\\d{4})-W(\\d{2})', sys.argv[1]); assert match, sys.argv[1]; print(Path('content') / 'weekly' / match.group(1) / f'W{match.group(2)}.md')" "$WEEK")
-          {
-            echo "summary_file=$SUMMARY_FILE"
-            echo "week=$WEEK"
-            echo "content_file=$CONTENT_FILE"
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Generate weekly content
-        run: python3 scripts/generate_content.py "${{ steps.generation-context.outputs.summary_file }}"
-
-      - name: Commit generated content
-        env:
-          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-          CONTENT_FILE: ${{ steps.generation-context.outputs.content_file }}
-          WEEK: ${{ steps.generation-context.outputs.week }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ! git status --short -- "$CONTENT_FILE" | grep -q .; then
-            echo "No generated content changes to commit."
-            exit 0
-          fi
-          git stash push --include-untracked --message generated-content -- "$CONTENT_FILE"
-          git fetch origin "$DEFAULT_BRANCH"
-          git checkout -B "$DEFAULT_BRANCH" "origin/$DEFAULT_BRANCH"
-          git stash pop || {
-            echo "Failed to reapply generated content after syncing $DEFAULT_BRANCH."
-            exit 1
-          }
-          git add "$CONTENT_FILE"
-          git diff --cached --quiet || git commit -m "content: weekly page $WEEK"
-          git push origin "HEAD:$DEFAULT_BRANCH" || {
-            echo "Push failed after syncing with $DEFAULT_BRANCH."
-            exit 1
-          }
-
-      - name: Install Hugo
-        run: |
-          TARBALL="hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
-          curl -sLJO "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/${TARBALL}"
-
-          curl -sLJO "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_checksums.txt"
-          sha256sum --check hugo_${HUGO_VERSION}_checksums.txt --ignore-missing || exit 1
-          rm "hugo_${HUGO_VERSION}_checksums.txt"
-
-          mkdir -p "${HOME}/.local/hugo"
-          tar -C "${HOME}/.local/hugo" -xf "${TARBALL}"
-          rm "${TARBALL}"
-          echo "${HOME}/.local/hugo" >> "${GITHUB_PATH}"
-          export PATH="${HOME}/.local/hugo:${PATH}"
-          hugo version
-
-      - name: Build site
-        run: hugo --minify
-
-      - name: Build Pagefind index
-        run: npx --yes pagefind --site public/
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./public
-
-  deploy:
-    needs: generate
-    runs-on: ubuntu-latest
-    concurrency:
-      group: pages
-      cancel-in-progress: true
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

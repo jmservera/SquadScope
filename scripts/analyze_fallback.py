@@ -4,18 +4,17 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import re
+import sys
 from pathlib import Path
 from typing import Any
 from urllib import error, request
 
 ROOT = Path(__file__).resolve().parent.parent
-WEEK_PATTERN = re.compile(r"^(?P<year>\d{4})-W(?P<week>\d{2})$")
-SUMMARY_SUFFIX = "-summary.md"
 DEFAULT_PROMPT_TEMPLATE = ROOT / "prompts" / "analyze-weekly.md"
 DEFAULT_ANALYZED_DIR = ROOT / "data" / "analyzed"
 DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
 DEFAULT_MODELS_MODEL = "openai/gpt-4.1"
+DEFAULT_MODELS_TIMEOUT = 30
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -47,31 +46,16 @@ def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def parse_week(value: str) -> tuple[int, int]:
-    match = WEEK_PATTERN.fullmatch(value)
-    if not match:
-        raise ValueError(f"Invalid week value: {value}")
-    return int(match.group("year")), int(match.group("week"))
-
-
 def find_previous_summary(current_week: str, analyzed_dir: Path) -> Path | None:
     if not analyzed_dir.exists():
         return None
 
-    current_week_key = parse_week(current_week)
-    previous_candidate: tuple[int, int] | None = None
-    previous_path: Path | None = None
-
-    for path in analyzed_dir.glob(f"*{SUMMARY_SUFFIX}"):
-        try:
-            week_key = parse_week(path.name.removesuffix(SUMMARY_SUFFIX))
-        except ValueError:
-            continue
-        if week_key < current_week_key and (previous_candidate is None or week_key > previous_candidate):
-            previous_candidate = week_key
-            previous_path = path
-
-    return previous_path
+    candidates = []
+    for path in analyzed_dir.glob("*-summary.md"):
+        week = path.name.removesuffix("-summary.md")
+        if week < current_week:
+            candidates.append(path)
+    return max(candidates, default=None)
 
 
 def render_prompt(
@@ -136,6 +120,7 @@ def call_github_models(prompt: str) -> str:
 
     endpoint = os.environ.get("GITHUB_MODELS_ENDPOINT", DEFAULT_MODELS_ENDPOINT)
     model = os.environ.get("GITHUB_MODELS_MODEL", DEFAULT_MODELS_MODEL)
+    timeout = int(os.environ.get("GITHUB_MODELS_TIMEOUT", str(DEFAULT_MODELS_TIMEOUT)))
     payload = {
         "model": model,
         "messages": [
@@ -159,12 +144,12 @@ def call_github_models(prompt: str) -> str:
     )
 
     try:
-        with request.urlopen(req) as response:
+        with request.urlopen(req, timeout=timeout) as response:
             response_payload = json.load(response)
-    except error.HTTPError as exc:  # pragma: no cover
+    except error.HTTPError as exc:  # pragma: no cover - exercised via message formatting
         detail = exc.read().decode("utf-8", errors="replace")
         raise RuntimeError(f"GitHub Models API request failed ({exc.code}): {detail}") from exc
-    except error.URLError as exc:  # pragma: no cover
+    except error.URLError as exc:  # pragma: no cover - network failures are environment-specific
         raise RuntimeError(f"GitHub Models API request failed: {exc.reason}") from exc
 
     return extract_markdown(response_payload)
