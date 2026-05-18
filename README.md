@@ -34,8 +34,35 @@ SquadScope is a Hugo-powered GitHub Pages site for weekly, monthly, and yearly t
 - `data/snapshots/YYYY-WNN-stars.json` intentionally stores the broader pre-filter search candidate universe to preserve week-over-week `stars_gained` comparisons even when a repo is later filtered out of the published payload.
 - Live runs use open-ended `created:>` / `pushed:>` GitHub search filters; `--as-of` runs switch to bounded date ranges so historical backfills stay deterministic.
 
+## Automated weekly pipeline
+
+`.github/workflows/crawl-and-publish.yml` runs the full weekly automation chain:
+
+1. `crawl` writes `data/raw/YYYY-WNN.json` and `data/snapshots/YYYY-WNN-stars.json`.
+2. `analyze` turns the raw payload into `data/analyzed/YYYY-WNN-summary.md`.
+3. `generate` converts the analysis into `content/weekly/YYYY/WNN.md`.
+4. `deploy` builds `public/` with Hugo and publishes the site to GitHub Pages.
+
+### Schedule and manual runs
+
+- Scheduled cron: `0 8 * * 1` (`Monday 08:00 UTC`)
+- Manual workflow trigger: GitHub Actions UI or `gh workflow run crawl-and-publish.yml`
+
+### Required secrets
+
+- `COPILOT_GH_TOKEN` for the primary Copilot CLI analysis path
+- `GITHUB_TOKEN` for crawling, fallback analysis, commits, and Pages deployment
+
+### Local/manual stage commands
+
+- Crawl: `python3 scripts/crawl.py --as-of YYYY-MM-DD`
+- Analyze fallback: `python3 scripts/analyze_fallback.py --raw-json data/raw/YYYY-WNN.json --output data/analyzed/YYYY-WNN-summary.md --current-datetime YYYY-MM-DDTHH:MM:SSZ`
+- Gate: `python3 scripts/analysis_gate.py --analysis-file data/analyzed/YYYY-WNN-summary.md --raw-json data/raw/YYYY-WNN.json --current-datetime YYYY-MM-DDTHH:MM:SSZ`
+- Generate: `python3 scripts/generate_content.py data/analyzed/YYYY-WNN-summary.md`
+- Build: `hugo --minify`
+
 ## Deployment
 
-Pushing to `main` triggers `.github/workflows/deploy-site.yml`, which builds the Hugo site and deploys the generated `public/` directory to GitHub Pages.
+Direct pushes to `main` still trigger `.github/workflows/deploy-site.yml` for standard site deploys. The weekly automation deploys Pages from `crawl-and-publish.yml` and `deploy-site.yml` skips bot-authored pushes from that workflow to avoid duplicate Pages runs.
 
-The scheduled weekly pipeline in `.github/workflows/crawl-and-publish.yml` now runs `crawl → analyze → generate → deploy`, using `scripts/generate_content.py` to turn `data/analyzed/YYYY-WNN-summary.md` into `content/weekly/YYYY/WNN.md` before the Pages build and Pagefind indexing steps.
+See `docs/pipeline-validation.md` for the stage checklist, artifact handoffs, success criteria, and known limitations.
