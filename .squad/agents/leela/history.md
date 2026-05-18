@@ -8,6 +8,12 @@
 
 ## Learnings
 
+### 2026-05-18T12:07:20.778+02:00 — Phase 2 PR Review
+
+- **PR #27:** Not mergeable yet. The crawl workflow restores the `crawl-cache` artifact into repo root (`path: .`) while `scripts/crawl.py` reads cache from `data/cache/`, so the warm-cache handoff does not actually work yet.
+- **PR #28:** Not mergeable yet. The spec/prompt require the stable H2 heading `## Trending This Week`, but the sample analyzed artifact still uses `## Trending This Week (Stars Gained)`, so the example does not satisfy its own contract.
+- **GitHub constraint:** `gh pr review --request-changes` is blocked on self-authored PRs, so the blocking findings were recorded as PR comments instead.
+
 ### 2026-05-18 — PRD Authoring
 
 - **PRD location:** `docs/PRD.md` — comprehensive PRD covering all requirements from jmservera
