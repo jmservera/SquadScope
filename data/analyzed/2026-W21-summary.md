@@ -18,7 +18,7 @@ The strongest new-repo signal is not raw volume but coherence. **vercel-labs/zer
 
 Outside that lane, **facebookresearch/vggt-omega** adds a more credible research signal than most of the week’s AI launches, and **chrisbanes/skills** hints that reusable skill packs may become a durable packaging pattern. The key takeaway is that the best new repos are the ones reducing workflow friction, not the ones making the loudest promises.
 
-## Trending This Week (Stars Gained)
+## Trending This Week
 
 The trending set is still useful, but this week it is not a true stars-gained leaderboard. Every sampled `trending_repos` entry lacks a usable `stars_gained` value, so the list behaves more like “large repositories that were active during the crawl window” than a clean momentum table. Even with that caveat, the concentration around **freeCodeCamp/freeCodeCamp**, **facebook/react**, **n8n-io/n8n**, **ollama/ollama**, **huggingface/transformers**, **langgenius/dify**, **firecrawl/firecrawl**, and **anthropics/claude-code** shows that AI workflow platforms, developer productivity infrastructure, and agent-adjacent tooling remain where attention is pooling.
 
