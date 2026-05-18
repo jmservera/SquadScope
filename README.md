@@ -40,7 +40,7 @@ JSON    Markdown   Hugo      Pages    Improvements
 
 **Stage 4: Deploy** (Hugo + GitHub Pages)
 - Builds static site from Hugo and publishes to GitHub Pages
-- Outputs: Live website + RSS feeds at `https://your-site/index.xml`
+- Outputs: Live website + RSS feeds at `https://your-site/index.xml` and `https://your-site/feed/`
 
 **Stage 5: Reskill** (every 5th run)
 - Every 5th run, Copilot reviews squad history and recent analysis outputs
@@ -62,7 +62,7 @@ JSON    Markdown   Hugo      Pages    Improvements
 ### For end users
 
 1. **Visit the site:** [SquadScope](https://your-repo/): Browse weekly, monthly, yearly summaries
-2. **Subscribe to RSS:** Add `https://your-site/index.xml` to your reader
+2. **Subscribe to RSS:** Add `https://your-site/index.xml` or `https://your-site/feed/` to your reader
 3. **Check GitHub Releases:** New summaries also posted as releases
 
 ### For operators (see `docs/operator-guide.md` for full setup)

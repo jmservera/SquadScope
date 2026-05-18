@@ -31,7 +31,6 @@ If you forgot `--recurse-submodules`, initialize them now:
 ```bash
 git submodule update --init --recursive
 ```
-
 ### Step 2: Verify Hugo version locally
 
 Ensure your Hugo binary is v0.146.0 or newer:

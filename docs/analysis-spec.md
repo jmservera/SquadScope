@@ -229,6 +229,15 @@ The body must follow this exact top-level section order:
 
 Every repository mentioned in the body must be rendered as a clickable markdown link in this exact format: `[owner/repo](https://github.com/owner/repo)`.
 
+### Image accessibility guidance
+
+If an analysis ever includes an image, chart, or screenshot:
+
+- provide concise, descriptive alt text that explains the information a reader would otherwise miss,
+- do not use placeholder alt text like `image`, `screenshot`, or the file name,
+- keep decorative images rare; only use empty alt text when the image adds no editorial meaning,
+- explain any important numbers or trends in the surrounding prose so the page still works without the image.
+
 ### Section guidance
 
 #### 1. Notable New Repositories

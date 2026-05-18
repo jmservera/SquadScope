@@ -1,4 +1,4 @@
 {{- if .Params.pagefind -}}
-<link rel="stylesheet" href="{{ `/pagefind/pagefind-ui.css` | relURL }}">
-<script src="{{ `/pagefind/pagefind-ui.js` | relURL }}" defer></script>
+<link rel="stylesheet" href="{{ `pagefind/pagefind-ui.css` | absURL }}">
+<script src="{{ `pagefind/pagefind-ui.js` | absURL }}" defer></script>
 {{- end -}}

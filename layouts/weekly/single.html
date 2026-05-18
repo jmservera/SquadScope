@@ -20,13 +20,13 @@
   {{ partial "report-metrics.html" . }}
 
   <nav class="report-shortcuts" aria-label="Report navigation">
-    <a href="{{ "/archive/" | relURL }}">Archive</a>
-    <a href="{{ "/monthly/" | relURL }}">Monthly</a>
-    <a href="{{ "/yearly/" | relURL }}">Yearly</a>
-    <a href="{{ "/tags/" | relURL }}">Tags</a>
-    <a href="{{ "/categories/" | relURL }}">Categories</a>
-    <a href="{{ "/search/" | relURL }}">Search</a>
-    <a href="{{ "/index.xml" | relURL }}">RSS</a>
+    <a href="{{ `archive/` | absLangURL }}">Archive</a>
+    <a href="{{ `monthly/` | absLangURL }}">Monthly</a>
+    <a href="{{ `yearly/` | absLangURL }}">Yearly</a>
+    <a href="{{ `tags/` | absLangURL }}">Tags</a>
+    <a href="{{ `categories/` | absLangURL }}">Categories</a>
+    <a href="{{ `search/` | absLangURL }}">Search</a>
+    <a href="{{ `index.xml` | absLangURL }}">RSS</a>
   </nav>
 
   <div class="post-content md-content">

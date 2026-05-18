@@ -1,0 +1,10 @@
+mutation {
+  addPullRequestReviewThreadReply(input: {
+    threadId: "PRRT_kwDOSgq4hM6C3UXy"
+    body: "✅ Fixed: Removed the submodule initialization instruction from the rollout checklist. The project does not use git submodules."
+  }) {
+    comment {
+      id
+    }
+  }
+}
