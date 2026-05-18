@@ -10,6 +10,8 @@
 
 **2026-05-18:** PRD now available at `docs/PRD.md`. Review for design requirements and site generation framework (Hugo recommended, Astro alternative).
 
+**2026-05-18T10:27:35Z:** Phase 0 is complete. Architecture decision published in `.squad/decisions.md`. `COPILOT_GH_TOKEN` secret configured. Ready for Phase 1 work (site foundation and crawler implementation).
+
 ## Learnings
 
 _No learnings recorded yet._

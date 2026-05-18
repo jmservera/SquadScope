@@ -10,6 +10,8 @@
 
 **2026-05-18:** PRD now available at `docs/PRD.md`. Review for analysis requirements and success criteria.
 
+**2026-05-18T10:27:35Z:** Phase 0 is complete. Architecture decision published in `.squad/decisions.md`. CI analysis pipeline uses Copilot CLI (primary) with GitHub Models fallback. Reviewer gate requires quality_score ≥ 60. Phase 2 analyzer work is unblocked.
+
 ## Learnings
 
 _No learnings recorded yet._

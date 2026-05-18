@@ -42,3 +42,26 @@
 - **MCP crawling:** Multi-site crawling authorized; remote calls require allowlist in GitHub Copilot agent settings.
 - **Phase 0 gating:** OQ1/OQ3 investigation issues must close before Phase 2 analyzer work begins.
 - **Next:** Issue creation from scripts/create-issues.sh is ready for execution.
+
+### 2026-05-18T10:25:12.565+02:00 — CI Analysis Interface & Fallback Architecture (Issue #2)
+
+- **Architecture decision published:** `.squad/decisions/inbox/leela-ci-architecture-decision.md`
+- **Primary path:** Standalone `copilot` CLI with fine-grained PAT (`COPILOT_GH_TOKEN` secret → `COPILOT_GITHUB_TOKEN` env var). Programmatic mode with `--no-ask-user`, explicit `--allow-tool` flags.
+- **Fallback path:** GitHub Models API (`models.github.ai`) with built-in `GITHUB_TOKEN` and `permissions: models: read`. Triggered on CLI auth failure, quota exhaustion, or repeated errors.
+- **Pipeline contracts formalized:**
+  - Crawl → Analyze: `data/raw/YYYY-WNN.json` (repo objects array)
+  - Analyze → Generate: `data/analyzed/YYYY-WNN-summary.md` (Markdown + YAML frontmatter with `quality_score`)
+  - Generate → Deploy: `public/` (Hugo build output)
+- **Reviewer gate:** quality_score ≥ 60, three required sections (Signal/Noise/Gaps), word count ≥ 200. Blocks publish on failure.
+- **Token strategy:** Fine-grained PAT with Account → Copilot Requests permission. Classic PATs not supported. Future spike: `GITHUB_TOKEN` + `copilot-requests: write`.
+- **MCP strategy:** Allowlist-gated remote calls, tool definitions in `.github/copilot/mcp.json`, crawl-stage only for external HTTP.
+- **Nap & reskill interface:** Every 5th run, Copilot CLI reads squad state and writes improvement recommendations to `.squad/reskill/YYYY-WNN.md`.
+- **Resolves:** OQ1 and OQ3 from PRD. Unblocks Phase 2 analyzer work.
+
+### 2026-05-18T10:27:35Z — Phase 0 Completion (Scribe)
+
+- **Status:** Phase 0 is complete. Architecture decision merged into `.squad/decisions.md`.
+- **Secret configured:** `COPILOT_GH_TOKEN` repo secret established (coordinator action).
+- **Issues closed:** #1 (completed by Bender) and #2 (Leela architecture).
+- **Team notification:** All agents notified that Phase 0 is complete and architecture is published.
+- **Next phase:** Phase 1 (crawlers and generators) can proceed independently. Phase 2 (analyzer) is unblocked.

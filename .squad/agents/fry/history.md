@@ -10,6 +10,8 @@
 
 **2026-05-18:** PRD now available at `docs/PRD.md`. Review for testing strategy and pipeline validation requirements.
 
+**2026-05-18T10:27:35Z:** Phase 0 is complete. Architecture decision published in `.squad/decisions.md`. CI analysis interface, pipeline contracts, reviewer gate, and reskill cycle are all finalized. Ready for Phase 1 validation planning.
+
 ## Learnings
 
 _No learnings recorded yet._

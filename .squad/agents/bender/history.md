@@ -10,6 +10,8 @@
 
 **2026-05-18:** PRD now available at `docs/PRD.md`. Review for requirements and constraints on crawler implementation.
 
+**2026-05-18T10:27:35Z:** Phase 0 is complete. Architecture decision published in `.squad/decisions.md`. `COPILOT_GH_TOKEN` secret configured. Phase 1 crawler work can proceed with finalized CI analysis interface and fallback strategies.
+
 ## Learnings
 
 - **2026-05-18T10:06:38.734+02:00:** GitHub Actions can run the standalone `copilot` CLI (`@github/copilot`) in programmatic mode with `copilot -p ...`. The safest documented CI auth flow is a fine-grained PAT with the **Copilot Requests** account permission passed as `COPILOT_GITHUB_TOKEN`; `gh auth token` only exposes an existing `gh` token and `gh-copilot` is deprecated in favor of the standalone CLI. GitHub Models (`models: read`) is the clean fallback if direct Copilot CLI automation proves brittle.
