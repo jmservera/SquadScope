@@ -362,6 +362,9 @@ jobs:
       contents: read
       pages: write
       id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -441,11 +444,11 @@ jobs:
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SUMMARY_FILE: ${{ needs.analyze.outputs.summary_file }}
         run: |
-          SUMMARY=$(ls -t data/analyzed/*-summary.md | head -1)
-          WEEK=$(basename "$SUMMARY" | sed 's/-summary.md//')
+          WEEK=$(basename "$SUMMARY_FILE" | sed 's/-summary.md//')
 
           gh release create "week-${WEEK}" \
             --title "Week ${WEEK} — Tech Trends Summary" \
-            --notes-file "$SUMMARY" \
+            --notes-file "$SUMMARY_FILE" \
             --latest
