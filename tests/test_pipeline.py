@@ -191,6 +191,26 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("mkdir -p .squad/skills .squad/reskill", reskill_run)
         self.assertIn("trigger-log.txt", reskill_run)
 
+    def test_generate_workflow_runs_rollups_and_commits_all_content(self) -> None:
+        workflow_path = Path(".github/workflows/crawl-and-publish.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+
+        generate_job = workflow["jobs"]["generate"]
+        generate_rollups_step = next((s for s in generate_job["steps"] if s.get("name") == "Generate rollups"), None)
+        self.assertIsNotNone(generate_rollups_step)
+        self.assertEqual(generate_rollups_step["run"], "python3 scripts/generate_rollups.py")
+
+        commit_step = next((s for s in generate_job["steps"] if s.get("name") == "Commit generated content"), None)
+        self.assertIsNotNone(commit_step)
+        commit_run = commit_step["run"]
+        self.assertIn("content/weekly content/monthly content/yearly", commit_run)
+        self.assertIn("git add content/weekly/ content/monthly/ content/yearly/", commit_run)
+
+        upload_step = next((s for s in generate_job["steps"] if s.get("name") == "Upload generated content artifact"), None)
+        self.assertIsNotNone(upload_step)
+        self.assertIn("content/monthly/", upload_step["with"]["path"])
+        self.assertIn("content/yearly/", upload_step["with"]["path"])
+
 
 class PipelineIntegrationTests(unittest.TestCase):
     def test_crawl_script_produces_valid_json_output_schema(self) -> None:

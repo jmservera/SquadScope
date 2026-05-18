@@ -1,0 +1,26 @@
+{{- $tags := .Params.tags | default (slice) -}}
+{{- $categories := .Params.categories | default (slice) -}}
+{{- $repoFilters := slice -}}
+{{- with .Params.top_repo -}}
+  {{- $repoFilters = $repoFilters | append . -}}
+{{- end -}}
+{{- range findRE `https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+` .RawContent -}}
+  {{- $repoFilters = $repoFilters | append (replaceRE `^https://github\.com/` `` .) -}}
+{{- end -}}
+{{- $repoFilters = uniq $repoFilters -}}
+<div class="pagefind-meta" data-pagefind-ignore>
+  <span data-pagefind-meta="date:{{ .Date.Format `2006-01-02` }}"></span>
+  <span data-pagefind-meta="section:{{ .Type }}"></span>
+  <span data-pagefind-sort="date">{{ .Date.Format `2006-01-02` }}</span>
+  <span data-pagefind-filter="Date">{{ .Date.Format `2006-01-02` }}</span>
+  <span data-pagefind-filter="Year">{{ .Date.Format `2006` }}</span>
+  {{- range $categories }}
+  <span data-pagefind-filter="Categories">{{ . }}</span>
+  {{- end }}
+  {{- range $tags }}
+  <span data-pagefind-filter="Tags">{{ . }}</span>
+  {{- end }}
+  {{- range $repoFilters }}
+  <span data-pagefind-filter="Repository">{{ . }}</span>
+  {{- end }}
+</div>
