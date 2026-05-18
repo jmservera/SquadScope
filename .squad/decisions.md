@@ -51,6 +51,38 @@
 - OQ4: Star threshold (50 proposed)
 - OQ8: Copilot usage limits in automation
 
+## Copilot CLI in GitHub Actions (2026-05-18)
+
+**Requestor:** jmservera  
+**Source:** Bender investigation  
+**Status:** Approved for implementation
+
+- **Action:** Use standalone **GitHub Copilot CLI** (not deprecated `gh copilot` extension)
+- **Auth:** Fine-grained PAT with **Account → Copilot Requests** permission, passed as `COPILOT_GITHUB_TOKEN`
+- **Invocation:** Programmatic via `copilot -p "..." -s --no-ask-user --allow-tool=...`
+- **Output:** JSON (--output-format=json, JSONL) or markdown (--share=PATH)
+- **Fallback:** GitHub Models API with `GITHUB_TOKEN` (permissions: models: read)
+- **Next spike:** Test whether `copilot-requests: write` on workflow token replaces PAT (community action shows promise)
+
+## PRD Decomposition into GitHub Issues (2026-05-18)
+
+**Decision:** Decompose docs/PRD.md into 24 issues across Phase 0 (blocker investigations) + Phases 1-4.
+
+**Phase 0 gating condition:** Resolves OQ1/OQ3 — Copilot invocation in GitHub Actions.
+
+**Why:** Isolates largest delivery risk; ensures crawler, analyzer, and generator teams can work independently; makes reviewer gates explicit.
+
+**Implications:**
+- Phase 2 analyzer work blocked until Phase 0 closure
+- Phase 1 (site foundation + crawler) can proceed in parallel
+- QA and documentation are first-class issues
+
+## MCP Tools for Multi-Site Crawling (2026-05-18)
+
+**Directive:** MCP tools may crawl sites beyond GitHub; remote calls require allowlist in Copilot agent settings (GitHub repo settings).
+
+**Impact:** Affects crawler extensibility design (HackerNews, Reddit, etc.) and GitHub Actions Copilot token model.
+
 ## Governance
 
 - All meaningful changes require team consensus
