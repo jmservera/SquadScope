@@ -14,4 +14,5 @@
 
 ## Learnings
 
-_No learnings recorded yet._
+- **2026-05-18T12:07:20.778+02:00:** The analyzer contract should be a superset of Amy’s weekly page frontmatter plus Leela’s `quality_score` gate, so one analyzed artifact can satisfy both editorial review and generator input.
+- **2026-05-18T12:07:20.778+02:00:** Keep the reader-facing weekly summary in five stable H2 sections, but require labeled `Signal`, `Noise`, and `Gaps` subsections so the editorial lens remains explicit and machine-checkable.
