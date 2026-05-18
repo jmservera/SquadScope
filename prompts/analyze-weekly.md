@@ -97,7 +97,8 @@ Be critical, selective, and opinionated.
     - `## Conclusion`: ~50-110 words focused on why the week matters and what to watch next.
 15. The body must be at least 200 words.
 16. Do not include raw JSON, notes to self, placeholders, or tool transcripts.
-17. Output only the finished markdown file content.
+17. Every repository reference in the body must be a clickable GitHub markdown link in this exact format: `[owner/repo](https://github.com/owner/repo)`.
+18. Output only the finished markdown file content.
 
 ## Working method
 
@@ -128,29 +129,29 @@ summary: "One-sentence editorial thesis."
 
 ## Notable New Repositories
 
-Write 1-2 paragraphs that curate the most credible new launches.
+Write 1-2 paragraphs that curate the most credible new launches. Whenever you mention a repo, use `[owner/repo](https://github.com/owner/repo)`.
 
 ## Trending This Week
 
-Write 1 paragraph about where attention moved. If star deltas are missing, say so clearly.
+Write 1 paragraph about where attention moved. If star deltas are missing, say so clearly. Whenever you mention a repo, use `[owner/repo](https://github.com/owner/repo)`.
 
 ## Trend Analysis
 
 ### Signal
 
-Write 1 paragraph on the durable patterns.
+Write 1 paragraph on the durable patterns. Whenever you mention a repo, use `[owner/repo](https://github.com/owner/repo)`.
 
 ### Noise
 
-Write 1 paragraph on the inflated, weak, or off-mission patterns.
+Write 1 paragraph on the inflated, weak, or off-mission patterns. Whenever you mention a repo, use `[owner/repo](https://github.com/owner/repo)`.
 
 ## What's Missing
 
 ### Gaps
 
-Write 1 paragraph on meaningful absences or underserved categories.
+Write 1 paragraph on meaningful absences or underserved categories. Whenever you mention a repo, use `[owner/repo](https://github.com/owner/repo)`.
 
 ## Conclusion
 
-Write a short closing takeaway about what the week means and what to watch next.
+Write a short closing takeaway about what the week means and what to watch next. Whenever you mention a repo, use `[owner/repo](https://github.com/owner/repo)`.
 ```
