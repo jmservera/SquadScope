@@ -1,0 +1,44 @@
+{{- define "main" -}}
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1>{{ .Title }}</h1>
+  {{- with (.Description | default .Params.summary) }}
+  <div class="post-description">{{ . }}</div>
+  {{- end }}
+</header>
+
+{{- if .Content }}
+<div class="post-content md-content">
+  {{ .Content }}
+</div>
+{{- end }}
+
+<section class="search-shell" aria-labelledby="search-interface-title">
+  <div class="search-intro-card">
+    <span class="section-topline">Static search</span>
+    <h2 id="search-interface-title">Find trends by keyword or filter</h2>
+    <p>Search every published report, then narrow the results by category, tag, year, or featured repository.</p>
+  </div>
+  <div id="search"></div>
+</section>
+
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    if (!window.PagefindUI) return;
+
+    new PagefindUI({
+      element: "#search",
+      bundlePath: "{{ `/pagefind/` | relURL }}",
+      showSubResults: true,
+      showImages: false,
+      excerptLength: 24,
+      focusOnSlash: true,
+      sort: { date: "desc" },
+      openFilters: ["Categories", "Tags", "Repository", "Year"],
+      translations: {
+        placeholder: "Search reports, tags, categories, or repos"
+      }
+    });
+  });
+</script>
+{{- end -}}

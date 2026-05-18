@@ -141,6 +141,47 @@
   padding: 0.75rem;
 }
 
+.search-shell,
+.taxonomy-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.search-intro-card,
+.taxonomy-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--entry);
+}
+
+.search-intro-card {
+  padding: 1rem 1.25rem;
+}
+
+.taxonomy-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.taxonomy-card h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.pagefind-meta {
+  display: none;
+}
+
+:root {
+  --pagefind-ui-scale: 0.95;
+  --pagefind-ui-primary: var(--primary);
+  --pagefind-ui-text: var(--content);
+  --pagefind-ui-background: var(--entry);
+  --pagefind-ui-border: var(--border);
+  --pagefind-ui-tag: var(--tertiary);
+  --pagefind-ui-border-radius: var(--radius);
+  --pagefind-ui-font: inherit;
+}
+
 @media (max-width: 640px) {
   .metric-card-wide {
     grid-column: span 1;

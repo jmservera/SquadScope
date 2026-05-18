@@ -1,5 +1,7 @@
 {{- define "main" }}
-<article class="post-single squad-report">
+<article class="post-single squad-report" data-pagefind-body>
+  {{ partial "pagefind-metadata.html" . }}
+
   <header class="post-header">
     {{ partial "breadcrumbs.html" . }}
     <p class="section-topline">Weekly summary</p>
@@ -21,6 +23,9 @@
     <a href="{{ "/archive/" | relURL }}">Archive</a>
     <a href="{{ "/monthly/" | relURL }}">Monthly</a>
     <a href="{{ "/yearly/" | relURL }}">Yearly</a>
+    <a href="{{ "/tags/" | relURL }}">Tags</a>
+    <a href="{{ "/categories/" | relURL }}">Categories</a>
+    <a href="{{ "/search/" | relURL }}">Search</a>
     <a href="{{ "/index.xml" | relURL }}">RSS</a>
   </nav>
 
