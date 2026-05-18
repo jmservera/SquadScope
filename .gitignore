@@ -12,3 +12,6 @@
 public/
 resources/_gen/
 .hugo_build.lock
+
+# Git worktrees
+.worktrees/
