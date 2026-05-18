@@ -40,11 +40,11 @@ The analyzer reads these fields:
 - `new_repos[]`
 - `trending_repos[]`
 - `signals.top_topics[]`
-- `metadata.partial_failures` *(optional diagnostic input)*
-- `metadata.filter_summary` *(optional diagnostic input)*
-- `metadata.snapshot_path` *(optional diagnostic input)*
+- `metadata.partial_failures` *(optional diagnostic input; emitted by `scripts/crawl.py` today, but analyzers must tolerate absence)*
+- `metadata.filter_summary` *(optional diagnostic input; emitted by `scripts/crawl.py` today, but analyzers must tolerate absence)*
+- `metadata.snapshot_path` *(optional diagnostic input; emitted by `scripts/crawl.py` today, but analyzers must tolerate absence)*
 
-Unknown fields must be ignored. Missing optional metadata must not fail analysis.
+Unknown fields must be ignored. The current crawler emits these diagnostic metadata fields in its own artifacts, but analyzers must not fail when they are missing from backfilled or forward-compatible payloads.
 
 ### JSON schema
 
@@ -215,7 +215,7 @@ The body must follow this exact top-level section order:
 ```md
 ## Notable New Repositories
 
-## Trending This Week (Stars Gained)
+## Trending This Week
 
 ## Trend Analysis
 ### Signal
@@ -236,7 +236,7 @@ The body must follow this exact top-level section order:
 - **Length:** ~120-220 words.
 - **Avoid:** Exhaustive listings or copy/pasted repo descriptions.
 
-#### 2. Trending This Week (Stars Gained)
+#### 2. Trending This Week
 - **Purpose:** Explain where attention moved.
 - **Include:** The most relevant momentum winners, plus a caveat if `stars_gained` is unavailable.
 - **Tone:** Analytical, not celebratory.
@@ -319,7 +319,8 @@ The generator may assume:
 - the summary frontmatter already contains the weekly page fields Amy’s Hugo templates expect,
 - `summary` is safe to surface in list views,
 - `top_repo` is a deliberate editorial choice,
-- body headings are stable and machine-detectable.
+- body headings are stable and machine-detectable,
+- the analyzed summary and published weekly page both use `## Trending This Week` as the stable H2 heading, with any stars-gained caveat expressed in the prose rather than the heading text.
 
 The analyzer may assume:
 

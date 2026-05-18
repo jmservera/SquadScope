@@ -27,7 +27,7 @@ Use this only if it is provided. If it is missing, unavailable, or empty, say so
 
 ## Objective
 
-Write the full contents of `{{OUTPUT_PATH}}` as markdown with YAML frontmatter. The file must match `docs/analysis-spec.md` exactly.
+Write the full contents of `{{OUTPUT_PATH}}` as markdown with YAML frontmatter. The file must conform to the Output Contract in `docs/analysis-spec.md` exactly.
 
 ## Editorial stance
 
@@ -66,17 +66,18 @@ Be critical, selective, and opinionated.
    - `quality_score`
    - `summary`
 6. `date` must be `{{CURRENT_DATETIME}}`.
-7. `categories` must include `weekly`.
-8. `repos_featured` should equal the total number of repos considered in the weekly editorial pass.
-9. `stars_tracked` should equal the total stars across those repos.
-10. `top_repo` should be the repo that best anchors the editorial narrative, not automatically the most-starred repo.
-11. `quality_score` must be an honest 0-100 self-assessment; publishable work is `>= 60`.
-12. Include all required sections in this exact order:
+7. `tags` must contain 3-8 topical items.
+8. `categories` must include `weekly`.
+9. `repos_featured` should equal the total number of repos considered in the weekly editorial pass.
+10. `stars_tracked` should equal the total stars across those repos.
+11. `top_repo` should be the repo that best anchors the editorial narrative, not automatically the most-starred repo.
+12. `quality_score` must be an honest 0-100 self-assessment; publishable work is `>= 60`.
+13. Include all required sections in this exact order:
 
 ```md
 ## Notable New Repositories
 
-## Trending This Week (Stars Gained)
+## Trending This Week
 
 ## Trend Analysis
 ### Signal
@@ -88,9 +89,15 @@ Be critical, selective, and opinionated.
 ## Conclusion
 ```
 
-13. The body must be at least 200 words.
-14. Do not include raw JSON, notes to self, placeholders, or tool transcripts.
-15. Output only the finished markdown file content.
+14. Keep the section scope aligned with the spec:
+    - `## Notable New Repositories`: ~120-220 words, curating 3-7 repos.
+    - `## Trending This Week`: ~100-180 words; explain where attention moved and add the stars-gained caveat when data is missing.
+    - `## Trend Analysis`: ~150-260 words total across `### Signal` and `### Noise`.
+    - `## What's Missing`: ~80-160 words with 2-4 concrete blind spots under `### Gaps`.
+    - `## Conclusion`: ~50-110 words focused on why the week matters and what to watch next.
+15. The body must be at least 200 words.
+16. Do not include raw JSON, notes to self, placeholders, or tool transcripts.
+17. Output only the finished markdown file content.
 
 ## Working method
 
@@ -123,7 +130,7 @@ summary: "One-sentence editorial thesis."
 
 Write 1-2 paragraphs that curate the most credible new launches.
 
-## Trending This Week (Stars Gained)
+## Trending This Week
 
 Write 1 paragraph about where attention moved. If star deltas are missing, say so clearly.
 
