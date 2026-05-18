@@ -135,9 +135,14 @@ jobs:
     needs: crawl
     runs-on: ubuntu-latest
     permissions:
+      actions: read
       contents: write
       copilot-requests: write
       models: read
+    outputs:
+      week: ${{ steps.analysis-context.outputs.week }}
+      summary_file: ${{ steps.analysis-context.outputs.output_file }}
+      current_datetime: ${{ steps.analysis-context.outputs.current_datetime }}
 
     steps:
       - name: Check out repository
@@ -272,3 +277,175 @@ jobs:
           name: analyzed-data
           path: data/analyzed/
           if-no-files-found: warn
+
+  generate:
+    needs: analyze
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
+    outputs:
+      page_path: ${{ steps.generate-content.outputs.page_path }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Download analyzed data artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: analyzed-data
+          path: data/analyzed/
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generate weekly content
+        id: generate-content
+        env:
+          SUMMARY_FILE: ${{ needs.analyze.outputs.summary_file }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY2' "$SUMMARY_FILE" >> "$GITHUB_OUTPUT"
+          import sys
+          from pathlib import Path
+
+          import scripts.generate_content as generate_content
+
+          summary_path = Path(sys.argv[1])
+          page_path = generate_content.generate_content(summary_path)
+          print(f"page_path={page_path.as_posix()}")
+          PY2
+
+      - name: Commit generated content
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          WEEK: ${{ needs.analyze.outputs.week }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git status --short -- content/weekly | grep -q .; then
+            echo "No generated content changes to commit."
+            exit 0
+          fi
+          git stash push --include-untracked --message generated-content -- content/weekly
+          git fetch origin "$DEFAULT_BRANCH"
+          git checkout -B "$DEFAULT_BRANCH" "origin/$DEFAULT_BRANCH"
+          git stash pop || {
+            echo "Failed to reapply generated content after syncing $DEFAULT_BRANCH."
+            exit 1
+          }
+          git add content/weekly/
+          git diff --cached --quiet || git commit -m "content: weekly page $WEEK"
+          git push origin "HEAD:$DEFAULT_BRANCH" || {
+            echo "Push failed after syncing with $DEFAULT_BRANCH."
+            exit 1
+          }
+
+      - name: Upload generated content artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-content
+          path: content/weekly/
+          if-no-files-found: warn
+
+  deploy:
+    needs: generate
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      HUGO_VERSION: 0.161.1
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Download raw crawl artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: raw-data
+          path: data/raw/
+
+      - name: Download analyzed data artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: analyzed-data
+          path: data/analyzed/
+
+      - name: Download generated content artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: generated-content
+          path: content/weekly/
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Install Hugo
+        run: |
+          set -euo pipefail
+          TARBALL="hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          curl -sLJO "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/${TARBALL}"
+          curl -sLJO "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_checksums.txt"
+          sha256sum --check "hugo_${HUGO_VERSION}_checksums.txt" --ignore-missing
+          rm "hugo_${HUGO_VERSION}_checksums.txt"
+          mkdir -p "${HOME}/.local/hugo"
+          tar -C "${HOME}/.local/hugo" -xf "${TARBALL}"
+          rm "${TARBALL}"
+          echo "${HOME}/.local/hugo" >> "${GITHUB_PATH}"
+          export PATH="${HOME}/.local/hugo:${PATH}"
+          hugo version
+
+      - name: Build site
+        run: hugo --minify
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  notify:
+    needs: [generate, deploy]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: analyzed-data
+          path: data/analyzed/
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          SUMMARY=$(ls -t data/analyzed/*-summary.md | head -1)
+          WEEK=$(basename "$SUMMARY" | sed 's/-summary.md//')
+
+          gh release create "week-${WEEK}" \
+            --title "Week ${WEEK} — Tech Trends Summary" \
+            --notes-file "$SUMMARY" \
+            --latest
