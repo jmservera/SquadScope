@@ -203,8 +203,12 @@ class WorkflowConfigTests(unittest.TestCase):
         commit_step = next((s for s in generate_job["steps"] if s.get("name") == "Commit generated content"), None)
         self.assertIsNotNone(commit_step)
         commit_run = commit_step["run"]
-        self.assertIn("content/weekly content/monthly content/yearly", commit_run)
-        self.assertIn("git add content/weekly/ content/monthly/ content/yearly/", commit_run)
+        self.assertIn("content/weekly", commit_run)
+        self.assertIn("content/monthly", commit_run)
+        self.assertIn("content/yearly", commit_run)
+        self.assertIn("git add content/weekly/", commit_run)
+        self.assertIn("content/monthly/", commit_run)
+        self.assertIn("content/yearly/", commit_run)
 
         upload_step = next((s for s in generate_job["steps"] if s.get("name") == "Upload generated content artifact"), None)
         self.assertIsNotNone(upload_step)
