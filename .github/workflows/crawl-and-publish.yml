@@ -22,6 +22,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.repository.default_branch }}
 
       - name: Find latest successful crawl cache
         id: previous-cache-run
@@ -31,17 +32,30 @@ jobs:
             const workflowId = 'crawl-and-publish.yml';
             const branch = context.payload.repository.default_branch;
             const currentRunId = String(context.runId);
+            const perPage = 100;
+            let page = 1;
+            let previous = null;
 
             try {
-              const { data } = await github.rest.actions.listWorkflowRuns({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                workflow_id: workflowId,
-                branch,
-                status: 'completed',
-                per_page: 20,
-              });
-              const previous = data.workflow_runs.find((run) => run.conclusion === 'success' && String(run.id) !== currentRunId);
+              while (!previous) {
+                const { data } = await github.rest.actions.listWorkflowRuns({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  workflow_id: workflowId,
+                  branch,
+                  status: 'completed',
+                  per_page: perPage,
+                  page,
+                });
+
+                previous = data.workflow_runs.find((run) => run.conclusion === 'success' && String(run.id) !== currentRunId) ?? null;
+                if (previous || data.workflow_runs.length < perPage) {
+                  break;
+                }
+
+                page += 1;
+              }
+
               core.setOutput('run_id', previous ? String(previous.id) : '');
               core.info(previous ? `Restoring crawl cache from run ${previous.id}.` : 'No previous successful crawl cache found.');
             } catch (error) {
@@ -57,17 +71,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ steps.previous-cache-run.outputs.run_id }}
           name: crawl-cache
-          path: data/cache
+          path: .
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
 
       - name: Run crawler
         env:
@@ -75,30 +84,49 @@ jobs:
         run: python scripts/crawl.py
 
       - name: Upload raw crawl artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: crawl-raw
           path: data/raw/
-          if-no-files-found: error
+          if-no-files-found: warn
 
       - name: Upload snapshot artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: crawl-snapshots
           path: data/snapshots/
-          if-no-files-found: error
+          if-no-files-found: warn
 
       - name: Upload cache artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: crawl-cache
           path: data/cache/
-          if-no-files-found: error
+          if-no-files-found: warn
 
       - name: Commit crawl data
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/raw/ data/snapshots/ data/cache/
-          git diff --cached --quiet || git commit -m "data: weekly crawl $(date +%Y-W%V)"
-          git push
+          if ! git status --short -- data/raw data/snapshots | grep -q .; then
+            echo "No crawl data changes to commit."
+            exit 0
+          fi
+          git stash push --include-untracked --message crawl-data -- data/raw data/snapshots
+          git fetch origin "$DEFAULT_BRANCH"
+          git checkout -B "$DEFAULT_BRANCH" "origin/$DEFAULT_BRANCH"
+          git stash pop || {
+            echo "Failed to reapply crawl data after syncing $DEFAULT_BRANCH."
+            exit 1
+          }
+          git add data/raw/ data/snapshots/
+          git commit -m "data: weekly crawl $(date +%Y-W%V)"
+          git push origin "HEAD:$DEFAULT_BRANCH" || {
+            echo "Push failed after syncing with $DEFAULT_BRANCH."
+            exit 1
+          }
