@@ -4,6 +4,9 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
+import shutil
+import subprocess
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -25,6 +28,7 @@ DEFAULT_REPORT_DIR = ROOT / ".squad" / "reskill"
 DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
 DEFAULT_MODELS_MODEL = "openai/gpt-4.1"
 DEFAULT_MODELS_TIMEOUT = 30
+DEFAULT_COPILOT_MODEL = "claude-sonnet-4"
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -224,6 +228,145 @@ def extract_markdown(response_payload: dict[str, Any]) -> str:
     raise ValueError("GitHub Models response did not contain markdown output.")
 
 
+def call_copilot_cli(prompt: str) -> str:
+    copilot_path = shutil.which("copilot")
+    if not copilot_path:
+        raise RuntimeError("GitHub Copilot CLI is not installed.")
+
+    result = subprocess.run(
+        [
+            copilot_path,
+            "-p",
+            prompt,
+            "-s",
+            "--no-ask-user",
+            "--model",
+            os.environ.get("COPILOT_MODEL", DEFAULT_COPILOT_MODEL),
+            "--allow-tool=read",
+            "--allow-tool=write",
+            "--allow-tool=glob",
+            "--allow-tool=grep",
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        detail = (result.stderr or result.stdout or f"exit code {result.returncode}").strip()
+        raise RuntimeError(f"GitHub Copilot CLI failed: {detail}")
+
+    output = result.stdout.strip()
+    if not output:
+        raise RuntimeError("GitHub Copilot CLI returned empty output.")
+    return output + "\n"
+
+
+def heading_body(markdown: str, heading: str) -> str:
+    lines = markdown.splitlines()
+    start_index: int | None = None
+    target_level: int | None = None
+
+    for index, line in enumerate(lines):
+        stripped = line.strip()
+        if stripped == heading and stripped.startswith("#"):
+            target_level = len(stripped.split(" ", 1)[0])
+            start_index = index + 1
+            break
+
+    if start_index is None or target_level is None:
+        return ""
+
+    body_lines: list[str] = []
+    for line in lines[start_index:]:
+        stripped = line.strip()
+        if stripped.startswith("#"):
+            level = len(stripped.split(" ", 1)[0])
+            if level <= target_level:
+                break
+        body_lines.append(line)
+    return "\n".join(body_lines).strip()
+
+
+def section_bullets(markdown: str, heading: str) -> list[str]:
+    body = heading_body(markdown, heading)
+    if not body:
+        return []
+
+    bullets: list[str] = []
+    for line in body.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        match = re.match(r"^[-*+]\s+(.*)$", stripped)
+        if match:
+            bullets.append(match.group(1).strip())
+            continue
+        match = re.match(r"^\d+[.)]\s+(.*)$", stripped)
+        if match:
+            bullets.append(match.group(1).strip())
+    if bullets:
+        return bullets
+    return [body.replace("\n", " ").strip()]
+
+
+def skill_slug(output_path: Path) -> str:
+    return f"reskill-{output_path.stem.lower()}"
+
+
+def write_skill_artifact(markdown: str, output_path: Path, skills_dir: Path = DEFAULT_SKILLS_DIR) -> Path:
+    summary = heading_body(markdown, "## Retrospective Summary") or (
+        "Retrospective lessons distilled from the latest SquadScope reskill cycle."
+    )
+    blind_spots = section_bullets(markdown, "## Recurring Blind Spots")
+    skill_candidates = section_bullets(markdown, "## Skill Candidates")
+    next_cycle = section_bullets(markdown, "## Next-Cycle Adjustments")
+    patterns = skill_candidates or next_cycle or [summary]
+    anti_patterns = blind_spots or [
+        "Do not ignore hindsight evidence or repeat unsupported signal, noise, or gap calls.",
+    ]
+
+    report_reference = output_path.relative_to(ROOT) if output_path.is_relative_to(ROOT) else output_path
+    skill_path = skills_dir / skill_slug(output_path) / "SKILL.md"
+    skill_path.parent.mkdir(parents=True, exist_ok=True)
+    skill_path.write_text(
+        "\n".join(
+            [
+                "---",
+                f'name: "{skill_slug(output_path)}"',
+                f'description: "Lessons extracted from {output_path.stem} retrospective"',
+                'domain: "analysis-calibration"',
+                'confidence: "medium"',
+                f'source: "{report_reference.as_posix()}"',
+                "---",
+                "",
+                "## Context",
+                summary,
+                "",
+                "## Patterns",
+                *(f"- {item}" for item in patterns),
+                "",
+                "## Examples",
+                f"- Source report: `{report_reference.as_posix()}`",
+                *(f"- Next-cycle adjustment: {item}" for item in next_cycle),
+                "",
+                "## Anti-Patterns",
+                *(f"- {item}" for item in anti_patterns),
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    return skill_path
+
+
+def generate_report(prompt: str) -> str:
+    try:
+        return call_copilot_cli(prompt)
+    except RuntimeError as exc:
+        print(f"Copilot CLI unavailable or failed; falling back to GitHub Models API: {exc}", file=sys.stderr)
+        return call_github_models(prompt)
+
+
 def call_github_models(prompt: str) -> str:
     token = os.environ.get("GITHUB_TOKEN")
     if not token:
@@ -279,9 +422,10 @@ def main(argv: list[str] | None = None) -> int:
         print(prompt)
         return 0
 
-    markdown = call_github_models(prompt)
+    markdown = generate_report(prompt)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(markdown, encoding="utf-8")
+    write_skill_artifact(markdown, output_path, args.skills_dir)
     return 0
 
 

@@ -67,7 +67,59 @@ class ReskillTests(unittest.TestCase):
             self.assertIn("2026-W21-stars.json", prompt)
             self.assertIn("No snapshot data available for hindsight validation.", prompt)
 
-    def test_main_writes_default_weekly_report(self) -> None:
+    def test_main_prefers_copilot_cli_and_writes_skill_artifact(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            analyzed_dir = base / "data" / "analyzed"
+            snapshots_dir = base / "data" / "snapshots"
+            wisdom_path = base / ".squad" / "identity" / "wisdom.md"
+            skills_dir = base / ".squad" / "skills"
+            prompt_template = base / "reskill.md"
+            analyzed_dir.mkdir(parents=True)
+            snapshots_dir.mkdir(parents=True)
+            wisdom_path.parent.mkdir(parents=True)
+            skills_dir.mkdir(parents=True)
+            (analyzed_dir / "2026-W21-summary.md").write_text(
+                "---\nweek: 2026-W21\nquality_score: 76\n---\n\nBody\n",
+                encoding="utf-8",
+            )
+            wisdom_path.write_text("# Wisdom\n\nPrefer durable signals.", encoding="utf-8")
+            prompt_template.write_text("{{WISDOM}}\n{{QUALITY_TREND}}", encoding="utf-8")
+            report = """# Reskill Report: 2026-W21\n\n## Retrospective Summary\n\nSharper calibration.\n\n## Recurring Blind Spots\n\n- Missing hindsight follow-through.\n\n## Skill Candidates\n\n- Compare claims against snapshots before hardening new heuristics.\n\n## Next-Cycle Adjustments\n\n- Re-read the latest report before writing the next weekly summary.\n"""
+
+            with mock.patch.object(reskill, "DEFAULT_REPORT_DIR", base / ".squad" / "reskill"), mock.patch.object(
+                reskill, "call_copilot_cli", return_value=report + "\n"
+            ) as call_copilot_cli, mock.patch.object(reskill, "call_github_models") as call_github_models:
+                exit_code = reskill.main(
+                    [
+                        "--current-datetime",
+                        "2026-05-18T15:22:25.067+02:00",
+                        "--prompt-template",
+                        str(prompt_template),
+                        "--analyzed-dir",
+                        str(analyzed_dir),
+                        "--snapshots-dir",
+                        str(snapshots_dir),
+                        "--wisdom-file",
+                        str(wisdom_path),
+                        "--skills-dir",
+                        str(skills_dir),
+                    ]
+                )
+
+            self.assertEqual(exit_code, 0)
+            call_copilot_cli.assert_called_once()
+            call_github_models.assert_not_called()
+            output_path = base / ".squad" / "reskill" / "2026-W21.md"
+            self.assertEqual(output_path.read_text(encoding="utf-8"), report + "\n")
+            skill_path = skills_dir / "reskill-2026-w21" / "SKILL.md"
+            self.assertTrue(skill_path.exists())
+            skill_text = skill_path.read_text(encoding="utf-8")
+            self.assertIn("Compare claims against snapshots before hardening new heuristics.", skill_text)
+            self.assertIn("Missing hindsight follow-through.", skill_text)
+
+    def test_main_falls_back_to_github_models_when_copilot_cli_fails(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             base = Path(tmpdir)
@@ -88,12 +140,24 @@ class ReskillTests(unittest.TestCase):
             prompt_template.write_text("{{WISDOM}}\n{{QUALITY_TREND}}", encoding="utf-8")
 
             response = _FakeHTTPResponse(
-                json.dumps({"choices": [{"message": {"content": "# Reskill Report\n"}}]}).encode("utf-8")
+                json.dumps(
+                    {
+                        "choices": [
+                            {
+                                "message": {
+                                    "content": "# Reskill Report: 2026-W21\n\n## Retrospective Summary\n\nFallback path.\n"
+                                }
+                            }
+                        ]
+                    }
+                ).encode("utf-8")
             )
 
-            with mock.patch.object(reskill, "DEFAULT_REPORT_DIR", base / ".squad" / "reskill"), mock.patch.dict(
-                "os.environ", {"GITHUB_TOKEN": "token"}, clear=False
-            ), mock.patch.object(reskill.request, "urlopen", return_value=response):
+            with mock.patch.object(reskill, "DEFAULT_REPORT_DIR", base / ".squad" / "reskill"), mock.patch.object(
+                reskill, "call_copilot_cli", side_effect=RuntimeError("copilot unavailable")
+            ), mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
+                reskill.request, "urlopen", return_value=response
+            ):
                 exit_code = reskill.main(
                     [
                         "--current-datetime",
@@ -113,7 +177,7 @@ class ReskillTests(unittest.TestCase):
 
             self.assertEqual(exit_code, 0)
             output_path = base / ".squad" / "reskill" / "2026-W21.md"
-            self.assertEqual(output_path.read_text(encoding="utf-8"), "# Reskill Report\n")
+            self.assertIn("Fallback path.", output_path.read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

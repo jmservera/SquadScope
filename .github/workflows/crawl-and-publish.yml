@@ -120,16 +120,22 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          STASH_BEFORE=$(git stash list | wc -l)
-          git stash push --include-untracked --message crawl-data -- data/raw data/snapshots || true
-          STASH_AFTER=$(git stash list | wc -l)
+          STASH_REF=$(git stash create --include-untracked --message crawl-data -- data/raw data/snapshots) || STASH_REF=""
           git fetch origin "$DEFAULT_BRANCH"
           git checkout -B "$DEFAULT_BRANCH" "origin/$DEFAULT_BRANCH"
-          if [ "$STASH_AFTER" -gt "$STASH_BEFORE" ]; then
+          if [ -n "$STASH_REF" ]; then
+            git stash store "$STASH_REF" || {
+              echo "Failed to store stash."
+              exit 1
+            }
             git stash pop || {
               echo "Failed to reapply crawl data after syncing $DEFAULT_BRANCH."
               exit 1
             }
+          fi
+          if git diff --quiet -- data/raw data/snapshots; then
+            echo "No changes to data/raw or data/snapshots. Skipping counter increment."
+            exit 0
           fi
           COUNTER=$(cat .squad/run-counter.txt 2>/dev/null || echo 0)
           COUNTER=$((COUNTER + 1))
@@ -482,9 +488,14 @@ jobs:
           fi
 
   reskill:
-    needs: [reskill-check]
+    needs: [reskill-check, analyze]
     if: needs.reskill-check.outputs.should_reskill == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
+      copilot-requests: write
+      models: read
 
     steps:
       - uses: actions/checkout@v4
@@ -492,9 +503,63 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
 
-      - name: Run placeholder reskill
+      - name: Download analyzed data artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: analyzed-data
+          path: data/analyzed/
+
+      - name: Download snapshot artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: crawl-snapshots
+          path: data/snapshots/
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Copilot CLI
+        continue-on-error: true
+        run: npm install -g @github/copilot
+
+      - name: Run reskill retrospective
+        env:
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CURRENT_DATETIME: ${{ needs.analyze.outputs.current_datetime }}
         run: |
-          COUNTER=$(cat .squad/run-counter.txt 2>/dev/null || echo 0)
-          mkdir -p .squad/skills .squad/reskill
-          echo "Reskill triggered at run #$COUNTER" >> .squad/reskill/trigger-log.txt
-          echo "🔄 Reskill placeholder ran at run #$COUNTER"
+          set -euo pipefail
+          python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME"
+
+      - name: Commit reskill state
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          WEEK: ${{ needs.analyze.outputs.week }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git status --short -- .squad/reskill .squad/skills | grep -q .; then
+            echo "No reskill changes to commit."
+            exit 0
+          fi
+          git stash push --include-untracked --message reskill-state -- .squad/reskill .squad/skills
+          git fetch origin "$DEFAULT_BRANCH"
+          git checkout -B "$DEFAULT_BRANCH" "origin/$DEFAULT_BRANCH"
+          git stash pop || {
+            echo "Failed to reapply reskill state after syncing $DEFAULT_BRANCH."
+            exit 1
+          }
+          git add .squad/reskill/ .squad/skills/
+          git diff --cached --quiet || git commit -m "reskill: weekly retrospective $WEEK"
+          git push origin "HEAD:$DEFAULT_BRANCH" || {
+            echo "Push failed after syncing with $DEFAULT_BRANCH."
+            exit 1
+          }
