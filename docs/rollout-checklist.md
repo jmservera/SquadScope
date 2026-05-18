@@ -6,7 +6,6 @@ Use this checklist to verify your SquadScope instance is ready for production. C
 
 - [ ] **Repository created**
   - [ ] GitHub repository exists and is accessible
-  - [ ] Submodules initialized: `git submodule update --init --recursive`
   - [ ] Hugo version verified: `hugo version` (must be v0.146.0+)
 
 - [ ] **Copilot auth configured**

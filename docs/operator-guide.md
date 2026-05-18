@@ -22,14 +22,8 @@ Before starting, ensure you have:
 ### Step 1: Clone the repository
 
 ```bash
-git clone --recurse-submodules https://github.com/YOUR_USERNAME/SquadScope.git
+git clone https://github.com/YOUR_USERNAME/SquadScope.git
 cd SquadScope
-```
-
-If you forgot `--recurse-submodules`, initialize them now:
-
-```bash
-git submodule update --init --recursive
 ```
 
 ### Step 2: Verify Hugo version locally
@@ -135,25 +129,25 @@ For debugging or testing, run stages separately:
 python3 scripts/crawl.py --as-of 2026-05-18
 ```
 
-Output: `data/raw/2026-W20.json`, `data/snapshots/2026-W20-stars.json`
+Output: `data/raw/2026-W21.json`, `data/snapshots/2026-W21-stars.json`
 
 #### Analyze (Fallback — if Copilot unavailable)
 
 ```bash
 python3 scripts/analyze_fallback.py \
-  --raw-json data/raw/2026-W20.json \
-  --output data/analyzed/2026-W20-summary.md \
+  --raw-json data/raw/2026-W21.json \
+  --output data/analyzed/2026-W21-summary.md \
   --current-datetime 2026-05-18T16:00:00Z
 ```
 
-Output: `data/analyzed/2026-W20-summary.md`
+Output: `data/analyzed/2026-W21-summary.md`
 
 #### Quality gate
 
 ```bash
 python3 scripts/analysis_gate.py \
-  --analysis-file data/analyzed/2026-W20-summary.md \
-  --raw-json data/raw/2026-W20.json \
+  --analysis-file data/analyzed/2026-W21-summary.md \
+  --raw-json data/raw/2026-W21.json \
   --current-datetime 2026-05-18T16:00:00Z
 ```
 
@@ -162,10 +156,10 @@ If the gate fails, it will exit with a non-zero code and log the reason (e.g., q
 #### Generate
 
 ```bash
-python3 scripts/generate_content.py data/analyzed/2026-W20-summary.md
+python3 scripts/generate_content.py data/analyzed/2026-W21-summary.md
 ```
 
-Output: `content/weekly/2026/W20.md`
+Output: `content/weekly/2026/W21.md`
 
 #### Build and deploy
 
@@ -248,14 +242,12 @@ Navigate to **Actions → Crawl and Publish** in your repo. Green checkmarks = s
 
 **Cause:** 
 - Hugo version mismatch (too old)
-- Theme submodules not initialized
 - Corrupted frontmatter in generated content
 
 **Fix:**
 1. Check Hugo version: `hugo version` (must be v0.146.0+)
-2. Verify submodules: `git submodule update --init --recursive`
-3. Check generated markdown in `content/weekly/` for valid YAML frontmatter
-4. Run locally: `hugo server` to see detailed error messages
+2. Check generated markdown in `content/weekly/` for valid YAML frontmatter
+3. Run locally: `hugo server` to see detailed error messages
 
 ### ❌ GitHub Pages doesn't update
 
