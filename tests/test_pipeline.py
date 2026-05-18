@@ -145,6 +145,28 @@ The week matters because practical automation won attention on merit. If this pa
 '''
 
 
+class WorkflowConfigTests(unittest.TestCase):
+    def test_crawl_workflow_persists_run_counter(self) -> None:
+        workflow_text = Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+
+        self.assertIn("COUNTER=$(cat .squad/run-counter.txt 2>/dev/null || echo 0)", workflow_text)
+        self.assertIn("COUNTER=$((COUNTER + 1))", workflow_text)
+        self.assertIn("printf '%s\\n' \"$COUNTER\" > .squad/run-counter.txt", workflow_text)
+        self.assertIn("git add data/raw/ data/snapshots/ .squad/run-counter.txt", workflow_text)
+
+    def test_crawl_workflow_defines_reskill_jobs(self) -> None:
+        workflow_text = Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+
+        self.assertIn("reskill-check:", workflow_text)
+        self.assertIn("needs: [crawl]", workflow_text)
+        self.assertIn("should_reskill: ${{ steps.check.outputs.reskill }}", workflow_text)
+        self.assertIn("echo \"reskill=true\" >> $GITHUB_OUTPUT", workflow_text)
+        self.assertIn("reskill:", workflow_text)
+        self.assertIn("if: needs.reskill-check.outputs.should_reskill == 'true'", workflow_text)
+        self.assertIn("mkdir -p .squad/skills .squad/reskill", workflow_text)
+        self.assertIn("echo \"Reskill triggered at run #$COUNTER\" >> .squad/reskill/trigger-log.txt", workflow_text)
+
+
 class PipelineIntegrationTests(unittest.TestCase):
     def test_crawl_script_produces_valid_json_output_schema(self) -> None:
         tests_root = Path(__file__).resolve().parent

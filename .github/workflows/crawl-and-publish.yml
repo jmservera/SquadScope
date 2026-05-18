@@ -117,21 +117,25 @@ jobs:
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ! git status --short -- data/raw data/snapshots | grep -q .; then
-            echo "No crawl data changes to commit."
-            exit 0
-          fi
-          git stash push --include-untracked --message crawl-data -- data/raw data/snapshots
+          STASH_BEFORE=$(git stash list | wc -l)
+          git stash push --include-untracked --message crawl-data -- data/raw data/snapshots || true
+          STASH_AFTER=$(git stash list | wc -l)
           git fetch origin "$DEFAULT_BRANCH"
           git checkout -B "$DEFAULT_BRANCH" "origin/$DEFAULT_BRANCH"
-          git stash pop || {
-            echo "Failed to reapply crawl data after syncing $DEFAULT_BRANCH."
-            exit 1
-          }
-          git add data/raw/ data/snapshots/
-          git commit -m "data: weekly crawl $(date +%Y-W%V)"
+          if [ "$STASH_AFTER" -gt "$STASH_BEFORE" ]; then
+            git stash pop || {
+              echo "Failed to reapply crawl data after syncing $DEFAULT_BRANCH."
+              exit 1
+            }
+          fi
+          COUNTER=$(cat .squad/run-counter.txt 2>/dev/null || echo 0)
+          COUNTER=$((COUNTER + 1))
+          printf '%s\n' "$COUNTER" > .squad/run-counter.txt
+          git add data/raw/ data/snapshots/ .squad/run-counter.txt
+          git diff --cached --quiet || git commit -m "data: weekly crawl $(date +%Y-W%V)"
           git push origin "HEAD:$DEFAULT_BRANCH" || {
             echo "Push failed after syncing with $DEFAULT_BRANCH."
             exit 1
@@ -452,3 +456,45 @@ jobs:
           WEEK=$(basename "$SUMMARY_FILE" | sed 's/-summary.md//')
 
           gh release create "week-${WEEK}"             --title "Week ${WEEK} — Tech Trends Summary"             --notes-file "$SUMMARY_FILE"             --latest
+
+  reskill-check:
+    needs: [crawl]
+    runs-on: ubuntu-latest
+    outputs:
+      should_reskill: ${{ steps.check.outputs.reskill }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Check reskill trigger
+        id: check
+        run: |
+          COUNTER=$(cat .squad/run-counter.txt 2>/dev/null || echo 0)
+          if [ $((COUNTER % 5)) -eq 0 ] && [ "$COUNTER" -gt 0 ]; then
+            echo "reskill=true" >> $GITHUB_OUTPUT
+            echo "🔄 Reskill triggered at run #$COUNTER"
+          else
+            echo "reskill=false" >> $GITHUB_OUTPUT
+            echo "📊 Run #$COUNTER — next reskill at run #$(( (COUNTER/5 + 1) * 5 ))"
+          fi
+
+  reskill:
+    needs: [reskill-check]
+    if: needs.reskill-check.outputs.should_reskill == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Run placeholder reskill
+        run: |
+          COUNTER=$(cat .squad/run-counter.txt 2>/dev/null || echo 0)
+          mkdir -p .squad/skills .squad/reskill
+          echo "Reskill triggered at run #$COUNTER" >> .squad/reskill/trigger-log.txt
+          echo "🔄 Reskill placeholder ran at run #$COUNTER"
