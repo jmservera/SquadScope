@@ -4,7 +4,7 @@
 **Date:** 2026-05-18  
 **Status:** Draft  
 **Type:** Feature PRD  
-**Depends on:** docs/PRD.md (original), docs/learning-audit.md
+**Depends on:** docs/analysis-spec.md, docs/pipeline-validation.md, docs/learning-audit.md, .squad/decisions.md
 
 ---
 
@@ -60,7 +60,7 @@ The approach is **feature first, not a separate platform.** v1 delivers a single
 
 ### File: `squadscope.topic.yml`
 
-Each SquadScope instance has exactly one topic config at the repository root.
+Each SquadScope instance has exactly one topic config at the repository root. Unless explicitly normalized by the scorer, `language_boost` keys should match the crawler's raw GitHub language strings exactly (for example `Python`, `Rust`, `Jupyter Notebook`).
 
 ```yaml
 # squadscope.topic.yml — defines a single topic channel
@@ -86,10 +86,11 @@ scoring:
   min_stars: 20                      # Absolute minimum to consider
   min_stars_gained: 10               # Minimum weekly star delta
   max_age_days: 365                  # Exclude repos older than this from "new" category
-  language_boost:                    # Boost score for expected languages
-    - python: 1.2
-    - jupyter-notebook: 1.1
-    - rust: 1.0
+  min_relevance_score: 40            # Repos below this score do not reach analysis
+  language_boost:                    # Keys match raw crawler language values
+    Python: 1.2
+    Jupyter Notebook: 1.1
+    Rust: 1.0
   topic_relevance:                   # Required topic overlap (at least one must match)
     - machine-learning
     - deep-learning
@@ -160,9 +161,10 @@ scoring:
   min_stars: 15
   min_stars_gained: 8
   max_age_days: 730
+  min_relevance_score: 40
   language_boost:
-    - rust: 1.5
-    - c: 1.0
+    Rust: 1.5
+    C: 1.0
   topic_relevance:
     - rust
     - rust-lang
@@ -255,9 +257,17 @@ for q in queries:
     results = search_github(q)
     all_repos.extend(results)
 
-# Deduplicate by full_name
+# Deduplicate by full_name, then classify into the existing raw payload shape
 unique_repos = deduplicate(all_repos)
-write_json(f"data/raw/{config['topic']['id']}/YYYY-WNN.json", unique_repos)
+new_repos, trending_repos = partition_repo_sets(unique_repos)
+payload = {
+    "week": current_iso_week(),
+    "new_repos": new_repos,
+    "trending_repos": trending_repos,
+    "signals": build_signals(new_repos, trending_repos),
+    "metadata": build_metadata(config, queries),
+}
+write_json(f"data/raw/{config['topic']['id']}/YYYY-WNN.json", payload)
 ```
 
 ### 2. New: Scoring Pipeline (`scripts/score_repos.py`)
@@ -272,7 +282,7 @@ A new pipeline stage between crawl and analyze. Repos get a **relevance score** 
 | Noise penalty | -20% | Repos matching `noise_topics` or `noise_name_patterns` |
 | Recency | 10% | Days since last push (more recent = higher) |
 
-**Output:** `data/scored/{topic_id}/YYYY-WNN.json` — same schema as raw but with `relevance_score` field added. Only repos with `relevance_score >= 40` pass to analysis.
+**Output:** `data/scored/{topic_id}/YYYY-WNN.json` — same top-level schema as raw (`week`, `new_repos`, `trending_repos`, `signals`, `metadata`), with `relevance_score` added to repo entries and scoring/filter metadata appended under `metadata`. Only repos with `relevance_score >= scoring.min_relevance_score` pass to analysis.
 
 ### 3. Analysis Prompt Changes (`prompts/analyze-weekly.md`)
 
@@ -326,8 +336,10 @@ Analyze the scored repositories in `data/scored/{{TOPIC_ID}}/YYYY-WNN.json`.
 Hugo taxonomy configuration:
 
 ```toml
-# hugo.toml additions
+# hugo.toml additive changes
 [taxonomies]
+  tag = "tags"
+  category = "categories"
   topic = "topics"
 
 [outputFormats.RSS]
@@ -594,17 +606,20 @@ This is intentionally simple. Forks share the same codebase but diverge on confi
 
 ## Relationship to Existing Work
 
-### PRD.md (original)
-This PRD extends the original architecture. All existing pipeline contracts (Crawl → Analyze → Generate → Deploy) remain valid — they gain a topic namespace prefix but keep the same data formats and quality gates.
+### Analysis Spec (`docs/analysis-spec.md`)
+This PRD extends the approved analyzer contract. Topic-aware raw and scored artifacts keep the existing top-level payload shape (`week`, `new_repos`, `trending_repos`, `signals`, `metadata`) while adding a topic namespace prefix and repo-level `relevance_score` data.
 
-### Learning Audit (docs/learning-audit.md)
+### Pipeline Validation (`docs/pipeline-validation.md`)
+This PRD preserves the current Crawl → Analyze → Generate workflow expectations while adding one topic-aware scoring step between crawl and analyze. Existing quality gates and artifact validation remain in force.
+
+### Learning Audit (`docs/learning-audit.md`)
 This PRD directly addresses:
 - **G7 (prompt feedback loop):** Topic-aware prompt template with `{{WISDOM_CONTENT}}` injection
 - **G8 (hindsight validation):** `scripts/validate_predictions.py` with per-topic scorecards
 - **G9 (prediction registry):** `predictions.jsonl` format defined
 - **G13 (enrichment signals):** Fork/contributor data noted as OQ5, planned for scorer enrichment
 
-### Decisions.md
+### Decisions (`.squad/decisions.md`)
 - Respects Decision 3 (pipeline stage contracts) — adds a scoring stage but preserves existing boundaries
 - Respects Decision 4 (reviewer gate) — quality gate applies per-topic
 - Extends Decision 6 (reskill) — reskill reads per-topic state instead of global state
