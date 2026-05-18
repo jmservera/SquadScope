@@ -9,7 +9,7 @@ _Agent:_ Fry
 - `PYTHONPATH=. pytest -q` → **38 passed** in 0.50s.
 - `python3 -m py_compile` succeeded for the pipeline scripts, including `scripts/reskill.py` and `scripts/track_quality.py`.
 - `python3 scripts/track_quality.py` produced a valid markdown trend report.
-- `python3 scripts/reskill.py --current-datetime 2026-05-18T17:08:23.946+02:00 --print-prompt` rendered successfully with all placeholders resolved.
+- **Reskill cycle simulation**: Prompt rendering tested (`--print-prompt` flag validates placeholder resolution), but full reskill cycle execution (calling GitHub Models API and generating `.squad/reskill/2026-W21.md` report) remains incomplete. This is **required** for #24 acceptance criterion "A dry-run or simulation of the first reskill cycle is completed and reviewed."
 
 ## Hugo build verification
 
@@ -82,9 +82,19 @@ _Agent:_ Fry
 
 ## Known issues / limitations
 
-1. `crawl-and-publish.yml` deploys search pages without building fresh Pagefind assets on a clean runner.
-2. The reskill workflow is not wired to the real reskill script/prompt/output contract yet.
-3. The committed weekly page is stale relative to the analyzed summary and generator output.
+### Blocking issues (must resolve before release)
+
+1. **Search asset pipeline incomplete** _(Owner: Fry)_  
+   `crawl-and-publish.yml` deploys search pages without building fresh Pagefind assets on a clean runner. The search page template expects `pagefind/pagefind-ui.js`, so scheduled/manual publish runs can ship a broken search experience.
+
+2. **Reskill workflow not integrated** _(Owner: Fry)_  
+   The `reskill` job in `crawl-and-publish.yml` is still a placeholder logger. It does not invoke `scripts/reskill.py`, does not write `.squad/reskill/YYYY-WNN.md`, and does not use the quality trend/reskill prompt path. Additionally, the first reskill-cycle simulation (required for #24 acceptance criterion) has not been run and reviewed.
+
+3. **Generated content drift** _(Owner: Fry)_  
+   The committed `content/weekly/2026/W21.md` is stale relative to the current generator output from `data/analyzed/2026-W21-summary.md`. Future pipeline runs may produce inconsistencies.
+
+### Non-blocking follow-ups (post-launch)
+
 4. Rollup generation currently undercounts `total_repos_featured` and may emit hardcoded internal paths on new entries.
 5. Hugo build passes, but theme deprecation warnings should be cleaned up before a future Hugo upgrade removes those APIs.
 
