@@ -467,7 +467,8 @@ jobs:
         run: |
           WEEK=$(basename "$SUMMARY_FILE" | sed 's/-summary.md//')
 
-          gh release create "week-${WEEK}"             --title "Week ${WEEK} — Tech Trends Summary"             --notes-file "$SUMMARY_FILE"             --latest
+          gh release create "week-${WEEK}" --title "Week ${WEEK} — Tech Trends Summary" --notes-file "$SUMMARY_FILE" --latest
+
 
   reskill-check:
     needs: [crawl]
