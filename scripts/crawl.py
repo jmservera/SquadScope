@@ -9,7 +9,6 @@ import json
 import os
 import random
 import re
-import socket
 import sys
 import time
 from collections import Counter
@@ -35,10 +34,7 @@ LOW_SIGNAL_TOPICS = {
     "examples",
     "exercise",
     "homework",
-    "lab",
     "learning",
-    "practice",
-    "starter",
     "starter-template",
     "template",
     "templates",
@@ -54,26 +50,28 @@ LOW_SIGNAL_TOKENS = {
     "cheatsheet",
     "course",
     "courses",
-    "demo",
     "example",
     "examples",
     "exercise",
     "exercises",
     "homework",
-    "kata",
-    "lab",
-    "labs",
     "leetcode",
-    "lesson",
-    "lessons",
-    "practice",
-    "sample",
-    "starter",
     "template",
     "tutorial",
     "tutorials",
     "walkthrough",
     "workshop",
+}
+LOW_SIGNAL_NAME_TOKENS = {
+    "demo",
+    "kata",
+    "lab",
+    "labs",
+    "lesson",
+    "lessons",
+    "practice",
+    "sample",
+    "starter",
 }
 LOW_SIGNAL_PHRASES = {
     "course project",
@@ -138,7 +136,7 @@ class ResponseCache:
             "headers": headers,
             "payload": payload,
         }
-        path.write_text(json.dumps(cache_payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        path.write_text(json.dumps(cache_payload, separators=(",", ":"), ensure_ascii=False) + "\n", encoding="utf-8")
 
     def _path_for(self, key: str) -> Path:
         parsed = parse.urlparse(key)
@@ -179,6 +177,27 @@ class GitHubClient:
         allow_stale: bool = True,
         max_retries: int | None = None,
         max_delay_seconds: float = 300.0,
+    ) -> Any:
+        return self.get_json_entry(
+            url,
+            params,
+            acceptable_statuses=acceptable_statuses,
+            ttl_seconds=ttl_seconds,
+            allow_stale=allow_stale,
+            max_retries=max_retries,
+            max_delay_seconds=max_delay_seconds,
+        ).payload
+
+    def get_json_entry(
+        self,
+        url: str,
+        params: dict[str, Any] | None = None,
+        *,
+        acceptable_statuses: set[int] | None = None,
+        ttl_seconds: int | None = None,
+        allow_stale: bool = True,
+        max_retries: int | None = None,
+        max_delay_seconds: float = 300.0,
     ) -> CacheEntry:
         query = f"{url}?{parse.urlencode(params)}" if params else url
         accepted = acceptable_statuses or set()
@@ -209,8 +228,16 @@ class GitHubClient:
                     self.api_calls_used += 1
                     headers = {name: value for name, value in response.headers.items()}
                     self._update_rate_limit(headers)
-                    payload = json.loads(response.read().decode("utf-8", errors="replace"))
+                    body = response.read().decode("utf-8", errors="replace")
                     self._last_request_at = time.monotonic()
+                    try:
+                        payload = json.loads(body)
+                    except json.JSONDecodeError as exc:
+                        if stale_fallback is not None:
+                            self.stale_cache_hits += 1
+                            log(f"Using stale cache for {query} after malformed JSON response: {exc}")
+                            return stale_fallback
+                        raise RuntimeError(f"GitHub API returned malformed JSON for {query}: {exc}") from exc
                     self._cache.store(query, status=response.status, payload=payload, headers=self._cache_headers(headers))
                     self._log_rate_limit(query)
                     return CacheEntry(response.status, payload, headers, utc_now())
@@ -235,7 +262,7 @@ class GitHubClient:
                     ) from exc
                 self._sleep_before_retry(attempt, headers, body, query, retry_limit, max_delay_seconds)
                 attempt += 1
-            except (error.URLError, TimeoutError, socket.timeout, json.JSONDecodeError) as exc:
+            except (error.URLError, TimeoutError) as exc:
                 if attempt >= retry_limit:
                     if stale_fallback is not None:
                         self.stale_cache_hits += 1
@@ -251,7 +278,7 @@ class GitHubClient:
         max_pages = min((max_results + per_page - 1) // per_page, 10)
         for page in range(1, max_pages + 1):
             try:
-                response = self.get_json(
+                response = self.get_json_entry(
                     SEARCH_REPOSITORIES,
                     params={
                         "q": query,
@@ -283,7 +310,7 @@ class GitHubClient:
             return self._readme_cache[full_name]
         url = f"{API_ROOT}/repos/{full_name}/readme"
         try:
-            response = self.get_json(
+            response = self.get_json_entry(
                 url,
                 acceptable_statuses={404},
                 ttl_seconds=24 * 60 * 60,
@@ -331,6 +358,8 @@ class GitHubClient:
                 retry_after = max(float(headers["Retry-After"]), 1.0)
             except ValueError:
                 retry_after = None
+        if retry_after is not None and (self.rate_limit_reset is None or (self.rate_limit_remaining or 0) <= 0):
+            self.rate_limit_reset = max(self.rate_limit_reset or 0, int(time.time() + retry_after))
         base_delay = min(2**attempt, 60)
         jitter = random.uniform(0.3, 1.7)
         delay = retry_after or reset_delay or (base_delay + jitter)
@@ -355,8 +384,16 @@ class GitHubClient:
         critical_threshold = max(3, min(10, int(self.rate_limit_limit * 0.03)))
         if self.rate_limit_remaining > low_threshold:
             return
-        reset_delay = self._reset_delay({"X-RateLimit-Reset": str(self.rate_limit_reset)} if self.rate_limit_reset else None)
+        reset_headers = {"X-RateLimit-Reset": str(self.rate_limit_reset)} if self.rate_limit_reset is not None else None
+        reset_delay = self._reset_delay(reset_headers)
         if reset_delay is None:
+            if self.rate_limit_remaining <= critical_threshold:
+                delay = 10.0 if self.rate_limit_remaining <= 0 else 3.0
+                log(
+                    f"Rate limit low ({self.rate_limit_remaining}/{self.rate_limit_limit} {self.rate_limit_resource or 'requests'}) "
+                    f"without reset hint; cooling down {delay:.1f}s before {query}."
+                )
+                time.sleep(delay)
             return
         if self.rate_limit_remaining <= critical_threshold:
             delay = min(reset_delay + random.uniform(0.3, 1.5), 300.0)
@@ -469,30 +506,46 @@ def decode_json_body(body: str) -> Any:
         return {"message": body.strip()}
 
 
-def load_previous_star_snapshot(snapshot_dir: Path, raw_dir: Path, current_week: str) -> dict[str, int]:
+def load_previous_star_snapshot(snapshot_dir: Path, current_week: str, *raw_dirs: Path) -> dict[str, int]:
     for snapshot in sorted(snapshot_dir.glob("*-stars.json"), reverse=True):
-        stars = load_star_mapping(snapshot, current_week)
+        stars, reason = load_star_mapping_details(snapshot, current_week)
         if stars:
             return stars
-    for snapshot in sorted(raw_dir.glob("*.json"), reverse=True):
-        stars = load_star_mapping(snapshot, current_week)
-        if stars:
-            return stars
+        if reason and reason != "same-week snapshot":
+            log(f"Skipping star snapshot {snapshot}: {reason}.")
+    seen_dirs: set[Path] = set()
+    for raw_dir in raw_dirs:
+        if raw_dir in seen_dirs:
+            continue
+        seen_dirs.add(raw_dir)
+        for snapshot in sorted(raw_dir.glob("*.json"), reverse=True):
+            stars, reason = load_star_mapping_details(snapshot, current_week)
+            if stars:
+                return stars
+            if reason and reason != "same-week snapshot":
+                log(f"Skipping star snapshot {snapshot}: {reason}.")
     return {}
 
 
 def load_star_mapping(path: Path, current_week: str) -> dict[str, int]:
+    return load_star_mapping_details(path, current_week)[0]
+
+
+def load_star_mapping_details(path: Path, current_week: str) -> tuple[dict[str, int], str | None]:
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return {}
+    except OSError as exc:
+        return {}, f"read failed ({exc})"
+    except json.JSONDecodeError as exc:
+        return {}, f"invalid JSON ({exc})"
     if payload.get("week") == current_week:
-        return {}
+        return {}, "same-week snapshot"
     stars = payload.get("stars")
     if isinstance(stars, dict):
         mapping = {name: int(value) for name, value in stars.items() if isinstance(value, int)}
         if mapping:
-            return mapping
+            return mapping, None
+        return {}, "empty stars mapping"
     mapping: dict[str, int] = {}
     for section in ("new_repos", "trending_repos"):
         for repo in payload.get(section, []):
@@ -500,7 +553,9 @@ def load_star_mapping(path: Path, current_week: str) -> dict[str, int]:
             stars_value = repo.get("stars")
             if full_name and isinstance(stars_value, int):
                 mapping[full_name] = stars_value
-    return mapping
+    if mapping:
+        return mapping, None
+    return {}, "no star data"
 
 
 def tokenize(text: str) -> set[str]:
@@ -518,15 +573,12 @@ def significance_skip_reason(repo: dict[str, Any]) -> str | None:
     topics = {str(topic).lower() for topic in repo.get("topics") or []}
     if topics & LOW_SIGNAL_TOPICS:
         return "low_signal_topic"
-    combined_text = " ".join(
-        [
-            str(repo.get("name") or ""),
-            description,
-            " ".join(sorted(topics)),
-        ]
-    ).lower()
+    name = str(repo.get("name") or "")
+    combined_text = " ".join([name, description]).lower()
     combined_tokens = tokenize(combined_text)
     if combined_tokens & LOW_SIGNAL_TOKENS:
+        return "low_signal_keyword"
+    if tokenize(name) & LOW_SIGNAL_NAME_TOKENS:
         return "low_signal_keyword"
     if any(phrase in combined_text for phrase in LOW_SIGNAL_PHRASES):
         return "low_signal_phrase"
@@ -607,6 +659,7 @@ def collect_repositories(
 
 def build_signals(*repo_groups: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
     topic_counter: Counter[str] = Counter()
+    # A repo can appear in both search buckets; count its topics once to avoid inflating weekly signals.
     merged: dict[str, dict[str, Any]] = {}
     for group in repo_groups:
         for repo in group:
@@ -662,10 +715,18 @@ def validate_payload(payload: dict[str, Any]) -> None:
         raise ValueError("metadata.api_calls_used must be an integer")
     if not isinstance(metadata.get("cache_hits"), int):
         raise ValueError("metadata.cache_hits must be an integer")
+    if not isinstance(metadata.get("stale_cache_hits"), int):
+        raise ValueError("metadata.stale_cache_hits must be an integer")
     if metadata.get("rate_limit_remaining") is not None and not isinstance(metadata.get("rate_limit_remaining"), int):
         raise ValueError("metadata.rate_limit_remaining must be an integer or null")
     if metadata.get("rate_limit_limit") is not None and not isinstance(metadata.get("rate_limit_limit"), int):
         raise ValueError("metadata.rate_limit_limit must be an integer or null")
+    if metadata.get("rate_limit_reset") is not None and not isinstance(metadata.get("rate_limit_reset"), int):
+        raise ValueError("metadata.rate_limit_reset must be an integer or null")
+    if metadata.get("rate_limit_resource") is not None and not isinstance(metadata.get("rate_limit_resource"), str):
+        raise ValueError("metadata.rate_limit_resource must be a string or null")
+    if not isinstance(metadata.get("snapshot_path"), str):
+        raise ValueError("metadata.snapshot_path must be a string")
     partial_failures = metadata.get("partial_failures")
     if partial_failures is not None and not isinstance(partial_failures, list):
         raise ValueError("metadata.partial_failures must be a list when present")
@@ -692,12 +753,17 @@ def main() -> int:
     client = GitHubClient(github_token)
     max_results = max(1, min(args.max_results, 1000))
 
-    date_range = f"{since.date().isoformat()}..{window_end.date().isoformat()}"
-    new_query = f"created:{date_range} stars:>50"
-    trending_query = f"pushed:{date_range} stars:>50"
+    if args.as_of:
+        created_filter = f"created:{since.date().isoformat()}..{window_end.date().isoformat()}"
+        pushed_filter = f"pushed:{since.date().isoformat()}..{window_end.date().isoformat()}"
+    else:
+        created_filter = f"created:>{since.date().isoformat()}"
+        pushed_filter = f"pushed:>{since.date().isoformat()}"
+    new_query = f"{created_filter} stars:>50"
+    trending_query = f"{pushed_filter} stars:>50"
 
     new_candidates = client.search_repositories(new_query, max_results=max_results)
-    previous_stars = load_previous_star_snapshot(SNAPSHOT_ROOT, output_path.parent, week)
+    previous_stars = load_previous_star_snapshot(SNAPSHOT_ROOT, week, output_path.parent, RAW_ROOT)
     trending_candidates = client.search_repositories(trending_query, max_results=max_results)
 
     new_repos, new_filters = collect_repositories(client, new_candidates)
@@ -708,6 +774,8 @@ def main() -> int:
         trending_cutoff=since,
     )
 
+    # Keep star snapshots broader than the filtered payload so future reruns can still compute deltas
+    # even when a repo is later excluded as low-signal or missing a README.
     star_snapshot = build_star_snapshot(new_candidates, trending_candidates)
     snapshot_payload = {
         "week": week,
@@ -728,7 +796,7 @@ def main() -> int:
             "stale_cache_hits": client.stale_cache_hits,
             "rate_limit_limit": client.rate_limit_limit,
             "rate_limit_remaining": client.rate_limit_remaining,
-            "rate_limit_reset": rate_limit_reset_text(client.rate_limit_reset),
+            "rate_limit_reset": client.rate_limit_reset,
             "rate_limit_resource": client.rate_limit_resource,
             "partial_failures": client.errors,
             "filter_summary": {
@@ -749,7 +817,7 @@ def main() -> int:
         f"Wrote {output_path} with {len(new_repos)} new repos and {len(trending_repos)} trending repos, "
         f"saved {snapshot_path}, used {client.api_calls_used} API calls, and served {client.cache_hits} cache hits."
     )
-    return 0 if (new_candidates or trending_candidates or not client.errors) else 1
+    return 1 if client.errors else 0
 
 
 if __name__ == "__main__":
