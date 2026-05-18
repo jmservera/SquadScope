@@ -19,13 +19,7 @@
     {{- end }}
   </header>
 
-  <nav class="report-shortcuts" aria-label="Report navigation">
-    <a href="{{ `search/` | absLangURL }}">Search</a>
-    <a href="{{ `tags/` | absLangURL }}">Tags</a>
-    <a href="{{ `categories/` | absLangURL }}">Categories</a>
-    <a href="{{ `archive/` | absLangURL }}">Archive</a>
-    <a href="{{ `index.xml` | absLangURL }}">RSS</a>
-  </nav>
+  {{ partial "report-shortcuts.html" . }}
 
   {{- if .Content }}
   <div class="post-content md-content">
