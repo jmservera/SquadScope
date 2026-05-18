@@ -14,31 +14,31 @@
   </section>
 
   <section class="home-nav-grid" aria-label="Primary views">
-    <a class="home-nav-card" href="{{ "/archive/" | relURL }}">
+    <a class="home-nav-card" href="{{ `archive/` | absLangURL }}">
       <span class="home-nav-title">Archive</span>
       <span class="home-nav-copy">Browse every weekly summary in reverse chronological order.</span>
     </a>
-    <a class="home-nav-card" href="{{ "/monthly/" | relURL }}">
+    <a class="home-nav-card" href="{{ `monthly/` | absLangURL }}">
       <span class="home-nav-title">Monthly</span>
       <span class="home-nav-copy">Step back and review the strongest themes across each month.</span>
     </a>
-    <a class="home-nav-card" href="{{ "/yearly/" | relURL }}">
+    <a class="home-nav-card" href="{{ `yearly/` | absLangURL }}">
       <span class="home-nav-title">Yearly</span>
       <span class="home-nav-copy">Follow broader platform shifts and long-running trend lines.</span>
     </a>
-    <a class="home-nav-card" href="{{ "/tags/" | relURL }}">
+    <a class="home-nav-card" href="{{ `tags/` | absLangURL }}">
       <span class="home-nav-title">Tags</span>
       <span class="home-nav-copy">Jump into recurring topics like AI, security, and developer tooling.</span>
     </a>
-    <a class="home-nav-card" href="{{ "/categories/" | relURL }}">
+    <a class="home-nav-card" href="{{ `categories/` | absLangURL }}">
       <span class="home-nav-title">Categories</span>
       <span class="home-nav-copy">Move between weekly, monthly, and yearly reporting cadences.</span>
     </a>
-    <a class="home-nav-card" href="{{ "/search/" | relURL }}">
+    <a class="home-nav-card" href="{{ `search/` | absLangURL }}">
       <span class="home-nav-title">Search</span>
       <span class="home-nav-copy">Use Pagefind to search by keyword, filter, date, or repository name.</span>
     </a>
-    <a class="home-nav-card" href="{{ "/index.xml" | relURL }}">
+    <a class="home-nav-card" href="{{ `index.xml` | absLangURL }}">
       <span class="home-nav-title">RSS</span>
       <span class="home-nav-copy">Subscribe to the newest reports in your feed reader.</span>
     </a>
@@ -53,7 +53,7 @@
     {{ partial "report-metrics.html" $latest }}
     <div class="home-actions">
       <a class="home-action-primary" href="{{ $latest.RelPermalink }}">Read summary</a>
-      <a class="home-action-secondary" href="{{ "/archive/" | relURL }}">Open archive</a>
+      <a class="home-action-secondary" href="{{ `archive/` | absLangURL }}">Open archive</a>
     </div>
   </section>
   {{- else -}}

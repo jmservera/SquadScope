@@ -26,7 +26,7 @@
   {{- if $hasTopRepo -}}
   <div class="metric-card metric-card-wide">
     <span class="metric-label">Top repo</span>
-    <strong class="metric-value"><a href="https://github.com/{{ index $page.Params "top_repo" }}">{{ index $page.Params "top_repo" }}</a></strong>
+    <strong class="metric-value"><a href="https://github.com/{{ index $page.Params "top_repo" }}" aria-label="Open GitHub repository {{ index $page.Params "top_repo" }}">{{ index $page.Params "top_repo" }}</a></strong>
   </div>
   {{- end -}}
 </div>
