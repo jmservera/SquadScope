@@ -14,8 +14,11 @@ if __package__ in {None, ""}:
 
 import scripts.analysis_gate as analysis_gate
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SUMMARY_SUFFIX = "-summary.md"
 WEEK_PATTERN = re.compile(r"^(?P<year>\d{4})-W(?P<week>\d{2})$")
+REPO_LINK_PATTERN = re.compile(r"https://github\.com/(?P<repo>[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)")
+NO_UPDATES_PLACEHOLDER = "_No updates yet._"
 MONTHLY_SECTIONS = [
     "Month Overview",
     "Top Repos This Month",
@@ -62,6 +65,7 @@ class WeeklySummary:
     tags: tuple[str, ...]
     repos_featured: int
     top_repo: str
+    featured_repos: tuple[str, ...]
     summary: str
     signal: str
     noise: str
@@ -111,9 +115,21 @@ class RollupPage:
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Generate append-only monthly and yearly rollups from weekly analyses.")
-    parser.add_argument("--analyzed-dir", type=Path, default=Path("data/analyzed"), help="Directory containing weekly summary markdown files.")
-    parser.add_argument("--content-root", type=Path, default=Path("content"), help="Root content directory for generated rollups.")
+    parser = argparse.ArgumentParser(
+        description="Generate append-only monthly and yearly rollups from weekly analyses. Defaults resolve from the repository root."
+    )
+    parser.add_argument(
+        "--analyzed-dir",
+        type=Path,
+        default=PROJECT_ROOT / "data" / "analyzed",
+        help="Directory containing weekly summary markdown files.",
+    )
+    parser.add_argument(
+        "--content-root",
+        type=Path,
+        default=PROJECT_ROOT / "content",
+        help="Root content directory for generated rollups.",
+    )
     return parser.parse_args(argv)
 
 
@@ -138,7 +154,7 @@ def render_frontmatter(frontmatter: dict[str, Any]) -> str:
     lines = ["---"]
     for key, value in frontmatter.items():
         lines.append(f"{key}: {yaml_value(value)}")
-    lines.extend(["---", ""])
+    lines.extend(["---", "", ""])
     return "\n".join(lines)
 
 
@@ -181,6 +197,18 @@ def repo_markdown(repo: str) -> str:
     return f"[{repo}](https://github.com/{repo})"
 
 
+def extract_featured_repos(body: str, top_repo: str) -> tuple[str, ...]:
+    repos = [top_repo]
+    seen = {top_repo}
+    for match in REPO_LINK_PATTERN.finditer(body):
+        repo = match.group("repo")
+        if repo in seen:
+            continue
+        seen.add(repo)
+        repos.append(repo)
+    return tuple(repos)
+
+
 def load_summary(path: Path) -> WeeklySummary:
     frontmatter, body = analysis_gate.extract_frontmatter(path.read_text(encoding="utf-8"))
     week = str(frontmatter.get("week", ""))
@@ -195,6 +223,7 @@ def load_summary(path: Path) -> WeeklySummary:
     noise = get_subsection_text(trend_analysis, "Noise")
     gaps = get_subsection_text(get_section_text(body, "What's Missing"), "Gaps")
     conclusion = normalize_text(get_section_text(body, "Conclusion"))
+    top_repo = str(frontmatter["top_repo"])
 
     return WeeklySummary(
         source_path=path,
@@ -205,7 +234,8 @@ def load_summary(path: Path) -> WeeklySummary:
         month=month,
         tags=tuple(str(tag) for tag in frontmatter.get("tags", [])),
         repos_featured=int(frontmatter["repos_featured"]),
-        top_repo=str(frontmatter["top_repo"]),
+        top_repo=top_repo,
+        featured_repos=extract_featured_repos(body, top_repo),
         summary=normalize_text(str(frontmatter["summary"])),
         signal=signal,
         noise=noise,
@@ -216,8 +246,6 @@ def load_summary(path: Path) -> WeeklySummary:
 
 def load_weekly_summaries(analyzed_dir: Path) -> list[WeeklySummary]:
     summaries = [load_summary(path) for path in sorted(analyzed_dir.glob(f"*{SUMMARY_SUFFIX}"))]
-    if not summaries:
-        raise RollupError(f"No weekly summaries found in {analyzed_dir}")
     return sorted(summaries, key=lambda item: (item.date, item.week))
 
 
@@ -320,9 +348,10 @@ def build_monthly_pages(summaries: list[WeeklySummary], content_root: Path) -> l
     pages: list[RollupPage] = []
     for (year, month), items in sorted(grouped.items()):
         items = sorted(items, key=lambda item: (item.date, item.week))
-        tags_counter: Counter[str] = Counter(tag for item in items for tag in item.tags)
+        tags_counter: Counter[str] = Counter()
         page_entries: dict[str, list[RollupEntry]] = {section: [] for section in MONTHLY_SECTIONS}
         for item in items:
+            tags_counter.update(item.tags)
             for section, entry in monthly_entries(item, tags_counter).items():
                 page_entries[section].append(entry)
         pages.append(
@@ -335,7 +364,7 @@ def build_monthly_pages(summaries: list[WeeklySummary], content_root: Path) -> l
                     "year": year,
                     "categories": ["monthly"],
                     "weeks_covered": [item.week for item in items],
-                    "total_repos_featured": sum(item.repos_featured for item in items),
+                    "total_repos_featured": len({repo for item in items for repo in item.featured_repos}),
                 },
                 sections=page_entries,
                 section_order=MONTHLY_SECTIONS,
@@ -352,9 +381,10 @@ def build_yearly_pages(summaries: list[WeeklySummary], content_root: Path) -> li
     pages: list[RollupPage] = []
     for year, items in sorted(grouped.items()):
         items = sorted(items, key=lambda item: (item.date, item.week))
-        tags_counter: Counter[str] = Counter(tag for item in items for tag in item.tags)
+        tags_counter: Counter[str] = Counter()
         page_entries: dict[str, list[RollupEntry]] = {section: [] for section in YEARLY_SECTIONS}
         for item in items:
+            tags_counter.update(item.tags)
             for section, entry in yearly_entries(item, tags_counter).items():
                 page_entries[section].append(entry)
         months_covered = sorted({item.month_slug for item in items})
@@ -389,13 +419,19 @@ def merge_sections(path: Path, section_order: list[str], new_entries: dict[str, 
     rendered_sections: list[str] = []
     for section in section_order:
         content = existing_sections.get(section, "")
+        if content.strip() == NO_UPDATES_PLACEHOLDER:
+            content = ""
         for entry in new_entries[section]:
             if entry.marker in content:
                 continue
             content = f"{content.rstrip()}\n\n{entry.text}" if content.strip() else entry.text
-        section_body = content.strip()
-        if not section_body:
-            section_body = "_No updates yet._"
+        section_body = content.strip() or NO_UPDATES_PLACEHOLDER
+        rendered_sections.append(f"## {section}\n\n{section_body}")
+
+    for section, content in existing_sections.items():
+        if section in section_order:
+            continue
+        section_body = content.strip() or NO_UPDATES_PLACEHOLDER
         rendered_sections.append(f"## {section}\n\n{section_body}")
 
     if intro.strip():
@@ -411,6 +447,9 @@ def write_rollup(page: RollupPage) -> None:
 
 def generate_rollups(analyzed_dir: Path, content_root: Path) -> list[Path]:
     summaries = load_weekly_summaries(analyzed_dir)
+    if not summaries:
+        return []
+
     written: list[Path] = []
     for page in [*build_monthly_pages(summaries, content_root), *build_yearly_pages(summaries, content_root)]:
         write_rollup(page)
@@ -421,6 +460,9 @@ def generate_rollups(analyzed_dir: Path, content_root: Path) -> list[Path]:
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     written = generate_rollups(args.analyzed_dir, args.content_root)
+    if not written:
+        print(f"No weekly summaries found in {args.analyzed_dir}; skipping rollup generation.", file=sys.stderr)
+        return 0
     for path in written:
         print(f"Generated {path}")
     return 0
