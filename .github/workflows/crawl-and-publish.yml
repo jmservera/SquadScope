@@ -120,16 +120,22 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          STASH_BEFORE=$(git stash list | wc -l)
-          git stash push --include-untracked --message crawl-data -- data/raw data/snapshots || true
-          STASH_AFTER=$(git stash list | wc -l)
+          STASH_REF=$(git stash create --include-untracked --message crawl-data -- data/raw data/snapshots) || STASH_REF=""
           git fetch origin "$DEFAULT_BRANCH"
           git checkout -B "$DEFAULT_BRANCH" "origin/$DEFAULT_BRANCH"
-          if [ "$STASH_AFTER" -gt "$STASH_BEFORE" ]; then
+          if [ -n "$STASH_REF" ]; then
+            git stash store "$STASH_REF" || {
+              echo "Failed to store stash."
+              exit 1
+            }
             git stash pop || {
               echo "Failed to reapply crawl data after syncing $DEFAULT_BRANCH."
               exit 1
             }
+          fi
+          if git diff --quiet -- data/raw data/snapshots; then
+            echo "No changes to data/raw or data/snapshots. Skipping counter increment."
+            exit 0
           fi
           COUNTER=$(cat .squad/run-counter.txt 2>/dev/null || echo 0)
           COUNTER=$((COUNTER + 1))
@@ -493,8 +499,20 @@ jobs:
           ref: ${{ github.event.repository.default_branch }}
 
       - name: Run placeholder reskill
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           COUNTER=$(cat .squad/run-counter.txt 2>/dev/null || echo 0)
           mkdir -p .squad/skills .squad/reskill
-          echo "Reskill triggered at run #$COUNTER" >> .squad/reskill/trigger-log.txt
+          echo "Reskill triggered at run #$COUNTER ($(date -Iseconds))" >> .squad/reskill/trigger-log.txt
+          git add .squad/reskill/trigger-log.txt
+          git diff --cached --quiet || {
+            git commit -m "audit: reskill triggered at run #$COUNTER"
+            git push origin "HEAD:$DEFAULT_BRANCH" || {
+              echo "Warning: Failed to push trigger log to $DEFAULT_BRANCH, but continuing."
+            }
+          }
           echo "🔄 Reskill placeholder ran at run #$COUNTER"
