@@ -37,3 +37,5 @@ SquadScope is a Hugo-powered GitHub Pages site for weekly, monthly, and yearly t
 ## Deployment
 
 Pushing to `main` triggers `.github/workflows/deploy-site.yml`, which builds the Hugo site and deploys the generated `public/` directory to GitHub Pages.
+
+The scheduled weekly pipeline in `.github/workflows/crawl-and-publish.yml` now runs `crawl → analyze → generate → deploy`, using `scripts/generate_content.py` to turn `data/analyzed/YYYY-WNN-summary.md` into `content/weekly/YYYY/WNN.md` before the Pages build and Pagefind indexing steps.
