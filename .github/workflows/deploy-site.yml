@@ -30,11 +30,22 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Set up Hugo
-        uses: actions/setup-hugo@v3
-        with:
-          hugo-version: ${{ env.HUGO_VERSION }}
-          extended: true
+      - name: Install Hugo
+        run: |
+          TARBALL="hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          curl -sLJO "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/${TARBALL}"
+          
+          # Download and verify checksums
+          curl -sLJO "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_checksums.txt"
+          sha256sum --check hugo_${HUGO_VERSION}_checksums.txt --ignore-missing || exit 1
+          rm "hugo_${HUGO_VERSION}_checksums.txt"
+          
+          mkdir -p "${HOME}/.local/hugo"
+          tar -C "${HOME}/.local/hugo" -xf "${TARBALL}"
+          rm "${TARBALL}"
+          echo "${HOME}/.local/hugo" >> "${GITHUB_PATH}"
+          export PATH="${HOME}/.local/hugo:${PATH}"
+          hugo version
 
       - name: Build site
         run: hugo --minify
