@@ -227,11 +227,14 @@ The body must follow this exact top-level section order:
 ## Conclusion
 ```
 
+Every repository mentioned in the body must be rendered as a clickable markdown link in this exact format: `[owner/repo](https://github.com/owner/repo)`.
+
 ### Section guidance
 
 #### 1. Notable New Repositories
 - **Purpose:** Curate the week’s most credible new launches.
 - **Include:** 3-7 repos, grouped into a coherent story rather than a bullet dump.
+- **Repo links:** Every repo mention must use `[owner/repo](https://github.com/owner/repo)`.
 - **Tone:** Selective and judgmental.
 - **Length:** ~120-220 words.
 - **Avoid:** Exhaustive listings or copy/pasted repo descriptions.
@@ -239,6 +242,7 @@ The body must follow this exact top-level section order:
 #### 2. Trending This Week
 - **Purpose:** Explain where attention moved.
 - **Include:** The most relevant momentum winners, plus a caveat if `stars_gained` is unavailable.
+- **Repo links:** Every repo mention must use `[owner/repo](https://github.com/owner/repo)`.
 - **Tone:** Analytical, not celebratory.
 - **Length:** ~100-180 words.
 - **Avoid:** Treating raw popularity as momentum when deltas are missing.
@@ -248,6 +252,7 @@ The body must follow this exact top-level section order:
 - **Required subsections:**
   - `### Signal` — what looks durable or strategically important.
   - `### Noise` — what looks inflated, repetitive, or low-substance.
+- **Repo links:** Every repo mention must use `[owner/repo](https://github.com/owner/repo)`.
 - **Length:** ~150-260 words total.
 - **Avoid:** Repeating section 1 and section 2 without synthesis.
 
@@ -255,12 +260,14 @@ The body must follow this exact top-level section order:
 - **Purpose:** Surface absent or underweighted themes.
 - **Required subsection:** `### Gaps`.
 - **Include:** 2-4 concrete blind spots or underserved categories.
+- **Repo links:** Every repo mention must use `[owner/repo](https://github.com/owner/repo)`.
 - **Length:** ~80-160 words.
 - **Avoid:** Generic filler like “more innovation is needed.”
 
 #### 5. Conclusion
 - **Purpose:** End with a clear editorial takeaway.
 - **Include:** Why the week matters and what to watch next.
+- **Repo links:** Every repo mention must use `[owner/repo](https://github.com/owner/repo)`.
 - **Length:** ~50-110 words.
 - **Avoid:** Introducing brand-new evidence.
 
