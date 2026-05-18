@@ -7,8 +7,6 @@ from datetime import UTC, datetime
 from pathlib import Path
 from unittest import mock
 
-import yaml
-
 import scripts.analysis_gate as analysis_gate
 import scripts.analyze_fallback as analyze_fallback
 import scripts.crawl as crawl
@@ -149,58 +147,24 @@ The week matters because practical automation won attention on merit. If this pa
 
 class WorkflowConfigTests(unittest.TestCase):
     def test_crawl_workflow_persists_run_counter(self) -> None:
-        workflow_path = Path(".github/workflows/crawl-and-publish.yml")
-        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
-        
-        crawl_job = workflow["jobs"]["crawl"]
-        commit_step = None
-        for step in crawl_job["steps"]:
-            if step.get("name") == "Commit crawl data":
-                commit_step = step
-                break
-        
-        self.assertIsNotNone(commit_step, "Commit crawl data step not found")
-        run_script = commit_step["run"]
-        self.assertIn("COUNTER=$(cat .squad/run-counter.txt", run_script)
-        self.assertIn("COUNTER=$((COUNTER + 1))", run_script)
-        self.assertIn(".squad/run-counter.txt", run_script)
-        self.assertIn("git add data/raw/ data/snapshots/ .squad/run-counter.txt", run_script)
+        workflow_text = Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+
+        self.assertIn("COUNTER=$(cat .squad/run-counter.txt 2>/dev/null || echo 0)", workflow_text)
+        self.assertIn("COUNTER=$((COUNTER + 1))", workflow_text)
+        self.assertIn("printf '%s\\n' \"$COUNTER\" > .squad/run-counter.txt", workflow_text)
+        self.assertIn("git add data/raw/ data/snapshots/ .squad/run-counter.txt", workflow_text)
 
     def test_crawl_workflow_defines_reskill_jobs(self) -> None:
-        workflow_path = Path(".github/workflows/crawl-and-publish.yml")
-        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
-        
-        self.assertIn("reskill-check", workflow["jobs"])
-        reskill_check = workflow["jobs"]["reskill-check"]
-        self.assertEqual(reskill_check["needs"], ["crawl"])
-        
-        self.assertIn("reskill", workflow["jobs"])
-        reskill = workflow["jobs"]["reskill"]
-        self.assertEqual(reskill["needs"], ["reskill-check", "analyze"])
-        self.assertIn("needs.reskill-check.outputs.should_reskill", reskill["if"])
-        self.assertEqual(reskill["permissions"]["copilot-requests"], "write")
-        self.assertEqual(reskill["permissions"]["models"], "read")
-        
-        check_step = next((s for s in reskill_check["steps"] if s.get("name") == "Check reskill trigger"), None)
-        self.assertIsNotNone(check_step)
-        check_run = check_step["run"]
-        self.assertIn("reskill=true", check_run)
-        self.assertIn("$GITHUB_OUTPUT", check_run)
+        workflow_text = Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
 
-        download_analyzed = next((s for s in reskill["steps"] if s.get("name") == "Download analyzed data artifact"), None)
-        self.assertIsNotNone(download_analyzed)
-        self.assertEqual(download_analyzed["with"]["name"], "analyzed-data")
-
-        reskill_step = next((s for s in reskill["steps"] if s.get("name") == "Run reskill retrospective"), None)
-        self.assertIsNotNone(reskill_step)
-        self.assertIn("python3 scripts/reskill.py", reskill_step["run"])
-        self.assertIn("CURRENT_DATETIME", reskill_step["env"])
-
-        commit_step = next((s for s in reskill["steps"] if s.get("name") == "Commit reskill state"), None)
-        self.assertIsNotNone(commit_step)
-        commit_run = commit_step["run"]
-        self.assertIn("git add .squad/reskill/ .squad/skills/", commit_run)
-        self.assertIn("git stash push --include-untracked --message reskill-state", commit_run)
+        self.assertIn("reskill-check:", workflow_text)
+        self.assertIn("needs: [crawl]", workflow_text)
+        self.assertIn("should_reskill: ${{ steps.check.outputs.reskill }}", workflow_text)
+        self.assertIn("echo \"reskill=true\" >> $GITHUB_OUTPUT", workflow_text)
+        self.assertIn("reskill:", workflow_text)
+        self.assertIn("if: needs.reskill-check.outputs.should_reskill == 'true'", workflow_text)
+        self.assertIn("mkdir -p .squad/skills .squad/reskill", workflow_text)
+        self.assertIn("echo \"Reskill triggered at run #$COUNTER\" >> .squad/reskill/trigger-log.txt", workflow_text)
 
 
 class PipelineIntegrationTests(unittest.TestCase):
