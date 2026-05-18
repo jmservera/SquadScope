@@ -1,0 +1,324 @@
+import io
+import json
+import tempfile
+import unittest
+from argparse import Namespace
+from datetime import UTC, datetime
+from pathlib import Path
+from unittest import mock
+
+import scripts.analysis_gate as analysis_gate
+import scripts.analyze_fallback as analyze_fallback
+import scripts.crawl as crawl
+import scripts.generate_content as generate_content
+
+
+class _FakeHTTPResponse(io.BytesIO):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        self.close()
+        return False
+
+
+FIXED_RUN_DATETIME = "2026-05-18T08:00:00Z"
+FIXED_RUN_TIME = datetime(2026, 5, 18, 8, 0, 0, tzinfo=UTC)
+
+
+def make_api_repo(full_name: str, *, stars: int, created_at: str, topics: list[str]) -> dict:
+    owner, name = full_name.split("/", 1)
+    return {
+        "name": name,
+        "full_name": full_name,
+        "description": f"{name} helps teams ship reliable automation.",
+        "language": "Python",
+        "stargazers_count": stars,
+        "forks_count": max(1, stars // 10),
+        "created_at": created_at,
+        "topics": topics,
+        "license": {"spdx_id": "MIT"},
+        "html_url": f"https://github.com/{full_name}",
+        "owner": {"login": owner},
+        "fork": False,
+        "is_template": False,
+    }
+
+
+def make_raw_payload() -> dict:
+    return {
+        "week": "2026-W21",
+        "crawled_at": FIXED_RUN_DATETIME,
+        "new_repos": [
+            {
+                "name": "signal-kit",
+                "owner": "octo",
+                "full_name": "octo/signal-kit",
+                "description": "Signal extraction for release teams.",
+                "language": "Python",
+                "stars": 120,
+                "forks": 12,
+                "created_at": "2026-05-12T09:00:00Z",
+                "topics": ["ai", "automation", "developer-tooling"],
+                "license": "MIT",
+                "url": "https://github.com/octo/signal-kit",
+            }
+        ],
+        "trending_repos": [
+            {
+                "name": "momentum-watch",
+                "owner": "octo",
+                "full_name": "octo/momentum-watch",
+                "description": "Observability for weekly launches.",
+                "language": "Go",
+                "stars": 180,
+                "forks": 18,
+                "created_at": "2026-05-10T12:00:00Z",
+                "topics": ["observability", "analytics", "platform"],
+                "license": "Apache-2.0",
+                "url": "https://github.com/octo/momentum-watch",
+                "stars_gained": 35,
+            }
+        ],
+        "signals": {
+            "top_topics": [
+                {"topic": "automation", "count": 2},
+                {"topic": "observability", "count": 1},
+            ]
+        },
+        "metadata": {
+            "api_calls_used": 2,
+            "cache_hits": 1,
+            "stale_cache_hits": 0,
+            "rate_limit_limit": 5000,
+            "rate_limit_remaining": 4990,
+            "rate_limit_reset": 1747567200,
+            "rate_limit_resource": "search",
+            "partial_failures": [],
+            "snapshot_path": "data/snapshots/2026-W21-stars.json",
+        },
+    }
+
+
+def make_analysis_markdown() -> str:
+    return f'''---
+title: "Week 21, 2026 Analysis"
+date: {FIXED_RUN_DATETIME}
+week: "2026-W21"
+year: 2026
+tags: [ai, automation, developer-tooling]
+categories: [weekly]
+repos_featured: 2
+stars_tracked: 300
+top_repo: "octo/signal-kit"
+quality_score: 86
+summary: "Reliable automation and observability projects set the tone for the week."
+---
+
+## Notable New Repositories
+
+[octo/signal-kit](https://github.com/octo/signal-kit) stood out because it solves release coordination without pretending to be a full platform rewrite. The project packages practical automation, readable defaults, and evidence of disciplined engineering. Teams watching shipping velocity can understand why it matters in one pass, which is a stronger signal than yet another thin wrapper around generic assistants. The repo reads like operational software built for repeat use instead of launch-day theater.
+
+## Trending This Week
+
+[octo/momentum-watch](https://github.com/octo/momentum-watch) captured attention because the work is grounded in observability and run health rather than novelty claims. The weekly delta is directionally useful here, and the trend matters because more teams are prioritizing measurement, incident feedback loops, and durable visibility into developer workflows instead of vanity dashboards.
+
+## Trend Analysis
+
+### Signal
+
+The durable signal is a return to automation that lowers toil and gives teams more confidence in repeatable delivery. [octo/signal-kit](https://github.com/octo/signal-kit) and [octo/momentum-watch](https://github.com/octo/momentum-watch) both point toward software that reduces coordination overhead, improves trust in pipelines, and respects how operators actually work. That pattern is more convincing than broad claims about agents replacing engineering judgment.
+
+### Noise
+
+The weak signal is the usual rush of products that market autonomy without proving fit, maintenance discipline, or measurable outcomes. This week was healthier than most, but the broader ecosystem still produces wrappers that borrow the language of automation while skipping the hard parts of observability, testing, and operational ownership.
+
+## What's Missing
+
+### Gaps
+
+The biggest gap is stronger investment in security review, test ergonomics, and smaller-team operations tooling that can be adopted without a platform migration. The ecosystem is getting better at coordination, but it still underserves practical defensive tooling and deployment confidence for teams that need reliability before they need spectacle.
+
+## Conclusion
+
+The week matters because practical automation won attention on merit. If this pattern holds, the next wave of winners will be tools that save teams time, expose real operating signals, and make release quality easier to trust.
+'''
+
+
+class PipelineIntegrationTests(unittest.TestCase):
+    def test_crawl_script_produces_valid_json_output_schema(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            output_path = base / "data" / "raw" / "2026-W21.json"
+            snapshot_dir = base / "data" / "snapshots"
+            snapshot_dir.mkdir(parents=True)
+
+            new_repo = make_api_repo(
+                "octo/signal-kit",
+                stars=120,
+                created_at="2026-05-12T09:00:00Z",
+                topics=["ai", "automation", "developer-tooling"],
+            )
+            trending_repo = make_api_repo(
+                "octo/momentum-watch",
+                stars=180,
+                created_at="2026-05-10T12:00:00Z",
+                topics=["observability", "analytics", "platform"],
+            )
+
+            class FakeClient:
+                def __init__(self, token: str) -> None:
+                    self.token = token
+                    self.api_calls_used = 2
+                    self.cache_hits = 1
+                    self.stale_cache_hits = 0
+                    self.rate_limit_limit = 5000
+                    self.rate_limit_remaining = 4990
+                    self.rate_limit_reset = 1747567200
+                    self.rate_limit_resource = "search"
+                    self.errors = []
+
+                def search_repositories(self, query: str, *, max_results: int = 1000):
+                    if query.startswith("created:"):
+                        return [new_repo]
+                    if query.startswith("pushed:"):
+                        return [trending_repo]
+                    raise AssertionError(f"Unexpected query: {query}")
+
+                def has_readme(self, full_name: str) -> bool:
+                    return True
+
+            args = Namespace(
+                since="2026-05-11",
+                as_of="2026-05-18",
+                max_results=10,
+                output=str(output_path),
+            )
+
+            with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
+                "os.environ", {"GITHUB_TOKEN": "token"}, clear=False
+            ), mock.patch.object(crawl, "GitHubClient", FakeClient), mock.patch.object(
+                crawl, "load_previous_star_snapshot", return_value={"octo/momentum-watch": 145}
+            ), mock.patch.object(crawl, "utc_now", return_value=FIXED_RUN_TIME), mock.patch.object(
+                crawl, "SNAPSHOT_ROOT", snapshot_dir
+            ):
+                exit_code = crawl.main()
+
+            self.assertEqual(exit_code, 0)
+            payload = json.loads(output_path.read_text(encoding="utf-8"))
+            crawl.validate_payload(payload)
+            self.assertEqual(payload["week"], "2026-W21")
+            self.assertEqual(payload["trending_repos"][0]["stars_gained"], 35)
+            self.assertTrue((snapshot_dir / "2026-W21-stars.json").exists())
+
+    def test_generate_content_produces_valid_hugo_content(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            summary_path = base / "data" / "analyzed" / "2026-W21-summary.md"
+            summary_path.parent.mkdir(parents=True)
+            summary_path.write_text(make_analysis_markdown(), encoding="utf-8")
+
+            previous_cwd = Path.cwd()
+            try:
+                import os
+
+                os.chdir(base)
+                output_path = generate_content.generate_content(summary_path)
+            finally:
+                os.chdir(previous_cwd)
+
+            self.assertEqual(output_path, base / "content" / "weekly" / "2026" / "W21.md")
+            rendered = output_path.read_text(encoding="utf-8")
+            self.assertIn('title: "Week 21, 2026"', rendered)
+            self.assertIn('week: "2026-W21"', rendered)
+            self.assertIn("draft: false", rendered)
+            self.assertNotIn("quality_score", rendered)
+            self.assertIn("## Notable New Repositories", rendered)
+
+    def test_analyze_fallback_can_process_raw_data(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W21.json"
+            output_path = base / "data" / "analyzed" / "2026-W21-summary.md"
+            raw_path.parent.mkdir(parents=True)
+            output_path.parent.mkdir(parents=True)
+            raw_path.write_text(json.dumps(make_raw_payload()), encoding="utf-8")
+
+            response = _FakeHTTPResponse(
+                json.dumps({"choices": [{"message": {"content": make_analysis_markdown()}}]}).encode("utf-8")
+            )
+
+            with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
+                analyze_fallback.request, "urlopen", return_value=response
+            ):
+                exit_code = analyze_fallback.main(
+                    [
+                        "--raw-json",
+                        str(raw_path),
+                        "--output",
+                        str(output_path),
+                        "--current-datetime",
+                        FIXED_RUN_DATETIME,
+                        "--analyzed-dir",
+                        str(output_path.parent),
+                    ]
+                )
+
+            self.assertEqual(exit_code, 0)
+            written = output_path.read_text(encoding="utf-8")
+            self.assertIn("Week 21, 2026 Analysis", written)
+            self.assertIn("## Trend Analysis", written)
+
+    def test_analysis_gate_validates_analysis_output_correctly(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W21.json"
+            raw_path.parent.mkdir(parents=True)
+            raw_path.write_text(json.dumps(make_raw_payload()), encoding="utf-8")
+
+            valid_path = base / "data" / "analyzed" / "2026-W21-summary.md"
+            valid_path.parent.mkdir(parents=True)
+            valid_path.write_text(make_analysis_markdown(), encoding="utf-8")
+
+            self.assertEqual(
+                analysis_gate.main(
+                    [
+                        "--analysis-file",
+                        str(valid_path),
+                        "--raw-json",
+                        str(raw_path),
+                        "--current-datetime",
+                        FIXED_RUN_DATETIME,
+                        "--source",
+                        "integration-test",
+                    ]
+                ),
+                0,
+            )
+
+            invalid_path = base / "data" / "analyzed" / "invalid-summary.md"
+            invalid_path.write_text(make_analysis_markdown().replace("quality_score: 86", "quality_score: 40"), encoding="utf-8")
+
+            with self.assertRaises(SystemExit) as exc:
+                analysis_gate.main(
+                    [
+                        "--analysis-file",
+                        str(invalid_path),
+                        "--raw-json",
+                        str(raw_path),
+                        "--current-datetime",
+                        FIXED_RUN_DATETIME,
+                        "--source",
+                        "integration-test",
+                    ]
+                )
+
+            self.assertEqual(exc.exception.code, 1)
+
+
+if __name__ == "__main__":
+    unittest.main()
