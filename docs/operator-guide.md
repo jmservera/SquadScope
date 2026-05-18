@@ -296,7 +296,7 @@ Navigate to **Actions → Crawl and Publish** in your repo. Green checkmarks = s
 **Fix:**
 1. Run the workflow 4 more times to trigger a reskill (or wait for 4 more weeks)
 2. Check `.squad/run-counter.txt` to see how many runs have executed
-3. To manually test reskill logic, run: `gh workflow run squad-heartbeat.yml -R YOUR_USERNAME/SquadScope` (separate workflow)
+3. To manually test reskill logic, run: `python3 scripts/reskill.py --current-week YYYY-WNN --current-datetime 2026-05-18T16:00:00Z` (or wait for automatic 5th run trigger in `crawl-and-publish.yml`)
 
 ## The Reskill Cycle
 
@@ -370,7 +370,7 @@ MIN_WORD_COUNT = 200
 ### Check RSS feed generation
 
 ```bash
-curl https://YOUR_SITE/feed/
+curl https://YOUR_SITE/index.xml
 ```
 
 Should return valid XML with recent article entries.
