@@ -16,4 +16,5 @@
 
 - **2026-05-18T10:50:21Z:** PR #28 (Issue #9 analysis spec) review complete. All 4 Copilot findings addressed (bc823a3). Analyzer contract formalized: markdown + YAML frontmatter with `quality_score` field, three labeled sections (Signal, Noise, Gaps), machine-checkable structure. Quality gate criteria: score ≥ 60, all sections present, word count ≥ 200. Reuses crawler JSON input schema. Ready for merge. Phase 2 generator can now design Hugo templates against stable contract.
 - **2026-05-18T12:07:20.778+02:00:** The analyzer contract should be a superset of Amy's weekly page frontmatter plus Leela's `quality_score` gate, so one analyzed artifact can satisfy both editorial review and generator input.
+- **2026-05-18T12:07:20.778+02:00:** The analyzer contract should be a superset of Amy’s weekly page frontmatter plus Leela’s `quality_score` gate, so one analyzed artifact can satisfy both editorial review and generator input.
 - **2026-05-18T12:07:20.778+02:00:** Keep the reader-facing weekly summary in five stable H2 sections, but require labeled `Signal`, `Noise`, and `Gaps` subsections so the editorial lens remains explicit and machine-checkable.
