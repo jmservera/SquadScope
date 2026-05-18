@@ -100,7 +100,7 @@ jobs:
               "- If transient (rate limit, network), close with comment" \
               "- If real bug, assign to the right squad member")
             gh issue create \
-              --title "🔴 Deploy Hugo site failed — $(date +%Y-%m-%d)" \
+              --title "🔴 Deploy Hugo site failed (run ${{ github.run_id }})" \
               --label 'squad,deploy-failure' \
               --body "$BODY"
           fi
