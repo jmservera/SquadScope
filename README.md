@@ -40,12 +40,12 @@ JSON    Markdown   Hugo      Pages    Improvements
 
 **Stage 4: Deploy** (Hugo + GitHub Pages)
 - Builds static site from Hugo and publishes to GitHub Pages
-- Outputs: Live website + RSS feeds at `https://your-site/feed/`
+- Outputs: Live website + RSS feeds at `https://your-site/index.xml` and `https://your-site/feed/`
 
 **Stage 5: Reskill** (every 5th run)
-- Copilot reads squad history and decisions
-- Writes improvement recommendations to `.squad/reskill/YYYY-WNN.md`
-- Optional: Can trigger PR with proposed prompt refinements
+- Every 5th run, Copilot reviews squad history and recent analysis outputs
+- Writes observations and improvement recommendations to `.squad/reskill/YYYY-WNN.md`
+- Optional: Can trigger PR with proposed prompt refinements (not auto-merged)
 
 ## Theme and stack
 
@@ -62,7 +62,7 @@ JSON    Markdown   Hugo      Pages    Improvements
 ### For end users
 
 1. **Visit the site:** [SquadScope](https://your-repo/): Browse weekly, monthly, yearly summaries
-2. **Subscribe to RSS:** Add `https://your-site/feed/` to your reader
+2. **Subscribe to RSS:** Add `https://your-site/index.xml` or `https://your-site/feed/` to your reader
 3. **Check GitHub Releases:** New summaries also posted as releases
 
 ### For operators (see `docs/operator-guide.md` for full setup)
@@ -91,7 +91,7 @@ JSON    Markdown   Hugo      Pages    Improvements
 - `content/weekly/YYYY/WNN.md` — immutable weekly summaries (published once, never modified)
 - `content/monthly/YYYY/MM.md` — monthly rollups (append-only)
 - `content/yearly/YYYY.md` — yearly summaries (append-only)
-- `data/raw/YYYY-WNN.json` — crawler output (array of repo objects)
+- `data/raw/YYYY-WNN.json` — crawler output (JSON object with keys: `week`, `new_repos`, `trending_repos`, `signals`, `metadata`)
 - `data/analyzed/YYYY-WNN-summary.md` — AI analysis with quality score
 - `data/snapshots/YYYY-WNN-stars.json` — star count snapshots for trending analysis
 

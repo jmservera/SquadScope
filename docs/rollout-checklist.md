@@ -6,6 +6,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
 
 - [ ] **Repository created**
   - [ ] GitHub repository exists and is accessible
+  - [ ] Submodules initialized: `git submodule update --init --recursive`
   - [ ] Hugo version verified: `hugo version` (must be v0.146.0+)
 
 - [ ] **Copilot auth configured**
@@ -40,7 +41,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
 
 - [ ] **Quality gate passed**
   - [ ] Analysis quality_score ≥ 60 (check frontmatter)
-  - [ ] Gate did NOT block publish (no quality-gate-failure issue opened)
+  - [ ] Gate did NOT block publish (workflow continued to deploy step)
   - [ ] Content sections present and not empty
 
 - [ ] **Site deploys correctly**
@@ -49,7 +50,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
   - [ ] Verify: GitHub Pages shows "Deployment successful"
 
 - [ ] **RSS feed accessible**
-  - [ ] Visit: `https://PAGES_URL/feed/` (replace with your Pages domain)
+  - [ ] Visit: `https://PAGES_URL/index.xml` (replace with your Pages domain)
   - [ ] Verify: Valid XML returned (not 404 or error)
   - [ ] Verify: Latest week's summary appears in feed items
 
