@@ -1,68 +1,138 @@
 # SquadScope
 
-SquadScope is a Hugo-powered GitHub Pages site for weekly, monthly, and yearly tech trend summaries sourced from GitHub.
+SquadScope is an automated AI-powered GitHub Pages site that publishes weekly, monthly, and yearly summaries of tech trends sourced from GitHub. The system crawls trending and newly-created repositories, applies AI analysis to identify signal vs. noise, and publishes curated insights with zero manual intervention.
+
+## What is SquadScope?
+
+SquadScope solves the information overload problem in open-source development. Each week, millions of repositories are created or gain stars. SquadScope:
+
+1. **Crawls** GitHub API for new and trending repositories in a given week
+2. **Analyzes** the data with Copilot to identify what's genuinely important vs. hype
+3. **Generates** human-readable weekly summaries with signal, noise, and gaps analysis
+4. **Publishes** to GitHub Pages with RSS feeds for consumption
+5. **Reskills** every 5 runs to improve its own analysis quality
+
+Result: Curated tech trend insights delivered automatically every Monday.
+
+## Architecture
+
+SquadScope uses a **5-stage pipeline** executed entirely in GitHub Actions:
+
+```
+Crawl → Analyze → Generate → Deploy → Reskill
+  ↓        ↓          ↓         ↓        ↓
+JSON    Markdown   Hugo      Pages    Improvements
+```
+
+**Stage 1: Crawl** (`scripts/crawl.py`)
+- Queries GitHub API for repos created/trending in the current week
+- Applies heuristic filtering (language, topic, description quality)
+- Outputs: `data/raw/YYYY-WNN.json`, `data/snapshots/YYYY-WNN-stars.json`
+
+**Stage 2: Analyze** (Copilot CLI or fallback)
+- Reads raw JSON; applies AI analysis to classify repos as signal/noise/gaps
+- Outputs: `data/analyzed/YYYY-WNN-summary.md` with quality score and summary sections
+- Quality gate: Blocks publish if quality_score < 60 or missing required sections
+
+**Stage 3: Generate** (`scripts/generate_content.py`)
+- Converts analyzed Markdown into Hugo content structure
+- Outputs: `content/weekly/YYYY/WNN.md` ready for Hugo build
+
+**Stage 4: Deploy** (Hugo + GitHub Pages)
+- Builds static site from Hugo and publishes to GitHub Pages
+- Outputs: Live website + RSS feeds at `https://your-site/feed/`
+
+**Stage 5: Reskill** (every 5th run)
+- Copilot reads squad history and decisions
+- Writes improvement recommendations to `.squad/reskill/YYYY-WNN.md`
+- Optional: Can trigger PR with proposed prompt refinements
 
 ## Theme and stack
 
-- Static site generator: Hugo (extended)
-- Theme: [PaperMod](https://github.com/adityatelange/hugo-PaperMod)
-- Deployment: GitHub Pages via GitHub Actions
+- **Static site generator:** Hugo (extended, v0.146.0+)
+- **Theme:** [PaperMod](https://github.com/adityatelange/hugo-PaperMod)
+- **Search:** Pagefind (static, client-side)
+- **Notifications:** RSS feeds + GitHub Releases
+- **Automation:** GitHub Actions
+- **Deployment:** GitHub Pages
+- **Analysis engine:** Copilot CLI (with GitHub Models API fallback)
+
+## Quick start
+
+### For end users
+
+1. **Visit the site:** [SquadScope](https://your-repo/): Browse weekly, monthly, yearly summaries
+2. **Subscribe to RSS:** Add `https://your-site/feed/` to your reader
+3. **Check GitHub Releases:** New summaries also posted as releases
+
+### For operators (see `docs/operator-guide.md` for full setup)
+
+1. Fork this repository
+2. Configure `COPILOT_GH_TOKEN` secret in your repo (fine-grained PAT with Copilot Requests permission)
+3. Enable GitHub Pages (Actions source)
+4. Test manual run: `gh workflow run crawl-and-publish.yml`
+5. Monitor the first automated run
+
+⚠️ **First-time operators:** Start with `docs/rollout-checklist.md` to ensure all prerequisites are in place.
 
 ## Local development
 
-1. Install the Hugo extended binary (version 0.146.0 or newer).
-2. Clone the repository with submodules, or initialize them after cloning:
-   - `git clone --recurse-submodules https://github.com/jmservera/SquadScope.git`
-   - `git submodule update --init --recursive`
-3. Start the local development server:
-   - `hugo server`
-4. Create a production build:
-   - `hugo --minify`
+1. **Install Hugo:** `brew install hugo` (macOS) or download from [hugo releases](https://github.com/gohugoio/hugo/releases) (v0.146.0 or newer)
+2. **Clone with submodules:**
+   ```bash
+   git clone --recurse-submodules https://github.com/jmservera/SquadScope.git
+   git submodule update --init --recursive
+   ```
+3. **Start dev server:** `hugo server` (default: http://localhost:1313)
+4. **Create production build:** `hugo --minify` (output: `public/`)
 
 ## Content structure
 
-- `content/weekly/` — weekly summaries
-- `content/monthly/` — monthly rollups
-- `content/yearly/` — yearly summaries
-- `data/raw/` — crawler output
-- `data/analyzed/` — analysis output
-- `data/snapshots/` — star count snapshots
-
-## Crawler notes
-
-- `signals.top_topics` de-duplicates repositories by `full_name` across the new and trending buckets before counting topics, so a repo found by both searches only contributes once.
-- `data/snapshots/YYYY-WNN-stars.json` intentionally stores the broader pre-filter search candidate universe to preserve week-over-week `stars_gained` comparisons even when a repo is later filtered out of the published payload.
-- Live runs use open-ended `created:>` / `pushed:>` GitHub search filters; `--as-of` runs switch to bounded date ranges so historical backfills stay deterministic.
+- `content/weekly/YYYY/WNN.md` — immutable weekly summaries (published once, never modified)
+- `content/monthly/YYYY/MM.md` — monthly rollups (append-only)
+- `content/yearly/YYYY.md` — yearly summaries (append-only)
+- `data/raw/YYYY-WNN.json` — crawler output (array of repo objects)
+- `data/analyzed/YYYY-WNN-summary.md` — AI analysis with quality score
+- `data/snapshots/YYYY-WNN-stars.json` — star count snapshots for trending analysis
 
 ## Automated weekly pipeline
 
-`.github/workflows/crawl-and-publish.yml` runs the full weekly automation chain:
+`.github/workflows/crawl-and-publish.yml` runs the full weekly automation every Monday at 08:00 UTC:
 
-1. `crawl` writes `data/raw/YYYY-WNN.json` and `data/snapshots/YYYY-WNN-stars.json`.
-2. `analyze` turns the raw payload into `data/analyzed/YYYY-WNN-summary.md`.
-3. `generate` converts the analysis into `content/weekly/YYYY/WNN.md`.
-4. `deploy` builds `public/` with Hugo and publishes the site to GitHub Pages.
+1. **Crawl:** GitHub API → `data/raw/YYYY-WNN.json`
+2. **Analyze:** Copilot → `data/analyzed/YYYY-WNN-summary.md`
+3. **Quality gate:** Validates quality_score ≥ 60; blocks publish if failed
+4. **Generate:** Markdown → `content/weekly/YYYY/WNN.md`
+5. **Deploy:** Hugo build → GitHub Pages
+6. **Reskill:** Every 5th run, review and improve squad state
 
 ### Schedule and manual runs
 
-- Scheduled cron: `0 8 * * 1` (`Monday 08:00 UTC`)
-- Manual workflow trigger: GitHub Actions UI or `gh workflow run crawl-and-publish.yml`
+- **Automated schedule:** Monday 08:00 UTC (`0 8 * * 1`)
+- **Manual trigger:** `gh workflow run crawl-and-publish.yml` or GitHub Actions UI
 
 ### Required secrets
 
-- `COPILOT_GH_TOKEN` for the primary Copilot CLI analysis path
-- `GITHUB_TOKEN` for crawling, fallback analysis, commits, and Pages deployment
+- `COPILOT_GH_TOKEN` — Fine-grained PAT with **Account → Copilot Requests** permission (primary analysis)
+- `GITHUB_TOKEN` — Built-in; used for crawling, fallback analysis, commits, Pages deployment
 
-### Local/manual stage commands
+## Crawler notes
 
-- Crawl: `python3 scripts/crawl.py --as-of YYYY-MM-DD`
-- Analyze fallback: `python3 scripts/analyze_fallback.py --raw-json data/raw/YYYY-WNN.json --output data/analyzed/YYYY-WNN-summary.md --current-datetime YYYY-MM-DDTHH:MM:SSZ`
-- Gate: `python3 scripts/analysis_gate.py --analysis-file data/analyzed/YYYY-WNN-summary.md --raw-json data/raw/YYYY-WNN.json --current-datetime YYYY-MM-DDTHH:MM:SSZ`
-- Generate: `python3 scripts/generate_content.py data/analyzed/YYYY-WNN-summary.md`
-- Build: `hugo --minify`
+- `signals.top_topics` de-duplicates repositories by `full_name` across new and trending buckets
+- `data/snapshots/YYYY-WNN-stars.json` preserves the broader pre-filter candidate set for consistent week-over-week `stars_gained` comparisons
+- Live runs use open-ended `created:>` / `pushed:>` GitHub search filters
+- `--as-of` mode switches to bounded date ranges for deterministic historical backfills
 
 ## Deployment
 
-Direct pushes to `main` still trigger `.github/workflows/deploy-site.yml` for standard site deploys. The weekly automation deploys Pages from `crawl-and-publish.yml` and `deploy-site.yml` skips bot-authored pushes from that workflow to avoid duplicate Pages runs.
+- **Standard deploys:** Direct pushes to `main` trigger `.github/workflows/deploy-site.yml`
+- **Weekly automation:** `crawl-and-publish.yml` handles full pipeline and deploys Pages
+- **Deduplication:** Deploy workflow skips bot-authored pushes to avoid duplicate Pages runs
 
-See `docs/pipeline-validation.md` for the stage checklist, artifact handoffs, success criteria, and known limitations.
+## Documentation
+
+- **`docs/operator-guide.md`** — Complete setup, configuration, and troubleshooting guide for new operators
+- **`docs/rollout-checklist.md`** — Step-by-step verification checklist for first-time deployments
+- **`docs/pipeline-validation.md`** — Stage checklist, artifact handoffs, success criteria, and known limitations
+- **`docs/analysis-spec.md`** — Detailed specification for analysis output format and quality gate criteria
+- **`.squad/decisions.md`** — Architectural decisions and decision history
