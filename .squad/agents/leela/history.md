@@ -72,6 +72,22 @@
 - **Team notification:** All agents notified that Phase 0 is complete and architecture is published.
 - **Next phase:** Phase 1 (crawlers and generators) can proceed independently. Phase 2 (analyzer) is unblocked.
 
+### 2026-05-18T13:20:07.067+02:00 — Topic Channels PRD
+
+- **Deliverable:** `docs/PRD-topic-channels.md` — feature PRD for topic-specific news channels
+- **PR:** #39 (squad/topic-channels-prd → main)
+- **Key decisions:**
+  - Feature first, not separate platform — extends existing pipeline with topic namespace
+  - v1 = single configurable topic per instance (fork per topic); v2 = multi-topic deferred
+  - Per-topic learning isolation (wisdom, skills, predictions, scorecards)
+  - New scoring pipeline between crawl and analyze (relevance score 0-100)
+  - Prediction ledger (`predictions.jsonl`) with hindsight validation at week N+4
+  - `squadscope.topic.yml` as the single config file controlling all topic behavior
+  - Two example configs shipped: ai-ml and rust
+- **Rubber-duck findings addressed:** All 7 findings incorporated (namespacing, multi-instance, learning isolation, scoring pipeline, prediction ledger, channel structure, quality criteria)
+- **Learning audit gaps addressed:** G7 (prompt feedback), G8 (hindsight validation), G9 (prediction registry), G13 (enrichment signals as OQ5)
+- **Implementation plan:** 15 issues with dependency graph, ~7-9 sessions estimated
+
 ### 2026-05-18T10:59:10.800+02:00 — Phase 1 PR Review Gate
 
 - **PR #26 outcome:** Acceptable and merged after validation. The hardened crawler delivered the expected Phase 1 improvements: caching, star snapshots, stronger low-signal filtering, bounded retry/rate-limit behavior, partial-failure metadata, and regression tests for the new query and payload behavior.
