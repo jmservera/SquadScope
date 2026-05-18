@@ -6,3 +6,9 @@
 .squad/.scratch/
 # Squad: SubSquad activation file (local to this machine)
 .squad-workstream
+
+# Local Hugo tooling and build output
+.tools/
+public/
+resources/_gen/
+.hugo_build.lock

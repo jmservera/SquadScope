@@ -1,0 +1,89 @@
+baseURL = 'https://jmservera.github.io/SquadScope/'
+locale = 'en-us'
+title = 'SquadScope — Weekly Tech Trends from GitHub'
+theme = 'PaperMod'
+enableRobotsTXT = true
+rssLimit = 20
+
+[pagination]
+  pagerSize = 10
+
+[taxonomies]
+  tag = 'tags'
+  category = 'categories'
+
+[outputs]
+  home = ['HTML', 'RSS', 'JSON']
+  section = ['HTML', 'RSS']
+  taxonomy = ['HTML', 'RSS']
+  term = ['HTML', 'RSS']
+
+[params]
+  defaultTheme = 'auto'
+  disableSpecial1stPost = true
+  ShowReadingTime = true
+  ShowPostNavLinks = true
+  ShowCodeCopyButtons = true
+  ShowRssButtonInSectionTermList = true
+  ShowAllPagesInArchive = true
+  mainSections = ['weekly', 'monthly', 'yearly']
+
+  [params.homeInfoParams]
+    Title = 'Weekly tech signal from GitHub'
+    Content = 'SquadScope turns GitHub activity into readable weekly, monthly, and yearly trend reports for busy developers and tech leads.'
+
+  [params.fuseOpts]
+    isCaseSensitive = false
+    shouldSort = true
+    location = 0
+    distance = 1000
+    threshold = 0.35
+    minMatchCharLength = 2
+    limit = 10
+    keys = ['title', 'permalink', 'summary', 'content', 'tags', 'categories']
+
+[menu]
+  [[menu.main]]
+    identifier = 'weekly'
+    name = 'Weekly'
+    url = '/weekly/'
+    weight = 10
+
+  [[menu.main]]
+    identifier = 'monthly'
+    name = 'Monthly'
+    url = '/monthly/'
+    weight = 20
+
+  [[menu.main]]
+    identifier = 'yearly'
+    name = 'Yearly'
+    url = '/yearly/'
+    weight = 30
+
+  [[menu.main]]
+    identifier = 'archive'
+    name = 'Archive'
+    url = '/archive/'
+    weight = 40
+
+  [[menu.main]]
+    identifier = 'search'
+    name = 'Search'
+    url = '/search/'
+    weight = 50
+
+  [[menu.main]]
+    identifier = 'rss'
+    name = 'RSS'
+    url = '/index.xml'
+    weight = 60
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+    ordered = false

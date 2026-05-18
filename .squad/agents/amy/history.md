@@ -14,4 +14,6 @@
 
 ## Learnings
 
-_No learnings recorded yet._
+- **2026-05-18T10:27:35.339+02:00:** Hugo now scaffolds from the repo root with the primary site config in `hugo.toml` and the PaperMod theme installed as a git submodule at `themes/PaperMod`.
+- **2026-05-18T10:27:35.339+02:00:** The MVP content structure lives under `content/weekly/`, `content/monthly/`, and `content/yearly/`, with archive/search entry pages at `content/archive.md` and `content/search.md`.
+- **2026-05-18T10:27:35.339+02:00:** GitHub Pages deployment for the Hugo site is wired through `.github/workflows/deploy-site.yml`, and local builds should use `hugo --minify` after initializing submodules.
