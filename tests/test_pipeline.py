@@ -215,6 +215,28 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("content/monthly/", upload_step["with"]["path"])
         self.assertIn("content/yearly/", upload_step["with"]["path"])
 
+    def test_notify_workflow_posts_optional_webhook(self) -> None:
+        workflow_path = Path(".github/workflows/crawl-and-publish.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+
+        notify_job = workflow["jobs"]["notify"]
+        self.assertEqual(notify_job["needs"], ["analyze", "generate", "deploy"])
+
+        webhook_step = next((s for s in notify_job["steps"] if s.get("name") == "Post to webhook"), None)
+        self.assertIsNotNone(webhook_step)
+        self.assertEqual(webhook_step["if"], "vars.WEBHOOK_URL != ''")
+        self.assertEqual(webhook_step["env"]["WEBHOOK_URL"], "${{ vars.WEBHOOK_URL }}")
+
+        release_step = next((s for s in notify_job["steps"] if s.get("name") == "Create GitHub Release"), None)
+        self.assertIsNotNone(release_step)
+        self.assertEqual(release_step["env"]["SUMMARY_FILE"], "${{ needs.analyze.outputs.summary_file }}")
+
+        webhook_run = webhook_step["run"]
+        self.assertIn("curl -s -X POST \"$WEBHOOK_URL\"", webhook_run)
+        self.assertIn("https://jmservera.github.io/SquadScope/weekly/", webhook_run)
+        self.assertIn('\\"content\\": \\"📊 **SquadScope Week $WEEK**', webhook_run)
+        self.assertIn("Webhook post failed (non-critical)", webhook_run)
+
 
 class PipelineIntegrationTests(unittest.TestCase):
     def test_crawl_script_produces_valid_json_output_schema(self) -> None:

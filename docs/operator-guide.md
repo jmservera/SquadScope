@@ -76,14 +76,32 @@ Verify the secret exists:
 gh secret list -R YOUR_USERNAME/SquadScope
 ```
 
-### Step 4: Enable GitHub Pages
+### Step 4: Configure optional webhook notifications
+
+To notify a team channel whenever a weekly summary is published, add a repository variable named `WEBHOOK_URL` (a variable, not a secret, because notification-only webhook URLs are treated as configuration in this project):
+
+```bash
+gh variable set WEBHOOK_URL --body "https://example.com/webhook" -R YOUR_USERNAME/SquadScope
+```
+
+You can also add it in the GitHub UI under **Settings → Secrets and variables → Actions → Variables**.
+
+Supported endpoints:
+
+- **Discord:** Create a webhook in the target channel's **Edit Channel → Integrations → Webhooks** settings, then paste that webhook URL into `WEBHOOK_URL`.
+- **Slack:** Create an **Incoming Webhook** app for the target channel, then paste that webhook URL into `WEBHOOK_URL`.
+- **Custom endpoint:** Any endpoint that accepts an HTTP `POST` with a JSON body containing `content` and `username` fields.
+
+If `WEBHOOK_URL` is unset, the workflow skips the webhook step automatically.
+
+### Step 5: Enable GitHub Pages
 
 1. Navigate to repo **Settings → Pages**
 2. Set **Source** to "GitHub Actions"
 3. (Optional) Configure custom domain if desired
 4. Save
 
-### Step 5: Test local build
+### Step 6: Test local build
 
 Ensure the Hugo build works locally:
 
@@ -444,7 +462,7 @@ Once SquadScope is running smoothly:
 1. **Monitor quality:** Review weekly analyses for patterns and trends
 2. **Iterate prompts:** Based on reskill recommendations, refine analysis quality
 3. **Extend sources:** Add additional data sources (HackerNews, Reddit, etc.) via MCP tools
-4. **Add notifications:** Configure GitHub Releases or webhook integrations
+4. **Add notifications:** Configure GitHub Releases, Discord/Slack webhooks, or custom webhook integrations
 5. **Topic channels:** Explore multi-topic feature (see `docs/PRD-topic-channels.md`)
 
 SquadScope is designed to improve itself. Trust the system, monitor the trends, and enjoy curated tech news delivered every week.
