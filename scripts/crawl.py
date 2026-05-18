@@ -4,12 +4,16 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import random
+import re
+import socket
 import sys
 import time
 from collections import Counter
+from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any, Iterable
@@ -17,43 +21,69 @@ from urllib import error, parse, request
 
 API_ROOT = "https://api.github.com"
 SEARCH_REPOSITORIES = f"{API_ROOT}/search/repositories"
-README_KEYWORDS = {
-    "homework",
-    "assignment",
-    "tutorial",
-    "course",
-    "bootcamp",
-    "workshop",
-    "exercise",
-    "lab",
-    "lesson",
-    "leetcode",
-    "kata",
-    "template",
-    "starter",
-    "example",
-    "cheatsheet",
-    "guide",
-    "demo",
-    "sample",
-}
-EXCLUDED_TOPICS = {
-    "tutorial",
-    "tutorials",
-    "homework",
+CACHE_ROOT = Path("data/cache")
+RAW_ROOT = Path("data/raw")
+SNAPSHOT_ROOT = Path("data/snapshots")
+RETRYABLE_STATUSES = {403, 429, 500, 502, 503, 504}
+LOW_SIGNAL_TOPICS = {
     "assignment",
     "assignments",
+    "bootcamp",
     "course",
     "courses",
-    "bootcamp",
-    "workshop",
-    "workshops",
     "example",
     "examples",
-    "template",
-    "templates",
+    "exercise",
+    "homework",
+    "lab",
+    "learning",
+    "practice",
     "starter",
     "starter-template",
+    "template",
+    "templates",
+    "tutorial",
+    "tutorials",
+    "workshop",
+    "workshops",
+}
+LOW_SIGNAL_TOKENS = {
+    "assignment",
+    "assignments",
+    "bootcamp",
+    "cheatsheet",
+    "course",
+    "courses",
+    "demo",
+    "example",
+    "examples",
+    "exercise",
+    "exercises",
+    "homework",
+    "kata",
+    "lab",
+    "labs",
+    "leetcode",
+    "lesson",
+    "lessons",
+    "practice",
+    "sample",
+    "starter",
+    "template",
+    "tutorial",
+    "tutorials",
+    "walkthrough",
+    "workshop",
+}
+LOW_SIGNAL_PHRASES = {
+    "course project",
+    "for beginners",
+    "getting started tutorial",
+    "my solution",
+    "starter template",
+    "step by step",
+    "step-by-step",
+    "study notes",
 }
 DEFAULT_HEADERS = {
     "Accept": "application/vnd.github+json, application/vnd.github.mercy-preview+json",
@@ -62,46 +92,157 @@ DEFAULT_HEADERS = {
 }
 
 
+def log(message: str) -> None:
+    print(f"[crawl {iso_timestamp(utc_now())}] {message}", file=sys.stderr)
+
+
+@dataclass(slots=True)
+class CacheEntry:
+    status: int
+    payload: Any
+    headers: dict[str, str]
+    fetched_at: datetime
+    stale: bool = False
+
+
+class ResponseCache:
+    def __init__(self, root: Path) -> None:
+        self.root = root
+        self.root.mkdir(parents=True, exist_ok=True)
+
+    def load(self, key: str, ttl_seconds: int) -> CacheEntry | None:
+        path = self._path_for(key)
+        if not path.exists():
+            return None
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            fetched_at = datetime.fromisoformat(payload["fetched_at"].replace("Z", "+00:00"))
+            headers = payload.get("headers") or {}
+            age = (utc_now() - fetched_at).total_seconds()
+            return CacheEntry(
+                status=int(payload["status"]),
+                payload=payload.get("payload"),
+                headers={str(name): str(value) for name, value in headers.items()},
+                fetched_at=fetched_at,
+                stale=age > ttl_seconds,
+            )
+        except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
+            return None
+
+    def store(self, key: str, *, status: int, payload: Any, headers: dict[str, str]) -> None:
+        path = self._path_for(key)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        cache_payload = {
+            "status": status,
+            "fetched_at": iso_timestamp(utc_now()),
+            "headers": headers,
+            "payload": payload,
+        }
+        path.write_text(json.dumps(cache_payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    def _path_for(self, key: str) -> Path:
+        parsed = parse.urlparse(key)
+        label = parsed.path.strip("/").replace("/", "-") or "root"
+        digest = hashlib.sha256(key.encode("utf-8")).hexdigest()
+        return self.root / f"{label}-{digest}.json"
+
+
 class GitHubClient:
-    def __init__(self, token: str, *, timeout: int = 30, max_retries: int = 6) -> None:
+    def __init__(self, token: str, *, cache_dir: Path = CACHE_ROOT, timeout: int = 30, max_retries: int = 6) -> None:
         self.token = token
         self.timeout = timeout
         self.max_retries = max_retries
         self.api_calls_used = 0
+        self.cache_hits = 0
+        self.stale_cache_hits = 0
+        self.rate_limit_limit: int | None = None
         self.rate_limit_remaining: int | None = None
         self.rate_limit_reset: int | None = None
+        self.rate_limit_resource: str | None = None
+        self._last_request_at = 0.0
         self._readme_cache: dict[str, bool] = {}
+        self._cache = ResponseCache(cache_dir)
+        self.errors: list[str] = []
 
     def _headers(self) -> dict[str, str]:
         headers = dict(DEFAULT_HEADERS)
         headers["Authorization"] = f"Bearer {self.token}"
         return headers
 
-    def get_json(self, url: str, params: dict[str, Any] | None = None) -> Any:
+    def get_json(
+        self,
+        url: str,
+        params: dict[str, Any] | None = None,
+        *,
+        acceptable_statuses: set[int] | None = None,
+        ttl_seconds: int | None = None,
+        allow_stale: bool = True,
+        max_retries: int | None = None,
+        max_delay_seconds: float = 300.0,
+    ) -> CacheEntry:
         query = f"{url}?{parse.urlencode(params)}" if params else url
+        accepted = acceptable_statuses or set()
+        retry_limit = self.max_retries if max_retries is None else max_retries
+        ttl = ttl_seconds if ttl_seconds is not None else self._cache_ttl(url)
+        cached = self._cache.load(query, ttl)
+        if cached and not cached.stale and (cached.status == 200 or cached.status in accepted):
+            self.cache_hits += 1
+            return cached
+
+        stale_fallback = None
+        if cached and allow_stale and (cached.status == 200 or cached.status in accepted):
+            stale_fallback = CacheEntry(
+                status=cached.status,
+                payload=cached.payload,
+                headers=cached.headers,
+                fetched_at=cached.fetched_at,
+                stale=True,
+            )
+
         attempt = 0
         while True:
+            self._pause_for_rate_limit(query)
+            self._respect_min_interval(url)
             req = request.Request(query, headers=self._headers())
             try:
                 with request.urlopen(req, timeout=self.timeout) as response:
                     self.api_calls_used += 1
-                    self._update_rate_limit(response.headers)
-                    payload = response.read().decode("utf-8")
-                    return json.loads(payload)
+                    headers = {name: value for name, value in response.headers.items()}
+                    self._update_rate_limit(headers)
+                    payload = json.loads(response.read().decode("utf-8", errors="replace"))
+                    self._last_request_at = time.monotonic()
+                    self._cache.store(query, status=response.status, payload=payload, headers=self._cache_headers(headers))
+                    self._log_rate_limit(query)
+                    return CacheEntry(response.status, payload, headers, utc_now())
             except error.HTTPError as exc:
                 self.api_calls_used += 1
-                self._update_rate_limit(exc.headers)
+                headers = {name: value for name, value in (exc.headers.items() if exc.headers else [])}
+                self._update_rate_limit(headers)
                 body = exc.read().decode("utf-8", errors="replace")
-                if attempt >= self.max_retries or not self._should_retry(exc.code, body):
+                self._last_request_at = time.monotonic()
+                payload = decode_json_body(body)
+                if exc.code in accepted:
+                    self._cache.store(query, status=exc.code, payload=payload, headers=self._cache_headers(headers))
+                    self._log_rate_limit(query)
+                    return CacheEntry(exc.code, payload, headers, utc_now())
+                if attempt >= retry_limit or not self._should_retry(exc.code, body):
+                    if stale_fallback is not None:
+                        self.stale_cache_hits += 1
+                        log(f"Using stale cache for {query} after HTTP {exc.code}.")
+                        return stale_fallback
                     raise RuntimeError(
                         f"GitHub API request failed with status {exc.code}: {body.strip() or exc.reason}"
                     ) from exc
-                self._sleep_before_retry(attempt, exc.headers, body)
+                self._sleep_before_retry(attempt, headers, body, query, retry_limit, max_delay_seconds)
                 attempt += 1
-            except error.URLError as exc:
-                if attempt >= self.max_retries:
+            except (error.URLError, TimeoutError, socket.timeout, json.JSONDecodeError) as exc:
+                if attempt >= retry_limit:
+                    if stale_fallback is not None:
+                        self.stale_cache_hits += 1
+                        log(f"Using stale cache for {query} after network error: {exc}")
+                        return stale_fallback
                     raise RuntimeError(f"GitHub API request failed: {exc}") from exc
-                self._sleep_before_retry(attempt, None, str(exc))
+                self._sleep_before_retry(attempt, None, str(exc), query, retry_limit, max_delay_seconds)
                 attempt += 1
 
     def search_repositories(self, query: str, *, max_results: int = 1000) -> list[dict[str, Any]]:
@@ -109,21 +250,31 @@ class GitHubClient:
         per_page = 100
         max_pages = min((max_results + per_page - 1) // per_page, 10)
         for page in range(1, max_pages + 1):
-            payload = self.get_json(
-                SEARCH_REPOSITORIES,
-                params={
-                    "q": query,
-                    "sort": "stars",
-                    "order": "desc",
-                    "per_page": per_page,
-                    "page": page,
-                },
-            )
-            items = payload.get("items", [])
-            if not items:
+            try:
+                response = self.get_json(
+                    SEARCH_REPOSITORIES,
+                    params={
+                        "q": query,
+                        "sort": "stars",
+                        "order": "desc",
+                        "per_page": per_page,
+                        "page": page,
+                    },
+                    ttl_seconds=6 * 60 * 60,
+                )
+            except RuntimeError as exc:
+                self.record_error(f"Search failed for '{query}' page {page}: {exc}")
                 break
-            results.extend(items)
-            if len(items) < per_page or len(results) >= min(payload.get("total_count", 0), max_results, 1000):
+            payload = response.payload if isinstance(response.payload, dict) else {}
+            items = payload.get("items")
+            if not isinstance(items, list):
+                self.record_error(f"Malformed search payload for '{query}' page {page}: missing items list")
+                break
+            if payload.get("incomplete_results"):
+                self.record_error(f"GitHub marked search results incomplete for '{query}' page {page}")
+            results.extend(item for item in items if isinstance(item, dict))
+            total_count = payload.get("total_count")
+            if len(items) < per_page or len(results) >= min(int(total_count or 0), max_results, 1000):
                 break
         return results[:max_results]
 
@@ -132,41 +283,114 @@ class GitHubClient:
             return self._readme_cache[full_name]
         url = f"{API_ROOT}/repos/{full_name}/readme"
         try:
-            self.get_json(url)
-            self._readme_cache[full_name] = True
+            response = self.get_json(
+                url,
+                acceptable_statuses={404},
+                ttl_seconds=24 * 60 * 60,
+                max_retries=2,
+                max_delay_seconds=60.0,
+            )
         except RuntimeError as exc:
             message = str(exc)
-            if "status 404" in message or "SAML enforcement" in message:
+            if "SAML enforcement" in message:
                 self._readme_cache[full_name] = False
-            else:
-                raise
-        return self._readme_cache[full_name]
+                return False
+            raise
+        has_readme = response.status != 404
+        self._readme_cache[full_name] = has_readme
+        return has_readme
+
+    def record_error(self, message: str) -> None:
+        self.errors.append(message)
+        log(message)
+
+    def _cache_ttl(self, url: str) -> int:
+        if "/search/" in url:
+            return 6 * 60 * 60
+        if url.endswith("/readme"):
+            return 24 * 60 * 60
+        return 12 * 60 * 60
 
     def _should_retry(self, status: int, body: str) -> bool:
         lowered = body.lower()
-        return status in {403, 429, 500, 502, 503, 504} or "secondary rate limit" in lowered
+        return status in RETRYABLE_STATUSES or "secondary rate limit" in lowered
 
-    def _sleep_before_retry(self, attempt: int, headers: Any, body: str) -> None:
-        reset_at = None
-        if headers is not None:
-            remaining = headers.get("X-RateLimit-Remaining")
-            reset = headers.get("X-RateLimit-Reset")
-            if remaining == "0" and reset:
-                try:
-                    reset_at = max(int(reset) - int(time.time()), 1)
-                except ValueError:
-                    reset_at = None
-        if reset_at is not None:
-            delay = reset_at + random.uniform(0.0, 1.0)
-        else:
-            delay = min(2**attempt, 60) + random.uniform(0.0, 1.0)
-            if "secondary rate limit" in body.lower():
-                delay = max(delay, 5.0 + random.uniform(0.0, 3.0))
+    def _sleep_before_retry(
+        self,
+        attempt: int,
+        headers: dict[str, str] | None,
+        body: str,
+        query: str,
+        retry_limit: int,
+        max_delay_seconds: float,
+    ) -> None:
+        reset_delay = self._reset_delay(headers)
+        retry_after = None
+        if headers and headers.get("Retry-After"):
+            try:
+                retry_after = max(float(headers["Retry-After"]), 1.0)
+            except ValueError:
+                retry_after = None
+        base_delay = min(2**attempt, 60)
+        jitter = random.uniform(0.3, 1.7)
+        delay = retry_after or reset_delay or (base_delay + jitter)
+        if "secondary rate limit" in body.lower():
+            delay = max(delay, 8.0 + random.uniform(0.0, 5.0))
+        delay = min(delay, max_delay_seconds)
+        log(f"Retrying {query} in {delay:.1f}s (attempt {attempt + 1}/{retry_limit}).")
         time.sleep(delay)
 
-    def _update_rate_limit(self, headers: Any) -> None:
+    def _respect_min_interval(self, url: str) -> None:
+        minimum_interval = 0.35 if url.endswith("/readme") else 0.0
+        if minimum_interval <= 0:
+            return
+        elapsed = time.monotonic() - self._last_request_at
+        if elapsed < minimum_interval:
+            time.sleep(minimum_interval - elapsed)
+
+    def _pause_for_rate_limit(self, query: str) -> None:
+        if self.rate_limit_remaining is None or self.rate_limit_limit is None:
+            return
+        low_threshold = max(5, min(25, int(self.rate_limit_limit * 0.1)))
+        critical_threshold = max(3, min(10, int(self.rate_limit_limit * 0.03)))
+        if self.rate_limit_remaining > low_threshold:
+            return
+        reset_delay = self._reset_delay({"X-RateLimit-Reset": str(self.rate_limit_reset)} if self.rate_limit_reset else None)
+        if reset_delay is None:
+            return
+        if self.rate_limit_remaining <= critical_threshold:
+            delay = min(reset_delay + random.uniform(0.3, 1.5), 300.0)
+            log(f"Rate limit nearly exhausted before {query}; pausing {delay:.1f}s until reset window.")
+            time.sleep(delay)
+            return
+        delay = min(max(reset_delay / 10, 1.0), 30.0)
+        log(
+            f"Rate limit low ({self.rate_limit_remaining}/{self.rate_limit_limit} {self.rate_limit_resource or 'requests'}); "
+            f"cooling down {delay:.1f}s before {query}."
+        )
+        time.sleep(delay)
+
+    def _reset_delay(self, headers: dict[str, str] | None) -> float | None:
+        if not headers:
+            return None
+        reset = headers.get("X-RateLimit-Reset")
+        if not reset:
+            return None
+        try:
+            return max(int(reset) - int(time.time()), 1)
+        except ValueError:
+            return None
+
+    def _update_rate_limit(self, headers: dict[str, str] | None) -> None:
+        limit = headers.get("X-RateLimit-Limit") if headers else None
         remaining = headers.get("X-RateLimit-Remaining") if headers else None
         reset = headers.get("X-RateLimit-Reset") if headers else None
+        resource = headers.get("X-RateLimit-Resource") if headers else None
+        if limit is not None:
+            try:
+                self.rate_limit_limit = int(limit)
+            except ValueError:
+                self.rate_limit_limit = None
         if remaining is not None:
             try:
                 self.rate_limit_remaining = int(remaining)
@@ -177,6 +401,23 @@ class GitHubClient:
                 self.rate_limit_reset = int(reset)
             except ValueError:
                 self.rate_limit_reset = None
+        if resource is not None:
+            self.rate_limit_resource = resource
+
+    def _log_rate_limit(self, query: str) -> None:
+        if self.rate_limit_remaining is None:
+            return
+        reset_text = rate_limit_reset_text(self.rate_limit_reset)
+        limit_text = self.rate_limit_limit if self.rate_limit_limit is not None else "?"
+        resource_text = self.rate_limit_resource or "unknown"
+        log(
+            f"Rate limit after {query}: remaining={self.rate_limit_remaining}/{limit_text} "
+            f"({resource_text}), resets={reset_text}."
+        )
+
+    def _cache_headers(self, headers: dict[str, str]) -> dict[str, str]:
+        names = {"Date", "Retry-After", "X-RateLimit-Limit", "X-RateLimit-Remaining", "X-RateLimit-Reset"}
+        return {name: value for name, value in headers.items() if name in names}
 
 
 def parse_args() -> argparse.Namespace:
@@ -207,7 +448,7 @@ def utc_now() -> datetime:
 
 
 def iso_timestamp(value: datetime) -> str:
-    return value.isoformat().replace("+00:00", "Z")
+    return value.astimezone(UTC).isoformat().replace("+00:00", "Z")
 
 
 def week_slug(value: datetime) -> str:
@@ -215,40 +456,81 @@ def week_slug(value: datetime) -> str:
     return f"{year}-W{week:02d}"
 
 
-def previous_snapshot(data_dir: Path, current_week: str) -> dict[str, int]:
-    snapshots = sorted(data_dir.glob("*.json"), reverse=True)
-    for snapshot in snapshots:
-        try:
-            payload = json.loads(snapshot.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            continue
-        if payload.get("week") == current_week:
-            continue
-        mapping: dict[str, int] = {}
-        for section in ("new_repos", "trending_repos"):
-            for repo in payload.get(section, []):
-                full_name = repo.get("full_name") or ""
-                stars = repo.get("stars")
-                if full_name and isinstance(stars, int):
-                    mapping[full_name] = stars
-        if mapping:
-            return mapping
+def rate_limit_reset_text(reset_timestamp: int | None) -> str | None:
+    if reset_timestamp is None:
+        return None
+    return iso_timestamp(datetime.fromtimestamp(reset_timestamp, tz=UTC))
+
+
+def decode_json_body(body: str) -> Any:
+    try:
+        return json.loads(body)
+    except json.JSONDecodeError:
+        return {"message": body.strip()}
+
+
+def load_previous_star_snapshot(snapshot_dir: Path, raw_dir: Path, current_week: str) -> dict[str, int]:
+    for snapshot in sorted(snapshot_dir.glob("*-stars.json"), reverse=True):
+        stars = load_star_mapping(snapshot, current_week)
+        if stars:
+            return stars
+    for snapshot in sorted(raw_dir.glob("*.json"), reverse=True):
+        stars = load_star_mapping(snapshot, current_week)
+        if stars:
+            return stars
     return {}
 
 
-def looks_insignificant(repo: dict[str, Any]) -> bool:
+def load_star_mapping(path: Path, current_week: str) -> dict[str, int]:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    if payload.get("week") == current_week:
+        return {}
+    stars = payload.get("stars")
+    if isinstance(stars, dict):
+        mapping = {name: int(value) for name, value in stars.items() if isinstance(value, int)}
+        if mapping:
+            return mapping
+    mapping: dict[str, int] = {}
+    for section in ("new_repos", "trending_repos"):
+        for repo in payload.get(section, []):
+            full_name = repo.get("full_name") or ""
+            stars_value = repo.get("stars")
+            if full_name and isinstance(stars_value, int):
+                mapping[full_name] = stars_value
+    return mapping
+
+
+def tokenize(text: str) -> set[str]:
+    return set(re.findall(r"[a-z0-9]+", text.lower()))
+
+
+def significance_skip_reason(repo: dict[str, Any]) -> str | None:
     if repo.get("fork"):
-        return True
+        return "fork"
+    if repo.get("is_template"):
+        return "template_repo"
     description = (repo.get("description") or "").strip()
     if not description:
-        return True
-    lowered_description = description.lower()
-    lowered_name = str(repo.get("name") or "").lower()
-    topics = {topic.lower() for topic in repo.get("topics") or []}
-    combined = " ".join([lowered_name, lowered_description, " ".join(sorted(topics))])
-    if topics & EXCLUDED_TOPICS:
-        return True
-    return any(keyword in combined for keyword in README_KEYWORDS)
+        return "missing_description"
+    topics = {str(topic).lower() for topic in repo.get("topics") or []}
+    if topics & LOW_SIGNAL_TOPICS:
+        return "low_signal_topic"
+    combined_text = " ".join(
+        [
+            str(repo.get("name") or ""),
+            description,
+            " ".join(sorted(topics)),
+        ]
+    ).lower()
+    combined_tokens = tokenize(combined_text)
+    if combined_tokens & LOW_SIGNAL_TOKENS:
+        return "low_signal_keyword"
+    if any(phrase in combined_text for phrase in LOW_SIGNAL_PHRASES):
+        return "low_signal_phrase"
+    return None
 
 
 def to_repo_record(repo: dict[str, Any], *, stars_gained: int | None = None) -> dict[str, Any]:
@@ -262,7 +544,7 @@ def to_repo_record(repo: dict[str, Any], *, stars_gained: int | None = None) -> 
         "stars": repo.get("stargazers_count"),
         "forks": repo.get("forks_count"),
         "created_at": repo.get("created_at"),
-        "topics": sorted(repo.get("topics") or []),
+        "topics": sorted(str(topic).lower() for topic in (repo.get("topics") or [])),
         "license": license_info.get("spdx_id") or license_info.get("name"),
         "url": repo.get("html_url"),
     }
@@ -277,17 +559,32 @@ def collect_repositories(
     *,
     previous_stars: dict[str, int] | None = None,
     trending_cutoff: datetime | None = None,
-) -> list[dict[str, Any]]:
+) -> tuple[list[dict[str, Any]], dict[str, int]]:
     collected: list[dict[str, Any]] = []
     seen: set[str] = set()
+    filter_stats: Counter[str] = Counter()
     has_prior_snapshot = bool(previous_stars)
     for repo in repositories:
         full_name = repo.get("full_name")
-        if not full_name or full_name in seen or looks_insignificant(repo):
+        if not full_name:
+            filter_stats["missing_full_name"] += 1
             continue
-        if not client.has_readme(full_name):
+        if full_name in seen:
+            filter_stats["duplicate"] += 1
             continue
         seen.add(full_name)
+        skip_reason = significance_skip_reason(repo)
+        if skip_reason:
+            filter_stats[skip_reason] += 1
+            continue
+        try:
+            if not client.has_readme(full_name):
+                filter_stats["missing_readme"] += 1
+                continue
+        except RuntimeError as exc:
+            filter_stats["readme_lookup_failed"] += 1
+            client.record_error(f"README lookup failed for {full_name}: {exc}")
+            continue
         stars_gained: int | None = None
         if previous_stars is not None:
             previous_value = previous_stars.get(full_name)
@@ -305,19 +602,32 @@ def collect_repositories(
         collected.sort(key=lambda item: (item.get("stars_gained", -1), item["stars"]), reverse=True)
     else:
         collected.sort(key=lambda item: item["stars"], reverse=True)
-    return collected
+    return collected, dict(filter_stats)
 
 
 def build_signals(*repo_groups: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
     topic_counter: Counter[str] = Counter()
+    merged: dict[str, dict[str, Any]] = {}
     for group in repo_groups:
         for repo in group:
-            topic_counter.update(topic.lower() for topic in repo.get("topics") or [])
-    top_topics = [
-        {"topic": topic, "count": count}
-        for topic, count in topic_counter.most_common(15)
-    ]
+            full_name = repo.get("full_name")
+            if full_name:
+                merged[full_name] = repo
+    for repo in merged.values():
+        topic_counter.update(topic.lower() for topic in repo.get("topics") or [])
+    top_topics = [{"topic": topic, "count": count} for topic, count in topic_counter.most_common(15)]
     return {"top_topics": top_topics}
+
+
+def build_star_snapshot(*repo_groups: Iterable[dict[str, Any]]) -> dict[str, int]:
+    stars: dict[str, int] = {}
+    for group in repo_groups:
+        for repo in group:
+            full_name = repo.get("full_name")
+            value = repo.get("stargazers_count")
+            if full_name and isinstance(value, int):
+                stars[full_name] = value
+    return dict(sorted(stars.items()))
 
 
 def validate_payload(payload: dict[str, Any]) -> None:
@@ -350,8 +660,15 @@ def validate_payload(payload: dict[str, Any]) -> None:
     metadata = payload["metadata"]
     if not isinstance(metadata.get("api_calls_used"), int):
         raise ValueError("metadata.api_calls_used must be an integer")
+    if not isinstance(metadata.get("cache_hits"), int):
+        raise ValueError("metadata.cache_hits must be an integer")
     if metadata.get("rate_limit_remaining") is not None and not isinstance(metadata.get("rate_limit_remaining"), int):
         raise ValueError("metadata.rate_limit_remaining must be an integer or null")
+    if metadata.get("rate_limit_limit") is not None and not isinstance(metadata.get("rate_limit_limit"), int):
+        raise ValueError("metadata.rate_limit_limit must be an integer or null")
+    partial_failures = metadata.get("partial_failures")
+    if partial_failures is not None and not isinstance(partial_failures, list):
+        raise ValueError("metadata.partial_failures must be a list when present")
 
 
 def write_payload(path: Path, payload: dict[str, Any]) -> None:
@@ -367,31 +684,37 @@ def main() -> int:
         return 1
 
     crawled_at = utc_now()
-    window_end = (
-        datetime.strptime(args.as_of, "%Y-%m-%d").replace(tzinfo=UTC)
-        if args.as_of
-        else crawled_at
-    )
+    window_end = datetime.strptime(args.as_of, "%Y-%m-%d").replace(tzinfo=UTC) if args.as_of else crawled_at
     since = datetime.strptime(args.since, "%Y-%m-%d").replace(tzinfo=UTC) if args.since else window_end - timedelta(days=7)
     week = week_slug(window_end)
-    output_path = Path(args.output) if args.output else Path("data/raw") / f"{week}.json"
+    output_path = Path(args.output) if args.output else RAW_ROOT / f"{week}.json"
+    snapshot_path = SNAPSHOT_ROOT / f"{week}-stars.json"
     client = GitHubClient(github_token)
     max_results = max(1, min(args.max_results, 1000))
 
-    new_query = f"created:>{since.date().isoformat()} stars:>50"
-    trending_query = f"pushed:>{since.date().isoformat()} stars:>50"
+    date_range = f"{since.date().isoformat()}..{window_end.date().isoformat()}"
+    new_query = f"created:{date_range} stars:>50"
+    trending_query = f"pushed:{date_range} stars:>50"
 
     new_candidates = client.search_repositories(new_query, max_results=max_results)
-    previous_stars = previous_snapshot(output_path.parent, week)
+    previous_stars = load_previous_star_snapshot(SNAPSHOT_ROOT, output_path.parent, week)
     trending_candidates = client.search_repositories(trending_query, max_results=max_results)
 
-    new_repos = collect_repositories(client, new_candidates)
-    trending_repos = collect_repositories(
+    new_repos, new_filters = collect_repositories(client, new_candidates)
+    trending_repos, trending_filters = collect_repositories(
         client,
         trending_candidates,
         previous_stars=previous_stars,
         trending_cutoff=since,
     )
+
+    star_snapshot = build_star_snapshot(new_candidates, trending_candidates)
+    snapshot_payload = {
+        "week": week,
+        "captured_at": iso_timestamp(crawled_at),
+        "repository_count": len(star_snapshot),
+        "stars": star_snapshot,
+    }
 
     payload = {
         "week": week,
@@ -401,17 +724,32 @@ def main() -> int:
         "signals": build_signals(new_repos, trending_repos),
         "metadata": {
             "api_calls_used": client.api_calls_used,
+            "cache_hits": client.cache_hits,
+            "stale_cache_hits": client.stale_cache_hits,
+            "rate_limit_limit": client.rate_limit_limit,
             "rate_limit_remaining": client.rate_limit_remaining,
+            "rate_limit_reset": rate_limit_reset_text(client.rate_limit_reset),
+            "rate_limit_resource": client.rate_limit_resource,
+            "partial_failures": client.errors,
+            "filter_summary": {
+                "new_repos": new_filters,
+                "trending_repos": trending_filters,
+            },
+            "snapshot_path": snapshot_path.as_posix(),
         },
     }
     validate_payload(payload)
     write_payload(output_path, payload)
+    write_payload(snapshot_path, snapshot_payload)
+
+    if client.errors:
+        log(f"Completed with {len(client.errors)} partial failure(s).")
 
     print(
-        f"Wrote {output_path} with {len(new_repos)} new repos and {len(trending_repos)} trending repos "
-        f"using {client.api_calls_used} API calls."
+        f"Wrote {output_path} with {len(new_repos)} new repos and {len(trending_repos)} trending repos, "
+        f"saved {snapshot_path}, used {client.api_calls_used} API calls, and served {client.cache_hits} cache hits."
     )
-    return 0
+    return 0 if (new_candidates or trending_candidates or not client.errors) else 1
 
 
 if __name__ == "__main__":
