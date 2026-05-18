@@ -66,6 +66,41 @@ class AnalyzeFallbackTests(unittest.TestCase):
             self.assertIn('"week": "2026-W21"', prompt)
             self.assertNotIn("{{CURRENT_DATETIME}}", prompt)
 
+    def test_render_prompt_injects_wisdom_and_skills(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W21.json"
+            analyzed_dir = base / "data" / "analyzed"
+            prompt_template = base / "prompt.md"
+            output_path = analyzed_dir / "2026-W21-summary.md"
+            wisdom_path = base / ".squad" / "identity" / "wisdom.md"
+            skills_dir = base / ".squad" / "skills" / "signal-detection"
+            raw_path.parent.mkdir(parents=True)
+            analyzed_dir.mkdir(parents=True)
+            wisdom_path.parent.mkdir(parents=True)
+            skills_dir.mkdir(parents=True)
+
+            raw_path.write_text(json.dumps({"week": "2026-W21", "new_repos": [], "trending_repos": []}), encoding="utf-8")
+            wisdom_path.write_text("# Wisdom\n\nPrefer durable signals.", encoding="utf-8")
+            (skills_dir / "SKILL.md").write_text("# Skill\n\nReject wrapper churn.", encoding="utf-8")
+            prompt_template.write_text("wisdom={{WISDOM}}\nskills={{SKILLS}}\n", encoding="utf-8")
+
+            prompt = analyze_fallback.render_prompt(
+                prompt_template_path=prompt_template,
+                raw_json_path=raw_path,
+                output_path=output_path,
+                current_datetime="2026-05-18T13:05:53.678+02:00",
+                analyzed_dir=analyzed_dir,
+                wisdom_file=wisdom_path,
+                skills_dir=base / ".squad" / "skills",
+            )
+
+            self.assertIn("Prefer durable signals.", prompt)
+            self.assertIn("Reject wrapper churn.", prompt)
+            self.assertNotIn("{{WISDOM}}", prompt)
+            self.assertNotIn("{{SKILLS}}", prompt)
+
     def test_extract_markdown_supports_message_parts(self) -> None:
         payload = {
             "choices": [
