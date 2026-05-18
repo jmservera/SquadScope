@@ -1,0 +1,61 @@
+{{- define "main" }}
+<article class="post-single squad-report" data-pagefind-body>
+  {{ partial "pagefind-metadata.html" . }}
+
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <p class="section-topline">{{ .Type | humanize }}</p>
+    <h1 class="post-title entry-hint-parent">{{ .Title }}</h1>
+    {{- with (.Description | default .Params.summary) }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+    {{- if not (.Param "hideMeta") }}
+    <div class="post-meta">
+      {{- partial "post_meta.html" . -}}
+      {{- partial "translation_list.html" . -}}
+      {{- partial "edit_post.html" . -}}
+      {{- partial "post_canonical.html" . -}}
+    </div>
+    {{- end }}
+  </header>
+
+  <nav class="report-shortcuts" aria-label="Report navigation">
+    <a href="{{ `/search/` | relURL }}">Search</a>
+    <a href="{{ `/tags/` | relURL }}">Tags</a>
+    <a href="{{ `/categories/` | relURL }}">Categories</a>
+    <a href="{{ `/archive/` | relURL }}">Archive</a>
+    <a href="{{ `/index.xml` | relURL }}">RSS</a>
+  </nav>
+
+  {{- if .Content }}
+  <div class="post-content md-content">
+    {{- if not (.Param "disableAnchoredHeadings") }}
+    {{- partial "anchored_headings.html" .Content -}}
+    {{- else }}{{ .Content }}{{ end }}
+  </div>
+  {{- end }}
+
+  <footer class="post-footer">
+    {{- $tags := .Language.Params.Taxonomies.tag | default "tags" }}
+    {{- $categories := .Language.Params.Taxonomies.category | default "categories" }}
+    <ul class="post-tags">
+      {{- range ($.GetTerms $categories) }}
+      <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+      {{- end }}
+      {{- range ($.GetTerms $tags) }}
+      <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+      {{- end }}
+    </ul>
+    {{- if (.Param "ShowPostNavLinks") }}
+    {{- partial "post_nav_links.html" . }}
+    {{- end }}
+    {{- if (and site.Params.ShowShareButtons (ne .Params.disableShare true)) }}
+    {{- partial "share_icons.html" . -}}
+    {{- end }}
+  </footer>
+
+  {{- if (.Param "comments") }}
+  {{- partial "comments.html" . }}
+  {{- end }}
+</article>
+{{- end }}
