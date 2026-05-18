@@ -4,6 +4,12 @@ on:
   schedule:
     - cron: '0 8 * * 1'
   workflow_dispatch:
+    inputs:
+      publish_release:
+        description: 'Create or update the weekly GitHub Release during a manual run.'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   actions: read
@@ -311,7 +317,7 @@ jobs:
           SUMMARY_FILE: ${{ needs.analyze.outputs.summary_file }}
         run: |
           set -euo pipefail
-          python3 - <<'PY2' "$SUMMARY_FILE" >> "$GITHUB_OUTPUT"
+          python3 - <<'PYGEN' "$SUMMARY_FILE" >> "$GITHUB_OUTPUT"
           import sys
           from pathlib import Path
 
@@ -320,7 +326,7 @@ jobs:
           summary_path = Path(sys.argv[1])
           page_path = generate_content.generate_content(summary_path)
           print(f"page_path={page_path.as_posix()}")
-          PY2
+          PYGEN
 
       - name: Commit generated content
         env:
@@ -355,13 +361,16 @@ jobs:
           if-no-files-found: warn
 
   deploy:
-    needs: generate
+    needs: [crawl, analyze, generate]
     runs-on: ubuntu-latest
     permissions:
       actions: read
       contents: read
       pages: write
       id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -388,12 +397,8 @@ jobs:
           name: analyzed-data
           path: data/analyzed/
 
-      - name: Download generated content artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: generated-content
-          path: content/weekly/
-
+      # The generate job already pushes weekly content to the default branch.
+      # Deploy builds from that branch state to avoid artifact extraction conflicts.
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
@@ -425,6 +430,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
   notify:
+    if: github.event_name == 'schedule' || github.event.inputs.publish_release == 'true'
     needs: [generate, deploy]
     runs-on: ubuntu-latest
     permissions:
@@ -441,8 +447,8 @@ jobs:
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SUMMARY_FILE: ${{ needs.analyze.outputs.summary_file }}
         run: |
-          SUMMARY=$(ls -t data/analyzed/*-summary.md | head -1)
-          WEEK=$(basename "$SUMMARY" | sed 's/-summary.md//')
+          WEEK=$(basename "$SUMMARY_FILE" | sed 's/-summary.md//')
 
-          gh release create "week-${WEEK}"             --title "Week ${WEEK} — Tech Trends Summary"             --notes-file "$SUMMARY"             --latest
+          gh release create "week-${WEEK}"             --title "Week ${WEEK} — Tech Trends Summary"             --notes-file "$SUMMARY_FILE"             --latest
