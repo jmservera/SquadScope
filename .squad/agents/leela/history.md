@@ -8,6 +8,12 @@
 
 ## Learnings
 
+### 2026-05-18T12:07:20.778+02:00 — Phase 2 PR Review
+
+- **PR #27:** Not mergeable yet. The crawl workflow restores the `crawl-cache` artifact into repo root (`path: .`) while `scripts/crawl.py` reads cache from `data/cache/`, so the warm-cache handoff does not actually work yet.
+- **PR #28:** Not mergeable yet. The spec/prompt require the stable H2 heading `## Trending This Week`, but the sample analyzed artifact still uses `## Trending This Week (Stars Gained)`, so the example does not satisfy its own contract.
+- **GitHub constraint:** `gh pr review --request-changes` is blocked on self-authored PRs, so the blocking findings were recorded as PR comments instead.
+
 ### 2026-05-18 — PRD Authoring
 
 - **PRD location:** `docs/PRD.md` — comprehensive PRD covering all requirements from jmservera
@@ -65,3 +71,9 @@
 - **Issues closed:** #1 (completed by Bender) and #2 (Leela architecture).
 - **Team notification:** All agents notified that Phase 0 is complete and architecture is published.
 - **Next phase:** Phase 1 (crawlers and generators) can proceed independently. Phase 2 (analyzer) is unblocked.
+
+### 2026-05-18T10:59:10.800+02:00 — Phase 1 PR Review Gate
+
+- **PR #26 outcome:** Acceptable and merged after validation. The hardened crawler delivered the expected Phase 1 improvements: caching, star snapshots, stronger low-signal filtering, bounded retry/rate-limit behavior, partial-failure metadata, and regression tests for the new query and payload behavior.
+- **PR #25 outcome:** I flagged a blocker against the dry-run artifact: the checked-in file under `data/analyzed/` does not match the approved Analyze → Generate contract in `.squad/decisions.md` (`Signal` / `Noise` / `Gaps`). By the time I verified final PR state, GitHub already showed PR #25 as merged, so the blocker was recorded as review commentary and follow-up guidance rather than an enforceable lockout.
+- **Operational constraint:** Because the authenticated GitHub account is also the PR author, GitHub blocked formal approve/request-changes reviews. Outcome had to be recorded by comment, and only PR #26 could be actively merged during this pass.

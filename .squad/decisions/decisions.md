@@ -36,3 +36,38 @@
 - **Decision:** Follow the typical branch → PR → Review → Merge process for each issue. Do NOT commit directly to main.
 - **Why:** For clean and understandable GitHub history. Each issue should get its own branch, a PR, review, then merge.
 - **Scope:** Affects all future agent spawns.
+
+## 2026-05-18: Copilot Reviews on PRs
+
+- **Owner:** jmservera (Copilot directive)
+- **Date:** 2026-05-18T12:07:20Z
+- **Decision:** Copilot reviews are activated on PRs. All review conversations must be resolved before merging.
+- **Why:** User request — captured for team memory. Ensures quality and completeness of code review before merge.
+- **Scope:** All PR workflows must check for and resolve Copilot review comments before merging.
+
+## 2026-05-18: Crawler Hardening with Filters, Caching, and Rate Limits (Issue #6)
+
+- **Owner:** Bender
+- **Date:** 2026-05-18T10:59:10Z
+- **Decision:** Treat README lookups as a degradable signal instead of a hard-stop path. The crawler now caches API responses, saves weekly star snapshots under `data/snapshots/`, logs rate-limit state, and caps README retry delays so partial failures are recorded in metadata instead of blocking the full weekly crawl.
+- **Why:** Search queries are cheap, but hundreds of README checks can trigger secondary throttling. Bounded retries plus persistent cache keep Phase 1 crawls finishable and give Farnsworth usable JSON even when GitHub responses are partial.
+- **Implementation:** PR #26 merged with all Copilot review comments addressed (commit 779f9ef).
+
+## 2026-05-18: Hugo Version Pinning and Dry-Run Validation (Issue #7)
+
+- **Owner:** Fry
+- **Date:** 2026-05-18T10:59:10Z
+- **Decision:** Pin Hugo version across all validation runs and infrastructure.
+- **Key findings:**
+  1. Local environment defaulted to `hugo v0.123.7`, but repository theme requires `v0.146.0+`. Dry-run validation only succeeded with `hugo v0.161.1`.
+  2. Trending requires historical state; `data/raw/2026-W21.json` contains no usable `stars_gained` values in `trending_repos`, so current output is popularity-biased rather than momentum-based.
+  3. Crawler filtering still lets through off-mission content (exploits, bypasses, cheats, game-mods). Needs stronger filtering or quality gate before auto-publish.
+  4. Analyze/generate contract needs final alignment. PRD weekly page shape and approved analyzer quality-gate contract are close but not identical.
+
+## 2026-05-18: Analyzed Artifact Schema Alignment (PR #25 Follow-up)
+
+- **Owner:** Leela
+- **Date:** 2026-05-18T10:59:10Z
+- **Issue:** `data/analyzed/2026-W21-summary.md` is stored in the analyzer contract path but does not follow the approved Analyze → Generate section contract (`Signal`, `Noise`, `Gaps`).
+- **Required follow-up:** Either align the analyzed artifact to the approved contract or move the manual validation artifact out of `data/analyzed/` so the repository does not adopt the wrong schema by accident.
+- **Status:** Identified in PR #25 review (now merged) — Phase 2 action item.
