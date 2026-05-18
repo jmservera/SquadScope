@@ -14,6 +14,7 @@ DEFAULT_PROMPT_TEMPLATE = ROOT / "prompts" / "analyze-weekly.md"
 DEFAULT_ANALYZED_DIR = ROOT / "data" / "analyzed"
 DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
 DEFAULT_MODELS_MODEL = "openai/gpt-4.1"
+DEFAULT_MODELS_TIMEOUT = 30
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -119,6 +120,7 @@ def call_github_models(prompt: str) -> str:
 
     endpoint = os.environ.get("GITHUB_MODELS_ENDPOINT", DEFAULT_MODELS_ENDPOINT)
     model = os.environ.get("GITHUB_MODELS_MODEL", DEFAULT_MODELS_MODEL)
+    timeout = int(os.environ.get("GITHUB_MODELS_TIMEOUT", str(DEFAULT_MODELS_TIMEOUT)))
     payload = {
         "model": model,
         "messages": [
@@ -142,7 +144,7 @@ def call_github_models(prompt: str) -> str:
     )
 
     try:
-        with request.urlopen(req) as response:
+        with request.urlopen(req, timeout=timeout) as response:
             response_payload = json.load(response)
     except error.HTTPError as exc:  # pragma: no cover - exercised via message formatting
         detail = exc.read().decode("utf-8", errors="replace")

@@ -102,7 +102,7 @@ class AnalyzeFallbackTests(unittest.TestCase):
 
             with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
                 analyze_fallback.request, "urlopen", return_value=response
-            ):
+            ) as urlopen_mock:
                 exit_code = analyze_fallback.main(
                     [
                         "--raw-json",
@@ -120,6 +120,7 @@ class AnalyzeFallbackTests(unittest.TestCase):
 
             self.assertEqual(exit_code, 0)
             self.assertEqual(output_path.read_text(encoding="utf-8"), "# Summary\n")
+            self.assertEqual(urlopen_mock.call_args.kwargs["timeout"], analyze_fallback.DEFAULT_MODELS_TIMEOUT)
 
 
 if __name__ == "__main__":
