@@ -1,0 +1,2 @@
+# No external dependencies required.
+# The crawler uses the Python 3 standard library only.
