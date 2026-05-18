@@ -1,0 +1,72 @@
+{{- define "main" -}}
+{{- $weeklyPages := (where site.RegularPages "Type" "weekly").ByDate.Reverse -}}
+
+<div class="home-shell">
+  <section class="home-hero">
+    <p class="home-eyebrow">Weekly tech signal from GitHub</p>
+    <h1>{{ .Title }}</h1>
+    {{- with .Params.description }}
+    <p class="home-description">{{ . }}</p>
+    {{- end }}
+    <div class="post-content md-content">
+      {{ .Content }}
+    </div>
+  </section>
+
+  <section class="home-nav-grid" aria-label="Primary views">
+    <a class="home-nav-card" href="{{ "/archive/" | relURL }}">
+      <span class="home-nav-title">Archive</span>
+      <span class="home-nav-copy">Browse every weekly summary in reverse chronological order.</span>
+    </a>
+    <a class="home-nav-card" href="{{ "/monthly/" | relURL }}">
+      <span class="home-nav-title">Monthly</span>
+      <span class="home-nav-copy">Step back and review the strongest themes across each month.</span>
+    </a>
+    <a class="home-nav-card" href="{{ "/yearly/" | relURL }}">
+      <span class="home-nav-title">Yearly</span>
+      <span class="home-nav-copy">Follow broader platform shifts and long-running trend lines.</span>
+    </a>
+    <a class="home-nav-card" href="{{ "/index.xml" | relURL }}">
+      <span class="home-nav-title">RSS</span>
+      <span class="home-nav-copy">Subscribe to the newest reports in your feed reader.</span>
+    </a>
+  </section>
+
+  {{- if gt (len $weeklyPages) 0 -}}
+  {{- $latest := index $weeklyPages 0 -}}
+  <section class="home-latest" aria-labelledby="latest-report-heading">
+    <div class="section-topline">Latest weekly summary</div>
+    <h2 id="latest-report-heading"><a href="{{ $latest.RelPermalink }}">{{ $latest.Title }}</a></h2>
+    <p>{{ $latest.Params.summary | default $latest.Summary }}</p>
+    {{ partial "report-metrics.html" $latest }}
+    <div class="home-actions">
+      <a class="home-action-primary" href="{{ $latest.RelPermalink }}">Read summary</a>
+      <a class="home-action-secondary" href="{{ "/archive/" | relURL }}">Open archive</a>
+    </div>
+  </section>
+  {{- else -}}
+  <section class="home-empty-state">
+    <div class="section-topline">Latest weekly summary</div>
+    <h2>No weekly report published yet</h2>
+    <p>The homepage will automatically feature the newest report as soon as the first weekly summary lands in <code>content/weekly/</code>.</p>
+  </section>
+  {{- end -}}
+
+  <section class="home-recent" aria-labelledby="recent-reports-heading">
+    <div class="section-topline">Recent weekly reports</div>
+    <h2 id="recent-reports-heading">Browse the latest entries</h2>
+    <div class="home-report-list">
+      {{- range first 5 $weeklyPages -}}
+      <article class="home-report-card">
+        <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+        <p>{{ .Params.summary | default .Summary }}</p>
+        <div class="home-report-meta">
+          <span>{{ .Date.Format "2006-01-02" }}</span>
+          {{- with .Params.categories }}<span>{{ delimit . ", " }}</span>{{- end }}
+        </div>
+      </article>
+      {{- end -}}
+    </div>
+  </section>
+</div>
+{{- end -}}

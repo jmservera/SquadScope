@@ -1,0 +1,33 @@
+{{- $page := . -}}
+{{- $hasWeek := and (isset $page.Params "week") (ne (index $page.Params "week") "") -}}
+{{- $hasRepos := isset $page.Params "repos_featured" -}}
+{{- $hasStars := isset $page.Params "stars_tracked" -}}
+{{- $hasTopRepo := and (isset $page.Params "top_repo") (ne (index $page.Params "top_repo") "") -}}
+{{- if or $hasWeek $hasRepos $hasStars $hasTopRepo -}}
+<div class="report-metrics">
+  {{- if $hasWeek -}}
+  <div class="metric-card">
+    <span class="metric-label">Week</span>
+    <strong class="metric-value">{{ index $page.Params "week" }}</strong>
+  </div>
+  {{- end -}}
+  {{- if $hasRepos -}}
+  <div class="metric-card">
+    <span class="metric-label">Repos featured</span>
+    <strong class="metric-value">{{ index $page.Params "repos_featured" }}</strong>
+  </div>
+  {{- end -}}
+  {{- if $hasStars -}}
+  <div class="metric-card">
+    <span class="metric-label">Stars tracked</span>
+    <strong class="metric-value">{{ index $page.Params "stars_tracked" }}</strong>
+  </div>
+  {{- end -}}
+  {{- if $hasTopRepo -}}
+  <div class="metric-card metric-card-wide">
+    <span class="metric-label">Top repo</span>
+    <strong class="metric-value"><a href="https://github.com/{{ index $page.Params "top_repo" }}">{{ index $page.Params "top_repo" }}</a></strong>
+  </div>
+  {{- end -}}
+</div>
+{{- end -}}

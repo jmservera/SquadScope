@@ -1,0 +1,148 @@
+.home-shell {
+  display: grid;
+  gap: 2rem;
+}
+
+.home-hero,
+.home-latest,
+.home-empty-state,
+.home-report-card,
+.home-nav-card,
+.metric-card,
+.report-shortcuts {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--entry);
+}
+
+.home-hero,
+.home-latest,
+.home-empty-state {
+  padding: 1.5rem;
+}
+
+.home-eyebrow,
+.section-topline,
+.metric-label {
+  display: block;
+  color: var(--secondary);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.home-description {
+  font-size: 1.05rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.home-nav-grid,
+.report-metrics,
+.home-report-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.home-nav-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.home-nav-card {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem;
+  text-decoration: none;
+}
+
+.home-nav-title {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.home-nav-copy {
+  color: var(--secondary);
+  font-size: 0.95rem;
+}
+
+.report-metrics {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  margin: 1.25rem 0;
+}
+
+.metric-card {
+  padding: 1rem;
+}
+
+.metric-card-wide {
+  grid-column: span 2;
+}
+
+.metric-value {
+  display: block;
+  font-size: 1.05rem;
+  margin-top: 0.35rem;
+}
+
+.home-actions,
+.report-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.home-action-primary,
+.home-action-secondary,
+.report-shortcuts a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  text-decoration: none;
+}
+
+.home-action-primary {
+  background: var(--primary);
+  color: var(--theme);
+}
+
+.home-action-secondary,
+.report-shortcuts a {
+  border: 1px solid var(--border);
+}
+
+.home-report-list {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.home-report-card,
+.squad-archive-entry {
+  padding: 1rem;
+}
+
+.home-report-card h3,
+.squad-archive-entry h4 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.home-report-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  color: var(--secondary);
+  font-size: 0.9rem;
+}
+
+.squad-report .report-shortcuts {
+  margin-bottom: 1.5rem;
+  padding: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .metric-card-wide {
+    grid-column: span 1;
+  }
+}
