@@ -338,6 +338,9 @@ jobs:
           print(f"page_path={page_path.as_posix()}")
           PYGEN
 
+      - name: Generate rollups
+        run: python3 scripts/generate_rollups.py
+
       - name: Commit generated content
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
@@ -345,18 +348,18 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ! git status --short -- content/weekly | grep -q .; then
+          if ! git status --short -- content/weekly content/monthly content/yearly | grep -q .; then
             echo "No generated content changes to commit."
             exit 0
           fi
-          git stash push --include-untracked --message generated-content -- content/weekly
+          git stash push --include-untracked --message generated-content -- content/weekly content/monthly content/yearly
           git fetch origin "$DEFAULT_BRANCH"
           git checkout -B "$DEFAULT_BRANCH" "origin/$DEFAULT_BRANCH"
           git stash pop || {
             echo "Failed to reapply generated content after syncing $DEFAULT_BRANCH."
             exit 1
           }
-          git add content/weekly/
+          git add content/weekly/ content/monthly/ content/yearly/
           git diff --cached --quiet || git commit -m "content: weekly page $WEEK"
           git push origin "HEAD:$DEFAULT_BRANCH" || {
             echo "Push failed after syncing with $DEFAULT_BRANCH."
@@ -367,7 +370,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: generated-content
-          path: content/weekly/
+          path: |
+            content/weekly/
+            content/monthly/
+            content/yearly/
           if-no-files-found: warn
 
   deploy:
@@ -407,7 +413,7 @@ jobs:
           name: analyzed-data
           path: data/analyzed/
 
-      # The generate job already pushes weekly content to the default branch.
+      # The generate job already pushes weekly, monthly, and yearly content to the default branch.
       # Deploy builds from that branch state to avoid artifact extraction conflicts.
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
