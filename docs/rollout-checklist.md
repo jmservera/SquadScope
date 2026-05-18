@@ -7,7 +7,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
 - [ ] **Repository created**
   - [ ] GitHub repository exists and is accessible
   - [ ] Submodules initialized: `git submodule update --init --recursive`
-  - [ ] Hugo version verified: `hugo version` (must be v0.146.0+)
+  - [ ] Hugo version verified: `hugo version` (must be v0.161.1 to match CI)
 
 - [ ] **Copilot auth configured**
   - [ ] Fine-grained PAT created with **Account → Copilot Requests** permission
@@ -26,6 +26,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
   - [ ] Run `hugo server` locally and verify site loads at http://localhost:1313
   - [ ] No Hugo build errors in console
   - [ ] Run `hugo --minify` and verify `public/` directory created with HTML files
+  - [ ] Run `npx pagefind --site public/` and verify `public/pagefind/pagefind-ui.js` exists
 
 - [ ] **First manual crawl successful**
   - [ ] Trigger: `gh workflow run crawl-and-publish.yml -R OWNER/REPO`
@@ -37,7 +38,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
   - [ ] Previous crawl completed
   - [ ] Verify: `data/analyzed/YYYY-WNN-summary.md` exists and contains valid Markdown + YAML
   - [ ] Check: YAML frontmatter includes `quality_score`, `title`, `date`, `categories`
-  - [ ] Check: File contains required sections (`## Signal`, `## Noise`, `## Gaps`)
+  - [ ] Check: File contains `## Trend Analysis` with `### Signal` and `### Noise`, plus `## What's Missing` with `### Gaps`
 
 - [ ] **Quality gate passed**
   - [ ] Analysis quality_score ≥ 60 (check frontmatter)
@@ -48,6 +49,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
   - [ ] Wait for full workflow to complete (crawl + analyze + generate + deploy)
   - [ ] Monitor: **Actions → Crawl and Publish → Latest run → Deploy Pages** shows success
   - [ ] Verify: GitHub Pages shows "Deployment successful"
+  - [ ] Verify: deployed search still works and the build includes fresh `pagefind/` assets
 
 - [ ] **RSS feed accessible**
   - [ ] Visit: `https://PAGES_URL/index.xml` (replace with your Pages domain)
@@ -73,7 +75,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
 - [ ] **Run counter initialized**
   - [ ] File exists: `.squad/run-counter.txt`
   - [ ] Contains integer counter (e.g., `1`)
-  - [ ] Will trigger reskill automatically every 5 runs
+  - [ ] Reskill only triggers on positive multiples of 5 (`5`, `10`, `15`, ...), not when the counter is `0`
 
 ## First Automated Run
 
@@ -92,7 +94,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
   - [ ] Site updated with new week's content
 
 - [ ] **RSS feed updated**
-  - [ ] `https://PAGES_URL/feed/` now shows latest week's entry
+  - [ ] `https://PAGES_URL/index.xml` now shows the latest entry
   - [ ] Feed readers can subscribe and receive new entries
 
 ## Post-Launch Monitoring
@@ -113,9 +115,10 @@ Use this checklist to verify your SquadScope instance is ready for production. C
 
 - [ ] **Manual stage execution (debug only)**
   - [ ] Crawl: `python3 scripts/crawl.py --as-of 2026-05-18`
-  - [ ] Analyze (fallback): `python3 scripts/analyze_fallback.py --raw-json data/raw/YYYY-WNN.json --output /tmp/test-analysis.md --current-datetime 2026-05-18T16:00:00Z`
+  - [ ] Analyze (fallback): `python3 scripts/analyze_fallback.py --raw-json data/raw/YYYY-WNN.json --output ./scratch-analysis.md --current-datetime 2026-05-18T16:00:00Z`
   - [ ] Gate: `python3 scripts/analysis_gate.py --analysis-file data/analyzed/YYYY-WNN-summary.md --raw-json data/raw/YYYY-WNN.json --current-datetime 2026-05-18T16:00:00Z`
   - [ ] Generate: `python3 scripts/generate_content.py data/analyzed/YYYY-WNN-summary.md`
+  - [ ] Build search assets after Hugo: `npx pagefind --site public/`
 
 - [ ] **Fallback analysis path works (Copilot unavailable scenario)**
   - [ ] Comment out or rename `COPILOT_GH_TOKEN` secret temporarily
@@ -126,7 +129,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
 - [ ] **Reskill cycle verified (after 5 runs)**
   - [ ] Count automated runs (every Monday = 1 run)
   - [ ] After 5 weeks, check for `.squad/reskill/YYYY-WNN.md` file
-  - [ ] Verify reskill outputs analysis and recommendations
+  - [ ] Verify the workflow invokes the real reskill path (`scripts/reskill.py`) and outputs analysis + recommendations
 
 ## Sign-Off
 
