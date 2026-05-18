@@ -14,4 +14,5 @@
 
 ## Learnings
 
-_No learnings recorded yet._
+- **2026-05-18T10:59:10.800+02:00:** The PaperMod theme in this repo needs Hugo `v0.146.0+`; dry-run validation failed on the system `v0.123.7` binary and only passed after switching to a newer Hugo build.
+- **2026-05-18T10:59:10.800+02:00:** Real crawler output is publishable with manual curation, but `trending_repos` needs historical snapshots and the new-repo filter still lets exploit/cheat noise through.
