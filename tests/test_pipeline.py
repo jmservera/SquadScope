@@ -185,15 +185,31 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("reskill=true", check_run)
         self.assertIn("$GITHUB_OUTPUT", check_run)
         
-        reskill_step = next((s for s in reskill["steps"] if s.get("name") == "Run placeholder reskill"), None)
+        install_step = next((s for s in reskill["steps"] if s.get("name") == "Install Copilot CLI"), None)
+        self.assertIsNotNone(install_step)
+        self.assertEqual(install_step["run"], "npm install -g @github/copilot")
+
+        reskill_step = next((s for s in reskill["steps"] if s.get("name") == "Run reskill"), None)
         self.assertIsNotNone(reskill_step)
+        self.assertEqual(reskill_step["env"]["COPILOT_GITHUB_TOKEN"], "${{ secrets.COPILOT_GH_TOKEN }}")
         reskill_run = reskill_step["run"]
+        self.assertIn("python3 scripts/reskill.py --current-datetime", reskill_run)
         self.assertIn("mkdir -p .squad/skills .squad/reskill", reskill_run)
         self.assertIn("trigger-log.txt", reskill_run)
+        self.assertIn("git add .squad/", reskill_run)
 
     def test_generate_workflow_runs_rollups_and_commits_all_content(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+
+        deploy_job = workflow["jobs"]["deploy"]
+        build_site_step = next((s for s in deploy_job["steps"] if s.get("name") == "Build site"), None)
+        self.assertIsNotNone(build_site_step)
+        self.assertEqual(build_site_step["run"], "hugo --minify")
+
+        pagefind_step = next((s for s in deploy_job["steps"] if s.get("name") == "Build search index"), None)
+        self.assertIsNotNone(pagefind_step)
+        self.assertEqual(pagefind_step["run"], "npx pagefind --site public/")
 
         generate_job = workflow["jobs"]["generate"]
         generate_rollups_step = next((s for s in generate_job["steps"] if s.get("name") == "Generate rollups"), None)
