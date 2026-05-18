@@ -32,6 +32,19 @@ class AnalyzeFallbackTests(unittest.TestCase):
 
             self.assertEqual(previous, analyzed_dir / "2026-W20-summary.md")
 
+    def test_find_previous_summary_handles_year_boundaries(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            analyzed_dir = Path(tmpdir) / "analyzed"
+            analyzed_dir.mkdir()
+            (analyzed_dir / "2026-W01-summary.md").write_text("early\n", encoding="utf-8")
+            (analyzed_dir / "2026-W52-summary.md").write_text("latest prior\n", encoding="utf-8")
+            (analyzed_dir / "2027-W01-summary.md").write_text("current\n", encoding="utf-8")
+
+            previous = analyze_fallback.find_previous_summary("2027-W01", analyzed_dir)
+
+            self.assertEqual(previous, analyzed_dir / "2026-W52-summary.md")
+
     def test_render_prompt_replaces_all_placeholders(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:

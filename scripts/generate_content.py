@@ -7,6 +7,7 @@ from pathlib import Path
 
 FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---\n(.*)\Z", re.DOTALL)
 WEEK_PATTERN = re.compile(r"^(?P<year>\d{4})-W(?P<week>\d{2})$")
+SUMMARY_SUFFIX = "-summary.md"
 ANALYSIS_SUFFIX = " Analysis"
 REQUIRED_ANALYSIS_FIELDS = {
     "title",
@@ -45,11 +46,24 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def parse_week(value: str) -> tuple[int, int]:
+    match = WEEK_PATTERN.fullmatch(value)
+    if not match:
+        raise GenerationError(f"Invalid week value: {value}")
+    return int(match.group("year")), int(match.group("week"))
+
+
+def week_from_summary_path(path: Path) -> tuple[int, int]:
+    if not path.name.endswith(SUMMARY_SUFFIX):
+        raise GenerationError(f"Invalid summary filename: {path.name}")
+    return parse_week(path.name.removesuffix(SUMMARY_SUFFIX))
+
+
 def find_latest_summary(root: Path) -> Path:
-    candidates = sorted(root.glob("data/analyzed/*-summary.md"), key=lambda path: path.stat().st_mtime, reverse=True)
+    candidates = list(root.glob(f"data/analyzed/*{SUMMARY_SUFFIX}"))
     if not candidates:
         raise GenerationError("No analyzed summaries found under data/analyzed/.")
-    return candidates[0]
+    return max(candidates, key=week_from_summary_path)
 
 
 def parse_scalar(value: str):
@@ -107,12 +121,8 @@ def ensure_list(value: object, *, field_name: str) -> list[str]:
 
 
 def infer_output_path(week: str, root: Path) -> Path:
-    match = WEEK_PATTERN.fullmatch(week)
-    if not match:
-        raise GenerationError(f"Invalid week value: {week}")
-    year = match.group("year")
-    week_number = match.group("week")
-    return root / "content" / "weekly" / year / f"W{week_number}.md"
+    year, week_number = parse_week(week)
+    return root / "content" / "weekly" / str(year) / f"W{week_number:02d}.md"
 
 
 def yaml_quote(value: str) -> str:

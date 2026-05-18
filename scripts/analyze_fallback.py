@@ -4,11 +4,14 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 from pathlib import Path
 from typing import Any
 from urllib import error, request
 
 ROOT = Path(__file__).resolve().parent.parent
+WEEK_PATTERN = re.compile(r"^(?P<year>\d{4})-W(?P<week>\d{2})$")
+SUMMARY_SUFFIX = "-summary.md"
 DEFAULT_PROMPT_TEMPLATE = ROOT / "prompts" / "analyze-weekly.md"
 DEFAULT_ANALYZED_DIR = ROOT / "data" / "analyzed"
 DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
@@ -44,16 +47,31 @@ def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def parse_week(value: str) -> tuple[int, int]:
+    match = WEEK_PATTERN.fullmatch(value)
+    if not match:
+        raise ValueError(f"Invalid week value: {value}")
+    return int(match.group("year")), int(match.group("week"))
+
+
 def find_previous_summary(current_week: str, analyzed_dir: Path) -> Path | None:
     if not analyzed_dir.exists():
         return None
 
-    candidates = []
-    for path in analyzed_dir.glob("*-summary.md"):
-        week = path.name.removesuffix("-summary.md")
-        if week < current_week:
-            candidates.append(path)
-    return max(candidates, default=None)
+    current_week_key = parse_week(current_week)
+    previous_candidate: tuple[int, int] | None = None
+    previous_path: Path | None = None
+
+    for path in analyzed_dir.glob(f"*{SUMMARY_SUFFIX}"):
+        try:
+            week_key = parse_week(path.name.removesuffix(SUMMARY_SUFFIX))
+        except ValueError:
+            continue
+        if week_key < current_week_key and (previous_candidate is None or week_key > previous_candidate):
+            previous_candidate = week_key
+            previous_path = path
+
+    return previous_path
 
 
 def render_prompt(

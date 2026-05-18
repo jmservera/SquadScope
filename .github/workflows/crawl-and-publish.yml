@@ -194,8 +194,16 @@ jobs:
           OUTPUT_FILE="${{ steps.analysis-context.outputs.output_file }}"
           WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
           CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
+          COPILOT_OUTPUT="${OUTPUT_FILE}.copilot"
+          trap 'rm -f "$COPILOT_OUTPUT"' EXIT
 
-          if command -v copilot >/dev/null 2>&1 && copilot -p "$(python3 scripts/analyze_fallback.py --raw-json "$WEEK_FILE" --output "$OUTPUT_FILE" --current-datetime "$CURRENT_DATETIME" --print-prompt)" \
+          PROMPT=$(python3 scripts/analyze_fallback.py \
+            --raw-json "$WEEK_FILE" \
+            --output "$OUTPUT_FILE" \
+            --current-datetime "$CURRENT_DATETIME" \
+            --print-prompt)
+
+          if command -v copilot >/dev/null 2>&1 && copilot -p "$PROMPT" \
             -s \
             --no-ask-user \
             --model claude-sonnet-4 \
@@ -203,7 +211,8 @@ jobs:
             --allow-tool=write \
             --allow-tool=glob \
             --allow-tool=grep \
-            > "$OUTPUT_FILE"; then
+            > "$COPILOT_OUTPUT"; then
+            mv "$COPILOT_OUTPUT" "$OUTPUT_FILE"
             echo "analysis_source=copilot-cli" >> "$GITHUB_OUTPUT"
           else
             echo "Copilot CLI unavailable or failed; falling back to GitHub Models API."

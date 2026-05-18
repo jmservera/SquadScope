@@ -54,6 +54,19 @@ Body copy.
             self.assertNotIn("year:", rendered)
             self.assertIn("## Notable New Repositories", rendered)
 
+    def test_find_latest_summary_uses_week_not_mtime(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            analyzed_dir = base / "data" / "analyzed"
+            analyzed_dir.mkdir(parents=True)
+            latest = analyzed_dir / "2027-W01-summary.md"
+            older = analyzed_dir / "2026-W52-summary.md"
+            latest.write_text("latest\n", encoding="utf-8")
+            older.write_text("older but touched later\n", encoding="utf-8")
+
+            self.assertEqual(generate_content.find_latest_summary(base), latest)
+
     def test_parse_frontmatter_rejects_missing_required_fields(self) -> None:
         with self.assertRaises(generate_content.GenerationError):
             generate_content.parse_frontmatter(
