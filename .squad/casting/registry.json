@@ -1,0 +1,39 @@
+{
+  "agents": {
+    "lead": {
+      "persistent_name": "Leela",
+      "universe": "Futurama",
+      "created_at": "2026-05-18T09:43:05Z",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "crawler": {
+      "persistent_name": "Bender",
+      "universe": "Futurama",
+      "created_at": "2026-05-18T09:43:05Z",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "analyst": {
+      "persistent_name": "Farnsworth",
+      "universe": "Futurama",
+      "created_at": "2026-05-18T09:43:05Z",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "frontend": {
+      "persistent_name": "Amy",
+      "universe": "Futurama",
+      "created_at": "2026-05-18T09:43:05Z",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "tester": {
+      "persistent_name": "Fry",
+      "universe": "Futurama",
+      "created_at": "2026-05-18T09:43:05Z",
+      "legacy_named": false,
+      "status": "active"
+    }
+  }
+}
