@@ -298,6 +298,94 @@ The community action `austenstone/copilot-cli` demonstrates that `GITHUB_TOKEN` 
 
 The SquadScope CI analysis pipeline uses a two-tier approach: Copilot CLI (primary, agentic, repo-aware) with GitHub Models API (fallback, simpler, REST-based). Data flows through well-defined stage boundaries with JSON → Markdown → HTML transformations. A quality gate ensures no low-quality analysis reaches publication. The architecture is designed for extensibility via MCP tools and self-improvement via the reskill cycle.
 
+## Crawler Cache & Artifact Handoff Decision (2026-05-18)
+
+**Issue:** #8 — Create weekly Actions crawl job with artifact handoff  
+**Author:** Bender (Crawler agent)  
+**Status:** Approved for implementation  
+**Date:** 2026-05-18T12:07:20.778+02:00
+
+### Decision: Cache Restoration from Prior Workflow Runs
+
+The weekly crawl workflow (`crawl-and-publish.yml`) MUST restore `data/cache/` from the latest successful run before executing `scripts/crawl.py`.
+
+**Rationale:**
+- Reuses the crawler's on-disk GitHub API cache across weekly runs
+- Lowers repeated README/search calls on warm runs
+- Keeps the crawl stage self-contained until downstream jobs arrive in later issues
+
+**Implementation Details:**
+- Workflow needs `actions: read` permission to discover prior successful runs
+- Download the `crawl-cache` artifact before running the crawler
+- Upload new cache artifact after successful crawl
+- Preserve crawler state through GitHub Actions artifact storage
+
+**Implications:**
+- Reduces GitHub API rate limit consumption across runs
+- Enables faster weekly crawls as cache grows
+- Supports Phase 1 crawl-only deliverables
+
+---
+
+## Crawler Hardening Decision (2026-05-18)
+
+**Issue:** #6 — Harden crawler for production readiness  
+**Author:** Bender (Crawler agent)  
+**Status:** Approved — implemented in crawler  
+**Date:** 2026-05-18T10:59:10.800+02:00
+
+### Decision: Degradable README Signals & Bounded Retry Strategy
+
+Treat README lookups as a degradable signal instead of a hard-stop path. The crawler now:
+- Caches API responses to reduce repeated calls
+- Saves weekly star snapshots under `data/snapshots/`
+- Logs rate-limit state for observability
+- Caps README retry delays to ensure partial failures don't block weekly crawls
+
+**Rationale:**
+- Search queries are cheap, but hundreds of README checks can trigger secondary GitHub API throttling
+- Bounded retries plus persistent cache keep Phase 1 crawls finishable
+- Partial failures recorded in metadata preserve data integrity even when GitHub responses are incomplete
+
+**Outcomes:**
+- Phase 1 crawls remain finishable even during GitHub API congestion
+- Farnsworth (analyzer) receives usable JSON data even when README metadata is partial
+- Better observability into rate-limit behavior across runs
+
+---
+
+## Dry-Run Validation Findings (2026-05-18)
+
+**Issue:** #7 — Validate dry-run execution of full pipeline  
+**Author:** Fry (Validator)  
+**Status:** Findings archived for Phase 2 planning  
+**Date:** 2026-05-18T10:59:10.800+02:00
+
+### Key Findings
+
+1. **Hugo Version Pinning Required**
+   - Local environment defaulted to `hugo v0.123.7`
+   - Repository theme requires `v0.146.0+`
+   - Dry-run only succeeded with `hugo v0.161.1`
+   - **Action:** Pin Hugo version in CI/validation workflows
+
+2. **Trending Analysis Requires Historical Data**
+   - `data/raw/2026-W21.json` contains no usable `stars_gained` values in `trending_repos`
+   - Current output is popularity-biased rather than momentum-based
+   - **Action:** Implement multi-week aggregation in analyzer for trend detection
+
+3. **Content Filtering Needs Refinement**
+   - Sample week contains exploit, bypass, cheat, and game-mod repositories in "new" ranking
+   - Current filtering logic insufficient for curated editorial quality
+   - **Action:** Implement stricter content filtering or human quality gate in Phase 2
+
+4. **Analyzer-Generator Contract Needs Specification**
+   - PRD weekly page shape and approved analyzer contract are close but not identical
+   - Generator step needs explicit mapping from analyzed markdown to publishable Hugo content
+   - **Action:** Formalize analyzer output schema and generator input contract (Phase 2)
+
+---
+
 ## Governance
 
 - All meaningful changes require team consensus
