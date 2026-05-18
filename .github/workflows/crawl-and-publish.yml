@@ -467,7 +467,24 @@ jobs:
         run: |
           WEEK=$(basename "$SUMMARY_FILE" | sed 's/-summary.md//')
 
-          gh release create "week-${WEEK}"             --title "Week ${WEEK} — Tech Trends Summary"             --notes-file "$SUMMARY_FILE"             --latest
+          gh release create "week-${WEEK}" --title "Week ${WEEK} — Tech Trends Summary" --notes-file "$SUMMARY_FILE" --latest
+
+      - name: Post to Discussions
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          SUMMARY=$(ls -t data/analyzed/*-summary.md | head -1)
+          WEEK=$(basename "$SUMMARY" | sed 's/-summary.md//')
+          
+          # Create discussion via GraphQL (Announcements category)
+          REPO_ID=$(gh api repos/jmservera/SquadScope --jq '.node_id')
+          CAT_ID=$(gh api graphql -f query='{ repository(owner:"jmservera", name:"SquadScope") { discussionCategories(first:10) { nodes { id name } } } }' --jq '.data.repository.discussionCategories.nodes[] | select(.name=="Announcements") | .id')
+          
+          if [ -n "$CAT_ID" ]; then
+            gh api graphql -f query="mutation { createDiscussion(input: {repositoryId: \"$REPO_ID\", categoryId: \"$CAT_ID\", title: \"Week $WEEK — Tech Trends Summary\", body: \"$(cat $SUMMARY | sed 's/"/\\"/g')\"}) { discussion { url } } }"
+          fi
+
 
   reskill-check:
     needs: [crawl]
