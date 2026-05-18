@@ -74,3 +74,33 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  notify-failure:
+    needs: [build, deploy]
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Create or update failure issue
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          EXISTING=$(gh issue list --label 'deploy-failure' --state open --json number --jq length)
+          if [ "$EXISTING" -gt 0 ]; then
+            ISSUE_NUM=$(gh issue list --label 'deploy-failure' --state open --json number --jq '.[0].number')
+            gh issue comment "$ISSUE_NUM" --body "Deploy failed again: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo "Updated existing issue #$ISSUE_NUM"
+          else
+            BODY=$(printf '%s\n\n%s\n\n%s\n%s\n%s' \
+              "The Deploy Hugo site workflow failed." \
+              "**Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              "Please triage:" \
+              "- If transient (rate limit, network), close with comment" \
+              "- If real bug, assign to the right squad member")
+            gh issue create \
+              --title "🔴 Deploy Hugo site failed (run ${{ github.run_id }})" \
+              --label 'squad,deploy-failure' \
+              --body "$BODY"
+          fi
