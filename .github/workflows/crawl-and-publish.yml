@@ -71,7 +71,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ steps.previous-cache-run.outputs.run_id }}
           name: crawl-cache
-          path: .
+          path: data/cache/
 
       - name: Set up Python
         uses: actions/setup-python@v5
