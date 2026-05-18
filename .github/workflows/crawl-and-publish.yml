@@ -447,7 +447,7 @@ jobs:
 
   notify:
     if: github.event_name == 'schedule' || github.event.inputs.publish_release == 'true'
-    needs: [generate, deploy]
+    needs: [analyze, generate, deploy]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -495,6 +495,23 @@ jobs:
           BODY=$(jq -Rs . < "$SUMMARY")
           
           gh api graphql -f query="mutation { createDiscussion(input: {repositoryId: \"$REPO_ID\", categoryId: \"$CAT_ID\", title: \"Week $WEEK — Tech Trends Summary\", body: $BODY}) { discussion { url } } }"
+
+      - name: Post to webhook
+        if: secrets.WEBHOOK_URL != ''
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+        run: |
+          SUMMARY=$(ls -t data/analyzed/*-summary.md | head -1)
+          WEEK=$(basename "$SUMMARY" | sed 's/-summary.md//')
+          SITE_URL="https://jmservera.github.io/SquadScope/weekly/$(echo $WEEK | tr '-' '/' | sed 's/W/w/')/"
+          
+          # Post JSON payload (compatible with Discord/Slack webhooks)
+          curl -s -X POST "$WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"content\": \"📊 **SquadScope Week $WEEK** — New tech trends summary published!\n$SITE_URL\",
+              \"username\": \"SquadScope\"
+            }" || echo "Webhook post failed (non-critical)"
 
 
   reskill-check:
