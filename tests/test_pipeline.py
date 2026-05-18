@@ -7,6 +7,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from unittest import mock
 
+import yaml
+
 import scripts.analysis_gate as analysis_gate
 import scripts.analyze_fallback as analyze_fallback
 import scripts.crawl as crawl
@@ -143,6 +145,51 @@ The biggest gap is stronger investment in security review, test ergonomics, and 
 
 The week matters because practical automation won attention on merit. If this pattern holds, the next wave of winners will be tools that save teams time, expose real operating signals, and make release quality easier to trust.
 '''
+
+
+class WorkflowConfigTests(unittest.TestCase):
+    def test_crawl_workflow_persists_run_counter(self) -> None:
+        workflow_path = Path(".github/workflows/crawl-and-publish.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+        
+        crawl_job = workflow["jobs"]["crawl"]
+        commit_step = None
+        for step in crawl_job["steps"]:
+            if step.get("name") == "Commit crawl data":
+                commit_step = step
+                break
+        
+        self.assertIsNotNone(commit_step, "Commit crawl data step not found")
+        run_script = commit_step["run"]
+        self.assertIn("COUNTER=$(cat .squad/run-counter.txt", run_script)
+        self.assertIn("COUNTER=$((COUNTER + 1))", run_script)
+        self.assertIn(".squad/run-counter.txt", run_script)
+        self.assertIn("git add data/raw/ data/snapshots/ .squad/run-counter.txt", run_script)
+
+    def test_crawl_workflow_defines_reskill_jobs(self) -> None:
+        workflow_path = Path(".github/workflows/crawl-and-publish.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+        
+        self.assertIn("reskill-check", workflow["jobs"])
+        reskill_check = workflow["jobs"]["reskill-check"]
+        self.assertEqual(reskill_check["needs"], ["crawl"])
+        
+        self.assertIn("reskill", workflow["jobs"])
+        reskill = workflow["jobs"]["reskill"]
+        self.assertEqual(reskill["needs"], ["reskill-check"])
+        self.assertIn("needs.reskill-check.outputs.should_reskill", reskill["if"])
+        
+        check_step = next((s for s in reskill_check["steps"] if s.get("name") == "Check reskill trigger"), None)
+        self.assertIsNotNone(check_step)
+        check_run = check_step["run"]
+        self.assertIn("reskill=true", check_run)
+        self.assertIn("$GITHUB_OUTPUT", check_run)
+        
+        reskill_step = next((s for s in reskill["steps"] if s.get("name") == "Run placeholder reskill"), None)
+        self.assertIsNotNone(reskill_step)
+        reskill_run = reskill_step["run"]
+        self.assertIn("mkdir -p .squad/skills .squad/reskill", reskill_run)
+        self.assertIn("trigger-log.txt", reskill_run)
 
 
 class PipelineIntegrationTests(unittest.TestCase):

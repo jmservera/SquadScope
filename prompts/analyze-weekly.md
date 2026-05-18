@@ -25,6 +25,23 @@ Use this only if it is provided. If it is missing, unavailable, or empty, say so
 {{PREVIOUS_SUMMARY_CONTENT_OR_EMPTY}}
 ```
 
+## Learned context
+
+The analyze job must resolve both learned-state placeholders before invoking Copilot CLI or the GitHub Models fallback.
+
+1. Read `.squad/identity/wisdom.md` and inject its current contents into `{{WISDOM}}`.
+2. Read markdown files under `.squad/skills/` (for example `SKILL.md` files in nested skill folders), concatenate them in a stable sorted order, and inject that bundle into `{{SKILLS}}`.
+3. If either source is missing or empty, inject a short explicit note rather than leaving the placeholder unresolved.
+4. Treat learned context as guidance that sharpens judgment, not as permission to ignore the current week's evidence.
+
+### Wisdom
+
+{{WISDOM}}
+
+### Skills
+
+{{SKILLS}}
+
 ## Objective
 
 Write the full contents of `{{OUTPUT_PATH}}` as markdown with YAML frontmatter. The file must conform to the Output Contract in `docs/analysis-spec.md` exactly.
@@ -108,7 +125,8 @@ Be critical, selective, and opinionated.
 4. Name one or more overhyped or low-signal patterns.
 5. Identify concrete gaps or absences.
 6. Compare with the previous week if a previous summary was provided.
-7. Produce a concise, readable editorial summary that a technical reader would actually trust.
+7. Apply relevant wisdom and skills where they clarify the call, but overrule them when the raw evidence says they do not fit this week.
+8. Produce a concise, readable editorial summary that a technical reader would actually trust.
 
 ## Output template
 
