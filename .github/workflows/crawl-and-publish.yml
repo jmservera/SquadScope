@@ -1,4 +1,4 @@
-name: Crawl and publish raw data
+name: Crawl and publish weekly data
 
 on:
   schedule:
@@ -87,7 +87,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: crawl-raw
+          name: raw-data
           path: data/raw/
           if-no-files-found: warn
 
@@ -130,3 +130,145 @@ jobs:
             echo "Push failed after syncing with $DEFAULT_BRANCH."
             exit 1
           }
+
+  analyze:
+    needs: crawl
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      copilot-requests: write
+      models: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Download raw crawl artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: raw-data
+          path: data/raw/
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Prepare analysis context
+        id: analysis-context
+        run: |
+          mkdir -p data/analyzed
+          CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          readarray -t CONTEXT_LINES < <(python3 - <<'PY' "$CURRENT_DATETIME"
+          import json
+          import sys
+          from datetime import UTC, datetime
+          from pathlib import Path
+
+          current_datetime = sys.argv[1]
+          run_datetime = datetime.fromisoformat(current_datetime.replace("Z", "+00:00")).astimezone(UTC)
+          iso_year, iso_week, _ = run_datetime.isocalendar()
+          week = f"{iso_year}-W{iso_week:02d}"
+          week_file = Path("data/raw") / f"{week}.json"
+          if not week_file.exists():
+              raise SystemExit(f"Missing raw payload for current run: {week_file}")
+          payload = json.loads(week_file.read_text(encoding="utf-8"))
+          if payload.get("week") != week:
+              raise SystemExit(f"Raw payload week mismatch: expected {week}, found {payload.get('week')!r}")
+          print(f"week_file={week_file.as_posix()}")
+          print(f"week={week}")
+          print(f"output_file=data/analyzed/{week}-summary.md")
+          PY
+          )
+          {
+            printf '%s\n' "${CONTEXT_LINES[@]}"
+            echo "current_datetime=$CURRENT_DATETIME"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Install Copilot CLI
+        id: install-copilot
+        continue-on-error: true
+        run: npm install -g @github/copilot
+
+      - name: Run analysis
+        id: run-analysis
+        env:
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          OUTPUT_FILE="${{ steps.analysis-context.outputs.output_file }}"
+          WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
+          CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
+
+          if command -v copilot >/dev/null 2>&1 && copilot -p "$(python3 scripts/analyze_fallback.py --raw-json "$WEEK_FILE" --output "$OUTPUT_FILE" --current-datetime "$CURRENT_DATETIME" --print-prompt)" \
+            -s \
+            --no-ask-user \
+            --model claude-sonnet-4 \
+            --allow-tool=read \
+            --allow-tool=write \
+            --allow-tool=glob \
+            --allow-tool=grep \
+            > "$OUTPUT_FILE"; then
+            echo "analysis_source=copilot-cli" >> "$GITHUB_OUTPUT"
+          else
+            echo "Copilot CLI unavailable or failed; falling back to GitHub Models API."
+            python3 scripts/analyze_fallback.py \
+              --raw-json "$WEEK_FILE" \
+              --output "$OUTPUT_FILE" \
+              --current-datetime "$CURRENT_DATETIME"
+            echo "analysis_source=github-models" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: quality-check
+        env:
+          ANALYSIS_FILE: ${{ steps.analysis-context.outputs.output_file }}
+          ANALYSIS_SOURCE: ${{ steps.run-analysis.outputs.analysis_source }}
+          RAW_JSON_FILE: ${{ steps.analysis-context.outputs.week_file }}
+          CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
+        run: |
+          python3 scripts/analysis_gate.py \
+            --analysis-file "$ANALYSIS_FILE" \
+            --raw-json "$RAW_JSON_FILE" \
+            --current-datetime "$CURRENT_DATETIME" \
+            --source "$ANALYSIS_SOURCE"
+
+      - name: Commit analysis
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          WEEK: ${{ steps.analysis-context.outputs.week }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git status --short -- data/analyzed | grep -q .; then
+            echo "No analyzed data changes to commit."
+            exit 0
+          fi
+          git stash push --include-untracked --message analyzed-data -- data/analyzed
+          git fetch origin "$DEFAULT_BRANCH"
+          git checkout -B "$DEFAULT_BRANCH" "origin/$DEFAULT_BRANCH"
+          git stash pop || {
+            echo "Failed to reapply analyzed data after syncing $DEFAULT_BRANCH."
+            exit 1
+          }
+          git add data/analyzed/
+          git diff --cached --quiet || git commit -m "analysis: weekly summary $WEEK"
+          git push origin "HEAD:$DEFAULT_BRANCH" || {
+            echo "Push failed after syncing with $DEFAULT_BRANCH."
+            exit 1
+          }
+
+      - name: Upload analyzed data
+        uses: actions/upload-artifact@v4
+        with:
+          name: analyzed-data
+          path: data/analyzed/
+          if-no-files-found: warn
