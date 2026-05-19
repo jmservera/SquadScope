@@ -93,3 +93,20 @@
 - **PR #26 outcome:** Acceptable and merged after validation. The hardened crawler delivered the expected Phase 1 improvements: caching, star snapshots, stronger low-signal filtering, bounded retry/rate-limit behavior, partial-failure metadata, and regression tests for the new query and payload behavior.
 - **PR #25 outcome:** I flagged a blocker against the dry-run artifact: the checked-in file under `data/analyzed/` does not match the approved Analyze → Generate contract in `.squad/decisions.md` (`Signal` / `Noise` / `Gaps`). By the time I verified final PR state, GitHub already showed PR #25 as merged, so the blocker was recorded as review commentary and follow-up guidance rather than an enforceable lockout.
 - **Operational constraint:** Because the authenticated GitHub account is also the PR author, GitHub blocked formal approve/request-changes reviews. Outcome had to be recorded by comment, and only PR #26 could be actively merged during this pass.
+
+### 2026-05-19T05:17:53.102+02:00 — Cost Estimation PRD
+
+- **Deliverable:** `docs/PRD-cost-estimation.md` — comprehensive PRD for token-based Copilot billing cost estimation and optimization
+- **Key findings:**
+  - Weekly analysis cost: ~$0.30/run (Claude Sonnet 4, ~90K input tokens dominated by 301KB raw JSON)
+  - Reskill cost: ~$0.036/run (GPT-4.1, much smaller context, runs every 5th week)
+  - Annual all-in cost: ~$16/year for 52 weekly pages — $0.31/page
+  - Context growth is modest (2-5%/year on weekly runs) because raw JSON dominates and is stable
+  - Reskill grows faster (24-49%/year) due to accumulating history, but runs infrequently
+- **Optimization levers identified (ordered by ROI):**
+  1. Pre-process raw JSON to reduce tokens (40-60% savings on input)
+  2. Model downgrade for routine analysis (GPT-4.1 or Haiku saves 33-67%)
+  3. Prompt caching if available (77% savings on JSON portion)
+  4. Token budget with tiered degradation
+- **Pricing model note:** GitHub Models API and Copilot CLI use the same per-token rates; the difference is auth mechanism and agentic capabilities, not cost per token
+- **Open risk:** Whether Copilot CLI transcript exposes actual token usage (needed for monitoring)
