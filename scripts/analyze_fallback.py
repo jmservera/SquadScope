@@ -17,7 +17,7 @@ DEFAULT_ANALYZED_DIR = ROOT / "data" / "analyzed"
 DEFAULT_WISDOM_FILE = ROOT / ".squad" / "identity" / "wisdom.md"
 DEFAULT_SKILLS_DIR = ROOT / ".squad" / "skills"
 DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
-DEFAULT_MODELS_MODEL = "openai/gpt-4.1"
+DEFAULT_MODELS_MODEL = "openai/gpt-4o"
 DEFAULT_MODELS_TIMEOUT = 30
 
 

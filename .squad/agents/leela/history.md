@@ -159,3 +159,16 @@
 - **No more `continue-on-error: true`** on commit steps — they succeed properly now via the PR path.
 - **Tests updated:** Adjusted step name references in `tests/test_pipeline.py` to match new naming.
 - **Decision recorded:** `.squad/decisions/inbox/leela-no-ruleset-bypass.md`
+
+### 2026-05-19T22:57:55+02:00 — CI Self-Learning Pipeline Architecture
+
+- **Deliverable:** `.github/agents/farnsworth.agent.md` — dedicated CI agent file with learning loop instructions
+- **Architecture decisions:**
+  - Copilot CLI `--agent` flag loads Farnsworth identity in both analysis and reskill jobs
+  - Post-analysis learnings committed atomically with analysis data to `publish` branch
+  - Reskill promoted to Copilot CLI primary path (was GitHub Models only); agent can now update wisdom.md directly
+  - Default model switched from `openai/gpt-4.1` (403) to `openai/gpt-4o` across all fallback paths
+- **Key insight:** The learning loop requires three properties: (1) identity loaded before work, (2) state persisted after work, (3) persisted state injected into next run. The agent file provides (1), the commit step provides (2), and the existing prompt templates with `{{WISDOM}}`/`{{SKILLS}}` provide (3).
+- **Decision recorded:** `.squad/decisions/inbox/leela-ci-self-learning.md`
+- **Files modified:** `crawl-and-publish.yml` (analysis + reskill steps), `scripts/reskill.py`, `scripts/analyze_fallback.py`
+
