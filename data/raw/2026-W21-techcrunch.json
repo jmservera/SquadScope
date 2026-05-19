@@ -1,0 +1,436 @@
+{
+  "week": "2026-W21",
+  "source": "techcrunch",
+  "crawled_at": "2026-05-19T18:01:37.340654Z",
+  "articles": [
+    {
+      "title": "Google’s Genie world model can now simulate real streets with Street View",
+      "url": "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
+      "published_at": "2026-05-19T17:51:39Z",
+      "categories": [
+        "AI",
+        "Robotics",
+        "genie 3",
+        "Google",
+        "Google I/O",
+        "google io 2026",
+        "Google Maps",
+        "Street View"
+      ],
+      "summary": "Google DeepMind is integrating Street View with Project Genie to create immersive, interactive world simulations for robotics, gaming, and travel, allowing users to explore environments, weather changes, and rare scenarios.",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "Genie",
+        "Street",
+        "View"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "With Gemini 3.5 Flash, Google bets its next AI wave on agents, not chatbots",
+      "url": "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
+      "published_at": "2026-05-19T17:51:30Z",
+      "categories": [
+        "AI",
+        "gemini",
+        "gemini flash 3.5",
+        "Google",
+        "google io 2026"
+      ],
+      "summary": "Google launched Gemini 3.5 Flash, its most powerful coding and agentic AI model yet, at the company's annual developer conference. It is capable of autonomously executing complex tasks and building software from scratch.",
+      "github_links": [],
+      "entities": [
+        "Gemini",
+        "Flash",
+        "Google",
+        "AI"
+      ],
+      "relevance_score": 0.8
+    },
+    {
+      "title": "How to use Google’s new information agents",
+      "url": "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
+      "published_at": "2026-05-19T17:50:00Z",
+      "categories": [
+        "AI",
+        "Google",
+        "Google Search",
+        "AI agents",
+        "google io 2026"
+      ],
+      "summary": "Google is launching AI-powered “information agents” that can monitor topics in the background and proactively alert users to updates and changes.",
+      "github_links": [],
+      "entities": [
+        "Google"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Google Search as you know it is over",
+      "url": "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
+      "published_at": "2026-05-19T17:46:00Z",
+      "categories": [
+        "TC",
+        "AI",
+        "Apps",
+        "Google",
+        "Google Search",
+        "AI search",
+        "google io 2026"
+      ],
+      "summary": "Google is transforming Search from a list of links into an AI-powered experience filled with conversational answers, autonomous agents, and interactive interfaces — a shift that could further reduce traffic to publishers across the web.",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "Search"
+      ],
+      "relevance_score": 0.6
+    },
+    {
+      "title": "Google’s AI now lets you talk to your Gmail inbox",
+      "url": "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
+      "published_at": "2026-05-19T17:45:00Z",
+      "categories": [
+        "AI",
+        "Apps",
+        "gmail",
+        "Google",
+        "Google Workspace",
+        "gemini ai",
+        "google io 2026"
+      ],
+      "summary": "Google expands Gmail’s AI Inbox with conversational voice search, letting users ask Gemini to find buried email details.",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "AI",
+        "Gmail"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "Google’s AI Studio now lets anyone build Android apps in minutes",
+      "url": "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
+      "published_at": "2026-05-19T17:45:00Z",
+      "categories": [
+        "AI",
+        "Apps",
+        "Android",
+        "Google",
+        "coding",
+        "google io 2026"
+      ],
+      "summary": "Google unveiled new web-based AI tools that can generate native Android apps in minutes, as the company expands its push into AI-powered software development.",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "AI",
+        "Studio",
+        "Android"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "Google just declared itself a contender in AI design",
+      "url": "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
+      "published_at": "2026-05-19T17:45:00Z",
+      "categories": [
+        "AI",
+        "Apps",
+        "Google",
+        "Google I/O",
+        "google pics",
+        "google i/o 2026"
+      ],
+      "summary": "The tech giant says it's designed the app to be accessible to everyone, from teachers to small business owners.",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "AI"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "Google updates its Gemini app to take on ChatGPT and Claude",
+      "url": "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
+      "published_at": "2026-05-19T17:45:00Z",
+      "categories": [
+        "AI",
+        "Apps",
+        "Google",
+        "Google I/O",
+        "gemini",
+        "google i/o 2026"
+      ],
+      "summary": "The updates signal Google’s push to turn its Gemini Gemini app into an all-purpose AI hub rather than a standalone chatbot.",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "Gemini",
+        "ChatGPT",
+        "Claude"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Agentic app coding gets an upgrade with Google’s release of Android CLI",
+      "url": "https://techcrunch.com/2026/05/19/agentic-app-coding-gets-an-upgrade-with-googles-release-of-android-cli/",
+      "published_at": "2026-05-19T17:45:00Z",
+      "categories": [
+        "TC",
+        "AI",
+        "Apps",
+        "Android",
+        "Google",
+        "coding",
+        "google io 2026"
+      ],
+      "summary": "Google is embracing the rise of AI coding agents with new Android tools designed to work with platforms like Claude Code and OpenAI’s Codex, allowing developers — or their AI assistants — to build Android apps faster from the command line.",
+      "github_links": [],
+      "entities": [
+        "Agentic",
+        "Google",
+        "Android",
+        "CLI"
+      ],
+      "relevance_score": 0.6
+    },
+    {
+      "title": "Google’s new Universal Cart wants to follow you across the entire internet",
+      "url": "https://techcrunch.com/2026/05/19/googles-new-universal-cart-wants-to-follow-you-across-the-entire-internet/",
+      "published_at": "2026-05-19T17:45:00Z",
+      "categories": [
+        "AI",
+        "Apps",
+        "Commerce",
+        "Google",
+        "Google I/O",
+        "google i/o 2026"
+      ],
+      "summary": "The tech giant says it's aware that most people shop across multiple devices, many retailers, and over the course of many days, which is why it's launching Universal Cart.",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "Universal",
+        "Cart"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Google introduces Gemini Spark, a 24/7 agentic assistant with Gmail integration",
+      "url": "https://techcrunch.com/2026/05/19/google-introduces-gemini-spark-a-24-7-agentic-assistant-with-gmail-integration/",
+      "published_at": "2026-05-19T17:45:00Z",
+      "categories": [
+        "AI",
+        "Google I/O",
+        "gemini",
+        "google io 2026",
+        "Gemini Spark",
+        "agentic AI assistant"
+      ],
+      "summary": "At the I/O developer conference, Google announced a new agentic personal assistant called Gemini Spark, built from Gemini's base models and an agentic harness from Google Antigravity.",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "Gemini",
+        "Spark",
+        "Gmail"
+      ],
+      "relevance_score": 0.8
+    },
+    {
+      "title": "Google adds voice-based prompting to Docs and Keep",
+      "url": "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
+      "published_at": "2026-05-19T17:45:00Z",
+      "categories": [
+        "AI",
+        "Apps",
+        "Google",
+        "voice AI",
+        "google docs",
+        "google io 2026"
+      ],
+      "summary": "Google is letting users create drafts, take notes, and search for email with voice with the new Workspace update",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "Docs",
+        "Keep"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "Google launches Antigravity 2.0 with an updated desktop app and CLI tool",
+      "url": "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
+      "published_at": "2026-05-19T17:45:00Z",
+      "categories": [
+        "AI",
+        "Apps",
+        "TC",
+        "ai coding",
+        "Google",
+        "Google Antigravity",
+        "google io 2026"
+      ],
+      "summary": "Google is debuting a new AI Ultra plan priced at $100, which will give users 5x more usage limit than the  AI Pro plan alongside Antigravity 2.0 launch.",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "Antigravity",
+        "CLI"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "Google’s Gemini Omni turns images, audio, and text into video — and that’s just the start",
+      "url": "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
+      "published_at": "2026-05-19T17:45:00Z",
+      "categories": [
+        "Media & Entertainment",
+        "AI",
+        "Google",
+        "Veo",
+        "google io 2026",
+        "google gemini omni",
+        "gemini omni flash"
+      ],
+      "summary": "Google's Gemini Omni is a new multimodal model that reasons across text, images, audio, and video to generate and edit videos through simple conversation — starting with Omni Flash.",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "Gemini",
+        "Omni"
+      ],
+      "relevance_score": 0.6
+    },
+    {
+      "title": "OpenAI is making it easier to check if an image was made by their models",
+      "url": "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
+      "published_at": "2026-05-19T17:45:00Z",
+      "categories": [
+        "AI",
+        "c2pa",
+        "deepfake",
+        "Google",
+        "OpenAI",
+        "provenance",
+        "synthid"
+      ],
+      "summary": "OpenAI announced two new measures to help detect AI generated imagery: joining the open C2PA standard and adding Google's SynthID to its products.",
+      "github_links": [],
+      "entities": [
+        "OpenAI"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team",
+      "url": "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/",
+      "published_at": "2026-05-19T15:43:04Z",
+      "categories": [
+        "AI",
+        "Andrej Karpathy",
+        "Anthropic",
+        "OpenAI",
+        "pretraining"
+      ],
+      "summary": "Pre-training is responsible for the large-scale training runs that give Claude its core knowledge and capabilities, according to the company. It's also one of the most expensive, compute-intensive phases of building a frontier model.",
+      "github_links": [],
+      "entities": [
+        "OpenAI",
+        "Andrej",
+        "Karpathy",
+        "Anthropic"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "The minimalist Light Phone teams up with Andrew Yang’s Noble Mobile, which pays you to stop doomscrolling",
+      "url": "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/",
+      "published_at": "2026-05-19T15:37:17Z",
+      "categories": [
+        "Gadgets",
+        "Hardware",
+        "Andrew Yang",
+        "Joe Hollier",
+        "Kaiwei Tang",
+        "Light Phone",
+        "noble mobile"
+      ],
+      "summary": "\"The Light Phone is designed to be used as little as possible,\" founder Joe Hollier told TechCrunch.",
+      "github_links": [],
+      "entities": [
+        "Light",
+        "Phone",
+        "Andrew",
+        "Yang",
+        "Noble",
+        "Mobile"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Hackers have compromised dozens of popular open source packages in an ongoing supply chain attack",
+      "url": "https://techcrunch.com/2026/05/19/hackers-have-compromised-dozens-of-popular-open-source-packages-in-an-ongoing-supply-chain-attack/",
+      "published_at": "2026-05-19T15:32:46Z",
+      "categories": [
+        "Security",
+        "cybersecurity",
+        "Mini Shai-Hulud",
+        "open source",
+        "supply chain attack",
+        "supply chain security"
+      ],
+      "summary": "The attacks are part of a wider campaign known as Mini Shai-Hulud, which has already compromised several open source projects and, in turn, developers and companies that use them.",
+      "github_links": [],
+      "entities": [
+        "Hackers"
+      ],
+      "relevance_score": 0.6
+    },
+    {
+      "title": "US cyber agency CISA exposed reams of passwords and cloud keys to the open web",
+      "url": "https://techcrunch.com/2026/05/19/us-cyber-agency-cisa-exposed-reams-of-passwords-and-cloud-keys-to-the-open-web/",
+      "published_at": "2026-05-19T15:06:42Z",
+      "categories": [
+        "Government & Policy",
+        "Security",
+        "CISA",
+        "cybersecurity",
+        "data exposure",
+        "Trump Administration"
+      ],
+      "summary": "The federal cybersecurity agency left plaintext passwords in a spreadsheet uploaded to a public GitHub repository, per a report by independent journalist Brian Krebs.",
+      "github_links": [],
+      "entities": [
+        "US",
+        "CISA"
+      ],
+      "relevance_score": 0.6
+    },
+    {
+      "title": "Apple announces Apple Intelligence powered accessibility feature updates",
+      "url": "https://techcrunch.com/2026/05/19/apple-announces-apple-intelligence-powered-accessibility-feature-updates/",
+      "published_at": "2026-05-19T14:01:07Z",
+      "categories": [
+        "Apps",
+        "accessibility",
+        "Apple",
+        "Apple Intelligence"
+      ],
+      "summary": "Apple is introducing a feature to let Vision Pro control a compatible wheelchair with their eyes",
+      "github_links": [],
+      "entities": [
+        "Apple",
+        "Intelligence"
+      ],
+      "relevance_score": 0.2
+    }
+  ],
+  "metadata": {
+    "total_articles": 20,
+    "relevant_articles": 14,
+    "github_links_found": 0
+  }
+}
