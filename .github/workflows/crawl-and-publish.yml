@@ -153,8 +153,6 @@ jobs:
     permissions:
       actions: read
       contents: write
-      copilot-requests: write
-      models: read
     outputs:
       week: ${{ steps.analysis-context.outputs.week }}
       summary_file: ${{ steps.analysis-context.outputs.output_file }}
@@ -587,7 +585,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      models: read
 
     steps:
       - uses: actions/checkout@v4
