@@ -1,7 +1,7 @@
 {
   "week": "2026-W21",
   "source": "techcrunch",
-  "crawled_at": "2026-05-19T18:35:08.311770Z",
+  "crawled_at": "2026-05-19T18:43:15.584320Z",
   "articles": [
     {
       "title": "Google’s Genie world model can now simulate real streets with Street View",
@@ -247,11 +247,11 @@
         "AI",
         "Apps",
         "Google",
-        "voice AI",
         "google docs",
-        "google io 2026"
+        "google io 2026",
+        "voice AI"
       ],
-      "summary": "Google is letting users create drafts, take notes, and search for email with voice with the new Workspace update",
+      "summary": "Google is letting users create drafts, take notes, and search for email with voice with the new Workspace update.",
       "github_links": [],
       "entities": [
         "Google",
