@@ -117,6 +117,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Commit crawl data
+        continue-on-error: true
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
@@ -299,6 +300,7 @@ jobs:
             --source "$ANALYSIS_SOURCE"
 
       - name: Commit analysis
+        continue-on-error: true
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           WEEK: ${{ steps.analysis-context.outputs.week }}
@@ -378,6 +380,7 @@ jobs:
         run: python3 scripts/generate_rollups.py
 
       - name: Commit generated content
+        continue-on-error: true
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           WEEK: ${{ needs.analyze.outputs.week }}
