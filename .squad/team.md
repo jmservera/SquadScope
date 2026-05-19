@@ -17,6 +17,7 @@
 | Farnsworth | Analyst | .squad/agents/farnsworth/charter.md | 🔍 Active |
 | Amy | Frontend Dev | .squad/agents/amy/charter.md | ⚛️ Active |
 | Fry | Tester | .squad/agents/fry/charter.md | 🧪 Active |
+| Hermes | Security & Threat Analyst | .squad/agents/hermes/charter.md | 🔒 Active |
 | Scribe | Session Logger | .squad/agents/scribe/charter.md | 📋 Active |
 | Ralph | Work Monitor | .squad/agents/ralph/charter.md | 🔄 Active |
 
