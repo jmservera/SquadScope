@@ -270,8 +270,18 @@ class TestFormatDivergencesReaderMode:
 
     def test_reader_mode_has_narrative(self):
         result = format_divergences(self._divergences(), reader_mode=True)
-        assert "gaps between what the tech industry is reporting" in result
-        assert "developers are actually building" in result
+        # Narrative prose paragraphs, no raw bullet lists
+        assert "TechCrunch heavily covered" in result
+        assert "Developer activity this week" in result
+        assert "- **quantum-computing**:" not in result
+        assert "- **wasm-tooling**:" not in result
+
+    def test_reader_mode_has_repo_links(self):
+        result = format_divergences(self._divergences(), reader_mode=True)
+        # Repo name as link, not full_name with stars
+        assert "[wasm-lib](https://github.com/org/wasm-lib)" in result
+        # Article link preserved
+        assert "[Quantum Leap](https://tc.com/q)" in result
 
     def test_reader_mode_still_shows_data(self):
         result = format_divergences(self._divergences(), reader_mode=True)
