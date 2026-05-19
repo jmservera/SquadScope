@@ -1,7 +1,7 @@
 {
   "week": "2026-W21",
   "source": "techcrunch",
-  "crawled_at": "2026-05-19T18:17:44.492196Z",
+  "crawled_at": "2026-05-19T18:35:08.311770Z",
   "articles": [
     {
       "title": "Google’s Genie world model can now simulate real streets with Street View",
@@ -140,8 +140,8 @@
         "Apps",
         "Google",
         "Google I/O",
-        "google pics",
-        "google i/o 2026"
+        "google io 2026",
+        "google pics"
       ],
       "summary": "The tech giant says it's designed the app to be accessible to everyone, from teachers to small business owners.",
       "github_links": [],
@@ -229,7 +229,7 @@
         "Google I/O",
         "google io 2026"
       ],
-      "summary": "At the I/O developer conference, Google announced a new agentic personal assistant called Gemini Spark, built from Gemini's base models and an agentic harness from Google Antigravity.",
+      "summary": "At the Google I/O developer conference, the company announced a new agentic personal assistant called Gemini Spark, built from Gemini's base models and an agentic harness from Google Antigravity.",
       "github_links": [],
       "entities": [
         "Google",
