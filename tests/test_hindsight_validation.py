@@ -36,8 +36,10 @@ def _old_week(weeks_back: int = 5) -> str:
 
 
 def _make_raw_data(repos: list[dict[str, Any]], section: str = "trending_repos") -> dict[str, Any]:
-    return {section: repos, "new_repos": [] if section != "new_repos" else repos,
-            "trending_repos": [] if section != "trending_repos" else repos}
+    return {
+        "new_repos": repos if section == "new_repos" else [],
+        "trending_repos": repos if section == "trending_repos" else [],
+    }
 
 
 def _write_raw(raw_dir: Path, week: str, data: dict[str, Any]) -> None:
@@ -60,12 +62,10 @@ class TestIsoWeekConversion:
         assert dt.year == 2026
 
     def test_week_offset_forward(self):
-        result = week_offset("2026-W10", 4)
-        assert result == "2026-W14"
+        assert week_offset("2026-W10", 4) == "2026-W14"
 
     def test_week_offset_backward(self):
-        result = week_offset("2026-W10", -2)
-        assert result == "2026-W08"
+        assert week_offset("2026-W10", -2) == "2026-W08"
 
     def test_current_iso_week_format(self):
         week = current_iso_week()
@@ -112,7 +112,7 @@ class TestValidateRisingStar:
         _write_raw(tmp_path, later_week, _make_raw_data(
             [{"full_name": "org/repo", "stars": 150}]))
         result = validate_rising_star("org/repo", 100, tmp_path, pred_week, 4)
-        assert result is True  # 50% growth >= 20%
+        assert result is True
 
     def test_growth_below_threshold(self, tmp_path: Path):
         pred_week = _old_week(5)
@@ -227,7 +227,7 @@ class TestGenerateScorecard:
             {"prediction": "rising_star", "validated": True},
             {"prediction": "rising_star", "validated": False},
             {"prediction": "momentum_shift", "validated": True},
-            {"prediction": "rising_star", "validated": None},  # not counted
+            {"prediction": "rising_star", "validated": None},
         ]
         sc = generate_scorecard(preds)
         assert sc["total_validated"] == 3
@@ -267,16 +267,12 @@ class TestRunValidation:
         raw = tmp_path / "raw"
         metrics = tmp_path / "metrics"
 
-        # Write prediction-week raw data
         _write_raw(raw, pred_week, _make_raw_data(
             [{"full_name": "org/star", "stars": 100}]))
-
-        # Write later-week raw data with growth
         later = week_offset(pred_week, 4)
         _write_raw(raw, later, _make_raw_data(
             [{"full_name": "org/star", "stars": 200}]))
 
-        # Write predictions
         preds = [
             {"week": pred_week, "repo": "org/star", "prediction": "rising_star",
              "confidence": 0.7, "reason": "test", "validated": None},
@@ -289,11 +285,9 @@ class TestRunValidation:
         assert scorecard["correct"] == 1
         assert scorecard["accuracy"] == 1.0
 
-        # Check predictions file was updated
         updated = load_predictions(metrics / "predictions.jsonl")
         assert updated[0]["validated"] is True
 
-        # Check scorecard file was written
         scorecards = list((metrics / "scorecards").glob("*-scorecard.json"))
         assert len(scorecards) == 1
 
@@ -312,7 +306,6 @@ class TestRunValidation:
         scorecard = run_validation(topic_id=None, weeks_ago=4, data_dir=str(tmp_path))
         assert scorecard["total_validated"] == 0
 
-        # Prediction should remain unvalidated
         updated = load_predictions(metrics / "predictions.jsonl")
         assert updated[0]["validated"] is None
 
@@ -342,7 +335,6 @@ class TestRunValidation:
 
         scorecard = run_validation(topic_id=topic, weeks_ago=4, data_dir=str(tmp_path))
         assert scorecard["total_validated"] == 1
-        # 30% growth >= 20% threshold
         assert scorecard["correct"] == 1
 
     def test_already_validated_skipped(self, tmp_path: Path):
@@ -358,6 +350,5 @@ class TestRunValidation:
         _write_predictions(metrics, preds)
 
         scorecard = run_validation(topic_id=None, weeks_ago=4, data_dir=str(tmp_path))
-        # Already validated, so it counts in scorecard but wasn't re-processed
         assert scorecard["total_validated"] == 1
         assert scorecard["correct"] == 1
