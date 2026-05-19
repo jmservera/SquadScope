@@ -118,7 +118,7 @@ class CrawlTests(unittest.TestCase):
             def has_readme(self, full_name: str) -> bool:
                 return True
 
-        args = Namespace(since="2026-05-11", as_of=None, max_results=25, output="data/raw/test-live.json", topic=None)
+        args = Namespace(since="2026-05-11", as_of=None, max_results=25, output="data/raw/test-live.json", topic=None, config=None)
         with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
             "os.environ", {"GITHUB_TOKEN": "token"}, clear=False
         ), mock.patch.object(crawl, "GitHubClient", FakeClient), mock.patch.object(
@@ -151,7 +151,7 @@ class CrawlTests(unittest.TestCase):
             def has_readme(self, full_name: str) -> bool:
                 return True
 
-        args = Namespace(since="2026-05-11", as_of="2026-05-18", max_results=25, output="data/raw/test-backfill.json", topic=None)
+        args = Namespace(since="2026-05-11", as_of="2026-05-18", max_results=25, output="data/raw/test-backfill.json", topic=None, config=None)
         with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
             "os.environ", {"GITHUB_TOKEN": "token"}, clear=False
         ), mock.patch.object(crawl, "GitHubClient", FakeClient), mock.patch.object(
