@@ -1,7 +1,7 @@
 {
   "week": "2026-W21",
   "source": "techcrunch",
-  "crawled_at": "2026-05-19T19:30:49.417780Z",
+  "crawled_at": "2026-05-19T19:58:36.606668Z",
   "articles": [
     {
       "title": "Google takes a page out of Meta’s book, announces new audio-powered smart glasses",
@@ -10,13 +10,13 @@
       "categories": [
         "AI",
         "Hardware",
-        "TC",
         "ai glasses",
         "glasses",
         "Google",
-        "google io 2026"
+        "google io 2026",
+        "In Brief"
       ],
-      "summary": "Google is back in the glasses game with \"audio glasses\" out this fall.",
+      "summary": "Google is calling the new devices \"audio glasses,\" in that users will be able to issue verbal commands to them and get things done via its ecosystem of apps and services, including Gemini.",
       "github_links": [],
       "entities": [
         "Google",
