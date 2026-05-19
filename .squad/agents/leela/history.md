@@ -132,3 +132,21 @@
 - **Key decision captured:** TechCrunch as enrichment signal (5–15% correlation hit rate), not primary source
 - **Status:** PR #55 ready for next review cycle
 - **Team learning:** Rollback/rejection-to-revision cycle worked as designed — rejector (Leela) transitioned ownership cleanly, locked reviewer enabled handoff without conflicts
+
+### 2026-05-19T14:51:48.593+02:00 — PR #55 Re-review (TechCrunch RSS PRD)
+
+- **Verdict:** APPROVED (recorded as comment due to GitHub self-author constraint)
+- **Revision quality:** Excellent. Bender delivered a complete 443-line PRD that addresses all original rejection reasons.
+- **Key strengths:** Honest 5–15% correlation rate, graceful zero-noise degradation, Decision #7 plugin compliance, explicit failure criteria with removal triggers, phased rollout with exit gates.
+- **Minor suggestions (non-blocking):** Spike OQ1 (RSS content depth) before Phase 1; consider `correlate.py` placement at `scripts/` root since it's a cross-source concern; add URL-based dedup for mid-week article republishes.
+- **Pattern confirmed:** The reject → reassign → revise cycle works. Bender's revision was materially better than a "fix the branch" patch — it was a ground-up rewrite with proper editorial framing.
+- **Operational note:** GitHub still blocks formal approve/request-changes on self-authored PRs. Approval recorded via PR comment.
+
+### 2026-05-19T14:59:57+02:00 — PRD Decomposition into Milestones
+
+- **Milestone structure adopted:** v0.5 (Cost Visibility, 3 issues), v0.6 (Topic Channels Foundation, 6 issues), v0.7 (Learning & Predictions, 9 issues), v0.8 (Cross-Source Intelligence, 7 issues), v0.9 (Cost Optimization & Polish, 9 issues)
+- **Total issues created:** 34 issues across 5 milestones (issues #56–#89)
+- **PRDs processed:** 3 PRDs moved to docs/processed/ (cost-estimation, topic-channels, techcrunch-integration)
+- **Workflow change:** Milestone-based versioning adopted per user directive. PRDs → issues → milestones → docs/processed/
+- **Dependencies respected:** TechCrunch (v0.8) follows topic-channels foundation (v0.6); cost optimization (v0.9) follows cost visibility (v0.5)
+- **Label convention:** All issues carry `squad` + `squad:{agent}` labels for routing
