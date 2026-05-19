@@ -484,7 +484,46 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Topic ID for namespaced data directories. Defaults to 'general' (flat layout).",
     )
+    parser.add_argument(
+        "--config",
+        default=None,
+        help="Path to a topic YAML config file (e.g. squadscope.topic.yml). "
+        "When provided, queries are read from the config instead of using hardcoded defaults.",
+    )
     return parser.parse_args()
+
+
+def load_topic_queries(config_path: str, template_vars: dict[str, str]) -> dict[str, Any]:
+    """Load and resolve queries from a topic YAML config file.
+
+    Returns a dict with keys: primary (list[str]), secondary (list[str]), min_repos_per_week (int).
+    Template variables in queries (e.g. {last_week}, {today}) are replaced with values from template_vars.
+    """
+    import yaml
+
+    path = Path(config_path)
+    if not path.exists():
+        raise FileNotFoundError(f"Topic config not found: {config_path}")
+
+    with open(path, encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+
+    queries_section = data.get("queries", {})
+    primary = queries_section.get("primary", [])
+    secondary = queries_section.get("secondary", [])
+    quality_section = data.get("quality", {})
+    min_repos = quality_section.get("min_repos_per_week", 5)
+
+    def resolve(q: str) -> str:
+        for key, value in template_vars.items():
+            q = q.replace(f"{{{key}}}", value)
+        return q
+
+    return {
+        "primary": [resolve(q) for q in primary],
+        "secondary": [resolve(q) for q in secondary],
+        "min_repos_per_week": min_repos,
+    }
 
 
 def utc_now() -> datetime:
@@ -765,18 +804,34 @@ def main() -> int:
     client = GitHubClient(github_token, cache_dir=topic_cache)
     max_results = max(1, min(args.max_results, 1000))
 
-    if args.as_of:
-        created_filter = f"created:{since.date().isoformat()}..{window_end.date().isoformat()}"
-        pushed_filter = f"pushed:{since.date().isoformat()}..{window_end.date().isoformat()}"
+    if args.config:
+        template_vars = {
+            "last_week": since.date().isoformat(),
+            "today": window_end.date().isoformat(),
+        }
+        topic_queries = load_topic_queries(args.config, template_vars)
+        all_candidates: list[Any] = []
+        for q in topic_queries["primary"]:
+            all_candidates.extend(client.search_repositories(q, max_results=max_results))
+        if len(all_candidates) < topic_queries["min_repos_per_week"]:
+            for q in topic_queries["secondary"]:
+                all_candidates.extend(client.search_repositories(q, max_results=max_results))
+        new_candidates = all_candidates
+        previous_stars = load_previous_star_snapshot(SNAPSHOT_ROOT, week, output_path.parent, RAW_ROOT)
+        trending_candidates: list[Any] = []
     else:
-        created_filter = f"created:>{since.date().isoformat()}"
-        pushed_filter = f"pushed:>{since.date().isoformat()}"
-    new_query = f"{created_filter} stars:>50"
-    trending_query = f"{pushed_filter} stars:>50"
+        if args.as_of:
+            created_filter = f"created:{since.date().isoformat()}..{window_end.date().isoformat()}"
+            pushed_filter = f"pushed:{since.date().isoformat()}..{window_end.date().isoformat()}"
+        else:
+            created_filter = f"created:>{since.date().isoformat()}"
+            pushed_filter = f"pushed:>{since.date().isoformat()}"
+        new_query = f"{created_filter} stars:>50"
+        trending_query = f"{pushed_filter} stars:>50"
 
-    new_candidates = client.search_repositories(new_query, max_results=max_results)
-    previous_stars = load_previous_star_snapshot(SNAPSHOT_ROOT, week, output_path.parent, RAW_ROOT)
-    trending_candidates = client.search_repositories(trending_query, max_results=max_results)
+        new_candidates = client.search_repositories(new_query, max_results=max_results)
+        previous_stars = load_previous_star_snapshot(SNAPSHOT_ROOT, week, output_path.parent, RAW_ROOT)
+        trending_candidates = client.search_repositories(trending_query, max_results=max_results)
 
     new_repos, new_filters = collect_repositories(client, new_candidates)
     trending_repos, trending_filters = collect_repositories(
