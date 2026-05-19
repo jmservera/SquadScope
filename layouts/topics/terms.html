@@ -1,0 +1,32 @@
+{{- define "main" -}}
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1>{{ .Title }}</h1>
+  {{- with (.Description | default .Params.summary) }}
+  <div class="post-description">{{ . }}</div>
+  {{- end }}
+</header>
+
+{{- if .Content }}
+<div class="post-content md-content">
+  {{ .Content }}
+</div>
+{{- end }}
+
+<section class="taxonomy-grid" aria-label="{{ .Title }} terms">
+  {{- range .Data.Terms.Alphabetical }}
+  {{- $term := .Name -}}
+  {{- $count := .Count -}}
+  {{- with site.GetPage (printf "/topics/%s" $term) }}
+  <article class="home-report-card taxonomy-card">
+    <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
+    <p>{{ .Params.summary | default (printf "Browse %d weekly issue%s." $count (cond (eq $count 1) "" "s")) }}</p>
+    <div class="home-report-meta">
+      <span>{{ $count }} issue{{ if ne $count 1 }}s{{ end }}</span>
+      <a href="{{ .RelPermalink }}index.xml" title="RSS feed for {{ .LinkTitle }}">RSS</a>
+    </div>
+  </article>
+  {{- end }}
+  {{- end }}
+</section>
+{{- end -}}

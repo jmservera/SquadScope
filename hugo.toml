@@ -11,6 +11,7 @@ rssLimit = 20
 [taxonomies]
   tag = 'tags'
   category = 'categories'
+  topic = 'topics'
 
 [outputs]
   home = ['HTML', 'RSS', 'JSON']
@@ -40,7 +41,7 @@ rssLimit = 20
     threshold = 0.35
     minMatchCharLength = 2
     limit = 10
-    keys = ['title', 'permalink', 'summary', 'content', 'tags', 'categories']
+    keys = ['title', 'permalink', 'summary', 'content', 'tags', 'categories', 'topics']
 
 [menu]
   [[menu.main]]
@@ -78,6 +79,12 @@ rssLimit = 20
     name = 'Categories'
     url = '/categories/'
     weight = 60
+
+  [[menu.main]]
+    identifier = 'topics'
+    name = 'Topics'
+    url = '/topics/'
+    weight = 65
 
   [[menu.main]]
     identifier = 'search'
