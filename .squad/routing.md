@@ -11,6 +11,7 @@ How to decide who handles what.
 | Frontend, site design, GitHub Pages, templates | Amy | Build site layout, create report templates, fix styling |
 | Architecture, scope, priorities, editorial direction | Leela | Decide tech stack, review architecture, set priorities |
 | Code review | Leela | Review PRs, check quality, approve/reject |
+| Security review, threat analysis, vulnerability triage | Hermes | Review PRs for security, triage Dependabot/CodeQL alerts, threat modeling |
 | Testing, QA, validation | Fry | Write tests, validate pipeline, find edge cases |
 | Scope & priorities | Leela | What to build next, trade-offs, decisions |
 | Session logging | Scribe | Automatic — never needs routing |
