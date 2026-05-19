@@ -352,6 +352,23 @@ def _render_press_section_no_ai(press_context_path: Path | None) -> str:
             "correlation analysis between developer activity and industry coverage, "
             "highlighting press-driven hype versus organic growth patterns."
         )
+
+    # Try to re-render from raw data using reader_mode=True so the narrative
+    # divergence format (from PR #136) is used instead of the AI-prompt format.
+    stem = press_context_path.stem  # e.g. "2026-W21-press-context"
+    week = stem.replace("-press-context", "")  # e.g. "2026-W21"
+    data_dir = press_context_path.parent.parent  # data/analyzed/ -> data/
+    tc_path = data_dir / "raw" / f"{week}-techcrunch.json"
+    corr_path = data_dir / "analyzed" / f"{week}-correlations.json"
+
+    if tc_path.exists():
+        from scripts.render_press_context import render_press_context, load_json as rpc_load_json
+        tc_data = rpc_load_json(tc_path)
+        corr_data = rpc_load_json(corr_path) if corr_path.exists() else {}
+        if tc_data is not None:
+            return render_press_context(tc_data, corr_data or {}, week, reader_mode=True)
+
+    # Fallback: strip AI instructions from the pre-rendered file.
     content = press_context_path.read_text(encoding="utf-8").strip()
     return _strip_ai_instructions(content)
 
