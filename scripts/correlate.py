@@ -317,7 +317,15 @@ def main(argv: list[str] | None = None) -> int:
 
     # Load repos
     raw_data = load_json(raw_path)
-    repos = raw_data if isinstance(raw_data, list) else raw_data.get("repos", raw_data.get("repositories", []))
+    if isinstance(raw_data, list):
+        repos = raw_data
+    else:
+        # The crawl output stores repos under "new_repos" and "trending_repos"
+        repos = raw_data.get("repos", raw_data.get("repositories", []))
+        if not repos:
+            new_repos = raw_data.get("new_repos", [])
+            trending_repos = raw_data.get("trending_repos", [])
+            repos = new_repos + trending_repos
 
     # Load articles (graceful if missing)
     articles: list[dict[str, Any]] = []
