@@ -1,8 +1,109 @@
 {
   "week": "2026-W21",
   "source": "techcrunch",
-  "crawled_at": "2026-05-19T21:07:57.732100Z",
+  "crawled_at": "2026-05-19T21:28:13.930776Z",
   "articles": [
+    {
+      "title": "You can now talk to your Gmail inbox, as seen at Google IO 2026",
+      "url": "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+      "published_at": "2026-05-19T21:25:31Z",
+      "categories": [
+        "AI",
+        "Apps",
+        "gemini ai",
+        "gmail",
+        "Google",
+        "google io",
+        "google io 2026",
+        "Google Workspace"
+      ],
+      "summary": "Google expands Gmail’s AI Inbox with conversational voice search, letting users ask Gemini to find buried email details.",
+      "github_links": [],
+      "entities": [
+        "You",
+        "Gmail",
+        "Google",
+        "IO"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "How to use Google’s new AI agents to go beyond your standard searches",
+      "url": "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+      "published_at": "2026-05-19T21:16:25Z",
+      "categories": [
+        "AI",
+        "AI agents",
+        "Google",
+        "google io 2026",
+        "Google Search"
+      ],
+      "summary": "Google is launching AI-powered “information agents” that can monitor topics in the background and proactively alert users to updates and changes.",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "AI"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Discord enables end-to-end encrypted voice and video calling for every user",
+      "url": "https://techcrunch.com/2026/05/19/discord-enables-end-to-end-encrypted-voice-and-video-calling-for-every-user/",
+      "published_at": "2026-05-19T21:14:08Z",
+      "categories": [
+        "Security",
+        "cybersecurity",
+        "discord",
+        "end-to-end encryption"
+      ],
+      "summary": "Good news! Discord's hundreds of millions of users now have their communications scrambled, so not even Discord can see them.",
+      "github_links": [],
+      "entities": [
+        "Discord"
+      ],
+      "relevance_score": 0.0
+    },
+    {
+      "title": "Mach Industries just spent $50M to solve a major defense tech problem",
+      "url": "https://techcrunch.com/2026/05/19/mach-industries-just-spent-50m-to-solve-a-major-defense-tech-problem/",
+      "published_at": "2026-05-19T21:09:56Z",
+      "categories": [
+        "Hardware",
+        "TC",
+        "anduril",
+        "defense tech",
+        "Ethan Thornton",
+        "mach industries"
+      ],
+      "summary": "Mach says the acquisition meaningfully improves unit economics across its five vehicle programs at exactly the moment the company is starting to scale.",
+      "github_links": [],
+      "entities": [
+        "Mach",
+        "Industries"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "From teen hacker to Iron Dome researcher, this founder raised $28M to fight AI phishing",
+      "url": "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
+      "published_at": "2026-05-19T21:08:51Z",
+      "categories": [
+        "AI",
+        "Security",
+        "Startups",
+        "Exclusive",
+        "lightspeed",
+        "phishing"
+      ],
+      "summary": "Ocean, an agentic email security platform, raised funding from Lightspeed Venture Partners.",
+      "github_links": [],
+      "entities": [
+        "Iron",
+        "Dome",
+        "AI"
+      ],
+      "relevance_score": 0.6
+    },
     {
       "title": "Elon Musk said Sam Altman “stole” a non-profit — but the trial showed he had similar aims",
       "url": "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
@@ -91,24 +192,6 @@
       "relevance_score": 0.8
     },
     {
-      "title": "How to use Google’s new information agents",
-      "url": "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
-      "published_at": "2026-05-19T17:50:00Z",
-      "categories": [
-        "AI",
-        "AI agents",
-        "Google",
-        "google io 2026",
-        "Google Search"
-      ],
-      "summary": "Google is launching AI-powered “information agents” that can monitor topics in the background and proactively alert users to updates and changes.",
-      "github_links": [],
-      "entities": [
-        "Google"
-      ],
-      "relevance_score": 0.4
-    },
-    {
       "title": "Google Search as you know it is over",
       "url": "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
       "published_at": "2026-05-19T17:46:00Z",
@@ -127,28 +210,6 @@
         "Search"
       ],
       "relevance_score": 0.6
-    },
-    {
-      "title": "Google’s AI now lets you talk to your Gmail inbox",
-      "url": "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
-      "published_at": "2026-05-19T17:45:00Z",
-      "categories": [
-        "AI",
-        "Apps",
-        "gmail",
-        "Google",
-        "Google Workspace",
-        "gemini ai",
-        "google io 2026"
-      ],
-      "summary": "Google expands Gmail’s AI Inbox with conversational voice search, letting users ask Gemini to find buried email details.",
-      "github_links": [],
-      "entities": [
-        "Google",
-        "AI",
-        "Gmail"
-      ],
-      "relevance_score": 0.2
     },
     {
       "title": "Google’s AI Studio now lets anyone build Android apps in minutes",
@@ -314,7 +375,7 @@
         "Google Antigravity",
         "google io 2026"
       ],
-      "summary": "Google is debuting a new AI Ultra plan priced at $100, which will give users 5x more usage limit than the  AI Pro plan alongside Antigravity 2.0 launch.",
+      "summary": "Google is debuting a new AI Ultra plan priced at $100, which will give users 5x more usage limit than the AI Pro plan alongside the Antigravity 2.0 launch.",
       "github_links": [],
       "entities": [
         "Google",
@@ -364,77 +425,11 @@
         "OpenAI"
       ],
       "relevance_score": 0.4
-    },
-    {
-      "title": "OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team",
-      "url": "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/",
-      "published_at": "2026-05-19T15:43:04Z",
-      "categories": [
-        "AI",
-        "Andrej Karpathy",
-        "Anthropic",
-        "OpenAI",
-        "pretraining"
-      ],
-      "summary": "Pre-training is responsible for the large-scale training runs that give Claude its core knowledge and capabilities, according to the company. It's also one of the most expensive, compute-intensive phases of building a frontier model.",
-      "github_links": [],
-      "entities": [
-        "OpenAI",
-        "Andrej",
-        "Karpathy",
-        "Anthropic"
-      ],
-      "relevance_score": 0.4
-    },
-    {
-      "title": "The minimalist Light Phone teams up with Andrew Yang’s Noble Mobile, which pays you to stop doomscrolling",
-      "url": "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/",
-      "published_at": "2026-05-19T15:37:17Z",
-      "categories": [
-        "Gadgets",
-        "Hardware",
-        "Andrew Yang",
-        "Joe Hollier",
-        "Kaiwei Tang",
-        "Light Phone",
-        "noble mobile"
-      ],
-      "summary": "\"The Light Phone is designed to be used as little as possible,\" founder Joe Hollier told TechCrunch.",
-      "github_links": [],
-      "entities": [
-        "Light",
-        "Phone",
-        "Andrew",
-        "Yang",
-        "Noble",
-        "Mobile"
-      ],
-      "relevance_score": 0.4
-    },
-    {
-      "title": "Hackers have compromised dozens of popular open source packages in an ongoing supply-chain attack",
-      "url": "https://techcrunch.com/2026/05/19/hackers-have-compromised-dozens-of-popular-open-source-packages-in-an-ongoing-supply-chain-attack/",
-      "published_at": "2026-05-19T15:32:46Z",
-      "categories": [
-        "Security",
-        "cybersecurity",
-        "In Brief",
-        "Mini Shai-Hulud",
-        "open source",
-        "supply chain attack",
-        "supply chain security"
-      ],
-      "summary": "The attacks are part of a wider campaign known as Mini Shai-Hulud, which has already compromised several open source projects and, in turn, developers and companies that use them.",
-      "github_links": [],
-      "entities": [
-        "Hackers"
-      ],
-      "relevance_score": 0.6
     }
   ],
   "metadata": {
     "total_articles": 20,
-    "relevant_articles": 13,
+    "relevant_articles": 11,
     "github_links_found": 0
   }
 }
