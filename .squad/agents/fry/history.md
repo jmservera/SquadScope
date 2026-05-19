@@ -16,3 +16,4 @@
 
 - **2026-05-18T10:59:10.800+02:00:** The PaperMod theme in this repo needs Hugo `v0.146.0+`; dry-run validation failed on the system `v0.123.7` binary and only passed after switching to a newer Hugo build.
 - **2026-05-18T10:59:10.800+02:00:** Real crawler output is publishable with manual curation, but `trending_repos` needs historical snapshots and the new-repo filter still lets exploit/cheat noise through.
+- **2026-05-19T15:08:00Z:** Leela milestone decomposition complete. Issues assigned to v0.5–v0.9 milestones. Scribe logged orchestration and merged decision. Your assigned v0.5 infrastructure and validation issues are ready. See `.squad/orchestration-log/2026-05-19T15-08-leela.md` for full decomposition outcome.

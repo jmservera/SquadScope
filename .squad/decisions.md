@@ -386,6 +386,253 @@ Treat README lookups as a degradable signal instead of a hard-stop path. The cra
 
 ---
 
+## Analyze Job Integration & Quality Gate (2026-05-18)
+
+**Issue:** #10 — Integrate Actions analyze job with Copilot path and reviewer gate  
+**Author:** Bender (Crawler agent)  
+**Status:** Approved for Phase 2 implementation  
+**Date:** 2026-05-18T13:05:53.678+02:00
+
+### Decision
+
+Extend `.github/workflows/crawl-and-publish.yml` with an `analyze` job that runs after `crawl` and enforces an automated quality gate before downstream publish steps.
+
+**Stage handoff artifacts:**
+- `raw-data` for crawl → analyze
+- `analyzed-data` for analyze → generate
+
+**Analysis paths:**
+1. Primary: Standalone Copilot CLI with `permissions.copilot-requests: write` and `COPILOT_GH_TOKEN`
+2. Fallback: `scripts/analyze_fallback.py` using GitHub Models API with `permissions.models: read`
+
+**Quality Gate Contract** — workflow must fail if any of the following are false:
+- YAML frontmatter exists with exact required keys
+- `quality_score` is an integer ≥ 60
+- Required H2/H3 sections appear in documented order
+- Body word count ≥ 200
+- Output does not leak raw JSON, traceback, or placeholder content
+
+**Implications:**
+- Generate jobs can safely consume `analyzed-data` without inspecting raw crawl artifacts
+- Copilot failures do not block immediately; GitHub Models fallback preserves publishability
+- Reviewer-gate failures stop low-quality summaries before downstream stages
+
+---
+
+## Analysis Output Specification (2026-05-18)
+
+**Issue:** #9 — Define weekly analysis contract between crawler output and site generator  
+**Author:** Farnsworth (Analyst)  
+**Status:** Approved for Phase 2 implementation  
+**Date:** 2026-05-18T12:07:20.778+02:00
+
+### Decisions
+
+1. **Analyzer output frontmatter is a superset contract.**
+   - Required fields: `title`, `date`, `week`, `year`, `tags`, `categories`, `repos_featured`, `stars_tracked`, `top_repo`, `quality_score`, `summary`
+
+2. **Reader-facing structure: five stable H2 sections** (in order):
+   - `Notable New Repositories`
+   - `Trending This Week (Stars Gained)`
+   - `Trend Analysis` (with required `### Signal` and `### Noise` subsections)
+   - `What's Missing` (with required `### Gaps` subsection)
+   - `Conclusion`
+
+3. **Trending must degrade honestly when momentum data is incomplete.**
+   - If `stars_gained` is absent or null, summary must say the section is directional, not a true momentum leaderboard
+
+4. **Analyzer input schema: strict on core fields, tolerant on metadata.**
+   - Required: week slug, crawl timestamp, new/trending repo arrays, top topics
+   - Optional: `partial_failures`, `filter_summary`, `snapshot_path`
+
+---
+
+## Generate & Deploy Workflow (2026-05-18)
+
+**Issue:** #11 — Implement generate-and-deploy workflow for GitHub Pages  
+**Author:** Amy (Generator agent)  
+**Status:** Approved for Phase 2 implementation  
+**Date:** 2026-05-18T13:20:07.067+02:00
+
+### Decision
+
+Keep `.github/workflows/deploy-site.yml` for push-to-main deployments. Weekly automation lives in `.github/workflows/crawl-and-publish.yml` end-to-end (crawl → analyze → generate → deploy).
+
+**Generate stage:**
+1. Read `data/analyzed/YYYY-WNN-summary.md`
+2. Write Hugo page to `content/weekly/YYYY/WNN.md` with archetype-compatible frontmatter
+3. Commit back to default branch before Pages build so future archive builds retain previously published content
+
+**Deploy:**
+- Build with Hugo 0.161.1 + Pagefind
+- Deploy with `actions/deploy-pages@v4` under `github-pages` environment
+
+---
+
+## Run Counter & Reskill Trigger (2026-05-18)
+
+**Issue:** #15 — Add run counter persistence and every-fifth-run reskill trigger  
+**Author:** Bender (Crawler agent)  
+**Status:** Approved for Phase 1B implementation  
+**Date:** 2026-05-18T15:22:25.067+02:00
+
+### Decisions
+
+1. **Create `.squad/run-counter.txt`** initialized to `0`
+2. **Increment counter** in `crawl` job's git commit step after syncing default branch, then commit `.squad/run-counter.txt` with `data/raw/` and `data/snapshots/`
+3. **Add `reskill-check` job** that reads persisted counter and exposes `should_reskill` for downstream jobs
+4. **Add placeholder `reskill` job** that logs the trigger and scaffolds `.squad/skills/` and `.squad/reskill/` until Issue #14 adds full retrospective implementation
+
+**Why:** Reading the counter only after syncing `origin/main` keeps the increment tied to latest persisted state. Committing together ensures survival between weekly runs. Splitting `reskill-check` from `reskill` keeps trigger logic auditable.
+
+---
+
+## Reskill Retrospective & Learning State (2026-05-18)
+
+**Issue:** #14 — Reskill retrospective, learned-state injection, and quality trend tracking  
+**Author:** Farnsworth (Analyst)  
+**Status:** Approved for Phase 2 implementation  
+**Date:** 2026-05-18T15:22:25.067+02:00
+
+### Decisions
+
+1. **Reskill context** from latest analyzer evidence, not generic squad history:
+   - Inputs: last ~5 `data/analyzed/*-summary.md` files, `data/snapshots/` hindsight, `wisdom.md`, learned skills, quality trend report
+   - Why: gives retrospective concrete calibration points and closes gap findings
+
+2. **Learned state flows back** into weekly analyzer prompt:
+   - Inject `.squad/identity/wisdom.md` into `{{WISDOM}}` placeholder
+   - Inject concatenated markdown from `.squad/skills/` into `{{SKILLS}}` placeholder
+   - Why: without prompt injection, learning artifacts exist but never influence future analysis
+
+3. **Quality trend tracking** is first-class reskill input:
+   - `scripts/track_quality.py` reads `quality_score` from analyzed summaries, produces markdown trend report
+   - Why: squad needs lightweight longitudinal measure of editorial quality improvement
+
+4. **Reskill outputs in persistent squad state:**
+   - `.squad/reskill/` for weekly retrospective reports
+   - `.squad/skills/` for extracted reusable patterns
+   - Both committed to git (not ephemeral workflow output)
+
+---
+
+## Cost Estimation & Budget Controls (2026-05-19)
+
+**Issue:** #17 — Cost estimation framework for SquadScope  
+**Author:** Leela (Lead/Architect)  
+**Status:** Proposed  
+**PRD:** docs/PRD-cost-estimation.md  
+**Date:** 2026-05-19T05:17:53.102+02:00
+
+### Summary
+
+Current SquadScope cost under token-based billing: ~$0.30/week (~$16/year), well within Copilot Pro's 300 credits/month allowance. However, proactive monitoring and budget controls needed before context growth or model upgrades change the picture.
+
+### Decisions
+
+1. **Accept current cost profile as sustainable** — $16/year is economically trivial; no immediate model downgrade required
+2. **Implement token usage tracking (Phase A)** — Add `scripts/track_token_usage.py` and `data/metrics/token-usage.jsonl` to establish baselines before optimizing
+3. **Set budget alert thresholds:**
+   - Warn at $0.50/run
+   - Fail at $1.00/run
+   - Email alert at $5/month cumulative
+   - Auto-switch to cheaper model at $10/month cumulative
+4. **Defer raw JSON pre-processing** — 40-60% savings significant but adds pipeline complexity; implement only if costs grow beyond $30/year
+5. **Wisdom.md cap at 5 KB** — Reskill should retire obsolete heuristics, not only append
+
+**Rationale:** Dominant cost driver (raw JSON at 86K tokens) is stable and bounded by crawl scope. Growth comes from wisdom/skills/history accumulation, which is slow. Premature optimization would add complexity without meaningful savings at current scale.
+
+**Risks:**
+- OQ5/OQ6: Billing mechanics for Copilot CLI vs Models API may differ in ways not yet visible
+- Credit exhaustion mid-month would disrupt weekly pipeline if no degradation path exists
+
+---
+
+## Topic-Specific News Channels Architecture (2026-05-18)
+
+**Issue:** #16 — Topic-specific news channels architecture  
+**Author:** Leela (Lead/Architect)  
+**Status:** Proposed  
+**PRD:** docs/PRD-topic-channels.md  
+**PR:** #39  
+**Date:** 2026-05-18T13:20:07.067+02:00
+
+### Key Architectural Decisions
+
+**Feature First, Not Platform:** Generalize SquadScope into topic channels by adding topic namespace to existing pipeline. No new platform, no new repo structure. Same codebase, configured differently.
+
+**Multi-Instance Single-Topic (v1):** One fork/config per topic with isolated learning, own `squadscope.topic.yml`, own Actions schedule, own GitHub Pages site. Multi-topic single-instance is v2.
+
+**Topic Config as Single Source of Truth:** `squadscope.topic.yml` controls:
+- Crawler queries
+- Scoring weights and thresholds
+- Analysis tone and audience
+- Learning state paths
+- Quality criteria
+
+**Scoring Pipeline (New Stage):** GitHub topic search is noisy. New `scripts/score_repos.py` between crawl and analyze, scoring repos 0-100 on relevance/momentum/language/noise/recency. Only repos ≥40 reach analysis.
+
+**Per-Topic Learning Isolation:**
+- `topics/{id}/wisdom.md` — domain-specific heuristics
+- `topics/{id}/skills/` — extracted patterns
+- `topics/{id}/predictions.jsonl` — prediction ledger
+- `topics/{id}/scorecards/` — hindsight validation results
+- No cross-topic contamination
+
+**Prediction Ledger with Hindsight Validation:** Every analysis appends machine-readable predictions to `predictions.jsonl`. Four weeks later, `scripts/validate_predictions.py` scores them against actual outcomes (star deltas, fork growth). Scorecards feed into reskill.
+
+**Topic Quality Criteria:**
+- Minimum N repos/week passing filters
+- Maximum false positive rate
+- Minimum genuinely significant repos per issue
+
+### Implications
+
+- Crawler must read config instead of hardcoded queries
+- Analysis prompt becomes a template with injection points
+- Hugo gains topic taxonomy and per-topic RSS
+- All data paths gain `{topic_id}/` prefix
+- Reskill reads per-topic state
+
+### Open for Discussion
+
+- Should enrichment signals (forks, contributors) be in v1 scorer or deferred?
+- Prediction confidence: fixed initial values or prompt-generated?
+- Topic config in root vs `topics/` directory?
+
+---
+
+## TechCrunch RSS as First Non-GitHub Data Source (2026-05-19)
+
+**Issue:** TechCrunch integration as first non-GitHub crawler plugin  
+**Author:** Farnsworth (Analyst)  
+**Status:** Proposed  
+**PRD:** docs/PRD-techcrunch-integration.md  
+**Date:** 2026-05-19T11:48:44.543Z
+
+### Decision
+
+Add TechCrunch RSS (`https://techcrunch.com/feed/`) as SquadScope's first non-GitHub data source, implementing Decision #7's crawler plugin architecture.
+
+**Rationale:**
+1. Cross-source correlation enables hype detection (press-driven vs. organic growth)
+2. Near-zero cost and complexity (public RSS, no auth, no rate limits)
+3. Directly implements the `DataSource` plugin pattern already approved
+4. Enriches editorial judgment without changing SquadScope's voice or pipeline structure
+
+**Impact:**
+- **Bender:** Implements `TechCrunchSource` crawler plugin
+- **Farnsworth:** Analyzer prompt gains press-context block; labels repos as press-correlated or organic
+- **Amy:** Optional correlation badge in Hugo templates
+- **Leela:** No architectural changes needed; plugin arch already designed for this
+
+### Open for Team Input
+
+- Should we start with full feed or category-specific feeds?
+- Correlation annotations: reader-visible or internal-only?
+
+---
+
 ## Governance
 
 - All meaningful changes require team consensus
