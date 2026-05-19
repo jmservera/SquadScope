@@ -1,0 +1,90 @@
+{{- $data := site.Data.metrics.cost_summary -}}
+{{- $weeks := $data.weeks -}}
+{{- $cumulative := $data.cumulative_cost -}}
+{{- $budget := $data.budget_limit -}}
+{{- $pctUsed := mul (div $cumulative $budget) 100 -}}
+
+<div class="cost-dashboard">
+  <h2>💰 Cost Dashboard</h2>
+
+  <!-- Cumulative Spend -->
+  <section class="cumulative-spend">
+    <h3>Cumulative Spend</h3>
+    <p><strong>${{ printf "%.2f" $cumulative }}</strong> of ${{ printf "%.2f" $budget }} budget ({{ printf "%.1f" $pctUsed }}% used)</p>
+    <svg width="100%" height="30" viewBox="0 0 400 30" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="5" width="400" height="20" rx="4" fill="#e0e0e0"/>
+      <rect x="0" y="5" width="{{ mul 4 $pctUsed }}" height="20" rx="4" fill="{{ if lt $pctUsed 50.0 }}#4caf50{{ else if lt $pctUsed 80.0 }}#ff9800{{ else }}#f44336{{ end }}"/>
+    </svg>
+  </section>
+
+  <!-- Weekly Cost Trend -->
+  <section class="weekly-trend">
+    <h3>Weekly Cost Trend</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Week</th>
+          <th>Cost</th>
+          <th>Tokens In</th>
+          <th>Tokens Out</th>
+          <th>Model</th>
+          <th>Bar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{- $maxCost := 0.0 -}}
+        {{- range $weeks -}}
+          {{- if gt .cost $maxCost }}{{ $maxCost = .cost }}{{ end -}}
+        {{- end -}}
+        {{- range $weeks }}
+        <tr>
+          <td>{{ .week }}</td>
+          <td>${{ printf "%.2f" .cost }}</td>
+          <td>{{ .tokens_in | lang.FormatNumber 0 }}</td>
+          <td>{{ .tokens_out | lang.FormatNumber 0 }}</td>
+          <td>{{ .model }}</td>
+          <td>
+            {{- $barWidth := mul (div .cost $maxCost) 100 -}}
+            <svg width="120" height="16" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="2" width="{{ $barWidth }}%" height="12" rx="2" fill="#2196f3"/>
+            </svg>
+          </td>
+        </tr>
+        {{- end }}
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Model Usage Distribution -->
+  <section class="model-distribution">
+    <h3>Model Usage Distribution</h3>
+    {{- $models := dict -}}
+    {{- range $weeks -}}
+      {{- $prev := index $models .model | default 0 -}}
+      {{- $models = merge $models (dict .model (add $prev 1)) -}}
+    {{- end -}}
+    <table>
+      <thead>
+        <tr><th>Model</th><th>Weeks Used</th><th>Share</th></tr>
+      </thead>
+      <tbody>
+        {{- $total := len $weeks -}}
+        {{- range $model, $count := $models }}
+        <tr>
+          <td>{{ $model }}</td>
+          <td>{{ $count }}</td>
+          <td>{{ printf "%.0f" (mul (div (float $count) (float $total)) 100) }}%</td>
+        </tr>
+        {{- end }}
+      </tbody>
+    </table>
+  </section>
+</div>
+
+<style>
+.cost-dashboard { font-family: system-ui, sans-serif; max-width: 800px; }
+.cost-dashboard section { margin: 1.5rem 0; }
+.cost-dashboard table { border-collapse: collapse; width: 100%; }
+.cost-dashboard th, .cost-dashboard td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+.cost-dashboard th { background: #f5f5f5; }
+</style>

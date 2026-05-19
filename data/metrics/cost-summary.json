@@ -1,0 +1,9 @@
+{
+  "weeks": [
+    {"week": "2026-W19", "cost": 0.32, "tokens_in": 82000, "tokens_out": 3500, "model": "claude-sonnet-4"},
+    {"week": "2026-W20", "cost": 0.28, "tokens_in": 75000, "tokens_out": 3200, "model": "claude-sonnet-4"},
+    {"week": "2026-W21", "cost": 0.35, "tokens_in": 86000, "tokens_out": 4000, "model": "claude-sonnet-4"}
+  ],
+  "cumulative_cost": 0.95,
+  "budget_limit": 10.00
+}
