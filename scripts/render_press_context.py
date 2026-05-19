@@ -70,6 +70,54 @@ def format_correlations_list(correlations: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def format_divergences(divergences: dict) -> str:
+    """Format divergences section into markdown."""
+    if not divergences:
+        return ""
+
+    uncovered = divergences.get("uncovered_tech_trends", [])
+    unpublicized = divergences.get("unpublicized_dev_activity", [])
+
+    if not uncovered and not unpublicized:
+        return ""
+
+    lines = ["\n### Divergence Analysis\n"]
+
+    if uncovered:
+        lines.append("#### 🔍 Tech Trends Without Dev Activity")
+        lines.append("Topics heavily covered by TechCrunch with no matching GitHub repos:\n")
+        for item in uncovered:
+            topic = item.get("topic", "unknown")
+            articles = item.get("techcrunch_articles", [])
+            article_refs = ", ".join(
+                f"[{a.get('title', 'article')}]({a.get('url', '')})"
+                for a in articles[:3]
+            )
+            lines.append(f"- **{topic}**: {article_refs}")
+        lines.append("")
+
+    if unpublicized:
+        lines.append("#### 🚀 Dev Activity Without Press Coverage")
+        lines.append("GitHub repos/trends with no matching TechCrunch coverage:\n")
+        for item in unpublicized:
+            topic = item.get("topic", "unknown")
+            repos = item.get("github_repos", [])
+            repo_refs = ", ".join(
+                f"{r.get('full_name', '?')} (⭐{r.get('stars', 0)})"
+                for r in repos[:3]
+            )
+            lines.append(f"- **{topic}**: {repo_refs}")
+        lines.append("")
+
+    lines.append("#### Divergence Instructions")
+    lines.append("Use divergences to identify:")
+    lines.append("- 🔮 Where industry is moving but devs haven't caught up")
+    lines.append("- 💡 Where devs are innovating ahead of media attention")
+    lines.append("- 📊 Opportunity gaps between narrative and reality")
+
+    return "\n".join(lines)
+
+
 def render_press_context(
     techcrunch_data: dict | None, correlation_data: dict | None, week: str
 ) -> str:
@@ -108,12 +156,22 @@ def render_press_context(
     article_count = len(articles)
     correlation_count = len(correlations)
 
+    # Extract divergences
+    divergences = {}
+    if correlation_data:
+        divergences = correlation_data.get("divergences", {})
+
     # Render template
     rendered = template.replace("{date}", week)
     rendered = rendered.replace("{article_count}", str(article_count))
     rendered = rendered.replace("{articles_list}", format_articles_list(articles))
     rendered = rendered.replace("{correlation_count}", str(correlation_count))
     rendered = rendered.replace("{correlations_list}", format_correlations_list(correlations))
+
+    # Append divergences section
+    divergence_section = format_divergences(divergences)
+    if divergence_section:
+        rendered += "\n" + divergence_section
 
     return rendered
 

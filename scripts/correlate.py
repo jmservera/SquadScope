@@ -212,6 +212,102 @@ def correlate_repo(repo: dict[str, Any], articles: list[dict[str, Any]]) -> dict
     }
 
 
+def _extract_article_topic(article: dict[str, Any]) -> str:
+    """Extract a representative topic string from an article."""
+    categories = article.get("categories", [])
+    if categories:
+        return categories[0]
+    entities = article.get("entities", [])
+    if entities:
+        return entities[0]
+    title = article.get("title", "")
+    # Use first few meaningful words from title as fallback
+    words = [w for w in re.split(r"\s+", title) if len(w) > 3]
+    return " ".join(words[:3]) if words else "unknown"
+
+
+def _extract_repo_topic(repo: dict[str, Any]) -> str:
+    """Extract a representative topic string from a repo."""
+    topics = repo.get("topics", [])
+    if topics:
+        return topics[0]
+    description = repo.get("description") or ""
+    words = [w for w in re.split(r"\s+", description) if len(w) > 3]
+    return " ".join(words[:3]) if words else repo.get("name", "unknown")
+
+
+def detect_divergences(
+    repos: list[dict[str, Any]],
+    articles: list[dict[str, Any]],
+    correlations: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Detect divergences — gaps between press coverage and dev activity.
+
+    Returns two lists:
+    - uncovered_tech_trends: articles/topics with no matching GitHub activity
+    - unpublicized_dev_activity: repos/trends with no matching press coverage
+    """
+    # Find article URLs that were matched by at least one correlation
+    matched_article_urls: set[str] = set()
+    for corr in correlations:
+        matched_article_urls.update(corr.get("matched_articles", []))
+
+    # Unmatched articles → uncovered tech trends
+    unmatched_articles = [a for a in articles if a.get("url") not in matched_article_urls]
+
+    # Group unmatched articles by topic
+    topic_articles: dict[str, list[dict[str, Any]]] = {}
+    for article in unmatched_articles:
+        topic = _extract_article_topic(article)
+        topic_articles.setdefault(topic, []).append(article)
+
+    uncovered_tech_trends = [
+        {
+            "topic": topic,
+            "techcrunch_articles": [
+                {"title": a.get("title", ""), "url": a.get("url", "")}
+                for a in arts
+            ],
+            "signal": "No matching GitHub activity",
+        }
+        for topic, arts in sorted(topic_articles.items(), key=lambda x: -len(x[1]))
+    ]
+
+    # Find repos that had no correlation match
+    correlated_repo_names: set[str] = {c.get("repo", "") for c in correlations}
+    unmatched_repos = [
+        r for r in repos
+        if (r.get("full_name") or f"{r.get('owner')}/{r.get('name')}") not in correlated_repo_names
+    ]
+
+    # Group unmatched repos by topic
+    topic_repos: dict[str, list[dict[str, Any]]] = {}
+    for repo in unmatched_repos:
+        topic = _extract_repo_topic(repo)
+        topic_repos.setdefault(topic, []).append(repo)
+
+    unpublicized_dev_activity = [
+        {
+            "topic": topic,
+            "github_repos": [
+                {
+                    "full_name": r.get("full_name") or f"{r.get('owner')}/{r.get('name')}",
+                    "stars": r.get("stars", 0),
+                    "stars_gained": r.get("stars_gained"),
+                }
+                for r in reps
+            ],
+            "signal": "No TechCrunch coverage",
+        }
+        for topic, reps in sorted(topic_repos.items(), key=lambda x: -len(x[1]))
+    ]
+
+    return {
+        "uncovered_tech_trends": uncovered_tech_trends,
+        "unpublicized_dev_activity": unpublicized_dev_activity,
+    }
+
+
 def correlate_all(repos: list[dict[str, Any]], articles: list[dict[str, Any]], week: str) -> dict[str, Any]:
     """Run correlation engine across all repos and articles."""
     correlations: list[dict[str, Any]] = []
@@ -230,14 +326,20 @@ def correlate_all(repos: list[dict[str, Any]], articles: list[dict[str, Any]], w
 
     articles_matched = len({url for c in correlations for url in c["matched_articles"]})
 
+    # Detect divergences
+    divergences = detect_divergences(repos, articles, correlations)
+
     return {
         "week": week,
         "correlations": correlations,
+        "divergences": divergences,
         "uncorrelated_repos": uncorrelated,
         "metadata": {
             "repos_analyzed": len(repos),
             "correlations_found": len(correlations),
             "articles_matched": articles_matched,
+            "uncovered_tech_trends": len(divergences["uncovered_tech_trends"]),
+            "unpublicized_dev_activity": len(divergences["unpublicized_dev_activity"]),
         },
     }
 
