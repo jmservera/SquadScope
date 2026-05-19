@@ -1,7 +1,7 @@
 {
   "week": "2026-W21",
   "source": "techcrunch",
-  "crawled_at": "2026-05-19T20:43:08.095708Z",
+  "crawled_at": "2026-05-19T21:04:26.245640Z",
   "articles": [
     {
       "title": "Elon Musk said Sam Altman “stole” a non-profit — but the trial showed he had similar aims",
@@ -412,12 +412,13 @@
       "relevance_score": 0.4
     },
     {
-      "title": "Hackers have compromised dozens of popular open source packages in an ongoing supply chain attack",
+      "title": "Hackers have compromised dozens of popular open source packages in an ongoing supply-chain attack",
       "url": "https://techcrunch.com/2026/05/19/hackers-have-compromised-dozens-of-popular-open-source-packages-in-an-ongoing-supply-chain-attack/",
       "published_at": "2026-05-19T15:32:46Z",
       "categories": [
         "Security",
         "cybersecurity",
+        "In Brief",
         "Mini Shai-Hulud",
         "open source",
         "supply chain attack",
