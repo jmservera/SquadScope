@@ -208,21 +208,18 @@ def generate_no_ai_summary(raw_json_path: Path, current_datetime: str) -> str:
     new_repos = payload.get("new_repos", [])
     trending_repos = payload.get("trending_repos", [])
     signals = payload.get("signals", {})
-    top_topics = signals.get("top_topics", [])
+    raw_topics = signals.get("top_topics", [])
+    top_topics = [t["topic"] if isinstance(t, dict) else str(t) for t in raw_topics]
 
     total_stars = sum(r.get("stars", 0) for r in new_repos + trending_repos)
     repos_featured = len(new_repos) + len(trending_repos)
 
-    # Pick top repo by stars from new_repos, fallback to trending
     all_repos = sorted(new_repos + trending_repos, key=lambda r: r.get("stars", 0), reverse=True)
     top_repo = all_repos[0]["full_name"] if all_repos else "unknown/unknown"
 
-    # Determine tags from top topics
     tags = top_topics[:5] if len(top_topics) >= 3 else ["open-source", "developer-tools", "automation"]
-    if len(tags) < 3:
-        tags = ["open-source", "developer-tools", "automation"]
 
-    # Notable new repos section
+    # Notable new repos
     notable_new = sorted(new_repos, key=lambda r: r.get("stars", 0), reverse=True)[:10]
     notable_lines = []
     for repo in notable_new:
@@ -234,7 +231,7 @@ def generate_no_ai_summary(raw_json_path: Path, current_datetime: str) -> str:
         )
     notable_section = "\n".join(notable_lines) if notable_lines else "No new repositories were captured this week."
 
-    # Trending section
+    # Trending repos
     top_trending = sorted(trending_repos, key=lambda r: r.get("stars", 0), reverse=True)[:10]
     trending_lines = []
     for repo in top_trending:
@@ -246,7 +243,7 @@ def generate_no_ai_summary(raw_json_path: Path, current_datetime: str) -> str:
         )
     trending_section = "\n".join(trending_lines) if trending_lines else "No trending repositories were captured this week."
 
-    # Language breakdown for trend analysis
+    # Language breakdown
     lang_counts: dict[str, int] = {}
     for repo in all_repos:
         lang = repo.get("language")
@@ -255,13 +252,16 @@ def generate_no_ai_summary(raw_json_path: Path, current_datetime: str) -> str:
     top_langs = sorted(lang_counts.items(), key=lambda x: x[1], reverse=True)[:5]
     lang_summary = ", ".join(f"{lang} ({count})" for lang, count in top_langs) if top_langs else "diverse mix of languages"
 
-    # Build the full document
-    markdown = f"""---
-title: "Week {week.split('-W')[1]}, {week.split('-W')[0]} Analysis"
+    year_str = week.split("-W")[0]
+    week_num = week.split("-W")[1]
+    topics_str = ", ".join(top_topics[:8]) if top_topics else "not available from this crawl"
+
+    markdown = f'''---
+title: "Week {week_num}, {year_str} Analysis"
 date: {current_datetime}
 week: "{week}"
-year: {int(week.split('-W')[0])}
-tags: [{', '.join(tags)}]
+year: {int(year_str)}
+tags: [{", ".join(tags)}]
 categories: [weekly]
 repos_featured: {repos_featured}
 stars_tracked: {total_stars}
@@ -290,7 +290,7 @@ The presence of established projects alongside newer entries indicates both sust
 
 ### Signal
 
-The primary signal this week comes from language and topic distribution. The top languages are {lang_summary}. The top community topics are {', '.join(top_topics[:8]) if top_topics else 'not available from this crawl'}. These patterns indicate where developer attention is concentrating and what categories are gaining traction relative to prior weeks.
+The primary signal this week comes from language and topic distribution. The top languages are {lang_summary}. The top community topics are {topics_str}. These patterns indicate where developer attention is concentrating and what categories are gaining traction relative to prior weeks.
 
 ### Noise
 
@@ -304,8 +304,8 @@ This automated summary lacks editorial judgment that AI analysis would normally 
 
 ## Conclusion
 
-Week {week.split('-W')[1]} of {week.split('-W')[0]} captured {repos_featured} repositories with {total_stars:,} cumulative stars tracked. The top repository by star count is [{top_repo}](https://github.com/{top_repo}). This summary was generated without AI assistance and presents factual crawl statistics only. A full analytical run should be attempted when AI model access is restored.
-"""
+Week {week_num} of {year_str} captured {repos_featured} repositories with {total_stars:,} cumulative stars tracked. The top repository by star count is [{top_repo}](https://github.com/{top_repo}). This summary was generated without AI assistance and presents factual crawl statistics only. A full analytical run should be attempted when AI model access is restored.
+'''
     return markdown.strip() + "\n"
 
 
