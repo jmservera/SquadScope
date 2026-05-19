@@ -1,7 +1,7 @@
 {
   "week": "2026-W21",
   "source": "techcrunch",
-  "crawled_at": "2026-05-19T18:43:15.584320Z",
+  "crawled_at": "2026-05-19T19:11:28.694070Z",
   "articles": [
     {
       "title": "Google’s Genie world model can now simulate real streets with Street View",
@@ -71,13 +71,13 @@
       "url": "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
       "published_at": "2026-05-19T17:46:00Z",
       "categories": [
-        "TC",
         "AI",
         "Apps",
-        "Google",
-        "Google Search",
+        "TC",
         "AI search",
-        "google io 2026"
+        "Google",
+        "google io 2026",
+        "Google Search"
       ],
       "summary": "Google is transforming Search from a list of links into an AI-powered experience filled with conversational answers, autonomous agents, and interactive interfaces — a shift that could further reduce traffic to publishers across the web.",
       "github_links": [],
@@ -178,13 +178,13 @@
       "url": "https://techcrunch.com/2026/05/19/agentic-app-coding-gets-an-upgrade-with-googles-release-of-android-cli/",
       "published_at": "2026-05-19T17:45:00Z",
       "categories": [
-        "TC",
         "AI",
         "Apps",
         "Android",
-        "Google",
         "coding",
-        "google io 2026"
+        "Google",
+        "google io 2026",
+        "In Brief"
       ],
       "summary": "Google is embracing the rise of AI coding agents with new Android tools designed to work with platforms like Claude Code and OpenAI’s Codex, allowing developers — or their AI assistants — to build Android apps faster from the command line.",
       "github_links": [],
