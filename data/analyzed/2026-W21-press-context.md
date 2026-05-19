@@ -4,11 +4,11 @@
 Notable coverage:
 - [Google’s Genie world model can now simulate real streets with Street View](https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/) [AI, Robotics, genie 3, Google, Google I/O, google io 2026, Google Maps, Street View]
 - [With Gemini 3.5 Flash, Google bets its next AI wave on agents, not chatbots](https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/) [AI, gemini, gemini flash 3.5, Google, google io 2026]
-- [How to use Google’s new information agents](https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/) [AI, Google, Google Search, AI agents, google io 2026]
-- [Google Search as you know it is over](https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/) [AI, Apps, TC, AI search, Google, google io 2026, Google Search]
+- [How to use Google’s new information agents](https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/) [AI, AI agents, Google, google io 2026, Google Search]
+- [Google Search as you know it is over](https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/) [AI, Apps, Google, Google Search, AI search, google io 2026]
 - [Google updates its Gemini app to take on ChatGPT and Claude](https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/) [AI, Apps, gemini, Google, Google I/O, google i/o 2026]
 - [Agentic app coding gets an upgrade with Google’s release of Android CLI](https://techcrunch.com/2026/05/19/agentic-app-coding-gets-an-upgrade-with-googles-release-of-android-cli/) [AI, Apps, Android, coding, Google, google io 2026, In Brief]
-- [Google’s new Universal Cart wants to follow you across the entire internet](https://techcrunch.com/2026/05/19/googles-new-universal-cart-wants-to-follow-you-across-the-entire-internet/) [AI, Apps, Commerce, Google, Google I/O, google i/o 2026]
+- [Google’s new Universal Cart wants to follow you across the entire internet](https://techcrunch.com/2026/05/19/googles-new-universal-cart-wants-to-follow-you-across-the-entire-internet/) [AI, Apps, Commerce, Google, Google I/O, google io 2026]
 - [Google introduces Gemini Spark, a 24/7 agentic assistant with Gmail integration](https://techcrunch.com/2026/05/19/google-introduces-gemini-spark-a-24-7-agentic-assistant-with-gmail-integration/) [AI, agentic AI assistant, gemini, Gemini Spark, Google I/O, google io 2026]
 - [Google’s Gemini Omni turns images, audio, and text into video — and that’s just the start](https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/) [Media & Entertainment, AI, Google, Veo, google io 2026, google gemini omni, gemini omni flash]
 - [OpenAI is making it easier to check if an image was made by their models](https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/) [AI, c2pa, deepfake, Google, OpenAI, provenance, synthid]
@@ -80,7 +80,6 @@ Notable coverage:
 - pi-hole/pi-hole — match: project_name, confidence: 0.6, hype_risk: medium
 - rails/rails — match: project_name, confidence: 0.6, hype_risk: medium
 - meilisearch/meilisearch — match: project_name, confidence: 0.6, hype_risk: medium
-- appwrite/appwrite — match: project_name, confidence: 0.6, hype_risk: medium
 - go-gitea/gitea — match: project_name, confidence: 0.6, hype_risk: medium
 - coollabsio/coolify — match: project_name, confidence: 0.6, hype_risk: medium
 - ngosang/trackerslist — match: project_name, confidence: 0.6, hype_risk: medium
@@ -130,6 +129,7 @@ Notable coverage:
 - harry0703/MoneyPrinterTurbo — match: category, confidence: 0.4, hype_risk: low
 - 2dust/v2rayNG — match: category, confidence: 0.4, hype_risk: low
 - mem0ai/mem0 — match: category, confidence: 0.4, hype_risk: low
+- appwrite/appwrite — match: category, confidence: 0.4, hype_risk: low
 - laurent22/joplin — match: category, confidence: 0.4, hype_risk: low
 - koala73/worldmonitor — match: category, confidence: 0.4, hype_risk: low
 - WerWolv/ImHex — match: category, confidence: 0.4, hype_risk: low

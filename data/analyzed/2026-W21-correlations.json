@@ -17,6 +17,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.8,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -40,6 +41,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.8,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -235,6 +237,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -705,16 +708,6 @@
       "hype_risk": "medium"
     },
     {
-      "repo": "appwrite/appwrite",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/apple-announces-apple-intelligence-powered-accessibility-feature-updates/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
       "repo": "go-gitea/gitea",
       "press_correlated": true,
       "correlation_confidence": 0.6,
@@ -760,6 +753,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -794,6 +788,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
       ],
       "match_type": "category",
@@ -814,6 +809,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -839,6 +835,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -864,6 +861,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -911,6 +909,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
       ],
       "match_type": "category",
@@ -921,6 +920,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
       ],
       "match_type": "category",
@@ -931,6 +931,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -956,6 +957,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -981,6 +983,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1027,6 +1030,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1052,6 +1056,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1088,6 +1093,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1113,6 +1119,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1149,6 +1156,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1185,6 +1193,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1218,8 +1227,7 @@
         "https://techcrunch.com/2026/05/19/agentic-app-coding-gets-an-upgrade-with-googles-release-of-android-cli/",
         "https://techcrunch.com/2026/05/19/googles-new-universal-cart-wants-to-follow-you-across-the-entire-internet/",
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
-        "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
-        "https://techcrunch.com/2026/05/19/apple-announces-apple-intelligence-powered-accessibility-feature-updates/"
+        "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1229,6 +1237,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1254,6 +1263,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1302,6 +1312,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1338,6 +1349,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1363,6 +1375,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1399,6 +1412,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1424,6 +1438,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1449,6 +1464,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1496,6 +1512,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1521,6 +1538,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1546,6 +1564,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1582,6 +1601,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1603,6 +1623,17 @@
       "hype_risk": "low"
     },
     {
+      "repo": "appwrite/appwrite",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
+        "https://techcrunch.com/2026/05/19/agentic-app-coding-gets-an-upgrade-with-googles-release-of-android-cli/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
       "repo": "laurent22/joplin",
       "press_correlated": true,
       "correlation_confidence": 0.4,
@@ -1618,6 +1649,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1665,6 +1697,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
@@ -1690,6 +1723,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
         "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
