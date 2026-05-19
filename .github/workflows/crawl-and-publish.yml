@@ -538,7 +538,7 @@ jobs:
           gh api graphql -f query="mutation { createDiscussion(input: {repositoryId: \"$REPO_ID\", categoryId: \"$CAT_ID\", title: \"Week $WEEK — Tech Trends Summary\", body: $BODY}) { discussion { url } } }"
 
       - name: Post to webhook
-        if: secrets.WEBHOOK_URL != ''
+        if: env.WEBHOOK_URL != ''
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
         run: |
