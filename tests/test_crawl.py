@@ -100,7 +100,7 @@ class CrawlTests(unittest.TestCase):
         queries: list[str] = []
 
         class FakeClient:
-            def __init__(self, token: str) -> None:
+            def __init__(self, token: str, **kwargs) -> None:
                 self.token = token
                 self.api_calls_used = 0
                 self.cache_hits = 0
@@ -118,7 +118,7 @@ class CrawlTests(unittest.TestCase):
             def has_readme(self, full_name: str) -> bool:
                 return True
 
-        args = Namespace(since="2026-05-11", as_of=None, max_results=25, output="data/raw/test-live.json")
+        args = Namespace(since="2026-05-11", as_of=None, max_results=25, output="data/raw/test-live.json", topic=None)
         with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
             "os.environ", {"GITHUB_TOKEN": "token"}, clear=False
         ), mock.patch.object(crawl, "GitHubClient", FakeClient), mock.patch.object(
@@ -133,7 +133,7 @@ class CrawlTests(unittest.TestCase):
         queries: list[str] = []
 
         class FakeClient:
-            def __init__(self, token: str) -> None:
+            def __init__(self, token: str, **kwargs) -> None:
                 self.token = token
                 self.api_calls_used = 0
                 self.cache_hits = 0
@@ -151,7 +151,7 @@ class CrawlTests(unittest.TestCase):
             def has_readme(self, full_name: str) -> bool:
                 return True
 
-        args = Namespace(since="2026-05-11", as_of="2026-05-18", max_results=25, output="data/raw/test-backfill.json")
+        args = Namespace(since="2026-05-11", as_of="2026-05-18", max_results=25, output="data/raw/test-backfill.json", topic=None)
         with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
             "os.environ", {"GITHUB_TOKEN": "token"}, clear=False
         ), mock.patch.object(crawl, "GitHubClient", FakeClient), mock.patch.object(
