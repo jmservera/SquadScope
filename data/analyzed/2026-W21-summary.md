@@ -1,6 +1,6 @@
 ---
 title: "Week 21, 2026 Analysis"
-date: 2026-05-19T20:43:24Z
+date: 2026-05-19T21:04:39Z
 week: "2026-W21"
 year: 2026
 tags: [ai, python, typescript, llm, nodejs]
@@ -64,15 +64,14 @@ Notable coverage:
 - [OpenAI is making it easier to check if an image was made by their models](https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/) [AI, c2pa, deepfake, Google, OpenAI, provenance, synthid]
 - [OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team](https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/) [AI, Andrej Karpathy, Anthropic, OpenAI, pretraining]
 - [The minimalist Light Phone teams up with Andrew Yang’s Noble Mobile, which pays you to stop doomscrolling](https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/) [Gadgets, Hardware, Andrew Yang, Joe Hollier, Kaiwei Tang, Light Phone, noble mobile]
-- [Hackers have compromised dozens of popular open source packages in an ongoing supply chain attack](https://techcrunch.com/2026/05/19/hackers-have-compromised-dozens-of-popular-open-source-packages-in-an-ongoing-supply-chain-attack/) [Security, cybersecurity, Mini Shai-Hulud, open source, supply chain attack, supply chain security]
+- [Hackers have compromised dozens of popular open source packages in an ongoing supply-chain attack](https://techcrunch.com/2026/05/19/hackers-have-compromised-dozens-of-popular-open-source-packages-in-an-ongoing-supply-chain-attack/) [Security, cybersecurity, In Brief, Mini Shai-Hulud, open source, supply chain attack, supply chain security]
 
 ### Correlation Summary
-118 repos have press correlation:
 This week's TechCrunch coverage closely tracks developer activity across 118 repos. Microsoft featured prominently: coverage of [With Gemini 3.5 Flash, Google bets its next AI wave on agents, not chatbots](https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/) and [The minimalist Light Phone teams up with Andrew Yang’s Noble Mobile, which pays you to stop doomscrolling](https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/) aligns with activity in [generative-ai-for-beginners](https://github.com/microsoft/generative-ai-for-beginners), [playwright](https://github.com/microsoft/playwright), and [ai-agents-for-beginners](https://github.com/microsoft/ai-agents-for-beginners).
 
-Google's press footprint also intersects with GitHub: coverage of [Google’s Genie world model can now simulate real streets with Street View](https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/) and [With Gemini 3.5 Flash, Google bets its next AI wave on agents, not chatbots](https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/) tracks activity in [material-design-icons](https://github.com/google/material-design-icons) and [guava](https://github.com/google/guava) — Guava is a set of core Java libraries from Google that includes new collect.
+Google's press footprint also intersects with GitHub: coverage of [Google’s Genie world model can now simulate real streets with Street View](https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/) and [With Gemini 3.5 Flash, Google bets its next AI wave on agents, not chatbots](https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/) tracks activity in [material-design-icons](https://github.com/google/material-design-icons) — These are two different official icon sets from Google, using the same underlying designs. Material Symbols is the current set, introduced in April 2022, built on variable font technology. Material Icons is the classic set, but no longer updated. More details below and [guava](https://github.com/google/guava).
 
-Openai's press footprint also intersects with GitHub: coverage of [OpenAI is making it easier to check if an image was made by their models](https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/) and [OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team](https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/) tracks activity in [codex](https://github.com/openai/codex) — If you want Codex in your code editor (VS Code, Cursor, Windsurf), install in your.
+Openai's press footprint also intersects with GitHub: coverage of [OpenAI is making it easier to check if an image was made by their models](https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/) and [OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team](https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/) tracks activity in [codex](https://github.com/openai/codex).
 
 
 ### Divergence Analysis

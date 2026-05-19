@@ -14,7 +14,7 @@ Notable coverage:
 - [OpenAI is making it easier to check if an image was made by their models](https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/) [AI, c2pa, deepfake, Google, OpenAI, provenance, synthid]
 - [OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team](https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/) [AI, Andrej Karpathy, Anthropic, OpenAI, pretraining]
 - [The minimalist Light Phone teams up with Andrew Yang’s Noble Mobile, which pays you to stop doomscrolling](https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/) [Gadgets, Hardware, Andrew Yang, Joe Hollier, Kaiwei Tang, Light Phone, noble mobile]
-- [Hackers have compromised dozens of popular open source packages in an ongoing supply chain attack](https://techcrunch.com/2026/05/19/hackers-have-compromised-dozens-of-popular-open-source-packages-in-an-ongoing-supply-chain-attack/) [Security, cybersecurity, Mini Shai-Hulud, open source, supply chain attack, supply chain security]
+- [Hackers have compromised dozens of popular open source packages in an ongoing supply-chain attack](https://techcrunch.com/2026/05/19/hackers-have-compromised-dozens-of-popular-open-source-packages-in-an-ongoing-supply-chain-attack/) [Security, cybersecurity, In Brief, Mini Shai-Hulud, open source, supply chain attack, supply chain security]
 
 ### Correlation Summary
 118 repos have press correlation:
