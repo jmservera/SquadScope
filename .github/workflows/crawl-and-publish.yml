@@ -300,8 +300,8 @@ jobs:
           fi
 
           if command -v copilot >/dev/null 2>&1 && copilot \
-            --agent .github/agents/farnsworth.agent.md \
-            -p "Read the file at ${PROMPT_FILE} — it contains your full analysis instructions and weekly GitHub data. Follow those instructions exactly. Output the final markdown analysis to ${OUTPUT_FILE}. After writing the analysis, append your learnings to .squad/agents/farnsworth/history.md under the Learnings section." \
+            --agent Farnsworth \
+            -p "Read the file at ${PROMPT_FILE} — it contains the weekly data and analysis instructions. Follow them exactly and write the analysis to ${OUTPUT_FILE}." \
             -s \
             --no-ask-user \
             --model claude-sonnet-4 \
@@ -743,8 +743,8 @@ jobs:
           python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME" --output "$RESKILL_OUTPUT" --prompt-output "$RESKILL_PROMPT" --print-prompt > "$RESKILL_PROMPT" || true
 
           if command -v copilot >/dev/null 2>&1 && copilot \
-            --agent .github/agents/farnsworth.agent.md \
-            -p "Read the file at ${RESKILL_PROMPT} — it contains your full reskill retrospective instructions and context. Follow those instructions exactly. Write the reskill report to ${RESKILL_OUTPUT}. After writing the report, update .squad/identity/wisdom.md based on your Wisdom Updates section, and append learnings to .squad/agents/farnsworth/history.md." \
+            --agent Farnsworth \
+            -p "Read the file at ${RESKILL_PROMPT} — it contains the reskill retrospective instructions. Follow them exactly and write the report to ${RESKILL_OUTPUT}." \
             -s \
             --no-ask-user \
             --model claude-sonnet-4 \

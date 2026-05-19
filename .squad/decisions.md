@@ -740,6 +740,176 @@ CI workflows must not push directly to protected branches. Use PR-based commits 
 
 ---
 
+
+# Decision: Divergence Section Uses Narrative Prose in Reader Mode
+
+**Date:** 2026-05-19T21:24:54+02:00  
+**Author:** Farnsworth (Analyst)  
+**Status:** Implemented  
+**Affects:** `scripts/render_press_context.py`, `tests/test_render_press_context.py`
+
+## Decision
+
+The divergence section in `format_divergences()` now renders as narrative prose when `reader_mode=True`, replacing the prior bullet list format. AI-prompt mode (`reader_mode=False`) is unchanged.
+
+## Rationale
+
+Raw topic-and-repo bullet lists communicate data but not meaning. Readers gain more from a paragraph that groups activity, links to repos by short name, and closes with an interpretive sentence. The AI model still needs the full structured data — so the dual-mode architecture cleanly separates the two use cases.
+
+## Format Decisions
+
+1. **Repo links:** `[repo-name](https://github.com/owner/repo-name)` — repo name only (after `/`), never `owner/repo (⭐N)`.
+2. **Article links:** `[title](url)` — standard markdown.
+3. **Topic capping:** Top 6 topics by aggregate star count for "Dev Activity Without Press Coverage"; top 5 for "Tech Trends Without Dev Activity".
+4. **Structure:** Two named helpers — `_format_unpublicized_narrative()` and `_format_uncovered_narrative()` — keep the logic isolated and independently testable.
+
+## Implications
+
+- Any future changes to reader-mode divergence prose go into the two helper functions.
+- If the data schema adds new fields (e.g., `growth_rate`), the helpers can incorporate them without touching AI-mode output.
+- Tests updated: `test_reader_mode_has_narrative` and `test_reader_mode_has_repo_links` replace the old phrase-matching assertions. 499 tests pass.
+
+---
+
+# Decision: No-AI Fallback Must Re-render from Raw Data for Reader Mode
+
+**Date:** 2026-05-19T21:54:14+02:00  
+**Author:** Farnsworth  
+**Status:** Implemented (PR #137, merged)
+
+## Context
+
+The CI pipeline falls to the no-AI path when the AI API is unavailable. In that path, `_render_press_section_no_ai()` was reading the pre-rendered `data/analyzed/{WEEK}-press-context.md` and stripping AI instructions to produce reader output.
+
+The problem: that file is generated in AI-prompt mode (`reader_mode=False`). The narrative divergence format introduced in PR #136 is only produced when `reader_mode=True`. So the no-AI path always showed the old bullet-list format regardless of code changes in the reader-mode rendering path.
+
+## Decision
+
+**Re-render from raw JSON data in the no-AI path.** Specifically:
+
+1. Extract the week identifier from the `press_context_path` filename stem.
+2. Load `data/raw/{WEEK}-techcrunch.json` and `data/analyzed/{WEEK}-correlations.json`.
+3. Call `render_press_context(tc_data, corr_data, week, reader_mode=True)`.
+4. If raw files are absent, fall back to the existing strip-based approach.
+
+## Rationale
+
+- The pre-rendered press-context.md is an AI prompt artifact, not a reader artifact. It must not be the source of truth for reader-facing output.
+- Raw JSON files are always present when the CI pipeline runs (they are produced earlier in the same pipeline run).
+- The fallback ensures backward compatibility for edge cases (manual script invocations against older data).
+
+## Impact
+
+- The no-AI CI path now uses identical rendering logic to the AI path's fallback output.
+- Any future changes to `render_press_context(..., reader_mode=True)` automatically apply to the no-AI path without further changes.
+- The W21 page will show the correct narrative format on the next pipeline run.
+
+## Files Changed
+
+- `scripts/analyze_fallback.py` — `_render_press_section_no_ai()` (lines 346–370)
+
+---
+
+# Decision: Correlation Summary — Narrative Prose in reader_mode
+
+**Date:** 2026-05-19T22:34:57+02:00  
+**Author:** Farnsworth (Analyst)  
+**PR:** #138  
+**Status:** Merged
+
+## Context
+
+The Correlation Summary section was showing a raw bullet list of repo names, confidence scores, and match types — useful for AI prompt consumption but meaningless to human readers. The Divergence section had already been upgraded to narrative prose (PR #131). This decision extends that pattern to correlations.
+
+## Decision
+
+When `reader_mode=True`, `format_correlations_list()` delegates to `_format_correlations_narrative()` which:
+
+1. **Groups correlations by org** (first path segment of owner/repo). This is the natural unit of press coverage — TechCrunch writes about organizations, not individual repos.
+2. **Ranks groups by aggregate confidence score** (sum of correlation_confidence across all repos in the group).
+3. **Fetches README snippets** (first 500 chars) for the top 2 repos per group, up to 6 total, using `urllib.request` with a 5-second timeout and graceful failure. This enables project descriptions in the narrative (e.g., "Guava is a set of core Java libraries from Google").
+4. **Produces 1–3 paragraphs** with inline links to repos (short name, e.g., `[codex](https://github.com/openai/codex)`) and matched TechCrunch articles (full title as link text).
+
+## Alternative Considered
+
+**No README fetching — use only repo names**: simpler and fully deterministic, but produces flat prose with no editorial context about what the repos actually do. The README fetch adds signal at low cost (max 6 network requests, fails gracefully).
+
+## Constraints Respected
+
+- `reader_mode=False` output is unchanged — AI prompt consumers still receive full raw data.
+- README fetching only happens in reader_mode=True paths (no side effects in CI pre-rendering).
+- Article title lookup reuses the already-loaded `tc_data["articles"]` list — no new I/O for the article side.
+- All new functions are covered by unit tests; 513 tests pass.
+
+---
+
+# Decision: CI Self-Learning Pipeline Architecture
+
+**Date:** 2026-05-19T22:57:55+02:00
+**Author:** Leela (Lead/Architect)
+**Status:** Proposed
+**Scope:** Analysis and reskill CI jobs — self-learning loop
+
+## Context
+
+The CI pipeline runs AI analysis (Copilot CLI) and reskill (GitHub Models API) but neither job leverages the squad agent system. The analysis agent has no identity, cannot read its own history/skills, and has no mechanism to write learnings back. The reskill job bypasses Copilot CLI entirely and uses a model (`openai/gpt-4.1`) that returns 403.
+
+## Decisions
+
+### 1. Dedicated Farnsworth Agent File (`.github/agents/farnsworth.agent.md`)
+
+A standalone agent file gives the Copilot CLI the full Farnsworth identity — charter, history reading instructions, post-analysis learning format, and write permissions to `.squad/`.
+
+**Rationale:** The `--agent` flag loads an agent markdown file with YAML frontmatter and instructions. A dedicated file allows CI-specific directives (learning output format, file write permissions) without polluting the interactive Squad coordinator agent.
+
+### 2. `--agent` Flag in Copilot CLI Invocations
+
+Both the analysis and reskill jobs now use:
+```bash
+copilot --agent .github/agents/farnsworth.agent.md ...
+```
+
+**Rationale:** This loads Farnsworth's identity, making the CLI aware of the agent's history, wisdom, skills, and learning expectations.
+
+### 3. Learning Commit Strategy: Same Branch, Same Job
+
+After analysis, `.squad/` changes (history, skills) are committed alongside `data/analyzed/` to the `publish` data branch in a single atomic commit.
+
+**Rationale:** No additional branch/PR overhead. The data branch is unprotected and already receives CI commits. Learnings are part of the analysis artifact — they should be co-located temporally. The reskill job already commits `.squad/` state via the same pattern.
+
+### 4. Model Fallback: `openai/gpt-4o` Replaces `openai/gpt-4.1`
+
+The default model for GitHub Models API fallback is changed from `openai/gpt-4.1` (which returns 403) to `openai/gpt-4o` (widely accessible).
+
+**Rationale:** `gpt-4.1` is not accessible via the GitHub Models API for this repository's token. `gpt-4o` is the current generally available model. The env var `GITHUB_MODELS_MODEL` still allows override.
+
+### 5. Reskill Primary Path: Copilot CLI with Agent
+
+The reskill job now tries Copilot CLI first (with agent identity), falling back to GitHub Models API if CLI is unavailable. This gives reskill the same agent-aware capabilities as analysis: read wisdom/skills/history, write updated wisdom and learnings back.
+
+**Rationale:** The reskill cycle is the primary mechanism for reinforcing the learning loop. With agent identity, it can directly update `wisdom.md` and `history.md` based on retrospective findings — the core of self-improvement.
+
+### 6. Prompt Template Unchanged
+
+The existing prompt templates (`prompts/analyze-weekly.md`, `prompts/reskill.md`) already inject wisdom and skills via `{{WISDOM}}` and `{{SKILLS}}` placeholders. The agent file complements this by providing identity context and learning output instructions that the templates alone cannot express.
+
+## Risks
+
+| Risk | Mitigation |
+|------|-----------|
+| Agent writes bad content to `.squad/` files | Quality gate still runs on analysis output; .squad changes are append-only learnings |
+| Copilot CLI doesn't support `--agent` as expected | Fallback path (GitHub Models via reskill.py) still works without agent identity |
+| Learning state diverges between publish branch and main | Periodic sync PRs already exist; learnings on publish are forward-compatible |
+
+## Implementation
+
+- [x] `.github/agents/farnsworth.agent.md` — agent identity file
+- [x] `.github/workflows/crawl-and-publish.yml` — `--agent` flag, learning commits, model fix
+- [x] `scripts/reskill.py` — model default updated to `openai/gpt-4o`
+- [x] `scripts/analyze_fallback.py` — model default updated to `openai/gpt-4o`
+
+---
+
 ## Governance
 
 - All meaningful changes require team consensus
