@@ -300,8 +300,7 @@ jobs:
           fi
 
           if command -v copilot >/dev/null 2>&1 && copilot \
-            -p "Analyze the attached weekly GitHub data and produce a markdown summary following the instructions in the attached file." \
-            --attachment "$PROMPT_FILE" \
+            -p "Read the file at ${PROMPT_FILE} — it contains your full analysis instructions and weekly GitHub data. Follow those instructions exactly and output ONLY the final markdown analysis (no commentary)." \
             -s \
             --no-ask-user \
             --model claude-sonnet-4 \

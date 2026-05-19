@@ -53,12 +53,36 @@ def format_articles_list(articles: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def format_correlations_list(correlations: list[dict]) -> str:
-    """Format correlations into a markdown list."""
+_HYPE_RISK_SEVERITY: dict[str, int] = {"high": 3, "medium": 2, "low": 1, "none": 0}
+
+
+def format_correlations_list(correlations: list[dict], *, top_n: int | None = None) -> str:
+    """Format correlations into a markdown list.
+
+    Args:
+        correlations: List of correlation dicts.
+        top_n: When set, show only the top N entries (sorted by confidence desc,
+               then hype_risk severity desc) and append a "…and N more" summary line.
+    """
     if not correlations:
         return "- (none)"
+
+    if top_n is not None:
+        sorted_corrs = sorted(
+            correlations,
+            key=lambda c: (
+                -c.get("correlation_confidence", 0.0),
+                -_HYPE_RISK_SEVERITY.get(c.get("hype_risk", "none"), 0),
+            ),
+        )
+        omitted = max(0, len(sorted_corrs) - top_n)
+        display = sorted_corrs[:top_n]
+    else:
+        display = correlations
+        omitted = 0
+
     lines = []
-    for corr in correlations:
+    for corr in display:
         repo = corr.get("repo", "unknown")
         match_type = corr.get("match_type", "unknown")
         confidence = corr.get("correlation_confidence", 0.0)
@@ -67,11 +91,21 @@ def format_correlations_list(correlations: list[dict]) -> str:
             f"- {repo} — match: {match_type}, "
             f"confidence: {confidence:.1f}, hype_risk: {hype_risk}"
         )
+
+    if omitted > 0:
+        lines.append(f"…and {omitted} more repos with press correlation")
+
     return "\n".join(lines)
 
 
-def format_divergences(divergences: dict) -> str:
-    """Format divergences section into markdown."""
+def format_divergences(divergences: dict, *, reader_mode: bool = False) -> str:
+    """Format divergences section into markdown.
+
+    Args:
+        divergences: Divergence data dict.
+        reader_mode: When True, replaces the AI instruction block with a
+                     reader-friendly conclusion sentence.
+    """
     if not divergences:
         return ""
 
@@ -83,10 +117,14 @@ def format_divergences(divergences: dict) -> str:
 
     lines = ["\n### Divergence Analysis\n"]
 
+    # In reader mode, cap divergence lists to keep output concise
+    max_items = 10 if reader_mode else None
+
     if uncovered:
         lines.append("#### 🔍 Tech Trends Without Dev Activity")
         lines.append("Topics heavily covered by TechCrunch with no matching GitHub repos:\n")
-        for item in uncovered:
+        display_uncovered = uncovered[:max_items] if max_items else uncovered
+        for item in display_uncovered:
             topic = item.get("topic", "unknown")
             articles = item.get("techcrunch_articles", [])
             article_refs = ", ".join(
@@ -94,12 +132,15 @@ def format_divergences(divergences: dict) -> str:
                 for a in articles[:3]
             )
             lines.append(f"- **{topic}**: {article_refs}")
+        if max_items and len(uncovered) > max_items:
+            lines.append(f"- …and {len(uncovered) - max_items} more tech trends without dev activity")
         lines.append("")
 
     if unpublicized:
         lines.append("#### 🚀 Dev Activity Without Press Coverage")
         lines.append("GitHub repos/trends with no matching TechCrunch coverage:\n")
-        for item in unpublicized:
+        display_unpub = unpublicized[:max_items] if max_items else unpublicized
+        for item in display_unpub:
             topic = item.get("topic", "unknown")
             repos = item.get("github_repos", [])
             repo_refs = ", ".join(
@@ -107,19 +148,31 @@ def format_divergences(divergences: dict) -> str:
                 for r in repos[:3]
             )
             lines.append(f"- **{topic}**: {repo_refs}")
+        if max_items and len(unpublicized) > max_items:
+            lines.append(f"- …and {len(unpublicized) - max_items} more dev topics without press coverage")
         lines.append("")
 
-    lines.append("#### Divergence Instructions")
-    lines.append("Use divergences to identify:")
-    lines.append("- 🔮 Where industry is moving but devs haven't caught up")
-    lines.append("- 💡 Where devs are innovating ahead of media attention")
-    lines.append("- 📊 Opportunity gaps between narrative and reality")
+    if reader_mode:
+        lines.append(
+            "These divergences highlight gaps between what the tech industry is reporting "
+            "and what developers are actually building."
+        )
+    else:
+        lines.append("#### Divergence Instructions")
+        lines.append("Use divergences to identify:")
+        lines.append("- 🔮 Where industry is moving but devs haven't caught up")
+        lines.append("- 💡 Where devs are innovating ahead of media attention")
+        lines.append("- 📊 Opportunity gaps between narrative and reality")
 
     return "\n".join(lines)
 
 
 def render_press_context(
-    techcrunch_data: dict | None, correlation_data: dict | None, week: str
+    techcrunch_data: dict | None,
+    correlation_data: dict | None,
+    week: str,
+    *,
+    reader_mode: bool = False,
 ) -> str:
     """Render the press context prompt section.
 
@@ -127,6 +180,9 @@ def render_press_context(
         techcrunch_data: Parsed TechCrunch crawl JSON or None.
         correlation_data: Parsed correlation JSON or None.
         week: The week string (YYYY-WNN).
+        reader_mode: When True, produces reader-facing output: top-10 correlations
+                     only, no AI instruction blocks, and a narrative divergence
+                     conclusion instead of model directives.
 
     Returns:
         Rendered markdown prompt section.
@@ -161,15 +217,35 @@ def render_press_context(
     if correlation_data:
         divergences = correlation_data.get("divergences", {})
 
+    # In reader mode, sort correlations by confidence desc then hype_risk severity
+    if reader_mode and correlations:
+        correlations = sorted(
+            correlations,
+            key=lambda c: (
+                -c.get("correlation_confidence", 0.0),
+                -_HYPE_RISK_SEVERITY.get(c.get("hype_risk", "none"), 0),
+            ),
+        )
+
+    top_n = 10 if reader_mode else None
+
     # Render template
     rendered = template.replace("{date}", week)
     rendered = rendered.replace("{article_count}", str(article_count))
     rendered = rendered.replace("{articles_list}", format_articles_list(articles))
     rendered = rendered.replace("{correlation_count}", str(correlation_count))
-    rendered = rendered.replace("{correlations_list}", format_correlations_list(correlations))
+    rendered = rendered.replace(
+        "{correlations_list}", format_correlations_list(correlations, top_n=top_n)
+    )
+
+    # Strip the AI-only ### Instructions block in reader mode
+    if reader_mode:
+        instructions_marker = "\n### Instructions\n"
+        if instructions_marker in rendered:
+            rendered = rendered[: rendered.index(instructions_marker)]
 
     # Append divergences section
-    divergence_section = format_divergences(divergences)
+    divergence_section = format_divergences(divergences, reader_mode=reader_mode)
     if divergence_section:
         rendered += "\n" + divergence_section
 
