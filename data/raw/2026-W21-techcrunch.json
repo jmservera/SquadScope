@@ -1,8 +1,29 @@
 {
   "week": "2026-W21",
   "source": "techcrunch",
-  "crawled_at": "2026-05-19T19:11:28.694070Z",
+  "crawled_at": "2026-05-19T19:30:49.417780Z",
   "articles": [
+    {
+      "title": "Google takes a page out of Meta’s book, announces new audio-powered smart glasses",
+      "url": "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
+      "published_at": "2026-05-19T19:15:31Z",
+      "categories": [
+        "AI",
+        "Hardware",
+        "TC",
+        "ai glasses",
+        "glasses",
+        "Google",
+        "google io 2026"
+      ],
+      "summary": "Google is back in the glasses game with \"audio glasses\" out this fall.",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "Meta"
+      ],
+      "relevance_score": 0.2
+    },
     {
       "title": "Google’s Genie world model can now simulate real streets with Street View",
       "url": "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
@@ -54,10 +75,10 @@
       "published_at": "2026-05-19T17:50:00Z",
       "categories": [
         "AI",
-        "Google",
-        "Google Search",
         "AI agents",
-        "google io 2026"
+        "Google",
+        "google io 2026",
+        "Google Search"
       ],
       "summary": "Google is launching AI-powered “information agents” that can monitor topics in the background and proactively alert users to updates and changes.",
       "github_links": [],
@@ -73,11 +94,10 @@
       "categories": [
         "AI",
         "Apps",
-        "TC",
-        "AI search",
         "Google",
-        "google io 2026",
-        "Google Search"
+        "Google Search",
+        "AI search",
+        "google io 2026"
       ],
       "summary": "Google is transforming Search from a list of links into an AI-powered experience filled with conversational answers, autonomous agents, and interactive interfaces — a shift that could further reduce traffic to publishers across the web.",
       "github_links": [],
@@ -206,7 +226,7 @@
         "Commerce",
         "Google",
         "Google I/O",
-        "google i/o 2026"
+        "google io 2026"
       ],
       "summary": "The tech giant says it's aware that most people shop across multiple devices, many retailers, and over the course of many days, which is why it's launching Universal Cart.",
       "github_links": [],
@@ -408,24 +428,6 @@
         "CISA"
       ],
       "relevance_score": 0.6
-    },
-    {
-      "title": "Apple announces Apple Intelligence powered accessibility feature updates",
-      "url": "https://techcrunch.com/2026/05/19/apple-announces-apple-intelligence-powered-accessibility-feature-updates/",
-      "published_at": "2026-05-19T14:01:07Z",
-      "categories": [
-        "Apps",
-        "accessibility",
-        "Apple",
-        "Apple Intelligence"
-      ],
-      "summary": "Apple is introducing a feature to let Vision Pro control a compatible wheelchair with their eyes",
-      "github_links": [],
-      "entities": [
-        "Apple",
-        "Intelligence"
-      ],
-      "relevance_score": 0.2
     }
   ],
   "metadata": {
