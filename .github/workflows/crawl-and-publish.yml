@@ -258,6 +258,7 @@ jobs:
             --allow-tool=write \
             --allow-tool=glob \
             --allow-tool=grep \
+            --share=data/metrics/copilot-transcript.md \
             > "$OUTPUT_FILE"; then
             ANALYSIS_SOURCE="copilot-cli"
             ANALYSIS_MODEL="claude-sonnet-4"
@@ -270,6 +271,12 @@ jobs:
             ANALYSIS_SOURCE="github-models"
             ANALYSIS_MODEL="${GITHUB_MODELS_MODEL:-openai/gpt-4.1}"
           fi
+
+          TRANSCRIPT_ARGS=""
+          if [ -f "data/metrics/copilot-transcript.md" ]; then
+            TRANSCRIPT_ARGS="--transcript data/metrics/copilot-transcript.md"
+          fi
+
           python3 scripts/track_token_usage.py \
             --stage analysis \
             --source "$ANALYSIS_SOURCE" \
@@ -277,7 +284,8 @@ jobs:
             --current-datetime "$CURRENT_DATETIME" \
             --week "$WEEK" \
             --prompt-file "$PROMPT_FILE" \
-            --output-file "$OUTPUT_FILE"
+            --output-file "$OUTPUT_FILE" \
+            $TRANSCRIPT_ARGS
           rm -f "$PROMPT_FILE"
           echo "analysis_source=$ANALYSIS_SOURCE" >> "$GITHUB_OUTPUT"
 
@@ -617,6 +625,10 @@ jobs:
           mkdir -p .squad/skills .squad/reskill data/metrics
 
           if python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME" --output "$RESKILL_OUTPUT" --prompt-output "$RESKILL_PROMPT"; then
+            API_RESPONSE_ARGS=""
+            if [ -f "data/metrics/reskill-api-response.json" ]; then
+              API_RESPONSE_ARGS="--api-response data/metrics/reskill-api-response.json"
+            fi
             python3 scripts/track_token_usage.py \
               --stage reskill \
               --source github-models \
@@ -624,7 +636,8 @@ jobs:
               --current-datetime "$CURRENT_DATETIME" \
               --week "$WEEK" \
               --prompt-file "$RESKILL_PROMPT" \
-              --output-file "$RESKILL_OUTPUT"
+              --output-file "$RESKILL_OUTPUT" \
+              $API_RESPONSE_ARGS
             rm -f "$RESKILL_PROMPT"
             echo "🔄 Reskill report generated for run #$COUNTER"
           else
