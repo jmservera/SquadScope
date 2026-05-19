@@ -2,3 +2,6 @@
 <link rel="stylesheet" href="{{ `pagefind/pagefind-ui.css` | absURL }}">
 <script src="{{ `pagefind/pagefind-ui.js` | absURL }}" defer></script>
 {{- end -}}
+{{- with resources.Get "css/badges.css" }}
+<style>{{ .Content | safeCSS }}</style>
+{{- end -}}

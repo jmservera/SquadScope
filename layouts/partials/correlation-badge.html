@@ -1,0 +1,9 @@
+{{ if .press_correlated }}
+  {{ if eq .hype_risk "high" }}
+    <span class="badge badge-hype" title="Press-driven hype, may be fading">⚠️ Hype risk</span>
+  {{ else }}
+    <span class="badge badge-press" title="Press-correlated growth">📰 Press-correlated</span>
+  {{ end }}
+{{ else if .organic }}
+    <span class="badge badge-organic" title="Organic community growth">🌱 Organic growth</span>
+{{ end }}
