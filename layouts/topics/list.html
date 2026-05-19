@@ -2,8 +2,30 @@
 <header class="page-header">
   {{- partial "breadcrumbs.html" . }}
   <h1>{{ .Title }}</h1>
+  {{- with .Description }}
+  <div class="post-description">{{ . }}</div>
+  {{- else }}
   <div class="post-description">All {{ .Pages.Len }} weekly issue{{ if ne .Pages.Len 1 }}s{{ end }} in this topic.</div>
+  {{- end }}
 </header>
+
+{{/* RSS Subscribe Link */}}
+<div class="topic-subscribe" style="margin: 1.5rem 0; padding: 1rem 1.5rem; border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; gap: 1rem; background: var(--code-bg);">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+  <div>
+    <strong>Subscribe to {{ .Title }}</strong>
+    <div style="font-size: 0.9em; opacity: 0.8;">Get updates whenever new issues are published in this topic.</div>
+  </div>
+  <a href="{{ .RelPermalink }}index.xml" style="margin-left: auto; padding: 0.5rem 1rem; background: var(--primary); color: var(--theme); border-radius: 6px; text-decoration: none; font-weight: 500;">Subscribe via RSS</a>
+</div>
+
+{{/* Editorial Stance */}}
+{{- with .Params.editorial_stance }}
+<section class="topic-editorial" style="margin: 1.5rem 0;">
+  <h2>What This Topic Covers</h2>
+  <p>{{ . }}</p>
+</section>
+{{- end }}
 
 {{- if .Content }}
 <div class="post-content md-content">
@@ -11,7 +33,22 @@
 </div>
 {{- end }}
 
-<section class="taxonomy-grid" aria-label="{{ .Title }} pages">
+{{/* Prediction Accuracy */}}
+<section class="topic-predictions" style="margin: 2rem 0; padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px;">
+  <h2>Prediction Accuracy</h2>
+  {{- if .Params.prediction_accuracy }}
+  <div style="display: flex; align-items: center; gap: 1rem;">
+    <span style="font-size: 2rem; font-weight: 700;">{{ .Params.prediction_accuracy }}%</span>
+    <span>of predictions in this topic were confirmed in follow-up issues.</span>
+  </div>
+  {{- else }}
+  <p style="opacity: 0.7; font-style: italic;">Prediction tracking for this topic is not yet available. As more weekly issues are published, accuracy data will appear here.</p>
+  {{- end }}
+</section>
+
+{{/* Recent Weekly Issues */}}
+<section class="taxonomy-grid" aria-label="{{ .Title }} pages" style="margin-top: 2rem;">
+  <h2>Recent Issues ({{ .Pages.Len }})</h2>
   {{- range .Pages.ByDate.Reverse }}
   <article class="home-report-card taxonomy-card">
     <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
