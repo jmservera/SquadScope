@@ -71,3 +71,11 @@
 - **Issue:** `data/analyzed/2026-W21-summary.md` is stored in the analyzer contract path but does not follow the approved Analyze → Generate section contract (`Signal`, `Noise`, `Gaps`).
 - **Required follow-up:** Either align the analyzed artifact to the approved contract or move the manual validation artifact out of `data/analyzed/` so the repository does not adopt the wrong schema by accident.
 - **Status:** Identified in PR #25 review (now merged) — Phase 2 action item.
+
+## 2026-05-19: TechCrunch RSS as Enrichment Signal (PR #55)
+
+- **Owner:** Bender
+- **Date:** 2026-05-19
+- **Decision:** TechCrunch RSS integration is an enrichment signal (not primary source) with explicit low-expectation framing (5–15% correlation hit rate). Feature degrades to zero noise when no correlations found.
+- **Why:** Correlation between press articles and repos is inherently low. Value lies in the delta (hype vs traction), not article summarization. Enrichment positioning allows silent failure without degrading digest.
+- **Implications:** All future `DataSource` plugins must declare "primary" or "enrichment" status. Enrichment sources require explicit failure/removal criteria. Farnsworth's analysis treats correlation data as optional context, never required input.
