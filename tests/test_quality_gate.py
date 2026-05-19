@@ -190,7 +190,6 @@ class TestMain:
             "--topic", "custom-topic",
         ])
         assert result == 0
-        metric_path = tmp_path / "metrics" / "custom-topic" / quality_gate.week_slug() + ".json"
         # Verify metric written with correct topic
         files = list((tmp_path / "metrics" / "custom-topic").glob("quality-*.json"))
         assert len(files) == 1
