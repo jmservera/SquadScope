@@ -170,6 +170,66 @@ class ReskillTests(unittest.TestCase):
             self.assertTrue(prompt_output_path.exists())
             self.assertIn("Prefer durable signals.", prompt_output_path.read_text(encoding="utf-8"))
 
+    def test_main_handles_model_403_gracefully(self) -> None:
+        """When GitHub Models returns 403 (no model access), main exits 0 with a placeholder."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            analyzed_dir = base / "data" / "analyzed"
+            snapshots_dir = base / "data" / "snapshots"
+            wisdom_path = base / ".squad" / "identity" / "wisdom.md"
+            skills_dir = base / ".squad" / "skills"
+            prompt_template = base / "reskill.md"
+            output_path = base / ".squad" / "reskill" / "2026-W21.md"
+            analyzed_dir.mkdir(parents=True)
+            snapshots_dir.mkdir(parents=True)
+            wisdom_path.parent.mkdir(parents=True)
+            skills_dir.mkdir(parents=True)
+            output_path.parent.mkdir(parents=True)
+            wisdom_path.write_text("# Wisdom\n\nPrefer durable signals.", encoding="utf-8")
+            prompt_template.write_text("{{WISDOM}}\n{{QUALITY_TREND}}", encoding="utf-8")
+
+            from urllib import error as urlerror
+            import io as _io
+
+            fake_body = _io.BytesIO(
+                b'{"error":{"code":"no_access","message":"No access to model: openai/gpt-4.1"}}'
+            )
+            http_err = urlerror.HTTPError(
+                url="https://models.github.ai",
+                code=403,
+                msg="Forbidden",
+                hdrs={},  # type: ignore[arg-type]
+                fp=fake_body,
+            )
+
+            with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
+                reskill.request, "urlopen", side_effect=http_err
+            ):
+                exit_code = reskill.main(
+                    [
+                        "--current-datetime",
+                        "2026-05-18T15:22:25.067+02:00",
+                        "--prompt-template",
+                        str(prompt_template),
+                        "--analyzed-dir",
+                        str(analyzed_dir),
+                        "--snapshots-dir",
+                        str(snapshots_dir),
+                        "--wisdom-file",
+                        str(wisdom_path),
+                        "--skills-dir",
+                        str(skills_dir),
+                        "--output",
+                        str(output_path),
+                    ]
+                )
+
+            self.assertEqual(exit_code, 0)
+            content = output_path.read_text(encoding="utf-8")
+            self.assertIn("Reskill skipped", content)
+            self.assertIn("403", content)
+
 
 if __name__ == "__main__":
     unittest.main()
