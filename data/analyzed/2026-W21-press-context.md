@@ -1,5 +1,5 @@
 ## Press Context (TechCrunch, week of 2026-W21)
-14 articles published relevant to tech/open-source.
+13 articles published relevant to tech/open-source.
 
 Notable coverage:
 - [Google’s Genie world model can now simulate real streets with Street View](https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/) [AI, Robotics, genie 3, Google, Google I/O, google io 2026, Google Maps, Street View]
@@ -15,10 +15,9 @@ Notable coverage:
 - [OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team](https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/) [AI, Andrej Karpathy, Anthropic, OpenAI, pretraining]
 - [The minimalist Light Phone teams up with Andrew Yang’s Noble Mobile, which pays you to stop doomscrolling](https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/) [Gadgets, Hardware, Andrew Yang, Joe Hollier, Kaiwei Tang, Light Phone, noble mobile]
 - [Hackers have compromised dozens of popular open source packages in an ongoing supply chain attack](https://techcrunch.com/2026/05/19/hackers-have-compromised-dozens-of-popular-open-source-packages-in-an-ongoing-supply-chain-attack/) [Security, cybersecurity, Mini Shai-Hulud, open source, supply chain attack, supply chain security]
-- [US cyber agency CISA exposed reams of passwords and cloud keys to the open web](https://techcrunch.com/2026/05/19/us-cyber-agency-cisa-exposed-reams-of-passwords-and-cloud-keys-to-the-open-web/) [Government & Policy, Security, CISA, cybersecurity, data exposure, Trump Administration]
 
 ### Correlation Summary
-117 repos have press correlation:
+118 repos have press correlation:
 - openai/codex — match: org_name, confidence: 0.8, hype_risk: medium
 - google/material-design-icons — match: org_name, confidence: 0.8, hype_risk: medium
 - google/guava — match: org_name, confidence: 0.8, hype_risk: medium
@@ -49,8 +48,8 @@ Notable coverage:
 - x1xhlol/system-prompts-and-models-of-ai-tools — match: project_name, confidence: 0.6, hype_risk: medium
 - open-webui/open-webui — match: project_name, confidence: 0.6, hype_risk: medium
 - anthropics/claude-code — match: project_name, confidence: 0.6, hype_risk: medium
+- electron/electron — match: project_name, confidence: 0.6, hype_risk: medium
 - nodejs/node — match: project_name, confidence: 0.6, hype_risk: medium
-- rust-lang/rust — match: project_name, confidence: 0.6, hype_risk: medium
 - microsoft/generative-ai-for-beginners — match: project_name, confidence: 0.6, hype_risk: medium
 - google-gemini/gemini-cli — match: project_name, confidence: 0.6, hype_risk: medium
 - microsoft/playwright — match: project_name, confidence: 0.6, hype_risk: medium
@@ -71,6 +70,7 @@ Notable coverage:
 - microsoft/ai-agents-for-beginners — match: project_name, confidence: 0.6, hype_risk: medium
 - keras-team/keras — match: project_name, confidence: 0.6, hype_risk: medium
 - pathwaycom/pathway — match: project_name, confidence: 0.6, hype_risk: medium
+- JuliusBrussee/caveman — match: project_name, confidence: 0.6, hype_risk: medium
 - cline/cline — match: project_name, confidence: 0.6, hype_risk: medium
 - commaai/openpilot — match: project_name, confidence: 0.6, hype_risk: medium
 - ComposioHQ/awesome-claude-skills — match: project_name, confidence: 0.6, hype_risk: medium
@@ -80,6 +80,7 @@ Notable coverage:
 - pi-hole/pi-hole — match: project_name, confidence: 0.6, hype_risk: medium
 - rails/rails — match: project_name, confidence: 0.6, hype_risk: medium
 - meilisearch/meilisearch — match: project_name, confidence: 0.6, hype_risk: medium
+- rclone/rclone — match: project_name, confidence: 0.6, hype_risk: medium
 - go-gitea/gitea — match: project_name, confidence: 0.6, hype_risk: medium
 - coollabsio/coolify — match: project_name, confidence: 0.6, hype_risk: medium
 - ngosang/trackerslist — match: project_name, confidence: 0.6, hype_risk: medium
@@ -124,7 +125,6 @@ Notable coverage:
 - bytedance/deer-flow — match: category, confidence: 0.4, hype_risk: low
 - xtekky/gpt4free — match: category, confidence: 0.4, hype_risk: low
 - unslothai/unsloth — match: category, confidence: 0.4, hype_risk: low
-- JuliusBrussee/caveman — match: category, confidence: 0.4, hype_risk: low
 - code-yeongyu/oh-my-openagent — match: category, confidence: 0.4, hype_risk: low
 - harry0703/MoneyPrinterTurbo — match: category, confidence: 0.4, hype_risk: low
 - 2dust/v2rayNG — match: category, confidence: 0.4, hype_risk: low
@@ -160,6 +160,7 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **awesome**: vinta/awesome-python (⭐298519), awesome-selfhosted/awesome-selfhosted (⭐293786), avelino/awesome-go (⭐173071)
 - **cli**: ohmyzsh/ohmyzsh (⭐187134), yt-dlp/yt-dlp (⭐163159), jesseduffield/lazygit (⭐78142)
 - **arbitrage-bot**: arbitrageBot-group/Polymarket-trading-bot (⭐302), POLYMARKET-SPORTS/Polymarket-trading-bot (⭐172), Quant-Logic-Forge/polymarket-trading-bot (⭐155)
+- **compiler**: rust-lang/rust (⭐112914), FuelLabs/sway (⭐61697), typst/typst (⭐53630)
 - **bash**: nvm-sh/nvm (⭐93435), junegunn/fzf (⭐80355), warpdotdev/warp (⭐59118)
 - **framework**: laravel/laravel (⭐84296), spring-projects/spring-boot (⭐80674), nestjs/nest (⭐75551)
 - **1-12-2-mod**: cdanielc293/Jenny-Mod-All-Versions (⭐627), magnusenterprises/Jade-Jenny-Nexus-2026 (⭐420), Harshit-pruthi/sklauncher-minecraft (⭐418)
@@ -168,7 +169,6 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **astro**: Chalarangelo/30-seconds-of-code (⭐127861), unionlabs/union (⭐74077), withastro/astro (⭐59411)
 - **angular**: angular/angular (⭐100120), ionic-team/ionic-framework (⭐52507), prettier/prettier (⭐51877)
 - **docker**: louislam/uptime-kuma (⭐86988), Stirling-Tools/Stirling-PDF (⭐78959), usememos/memos (⭐59782)
-- **compiler**: FuelLabs/sway (⭐61697), typst/typst (⭐53630), JetBrains/kotlin (⭐52745)
 - **bloxstrap**: DARKHOLEUM/VoidStrap-For-Roblox (⭐620), OdgerSan/VoidStrap-Edge-Optimizer (⭐420)
 - **blooket**: PrimeKeeper58/blooket-hacks (⭐565), MarineroSolo/blooket-enhanced-toolkit (⭐186)
 - **download-yuzu**: pedrodg28/yuzu-emu (⭐560), Kkkkkkao/Yuzu-Ryujinx-Emulation-Framework (⭐185)
@@ -358,7 +358,6 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **agent-skills**: anthropics/skills (⭐137536)
 - **advanced-paste**: microsoft/PowerToys (⭐133296)
 - **canvas**: excalidraw/excalidraw (⭐123608)
-- **c-plus-plus**: electron/electron (⭐121345)
 - **clash**: clash-verge-rev/clash-verge-rev (⭐119293)
 - **iptv**: iptv-org/iptv (⭐116334)
 - **base-ui**: shadcn-ui/ui (⭐114685)
@@ -422,7 +421,6 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **csr**: nuxt/nuxt (⭐60250)
 - **jquery**: jquery/jquery (⭐59844)
 - **authentication**: pocketbase/pocketbase (⭐58429)
-- **azure-blob**: rclone/rclone (⭐57267)
 - **blockchain**: FuelLabs/fuel-core (⭐57071)
 - **Declarative routing React**: remix-run/react-router (⭐56427)
 - **dark-mode**: marktext/marktext (⭐56232)
