@@ -24,7 +24,7 @@ DEFAULT_WISDOM_FILE = ROOT / ".squad" / "identity" / "wisdom.md"
 DEFAULT_SKILLS_DIR = ROOT / ".squad" / "skills"
 DEFAULT_REPORT_DIR = ROOT / ".squad" / "reskill"
 DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
-DEFAULT_MODELS_MODEL = "openai/gpt-4.1"
+DEFAULT_MODELS_MODEL = "openai/gpt-4o"
 DEFAULT_MODELS_TIMEOUT = 30
 
 
@@ -300,7 +300,17 @@ def main(argv: list[str] | None = None) -> int:
         args.prompt_output.parent.mkdir(parents=True, exist_ok=True)
         args.prompt_output.write_text(prompt, encoding="utf-8")
 
-    markdown = call_github_models(prompt)
+    try:
+        markdown = call_github_models(prompt)
+    except RuntimeError as exc:
+        print(f"⚠️  Reskill: GitHub Models call failed — {exc}", file=sys.stderr)
+        print("Writing placeholder reskill report and continuing.", file=sys.stderr)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(
+            f"# Reskill skipped\n\nGitHub Models unavailable: {exc}\n",
+            encoding="utf-8",
+        )
+        return 0
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(markdown, encoding="utf-8")
     return 0

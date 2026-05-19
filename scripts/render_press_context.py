@@ -78,6 +78,9 @@ def _extract_readme_description(snippet: str) -> str:
     """Return the first readable descriptive line from a README snippet.
 
     Skips headings, badge lines, image tags, and blank lines.
+    Trims each candidate line to the last complete sentence boundary
+    (.  !  ?) so truncated snippets never show a broken mid-sentence tail.
+    If no sentence boundary is found within a line, that line is skipped.
     Returns an empty string if nothing usable is found.
     """
     for line in snippet.splitlines():
@@ -91,8 +94,20 @@ def _extract_readme_description(snippet: str) -> str:
         line = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", line)
         line = re.sub(r"<[^>]+>", "", line)
         line = re.sub(r"[*_`>]", "", line)
-        line = line.strip(" .,;:")
-        if 20 <= len(line) <= 150:
+        line = line.strip()
+        if not line:
+            continue
+        # Trim to the last complete sentence boundary (. ! ? followed by space or end)
+        last_boundary = -1
+        for i in range(len(line) - 1, -1, -1):
+            if line[i] in ".!?" and (i + 1 >= len(line) or line[i + 1] == " "):
+                last_boundary = i
+                break
+        if last_boundary < 0:
+            # No sentence boundary — drop this line to avoid broken sentences
+            continue
+        line = line[: last_boundary + 1].strip(" .,;:")
+        if len(line) >= 20:
             return line
     return ""
 
@@ -546,6 +561,9 @@ def render_press_context(
         instructions_marker = "\n### Instructions\n"
         if instructions_marker in rendered:
             rendered = rendered[: rendered.index(instructions_marker)]
+        # Remove the count header "N repos have press correlation:" — narrative
+        # paragraphs are self-contained; the raw count line is noise in reader mode.
+        rendered = re.sub(r"\d+ repos have press correlation:\n", "", rendered)
 
     # Append divergences section
     divergence_section = format_divergences(divergences, reader_mode=reader_mode)

@@ -516,3 +516,55 @@ class TestFormatCorrelationsNarrative:
         result = render_press_context(tc, corr_data, "2026-W21", reader_mode=False)
         assert "confidence:" in result
         assert "### Instructions" in result
+
+
+class TestReaderModeCountHeader:
+    """reader_mode=True must not emit the raw 'N repos have press correlation:' header."""
+
+    def _corrs(self, n: int = 5) -> list[dict]:
+        return [
+            {
+                "repo": f"openai/repo-{i}",
+                "match_type": "org_name",
+                "correlation_confidence": 0.8,
+                "hype_risk": "low",
+                "matched_articles": [],
+            }
+            for i in range(n)
+        ]
+
+    def test_reader_mode_omits_count_header(self):
+        tc = {"articles": []}
+        corr_data = {"correlations": self._corrs(5), "divergences": {}}
+        result = render_press_context(tc, corr_data, "2026-W21", reader_mode=True)
+        assert "repos have press correlation" not in result
+
+    def test_ai_mode_keeps_count_header(self):
+        tc = {"articles": []}
+        corr_data = {"correlations": self._corrs(5), "divergences": {}}
+        result = render_press_context(tc, corr_data, "2026-W21", reader_mode=False)
+        assert "repos have press correlation" in result
+
+
+class TestExtractReadmeDescriptionSentenceBoundary:
+    """_extract_readme_description must not return mid-sentence truncated text."""
+
+    def test_drops_line_without_sentence_boundary(self):
+        # Simulates a 500-char truncation mid-sentence
+        snippet = "# Guava\n\nGuava is a set of core Java libraries from Google that includes new collect"
+        result = _extract_readme_description(snippet)
+        assert result == ""
+
+    def test_trims_to_last_sentence_in_long_line(self):
+        snippet = (
+            "# Lib\n\n"
+            "This library does X. It also does Y. And even more beyond that without end"
+        )
+        result = _extract_readme_description(snippet)
+        # Should trim to the last complete sentence boundary
+        assert result == "This library does X. It also does Y"
+
+    def test_returns_empty_when_no_boundary_in_snippet(self):
+        snippet = "# Header\n\nNo period here at all and the line is long enough to match normally"
+        result = _extract_readme_description(snippet)
+        assert result == ""
