@@ -315,6 +315,7 @@ class PipelineIntegrationTests(unittest.TestCase):
                 max_results=10,
                 output=str(output_path),
                 topic=None,
+                config=None,
             )
 
             with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
