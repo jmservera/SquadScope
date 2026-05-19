@@ -35,3 +35,11 @@
 - **Decisions now in permanent log:** All three Farnsworth polish decisions + Leela self-learning architecture decision moved to `.squad/decisions.md` main document.
 - **Orchestration recorded:** `.squad/orchestration-log/2026-05-19T20:57:55Z-{farnsworth,leela}.md` — outcomes linked to PR #139 and #140.
 - **Status:** Team sync complete. Ready for next cycle.
+
+### 2026-05-19T23:25:32+02:00 — Fix: Copilot CLI --agent flag takes name, not path
+
+- **Bug:** PR #140 shipped `--agent .github/agents/farnsworth.agent.md` but the CLI expects the agent **name** from YAML frontmatter (`name: Farnsworth`), not a file path. CI error: `No such agent: .github/agents/farnsworth.agent.md, available: Farnsworth, Squad`.
+- **Fix:** Changed to `--agent Farnsworth` in both analysis and reskill jobs. Simplified `-p` prompts to minimal file-read instructions since the agent file already contains full identity/instructions.
+- **Key learning:** Copilot CLI auto-discovers `.github/agents/*.agent.md` files and registers them by their frontmatter `name:` field. Always reference agents by name, never by path.
+- **PR:** #141 (squash-merged to main). Pipeline re-triggered.
+- **Tests:** All 519 passed.
