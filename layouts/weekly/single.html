@@ -19,6 +19,12 @@
 
   {{ partial "report-metrics.html" . }}
 
+  {{- with .Params.correlation }}
+  <div class="correlation-badges">
+    {{ partial "correlation-badge.html" . }}
+  </div>
+  {{- end }}
+
   {{ partial "report-shortcuts.html" . }}
 
   <div class="post-content md-content">
