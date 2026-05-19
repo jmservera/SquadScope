@@ -1,0 +1,39 @@
+topic:
+  id: ai-ml
+  name: "AI & Machine Learning"
+  description: "Weekly digest of trending AI/ML repositories on GitHub"
+
+queries:
+  primary:
+    - "topic:machine-learning stars:>50 pushed:>{last_week}"
+    - "topic:artificial-intelligence stars:>50 pushed:>{last_week}"
+  secondary:
+    - "topic:transformers stars:>100 pushed:>{last_week}"
+    - "topic:llm stars:>100 pushed:>{last_week}"
+
+scoring:
+  min_stars: 20
+  min_stars_gained: 10
+  max_age_days: 365
+  min_relevance_score: 40
+  language_boost:
+    Python: 1.2
+    Jupyter Notebook: 1.1
+  topic_relevance:
+    - machine-learning
+    - deep-learning
+    - artificial-intelligence
+    - neural-network
+    - llm
+    - transformers
+
+quality:
+  min_repos_per_week: 5
+  max_repos_per_week: 30
+  min_quality_score: 60
+
+learning:
+  wisdom_file: "topics/ai-ml/wisdom.md"
+  skills_dir: "topics/ai-ml/skills/"
+  prediction_file: "topics/ai-ml/predictions.jsonl"
+  scorecard_dir: "topics/ai-ml/scorecards/"
