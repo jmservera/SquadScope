@@ -259,14 +259,22 @@ jobs:
             > "$OUTPUT_FILE"; then
             ANALYSIS_SOURCE="copilot-cli"
             ANALYSIS_MODEL="claude-sonnet-4"
+          elif python3 scripts/analyze_fallback.py \
+            --raw-json "$WEEK_FILE" \
+            --output "$OUTPUT_FILE" \
+            --current-datetime "$CURRENT_DATETIME" 2>/dev/null; then
+            echo "Copilot CLI unavailable or failed; used GitHub Models API."
+            ANALYSIS_SOURCE="github-models"
+            ANALYSIS_MODEL="${GITHUB_MODELS_MODEL:-openai/gpt-4.1}"
           else
-            echo "Copilot CLI unavailable or failed; falling back to GitHub Models API."
+            echo "Both Copilot CLI and GitHub Models unavailable; using no-AI data summary."
             python3 scripts/analyze_fallback.py \
               --raw-json "$WEEK_FILE" \
               --output "$OUTPUT_FILE" \
-              --current-datetime "$CURRENT_DATETIME"
-            ANALYSIS_SOURCE="github-models"
-            ANALYSIS_MODEL="${GITHUB_MODELS_MODEL:-openai/gpt-4.1}"
+              --current-datetime "$CURRENT_DATETIME" \
+              --no-ai
+            ANALYSIS_SOURCE="no-ai"
+            ANALYSIS_MODEL="none"
           fi
 
           TRANSCRIPT_ARGS=""
