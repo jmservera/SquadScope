@@ -98,13 +98,131 @@ def format_correlations_list(correlations: list[dict], *, top_n: int | None = No
     return "\n".join(lines)
 
 
+def _repo_link(full_name: str) -> str:
+    """Format a repo as a markdown link using only the repo name (after the slash)."""
+    repo_name = full_name.split("/")[-1]
+    return f"[{repo_name}](https://github.com/{full_name})"
+
+
+def _join_links(links: list[str]) -> str:
+    """Join a list of markdown links into a readable phrase."""
+    if len(links) == 1:
+        return links[0]
+    if len(links) == 2:
+        return f"{links[0]} and {links[1]}"
+    return f"{', '.join(links[:-1])}, and {links[-1]}"
+
+
+def _format_unpublicized_narrative(items: list[dict]) -> str:
+    """Generate narrative paragraph(s) for dev activity without press coverage."""
+    if not items:
+        return ""
+
+    # Sort topics by total stars, cap at 6
+    sorted_items = sorted(
+        items,
+        key=lambda x: sum(r.get("stars", 0) for r in x.get("github_repos", [])),
+        reverse=True,
+    )[:6]
+
+    topic_parts: list[tuple[str, list[str]]] = []
+    for item in sorted_items:
+        topic = item.get("topic", "unknown")
+        repos = sorted(
+            item.get("github_repos", []),
+            key=lambda r: r.get("stars", 0),
+            reverse=True,
+        )
+        links = [_repo_link(r["full_name"]) for r in repos[:3] if r.get("full_name")]
+        if links:
+            topic_parts.append((topic, links))
+
+    if not topic_parts:
+        return ""
+
+    # First paragraph: intro + first three topics
+    first_batch = topic_parts[:3]
+    fragments = [
+        f"{topic} saw activity with {_join_links(links)}"
+        for topic, links in first_batch
+    ]
+    para1 = (
+        "Developer activity this week shows momentum in areas the tech press isn't covering. "
+        + "; ".join(fragments)
+        + "."
+    )
+
+    paragraphs = [para1]
+
+    # Second paragraph for remaining topics
+    if len(topic_parts) > 3:
+        second_batch = topic_parts[3:]
+        fragments2 = [
+            f"{topic} with {_join_links(links)}" for topic, links in second_batch
+        ]
+        paragraphs.append("Additional activity surfaced in " + ", ".join(fragments2) + ".")
+
+    paragraphs.append(
+        "These gaps suggest that foundational developer tooling — the infrastructure "
+        "that powers daily workflows — grows through community word-of-mouth rather than press cycles."
+    )
+
+    return "\n\n".join(paragraphs)
+
+
+def _format_uncovered_narrative(items: list[dict]) -> str:
+    """Generate a narrative paragraph for tech trends without dev activity."""
+    if not items:
+        return ""
+
+    display = items[:5]
+
+    topic_names = [item.get("topic", "unknown") for item in display]
+
+    # Collect up to two article links across all topics
+    article_links: list[str] = []
+    for item in display:
+        for a in item.get("techcrunch_articles", [])[:1]:
+            title = a.get("title", "article")
+            url = a.get("url", "")
+            if url:
+                article_links.append(f"[{title}]({url})")
+        if len(article_links) >= 2:
+            break
+
+    if len(topic_names) == 1:
+        topics_str = topic_names[0]
+    elif len(topic_names) == 2:
+        topics_str = f"{topic_names[0]} and {topic_names[1]}"
+    else:
+        topics_str = f"{', '.join(topic_names[:-1])}, and {topic_names[-1]}"
+
+    if article_links:
+        if len(article_links) == 1:
+            article_str = f"Articles like {article_links[0]} generated buzz"
+        else:
+            article_str = (
+                f"Articles like {article_links[0]} and {article_links[1]} generated buzz"
+            )
+    else:
+        article_str = "Press articles generated buzz"
+
+    return (
+        f"TechCrunch heavily covered {topics_str} this week, but GitHub shows minimal "
+        f"matching developer activity. {article_str}, yet no significant new repositories "
+        f"emerged in these spaces — suggesting these are still in the narrative or "
+        f"announcement phase rather than implementation."
+    )
+
+
 def format_divergences(divergences: dict, *, reader_mode: bool = False) -> str:
     """Format divergences section into markdown.
 
     Args:
         divergences: Divergence data dict.
-        reader_mode: When True, replaces the AI instruction block with a
-                     reader-friendly conclusion sentence.
+        reader_mode: When True, renders narrative paragraphs with inline repo/article
+                     links instead of raw bullet lists. When False (AI prompt mode),
+                     the original bullet-list format is preserved unchanged.
     """
     if not divergences:
         return ""
@@ -117,47 +235,45 @@ def format_divergences(divergences: dict, *, reader_mode: bool = False) -> str:
 
     lines = ["\n### Divergence Analysis\n"]
 
-    # In reader mode, cap divergence lists to keep output concise
-    max_items = 10 if reader_mode else None
-
-    if uncovered:
-        lines.append("#### 🔍 Tech Trends Without Dev Activity")
-        lines.append("Topics heavily covered by TechCrunch with no matching GitHub repos:\n")
-        display_uncovered = uncovered[:max_items] if max_items else uncovered
-        for item in display_uncovered:
-            topic = item.get("topic", "unknown")
-            articles = item.get("techcrunch_articles", [])
-            article_refs = ", ".join(
-                f"[{a.get('title', 'article')}]({a.get('url', '')})"
-                for a in articles[:3]
-            )
-            lines.append(f"- **{topic}**: {article_refs}")
-        if max_items and len(uncovered) > max_items:
-            lines.append(f"- …and {len(uncovered) - max_items} more tech trends without dev activity")
-        lines.append("")
-
-    if unpublicized:
-        lines.append("#### 🚀 Dev Activity Without Press Coverage")
-        lines.append("GitHub repos/trends with no matching TechCrunch coverage:\n")
-        display_unpub = unpublicized[:max_items] if max_items else unpublicized
-        for item in display_unpub:
-            topic = item.get("topic", "unknown")
-            repos = item.get("github_repos", [])
-            repo_refs = ", ".join(
-                f"{r.get('full_name', '?')} (⭐{r.get('stars', 0)})"
-                for r in repos[:3]
-            )
-            lines.append(f"- **{topic}**: {repo_refs}")
-        if max_items and len(unpublicized) > max_items:
-            lines.append(f"- …and {len(unpublicized) - max_items} more dev topics without press coverage")
-        lines.append("")
-
     if reader_mode:
-        lines.append(
-            "These divergences highlight gaps between what the tech industry is reporting "
-            "and what developers are actually building."
-        )
+        # Narrative mode: flowing prose with inline links, no raw data dumps
+        if uncovered:
+            lines.append("#### 🔍 Tech Trends Without Dev Activity\n")
+            lines.append(_format_uncovered_narrative(uncovered))
+            lines.append("")
+
+        if unpublicized:
+            lines.append("#### 🚀 Dev Activity Without Press Coverage\n")
+            lines.append(_format_unpublicized_narrative(unpublicized))
+            lines.append("")
     else:
+        # AI prompt mode: full raw data for model consumption — keep unchanged
+        if uncovered:
+            lines.append("#### 🔍 Tech Trends Without Dev Activity")
+            lines.append("Topics heavily covered by TechCrunch with no matching GitHub repos:\n")
+            for item in uncovered:
+                topic = item.get("topic", "unknown")
+                articles = item.get("techcrunch_articles", [])
+                article_refs = ", ".join(
+                    f"[{a.get('title', 'article')}]({a.get('url', '')})"
+                    for a in articles[:3]
+                )
+                lines.append(f"- **{topic}**: {article_refs}")
+            lines.append("")
+
+        if unpublicized:
+            lines.append("#### 🚀 Dev Activity Without Press Coverage")
+            lines.append("GitHub repos/trends with no matching TechCrunch coverage:\n")
+            for item in unpublicized:
+                topic = item.get("topic", "unknown")
+                repos = item.get("github_repos", [])
+                repo_refs = ", ".join(
+                    f"{r.get('full_name', '?')} (⭐{r.get('stars', 0)})"
+                    for r in repos[:3]
+                )
+                lines.append(f"- **{topic}**: {repo_refs}")
+            lines.append("")
+
         lines.append("#### Divergence Instructions")
         lines.append("Use divergences to identify:")
         lines.append("- 🔮 Where industry is moving but devs haven't caught up")
