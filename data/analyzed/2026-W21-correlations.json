@@ -6,8 +6,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.8,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "org_name",
       "hype_risk": "medium"
@@ -17,12 +16,12 @@
       "press_correlated": true,
       "correlation_confidence": 0.8,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -41,12 +40,12 @@
       "press_correlated": true,
       "correlation_confidence": 0.8,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -75,12 +74,12 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
-        "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -90,8 +89,9 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/"
@@ -110,12 +110,23 @@
       "hype_risk": "medium"
     },
     {
+      "repo": "Amber82120/discord-webhook-orchestrator",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/19/discord-enables-end-to-end-encrypted-voice-and-video-calling-for-every-user/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
       "repo": "trading-2028/polymarket-ai-trading",
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/"
       ],
@@ -137,8 +148,9 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/"
       ],
@@ -160,8 +172,9 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/"
       ],
@@ -173,8 +186,9 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/"
       ],
@@ -237,12 +251,12 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -281,8 +295,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -303,18 +316,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "TheAlgorithms/Python",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -325,6 +327,16 @@
       "correlation_confidence": 0.6,
       "matched_articles": [
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "microsoft/vscode",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/19/discord-enables-end-to-end-encrypted-voice-and-video-calling-for-every-user/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -344,8 +356,9 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/"
       ],
@@ -357,8 +370,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -384,23 +396,13 @@
       "hype_risk": "medium"
     },
     {
-      "repo": "nodejs/node",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/",
-        "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
       "repo": "microsoft/generative-ai-for-beginners",
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/"
       ],
@@ -423,11 +425,11 @@
       "hype_risk": "medium"
     },
     {
-      "repo": "microsoft/playwright",
+      "repo": "immich-app/immich",
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
+        "https://techcrunch.com/2026/05/19/mach-industries-just-spent-50m-to-solve-a-major-defense-tech-problem/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -437,8 +439,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -448,7 +449,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
         "https://techcrunch.com/2026/05/19/google-introduces-gemini-spark-a-24-7-agentic-assistant-with-gmail-integration/"
       ],
       "match_type": "project_name",
@@ -489,18 +490,17 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
     },
     {
-      "repo": "python/cpython",
+      "repo": "unionlabs/union",
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -516,16 +516,6 @@
       "hype_risk": "medium"
     },
     {
-      "repo": "moby/moby",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
       "repo": "pallets/flask",
       "press_correlated": true,
       "correlation_confidence": 0.6,
@@ -536,33 +526,11 @@
       "hype_risk": "medium"
     },
     {
-      "repo": "ansible/ansible",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "base/node",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/",
-        "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
       "repo": "OpenBB-finance/OpenBB",
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -582,30 +550,11 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "keras-team/keras",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/hackers-have-compromised-dozens-of-popular-open-source-packages-in-an-ongoing-supply-chain-attack/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "pathwaycom/pathway",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -636,8 +585,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -678,20 +626,11 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "pi-hole/pi-hole",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -701,7 +640,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
         "https://techcrunch.com/2026/05/19/google-introduces-gemini-spark-a-24-7-agentic-assistant-with-gmail-integration/"
       ],
       "match_type": "project_name",
@@ -722,6 +661,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/"
       ],
       "match_type": "project_name",
@@ -749,36 +689,16 @@
       "hype_risk": "medium"
     },
     {
-      "repo": "ngosang/trackerslist",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/hackers-have-compromised-dozens-of-popular-open-source-packages-in-an-ongoing-supply-chain-attack/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "TryGhost/Ghost",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
       "repo": "tw93/Mole",
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -787,39 +707,18 @@
         "https://techcrunch.com/2026/05/19/google-introduces-gemini-spark-a-24-7-agentic-assistant-with-gmail-integration/",
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
-        "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
+        "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
-    },
-    {
-      "repo": "DenisSergeevitch/agents-best-practices",
-      "press_correlated": true,
-      "correlation_confidence": 0.4,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
-      ],
-      "match_type": "category",
-      "hype_risk": "low"
     },
     {
       "repo": "NguyenVietHoang1804/Aegis-Hardware-Anonymizer",
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
-        "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
-      ],
-      "match_type": "category",
-      "hype_risk": "low"
-    },
-    {
-      "repo": "sapientinc/HRM-Text",
-      "press_correlated": true,
-      "correlation_confidence": 0.4,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/mach-industries-just-spent-50m-to-solve-a-major-defense-tech-problem/",
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -829,13 +728,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -845,8 +745,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -856,13 +755,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -872,8 +772,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -883,13 +782,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -899,8 +799,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -911,8 +810,7 @@
       "correlation_confidence": 0.4,
       "matched_articles": [
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -923,8 +821,17 @@
       "correlation_confidence": 0.4,
       "matched_articles": [
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "angelosdimakos1/faceit-match-tracker",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/19/discord-enables-end-to-end-encrypted-voice-and-video-calling-for-every-user/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -934,8 +841,8 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
-        "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
+        "https://techcrunch.com/2026/05/19/mach-industries-just-spent-50m-to-solve-a-major-defense-tech-problem/",
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -945,8 +852,8 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
-        "https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/"
+        "https://techcrunch.com/2026/05/19/mach-industries-just-spent-50m-to-solve-a-major-defense-tech-problem/",
+        "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -956,13 +863,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -972,8 +880,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -983,13 +890,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -999,8 +907,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1010,13 +917,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1026,18 +934,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
-      ],
-      "match_type": "category",
-      "hype_risk": "low"
-    },
-    {
-      "repo": "affaan-m/ECC",
-      "press_correlated": true,
-      "correlation_confidence": 0.4,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1058,13 +955,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1074,8 +972,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1085,13 +982,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1101,8 +999,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1123,13 +1020,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1139,8 +1037,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1150,13 +1047,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1166,8 +1064,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1188,13 +1085,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1204,8 +1102,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1226,13 +1123,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1242,8 +1140,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1253,8 +1150,8 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1271,13 +1168,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1287,8 +1185,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1298,13 +1195,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1314,8 +1212,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1337,7 +1234,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/hackers-have-compromised-dozens-of-popular-open-source-packages-in-an-ongoing-supply-chain-attack/"
+        "https://techcrunch.com/2026/05/19/discord-enables-end-to-end-encrypted-voice-and-video-calling-for-every-user/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1347,13 +1244,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1363,8 +1261,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1375,8 +1272,7 @@
       "correlation_confidence": 0.4,
       "matched_articles": [
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1386,13 +1282,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1402,8 +1299,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1413,13 +1309,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1429,8 +1326,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1440,7 +1336,8 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/hackers-have-compromised-dozens-of-popular-open-source-packages-in-an-ongoing-supply-chain-attack/"
+        "https://techcrunch.com/2026/05/19/discord-enables-end-to-end-encrypted-voice-and-video-calling-for-every-user/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1450,13 +1347,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1466,8 +1364,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1477,13 +1374,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1493,8 +1391,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1504,13 +1401,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1520,8 +1418,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1532,8 +1429,7 @@
       "correlation_confidence": 0.4,
       "matched_articles": [
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1544,8 +1440,7 @@
       "correlation_confidence": 0.4,
       "matched_articles": [
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1555,13 +1450,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1571,8 +1467,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1582,13 +1477,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1598,8 +1494,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1620,13 +1515,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1636,8 +1532,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1669,13 +1564,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1685,8 +1581,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1696,7 +1591,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/hackers-have-compromised-dozens-of-popular-open-source-packages-in-an-ongoing-supply-chain-attack/"
+        "https://techcrunch.com/2026/05/19/discord-enables-end-to-end-encrypted-voice-and-video-calling-for-every-user/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1707,8 +1602,7 @@
       "correlation_confidence": 0.4,
       "matched_articles": [
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1718,13 +1612,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1734,8 +1629,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1745,13 +1639,14 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
+        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
+        "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
         "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
         "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
         "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
         "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/",
         "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-        "https://techcrunch.com/2026/05/19/googles-ai-now-lets-you-talk-to-your-gmail-inbox/",
         "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
         "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
         "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
@@ -1761,8 +1656,7 @@
         "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
         "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
         "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-        "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/"
+        "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1787,11 +1681,6 @@
           {
             "full_name": "nanasalgadas1000-cell/seraph-nuke-inferno",
             "stars": 185,
-            "stars_gained": null
-          },
-          {
-            "full_name": "angelosdimakos1/faceit-match-tracker",
-            "stars": 184,
             "stars_gained": null
           },
           {
@@ -2098,21 +1987,21 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "astro",
+        "topic": "ai-agents",
         "github_repos": [
           {
-            "full_name": "Chalarangelo/30-seconds-of-code",
-            "stars": 127861,
+            "full_name": "affaan-m/ECC",
+            "stars": 187066,
             "stars_gained": null
           },
           {
-            "full_name": "unionlabs/union",
-            "stars": 74077,
+            "full_name": "browser-use/browser-use",
+            "stars": 94642,
             "stars_gained": null
           },
           {
-            "full_name": "withastro/astro",
-            "stars": 59411,
+            "full_name": "Mintplex-Labs/anything-llm",
+            "stars": 60297,
             "stars_gained": null
           }
         ],
@@ -2155,6 +2044,22 @@
           {
             "full_name": "usememos/memos",
             "stars": 59782,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agent-skill",
+        "github_repos": [
+          {
+            "full_name": "DenisSergeevitch/agents-best-practices",
+            "stars": 838,
+            "stars_gained": null
+          },
+          {
+            "full_name": "luoling8192/technical-writing",
+            "stars": 170,
             "stars_gained": null
           }
         ],
@@ -2385,6 +2290,22 @@
         "signal": "No TechCrunch coverage"
       },
       {
+        "topic": "algorithm",
+        "github_repos": [
+          {
+            "full_name": "TheAlgorithms/Python",
+            "stars": 221195,
+            "stars_gained": null
+          },
+          {
+            "full_name": "TheAlgorithms/Java",
+            "stars": 65683,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
         "topic": "audio",
         "github_repos": [
           {
@@ -2427,6 +2348,22 @@
           {
             "full_name": "syncthing/syncthing",
             "stars": 84191,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "astro",
+        "github_repos": [
+          {
+            "full_name": "Chalarangelo/30-seconds-of-code",
+            "stars": 127861,
+            "stars_gained": null
+          },
+          {
+            "full_name": "withastro/astro",
+            "stars": 59411,
             "stars_gained": null
           }
         ],
@@ -2481,16 +2418,16 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "ai-agents",
+        "topic": "automation",
         "github_repos": [
           {
-            "full_name": "browser-use/browser-use",
-            "stars": 94642,
+            "full_name": "puppeteer/puppeteer",
+            "stars": 94342,
             "stars_gained": null
           },
           {
-            "full_name": "Mintplex-Labs/anything-llm",
-            "stars": 60297,
+            "full_name": "microsoft/playwright",
+            "stars": 89012,
             "stars_gained": null
           }
         ],
@@ -2903,17 +2840,6 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "discord",
-        "github_repos": [
-          {
-            "full_name": "Amber82120/discord-webhook-orchestrator",
-            "stars": 420,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
         "topic": "3d-factory",
         "github_repos": [
           {
@@ -3128,6 +3054,17 @@
           {
             "full_name": "chiennv2000/orthrus",
             "stars": 323,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "hierarchical-reasoning-model",
+        "github_repos": [
+          {
+            "full_name": "sapientinc/HRM-Text",
+            "stars": 303,
             "stars_gained": null
           }
         ],
@@ -3838,17 +3775,6 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "agent-skill",
-        "github_repos": [
-          {
-            "full_name": "luoling8192/technical-writing",
-            "stars": 170,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
         "topic": "polymarket-arbitrage-bot",
         "github_repos": [
           {
@@ -4256,17 +4182,6 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "editor",
-        "github_repos": [
-          {
-            "full_name": "microsoft/vscode",
-            "stars": 185095,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
         "topic": "bootstrap",
         "github_repos": [
           {
@@ -4360,6 +4275,17 @@
           {
             "full_name": "clash-verge-rev/clash-verge-rev",
             "stars": 119293,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "javascript",
+        "github_repos": [
+          {
+            "full_name": "nodejs/node",
+            "stars": 117294,
             "stars_gained": null
           }
         ],
@@ -4465,17 +4391,6 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "backup-tool",
-        "github_repos": [
-          {
-            "full_name": "immich-app/immich",
-            "stars": 101077,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
         "topic": "chinese",
         "github_repos": [
           {
@@ -4536,17 +4451,6 @@
           {
             "full_name": "tailwindlabs/tailwindcss",
             "stars": 95057,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "automation",
-        "github_repos": [
-          {
-            "full_name": "puppeteer/puppeteer",
-            "stars": 94342,
             "stars_gained": null
           }
         ],
@@ -4729,11 +4633,33 @@
         "signal": "No TechCrunch coverage"
       },
       {
+        "topic": "Python programming language",
+        "github_repos": [
+          {
+            "full_name": "python/cpython",
+            "stars": 72757,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
         "topic": "Drop screenshot convert",
         "github_repos": [
           {
             "full_name": "abi/screenshot-to-code",
             "stars": 72633,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "containers",
+        "github_repos": [
+          {
+            "full_name": "moby/moby",
+            "stars": 71572,
             "stars_gained": null
           }
         ],
@@ -4817,6 +4743,28 @@
         "signal": "No TechCrunch coverage"
       },
       {
+        "topic": "ansible",
+        "github_repos": [
+          {
+            "full_name": "ansible/ansible",
+            "stars": 68601,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Everything required your",
+        "github_repos": [
+          {
+            "full_name": "base/node",
+            "stars": 68565,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
         "topic": "app",
         "github_repos": [
           {
@@ -4872,17 +4820,6 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "algorithm",
-        "github_repos": [
-          {
-            "full_name": "TheAlgorithms/Java",
-            "stars": 65683,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
         "topic": "documentation",
         "github_repos": [
           {
@@ -4905,6 +4842,17 @@
         "signal": "No TechCrunch coverage"
       },
       {
+        "topic": "data-science",
+        "github_repos": [
+          {
+            "full_name": "keras-team/keras",
+            "stars": 64075,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
         "topic": "chatgpt",
         "github_repos": [
           {
@@ -4921,6 +4869,17 @@
           {
             "full_name": "LadybirdBrowser/ladybird",
             "stars": 63436,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "batch-processing",
+        "github_repos": [
+          {
+            "full_name": "pathwaycom/pathway",
+            "stars": 63277,
             "stars_gained": null
           }
         ],
@@ -5037,6 +4996,17 @@
         "signal": "No TechCrunch coverage"
       },
       {
+        "topic": "ad-blocker",
+        "github_repos": [
+          {
+            "full_name": "pi-hole/pi-hole",
+            "stars": 58796,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
         "topic": "authentication",
         "github_repos": [
           {
@@ -5125,11 +5095,33 @@
         "signal": "No TechCrunch coverage"
       },
       {
+        "topic": "bittorrent",
+        "github_repos": [
+          {
+            "full_name": "ngosang/trackerslist",
+            "stars": 53900,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
         "topic": "Vue.js progressive, incrementally-adoptable",
         "github_repos": [
           {
             "full_name": "vuejs/core",
             "stars": 53685,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "blogging",
+        "github_repos": [
+          {
+            "full_name": "TryGhost/Ghost",
+            "stars": 53540,
             "stars_gained": null
           }
         ],
@@ -5185,6 +5177,7 @@
     "vercel-labs/zero",
     "yetone/native-feel-skill",
     "facebookresearch/vggt-omega",
+    "DenisSergeevitch/agents-best-practices",
     "Kappaemme-git/codex-complexity-optimizer",
     "Doorman11991/smallcode",
     "boona13/mykonos-island-voxels",
@@ -5226,7 +5219,6 @@
     "DaGortx/Neural-WA-Broadcaster",
     "NirmalKumar-77/R6S-Rainmaker-2027",
     "b23ee1027/hardware-masquerade-kit",
-    "Amber82120/discord-webhook-orchestrator",
     "Pierre021/Shapez-2-Orchestrator-Overhaul",
     "mk7024490-glitch/aura-edge-optimizer",
     "Justarandomguy2389417293/LEGO-Batman-Action-Adventure-Texure-Utility",
@@ -5253,6 +5245,7 @@
     "agentic-in/elephant-agent",
     "MediatorSpeak/dota2-gameplay-tools",
     "chiennv2000/orthrus",
+    "sapientinc/HRM-Text",
     "arbitrageBot-group/Polymarket-trading-bot",
     "dex-original/okx-agent-trade-kit",
     "pro-tech-killers/binance-trading-bot",
@@ -5316,7 +5309,6 @@
     "manikanthjainar94-spec/moomooio-2026-enhanced",
     "jos-king/seed-vault-resonance",
     "Edmoch/Octo-Strike-Reimagined",
-    "angelosdimakos1/faceit-match-tracker",
     "shrutikumari788/nitrox-sync-players",
     "6Hourt9/push-video-wallpaper-engine",
     "ahmadalalibz2006-stack/calibr-zoom",
@@ -5388,10 +5380,11 @@
     "awesome-selfhosted/awesome-selfhosted",
     "facebook/react",
     "torvalds/linux",
+    "TheAlgorithms/Python",
     "obra/superpowers",
     "tensorflow/tensorflow",
     "ohmyzsh/ohmyzsh",
-    "microsoft/vscode",
+    "affaan-m/ECC",
     "twbs/bootstrap",
     "github/gitignore",
     "avelino/awesome-go",
@@ -5410,6 +5403,7 @@
     "ripienaar/free-for-dev",
     "kubernetes/kubernetes",
     "clash-verge-rev/clash-verge-rev",
+    "nodejs/node",
     "iptv-org/iptv",
     "shadcn-ui/ui",
     "rust-lang/rust",
@@ -5422,7 +5416,6 @@
     "papers-we-love/papers-we-love",
     "2dust/v2rayN",
     "microsoft/terminal",
-    "immich-app/immich",
     "Anduin2017/HowToCook",
     "angular/angular",
     "pytorch/pytorch",
@@ -5439,6 +5432,7 @@
     "oven-sh/bun",
     "ruanyf/weekly",
     "bitcoin/bitcoin",
+    "microsoft/playwright",
     "mermaid-js/mermaid",
     "gohugoio/hugo",
     "home-assistant/core",
@@ -5462,12 +5456,13 @@
     "awesomedata/awesome-public-datasets",
     "farion1231/cc-switch",
     "redis/redis",
-    "unionlabs/union",
     "grafana/grafana",
     "ocornut/imgui",
     "apache/superset",
+    "python/cpython",
     "abi/screenshot-to-code",
     "strapi/strapi",
+    "moby/moby",
     "Eugeny/tabby",
     "fffaraz/awesome-cpp",
     "protocolbuffers/protobuf",
@@ -5476,6 +5471,8 @@
     "swiftlang/swift",
     "expressjs/express",
     "NationalSecurityAgency/ghidra",
+    "ansible/ansible",
+    "base/node",
     "toeverything/AFFiNE",
     "paperclipai/paperclip",
     "scikit-learn/scikit-learn",
@@ -5485,9 +5482,11 @@
     "facebook/docusaurus",
     "gorhill/uBlock",
     "prometheus/prometheus",
+    "keras-team/keras",
     "opendatalab/MinerU",
     "openinterpreter/open-interpreter",
     "LadybirdBrowser/ladybird",
+    "pathwaycom/pathway",
     "traefik/traefik",
     "gsd-build/get-shit-done",
     "nocodb/nocodb",
@@ -5506,6 +5505,7 @@
     "withastro/astro",
     "warpdotdev/warp",
     "sharkdp/bat",
+    "pi-hole/pi-hole",
     "pocketbase/pocketbase",
     "pmndrs/zustand",
     "starship/starship",
@@ -5519,8 +5519,10 @@
     "ghostty-org/ghostty",
     "ChrisTitusTech/winutil",
     "psf/requests",
+    "ngosang/trackerslist",
     "vuejs/core",
     "typst/typst",
+    "TryGhost/Ghost",
     "PowerShell/PowerShell",
     "mozilla/pdf.js",
     "ruvnet/ruflo",
@@ -5533,9 +5535,9 @@
   ],
   "metadata": {
     "repos_analyzed": 466,
-    "correlations_found": 118,
+    "correlations_found": 108,
     "articles_matched": 20,
     "uncovered_tech_trends": 0,
-    "unpublicized_dev_activity": 278
+    "unpublicized_dev_activity": 286
   }
 }

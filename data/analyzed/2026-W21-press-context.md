@@ -1,10 +1,11 @@
 ## Press Context (TechCrunch, week of 2026-W21)
-13 articles published relevant to tech/open-source.
+11 articles published relevant to tech/open-source.
 
 Notable coverage:
+- [How to use Google’s new AI agents to go beyond your standard searches](https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/) [AI, AI agents, Google, google io 2026, Google Search]
+- [From teen hacker to Iron Dome researcher, this founder raised $28M to fight AI phishing](https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/) [AI, Security, Startups, Exclusive, lightspeed, phishing]
 - [Google’s Genie world model can now simulate real streets with Street View](https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/) [AI, Robotics, genie 3, Google, Google I/O, google io 2026, Google Maps, Street View]
 - [With Gemini 3.5 Flash, Google bets its next AI wave on agents, not chatbots](https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/) [AI, gemini, gemini flash 3.5, Google, google io 2026]
-- [How to use Google’s new information agents](https://techcrunch.com/2026/05/19/how-to-use-googles-new-information-agents/) [AI, AI agents, Google, google io 2026, Google Search]
 - [Google Search as you know it is over](https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/) [AI, Apps, Google, Google Search, AI search, google io 2026]
 - [Google updates its Gemini app to take on ChatGPT and Claude](https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/) [AI, Apps, gemini, Google, Google I/O, google i/o 2026]
 - [Agentic app coding gets an upgrade with Google’s release of Android CLI](https://techcrunch.com/2026/05/19/agentic-app-coding-gets-an-upgrade-with-googles-release-of-android-cli/) [AI, Apps, Android, coding, Google, google io 2026, In Brief]
@@ -12,12 +13,9 @@ Notable coverage:
 - [Google introduces Gemini Spark, a 24/7 agentic assistant with Gmail integration](https://techcrunch.com/2026/05/19/google-introduces-gemini-spark-a-24-7-agentic-assistant-with-gmail-integration/) [AI, agentic AI assistant, gemini, Gemini Spark, Google I/O, google io 2026]
 - [Google’s Gemini Omni turns images, audio, and text into video — and that’s just the start](https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/) [Media & Entertainment, AI, Google, Veo, google io 2026, google gemini omni, gemini omni flash]
 - [OpenAI is making it easier to check if an image was made by their models](https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/) [AI, c2pa, deepfake, Google, OpenAI, provenance, synthid]
-- [OpenAI co-founder Andrej Karpathy joins Anthropic’s pre-training team](https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/) [AI, Andrej Karpathy, Anthropic, OpenAI, pretraining]
-- [The minimalist Light Phone teams up with Andrew Yang’s Noble Mobile, which pays you to stop doomscrolling](https://techcrunch.com/2026/05/19/the-minimalist-light-phone-teams-up-with-andrew-yangs-noble-mobile-which-pays-you-to-stop-doomscrolling/) [Gadgets, Hardware, Andrew Yang, Joe Hollier, Kaiwei Tang, Light Phone, noble mobile]
-- [Hackers have compromised dozens of popular open source packages in an ongoing supply-chain attack](https://techcrunch.com/2026/05/19/hackers-have-compromised-dozens-of-popular-open-source-packages-in-an-ongoing-supply-chain-attack/) [Security, cybersecurity, In Brief, Mini Shai-Hulud, open source, supply chain attack, supply chain security]
 
 ### Correlation Summary
-118 repos have press correlation:
+108 repos have press correlation:
 - openai/codex — match: org_name, confidence: 0.8, hype_risk: medium
 - google/material-design-icons — match: org_name, confidence: 0.8, hype_risk: medium
 - google/guava — match: org_name, confidence: 0.8, hype_risk: medium
@@ -25,6 +23,7 @@ Notable coverage:
 - AbhishekK130804/Claude-Mythos-AI-Anthropic-App — match: project_name, confidence: 0.6, hype_risk: medium
 - mikesheehan54/Claude-Code-Design-AI — match: project_name, confidence: 0.6, hype_risk: medium
 - BharathKumarSuresh/claude-design-system-hooks — match: project_name, confidence: 0.6, hype_risk: medium
+- Amber82120/discord-webhook-orchestrator — match: project_name, confidence: 0.6, hype_risk: medium
 - trading-2028/polymarket-ai-trading — match: project_name, confidence: 0.6, hype_risk: medium
 - smithersai/claude-p — match: project_name, confidence: 0.6, hype_risk: medium
 - Dangerous-hole/Pumpfun_AI_Trading_Bot — match: project_name, confidence: 0.6, hype_risk: medium
@@ -42,34 +41,28 @@ Notable coverage:
 - suyancc/openai-plus-vxt — match: project_name, confidence: 0.6, hype_risk: medium
 - ZJU-REAL/SDAR — match: project_name, confidence: 0.6, hype_risk: medium
 - openclaw/openclaw — match: project_name, confidence: 0.6, hype_risk: medium
-- TheAlgorithms/Python — match: project_name, confidence: 0.6, hype_risk: medium
 - ultraworkers/claw-code — match: project_name, confidence: 0.6, hype_risk: medium
+- microsoft/vscode — match: project_name, confidence: 0.6, hype_risk: medium
 - Significant-Gravitas/AutoGPT — match: project_name, confidence: 0.6, hype_risk: medium
 - x1xhlol/system-prompts-and-models-of-ai-tools — match: project_name, confidence: 0.6, hype_risk: medium
 - open-webui/open-webui — match: project_name, confidence: 0.6, hype_risk: medium
 - anthropics/claude-code — match: project_name, confidence: 0.6, hype_risk: medium
 - electron/electron — match: project_name, confidence: 0.6, hype_risk: medium
-- nodejs/node — match: project_name, confidence: 0.6, hype_risk: medium
 - microsoft/generative-ai-for-beginners — match: project_name, confidence: 0.6, hype_risk: medium
 - google-gemini/gemini-cli — match: project_name, confidence: 0.6, hype_risk: medium
-- microsoft/playwright — match: project_name, confidence: 0.6, hype_risk: medium
+- immich-app/immich — match: project_name, confidence: 0.6, hype_risk: medium
 - opencv/opencv — match: project_name, confidence: 0.6, hype_risk: medium
 - macrozheng/mall — match: project_name, confidence: 0.6, hype_risk: medium
 - vitejs/vite — match: project_name, confidence: 0.6, hype_risk: medium
 - thedotmack/claude-mem — match: project_name, confidence: 0.6, hype_risk: medium
 - elastic/elasticsearch — match: project_name, confidence: 0.6, hype_risk: medium
 - OpenHands/OpenHands — match: project_name, confidence: 0.6, hype_risk: medium
-- python/cpython — match: project_name, confidence: 0.6, hype_risk: medium
+- unionlabs/union — match: project_name, confidence: 0.6, hype_risk: medium
 - obsproject/obs-studio — match: project_name, confidence: 0.6, hype_risk: medium
-- moby/moby — match: project_name, confidence: 0.6, hype_risk: medium
 - pallets/flask — match: project_name, confidence: 0.6, hype_risk: medium
-- ansible/ansible — match: project_name, confidence: 0.6, hype_risk: medium
-- base/node — match: project_name, confidence: 0.6, hype_risk: medium
 - OpenBB-finance/OpenBB — match: project_name, confidence: 0.6, hype_risk: medium
 - apache/echarts — match: project_name, confidence: 0.6, hype_risk: medium
 - microsoft/ai-agents-for-beginners — match: project_name, confidence: 0.6, hype_risk: medium
-- keras-team/keras — match: project_name, confidence: 0.6, hype_risk: medium
-- pathwaycom/pathway — match: project_name, confidence: 0.6, hype_risk: medium
 - JuliusBrussee/caveman — match: project_name, confidence: 0.6, hype_risk: medium
 - cline/cline — match: project_name, confidence: 0.6, hype_risk: medium
 - commaai/openpilot — match: project_name, confidence: 0.6, hype_risk: medium
@@ -77,29 +70,24 @@ Notable coverage:
 - ruvnet/RuView — match: project_name, confidence: 0.6, hype_risk: medium
 - docling-project/docling — match: project_name, confidence: 0.6, hype_risk: medium
 - virattt/ai-hedge-fund — match: project_name, confidence: 0.6, hype_risk: medium
-- pi-hole/pi-hole — match: project_name, confidence: 0.6, hype_risk: medium
 - rails/rails — match: project_name, confidence: 0.6, hype_risk: medium
 - meilisearch/meilisearch — match: project_name, confidence: 0.6, hype_risk: medium
 - rclone/rclone — match: project_name, confidence: 0.6, hype_risk: medium
 - go-gitea/gitea — match: project_name, confidence: 0.6, hype_risk: medium
 - coollabsio/coolify — match: project_name, confidence: 0.6, hype_risk: medium
-- ngosang/trackerslist — match: project_name, confidence: 0.6, hype_risk: medium
-- TryGhost/Ghost — match: project_name, confidence: 0.6, hype_risk: medium
 - tw93/Mole — match: project_name, confidence: 0.6, hype_risk: medium
-- DenisSergeevitch/agents-best-practices — match: category, confidence: 0.4, hype_risk: low
 - NguyenVietHoang1804/Aegis-Hardware-Anonymizer — match: category, confidence: 0.4, hype_risk: low
-- sapientinc/HRM-Text — match: category, confidence: 0.4, hype_risk: low
 - Evokoa/pgGraph — match: category, confidence: 0.4, hype_risk: low
 - LiuMengxuan04/shushu-internship-tool — match: category, confidence: 0.4, hype_risk: low
 - agent-quality-controls/slopless — match: category, confidence: 0.4, hype_risk: low
 - alchaincyf/codex-orange-book — match: category, confidence: 0.4, hype_risk: low
 - ipinputra/GPT-Image-2-Unlocked-API-Toolkit — match: category, confidence: 0.4, hype_risk: low
+- angelosdimakos1/faceit-match-tracker — match: category, confidence: 0.4, hype_risk: low
 - verticalinfinityin/Anonyma-MAC-Spoof-Engine — match: category, confidence: 0.4, hype_risk: low
 - Xian395/Hardware-Identity-Morph — match: category, confidence: 0.4, hype_risk: low
 - basionwang-bot/HermesPet — match: category, confidence: 0.4, hype_risk: low
 - gonemedia/aipointer — match: category, confidence: 0.4, hype_risk: low
 - n8n-io/n8n — match: category, confidence: 0.4, hype_risk: low
-- affaan-m/ECC — match: category, confidence: 0.4, hype_risk: low
 - flutter/flutter — match: category, confidence: 0.4, hype_risk: low
 - f/prompts.chat — match: category, confidence: 0.4, hype_risk: low
 - NousResearch/hermes-agent — match: category, confidence: 0.4, hype_risk: low
@@ -166,9 +154,10 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **1-12-2-mod**: cdanielc293/Jenny-Mod-All-Versions (⭐627), magnusenterprises/Jade-Jenny-Nexus-2026 (⭐420), Harshit-pruthi/sklauncher-minecraft (⭐418)
 - **early-access-subnautica-2**: Juwluuu/Subnautica-2-Release (⭐626), SendoPnM/Subnautica-2-Nitrox-PS5-Port (⭐420), shrutikumari788/nitrox-sync-players (⭐184)
 - **agent**: agentic-in/elephant-agent (⭐335), Snailclimb/JavaGuide (⭐155769), TauricResearch/TradingAgents (⭐77272)
-- **astro**: Chalarangelo/30-seconds-of-code (⭐127861), unionlabs/union (⭐74077), withastro/astro (⭐59411)
+- **ai-agents**: affaan-m/ECC (⭐187066), browser-use/browser-use (⭐94642), Mintplex-Labs/anything-llm (⭐60297)
 - **angular**: angular/angular (⭐100120), ionic-team/ionic-framework (⭐52507), prettier/prettier (⭐51877)
 - **docker**: louislam/uptime-kuma (⭐86988), Stirling-Tools/Stirling-PDF (⭐78959), usememos/memos (⭐59782)
+- **agent-skill**: DenisSergeevitch/agents-best-practices (⭐838), luoling8192/technical-writing (⭐170)
 - **bloxstrap**: DARKHOLEUM/VoidStrap-For-Roblox (⭐620), OdgerSan/VoidStrap-Edge-Optimizer (⭐420)
 - **blooket**: PrimeKeeper58/blooket-hacks (⭐565), MarineroSolo/blooket-enhanced-toolkit (⭐186)
 - **download-yuzu**: pedrodg28/yuzu-emu (⭐560), Kkkkkkao/Yuzu-Ryujinx-Emulation-Framework (⭐185)
@@ -183,13 +172,15 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **agentic-ai**: keshavthevar/DeepSeek-V4-Agent-Toolkit (⭐185), ruvnet/ruflo (⭐53103)
 - **excel-automation**: NazmulHudha/office-automation-toolkit (⭐185), Alexandru4123/office-2026-pro-suite-tools (⭐184)
 - **youtube-adblocker**: Ravico50/youtube-prism-enhancer (⭐184), SHARATH13VS/youtube-viewer-optimus (⭐184)
+- **algorithm**: TheAlgorithms/Python (⭐221195), TheAlgorithms/Java (⭐65683)
 - **audio**: huggingface/transformers (⭐160778), FFmpeg/FFmpeg (⭐60278)
 - **blog**: vercel/next.js (⭐139535), gatsbyjs/gatsby (⭐55950)
 - **go**: golang/go (⭐133974), syncthing/syncthing (⭐84191)
+- **astro**: Chalarangelo/30-seconds-of-code (⭐127861), withastro/astro (⭐59411)
 - **awesome-list**: ripienaar/free-for-dev (⭐122471), VoltAgent/awesome-design-md (⭐81262)
 - **cncf**: kubernetes/kubernetes (⭐122352), etcd-io/etcd (⭐51706)
 - **hacktoberfest**: axios/axios (⭐109074), pmndrs/zustand (⭐58062)
-- **ai-agents**: browser-use/browser-use (⭐94642), Mintplex-Labs/anything-llm (⭐60297)
+- **automation**: puppeteer/puppeteer (⭐94342), microsoft/playwright (⭐89012)
 - **ai4science**: PaddlePaddle/PaddleOCR (⭐78146), opendatalab/MinerU (⭐63815)
 - **alerting**: grafana/grafana (⭐73871), prometheus/prometheus (⭐64090)
 - **programming language agents**: vercel-labs/zero (⭐2796)
@@ -226,7 +217,6 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **automation-tool**: DaGortx/Neural-WA-Broadcaster (⭐420)
 - **afkfarming**: NirmalKumar-77/R6S-Rainmaker-2027 (⭐420)
 - **game-spoofing**: b23ee1027/hardware-masquerade-kit (⭐420)
-- **discord**: Amber82120/discord-webhook-orchestrator (⭐420)
 - **3d-factory**: Pierre021/Shapez-2-Orchestrator-Overhaul (⭐420)
 - **java**: mk7024490-glitch/aura-edge-optimizer (⭐420)
 - **community-project**: pamireddyb230690ar-hue/StarCitizen-Community-Localization-Toolkit (⭐420)
@@ -247,6 +237,7 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **academic-writing**: WantongC/journal-adapt-writing-skill (⭐353)
 - **data-visualization**: MediatorSpeak/dota2-gameplay-tools (⭐324)
 - **diffusion-language-models**: chiennv2000/orthrus (⭐323)
+- **hierarchical-reasoning-model**: sapientinc/HRM-Text (⭐303)
 - **36章AI Agent全栈课程：从ReAct循环到Claude Code逆向、MCP/A2A协议、RAG、DSPy、生产可观测性——全部为可运行Python文件，面试导向。**: Callous-0923/agent-study (⭐287)
 - **cpp17**: RastProxy88/Vivid-R6-Cracked-2026 (⭐286)
 - **native unified multimodal**: bytedance/Lance (⭐277)
@@ -311,7 +302,6 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **adder-telegram-2026**: sarakhanld66-bit/telegram-invite-automation (⭐184)
 - **adult-swim**: pansilu-m/Media-Vault-Snatch (⭐184)
 - **ai-humanize**: lynote-ai/humanize-text (⭐172)
-- **agent-skill**: luoling8192/technical-writing (⭐170)
 - **polymarket-arbitrage-bot**: Multichain-Bot-Lab/polymarket-trading-bot (⭐168)
 - **bet365**: bigfrankykevin/sportsbook-bet365 (⭐162)
 - **Smooth motion tabs**: rit3zh/expo-motion-tabs (⭐153)
@@ -349,7 +339,6 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **Linux kernel source**: torvalds/linux (⭐233716)
 - **agentic skills framework**: obra/superpowers (⭐198057)
 - **deep-learning**: tensorflow/tensorflow (⭐195176)
-- **editor**: microsoft/vscode (⭐185095)
 - **bootstrap**: twbs/bootstrap (⭐174257)
 - **git**: github/gitignore (⭐174006)
 - **deepseek**: ollama/ollama (⭐171744)
@@ -359,6 +348,7 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **advanced-paste**: microsoft/PowerToys (⭐133296)
 - **canvas**: excalidraw/excalidraw (⭐123608)
 - **clash**: clash-verge-rev/clash-verge-rev (⭐119293)
+- **javascript**: nodejs/node (⭐117294)
 - **iptv**: iptv-org/iptv (⭐116334)
 - **base-ui**: shadcn-ui/ui (⭐114685)
 - **3d**: mrdoob/three.js (⭐112561)
@@ -368,14 +358,12 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **deno**: denoland/deno (⭐106783)
 - **proxy**: 2dust/v2rayN (⭐106136)
 - **cmd**: microsoft/terminal (⭐103227)
-- **backup-tool**: immich-app/immich (⭐101077)
 - **chinese**: Anduin2017/HowToCook (⭐100190)
 - **autograd**: pytorch/pytorch (⭐100014)
 - **Garry Tan's exact**: garrytan/gstack (⭐99458)
 - **design-system**: mui/material-ui (⭐98367)
 - **ant-design**: ant-design/ant-design (⭐98079)
 - **css**: tailwindlabs/tailwindcss (⭐95057)
-- **automation**: puppeteer/puppeteer (⭐94342)
 - **Skills Real Engineers.**: mattpocock/skills (⭐93901)
 - **bun**: oven-sh/bun (⭐92038)
 - **科技爱好者周刊，每周五发布**: ruanyf/weekly (⭐91467)
@@ -392,7 +380,9 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **ai-tools**: farion1231/cc-switch (⭐75464)
 - **cache**: redis/redis (⭐74442)
 - **analytics**: apache/superset (⭐72911)
+- **Python programming language**: python/cpython (⭐72757)
 - **Drop screenshot convert**: abi/screenshot-to-code (⭐72633)
+- **containers**: moby/moby (⭐71572)
 - **serial**: Eugeny/tabby (⭐71437)
 - **marshalling**: protocolbuffers/protobuf (⭐71247)
 - **SecLists security tester's**: danielmiessler/SecLists (⭐71012)
@@ -400,16 +390,19 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **Swift Programming Language**: swiftlang/swift (⭐69998)
 - **express**: expressjs/express (⭐69042)
 - **disassembler**: NationalSecurityAgency/ghidra (⭐68645)
+- **ansible**: ansible/ansible (⭐68601)
+- **Everything required your**: base/node (⭐68565)
 - **app**: toeverything/AFFiNE (⭐68534)
 - **open-source everyone uses**: paperclipai/paperclip (⭐66531)
 - **data-analysis**: scikit-learn/scikit-learn (⭐66123)
 - **Crawl4AI: Open-source Friendly**: unclecode/crawl4ai (⭐65887)
 - **amd**: webpack/webpack (⭐65768)
-- **algorithm**: TheAlgorithms/Java (⭐65683)
 - **documentation**: facebook/docusaurus (⭐64954)
 - **blocker**: gorhill/uBlock (⭐64791)
+- **data-science**: keras-team/keras (⭐64075)
 - **chatgpt**: openinterpreter/open-interpreter (⭐63574)
 - **browser**: LadybirdBrowser/ladybird (⭐63436)
+- **batch-processing**: pathwaycom/pathway (⭐63277)
 - **consul**: traefik/traefik (⭐63218)
 - **claude-code**: gsd-build/get-shit-done (⭐63081)
 - **airtable**: nocodb/nocodb (⭐63069)
@@ -420,6 +413,7 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **bitwarden**: dani-garcia/vaultwarden (⭐60701)
 - **csr**: nuxt/nuxt (⭐60250)
 - **jquery**: jquery/jquery (⭐59844)
+- **ad-blocker**: pi-hole/pi-hole (⭐58796)
 - **authentication**: pocketbase/pocketbase (⭐58429)
 - **blockchain**: FuelLabs/fuel-core (⭐57071)
 - **Declarative routing React**: remix-run/react-router (⭐56427)
@@ -428,7 +422,9 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **Ghostty fast, feature-rich,**: ghostty-org/ghostty (⭐54861)
 - **Chris Titus Tech's**: ChrisTitusTech/winutil (⭐54720)
 - **client**: psf/requests (⭐54002)
+- **bittorrent**: ngosang/trackerslist (⭐53900)
 - **Vue.js progressive, incrementally-adoptable**: vuejs/core (⭐53685)
+- **blogging**: TryGhost/Ghost (⭐53540)
 - **command-line**: PowerShell/PowerShell (⭐53502)
 - **Reader JavaScript**: mozilla/pdf.js (⭐53339)
 - **csharp**: jellyfin/jellyfin (⭐51732)
