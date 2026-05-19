@@ -19,6 +19,9 @@ concurrency:
   group: weekly-crawl
   cancel-in-progress: false
 
+env:
+  PYTHONPATH: ${{ github.workspace }}
+
 jobs:
   crawl:
     runs-on: ubuntu-latest
