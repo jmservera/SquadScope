@@ -11,7 +11,7 @@
 
 SquadScope runs automated AI analysis weekly using GitHub Copilot CLI and GitHub Models API inside GitHub Actions. With GitHub Copilot's shift to token-based consumption billing (AI Credits at $0.01/credit), every pipeline run has a measurable cost. This PRD quantifies per-run and annual costs, projects context growth over 6–12 months, and defines optimization strategies and budget controls to keep SquadScope economically sustainable as a zero-revenue open-source project.
 
-**Key finding:** A weekly analysis run costs approximately **$0.27–$0.35** in AI credits. Annual all-in cost (analysis + reskill + Actions compute) is estimated at **$18–$25/year** — comparable to a cheap newsletter service, and orders of magnitude cheaper than a human analyst.
+**Key finding:** A weekly analysis run costs approximately **$0.27–$0.35** in AI credits. The annual projection table totals **$15.96/year** at current configuration. Accounting for context growth (5–10% over 12 months), occasional fallback runs (~$0.20 each), and variance in weekly token counts, the realistic annual range is **$16–$20/year** — comparable to a cheap newsletter service, and orders of magnitude cheaper than a human analyst.
 
 ---
 
@@ -288,7 +288,7 @@ Savings: $0.232 per run = 77% reduction on the JSON portion
 ### Per-Run Token Tracking
 
 1. **Copilot CLI transcript:** The `--share=PATH` flag exports a session transcript. Parse it post-run to extract actual token counts.
-2. **GitHub Models API response headers:** The API returns `x-ratelimit-remaining` and usage metadata in response JSON.
+2. **GitHub Models API response headers (assumption to validate):** The API is expected to return `x-ratelimit-remaining` headers and usage metadata in response JSON. Current scripts only parse the JSON body and discard headers; implementation will need to explicitly capture response headers and extract usage fields. This assumption requires validation against live API responses.
 3. **Workflow annotations:** Log token estimates and actuals as workflow summary annotations.
 
 ### Implementation

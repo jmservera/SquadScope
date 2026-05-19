@@ -108,5 +108,5 @@
   2. Model downgrade for routine analysis (GPT-4.1 or Haiku saves 33-67%)
   3. Prompt caching if available (77% savings on JSON portion)
   4. Token budget with tiered degradation
-- **Pricing model note:** GitHub Models API and Copilot CLI use the same per-token rates; the difference is auth mechanism and agentic capabilities, not cost per token
+- **Pricing model hypothesis (pending OQ6 validation):** GitHub Models API and Copilot CLI are assumed to use the same per-token rates, with the difference being auth mechanism and agentic capabilities rather than cost per token. This assumption needs empirical validation — see PRD OQ6.
 - **Open risk:** Whether Copilot CLI transcript exposes actual token usage (needed for monitoring)

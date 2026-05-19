@@ -13,7 +13,7 @@ SquadScope's automated Copilot CLI and GitHub Models API usage has a quantifiabl
 
 1. **Accept current cost profile as sustainable** — $16/year is economically trivial; no immediate action required on model downgrade.
 2. **Implement token usage tracking (Phase A)** — Add `scripts/track_token_usage.py` and `data/metrics/token-usage.jsonl` to establish baselines before optimizing.
-3. **Set budget alert thresholds** — Warn at $0.50/run, fail at $1.00/run, auto-downgrade at $5/month cumulative.
+3. **Set budget alert thresholds** — Warn at $0.50/run, fail at $1.00/run, email alert at $5/month cumulative, auto-switch to cheaper model at $10/month cumulative (aligned with PRD budget alerts table).
 4. **Defer raw JSON pre-processing** — The 40-60% savings is significant but adds pipeline complexity; implement only if costs grow beyond $30/year.
 5. **Wisdom.md cap at 5 KB** — Reskill should retire obsolete heuristics, not only append.
 
