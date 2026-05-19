@@ -251,7 +251,7 @@ class WorkflowConfigTests(unittest.TestCase):
 
         webhook_step = next((s for s in notify_job["steps"] if s.get("name") == "Post to webhook"), None)
         self.assertIsNotNone(webhook_step)
-        self.assertEqual(webhook_step["if"], "secrets.WEBHOOK_URL != ''")
+        self.assertEqual(webhook_step["if"], "env.WEBHOOK_URL != ''")
         self.assertEqual(webhook_step["env"]["WEBHOOK_URL"], "${{ secrets.WEBHOOK_URL }}")
 
         release_step = next((s for s in notify_job["steps"] if s.get("name") == "Create GitHub Release"), None)
