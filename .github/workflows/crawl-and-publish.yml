@@ -214,12 +214,28 @@ jobs:
             echo "current_datetime=$CURRENT_DATETIME"
           } >> "$GITHUB_OUTPUT"
 
+      - name: Pre-flight cost check
+        id: preflight-cost
+        run: |
+          WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
+          CONTEXT_FILES=("$WEEK_FILE")
+          if [ -f ".squad/skills/wisdom.md" ]; then
+            CONTEXT_FILES+=(".squad/skills/wisdom.md")
+          fi
+          for f in .squad/skills/*.md; do
+            [ -f "$f" ] && CONTEXT_FILES+=("$f")
+          done
+          python3 scripts/preflight_cost_check.py \
+            --context-files "${CONTEXT_FILES[@]}" \
+            --model claude-sonnet-4
+
       - name: Install Copilot CLI
         id: install-copilot
         continue-on-error: true
         run: npm install -g @github/copilot
 
       - name: Run analysis
+        if: steps.preflight-cost.outcome == 'success'
         id: run-analysis
         env:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GH_TOKEN }}
