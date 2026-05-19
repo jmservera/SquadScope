@@ -96,6 +96,8 @@ Be critical, selective, and opinionated.
 
 ## Trending This Week
 
+## Industry & Press Correlation
+
 ## Trend Analysis
 ### Signal
 ### Noise
@@ -109,6 +111,7 @@ Be critical, selective, and opinionated.
 14. Keep the section scope aligned with the spec:
     - `## Notable New Repositories`: ~120-220 words, curating 3-7 repos.
     - `## Trending This Week`: ~100-180 words; explain where attention moved and add the stars-gained caveat when data is missing.
+    - `## Industry & Press Correlation`: ~100-200 words. REQUIRED even if no press data is available (state that explicitly). When press data IS provided in the prompt, you MUST: (a) highlight 2-4 key correlations between GitHub activity and TechCrunch coverage, (b) call out divergences — tech trends covered by press with no matching dev activity, AND dev activity with no press coverage, (c) label repos as press-correlated vs organic growth. If no press data section appears below, write "No industry press data was available for this week's analysis."
     - `## Trend Analysis`: ~150-260 words total across `### Signal` and `### Noise`.
     - `## What's Missing`: ~80-160 words with 2-4 concrete blind spots under `### Gaps`.
     - `## Conclusion`: ~50-110 words focused on why the week matters and what to watch next.
@@ -152,6 +155,10 @@ Write 1-2 paragraphs that curate the most credible new launches. Whenever you me
 ## Trending This Week
 
 Write 1 paragraph about where attention moved. If star deltas are missing, say so clearly. Whenever you mention a repo, use `[owner/repo](https://github.com/owner/repo)`.
+
+## Industry & Press Correlation
+
+Write 1-2 paragraphs analyzing the relationship between developer activity and industry press coverage. If press data was provided in this prompt, highlight key correlations (repos that gained stars due to press), identify divergences (press-hyped topics with no dev traction, and dev activity flying under the media radar), and label repos as 📰 Press-correlated, 🌱 Organic growth, or ⚠️ Hype risk where applicable. If no press data was provided, state: "No industry press data was available for this week's analysis."
 
 ## Trend Analysis
 
