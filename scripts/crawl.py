@@ -18,6 +18,8 @@ from pathlib import Path
 from typing import Any, Iterable
 from urllib import error, parse, request
 
+from scripts.topic_paths import cache_dir, raw_dir, snapshots_dir
+
 API_ROOT = "https://api.github.com"
 SEARCH_REPOSITORIES = f"{API_ROOT}/search/repositories"
 CACHE_ROOT = Path("data/cache")
@@ -477,6 +479,11 @@ def parse_args() -> argparse.Namespace:
         "--output",
         help="Optional explicit output path. Defaults to data/raw/YYYY-WNN.json.",
     )
+    parser.add_argument(
+        "--topic",
+        default=None,
+        help="Topic ID for namespaced data directories. Defaults to 'general' (flat layout).",
+    )
     return parser.parse_args()
 
 
@@ -744,13 +751,18 @@ def main() -> int:
         print("GITHUB_TOKEN is required", file=sys.stderr)
         return 1
 
+    topic_id = args.topic
+    topic_raw = raw_dir(topic_id)
+    topic_snapshots = snapshots_dir(topic_id)
+    topic_cache = cache_dir(topic_id)
+
     crawled_at = utc_now()
     window_end = datetime.strptime(args.as_of, "%Y-%m-%d").replace(tzinfo=UTC) if args.as_of else crawled_at
     since = datetime.strptime(args.since, "%Y-%m-%d").replace(tzinfo=UTC) if args.since else window_end - timedelta(days=7)
     week = week_slug(window_end)
-    output_path = Path(args.output) if args.output else RAW_ROOT / f"{week}.json"
-    snapshot_path = SNAPSHOT_ROOT / f"{week}-stars.json"
-    client = GitHubClient(github_token)
+    output_path = Path(args.output) if args.output else topic_raw / f"{week}.json"
+    snapshot_path = topic_snapshots / f"{week}-stars.json"
+    client = GitHubClient(github_token, cache_dir=topic_cache)
     max_results = max(1, min(args.max_results, 1000))
 
     if args.as_of:

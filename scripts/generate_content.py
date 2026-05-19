@@ -5,6 +5,8 @@ import csv
 import re
 from pathlib import Path
 
+from scripts.topic_paths import analyzed_dir
+
 FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---\n(.*)\Z", re.DOTALL)
 WEEK_PATTERN = re.compile(r"^(?P<year>\d{4})-W(?P<week>\d{2})$")
 SUMMARY_SUFFIX = "-summary.md"
@@ -59,8 +61,12 @@ def week_from_summary_path(path: Path) -> tuple[int, int]:
     return parse_week(path.name.removesuffix(SUMMARY_SUFFIX))
 
 
-def find_latest_summary(root: Path) -> Path:
-    candidates = list(root.glob(f"data/analyzed/*{SUMMARY_SUFFIX}"))
+def find_latest_summary(root: Path, topic_id: str | None = None) -> Path:
+    search_dir = analyzed_dir(topic_id)
+    candidates = list(search_dir.glob(f"*{SUMMARY_SUFFIX}"))
+    if not candidates:
+        # Fallback: try legacy path via root
+        candidates = list(root.glob(f"data/analyzed/*{SUMMARY_SUFFIX}"))
     if not candidates:
         raise GenerationError("No analyzed summaries found under data/analyzed/.")
     return max(candidates, key=week_from_summary_path)

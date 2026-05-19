@@ -288,7 +288,7 @@ class PipelineIntegrationTests(unittest.TestCase):
             )
 
             class FakeClient:
-                def __init__(self, token: str) -> None:
+                def __init__(self, token: str, **kwargs) -> None:
                     self.token = token
                     self.api_calls_used = 2
                     self.cache_hits = 1
@@ -314,6 +314,7 @@ class PipelineIntegrationTests(unittest.TestCase):
                 as_of="2026-05-18",
                 max_results=10,
                 output=str(output_path),
+                topic=None,
             )
 
             with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
@@ -321,7 +322,7 @@ class PipelineIntegrationTests(unittest.TestCase):
             ), mock.patch.object(crawl, "GitHubClient", FakeClient), mock.patch.object(
                 crawl, "load_previous_star_snapshot", return_value={"octo/momentum-watch": 145}
             ), mock.patch.object(crawl, "utc_now", return_value=FIXED_RUN_TIME), mock.patch.object(
-                crawl, "SNAPSHOT_ROOT", snapshot_dir
+                crawl, "snapshots_dir", return_value=snapshot_dir
             ):
                 exit_code = crawl.main()
 
