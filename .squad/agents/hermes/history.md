@@ -16,3 +16,5 @@
 - AI fallback chain: Copilot CLI → GitHub Models API → no-AI data summary
 - Token/secrets used: GITHUB_TOKEN (scoped per job), GitHub Models API token
 - Rate limiting handled with exponential backoff in crawl.py and analyze_fallback.py
+
+**2026-05-19T17:37:45Z:** Security review of PR #129 completed — **APPROVED**. Findings: (1) Permission changes safe — `publish` branch strategy requires no new secrets. (2) Branch protection remains intact on main. (3) No supply chain risks. Also reviewed PR #126 (TechCrunch RSS) — **SECURITY CLEAR**: No SSRF, retry logic bounded, feedparser is CVE-free, no credential leaks. Non-blocking recommendation: add control character sanitization for defense-in-depth against prompt injection. Decision "PR #126 Security Review — Clear" documented in `.squad/decisions.md`. Orchestration log created.
