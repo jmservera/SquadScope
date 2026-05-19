@@ -51,6 +51,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Directory containing learned skill markdown files.",
     )
     parser.add_argument(
+        "--press-context",
+        type=Path,
+        default=None,
+        help="Path to rendered press context markdown (appended to prompt).",
+    )
+    parser.add_argument(
         "--print-prompt",
         action="store_true",
         help="Render the prompt to stdout without calling GitHub Models.",
@@ -117,6 +123,7 @@ def render_prompt(
     analyzed_dir: Path,
     wisdom_file: Path = DEFAULT_WISDOM_FILE,
     skills_dir: Path = DEFAULT_SKILLS_DIR,
+    press_context_path: Path | None = None,
 ) -> str:
     payload = load_json(raw_json_path)
     current_week = payload["week"]
@@ -136,6 +143,12 @@ def render_prompt(
     }
     for needle, value in replacements.items():
         prompt = prompt.replace(needle, value)
+
+    # Append press context if available
+    if press_context_path and press_context_path.exists() and press_context_path.stat().st_size > 0:
+        press_content = press_context_path.read_text(encoding="utf-8").strip()
+        prompt += f"\n\n---\n## Press Context\n\n{press_content}\n"
+
     return prompt
 
 
@@ -245,7 +258,21 @@ def call_github_models(prompt: str) -> str:
     raise RuntimeError("GitHub Models API request failed after retries") from last_exc
 
 
-def generate_no_ai_summary(raw_json_path: Path, current_datetime: str) -> str:
+def _render_press_section_no_ai(press_context_path: Path | None) -> str:
+    """Render press context data for the no-AI summary."""
+    if not press_context_path or not press_context_path.exists() or press_context_path.stat().st_size == 0:
+        return (
+            "No industry press data was available for this week's analysis. "
+            "Future runs with TechCrunch integration enabled will provide "
+            "correlation analysis between developer activity and industry coverage, "
+            "highlighting press-driven hype versus organic growth patterns."
+        )
+    content = press_context_path.read_text(encoding="utf-8").strip()
+    # Include the press context as-is (it's already formatted markdown)
+    return content
+
+
+def generate_no_ai_summary(raw_json_path: Path, current_datetime: str, press_context_path: Path | None = None) -> str:
     """Generate a valid summary from raw JSON without any AI API calls."""
     payload = load_json(raw_json_path)
     week = payload["week"]
@@ -332,7 +359,7 @@ The presence of established projects alongside newer entries indicates both sust
 
 ## Industry & Press Correlation
 
-No industry press data was available for this week's analysis. Future runs with TechCrunch integration enabled will provide correlation analysis between developer activity and industry coverage, highlighting press-driven hype versus organic growth patterns.
+{_render_press_section_no_ai(press_context_path)}
 
 ## Trend Analysis
 
@@ -367,6 +394,7 @@ def main(argv: list[str] | None = None) -> int:
         analyzed_dir=args.analyzed_dir,
         wisdom_file=args.wisdom_file,
         skills_dir=args.skills_dir,
+        press_context_path=args.press_context,
     )
 
     if args.print_prompt:
@@ -374,7 +402,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.no_ai:
-        markdown = generate_no_ai_summary(args.raw_json, args.current_datetime)
+        markdown = generate_no_ai_summary(args.raw_json, args.current_datetime, args.press_context)
     else:
         markdown = call_github_models(prompt)
 

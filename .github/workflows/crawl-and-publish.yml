@@ -299,7 +299,9 @@ jobs:
             cat "$PRESS_FILE" >> "$PROMPT_FILE"
           fi
 
-          if command -v copilot >/dev/null 2>&1 && copilot -p "$(cat "$PROMPT_FILE")" \
+          if command -v copilot >/dev/null 2>&1 && copilot \
+            -p "Analyze the attached weekly GitHub data and produce a markdown summary following the instructions in the attached file." \
+            --attachment "$PROMPT_FILE" \
             -s \
             --no-ask-user \
             --model claude-sonnet-4 \
@@ -314,7 +316,8 @@ jobs:
           elif python3 scripts/analyze_fallback.py \
             --raw-json "$WEEK_FILE" \
             --output "$OUTPUT_FILE" \
-            --current-datetime "$CURRENT_DATETIME" 2>/dev/null; then
+            --current-datetime "$CURRENT_DATETIME" \
+            --press-context "$PRESS_FILE" 2>/dev/null; then
             echo "Copilot CLI unavailable or failed; used GitHub Models API."
             ANALYSIS_SOURCE="github-models"
             ANALYSIS_MODEL="${GITHUB_MODELS_MODEL:-openai/gpt-4.1}"
@@ -324,6 +327,7 @@ jobs:
               --raw-json "$WEEK_FILE" \
               --output "$OUTPUT_FILE" \
               --current-datetime "$CURRENT_DATETIME" \
+              --press-context "$PRESS_FILE" \
               --no-ai
             ANALYSIS_SOURCE="no-ai"
             ANALYSIS_MODEL="none"
