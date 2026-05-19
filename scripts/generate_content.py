@@ -63,10 +63,14 @@ def week_from_summary_path(path: Path) -> tuple[int, int]:
 
 def find_latest_summary(root: Path, topic_id: str | None = None) -> Path:
     search_dir = analyzed_dir(topic_id)
-    candidates = list(search_dir.glob(f"*{SUMMARY_SUFFIX}"))
-    if not candidates:
-        # Fallback: try legacy path via root
+    # When using default (relative) path, resolve via root for backward compat
+    if topic_id is None:
         candidates = list(root.glob(f"data/analyzed/*{SUMMARY_SUFFIX}"))
+    else:
+        candidates = list(search_dir.glob(f"*{SUMMARY_SUFFIX}"))
+    if not candidates:
+        # Fallback: try the other approach
+        candidates = list(search_dir.glob(f"*{SUMMARY_SUFFIX}")) if topic_id is None else list(root.glob(f"data/analyzed/*{SUMMARY_SUFFIX}"))
     if not candidates:
         raise GenerationError("No analyzed summaries found under data/analyzed/.")
     return max(candidates, key=week_from_summary_path)

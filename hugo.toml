@@ -98,6 +98,34 @@ rssLimit = 20
     url = '/index.xml'
     weight = 80
 
+ignoreFiles = ['data/analyzed/.*\\.md$', 'data/metrics/']
+
+[module]
+  [[module.mounts]]
+    source = 'data/raw'
+    target = 'data/raw'
+  [[module.mounts]]
+    source = 'data/snapshots'
+    target = 'data/snapshots'
+  [[module.mounts]]
+    source = 'data/metrics'
+    target = 'data/metrics'
+  [[module.mounts]]
+    source = 'content'
+    target = 'content'
+  [[module.mounts]]
+    source = 'static'
+    target = 'static'
+  [[module.mounts]]
+    source = 'layouts'
+    target = 'layouts'
+  [[module.mounts]]
+    source = 'assets'
+    target = 'assets'
+  [[module.mounts]]
+    source = 'archetypes'
+    target = 'archetypes'
+
 [markup]
   [markup.goldmark.renderer]
     unsafe = true
