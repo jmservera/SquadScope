@@ -7,6 +7,9 @@ _REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_REPO_ROOT / "scripts"))
 
 from render_press_context import (
+    _extract_readme_description,
+    _fetch_readme_snippet,
+    _format_correlations_narrative,
     format_articles_list,
     format_correlations_list,
     format_divergences,
@@ -305,33 +308,33 @@ class TestRenderPressContextReaderMode:
         assert "### Instructions" in result
         assert "Press-correlated" in result
 
-    def test_reader_mode_truncates_large_correlations(self):
+    def test_reader_mode_uses_narrative(self):
         many = [
             {
-                "repo": f"org/repo-{i}",
-                "match_type": "keyword",
-                "correlation_confidence": 0.5,
-                "hype_risk": "low",
+                "repo": f"openai/repo-{i}",
+                "match_type": "org_name",
+                "correlation_confidence": 0.8,
+                "hype_risk": "medium",
+                "matched_articles": ["https://techcrunch.com/article"],
             }
             for i in range(20)
         ]
-        result = render_press_context(
-            _techcrunch_data(),
-            _correlation_data(many),
-            "2026-W21",
-            reader_mode=True,
-        )
-        repo_lines = [ln for ln in result.splitlines() if ln.startswith("- org/repo")]
-        assert len(repo_lines) == 10
-        assert "…and 10 more repos with press correlation" in result
+        tc = _techcrunch_data([_article(title="OpenAI Launch", url="https://techcrunch.com/article")])
+        result = render_press_context(tc, _correlation_data(many), "2026-W21", reader_mode=True)
+        # Narrative mode: no raw confidence/match_type bullets
+        assert "confidence:" not in result
+        assert "match_type" not in result
+        # Should contain prose with repo links
+        assert "https://github.com/openai/repo-" in result
 
-    def test_reader_mode_no_truncation_when_under_limit(self):
+    def test_reader_mode_no_raw_confidence_in_narrative(self):
         few = [
             {
-                "repo": f"org/repo-{i}",
-                "match_type": "keyword",
-                "correlation_confidence": 0.5,
+                "repo": f"google/repo-{i}",
+                "match_type": "org_name",
+                "correlation_confidence": 0.9,
                 "hype_risk": "low",
+                "matched_articles": [],
             }
             for i in range(5)
         ]
@@ -341,7 +344,9 @@ class TestRenderPressContextReaderMode:
             "2026-W21",
             reader_mode=True,
         )
+        assert "confidence:" not in result
         assert "more repos with press correlation" not in result
+        assert "https://github.com/google/repo-" in result
 
 
 class TestStripAiInstructions:
@@ -414,3 +419,100 @@ class TestStripAiInstructions:
         result = self.af._strip_ai_instructions(content)
         assert "more repos with press correlation" not in result
         assert result.count("- org/repo") == 5
+
+
+class TestExtractReadmeDescription:
+    def test_returns_first_readable_line(self):
+        snippet = "# My Project\n\nA fast, zero-dependency library for data processing.\n"
+        assert _extract_readme_description(snippet) == "A fast, zero-dependency library for data processing"
+
+    def test_skips_heading_lines(self):
+        snippet = "# Heading\n## Subheading\nActual description here.\n"
+        assert _extract_readme_description(snippet) == "Actual description here"
+
+    def test_skips_image_badge_lines(self):
+        snippet = "[![badge](img)](url)\nA concise description of what this library does.\n"
+        assert _extract_readme_description(snippet) == "A concise description of what this library does"
+
+    def test_returns_empty_on_no_match(self):
+        assert _extract_readme_description("# Only a heading\n") == ""
+
+    def test_strips_markdown_links(self):
+        snippet = "Check out [our docs](https://example.com) for more information.\n"
+        result = _extract_readme_description(snippet)
+        assert "https://example.com" not in result
+        assert "our docs" in result
+
+
+class TestFormatCorrelationsNarrative:
+    def _corr(self, repo="openai/codex", confidence=0.8, hype_risk="medium", articles=None):
+        return {
+            "repo": repo,
+            "press_correlated": True,
+            "correlation_confidence": confidence,
+            "matched_articles": articles or [],
+            "match_type": "org_name",
+            "hype_risk": hype_risk,
+        }
+
+    def _art(self, title="OpenAI News", url="https://techcrunch.com/openai-news"):
+        return {"title": title, "url": url, "categories": ["AI"]}
+
+    def test_empty_returns_fallback(self):
+        result = _format_correlations_narrative([], [])
+        assert "No significant press correlations" in result
+
+    def test_produces_repo_links(self):
+        corr = self._corr(repo="openai/codex", articles=["https://techcrunch.com/a1"])
+        result = _format_correlations_narrative([corr], [self._art(url="https://techcrunch.com/a1")])
+        assert "[codex](https://github.com/openai/codex)" in result
+
+    def test_produces_article_links_when_title_available(self):
+        corr = self._corr(articles=["https://techcrunch.com/a1"])
+        art = self._art(title="OpenAI Launches Codex", url="https://techcrunch.com/a1")
+        result = _format_correlations_narrative([corr], [art])
+        assert "[OpenAI Launches Codex](https://techcrunch.com/a1)" in result
+
+    def test_no_raw_confidence_in_output(self):
+        corr = self._corr()
+        result = _format_correlations_narrative([corr], [])
+        assert "confidence:" not in result
+        assert "match_type" not in result
+        assert "hype_risk" not in result
+
+    def test_groups_by_org(self):
+        corrs = [
+            self._corr(repo="openai/codex"),
+            self._corr(repo="openai/gpt-4"),
+            self._corr(repo="google/material-design-icons", confidence=0.5),
+        ]
+        result = _format_correlations_narrative(corrs, [])
+        # openai dominates — should appear in first paragraph
+        assert "openai" in result.lower()
+        assert "google" in result.lower()
+
+    def test_no_article_link_when_url_not_in_articles(self):
+        corr = self._corr(articles=["https://techcrunch.com/unknown-url"])
+        result = _format_correlations_narrative([corr], [])
+        # URL is in the corr but not in the articles list, so no link text
+        assert "[" not in result or "github.com" in result
+
+    def test_reader_mode_true_uses_narrative(self):
+        corr = self._corr(repo="openai/codex")
+        result = format_correlations_list([corr], reader_mode=True, articles=[])
+        assert "confidence:" not in result
+        assert "[codex](https://github.com/openai/codex)" in result
+
+    def test_reader_mode_false_uses_bullet_list(self):
+        corr = self._corr(repo="openai/codex")
+        result = format_correlations_list([corr], reader_mode=False)
+        assert "openai/codex" in result
+        assert "confidence:" in result
+        assert "match:" in result
+
+    def test_ai_mode_unchanged_in_render(self):
+        tc = _techcrunch_data()
+        corr_data = _correlation_data([self._corr()])
+        result = render_press_context(tc, corr_data, "2026-W21", reader_mode=False)
+        assert "confidence:" in result
+        assert "### Instructions" in result
