@@ -10,7 +10,9 @@ Usage:
 
 import argparse
 import json
+import re
 import sys
+import urllib.request
 from datetime import datetime
 from pathlib import Path
 
@@ -56,16 +58,195 @@ def format_articles_list(articles: list[dict]) -> str:
 _HYPE_RISK_SEVERITY: dict[str, int] = {"high": 3, "medium": 2, "low": 1, "none": 0}
 
 
-def format_correlations_list(correlations: list[dict], *, top_n: int | None = None) -> str:
-    """Format correlations into a markdown list.
+def _fetch_readme_snippet(full_name: str, max_chars: int = 500) -> str:
+    """Fetch the first max_chars of a repo README from raw.githubusercontent.com.
+
+    Returns an empty string on any failure (network error, 404, timeout).
+    Should only be called in reader_mode=True paths.
+    """
+    url = f"https://raw.githubusercontent.com/{full_name}/HEAD/README.md"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "SquadScope/1.0"})
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            raw = resp.read(max_chars * 3)
+            return raw.decode("utf-8", errors="replace")[:max_chars]
+    except Exception:
+        return ""
+
+
+def _extract_readme_description(snippet: str) -> str:
+    """Return the first readable descriptive line from a README snippet.
+
+    Skips headings, badge lines, image tags, and blank lines.
+    Returns an empty string if nothing usable is found.
+    """
+    for line in snippet.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        if line.startswith(("#", "!", "<", "|", "[")):
+            continue
+        # Strip markdown formatting: links → text, remove bold/italic/code, strip HTML
+        line = re.sub(r"!\[.*?\]\(.*?\)", "", line)
+        line = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", line)
+        line = re.sub(r"<[^>]+>", "", line)
+        line = re.sub(r"[*_`>]", "", line)
+        line = line.strip(" .,;:")
+        if 20 <= len(line) <= 150:
+            return line
+    return ""
+
+
+def _format_correlations_narrative(
+    correlations: list[dict], articles: list[dict]
+) -> str:
+    """Generate narrative paragraphs explaining press-to-code correlations.
+
+    Groups correlations by GitHub org, fetches README snippets for top repos,
+    and produces 1–3 prose paragraphs with inline links to repos and articles.
+    Only called in reader_mode=True — README network fetches happen here.
+    """
+    if not correlations:
+        return "(No significant press correlations this week.)"
+
+    # URL → title lookup for inline article links
+    url_to_title: dict[str, str] = {
+        a["url"]: a["title"]
+        for a in articles
+        if a.get("url") and a.get("title")
+    }
+
+    # Sort correlations by confidence desc, hype_risk severity desc
+    sorted_corrs = sorted(
+        correlations,
+        key=lambda c: (
+            -c.get("correlation_confidence", 0.0),
+            -_HYPE_RISK_SEVERITY.get(c.get("hype_risk", "none"), 0),
+        ),
+    )
+
+    # Group by org (first segment of "owner/repo")
+    org_groups: dict[str, list[dict]] = {}
+    for corr in sorted_corrs:
+        repo = corr.get("repo", "")
+        if not repo:
+            continue
+        org = repo.split("/")[0]
+        org_groups.setdefault(org, []).append(corr)
+
+    def _group_score(corrs: list[dict]) -> float:
+        return sum(c.get("correlation_confidence", 0.0) for c in corrs)
+
+    top_groups = sorted(
+        org_groups.items(),
+        key=lambda kv: _group_score(kv[1]),
+        reverse=True,
+    )[:4]
+
+    # Fetch README snippets for the top repos across groups (max 6 total)
+    repos_to_fetch: list[str] = []
+    for _, group_corrs in top_groups:
+        for corr in group_corrs[:2]:
+            repo = corr.get("repo", "")
+            if repo and repo not in repos_to_fetch and len(repos_to_fetch) < 6:
+                repos_to_fetch.append(repo)
+
+    readme_snippets: dict[str, str] = {}
+    for repo in repos_to_fetch:
+        snippet = _fetch_readme_snippet(repo)
+        if snippet:
+            readme_snippets[repo] = snippet
+
+    total = len(correlations)
+    paragraphs: list[str] = []
+
+    for idx, (org, group_corrs) in enumerate(top_groups[:3]):
+        # Collect up to 2 article links for this group
+        article_links: list[str] = []
+        seen_article_urls: set[str] = set()
+        for corr in group_corrs:
+            for url in corr.get("matched_articles", []):
+                if url not in seen_article_urls and len(article_links) < 2:
+                    seen_article_urls.add(url)
+                    title = url_to_title.get(url, "")
+                    if title:
+                        article_links.append(f"[{title}]({url})")
+
+        # Collect up to 3 repo links with optional README description
+        repo_parts: list[str] = []
+        for corr in group_corrs[:3]:
+            repo = corr.get("repo", "")
+            if not repo:
+                continue
+            link = _repo_link(repo)
+            desc = _extract_readme_description(readme_snippets.get(repo, ""))
+            repo_parts.append(f"{link} — {desc}" if desc else link)
+
+        if not repo_parts:
+            continue
+
+        repos_str = _join_links(repo_parts)
+
+        if article_links:
+            arts_str = _join_links(article_links)
+            if idx == 0:
+                para = (
+                    f"This week's TechCrunch coverage closely tracks developer activity "
+                    f"across {total} repos. {org.capitalize()} featured prominently: "
+                    f"coverage of {arts_str} aligns with activity in {repos_str}."
+                )
+            else:
+                para = (
+                    f"{org.capitalize()}'s press footprint also intersects with GitHub: "
+                    f"coverage of {arts_str} tracks activity in {repos_str}."
+                )
+        else:
+            if idx == 0:
+                para = (
+                    f"This week's TechCrunch coverage closely tracks developer activity "
+                    f"across {total} repos. {org.capitalize()} shows the strongest signal, "
+                    f"with {repos_str} seeing notable GitHub traction."
+                )
+            else:
+                para = (
+                    f"{org.capitalize()} also shows strong press-to-code correlation, "
+                    f"with activity in {repos_str}."
+                )
+
+        paragraphs.append(para)
+
+    return (
+        "\n\n".join(paragraphs)
+        if paragraphs
+        else "(No significant press correlations this week.)"
+    )
+
+
+def format_correlations_list(
+    correlations: list[dict],
+    *,
+    top_n: int | None = None,
+    reader_mode: bool = False,
+    articles: list[dict] | None = None,
+) -> str:
+    """Format correlations into a markdown list or narrative prose.
 
     Args:
         correlations: List of correlation dicts.
-        top_n: When set, show only the top N entries (sorted by confidence desc,
-               then hype_risk severity desc) and append a "…and N more" summary line.
+        top_n: When set (and reader_mode=False), show only the top N entries
+               (sorted by confidence desc, then hype_risk severity desc) and
+               append a "…and N more" summary line.
+        reader_mode: When True, delegate to _format_correlations_narrative()
+                     which produces prose paragraphs with inline links. top_n
+                     is ignored in this mode.
+        articles: Article list used by the narrative formatter for URL→title
+                  lookup. Ignored when reader_mode=False.
     """
     if not correlations:
         return "- (none)"
+
+    if reader_mode:
+        return _format_correlations_narrative(correlations, articles or [])
 
     if top_n is not None:
         sorted_corrs = sorted(
@@ -351,7 +532,13 @@ def render_press_context(
     rendered = rendered.replace("{articles_list}", format_articles_list(articles))
     rendered = rendered.replace("{correlation_count}", str(correlation_count))
     rendered = rendered.replace(
-        "{correlations_list}", format_correlations_list(correlations, top_n=top_n)
+        "{correlations_list}",
+        format_correlations_list(
+            correlations,
+            top_n=top_n,
+            reader_mode=reader_mode,
+            articles=articles,
+        ),
     )
 
     # Strip the AI-only ### Instructions block in reader mode
