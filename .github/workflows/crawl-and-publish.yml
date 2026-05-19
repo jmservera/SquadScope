@@ -14,6 +14,7 @@ on:
 permissions:
   actions: read
   contents: write
+  pull-requests: write
 
 concurrency:
   group: weekly-crawl
@@ -116,35 +117,41 @@ jobs:
           path: data/cache/
           if-no-files-found: warn
 
-      - name: Commit crawl data
-        continue-on-error: true
+      - name: Commit crawl data via PR
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # Save crawl output before syncing with remote
-          cp -r data/raw /tmp/crawl-raw
-          cp -r data/snapshots /tmp/crawl-snapshots
+          cp -r data/raw crawl-raw-backup
+          cp -r data/snapshots crawl-snapshots-backup
           git fetch origin "$DEFAULT_BRANCH"
           git checkout -B "$DEFAULT_BRANCH" "origin/$DEFAULT_BRANCH"
           # Restore crawl output on top of synced branch
-          cp -r /tmp/crawl-raw/* data/raw/ 2>/dev/null || true
-          cp -r /tmp/crawl-snapshots/* data/snapshots/ 2>/dev/null || true
+          cp -r crawl-raw-backup/* data/raw/ 2>/dev/null || true
+          cp -r crawl-snapshots-backup/* data/snapshots/ 2>/dev/null || true
+          rm -rf crawl-raw-backup crawl-snapshots-backup
           if git diff --quiet -- data/raw data/snapshots; then
-            echo "No changes to data/raw or data/snapshots. Skipping counter increment."
+            echo "No changes to data/raw or data/snapshots. Skipping."
             exit 0
           fi
           COUNTER=$(cat .squad/run-counter.txt 2>/dev/null || echo 0)
           COUNTER=$((COUNTER + 1))
           printf '%s\n' "$COUNTER" > .squad/run-counter.txt
+          WEEK=$(date +%Y-W%V)
+          BRANCH="data/weekly-crawl-${WEEK}-${GITHUB_RUN_ID}"
+          git checkout -b "$BRANCH"
           git add data/raw/ data/snapshots/ .squad/run-counter.txt
-          git diff --cached --quiet || git commit -m "data: weekly crawl $(date +%Y-W%V)"
-          git push origin "HEAD:$DEFAULT_BRANCH" || {
-            echo "Push failed after syncing with $DEFAULT_BRANCH."
-            exit 1
-          }
+          git diff --cached --quiet && exit 0
+          git commit -m "data: weekly crawl $WEEK"
+          git push origin "$BRANCH"
+          gh pr create --base "$DEFAULT_BRANCH" --head "$BRANCH" \
+            --title "data: weekly crawl $WEEK" \
+            --body "Automated weekly crawl data commit from run #${GITHUB_RUN_ID}."
+          gh pr merge "$BRANCH" --squash --auto --delete-branch
 
   analyze:
     needs: crawl
@@ -152,6 +159,7 @@ jobs:
     permissions:
       actions: read
       contents: write
+      pull-requests: write
     outputs:
       week: ${{ steps.analysis-context.outputs.week }}
       summary_file: ${{ steps.analysis-context.outputs.output_file }}
@@ -307,31 +315,37 @@ jobs:
             --current-datetime "$CURRENT_DATETIME" \
             --source "$ANALYSIS_SOURCE"
 
-      - name: Commit analysis
-        continue-on-error: true
+      - name: Commit analysis via PR
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           WEEK: ${{ steps.analysis-context.outputs.week }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           if ! git status --short -- data/analyzed data/metrics | grep -q .; then
             echo "No analyzed data or token usage changes to commit."
             exit 0
           fi
-          cp -r data/analyzed /tmp/analyzed-data
-          cp -r data/metrics /tmp/metrics-data
+          cp -r data/analyzed analyzed-data-backup
+          cp -r data/metrics metrics-data-backup
           git fetch origin "$DEFAULT_BRANCH"
           git checkout -B "$DEFAULT_BRANCH" "origin/$DEFAULT_BRANCH"
           mkdir -p data/analyzed data/metrics
-          cp -r /tmp/analyzed-data/* data/analyzed/ 2>/dev/null || true
-          cp -r /tmp/metrics-data/* data/metrics/ 2>/dev/null || true
+          cp -r analyzed-data-backup/* data/analyzed/ 2>/dev/null || true
+          cp -r metrics-data-backup/* data/metrics/ 2>/dev/null || true
+          rm -rf analyzed-data-backup metrics-data-backup
+          BRANCH="data/analysis-${WEEK}-${GITHUB_RUN_ID}"
+          git checkout -b "$BRANCH"
           git add data/analyzed/ data/metrics/
-          git diff --cached --quiet || git commit -m "analysis: weekly summary $WEEK"
-          git push origin "HEAD:$DEFAULT_BRANCH" || {
-            echo "Push failed after syncing with $DEFAULT_BRANCH."
-            exit 1
-          }
+          git diff --cached --quiet && exit 0
+          git commit -m "analysis: weekly summary $WEEK"
+          git push origin "$BRANCH"
+          gh pr create --base "$DEFAULT_BRANCH" --head "$BRANCH" \
+            --title "analysis: weekly summary $WEEK" \
+            --body "Automated analysis commit from run #${GITHUB_RUN_ID}."
+          gh pr merge "$BRANCH" --squash --auto --delete-branch
 
       - name: Upload analyzed data
         uses: actions/upload-artifact@v4
@@ -346,6 +360,7 @@ jobs:
     permissions:
       actions: read
       contents: write
+      pull-requests: write
     outputs:
       page_path: ${{ steps.generate-content.outputs.page_path }}
 
@@ -387,33 +402,39 @@ jobs:
       - name: Generate rollups
         run: python3 scripts/generate_rollups.py
 
-      - name: Commit generated content
-        continue-on-error: true
+      - name: Commit generated content via PR
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           WEEK: ${{ needs.analyze.outputs.week }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           if ! git status --short -- content/weekly content/monthly content/yearly | grep -q .; then
             echo "No generated content changes to commit."
             exit 0
           fi
-          cp -r content/weekly /tmp/content-weekly 2>/dev/null || true
-          cp -r content/monthly /tmp/content-monthly 2>/dev/null || true
-          cp -r content/yearly /tmp/content-yearly 2>/dev/null || true
+          cp -r content/weekly content-weekly-backup 2>/dev/null || true
+          cp -r content/monthly content-monthly-backup 2>/dev/null || true
+          cp -r content/yearly content-yearly-backup 2>/dev/null || true
           git fetch origin "$DEFAULT_BRANCH"
           git checkout -B "$DEFAULT_BRANCH" "origin/$DEFAULT_BRANCH"
           mkdir -p content/weekly content/monthly content/yearly
-          cp -r /tmp/content-weekly/* content/weekly/ 2>/dev/null || true
-          cp -r /tmp/content-monthly/* content/monthly/ 2>/dev/null || true
-          cp -r /tmp/content-yearly/* content/yearly/ 2>/dev/null || true
+          cp -r content-weekly-backup/* content/weekly/ 2>/dev/null || true
+          cp -r content-monthly-backup/* content/monthly/ 2>/dev/null || true
+          cp -r content-yearly-backup/* content/yearly/ 2>/dev/null || true
+          rm -rf content-weekly-backup content-monthly-backup content-yearly-backup
+          BRANCH="data/content-${WEEK}-${GITHUB_RUN_ID}"
+          git checkout -b "$BRANCH"
           git add content/weekly/ content/monthly/ content/yearly/
-          git diff --cached --quiet || git commit -m "content: weekly page $WEEK"
-          git push origin "HEAD:$DEFAULT_BRANCH" || {
-            echo "Push failed after syncing with $DEFAULT_BRANCH."
-            exit 1
-          }
+          git diff --cached --quiet && exit 0
+          git commit -m "content: weekly page $WEEK"
+          git push origin "$BRANCH"
+          gh pr create --base "$DEFAULT_BRANCH" --head "$BRANCH" \
+            --title "content: weekly page $WEEK" \
+            --body "Automated content generation from run #${GITHUB_RUN_ID}."
+          gh pr merge "$BRANCH" --squash --auto --delete-branch
 
       - name: Upload generated content artifact
         uses: actions/upload-artifact@v4
@@ -596,6 +617,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4
@@ -621,6 +643,7 @@ jobs:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -659,15 +682,21 @@ jobs:
             exit 0
           fi
 
-          cp -r .squad /tmp/squad-state
-          cp -r data/metrics /tmp/reskill-metrics
+          cp -r .squad squad-state-backup
+          cp -r data/metrics reskill-metrics-backup
           git fetch origin "$DEFAULT_BRANCH"
           git checkout -B "$DEFAULT_BRANCH" "origin/$DEFAULT_BRANCH"
-          cp -r /tmp/squad-state/* .squad/ 2>/dev/null || true
+          cp -r squad-state-backup/* .squad/ 2>/dev/null || true
           mkdir -p data/metrics
-          cp -r /tmp/reskill-metrics/* data/metrics/ 2>/dev/null || true
+          cp -r reskill-metrics-backup/* data/metrics/ 2>/dev/null || true
+          rm -rf squad-state-backup reskill-metrics-backup
+          BRANCH="data/reskill-${WEEK}-${GITHUB_RUN_ID}"
+          git checkout -b "$BRANCH"
           git add .squad/ data/metrics/
-          git diff --cached --quiet || git commit -m "chore: reskill state update"
-          git push origin "HEAD:$DEFAULT_BRANCH" || {
-            echo "Warning: Failed to push .squad updates to $DEFAULT_BRANCH, but continuing."
-          }
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: reskill state update"
+          git push origin "$BRANCH"
+          gh pr create --base "$DEFAULT_BRANCH" --head "$BRANCH" \
+            --title "chore: reskill state update $WEEK" \
+            --body "Automated reskill commit from run #${GITHUB_RUN_ID}."
+          gh pr merge "$BRANCH" --squash --auto --delete-branch
