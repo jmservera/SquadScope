@@ -71,6 +71,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Render the prompt to stdout without calling GitHub Models.",
     )
+    parser.add_argument(
+        "--prompt-output",
+        type=Path,
+        help="Optional path to write the rendered prompt while running the script.",
+    )
     return parser.parse_args(argv)
 
 
@@ -278,6 +283,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.print_prompt:
         print(prompt)
         return 0
+
+    if args.prompt_output:
+        args.prompt_output.parent.mkdir(parents=True, exist_ok=True)
+        args.prompt_output.write_text(prompt, encoding="utf-8")
 
     markdown = call_github_models(prompt)
     output_path.parent.mkdir(parents=True, exist_ok=True)

@@ -262,6 +262,7 @@ jobs:
             --week "$WEEK" \
             --prompt-file "$PROMPT_FILE" \
             --output-file "$OUTPUT_FILE"
+          rm -f "$PROMPT_FILE"
           echo "analysis_source=$ANALYSIS_SOURCE" >> "$GITHUB_OUTPUT"
 
       - name: quality-check
@@ -599,8 +600,7 @@ jobs:
           RESKILL_PROMPT=$(mktemp)
           mkdir -p .squad/skills .squad/reskill data/metrics
 
-          if python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME" --output "$RESKILL_OUTPUT"; then
-            python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME" --output "$RESKILL_OUTPUT" --print-prompt > "$RESKILL_PROMPT"
+          if python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME" --output "$RESKILL_OUTPUT" --prompt-output "$RESKILL_PROMPT"; then
             python3 scripts/track_token_usage.py \
               --stage reskill \
               --source github-models \
@@ -609,8 +609,10 @@ jobs:
               --week "$WEEK" \
               --prompt-file "$RESKILL_PROMPT" \
               --output-file "$RESKILL_OUTPUT"
+            rm -f "$RESKILL_PROMPT"
             echo "🔄 Reskill report generated for run #$COUNTER"
           else
+            rm -f "$RESKILL_PROMPT"
             echo "Reskill script failed; writing placeholder trigger log."
             echo "Reskill triggered at run #$COUNTER ($CURRENT_DATETIME)" >> .squad/reskill/trigger-log.txt
           fi

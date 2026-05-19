@@ -115,6 +115,61 @@ class ReskillTests(unittest.TestCase):
             output_path = base / ".squad" / "reskill" / "2026-W21.md"
             self.assertEqual(output_path.read_text(encoding="utf-8"), "# Reskill Report\n")
 
+    def test_main_can_write_prompt_output_sidecar(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            analyzed_dir = base / "data" / "analyzed"
+            snapshots_dir = base / "data" / "snapshots"
+            wisdom_path = base / ".squad" / "identity" / "wisdom.md"
+            skills_dir = base / ".squad" / "skills"
+            prompt_template = base / "reskill.md"
+            output_path = base / ".squad" / "reskill" / "2026-W21.md"
+            prompt_output_path = base / "tmp" / "reskill-prompt.txt"
+            analyzed_dir.mkdir(parents=True)
+            snapshots_dir.mkdir(parents=True)
+            wisdom_path.parent.mkdir(parents=True)
+            skills_dir.mkdir(parents=True)
+            output_path.parent.mkdir(parents=True)
+            (analyzed_dir / "2026-W21-summary.md").write_text(
+                "---\nweek: 2026-W21\nquality_score: 76\n---\n\nBody\n",
+                encoding="utf-8",
+            )
+            wisdom_path.write_text("# Wisdom\n\nPrefer durable signals.", encoding="utf-8")
+            prompt_template.write_text("{{WISDOM}}\n{{QUALITY_TREND}}", encoding="utf-8")
+
+            response = _FakeHTTPResponse(
+                json.dumps({"choices": [{"message": {"content": "# Reskill Report\n"}}]}).encode("utf-8")
+            )
+
+            with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
+                reskill.request, "urlopen", return_value=response
+            ):
+                exit_code = reskill.main(
+                    [
+                        "--current-datetime",
+                        "2026-05-18T15:22:25.067+02:00",
+                        "--prompt-template",
+                        str(prompt_template),
+                        "--analyzed-dir",
+                        str(analyzed_dir),
+                        "--snapshots-dir",
+                        str(snapshots_dir),
+                        "--wisdom-file",
+                        str(wisdom_path),
+                        "--skills-dir",
+                        str(skills_dir),
+                        "--output",
+                        str(output_path),
+                        "--prompt-output",
+                        str(prompt_output_path),
+                    ]
+                )
+
+            self.assertEqual(exit_code, 0)
+            self.assertTrue(prompt_output_path.exists())
+            self.assertIn("Prefer durable signals.", prompt_output_path.read_text(encoding="utf-8"))
+
 
 if __name__ == "__main__":
     unittest.main()

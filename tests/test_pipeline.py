@@ -194,6 +194,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertEqual(reskill_step["env"]["COPILOT_GITHUB_TOKEN"], "${{ secrets.COPILOT_GH_TOKEN }}")
         reskill_run = reskill_step["run"]
         self.assertIn("python3 scripts/reskill.py --current-datetime", reskill_run)
+        self.assertIn("--prompt-output", reskill_run)
         self.assertIn("python3 scripts/track_token_usage.py", reskill_run)
         self.assertIn("mkdir -p .squad/skills .squad/reskill", reskill_run)
         self.assertIn("data/metrics", reskill_run)
