@@ -29,6 +29,10 @@ Your job is to review recent analysis output, calibrate the analyst's judgment, 
 
 {{SNAPSHOT_CONTEXT}}
 
+### Prediction scorecard
+
+{{SCORECARD}}
+
 ## Objective
 
 Write the full contents of `{{OUTPUT_PATH}}` as a markdown reskill report.

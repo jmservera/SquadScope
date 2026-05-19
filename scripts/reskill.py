@@ -15,6 +15,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts import track_quality
+from scripts.load_scorecard import render_scorecard_section
 
 DEFAULT_PROMPT_TEMPLATE = ROOT / "prompts" / "reskill.md"
 DEFAULT_ANALYZED_DIR = ROOT / "data" / "analyzed"
@@ -66,6 +67,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Path to write the reskill report. Defaults to .squad/reskill/YYYY-WNN.md.",
     )
     parser.add_argument("--limit", type=int, default=5, help="Maximum number of analyzed summaries to include.")
+    parser.add_argument("--scorecard", action="store_true", help="Include prediction scorecard data in the reskill prompt.")
+    parser.add_argument("--scorecard-count", type=int, default=4, help="Number of recent scorecards to include (default: 4).")
+    parser.add_argument("--topic", default=None, help="Topic ID for scorecard resolution.")
     parser.add_argument(
         "--print-prompt",
         action="store_true",
@@ -185,6 +189,7 @@ def render_prompt(
     wisdom_file: Path,
     skills_dir: Path,
     limit: int,
+    scorecard_section: str = "",
 ) -> str:
     prompt = prompt_template_path.read_text(encoding="utf-8")
     replacements = {
@@ -195,6 +200,7 @@ def render_prompt(
         "{{QUALITY_TREND}}": track_quality.build_quality_report(analyzed_dir).strip(),
         "{{RECENT_ANALYSES}}": render_recent_analyses(analyzed_dir, limit),
         "{{SNAPSHOT_CONTEXT}}": render_snapshot_context(analyzed_dir, snapshots_dir, limit),
+        "{{SCORECARD}}": scorecard_section,
     }
     for needle, value in replacements.items():
         prompt = prompt.replace(needle, value)
@@ -269,6 +275,11 @@ def call_github_models(prompt: str) -> str:
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     output_path = args.output or default_output_path(args.current_datetime)
+
+    scorecard_section = ""
+    if args.scorecard:
+        scorecard_section = render_scorecard_section(args.topic, args.scorecard_count)
+
     prompt = render_prompt(
         prompt_template_path=args.prompt_template,
         current_datetime=args.current_datetime,
@@ -278,6 +289,7 @@ def main(argv: list[str] | None = None) -> int:
         wisdom_file=args.wisdom_file,
         skills_dir=args.skills_dir,
         limit=args.limit,
+        scorecard_section=scorecard_section,
     )
 
     if args.print_prompt:
