@@ -1,7 +1,7 @@
 {
   "week": "2026-W21",
   "source": "techcrunch",
-  "crawled_at": "2026-05-19T18:01:37.340654Z",
+  "crawled_at": "2026-05-19T18:17:44.492196Z",
   "articles": [
     {
       "title": "Google’s Genie world model can now simulate real streets with Street View",
@@ -158,12 +158,12 @@
       "categories": [
         "AI",
         "Apps",
+        "gemini",
         "Google",
         "Google I/O",
-        "gemini",
         "google i/o 2026"
       ],
-      "summary": "The updates signal Google’s push to turn its Gemini Gemini app into an all-purpose AI hub rather than a standalone chatbot.",
+      "summary": "The updates signal Google’s push to turn its Gemini app into an all-purpose AI hub rather than a stand-alone chatbot.",
       "github_links": [],
       "entities": [
         "Google",
@@ -223,11 +223,11 @@
       "published_at": "2026-05-19T17:45:00Z",
       "categories": [
         "AI",
-        "Google I/O",
+        "agentic AI assistant",
         "gemini",
-        "google io 2026",
         "Gemini Spark",
-        "agentic AI assistant"
+        "Google I/O",
+        "google io 2026"
       ],
       "summary": "At the I/O developer conference, Google announced a new agentic personal assistant called Gemini Spark, built from Gemini's base models and an agentic harness from Google Antigravity.",
       "github_links": [],
