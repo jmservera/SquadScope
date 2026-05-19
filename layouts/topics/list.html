@@ -1,0 +1,26 @@
+{{- define "main" -}}
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1>{{ .Title }}</h1>
+  <div class="post-description">All {{ .Pages.Len }} weekly issue{{ if ne .Pages.Len 1 }}s{{ end }} in this topic.</div>
+</header>
+
+{{- if .Content }}
+<div class="post-content md-content">
+  {{ .Content }}
+</div>
+{{- end }}
+
+<section class="taxonomy-grid" aria-label="{{ .Title }} pages">
+  {{- range .Pages.ByDate.Reverse }}
+  <article class="home-report-card taxonomy-card">
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    <p>{{ .Params.summary | default .Summary }}</p>
+    <div class="home-report-meta">
+      <span>{{ .Date.Format "2006-01-02" }}</span>
+      <span>{{ .Type | humanize }}</span>
+    </div>
+  </article>
+  {{- end }}
+</section>
+{{- end -}}
