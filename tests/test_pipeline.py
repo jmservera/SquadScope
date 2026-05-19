@@ -194,9 +194,19 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertEqual(reskill_step["env"]["COPILOT_GITHUB_TOKEN"], "${{ secrets.COPILOT_GH_TOKEN }}")
         reskill_run = reskill_step["run"]
         self.assertIn("python3 scripts/reskill.py --current-datetime", reskill_run)
+        self.assertIn("python3 scripts/track_token_usage.py", reskill_run)
         self.assertIn("mkdir -p .squad/skills .squad/reskill", reskill_run)
+        self.assertIn("data/metrics", reskill_run)
         self.assertIn("trigger-log.txt", reskill_run)
         self.assertIn("git add .squad/", reskill_run)
+        self.assertIn("data/metrics/", reskill_run)
+
+        analyze = workflow["jobs"]["analyze"]
+        run_analysis_step = next((s for s in analyze["steps"] if s.get("name") == "Run analysis"), None)
+        self.assertIsNotNone(run_analysis_step)
+        run_analysis = run_analysis_step["run"]
+        self.assertIn("python3 scripts/track_token_usage.py", run_analysis)
+        self.assertIn("mkdir -p data/metrics", run_analysis)
 
     def test_generate_workflow_runs_rollups_and_commits_all_content(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")

@@ -228,9 +228,13 @@ jobs:
           set -euo pipefail
           OUTPUT_FILE="${{ steps.analysis-context.outputs.output_file }}"
           WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
+          WEEK="${{ steps.analysis-context.outputs.week }}"
           CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
+          mkdir -p data/metrics
+          PROMPT_FILE=$(mktemp)
+          python3 scripts/analyze_fallback.py --raw-json "$WEEK_FILE" --output "$OUTPUT_FILE" --current-datetime "$CURRENT_DATETIME" --print-prompt > "$PROMPT_FILE"
 
-          if command -v copilot >/dev/null 2>&1 && copilot -p "$(python3 scripts/analyze_fallback.py --raw-json "$WEEK_FILE" --output "$OUTPUT_FILE" --current-datetime "$CURRENT_DATETIME" --print-prompt)" \
+          if command -v copilot >/dev/null 2>&1 && copilot -p "$(cat "$PROMPT_FILE")" \
             -s \
             --no-ask-user \
             --model claude-sonnet-4 \
@@ -239,15 +243,26 @@ jobs:
             --allow-tool=glob \
             --allow-tool=grep \
             > "$OUTPUT_FILE"; then
-            echo "analysis_source=copilot-cli" >> "$GITHUB_OUTPUT"
+            ANALYSIS_SOURCE="copilot-cli"
+            ANALYSIS_MODEL="claude-sonnet-4"
           else
             echo "Copilot CLI unavailable or failed; falling back to GitHub Models API."
             python3 scripts/analyze_fallback.py \
               --raw-json "$WEEK_FILE" \
               --output "$OUTPUT_FILE" \
               --current-datetime "$CURRENT_DATETIME"
-            echo "analysis_source=github-models" >> "$GITHUB_OUTPUT"
+            ANALYSIS_SOURCE="github-models"
+            ANALYSIS_MODEL="${GITHUB_MODELS_MODEL:-openai/gpt-4.1}"
           fi
+          python3 scripts/track_token_usage.py \
+            --stage analysis \
+            --source "$ANALYSIS_SOURCE" \
+            --model "$ANALYSIS_MODEL" \
+            --current-datetime "$CURRENT_DATETIME" \
+            --week "$WEEK" \
+            --prompt-file "$PROMPT_FILE" \
+            --output-file "$OUTPUT_FILE"
+          echo "analysis_source=$ANALYSIS_SOURCE" >> "$GITHUB_OUTPUT"
 
       - name: quality-check
         env:
@@ -269,18 +284,18 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ! git status --short -- data/analyzed | grep -q .; then
-            echo "No analyzed data changes to commit."
+          if ! git status --short -- data/analyzed data/metrics | grep -q .; then
+            echo "No analyzed data or token usage changes to commit."
             exit 0
           fi
-          git stash push --include-untracked --message analyzed-data -- data/analyzed
+          git stash push --include-untracked --message analyzed-data -- data/analyzed data/metrics
           git fetch origin "$DEFAULT_BRANCH"
           git checkout -B "$DEFAULT_BRANCH" "origin/$DEFAULT_BRANCH"
           git stash pop || {
             echo "Failed to reapply analyzed data after syncing $DEFAULT_BRANCH."
             exit 1
           }
-          git add data/analyzed/
+          git add data/analyzed/ data/metrics/
           git diff --cached --quiet || git commit -m "analysis: weekly summary $WEEK"
           git push origin "HEAD:$DEFAULT_BRANCH" || {
             echo "Push failed after syncing with $DEFAULT_BRANCH."
@@ -579,28 +594,40 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           COUNTER=$(cat .squad/run-counter.txt 2>/dev/null || echo 0)
           CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          mkdir -p .squad/skills .squad/reskill
+          WEEK=$(date -u +%G-W%V)
+          RESKILL_OUTPUT=".squad/reskill/${WEEK}.md"
+          RESKILL_PROMPT=$(mktemp)
+          mkdir -p .squad/skills .squad/reskill data/metrics
 
-          if python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME"; then
+          if python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME" --output "$RESKILL_OUTPUT"; then
+            python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME" --output "$RESKILL_OUTPUT" --print-prompt > "$RESKILL_PROMPT"
+            python3 scripts/track_token_usage.py \
+              --stage reskill \
+              --source github-models \
+              --model "${GITHUB_MODELS_MODEL:-openai/gpt-4.1}" \
+              --current-datetime "$CURRENT_DATETIME" \
+              --week "$WEEK" \
+              --prompt-file "$RESKILL_PROMPT" \
+              --output-file "$RESKILL_OUTPUT"
             echo "🔄 Reskill report generated for run #$COUNTER"
           else
             echo "Reskill script failed; writing placeholder trigger log."
             echo "Reskill triggered at run #$COUNTER ($CURRENT_DATETIME)" >> .squad/reskill/trigger-log.txt
           fi
 
-          if ! git status --short -- .squad | grep -q .; then
-            echo "No .squad changes to commit."
+          if ! git status --short -- .squad data/metrics | grep -q .; then
+            echo "No .squad or token usage changes to commit."
             exit 0
           fi
 
-          git stash push --include-untracked --message reskill-state -- .squad
+          git stash push --include-untracked --message reskill-state -- .squad data/metrics
           git fetch origin "$DEFAULT_BRANCH"
           git checkout -B "$DEFAULT_BRANCH" "origin/$DEFAULT_BRANCH"
           git stash pop || {
             echo "Failed to reapply .squad changes after syncing $DEFAULT_BRANCH."
             exit 1
           }
-          git add .squad/
+          git add .squad/ data/metrics/
           git diff --cached --quiet || git commit -m "chore: reskill state update"
           git push origin "HEAD:$DEFAULT_BRANCH" || {
             echo "Warning: Failed to push .squad updates to $DEFAULT_BRANCH, but continuing."
