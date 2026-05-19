@@ -1,8 +1,29 @@
 {
   "week": "2026-W21",
   "source": "techcrunch",
-  "crawled_at": "2026-05-19T19:58:36.606668Z",
+  "crawled_at": "2026-05-19T20:43:08.095708Z",
   "articles": [
+    {
+      "title": "Elon Musk said Sam Altman “stole” a non-profit — but the trial showed he had similar aims",
+      "url": "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
+      "published_at": "2026-05-19T20:11:00Z",
+      "categories": [
+        "AI",
+        "Elon Musk",
+        "OpenAI",
+        "sam altman",
+        "Tesla"
+      ],
+      "summary": "“By the end of this week, you and Sam will be the most hated men in America.”",
+      "github_links": [],
+      "entities": [
+        "Elon",
+        "Musk",
+        "Sam",
+        "Altman"
+      ],
+      "relevance_score": 0.2
+    },
     {
       "title": "Google takes a page out of Meta’s book, announces new audio-powered smart glasses",
       "url": "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
@@ -408,31 +429,11 @@
         "Hackers"
       ],
       "relevance_score": 0.6
-    },
-    {
-      "title": "US cyber agency CISA exposed reams of passwords and cloud keys to the open web",
-      "url": "https://techcrunch.com/2026/05/19/us-cyber-agency-cisa-exposed-reams-of-passwords-and-cloud-keys-to-the-open-web/",
-      "published_at": "2026-05-19T15:06:42Z",
-      "categories": [
-        "Government & Policy",
-        "Security",
-        "CISA",
-        "cybersecurity",
-        "data exposure",
-        "Trump Administration"
-      ],
-      "summary": "The federal cybersecurity agency left plaintext passwords in a spreadsheet uploaded to a public GitHub repository, per a report by independent journalist Brian Krebs.",
-      "github_links": [],
-      "entities": [
-        "US",
-        "CISA"
-      ],
-      "relevance_score": 0.6
     }
   ],
   "metadata": {
     "total_articles": 20,
-    "relevant_articles": 14,
+    "relevant_articles": 13,
     "github_links_found": 0
   }
 }
