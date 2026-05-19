@@ -258,8 +258,93 @@ def call_github_models(prompt: str) -> str:
     raise RuntimeError("GitHub Models API request failed after retries") from last_exc
 
 
+def _strip_ai_instructions(content: str) -> str:
+    """Remove AI-facing instruction blocks from a rendered press context string.
+
+    Strips:
+    - The "### Instructions" section (from that heading to the next "###" or EOF)
+    - The "#### Divergence Instructions" block (heading + bullet items)
+    - Truncates the "### Correlation Summary" list to the first 10 entries,
+      appending a "…and N more" summary line when truncation occurs.
+    """
+    import re  # noqa: PLC0415
+
+    # Strip ### Instructions section (to next ### heading or EOF)
+    content = re.sub(
+        r"\n### Instructions\n.*?(?=\n###|\Z)",
+        "",
+        content,
+        flags=re.DOTALL,
+    )
+
+    # Strip #### Divergence Instructions block (to next #### / ### heading or EOF)
+    content = re.sub(
+        r"\n#### Divergence Instructions\n.*?(?=\n####|\n###|\Z)",
+        "",
+        content,
+        flags=re.DOTALL,
+    )
+
+    # Truncate correlations list to top 10
+    corr_match = re.search(
+        r"(### Correlation Summary\n[^\n]*\n)((?:- [^\n]*\n?)+)",
+        content,
+    )
+    if corr_match:
+        header = corr_match.group(1)
+        list_block = corr_match.group(2)
+        list_lines = [ln for ln in list_block.splitlines() if ln.startswith("- ")]
+        total = len(list_lines)
+        if total > 10:
+            omitted = total - 10
+            truncated = "\n".join(list_lines[:10])
+            truncated += f"\n…and {omitted} more repos with press correlation\n"
+            content = (
+                content[: corr_match.start()]
+                + header
+                + truncated
+                + content[corr_match.end() :]
+            )
+
+    # Truncate divergence lists to top 10 items each
+    for section_header in (
+        r"#### 🔍 Tech Trends Without Dev Activity",
+        r"#### 🚀 Dev Activity Without Press Coverage",
+    ):
+        div_match = re.search(
+            rf"({re.escape(section_header)}\n[^\n]*\n\n?)((?:- [^\n]*\n?)+)",
+            content,
+        )
+        if div_match:
+            header = div_match.group(1)
+            list_block = div_match.group(2)
+            list_lines = [ln for ln in list_block.splitlines() if ln.startswith("- ")]
+            total = len(list_lines)
+            if total > 10:
+                omitted = total - 10
+                truncated = "\n".join(list_lines[:10])
+                truncated += f"\n- …and {omitted} more topics\n"
+                content = (
+                    content[: div_match.start()]
+                    + header
+                    + truncated
+                    + content[div_match.end() :]
+                )
+
+    # Add reader-friendly conclusion if divergences exist but instructions were stripped
+    if "### Divergence Analysis" in content and "Divergence Instructions" not in content:
+        if "These divergences highlight" not in content:
+            content = content.rstrip()
+            content += (
+                "\n\nThese divergences highlight gaps between what the tech industry "
+                "is reporting and what developers are actually building.\n"
+            )
+
+    return content.strip()
+
+
 def _render_press_section_no_ai(press_context_path: Path | None) -> str:
-    """Render press context data for the no-AI summary."""
+    """Render press context data for the no-AI summary (reader-facing)."""
     if not press_context_path or not press_context_path.exists() or press_context_path.stat().st_size == 0:
         return (
             "No industry press data was available for this week's analysis. "
@@ -268,8 +353,7 @@ def _render_press_section_no_ai(press_context_path: Path | None) -> str:
             "highlighting press-driven hype versus organic growth patterns."
         )
     content = press_context_path.read_text(encoding="utf-8").strip()
-    # Include the press context as-is (it's already formatted markdown)
-    return content
+    return _strip_ai_instructions(content)
 
 
 def generate_no_ai_summary(raw_json_path: Path, current_datetime: str, press_context_path: Path | None = None) -> str:
