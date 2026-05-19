@@ -119,16 +119,6 @@ def build_repo_set(raw_data: dict[str, Any]) -> set[str]:
     return repos
 
 
-def find_subsequent_weeks(raw_directory: Path, start_week: str, count: int) -> list[str]:
-    """Find up to `count` weeks of raw data after start_week."""
-    weeks = []
-    for i in range(1, count + 1):
-        w = week_offset(start_week, i)
-        if (raw_directory / f"{w}.json").exists():
-            weeks.append(w)
-    return weeks
-
-
 def validate_rising_star(
     repo: str,
     prediction_stars: int,
@@ -148,7 +138,7 @@ def validate_rising_star(
                 return current_stars > 0
             growth = (current_stars - prediction_stars) / prediction_stars
             return growth >= 0.20
-    return None  # no data to validate
+    return None
 
 
 def validate_breakout_candidate(
@@ -192,7 +182,6 @@ def validate_momentum_shift(
 
     if len(star_history) < 2:
         return None
-    # Check if direction is consistent (non-decreasing)
     return star_history[-1] >= star_history[0]
 
 
@@ -216,7 +205,6 @@ def validate_declining_signal(
 
     if checked_count == 0:
         return None
-    # Validated if repo is absent from majority of subsequent crawls
     return found_count <= checked_count // 2
 
 
@@ -233,7 +221,6 @@ def validate_prediction(
     if not repo or not prediction_week:
         return None
 
-    # Load prediction week data to get baseline stars
     pred_raw = load_raw_week(raw_directory, prediction_week)
     prediction_stars = 0
     if pred_raw:
@@ -319,7 +306,6 @@ def run_validation(
     """Main validation logic. Returns the scorecard."""
     import scripts.topic_paths as tp
 
-    # Override DATA_ROOT if custom data_dir provided
     original_root = tp.DATA_ROOT
     tp.DATA_ROOT = Path(data_dir)
 
@@ -348,14 +334,11 @@ def run_validation(
                 pred["validated"] = result
                 validated_count += 1
 
-        # Write updated predictions
         save_predictions(predictions, predictions_path)
 
-        # Generate and save scorecard
         scorecard = generate_scorecard(predictions)
         scorecard_path = save_scorecard(scorecard, mdir)
 
-        # Print summary
         print(f"Validated {validated_count} predictions")
         print(f"Overall accuracy: {scorecard['accuracy']:.1%}")
         print(f"  Correct: {scorecard['correct']}")
