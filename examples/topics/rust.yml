@@ -1,0 +1,37 @@
+topic:
+  id: rust
+  name: "Rust Ecosystem"
+  description: "Weekly digest of trending Rust repositories and crates on GitHub"
+
+queries:
+  primary:
+    - "language:rust stars:>50 pushed:>{last_week}"
+    - "topic:rust stars:>50 pushed:>{last_week}"
+  secondary:
+    - "topic:cargo stars:>30 pushed:>{last_week}"
+    - "topic:wasm language:rust stars:>30 pushed:>{last_week}"
+
+scoring:
+  min_stars: 30
+  min_stars_gained: 15
+  max_age_days: 730
+  min_relevance_score: 35
+  language_boost:
+    Rust: 1.3
+  topic_relevance:
+    - rust
+    - cargo
+    - wasm
+    - systems-programming
+    - async-rust
+
+quality:
+  min_repos_per_week: 5
+  max_repos_per_week: 25
+  min_quality_score: 55
+
+learning:
+  wisdom_file: "topics/rust/wisdom.md"
+  skills_dir: "topics/rust/skills/"
+  prediction_file: "topics/rust/predictions.jsonl"
+  scorecard_dir: "topics/rust/scorecards/"
