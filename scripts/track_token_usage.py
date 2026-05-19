@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -31,6 +32,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--output-file", type=Path, help="Output file used to estimate output tokens.")
     parser.add_argument("--input-tokens", type=int, help="Explicit input token count.")
     parser.add_argument("--output-tokens", type=int, help="Explicit output token count.")
+    parser.add_argument("--transcript", type=Path, help="Copilot CLI --share transcript file for parsing token usage.")
+    parser.add_argument("--api-response", type=Path, help="GitHub Models API response JSON for extracting usage data.")
     parser.add_argument("--usage-file", type=Path, default=DEFAULT_USAGE_FILE, help="JSONL path for usage ledger.")
     return parser.parse_args(argv)
 
@@ -61,6 +64,76 @@ def estimate_tokens_from_path(path: Path | None) -> int:
     return estimate_tokens_from_text(path.read_text(encoding="utf-8"))
 
 
+def parse_copilot_transcript(path: Path) -> tuple[int, int] | None:
+    """Parse a Copilot CLI --share transcript for token usage metadata.
+
+    Searches for patterns like:
+      - "Input tokens: 1234" / "Output tokens: 567"
+      - "prompt_tokens: 1234" / "completion_tokens: 567"
+      - "Tokens used: 1234 input, 567 output"
+    Returns (input_tokens, output_tokens) or None if not found.
+    """
+    if not path.exists():
+        return None
+    try:
+        text = path.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError):
+        return None
+
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+
+    # Pattern: "Input tokens: N" and "Output tokens: N"
+    m_input = re.search(r"[Ii]nput[\s_]tokens[\s:]+(\d+)", text)
+    m_output = re.search(r"[Oo]utput[\s_]tokens[\s:]+(\d+)", text)
+    if m_input and m_output:
+        return int(m_input.group(1)), int(m_output.group(1))
+
+    # Pattern: "prompt_tokens: N" and "completion_tokens: N"
+    m_prompt = re.search(r"prompt_tokens[\"'\s:]+(\d+)", text)
+    m_completion = re.search(r"completion_tokens[\"'\s:]+(\d+)", text)
+    if m_prompt and m_completion:
+        return int(m_prompt.group(1)), int(m_completion.group(1))
+
+    # Pattern: "Tokens used: N input, N output"
+    m_combined = re.search(r"[Tt]okens\s+used[\s:]+(\d+)\s+input[,;\s]+(\d+)\s+output", text)
+    if m_combined:
+        return int(m_combined.group(1)), int(m_combined.group(2))
+
+    # Pattern: "Usage: N/N tokens (input/output)"
+    m_usage = re.search(r"[Uu]sage[\s:]+(\d+)\s*/\s*(\d+)\s*tokens", text)
+    if m_usage:
+        return int(m_usage.group(1)), int(m_usage.group(2))
+
+    return None
+
+
+def parse_api_response(path: Path) -> tuple[int, int] | None:
+    """Parse a GitHub Models API response JSON for usage data.
+
+    Expects OpenAI-compatible format with usage.prompt_tokens and
+    usage.completion_tokens fields.
+    Returns (input_tokens, output_tokens) or None if not found.
+    """
+    if not path.exists():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return None
+
+    usage = data.get("usage") if isinstance(data, dict) else None
+    if not isinstance(usage, dict):
+        return None
+
+    prompt_tokens = usage.get("prompt_tokens")
+    completion_tokens = usage.get("completion_tokens")
+    if isinstance(prompt_tokens, int) and isinstance(completion_tokens, int):
+        return prompt_tokens, completion_tokens
+
+    return None
+
+
 def estimate_cost_usd(model: str, input_tokens: int, output_tokens: int) -> float | None:
     rates = MODEL_RATES.get(model)
     if not rates:
@@ -71,9 +144,39 @@ def estimate_cost_usd(model: str, input_tokens: int, output_tokens: int) -> floa
 
 def build_record(args: argparse.Namespace) -> dict[str, object]:
     parsed_datetime = parse_datetime(args.current_datetime).astimezone(UTC)
-    input_tokens = args.input_tokens if args.input_tokens is not None else estimate_tokens_from_path(args.prompt_file)
-    output_tokens = args.output_tokens if args.output_tokens is not None else estimate_tokens_from_path(args.output_file)
     week = args.week or week_slug(parsed_datetime)
+
+    # Priority: 1) explicit flags, 2) transcript/api-response, 3) file-size estimate
+    estimated = True
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+
+    # Highest priority: explicit --input-tokens / --output-tokens
+    if args.input_tokens is not None and args.output_tokens is not None:
+        input_tokens = args.input_tokens
+        output_tokens = args.output_tokens
+        estimated = False
+
+    # Second priority: parsed from transcript or API response
+    if input_tokens is None or output_tokens is None:
+        parsed = None
+        transcript_path = getattr(args, "transcript", None)
+        api_response_path = getattr(args, "api_response", None)
+        if transcript_path is not None:
+            parsed = parse_copilot_transcript(transcript_path)
+        if parsed is None and api_response_path is not None:
+            parsed = parse_api_response(api_response_path)
+        if parsed is not None:
+            input_tokens = parsed[0]
+            output_tokens = parsed[1]
+            estimated = False
+
+    # Lowest priority: file-size estimation
+    if input_tokens is None:
+        input_tokens = estimate_tokens_from_path(args.prompt_file)
+    if output_tokens is None:
+        output_tokens = estimate_tokens_from_path(args.output_file)
+
     cost = estimate_cost_usd(args.model, input_tokens, output_tokens)
     return {
         "timestamp": parsed_datetime.isoformat().replace("+00:00", "Z"),
@@ -86,7 +189,7 @@ def build_record(args: argparse.Namespace) -> dict[str, object]:
         "output_tokens": output_tokens,
         "total_tokens": input_tokens + output_tokens,
         "cost_usd": cost,
-        "estimated": args.input_tokens is None or args.output_tokens is None,
+        "estimated": estimated,
     }
 
 
