@@ -150,3 +150,12 @@
 - **Workflow change:** Milestone-based versioning adopted per user directive. PRDs → issues → milestones → docs/processed/
 - **Dependencies respected:** TechCrunch (v0.8) follows topic-channels foundation (v0.6); cost optimization (v0.9) follows cost visibility (v0.5)
 - **Label convention:** All issues carry `squad` + `squad:{agent}` labels for routing
+
+### 2026-05-19T18:05:10+02:00 — CI Workflow: PR-based commits, ruleset bypass reverted
+
+- **Ruleset fix:** Removed RepositoryRole:5 bypass actor from the `main` ruleset (id 16532660). Branch protection must never be bypassed.
+- **Workflow refactor:** All commit steps in `crawl-and-publish.yml` now create a timestamped branch, open a PR via `gh pr create`, and auto-merge with `--squash --auto` instead of pushing directly to main.
+- **Steps renamed:** "Commit crawl data" → "Commit crawl data via PR", "Commit analysis" → "Commit analysis via PR", "Commit generated content" → "Commit generated content via PR", reskill step also converted.
+- **No more `continue-on-error: true`** on commit steps — they succeed properly now via the PR path.
+- **Tests updated:** Adjusted step name references in `tests/test_pipeline.py` to match new naming.
+- **Decision recorded:** `.squad/decisions/inbox/leela-no-ruleset-bypass.md`

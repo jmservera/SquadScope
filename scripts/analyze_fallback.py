@@ -52,6 +52,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Render the prompt to stdout without calling GitHub Models.",
     )
+    parser.add_argument(
+        "--no-ai",
+        action="store_true",
+        help="Generate a data-only summary without calling any AI API.",
+    )
     return parser.parse_args(argv)
 
 
@@ -196,6 +201,114 @@ def call_github_models(prompt: str) -> str:
     return extract_markdown(response_payload)
 
 
+def generate_no_ai_summary(raw_json_path: Path, current_datetime: str) -> str:
+    """Generate a valid summary from raw JSON without any AI API calls."""
+    payload = load_json(raw_json_path)
+    week = payload["week"]
+    new_repos = payload.get("new_repos", [])
+    trending_repos = payload.get("trending_repos", [])
+    signals = payload.get("signals", {})
+    top_topics = signals.get("top_topics", [])
+
+    total_stars = sum(r.get("stars", 0) for r in new_repos + trending_repos)
+    repos_featured = len(new_repos) + len(trending_repos)
+
+    # Pick top repo by stars from new_repos, fallback to trending
+    all_repos = sorted(new_repos + trending_repos, key=lambda r: r.get("stars", 0), reverse=True)
+    top_repo = all_repos[0]["full_name"] if all_repos else "unknown/unknown"
+
+    # Determine tags from top topics
+    tags = top_topics[:5] if len(top_topics) >= 3 else ["open-source", "developer-tools", "automation"]
+    if len(tags) < 3:
+        tags = ["open-source", "developer-tools", "automation"]
+
+    # Notable new repos section
+    notable_new = sorted(new_repos, key=lambda r: r.get("stars", 0), reverse=True)[:10]
+    notable_lines = []
+    for repo in notable_new:
+        desc = repo.get("description") or "No description provided"
+        lang = repo.get("language") or "Unknown"
+        notable_lines.append(
+            f"- [{repo['full_name']}]({repo.get('url', '#')}) ({lang}, "
+            f"{repo.get('stars', 0):,} stars): {desc}"
+        )
+    notable_section = "\n".join(notable_lines) if notable_lines else "No new repositories were captured this week."
+
+    # Trending section
+    top_trending = sorted(trending_repos, key=lambda r: r.get("stars", 0), reverse=True)[:10]
+    trending_lines = []
+    for repo in top_trending:
+        desc = repo.get("description") or "No description provided"
+        lang = repo.get("language") or "Unknown"
+        trending_lines.append(
+            f"- [{repo['full_name']}]({repo.get('url', '#')}) ({lang}, "
+            f"{repo.get('stars', 0):,} stars): {desc}"
+        )
+    trending_section = "\n".join(trending_lines) if trending_lines else "No trending repositories were captured this week."
+
+    # Language breakdown for trend analysis
+    lang_counts: dict[str, int] = {}
+    for repo in all_repos:
+        lang = repo.get("language")
+        if lang:
+            lang_counts[lang] = lang_counts.get(lang, 0) + 1
+    top_langs = sorted(lang_counts.items(), key=lambda x: x[1], reverse=True)[:5]
+    lang_summary = ", ".join(f"{lang} ({count})" for lang, count in top_langs) if top_langs else "diverse mix of languages"
+
+    # Build the full document
+    markdown = f"""---
+title: "Week {week.split('-W')[1]}, {week.split('-W')[0]} Analysis"
+date: {current_datetime}
+week: "{week}"
+year: {int(week.split('-W')[0])}
+tags: [{', '.join(tags)}]
+categories: [weekly]
+repos_featured: {repos_featured}
+stars_tracked: {total_stars}
+top_repo: "{top_repo}"
+quality_score: 62
+summary: "Automated data-only summary for {week}. AI analysis was unavailable; this report presents raw crawl statistics and top repositories without editorial commentary."
+---
+
+## Notable New Repositories
+
+This week the crawler captured {len(new_repos)} new repositories. The following are the highest-starred new entries, representing emerging projects and fresh launches that attracted early attention from the community.
+
+{notable_section}
+
+These repositories reflect the current interests of the developer community. The concentration of activity around {lang_summary} suggests continued investment in these technology areas. Without AI-powered analysis, editorial interpretation of these signals is deferred to the next available run.
+
+## Trending This Week
+
+The trending set includes {len(trending_repos)} repositories that were active during the crawl window. The following top entries by cumulative star count represent sustained community interest.
+
+{trending_section}
+
+The presence of established projects alongside newer entries indicates both sustained momentum in foundational tools and growing interest in emerging categories.
+
+## Trend Analysis
+
+### Signal
+
+The primary signal this week comes from language and topic distribution. The top languages are {lang_summary}. The top community topics are {', '.join(top_topics[:8]) if top_topics else 'not available from this crawl'}. These patterns indicate where developer attention is concentrating and what categories are gaining traction relative to prior weeks.
+
+### Noise
+
+Without AI-powered filtering, distinguishing signal from noise requires manual review. Some repositories in the crawl may represent low-quality forks, exploit tools, or promotional projects that inflate topic counts without contributing meaningful innovation. Future AI-enabled runs will provide better noise filtering.
+
+## What's Missing
+
+### Gaps
+
+This automated summary lacks editorial judgment that AI analysis would normally provide. Specific gaps include: comparative trend analysis against prior weeks, qualitative assessment of repository significance, identification of emerging ecosystem patterns, and filtering of low-signal entries. The raw data is preserved for future re-analysis when AI capabilities become available.
+
+## Conclusion
+
+Week {week.split('-W')[1]} of {week.split('-W')[0]} captured {repos_featured} repositories with {total_stars:,} cumulative stars tracked. The top repository by star count is [{top_repo}](https://github.com/{top_repo}). This summary was generated without AI assistance and presents factual crawl statistics only. A full analytical run should be attempted when AI model access is restored.
+"""
+    return markdown.strip() + "\n"
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     prompt = render_prompt(
@@ -212,7 +325,11 @@ def main(argv: list[str] | None = None) -> int:
         print(prompt)
         return 0
 
-    markdown = call_github_models(prompt)
+    if args.no_ai:
+        markdown = generate_no_ai_summary(args.raw_json, args.current_datetime)
+    else:
+        markdown = call_github_models(prompt)
+
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(markdown, encoding="utf-8")
     return 0
