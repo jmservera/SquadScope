@@ -155,11 +155,11 @@ class WorkflowConfigTests(unittest.TestCase):
         crawl_job = workflow["jobs"]["crawl"]
         commit_step = None
         for step in crawl_job["steps"]:
-            if step.get("name") == "Commit crawl data via PR":
+            if step.get("name") == "Commit crawl data to data branch":
                 commit_step = step
                 break
         
-        self.assertIsNotNone(commit_step, "Commit crawl data via PR step not found")
+        self.assertIsNotNone(commit_step, "Commit crawl data to data branch step not found")
         run_script = commit_step["run"]
         self.assertIn("COUNTER=$(cat .squad/run-counter.txt", run_script)
         self.assertIn("COUNTER=$((COUNTER + 1))", run_script)
@@ -227,7 +227,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIsNotNone(generate_rollups_step)
         self.assertEqual(generate_rollups_step["run"], "python3 scripts/generate_rollups.py")
 
-        commit_step = next((s for s in generate_job["steps"] if s.get("name") == "Commit generated content via PR"), None)
+        commit_step = next((s for s in generate_job["steps"] if s.get("name") == "Commit generated content to data branch"), None)
         self.assertIsNotNone(commit_step)
         commit_run = commit_step["run"]
         self.assertIn("content/weekly", commit_run)
