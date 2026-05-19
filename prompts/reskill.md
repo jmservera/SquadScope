@@ -47,6 +47,13 @@ Write the full contents of `{{OUTPUT_PATH}}` as a markdown reskill report.
 6. Extract new reusable skills or patterns when a lesson is concrete enough to guide future analysis.
 7. Ground the retrospective in evidence from the actual summaries and snapshots, not in generic advice.
 
+## Wisdom size management
+
+IMPORTANT: wisdom.md has a 5KB soft limit. When adding new heuristics:
+- Retire obsolete ones that have been contradicted by recent data
+- Move retired heuristics to wisdom-archive.md with a note on why retired
+- Prefer updating existing heuristics over adding new duplicates
+
 ## Output requirements
 
 - Output only the finished markdown report.
