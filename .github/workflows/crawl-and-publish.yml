@@ -93,6 +93,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/crawl.py
 
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Crawl TechCrunch RSS
+        run: |
+          WEEK=$(date +%Y-W%V)
+          SINCE=$(date -d '7 days ago' +%Y-%m-%d)
+          python scripts/techcrunch_crawler.py \
+            --output "data/raw/${WEEK}-techcrunch.json" \
+            --since "$SINCE"
+
       - name: Upload raw crawl artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -219,6 +230,32 @@ jobs:
             echo "current_datetime=$CURRENT_DATETIME"
           } >> "$GITHUB_OUTPUT"
 
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run correlation and press context
+        id: press-context
+        run: |
+          set -euo pipefail
+          WEEK="${{ steps.analysis-context.outputs.week }}"
+          WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
+          TC_FILE="data/raw/${WEEK}-techcrunch.json"
+
+          # Run correlate if TechCrunch data exists
+          if [ -f "$TC_FILE" ]; then
+            mkdir -p data/analyzed
+            python scripts/correlate.py \
+              --raw "$WEEK_FILE" \
+              --techcrunch "$TC_FILE" \
+              --output "data/analyzed/${WEEK}-correlations.json"
+          fi
+
+          # Render press context (handles missing files gracefully)
+          PRESS_CONTEXT=$(python scripts/render_press_context.py --week "$WEEK")
+          PRESS_FILE="data/analyzed/${WEEK}-press-context.md"
+          printf '%s\n' "$PRESS_CONTEXT" > "$PRESS_FILE"
+          echo "press_file=$PRESS_FILE" >> "$GITHUB_OUTPUT"
+
       - name: Pre-flight cost check
         id: preflight-cost
         run: |
@@ -251,9 +288,16 @@ jobs:
           WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
           WEEK="${{ steps.analysis-context.outputs.week }}"
           CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
+          PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
           mkdir -p data/metrics
           PROMPT_FILE=$(mktemp)
           python3 scripts/analyze_fallback.py --raw-json "$WEEK_FILE" --output "$OUTPUT_FILE" --current-datetime "$CURRENT_DATETIME" --print-prompt > "$PROMPT_FILE"
+
+          # Append press context to prompt if available
+          if [ -f "$PRESS_FILE" ] && [ -s "$PRESS_FILE" ]; then
+            printf '\n\n---\n## Press Context\n\n' >> "$PROMPT_FILE"
+            cat "$PRESS_FILE" >> "$PROMPT_FILE"
+          fi
 
           if command -v copilot >/dev/null 2>&1 && copilot -p "$(cat "$PROMPT_FILE")" \
             -s \

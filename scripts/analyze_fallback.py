@@ -4,6 +4,9 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import random
+import sys
+import time
 from pathlib import Path
 from typing import Any
 from urllib import error, request
@@ -164,6 +167,11 @@ def extract_markdown(response_payload: dict[str, Any]) -> str:
     raise ValueError("GitHub Models response did not contain markdown output.")
 
 
+RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
+MAX_RETRIES = 3
+BASE_DELAY = 2  # seconds
+
+
 def call_github_models(prompt: str) -> str:
     token = os.environ.get("GITHUB_TOKEN")
     if not token:
@@ -178,27 +186,63 @@ def call_github_models(prompt: str) -> str:
         "temperature": 0.3,
     }
     body = json.dumps(payload).encode("utf-8")
-    req = request.Request(
-        endpoint,
-        data=body,
-        headers={
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-        },
-        method="POST",
-    )
 
-    try:
-        with request.urlopen(req, timeout=timeout) as response:
-            response_payload = json.load(response)
-    except error.HTTPError as exc:  # pragma: no cover - exercised via message formatting
-        detail = exc.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"GitHub Models API request failed ({exc.code}): {detail}") from exc
-    except error.URLError as exc:  # pragma: no cover - network failures are environment-specific
-        raise RuntimeError(f"GitHub Models API request failed: {exc.reason}") from exc
+    last_exc: Exception | None = None
+    for attempt in range(MAX_RETRIES + 1):
+        req = request.Request(
+            endpoint,
+            data=body,
+            headers={
+                "Authorization": f"Bearer {token}",
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            method="POST",
+        )
+        try:
+            with request.urlopen(req, timeout=timeout) as response:
+                response_payload = json.load(response)
+            return extract_markdown(response_payload)
+        except error.HTTPError as exc:
+            if exc.code not in RETRYABLE_STATUS_CODES or attempt == MAX_RETRIES:
+                detail = exc.read().decode("utf-8", errors="replace")
+                raise RuntimeError(
+                    f"GitHub Models API request failed ({exc.code}): {detail}"
+                ) from exc
+            # Determine delay: respect Retry-After header on 429
+            retry_after = exc.headers.get("Retry-After") if exc.code == 429 else None
+            if retry_after is not None:
+                try:
+                    delay = float(retry_after)
+                except ValueError:
+                    delay = BASE_DELAY ** (attempt + 1)
+            else:
+                delay = BASE_DELAY ** (attempt + 1)
+            jitter = random.uniform(0, 1)  # noqa: S311
+            total_delay = delay + jitter
+            print(
+                f"[retry] GitHub Models API returned {exc.code}, "
+                f"retrying in {total_delay:.1f}s (attempt {attempt + 1}/{MAX_RETRIES})",
+                file=sys.stderr,
+            )
+            last_exc = exc
+            time.sleep(total_delay)
+        except error.URLError as exc:
+            if attempt == MAX_RETRIES:
+                raise RuntimeError(
+                    f"GitHub Models API request failed: {exc.reason}"
+                ) from exc
+            delay = BASE_DELAY ** (attempt + 1) + random.uniform(0, 1)  # noqa: S311
+            print(
+                f"[retry] GitHub Models API network error: {exc.reason}, "
+                f"retrying in {delay:.1f}s (attempt {attempt + 1}/{MAX_RETRIES})",
+                file=sys.stderr,
+            )
+            last_exc = exc
+            time.sleep(delay)
 
-    return extract_markdown(response_payload)
+    # Should not be reached, but satisfy type checkers
+    raise RuntimeError("GitHub Models API request failed after retries") from last_exc
 
 
 def generate_no_ai_summary(raw_json_path: Path, current_datetime: str) -> str:
