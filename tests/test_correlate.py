@@ -284,3 +284,71 @@ class TestUtilities:
 
     def test_fuzzy_name_score_empty(self):
         assert fuzzy_name_score("", "something") == 0.0
+
+
+# ---------------------------------------------------------------------------
+# CLI: main() repo loading from crawl output format
+# ---------------------------------------------------------------------------
+
+
+class TestMainRepoLoading:
+    """Test that main() correctly loads repos from new_repos/trending_repos keys."""
+
+    def test_main_loads_new_and_trending_repos(self, tmp_path):
+        from scripts.correlate import main
+
+        raw_file = tmp_path / "2026-W21.json"
+        tc_file = tmp_path / "2026-W21-techcrunch.json"
+        output_file = tmp_path / "correlations.json"
+
+        raw_data = {
+            "week": "2026-W21",
+            "new_repos": [
+                _repo(name="new-project", owner="org1"),
+            ],
+            "trending_repos": [
+                _repo(name="trending-project", owner="org2"),
+            ],
+        }
+        tc_data = {
+            "articles": [
+                _article(entities=["Org1"]),
+            ],
+        }
+        raw_file.write_text(json.dumps(raw_data))
+        tc_file.write_text(json.dumps(tc_data))
+
+        ret = main([
+            "--raw", str(raw_file),
+            "--techcrunch", str(tc_file),
+            "--output", str(output_file),
+        ])
+        assert ret == 0
+
+        result = json.loads(output_file.read_text())
+        assert result["metadata"]["repos_analyzed"] == 2
+        assert result["metadata"]["correlations_found"] >= 1
+
+    def test_main_loads_repos_key_format(self, tmp_path):
+        """Backward compat: if 'repos' key exists, use it directly."""
+        from scripts.correlate import main
+
+        raw_file = tmp_path / "2026-W21.json"
+        output_file = tmp_path / "correlations.json"
+
+        raw_data = {
+            "week": "2026-W21",
+            "repos": [
+                _repo(name="classic-format", owner="org1"),
+            ],
+        }
+        raw_file.write_text(json.dumps(raw_data))
+
+        ret = main([
+            "--raw", str(raw_file),
+            "--output", str(output_file),
+        ])
+        assert ret == 0
+
+        result = json.loads(output_file.read_text())
+        assert result["metadata"]["repos_analyzed"] == 1

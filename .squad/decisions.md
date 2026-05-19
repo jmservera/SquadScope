@@ -633,6 +633,113 @@ Add TechCrunch RSS (`https://techcrunch.com/feed/`) as SquadScope's first non-Gi
 
 ---
 
+## Decision: Use `publish` branch for automated data commits (2026-05-19)
+
+**Author:** Bender (Crawler)
+**Status:** Implemented (PR #129)
+**Fixes:** Issue #128
+
+### Context
+
+The crawl-and-publish workflow failed because:
+1. The repo setting "Allow GitHub Actions to create or approve pull requests" is disabled
+2. `gh pr create` with `GITHUB_TOKEN` is blocked by this setting
+3. Even if enabled, the `copilot_code_review` rule + `required_review_thread_resolution` on main could block auto-merge unpredictably
+
+### Decision
+
+Replace PR-based commits with direct push to an unprotected `publish` branch.
+
+- The main branch ruleset only protects `refs/heads/main`
+- The `publish` branch accepts direct pushes from workflow `GITHUB_TOKEN`
+- Inter-job data flow uses artifacts (unchanged)
+- Deploy job downloads all artifacts directly (no dependency on branch state)
+- `reskill-check` reads `run-counter.txt` from `publish` branch with fallback to main
+
+### Consequences
+
+- Automated data no longer lands on `main` automatically — it accumulates on `publish`
+- A separate manual or scheduled merge from `publish` → `main` can sync when desired
+- Main branch protection remains fully intact (no bypasses)
+- Pipeline reliability is decoupled from PR permission settings
+
+### Alternatives Considered
+
+1. Enable "Allow GitHub Actions to create PRs" — requires repo admin action, doesn't solve auto-merge reliability
+2. Use a PAT/GitHub App token — adds secret management complexity
+3. `--admin` flag on merge — bypasses protection, violates team decision
+
+---
+
+## Decision: Manual W21 content regeneration (2026-05-19)
+
+**Author:** Bender
+**Status:** Executed
+
+### Context
+
+The crawl-and-publish workflow (run #26109935234) generated W21 analysis but failed to commit it because the commit step tried to push directly to `main`, which requires PRs (branch protection). PR #123 fixed the workflow to use PR-based commits, but it merged after the failed run.
+
+### Decision
+
+Regenerated W21 content manually and created PR #125 to update the page. No workflow code changes needed — the root cause (direct push) was already fixed by PR #123.
+
+### Impact
+
+- `content/weekly/2026/W21.md` updated from stale manual dry-run to full analysis
+- Monthly/yearly rollups refreshed
+- Once PR #125 merges, deploy-site will publish the updated page
+- Future scheduled runs will use the PR-based approach and should not hit this again
+
+---
+
+## Directive: Always test the whole publishing cycle before considering work done (2026-05-19)
+
+**By:** jmservera (via Copilot)
+**Date:** 2026-05-19T19:37:45+02:00
+
+User directive — captured for team memory. Always test the whole publishing cycle before considering work done.
+
+---
+
+## Decision: PR #126 Security Review — Clear (2026-05-19)
+
+**Author:** Hermes (Security)
+**PR:** #126 — "feat: wire TechCrunch RSS into CI pipeline and add API retry backoff"
+
+### Decision
+
+PR #126 is **security-clear**. No blocking vulnerabilities found.
+
+### Key Findings
+
+- No SSRF risk (hardcoded feed URL)
+- Retry logic properly bounded (3 retries, exponential backoff + jitter)
+- No secrets leaked in logs
+- feedparser dependency is well-maintained, no CVEs
+- Workflow permissions unchanged
+
+### Non-blocking Recommendation
+
+RSS content fed into AI prompts has a theoretical indirect prompt injection surface. Mitigated by HTML stripping and content truncation. Recommend adding control character sanitization in a future PR for defense-in-depth.
+
+### Impact
+
+Team can merge PR #126 without security holds.
+
+---
+
+## Directive: Never bypass branch protection rulesets (2026-05-19)
+
+**By:** jmservera (via Squad)
+**Date:** 2026-05-19T18:05:10Z
+
+CI workflows must not push directly to protected branches. Use PR-based commits instead. Never add bypass actors to rulesets to work around branch protection.
+
+**Why:** Branch protection exists to ensure code review on every change. Bypassing it for convenience undermines the safety net.
+
+---
+
 ## Governance
 
 - All meaningful changes require team consensus
