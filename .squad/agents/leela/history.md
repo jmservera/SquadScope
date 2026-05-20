@@ -8,18 +8,6 @@
 
 ## Learnings
 
-### 2026-05-20T19:15:53.942+02:00 — Article Restructure: Analyst-Style Trend Report
-
-- **Decision written:** `.squad/decisions/inbox/leela-article-restructure.md`
-- **New section structure:** `## Trend Summary` → `## Press vs. Practice` → `## Trend Analysis` (Signal/Noise) → `## What's Missing` (Gaps) → `## Conclusion` → `## Key Projects & References`
-- **Eliminated:** `## Notable New Repositories` and `## Trending This Week` as standalone sections. Content folded into `## Trend Summary` (narrative) and `## Key Projects & References` (curated links at end).
-- **Chosen title for industry-vs-dev section:** `## Press vs. Practice` — editorial contrast, clean scan, no ML vocabulary.
-- **Key inconsistency found:** `## Industry & Press Correlation` was in the prompt template but NOT in `analysis_gate.py` REQUIRED_HEADINGS. The new structure corrects this — `## Press vs. Practice` is now an explicit gate requirement.
-- **generate_content.py:** No changes needed — it passes body through without parsing section headings.
-- **User preference:** Lead with insight, not repo lists. Repos are evidence, not structure. "Pyramid principle" — headline message first, evidence below.
-- **Files to change:** `prompts/analyze-weekly.md`, `docs/analysis-spec.md`, `scripts/analysis_gate.py` (REQUIRED_HEADINGS), `tests/test_analysis_gate.py` (fixtures).
-- **Implementation order:** gate → tests → prompt → spec (must be atomic for gate+tests).
-
 ### 2026-05-19T18:05:10+02:00 — CI Workflow: PR-based commits, ruleset bypass reverted
 
 - **Ruleset fix:** Removed RepositoryRole:5 bypass actor from the `main` ruleset (id 16532660). Branch protection must never be bypassed.
@@ -55,5 +43,3 @@
 - **Key learning:** Copilot CLI auto-discovers `.github/agents/*.agent.md` files and registers them by their frontmatter `name:` field. Always reference agents by name, never by path.
 - **PR:** #141 (squash-merged to main). Pipeline re-triggered.
 - **Tests:** All 519 passed.
-
-**2026-05-20T17:22:22Z — Scribe Session:** Article Restructure decision merged to `.squad/decisions.md`. Inbox cleared (2 files deleted). Orchestration logs written. Merged with Farnsworth's implementation status.
