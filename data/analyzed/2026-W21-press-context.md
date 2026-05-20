@@ -2,6 +2,7 @@
 11 articles published relevant to tech/open-source.
 
 Notable coverage:
+- [OpenAI claims it solved an 80-year-old math problem — for real this time](https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/) [AI, ChatGPT, erdos problems, OpenAI, reasoning models]
 - [IrisGo, a startup backed by Andrew Ng, looks to become the AI desktop buddy you never knew you needed](https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/) [AI, andrew ng, google brain, IrisGo]
 - [Airbnb gets into hotels, expands AI for host onboarding and customer support](https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/) [Apps, Airbnb, customer support, hotel bookings]
 - [OpenAI barrels toward IPO that may happen in September](https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/) [AI, Startups, Elon Musk, In Brief, IPOs, OpenAI, sam altman]
@@ -12,13 +13,19 @@ Notable coverage:
 - [GitHub says hackers stole data from thousands of internal repositories](https://techcrunch.com/2026/05/20/github-says-hackers-stole-data-from-thousands-of-internal-repositories/) [Security, cyberattack, cybersecurity, data breach, GitHub, hackers, Microsoft]
 - [Figma adds an AI assistant to its collaborative canvas](https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/) [AI, Apps, AI assistant, design, Figma]
 - [This startup raised $43M to build a hive mind for ships](https://techcrunch.com/2026/05/20/this-startup-raised-43m-to-build-a-hive-mind-for-ships/) [Fundraising, Startups, Transportation, Exclusive, first round captial, quartermaster]
-- [How to use Google’s new AI agents to go beyond your standard searches](https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/) [AI, AI agents, Google, google io 2026, Google Search]
 
 ### Correlation Summary
-91 repos have press correlation:
+96 repos have press correlation:
+- microsoft/vscode — match: org_name, confidence: 0.8, hype_risk: medium
 - github/gitignore — match: org_name, confidence: 0.8, hype_risk: medium
+- microsoft/PowerToys — match: org_name, confidence: 0.8, hype_risk: medium
+- microsoft/generative-ai-for-beginners — match: org_name, confidence: 0.8, hype_risk: medium
+- microsoft/TypeScript — match: org_name, confidence: 0.8, hype_risk: medium
 - github/spec-kit — match: org_name, confidence: 0.8, hype_risk: medium
+- microsoft/terminal — match: org_name, confidence: 0.8, hype_risk: medium
+- microsoft/playwright — match: org_name, confidence: 0.8, hype_risk: medium
 - openai/codex — match: org_name, confidence: 0.8, hype_risk: medium
+- microsoft/ai-agents-for-beginners — match: org_name, confidence: 0.8, hype_risk: medium
 - google/material-design-icons — match: org_name, confidence: 0.8, hype_risk: medium
 - AbhishekK130804/Claude-Mythos-AI-Anthropic-App — match: project_name, confidence: 0.6, hype_risk: medium
 - trading-2028/polymarket-ai-trading — match: project_name, confidence: 0.6, hype_risk: medium
@@ -32,15 +39,12 @@ Notable coverage:
 - wanshuiyin/ARIS-in-AI-Offer — match: project_name, confidence: 0.6, hype_risk: medium
 - Yuvan-x/Pneumonia-Detection-With-Explainable-AI — match: project_name, confidence: 0.6, hype_risk: medium
 - openclaw/openclaw — match: project_name, confidence: 0.6, hype_risk: medium
-- microsoft/vscode — match: project_name, confidence: 0.6, hype_risk: medium
 - open-webui/open-webui — match: project_name, confidence: 0.6, hype_risk: medium
 - x1xhlol/system-prompts-and-models-of-ai-tools — match: project_name, confidence: 0.6, hype_risk: medium
 - nodejs/node — match: project_name, confidence: 0.6, hype_risk: medium
 - rust-lang/rust — match: project_name, confidence: 0.6, hype_risk: medium
-- microsoft/generative-ai-for-beginners — match: project_name, confidence: 0.6, hype_risk: medium
 - google-gemini/gemini-cli — match: project_name, confidence: 0.6, hype_risk: medium
 - opencv/opencv — match: project_name, confidence: 0.6, hype_risk: medium
-- macrozheng/mall — match: project_name, confidence: 0.6, hype_risk: medium
 - OpenHands/OpenHands — match: project_name, confidence: 0.6, hype_risk: medium
 - strapi/strapi — match: project_name, confidence: 0.6, hype_risk: medium
 - moby/moby — match: project_name, confidence: 0.6, hype_risk: medium
@@ -48,13 +52,11 @@ Notable coverage:
 - base/node — match: project_name, confidence: 0.6, hype_risk: medium
 - OpenBB-finance/OpenBB — match: project_name, confidence: 0.6, hype_risk: medium
 - apache/echarts — match: project_name, confidence: 0.6, hype_risk: medium
-- microsoft/ai-agents-for-beginners — match: project_name, confidence: 0.6, hype_risk: medium
 - git/git — match: project_name, confidence: 0.6, hype_risk: medium
 - commaai/openpilot — match: project_name, confidence: 0.6, hype_risk: medium
 - nuxt/nuxt — match: project_name, confidence: 0.6, hype_risk: medium
 - usememos/memos — match: project_name, confidence: 0.6, hype_risk: medium
 - virattt/ai-hedge-fund — match: project_name, confidence: 0.6, hype_risk: medium
-- rails/rails — match: project_name, confidence: 0.6, hype_risk: medium
 - starship/starship — match: project_name, confidence: 0.6, hype_risk: medium
 - go-gitea/gitea — match: project_name, confidence: 0.6, hype_risk: medium
 - ChrisTitusTech/winutil — match: project_name, confidence: 0.6, hype_risk: medium
@@ -76,12 +78,14 @@ Notable coverage:
 - Significant-Gravitas/AutoGPT — match: category, confidence: 0.4, hype_risk: low
 - f/prompts.chat — match: category, confidence: 0.4, hype_risk: low
 - NousResearch/hermes-agent — match: category, confidence: 0.4, hype_risk: low
+- langflow-ai/langflow — match: category, confidence: 0.4, hype_risk: low
 - langgenius/dify — match: category, confidence: 0.4, hype_risk: low
 - langchain-ai/langchain — match: category, confidence: 0.4, hype_risk: low
 - firecrawl/firecrawl — match: category, confidence: 0.4, hype_risk: low
 - Comfy-Org/ComfyUI — match: category, confidence: 0.4, hype_risk: low
 - jaywcjlove/awesome-mac — match: category, confidence: 0.4, hype_risk: low
 - hacksider/Deep-Live-Cam — match: category, confidence: 0.4, hype_risk: low
+- ChatGPTNextWeb/NextChat — match: category, confidence: 0.4, hype_risk: low
 - sherlock-project/sherlock — match: category, confidence: 0.4, hype_risk: low
 - VoltAgent/awesome-design-md — match: category, confidence: 0.4, hype_risk: low
 - infiniflow/ragflow — match: category, confidence: 0.4, hype_risk: low
@@ -96,6 +100,7 @@ Notable coverage:
 - bytedance/deer-flow — match: category, confidence: 0.4, hype_risk: low
 - xtekky/gpt4free — match: category, confidence: 0.4, hype_risk: low
 - unslothai/unsloth — match: category, confidence: 0.4, hype_risk: low
+- openinterpreter/open-interpreter — match: category, confidence: 0.4, hype_risk: low
 - JuliusBrussee/caveman — match: category, confidence: 0.4, hype_risk: low
 - docling-project/docling — match: category, confidence: 0.4, hype_risk: low
 - code-yeongyu/oh-my-openagent — match: category, confidence: 0.4, hype_risk: low
@@ -126,6 +131,7 @@ Include a "Press vs Reality" subsection in your analysis highlighting:
 #### 🔍 Tech Trends Without Dev Activity
 Topics heavily covered by TechCrunch with no matching GitHub repos:
 
+- **Space**: [The SpaceX IPO filing has arrived](https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-has-arrived/)
 - **Fundraising**: [This startup raised $43M to build a hive mind for ships](https://techcrunch.com/2026/05/20/this-startup-raised-43m-to-build-a-hive-mind-for-ships/)
 
 #### 🚀 Dev Activity Without Press Coverage
@@ -145,6 +151,7 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **ai-agents**: affaan-m/ECC (⭐187633), browser-use/browser-use (⭐94833), Mintplex-Labs/anything-llm (⭐60368)
 - **angular**: angular/angular (⭐100129), ionic-team/ionic-framework (⭐52510), prettier/prettier (⭐51877)
 - **bash**: nvm-sh/nvm (⭐93460), junegunn/fzf (⭐80381), warpdotdev/warp (⭐59294)
+- **docker**: louislam/uptime-kuma (⭐87023), macrozheng/mall (⭐83651), Stirling-Tools/Stirling-PDF (⭐79020)
 - **compiler**: FuelLabs/sway (⭐61689), typst/typst (⭐53651), JetBrains/kotlin (⭐52747)
 - **agent-skill**: DenisSergeevitch/agents-best-practices (⭐892), luoling8192/technical-writing (⭐175)
 - **early-access-subnautica-2**: Juwluuu/Subnautica-2-Release (⭐644), littlefrogyq/UE4SS-Subnautica-2 (⭐445)
@@ -159,9 +166,6 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **blog**: vercel/next.js (⭐139552), gatsbyjs/gatsby (⭐55949)
 - **go**: golang/go (⭐133987), syncthing/syncthing (⭐84235)
 - **hacktoberfest**: axios/axios (⭐109074), pmndrs/zustand (⭐58081)
-- **javascript**: microsoft/TypeScript (⭐108922), socketio/socket.io (⭐63093)
-- **automation**: puppeteer/puppeteer (⭐94348), microsoft/playwright (⭐89089)
-- **docker**: louislam/uptime-kuma (⭐87023), Stirling-Tools/Stirling-PDF (⭐79020)
 - **ai4science**: PaddlePaddle/PaddleOCR (⭐78232), opendatalab/MinerU (⭐64181)
 - **astro**: unionlabs/union (⭐74064), withastro/astro (⭐59429)
 - **alerting**: grafana/grafana (⭐73892), prometheus/prometheus (⭐64103)
@@ -317,8 +321,6 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **bootstrap**: twbs/bootstrap (⭐174261)
 - **deepseek**: ollama/ollama (⭐171819)
 - **open source coding**: anomalyco/opencode (⭐163067)
-- **agents**: langflow-ai/langflow (⭐148562)
-- **advanced-paste**: microsoft/PowerToys (⭐133329)
 - **Claude Code agentic**: anthropics/claude-code (⭐125222)
 - **canvas**: excalidraw/excalidraw (⭐123697)
 - **awesome-list**: ripienaar/free-for-dev (⭐122502)
@@ -333,7 +335,6 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **deno**: denoland/deno (⭐106798)
 - **expose**: fatedier/frp (⭐106690)
 - **proxy**: 2dust/v2rayN (⭐106256)
-- **cmd**: microsoft/terminal (⭐103246)
 - **backup-tool**: immich-app/immich (⭐101166)
 - **chinese**: Anduin2017/HowToCook (⭐100210)
 - **autograd**: pytorch/pytorch (⭐100044)
@@ -342,12 +343,12 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **ant-design**: ant-design/ant-design (⭐98095)
 - **Skills Real Engineers.**: mattpocock/skills (⭐96629)
 - **css**: tailwindlabs/tailwindcss (⭐95073)
+- **automation**: puppeteer/puppeteer (⭐94348)
 - **bun**: oven-sh/bun (⭐92133)
 - **科技爱好者周刊，每周五发布**: ruanyf/weekly (⭐91563)
 - **bitcoin**: bitcoin/bitcoin (⭐89146)
 - **diagrams**: mermaid-js/mermaid (⭐88176)
 - **blog-engine**: gohugoio/hugo (⭐88171)
-- **calclaude**: ChatGPTNextWeb/NextChat (⭐88055)
 - **asyncio**: home-assistant/core (⭐87148)
 - **Model Context Protocol**: modelcontextprotocol/servers (⭐85992)
 - **packaging**: astral-sh/uv (⭐85252)
@@ -378,10 +379,10 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **documentation**: facebook/docusaurus (⭐64965)
 - **blocker**: gorhill/uBlock (⭐64815)
 - **data-science**: keras-team/keras (⭐64079)
-- **chatgpt**: openinterpreter/open-interpreter (⭐63586)
 - **browser**: LadybirdBrowser/ladybird (⭐63451)
 - **batch-processing**: pathwaycom/pathway (⭐63255)
 - **consul**: traefik/traefik (⭐63239)
+- **javascript**: socketio/socket.io (⭐63093)
 - **airtable**: nocodb/nocodb (⭐63076)
 - **Autonomous coding agent**: cline/cline (⭐62096)
 - **crawler**: scrapy/scrapy (⭐61735)
@@ -391,6 +392,7 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **jquery**: jquery/jquery (⭐59843)
 - **ad-blocker**: pi-hole/pi-hole (⭐58854)
 - **authentication**: pocketbase/pocketbase (⭐58443)
+- **activejob**: rails/rails (⭐58440)
 - **azure-blob**: rclone/rclone (⭐57283)
 - **blockchain**: FuelLabs/fuel-core (⭐57062)
 - **Declarative routing React**: remix-run/react-router (⭐56427)

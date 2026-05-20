@@ -2,11 +2,51 @@
   "week": "2026-W21",
   "correlations": [
     {
+      "repo": "microsoft/vscode",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
       "repo": "github/gitignore",
       "press_correlated": true,
       "correlation_confidence": 0.8,
       "matched_articles": [
         "https://techcrunch.com/2026/05/20/github-says-hackers-stole-data-from-thousands-of-internal-repositories/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "microsoft/PowerToys",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "microsoft/generative-ai-for-beginners",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "microsoft/TypeScript",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
       ],
       "match_type": "org_name",
       "hype_risk": "medium"
@@ -22,11 +62,42 @@
       "hype_risk": "medium"
     },
     {
+      "repo": "microsoft/terminal",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "microsoft/playwright",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
       "repo": "openai/codex",
       "press_correlated": true,
       "correlation_confidence": 0.8,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/"
+      ],
+      "match_type": "org_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "microsoft/ai-agents-for-beginners",
+      "press_correlated": true,
+      "correlation_confidence": 0.8,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
       ],
       "match_type": "org_name",
       "hype_risk": "medium"
@@ -36,9 +107,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.8,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "org_name",
       "hype_risk": "medium"
@@ -55,8 +124,7 @@
         "https://techcrunch.com/2026/05/20/stability-ai-release-a-new-audio-model-that-can-create-six-minute-songs/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
         "https://techcrunch.com/2026/05/19/ask-youtube-brings-ai-powered-conversational-search-to-video-adds-gemini-omni-to-shorts/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -73,8 +141,7 @@
         "https://techcrunch.com/2026/05/20/stability-ai-release-a-new-audio-model-that-can-create-six-minute-songs/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
         "https://techcrunch.com/2026/05/19/ask-youtube-brings-ai-powered-conversational-search-to-video-adds-gemini-omni-to-shorts/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -91,8 +158,7 @@
         "https://techcrunch.com/2026/05/20/stability-ai-release-a-new-audio-model-that-can-create-six-minute-songs/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
         "https://techcrunch.com/2026/05/19/ask-youtube-brings-ai-powered-conversational-search-to-video-adds-gemini-omni-to-shorts/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -102,6 +168,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/"
       ],
       "match_type": "project_name",
@@ -129,9 +196,7 @@
         "https://techcrunch.com/2026/05/20/stability-ai-release-a-new-audio-model-that-can-create-six-minute-songs/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
         "https://techcrunch.com/2026/05/19/ask-youtube-brings-ai-powered-conversational-search-to-video-adds-gemini-omni-to-shorts/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -168,8 +233,7 @@
         "https://techcrunch.com/2026/05/20/stability-ai-release-a-new-audio-model-that-can-create-six-minute-songs/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
         "https://techcrunch.com/2026/05/19/ask-youtube-brings-ai-powered-conversational-search-to-video-adds-gemini-omni-to-shorts/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -186,8 +250,7 @@
         "https://techcrunch.com/2026/05/20/stability-ai-release-a-new-audio-model-that-can-create-six-minute-songs/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
         "https://techcrunch.com/2026/05/19/ask-youtube-brings-ai-powered-conversational-search-to-video-adds-gemini-omni-to-shorts/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -204,8 +267,7 @@
         "https://techcrunch.com/2026/05/20/stability-ai-release-a-new-audio-model-that-can-create-six-minute-songs/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
         "https://techcrunch.com/2026/05/19/ask-youtube-brings-ai-powered-conversational-search-to-video-adds-gemini-omni-to-shorts/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -215,18 +277,9 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "microsoft/vscode",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/discord-enables-end-to-end-encrypted-voice-and-video-calling-for-every-user/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -236,6 +289,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/"
       ],
       "match_type": "project_name",
@@ -253,8 +307,7 @@
         "https://techcrunch.com/2026/05/20/stability-ai-release-a-new-audio-model-that-can-create-six-minute-songs/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
         "https://techcrunch.com/2026/05/19/ask-youtube-brings-ai-powered-conversational-search-to-video-adds-gemini-omni-to-shorts/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -280,24 +333,6 @@
       "hype_risk": "medium"
     },
     {
-      "repo": "microsoft/generative-ai-for-beginners",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
-        "https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/",
-        "https://techcrunch.com/2026/05/20/intuit-to-lay-off-over-3000-employees-to-refocus-on-ai/",
-        "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
-        "https://techcrunch.com/2026/05/20/stability-ai-release-a-new-audio-model-that-can-create-six-minute-songs/",
-        "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ask-youtube-brings-ai-powered-conversational-search-to-video-adds-gemini-omni-to-shorts/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
       "repo": "google-gemini/gemini-cli",
       "press_correlated": true,
       "correlation_confidence": 0.6,
@@ -312,17 +347,8 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "macrozheng/mall",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -332,6 +358,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/"
       ],
       "match_type": "project_name",
@@ -382,6 +409,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/"
       ],
       "match_type": "project_name",
@@ -393,24 +421,6 @@
       "correlation_confidence": 0.6,
       "matched_articles": [
         "https://techcrunch.com/2026/05/19/ask-youtube-brings-ai-powered-conversational-search-to-video-adds-gemini-omni-to-shorts/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "microsoft/ai-agents-for-beginners",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
-        "https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/",
-        "https://techcrunch.com/2026/05/20/intuit-to-lay-off-over-3000-employees-to-refocus-on-ai/",
-        "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
-        "https://techcrunch.com/2026/05/20/stability-ai-release-a-new-audio-model-that-can-create-six-minute-songs/",
-        "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ask-youtube-brings-ai-powered-conversational-search-to-video-adds-gemini-omni-to-shorts/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -430,6 +440,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/"
       ],
       "match_type": "project_name",
@@ -467,18 +478,7 @@
         "https://techcrunch.com/2026/05/20/stability-ai-release-a-new-audio-model-that-can-create-six-minute-songs/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
         "https://techcrunch.com/2026/05/19/ask-youtube-brings-ai-powered-conversational-search-to-video-adds-gemini-omni-to-shorts/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "rails/rails",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -519,9 +519,7 @@
       "correlation_confidence": 0.6,
       "matched_articles": [
         "https://techcrunch.com/2026/05/20/customers-say-trump-mobile-is-leaking-their-personal-information/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -551,6 +549,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -558,9 +557,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -570,6 +567,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -577,9 +575,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -589,6 +585,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/"
       ],
       "match_type": "category",
@@ -599,6 +596,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -606,9 +604,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -618,6 +614,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -625,9 +622,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -637,6 +632,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/",
         "https://techcrunch.com/2026/05/20/github-says-hackers-stole-data-from-thousands-of-internal-repositories/"
       ],
       "match_type": "category",
@@ -658,8 +654,7 @@
       "correlation_confidence": 0.4,
       "matched_articles": [
         "https://techcrunch.com/2026/05/20/customers-say-trump-mobile-is-leaking-their-personal-information/",
-        "https://techcrunch.com/2026/05/20/github-says-hackers-stole-data-from-thousands-of-internal-repositories/",
-        "https://techcrunch.com/2026/05/19/discord-enables-end-to-end-encrypted-voice-and-video-calling-for-every-user/"
+        "https://techcrunch.com/2026/05/20/github-says-hackers-stole-data-from-thousands-of-internal-repositories/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -669,9 +664,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -681,6 +674,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -688,9 +682,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -710,6 +702,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -717,9 +710,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -729,6 +720,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -736,9 +728,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -748,6 +738,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -755,9 +746,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -767,6 +756,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -774,9 +764,17 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "langflow-ai/langflow",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -786,6 +784,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -793,9 +792,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -805,6 +802,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/intuit-to-lay-off-over-3000-employees-to-refocus-on-ai/",
@@ -813,9 +811,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -825,6 +821,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -832,9 +829,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -844,6 +839,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -851,9 +847,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -866,8 +860,7 @@
         "https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
         "https://techcrunch.com/2026/05/19/ask-youtube-brings-ai-powered-conversational-search-to-video-adds-gemini-omni-to-shorts/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -877,6 +870,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -884,9 +878,17 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "ChatGPTNextWeb/NextChat",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -897,8 +899,7 @@
       "correlation_confidence": 0.4,
       "matched_articles": [
         "https://techcrunch.com/2026/05/20/customers-say-trump-mobile-is-leaking-their-personal-information/",
-        "https://techcrunch.com/2026/05/20/github-says-hackers-stole-data-from-thousands-of-internal-repositories/",
-        "https://techcrunch.com/2026/05/19/discord-enables-end-to-end-encrypted-voice-and-video-calling-for-every-user/"
+        "https://techcrunch.com/2026/05/20/github-says-hackers-stole-data-from-thousands-of-internal-repositories/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -918,6 +919,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -925,9 +927,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -937,6 +937,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/"
       ],
       "match_type": "category",
@@ -947,6 +948,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -954,9 +956,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -966,6 +966,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -973,9 +974,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -985,6 +984,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -992,9 +992,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1015,8 +1013,7 @@
       "correlation_confidence": 0.4,
       "matched_articles": [
         "https://techcrunch.com/2026/05/20/customers-say-trump-mobile-is-leaking-their-personal-information/",
-        "https://techcrunch.com/2026/05/20/github-says-hackers-stole-data-from-thousands-of-internal-repositories/",
-        "https://techcrunch.com/2026/05/19/discord-enables-end-to-end-encrypted-voice-and-video-calling-for-every-user/"
+        "https://techcrunch.com/2026/05/20/github-says-hackers-stole-data-from-thousands-of-internal-repositories/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1026,6 +1023,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -1033,9 +1031,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1045,6 +1041,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -1052,9 +1049,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1064,6 +1059,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -1071,9 +1067,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1083,6 +1077,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/"
       ],
       "match_type": "category",
@@ -1093,7 +1088,18 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "openinterpreter/open-interpreter",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1103,6 +1109,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -1110,9 +1117,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1122,6 +1127,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -1129,9 +1135,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1141,6 +1145,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -1148,9 +1153,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1160,6 +1163,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -1167,9 +1171,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1179,6 +1181,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -1186,9 +1189,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1198,6 +1199,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -1205,9 +1207,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1217,6 +1217,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -1224,9 +1225,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1237,8 +1236,7 @@
       "correlation_confidence": 0.4,
       "matched_articles": [
         "https://techcrunch.com/2026/05/20/customers-say-trump-mobile-is-leaking-their-personal-information/",
-        "https://techcrunch.com/2026/05/20/github-says-hackers-stole-data-from-thousands-of-internal-repositories/",
-        "https://techcrunch.com/2026/05/19/discord-enables-end-to-end-encrypted-voice-and-video-calling-for-every-user/"
+        "https://techcrunch.com/2026/05/20/github-says-hackers-stole-data-from-thousands-of-internal-repositories/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1248,6 +1246,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/"
       ],
       "match_type": "category",
@@ -1258,6 +1257,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -1265,9 +1265,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1277,6 +1275,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
         "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
         "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
@@ -1284,9 +1283,7 @@
         "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
         "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
         "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-        "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-        "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/"
+        "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1294,6 +1291,16 @@
   ],
   "divergences": {
     "uncovered_tech_trends": [
+      {
+        "topic": "Space",
+        "techcrunch_articles": [
+          {
+            "title": "The SpaceX IPO filing has arrived",
+            "url": "https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-has-arrived/"
+          }
+        ],
+        "signal": "No matching GitHub activity"
+      },
       {
         "topic": "Fundraising",
         "techcrunch_articles": [
@@ -1686,6 +1693,27 @@
         "signal": "No TechCrunch coverage"
       },
       {
+        "topic": "docker",
+        "github_repos": [
+          {
+            "full_name": "louislam/uptime-kuma",
+            "stars": 87023,
+            "stars_gained": null
+          },
+          {
+            "full_name": "macrozheng/mall",
+            "stars": 83651,
+            "stars_gained": null
+          },
+          {
+            "full_name": "Stirling-Tools/Stirling-PDF",
+            "stars": 79020,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
         "topic": "compiler",
         "github_repos": [
           {
@@ -1909,54 +1937,6 @@
           {
             "full_name": "pmndrs/zustand",
             "stars": 58081,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "javascript",
-        "github_repos": [
-          {
-            "full_name": "microsoft/TypeScript",
-            "stars": 108922,
-            "stars_gained": null
-          },
-          {
-            "full_name": "socketio/socket.io",
-            "stars": 63093,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "automation",
-        "github_repos": [
-          {
-            "full_name": "puppeteer/puppeteer",
-            "stars": 94348,
-            "stars_gained": null
-          },
-          {
-            "full_name": "microsoft/playwright",
-            "stars": 89089,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "docker",
-        "github_repos": [
-          {
-            "full_name": "louislam/uptime-kuma",
-            "stars": 87023,
-            "stars_gained": null
-          },
-          {
-            "full_name": "Stirling-Tools/Stirling-PDF",
-            "stars": 79020,
             "stars_gained": null
           }
         ],
@@ -3683,28 +3663,6 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "agents",
-        "github_repos": [
-          {
-            "full_name": "langflow-ai/langflow",
-            "stars": 148562,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "advanced-paste",
-        "github_repos": [
-          {
-            "full_name": "microsoft/PowerToys",
-            "stars": 133329,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
         "topic": "Claude Code agentic",
         "github_repos": [
           {
@@ -3859,17 +3817,6 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "cmd",
-        "github_repos": [
-          {
-            "full_name": "microsoft/terminal",
-            "stars": 103246,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
         "topic": "backup-tool",
         "github_repos": [
           {
@@ -3958,6 +3905,17 @@
         "signal": "No TechCrunch coverage"
       },
       {
+        "topic": "automation",
+        "github_repos": [
+          {
+            "full_name": "puppeteer/puppeteer",
+            "stars": 94348,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
         "topic": "bun",
         "github_repos": [
           {
@@ -4007,17 +3965,6 @@
           {
             "full_name": "gohugoio/hugo",
             "stars": 88171,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "calclaude",
-        "github_repos": [
-          {
-            "full_name": "ChatGPTNextWeb/NextChat",
-            "stars": 88055,
             "stars_gained": null
           }
         ],
@@ -4354,17 +4301,6 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "chatgpt",
-        "github_repos": [
-          {
-            "full_name": "openinterpreter/open-interpreter",
-            "stars": 63586,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
         "topic": "browser",
         "github_repos": [
           {
@@ -4392,6 +4328,17 @@
           {
             "full_name": "traefik/traefik",
             "stars": 63239,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "javascript",
+        "github_repos": [
+          {
+            "full_name": "socketio/socket.io",
+            "stars": 63093,
             "stars_gained": null
           }
         ],
@@ -4491,6 +4438,17 @@
           {
             "full_name": "pocketbase/pocketbase",
             "stars": 58443,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "activejob",
+        "github_repos": [
+          {
+            "full_name": "rails/rails",
+            "stars": 58440,
             "stars_gained": null
           }
         ],
@@ -4847,12 +4805,10 @@
     "anomalyco/opencode",
     "huggingface/transformers",
     "Snailclimb/JavaGuide",
-    "langflow-ai/langflow",
     "Genymobile/scrcpy",
     "vercel/next.js",
     "anthropics/skills",
     "golang/go",
-    "microsoft/PowerToys",
     "facebook/react-native",
     "anthropics/claude-code",
     "excalidraw/excalidraw",
@@ -4867,13 +4823,11 @@
     "ggml-org/llama.cpp",
     "godotengine/godot",
     "axios/axios",
-    "microsoft/TypeScript",
     "tauri-apps/tauri",
     "denoland/deno",
     "fatedier/frp",
     "papers-we-love/papers-we-love",
     "2dust/v2rayN",
-    "microsoft/terminal",
     "immich-app/immich",
     "Anduin2017/HowToCook",
     "angular/angular",
@@ -4891,16 +4845,15 @@
     "oven-sh/bun",
     "ruanyf/weekly",
     "bitcoin/bitcoin",
-    "microsoft/playwright",
     "mermaid-js/mermaid",
     "gohugoio/hugo",
-    "ChatGPTNextWeb/NextChat",
     "home-assistant/core",
     "louislam/uptime-kuma",
     "modelcontextprotocol/servers",
     "astral-sh/uv",
     "laravel/laravel",
     "syncthing/syncthing",
+    "macrozheng/mall",
     "realworld-apps/realworld",
     "zed-industries/zed",
     "tonsky/FiraCode",
@@ -4943,7 +4896,6 @@
     "opendatalab/MinerU",
     "prometheus/prometheus",
     "keras-team/keras",
-    "openinterpreter/open-interpreter",
     "LadybirdBrowser/ladybird",
     "gsd-build/get-shit-done",
     "pathwaycom/pathway",
@@ -4967,6 +4919,7 @@
     "sharkdp/bat",
     "pi-hole/pi-hole",
     "pocketbase/pocketbase",
+    "rails/rails",
     "pmndrs/zustand",
     "rust-unofficial/awesome-rust",
     "ultralytics/ultralytics",
@@ -4996,9 +4949,9 @@
   ],
   "metadata": {
     "repos_analyzed": 431,
-    "correlations_found": 91,
-    "articles_matched": 19,
-    "uncovered_tech_trends": 1,
-    "unpublicized_dev_activity": 274
+    "correlations_found": 96,
+    "articles_matched": 18,
+    "uncovered_tech_trends": 2,
+    "unpublicized_dev_activity": 270
   }
 }

@@ -86,3 +86,17 @@
 - **Date:** 2026-05-19
 - **Decision:** All future work organized into versioned milestones (v0.5, v0.6, etc.). PRDs are decomposed into issues, assigned to milestones, then moved to docs/processed/. This enables progress tracking and versioning.
 - **Why:** User directive — makes work easier to follow and enables versioning.
+
+## 2026-05-19: Press Context Dual-Mode Rendering
+
+- **Owner:** Farnsworth
+- **Date:** 2026-05-19T20:50:22+02:00
+- **Status:** Implemented
+- **Decision:** Implement dual-mode rendering in `render_press_context.py` to serve AI prompts (full data + instructions) and reader-facing fallback (clean narrative) separately via `reader_mode` parameter and post-processing.
+- **Why:** The press context serves two audiences. AI prompts need full data and model instructions; reader-facing pages should not expose AI directives or 100+ repo lists.
+- **Changes:**
+  - `render_press_context(reader_mode=False)` — new kwarg. When True, limits correlations to top 10, strips `### Instructions` block, and passes reader_mode to `format_divergences()`
+  - `format_correlations_list(top_n=None)` — new kwarg. Truncates display and appends "…and N more repos"
+  - `format_divergences(reader_mode=False)` — new kwarg. Replaces instruction bullets with reader-friendly narrative
+  - `analyze_fallback._strip_ai_instructions(content)` — new helper. Applied in no-AI path to post-process rendered content
+- **Consequences:** AI prompt path unchanged (full instructions + list continue to model); no-AI fallback now produces clean reader output. 16 new tests cover truncation, sorting, instruction stripping, narrative injection. All 498 tests passing. PR #135 merged.

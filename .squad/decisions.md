@@ -633,8 +633,326 @@ Add TechCrunch RSS (`https://techcrunch.com/feed/`) as SquadScope's first non-Gi
 
 ---
 
+## Decision: Use `publish` branch for automated data commits (2026-05-19)
+
+**Author:** Bender (Crawler)
+**Status:** Implemented (PR #129)
+**Fixes:** Issue #128
+
+### Context
+
+The crawl-and-publish workflow failed because:
+1. The repo setting "Allow GitHub Actions to create or approve pull requests" is disabled
+2. `gh pr create` with `GITHUB_TOKEN` is blocked by this setting
+3. Even if enabled, the `copilot_code_review` rule + `required_review_thread_resolution` on main could block auto-merge unpredictably
+
+### Decision
+
+Replace PR-based commits with direct push to an unprotected `publish` branch.
+
+- The main branch ruleset only protects `refs/heads/main`
+- The `publish` branch accepts direct pushes from workflow `GITHUB_TOKEN`
+- Inter-job data flow uses artifacts (unchanged)
+- Deploy job downloads all artifacts directly (no dependency on branch state)
+- `reskill-check` reads `run-counter.txt` from `publish` branch with fallback to main
+
+### Consequences
+
+- Automated data no longer lands on `main` automatically — it accumulates on `publish`
+- A separate manual or scheduled merge from `publish` → `main` can sync when desired
+- Main branch protection remains fully intact (no bypasses)
+- Pipeline reliability is decoupled from PR permission settings
+
+### Alternatives Considered
+
+1. Enable "Allow GitHub Actions to create PRs" — requires repo admin action, doesn't solve auto-merge reliability
+2. Use a PAT/GitHub App token — adds secret management complexity
+3. `--admin` flag on merge — bypasses protection, violates team decision
+
+---
+
+## Decision: Manual W21 content regeneration (2026-05-19)
+
+**Author:** Bender
+**Status:** Executed
+
+### Context
+
+The crawl-and-publish workflow (run #26109935234) generated W21 analysis but failed to commit it because the commit step tried to push directly to `main`, which requires PRs (branch protection). PR #123 fixed the workflow to use PR-based commits, but it merged after the failed run.
+
+### Decision
+
+Regenerated W21 content manually and created PR #125 to update the page. No workflow code changes needed — the root cause (direct push) was already fixed by PR #123.
+
+### Impact
+
+- `content/weekly/2026/W21.md` updated from stale manual dry-run to full analysis
+- Monthly/yearly rollups refreshed
+- Once PR #125 merges, deploy-site will publish the updated page
+- Future scheduled runs will use the PR-based approach and should not hit this again
+
+---
+
+## Directive: Always test the whole publishing cycle before considering work done (2026-05-19)
+
+**By:** jmservera (via Copilot)
+**Date:** 2026-05-19T19:37:45+02:00
+
+User directive — captured for team memory. Always test the whole publishing cycle before considering work done.
+
+---
+
+## Decision: PR #126 Security Review — Clear (2026-05-19)
+
+**Author:** Hermes (Security)
+**PR:** #126 — "feat: wire TechCrunch RSS into CI pipeline and add API retry backoff"
+
+### Decision
+
+PR #126 is **security-clear**. No blocking vulnerabilities found.
+
+### Key Findings
+
+- No SSRF risk (hardcoded feed URL)
+- Retry logic properly bounded (3 retries, exponential backoff + jitter)
+- No secrets leaked in logs
+- feedparser dependency is well-maintained, no CVEs
+- Workflow permissions unchanged
+
+### Non-blocking Recommendation
+
+RSS content fed into AI prompts has a theoretical indirect prompt injection surface. Mitigated by HTML stripping and content truncation. Recommend adding control character sanitization in a future PR for defense-in-depth.
+
+### Impact
+
+Team can merge PR #126 without security holds.
+
+---
+
+## Directive: Never bypass branch protection rulesets (2026-05-19)
+
+**By:** jmservera (via Squad)
+**Date:** 2026-05-19T18:05:10Z
+
+CI workflows must not push directly to protected branches. Use PR-based commits instead. Never add bypass actors to rulesets to work around branch protection.
+
+**Why:** Branch protection exists to ensure code review on every change. Bypassing it for convenience undermines the safety net.
+
+---
+
+
+# Decision: Divergence Section Uses Narrative Prose in Reader Mode
+
+**Date:** 2026-05-19T21:24:54+02:00  
+**Author:** Farnsworth (Analyst)  
+**Status:** Implemented  
+**Affects:** `scripts/render_press_context.py`, `tests/test_render_press_context.py`
+
+## Decision
+
+The divergence section in `format_divergences()` now renders as narrative prose when `reader_mode=True`, replacing the prior bullet list format. AI-prompt mode (`reader_mode=False`) is unchanged.
+
+## Rationale
+
+Raw topic-and-repo bullet lists communicate data but not meaning. Readers gain more from a paragraph that groups activity, links to repos by short name, and closes with an interpretive sentence. The AI model still needs the full structured data — so the dual-mode architecture cleanly separates the two use cases.
+
+## Format Decisions
+
+1. **Repo links:** `[repo-name](https://github.com/owner/repo-name)` — repo name only (after `/`), never `owner/repo (⭐N)`.
+2. **Article links:** `[title](url)` — standard markdown.
+3. **Topic capping:** Top 6 topics by aggregate star count for "Dev Activity Without Press Coverage"; top 5 for "Tech Trends Without Dev Activity".
+4. **Structure:** Two named helpers — `_format_unpublicized_narrative()` and `_format_uncovered_narrative()` — keep the logic isolated and independently testable.
+
+## Implications
+
+- Any future changes to reader-mode divergence prose go into the two helper functions.
+- If the data schema adds new fields (e.g., `growth_rate`), the helpers can incorporate them without touching AI-mode output.
+- Tests updated: `test_reader_mode_has_narrative` and `test_reader_mode_has_repo_links` replace the old phrase-matching assertions. 499 tests pass.
+
+---
+
+# Decision: No-AI Fallback Must Re-render from Raw Data for Reader Mode
+
+**Date:** 2026-05-19T21:54:14+02:00  
+**Author:** Farnsworth  
+**Status:** Implemented (PR #137, merged)
+
+## Context
+
+The CI pipeline falls to the no-AI path when the AI API is unavailable. In that path, `_render_press_section_no_ai()` was reading the pre-rendered `data/analyzed/{WEEK}-press-context.md` and stripping AI instructions to produce reader output.
+
+The problem: that file is generated in AI-prompt mode (`reader_mode=False`). The narrative divergence format introduced in PR #136 is only produced when `reader_mode=True`. So the no-AI path always showed the old bullet-list format regardless of code changes in the reader-mode rendering path.
+
+## Decision
+
+**Re-render from raw JSON data in the no-AI path.** Specifically:
+
+1. Extract the week identifier from the `press_context_path` filename stem.
+2. Load `data/raw/{WEEK}-techcrunch.json` and `data/analyzed/{WEEK}-correlations.json`.
+3. Call `render_press_context(tc_data, corr_data, week, reader_mode=True)`.
+4. If raw files are absent, fall back to the existing strip-based approach.
+
+## Rationale
+
+- The pre-rendered press-context.md is an AI prompt artifact, not a reader artifact. It must not be the source of truth for reader-facing output.
+- Raw JSON files are always present when the CI pipeline runs (they are produced earlier in the same pipeline run).
+- The fallback ensures backward compatibility for edge cases (manual script invocations against older data).
+
+## Impact
+
+- The no-AI CI path now uses identical rendering logic to the AI path's fallback output.
+- Any future changes to `render_press_context(..., reader_mode=True)` automatically apply to the no-AI path without further changes.
+- The W21 page will show the correct narrative format on the next pipeline run.
+
+## Files Changed
+
+- `scripts/analyze_fallback.py` — `_render_press_section_no_ai()` (lines 346–370)
+
+---
+
+# Decision: Correlation Summary — Narrative Prose in reader_mode
+
+**Date:** 2026-05-19T22:34:57+02:00  
+**Author:** Farnsworth (Analyst)  
+**PR:** #138  
+**Status:** Merged
+
+## Context
+
+The Correlation Summary section was showing a raw bullet list of repo names, confidence scores, and match types — useful for AI prompt consumption but meaningless to human readers. The Divergence section had already been upgraded to narrative prose (PR #131). This decision extends that pattern to correlations.
+
+## Decision
+
+When `reader_mode=True`, `format_correlations_list()` delegates to `_format_correlations_narrative()` which:
+
+1. **Groups correlations by org** (first path segment of owner/repo). This is the natural unit of press coverage — TechCrunch writes about organizations, not individual repos.
+2. **Ranks groups by aggregate confidence score** (sum of correlation_confidence across all repos in the group).
+3. **Fetches README snippets** (first 500 chars) for the top 2 repos per group, up to 6 total, using `urllib.request` with a 5-second timeout and graceful failure. This enables project descriptions in the narrative (e.g., "Guava is a set of core Java libraries from Google").
+4. **Produces 1–3 paragraphs** with inline links to repos (short name, e.g., `[codex](https://github.com/openai/codex)`) and matched TechCrunch articles (full title as link text).
+
+## Alternative Considered
+
+**No README fetching — use only repo names**: simpler and fully deterministic, but produces flat prose with no editorial context about what the repos actually do. The README fetch adds signal at low cost (max 6 network requests, fails gracefully).
+
+## Constraints Respected
+
+- `reader_mode=False` output is unchanged — AI prompt consumers still receive full raw data.
+- README fetching only happens in reader_mode=True paths (no side effects in CI pre-rendering).
+- Article title lookup reuses the already-loaded `tc_data["articles"]` list — no new I/O for the article side.
+- All new functions are covered by unit tests; 513 tests pass.
+
+---
+
+# Decision: CI Self-Learning Pipeline Architecture
+
+**Date:** 2026-05-19T22:57:55+02:00
+**Author:** Leela (Lead/Architect)
+**Status:** Proposed
+**Scope:** Analysis and reskill CI jobs — self-learning loop
+
+## Context
+
+The CI pipeline runs AI analysis (Copilot CLI) and reskill (GitHub Models API) but neither job leverages the squad agent system. The analysis agent has no identity, cannot read its own history/skills, and has no mechanism to write learnings back. The reskill job bypasses Copilot CLI entirely and uses a model (`openai/gpt-4.1`) that returns 403.
+
+## Decisions
+
+### 1. Dedicated Farnsworth Agent File (`.github/agents/farnsworth.agent.md`)
+
+A standalone agent file gives the Copilot CLI the full Farnsworth identity — charter, history reading instructions, post-analysis learning format, and write permissions to `.squad/`.
+
+**Rationale:** The `--agent` flag loads an agent markdown file with YAML frontmatter and instructions. A dedicated file allows CI-specific directives (learning output format, file write permissions) without polluting the interactive Squad coordinator agent.
+
+### 2. `--agent` Flag in Copilot CLI Invocations
+
+Both the analysis and reskill jobs now use:
+```bash
+copilot --agent .github/agents/farnsworth.agent.md ...
+```
+
+**Rationale:** This loads Farnsworth's identity, making the CLI aware of the agent's history, wisdom, skills, and learning expectations.
+
+### 3. Learning Commit Strategy: Same Branch, Same Job
+
+After analysis, `.squad/` changes (history, skills) are committed alongside `data/analyzed/` to the `publish` data branch in a single atomic commit.
+
+**Rationale:** No additional branch/PR overhead. The data branch is unprotected and already receives CI commits. Learnings are part of the analysis artifact — they should be co-located temporally. The reskill job already commits `.squad/` state via the same pattern.
+
+### 4. Model Fallback: `openai/gpt-4o` Replaces `openai/gpt-4.1`
+
+The default model for GitHub Models API fallback is changed from `openai/gpt-4.1` (which returns 403) to `openai/gpt-4o` (widely accessible).
+
+**Rationale:** `gpt-4.1` is not accessible via the GitHub Models API for this repository's token. `gpt-4o` is the current generally available model. The env var `GITHUB_MODELS_MODEL` still allows override.
+
+### 5. Reskill Primary Path: Copilot CLI with Agent
+
+The reskill job now tries Copilot CLI first (with agent identity), falling back to GitHub Models API if CLI is unavailable. This gives reskill the same agent-aware capabilities as analysis: read wisdom/skills/history, write updated wisdom and learnings back.
+
+**Rationale:** The reskill cycle is the primary mechanism for reinforcing the learning loop. With agent identity, it can directly update `wisdom.md` and `history.md` based on retrospective findings — the core of self-improvement.
+
+### 6. Prompt Template Unchanged
+
+The existing prompt templates (`prompts/analyze-weekly.md`, `prompts/reskill.md`) already inject wisdom and skills via `{{WISDOM}}` and `{{SKILLS}}` placeholders. The agent file complements this by providing identity context and learning output instructions that the templates alone cannot express.
+
+## Risks
+
+| Risk | Mitigation |
+|------|-----------|
+| Agent writes bad content to `.squad/` files | Quality gate still runs on analysis output; .squad changes are append-only learnings |
+| Copilot CLI doesn't support `--agent` as expected | Fallback path (GitHub Models via reskill.py) still works without agent identity |
+| Learning state diverges between publish branch and main | Periodic sync PRs already exist; learnings on publish are forward-compatible |
+
+## Implementation
+
+- [x] `.github/agents/farnsworth.agent.md` — agent identity file
+- [x] `.github/workflows/crawl-and-publish.yml` — `--agent` flag, learning commits, model fix
+- [x] `scripts/reskill.py` — model default updated to `openai/gpt-4o`
+- [x] `scripts/analyze_fallback.py` — model default updated to `openai/gpt-4o`
+
+---
+
 ## Governance
 
 - All meaningful changes require team consensus
 - Document architectural decisions here
 - Keep history focused on work, decisions focused on direction
+
+## Weekly Analysis Article Restructure
+
+**Date:** 2026-05-20T19:15:53.942+02:00  
+**Author:** Leela (Lead/Architect) — Proposed; Farnsworth (Analyst) — Implemented  
+**Status:** Implemented  
+**Requested by:** jmservera
+
+### Context
+
+The weekly analysis output was structured like a repo-listing document (Notable New Repositories, Trending This Week, etc.). User requested a restructure to read like a Gartner/McKinsey-style trend insight brief.
+
+### Decision
+
+Replace the six-section repo-listing structure with a six-section editorial structure:
+
+| Old Section | New Section |
+|---|---|
+| `## Notable New Repositories` | (moved to `### Notable Projects` under Key References) |
+| `## Trending This Week` | (rolled into `## This Week's Trends`) |
+| `## Industry & Press Correlation` | `## Where Industry Meets Code` |
+| `## Trend Analysis` / `### Signal` / `### Noise` | `## Signal & Noise` (integrated prose, no sub-headings) |
+| `## What's Missing` / `### Gaps` | `## Blind Spots` |
+| `## Conclusion` | `## The Week Ahead` |
+| _(new)_ | `## Key References` / `### Notable Projects` / `### Press & Industry` |
+
+### Rationale
+
+1. Lead with synthesis, not inventory.
+2. Comparative press analysis gets its own section.
+3. Signal & Noise integrated (no mandatory sub-headings).
+4. Key References at the end (scannable).
+5. Forward-looking close ("The Week Ahead").
+
+### Implementation
+
+**Files Changed:** `prompts/analyze-weekly.md`, `docs/analysis-spec.md`, `scripts/analysis_gate.py`, `scripts/analyze_fallback.py`, `scripts/generate_rollups.py`, 5 test files.
+
+**Backward Compatibility:** `generate_rollups.py` tries new heading names first and falls back to old names. All frontmatter fields, repo link format, quality_score gate, and body word count rules unchanged.
+
+**Outcome:** All 519 tests pass with new structure.
