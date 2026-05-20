@@ -1,8 +1,51 @@
 {
   "week": "2026-W21",
   "source": "techcrunch",
-  "crawled_at": "2026-05-20T18:27:34.592396Z",
+  "crawled_at": "2026-05-20T20:21:39.384823Z",
   "articles": [
+    {
+      "title": "IrisGo, a startup backed by Andrew Ng, looks to become the AI desktop buddy you never knew you needed",
+      "url": "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
+      "published_at": "2026-05-20T19:47:20Z",
+      "categories": [
+        "AI",
+        "andrew ng",
+        "google brain",
+        "IrisGo"
+      ],
+      "summary": "Initially billed as an \"AI butler,\" Iris watches what happens on a user's desktop and automatically learns how to do tasks for them, its co-founder says.",
+      "github_links": [],
+      "entities": [
+        "IrisGo",
+        "Andrew",
+        "Ng",
+        "AI"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Tesla’s Full Self-Driving software is creeping into Europe",
+      "url": "https://techcrunch.com/2026/05/20/teslas-full-self-driving-software-is-creeping-into-europe/",
+      "published_at": "2026-05-20T18:32:06Z",
+      "categories": [
+        "Transportation",
+        "autonomous vehicles",
+        "Europe",
+        "EVs",
+        "Tesla",
+        "Tesla FSD"
+      ],
+      "summary": "First came the Netherlands, now it's Lithuania. And more European countries appear to be in the queue for Tesla's driver-assistance system.",
+      "github_links": [],
+      "entities": [
+        "Tesla",
+        "Full",
+        "Self",
+        "Driving",
+        "Europe"
+      ],
+      "relevance_score": 0.0
+    },
     {
       "title": "Airbnb gets into hotels, expands AI for host onboarding and customer support",
       "url": "https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/",
@@ -13,7 +56,7 @@
         "customer support",
         "hotel bookings"
       ],
-      "summary": "Airbnb will soon let you book luggage storage and car rental services on its app",
+      "summary": "Airbnb will soon let you book luggage storage and car rental services on its app.",
       "github_links": [],
       "entities": [
         "Airbnb",
@@ -22,7 +65,7 @@
       "relevance_score": 0.4
     },
     {
-      "title": "Global EV market goes K-shaped as the U.S. gets left behind",
+      "title": "Global EV market goes K-shaped as the US gets left behind",
       "url": "https://techcrunch.com/2026/05/20/global-ev-market-goes-k-shaped-as-the-u-s-gets-left-behind/",
       "published_at": "2026-05-20T17:34:00Z",
       "categories": [
@@ -38,21 +81,24 @@
       "entities": [
         "Global",
         "EV",
-        "U.S"
+        "US"
       ],
       "relevance_score": 0.2
     },
     {
-      "title": "OpenAI barrels towards IPO that may happen in September",
-      "url": "https://techcrunch.com/2026/05/20/openai-barrels-towards-ipo-that-may-happen-in-september/",
+      "title": "OpenAI barrels toward IPO that may happen in September",
+      "url": "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
       "published_at": "2026-05-20T17:24:24Z",
       "categories": [
         "AI",
         "Startups",
+        "Elon Musk",
+        "In Brief",
         "IPOs",
-        "OpenAI"
+        "OpenAI",
+        "sam altman"
       ],
-      "summary": "A day after Elon Musk lost his lawsuit that threatened OpenAI's structure, leadership and finances, OpenAI is reportedly back to prepping for its IPO.",
+      "summary": "A day after Elon Musk lost his lawsuit that threatened OpenAI's structure, leadership, and finances, OpenAI is reportedly back to prepping for its IPO.",
       "github_links": [],
       "entities": [
         "OpenAI",
@@ -224,17 +270,17 @@
       "categories": [
         "AI",
         "Apps",
+        "AI assistant",
         "design",
-        "Figma",
-        "AI assistant"
+        "Figma"
       ],
-      "summary": "Figma's new AI assistant will be first available on Figma Design",
+      "summary": "Figma says users can employ natural language text prompts to direct its new AI agent to generate new designs, edit existing ones, or automate tasks such as generating iterations of existing designs.",
       "github_links": [],
       "entities": [
         "Figma",
         "AI"
       ],
-      "relevance_score": 0.2
+      "relevance_score": 0.4
     },
     {
       "title": "This startup raised $43M to build a hive mind for ships",
@@ -360,50 +406,11 @@
         "Discord"
       ],
       "relevance_score": 0.0
-    },
-    {
-      "title": "Mach Industries just spent $50M to solve a major defense tech problem",
-      "url": "https://techcrunch.com/2026/05/19/mach-industries-just-spent-50m-to-solve-a-major-defense-tech-problem/",
-      "published_at": "2026-05-19T21:09:56Z",
-      "categories": [
-        "Hardware",
-        "defense tech",
-        "Ethan Thornton",
-        "mach industries"
-      ],
-      "summary": "Mach says the acquisition meaningfully improves unit economics across its five vehicle programs at exactly the moment the company is starting to scale.",
-      "github_links": [],
-      "entities": [
-        "Mach",
-        "Industries"
-      ],
-      "relevance_score": 0.2
-    },
-    {
-      "title": "From teen hacker to Iron Dome researcher, this founder raised $28M to fight AI phishing",
-      "url": "https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/",
-      "published_at": "2026-05-19T21:08:51Z",
-      "categories": [
-        "AI",
-        "Security",
-        "Startups",
-        "Exclusive",
-        "lightspeed",
-        "phishing"
-      ],
-      "summary": "Ocean, an agentic email security platform, claims its AI can thoroughly analyze the context of every incoming email to detect fraud and impersonation attempts.",
-      "github_links": [],
-      "entities": [
-        "Iron",
-        "Dome",
-        "AI"
-      ],
-      "relevance_score": 0.6
     }
   ],
   "metadata": {
     "total_articles": 20,
-    "relevant_articles": 10,
+    "relevant_articles": 11,
     "github_links_found": 0
   }
 }
