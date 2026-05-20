@@ -30,6 +30,12 @@ How to decide who handles what.
 3. Members can reassign by removing their label and adding another member's label.
 4. The `squad` label is the "inbox" — untriaged issues waiting for Lead review.
 
+## Trigger Phrases
+
+| Phrase | Action |
+|--------|--------|
+| "take a nap and reskill" | Farnsworth reads `.squad/reskill/current-prompt.md` and follows the instructions inside |
+
 ## Rules
 
 1. **Eager by default** — spawn all agents who could usefully start work, including anticipatory downstream work.

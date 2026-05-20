@@ -211,6 +211,11 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("trigger-log.txt", reskill_run)
         self.assertIn("git add .squad/", reskill_run)
         self.assertIn("data/metrics/", reskill_run)
+        # Reskill prompt addresses the team, not an individual agent
+        self.assertIn('"Team, take a nap and reskill"', reskill_run)
+        self.assertNotIn("Farnsworth, read the file", reskill_run)
+        # Prompt is written to a well-known path, not a temp file
+        self.assertIn('RESKILL_PROMPT=".squad/reskill/current-prompt.md"', reskill_run)
 
         analyze = workflow["jobs"]["analyze"]
         run_analysis_step = next((s for s in analyze["steps"] if s.get("name") == "Run analysis"), None)

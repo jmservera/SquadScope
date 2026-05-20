@@ -27,3 +27,6 @@ Preferred: auto
 - **What's important:** Significant projects, tools, or shifts in the ecosystem
 - **What's trending:** Patterns across categories over multiple weeks
 - **What's missing:** Gaps in the ecosystem, underserved areas, declining trends
+
+## Reskill Cycle
+When asked to "take a nap and reskill", read the prompt at `.squad/reskill/current-prompt.md` and follow the instructions inside. The prompt contains all context (recent analyses, snapshot hindsight, current wisdom) and the output path.
