@@ -1,20 +1,21 @@
 ## Press Context (TechCrunch, week of 2026-W21)
-10 articles published relevant to tech/open-source.
+11 articles published relevant to tech/open-source.
 
 Notable coverage:
+- [IrisGo, a startup backed by Andrew Ng, looks to become the AI desktop buddy you never knew you needed](https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/) [AI, andrew ng, google brain, IrisGo]
 - [Airbnb gets into hotels, expands AI for host onboarding and customer support](https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/) [Apps, Airbnb, customer support, hotel bookings]
-- [OpenAI barrels towards IPO that may happen in September](https://techcrunch.com/2026/05/20/openai-barrels-towards-ipo-that-may-happen-in-september/) [AI, Startups, IPOs, OpenAI]
+- [OpenAI barrels toward IPO that may happen in September](https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/) [AI, Startups, Elon Musk, In Brief, IPOs, OpenAI, sam altman]
 - [AI search startups are blowing up](https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/) [AI, AI search, Exa Labs, In Brief, Parallel Web Systems]
 - [Stability AI releases a new audio model that can create 6-minute songs](https://techcrunch.com/2026/05/20/stability-ai-release-a-new-audio-model-that-can-create-six-minute-songs/) [AI, Media & Entertainment, audio creation, Music, Stability AI]
 - [NanoClaw creator turns down $20M buyout offer, raises $12M seed instead](https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/) [AI, Startups, AI agents, NanoClaw, openclaw, Valley Capital Partners]
 - [Startup Battlefield 200 applications close in 1 week: Window to nominate and apply for the most promising startups closes May 27](https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/) [AI, Biotech & Health, Climate, Fintech, Fundraising, Startups, TC, Venture]
 - [GitHub says hackers stole data from thousands of internal repositories](https://techcrunch.com/2026/05/20/github-says-hackers-stole-data-from-thousands-of-internal-repositories/) [Security, cyberattack, cybersecurity, data breach, GitHub, hackers, Microsoft]
+- [Figma adds an AI assistant to its collaborative canvas](https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/) [AI, Apps, AI assistant, design, Figma]
 - [This startup raised $43M to build a hive mind for ships](https://techcrunch.com/2026/05/20/this-startup-raised-43m-to-build-a-hive-mind-for-ships/) [Fundraising, Startups, Transportation, Exclusive, first round captial, quartermaster]
 - [How to use Google’s new AI agents to go beyond your standard searches](https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/) [AI, AI agents, Google, google io 2026, Google Search]
-- [From teen hacker to Iron Dome researcher, this founder raised $28M to fight AI phishing](https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/) [AI, Security, Startups, Exclusive, lightspeed, phishing]
 
 ### Correlation Summary
-90 repos have press correlation:
+91 repos have press correlation:
 - github/gitignore — match: org_name, confidence: 0.8, hype_risk: medium
 - github/spec-kit — match: org_name, confidence: 0.8, hype_risk: medium
 - openai/codex — match: org_name, confidence: 0.8, hype_risk: medium
@@ -23,8 +24,9 @@ Notable coverage:
 - trading-2028/polymarket-ai-trading — match: project_name, confidence: 0.6, hype_risk: medium
 - Dangerous-hole/Pumpfun_AI_Trading_Bot — match: project_name, confidence: 0.6, hype_risk: medium
 - suyancc/openai-plus-vxt — match: project_name, confidence: 0.6, hype_risk: medium
+- ip-arch/NESLab — match: project_name, confidence: 0.6, hype_risk: medium
 - deepakness/google-ai-search-optimization — match: project_name, confidence: 0.6, hype_risk: medium
-- AdvDebug/Brovan — match: project_name, confidence: 0.6, hype_risk: medium
+- ZiyuGuo99/ATLAS — match: project_name, confidence: 0.6, hype_risk: medium
 - akuma815/WindowsDelta — match: project_name, confidence: 0.6, hype_risk: medium
 - Pythonation/AI-Text-Humanizer-Protocol — match: project_name, confidence: 0.6, hype_risk: medium
 - wanshuiyin/ARIS-in-AI-Offer — match: project_name, confidence: 0.6, hype_risk: medium
@@ -33,16 +35,17 @@ Notable coverage:
 - microsoft/vscode — match: project_name, confidence: 0.6, hype_risk: medium
 - open-webui/open-webui — match: project_name, confidence: 0.6, hype_risk: medium
 - x1xhlol/system-prompts-and-models-of-ai-tools — match: project_name, confidence: 0.6, hype_risk: medium
+- nodejs/node — match: project_name, confidence: 0.6, hype_risk: medium
+- rust-lang/rust — match: project_name, confidence: 0.6, hype_risk: medium
 - microsoft/generative-ai-for-beginners — match: project_name, confidence: 0.6, hype_risk: medium
 - google-gemini/gemini-cli — match: project_name, confidence: 0.6, hype_risk: medium
-- immich-app/immich — match: project_name, confidence: 0.6, hype_risk: medium
 - opencv/opencv — match: project_name, confidence: 0.6, hype_risk: medium
 - macrozheng/mall — match: project_name, confidence: 0.6, hype_risk: medium
 - OpenHands/OpenHands — match: project_name, confidence: 0.6, hype_risk: medium
-- unionlabs/union — match: project_name, confidence: 0.6, hype_risk: medium
 - strapi/strapi — match: project_name, confidence: 0.6, hype_risk: medium
 - moby/moby — match: project_name, confidence: 0.6, hype_risk: medium
 - pallets/flask — match: project_name, confidence: 0.6, hype_risk: medium
+- base/node — match: project_name, confidence: 0.6, hype_risk: medium
 - OpenBB-finance/OpenBB — match: project_name, confidence: 0.6, hype_risk: medium
 - apache/echarts — match: project_name, confidence: 0.6, hype_risk: medium
 - microsoft/ai-agents-for-beginners — match: project_name, confidence: 0.6, hype_risk: medium
@@ -53,7 +56,7 @@ Notable coverage:
 - virattt/ai-hedge-fund — match: project_name, confidence: 0.6, hype_risk: medium
 - rails/rails — match: project_name, confidence: 0.6, hype_risk: medium
 - starship/starship — match: project_name, confidence: 0.6, hype_risk: medium
-- rclone/rclone — match: project_name, confidence: 0.6, hype_risk: medium
+- go-gitea/gitea — match: project_name, confidence: 0.6, hype_risk: medium
 - ChrisTitusTech/winutil — match: project_name, confidence: 0.6, hype_risk: medium
 - tw93/Mole — match: project_name, confidence: 0.6, hype_risk: medium
 - pro-tech-killers/binance-trading-bot — match: category, confidence: 0.4, hype_risk: low
@@ -99,7 +102,6 @@ Notable coverage:
 - meilisearch/meilisearch — match: category, confidence: 0.4, hype_risk: low
 - harry0703/MoneyPrinterTurbo — match: category, confidence: 0.4, hype_risk: low
 - mem0ai/mem0 — match: category, confidence: 0.4, hype_risk: low
-- go-gitea/gitea — match: category, confidence: 0.4, hype_risk: low
 - koala73/worldmonitor — match: category, confidence: 0.4, hype_risk: low
 - WerWolv/ImHex — match: category, confidence: 0.4, hype_risk: low
 - FlowiseAI/Flowise — match: category, confidence: 0.4, hype_risk: low
@@ -124,7 +126,6 @@ Include a "Press vs Reality" subsection in your analysis highlighting:
 #### 🔍 Tech Trends Without Dev Activity
 Topics heavily covered by TechCrunch with no matching GitHub repos:
 
-- **Climate**: [Global EV market goes K-shaped as the U.S. gets left behind](https://techcrunch.com/2026/05/20/global-ev-market-goes-k-shaped-as-the-u-s-gets-left-behind/)
 - **Fundraising**: [This startup raised $43M to build a hive mind for ships](https://techcrunch.com/2026/05/20/this-startup-raised-43m-to-build-a-hive-mind-for-ships/)
 
 #### 🚀 Dev Activity Without Press Coverage
@@ -135,7 +136,6 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **awesome**: Kalypsokichu-code/awesome-selfhosted-picks (⭐91), vinta/awesome-python (⭐298692), avelino/awesome-go (⭐173150)
 - **api**: public-apis/public-apis (⭐436119), neovim/neovim (⭐99772), fastapi/fastapi (⭐98372)
 - **cli**: ohmyzsh/ohmyzsh (⭐187146), yt-dlp/yt-dlp (⭐163356), jesseduffield/lazygit (⭐78204)
-- **compiler**: rust-lang/rust (⭐112946), FuelLabs/sway (⭐61689), typst/typst (⭐53651)
 - **framework**: laravel/laravel (⭐84299), spring-projects/spring-boot (⭐80679), nestjs/nest (⭐75564)
 - **agent**: agentic-in/elephant-agent (⭐361), Snailclimb/JavaGuide (⭐155789), TauricResearch/TradingAgents (⭐77702)
 - **claude-code**: WyattLee-nanami/weft (⭐132), aqua5230/usage (⭐72), gsd-build/get-shit-done (⭐63301)
@@ -143,9 +143,9 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **agent-skills**: shenli/distributed-system-testing (⭐68), anthropics/skills (⭐138163), ComposioHQ/awesome-claude-skills (⭐60875)
 - **algorithm**: TheAlgorithms/Python (⭐221256), trekhleb/javascript-algorithms (⭐195979), TheAlgorithms/Java (⭐65687)
 - **ai-agents**: affaan-m/ECC (⭐187633), browser-use/browser-use (⭐94833), Mintplex-Labs/anything-llm (⭐60368)
-- **javascript**: nodejs/node (⭐117312), microsoft/TypeScript (⭐108922), socketio/socket.io (⭐63093)
 - **angular**: angular/angular (⭐100129), ionic-team/ionic-framework (⭐52510), prettier/prettier (⭐51877)
 - **bash**: nvm-sh/nvm (⭐93460), junegunn/fzf (⭐80381), warpdotdev/warp (⭐59294)
+- **compiler**: FuelLabs/sway (⭐61689), typst/typst (⭐53651), JetBrains/kotlin (⭐52747)
 - **agent-skill**: DenisSergeevitch/agents-best-practices (⭐892), luoling8192/technical-writing (⭐175)
 - **early-access-subnautica-2**: Juwluuu/Subnautica-2-Release (⭐644), littlefrogyq/UE4SS-Subnautica-2 (⭐445)
 - **lua**: trong776/Roblox-Hub-2026 (⭐481), RastProxy88/Zephyr-Executor-Free-Roblox-Executor-PC-No-Key-Required-2026 (⭐479)
@@ -159,9 +159,11 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **blog**: vercel/next.js (⭐139552), gatsbyjs/gatsby (⭐55949)
 - **go**: golang/go (⭐133987), syncthing/syncthing (⭐84235)
 - **hacktoberfest**: axios/axios (⭐109074), pmndrs/zustand (⭐58081)
+- **javascript**: microsoft/TypeScript (⭐108922), socketio/socket.io (⭐63093)
 - **automation**: puppeteer/puppeteer (⭐94348), microsoft/playwright (⭐89089)
 - **docker**: louislam/uptime-kuma (⭐87023), Stirling-Tools/Stirling-PDF (⭐79020)
 - **ai4science**: PaddlePaddle/PaddleOCR (⭐78232), opendatalab/MinerU (⭐64181)
+- **astro**: unionlabs/union (⭐74064), withastro/astro (⭐59429)
 - **alerting**: grafana/grafana (⭐73892), prometheus/prometheus (⭐64103)
 - **programming language agents**: vercel-labs/zerolang (⭐3913)
 - **Agent Skill designing**: yetone/native-feel-skill (⭐1350)
@@ -244,14 +246,13 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **Anthropic《The Founder's Playbook:**: yangliu2060/founders-playbook-zh (⭐114)
 - **Free VLESS proxy**: nikvpn-iran/nikvpn-codespace (⭐113)
 - **tiny, append‑only time‑series**: aymanhs/nanotdb (⭐111)
-- **Educational materials Embedded**: ip-arch/NESLab (⭐108)
 - **Skills writing tilelang**: sablin39/tilelang-cuda-skills (⭐107)
 - **game-assets**: Nieobie/Game-Icon-Pack (⭐103)
 - **Material Expressive clock**: amrdoh/ClockMaster (⭐102)
 - **OpenCodex是一个轻量级Codex运行环境，可以让你的任意设备通过Web使用你的电脑上的Codex。/ OpenCodex lightweight**: RyensX/OpenCodex (⭐101)
-- **Discrete Word Visual**: ZiyuGuo99/ATLAS (⭐96)
 - **wrong comma dotfiles**: zostaffsmartx/Polymarket-BTC-Trading-Bot (⭐95)
 - **comfyui**: shootthesound/comfyui-mesh (⭐95)
+- **antivirus**: AdvDebug/Brovan (⭐92)
 - **guia honesto sobre**: julianommartins/tech-interview-handbook (⭐91)
 - **BaleTunnel network tunneling**: theermia/BaleTunnel (⭐88)
 - **auto-register**: huey1in/WindsurfX (⭐86)
@@ -333,6 +334,7 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **expose**: fatedier/frp (⭐106690)
 - **proxy**: 2dust/v2rayN (⭐106256)
 - **cmd**: microsoft/terminal (⭐103246)
+- **backup-tool**: immich-app/immich (⭐101166)
 - **chinese**: Anduin2017/HowToCook (⭐100210)
 - **autograd**: pytorch/pytorch (⭐100044)
 - **Garry Tan's exact**: garrytan/gstack (⭐99946)
@@ -370,7 +372,6 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **disassembler**: NationalSecurityAgency/ghidra (⭐68675)
 - **ansible**: ansible/ansible (⭐68614)
 - **app**: toeverything/AFFiNE (⭐68570)
-- **Everything required your**: base/node (⭐68556)
 - **open-source everyone uses**: paperclipai/paperclip (⭐66783)
 - **data-analysis**: scikit-learn/scikit-learn (⭐66126)
 - **amd**: webpack/webpack (⭐65767)
@@ -388,9 +389,9 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **diagram-editor**: jgraph/drawio-desktop (⭐61201)
 - **bitwarden**: dani-garcia/vaultwarden (⭐60792)
 - **jquery**: jquery/jquery (⭐59843)
-- **astro**: withastro/astro (⭐59429)
 - **ad-blocker**: pi-hole/pi-hole (⭐58854)
 - **authentication**: pocketbase/pocketbase (⭐58443)
+- **azure-blob**: rclone/rclone (⭐57283)
 - **blockchain**: FuelLabs/fuel-core (⭐57062)
 - **Declarative routing React**: remix-run/react-router (⭐56427)
 - **dark-mode**: marktext/marktext (⭐56259)
