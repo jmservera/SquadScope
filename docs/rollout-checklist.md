@@ -38,7 +38,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
   - [ ] Previous crawl completed
   - [ ] Verify: `data/analyzed/YYYY-WNN-summary.md` exists and contains valid Markdown + YAML
   - [ ] Check: YAML frontmatter includes `quality_score`, `title`, `date`, `categories`
-  - [ ] Check: File contains `## Trend Analysis` with `### Signal` and `### Noise`, plus `## What's Missing` with `### Gaps`
+  - [ ] Check: File contains `## This Week's Trends`, `## Where Industry Meets Code`, `## Signal & Noise`, `## Blind Spots`, `## The Week Ahead`, `## Key References`
 
 - [ ] **Quality gate passed**
   - [ ] Analysis quality_score ≥ 60 (check frontmatter)

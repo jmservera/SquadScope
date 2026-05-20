@@ -1,6 +1,7 @@
 import io
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 import scripts.generate_rollups as generate_rollups

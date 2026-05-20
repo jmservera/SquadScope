@@ -342,8 +342,8 @@ def yearly_entries(weekly: WeeklySummary, tags_counter: Counter[str]) -> dict[st
         "What Changed": RollupEntry(
             marker=marker,
             text=(
-                f"{marker}\n"
-                f"- Friction noted in {week_link}: {weekly.noise}"
+                f"{marker}"
+                + (f"\n- Friction noted in {week_link}: {weekly.noise}" if weekly.noise else "")
             ),
         ),
         "Predictions Review": RollupEntry(
