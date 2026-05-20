@@ -218,11 +218,28 @@ def load_summary(path: Path) -> WeeklySummary:
 
     date = analysis_gate.parse_datetime(frontmatter["date"])
     month = date.month
-    trend_analysis = get_section_text(body, "Trend Analysis")
-    signal = get_subsection_text(trend_analysis, "Signal")
-    noise = get_subsection_text(trend_analysis, "Noise")
-    gaps = get_subsection_text(get_section_text(body, "What's Missing"), "Gaps")
-    conclusion = normalize_text(get_section_text(body, "Conclusion"))
+
+    # New structure: try new heading names first, fall back to old for backward compat
+    signal_noise_section = get_section_text(body, "Signal & Noise")
+    if signal_noise_section:
+        signal = normalize_text(signal_noise_section)
+        noise = ""
+    else:
+        trend_analysis = get_section_text(body, "Trend Analysis")
+        signal = get_subsection_text(trend_analysis, "Signal")
+        noise = get_subsection_text(trend_analysis, "Noise")
+
+    blind_spots = get_section_text(body, "Blind Spots")
+    if blind_spots:
+        gaps = normalize_text(blind_spots)
+    else:
+        gaps = get_subsection_text(get_section_text(body, "What's Missing"), "Gaps")
+
+    week_ahead = get_section_text(body, "The Week Ahead")
+    if week_ahead:
+        conclusion = normalize_text(week_ahead)
+    else:
+        conclusion = normalize_text(get_section_text(body, "Conclusion"))
     top_repo = str(frontmatter["top_repo"])
 
     return WeeklySummary(
@@ -276,8 +293,8 @@ def monthly_entries(weekly: WeeklySummary, tags_counter: Counter[str]) -> dict[s
             marker=marker,
             text=(
                 f"{marker} — {page_link}\n"
-                f"- Signal: {weekly.signal}\n"
-                f"- Noise: {weekly.noise}"
+                f"- Signal: {weekly.signal}"
+                + (f"\n- Noise: {weekly.noise}" if weekly.noise else "")
             ),
         ),
         "Key Takeaways": RollupEntry(

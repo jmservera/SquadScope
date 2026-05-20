@@ -27,7 +27,7 @@ quality_score: 88
 summary: \"Agent tooling became more operational this week.\"
 ---
 
-## Notable New Repositories
+## This Week's Trends
 
 Body copy.
 """,
@@ -52,7 +52,7 @@ Body copy.
             self.assertIn('summary: "Agent tooling became more operational this week."', rendered)
             self.assertNotIn("quality_score", rendered)
             self.assertNotIn("year:", rendered)
-            self.assertIn("## Notable New Repositories", rendered)
+            self.assertIn("## This Week's Trends", rendered)
 
     def test_find_latest_summary_uses_week_not_mtime(self) -> None:
         tests_root = Path(__file__).resolve().parent

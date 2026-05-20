@@ -213,18 +213,19 @@ No extra frontmatter keys should be emitted unless a later decision extends this
 The body must follow this exact top-level section order:
 
 ```md
-## Notable New Repositories
+## This Week's Trends
 
-## Trending This Week
+## Where Industry Meets Code
 
-## Trend Analysis
-### Signal
-### Noise
+## Signal & Noise
 
-## What's Missing
-### Gaps
+## Blind Spots
 
-## Conclusion
+## The Week Ahead
+
+## Key References
+### Notable Projects
+### Press & Industry
 ```
 
 Every repository mentioned in the body must be rendered as a clickable markdown link in this exact format: `[owner/repo](https://github.com/owner/repo)`.
@@ -240,45 +241,50 @@ If an analysis ever includes an image, chart, or screenshot:
 
 ### Section guidance
 
-#### 1. Notable New Repositories
-- **Purpose:** Curate the week’s most credible new launches.
-- **Include:** 3-7 repos, grouped into a coherent story rather than a bullet dump.
+#### 1. This Week's Trends
+- **Purpose:** Name and explain the week's 3-5 macro trends — the big themes that cut across individual repos.
+- **Include:** A clear name for each trend, what is driving it, and its significance to practitioners. Reference specific repos as evidence.
 - **Repo links:** Every repo mention must use `[owner/repo](https://github.com/owner/repo)`.
-- **Tone:** Selective and judgmental.
-- **Length:** ~120-220 words.
-- **Avoid:** Exhaustive listings or copy/pasted repo descriptions.
+- **Tone:** Analytical and opinionated — write like a Gartner analyst, not a GitHub trending page.
+- **Length:** ~200-350 words.
+- **Avoid:** Listing repos without synthesis. Every repo reference must support a named trend.
 
-#### 2. Trending This Week
-- **Purpose:** Explain where attention moved.
-- **Include:** The most relevant momentum winners, plus a caveat if `stars_gained` is unavailable.
+#### 2. Where Industry Meets Code
+- **Purpose:** Compare press coverage against what developers are actually building.
+- **Include:** 2-4 correlations (where press and dev activity align) and 2-3 divergences (media-covered topics with no dev traction, and developer movements the press is ignoring). If no press data was available, state that explicitly.
 - **Repo links:** Every repo mention must use `[owner/repo](https://github.com/owner/repo)`.
-- **Tone:** Analytical, not celebratory.
-- **Length:** ~100-180 words.
-- **Avoid:** Treating raw popularity as momentum when deltas are missing.
+- **Tone:** Editorial and skeptical — the interesting story is usually in the gap.
+- **Length:** ~150-250 words.
+- **Avoid:** Summarizing press articles without connecting them to developer evidence.
 
-#### 3. Trend Analysis
-- **Purpose:** Explain the bigger technical story.
-- **Required subsections:**
-  - `### Signal` — what looks durable or strategically important.
-  - `### Noise` — what looks inflated, repetitive, or low-substance.
+#### 3. Signal & Noise
+- **Purpose:** Deliver integrated editorial judgment on what is real versus hype.
+- **Required:** Write as coherent prose — do **not** use `### Signal` and `### Noise` sub-headings. The distinction should emerge from the writing itself.
+- **Include:** Durable, technically credible patterns (signal) and inflated, copycat, or marketing-driven patterns (noise). Name specific repos and patterns in both categories.
 - **Repo links:** Every repo mention must use `[owner/repo](https://github.com/owner/repo)`.
-- **Length:** ~150-260 words total.
-- **Avoid:** Repeating section 1 and section 2 without synthesis.
+- **Length:** ~150-260 words.
+- **Avoid:** Repeating trend descriptions from section 1 without adding critical judgment.
 
-#### 4. What's Missing
-- **Purpose:** Surface absent or underweighted themes.
-- **Required subsection:** `### Gaps`.
-- **Include:** 2-4 concrete blind spots or underserved categories.
+#### 4. Blind Spots
+- **Purpose:** Surface what is absent from both press coverage and developer activity.
+- **Include:** 2-4 specific, concrete blind spots — name the missing category, why it matters, and what its absence signals.
 - **Repo links:** Every repo mention must use `[owner/repo](https://github.com/owner/repo)`.
 - **Length:** ~80-160 words.
-- **Avoid:** Generic filler like “more innovation is needed.”
+- **Avoid:** Generic filler like "more innovation is needed" or restating known gaps without editorial insight.
 
-#### 5. Conclusion
-- **Purpose:** End with a clear editorial takeaway.
-- **Include:** Why the week matters and what to watch next.
+#### 5. The Week Ahead
+- **Purpose:** End with a forward-looking editorial close.
+- **Include:** What trends are in motion that have not peaked yet? What should readers watch for next week? What does this week's activity suggest about where the ecosystem is heading?
 - **Repo links:** Every repo mention must use `[owner/repo](https://github.com/owner/repo)`.
 - **Length:** ~50-110 words.
-- **Avoid:** Introducing brand-new evidence.
+- **Avoid:** Introducing brand-new evidence or restating section 1.
+
+#### 6. Key References
+- **Purpose:** Give readers the 5-10 most important repos and 3-5 most relevant press items in one scannable place.
+- **Required subsections:** `### Notable Projects` and `### Press & Industry`.
+- **Notable Projects:** 5-10 repos with one sentence of context each — why it matters, not just what it is. Every repo must be a link.
+- **Press & Industry:** 3-5 articles or sources with markdown links. If no press data was available, write: "No press data was provided this week."
+- **Repo links:** Every repo mention must use `[owner/repo](https://github.com/owner/repo)`.
 
 ## Analysis Dimensions
 
@@ -306,7 +312,7 @@ Compare the current week to the prior week when a prior summary exists. Note con
 - Connects individual repos into ecosystem-level patterns.
 - Names uncertainty honestly when data quality is limited.
 - Uses evidence from the payload without sounding like the payload.
-- Makes the `What's Missing` section useful and specific.
+- Makes the `Blind Spots` section useful and specific.
 - Leaves Amy’s generator with all frontmatter needed for site publication.
 
 ### Bad analysis
@@ -323,8 +329,8 @@ A weekly analysis is publishable only if all of the following are true:
 
 - `quality_score >= 60`
 - all required frontmatter fields are present,
-- all five required H2 sections are present in order,
-- `Signal`, `Noise`, and `Gaps` subsections are present,
+- all six required H2 sections are present in order (`This Week's Trends`, `Where Industry Meets Code`, `Signal & Noise`, `Blind Spots`, `The Week Ahead`, `Key References`),
+- `### Notable Projects` and `### Press & Industry` subsections are present under `## Key References`,
 - body word count is at least 200,
 - the prose contains no raw JSON, tool logs, or placeholder text.
 
@@ -336,7 +342,7 @@ The generator may assume:
 - `summary` is safe to surface in list views,
 - `top_repo` is a deliberate editorial choice,
 - body headings are stable and machine-detectable,
-- the analyzed summary and published weekly page both use `## Trending This Week` as the stable H2 heading, with any stars-gained caveat expressed in the prose rather than the heading text.
+- body headings use the stable structure defined in this spec; the generator can extract any section by heading name.
 
 The analyzer may assume:
 

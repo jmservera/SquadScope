@@ -29,14 +29,14 @@ REQUIRED_FIELDS = [
     "summary",
 ]
 REQUIRED_HEADINGS = [
-    "## Notable New Repositories",
-    "## Trending This Week",
-    "## Trend Analysis",
-    "### Signal",
-    "### Noise",
-    "## What's Missing",
-    "### Gaps",
-    "## Conclusion",
+    "## This Week's Trends",
+    "## Where Industry Meets Code",
+    "## Signal & Noise",
+    "## Blind Spots",
+    "## The Week Ahead",
+    "## Key References",
+    "### Notable Projects",
+    "### Press & Industry",
 ]
 RAW_MARKERS = [
     "```json",

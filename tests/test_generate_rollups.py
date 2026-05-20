@@ -42,33 +42,35 @@ summary: "{summary}"
 stars_tracked: 1000
 ---
 
-## Notable New Repositories
+## This Week's Trends
 
-{notable_new}
+Trend analysis for {week}. Developer activity concentrated around practical tooling and infrastructure work.
 
-## Trending This Week
+## Where Industry Meets Code
 
-Momentum concentrated around practical tooling.
+No press data available for this automated test summary. Developer activity tells a coherent story on its own.
 
-## Trend Analysis
+## Signal & Noise
 
-### Signal
+{signal} {noise}
 
-{signal}
-
-### Noise
-
-{noise}
-
-## What's Missing
-
-### Gaps
+## Blind Spots
 
 {gaps}
 
-## Conclusion
+## The Week Ahead
 
 {conclusion}
+
+## Key References
+
+### Notable Projects
+
+{notable_new}
+
+### Press & Industry
+
+No press data was provided this week.
 '''
 
 
