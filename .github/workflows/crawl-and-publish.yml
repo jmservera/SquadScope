@@ -294,6 +294,10 @@ jobs:
           PROMPT_FILE=$(mktemp)
           python3 scripts/analyze_fallback.py --raw-json "$WEEK_FILE" --output "$OUTPUT_FILE" --current-datetime "$CURRENT_DATETIME" --print-prompt > "$PROMPT_FILE"
 
+          sanitize_agent_output() {
+            python3 scripts/sanitize_agent_output.py --path "$1"
+          }
+
           # Append press context to prompt if available
           if [ -f "$PRESS_FILE" ] && [ -s "$PRESS_FILE" ]; then
             printf '\n\n---\n## Press Context\n\n' >> "$PROMPT_FILE"
@@ -311,7 +315,7 @@ jobs:
             --allow-tool=glob \
             --allow-tool=grep \
             --share=data/metrics/copilot-transcript.md \
-            > "$OUTPUT_FILE"; then
+            > /dev/null; then
             ANALYSIS_SOURCE="copilot-cli"
             ANALYSIS_MODEL="copilot-default"
           elif python3 scripts/analyze_fallback.py \
@@ -333,6 +337,8 @@ jobs:
             ANALYSIS_SOURCE="no-ai"
             ANALYSIS_MODEL="none"
           fi
+
+          sanitize_agent_output "$OUTPUT_FILE"
 
           TRANSCRIPT_ARGS=""
           if [ -f "data/metrics/copilot-transcript.md" ]; then
@@ -737,6 +743,10 @@ jobs:
           RESKILL_PROMPT=$(mktemp)
           mkdir -p .squad/skills .squad/reskill data/metrics
 
+          sanitize_agent_output() {
+            python3 scripts/sanitize_agent_output.py --path "$1"
+          }
+
           # Primary path: Copilot CLI with agent identity
           RESKILL_SOURCE="copilot-cli"
           RESKILL_MODEL="copilot-default"
@@ -752,7 +762,7 @@ jobs:
             --allow-tool=write \
             --allow-tool=glob \
             --allow-tool=grep \
-            > "$RESKILL_OUTPUT"; then
+            > /dev/null; then
             echo "✅ Reskill via Copilot CLI with agent identity"
           # Fallback: GitHub Models API via reskill.py
           elif python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME" --output "$RESKILL_OUTPUT" --prompt-output "$RESKILL_PROMPT"; then
@@ -765,6 +775,10 @@ jobs:
             rm -f "$RESKILL_PROMPT"
             echo "Reskill failed on all paths; writing placeholder trigger log."
             echo "Reskill triggered at run #$COUNTER ($CURRENT_DATETIME)" >> .squad/reskill/trigger-log.txt
+          fi
+
+          if [ "$RESKILL_SOURCE" != "none" ]; then
+            sanitize_agent_output "$RESKILL_OUTPUT"
           fi
 
           if [ "$RESKILL_SOURCE" != "none" ]; then

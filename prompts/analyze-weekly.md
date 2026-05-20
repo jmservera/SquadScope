@@ -46,6 +46,8 @@ The analyze job must resolve both learned-state placeholders before invoking Cop
 
 Write the full contents of `{{OUTPUT_PATH}}` as markdown with YAML frontmatter. The file must conform to the Output Contract in `docs/analysis-spec.md` exactly.
 
+The output file is publication-ready content, not a chat transcript. Do not include status updates, self-evaluation, tool notes, agent identity markers, quality explanations, or any other meta-commentary before, after, or inside the article.
+
 ## Editorial stance
 
 Be critical, selective, and opinionated.
@@ -115,9 +117,10 @@ Be critical, selective, and opinionated.
     - `## The Week Ahead`: ~50-110 words. Forward-looking editorial close. What should readers watch for next week? What trends are in motion that haven't peaked yet? Where is the ecosystem heading based on this week's evidence?
     - `## Key References` with `### Notable Projects` (5-10 most important repos with 1-sentence context each) and `### Press & Industry` (3-5 most relevant articles or sources, or "No press data was provided this week." if absent).
 15. The body must be at least 200 words.
-16. Do not include raw JSON, notes to self, placeholders, or tool transcripts.
+16. Do not include raw JSON, notes to self, placeholders, tool transcripts, status summaries, self-referential text, or quality-score commentary outside the required frontmatter fields.
 17. Every repository reference in the body must be a clickable GitHub markdown link in this exact format: `[owner/repo](https://github.com/owner/repo)`.
 18. Output only the finished markdown file content.
+19. The first characters in the file must be the opening `---` of the YAML frontmatter, and the file must end after the final article line with no agent epilogue.
 
 ## Working method
 
