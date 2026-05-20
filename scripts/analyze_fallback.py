@@ -442,45 +442,39 @@ quality_score: 62
 summary: "Automated data-only summary for {week}. AI analysis was unavailable; this report presents raw crawl statistics and top repositories without editorial commentary."
 ---
 
-## Notable New Repositories
+## This Week's Trends
 
-This week the crawler captured {len(new_repos)} new repositories. The following are the highest-starred new entries, representing emerging projects and fresh launches that attracted early attention from the community.
+Without AI-powered analysis, this section reports observed patterns from crawl data rather than synthesized editorial trends. The top community topics this week are {topics_str}, and the dominant languages are {lang_summary}. These signals point to where developer attention is concentrated, though qualitative interpretation of which patterns are durable versus incidental requires a full AI-enabled analysis run.
 
-{notable_section}
+The crawler captured {repos_featured} repositories this week ({len(new_repos)} new, {len(trending_repos)} trending) with {total_stars:,} cumulative stars. The top repository by star count is [{top_repo}](https://github.com/{top_repo}). Raw patterns suggest continued investment in {lang_summary}, but without editorial judgment these should be treated as directional rather than conclusive.
 
-These repositories reflect the current interests of the developer community. The concentration of activity around {lang_summary} suggests continued investment in these technology areas. Without AI-powered analysis, editorial interpretation of these signals is deferred to the next available run.
-
-## Trending This Week
-
-The trending set includes {len(trending_repos)} repositories that were active during the crawl window. The following top entries by cumulative star count represent sustained community interest.
-
-{trending_section}
-
-The presence of established projects alongside newer entries indicates both sustained momentum in foundational tools and growing interest in emerging categories.
-
-## Industry & Press Correlation
+## Where Industry Meets Code
 
 {_render_press_section_no_ai(press_context_path)}
 
-## Trend Analysis
+## Signal & Noise
 
-### Signal
+The primary observable signal this week comes from language and topic distribution. The top languages are {lang_summary}. The top community topics are {topics_str}. These patterns indicate where developer attention is concentrating and what categories are gaining traction relative to prior weeks.
 
-The primary signal this week comes from language and topic distribution. The top languages are {lang_summary}. The top community topics are {topics_str}. These patterns indicate where developer attention is concentrating and what categories are gaining traction relative to prior weeks.
+Without AI-powered filtering, distinguishing signal from noise requires manual review. Some repositories in the crawl may represent low-quality forks, exploit tools, or promotional projects that inflate topic counts without contributing meaningful innovation. Future AI-enabled runs will provide better noise filtering and critical editorial judgment.
 
-### Noise
+## Blind Spots
 
-Without AI-powered filtering, distinguishing signal from noise requires manual review. Some repositories in the crawl may represent low-quality forks, exploit tools, or promotional projects that inflate topic counts without contributing meaningful innovation. Future AI-enabled runs will provide better noise filtering.
+This automated summary lacks the editorial judgment that AI analysis would normally provide. Specific blind spots in this report include: comparative trend analysis against prior weeks, qualitative assessment of repository significance, identification of emerging ecosystem patterns not visible from raw metrics, and filtering of low-signal entries that inflate topic counts. The raw data is preserved for future re-analysis when AI capabilities become available.
 
-## What's Missing
+## The Week Ahead
 
-### Gaps
+Week {week_num} of {year_str} captured {repos_featured} repositories with {total_stars:,} cumulative stars tracked. The top repository is [{top_repo}](https://github.com/{top_repo}). This summary was generated without AI assistance and presents factual crawl statistics only. A full analytical run should be attempted when AI model access is restored to provide trend synthesis and editorial judgment.
 
-This automated summary lacks editorial judgment that AI analysis would normally provide. Specific gaps include: comparative trend analysis against prior weeks, qualitative assessment of repository significance, identification of emerging ecosystem patterns, and filtering of low-signal entries. The raw data is preserved for future re-analysis when AI capabilities become available.
+## Key References
 
-## Conclusion
+### Notable Projects
 
-Week {week_num} of {year_str} captured {repos_featured} repositories with {total_stars:,} cumulative stars tracked. The top repository by star count is [{top_repo}](https://github.com/{top_repo}). This summary was generated without AI assistance and presents factual crawl statistics only. A full analytical run should be attempted when AI model access is restored.
+{notable_section}
+
+### Press & Industry
+
+{_render_press_section_no_ai(press_context_path) if press_context_path else "No press data was provided this week."}
 '''
     return markdown.strip() + "\n"
 

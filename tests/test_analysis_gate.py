@@ -7,73 +7,70 @@ RAW_PAYLOAD = {"week": "2026-W21"}
 CURRENT_DATETIME = "2026-05-18T00:00:00Z"
 
 
-def make_body(*, trending_heading: str = "## Trending This Week", include_todo_app: bool = False) -> str:
-    notable = " ".join(
+def make_body(*, alternate_heading: str = "## Where Industry Meets Code", include_todo_app: bool = False) -> str:
+    trends = " ".join(
         [
-            "This section evaluates durable launches, compares architecture choices, and explains why the strongest repositories matter for practitioners tracking real engineering movement."
+            "This section names the macro trends of the week, explaining what is driving each pattern and why it matters to practitioners tracking real engineering movement."
         ]
         * 4
     )
-    trending = " ".join(
+    industry = " ".join(
         [
-            "Attention moved toward practical tooling, but the narrative distinguishes genuine momentum from incumbents that simply remain popular because they already dominate conversation."
-        ]
-        * 4
-    )
-    signal = " ".join(
-        [
-            "The durable pattern is disciplined infrastructure work, careful developer experience improvements, and credible evidence that teams are solving recurring operational pain."
+            "Developer activity and press coverage aligned around practical tooling, but the narrative reveals where media attention diverged from what engineers are actually building."
         ]
         * 3
     )
-    noise = " ".join(
+    signal_noise = " ".join(
         [
-            "The weak pattern is wrapper churn, shallow agent branding, and launches that borrow attention without demonstrating technical substance or ecosystem fit."
+            "The durable pattern is disciplined infrastructure work and credible developer experience improvements. The weak pattern is wrapper churn, shallow agent branding, and launches that borrow attention without demonstrating technical substance or ecosystem fit."
         ]
         * 3
     )
-    gaps = " ".join(
+    blind_spots = " ".join(
         [
             "What is missing is more progress on observability, testing ergonomics, and dependable security tooling for smaller teams that still need production discipline."
         ]
         * 3
     )
-    conclusion = " ".join(
+    week_ahead = " ".join(
         [
             "The week matters because it shows teams rewarding grounded software that reduces toil, while hype-heavy experiments still struggle to prove lasting value."
         ]
         * 2
     )
     if include_todo_app:
-        conclusion += " Several repositories mention todo apps as legitimate examples rather than placeholder notes."
+        week_ahead += " Several repositories mention todo apps as legitimate examples rather than placeholder notes."
     return f"""
-## Notable New Repositories
+## This Week's Trends
 
-{notable}
+{trends}
 
-{trending_heading}
+{alternate_heading}
 
-{trending}
+{industry}
 
-## Trend Analysis
+## Signal & Noise
 
-### Signal
+{signal_noise}
 
-{signal}
+## Blind Spots
 
-### Noise
+{blind_spots}
 
-{noise}
+## The Week Ahead
 
-## What's Missing
+{week_ahead}
 
-### Gaps
+## Key References
 
-{gaps}
+### Notable Projects
 
-## Conclusion
+- [owner/repo-a](https://github.com/owner/repo-a) — anchors the automation trend with practical defaults.
+- [owner/repo-b](https://github.com/owner/repo-b) — observability tooling for smaller teams.
 
-{conclusion}
+### Press & Industry
+
+No press data was provided this week.
 """.strip()
 
 
@@ -138,7 +135,7 @@ summary: "A grounded week focused on practical tools."'''.strip()
 
     def test_validate_analysis_requires_real_heading_lines(self) -> None:
         body = make_body(
-            trending_heading="The prose references ## Trending This Week without creating a heading line.",
+            alternate_heading="The prose references ## Where Industry Meets Code without creating a heading line.",
         )
         errors, _ = analysis_gate.validate_analysis(
             make_analysis(VALID_FRONTMATTER, body),
@@ -146,7 +143,7 @@ summary: "A grounded week focused on practical tools."'''.strip()
             CURRENT_DATETIME,
         )
 
-        self.assertIn("Missing required section heading: ## Trending This Week", errors)
+        self.assertIn("Missing required section heading: ## Where Industry Meets Code", errors)
 
     def test_validate_analysis_allows_legitimate_todo_mentions(self) -> None:
         errors, _ = analysis_gate.validate_analysis(

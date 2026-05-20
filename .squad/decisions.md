@@ -915,3 +915,44 @@ The existing prompt templates (`prompts/analyze-weekly.md`, `prompts/reskill.md`
 - All meaningful changes require team consensus
 - Document architectural decisions here
 - Keep history focused on work, decisions focused on direction
+
+## Weekly Analysis Article Restructure
+
+**Date:** 2026-05-20T19:15:53.942+02:00  
+**Author:** Leela (Lead/Architect) — Proposed; Farnsworth (Analyst) — Implemented  
+**Status:** Implemented  
+**Requested by:** jmservera
+
+### Context
+
+The weekly analysis output was structured like a repo-listing document (Notable New Repositories, Trending This Week, etc.). User requested a restructure to read like a Gartner/McKinsey-style trend insight brief.
+
+### Decision
+
+Replace the six-section repo-listing structure with a six-section editorial structure:
+
+| Old Section | New Section |
+|---|---|
+| `## Notable New Repositories` | (moved to `### Notable Projects` under Key References) |
+| `## Trending This Week` | (rolled into `## This Week's Trends`) |
+| `## Industry & Press Correlation` | `## Where Industry Meets Code` |
+| `## Trend Analysis` / `### Signal` / `### Noise` | `## Signal & Noise` (integrated prose, no sub-headings) |
+| `## What's Missing` / `### Gaps` | `## Blind Spots` |
+| `## Conclusion` | `## The Week Ahead` |
+| _(new)_ | `## Key References` / `### Notable Projects` / `### Press & Industry` |
+
+### Rationale
+
+1. Lead with synthesis, not inventory.
+2. Comparative press analysis gets its own section.
+3. Signal & Noise integrated (no mandatory sub-headings).
+4. Key References at the end (scannable).
+5. Forward-looking close ("The Week Ahead").
+
+### Implementation
+
+**Files Changed:** `prompts/analyze-weekly.md`, `docs/analysis-spec.md`, `scripts/analysis_gate.py`, `scripts/analyze_fallback.py`, `scripts/generate_rollups.py`, 5 test files.
+
+**Backward Compatibility:** `generate_rollups.py` tries new heading names first and falls back to old names. All frontmatter fields, repo link format, quality_score gate, and body word count rules unchanged.
+
+**Outcome:** All 519 tests pass with new structure.

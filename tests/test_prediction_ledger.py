@@ -38,9 +38,9 @@ quality_score: 76
 summary: "Strong week for agent tooling."
 ---
 
-## Notable New Repositories
+## This Week's Trends
 
-[vercel-labs/zero](https://github.com/vercel-labs/zero) is the top new repo.
+[vercel-labs/zero](https://github.com/vercel-labs/zero) led this week as a standout new AI infrastructure repo.
 Also notable: [org/rising-repo](https://github.com/org/rising-repo) and
 [bigcorp/established](https://github.com/bigcorp/established).
 """
@@ -115,7 +115,7 @@ class TestParseSummary:
 
     def test_parses_body(self):
         result = parse_summary(SAMPLE_SUMMARY)
-        assert "Notable New Repositories" in result["body"]
+        assert "This Week's Trends" in result["body"]
 
     def test_handles_no_frontmatter(self):
         result = parse_summary("# Just a header\nSome content.")
