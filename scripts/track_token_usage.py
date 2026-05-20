@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_USAGE_FILE = ROOT / "data" / "metrics" / "token-usage.jsonl"
 CHARS_PER_TOKEN = 4
 MODEL_RATES = {
+    "copilot-default": {"input": 3.00, "output": 15.00},
     "claude-sonnet-4": {"input": 3.00, "output": 15.00},
     "openai/gpt-4.1": {"input": 2.00, "output": 8.00},
     "gpt-4.1": {"input": 2.00, "output": 8.00},

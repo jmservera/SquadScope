@@ -198,11 +198,14 @@ class WorkflowConfigTests(unittest.TestCase):
 
         reskill_step = next((s for s in reskill["steps"] if s.get("name") == "Run reskill"), None)
         self.assertIsNotNone(reskill_step)
+        self.assertEqual(workflow["env"]["GITHUB_MODELS_MODEL"], "${{ vars.GITHUB_MODELS_MODEL || 'openai/gpt-4o' }}")
         self.assertEqual(reskill_step["env"]["COPILOT_GITHUB_TOKEN"], "${{ secrets.COPILOT_GH_TOKEN }}")
         reskill_run = reskill_step["run"]
         self.assertIn("python3 scripts/reskill.py --current-datetime", reskill_run)
         self.assertIn("--prompt-output", reskill_run)
         self.assertIn("python3 scripts/track_token_usage.py", reskill_run)
+        self.assertIn('RESKILL_MODEL="copilot-default"', reskill_run)
+        self.assertNotIn("--model claude-sonnet-4", reskill_run)
         self.assertIn("mkdir -p .squad/skills .squad/reskill", reskill_run)
         self.assertIn("data/metrics", reskill_run)
         self.assertIn("trigger-log.txt", reskill_run)
@@ -214,6 +217,8 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIsNotNone(run_analysis_step)
         run_analysis = run_analysis_step["run"]
         self.assertIn("python3 scripts/track_token_usage.py", run_analysis)
+        self.assertIn('ANALYSIS_MODEL="copilot-default"', run_analysis)
+        self.assertNotIn("--model claude-sonnet-4", run_analysis)
         self.assertIn("mkdir -p data/metrics", run_analysis)
 
     def test_generate_workflow_runs_rollups_and_commits_all_content(self) -> None:

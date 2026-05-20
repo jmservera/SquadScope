@@ -17,6 +17,7 @@ from scripts.track_token_usage import (
 )
 
 DEFAULT_OUTPUT_TOKENS = 2000
+DEFAULT_MODEL = "copilot-default"
 HARD_CAP_USD = 1.00
 
 
@@ -33,8 +34,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument(
         "--model",
-        default="claude-sonnet-4",
-        help="Model name for cost rate lookup.",
+        default=DEFAULT_MODEL,
+        help="Model or rate profile name for cost lookup (default: copilot-default).",
     )
     parser.add_argument(
         "--output-tokens",
