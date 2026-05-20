@@ -1,124 +1,105 @@
 ## Press Context (TechCrunch, week of 2026-W21)
-11 articles published relevant to tech/open-source.
+10 articles published relevant to tech/open-source.
 
 Notable coverage:
+- [Airbnb gets into hotels, expands AI for host onboarding and customer support](https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/) [Apps, Airbnb, customer support, hotel bookings]
+- [OpenAI barrels towards IPO that may happen in September](https://techcrunch.com/2026/05/20/openai-barrels-towards-ipo-that-may-happen-in-september/) [AI, Startups, IPOs, OpenAI]
+- [AI search startups are blowing up](https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/) [AI, AI search, Exa Labs, In Brief, Parallel Web Systems]
+- [Stability AI releases a new audio model that can create 6-minute songs](https://techcrunch.com/2026/05/20/stability-ai-release-a-new-audio-model-that-can-create-six-minute-songs/) [AI, Media & Entertainment, audio creation, Music, Stability AI]
+- [NanoClaw creator turns down $20M buyout offer, raises $12M seed instead](https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/) [AI, Startups, AI agents, NanoClaw, openclaw, Valley Capital Partners]
+- [Startup Battlefield 200 applications close in 1 week: Window to nominate and apply for the most promising startups closes May 27](https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/) [AI, Biotech & Health, Climate, Fintech, Fundraising, Startups, TC, Venture]
+- [GitHub says hackers stole data from thousands of internal repositories](https://techcrunch.com/2026/05/20/github-says-hackers-stole-data-from-thousands-of-internal-repositories/) [Security, cyberattack, cybersecurity, data breach, GitHub, hackers, Microsoft]
+- [This startup raised $43M to build a hive mind for ships](https://techcrunch.com/2026/05/20/this-startup-raised-43m-to-build-a-hive-mind-for-ships/) [Fundraising, Startups, Transportation, Exclusive, first round captial, quartermaster]
 - [How to use Google’s new AI agents to go beyond your standard searches](https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/) [AI, AI agents, Google, google io 2026, Google Search]
 - [From teen hacker to Iron Dome researcher, this founder raised $28M to fight AI phishing](https://techcrunch.com/2026/05/19/from-teen-hacker-to-iron-dome-researcher-this-founder-raised-28m-to-fight-ai-phishing/) [AI, Security, Startups, Exclusive, lightspeed, phishing]
-- [Google’s Genie world model can now simulate real streets with Street View](https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/) [AI, Robotics, genie 3, Google, Google I/O, google io 2026, Google Maps, Street View]
-- [With Gemini 3.5 Flash, Google bets its next AI wave on agents, not chatbots](https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/) [AI, gemini, gemini flash 3.5, Google, google io 2026]
-- [Google Search as you know it is over](https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/) [AI, Apps, Google, Google Search, AI search, google io 2026]
-- [Google updates its Gemini app to take on ChatGPT and Claude](https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/) [AI, Apps, gemini, Google, Google I/O, google i/o 2026]
-- [Agentic app coding gets an upgrade with Google’s release of Android CLI](https://techcrunch.com/2026/05/19/agentic-app-coding-gets-an-upgrade-with-googles-release-of-android-cli/) [AI, Apps, Android, coding, Google, google io 2026, In Brief]
-- [Google’s new Universal Cart wants to follow you across the entire internet](https://techcrunch.com/2026/05/19/googles-new-universal-cart-wants-to-follow-you-across-the-entire-internet/) [AI, Apps, Commerce, Google, Google I/O, google io 2026]
-- [Google introduces Gemini Spark, a 24/7 agentic assistant with Gmail integration](https://techcrunch.com/2026/05/19/google-introduces-gemini-spark-a-24-7-agentic-assistant-with-gmail-integration/) [AI, agentic AI assistant, gemini, Gemini Spark, Google I/O, google io 2026]
-- [Google’s Gemini Omni turns images, audio, and text into video — and that’s just the start](https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/) [Media & Entertainment, AI, Google, Veo, google io 2026, google gemini omni, gemini omni flash]
-- [OpenAI is making it easier to check if an image was made by their models](https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/) [AI, c2pa, deepfake, Google, OpenAI, provenance, synthid]
 
 ### Correlation Summary
-108 repos have press correlation:
+90 repos have press correlation:
+- github/gitignore — match: org_name, confidence: 0.8, hype_risk: medium
+- github/spec-kit — match: org_name, confidence: 0.8, hype_risk: medium
 - openai/codex — match: org_name, confidence: 0.8, hype_risk: medium
 - google/material-design-icons — match: org_name, confidence: 0.8, hype_risk: medium
-- google/guava — match: org_name, confidence: 0.8, hype_risk: medium
-- v12-security/pocs — match: project_name, confidence: 0.6, hype_risk: medium
 - AbhishekK130804/Claude-Mythos-AI-Anthropic-App — match: project_name, confidence: 0.6, hype_risk: medium
-- mikesheehan54/Claude-Code-Design-AI — match: project_name, confidence: 0.6, hype_risk: medium
-- BharathKumarSuresh/claude-design-system-hooks — match: project_name, confidence: 0.6, hype_risk: medium
-- Amber82120/discord-webhook-orchestrator — match: project_name, confidence: 0.6, hype_risk: medium
 - trading-2028/polymarket-ai-trading — match: project_name, confidence: 0.6, hype_risk: medium
-- smithersai/claude-p — match: project_name, confidence: 0.6, hype_risk: medium
 - Dangerous-hole/Pumpfun_AI_Trading_Bot — match: project_name, confidence: 0.6, hype_risk: medium
-- LocoreMind/locoagent — match: project_name, confidence: 0.6, hype_risk: medium
-- python-telegramBot/ai-auto-trading — match: project_name, confidence: 0.6, hype_risk: medium
-- thinkpixelIab/polymarket-ai-trading — match: project_name, confidence: 0.6, hype_risk: medium
-- keerthanapranesh/Claude-Code-Swarm-Toolkit — match: project_name, confidence: 0.6, hype_risk: medium
-- skydoves/android-testing-skills — match: project_name, confidence: 0.6, hype_risk: medium
-- Samihan6/chatgpt-enhanced-experience-manager — match: project_name, confidence: 0.6, hype_risk: medium
-- yanilsa09cabrera-jpg/soundboard-studio-pro — match: project_name, confidence: 0.6, hype_risk: medium
-- ujan007/3dsmax-2027-studio-workflow — match: project_name, confidence: 0.6, hype_risk: medium
-- boubacarsidibe7644-del/google-drive-cortex — match: project_name, confidence: 0.6, hype_risk: medium
-- Siigari/claude-heartbeat — match: project_name, confidence: 0.6, hype_risk: medium
-- rockorager/comview — match: project_name, confidence: 0.6, hype_risk: medium
 - suyancc/openai-plus-vxt — match: project_name, confidence: 0.6, hype_risk: medium
-- ZJU-REAL/SDAR — match: project_name, confidence: 0.6, hype_risk: medium
+- deepakness/google-ai-search-optimization — match: project_name, confidence: 0.6, hype_risk: medium
+- AdvDebug/Brovan — match: project_name, confidence: 0.6, hype_risk: medium
+- akuma815/WindowsDelta — match: project_name, confidence: 0.6, hype_risk: medium
+- Pythonation/AI-Text-Humanizer-Protocol — match: project_name, confidence: 0.6, hype_risk: medium
+- wanshuiyin/ARIS-in-AI-Offer — match: project_name, confidence: 0.6, hype_risk: medium
+- Yuvan-x/Pneumonia-Detection-With-Explainable-AI — match: project_name, confidence: 0.6, hype_risk: medium
 - openclaw/openclaw — match: project_name, confidence: 0.6, hype_risk: medium
-- ultraworkers/claw-code — match: project_name, confidence: 0.6, hype_risk: medium
 - microsoft/vscode — match: project_name, confidence: 0.6, hype_risk: medium
-- Significant-Gravitas/AutoGPT — match: project_name, confidence: 0.6, hype_risk: medium
-- x1xhlol/system-prompts-and-models-of-ai-tools — match: project_name, confidence: 0.6, hype_risk: medium
 - open-webui/open-webui — match: project_name, confidence: 0.6, hype_risk: medium
-- anthropics/claude-code — match: project_name, confidence: 0.6, hype_risk: medium
-- electron/electron — match: project_name, confidence: 0.6, hype_risk: medium
+- x1xhlol/system-prompts-and-models-of-ai-tools — match: project_name, confidence: 0.6, hype_risk: medium
 - microsoft/generative-ai-for-beginners — match: project_name, confidence: 0.6, hype_risk: medium
 - google-gemini/gemini-cli — match: project_name, confidence: 0.6, hype_risk: medium
 - immich-app/immich — match: project_name, confidence: 0.6, hype_risk: medium
 - opencv/opencv — match: project_name, confidence: 0.6, hype_risk: medium
 - macrozheng/mall — match: project_name, confidence: 0.6, hype_risk: medium
-- vitejs/vite — match: project_name, confidence: 0.6, hype_risk: medium
-- thedotmack/claude-mem — match: project_name, confidence: 0.6, hype_risk: medium
-- elastic/elasticsearch — match: project_name, confidence: 0.6, hype_risk: medium
 - OpenHands/OpenHands — match: project_name, confidence: 0.6, hype_risk: medium
 - unionlabs/union — match: project_name, confidence: 0.6, hype_risk: medium
-- obsproject/obs-studio — match: project_name, confidence: 0.6, hype_risk: medium
+- strapi/strapi — match: project_name, confidence: 0.6, hype_risk: medium
+- moby/moby — match: project_name, confidence: 0.6, hype_risk: medium
 - pallets/flask — match: project_name, confidence: 0.6, hype_risk: medium
 - OpenBB-finance/OpenBB — match: project_name, confidence: 0.6, hype_risk: medium
 - apache/echarts — match: project_name, confidence: 0.6, hype_risk: medium
 - microsoft/ai-agents-for-beginners — match: project_name, confidence: 0.6, hype_risk: medium
-- JuliusBrussee/caveman — match: project_name, confidence: 0.6, hype_risk: medium
-- cline/cline — match: project_name, confidence: 0.6, hype_risk: medium
+- git/git — match: project_name, confidence: 0.6, hype_risk: medium
 - commaai/openpilot — match: project_name, confidence: 0.6, hype_risk: medium
-- ComposioHQ/awesome-claude-skills — match: project_name, confidence: 0.6, hype_risk: medium
-- ruvnet/RuView — match: project_name, confidence: 0.6, hype_risk: medium
-- docling-project/docling — match: project_name, confidence: 0.6, hype_risk: medium
+- nuxt/nuxt — match: project_name, confidence: 0.6, hype_risk: medium
+- usememos/memos — match: project_name, confidence: 0.6, hype_risk: medium
 - virattt/ai-hedge-fund — match: project_name, confidence: 0.6, hype_risk: medium
 - rails/rails — match: project_name, confidence: 0.6, hype_risk: medium
-- meilisearch/meilisearch — match: project_name, confidence: 0.6, hype_risk: medium
+- starship/starship — match: project_name, confidence: 0.6, hype_risk: medium
 - rclone/rclone — match: project_name, confidence: 0.6, hype_risk: medium
-- go-gitea/gitea — match: project_name, confidence: 0.6, hype_risk: medium
-- coollabsio/coolify — match: project_name, confidence: 0.6, hype_risk: medium
+- ChrisTitusTech/winutil — match: project_name, confidence: 0.6, hype_risk: medium
 - tw93/Mole — match: project_name, confidence: 0.6, hype_risk: medium
-- NguyenVietHoang1804/Aegis-Hardware-Anonymizer — match: category, confidence: 0.4, hype_risk: low
-- Evokoa/pgGraph — match: category, confidence: 0.4, hype_risk: low
+- pro-tech-killers/binance-trading-bot — match: category, confidence: 0.4, hype_risk: low
+- pro-tech-killers/coinbase-trading-bot — match: category, confidence: 0.4, hype_risk: low
 - LiuMengxuan04/shushu-internship-tool — match: category, confidence: 0.4, hype_risk: low
 - agent-quality-controls/slopless — match: category, confidence: 0.4, hype_risk: low
 - alchaincyf/codex-orange-book — match: category, confidence: 0.4, hype_risk: low
-- ipinputra/GPT-Image-2-Unlocked-API-Toolkit — match: category, confidence: 0.4, hype_risk: low
-- angelosdimakos1/faceit-match-tracker — match: category, confidence: 0.4, hype_risk: low
-- verticalinfinityin/Anonyma-MAC-Spoof-Engine — match: category, confidence: 0.4, hype_risk: low
-- Xian395/Hardware-Identity-Morph — match: category, confidence: 0.4, hype_risk: low
 - basionwang-bot/HermesPet — match: category, confidence: 0.4, hype_risk: low
-- gonemedia/aipointer — match: category, confidence: 0.4, hype_risk: low
+- NeuralInverse/neuralinverse — match: category, confidence: 0.4, hype_risk: low
+- gazelleandrewrasmussenmouj2/Windows-Activator — match: category, confidence: 0.4, hype_risk: low
+- JSingletonAI/dejavu — match: category, confidence: 0.4, hype_risk: low
+- nodiuus/nocturne — match: category, confidence: 0.4, hype_risk: low
+- Ayyouboss0011/SherlockMaps — match: category, confidence: 0.4, hype_risk: low
+- not-manu/filemention.nvim — match: category, confidence: 0.4, hype_risk: low
+- awesome-selfhosted/awesome-selfhosted — match: category, confidence: 0.4, hype_risk: low
 - n8n-io/n8n — match: category, confidence: 0.4, hype_risk: low
-- flutter/flutter — match: category, confidence: 0.4, hype_risk: low
+- Significant-Gravitas/AutoGPT — match: category, confidence: 0.4, hype_risk: low
 - f/prompts.chat — match: category, confidence: 0.4, hype_risk: low
 - NousResearch/hermes-agent — match: category, confidence: 0.4, hype_risk: low
-- Genymobile/scrcpy — match: category, confidence: 0.4, hype_risk: low
 - langgenius/dify — match: category, confidence: 0.4, hype_risk: low
 - langchain-ai/langchain — match: category, confidence: 0.4, hype_risk: low
-- facebook/react-native — match: category, confidence: 0.4, hype_risk: low
 - firecrawl/firecrawl — match: category, confidence: 0.4, hype_risk: low
-- rustdesk/rustdesk — match: category, confidence: 0.4, hype_risk: low
 - Comfy-Org/ComfyUI — match: category, confidence: 0.4, hype_risk: low
 - jaywcjlove/awesome-mac — match: category, confidence: 0.4, hype_risk: low
-- github/spec-kit — match: category, confidence: 0.4, hype_risk: low
 - hacksider/Deep-Live-Cam — match: category, confidence: 0.4, hype_risk: low
-- ChatGPTNextWeb/NextChat — match: category, confidence: 0.4, hype_risk: low
 - sherlock-project/sherlock — match: category, confidence: 0.4, hype_risk: low
+- VoltAgent/awesome-design-md — match: category, confidence: 0.4, hype_risk: low
 - infiniflow/ragflow — match: category, confidence: 0.4, hype_risk: low
 - vllm-project/vllm — match: category, confidence: 0.4, hype_risk: low
 - netdata/netdata — match: category, confidence: 0.4, hype_risk: low
 - lobehub/lobehub — match: category, confidence: 0.4, hype_risk: low
+- thedotmack/claude-mem — match: category, confidence: 0.4, hype_risk: low
+- farion1231/cc-switch — match: category, confidence: 0.4, hype_risk: low
 - caddyserver/caddy — match: category, confidence: 0.4, hype_risk: low
 - daytonaio/daytona — match: category, confidence: 0.4, hype_risk: low
 - hiyouga/LlamaFactory — match: category, confidence: 0.4, hype_risk: low
 - bytedance/deer-flow — match: category, confidence: 0.4, hype_risk: low
 - xtekky/gpt4free — match: category, confidence: 0.4, hype_risk: low
 - unslothai/unsloth — match: category, confidence: 0.4, hype_risk: low
+- JuliusBrussee/caveman — match: category, confidence: 0.4, hype_risk: low
+- docling-project/docling — match: category, confidence: 0.4, hype_risk: low
 - code-yeongyu/oh-my-openagent — match: category, confidence: 0.4, hype_risk: low
+- meilisearch/meilisearch — match: category, confidence: 0.4, hype_risk: low
 - harry0703/MoneyPrinterTurbo — match: category, confidence: 0.4, hype_risk: low
-- 2dust/v2rayNG — match: category, confidence: 0.4, hype_risk: low
 - mem0ai/mem0 — match: category, confidence: 0.4, hype_risk: low
-- appwrite/appwrite — match: category, confidence: 0.4, hype_risk: low
-- laurent22/joplin — match: category, confidence: 0.4, hype_risk: low
+- go-gitea/gitea — match: category, confidence: 0.4, hype_risk: low
 - koala73/worldmonitor — match: category, confidence: 0.4, hype_risk: low
 - WerWolv/ImHex — match: category, confidence: 0.4, hype_risk: low
 - FlowiseAI/Flowise — match: category, confidence: 0.4, hype_risk: low
@@ -140,295 +121,289 @@ Include a "Press vs Reality" subsection in your analysis highlighting:
 
 ### Divergence Analysis
 
+#### 🔍 Tech Trends Without Dev Activity
+Topics heavily covered by TechCrunch with no matching GitHub repos:
+
+- **Climate**: [Global EV market goes K-shaped as the U.S. gets left behind](https://techcrunch.com/2026/05/20/global-ev-market-goes-k-shaped-as-the-u-s-gets-left-behind/)
+- **Fundraising**: [This startup raised $43M to build a hive mind for ships](https://techcrunch.com/2026/05/20/this-startup-raised-43m-to-build-a-hive-mind-for-ships/)
+
 #### 🚀 Dev Activity Without Press Coverage
 GitHub repos/trends with no matching TechCrunch coverage:
 
-- **bot**: openclaw/clawpatch (⭐567), Signal-Probability-Engine/weather-prediction (⭐220), nanasalgadas1000-cell/seraph-nuke-inferno (⭐185)
-- **api**: public-apis/public-apis (⭐435866), neovim/neovim (⭐99750), fastapi/fastapi (⭐98347)
-- **awesome**: vinta/awesome-python (⭐298519), awesome-selfhosted/awesome-selfhosted (⭐293786), avelino/awesome-go (⭐173071)
-- **cli**: ohmyzsh/ohmyzsh (⭐187134), yt-dlp/yt-dlp (⭐163159), jesseduffield/lazygit (⭐78142)
-- **arbitrage-bot**: arbitrageBot-group/Polymarket-trading-bot (⭐302), POLYMARKET-SPORTS/Polymarket-trading-bot (⭐172), Quant-Logic-Forge/polymarket-trading-bot (⭐155)
-- **compiler**: rust-lang/rust (⭐112914), FuelLabs/sway (⭐61697), typst/typst (⭐53630)
-- **bash**: nvm-sh/nvm (⭐93435), junegunn/fzf (⭐80355), warpdotdev/warp (⭐59118)
-- **framework**: laravel/laravel (⭐84296), spring-projects/spring-boot (⭐80674), nestjs/nest (⭐75551)
-- **1-12-2-mod**: cdanielc293/Jenny-Mod-All-Versions (⭐627), magnusenterprises/Jade-Jenny-Nexus-2026 (⭐420), Harshit-pruthi/sklauncher-minecraft (⭐418)
-- **early-access-subnautica-2**: Juwluuu/Subnautica-2-Release (⭐626), SendoPnM/Subnautica-2-Nitrox-PS5-Port (⭐420), shrutikumari788/nitrox-sync-players (⭐184)
-- **agent**: agentic-in/elephant-agent (⭐335), Snailclimb/JavaGuide (⭐155769), TauricResearch/TradingAgents (⭐77272)
-- **ai-agents**: affaan-m/ECC (⭐187066), browser-use/browser-use (⭐94642), Mintplex-Labs/anything-llm (⭐60297)
-- **angular**: angular/angular (⭐100120), ionic-team/ionic-framework (⭐52507), prettier/prettier (⭐51877)
-- **docker**: louislam/uptime-kuma (⭐86988), Stirling-Tools/Stirling-PDF (⭐78959), usememos/memos (⭐59782)
-- **agent-skill**: DenisSergeevitch/agents-best-practices (⭐838), luoling8192/technical-writing (⭐170)
-- **bloxstrap**: DARKHOLEUM/VoidStrap-For-Roblox (⭐620), OdgerSan/VoidStrap-Edge-Optimizer (⭐420)
-- **blooket**: PrimeKeeper58/blooket-hacks (⭐565), MarineroSolo/blooket-enhanced-toolkit (⭐186)
-- **download-yuzu**: pedrodg28/yuzu-emu (⭐560), Kkkkkkao/Yuzu-Ryujinx-Emulation-Framework (⭐185)
-- **lua**: trong776/Roblox-Hub-2026 (⭐482), RastProxy88/Zephyr-Executor-Free-Roblox-Executor-PC-No-Key-Required-2026 (⭐480)
-- **cpp**: trong776/gta-5-mod-menu (⭐458), codeokens/windark-injection-framework (⭐184)
-- **awesome-bongo-cat**: lucasfrre/BongoCat-Desktop (⭐448), rishabhyadavvvvv/BongoCat-Desktop-Pet-Overlay (⭐185)
-- **action-adventure**: Justarandomguy2389417293/LEGO-Batman-Action-Adventure-Texure-Utility (⭐420), FACTURACION2025/Wild-West-Steam-Deck-Optimized (⭐184)
-- **ai-trading**: dex-original/okx-agent-trade-kit (⭐297), PlaceNL2026/okx-agent-trade-kit (⭐138)
-- **algorithmic-trading**: pro-tech-killers/binance-trading-bot (⭐296), PlaceNL2026/best-of-algorithmic-trading (⭐255)
-- **island-life**: SzeDaSa/Tomodachi-Share-Mii (⭐281), aryapoetraramadhani/Mii-Island-Dreamscape-PC (⭐185)
-- **arbitrage**: POLYMARKET-TRADER-LAB/Polymarket-trading-bot (⭐263), DEV-OCR/polymarket-arbitrage-trading-bot (⭐263)
-- **agentic-ai**: keshavthevar/DeepSeek-V4-Agent-Toolkit (⭐185), ruvnet/ruflo (⭐53103)
-- **excel-automation**: NazmulHudha/office-automation-toolkit (⭐185), Alexandru4123/office-2026-pro-suite-tools (⭐184)
-- **youtube-adblocker**: Ravico50/youtube-prism-enhancer (⭐184), SHARATH13VS/youtube-viewer-optimus (⭐184)
-- **algorithm**: TheAlgorithms/Python (⭐221195), TheAlgorithms/Java (⭐65683)
-- **audio**: huggingface/transformers (⭐160778), FFmpeg/FFmpeg (⭐60278)
-- **blog**: vercel/next.js (⭐139535), gatsbyjs/gatsby (⭐55950)
-- **go**: golang/go (⭐133974), syncthing/syncthing (⭐84191)
-- **astro**: Chalarangelo/30-seconds-of-code (⭐127861), withastro/astro (⭐59411)
-- **awesome-list**: ripienaar/free-for-dev (⭐122471), VoltAgent/awesome-design-md (⭐81262)
-- **cncf**: kubernetes/kubernetes (⭐122352), etcd-io/etcd (⭐51706)
-- **hacktoberfest**: axios/axios (⭐109074), pmndrs/zustand (⭐58062)
-- **automation**: puppeteer/puppeteer (⭐94342), microsoft/playwright (⭐89012)
-- **ai4science**: PaddlePaddle/PaddleOCR (⭐78146), opendatalab/MinerU (⭐63815)
-- **alerting**: grafana/grafana (⭐73871), prometheus/prometheus (⭐64090)
-- **programming language agents**: vercel-labs/zero (⭐2796)
-- **Agent Skill designing**: yetone/native-feel-skill (⭐1335)
-- **[CVPR 2026 Oral]**: facebookresearch/vggt-omega (⭐1173)
-- **Codex skill safe**: Kappaemme-git/codex-complexity-optimizer (⭐780)
-- **coding agent optimized**: Doorman11991/smallcode (⭐659)
-- **canvas2d**: boona13/mykonos-island-voxels (⭐655)
-- **Steal host private**: 0xdeadbeefnetwork/ssh-keysign-pwn (⭐613)
-- **adopt-me-dupe-2026**: snoozinjs/Delta-exec (⭐605)
-- **auto-clicker**: jiaoyanming0-bot/OPAutoClicker (⭐580)
-- **prodigy**: EnsignKazekage/Prodigy-Hacks (⭐567)
-- **dll-hooking**: CometBisonCrack/LockDown-Browser-Bypass-Tool (⭐557)
-- **CVE-2020-17103 apparently patched**: Nightmare-Eclipse/MiniPlasma (⭐555)
-- **Automated data broker**: stephenlthorn/auto-identity-remove (⭐541)
-- **anydesk-integration**: tritano/ultraviewer (⭐536)
-- **epic-games**: arnabchoudhury404/hydra-launcher (⭐503)
-- **anti-bot**: feder-cr/invisible_playwright (⭐502)
-- **ai-image-generator**: BasZ4ll/Stable-Diffusion-WebUI (⭐502)
-- **emulator**: Flizorules05/ROM-MGBA-Pokemon-Emulator-PC (⭐498)
-- **aimlock**: Sunislazi/rbxfpsunlocker-boost-More-240FPS (⭐497)
+- **bot**: openclaw/clawpatch (⭐594), Signal-Probability-Engine/polymarket-weather-trading-bot (⭐220), Siva-Chidambaram12/kalshi-trading-bot (⭐156)
+- **android**: flutter/flutter (⭐176401), Genymobile/scrcpy (⭐142069), facebook/react-native (⭐125860)
+- **awesome**: Kalypsokichu-code/awesome-selfhosted-picks (⭐91), vinta/awesome-python (⭐298692), avelino/awesome-go (⭐173150)
+- **api**: public-apis/public-apis (⭐436119), neovim/neovim (⭐99772), fastapi/fastapi (⭐98372)
+- **cli**: ohmyzsh/ohmyzsh (⭐187146), yt-dlp/yt-dlp (⭐163356), jesseduffield/lazygit (⭐78204)
+- **compiler**: rust-lang/rust (⭐112946), FuelLabs/sway (⭐61689), typst/typst (⭐53651)
+- **framework**: laravel/laravel (⭐84299), spring-projects/spring-boot (⭐80679), nestjs/nest (⭐75564)
+- **agent**: agentic-in/elephant-agent (⭐361), Snailclimb/JavaGuide (⭐155789), TauricResearch/TradingAgents (⭐77702)
+- **claude-code**: WyattLee-nanami/weft (⭐132), aqua5230/usage (⭐72), gsd-build/get-shit-done (⭐63301)
+- **agentic-ai**: ZJU-REAL/SDAR (⭐111), ruvnet/RuView (⭐61633), ruvnet/ruflo (⭐53514)
+- **agent-skills**: shenli/distributed-system-testing (⭐68), anthropics/skills (⭐138163), ComposioHQ/awesome-claude-skills (⭐60875)
+- **algorithm**: TheAlgorithms/Python (⭐221256), trekhleb/javascript-algorithms (⭐195979), TheAlgorithms/Java (⭐65687)
+- **ai-agents**: affaan-m/ECC (⭐187633), browser-use/browser-use (⭐94833), Mintplex-Labs/anything-llm (⭐60368)
+- **javascript**: nodejs/node (⭐117312), microsoft/TypeScript (⭐108922), socketio/socket.io (⭐63093)
+- **angular**: angular/angular (⭐100129), ionic-team/ionic-framework (⭐52510), prettier/prettier (⭐51877)
+- **bash**: nvm-sh/nvm (⭐93460), junegunn/fzf (⭐80381), warpdotdev/warp (⭐59294)
+- **agent-skill**: DenisSergeevitch/agents-best-practices (⭐892), luoling8192/technical-writing (⭐175)
+- **early-access-subnautica-2**: Juwluuu/Subnautica-2-Release (⭐644), littlefrogyq/UE4SS-Subnautica-2 (⭐445)
+- **lua**: trong776/Roblox-Hub-2026 (⭐481), RastProxy88/Zephyr-Executor-Free-Roblox-Executor-PC-No-Key-Required-2026 (⭐479)
+- **cpp**: trong776/gta-5-mod-menu (⭐458), MediatorSpeak/Valorant-External-Framework (⭐85)
+- **1-12-2-mod**: Harshit-pruthi/sklauncher-minecraft (⭐418), undfndV/PrismLauncherCracked (⭐55)
+- **arbitrage**: POLYMARKET-TRADER-LAB/Polymarket-trading-bot (⭐278), DEV-OCR/polymarket-arbitrage-trading-bot (⭐278)
+- **arbitrage-bot**: money-takers/polymarket-arbitrage-trading-bot (⭐178), POLYMARKET-SPORTS/Polymarket-trading-bot (⭐174)
+- **terminal**: qewer33/ratscad (⭐95), radleylewis/zsh (⭐73)
+- **3d**: Saganaki22/Pixal3D-ComfyUI (⭐75), mrdoob/three.js (⭐112582)
+- **audio**: huggingface/transformers (⭐160810), FFmpeg/FFmpeg (⭐60324)
+- **blog**: vercel/next.js (⭐139552), gatsbyjs/gatsby (⭐55949)
+- **go**: golang/go (⭐133987), syncthing/syncthing (⭐84235)
+- **hacktoberfest**: axios/axios (⭐109074), pmndrs/zustand (⭐58081)
+- **automation**: puppeteer/puppeteer (⭐94348), microsoft/playwright (⭐89089)
+- **docker**: louislam/uptime-kuma (⭐87023), Stirling-Tools/Stirling-PDF (⭐79020)
+- **ai4science**: PaddlePaddle/PaddleOCR (⭐78232), opendatalab/MinerU (⭐64181)
+- **alerting**: grafana/grafana (⭐73892), prometheus/prometheus (⭐64103)
+- **programming language agents**: vercel-labs/zerolang (⭐3913)
+- **Agent Skill designing**: yetone/native-feel-skill (⭐1350)
+- **[CVPR 2026 Oral]**: facebookresearch/vggt-omega (⭐1334)
+- **coding agent optimized**: Doorman11991/smallcode (⭐803)
+- **Codex skill safe**: Kappaemme-git/codex-complexity-optimizer (⭐799)
+- **canvas2d**: boona13/mykonos-island-voxels (⭐675)
+- **CVE-2020-17103 apparently patched**: Nightmare-Eclipse/MiniPlasma (⭐647)
+- **bloxstrap**: DARKHOLEUM/VoidStrap-For-Roblox (⭐639)
+- **Steal host private**: 0xdeadbeefnetwork/ssh-keysign-pwn (⭐636)
+- **emulator**: Flizorules05/ROM-MGBA-Pokemon-Emulator-PC (⭐585)
+- **epic-games**: arnabchoudhury404/hydra-launcher (⭐585)
+- **ai-image-generator**: BasZ4ll/Stable-Diffusion-WebUI (⭐583)
+- **auto-clicker**: jiaoyanming0-bot/OPAutoClicker (⭐582)
+- **aimlock**: Sunislazi/rbxfpsunlocker-boost-More-240FPS (⭐579)
+- **Automated data broker**: stephenlthorn/auto-identity-remove (⭐565)
+- **anydesk-integration**: tritano/ultraviewer (⭐555)
+- **adaptive-triggers-pc**: ZoyaMalhotra/DualSenseX-DSX-Steam-Edition (⭐542)
+- **hierarchical-reasoning-model**: sapientinc/HRM-Text (⭐542)
+- **lua-steam-tools**: haiddrrs/Steam-Tools (⭐532)
 - **thinshell**: cat9999aaa/thinshell (⭐485)
-- **Dominate servers with**: S4rdenz/gta-5-mod-menu (⭐477)
-- **crimson-desert-lsfg**: thongthaibm/Lossless-Scaling-LSFG (⭐473)
+- **Dominate servers with**: S4rdenz/gta-5-mod-menu (⭐476)
+- **hyperliquid-whale-alert**: Glazenovatag/hyperliquid-whale-order-tracking (⭐470)
+- **image-editing**: bytedance/Lance (⭐468)
 - **bypassing**: Alkih/Nightlight-Game-Launcher (⭐447)
-- **gameenhancement**: SubamanojJ-2004/gta-5-mod-menu (⭐446)
-- **adaptive-triggers-pc**: ZoyaMalhotra/DualSenseX-DSX-Steam-Edition (⭐430)
-- **lua-steam-tools**: haiddrrs/Steam-Tools (⭐430)
-- **agent-framework**: 2508965-ship-it/harmonist-orchestral (⭐422)
-- **c-sharp**: AriefCahyaSubagja/Subnautica-CSharp-Toolkit (⭐421)
-- **simple-yt-downloader**: 25ds1000041-ship-it/yt-to-raw-audio (⭐421)
-- **dlc-unlocker**: joyber/steam-dlc-architect-edition (⭐421)
-- **invincible**: alexaloneboy1-droid/Invincible-VS-Showdown-Desktop (⭐420)
-- **automation-tool**: DaGortx/Neural-WA-Broadcaster (⭐420)
-- **afkfarming**: NirmalKumar-77/R6S-Rainmaker-2027 (⭐420)
-- **game-spoofing**: b23ee1027/hardware-masquerade-kit (⭐420)
-- **3d-factory**: Pierre021/Shapez-2-Orchestrator-Overhaul (⭐420)
-- **java**: mk7024490-glitch/aura-edge-optimizer (⭐420)
+- **gameenhancement**: SubamanojJ-2004/gta-5-mod-menu (⭐445)
+- **anti-detect**: SalhaNabil/CloakBrowser (⭐435)
+- **free-idm**: mcjavarp/Manager2026 (⭐432)
 - **community-project**: pamireddyb230690ar-hue/StarCitizen-Community-Localization-Toolkit (⭐420)
 - **acrobat**: kshreya1323/Acrobat-Esprit-Edition (⭐420)
-- **minecraft**: SoriaNicolas94/Auroral-MC-Mod (⭐420)
-- **arc-booster**: cyldz666/Arc-Raiders-Latency-Redux-Kit (⭐420)
-- **delta-new**: habbouchzineb/delta-vault-toolkit (⭐420)
-- **activision**: MardaRizkyPurwadi/Warzone-2026-Scan-Framework (⭐420)
-- **canva**: Scratch-191/Canva-Pro-Toolkit (⭐420)
-- **1hack**: shimuljr54/Vortex-Configurator-2026 (⭐420)
-- **blox-fruits-script-auto-farm-no-key**: JAGATHEESHVAR/blox-fruits-autofarm-evo-2026 (⭐420)
-- **benchmark-tool**: San-0/Steam-Frame-Forecaster (⭐420)
-- **forza**: dannyhsueh2/Forza-Horizon-6-Premium (⭐396)
-- **bitlocker**: zhilin1112/YellowKey-Bitlocker (⭐395)
-- **A股多Agent投研框架 适配A股数据源(龙虎榜/游资/解禁等)，7位分析师基于A股规则的辩论决策，基于TradingAgents深度改造，适配大A。A-share multi-agent**: simonlin1212/TradingAgents-astock (⭐394)
-- **free-idm**: mcjavarp/Manager2026 (⭐394)
-- **fast local diff**: nkzw-tech/codiff (⭐375)
-- **academic-writing**: WantongC/journal-adapt-writing-skill (⭐353)
+- **fast local diff**: nkzw-tech/codiff (⭐401)
+- **forza**: dannyhsueh2/Forza-Horizon-6-Premium (⭐397)
+- **8-stage vulnerability-discovery agent.**: evilsocket/audit (⭐354)
+- **cobalt-strike**: D7EAD/mkPIVM (⭐341)
+- **一个写接口文档的AI Agent。支持使用Vibe coding**: husu/loom (⭐329)
+- **hosting list список**: internetkafe/vpnhostinglist (⭐329)
 - **data-visualization**: MediatorSpeak/dota2-gameplay-tools (⭐324)
-- **diffusion-language-models**: chiennv2000/orthrus (⭐323)
-- **hierarchical-reasoning-model**: sapientinc/HRM-Text (⭐303)
-- **36章AI Agent全栈课程：从ReAct循环到Claude Code逆向、MCP/A2A协议、RAG、DSPy、生产可观测性——全部为可运行Python文件，面试导向。**: Callous-0923/agent-study (⭐287)
+- **ai-trading**: dex-original/okx-agent-trade-kit (⭐319)
+- **most productive engineer**: dtnewman/burn-baby-burn (⭐310)
+- **36章AI Agent全栈课程：从ReAct循环到Claude Code逆向、MCP/A2A协议、RAG、DSPy、生产可观测性——全部为可运行Python文件，面试导向。**: Callous-0923/agent-study (⭐299)
 - **cpp17**: RastProxy88/Vivid-R6-Cracked-2026 (⭐286)
-- **native unified multimodal**: bytedance/Lance (⭐277)
-- **hyperliquid-whale-alert**: Glazenovatag/hyperliquid-whale-order-tracking (⭐262)
-- **advanced-trade**: pro-tech-killers/coinbase-trading-bot (⭐259)
-- **most productive engineer**: dtnewman/burn-baby-burn (⭐248)
-- **一个写接口文档的AI Agent。支持使用Vibe coding**: husu/loom (⭐240)
-- **Your writes docs**: haidang1810/md2html (⭐231)
-- **8-stage vulnerability-discovery agent.**: evilsocket/audit (⭐230)
-- **Nolanx, Open-sourced Netflix.**: nolanx-ai/nolanx.ai (⭐225)
-- **细胞3D模型展示**: GordenSun/LearningCell (⭐224)
-- **AirTranslate macOS**: himomohi/AirTranslate (⭐217)
-- **Polymarket Trading Polymarket**: heyFive-dev/Polymarket-Arbitrage-Trading-Bot-v2 (⭐214)
-- **Stop switching between**: PandoraReads/apex-dashboard (⭐212)
-- **developer-tools**: trong776/Roblox-cheat-2026 (⭐207)
-- **alternative claude that**: dexhorthy/shannon (⭐206)
-- **accountcreator**: johanwolfaardt-ctrl/Account-Symphony-Dashboard (⭐186)
-- **delta-executor-pc-edition**: shritanu16007-ctrl/Delta-Executor-Next-Gen (⭐186)
-- **aeronautics-create**: 23k65A1408/Create-Aeronautics-Skywards (⭐186)
+- **aida64**: CylinderChairman/aida64 (⭐274)
+- **crimson-desert-lsfg**: uktrash/LSFG-Desktop (⭐251)
+- **面向AI创作的开源无限画布工作台，集成 生图、参考图编辑、画布编排、对话助手、提示词库和素材管理等功能。**: basketikun/infinite-canvas (⭐249)
+- **anthropic**: Klotzkette/claude-fuer-deutsches-recht (⭐239)
+- **Your writes docs**: haidang1810/md2html (⭐236)
+- **dashboard**: PandoraReads/apex-dashboard (⭐233)
+- **Polymarket Trading Polymarket**: heyFive-dev/Polymarket-Arbitrage-Trading-Bot-v2 (⭐231)
+- **ai-humanize**: lynote-ai/humanize-text (⭐227)
+- **bitlocker**: rahul03524/YellowKey-Bitlocker (⭐219)
+- **best diff viewer**: rockorager/comview (⭐215)
+- **ai-app**: MFS9628/Deepseek-v4-pro-app (⭐215)
+- **skills Android testing:**: skydoves/android-testing-skills (⭐203)
+- **polymarket-arbitrage-bot**: Multichain-Bot-Lab/polymarket-trading-bot (⭐193)
+- **live-wallpaper**: museslabs/phonto (⭐187)
+- **f95zone**: Aryanzzzz25/f95-zone-sync-manager (⭐186)
 - **auto-cad**: ogaawin/Draft-2026-CAD-Workspace (⭐185)
-- **hack-rust**: jonathanngaboyeka/rust-movement-optimizer (⭐185)
 - **games**: JorgeSnn/psn-plus-controller-config (⭐185)
-- **android-studio**: Khanhhayho-spec/jetbrains-enhancement-kit (⭐185)
-- **mm2-collector**: 8015238355/mm2-analytics-dashboard-2026 (⭐185)
-- **ac-black-flag-resynced**: mrvinaypatelji-sketch/ac-black-flag-ray-traced-remake-tools (⭐185)
-- **aktivasi**: Ruiz-Christian31/IDM-Trial-Reset-Utility (⭐185)
-- **antivirus-tools**: tonylinden54/palisade-security-nexus (⭐185)
-- **bepinex**: maglin-jenebellah/Subnautica-II-Coop-Client (⭐185)
-- **ableton-2026**: e7137768-stack/Extreme-DAW-Beat-Forge-2026 (⭐185)
-- **capture-scripts**: wadlyalexis/screen-capture-orchestrator-2025 (⭐185)
-- **openxbox**: matrix01010246/Xbox-Fusion-Windows-UI (⭐185)
-- **heroes**: husammuhayman/homm-legacy-lore-tome (⭐185)
-- **discord-boost**: LindyNongmaithem/guild-inflator-plus (⭐185)
-- **quizlet**: psyicarus/quizlet-match-whisper (⭐185)
-- **crypto**: Carolina313876/Quantum-Vanity-Address-Forge (⭐185)
-- **full-decompilation**: adenilsonpfe/geometry-dash-decompiled (⭐185)
-- **cpp-injector**: wilmer-afk/Apex-Injector (⭐185)
-- **emote-changer**: sameerjat2630-cmyk/Aether-Swapper-Offsets-2026 (⭐185)
-- **dcs-world**: ImanFahrel/joystick-canvas (⭐185)
-- **booster**: MHuy9911/Game-Network-Turbo-Chamber (⭐185)
-- **f95zone**: Aryanzzzz25/f95-zone-sync-manager (⭐185)
-- **life-sim**: NNM24EE533/Mii-Link-Tomodachi-Archives (⭐184)
-- **code-editor-tools**: yu2415/sublime-text-arsenal (⭐184)
-- **competitive-gaming**: l252532-ctrl/Zero-Latency-Mouse-Mapper (⭐184)
-- **external-menu**: digital-a11y/Lunacy-V-Trainer-Toolkit-2026 (⭐184)
-- **moomod**: manikanthjainar94-spec/moomooio-2026-enhanced (⭐184)
-- **bnb-wallet**: jos-king/seed-vault-resonance (⭐184)
-- **casual-multiplayer-shooter**: Edmoch/Octo-Strike-Reimagined (⭐184)
-- **download-com-push-video-wallpaper**: 6Hourt9/push-video-wallpaper-engine (⭐184)
-- **zoom-analytics**: ahmadalalibz2006-stack/calibr-zoom (⭐184)
-- **ai-art-platform**: mramangune-prog/leonardo-generative-workflow-engine (⭐184)
-- **kms-activator-2026**: kietdzkk/kms-activation-toolkit (⭐184)
-- **all-the-mods-11**: dhruvil107/atm11-progression-guide-data (⭐184)
-- **riot**: ilyassacha/Aura-Sight-V1-2026 (⭐184)
-- **pycharm-2026**: ssshubhamsoni/pycharm-pro-workspace-optimizer (⭐184)
-- **doujinshi**: hz3-creator/nhentai-doujin-shelf (⭐184)
-- **catch-em-all**: nottrox-sketch/Pokopia-Desktop-Edition (⭐184)
-- **optiscaler**: Raf-alt-png/Pragmata-FrameTweaks (⭐184)
-- **animal-crossing**: abhirammandula-boop/nooklink-pc-emulator-toolkit (⭐184)
-- **anime-downloader**: yskt/anime-dl-nyaa-helper (⭐184)
-- **autostart-manager**: sbhamsaraj-28/cleaner-toolkit-optimizer (⭐184)
-- **adder-telegram-2026**: sarakhanld66-bit/telegram-invite-automation (⭐184)
-- **adult-swim**: pansilu-m/Media-Vault-Snatch (⭐184)
-- **ai-humanize**: lynote-ai/humanize-text (⭐172)
-- **polymarket-arbitrage-bot**: Multichain-Bot-Lab/polymarket-trading-bot (⭐168)
-- **bet365**: bigfrankykevin/sportsbook-bet365 (⭐162)
-- **Smooth motion tabs**: rit3zh/expo-motion-tabs (⭐153)
-- **ExploitBench measures agents**: exploitbench/exploitbench (⭐150)
-- **面向AI创作的开源无限画布工作台，集成 生图、参考图编辑、画布编排、对话助手、提示词库和素材管理等功能。**: basketikun/infinite-canvas (⭐148)
-- **0xc000007b-fix**: Saideens-Libraries/All-In-One-Runtime-Installer-V2 (⭐136)
-- **Architecture wiki open-sourced**: cclank/x-algorithm-wiki (⭐136)
-- **mcp-server**: japp-fi/polymarket-mcp-server (⭐135)
-- **Self-deployed auth Cloudflare**: leopoldsw/cloudflare-auth (⭐134)
-- **axiom**: Alchemz/solana-pumpfun-token-bundler (⭐134)
-- **Largest World Download**: 2b2tplace/1m_release (⭐133)
-- **MMSkills: Towards Multimodal**: DeepExperience/MMSkills (⭐125)
+- **Smooth motion tabs**: rit3zh/expo-motion-tabs (⭐158)
+- **ExploitBench measures agents**: exploitbench/exploitbench (⭐157)
+- **Largest World Download**: 2b2tplace/1m_release (⭐156)
+- **mcp-server**: japp-fi/polymarket-mcp-server (⭐152)
+- **axiom**: Alchemz/solana-pumpfun-token-bundler (⭐152)
+- **Agent 学习路线与资料库收集**: datawhalechina/Agent-Learning-Hub (⭐145)
+- **Architecture wiki open-sourced**: cclank/x-algorithm-wiki (⭐144)
+- **adb**: kitsumed/ShizuCallRecorder (⭐138)
+- **all-the-mods-modpack**: AppleOnFire/JennyMod-All-Versions (⭐137)
+- **Reproducible recipe running**: sander110419/lightroom-cc-on-linux (⭐137)
+- **activator**: ZettPW/KMSTools (⭐135)
+- **byovd**: redteamfortress/PhantomKiller (⭐128)
+- **PaperSpine motivation-driven Codex**: WUBING2023/PaperSpine (⭐124)
+- **iphone-screen-recordings**: ronaldo-avalos/Maya (⭐119)
+- **finder ShirOKhorshid domain**: hossein8360/cdn-ip-finder (⭐118)
+- **QuantumFlow Distributed inference**: zimingttkx/QuantumFlow (⭐118)
 - **PowerShell tool export**: disintegr8te/teams-policy-export (⭐117)
-- **iphone-screen-recordings**: ronaldo-avalos/Maya (⭐114)
-- **Reproducible recipe running**: sander110419/lightroom-cc-on-linux (⭐114)
-- **benchmark**: ahammadmejbah/Awesome-Datasets-Hub (⭐112)
-- **Jarvis Asistan**: alpunlu12-commits/jarvis (⭐111)
-- **Claude Code Tracer**: AIchovy/vibe-observer (⭐111)
-- **finder ShirOKhorshid domain**: hossein8360/cdn-ip-finder (⭐110)
-- **tiny, append‑only time‑series**: aymanhs/nanotdb (⭐110)
-- **Anthropic《The Founder's Playbook:**: yangliu2060/founders-playbook-zh (⭐107)
-- **Full exploit code**: orinimron123/CVE-2026-40369-EXPLOIT (⭐106)
-- **CPA-Helper CLIProxyAPI 用户的本地自托管多用户管理面板，支持多用户独立**: walkingddd/CPA-Helper (⭐106)
-- **PaperSpine motivation-driven Codex**: WUBING2023/PaperSpine (⭐105)
-- **Free VLESS proxy**: nikvpn-iran/nikvpn-codespace (⭐105)
-- **Educational materials Embedded**: ip-arch/NESLab (⭐105)
-- **Agent 学习路线与资料库收集**: datawhalechina/Agent-Learning-Hub (⭐105)
+- **codebase Cola**: ByteDance-Seed/Cola-DLM (⭐116)
+- **Claude Code Tracer**: AIchovy/vibe-observer (⭐116)
+- **Jarvis Asistan**: alpunlu12-commits/jarvis (⭐115)
+- **benchmark**: ahammadmejbah/Awesome-Datasets-Hub (⭐115)
+- **Anthropic《The Founder's Playbook:**: yangliu2060/founders-playbook-zh (⭐114)
+- **Free VLESS proxy**: nikvpn-iran/nikvpn-codespace (⭐113)
+- **tiny, append‑only time‑series**: aymanhs/nanotdb (⭐111)
+- **Educational materials Embedded**: ip-arch/NESLab (⭐108)
+- **Skills writing tilelang**: sablin39/tilelang-cuda-skills (⭐107)
+- **game-assets**: Nieobie/Game-Icon-Pack (⭐103)
 - **Material Expressive clock**: amrdoh/ClockMaster (⭐102)
-- **QuantumFlow Distributed inference**: zimingttkx/QuantumFlow (⭐102)
 - **OpenCodex是一个轻量级Codex运行环境，可以让你的任意设备通过Web使用你的电脑上的Codex。/ OpenCodex lightweight**: RyensX/OpenCodex (⭐101)
-- **careers**: freeCodeCamp/freeCodeCamp (⭐445146)
-- **books**: EbookFoundation/free-programming-books (⭐388568)
-- **angular-roadmap**: nilbuild/developer-roadmap (⭐355077)
-- **declarative**: facebook/react (⭐245139)
-- **Linux kernel source**: torvalds/linux (⭐233716)
-- **agentic skills framework**: obra/superpowers (⭐198057)
-- **deep-learning**: tensorflow/tensorflow (⭐195176)
-- **bootstrap**: twbs/bootstrap (⭐174257)
-- **git**: github/gitignore (⭐174006)
-- **deepseek**: ollama/ollama (⭐171744)
-- **open source coding**: anomalyco/opencode (⭐162572)
-- **agents**: langflow-ai/langflow (⭐148513)
-- **agent-skills**: anthropics/skills (⭐137536)
-- **advanced-paste**: microsoft/PowerToys (⭐133296)
-- **canvas**: excalidraw/excalidraw (⭐123608)
-- **clash**: clash-verge-rev/clash-verge-rev (⭐119293)
-- **javascript**: nodejs/node (⭐117294)
-- **iptv**: iptv-org/iptv (⭐116334)
-- **base-ui**: shadcn-ui/ui (⭐114685)
-- **3d**: mrdoob/three.js (⭐112561)
-- **ggml**: ggml-org/llama.cpp (⭐111383)
-- **game-development**: godotengine/godot (⭐110911)
-- **desktop-app**: tauri-apps/tauri (⭐106832)
-- **deno**: denoland/deno (⭐106783)
-- **proxy**: 2dust/v2rayN (⭐106136)
-- **cmd**: microsoft/terminal (⭐103227)
-- **chinese**: Anduin2017/HowToCook (⭐100190)
-- **autograd**: pytorch/pytorch (⭐100014)
-- **Garry Tan's exact**: garrytan/gstack (⭐99458)
-- **design-system**: mui/material-ui (⭐98367)
-- **ant-design**: ant-design/ant-design (⭐98079)
-- **css**: tailwindlabs/tailwindcss (⭐95057)
-- **Skills Real Engineers.**: mattpocock/skills (⭐93901)
-- **bun**: oven-sh/bun (⭐92038)
-- **科技爱好者周刊，每周五发布**: ruanyf/weekly (⭐91467)
-- **bitcoin**: bitcoin/bitcoin (⭐89136)
-- **diagrams**: mermaid-js/mermaid (⭐88159)
-- **blog-engine**: gohugoio/hugo (⭐88156)
-- **asyncio**: home-assistant/core (⭐87122)
-- **Model Context Protocol**: modelcontextprotocol/servers (⭐85926)
-- **packaging**: astral-sh/uv (⭐85184)
-- **"The mother demo**: realworld-apps/realworld (⭐83456)
-- **gpui**: zed-industries/zed (⭐83252)
-- **font**: tonsky/FiraCode (⭐81628)
-- **aaron-swartz**: awesomedata/awesome-public-datasets (⭐75529)
-- **ai-tools**: farion1231/cc-switch (⭐75464)
-- **cache**: redis/redis (⭐74442)
-- **analytics**: apache/superset (⭐72911)
-- **Python programming language**: python/cpython (⭐72757)
-- **Drop screenshot convert**: abi/screenshot-to-code (⭐72633)
-- **containers**: moby/moby (⭐71572)
-- **serial**: Eugeny/tabby (⭐71437)
-- **marshalling**: protocolbuffers/protobuf (⭐71247)
-- **SecLists security tester's**: danielmiessler/SecLists (⭐71012)
-- **ci**: nektos/act (⭐70391)
-- **Swift Programming Language**: swiftlang/swift (⭐69998)
-- **express**: expressjs/express (⭐69042)
-- **disassembler**: NationalSecurityAgency/ghidra (⭐68645)
-- **ansible**: ansible/ansible (⭐68601)
-- **Everything required your**: base/node (⭐68565)
-- **app**: toeverything/AFFiNE (⭐68534)
-- **open-source everyone uses**: paperclipai/paperclip (⭐66531)
-- **data-analysis**: scikit-learn/scikit-learn (⭐66123)
-- **Crawl4AI: Open-source Friendly**: unclecode/crawl4ai (⭐65887)
-- **amd**: webpack/webpack (⭐65768)
-- **documentation**: facebook/docusaurus (⭐64954)
-- **blocker**: gorhill/uBlock (⭐64791)
-- **data-science**: keras-team/keras (⭐64075)
-- **chatgpt**: openinterpreter/open-interpreter (⭐63574)
-- **browser**: LadybirdBrowser/ladybird (⭐63436)
-- **batch-processing**: pathwaycom/pathway (⭐63277)
-- **consul**: traefik/traefik (⭐63218)
-- **claude-code**: gsd-build/get-shit-done (⭐63081)
-- **airtable**: nocodb/nocodb (⭐63069)
-- **crawler**: scrapy/scrapy (⭐61720)
-- **redux**: reduxjs/redux (⭐61447)
-- **diagram-editor**: jgraph/drawio-desktop (⭐61178)
-- **c**: git/git (⭐61052)
-- **bitwarden**: dani-garcia/vaultwarden (⭐60701)
-- **csr**: nuxt/nuxt (⭐60250)
-- **jquery**: jquery/jquery (⭐59844)
-- **ad-blocker**: pi-hole/pi-hole (⭐58796)
-- **authentication**: pocketbase/pocketbase (⭐58429)
-- **blockchain**: FuelLabs/fuel-core (⭐57071)
+- **Discrete Word Visual**: ZiyuGuo99/ATLAS (⭐96)
+- **wrong comma dotfiles**: zostaffsmartx/Polymarket-BTC-Trading-Bot (⭐95)
+- **comfyui**: shootthesound/comfyui-mesh (⭐95)
+- **guia honesto sobre**: julianommartins/tech-interview-handbook (⭐91)
+- **BaleTunnel network tunneling**: theermia/BaleTunnel (⭐88)
+- **auto-register**: huey1in/WindsurfX (⭐86)
+- **Chat-Codex 让你很轻松的把Codex接入你的微信和飞书实现远程控制、审批、操控电脑等，同时支持多渠道**: uluckyXH/Chat-Codex (⭐86)
+- **list useful feeds**: mr-r3b00t/cyber_rss (⭐86)
+- **animation**: noppefoxwolf/MergeableView (⭐83)
+- **OpenHarmony Android**: harmony-on-android/HOA (⭐83)
+- **adaptive-scraping**: mdowis/anansi (⭐83)
+- **Vinyl Painter Import**: bvzrays/forza-painter-fh6 (⭐81)
+- **ai-assistant**: jigripokri/POHA (⭐80)
+- **TYPE adaptive typing**: xiaolai/type-review (⭐79)
+- **Intelligently designs download**: shouzi23333-rgb/AiClip (⭐78)
+- **一个由AI运维的网络安全Skill知识库**: Hi-FullHouse/CyberSecurity-Skills (⭐78)
+- **omarchy**: bjarneo/quickshell (⭐77)
+- **OpenWRT Windows Theme**: fffonion/openwrt-win98-theme (⭐75)
+- **Official Code What**: HumanMLLM/SWIM (⭐74)
+- **Webapp framing video**: mrdoob/reframe (⭐74)
+- **本仓库包含三个面向学术科研人员的Skills，覆盖从文献阅读、论文写作到科学计算的完整研究工作流。office-academic-skill 负责论文阅读报告与学术 PPT/Word**: zLanqing/codex-claude-academic-skills (⭐72)
+- **skills prompt templates**: PriNova/pi-agent-codebase-workflows (⭐72)
+- **api-client**: stainlu/stainful (⭐71)
+- **在杀戮尖塔2的二层（Act 2）添加了Boss“超级乐嘉维林族母”，其会在死亡后生成两个来自杀戮尖塔1的”乐嘉维林“。**: Yuzucyan-uwu/STS2-ExLagavulin (⭐71)
+- **Tools help analyze**: grimdoomer/HDDTools (⭐71)
+- **snipe-bot**: DeFiCryptoBots/CryptoBots-Solana-Sniper-PumpFun-Free (⭐70)
+- **Official code repository**: hanxunyu/DepthVLM (⭐70)
+- **微信读书高阶顾问 weread skill**: alchaincyf/huashu-weread (⭐70)
+- **NextSSRF CVE-2026-44578 Scanner**: ynsmroztas/nextssrf (⭐69)
+- **fully decentralized Windsurf**: zhouyoukang1234-spec/windsurf-assistant (⭐69)
+- **roblox**: thaddeuswilkersonqbaj13/The-Delta-Executor (⭐69)
+- **Self-hosted subscription tracker**: zhiyingzzhou/renewlet (⭐68)
+- **terminal coding agent**: p0systems/peezy-cli (⭐67)
+- **Markov regime detection**: jackson-video-resources/markov-hedge-fund-method (⭐67)
+- **prediction-market**: mooncitydev/worldcup-2026-prediction (⭐64)
+- **downloader**: ZethRise/PlayDL (⭐63)
+- **Glass fast free**: azw413/Glass (⭐63)
+- **bitsandbytes**: DaoyuanLi2816/can-i-finetune-this (⭐61)
+- **结构体校验器**: kamalyes/go-argus (⭐61)
+- **メモリ機能が強力なhermes-agentと、日本語検索に強い外部メモリvecmemoriを活かし、長文に耐える小説を企画/プロッティング/執筆するためのskills.md**: kgmkm/novel2hermes_jp (⭐60)
+- **PuTTY 0.83 fork**: chillymasterio/puttyalt (⭐59)
+- **Linux tool limit**: frayude/throttnux (⭐58)
+- **developer-tools**: Ballwictb/besur-themes (⭐58)
+- **apple-silicon**: swellweb/targetBridge (⭐57)
+- **Rivers orchestration platform**: ion-elgreco/rivers (⭐56)
+- **Kiro Pro/Pro+ 批量订阅自动化工具，支持**: guowang23333/kiro-pro-batch (⭐56)
+- **academic-research**: CHB-learner/PaperPilot (⭐55)
+- **Classification Machine Learning**: rajchandran006-ops/RFD-Classification-Machine-Learning-Project (⭐55)
+- **Rust server Grok**: Episkey-G/GrokSearch-rs (⭐54)
+- **Remote-mode adapter that**: fuergaosi233/claude-codex (⭐54)
+- **Explainable deep learning**: Stevia-S/MultiClass-LungDisease-Detection-Using-XAI (⭐54)
+- **Single-host, read-only disk**: matthart1983/diskwatch (⭐53)
+- **Int4-quantized inference runtime**: kizuna-intelligence/Irodori-TTS-Lite (⭐53)
+- **deep learning project**: sanjanaprasath01-hue/handwritten-digit-recognition-cnn (⭐52)
+- **Async that monitors**: jakobfriedl/usb-monitor-bof (⭐52)
+- **Local-first interview recording**: K1XE/InterviewForge (⭐52)
+- **careers**: freeCodeCamp/freeCodeCamp (⭐445193)
+- **books**: EbookFoundation/free-programming-books (⭐388630)
+- **angular-roadmap**: nilbuild/developer-roadmap (⭐355133)
+- **declarative**: facebook/react (⭐245145)
+- **Linux kernel source**: torvalds/linux (⭐233839)
+- **agentic skills framework**: obra/superpowers (⭐199801)
+- **deep-learning**: tensorflow/tensorflow (⭐195211)
+- **repo finally unlocked.**: ultraworkers/claw-code (⭐192088)
+- **bootstrap**: twbs/bootstrap (⭐174261)
+- **deepseek**: ollama/ollama (⭐171819)
+- **open source coding**: anomalyco/opencode (⭐163067)
+- **agents**: langflow-ai/langflow (⭐148562)
+- **advanced-paste**: microsoft/PowerToys (⭐133329)
+- **Claude Code agentic**: anthropics/claude-code (⭐125222)
+- **canvas**: excalidraw/excalidraw (⭐123697)
+- **awesome-list**: ripienaar/free-for-dev (⭐122502)
+- **cncf**: kubernetes/kubernetes (⭐122373)
+- **c-plus-plus**: electron/electron (⭐121362)
+- **clash**: clash-verge-rev/clash-verge-rev (⭐119614)
+- **iptv**: iptv-org/iptv (⭐116368)
+- **base-ui**: shadcn-ui/ui (⭐114754)
+- **ggml**: ggml-org/llama.cpp (⭐111754)
+- **game-development**: godotengine/godot (⭐110951)
+- **desktop-app**: tauri-apps/tauri (⭐106897)
+- **deno**: denoland/deno (⭐106798)
+- **expose**: fatedier/frp (⭐106690)
+- **proxy**: 2dust/v2rayN (⭐106256)
+- **cmd**: microsoft/terminal (⭐103246)
+- **chinese**: Anduin2017/HowToCook (⭐100210)
+- **autograd**: pytorch/pytorch (⭐100044)
+- **Garry Tan's exact**: garrytan/gstack (⭐99946)
+- **design-system**: mui/material-ui (⭐98368)
+- **ant-design**: ant-design/ant-design (⭐98095)
+- **Skills Real Engineers.**: mattpocock/skills (⭐96629)
+- **css**: tailwindlabs/tailwindcss (⭐95073)
+- **bun**: oven-sh/bun (⭐92133)
+- **科技爱好者周刊，每周五发布**: ruanyf/weekly (⭐91563)
+- **bitcoin**: bitcoin/bitcoin (⭐89146)
+- **diagrams**: mermaid-js/mermaid (⭐88176)
+- **blog-engine**: gohugoio/hugo (⭐88171)
+- **calclaude**: ChatGPTNextWeb/NextChat (⭐88055)
+- **asyncio**: home-assistant/core (⭐87148)
+- **Model Context Protocol**: modelcontextprotocol/servers (⭐85992)
+- **packaging**: astral-sh/uv (⭐85252)
+- **"The mother demo**: realworld-apps/realworld (⭐83458)
+- **gpui**: zed-industries/zed (⭐83350)
+- **font**: tonsky/FiraCode (⭐81632)
+- **build-tool**: vitejs/vite (⭐80737)
+- **browser-ide**: coder/code-server (⭐77632)
+- **elasticsearch**: elastic/elasticsearch (⭐76736)
+- **aaron-swartz**: awesomedata/awesome-public-datasets (⭐75566)
+- **cache**: redis/redis (⭐74463)
+- **analytics**: apache/superset (⭐72923)
+- **Python programming language**: python/cpython (⭐72771)
+- **Drop screenshot convert**: abi/screenshot-to-code (⭐72639)
+- **c**: obsproject/obs-studio (⭐72554)
+- **serial**: Eugeny/tabby (⭐71468)
+- **marshalling**: protocolbuffers/protobuf (⭐71251)
+- **SecLists security tester's**: danielmiessler/SecLists (⭐71037)
+- **ci**: nektos/act (⭐70423)
+- **Swift Programming Language**: swiftlang/swift (⭐70003)
+- **express**: expressjs/express (⭐69050)
+- **disassembler**: NationalSecurityAgency/ghidra (⭐68675)
+- **ansible**: ansible/ansible (⭐68614)
+- **app**: toeverything/AFFiNE (⭐68570)
+- **Everything required your**: base/node (⭐68556)
+- **open-source everyone uses**: paperclipai/paperclip (⭐66783)
+- **data-analysis**: scikit-learn/scikit-learn (⭐66126)
+- **amd**: webpack/webpack (⭐65767)
+- **documentation**: facebook/docusaurus (⭐64965)
+- **blocker**: gorhill/uBlock (⭐64815)
+- **data-science**: keras-team/keras (⭐64079)
+- **chatgpt**: openinterpreter/open-interpreter (⭐63586)
+- **browser**: LadybirdBrowser/ladybird (⭐63451)
+- **batch-processing**: pathwaycom/pathway (⭐63255)
+- **consul**: traefik/traefik (⭐63239)
+- **airtable**: nocodb/nocodb (⭐63076)
+- **Autonomous coding agent**: cline/cline (⭐62096)
+- **crawler**: scrapy/scrapy (⭐61735)
+- **redux**: reduxjs/redux (⭐61449)
+- **diagram-editor**: jgraph/drawio-desktop (⭐61201)
+- **bitwarden**: dani-garcia/vaultwarden (⭐60792)
+- **jquery**: jquery/jquery (⭐59843)
+- **astro**: withastro/astro (⭐59429)
+- **ad-blocker**: pi-hole/pi-hole (⭐58854)
+- **authentication**: pocketbase/pocketbase (⭐58443)
+- **blockchain**: FuelLabs/fuel-core (⭐57062)
 - **Declarative routing React**: remix-run/react-router (⭐56427)
-- **dark-mode**: marktext/marktext (⭐56232)
-- **llm**: upstash/context7 (⭐55637)
-- **Ghostty fast, feature-rich,**: ghostty-org/ghostty (⭐54861)
-- **Chris Titus Tech's**: ChrisTitusTech/winutil (⭐54720)
-- **client**: psf/requests (⭐54002)
-- **bittorrent**: ngosang/trackerslist (⭐53900)
-- **Vue.js progressive, incrementally-adoptable**: vuejs/core (⭐53685)
-- **blogging**: TryGhost/Ghost (⭐53540)
-- **command-line**: PowerShell/PowerShell (⭐53502)
-- **Reader JavaScript**: mozilla/pdf.js (⭐53339)
-- **csharp**: jellyfin/jellyfin (⭐51732)
-- **agent toolkit: coding**: earendil-works/pi (⭐51614)
+- **dark-mode**: marktext/marktext (⭐56259)
+- **llm**: upstash/context7 (⭐55722)
+- **coolify**: coollabsio/coolify (⭐55638)
+- **Ghostty fast, feature-rich,**: ghostty-org/ghostty (⭐54932)
+- **client**: psf/requests (⭐54006)
+- **bittorrent**: ngosang/trackerslist (⭐53924)
+- **Vue.js progressive, incrementally-adoptable**: vuejs/core (⭐53692)
+- **blogging**: TryGhost/Ghost (⭐53562)
+- **command-line**: PowerShell/PowerShell (⭐53517)
+- **Reader JavaScript**: mozilla/pdf.js (⭐53350)
+- **agent toolkit: coding**: earendil-works/pi (⭐52058)
 
 #### Divergence Instructions
 Use divergences to identify:

@@ -1,2 +1,1 @@
-{"timestamp": "2026-05-19T21:30:28Z", "month": "2026-05", "week": "2026-W21", "stage": "analysis", "source": "no-ai", "model": "none", "input_tokens": 101635, "output_tokens": 3306, "total_tokens": 104941, "cost_usd": null, "estimated": true}
-{"timestamp": "2026-05-20T18:28:09Z", "month": "2026-05", "week": "2026-W21", "stage": "reskill", "source": "copilot-cli", "model": "copilot-default", "input_tokens": 9727, "output_tokens": 3590, "total_tokens": 13317, "cost_usd": null, "estimated": true}
+{"timestamp": "2026-05-20T18:27:56Z", "month": "2026-05", "week": "2026-W21", "stage": "analysis", "source": "copilot-cli", "model": "copilot-default", "input_tokens": 88189, "output_tokens": 3614, "total_tokens": 91803, "cost_usd": 0.318777, "estimated": true}
