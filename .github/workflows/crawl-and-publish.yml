@@ -740,7 +740,7 @@ jobs:
           CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           WEEK=$(date -u +%G-W%V)
           RESKILL_OUTPUT=".squad/reskill/${WEEK}.md"
-          RESKILL_PROMPT=$(mktemp)
+          RESKILL_PROMPT=".squad/reskill/current-prompt.md"
           mkdir -p .squad/skills .squad/reskill data/metrics
 
           sanitize_agent_output() {
@@ -755,7 +755,7 @@ jobs:
           # Intentionally rely on Copilot CLI's default model so CI follows the platform-supported default.
           if command -v copilot >/dev/null 2>&1 && copilot \
             --agent squad \
-            -p "Farnsworth, read the file at ${RESKILL_PROMPT} — it contains the reskill retrospective instructions. Follow them exactly and write the report to ${RESKILL_OUTPUT}." \
+            -p "Team, take a nap and reskill" \
             -s \
             --no-ask-user \
             --allow-tool=read \
