@@ -24,7 +24,7 @@ class TrackTokenUsageTests(unittest.TestCase):
                     "--source",
                     "copilot-cli",
                     "--model",
-                    "claude-sonnet-4",
+                    "copilot-default",
                     "--current-datetime",
                     "2026-05-19T08:00:00Z",
                     "--week",
@@ -44,7 +44,7 @@ class TrackTokenUsageTests(unittest.TestCase):
             record = records[0]
             self.assertEqual(record["stage"], "analysis")
             self.assertEqual(record["source"], "copilot-cli")
-            self.assertEqual(record["model"], "claude-sonnet-4")
+            self.assertEqual(record["model"], "copilot-default")
             self.assertEqual(record["week"], "2026-W21")
             self.assertEqual(record["input_tokens"], 10)
             self.assertEqual(record["output_tokens"], 5)

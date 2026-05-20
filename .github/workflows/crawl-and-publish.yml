@@ -23,6 +23,7 @@ concurrency:
 
 env:
   PYTHONPATH: ${{ github.workspace }}
+  GITHUB_MODELS_MODEL: ${{ vars.GITHUB_MODELS_MODEL || 'openai/gpt-4o' }}
 
 jobs:
   crawl:
@@ -267,9 +268,9 @@ jobs:
           for f in .squad/skills/*.md; do
             [ -f "$f" ] && CONTEXT_FILES+=("$f")
           done
+          # Use the generic Copilot default cost profile so the workflow never pins a stale CLI model.
           python3 scripts/preflight_cost_check.py \
-            --context-files "${CONTEXT_FILES[@]}" \
-            --model claude-sonnet-4
+            --context-files "${CONTEXT_FILES[@]}"
 
       - name: Install Copilot CLI
         id: install-copilot
@@ -299,12 +300,12 @@ jobs:
             cat "$PRESS_FILE" >> "$PROMPT_FILE"
           fi
 
+          # Intentionally rely on Copilot CLI's default model so CI follows the platform-supported default.
           if command -v copilot >/dev/null 2>&1 && copilot \
             --agent squad \
             -p "Farnsworth, read the file at ${PROMPT_FILE} — it contains the weekly data and analysis instructions. Follow them exactly and write the analysis to ${OUTPUT_FILE}." \
             -s \
             --no-ask-user \
-            --model claude-sonnet-4 \
             --allow-tool=read \
             --allow-tool=write \
             --allow-tool=glob \
@@ -312,7 +313,7 @@ jobs:
             --share=data/metrics/copilot-transcript.md \
             > "$OUTPUT_FILE"; then
             ANALYSIS_SOURCE="copilot-cli"
-            ANALYSIS_MODEL="claude-sonnet-4"
+            ANALYSIS_MODEL="copilot-default"
           elif python3 scripts/analyze_fallback.py \
             --raw-json "$WEEK_FILE" \
             --output "$OUTPUT_FILE" \
@@ -725,7 +726,6 @@ jobs:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_MODELS_MODEL: openai/gpt-4o
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -739,15 +739,15 @@ jobs:
 
           # Primary path: Copilot CLI with agent identity
           RESKILL_SOURCE="copilot-cli"
-          RESKILL_MODEL="claude-sonnet-4"
+          RESKILL_MODEL="copilot-default"
           python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME" --output "$RESKILL_OUTPUT" --prompt-output "$RESKILL_PROMPT" --print-prompt > "$RESKILL_PROMPT" || true
 
+          # Intentionally rely on Copilot CLI's default model so CI follows the platform-supported default.
           if command -v copilot >/dev/null 2>&1 && copilot \
             --agent squad \
             -p "Farnsworth, read the file at ${RESKILL_PROMPT} — it contains the reskill retrospective instructions. Follow them exactly and write the report to ${RESKILL_OUTPUT}." \
             -s \
             --no-ask-user \
-            --model claude-sonnet-4 \
             --allow-tool=read \
             --allow-tool=write \
             --allow-tool=glob \

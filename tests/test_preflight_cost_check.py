@@ -16,7 +16,7 @@ class PreflightCostCheckTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             base = Path(tmpdir)
             f1 = self._make_file(base, "small.json", 400)
-            rc = preflight.main(["--context-files", str(f1), "--model", "claude-sonnet-4"])
+            rc = preflight.main(["--context-files", str(f1)])
             self.assertEqual(rc, 0)
 
     def test_fails_over_cap(self) -> None:
@@ -25,7 +25,7 @@ class PreflightCostCheckTests(unittest.TestCase):
             base = Path(tmpdir)
             # 2M chars → 500k tokens; at $3/M input that's $1.50 — over cap
             f1 = self._make_file(base, "huge.json", 2_000_000)
-            rc = preflight.main(["--context-files", str(f1), "--model", "claude-sonnet-4"])
+            rc = preflight.main(["--context-files", str(f1)])
             self.assertEqual(rc, 1)
 
     def test_custom_cap(self) -> None:
@@ -34,9 +34,7 @@ class PreflightCostCheckTests(unittest.TestCase):
             base = Path(tmpdir)
             f1 = self._make_file(base, "medium.json", 40_000)
             # 40k chars → 10k tokens; at $3/M input = $0.03; cap $0.01 should fail
-            rc = preflight.main(
-                ["--context-files", str(f1), "--model", "claude-sonnet-4", "--hard-cap", "0.01"]
-            )
+            rc = preflight.main(["--context-files", str(f1), "--hard-cap", "0.01"])
             self.assertEqual(rc, 1)
 
     def test_unknown_model_fails(self) -> None:
