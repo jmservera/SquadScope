@@ -1,8 +1,67 @@
 {
   "week": "2026-W21",
   "source": "techcrunch",
-  "crawled_at": "2026-05-20T20:21:39.384823Z",
+  "crawled_at": "2026-05-20T20:58:25.210248Z",
   "articles": [
+    {
+      "title": "The SpaceX IPO filing has arrived",
+      "url": "https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-has-arrived/",
+      "published_at": "2026-05-20T20:52:00Z",
+      "categories": [
+        "Space",
+        "Transportation",
+        "Elon Musk",
+        "IPOs",
+        "rockets",
+        "SpaceX",
+        "Starlink",
+        "xAI"
+      ],
+      "summary": "SpaceX has finally made the contents of its IPO filing public, weeks ahead of what is expected to be the largest IPO ever.",
+      "github_links": [],
+      "entities": [
+        "SpaceX",
+        "IPO"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "Microsoft’s carbon removal plans aren’t dead after all",
+      "url": "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/",
+      "published_at": "2026-05-20T20:30:24Z",
+      "categories": [
+        "Climate",
+        "Microsoft",
+        "biogas",
+        "Exclusive",
+        "carbon credits",
+        "carbon removal"
+      ],
+      "summary": "Microsoft is responsible for over 90% of the carbon removal market, and reports suggested the company was pausing purchases entirely. This new deal should help assuage the fears of CDR startups.",
+      "github_links": [],
+      "entities": [
+        "Microsoft"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "OpenAI claims it solved an 80-year-old math problem — for real this time",
+      "url": "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
+      "published_at": "2026-05-20T20:28:27Z",
+      "categories": [
+        "AI",
+        "ChatGPT",
+        "erdos problems",
+        "OpenAI",
+        "reasoning models"
+      ],
+      "summary": "OpenAI claims its reasoning model disproved a geometry conjecture unsolved since 1946 — and this time, the mathematicians who exposed its last embarrassing claim are backing it up.",
+      "github_links": [],
+      "entities": [
+        "OpenAI"
+      ],
+      "relevance_score": 0.6
+    },
     {
       "title": "IrisGo, a startup backed by Andrew Ng, looks to become the AI desktop buddy you never knew you needed",
       "url": "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/",
@@ -345,67 +404,6 @@
         "IO"
       ],
       "relevance_score": 0.2
-    },
-    {
-      "title": "You can now talk to your Gmail inbox, as seen at Google IO 2026",
-      "url": "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
-      "published_at": "2026-05-19T21:25:31Z",
-      "categories": [
-        "AI",
-        "Apps",
-        "gemini ai",
-        "gmail",
-        "Google",
-        "google io",
-        "google io 2026",
-        "Google Workspace"
-      ],
-      "summary": "Google expands Gmail’s AI Inbox with conversational voice search, letting users ask Gemini to find buried email details.",
-      "github_links": [],
-      "entities": [
-        "You",
-        "Gmail",
-        "Google",
-        "IO"
-      ],
-      "relevance_score": 0.2
-    },
-    {
-      "title": "How to use Google’s new AI agents to go beyond your standard searches",
-      "url": "https://techcrunch.com/2026/05/19/how-to-use-googles-new-ai-agents-to-go-beyond-your-standard-searches/",
-      "published_at": "2026-05-19T21:16:25Z",
-      "categories": [
-        "AI",
-        "AI agents",
-        "Google",
-        "google io 2026",
-        "Google Search"
-      ],
-      "summary": "Google is launching AI-powered “information agents” that can monitor topics in the background and proactively alert users to updates and changes.",
-      "github_links": [],
-      "entities": [
-        "Google",
-        "AI"
-      ],
-      "relevance_score": 0.4
-    },
-    {
-      "title": "Discord enables end-to-end encrypted voice and video calling for every user",
-      "url": "https://techcrunch.com/2026/05/19/discord-enables-end-to-end-encrypted-voice-and-video-calling-for-every-user/",
-      "published_at": "2026-05-19T21:14:08Z",
-      "categories": [
-        "Security",
-        "cybersecurity",
-        "discord",
-        "end-to-end encryption",
-        "In Brief"
-      ],
-      "summary": "Good news! Discord's hundreds of millions of users now have their communications scrambled, so not even Discord can see them.",
-      "github_links": [],
-      "entities": [
-        "Discord"
-      ],
-      "relevance_score": 0.0
     }
   ],
   "metadata": {
