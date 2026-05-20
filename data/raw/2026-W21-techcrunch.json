@@ -1,8 +1,305 @@
 {
   "week": "2026-W21",
   "source": "techcrunch",
-  "crawled_at": "2026-05-19T21:30:13.034602Z",
+  "crawled_at": "2026-05-20T18:27:34.592396Z",
   "articles": [
+    {
+      "title": "Airbnb gets into hotels, expands AI for host onboarding and customer support",
+      "url": "https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/",
+      "published_at": "2026-05-20T18:14:04Z",
+      "categories": [
+        "Apps",
+        "Airbnb",
+        "customer support",
+        "hotel bookings"
+      ],
+      "summary": "Airbnb will soon let you book luggage storage and car rental services on its app",
+      "github_links": [],
+      "entities": [
+        "Airbnb",
+        "AI"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Global EV market goes K-shaped as the U.S. gets left behind",
+      "url": "https://techcrunch.com/2026/05/20/global-ev-market-goes-k-shaped-as-the-u-s-gets-left-behind/",
+      "published_at": "2026-05-20T17:34:00Z",
+      "categories": [
+        "Climate",
+        "Transportation",
+        "Analysis",
+        "electric vehicles",
+        "EVs",
+        "one big beautiful bill"
+      ],
+      "summary": "EV sales have surged worldwide in every region but the U.S., posing risks for legacy and startup automakers.",
+      "github_links": [],
+      "entities": [
+        "Global",
+        "EV",
+        "U.S"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "OpenAI barrels towards IPO that may happen in September",
+      "url": "https://techcrunch.com/2026/05/20/openai-barrels-towards-ipo-that-may-happen-in-september/",
+      "published_at": "2026-05-20T17:24:24Z",
+      "categories": [
+        "AI",
+        "Startups",
+        "IPOs",
+        "OpenAI"
+      ],
+      "summary": "A day after Elon Musk lost his lawsuit that threatened OpenAI's structure, leadership and finances, OpenAI is reportedly back to prepping for its IPO.",
+      "github_links": [],
+      "entities": [
+        "OpenAI",
+        "IPO",
+        "September"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Jeff Bezos, you were so close to making a good point",
+      "url": "https://techcrunch.com/2026/05/20/jeff-bezos-you-were-so-close-to-making-a-good-point/",
+      "published_at": "2026-05-20T17:10:31Z",
+      "categories": [
+        "Commerce",
+        "jeff bezos"
+      ],
+      "summary": "\"Why is a nurse in Queens who makes $75,000 a year paying more than $1,000 a month in taxes?\" Bezos said Wednesday morning on CNBC. \"That's $1,000 that could help with rent, or groceries, or anything.\"",
+      "github_links": [],
+      "entities": [
+        "Jeff",
+        "Bezos"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "Customers say Trump Mobile is leaking their personal information",
+      "url": "https://techcrunch.com/2026/05/20/customers-say-trump-mobile-is-leaking-their-personal-information/",
+      "published_at": "2026-05-20T15:28:55Z",
+      "categories": [
+        "Security",
+        "cybersecurity",
+        "data exposure",
+        "Data leak",
+        "Donald Trump",
+        "privacy",
+        "Trump Mobile"
+      ],
+      "summary": "Trump Mobile is leaking customers’ email and home addresses but has not responded to people alerting the company of the data exposure, according to two YouTubers who said they verified that their leaked data is authentic.",
+      "github_links": [],
+      "entities": [
+        "Customers",
+        "Trump",
+        "Mobile"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "Intuit to lay off over 3,000 employees to refocus on AI",
+      "url": "https://techcrunch.com/2026/05/20/intuit-to-lay-off-over-3000-employees-to-refocus-on-ai/",
+      "published_at": "2026-05-20T15:14:31Z",
+      "categories": [
+        "Enterprise",
+        "Intuit",
+        "Layoffs",
+        "Sasan Goodarzi",
+        "tech layoffs"
+      ],
+      "summary": "In a memo to employees, CEO Sasan Goodarzi said the layoffs are meant to reduce complexity, simplify the company's corporate structure, and deliver better AI products.",
+      "github_links": [],
+      "entities": [
+        "Intuit",
+        "AI"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "AI search startups are blowing up",
+      "url": "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
+      "published_at": "2026-05-20T15:04:45Z",
+      "categories": [
+        "AI",
+        "AI search",
+        "Exa Labs",
+        "In Brief",
+        "Parallel Web Systems"
+      ],
+      "summary": "AI search has quietly become one of the most attractive targets in consumer AI.",
+      "github_links": [],
+      "entities": [
+        "AI"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Stability AI releases a new audio model that can create 6-minute songs",
+      "url": "https://techcrunch.com/2026/05/20/stability-ai-release-a-new-audio-model-that-can-create-six-minute-songs/",
+      "published_at": "2026-05-20T15:00:00Z",
+      "categories": [
+        "AI",
+        "Media & Entertainment",
+        "audio creation",
+        "Music",
+        "Stability AI"
+      ],
+      "summary": "Stability Audio 3.0 small model can run on-device and generate two-minute long tracks.",
+      "github_links": [],
+      "entities": [
+        "Stability",
+        "AI"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "NanoClaw creator turns down $20M buyout offer, raises $12M seed instead",
+      "url": "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
+      "published_at": "2026-05-20T14:00:00Z",
+      "categories": [
+        "AI",
+        "Startups",
+        "AI agents",
+        "NanoClaw",
+        "openclaw",
+        "Valley Capital Partners"
+      ],
+      "summary": "NanoClaw was created as a secure alternative to OpenClaw to assist the Cohen brothers with their AI marketing firm that used agents to do much of the work. But instead of running directly on a computer, NanoClaw runs sandboxed in a container.",
+      "github_links": [],
+      "entities": [
+        "NanoClaw"
+      ],
+      "relevance_score": 0.8
+    },
+    {
+      "title": "Startup Battlefield 200 applications close in 1 week: Window to nominate and apply for the most promising startups closes May 27",
+      "url": "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
+      "published_at": "2026-05-20T14:00:00Z",
+      "categories": [
+        "AI",
+        "Biotech & Health",
+        "Climate",
+        "Fintech",
+        "Fundraising",
+        "Startups",
+        "TC",
+        "Venture"
+      ],
+      "summary": "Startup Battlefield 200 applications close May 27. Pitch at TechCrunch Disrupt, get investor access, win $100K, plus more scaling perks. Nominate an early-stage founder or submit your startup today.",
+      "github_links": [],
+      "entities": [
+        "Startup",
+        "Battlefield",
+        "Window"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "GitHub says hackers stole data from thousands of internal repositories",
+      "url": "https://techcrunch.com/2026/05/20/github-says-hackers-stole-data-from-thousands-of-internal-repositories/",
+      "published_at": "2026-05-20T13:25:58Z",
+      "categories": [
+        "Security",
+        "cyberattack",
+        "cybersecurity",
+        "data breach",
+        "GitHub",
+        "hackers",
+        "Microsoft"
+      ],
+      "summary": "The code hosting giant GitHub said it was investigating a breach but said there was no evidence of customer data theft.",
+      "github_links": [],
+      "entities": [
+        "GitHub"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Figma adds an AI assistant to its collaborative canvas",
+      "url": "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
+      "published_at": "2026-05-20T13:00:00Z",
+      "categories": [
+        "AI",
+        "Apps",
+        "design",
+        "Figma",
+        "AI assistant"
+      ],
+      "summary": "Figma's new AI assistant will be first available on Figma Design",
+      "github_links": [],
+      "entities": [
+        "Figma",
+        "AI"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "This startup raised $43M to build a hive mind for ships",
+      "url": "https://techcrunch.com/2026/05/20/this-startup-raised-43m-to-build-a-hive-mind-for-ships/",
+      "published_at": "2026-05-20T13:00:00Z",
+      "categories": [
+        "Fundraising",
+        "Startups",
+        "Transportation",
+        "Exclusive",
+        "first round captial",
+        "quartermaster"
+      ],
+      "summary": "The Arlington, Virginia-based startup has raised $42 million to equip ships with sensors that blow the current AIS tech out of the water.",
+      "github_links": [],
+      "entities": [],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "‘Ask YouTube’ brings AI-powered conversational search to video, adds Gemini Omni to Shorts",
+      "url": "https://techcrunch.com/2026/05/19/ask-youtube-brings-ai-powered-conversational-search-to-video-adds-gemini-omni-to-shorts/",
+      "published_at": "2026-05-20T05:45:00Z",
+      "categories": [
+        "Media & Entertainment",
+        "Apps",
+        "Social",
+        "Google I/O",
+        "YouTube",
+        "YouTube Shorts",
+        "google i/o 2026",
+        "gemini omni"
+      ],
+      "summary": "Google is completely revamping its search experience, and that doesn't stop at YouTube.",
+      "github_links": [],
+      "entities": [
+        "Ask",
+        "YouTube",
+        "AI",
+        "Gemini",
+        "Omni",
+        "Shorts"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "Google just declared itself a contender in AI design at IO 2026",
+      "url": "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
+      "published_at": "2026-05-19T21:33:30Z",
+      "categories": [
+        "AI",
+        "Apps",
+        "Google",
+        "Google I/O",
+        "google io 2026",
+        "google pics"
+      ],
+      "summary": "Google says it's designed the app to be accessible to everyone, from teachers to small business owners.",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "AI",
+        "IO"
+      ],
+      "relevance_score": 0.2
+    },
     {
       "title": "You can now talk to your Gmail inbox, as seen at Google IO 2026",
       "url": "https://techcrunch.com/2026/05/19/you-can-now-talk-to-your-gmail-inbox-as-seen-at-google-io-2026/",
@@ -54,7 +351,8 @@
         "Security",
         "cybersecurity",
         "discord",
-        "end-to-end encryption"
+        "end-to-end encryption",
+        "In Brief"
       ],
       "summary": "Good news! Discord's hundreds of millions of users now have their communications scrambled, so not even Discord can see them.",
       "github_links": [],
@@ -69,8 +367,6 @@
       "published_at": "2026-05-19T21:09:56Z",
       "categories": [
         "Hardware",
-        "TC",
-        "anduril",
         "defense tech",
         "Ethan Thornton",
         "mach industries"
@@ -95,7 +391,7 @@
         "lightspeed",
         "phishing"
       ],
-      "summary": "Ocean, an agentic email security platform, raised funding from Lightspeed Venture Partners.",
+      "summary": "Ocean, an agentic email security platform, claims its AI can thoroughly analyze the context of every incoming email to detect fraud and impersonation attempts.",
       "github_links": [],
       "entities": [
         "Iron",
@@ -103,333 +399,11 @@
         "AI"
       ],
       "relevance_score": 0.6
-    },
-    {
-      "title": "Elon Musk said Sam Altman “stole” a non-profit — but the trial showed he had similar aims",
-      "url": "https://techcrunch.com/2026/05/19/elon-musk-said-sam-altman-stole-a-non-profit-but-the-trial-showed-he-had-similar-aims/",
-      "published_at": "2026-05-19T20:11:00Z",
-      "categories": [
-        "AI",
-        "Elon Musk",
-        "OpenAI",
-        "sam altman",
-        "Tesla"
-      ],
-      "summary": "“By the end of this week, you and Sam will be the most hated men in America.”",
-      "github_links": [],
-      "entities": [
-        "Elon",
-        "Musk",
-        "Sam",
-        "Altman"
-      ],
-      "relevance_score": 0.2
-    },
-    {
-      "title": "Google takes a page out of Meta’s book, announces new audio-powered smart glasses",
-      "url": "https://techcrunch.com/2026/05/19/google-takes-a-page-out-of-metas-book-announces-new-audio-powered-smart-glasses/",
-      "published_at": "2026-05-19T19:15:31Z",
-      "categories": [
-        "AI",
-        "Hardware",
-        "ai glasses",
-        "glasses",
-        "Google",
-        "google io 2026",
-        "In Brief"
-      ],
-      "summary": "Google is calling the new devices \"audio glasses,\" in that users will be able to issue verbal commands to them and get things done via its ecosystem of apps and services, including Gemini.",
-      "github_links": [],
-      "entities": [
-        "Google",
-        "Meta"
-      ],
-      "relevance_score": 0.2
-    },
-    {
-      "title": "Google’s Genie world model can now simulate real streets with Street View",
-      "url": "https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/",
-      "published_at": "2026-05-19T17:51:39Z",
-      "categories": [
-        "AI",
-        "Robotics",
-        "genie 3",
-        "Google",
-        "Google I/O",
-        "google io 2026",
-        "Google Maps",
-        "Street View"
-      ],
-      "summary": "Google DeepMind is integrating Street View with Project Genie to create immersive, interactive world simulations for robotics, gaming, and travel, allowing users to explore environments, weather changes, and rare scenarios.",
-      "github_links": [],
-      "entities": [
-        "Google",
-        "Genie",
-        "Street",
-        "View"
-      ],
-      "relevance_score": 0.4
-    },
-    {
-      "title": "With Gemini 3.5 Flash, Google bets its next AI wave on agents, not chatbots",
-      "url": "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/",
-      "published_at": "2026-05-19T17:51:30Z",
-      "categories": [
-        "AI",
-        "gemini",
-        "gemini flash 3.5",
-        "Google",
-        "google io 2026"
-      ],
-      "summary": "Google launched Gemini 3.5 Flash, its most powerful coding and agentic AI model yet, at the company's annual developer conference. It is capable of autonomously executing complex tasks and building software from scratch.",
-      "github_links": [],
-      "entities": [
-        "Gemini",
-        "Flash",
-        "Google",
-        "AI"
-      ],
-      "relevance_score": 0.8
-    },
-    {
-      "title": "Google Search as you know it is over",
-      "url": "https://techcrunch.com/2026/05/19/google-search-as-you-know-it-is-over/",
-      "published_at": "2026-05-19T17:46:00Z",
-      "categories": [
-        "AI",
-        "Apps",
-        "Google",
-        "Google Search",
-        "AI search",
-        "google io 2026"
-      ],
-      "summary": "Google is transforming Search from a list of links into an AI-powered experience filled with conversational answers, autonomous agents, and interactive interfaces — a shift that could further reduce traffic to publishers across the web.",
-      "github_links": [],
-      "entities": [
-        "Google",
-        "Search"
-      ],
-      "relevance_score": 0.6
-    },
-    {
-      "title": "Google’s AI Studio now lets anyone build Android apps in minutes",
-      "url": "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/",
-      "published_at": "2026-05-19T17:45:00Z",
-      "categories": [
-        "AI",
-        "Apps",
-        "Android",
-        "Google",
-        "coding",
-        "google io 2026"
-      ],
-      "summary": "Google unveiled new web-based AI tools that can generate native Android apps in minutes, as the company expands its push into AI-powered software development.",
-      "github_links": [],
-      "entities": [
-        "Google",
-        "AI",
-        "Studio",
-        "Android"
-      ],
-      "relevance_score": 0.2
-    },
-    {
-      "title": "Google just declared itself a contender in AI design",
-      "url": "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/",
-      "published_at": "2026-05-19T17:45:00Z",
-      "categories": [
-        "AI",
-        "Apps",
-        "Google",
-        "Google I/O",
-        "google io 2026",
-        "google pics"
-      ],
-      "summary": "The tech giant says it's designed the app to be accessible to everyone, from teachers to small business owners.",
-      "github_links": [],
-      "entities": [
-        "Google",
-        "AI"
-      ],
-      "relevance_score": 0.2
-    },
-    {
-      "title": "Google updates its Gemini app to take on ChatGPT and Claude",
-      "url": "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude/",
-      "published_at": "2026-05-19T17:45:00Z",
-      "categories": [
-        "AI",
-        "Apps",
-        "gemini",
-        "Google",
-        "Google I/O",
-        "google i/o 2026"
-      ],
-      "summary": "The updates signal Google’s push to turn its Gemini app into an all-purpose AI hub rather than a stand-alone chatbot.",
-      "github_links": [],
-      "entities": [
-        "Google",
-        "Gemini",
-        "ChatGPT",
-        "Claude"
-      ],
-      "relevance_score": 0.4
-    },
-    {
-      "title": "Agentic app coding gets an upgrade with Google’s release of Android CLI",
-      "url": "https://techcrunch.com/2026/05/19/agentic-app-coding-gets-an-upgrade-with-googles-release-of-android-cli/",
-      "published_at": "2026-05-19T17:45:00Z",
-      "categories": [
-        "AI",
-        "Apps",
-        "Android",
-        "coding",
-        "Google",
-        "google io 2026",
-        "In Brief"
-      ],
-      "summary": "Google is embracing the rise of AI coding agents with new Android tools designed to work with platforms like Claude Code and OpenAI’s Codex, allowing developers — or their AI assistants — to build Android apps faster from the command line.",
-      "github_links": [],
-      "entities": [
-        "Agentic",
-        "Google",
-        "Android",
-        "CLI"
-      ],
-      "relevance_score": 0.6
-    },
-    {
-      "title": "Google’s new Universal Cart wants to follow you across the entire internet",
-      "url": "https://techcrunch.com/2026/05/19/googles-new-universal-cart-wants-to-follow-you-across-the-entire-internet/",
-      "published_at": "2026-05-19T17:45:00Z",
-      "categories": [
-        "AI",
-        "Apps",
-        "Commerce",
-        "Google",
-        "Google I/O",
-        "google io 2026"
-      ],
-      "summary": "The tech giant says it's aware that most people shop across multiple devices, many retailers, and over the course of many days, which is why it's launching Universal Cart.",
-      "github_links": [],
-      "entities": [
-        "Google",
-        "Universal",
-        "Cart"
-      ],
-      "relevance_score": 0.4
-    },
-    {
-      "title": "Google introduces Gemini Spark, a 24/7 agentic assistant with Gmail integration",
-      "url": "https://techcrunch.com/2026/05/19/google-introduces-gemini-spark-a-24-7-agentic-assistant-with-gmail-integration/",
-      "published_at": "2026-05-19T17:45:00Z",
-      "categories": [
-        "AI",
-        "agentic AI assistant",
-        "gemini",
-        "Gemini Spark",
-        "Google I/O",
-        "google io 2026"
-      ],
-      "summary": "At the Google I/O developer conference, the company announced a new agentic personal assistant called Gemini Spark, built from Gemini's base models and an agentic harness from Google Antigravity.",
-      "github_links": [],
-      "entities": [
-        "Google",
-        "Gemini",
-        "Spark",
-        "Gmail"
-      ],
-      "relevance_score": 0.8
-    },
-    {
-      "title": "Google adds voice-based prompting to Docs and Keep",
-      "url": "https://techcrunch.com/2026/05/19/google-adds-voice-based-prompting-to-docs-and-keep/",
-      "published_at": "2026-05-19T17:45:00Z",
-      "categories": [
-        "AI",
-        "Apps",
-        "Google",
-        "google docs",
-        "google io 2026",
-        "voice AI"
-      ],
-      "summary": "Google is letting users create drafts, take notes, and search for email with voice with the new Workspace update.",
-      "github_links": [],
-      "entities": [
-        "Google",
-        "Docs",
-        "Keep"
-      ],
-      "relevance_score": 0.2
-    },
-    {
-      "title": "Google launches Antigravity 2.0 with an updated desktop app and CLI tool",
-      "url": "https://techcrunch.com/2026/05/19/google-launches-antigravity-2-0-with-an-updated-desktop-app-and-cli-tool/",
-      "published_at": "2026-05-19T17:45:00Z",
-      "categories": [
-        "AI",
-        "Apps",
-        "TC",
-        "ai coding",
-        "Google",
-        "Google Antigravity",
-        "google io 2026"
-      ],
-      "summary": "Google is debuting a new AI Ultra plan priced at $100, which will give users 5x more usage limit than the AI Pro plan alongside the Antigravity 2.0 launch.",
-      "github_links": [],
-      "entities": [
-        "Google",
-        "Antigravity",
-        "CLI"
-      ],
-      "relevance_score": 0.2
-    },
-    {
-      "title": "Google’s Gemini Omni turns images, audio, and text into video — and that’s just the start",
-      "url": "https://techcrunch.com/2026/05/19/googles-gemini-omni-turns-images-audio-and-text-into-video-and-thats-just-the-start/",
-      "published_at": "2026-05-19T17:45:00Z",
-      "categories": [
-        "Media & Entertainment",
-        "AI",
-        "Google",
-        "Veo",
-        "google io 2026",
-        "google gemini omni",
-        "gemini omni flash"
-      ],
-      "summary": "Google's Gemini Omni is a new multimodal model that reasons across text, images, audio, and video to generate and edit videos through simple conversation — starting with Omni Flash.",
-      "github_links": [],
-      "entities": [
-        "Google",
-        "Gemini",
-        "Omni"
-      ],
-      "relevance_score": 0.6
-    },
-    {
-      "title": "OpenAI is making it easier to check if an image was made by their models",
-      "url": "https://techcrunch.com/2026/05/19/openai-is-making-it-easier-to-check-if-an-image-was-made-by-their-models/",
-      "published_at": "2026-05-19T17:45:00Z",
-      "categories": [
-        "AI",
-        "c2pa",
-        "deepfake",
-        "Google",
-        "OpenAI",
-        "provenance",
-        "synthid"
-      ],
-      "summary": "OpenAI announced two new measures to help detect AI generated imagery: joining the open C2PA standard and adding Google's SynthID to its products.",
-      "github_links": [],
-      "entities": [
-        "OpenAI"
-      ],
-      "relevance_score": 0.4
     }
   ],
   "metadata": {
     "total_articles": 20,
-    "relevant_articles": 11,
+    "relevant_articles": 10,
     "github_links_found": 0
   }
 }
