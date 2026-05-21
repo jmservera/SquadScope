@@ -2,6 +2,7 @@
 12 articles published relevant to tech/open-source.
 
 Notable coverage:
+- [Beauty booking startup Fresha hits $1 billion valuation with KKR backing](https://techcrunch.com/2026/05/21/booking-platform-fresha-announces-80m-investment-unicorn-valuation/) [Startups, Venture, SaaS]
 - [General Catalyst just led a $63M bet on India’s travel payments market](https://techcrunch.com/2026/05/20/indian-travel-fintech-scapia-more-than-doubles-valuation-to-over-500m-in-a-year/) [Fintech, Startups, General Catalyst, Peak XV Partners, Scapia, Z47]
 - [Imperagen raises £5 million to use quantum physics, AI on enzyme engineering](https://techcrunch.com/2026/05/20/imperagen-raises-5-million-to-redefine-enzyme-engineering/) [Startups, Biotech & Health, Venture, biotech]
 - [Jensen Huang says he’s found a ‘brand new’ $200B market for Nvidia](https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/) [AI, Enterprise, TC, cpus, nvidia]
@@ -13,10 +14,9 @@ Notable coverage:
 - [OpenAI claims it solved an 80-year-old math problem — for real this time](https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/) [AI, ChatGPT, erdos problems, OpenAI, reasoning models]
 - [IrisGo, a startup backed by Andrew Ng, looks to become the AI desktop buddy you never knew you needed](https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/) [AI, andrew ng, google brain, IrisGo]
 - [Airbnb gets into hotels, expands AI for host onboarding and customer support](https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/) [Apps, Airbnb, customer support, hotel bookings]
-- [OpenAI barrels toward IPO that may happen in September](https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/) [AI, Startups, Elon Musk, In Brief, IPOs, OpenAI, sam altman]
 
 ### Correlation Summary
-84 repos have press correlation:
+85 repos have press correlation:
 - microsoft/vscode — match: org_name, confidence: 0.8, hype_risk: medium
 - microsoft/PowerToys — match: org_name, confidence: 0.8, hype_risk: medium
 - microsoft/generative-ai-for-beginners — match: org_name, confidence: 0.8, hype_risk: medium
@@ -50,6 +50,7 @@ Notable coverage:
 - JuliusBrussee/caveman — match: project_name, confidence: 0.6, hype_risk: medium
 - commaai/openpilot — match: project_name, confidence: 0.6, hype_risk: medium
 - virattt/ai-hedge-fund — match: project_name, confidence: 0.6, hype_risk: medium
+- sharkdp/bat — match: project_name, confidence: 0.6, hype_risk: medium
 - rclone/rclone — match: project_name, confidence: 0.6, hype_risk: medium
 - go-gitea/gitea — match: project_name, confidence: 0.6, hype_risk: medium
 - typst/typst — match: project_name, confidence: 0.6, hype_risk: medium
@@ -123,8 +124,8 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **android**: flutter/flutter (⭐176405), Genymobile/scrcpy (⭐142100), facebook/react-native (⭐125859)
 - **api**: public-apis/public-apis (⭐436214), neovim/neovim (⭐99782), fastapi/fastapi (⭐98387)
 - **awesome**: vinta/awesome-python (⭐298793), awesome-selfhosted/awesome-selfhosted (⭐294205), avelino/awesome-go (⭐173202)
-- **cli**: ohmyzsh/ohmyzsh (⭐187156), yt-dlp/yt-dlp (⭐163468), sherlock-project/sherlock (⭐83546)
 - **bot**: openclaw/clawpatch (⭐610), sachmalan/kalshi-trading-bot (⭐153), VAENPP/solana-trading-bot (⭐152)
+- **cli**: ohmyzsh/ohmyzsh (⭐187156), yt-dlp/yt-dlp (⭐163468), sherlock-project/sherlock (⭐83546)
 - **framework**: laravel/laravel (⭐84309), spring-projects/spring-boot (⭐80679), nestjs/nest (⭐75564)
 - **agent**: agentic-in/elephant-agent (⭐373), Snailclimb/JavaGuide (⭐155795), TauricResearch/TradingAgents (⭐77954)
 - **algorithm**: TheAlgorithms/Python (⭐221272), trekhleb/javascript-algorithms (⭐195980), TheAlgorithms/Java (⭐65686)
