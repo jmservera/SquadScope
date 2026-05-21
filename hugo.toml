@@ -128,7 +128,9 @@ ignoreFiles = ['data/analyzed/.*\\.md$', 'data/metrics/']
 
 [markup]
   [markup.goldmark.renderer]
-    unsafe = true
+    # unsafe = false: AI-generated content must not render raw HTML.
+    # Use Hugo shortcodes or layouts for any intentional HTML embeds.
+    unsafe = false
 
   [markup.tableOfContents]
     startLevel = 2

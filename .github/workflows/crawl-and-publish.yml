@@ -12,10 +12,7 @@ on:
         type: boolean
 
 permissions:
-  actions: read
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
 
 concurrency:
   group: weekly-crawl
@@ -28,6 +25,9 @@ env:
 jobs:
   crawl:
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
 
     steps:
       - name: Check out repository
@@ -274,7 +274,6 @@ jobs:
 
       - name: Install Copilot CLI
         id: install-copilot
-        continue-on-error: true
         run: npm install -g @github/copilot
 
       - name: Run analysis
@@ -304,8 +303,13 @@ jobs:
             cat "$PRESS_FILE" >> "$PROMPT_FILE"
           fi
 
+          if ! command -v copilot >/dev/null 2>&1; then
+            echo "::error::Copilot CLI unavailable; rerun crawl-and-publish when Copilot is available."
+            exit 1
+          fi
+
           # Intentionally rely on Copilot CLI's default model so CI follows the platform-supported default.
-          if command -v copilot >/dev/null 2>&1 && copilot \
+          if ! copilot \
             --agent squad \
             -p "Farnsworth, read the file at ${PROMPT_FILE} — it contains the weekly data and analysis instructions. Follow them exactly and write the analysis to ${OUTPUT_FILE}." \
             -s \
@@ -316,27 +320,11 @@ jobs:
             --allow-tool=grep \
             --share=data/metrics/copilot-transcript.md \
             > /dev/null; then
-            ANALYSIS_SOURCE="copilot-cli"
-            ANALYSIS_MODEL="copilot-default"
-          elif python3 scripts/analyze_fallback.py \
-            --raw-json "$WEEK_FILE" \
-            --output "$OUTPUT_FILE" \
-            --current-datetime "$CURRENT_DATETIME" \
-            --press-context "$PRESS_FILE" 2>/dev/null; then
-            echo "Copilot CLI unavailable or failed; used GitHub Models API."
-            ANALYSIS_SOURCE="github-models"
-            ANALYSIS_MODEL="${GITHUB_MODELS_MODEL:-openai/gpt-4o}"
-          else
-            echo "Both Copilot CLI and GitHub Models unavailable; using no-AI data summary."
-            python3 scripts/analyze_fallback.py \
-              --raw-json "$WEEK_FILE" \
-              --output "$OUTPUT_FILE" \
-              --current-datetime "$CURRENT_DATETIME" \
-              --press-context "$PRESS_FILE" \
-              --no-ai
-            ANALYSIS_SOURCE="no-ai"
-            ANALYSIS_MODEL="none"
+            echo "::error::Copilot analysis failed; rerun crawl-and-publish when Copilot is available."
+            exit 1
           fi
+          ANALYSIS_SOURCE="copilot-cli"
+          ANALYSIS_MODEL="copilot-default"
 
           sanitize_agent_output "$OUTPUT_FILE"
 
@@ -597,6 +585,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      discussions: write
 
     steps:
       - uses: actions/checkout@v4
@@ -649,15 +638,17 @@ jobs:
         run: |
           SUMMARY=$(ls -t data/analyzed/*-summary.md | head -1)
           WEEK=$(basename "$SUMMARY" | sed 's/-summary.md//')
-          SITE_URL="https://jmservera.github.io/SquadScope/weekly/$(echo $WEEK | tr '-' '/' | sed 's/W/w/')/"
-          
-          # Post JSON payload (compatible with Discord/Slack webhooks)
+          SITE_URL="https://jmservera.github.io/SquadScope/weekly/$(echo "$WEEK" | tr '-' '/' | sed 's/W/w/')/"
+
+          # Build JSON payload with jq to prevent injection via WEEK or SITE_URL
+          PAYLOAD=$(jq -n \
+            --arg content "📊 **SquadScope Week ${WEEK}** — New tech trends summary published!\n${SITE_URL}" \
+            --arg username "SquadScope" \
+            '{content: $content, username: $username}')
+
           curl -s -X POST "$WEBHOOK_URL" \
             -H "Content-Type: application/json" \
-            -d "{
-              \"content\": \"📊 **SquadScope Week $WEEK** — New tech trends summary published!\n$SITE_URL\",
-              \"username\": \"SquadScope\"
-            }" || echo "Webhook post failed (non-critical)"
+            -d "$PAYLOAD" || echo "Webhook post failed (non-critical)"
 
 
   reskill-check:
