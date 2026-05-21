@@ -1,23 +1,161 @@
 {
   "week": "2026-W21",
   "source": "techcrunch",
-  "crawled_at": "2026-05-20T20:58:25.210248Z",
+  "crawled_at": "2026-05-21T08:39:14.474016Z",
   "articles": [
     {
-      "title": "The SpaceX IPO filing has arrived",
-      "url": "https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-has-arrived/",
-      "published_at": "2026-05-20T20:52:00Z",
+      "title": "Truecaller gets into the eSIM business to diversify its revenue streams",
+      "url": "https://techcrunch.com/2026/05/20/truecaller-gets-into-the-esim-business-to-diversify-its-revenue-streams/",
+      "published_at": "2026-05-21T06:00:00Z",
+      "categories": [
+        "Apps",
+        "esim",
+        "travel",
+        "Truecaller"
+      ],
+      "summary": "The company said its plans will range from 1 GB over 7 days to 20 GB over 30 days. Initially, the launch will make the eSIM product available in 29 countries.",
+      "github_links": [],
+      "entities": [
+        "Truecaller"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "General Catalyst just led a $63M bet on India’s travel payments market",
+      "url": "https://techcrunch.com/2026/05/20/indian-travel-fintech-scapia-more-than-doubles-valuation-to-over-500m-in-a-year/",
+      "published_at": "2026-05-21T05:52:38Z",
+      "categories": [
+        "Fintech",
+        "Startups",
+        "General Catalyst",
+        "Peak XV Partners",
+        "Scapia",
+        "Z47"
+      ],
+      "summary": "Scapia, an Indian startup that combines travel booking with co-branded credit cards and mobile payments, said the deal doubles its valuation.",
+      "github_links": [],
+      "entities": [
+        "General",
+        "Catalyst",
+        "India"
+      ],
+      "relevance_score": 0.6
+    },
+    {
+      "title": "Imperagen raises £5 million to use quantum physics, AI on enzyme engineering",
+      "url": "https://techcrunch.com/2026/05/20/imperagen-raises-5-million-to-redefine-enzyme-engineering/",
+      "published_at": "2026-05-21T04:00:00Z",
+      "categories": [
+        "Startups",
+        "Biotech & Health",
+        "Venture",
+        "biotech"
+      ],
+      "summary": "Biotech company Imperagen announced on Thursday a £5 million ($6.7 million) seed round led by PXN Ventures, with participation from IQ Capital and Northern Gritstone.",
+      "github_links": [],
+      "entities": [
+        "Imperagen",
+        "AI"
+      ],
+      "relevance_score": 0.8
+    },
+    {
+      "title": "Jensen Huang says he’s found a ‘brand new’ $200B market for Nvidia",
+      "url": "https://techcrunch.com/2026/05/20/jensen-huang-says-hes-found-a-brand-new-200b-market-for-nvidia/",
+      "published_at": "2026-05-21T00:28:31Z",
+      "categories": [
+        "AI",
+        "Enterprise",
+        "TC",
+        "cpus",
+        "nvidia"
+      ],
+      "summary": "The next big thing for Nvidia will be CPUs for AI agents, $200 billion worth, CEO Jensen Huang predicts.",
+      "github_links": [],
+      "entities": [
+        "Jensen",
+        "Huang",
+        "Nvidia"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Anthropic says it’s about to have its first profitable quarter",
+      "url": "https://techcrunch.com/2026/05/20/anthropic-says-its-about-to-have-its-first-profitable-quarter/",
+      "published_at": "2026-05-21T00:21:21Z",
+      "categories": [
+        "AI",
+        "Anthropic",
+        "Claude",
+        "OpenAI"
+      ],
+      "summary": "Anthropic has told its investors that it will more than double revenue to around $10.9 billion in its second quarter.",
+      "github_links": [],
+      "entities": [
+        "Anthropic"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "The SpaceX IPO filing is filled with AI bets, Starship dreams, and Elon Musk at the center",
+      "url": "https://techcrunch.com/2026/05/20/the-spacex-ipo-filing-ai-bets-starship-dreams-elon-musk/",
+      "published_at": "2026-05-20T23:03:02Z",
       "categories": [
         "Space",
         "Transportation",
         "Elon Musk",
         "IPOs",
-        "rockets",
         "SpaceX",
-        "Starlink",
-        "xAI"
+        "rockets",
+        "xAI",
+        "Starlink"
       ],
-      "summary": "SpaceX has finally made the contents of its IPO filing public, weeks ahead of what is expected to be the largest IPO ever.",
+      "summary": "SpaceX has finally made the contents of its IPO filing public, weeks ahead of what is expected to be the largest IPO ever and one that will make Musk the CEO, CTO, and chairman of the board.",
+      "github_links": [],
+      "entities": [
+        "SpaceX",
+        "IPO",
+        "AI",
+        "Starship",
+        "Elon",
+        "Musk"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "Clouted wants to take the guesswork out of making short videos go viral",
+      "url": "https://techcrunch.com/2026/05/20/clouted-wants-to-take-the-guesswork-out-of-making-short-videos-go-viral/",
+      "published_at": "2026-05-20T22:30:45Z",
+      "categories": [
+        "AI",
+        "Media & Entertainment",
+        "Startups",
+        "Clouted",
+        "Marketing",
+        "slow ventures",
+        "social media"
+      ],
+      "summary": "The video clipping startup raised a $7 million seed round led by Slow Ventures.",
+      "github_links": [],
+      "entities": [
+        "Clouted"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "xAI burned $6.4B last year — SpaceX’s IPO filing shows why the spending is far from over",
+      "url": "https://techcrunch.com/2026/05/20/xai-burned-6-4b-last-year-spacexs-ipo-filing-shows-why-the-spending-is-far-from-over/",
+      "published_at": "2026-05-20T22:26:08Z",
+      "categories": [
+        "AI",
+        "Space",
+        "Elon Musk",
+        "Grok",
+        "SpaceX",
+        "spacex ipo",
+        "X"
+      ],
+      "summary": "SpaceX's IPO filing reveals xAI lost $6.4 billion in 2025 while planning a massive Grok expansion — offering the first public look at Elon Musk's AI financials and more details about his ambitions.",
       "github_links": [],
       "entities": [
         "SpaceX",
@@ -26,18 +164,120 @@
       "relevance_score": 0.2
     },
     {
-      "title": "Microsoft’s carbon removal plans aren’t dead after all",
+      "title": "Nvidia posts another record quarter, reveals $43B of holdings in startups",
+      "url": "https://techcrunch.com/2026/05/20/nvidia-posts-another-record-quarter-reveals-43-billion-of-holdings-in-startups/",
+      "published_at": "2026-05-20T22:03:51Z",
+      "categories": [
+        "AI",
+        "earnings",
+        "Jensen Huang",
+        "nvidia"
+      ],
+      "summary": "Nvidia announced another record revenue figure after market close on Wednesday, but forecasted that revenue growth would slow in the following quarter.",
+      "github_links": [],
+      "entities": [
+        "Nvidia"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Musk’s xAI is being sued over its data center generators — now it’s buying $2.8B more",
+      "url": "https://techcrunch.com/2026/05/20/musks-xai-is-being-sued-over-its-data-center-generators-now-its-buying-2-8b-more/",
+      "published_at": "2026-05-20T21:55:49Z",
+      "categories": [
+        "AI",
+        "Climate",
+        "air pollution",
+        "data centers",
+        "Elon Musk",
+        "natural gas",
+        "SpaceX",
+        "spacex ipo",
+        "spacexai",
+        "xAI"
+      ],
+      "summary": "Elon Musk's xAI said it will buy $2.8 billion worth of natural gas turbines over the next three years, according to SpaceX's IPO filing.",
+      "github_links": [],
+      "entities": [
+        "Musk"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "Anthropic will pay xAI $1.25B per month for compute",
+      "url": "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
+      "published_at": "2026-05-20T21:29:22Z",
+      "categories": [
+        "AI",
+        "Anthropic",
+        "colossus",
+        "data centers",
+        "SpaceX",
+        "xAI"
+      ],
+      "summary": "Elon Musk's xAI surprised the AI world when it made a deal to sell compute to Anthropic. Now we know how much it's worth.",
+      "github_links": [],
+      "entities": [
+        "Anthropic"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Sam Altman makes ‘mic drop’ offer to every Y Combinator startup",
+      "url": "https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/",
+      "published_at": "2026-05-20T21:23:02Z",
+      "categories": [
+        "Startups",
+        "Venture",
+        "OpenAI",
+        "sam altman",
+        "Y Combinator"
+      ],
+      "summary": "Altman offered to have OpenAI invest in every single startup in this Y Combinator class: tokens for equity.",
+      "github_links": [],
+      "entities": [
+        "Sam",
+        "Altman",
+        "Combinator"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "You don’t need to be an AI startup to raise. Lucra has $20M to prove it.",
+      "url": "https://techcrunch.com/video/you-dont-need-to-be-an-ai-startup-to-raise-lucra-has-20m-to-prove-it/",
+      "published_at": "2026-05-20T21:21:22Z",
+      "categories": [
+        "Startups",
+        "AI startup",
+        "ark invest",
+        "Cathie Wood",
+        "Equity podcast",
+        "Lucra",
+        "startup fundraising",
+        "venture capital"
+      ],
+      "summary": "Slapping &#8220;AI&#8221; on your&#160;startup’s&#160;pitch deck is&#160;basically table&#160;stakes right now. When a founder&#160;raised $20 million from Cathie Wood&#8217;s ARK Invest&#160;for an eSports&#160;gamification&#160;loyalty startup without those two letters in the spotlight, it got us wondering how the conversation even started&#160;—&#160;especially&#160;when ARK had already been burned by a company&#160;operating&#160;in the same space.&#160; On this episode of TechCrunch&#821...",
+      "github_links": [],
+      "entities": [
+        "You",
+        "AI",
+        "Lucra"
+      ],
+      "relevance_score": 0.6
+    },
+    {
+      "title": "Microsoft’s carbon-removal plans aren’t dead after all",
       "url": "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/",
       "published_at": "2026-05-20T20:30:24Z",
       "categories": [
         "Climate",
-        "Microsoft",
         "biogas",
-        "Exclusive",
         "carbon credits",
-        "carbon removal"
+        "carbon removal",
+        "Exclusive",
+        "Microsoft"
       ],
-      "summary": "Microsoft is responsible for over 90% of the carbon removal market, and reports suggested the company was pausing purchases entirely. This new deal should help assuage the fears of CDR startups.",
+      "summary": "Microsoft is responsible for over 90% of the carbon-removal market, and reports suggested the company was pausing purchases entirely. This new deal should help assuage the fears of CDR startups.",
       "github_links": [],
       "entities": [
         "Microsoft"
@@ -165,250 +405,11 @@
         "September"
       ],
       "relevance_score": 0.4
-    },
-    {
-      "title": "Jeff Bezos, you were so close to making a good point",
-      "url": "https://techcrunch.com/2026/05/20/jeff-bezos-you-were-so-close-to-making-a-good-point/",
-      "published_at": "2026-05-20T17:10:31Z",
-      "categories": [
-        "Commerce",
-        "jeff bezos"
-      ],
-      "summary": "\"Why is a nurse in Queens who makes $75,000 a year paying more than $1,000 a month in taxes?\" Bezos said Wednesday morning on CNBC. \"That's $1,000 that could help with rent, or groceries, or anything.\"",
-      "github_links": [],
-      "entities": [
-        "Jeff",
-        "Bezos"
-      ],
-      "relevance_score": 0.2
-    },
-    {
-      "title": "Customers say Trump Mobile is leaking their personal information",
-      "url": "https://techcrunch.com/2026/05/20/customers-say-trump-mobile-is-leaking-their-personal-information/",
-      "published_at": "2026-05-20T15:28:55Z",
-      "categories": [
-        "Security",
-        "cybersecurity",
-        "data exposure",
-        "Data leak",
-        "Donald Trump",
-        "privacy",
-        "Trump Mobile"
-      ],
-      "summary": "Trump Mobile is leaking customers’ email and home addresses but has not responded to people alerting the company of the data exposure, according to two YouTubers who said they verified that their leaked data is authentic.",
-      "github_links": [],
-      "entities": [
-        "Customers",
-        "Trump",
-        "Mobile"
-      ],
-      "relevance_score": 0.2
-    },
-    {
-      "title": "Intuit to lay off over 3,000 employees to refocus on AI",
-      "url": "https://techcrunch.com/2026/05/20/intuit-to-lay-off-over-3000-employees-to-refocus-on-ai/",
-      "published_at": "2026-05-20T15:14:31Z",
-      "categories": [
-        "Enterprise",
-        "Intuit",
-        "Layoffs",
-        "Sasan Goodarzi",
-        "tech layoffs"
-      ],
-      "summary": "In a memo to employees, CEO Sasan Goodarzi said the layoffs are meant to reduce complexity, simplify the company's corporate structure, and deliver better AI products.",
-      "github_links": [],
-      "entities": [
-        "Intuit",
-        "AI"
-      ],
-      "relevance_score": 0.2
-    },
-    {
-      "title": "AI search startups are blowing up",
-      "url": "https://techcrunch.com/2026/05/20/ai-search-startups-are-blowing-up/",
-      "published_at": "2026-05-20T15:04:45Z",
-      "categories": [
-        "AI",
-        "AI search",
-        "Exa Labs",
-        "In Brief",
-        "Parallel Web Systems"
-      ],
-      "summary": "AI search has quietly become one of the most attractive targets in consumer AI.",
-      "github_links": [],
-      "entities": [
-        "AI"
-      ],
-      "relevance_score": 0.4
-    },
-    {
-      "title": "Stability AI releases a new audio model that can create 6-minute songs",
-      "url": "https://techcrunch.com/2026/05/20/stability-ai-release-a-new-audio-model-that-can-create-six-minute-songs/",
-      "published_at": "2026-05-20T15:00:00Z",
-      "categories": [
-        "AI",
-        "Media & Entertainment",
-        "audio creation",
-        "Music",
-        "Stability AI"
-      ],
-      "summary": "Stability Audio 3.0 small model can run on-device and generate two-minute long tracks.",
-      "github_links": [],
-      "entities": [
-        "Stability",
-        "AI"
-      ],
-      "relevance_score": 0.4
-    },
-    {
-      "title": "NanoClaw creator turns down $20M buyout offer, raises $12M seed instead",
-      "url": "https://techcrunch.com/2026/05/20/nanoclaw-creator-turns-down-20m-buyout-offer-raises-12m-seed-instead/",
-      "published_at": "2026-05-20T14:00:00Z",
-      "categories": [
-        "AI",
-        "Startups",
-        "AI agents",
-        "NanoClaw",
-        "openclaw",
-        "Valley Capital Partners"
-      ],
-      "summary": "NanoClaw was created as a secure alternative to OpenClaw to assist the Cohen brothers with their AI marketing firm that used agents to do much of the work. But instead of running directly on a computer, NanoClaw runs sandboxed in a container.",
-      "github_links": [],
-      "entities": [
-        "NanoClaw"
-      ],
-      "relevance_score": 0.8
-    },
-    {
-      "title": "Startup Battlefield 200 applications close in 1 week: Window to nominate and apply for the most promising startups closes May 27",
-      "url": "https://techcrunch.com/2026/05/20/startup-battlefield-200-applications-close-in-1-week-window-to-nominate-and-apply-for-the-most-promising-startups-closes-may-27/",
-      "published_at": "2026-05-20T14:00:00Z",
-      "categories": [
-        "AI",
-        "Biotech & Health",
-        "Climate",
-        "Fintech",
-        "Fundraising",
-        "Startups",
-        "TC",
-        "Venture"
-      ],
-      "summary": "Startup Battlefield 200 applications close May 27. Pitch at TechCrunch Disrupt, get investor access, win $100K, plus more scaling perks. Nominate an early-stage founder or submit your startup today.",
-      "github_links": [],
-      "entities": [
-        "Startup",
-        "Battlefield",
-        "Window"
-      ],
-      "relevance_score": 0.4
-    },
-    {
-      "title": "GitHub says hackers stole data from thousands of internal repositories",
-      "url": "https://techcrunch.com/2026/05/20/github-says-hackers-stole-data-from-thousands-of-internal-repositories/",
-      "published_at": "2026-05-20T13:25:58Z",
-      "categories": [
-        "Security",
-        "cyberattack",
-        "cybersecurity",
-        "data breach",
-        "GitHub",
-        "hackers",
-        "Microsoft"
-      ],
-      "summary": "The code hosting giant GitHub said it was investigating a breach but said there was no evidence of customer data theft.",
-      "github_links": [],
-      "entities": [
-        "GitHub"
-      ],
-      "relevance_score": 0.4
-    },
-    {
-      "title": "Figma adds an AI assistant to its collaborative canvas",
-      "url": "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/",
-      "published_at": "2026-05-20T13:00:00Z",
-      "categories": [
-        "AI",
-        "Apps",
-        "AI assistant",
-        "design",
-        "Figma"
-      ],
-      "summary": "Figma says users can employ natural language text prompts to direct its new AI agent to generate new designs, edit existing ones, or automate tasks such as generating iterations of existing designs.",
-      "github_links": [],
-      "entities": [
-        "Figma",
-        "AI"
-      ],
-      "relevance_score": 0.4
-    },
-    {
-      "title": "This startup raised $43M to build a hive mind for ships",
-      "url": "https://techcrunch.com/2026/05/20/this-startup-raised-43m-to-build-a-hive-mind-for-ships/",
-      "published_at": "2026-05-20T13:00:00Z",
-      "categories": [
-        "Fundraising",
-        "Startups",
-        "Transportation",
-        "Exclusive",
-        "first round captial",
-        "quartermaster"
-      ],
-      "summary": "The Arlington, Virginia-based startup has raised $42 million to equip ships with sensors that blow the current AIS tech out of the water.",
-      "github_links": [],
-      "entities": [],
-      "relevance_score": 0.4
-    },
-    {
-      "title": "‘Ask YouTube’ brings AI-powered conversational search to video, adds Gemini Omni to Shorts",
-      "url": "https://techcrunch.com/2026/05/19/ask-youtube-brings-ai-powered-conversational-search-to-video-adds-gemini-omni-to-shorts/",
-      "published_at": "2026-05-20T05:45:00Z",
-      "categories": [
-        "Media & Entertainment",
-        "Apps",
-        "Social",
-        "Google I/O",
-        "YouTube",
-        "YouTube Shorts",
-        "google i/o 2026",
-        "gemini omni"
-      ],
-      "summary": "Google is completely revamping its search experience, and that doesn't stop at YouTube.",
-      "github_links": [],
-      "entities": [
-        "Ask",
-        "YouTube",
-        "AI",
-        "Gemini",
-        "Omni",
-        "Shorts"
-      ],
-      "relevance_score": 0.2
-    },
-    {
-      "title": "Google just declared itself a contender in AI design at IO 2026",
-      "url": "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in-at-io-2026/",
-      "published_at": "2026-05-19T21:33:30Z",
-      "categories": [
-        "AI",
-        "Apps",
-        "Google",
-        "Google I/O",
-        "google io 2026",
-        "google pics"
-      ],
-      "summary": "Google says it's designed the app to be accessible to everyone, from teachers to small business owners.",
-      "github_links": [],
-      "entities": [
-        "Google",
-        "AI",
-        "IO"
-      ],
-      "relevance_score": 0.2
     }
   ],
   "metadata": {
     "total_articles": 20,
-    "relevant_articles": 11,
+    "relevant_articles": 12,
     "github_links_found": 0
   }
 }
