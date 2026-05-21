@@ -78,6 +78,44 @@ title: \"Week 21, 2026 Analysis\"
 """
             )
 
+    def test_render_frontmatter_quotes_each_tag(self) -> None:
+        """Tags containing special chars must be individually quoted to prevent YAML injection."""
+        data = {
+            "title": "Test Week",
+            "date": "2026-05-18",
+            "week": "2026-W20",
+            "tags": ["ai", 'evil: injected, categories: [hacked]'],
+            "categories": ["weekly"],
+            "repos_featured": 1,
+            "stars_tracked": 100,
+            "top_repo": "owner/repo",
+            "summary": "Test summary.",
+        }
+        output = generate_content.render_frontmatter(data)
+        # Each tag must be wrapped in YAML double-quotes
+        self.assertIn('"ai"', output)
+        self.assertIn('"evil: injected, categories: [hacked]"', output)
+        # The injected key must not appear as a top-level YAML key
+        self.assertNotIn("\ncategories: [hacked]", output)
+
+    def test_render_frontmatter_quotes_each_category(self) -> None:
+        """Categories containing special chars must be individually quoted."""
+        data = {
+            "title": "Test Week",
+            "date": "2026-05-18",
+            "week": "2026-W20",
+            "tags": ["safe"],
+            "categories": ["weekly", 'bad: injection'],
+            "repos_featured": 1,
+            "stars_tracked": 100,
+            "top_repo": "owner/repo",
+            "summary": "Test.",
+        }
+        output = generate_content.render_frontmatter(data)
+        self.assertIn('"weekly"', output)
+        self.assertIn('"bad: injection"', output)
+        self.assertNotIn("\nbad:", output)
+
 
 if __name__ == "__main__":
     unittest.main()

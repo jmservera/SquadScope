@@ -103,3 +103,42 @@ class TestLoadTopicId:
         config = tmp_path / "empty.yml"
         config.write_text("scoring:\n  min_stars: 10\n")
         assert load_topic_id(config) == DEFAULT_TOPIC
+
+
+class TestTopicIdValidation:
+    """_resolve must reject topic IDs that could cause path traversal."""
+
+    def test_dotdot_raises(self):
+        from scripts.topic_paths import _resolve, DATA_ROOT
+        with pytest.raises(ValueError, match="Invalid topic ID"):
+            _resolve(DATA_ROOT / "raw", "../../../etc")
+
+    def test_absolute_path_raises(self):
+        from scripts.topic_paths import _resolve, DATA_ROOT
+        with pytest.raises(ValueError, match="Invalid topic ID"):
+            _resolve(DATA_ROOT / "raw", "/etc/passwd")
+
+    def test_slash_in_id_raises(self):
+        from scripts.topic_paths import _resolve, DATA_ROOT
+        with pytest.raises(ValueError, match="Invalid topic ID"):
+            _resolve(DATA_ROOT / "raw", "valid/subdir")
+
+    def test_null_byte_raises(self):
+        from scripts.topic_paths import _resolve, DATA_ROOT
+        with pytest.raises(ValueError, match="Invalid topic ID"):
+            _resolve(DATA_ROOT / "raw", "evil\x00byte")
+
+    def test_leading_hyphen_raises(self):
+        from scripts.topic_paths import _resolve, DATA_ROOT
+        with pytest.raises(ValueError, match="Invalid topic ID"):
+            _resolve(DATA_ROOT / "raw", "-bad")
+
+    def test_valid_hyphenated_id_passes(self):
+        from scripts.topic_paths import _resolve, DATA_ROOT
+        result = _resolve(DATA_ROOT / "raw", "ai-ml")
+        assert result == DATA_ROOT / "raw" / "ai-ml"
+
+    def test_valid_underscore_id_passes(self):
+        from scripts.topic_paths import _resolve, DATA_ROOT
+        result = _resolve(DATA_ROOT / "raw", "rust_2026")
+        assert result == DATA_ROOT / "raw" / "rust_2026"

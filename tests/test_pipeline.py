@@ -104,7 +104,7 @@ def make_raw_payload() -> dict:
 
 def make_analysis_markdown() -> str:
     return f'''---
-title: "Week 21, 2026 Analysis"
+title: "Reliable Automation Gains Ground"
 date: {FIXED_RUN_DATETIME}
 week: "2026-W21"
 year: 2026
@@ -195,6 +195,7 @@ class WorkflowConfigTests(unittest.TestCase):
         install_step = next((s for s in reskill["steps"] if s.get("name") == "Install Copilot CLI"), None)
         self.assertIsNotNone(install_step)
         self.assertEqual(install_step["run"], "npm install -g @github/copilot")
+        self.assertNotIn("continue-on-error", install_step)
 
         reskill_step = next((s for s in reskill["steps"] if s.get("name") == "Run reskill"), None)
         self.assertIsNotNone(reskill_step)
@@ -225,6 +226,10 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn('ANALYSIS_MODEL="copilot-default"', run_analysis)
         self.assertNotIn("--model claude-sonnet-4", run_analysis)
         self.assertIn("mkdir -p data/metrics", run_analysis)
+        self.assertIn("Copilot CLI unavailable; rerun crawl-and-publish when Copilot is available.", run_analysis)
+        self.assertNotIn("GitHub Models API", run_analysis)
+        self.assertNotIn("no-AI", run_analysis)
+        self.assertNotIn("github-models", run_analysis)
 
     def test_generate_workflow_runs_rollups_and_commits_all_content(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
@@ -278,7 +283,9 @@ class WorkflowConfigTests(unittest.TestCase):
         webhook_run = webhook_step["run"]
         self.assertIn("curl -s -X POST \"$WEBHOOK_URL\"", webhook_run)
         self.assertIn("https://jmservera.github.io/SquadScope/weekly/", webhook_run)
-        self.assertIn('\\"content\\": \\"📊 **SquadScope Week $WEEK**', webhook_run)
+        # JSON is now built with jq to prevent injection — check for jq invocation
+        self.assertIn("jq -n", webhook_run)
+        self.assertIn("📊 **SquadScope Week", webhook_run)
         self.assertIn("Webhook post failed (non-critical)", webhook_run)
 
 
@@ -370,7 +377,7 @@ class PipelineIntegrationTests(unittest.TestCase):
 
             self.assertEqual(output_path, base / "content" / "weekly" / "2026" / "W21.md")
             rendered = output_path.read_text(encoding="utf-8")
-            self.assertIn('title: "Week 21, 2026"', rendered)
+            self.assertIn('title: "Reliable Automation Gains Ground"', rendered)
             self.assertIn('week: "2026-W21"', rendered)
             self.assertIn("draft: false", rendered)
             self.assertNotIn("quality_score", rendered)
@@ -408,7 +415,7 @@ class PipelineIntegrationTests(unittest.TestCase):
 
             self.assertEqual(exit_code, 0)
             written = output_path.read_text(encoding="utf-8")
-            self.assertIn("Week 21, 2026 Analysis", written)
+            self.assertIn("Reliable Automation Gains Ground", written)
             self.assertIn("## Signal & Noise", written)
 
     def test_analysis_gate_validates_analysis_output_correctly(self) -> None:
@@ -433,7 +440,7 @@ class PipelineIntegrationTests(unittest.TestCase):
                         "--current-datetime",
                         FIXED_RUN_DATETIME,
                         "--source",
-                        "integration-test",
+                        "copilot-cli",
                     ]
                 ),
                 0,
@@ -452,7 +459,7 @@ class PipelineIntegrationTests(unittest.TestCase):
                         "--current-datetime",
                         FIXED_RUN_DATETIME,
                         "--source",
-                        "integration-test",
+                        "copilot-cli",
                     ]
                 )
 

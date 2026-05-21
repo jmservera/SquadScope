@@ -12,10 +12,7 @@ on:
         type: boolean
 
 permissions:
-  actions: read
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
 
 concurrency:
   group: weekly-crawl
@@ -28,6 +25,9 @@ env:
 jobs:
   crawl:
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
 
     steps:
       - name: Check out repository
@@ -274,7 +274,6 @@ jobs:
 
       - name: Install Copilot CLI
         id: install-copilot
-        continue-on-error: true
         run: npm install -g @github/copilot
 
       - name: Run analysis
@@ -304,41 +303,75 @@ jobs:
             cat "$PRESS_FILE" >> "$PROMPT_FILE"
           fi
 
-          # Intentionally rely on Copilot CLI's default model so CI follows the platform-supported default.
-          if command -v copilot >/dev/null 2>&1 && copilot \
-            --agent squad \
-            -p "Farnsworth, read the file at ${PROMPT_FILE} — it contains the weekly data and analysis instructions. Follow them exactly and write the analysis to ${OUTPUT_FILE}." \
-            -s \
-            --no-ask-user \
-            --allow-tool=read \
-            --allow-tool=write \
-            --allow-tool=glob \
-            --allow-tool=grep \
-            --share=data/metrics/copilot-transcript.md \
-            > /dev/null; then
-            ANALYSIS_SOURCE="copilot-cli"
-            ANALYSIS_MODEL="copilot-default"
-          elif python3 scripts/analyze_fallback.py \
-            --raw-json "$WEEK_FILE" \
-            --output "$OUTPUT_FILE" \
-            --current-datetime "$CURRENT_DATETIME" \
-            --press-context "$PRESS_FILE" 2>/dev/null; then
-            echo "Copilot CLI unavailable or failed; used GitHub Models API."
-            ANALYSIS_SOURCE="github-models"
-            ANALYSIS_MODEL="${GITHUB_MODELS_MODEL:-openai/gpt-4o}"
-          else
-            echo "Both Copilot CLI and GitHub Models unavailable; using no-AI data summary."
-            python3 scripts/analyze_fallback.py \
-              --raw-json "$WEEK_FILE" \
-              --output "$OUTPUT_FILE" \
-              --current-datetime "$CURRENT_DATETIME" \
-              --press-context "$PRESS_FILE" \
-              --no-ai
-            ANALYSIS_SOURCE="no-ai"
-            ANALYSIS_MODEL="none"
+          if ! command -v copilot >/dev/null 2>&1; then
+            echo "::error::Copilot CLI unavailable; rerun crawl-and-publish when Copilot is available."
+            exit 1
           fi
 
-          sanitize_agent_output "$OUTPUT_FILE"
+          # Retry loop: LLM output can be non-deterministically truncated,
+          # so retry up to 3 attempts if the quality gate rejects the article.
+          MAX_RETRIES=2
+          ATTEMPT=0
+          GATE_PASSED=false
+
+          while [ "$GATE_PASSED" = "false" ] && [ "$ATTEMPT" -le "$MAX_RETRIES" ]; do
+            if [ "$ATTEMPT" -gt 0 ]; then
+              echo "::warning::Quality gate failed on attempt $ATTEMPT, retrying (attempt $((ATTEMPT + 1))/$((MAX_RETRIES + 1)))..."
+              rm -f "$OUTPUT_FILE"
+              # Reset any .squad changes from failed attempt
+              git checkout -- .squad 2>/dev/null || true
+            fi
+
+            echo "::notice::Running Copilot analysis attempt $((ATTEMPT + 1))/$((MAX_RETRIES + 1))"
+            TRANSCRIPT_FILE="data/metrics/copilot-transcript-attempt-${ATTEMPT}.md"
+            rm -f "$TRANSCRIPT_FILE"
+
+            # Intentionally rely on Copilot CLI's default model so CI follows the platform-supported default.
+            if ! copilot \
+              --agent squad \
+              -p "Farnsworth, read the file at ${PROMPT_FILE} — it contains the weekly data and analysis instructions. Follow them exactly and write the analysis to ${OUTPUT_FILE}." \
+              -s \
+              --no-ask-user \
+              --allow-tool=read \
+              --allow-tool=write \
+              --allow-tool=glob \
+              --allow-tool=grep \
+              --share="$TRANSCRIPT_FILE" \
+              > /dev/null; then
+              echo "::warning::Copilot CLI failed on attempt $((ATTEMPT + 1))"
+              ATTEMPT=$((ATTEMPT + 1))
+              continue
+            fi
+
+            if ! sanitize_agent_output "$OUTPUT_FILE"; then
+              echo "::warning::Sanitization failed on attempt $((ATTEMPT + 1))"
+              ATTEMPT=$((ATTEMPT + 1))
+              continue
+            fi
+
+            # Inline quality gate check (suppress step summary to avoid noise)
+            if GITHUB_STEP_SUMMARY="" python3 scripts/analysis_gate.py \
+              --analysis-file "$OUTPUT_FILE" \
+              --raw-json "$WEEK_FILE" \
+              --current-datetime "$CURRENT_DATETIME" \
+              --source copilot-cli 2>&1; then
+              GATE_PASSED=true
+              FINAL_TRANSCRIPT="$TRANSCRIPT_FILE"
+            fi
+
+            ATTEMPT=$((ATTEMPT + 1))
+          done
+
+          if [ "$GATE_PASSED" = "false" ]; then
+            echo "::error::Analysis quality gate failed after $((MAX_RETRIES + 1)) attempts. The LLM did not produce a conforming article."
+            exit 1
+          fi
+
+          ANALYSIS_SOURCE="copilot-cli"
+          ANALYSIS_MODEL="copilot-default"
+
+          # Copy final transcript to canonical location
+          cp "$FINAL_TRANSCRIPT" data/metrics/copilot-transcript.md 2>/dev/null || true
 
           TRANSCRIPT_ARGS=""
           if [ -f "data/metrics/copilot-transcript.md" ]; then
@@ -355,6 +388,8 @@ jobs:
             --output-file "$OUTPUT_FILE" \
             $TRANSCRIPT_ARGS
           rm -f "$PROMPT_FILE"
+          # Clean up per-attempt transcripts
+          rm -f data/metrics/copilot-transcript-attempt-*.md
           echo "analysis_source=$ANALYSIS_SOURCE" >> "$GITHUB_OUTPUT"
 
       - name: quality-check
@@ -597,6 +632,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      discussions: write
 
     steps:
       - uses: actions/checkout@v4
@@ -649,15 +685,17 @@ jobs:
         run: |
           SUMMARY=$(ls -t data/analyzed/*-summary.md | head -1)
           WEEK=$(basename "$SUMMARY" | sed 's/-summary.md//')
-          SITE_URL="https://jmservera.github.io/SquadScope/weekly/$(echo $WEEK | tr '-' '/' | sed 's/W/w/')/"
-          
-          # Post JSON payload (compatible with Discord/Slack webhooks)
+          SITE_URL="https://jmservera.github.io/SquadScope/weekly/$(echo "$WEEK" | tr '-' '/' | sed 's/W/w/')/"
+
+          # Build JSON payload with jq to prevent injection via WEEK or SITE_URL
+          PAYLOAD=$(jq -n \
+            --arg content "📊 **SquadScope Week ${WEEK}** — New tech trends summary published!\n${SITE_URL}" \
+            --arg username "SquadScope" \
+            '{content: $content, username: $username}')
+
           curl -s -X POST "$WEBHOOK_URL" \
             -H "Content-Type: application/json" \
-            -d "{
-              \"content\": \"📊 **SquadScope Week $WEEK** — New tech trends summary published!\n$SITE_URL\",
-              \"username\": \"SquadScope\"
-            }" || echo "Webhook post failed (non-critical)"
+            -d "$PAYLOAD" || echo "Webhook post failed (non-critical)"
 
 
   reskill-check:

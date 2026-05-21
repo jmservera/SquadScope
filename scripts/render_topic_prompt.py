@@ -69,8 +69,19 @@ def load_wisdom(topic_id: str | None) -> str:
     if not topic_id:
         return ""
 
+    # Reject topic IDs that could escape the topics/ directory.
+    import re
+    if not re.fullmatch(r"[a-z0-9][a-z0-9\-_]{0,63}", topic_id):
+        return ""
+
     root = find_repo_root()
     wisdom_path = root / "topics" / topic_id / "wisdom.md"
+    # Containment check: ensure the resolved path stays inside topics/
+    topics_root = (root / "topics").resolve()
+    try:
+        wisdom_path.resolve().relative_to(topics_root)
+    except ValueError:
+        return ""
     if wisdom_path.exists():
         return wisdom_path.read_text(encoding="utf-8").strip()
 
