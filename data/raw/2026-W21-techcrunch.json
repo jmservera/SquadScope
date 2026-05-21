@@ -1,8 +1,28 @@
 {
   "week": "2026-W21",
   "source": "techcrunch",
-  "crawled_at": "2026-05-21T11:20:33.162205Z",
+  "crawled_at": "2026-05-21T12:05:01.296478Z",
   "articles": [
+    {
+      "title": "Scammers are abusing an internal Microsoft account to send spam links",
+      "url": "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
+      "published_at": "2026-05-21T11:42:57Z",
+      "categories": [
+        "Security",
+        "cyberattacks",
+        "cybersecurity",
+        "Microsoft",
+        "phishing",
+        "scam"
+      ],
+      "summary": "The loophole allows spammers and scammers to send emails from a legitimate Microsoft email address typically used for sending genuine account alerts.",
+      "github_links": [],
+      "entities": [
+        "Scammers",
+        "Microsoft"
+      ],
+      "relevance_score": 0.2
+    },
     {
       "title": "Beauty booking startup Fresha hits $1 billion valuation with KKR backing",
       "url": "https://techcrunch.com/2026/05/21/booking-platform-fresha-announces-80m-investment-unicorn-valuation/",
@@ -380,27 +400,6 @@
         "AI"
       ],
       "relevance_score": 0.4
-    },
-    {
-      "title": "Global EV market goes K-shaped as the US gets left behind",
-      "url": "https://techcrunch.com/2026/05/20/global-ev-market-goes-k-shaped-as-the-u-s-gets-left-behind/",
-      "published_at": "2026-05-20T17:34:00Z",
-      "categories": [
-        "Climate",
-        "Transportation",
-        "Analysis",
-        "electric vehicles",
-        "EVs",
-        "one big beautiful bill"
-      ],
-      "summary": "EV sales have surged worldwide in every region but the U.S., posing risks for legacy and startup automakers.",
-      "github_links": [],
-      "entities": [
-        "Global",
-        "EV",
-        "US"
-      ],
-      "relevance_score": 0.2
     }
   ],
   "metadata": {
