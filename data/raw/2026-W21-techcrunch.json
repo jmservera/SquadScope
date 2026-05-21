@@ -1,8 +1,26 @@
 {
   "week": "2026-W21",
   "source": "techcrunch",
-  "crawled_at": "2026-05-21T10:10:51.031117Z",
+  "crawled_at": "2026-05-21T11:03:02.400919Z",
   "articles": [
+    {
+      "title": "Beauty booking startup Fresha hits $1 billion valuation with KKR backing",
+      "url": "https://techcrunch.com/2026/05/21/booking-platform-fresha-announces-80m-investment-unicorn-valuation/",
+      "published_at": "2026-05-21T11:00:00Z",
+      "categories": [
+        "Startups",
+        "Venture",
+        "SaaS"
+      ],
+      "summary": "Beauty and wellness booking marketplace Fresha says it has raised $80 million investment from KKR’s Next Generation Technology Growth fund, KKR's growth equity arm.",
+      "github_links": [],
+      "entities": [
+        "Beauty",
+        "Fresha",
+        "KKR"
+      ],
+      "relevance_score": 0.4
+    },
     {
       "title": "Truecaller gets into the eSIM business to diversify its revenue streams",
       "url": "https://techcrunch.com/2026/05/20/truecaller-gets-into-the-esim-business-to-diversify-its-revenue-streams/",
@@ -383,28 +401,6 @@
         "US"
       ],
       "relevance_score": 0.2
-    },
-    {
-      "title": "OpenAI barrels toward IPO that may happen in September",
-      "url": "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
-      "published_at": "2026-05-20T17:24:24Z",
-      "categories": [
-        "AI",
-        "Startups",
-        "Elon Musk",
-        "In Brief",
-        "IPOs",
-        "OpenAI",
-        "sam altman"
-      ],
-      "summary": "A day after Elon Musk lost his lawsuit that threatened OpenAI's structure, leadership, and finances, OpenAI is reportedly back to prepping for its IPO.",
-      "github_links": [],
-      "entities": [
-        "OpenAI",
-        "IPO",
-        "September"
-      ],
-      "relevance_score": 0.4
     }
   ],
   "metadata": {
