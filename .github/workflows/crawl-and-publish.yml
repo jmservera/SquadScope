@@ -484,6 +484,9 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
       - name: Generate weekly content
         id: generate-content
         env:
