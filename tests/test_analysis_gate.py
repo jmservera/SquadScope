@@ -78,7 +78,7 @@ def make_analysis(frontmatter: str, body: str) -> str:
     return f"---\n{frontmatter}\n---\n\n{body}\n"
 
 
-VALID_FRONTMATTER = '''title: "Week 21, 2026 Analysis"
+VALID_FRONTMATTER = '''title: "The Week Local Models Went Mainstream"
 date: 2026-05-18T00:00:00Z
 week: 2026-W21
 year: 2026
@@ -107,7 +107,7 @@ class AnalysisGateTests(unittest.TestCase):
         self.assertGreaterEqual(word_count, 200)
 
     def test_validate_analysis_rejects_wrong_week_date_and_types(self) -> None:
-        invalid_frontmatter = '''title: "Week 21, 2026 Analysis"
+        invalid_frontmatter = '''title: "The Week Local Models Went Mainstream"
 date: 2026-05-12T00:00:00Z
 week: 2026-W20
 year: "2026"
@@ -163,6 +163,32 @@ summary: "A grounded week focused on practical tools."'''.strip()
         )
 
         self.assertIn("Analysis body contains prohibited placeholder marker: TODO placeholder marker", errors)
+
+    def test_validate_analysis_rejects_generic_week_analysis_title(self) -> None:
+        frontmatter = VALID_FRONTMATTER.replace(
+            'title: "The Week Local Models Went Mainstream"',
+            'title: "Week 21, 2026 Analysis"',
+        )
+        errors, _ = analysis_gate.validate_analysis(
+            make_analysis(frontmatter, make_body()),
+            RAW_PAYLOAD,
+            CURRENT_DATETIME,
+        )
+
+        self.assertIn("title must not use a generic week/year placeholder format.", errors)
+
+    def test_validate_analysis_rejects_generic_week_year_title(self) -> None:
+        frontmatter = VALID_FRONTMATTER.replace(
+            'title: "The Week Local Models Went Mainstream"',
+            'title: "Week 21, 2026"',
+        )
+        errors, _ = analysis_gate.validate_analysis(
+            make_analysis(frontmatter, make_body()),
+            RAW_PAYLOAD,
+            CURRENT_DATETIME,
+        )
+
+        self.assertIn("title must not use a generic week/year placeholder format.", errors)
 
 
 if __name__ == "__main__":

@@ -84,14 +84,18 @@ Be critical, selective, and opinionated.
    - `top_repo`
    - `quality_score`
    - `summary`
-6. `date` must be `{{CURRENT_DATETIME}}`.
-7. `tags` must contain 3-8 topical items.
-8. `categories` must include `weekly`.
-9. `repos_featured` should equal the total number of repos considered in the weekly editorial pass.
-10. `stars_tracked` should equal the total stars across those repos.
-11. `top_repo` should be the repo that best anchors the editorial narrative, not automatically the most-starred repo.
-12. `quality_score` must be an honest 0-100 self-assessment; publishable work is `>= 60`.
-13. Include all required sections in this exact order:
+6. `title` must be a punchy 5-12 word journalistic headline that captures the week's dominant themes. Never use generic week/year labels such as `Week NN, YYYY Analysis` or `Week NN, YYYY`.
+   - Good: `Agent Skills, Exploit Churn, and the Language Nobody Asked For`
+   - Good: `The Week Local Models Went Mainstream`
+   - Good: `MCP Eats the Middleware Layer While VCs Look Elsewhere`
+7. `date` must be `{{CURRENT_DATETIME}}`.
+8. `tags` must contain 3-8 topical items.
+9. `categories` must include `weekly`.
+10. `repos_featured` should equal the total number of repos considered in the weekly editorial pass.
+11. `stars_tracked` should equal the total stars across those repos.
+12. `top_repo` should be the repo that best anchors the editorial narrative, not automatically the most-starred repo.
+13. `quality_score` must be an honest 0-100 self-assessment; publishable work is `>= 60`.
+14. Include all required sections in this exact order:
 
 ```md
 ## This Week's Trends
@@ -109,18 +113,18 @@ Be critical, selective, and opinionated.
 ### Press & Industry
 ```
 
-14. Keep the section scope aligned with the spec:
+15. Keep the section scope aligned with the spec:
     - `## This Week's Trends`: ~200-350 words. Name 3-5 macro trends of the week. Each trend should have a name, a 1-2 sentence explanation of what it is, and why it matters to practitioners now. Do not just list repos — synthesize across them. Reference specific repos as evidence using `[owner/repo](https://github.com/owner/repo)`.
     - `## Where Industry Meets Code`: ~150-250 words. Compare press coverage (TechCrunch or other provided press data) against what developers are actually building. Highlight 2-4 correlations (where press and developer activity align) and call out 2-3 divergences (topics in the press with no dev traction, and developer work the press is ignoring). If no press data was provided, state: "No industry press data was available for this week's analysis." and focus on what the developer activity alone reveals.
     - `## Signal & Noise`: ~150-260 words. Integrated analysis — what is real versus hype. Do not use Signal/Noise as separate sub-headings; write it as coherent editorial prose that distinguishes durable patterns from inflated, low-substance, or marketing-driven activity. Name names. Reference repos as evidence.
     - `## Blind Spots`: ~80-160 words. Identify 2-4 meaningful absences from both press coverage AND developer attention. Be specific and concrete — name the missing category, why it matters, and what its absence signals.
     - `## The Week Ahead`: ~50-110 words. Forward-looking editorial close. What should readers watch for next week? What trends are in motion that haven't peaked yet? Where is the ecosystem heading based on this week's evidence?
     - `## Key References` with `### Notable Projects` (5-10 most important repos with 1-sentence context each) and `### Press & Industry` (3-5 most relevant articles or sources, or "No press data was provided this week." if absent).
-15. The body must be at least 200 words.
-16. Do not include raw JSON, notes to self, placeholders, tool transcripts, status summaries, self-referential text, or quality-score commentary outside the required frontmatter fields.
-17. Every repository reference in the body must be a clickable GitHub markdown link in this exact format: `[owner/repo](https://github.com/owner/repo)`.
-18. Output only the finished markdown file content.
-19. The first characters in the file must be the opening `---` of the YAML frontmatter, and the file must end after the final article line with no agent epilogue.
+16. The body must be at least 200 words.
+17. Do not include raw JSON, notes to self, placeholders, tool transcripts, status summaries, self-referential text, or quality-score commentary outside the required frontmatter fields.
+18. Every repository reference in the body must be a clickable GitHub markdown link in this exact format: `[owner/repo](https://github.com/owner/repo)`.
+19. Output only the finished markdown file content.
+20. The first characters in the file must be the opening `---` of the YAML frontmatter, and the file must end after the final article line with no agent epilogue.
 
 ## Working method
 
@@ -138,7 +142,7 @@ Be critical, selective, and opinionated.
 
 ```md
 ---
-title: "Week NN, YYYY Analysis"
+title: "Punchy 5-12 word editorial headline about the week's dominant themes"
 date: {{CURRENT_DATETIME}}
 week: "YYYY-WNN"
 year: YYYY
