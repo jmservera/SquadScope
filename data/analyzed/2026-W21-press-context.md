@@ -16,7 +16,7 @@ Notable coverage:
 - [Airbnb gets into hotels, expands AI for host onboarding and customer support](https://techcrunch.com/2026/05/20/airbnb-gets-into-hotels-expands-ai-for-host-onboarding-and-customer-support/) [Apps, Airbnb, customer support, hotel bookings]
 
 ### Correlation Summary
-85 repos have press correlation:
+87 repos have press correlation:
 - microsoft/vscode — match: org_name, confidence: 0.8, hype_risk: medium
 - microsoft/PowerToys — match: org_name, confidence: 0.8, hype_risk: medium
 - microsoft/generative-ai-for-beginners — match: org_name, confidence: 0.8, hype_risk: medium
@@ -40,7 +40,6 @@ Notable coverage:
 - x1xhlol/system-prompts-and-models-of-ai-tools — match: project_name, confidence: 0.6, hype_risk: medium
 - electron/electron — match: project_name, confidence: 0.6, hype_risk: medium
 - nodejs/node — match: project_name, confidence: 0.6, hype_risk: medium
-- rust-lang/rust — match: project_name, confidence: 0.6, hype_risk: medium
 - tauri-apps/tauri — match: project_name, confidence: 0.6, hype_risk: medium
 - gohugoio/hugo — match: project_name, confidence: 0.6, hype_risk: medium
 - opencv/opencv — match: project_name, confidence: 0.6, hype_risk: medium
@@ -80,11 +79,13 @@ Notable coverage:
 - github/spec-kit — match: category, confidence: 0.4, hype_risk: low
 - hacksider/Deep-Live-Cam — match: category, confidence: 0.4, hype_risk: low
 - ChatGPTNextWeb/NextChat — match: category, confidence: 0.4, hype_risk: low
+- sherlock-project/sherlock — match: category, confidence: 0.4, hype_risk: low
 - infiniflow/ragflow — match: category, confidence: 0.4, hype_risk: low
 - vllm-project/vllm — match: category, confidence: 0.4, hype_risk: low
 - netdata/netdata — match: category, confidence: 0.4, hype_risk: low
 - lobehub/lobehub — match: category, confidence: 0.4, hype_risk: low
 - thedotmack/claude-mem — match: category, confidence: 0.4, hype_risk: low
+- caddyserver/caddy — match: category, confidence: 0.4, hype_risk: low
 - daytonaio/daytona — match: category, confidence: 0.4, hype_risk: low
 - hiyouga/LlamaFactory — match: category, confidence: 0.4, hype_risk: low
 - bytedance/deer-flow — match: category, confidence: 0.4, hype_risk: low
@@ -98,6 +99,7 @@ Notable coverage:
 - harry0703/MoneyPrinterTurbo — match: category, confidence: 0.4, hype_risk: low
 - mem0ai/mem0 — match: category, confidence: 0.4, hype_risk: low
 - koala73/worldmonitor — match: category, confidence: 0.4, hype_risk: low
+- WerWolv/ImHex — match: category, confidence: 0.4, hype_risk: low
 - FlowiseAI/Flowise — match: category, confidence: 0.4, hype_risk: low
 - MemPalace/mempalace — match: category, confidence: 0.4, hype_risk: low
 - D4Vinci/Scrapling — match: category, confidence: 0.4, hype_risk: low
@@ -125,10 +127,11 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **api**: public-apis/public-apis (⭐436214), neovim/neovim (⭐99782), fastapi/fastapi (⭐98387)
 - **awesome**: vinta/awesome-python (⭐298793), awesome-selfhosted/awesome-selfhosted (⭐294205), avelino/awesome-go (⭐173202)
 - **bot**: openclaw/clawpatch (⭐610), sachmalan/kalshi-trading-bot (⭐153), VAENPP/solana-trading-bot (⭐152)
-- **cli**: ohmyzsh/ohmyzsh (⭐187156), yt-dlp/yt-dlp (⭐163468), sherlock-project/sherlock (⭐83546)
+- **cli**: ohmyzsh/ohmyzsh (⭐187156), yt-dlp/yt-dlp (⭐163468), jesseduffield/lazygit (⭐78238)
 - **framework**: laravel/laravel (⭐84309), spring-projects/spring-boot (⭐80679), nestjs/nest (⭐75564)
 - **agent**: agentic-in/elephant-agent (⭐373), Snailclimb/JavaGuide (⭐155795), TauricResearch/TradingAgents (⭐77954)
 - **algorithm**: TheAlgorithms/Python (⭐221272), trekhleb/javascript-algorithms (⭐195980), TheAlgorithms/Java (⭐65686)
+- **compiler**: rust-lang/rust (⭐112958), FuelLabs/sway (⭐61687), JetBrains/kotlin (⭐52748)
 - **angular**: angular/angular (⭐100127), ionic-team/ionic-framework (⭐52507), prettier/prettier (⭐51877)
 - **bash**: nvm-sh/nvm (⭐93468), junegunn/fzf (⭐80391), warpdotdev/warp (⭐59373)
 - **docker**: louislam/uptime-kuma (⭐87050), Stirling-Tools/Stirling-PDF (⭐79055), usememos/memos (⭐59852)
@@ -145,8 +148,6 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **alerting**: grafana/grafana (⭐73905), prometheus/prometheus (⭐64108)
 - **c**: obsproject/obs-studio (⭐72569), git/git (⭐61077)
 - **agentic-ai**: ruvnet/RuView (⭐62391), ruvnet/ruflo (⭐53701)
-- **compiler**: FuelLabs/sway (⭐61687), JetBrains/kotlin (⭐52748)
-- **analyzer**: WerWolv/ImHex (⭐53639), tw93/Mole (⭐52204)
 - **programming language agents**: vercel-labs/zerolang (⭐4076)
 - **coding agent optimized**: Doorman11991/smallcode (⭐916)
 - **Codex skill safe**: Kappaemme-git/codex-complexity-optimizer (⭐808)
@@ -315,7 +316,6 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **analytics**: apache/superset (⭐72922)
 - **Python programming language**: python/cpython (⭐72786)
 - **Drop screenshot convert**: abi/screenshot-to-code (⭐72642)
-- **acme**: caddyserver/caddy (⭐72613)
 - **containers**: moby/moby (⭐71580)
 - **flask**: pallets/flask (⭐71566)
 - **serial**: Eugeny/tabby (⭐71483)
@@ -365,6 +365,7 @@ GitHub repos/trends with no matching TechCrunch coverage:
 - **command-line**: PowerShell/PowerShell (⭐53527)
 - **Reader JavaScript**: mozilla/pdf.js (⭐53351)
 - **agent toolkit: coding**: earendil-works/pi (⭐52302)
+- **analyzer**: tw93/Mole (⭐52204)
 
 #### Divergence Instructions
 Use divergences to identify:

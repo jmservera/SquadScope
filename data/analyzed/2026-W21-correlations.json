@@ -6,6 +6,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.8,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
         "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
       ],
       "match_type": "org_name",
@@ -16,6 +17,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.8,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
         "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
       ],
       "match_type": "org_name",
@@ -26,6 +28,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.8,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
         "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
       ],
       "match_type": "org_name",
@@ -36,6 +39,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.8,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
         "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
       ],
       "match_type": "org_name",
@@ -46,6 +50,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.8,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
         "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
       ],
       "match_type": "org_name",
@@ -56,6 +61,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.8,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
         "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
       ],
       "match_type": "org_name",
@@ -76,6 +82,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.8,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
         "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
       ],
       "match_type": "org_name",
@@ -253,16 +260,6 @@
       "correlation_confidence": 0.6,
       "matched_articles": [
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "rust-lang/rust",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/20/global-ev-market-goes-k-shaped-as-the-u-s-gets-left-behind/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -483,6 +480,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/",
         "https://techcrunch.com/2026/05/20/microsofts-carbon-removal-plans-arent-dead-after-all/"
       ],
       "match_type": "category",
@@ -801,6 +799,16 @@
       "hype_risk": "low"
     },
     {
+      "repo": "sherlock-project/sherlock",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
       "repo": "infiniflow/ragflow",
       "press_correlated": true,
       "correlation_confidence": 0.4,
@@ -881,6 +889,16 @@
         "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
         "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "caddyserver/caddy",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1089,6 +1107,16 @@
         "https://techcrunch.com/2026/05/20/anthropic-will-pay-xai-1-25-billion-per-month-for-compute/",
         "https://techcrunch.com/2026/05/20/openai-claims-it-solved-an-80-year-old-math-problem-for-real-this-time/",
         "https://techcrunch.com/2026/05/20/irisgo-a-startup-backed-by-andrew-ng-looks-to-become-the-ai-desktop-buddy-you-never-knew-you-needed/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "WerWolv/ImHex",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/21/scammers-are-abusing-an-internal-microsoft-account-to-send-spam/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1319,11 +1347,6 @@
             "stars_gained": null
           },
           {
-            "full_name": "sherlock-project/sherlock",
-            "stars": 83546,
-            "stars_gained": null
-          },
-          {
             "full_name": "jesseduffield/lazygit",
             "stars": 78238,
             "stars_gained": null
@@ -1399,6 +1422,27 @@
           {
             "full_name": "TheAlgorithms/Java",
             "stars": 65686,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "compiler",
+        "github_repos": [
+          {
+            "full_name": "rust-lang/rust",
+            "stars": 112958,
+            "stars_gained": null
+          },
+          {
+            "full_name": "FuelLabs/sway",
+            "stars": 61687,
+            "stars_gained": null
+          },
+          {
+            "full_name": "JetBrains/kotlin",
+            "stars": 52748,
             "stars_gained": null
           }
         ],
@@ -1670,38 +1714,6 @@
           {
             "full_name": "ruvnet/ruflo",
             "stars": 53701,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "compiler",
-        "github_repos": [
-          {
-            "full_name": "FuelLabs/sway",
-            "stars": 61687,
-            "stars_gained": null
-          },
-          {
-            "full_name": "JetBrains/kotlin",
-            "stars": 52748,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "analyzer",
-        "github_repos": [
-          {
-            "full_name": "WerWolv/ImHex",
-            "stars": 53639,
-            "stars_gained": null
-          },
-          {
-            "full_name": "tw93/Mole",
-            "stars": 52204,
             "stars_gained": null
           }
         ],
@@ -3556,17 +3568,6 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "acme",
-        "github_repos": [
-          {
-            "full_name": "caddyserver/caddy",
-            "stars": 72613,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
         "topic": "containers",
         "github_repos": [
           {
@@ -4104,6 +4105,17 @@
           }
         ],
         "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "analyzer",
+        "github_repos": [
+          {
+            "full_name": "tw93/Mole",
+            "stars": 52204,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
       }
     ]
   },
@@ -4269,6 +4281,7 @@
     "iptv-org/iptv",
     "shadcn-ui/ui",
     "rustdesk/rustdesk",
+    "rust-lang/rust",
     "mrdoob/three.js",
     "ggml-org/llama.cpp",
     "godotengine/godot",
@@ -4301,7 +4314,6 @@
     "astral-sh/uv",
     "laravel/laravel",
     "syncthing/syncthing",
-    "sherlock-project/sherlock",
     "realworld-apps/realworld",
     "zed-industries/zed",
     "VoltAgent/awesome-design-md",
@@ -4326,7 +4338,6 @@
     "apache/superset",
     "python/cpython",
     "abi/screenshot-to-code",
-    "caddyserver/caddy",
     "obsproject/obs-studio",
     "strapi/strapi",
     "moby/moby",
@@ -4395,7 +4406,6 @@
     "ngosang/trackerslist",
     "ruvnet/ruflo",
     "vuejs/core",
-    "WerWolv/ImHex",
     "TryGhost/Ghost",
     "PowerShell/PowerShell",
     "mozilla/pdf.js",
@@ -4408,9 +4418,9 @@
   ],
   "metadata": {
     "repos_analyzed": 382,
-    "correlations_found": 85,
+    "correlations_found": 87,
     "articles_matched": 20,
     "uncovered_tech_trends": 0,
-    "unpublicized_dev_activity": 244
+    "unpublicized_dev_activity": 243
   }
 }
