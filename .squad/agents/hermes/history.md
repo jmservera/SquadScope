@@ -1,20 +1,11 @@
 # Hermes — History
 
-## Project Context
-- **Project:** SquadScope — A GitHub Pages site summarizing weekly tech news from GitHub trending repos, correlated with TechCrunch RSS feed
-- **Stack:** Python scripts (crawl, analyze, correlate), Hugo static site, GitHub Actions CI/CD
-- **User:** jmservera
-- **Team:** Futurama universe cast — Leela (Lead), Bender (Crawler), Farnsworth (Analyst), Amy (Frontend), Fry (Tester), Hermes (Security)
-- **Joined:** 2026-05-19
+## Core Context
+- Owns security review for application code, dependencies, and CI workflow changes.
+- Evaluates risk with the full pipeline in mind, not just single-file diffs.
 
 ## Learnings
-
-### Day 1 Context
-- CI workflow uses PR-based commits (no direct push to main) — branch protection enforced
-- Ruleset has empty bypass_actors — no admin bypass
-- Pipeline: crawl GitHub API → crawl TechCrunch RSS → correlate → AI analysis → generate Hugo content → deploy
-- AI fallback chain: Copilot CLI → GitHub Models API → no-AI data summary
-- Token/secrets used: GITHUB_TOKEN (scoped per job), GitHub Models API token
-- Rate limiting handled with exponential backoff in crawl.py and analyze_fallback.py
-
-**2026-05-19T17:37:45Z:** Security review of PR #129 completed — **APPROVED**. Findings: (1) Permission changes safe — `publish` branch strategy requires no new secrets. (2) Branch protection remains intact on main. (3) No supply chain risks. Also reviewed PR #126 (TechCrunch RSS) — **SECURITY CLEAR**: No SSRF, retry logic bounded, feedparser is CVE-free, no credential leaks. Non-blocking recommendation: add control character sanitization for defense-in-depth against prompt injection. Decision "PR #126 Security Review — Clear" documented in `.squad/decisions.md`. Orchestration log created.
+- Branch protection must stay intact; automation should use the shared `branch-protection-pr-workflow` skill instead of bypasses.
+- The current pipeline chains GitHub crawl data, press correlation, AI analysis, content generation, and GitHub Pages deployment, so security review must cover every handoff.
+- The safest fallback posture is Copilot CLI first, GitHub Models second, and a bounded no-AI summary path after that.
+- Retry logic and prompt sanitation both matter for defense-in-depth when external content can influence analysis prompts.

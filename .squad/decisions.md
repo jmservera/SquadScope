@@ -956,3 +956,90 @@ Replace the six-section repo-listing structure with a six-section editorial stru
 **Backward Compatibility:** `generate_rollups.py` tries new heading names first and falls back to old names. All frontmatter fields, repo link format, quality_score gate, and body word count rules unchanged.
 
 **Outcome:** All 519 tests pass with new structure.
+
+---
+
+# Decision: Model Resilience for Weekly CI
+
+**Date:** 2026-05-20T20:09:26+02:00  
+**Owner:** Farnsworth  
+**Status:** Proposed
+
+## Context
+
+Copilot CLI model IDs can disappear from the platform, causing silent degradation to fallback paths.
+
+## Decision
+
+The `crawl-and-publish.yml` workflow should never pass a version-pinned `--model` flag. Analysis and reskill rely on the CLI's platform default, while GitHub Models fallback uses `openai/gpt-4o` (configurable via `GITHUB_MODELS_MODEL`).
+
+## Rationale
+
+Pinned model IDs can silently disappear; letting the CLI choose its default keeps the primary path available without manual model churn.
+
+## Implementation
+
+- Removed `--model claude-sonnet-4` from Copilot CLI invocations
+- Removed workflow pinned preflight model, switched to generic `copilot-default` rate profile
+- Promoted `GITHUB_MODELS_MODEL` to workflow-level env with `openai/gpt-4o` default
+
+**Files:** `.github/workflows/crawl-and-publish.yml`, `scripts/preflight_cost_check.py`, `scripts/track_token_usage.py`
+
+---
+
+# Decision: Prevent Copilot stdout from Leaking into Published Markdown
+
+**Date:** 2026-05-20T22:14:02+02:00  
+**Owner:** Farnsworth  
+**Status:** Proposed
+
+## Context
+
+Published week 21 article leaked agent status text because shell appended Copilot CLI stdout to the markdown file after Farnsworth had already written the real article.
+
+## Decision
+
+In `crawl-and-publish.yml`, Copilot CLI stdout must never redirect to the same markdown file the agent writes. Analysis and reskill invocations send stdout to `/dev/null`, rely on `--share` or workflow logs for transcripts, and run a post-write sanitizer for defense in depth.
+
+## Rationale
+
+Separates channels (fixes root cause) and reduces blast radius if CLI emits metadata again.
+
+## Implementation
+
+- Changed Copilot CLI redirects from output markdown to `/dev/null`
+- Added `scripts/sanitize_agent_output.py` to strip leaked lines (`✅ Farnsworth is done`, `Editorial thesis:`, etc.)
+- Reinforced `prompts/analyze-weekly.md` so agent writes only publication-ready markdown
+
+**Files:** `.github/workflows/crawl-and-publish.yml`, `prompts/analyze-weekly.md`, `scripts/sanitize_agent_output.py`, `tests/test_sanitize_agent_output.py`
+
+---
+
+# Decision: Squad Agent Documentation Restructure
+
+**Date:** 2026-05-21T09:23:40+02:00  
+**Author:** Farnsworth (Analyst)  
+**Status:** Implemented
+
+## Context
+
+Audit found repeated charter scaffolding, duplicated rollout updates in histories, and mature workflow knowledge scattered across multiple agent files.
+
+## Decision
+
+Squad agent docs follow a shared minimal-charter and history-hygiene model. Shared operating patterns move into `.squad/skills/`, while charters keep only: identity, ownership, working style, boundaries, and model preference.
+
+## Rationale
+
+- Eliminates redundant documentation
+- Preserves workflow knowledge as reusable skills
+- Reduces agent charter bloat
+
+## Impact
+
+- All charters now under 1.5 KB target
+- Oversized histories condensed
+- 3 new skills extracted (minimal-agent-charter, agent-history-hygiene, weekly-learning-loop)
+- 1 existing skill upgraded (branch-protection-pr-workflow)
+- **Net savings: 68.4% reduction** (39,568 → 12,521 bytes)
+
