@@ -1,62 +1,30 @@
-# Branch Protection via PR Workflow
+---
+name: "branch-protection-pr-workflow"
+description: "Respect branch protection by routing automation through approved PR or publish-branch workflows instead of bypasses."
+domain: "repo-operations"
+confidence: "high"
+source: "recurring learnings across Leela, Bender, Amy, and Hermes histories"
+---
 
-confidence: high
-discovered_by: Leela (CI architecture decision)
-date: 2026-05-19
+## Context
 
-## Pattern
+Protected branches are part of the product's safety system. When automation needs to write data or generated artifacts, the solution is to choose an approved write path — not to weaken protection or add bypass actors.
 
-Never bypass branch protection rules. Instead, use one of two strategies:
+## Patterns
 
-### Strategy A: PR-based (requires "Allow GitHub Actions to create PRs" repo setting)
-1. Create a timestamped feature branch from the default branch
-2. Make all changes to the feature branch
-3. Open a PR via `gh pr create` pointing feature branch → default branch
-4. Auto-merge the PR with `gh pr merge --squash --auto --delete-branch`
+- Prefer a PR-based workflow when repository settings allow automation to open and merge pull requests.
+- Use an unprotected `publish` branch for self-sufficient automated output when PR creation is unavailable.
+- Keep `main` protected and reserve it for reviewed changes.
+- Use artifacts for inter-job handoff instead of trying to push partial state through protected refs.
 
-### Strategy B: Unprotected publish branch (recommended for automated pipelines)
-1. Push automated data directly to an unprotected `publish` branch
-2. The branch ruleset only protects `refs/heads/main` — other branches accept direct pushes
-3. Use artifacts for inter-job data flow within the same workflow run
-4. Periodically sync `publish` → `main` via manual PR if needed
+## Examples
 
-## When to Use
+- Good: create a timestamped branch, open a PR, and auto-merge after checks succeed.
+- Good: push generated data to `publish` while leaving `main` behind branch protection.
+- Good: force checkout the target automation branch after artifact downloads if the working tree is dirty.
 
-- **Strategy A:** When human review of automated changes is desired before merge
-- **Strategy B:** When the pipeline must be self-sufficient without repo admin settings or review gates (current SquadScope approach)
+## Anti-Patterns
 
-## Implementation
-
-### Strategy B (current — `publish` branch pattern)
-
-```bash
-DATA_BRANCH="publish"
-# Fetch or create the unprotected branch
-if git fetch origin "$DATA_BRANCH" 2>/dev/null; then
-  git checkout -f -B "$DATA_BRANCH" "origin/$DATA_BRANCH"
-else
-  git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
-fi
-# Apply changes and push directly
-git add data/
-git diff --cached --quiet && exit 0
-git commit -m "data: weekly crawl $WEEK [run #${GITHUB_RUN_ID}]"
-git push origin "$DATA_BRANCH"
-```
-
-### GitHub Actions Workflow Setup
-
-```yaml
-permissions:
-  contents: write
-
-env:
-  DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-```
-
-## Notes
-
-- Use `git checkout -f` (force) when switching branches after artifact downloads modify the working tree
-- Branch name must not conflict with existing `ref/` namespace (e.g., can't use `data` if `data/*` branches exist)
-- Deploy jobs may have environment protection rules limiting which branches can deploy
-- The `publish` branch accumulates automated commits; main stays clean with only reviewed changes
+- Adding bypass actors just to make a workflow pass.
+- Pushing directly to `main` from automation because PR creation is disabled.
+- Mixing deployment strategy decisions with branch-protection exceptions.
