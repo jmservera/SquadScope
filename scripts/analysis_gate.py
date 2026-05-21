@@ -56,6 +56,10 @@ FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---\n(.*)\Z", re.DOTALL)
 HEADING_PATTERN = re.compile(r"(?m)^(#{2,3})\s+(.+?)\s*$")
 WORD_PATTERN = re.compile(r"\b[\w'-]+\b")
 TOP_REPO_PATTERN = re.compile(r"^[^/\s]+/[^/\s]+$")
+GENERIC_TITLE_PATTERNS = [
+    re.compile(r"^Week\s+\d+.*Analysis$", re.IGNORECASE),
+    re.compile(r"^Week\s+\d+,\s*\d{4}$", re.IGNORECASE),
+]
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -247,6 +251,10 @@ def validate_analysis(text: str, raw_payload: dict[str, Any], current_datetime: 
         errors.append(f"Unexpected frontmatter fields: {', '.join(extra_fields)}")
 
     validate_string_field(frontmatter, "title", errors)
+    title = frontmatter.get("title")
+    if isinstance(title, str) and title.strip():
+        if any(pattern.fullmatch(title.strip()) for pattern in GENERIC_TITLE_PATTERNS):
+            errors.append("title must not use a generic week/year placeholder format.")
     validate_string_field(frontmatter, "week", errors)
     validate_string_field(frontmatter, "top_repo", errors)
     validate_string_field(frontmatter, "summary", errors)
