@@ -1,18 +1,8 @@
-# Project Context
-
-- **Project:** SquadScope
-- **Created:** 2026-05-18
+# Ralph — History
 
 ## Core Context
-
-Agent Ralph initialized and ready for work.
-
-## Recent Updates
-
-📌 Team initialized on 2026-05-18
-
-📌 **2026-05-18T10:27:35Z:** Phase 0 is complete. Architecture decision published. All agents notified and ready for Phase 1 work.
+- Maintains durable project memory across sessions.
 
 ## Learnings
-
-Initial setup complete.
+- Project memory is most useful when repeated guidance is compressed into stable summaries instead of copied into every agent file.
+- Reskill cycles are the right time to turn shared context into reusable skills.

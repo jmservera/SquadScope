@@ -34,7 +34,7 @@ How to decide who handles what.
 
 | Phrase | Action |
 |--------|--------|
-| "take a nap and reskill" | Farnsworth reads `.squad/reskill/current-prompt.md` and follows the instructions inside |
+| "take a nap and reskill" | Team-wide reskill cycle — follow `.squad/templates/skills/reskill/SKILL.md` |
 
 ## Rules
 

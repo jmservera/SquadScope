@@ -1,18 +1,8 @@
-# Project Context
-
-- **Project:** SquadScope
-- **Created:** 2026-05-18
+# Scribe — History
 
 ## Core Context
-
-Agent Scribe initialized and ready for work.
-
-## Recent Updates
-
-📌 Team initialized on 2026-05-18
-
-📌 **2026-05-18T10:27:35Z:** Phase 0 closure complete. Merged Leela's CI architecture decision, recorded orchestration/session logs, updated all agent history files, staged for commit.
+- Maintains decisions, histories, and orchestration records for the squad.
 
 ## Learnings
-
-Initial setup complete.
+- Documentation should preserve durable outcomes and discard transient coordination chatter.
+- When a team-wide operating pattern stabilizes, it belongs in `.squad/skills/` rather than repeated across multiple history files.
