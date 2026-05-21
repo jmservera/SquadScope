@@ -5,6 +5,8 @@ import csv
 import re
 from pathlib import Path
 
+import yaml
+
 from scripts.topic_paths import analyzed_dir
 
 FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---\n(.*)\Z", re.DOTALL)
@@ -102,14 +104,12 @@ def parse_frontmatter(document: str) -> tuple[dict[str, object], str]:
         raise GenerationError("Summary is missing YAML frontmatter.")
 
     frontmatter_text, body = match.groups()
-    frontmatter: dict[str, object] = {}
-    for line in frontmatter_text.splitlines():
-        if not line.strip():
-            continue
-        if ":" not in line:
-            raise GenerationError(f"Malformed frontmatter line: {line}")
-        key, raw_value = line.split(":", 1)
-        frontmatter[key.strip()] = parse_scalar(raw_value)
+    try:
+        frontmatter = yaml.safe_load(frontmatter_text)
+    except yaml.YAMLError as exc:
+        raise GenerationError(f"Invalid YAML frontmatter: {exc}") from exc
+    if not isinstance(frontmatter, dict):
+        raise GenerationError("Frontmatter must be a YAML mapping.")
 
     missing = REQUIRED_ANALYSIS_FIELDS.difference(frontmatter)
     if missing:
