@@ -268,6 +268,17 @@ fi
 - `data/analyzed/` — recent analysis outputs (quality trend)
 - `.squad/run-counter.txt` — run history
 
+### Decision 7: Weekly Analysis Fail-Fast Policy
+
+Weekly article generation must only publish Copilot-authored analysis. The workflow now fails immediately if Copilot CLI is unavailable or the analysis call fails; it does not fall back to GitHub Models or no-AI summaries.
+
+**Enforcement:**
+- `scripts/analysis_gate.py` rejects any analysis source other than `copilot-cli`
+- The article title must be a journalistic headline, not the generic `Week NN, YYYY Analysis` template
+- If Copilot cannot run, the workflow is expected to be rerun later rather than publishing stale content
+
+**Goal:** prevent generic or stale weekly articles from being published when the preferred analysis agent is unavailable.
+
 **Output:**
 - `.squad/reskill/YYYY-WNN.md` — improvement recommendations
 - Optional: PR with proposed changes to agent prompts or pipeline config
@@ -1043,3 +1054,26 @@ Squad agent docs follow a shared minimal-charter and history-hygiene model. Shar
 - 1 existing skill upgraded (branch-protection-pr-workflow)
 - **Net savings: 68.4% reduction** (39,568 → 12,521 bytes)
 
+---
+
+# Decision: Farnsworth Weekly Headline Review
+
+**Date:** 2026-05-21T12:33:16.507+02:00
+**Author:** Farnsworth (Analyst)
+**Status:** Implemented
+
+## Context
+
+Week 21 analysis requires both editorial quality and automation compliance. The title and press-fallback handling must satisfy both reader expectations and the analyzer contract.
+
+## Decision
+
+Week 21 analysis should use a journalistic title, not a generic week label, and must keep the no-press fallback explicit when press data is absent.
+
+## Rationale
+
+The published analysis needs to read like an editorial artifact and satisfy the analyzer contract at the same time. A headline plus explicit press fallback keeps the page useful to readers and safe for automation.
+
+## Impact
+
+Applies to future weekly summaries and any generator work that consumes `data/analyzed/*-summary.md`.
