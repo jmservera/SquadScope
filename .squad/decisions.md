@@ -1077,3 +1077,34 @@ The published analysis needs to read like an editorial artifact and satisfy the 
 ## Impact
 
 Applies to future weekly summaries and any generator work that consumes `data/analyzed/*-summary.md`.
+
+---
+
+# Directive: Prevent Recrawl on Previous-Week Rebuilds
+
+**Date:** 2026-05-25T15:55:00+02:00  
+**Source:** User directive (jmservera via Copilot)  
+**Status:** Active
+
+## Context
+
+When rebuilding data for a previous week, the workflow must NOT re-run the crawl. Re-crawling pollutes prior weeks' data (overwrites the high-quality version with a fresh, possibly worse snapshot). User repeatedly lost high-quality W21 analysis because re-runs re-crawled and re-analyzed, regenerating inferior versions.
+
+## Directive
+
+For previous-week rebuilds:
+1. Hydrate from `publish` (canonical source for analyzed content)
+2. Re-run analysis/generation only as needed
+3. **Never crawl again** for previous weeks
+
+This restores/regenerates from existing data without polluting the archive.
+
+## Implementation Status
+
+- Captured in PR #164 (bender-3): deploy-site.yml now hydrates content/data from publish before hugo build
+- Schedule event guard fixed: `!inputs.rebuild_week` instead of `== ''` ensures cron doesn't skip
+- Format validation added for YYYY-WNN rebuild_week parameter
+- Architectural fix prevents main/publish divergence
+
+**Files affected:** `.github/workflows/deploy-site.yml`, `.github/workflows/crawl-and-publish.yml`
+
