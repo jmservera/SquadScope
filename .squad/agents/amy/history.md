@@ -19,3 +19,4 @@
 - 2026-05-25 Phase 4 article layout: keep analyzer Markdown clean and derive article components from Hugo partials/render hooks (`article-content`, `repo-card`, `render-link`) instead of raw HTML in content.
 - 2026-05-25 Weekly press context uses canonical `## Where Industry Meets Code`; wrapping it in a Hugo partial preserves clean heading flow while giving it complementary landmark styling.
 - 2026-05-25 Phase 5 cost transparency lives in the About page via `{{< cost-dashboard >}}`; keep the shortcode as a thin wrapper over `layouts/partials/cost-dashboard.html` so direct `/dashboard/` links can reuse it.
+- 2026-05-25 PR #199 follow-up: cost dashboard metric lists live in `assets/css/common/cost-dashboard.css`; strengthen `.post-content .cost-dashboard__metrics` specificity so global `.md-content dl/dt/dd` flex rules cannot override dashboard grid layout in article content.

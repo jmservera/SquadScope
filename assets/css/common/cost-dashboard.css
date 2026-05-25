@@ -10,8 +10,12 @@
 .cost-dashboard__budget-meter { display: block; overflow: hidden; block-size: var(--space-2); margin-top: var(--space-2); background: var(--color-accent-muted); border-radius: var(--radius-full); }
 .cost-dashboard__budget-meter span { display: block; block-size: 100%; background: var(--color-accent); border-radius: inherit; }
 .cost-dashboard__metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); margin: 0; }
+.post-content .cost-dashboard__metrics { display: grid; flex-wrap: initial; }
 .cost-dashboard__metrics div { display: grid; gap: var(--space-1); }
 .cost-dashboard__metrics dd { margin: 0; font-family: var(--font-mono); font-size: var(--text-lg); font-weight: 600; }
+.post-content .cost-dashboard__metrics dt,
+.post-content .cost-dashboard__metrics dd { width: auto; padding-inline-start: 0; overflow-wrap: normal; word-break: normal; }
+.post-content .cost-dashboard__metrics dd { white-space: nowrap; }
 .cost-dashboard__trend { display: grid; gap: var(--space-3); margin: 0 0 var(--space-5); padding: var(--space-4); border-inline-start: var(--space-1) solid var(--color-accent); background: var(--color-accent-muted); border-radius: var(--radius-md); }
 .cost-dashboard__trend svg { inline-size: 100%; block-size: var(--space-7); color: var(--color-accent); }
 .cost-dashboard__trend polyline { fill: none; stroke: currentColor; stroke-width: var(--size-border-thin); stroke-linecap: round; stroke-linejoin: round; }
