@@ -1,0 +1,263 @@
+{
+  "generatedAt": "2026-05-25",
+  "baseUrl": "http://localhost:1313/SquadScope",
+  "outDir": "screenshots/design-verification/2026-05-25",
+  "results": [
+    {
+      "page": "home",
+      "viewport": "mobile",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "home-mobile-light.png"
+    },
+    {
+      "page": "weekly-w22",
+      "viewport": "mobile",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "weekly-w22-mobile-light.png"
+    },
+    {
+      "page": "monthly-may",
+      "viewport": "mobile",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "monthly-may-mobile-light.png"
+    },
+    {
+      "page": "yearly-2026",
+      "viewport": "mobile",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "yearly-2026-mobile-light.png"
+    },
+    {
+      "page": "home",
+      "viewport": "tablet",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "home-tablet-light.png"
+    },
+    {
+      "page": "weekly-w22",
+      "viewport": "tablet",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "weekly-w22-tablet-light.png"
+    },
+    {
+      "page": "monthly-may",
+      "viewport": "tablet",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "monthly-may-tablet-light.png"
+    },
+    {
+      "page": "yearly-2026",
+      "viewport": "tablet",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "yearly-2026-tablet-light.png"
+    },
+    {
+      "page": "home",
+      "viewport": "desktop",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "home-desktop-light.png"
+    },
+    {
+      "page": "weekly-w22",
+      "viewport": "desktop",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "weekly-w22-desktop-light.png"
+    },
+    {
+      "page": "monthly-may",
+      "viewport": "desktop",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "monthly-may-desktop-light.png"
+    },
+    {
+      "page": "yearly-2026",
+      "viewport": "desktop",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "yearly-2026-desktop-light.png"
+    },
+    {
+      "page": "home",
+      "viewport": "wide",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "home-wide-light.png"
+    },
+    {
+      "page": "weekly-w22",
+      "viewport": "wide",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "weekly-w22-wide-light.png"
+    },
+    {
+      "page": "monthly-may",
+      "viewport": "wide",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "monthly-may-wide-light.png"
+    },
+    {
+      "page": "yearly-2026",
+      "viewport": "wide",
+      "theme": "light",
+      "status": "✅",
+      "note": "",
+      "filename": "yearly-2026-wide-light.png"
+    },
+    {
+      "page": "home",
+      "viewport": "mobile",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "home-mobile-dark.png"
+    },
+    {
+      "page": "weekly-w22",
+      "viewport": "mobile",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "weekly-w22-mobile-dark.png"
+    },
+    {
+      "page": "monthly-may",
+      "viewport": "mobile",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "monthly-may-mobile-dark.png"
+    },
+    {
+      "page": "yearly-2026",
+      "viewport": "mobile",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "yearly-2026-mobile-dark.png"
+    },
+    {
+      "page": "home",
+      "viewport": "tablet",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "home-tablet-dark.png"
+    },
+    {
+      "page": "weekly-w22",
+      "viewport": "tablet",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "weekly-w22-tablet-dark.png"
+    },
+    {
+      "page": "monthly-may",
+      "viewport": "tablet",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "monthly-may-tablet-dark.png"
+    },
+    {
+      "page": "yearly-2026",
+      "viewport": "tablet",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "yearly-2026-tablet-dark.png"
+    },
+    {
+      "page": "home",
+      "viewport": "desktop",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "home-desktop-dark.png"
+    },
+    {
+      "page": "weekly-w22",
+      "viewport": "desktop",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "weekly-w22-desktop-dark.png"
+    },
+    {
+      "page": "monthly-may",
+      "viewport": "desktop",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "monthly-may-desktop-dark.png"
+    },
+    {
+      "page": "yearly-2026",
+      "viewport": "desktop",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "yearly-2026-desktop-dark.png"
+    },
+    {
+      "page": "home",
+      "viewport": "wide",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "home-wide-dark.png"
+    },
+    {
+      "page": "weekly-w22",
+      "viewport": "wide",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "weekly-w22-wide-dark.png"
+    },
+    {
+      "page": "monthly-may",
+      "viewport": "wide",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "monthly-may-wide-dark.png"
+    },
+    {
+      "page": "yearly-2026",
+      "viewport": "wide",
+      "theme": "dark",
+      "status": "✅",
+      "note": "",
+      "filename": "yearly-2026-wide-dark.png"
+    }
+  ]
+}
