@@ -2,7 +2,7 @@ name: Crawl and publish weekly data
 
 on:
   schedule:
-    - cron: '0 8 * * 1'
+    - cron: '30 8 * * 1'
   workflow_dispatch:
     inputs:
       publish_release:
@@ -437,7 +437,10 @@ jobs:
             git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
           fi
           mkdir -p data/analyzed data/metrics
-          cp -r analyzed-data-backup/* data/analyzed/ 2>/dev/null || true
+          # Only copy current week's analysis files — do not overwrite prior weeks
+          cp analyzed-data-backup/${WEEK}-summary.md data/analyzed/ 2>/dev/null || true
+          cp analyzed-data-backup/${WEEK}-correlations.json data/analyzed/ 2>/dev/null || true
+          cp analyzed-data-backup/${WEEK}-press-context.md data/analyzed/ 2>/dev/null || true
           cp -r metrics-data-backup/* data/metrics/ 2>/dev/null || true
           rm -rf analyzed-data-backup metrics-data-backup
           # Restore squad learning state
@@ -532,7 +535,11 @@ jobs:
             git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
           fi
           mkdir -p content/weekly content/monthly content/yearly
-          cp -r content-weekly-backup/* content/weekly/ 2>/dev/null || true
+          # Only copy current week's page — do not overwrite prior weeks' content
+          YEAR=$(echo "$WEEK" | cut -d'-' -f1)
+          WEEK_NUM=$(echo "$WEEK" | sed 's/.*-W//')
+          mkdir -p "content/weekly/${YEAR}"
+          cp "content-weekly-backup/${YEAR}/W${WEEK_NUM}.md" "content/weekly/${YEAR}/" 2>/dev/null || true
           cp -r content-monthly-backup/* content/monthly/ 2>/dev/null || true
           cp -r content-yearly-backup/* content/yearly/ 2>/dev/null || true
           rm -rf content-weekly-backup content-monthly-backup content-yearly-backup
