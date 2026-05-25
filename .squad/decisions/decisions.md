@@ -108,3 +108,16 @@
 - **Status:** Config deployed
 - **Decision:** GitHub Actions policy now allows PRs to be created and approved automatically. The sync-publish-to-main workflow will create PRs without manual fallback.
 - **Why:** Closes loop from W21/W22 rescue session where this permission blocked autonomous sync PRs. Enables full workflow automation.
+
+## 2026-05-25: Design-Review Includes Playwright Visual Verification
+
+- **Owner:** Calculon (Designer)
+- **Date:** 2026-05-25
+- **Status:** Accepted
+- **Decision:** Design-review of any frontend PR that changes layouts, typography, components, or theme tokens must include a Playwright visual verification screenshot pass before Calculon approves the PR.
+- **Tooling:** Playwright with snapshot mode; viewport × theme × page matrix defined in `.squad/skills/design-visual-verification/SKILL.md`.
+- **Script:** `scripts/design/verify-visual.mjs` (run via `node` — no npm install required).
+- **Playwright config:** `tests/visual/playwright.config.mjs`.
+- **Workflow doc:** `docs/design/visual-verification.md`.
+- **Why:** The 6-phase redesign (#170–#177) requires verifiable acceptance criteria checks. Visual regression catches spacing and token errors that code-diff review cannot.
+

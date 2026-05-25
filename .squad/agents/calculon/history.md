@@ -24,6 +24,19 @@
 
 ## Learnings
 
+### 2026-05-25: Playwright Visual Verification Pattern
+
+**Pattern:** Visual verification via Playwright snapshot diffs at viewport × theme × page matrix.
+
+- **Viewport matrix:** mobile (375), tablet (768), desktop (1280), wide (1920)
+- **Theme matrix:** light + dark
+- **Pages matrix:** home, latest weekly, monthly rollup, yearly rollup
+- **Key gotcha:** Dynamic content (cost dashboard date, run counter) must be hidden via CSS injection (`visibility: hidden !important`) before screenshotting — otherwise every run will produce a false diff.
+- **Anti-aliasing noise:** Set `maxDiffPixels: 150` as default; tighten once baselines are stable.
+- **Font settle:** Always `waitForLoadState('networkidle')` + 300ms extra before capture.
+- **When to bump skill confidence:** After 2+ PRs successfully use it and at least one real mismatch was caught.
+- **Files:** `scripts/design/verify-visual.mjs`, `tests/visual/playwright.config.mjs`, `tests/visual/visual.spec.mjs`, `docs/design/visual-verification.md`, `.squad/skills/design-visual-verification/SKILL.md`
+
 ### 2026-05-25: Initial Design Direction
 
 **Design Principles Established:**
