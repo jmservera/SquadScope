@@ -66,10 +66,16 @@ rssLimit = 20
     weight = 30
 
   [[menu.main]]
+    identifier = 'methodology'
+    name = 'Methodology'
+    url = '/methodology/'
+    weight = 40
+
+  [[menu.main]]
     identifier = 'about'
     name = 'About'
     url = '/about/'
-    weight = 40
+    weight = 50
 
 ignoreFiles = ['data/analyzed/.*\\.md$', 'data/metrics/.*\\.md$', 'data/metrics/.*\\.jsonl$']
 
