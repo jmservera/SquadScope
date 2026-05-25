@@ -70,14 +70,15 @@ jobs:
           set -euo pipefail
           git fetch origin publish
           # Wipe and re-checkout to mirror publish exactly (deletions propagate)
-          rm -rf content/weekly content/monthly content/yearly data/analyzed data/raw data/metrics
+          rm -rf content/weekly content/monthly content/yearly data/analyzed data/raw data/metrics data/snapshots
           git checkout origin/publish -- \
             content/weekly/ \
             content/monthly/ \
             content/yearly/ \
             data/analyzed/ \
             data/raw/ \
-            data/metrics/
+            data/metrics/ \
+            data/snapshots/ || true
           echo "Hydrated from publish:"
           ls content/weekly/2026/ 2>/dev/null || true
 
