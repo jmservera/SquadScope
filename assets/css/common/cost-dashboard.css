@@ -1,0 +1,42 @@
+.cost-dashboard { margin: var(--space-6) 0; padding: var(--space-5); color: var(--color-text); background: var(--color-surface); border: var(--size-border-thin) solid var(--color-border); border-radius: var(--radius-lg); }
+.cost-dashboard__header { max-width: var(--prose-measure); margin-bottom: var(--space-5); }
+.cost-dashboard__header h2 { margin: var(--space-1) 0 var(--space-2); font-size: var(--text-2xl); line-height: var(--leading-tight); letter-spacing: var(--tracking-tight); }
+.cost-dashboard__header p:last-child, .cost-dashboard__total span, .cost-dashboard__trend p, .cost-dashboard__metrics dt, .cost-dashboard__table caption { color: var(--color-text-muted); }
+.cost-dashboard__summary { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--space-4); align-items: stretch; margin-bottom: var(--space-5); }
+.cost-dashboard__total, .cost-dashboard__metrics { padding: var(--space-4); border: var(--size-border-thin) solid var(--color-border); border-radius: var(--radius-md); background: var(--color-bg); }
+.cost-dashboard__total { display: grid; gap: var(--space-2); }
+.cost-dashboard__label, .cost-dashboard__metrics dt, .cost-dashboard__table caption, .cost-dashboard__details summary, .cost-dashboard__trend figcaption { font-size: var(--text-xs); font-weight: 600; line-height: var(--leading-normal); letter-spacing: var(--tracking-nav); text-transform: uppercase; }
+.cost-dashboard__total strong { color: var(--color-accent); font-size: var(--text-4xl); line-height: var(--leading-tight); letter-spacing: var(--tracking-tight); }
+.cost-dashboard__budget-meter { display: block; overflow: hidden; block-size: var(--space-2); margin-top: var(--space-2); background: var(--color-accent-muted); border-radius: var(--radius-full); }
+.cost-dashboard__budget-meter span { display: block; block-size: 100%; background: var(--color-accent); border-radius: inherit; }
+.cost-dashboard__metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); margin: 0; }
+.cost-dashboard__metrics div { display: grid; gap: var(--space-1); }
+.cost-dashboard__metrics dd { margin: 0; font-family: var(--font-mono); font-size: var(--text-lg); font-weight: 600; }
+.cost-dashboard__trend { display: grid; gap: var(--space-3); margin: 0 0 var(--space-5); padding: var(--space-4); border-inline-start: var(--space-1) solid var(--color-accent); background: var(--color-accent-muted); border-radius: var(--radius-md); }
+.cost-dashboard__trend svg { inline-size: 100%; block-size: var(--space-7); color: var(--color-accent); }
+.cost-dashboard__trend polyline { fill: none; stroke: currentColor; stroke-width: var(--size-border-thin); stroke-linecap: round; stroke-linejoin: round; }
+.cost-dashboard__trend p { margin: 0; }
+.cost-dashboard__table-wrap { overflow-x: auto; border: var(--size-border-thin) solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); -webkit-overflow-scrolling: touch; }
+.cost-dashboard__table-wrap:focus-visible { outline: var(--size-focus-ring) solid var(--color-accent); outline-offset: var(--space-1); }
+.cost-dashboard__table { inline-size: 100%; min-inline-size: 42rem; margin: 0; border-collapse: collapse; font-size: var(--text-sm); }
+.cost-dashboard__table caption { padding: var(--space-3) var(--space-4); text-align: left; background: var(--color-bg); border-bottom: var(--size-border-thin) solid var(--color-border); }
+.cost-dashboard__table th, .cost-dashboard__table td { padding: var(--space-3) var(--space-4); text-align: left; border-bottom: var(--size-border-thin) solid var(--color-border); }
+.cost-dashboard__table tbody tr:last-child th, .cost-dashboard__table tbody tr:last-child td { border-bottom: 0; }
+.cost-dashboard__table th[scope="row"] { font-weight: 600; }
+.cost-dashboard__table td:not(:last-child) { font-family: var(--font-mono); }
+.cost-dashboard__details { margin-top: var(--space-4); border: var(--size-border-thin) solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); }
+.cost-dashboard__details summary { padding: var(--space-3) var(--space-4); color: var(--color-text); }
+.cost-dashboard__details .cost-dashboard__table { border-top: var(--size-border-thin) solid var(--color-border); }
+.cost-dashboard__table--compact { min-inline-size: 32rem; }
+@media (max-width: 700px) { .cost-dashboard { padding: var(--space-4); } .cost-dashboard__summary, .cost-dashboard__metrics { grid-template-columns: 1fr; } .cost-dashboard__total strong { font-size: var(--text-3xl); } }
+
+.cost-dashboard__metrics dt,
+.cost-dashboard__metrics dd {
+    width: auto;
+    padding-inline-start: 0;
+}
+
+.cost-dashboard__metrics dt {
+    overflow-wrap: normal;
+    word-break: normal;
+}

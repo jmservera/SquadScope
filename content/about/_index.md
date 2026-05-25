@@ -9,3 +9,9 @@ description = 'Learn what SquadScope publishes and how to follow its GitHub tren
 SquadScope turns GitHub activity into readable weekly, monthly, and yearly trend reports for busy developers and technical leaders.
 
 The project favors editorial signal over dashboard noise: what mattered this week, what is merely loud, and what is missing from the conversation.
+
+## Pipeline transparency
+
+SquadScope uses an automated AI analysis pipeline to turn crawl data into editorial briefs. The cost report below publishes the estimated token spend behind that pipeline so readers can see the operational footprint alongside the analysis.
+
+{{< cost-dashboard >}}

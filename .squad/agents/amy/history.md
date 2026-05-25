@@ -18,3 +18,4 @@
 - 2026-05-25 Home visual verification runs through `node scripts/design/verify-visual.mjs --base http://localhost:1313/SquadScope/` after starting `/tmp/hugo server -D --bind 0.0.0.0 --port 1313 --baseURL http://localhost:1313/SquadScope/`.
 - 2026-05-25 Phase 4 article layout: keep analyzer Markdown clean and derive article components from Hugo partials/render hooks (`article-content`, `repo-card`, `render-link`) instead of raw HTML in content.
 - 2026-05-25 Weekly press context uses canonical `## Where Industry Meets Code`; wrapping it in a Hugo partial preserves clean heading flow while giving it complementary landmark styling.
+- 2026-05-25 Phase 5 cost transparency lives in the About page via `{{< cost-dashboard >}}`; keep the shortcode as a thin wrapper over `layouts/partials/cost-dashboard.html` so direct `/dashboard/` links can reuse it.

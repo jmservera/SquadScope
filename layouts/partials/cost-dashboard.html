@@ -1,0 +1,63 @@
+{{- $data := index hugo.Data "metrics" "cost-summary" -}}
+{{- if not $data -}}
+<div class="cost-dashboard" aria-labelledby="cost-dashboard-title">
+  <p>No cost data available yet.</p>
+</div>
+{{- else -}}
+{{- $weeks := $data.weeks | default (slice) -}}
+{{- $weekCount := len $weeks -}}
+{{- $cumulative := float ($data.cumulative_cost | default 0) -}}
+{{- $budget := float ($data.budget_limit | default 1.0) -}}
+{{- $pctUsed := 0.0 -}}
+{{- if gt $budget 0.0 -}}{{- $pctUsed = mul (div $cumulative $budget) 100 -}}{{- end -}}
+{{- $budgetWidth := $pctUsed -}}
+{{- if gt $budgetWidth 100.0 -}}{{- $budgetWidth = 100.0 -}}{{- end -}}
+{{- $maxCost := 0.0 -}}{{- $minCost := 0.0 -}}{{- $totalInput := 0 -}}{{- $totalOutput := 0 -}}
+{{- $firstCost := 0.0 -}}{{- $lastCost := 0.0 -}}{{- $firstWeek := "" -}}{{- $lastWeek := "" -}}
+{{- if gt $weekCount 0 -}}{{- $first := index $weeks 0 -}}{{- $last := index $weeks (sub $weekCount 1) -}}{{- $firstCost = float ($first.cost | default 0) -}}{{- $lastCost = float ($last.cost | default 0) -}}{{- $firstWeek = $first.week -}}{{- $lastWeek = $last.week -}}{{- $minCost = $firstCost -}}{{- end -}}
+{{- range $weeks -}}{{- $cost := float (.cost | default 0) -}}{{- if gt $cost $maxCost -}}{{- $maxCost = $cost -}}{{- end -}}{{- if lt $cost $minCost -}}{{- $minCost = $cost -}}{{- end -}}{{- $totalInput = add $totalInput (int (.tokens_in | default 0)) -}}{{- $totalOutput = add $totalOutput (int (.tokens_out | default 0)) -}}{{- end -}}
+{{- $delta := sub $lastCost $firstCost -}}{{- $trendState := "stable" -}}{{- if gt $delta 0.01 -}}{{- $trendState = "rising" -}}{{- else if lt $delta -0.01 -}}{{- $trendState = "falling" -}}{{- end -}}
+{{- $deltaAbs := $delta -}}{{- if lt $deltaAbs 0.0 -}}{{- $deltaAbs = mul $deltaAbs -1 -}}{{- end -}}
+{{- $trendPct := 0.0 -}}{{- if gt $firstCost 0.0 -}}{{- $trendPct = mul (div $deltaAbs $firstCost) 100 -}}{{- end -}}
+{{- $points := "" -}}{{- if gt $weekCount 1 -}}{{- $rangeCost := sub $maxCost $minCost -}}{{- $xStep := div 100.0 (float (sub $weekCount 1)) -}}{{- range $index, $week := $weeks -}}{{- $normalized := 0.5 -}}{{- if gt $rangeCost 0.0 -}}{{- $normalized = div (sub (float ($week.cost | default 0)) $minCost) $rangeCost -}}{{- end -}}{{- $x := mul (float $index) $xStep -}}{{- $y := sub 88.0 (mul $normalized 76.0) -}}{{- $points = printf "%s %.2f,%.2f" $points $x $y -}}{{- end -}}{{- end -}}
+<section class="cost-dashboard" aria-labelledby="cost-dashboard-title">
+  <div class="cost-dashboard__header">
+    <p class="section-topline">Pipeline transparency</p>
+    <h2 id="cost-dashboard-title">AI pipeline cost</h2>
+    <p>Estimated token-usage cost for the automated analysis pipeline. The numbers are here for accountability, not performance theater.</p>
+  </div>
+  <div class="cost-dashboard__summary" aria-label="Cost summary">
+    <div class="cost-dashboard__total">
+      <span class="cost-dashboard__label">Total estimated spend</span>
+      <strong>${{ printf "%.2f" $cumulative }}</strong>
+      <span>{{ printf "%.1f" $pctUsed }}% of the ${{ printf "%.2f" $budget }} transparency budget</span>
+      <span class="cost-dashboard__budget-meter" aria-hidden="true"><span style="inline-size: {{ printf "%.2f" $budgetWidth }}%;"></span></span>
+    </div>
+    <dl class="cost-dashboard__metrics">
+      <div><dt>Weeks tracked</dt><dd>{{ $weekCount }}</dd></div>
+      <div><dt>Input tokens</dt><dd>{{ $totalInput | lang.FormatNumber 0 }}</dd></div>
+      <div><dt>Output tokens</dt><dd>{{ $totalOutput | lang.FormatNumber 0 }}</dd></div>
+    </dl>
+  </div>
+  {{- if gt $weekCount 1 }}
+  <figure class="cost-dashboard__trend" aria-labelledby="cost-trend-title" aria-describedby="cost-trend-summary">
+    <figcaption id="cost-trend-title">Recent weekly direction</figcaption>
+    <svg viewBox="0 0 100 100" role="img" aria-labelledby="cost-trend-svg-title cost-trend-svg-desc" preserveAspectRatio="none">
+      <title id="cost-trend-svg-title">Weekly cost trend from {{ $firstWeek }} to {{ $lastWeek }}</title>
+      <desc id="cost-trend-svg-desc">Costs are {{ $trendState }} by ${{ printf "%.2f" $deltaAbs }} across {{ $weekCount }} tracked weeks.</desc>
+      <polyline points="{{ strings.TrimSpace $points }}" vector-effect="non-scaling-stroke" />
+    </svg>
+    <p id="cost-trend-summary">Costs are <strong>{{ $trendState }}</strong>: ${{ printf "%.2f" $firstCost }} in {{ $firstWeek }} to ${{ printf "%.2f" $lastCost }} in {{ $lastWeek }}{{ if gt $trendPct 0.0 }} ({{ printf "%.1f" $trendPct }}% change){{ end }}.</p>
+  </figure>
+  {{- end }}
+  <div class="cost-dashboard__table-wrap" tabindex="0">
+    <table class="cost-dashboard__table">
+      <caption>Cost by week and pipeline stage</caption>
+      <thead><tr><th scope="col">Week / stage</th><th scope="col">Cost</th><th scope="col">Input tokens</th><th scope="col">Output tokens</th><th scope="col">Model</th></tr></thead>
+      <tbody>{{- range $weeks }}{{- $week := . -}}{{- if .stages }}{{- range .stages }}<tr><th scope="row">{{ $week.week }} · {{ .stage | default "analysis" }}</th><td>${{ printf "%.2f" (float (.cost | default 0)) }}</td><td>{{ int (.tokens_in | default 0) | lang.FormatNumber 0 }}</td><td>{{ int (.tokens_out | default 0) | lang.FormatNumber 0 }}</td><td>{{ .model | default $week.model }}</td></tr>{{- end }}{{- else }}<tr><th scope="row">{{ .week }} · analysis</th><td>${{ printf "%.2f" (float (.cost | default 0)) }}</td><td>{{ int (.tokens_in | default 0) | lang.FormatNumber 0 }}</td><td>{{ int (.tokens_out | default 0) | lang.FormatNumber 0 }}</td><td>{{ .model }}</td></tr>{{- end }}{{- end }}</tbody>
+    </table>
+  </div>
+  {{- $models := dict -}}{{- $modelCosts := dict -}}{{- range $weeks -}}{{- $model := .model | default "unknown" -}}{{- $models = merge $models (dict $model (add (index $models $model | default 0) 1)) -}}{{- $modelCosts = merge $modelCosts (dict $model (add (float (index $modelCosts $model | default 0)) (float (.cost | default 0)))) -}}{{- end -}}
+  {{- if gt (len $models) 0 }}<details class="cost-dashboard__details"><summary>Model breakdown</summary><table class="cost-dashboard__table cost-dashboard__table--compact"><caption>Model usage across tracked weeks</caption><thead><tr><th scope="col">Model</th><th scope="col">Weeks used</th><th scope="col">Estimated cost</th><th scope="col">Share</th></tr></thead><tbody>{{- range $model, $count := $models }}<tr><th scope="row">{{ $model }}</th><td>{{ $count }}</td><td>${{ printf "%.2f" (float (index $modelCosts $model | default 0)) }}</td><td>{{ printf "%.0f" (mul (div (float $count) (float $weekCount)) 100) }}%</td></tr>{{- end }}</tbody></table></details>{{- end }}
+</section>
+{{- end -}}
