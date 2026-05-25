@@ -20,6 +20,7 @@ rssLimit = 20
   term = ['HTML', 'RSS']
 
 [params]
+  ga_measurement_id = ""
   defaultTheme = 'auto'
   disableSpecial1stPost = true
   ShowReadingTime = true
