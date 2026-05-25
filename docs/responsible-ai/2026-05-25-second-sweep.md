@@ -46,7 +46,7 @@ The prompts explicitly require blind-spot analysis and warn not to mistake popul
 **Recommendation:**  
 Add a reader-facing methodology page and a machine-readable source-mix report that disclose: GitHub query filters, star thresholds, sorting, date windows, press sources, known blind spots, and weekly distribution by language/topic/org type. Add a fairness check to the analysis gate: each weekly report should either show a minimum diversity sanity check or explicitly state when the source pool is too skewed to generalize.
 
-**Issue:** Open follow-up issue required (`squad`, `rai`).
+**Issue:** [#208](https://github.com/jmservera/SquadScope/issues/208) (`squad`, `rai`).
 
 ---
 
@@ -66,7 +66,7 @@ This matters because SquadScope makes factual claims about named repositories, s
 **Recommendation:**  
 Add an article-footer link such as `Report an issue with this article` prefilled with the article URL, plus a short public corrections policy. Define statuses for correction, clarification, and retraction; require corrected articles to include a dated note rather than silent rewrites.
 
-**Issue:** Open follow-up issue required (`squad`, `rai`).
+**Issue:** [#209](https://github.com/jmservera/SquadScope/issues/209) (`squad`, `rai`).
 
 ---
 
@@ -317,8 +317,8 @@ The disclosure must be per article and visible at delivery time, not only in a p
 
 ## Follow-Up Issues to Open
 
-- **Issue A:** `rai: disclose and measure source-selection bias in methodology` — high / Fairness + Transparency.
-- **Issue B:** `rai: add article errata/report/retraction path` — high / Reliability & Safety + Accountability.
+- **Issue A:** [#208](https://github.com/jmservera/SquadScope/issues/208) `rai: disclose and measure source-selection bias in methodology` — high / Fairness + Transparency.
+- **Issue B:** [#209](https://github.com/jmservera/SquadScope/issues/209) `rai: add article errata/report/retraction path` — high / Reliability & Safety + Accountability.
 
 ---
 
