@@ -1,0 +1,50 @@
+{{- $title := cond .IsHome .Site.Title (printf "%s | %s" .Title .Site.Title) -}}
+{{- $siteDescription := .Site.Params.description | default "SquadScope turns GitHub activity into weekly tech trend analysis for developers and tech leads." -}}
+{{- $description := .Description | default .Summary | default $siteDescription | plainify | htmlUnescape | chomp -}}
+{{- $description = $description | truncate 155 -}}
+{{- $defaultImage := .Site.Params.default_social_image | default "/images/squadscope-social-card.png" -}}
+{{- /* Placeholder social card path: Calculon will provide the 1200×630 image asset separately. */ -}}
+{{- $imageParam := .Params.featured_image | default $defaultImage -}}
+{{- $image := $imageParam -}}
+{{- if not (or (hasPrefix $imageParam "http://") (hasPrefix $imageParam "https://")) -}}
+{{- $image = (strings.TrimPrefix "/" $imageParam) | absURL -}}
+{{- end -}}
+{{- $publisherLogo := $defaultImage -}}
+{{- if not (or (hasPrefix $publisherLogo "http://") (hasPrefix $publisherLogo "https://")) -}}
+{{- $publisherLogo = (strings.TrimPrefix "/" $publisherLogo) | absURL -}}
+{{- end -}}
+{{- $isArticle := or (and .IsPage (eq .Section "weekly")) (eq .Type "topics") -}}
+{{- $type := cond $isArticle "article" "website" -}}
+
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $description }}">
+<meta name="author" content="{{ .Site.Params.author | default "SquadScope" }}">
+<link rel="canonical" href="{{ .Permalink }}">
+
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:image" content="{{ $image }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:type" content="{{ $type }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:description" content="{{ $description }}">
+<meta name="twitter:image" content="{{ $image }}">
+
+{{- if $isArticle }}
+{{- $publisher := dict "@type" "Organization" "name" "SquadScope" "logo" (dict "@type" "ImageObject" "url" $publisherLogo) -}}
+{{- $schema := dict
+  "@context" "https://schema.org"
+  "@type" "Article"
+  "headline" .Title
+  "description" $description
+  "image" $image
+  "url" .Permalink
+  "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")
+  "author" (dict "@type" "Organization" "name" "SquadScope")
+  "publisher" $publisher
+-}}
+<script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
+{{- end }}
