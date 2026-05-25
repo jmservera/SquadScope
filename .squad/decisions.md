@@ -51,6 +51,12 @@
 - OQ4: Star threshold (50 proposed)
 - OQ8: Copilot usage limits in automation
 
+## Cost Transparency Placement (2026-05-25)
+
+**Decision:** The AI pipeline cost dashboard is part of `/about/` under a Pipeline transparency section, with the existing `/dashboard/` page retained as a direct audit link that reuses the same shortcode.
+
+**Rationale:** Cost reporting is operational transparency, not a primary navigation destination or product dashboard. Keeping it on About matches the editorial-restrained redesign while preserving the old URL for references.
+
 ## Copilot CLI in GitHub Actions (2026-05-18)
 
 **Requestor:** jmservera  

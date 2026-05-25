@@ -46,6 +46,7 @@ const THEMES = ['light', 'dark'];
 
 const PAGES = [
   { key: 'home',           path: '/'                    },
+  { key: 'about',          path: '/about/'              },
   { key: 'weekly-w22',     path: '/weekly/2026/w22/'    },
   { key: 'monthly-may',    path: '/monthly/2026/05/'    },
   { key: 'yearly-2026',    path: '/yearly/2026/'        },
