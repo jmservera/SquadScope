@@ -87,6 +87,7 @@ Skip for: code-only PRs (workflows, scripts, crawl logic) **unless** they handle
 | D5 | Output-only instruction present: "Output only the finished markdown file content" — prevents agent epilogue leaking into articles | |
 | D6 | Quality gate in frontmatter: `quality_score >= 60` required for publication, not just generated | |
 | D7 | Wisdom / skills injection reads from versioned files, not from arbitrary prompt input | |
+| D8 | Untrusted-content guard present: repo `name`, `description`, `topics` fields are explicitly labeled as user-controlled data that must not be followed as instructions | |
 
 ### E. Workflows (CI/CD)
 
