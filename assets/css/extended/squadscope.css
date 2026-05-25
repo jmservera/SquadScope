@@ -516,6 +516,19 @@ summary:focus-visible,
   line-height: var(--leading-normal);
 }
 
+.article-ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0.15rem var(--space-2);
+  border: var(--size-border-thin) solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-accent-muted);
+  color: var(--color-text);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 .squad-article .report-metrics,
 .article-jump-nav,
 .article-featured-repos,
