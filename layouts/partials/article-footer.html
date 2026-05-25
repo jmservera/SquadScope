@@ -35,4 +35,18 @@
   </div>
 
   <p class="article-footer__updated">Last updated <time datetime="{{ $page.Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ $page.Lastmod.Format "Jan 2, 2006" }}</time></p>
+
+  {{- with $page.Params.errata }}
+  <section class="article-errata" aria-label="Article corrections">
+    <h2 class="article-errata__title">Errata</h2>
+    <ul class="article-errata__list">
+      {{- range . }}
+      <li>
+        {{- with .date }}<time datetime="{{ time.Format "2006-01-02" . }}">{{ time.Format "Jan 2, 2006" . }}</time>{{ end -}}
+        {{- with .note }}<span>{{ . | markdownify }}</span>{{ end -}}
+      </li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
 </footer>
