@@ -1,6 +1,6 @@
 {
   "week": "2026-W22",
-  "crawled_at": "2026-05-25T09:46:11Z",
+  "crawled_at": "2026-05-25T11:55:46Z",
   "new_repos": [
     {
       "name": "bumblebee",
@@ -9001,13 +9001,13 @@
     ]
   },
   "metadata": {
-    "api_calls_used": 435,
-    "cache_hits": 0,
+    "api_calls_used": 0,
+    "cache_hits": 435,
     "stale_cache_hits": 0,
-    "rate_limit_limit": 5000,
-    "rate_limit_remaining": 4568,
-    "rate_limit_reset": 1779705966,
-    "rate_limit_resource": "core",
+    "rate_limit_limit": null,
+    "rate_limit_remaining": null,
+    "rate_limit_reset": null,
+    "rate_limit_resource": null,
     "partial_failures": [],
     "filter_summary": {
       "new_repos": {
