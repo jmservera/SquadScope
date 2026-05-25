@@ -1,0 +1,29 @@
+{{- $content := .Content -}}
+{{- $pressHeadings := slice `<h2 id="where-industry-meets-code">Where Industry Meets Code</h2>` `<h2 id=where-industry-meets-code>Where Industry Meets Code</h2>` -}}
+{{- $pressHeading := "" -}}
+{{- range $pressHeadings -}}
+  {{- if and (not $pressHeading) (in $content .) -}}
+    {{- $pressHeading = . -}}
+  {{- end -}}
+{{- end -}}
+{{- if $pressHeading -}}
+  {{- $parts := split $content $pressHeading -}}
+  {{- index $parts 0 | safeHTML -}}
+  {{- $afterHeading := index $parts 1 -}}
+  {{- $sectionParts := split $afterHeading "<h2" -}}
+  {{- $pressBody := index $sectionParts 0 -}}
+  {{- $remaining := "" -}}
+  {{- if gt (len $sectionParts) 1 -}}
+    {{- $remaining = print "<h2" (delimit (after 1 $sectionParts) "<h2") -}}
+  {{- end -}}
+  <aside class="press-context-callout" role="complementary" aria-labelledby="where-industry-meets-code">
+    <p class="press-context-callout__kicker">Industry &amp; Press</p>
+    <h2 id="where-industry-meets-code" class="press-context-callout__title">Where Industry Meets Code</h2>
+    <div class="press-context-callout__body">
+      {{- $pressBody | safeHTML -}}
+    </div>
+  </aside>
+  {{- $remaining | safeHTML -}}
+{{- else -}}
+  {{- $content | safeHTML -}}
+{{- end -}}

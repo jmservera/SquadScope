@@ -4,7 +4,7 @@
 {{- $hasStars := isset $page.Params "stars_tracked" -}}
 {{- $hasTopRepo := and (isset $page.Params "top_repo") (ne (index $page.Params "top_repo") "") -}}
 {{- if or $hasWeek $hasRepos $hasStars $hasTopRepo -}}
-<div class="report-metrics">
+<div class="report-metrics" aria-label="Report metrics">
   {{- if $hasWeek -}}
   <div class="metric-card">
     <span class="metric-label">Week</span>
@@ -14,13 +14,13 @@
   {{- if $hasRepos -}}
   <div class="metric-card">
     <span class="metric-label">Repos featured</span>
-    <strong class="metric-value">{{ index $page.Params "repos_featured" }}</strong>
+    <strong class="metric-value">{{ lang.FormatNumber 0 (index $page.Params "repos_featured") }}</strong>
   </div>
   {{- end -}}
   {{- if $hasStars -}}
   <div class="metric-card">
     <span class="metric-label">Stars tracked</span>
-    <strong class="metric-value">{{ index $page.Params "stars_tracked" }}</strong>
+    <strong class="metric-value">{{ lang.FormatNumber 0 (index $page.Params "stars_tracked") }}</strong>
   </div>
   {{- end -}}
   {{- if $hasTopRepo -}}

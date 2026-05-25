@@ -1,0 +1,26 @@
+{{- $repo := .repo -}}
+{{- $description := .description | default "Featured GitHub repository from this report." -}}
+{{- $language := .language -}}
+{{- $stars := .stars -}}
+{{- $forks := .forks -}}
+{{- $variant := .variant | default "featured" -}}
+{{- if $repo -}}
+<article class="repo-card repo-card--{{ $variant }}" aria-label="Featured repository {{ $repo }}">
+  <div class="repo-card__main">
+    <div class="repo-card__heading">
+      <a class="repo-card__title" href="https://github.com/{{ $repo }}" aria-label="Open GitHub repository {{ $repo }}">{{ $repo }}</a>
+      {{- with $language }}<span class="repo-card__language">{{ . }}</span>{{- end }}
+    </div>
+    <p class="repo-card__description">{{ $description }}</p>
+  </div>
+  <div class="repo-card__footer">
+    <p class="repo-card__stats">
+      {{- if $stars }}<span>{{ $stars }} stars</span>{{- end -}}
+      {{- if and $stars $forks }}<span aria-hidden="true">·</span>{{- end -}}
+      {{- if $forks }}<span>{{ $forks }} forks</span>{{- end -}}
+      {{- if not (or $stars $forks) }}<span>GitHub repository</span>{{- end -}}
+    </p>
+    <a class="repo-card__button" href="https://github.com/{{ $repo }}" aria-label="View {{ $repo }} on GitHub">GitHub →</a>
+  </div>
+</article>
+{{- end -}}

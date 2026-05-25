@@ -1,0 +1,59 @@
+{
+  "categories": {
+    "necessary": {
+      "enabled": true,
+      "readOnly": true
+    },
+    "analytics": {
+      "enabled": false,
+      "readOnly": false,
+      "services": {
+        "ga4": {
+          "label": "Google Analytics 4",
+          "cookies": [
+            {
+              "name": "/^_ga/"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "language": {
+    "default": "en",
+    "translations": {
+      "en": {
+        "consentModal": {
+          "title": "We Use Cookies",
+          "description": "We use cookies to understand how you use SquadScope. Some are necessary for the site to work; others help us improve your experience. You're in control — you can choose which cookies to accept.",
+          "acceptAllBtn": "Accept all",
+          "acceptNecessaryBtn": "Reject all",
+          "showPreferencesBtn": "Manage Cookies"
+        },
+        "preferencesModal": {
+          "title": "Manage Your Cookies",
+          "acceptAllBtn": "Accept all",
+          "acceptNecessaryBtn": "Reject all",
+          "savePreferencesBtn": "Save preferences",
+          "closeIconLabel": "Close preferences",
+          "sections": [
+            {
+              "title": "Strictly necessary",
+              "description": "These cookies are essential for this website to function properly (e.g., session management, security). They cannot be disabled.",
+              "linkedCategory": "necessary"
+            },
+            {
+              "title": "Analytics",
+              "description": "Analytics cookies help us understand how you use SquadScope — which pages you visit, how long you stay, and where you come from. This helps us improve the site. We use Google Analytics 4. You can opt out at any time.",
+              "linkedCategory": "analytics"
+            },
+            {
+              "title": "More information",
+              "description": "For detailed information about how we use your data, retention periods, and your privacy rights, please see our <a href=\"/privacy/\" target=\"_blank\">privacy policy</a>."
+            }
+          ]
+        }
+      }
+    }
+  }
+}

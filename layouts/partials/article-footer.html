@@ -1,0 +1,38 @@
+{{- $page := . -}}
+<footer class="post-footer article-footer">
+  {{- $tags := $page.Language.Params.Taxonomies.tag | default "tags" -}}
+  {{- $categories := $page.Language.Params.Taxonomies.category | default "categories" -}}
+  <div class="article-footer__taxonomies" aria-label="Report taxonomy">
+    <ul class="post-tags">
+      {{- range ($page.GetTerms $categories) }}
+      <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+      {{- end }}
+      {{- range ($page.GetTerms $tags) }}
+      <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+      {{- end }}
+    </ul>
+  </div>
+
+  <nav class="article-week-nav" aria-label="Weekly report navigation">
+    {{- with $page.PrevInSection }}
+    <a class="article-week-nav__link" href="{{ .RelPermalink }}">
+      <span>Read prior week</span>
+      <strong>{{ .Title }}</strong>
+    </a>
+    {{- end }}
+    {{- with $page.NextInSection }}
+    <a class="article-week-nav__link article-week-nav__link--next" href="{{ .RelPermalink }}">
+      <span>Read next week</span>
+      <strong>{{ .Title }}</strong>
+    </a>
+    {{- end }}
+  </nav>
+
+  <div class="article-footer__prompt">
+    <a href="{{ "index.xml" | absURL }}">Subscribe via RSS</a>
+    <span aria-hidden="true">·</span>
+    <a href="mailto:?subject={{ $page.Title | urlquery }}&amp;body={{ $page.Permalink | urlquery }}">Share this report</a>
+  </div>
+
+  <p class="article-footer__updated">Last updated <time datetime="{{ $page.Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ $page.Lastmod.Format "Jan 2, 2006" }}</time></p>
+</footer>
