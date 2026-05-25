@@ -11,6 +11,8 @@ from pathlib import Path
 from typing import Any
 from urllib import error, request
 
+from scripts.sanitize_repo_content import sanitize_repo_payload
+
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_PROMPT_TEMPLATE = ROOT / "prompts" / "analyze-weekly.md"
 DEFAULT_ANALYZED_DIR = ROOT / "data" / "analyzed"
@@ -126,9 +128,11 @@ def render_prompt(
     press_context_path: Path | None = None,
 ) -> str:
     payload = load_json(raw_json_path)
-    current_week = payload["week"]
+    sanitized_payload = sanitize_repo_payload(payload)
+    current_week = sanitized_payload["week"]
     previous_summary_path = find_previous_summary(current_week, analyzed_dir)
     previous_summary_content = previous_summary_path.read_text(encoding="utf-8") if previous_summary_path else ""
+    raw_json_content = json.dumps(sanitized_payload, indent=2, ensure_ascii=False)
 
     prompt = prompt_template_path.read_text(encoding="utf-8")
     replacements = {
@@ -136,7 +140,7 @@ def render_prompt(
         "{{RAW_JSON_PATH}}": str(raw_json_path),
         "{{OUTPUT_PATH}}": str(output_path),
         "{{PREVIOUS_SUMMARY_PATH_OR_NONE}}": str(previous_summary_path) if previous_summary_path else "None",
-        "{{RAW_JSON_CONTENT}}": raw_json_path.read_text(encoding="utf-8").strip(),
+        "{{RAW_JSON_CONTENT}}": raw_json_content,
         "{{PREVIOUS_SUMMARY_CONTENT_OR_EMPTY}}": previous_summary_content.strip(),
         "{{WISDOM}}": render_wisdom(wisdom_file),
         "{{SKILLS}}": render_skills(skills_dir),
@@ -375,7 +379,7 @@ def _render_press_section_no_ai(press_context_path: Path | None) -> str:
 
 def generate_no_ai_summary(raw_json_path: Path, current_datetime: str, press_context_path: Path | None = None) -> str:
     """Generate a valid summary from raw JSON without any AI API calls."""
-    payload = load_json(raw_json_path)
+    payload = sanitize_repo_payload(load_json(raw_json_path))
     week = payload["week"]
     new_repos = payload.get("new_repos", [])
     trending_repos = payload.get("trending_repos", [])

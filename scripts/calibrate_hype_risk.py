@@ -18,8 +18,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-import topic_paths  # noqa: E402
+from scripts import topic_paths
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:

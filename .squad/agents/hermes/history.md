@@ -9,6 +9,7 @@
 - The current pipeline chains GitHub crawl data, press correlation, AI analysis, content generation, and GitHub Pages deployment, so security review must cover every handoff.
 - The safest fallback posture is Copilot CLI first, GitHub Models second, and a bounded no-AI summary path after that.
 - Retry logic and prompt sanitation both matter for defense-in-depth when external content can influence analysis prompts.
+- Prompt-injection hardening should layer untrusted-content boundaries, pre-render sanitization, output evidence guards, and a closing trusted-mission reminder; sanitize repo descriptions by stripping leading whitespace, escaping boundary-close tags, truncating length, and warning on common injection phrases.
 - URL validation must use `urllib.parse.urlparse()` instead of substring checks to avoid time-of-check-time-of-use (TOCTOU) vulnerabilities in test contexts and security checks (CodeQL hardening, PR #164).
 
 ## Cookie Consent & Privacy Policy (Issue #183) — 2026-05-25
