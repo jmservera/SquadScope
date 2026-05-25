@@ -218,12 +218,14 @@ Amy should produce the following assets from the SVG specs above:
 
 ### Default OG Image (`og-image.png`)
 
+Uses the robot-with-binoculars icon as the primary visual element:
+
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │                                                                │
 │                                                                │
 │     ┌─────┐                                                    │
-│     │ ◎   │   SquadScope                                       │
+│     │ 🤖🔭│   SquadScope                                       │
 │     └─────┘                                                    │
 │                                                                │
 │            Weekly tech signal from GitHub                      │
@@ -238,7 +240,7 @@ Amy should produce the following assets from the SVG specs above:
 **Specs:**
 - Size: 1200×630px
 - Background: `--bg` (#FAFAFA light / #0D0D0D dark — produce both)
-- Icon: 120px height, left of wordmark
+- Icon: 120px height, robot-with-binoculars SVG, left of wordmark
 - Wordmark: Inter Bold, 72px, `--text`
 - Tagline: Inter Regular, 32px, `--text-muted`
 - URL: Inter Regular, 24px, `--text-muted`
@@ -249,7 +251,7 @@ Amy should produce the following assets from the SVG specs above:
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │                                                                │
-│  WEEK 22 · MAY 2026                          [SquadScope ◎]   │
+│  WEEK 22 · MAY 2026                     [SquadScope 🤖🔭]     │
 │                                                                │
 │  Supply-Chain Scanners, Skills                                 │
 │  Economies, and GitHub's                                       │
@@ -268,29 +270,13 @@ Amy should produce the following assets from the SVG specs above:
 - Eyebrow: Inter Medium, 24px, `--accent`
 - Title: Inter Bold, 56px, `--text`, max 3 lines
 - Metrics bar: Rounded rect with `--accent-muted` background
-- Logo: Top-right corner, 48px height
+- Logo: Top-right corner, 48px height, robot-with-binoculars icon + wordmark
+
+**Note:** The robot-with-binoculars motif carries through all OG images — Amy or follow-up implementation will generate these from the master SVG.
 
 ---
 
-## 6. Generation Prompt (Optional)
-
-If a richer hero/OG image is desired using an image generation model, here is a prompt:
-
-```
-A minimalist digital illustration of a radar screen showing concentric circles
-on a dark background (#0D0D0D). A single bright blue (#4DA3FF) sweep line
-extends from the center to the top of the screen. Where the sweep line meets
-the outer ring, there is a glowing blue dot representing a detected signal.
-The style is clean, geometric, and technical — like a modernized NORAD display
-but elegant and editorial. No text, no labels, just the pure radar visualization.
-Aspect ratio 1200x630 for social media preview.
-```
-
-**Note:** The hand-coded SVG icon above is the canonical brand mark. Any generated imagery should complement it, not replace it.
-
----
-
-## 7. Implementation Checklist
+## 6. Implementation Checklist
 
 - [ ] Export all PNG assets at 2x resolution for Retina displays
 - [ ] Test favicon.ico in Chrome, Firefox, Safari, Edge
@@ -298,10 +284,11 @@ Aspect ratio 1200x630 for social media preview.
 - [ ] Add icon references to `hugo.toml` under `[params]`
 - [ ] Update `layouts/partials/head.html` with favicon links
 - [ ] Test OG images with Twitter Card Validator and Facebook Debugger
+- [ ] Verify robot-with-binoculars silhouette is legible at 16px
 
 ---
 
-## 8. File Locations
+## 7. File Locations
 
 All assets should be placed in:
 

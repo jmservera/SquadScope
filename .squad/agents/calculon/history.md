@@ -58,3 +58,20 @@
 **Migration Phases:** 6 phases (tokens → header/footer → home → articles → cost dashboard → icons)
 
 **Issues Created:** #170-#177
+
+### 2026-05-25: Icon Safety Check Pattern
+
+**Trigger:** User directive caught potential misreading of double-S letterform as Nazi SS rune — flagged before Phase 6 shipped.
+
+**Pattern — Icon Silhouette Safety Check:**
+1. **Pre-design:** Avoid letterforms or geometric patterns that could be misread as extremist/hate symbols (double-S monograms, single-rune lightning bolts, certain cross/sun variants, certain hand signs)
+2. **Post-design verification:**
+   - Render at 16px, 32px, 64px, 512px — ambiguity often hides at small sizes
+   - Test rotation/flip — no problematic shapes should emerge
+   - Check negative space — no hidden symbols in whitespace
+   - Cross-reference against ADL Hate on Display database or similar
+3. **Document:** Include silhouette safety check results in icon spec
+
+**Replacement design:** Robot with binoculars (keeps "scope" metaphor, adds friendly personality, zero symbol ambiguity). See updated `docs/design/icon-spec.md`.
+
+**Skill created:** `.squad/skills/icon-safety-check/SKILL.md` at confidence: low (needs validation across more icon designs)
