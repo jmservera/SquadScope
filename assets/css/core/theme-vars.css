@@ -3,8 +3,8 @@
     --content-gap: var(--space-4);
     --nav-width: 1024px;
     --main-width: 720px;
-    --header-height: 60px;
-    --footer-height: 60px;
+    --header-height: var(--size-header-height);
+    --footer-height: var(--size-header-height);
     --radius: var(--radius-md);
     --theme: var(--color-bg);
     --entry: var(--color-surface);
