@@ -1,0 +1,27 @@
+{{- $page := . -}}
+{{- $sections := slice
+  (dict "id" "this-weeks-trends" "label" "Trends")
+  (dict "id" "where-industry-meets-code" "label" "Industry")
+  (dict "id" "signal-noise" "label" "Signal")
+  (dict "id" "blind-spots" "label" "Blind Spots")
+  (dict "id" "the-week-ahead" "label" "Week Ahead")
+  (dict "id" "key-references" "label" "References")
+-}}
+{{- $links := slice -}}
+{{- range $sections -}}
+  {{- $quotedID := printf "id=\"%s\"" .id -}}
+  {{- $bareID := printf "id=%s" .id -}}
+  {{- if or (in $page.Content $quotedID) (in $page.Content $bareID) -}}
+    {{- $links = $links | append . -}}
+  {{- end -}}
+{{- end -}}
+{{- if gt (len $links) 0 -}}
+<nav class="article-jump-nav" aria-label="Jump to article sections">
+  <span class="article-jump-nav__label">Jump to</span>
+  <ul>
+    {{- range $links }}
+    <li><a href="#{{ .id }}">{{ .label }}</a></li>
+    {{- end }}
+  </ul>
+</nav>
+{{- end -}}

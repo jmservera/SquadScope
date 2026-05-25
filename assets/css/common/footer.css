@@ -1,56 +1,79 @@
-.footer,
+.site-footer,
 .top-link {
     font-size: var(--text-xs);
     color: var(--color-text-muted);
 }
 
-.footer {
+.site-footer {
+    margin-block-start: var(--space-6);
+    border-top: var(--size-border-thin) solid var(--color-border);
+    background: var(--color-surface);
+}
+
+.site-footer__inner {
+    display: grid;
+    gap: var(--space-3);
     max-width: calc(var(--main-width) + var(--gap) * 2);
     margin: auto;
-    padding: calc((var(--footer-height) - var(--gap)) / 2) var(--gap);
+    padding: var(--space-6) var(--gap);
     text-align: center;
-    line-height: 24px;
 }
 
-.footer span {
-    margin-inline-start: 1px;
-    margin-inline-end: 1px;
+.site-footer__tagline,
+.site-footer__meta {
+    margin: 0;
 }
 
-.footer span:last-child {
-    white-space: nowrap;
+.site-footer__tagline {
+    color: var(--color-text);
+    font-size: var(--text-sm);
 }
 
-.footer a {
-    color: inherit;
-    text-underline-offset: 0.25rem;
+.site-footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+}
+
+.site-footer a {
+    color: var(--color-text-muted);
+    text-underline-offset: var(--space-1);
     text-decoration: underline;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible,
+.top-link:hover,
+.top-link:focus-visible {
+    color: var(--color-accent);
 }
 
 .top-link {
     position: fixed;
-    bottom: 4rem;
-    right: 2rem;
-    z-index: 99;
-    background: var(--tertiary);
-    width: 2.5rem;
-    height: 2.5rem;
-    padding: 10px;
-    border-radius: 64px;
+    inset-block-end: var(--space-6);
+    inset-inline-end: var(--space-5);
+    z-index: var(--z-overlay);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(var(--space-5) + var(--space-2));
+    height: calc(var(--space-5) + var(--space-2));
+    padding: var(--space-2);
+    border: var(--size-border-thin) solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    box-shadow: var(--shadow-md);
     transition: visibility .3s, opacity .3s cubic-bezier(0.4, 0, 1, 1);
+}
+
+.top-link svg {
+    width: var(--size-icon-md);
+    height: var(--size-icon-md);
 }
 
 .hidden {
     visibility: hidden;
     opacity: 0;
-}
-
-.top-link,
-.top-link svg {
-    filter: drop-shadow(0px 0px 0px var(--theme));
-}
-
-.footer a:hover,
-.top-link:hover {
-    color: var(--primary);
 }

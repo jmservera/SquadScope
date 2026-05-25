@@ -1,50 +1,70 @@
-<header class="header">
+<header class="header site-header">
     <nav class="header-nav" aria-label="Primary">
-        <div class="logo">
-            {{- $label_text := (site.Params.label.text | default site.Title) }}
-            {{- if site.Title }}
-            <a href="{{ "" | absLangURL }}" accesskey="h" title="{{ $label_text }} (Alt + H)" aria-label="{{ $label_text }}">
-                {{- if site.Params.label.icon }}
-                {{- $img := resources.Get site.Params.label.icon }}
-                {{- if $img }}
-                    {{- $processableFormats := (slice "jpg" "jpeg" "png" "tif" "bmp" "gif") -}}
-                    {{- if hugo.IsExtended -}}
-                        {{- $processableFormats = $processableFormats | append "webp" -}}
-                    {{- end -}}
-                    {{- $prod := (hugo.IsProduction | or (eq site.Params.env "production")) }}
-                    {{- if and (in $processableFormats $img.MediaType.SubType) (eq $prod true)}}
-                        {{- if site.Params.label.iconHeight }}
-                            {{- $img = $img.Resize (printf "x%d" site.Params.label.iconHeight) }}
-                        {{ else }}
-                            {{- $img = $img.Resize "x30" }}
-                        {{- end }}
-                    {{- end }}
-                    <img src="{{ $img.Permalink }}" alt="" aria-label="logo"
-                        height="{{- site.Params.label.iconHeight | default "30" -}}">
-                {{- else }}
-                <img src="{{- site.Params.label.icon | absURL -}}" alt="" aria-label="logo"
-                    height="{{- site.Params.label.iconHeight | default "30" -}}">
-                {{- end -}}
-                {{- else if hasPrefix site.Params.label.iconSVG "<svg" }}
-                    {{ site.Params.label.iconSVG | safeHTML }}
-                {{- end -}}
-                {{- $label_text -}}
-            </a>
-            {{- end }}
+        <a class="site-brand" href="{{ "" | absLangURL }}" accesskey="h" title="SquadScope (Alt + H)" aria-label="SquadScope home">
+            <span class="site-brand__mark" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="32" y1="4" x2="32" y2="14"/>
+                    <circle cx="32" cy="4" r="3" fill="currentColor" stroke="none"/>
+                    <rect x="10" y="14" width="44" height="36" rx="8" ry="8"/>
+                    <circle cx="22" cy="30" r="9"/>
+                    <circle cx="22" cy="30" r="4" fill="currentColor" stroke="none"/>
+                    <circle cx="42" cy="30" r="9"/>
+                    <circle cx="42" cy="30" r="4" fill="currentColor" stroke="none"/>
+                    <line x1="31" y1="30" x2="33" y2="30" stroke-width="4"/>
+                    <line x1="26" y1="42" x2="38" y2="42"/>
+                    <line x1="28" y1="45" x2="36" y2="45"/>
+                    <path d="M14 54 L14 58 Q14 62 18 62 L46 62 Q50 62 50 58 L50 54" stroke-width="2"/>
+                </svg>
+            </span>
+            <span class="site-brand__text">SquadScope</span>
+        </a>
 
-            {{- $lsenabled := (or (not site.Params.disableThemeToggle) (and (not site.Params.disableLangToggle) (hugo.IsMultilingual))) }}
-            {{- if $lsenabled }}
-            <div class="logo-switches">
+        <div class="site-header__cluster">
+            {{- $currentPage := . }}
+            {{- define "primary-menu-items" }}
+                {{- $currentPage := . }}
+                {{- range site.Menus.main }}
+                {{- $menuURL := .URL | relLangURL }}
+                {{- $pageURL := $currentPage.RelPermalink }}
+                {{- $isHome := eq $menuURL ("" | relLangURL) }}
+                {{- $isCurrent := or (and $isHome $currentPage.IsHome) (and (not $isHome) (or (eq $pageURL $menuURL) (strings.HasPrefix $pageURL $menuURL))) }}
+                <li>
+                    <a href="{{ .URL | absLangURL }}"{{- if $isCurrent }} aria-current="page"{{- end }}>
+                        {{- .Name -}}
+                    </a>
+                </li>
+                {{- end }}
+            {{- end }}
+            <ul id="menu" class="menu menu--desktop">
+                {{- template "primary-menu-items" $currentPage }}
+            </ul>
+            <details class="site-menu">
+                <summary class="site-menu__toggle" aria-label="Toggle primary navigation">
+                    <span class="site-menu__toggle-icon" aria-hidden="true"></span>
+                    <span class="site-menu__toggle-text">Menu</span>
+                </summary>
+                <ul class="menu menu--mobile">
+                    {{- template "primary-menu-items" $currentPage }}
+                </ul>
+            </details>
+
+            <div class="site-actions" aria-label="Site actions">
+                <a class="icon-button github-button" href="https://github.com/jmservera/SquadScope" target="_blank" rel="noopener" aria-label="GitHub">
+                    <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+                    </svg>
+                </a>
+
                 {{- if (not site.Params.disableThemeToggle) }}
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                <button id="theme-toggle" class="icon-button theme-toggle" accesskey="t" title="Toggle theme (Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
+                        stroke-linejoin="round" aria-hidden="true">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
+                        stroke-linejoin="round" aria-hidden="true">
                         <circle cx="12" cy="12" r="5"></circle>
                         <line x1="12" y1="1" x2="12" y2="3"></line>
                         <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -57,60 +77,7 @@
                     </svg>
                 </button>
                 {{- end }}
-                
-                {{- if (not site.Params.disableLangToggle) }}
-                    {{- $lang := .Lang}}
-                    {{- with site.Home.Translations }}
-                    {{- $separator := or $label_text (not site.Params.disableThemeToggle)}}
-                    {{- if $separator }}<span class="nav-sep">|</span>{{ end }}
-                    <ul class="lang-menu">
-                        {{- range . -}}
-                        {{- if ne $lang .Lang }}
-                        <li>
-                            <a href="{{- .Permalink -}}" title="{{ .Language.Params.languageAltTitle | default (.Language.LanguageName | emojify) | default (.Lang | title) }}"
-                                aria-label="{{ .Language.LanguageName | default (.Lang | title) }}">
-                                {{- if (and site.Params.displayFullLangName (.Language.LanguageName)) }}
-                                {{- .Language.LanguageName | emojify -}}
-                                {{- else }}
-                                {{- .Lang | title -}}
-                                {{- end -}}
-                            </a>
-                        </li>
-                        {{- end -}}
-                        {{- end}}
-                    </ul>
-                    {{- end }}
-                {{- end }}
             </div>
-            {{- end }}
         </div>
-        {{- $currentPage := . }}
-        <ul id="menu" class="menu" aria-label="Primary menu">
-            {{- range site.Menus.main }}
-            {{- $menu_item_url := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL) ) | absLangURL }}
-            {{- $page_url:= $currentPage.Permalink | absLangURL }}
-            {{- $is_search := eq (site.GetPage .KeyName).Layout `search` }}
-            {{- $is_current := eq $menu_item_url $page_url }}
-            <li>
-                <a href="{{ .URL | absLangURL }}" title="{{ .Title | default .Name }} {{- cond $is_search (" (Alt + /)" | safeHTMLAttr) ("" | safeHTMLAttr ) }}"
-                {{- cond $is_search (" accesskey=/" | safeHTMLAttr) ("" | safeHTMLAttr ) }}
-                {{- if $is_current }} aria-current="page"{{- end }}>
-                    <span {{- if $is_current }} class="active" {{- end }}>
-                        {{- .Pre }}
-                        {{- .Name -}}
-                        {{ .Post -}}
-                    </span>
-                    {{- if (findRE "://" .URL) }}&nbsp;
-                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
-                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
-                        <path d="M15 3h6v6"></path>
-                        <path d="M10 14L21 3"></path>
-                    </svg>
-                    {{- end }}
-                </a>
-            </li>
-            {{- end }}
-        </ul>
     </nav>
 </header>

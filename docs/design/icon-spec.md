@@ -1,333 +1,134 @@
-# SquadScope Icon Specification
+# SquadScope Icon Spec
 
-**Date:** 2026-05-25  
-**Author:** Calculon (Designer)  
-**Status:** Proposed
+## Concept
 
----
+**Robot with binoculars.** A minimalist robot head holding binoculars to its eyes — keeps the "scope/observation" metaphor (binoculars = signal-spotting) and grounds it in a friendly editorial personality (this site IS auto-generated weekly trend analysis; the robot is honest about that).
 
-## 1. Concept
+Replaces the previously-proposed Radar Sweep concept. Radar was visually generic and the SquadScope homepage briefly used "SS" as a text monogram in the header, which the user flagged as risking accidental association with the Nazi SS rune. This icon resolves both: original visual identity + no letterforms that can be misread.
 
-### Brand Essence
+## Visual
 
-**SquadScope** = Scope/spotlight on squads/trends from GitHub
+### Master SVG (64×64 viewBox, hand-coded original)
 
-The name combines:
-- **Squad:** Teams, communities, groups of developers
-- **Scope:** Observation, focus, analysis lens
-
-The icon should convey: **focused observation of developer activity** — not generic surveillance, but intentional signal extraction from noise.
-
-### Candidate Concepts
-
-#### A. Radar Sweep (Recommended)
-
-A stylized radar display with a sweep line, representing continuous scanning of the GitHub landscape. Simple, geometric, works at all sizes.
-
-**Pros:**
-- Unique (not the typical eye/magnifier)
-- Implies ongoing monitoring, not one-time search
-- Clean geometry scales from 16px to 512px
-- No licensing concerns
-
-**Cons:**
-- Could read as "military" if overdone
-
-#### B. Signal Pulse
-
-A rising waveform with peaks, representing trend signals emerging from data. Modern, data-forward.
-
-**Pros:**
-- Directly maps to "trend analysis"
-- Distinctive shape
-
-**Cons:**
-- May look like audio/music at small sizes
-- Less immediate brand recognition
-
-#### C. Bracketed Focus
-
-Square brackets `[ ]` with a dot/star inside, representing focused extraction of a single signal.
-
-**Pros:**
-- Typographic, works with wordmark
-- Developer-friendly aesthetic
-
-**Cons:**
-- May be too abstract
-- Brackets are overused in developer tooling
-
-### Recommendation: **Radar Sweep (A)**
-
-The radar concept best captures continuous observation without being a cliché eye or magnifier. It's geometric, works at all sizes, and differentiates SquadScope from generic developer tools.
-
----
-
-## 2. Icon Design
-
-### Primary Icon SVG
-
-The following SVG is optimized for clarity at 16×16px while looking refined at 512×512px. It uses `viewBox` for scalability and no external fonts.
+The robot design uses a rounded-square head with a single antenna (critical for "robot" read at small sizes), two circular binocular eyepieces connected by a bridge (differentiates from googly eyes), a subtle mouth grille for personality, and optional shoulder hints for anchoring.
 
 ```svg
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <!-- Background circle (radar field) -->
-  <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="3" fill="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Antenna: single post with ball tip (robot identifier at small sizes) -->
+  <line x1="32" y1="4" x2="32" y2="14"/>
+  <circle cx="32" cy="4" r="3" fill="currentColor" stroke="none"/>
   
-  <!-- Inner ring -->
-  <circle cx="32" cy="32" r="18" stroke="currentColor" stroke-width="2" fill="none" opacity="0.5"/>
+  <!-- Robot head: rounded square, slightly trapezoid feel -->
+  <rect x="10" y="14" width="44" height="36" rx="8" ry="8"/>
   
-  <!-- Center ring -->
-  <circle cx="32" cy="32" r="8" stroke="currentColor" stroke-width="2" fill="none" opacity="0.3"/>
+  <!-- Left binocular eyepiece -->
+  <circle cx="22" cy="30" r="9"/>
+  <circle cx="22" cy="30" r="4" fill="currentColor" stroke="none"/>
   
-  <!-- Center dot -->
-  <circle cx="32" cy="32" r="3" fill="currentColor"/>
+  <!-- Right binocular eyepiece -->
+  <circle cx="42" cy="30" r="9"/>
+  <circle cx="42" cy="30" r="4" fill="currentColor" stroke="none"/>
   
-  <!-- Sweep line (the key differentiator) -->
-  <path d="M32 32 L32 4" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <!-- Binocular bridge (the key "binoculars" differentiator) -->
+  <line x1="31" y1="30" x2="33" y2="30" stroke-width="4"/>
   
-  <!-- Signal blip on the sweep -->
-  <circle cx="32" cy="12" r="4" fill="currentColor"/>
+  <!-- Mouth grille: two horizontal lines for friendly robot personality -->
+  <line x1="26" y1="42" x2="38" y2="42"/>
+  <line x1="28" y1="45" x2="36" y2="45"/>
+  
+  <!-- Shoulder chassis hints at bottom (anchors the head) -->
+  <path d="M14 54 L14 58 Q14 62 18 62 L46 62 Q50 62 50 58 L50 54" stroke-width="2"/>
 </svg>
 ```
 
-**Characteristics:**
-- Uses `currentColor` for automatic light/dark mode adaptation
-- Stroke-based design for clarity at small sizes
-- Concentric circles create depth without fills
-- Sweep line at 12 o'clock position for visual balance
-- Signal blip represents "detected trend"
+**Design rationale:**
+- **Antenna with ball tip:** Single antenna reads cleanest at 16px; the filled ball adds weight for visibility
+- **Rounded-square head:** Differentiates from circular emoji faces; the 8px corner radius keeps it friendly
+- **Binocular eyepieces:** 9px radius outer ring + 4px filled pupil gives depth; the 4px-thick bridge is the "this is binoculars" cue
+- **Mouth grille:** Two lines suggest a speaker/vent — friendly robot without being cartoonish
+- **Shoulder chassis:** 8px-tall curved shape anchors the floating head, gives editorial gravitas
+- **Stroke-based:** 2.5px stroke works at all sizes; no fills except pupils and antenna ball
 
-### Light Mode Version
+### At 16×16 (favicon-optimized)
 
-For contexts requiring explicit colors:
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <circle cx="32" cy="32" r="28" stroke="#1A1A1A" stroke-width="3" fill="none"/>
-  <circle cx="32" cy="32" r="18" stroke="#1A1A1A" stroke-width="2" fill="none" opacity="0.5"/>
-  <circle cx="32" cy="32" r="8" stroke="#1A1A1A" stroke-width="2" fill="none" opacity="0.3"/>
-  <circle cx="32" cy="32" r="3" fill="#1A1A1A"/>
-  <path d="M32 32 L32 4" stroke="#0066CC" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="32" cy="12" r="4" fill="#0066CC"/>
-</svg>
-```
-
-### Dark Mode Version
+Simplified for pixel clarity: thinner strokes, reduced elements, merged bridge into eyepiece proximity.
 
 ```svg
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <circle cx="32" cy="32" r="28" stroke="#E8E8E8" stroke-width="3" fill="none"/>
-  <circle cx="32" cy="32" r="18" stroke="#E8E8E8" stroke-width="2" fill="none" opacity="0.5"/>
-  <circle cx="32" cy="32" r="8" stroke="#E8E8E8" stroke-width="2" fill="none" opacity="0.3"/>
-  <circle cx="32" cy="32" r="3" fill="#E8E8E8"/>
-  <path d="M32 32 L32 4" stroke="#4DA3FF" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="32" cy="12" r="4" fill="#4DA3FF"/>
-</svg>
-```
-
-### Monochrome Version (for Safari pinned tab)
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <circle cx="32" cy="32" r="28" stroke="black" stroke-width="3" fill="none"/>
-  <circle cx="32" cy="32" r="18" stroke="black" stroke-width="2" fill="none" opacity="0.5"/>
-  <circle cx="32" cy="32" r="8" stroke="black" stroke-width="2" fill="none" opacity="0.3"/>
-  <circle cx="32" cy="32" r="3" fill="black"/>
-  <path d="M32 32 L32 4" stroke="black" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="32" cy="12" r="4" fill="black"/>
-</svg>
-```
-
-### Simplified Version (for 16×16 favicon)
-
-At 16×16, detail is lost. Use this simplified version:
-
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
-  <!-- Outer circle -->
-  <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Antenna -->
+  <line x1="8" y1="1" x2="8" y2="3"/>
+  <circle cx="8" cy="1" r="1" fill="currentColor" stroke="none"/>
   
-  <!-- Center dot -->
-  <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
+  <!-- Head -->
+  <rect x="2" y="3" width="12" height="10" rx="2" ry="2"/>
   
-  <!-- Sweep line with blip -->
-  <path d="M8 8 L8 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-  <circle cx="8" cy="2.5" r="1.5" fill="currentColor"/>
+  <!-- Binocular eyepieces (close together = implied bridge) -->
+  <circle cx="5.5" cy="7" r="2"/>
+  <circle cx="5.5" cy="7" r="0.75" fill="currentColor" stroke="none"/>
+  <circle cx="10.5" cy="7" r="2"/>
+  <circle cx="10.5" cy="7" r="0.75" fill="currentColor" stroke="none"/>
+  
+  <!-- Mouth (single line at this scale) -->
+  <line x1="6" y1="11" x2="10" y2="11"/>
+  
+  <!-- Shoulder hint -->
+  <path d="M4 13 L4 14.5 Q4 15 5 15 L11 15 Q12 15 12 14.5 L12 13" stroke-width="1"/>
 </svg>
 ```
 
----
+Scales cleanly — silhouette reads as robot with binoculars at favicon size.
 
-## 3. Color Guidance
+## Design tokens
 
-The icon uses design tokens from the redesign proposal:
+- **Color:** `var(--color-text)` via `currentColor` — auto-adapts to light/dark themes
+- **Stroke width (64px):** 2.5px main elements, 4px binocular bridge, 2px shoulder
+- **Stroke width (16px):** 1.5px main elements, 1px shoulder
+- **Corner radius:** 8px head (64px), 2px head (16px)
 
-| Context | Radar Rings | Sweep Line & Blip |
-|---------|-------------|-------------------|
-| Light mode | `--text` (#1A1A1A) | `--accent` (#0066CC) |
-| Dark mode | `--text` (#E8E8E8) | `--accent` (#4DA3FF) |
-| Monochrome | black | black |
+## Silhouette safety check (the lesson from the SS incident)
 
-For single-color contexts (favicon.ico, Safari pinned tab), use only the primary text color.
+Confirmed against ADL Hate on Display + general silhouette test:
+- ❌ Not a rune — no angular lightning-bolt shapes
+- ❌ Not a letterform that could be misread — no S, SS, or similar
+- ❌ Not a sun/cross variant — rounded rectangle, not radial
+- ❌ Not a hand gesture — clearly a robot head
+- ✅ At 16px the silhouette reads as: **robot face with antenna and prominent circular "eyes"**
 
----
+The binoculars read as large round eyes at small sizes, which reinforces the "observing" concept. The antenna is the critical robot identifier.
 
-## 4. Asset List
+## Asset list (Amy implements in Phase 6 #175)
 
-Amy should produce the following assets from the SVG specs above:
-
-### Favicons
-
-| File | Size | Format | Notes |
-|------|------|--------|-------|
-| `favicon.ico` | 16×16, 32×32, 48×48 | ICO (multi-size) | Use simplified SVG for 16px |
-| `favicon-16x16.png` | 16×16 | PNG | Simplified version |
-| `favicon-32x32.png` | 32×32 | PNG | Primary icon |
-| `favicon.svg` | Scalable | SVG | currentColor version for modern browsers |
-
-### Apple Touch Icons
+PNG sizes needed for full favicon + PWA support (per faviconbuilder.com guide):
 
 | File | Size | Format | Notes |
 |------|------|--------|-------|
-| `apple-touch-icon.png` | 180×180 | PNG | Add 10% padding, solid `--bg` background |
+| `favicon.ico` | 16, 32, 48 multi-size | ICO | Use 16px SVG variant |
+| `favicon-16x16.png` | 16×16 | PNG | From 16px SVG |
+| `favicon-32x32.png` | 32×32 | PNG | From master SVG |
+| `favicon-96x96.png` | 96×96 | PNG | From master SVG |
+| `apple-touch-icon.png` | 180×180 | PNG | Master SVG + 10% padding + `--bg` fill |
+| `android-chrome-192x192.png` | 192×192 | PNG | Master SVG + padding |
+| `android-chrome-512x512.png` | 512×512 | PNG | Master SVG + padding |
+| `mstile-150x150.png` | 150×150 | PNG | Master SVG centered |
+| `safari-pinned-tab.svg` | scalable | SVG | Monochrome, single path conversion |
+| `og-image.png` | 1200×630 | PNG | Robot motif as anchor; Amy designs composition |
+| `site.webmanifest` | — | JSON | References 192 + 512 sizes |
 
-### Safari Pinned Tab
+All generated from the master SVG above.
 
-| File | Size | Format | Notes |
-|------|------|--------|-------|
-| `safari-pinned-tab.svg` | Scalable | SVG | Monochrome black only |
+## Header inline usage
 
-### Header Logo
+The header (`layouts/partials/header.html`) uses this SVG INLINE (no img tag) so it can take `currentColor` from the surrounding text color. The `.site-brand__mark` container provides the border/background; the SVG just renders inside at 100% of the container's dimensions.
 
-| File | Size | Format | Notes |
-|------|------|--------|-------|
-| `logo.svg` | Height 28-32px | SVG | Icon + "SquadScope" wordmark |
-| `logo-icon-only.svg` | 32×32 | SVG | For mobile/compact contexts |
-
-### Social/OG Images
-
-| File | Size | Format | Notes |
-|------|------|--------|-------|
-| `og-image.png` | 1200×630 | PNG | See spec below |
-| `og-image-weekly.png` | 1200×630 | PNG | Template for weekly articles |
-
----
-
-## 5. OG Image Specification
-
-### Default OG Image (`og-image.png`)
-
-```
-┌────────────────────────────────────────────────────────────────┐
-│                                                                │
-│                                                                │
-│     ┌─────┐                                                    │
-│     │ ◎   │   SquadScope                                       │
-│     └─────┘                                                    │
-│                                                                │
-│            Weekly tech signal from GitHub                      │
-│                                                                │
-│                                                                │
-│            jmservera.github.io/SquadScope                      │
-│                                                                │
-│                                                                │
-└────────────────────────────────────────────────────────────────┘
-```
-
-**Specs:**
-- Size: 1200×630px
-- Background: `--bg` (#FAFAFA light / #0D0D0D dark — produce both)
-- Icon: 120px height, left of wordmark
-- Wordmark: Inter Bold, 72px, `--text`
-- Tagline: Inter Regular, 32px, `--text-muted`
-- URL: Inter Regular, 24px, `--text-muted`
-- All content vertically centered, left-aligned with 80px margin
-
-### Weekly Article OG Template (`og-image-weekly.png`)
-
-```
-┌────────────────────────────────────────────────────────────────┐
-│                                                                │
-│  WEEK 22 · MAY 2026                          [SquadScope ◎]   │
-│                                                                │
-│  Supply-Chain Scanners, Skills                                 │
-│  Economies, and GitHub's                                       │
-│  Star-Farm Flood                                               │
-│                                                                │
-│            ┌─────────────────────────────────────────┐         │
-│            │ Repos: 420  ·  Stars: 16.5M  ·  Top: ⭐ │         │
-│            └─────────────────────────────────────────┘         │
-│                                                                │
-└────────────────────────────────────────────────────────────────┘
-```
-
-**Specs:**
-- Size: 1200×630px
-- Background: Gradient from `--bg` to `--surface`
-- Eyebrow: Inter Medium, 24px, `--accent`
-- Title: Inter Bold, 56px, `--text`, max 3 lines
-- Metrics bar: Rounded rect with `--accent-muted` background
-- Logo: Top-right corner, 48px height
-
----
-
-## 6. Generation Prompt (Optional)
-
-If a richer hero/OG image is desired using an image generation model, here is a prompt:
-
-```
-A minimalist digital illustration of a radar screen showing concentric circles
-on a dark background (#0D0D0D). A single bright blue (#4DA3FF) sweep line
-extends from the center to the top of the screen. Where the sweep line meets
-the outer ring, there is a glowing blue dot representing a detected signal.
-The style is clean, geometric, and technical — like a modernized NORAD display
-but elegant and editorial. No text, no labels, just the pure radar visualization.
-Aspect ratio 1200x630 for social media preview.
-```
-
-**Note:** The hand-coded SVG icon above is the canonical brand mark. Any generated imagery should complement it, not replace it.
-
----
-
-## 7. Implementation Checklist
-
-- [ ] Export all PNG assets at 2x resolution for Retina displays
-- [ ] Test favicon.ico in Chrome, Firefox, Safari, Edge
-- [ ] Verify safari-pinned-tab.svg renders correctly in Safari
-- [ ] Add icon references to `hugo.toml` under `[params]`
-- [ ] Update `layouts/partials/head.html` with favicon links
-- [ ] Test OG images with Twitter Card Validator and Facebook Debugger
-
----
-
-## 8. File Locations
-
-All assets should be placed in:
-
-```
-static/
-├── favicon.ico
-├── favicon.svg
-├── favicon-16x16.png
-├── favicon-32x32.png
-├── apple-touch-icon.png
-├── safari-pinned-tab.svg
-├── logo.svg
-├── logo-icon-only.svg
-├── og-image.png
-├── og-image-dark.png
-└── og-image-weekly-template.png
-```
-
-Update `hugo.toml`:
-
-```toml
-[params.label]
-  icon = "logo-icon-only.svg"
-  iconHeight = 28
+Example markup (see matching PR diff):
+```html
+<span class="site-brand__mark" aria-hidden="true">
+  <svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" stroke="currentColor" ...>
+    <!-- robot SVG paths -->
+  </svg>
+</span>
 ```
 
 ---
 
-*Specification by Calculon · 2026-05-25*
+*Specification by Calculon · 2026-05-25 (redo — replaces radar sweep concept)*

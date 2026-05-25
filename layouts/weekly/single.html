@@ -1,50 +1,27 @@
 {{- define "main" }}
-<article class="post-single squad-report" data-pagefind-body>
+<article class="post-single squad-report squad-article" data-pagefind-body>
   {{ partial "pagefind-metadata.html" . }}
 
-  <header class="post-header">
+  <header class="post-header article-header">
     {{ partial "breadcrumbs.html" . }}
     <p class="section-topline">Weekly summary</p>
     <h1 class="post-title entry-hint-parent">{{ .Title }}</h1>
     {{- with (.Description | default .Params.summary) }}
-    <div class="post-description">{{ . }}</div>
+    <p class="post-description article-subtitle">{{ . }}</p>
     {{- end }}
-    <div class="post-meta">
-      {{- partial "post_meta.html" . -}}
-      {{- partial "translation_list.html" . -}}
-      {{- partial "edit_post.html" . -}}
-      {{- partial "post_canonical.html" . -}}
-    </div>
+    {{ partial "article-meta.html" . }}
   </header>
 
   {{ partial "report-metrics.html" . }}
-
-  {{- with .Params.correlation }}
-  <div class="correlation-badges">
-    {{ partial "correlation-badge.html" . }}
-  </div>
-  {{- end }}
+  {{ partial "article-jump-nav.html" . }}
+  {{ partial "article-featured-repos.html" . }}
 
   {{ partial "report-shortcuts.html" . }}
 
-  <div class="post-content md-content">
-    {{ .Content }}
+  <div class="post-content md-content article-content">
+    {{ partial "article-content.html" . }}
   </div>
 
-  <footer class="post-footer">
-    {{- $tags := .Language.Params.Taxonomies.tag | default "tags" }}
-    {{- $categories := .Language.Params.Taxonomies.category | default "categories" }}
-    <ul class="post-tags">
-      {{- range ($.GetTerms $categories) }}
-      <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
-      {{- end }}
-      {{- range ($.GetTerms $tags) }}
-      <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
-      {{- end }}
-    </ul>
-    {{- if (.Param "ShowPostNavLinks") }}
-    {{- partial "post_nav_links.html" . }}
-    {{- end }}
-  </footer>
+  {{ partial "article-footer.html" . }}
 </article>
 {{- end }}

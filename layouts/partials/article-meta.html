@@ -1,0 +1,20 @@
+{{- $page := . -}}
+{{- $meta := slice -}}
+{{- if not $page.Date.IsZero -}}
+  {{- $meta = $meta | append (printf "<time datetime=%q>%s</time>" ($page.Date.Format "2006-01-02T15:04:05Z07:00") ($page.Date.Format "Jan 2, 2006")) -}}
+{{- end -}}
+{{- if $page.ReadingTime -}}
+  {{- $meta = $meta | append (printf "%d min read" $page.ReadingTime) -}}
+{{- end -}}
+{{- with $page.Params.week -}}
+  {{- $meta = $meta | append . -}}
+{{- end -}}
+{{- with $page.Params.repos_featured -}}
+  {{- $meta = $meta | append (printf "%v repos featured" .) -}}
+{{- end -}}
+{{- with $page.Params.top_repo -}}
+  {{- $meta = $meta | append (printf "Top repo: %s" .) -}}
+{{- end -}}
+{{- if gt (len $meta) 0 -}}
+<p class="article-meta" aria-label="Report metadata">{{ delimit $meta " <span aria-hidden=\"true\">·</span> " | safeHTML }}</p>
+{{- end -}}

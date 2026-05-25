@@ -63,40 +63,10 @@ rssLimit = 20
     weight = 30
 
   [[menu.main]]
-    identifier = 'archive'
-    name = 'Archive'
-    url = '/archive/'
+    identifier = 'about'
+    name = 'About'
+    url = '/about/'
     weight = 40
-
-  [[menu.main]]
-    identifier = 'tags'
-    name = 'Tags'
-    url = '/tags/'
-    weight = 50
-
-  [[menu.main]]
-    identifier = 'categories'
-    name = 'Categories'
-    url = '/categories/'
-    weight = 60
-
-  [[menu.main]]
-    identifier = 'topics'
-    name = 'Topics'
-    url = '/topics/'
-    weight = 65
-
-  [[menu.main]]
-    identifier = 'search'
-    name = 'Search'
-    url = '/search/'
-    weight = 70
-
-  [[menu.main]]
-    identifier = 'rss'
-    name = 'RSS'
-    url = '/index.xml'
-    weight = 80
 
 ignoreFiles = ['data/analyzed/.*\\.md$', 'data/metrics/.*\\.md$', 'data/metrics/.*\\.jsonl$']
 
