@@ -11,3 +11,6 @@
 - Analysis execution should prefer Copilot CLI first, then fall back to GitHub Models using the same rendered prompt so output contracts stay aligned.
 - Reviewer gates should validate the analyzer contract, not just artifact existence.
 - New pipeline stages should follow the `ci-data-source-integration-pattern` skill: wire the script into CI immediately, document the handoff, and test the producer/consumer schema at the boundary.
+- Hugo's `ignoreFiles` config is overridden by explicit `[module.mounts]` declarations; use `excludeFiles` on the mount definition to exclude files from mounted directories (W21 rescue, PR #167).
+- GitHub Actions schedule events do not have an `inputs` object; use `!inputs.X` instead of `github.event.inputs.X == ''` to safely check optional manual inputs without breaking cron triggers (critical fix, PR #164).
+- Deploy pipeline should hydrate previous-week content/data from publish branch before Hugo build to prevent main/publish divergence and preserve existing data integrity (PR #164, W21 rescue architectural fix).
