@@ -1077,3 +1077,34 @@ The published analysis needs to read like an editorial artifact and satisfy the 
 ## Impact
 
 Applies to future weekly summaries and any generator work that consumes `data/analyzed/*-summary.md`.
+
+---
+
+## 2026-05-19: TechCrunch RSS as Enrichment Signal (PR #55)
+
+- **Owner:** Bender
+- **Date:** 2026-05-19
+- **Decision:** TechCrunch RSS integration is an enrichment signal (not primary source) with explicit low-expectation framing (5–15% correlation hit rate). Feature degrades to zero noise when no correlations found.
+- **Why:** Correlation between press articles and repos is inherently low. Value lies in the delta (hype vs traction), not article summarization. Enrichment positioning allows silent failure without degrading digest.
+- **Implications:** All future `DataSource` plugins must declare "primary" or "enrichment" status. Enrichment sources require explicit failure/removal criteria. Farnsworth's analysis treats correlation data as optional context, never required input.
+
+## 2026-05-19: Milestone-based workflow adopted
+
+- **Owner:** jmservera (via Copilot)
+- **Date:** 2026-05-19
+- **Decision:** All future work organized into versioned milestones (v0.5, v0.6, etc.). PRDs are decomposed into issues, assigned to milestones, then moved to docs/processed/. This enables progress tracking and versioning.
+- **Why:** User directive — makes work easier to follow and enables versioning.
+
+## 2026-05-19: Press Context Dual-Mode Rendering
+
+- **Owner:** Farnsworth
+- **Date:** 2026-05-19T20:50:22+02:00
+- **Status:** Implemented
+- **Decision:** Implement dual-mode rendering in `render_press_context.py` to serve AI prompts (full data + instructions) and reader-facing fallback (clean narrative) separately via `reader_mode` parameter and post-processing.
+- **Why:** The press context serves two audiences. AI prompts need full data and model instructions; reader-facing pages should not expose AI directives or 100+ repo lists.
+- **Changes:**
+  - `render_press_context(reader_mode=False)` — new kwarg. When True, limits correlations to top 10, strips `### Instructions` block, and passes reader_mode to `format_divergences()`
+  - `format_correlations_list(top_n=None)` — new kwarg. Truncates display and appends "…and N more repos"
+  - `format_divergences(reader_mode=False)` — new kwarg. Replaces instruction bullets with reader-friendly narrative
+  - `analyze_fallback._strip_ai_instructions(content)` — new helper. Applied in no-AI path to post-process rendered content
+- **Consequences:** AI prompt path unchanged (full instructions + list continue to model); no-AI fallback now produces clean reader output. 16 new tests cover truncation, sorting, instruction stripping, narrative injection. All 498 tests passing. PR #135 merged.
