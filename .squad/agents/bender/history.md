@@ -14,3 +14,4 @@
 - Hugo's `ignoreFiles` config is overridden by explicit `[module.mounts]` declarations; use `excludeFiles` on the mount definition to exclude files from mounted directories (W21 rescue, PR #167).
 - GitHub Actions schedule events do not have an `inputs` object; use `!inputs.X` instead of `github.event.inputs.X == ''` to safely check optional manual inputs without breaking cron triggers (critical fix, PR #164).
 - Deploy pipeline should hydrate previous-week content/data from publish branch before Hugo build to prevent main/publish divergence and preserve existing data integrity (PR #164, W21 rescue architectural fix).
+- Fork-safe deploy secrets should default to empty in Hugo config and be injected via `HUGO_PARAMS_*` environment overrides so forks render safe defaults without inherited maintainer secrets (GA4 PR #182/#191).
