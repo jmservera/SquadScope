@@ -1,0 +1,40 @@
+{{- define "main" -}}
+{{- $weeklyPages := (where site.RegularPages "Type" "weekly").ByDate.Reverse -}}
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <p class="section-topline">Weekly archive</p>
+  <h1>{{ .Title }}</h1>
+  {{- with (.Description | default .Params.summary) }}
+  <div class="post-description">{{ . }}</div>
+  {{- end }}
+</header>
+
+{{- if .Content }}
+<div class="post-content md-content">
+  {{ .Content }}
+</div>
+{{- end }}
+
+<section class="weekly-archive" aria-labelledby="weekly-archive-heading">
+  <div class="section-heading-row">
+    <div>
+      <div class="section-topline">All editions</div>
+      <h2 id="weekly-archive-heading">{{ len $weeklyPages }} weekly issue{{ if ne (len $weeklyPages) 1 }}s{{ end }}</h2>
+    </div>
+    <a href="{{ `archive/` | absLangURL }}">Full site archive</a>
+  </div>
+
+  <div class="weekly-archive-list">
+    {{- range $weeklyPages -}}
+    <article class="weekly-archive-entry">
+      <div class="weekly-archive-entry__meta">
+        {{- with .Params.week }}<span>{{ . }}</span>{{- end }}
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+      </div>
+      <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      <p>{{ .Params.summary | default .Summary }}</p>
+    </article>
+    {{- end -}}
+  </div>
+</section>
+{{- end -}}

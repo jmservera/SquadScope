@@ -49,33 +49,45 @@ rssLimit = 20
 [menu]
   [[menu.main]]
     identifier = 'weekly'
-    name = 'Weekly'
+    name = 'All weeks'
     url = '/weekly/'
     weight = 10
+
+  [[menu.main]]
+    identifier = 'topics'
+    name = 'Topics'
+    url = '/topics/'
+    weight = 20
 
   [[menu.main]]
     identifier = 'monthly'
     name = 'Monthly'
     url = '/monthly/'
-    weight = 20
+    weight = 30
 
   [[menu.main]]
     identifier = 'yearly'
     name = 'Yearly'
     url = '/yearly/'
-    weight = 30
+    weight = 40
+
+  [[menu.main]]
+    identifier = 'search'
+    name = 'Search'
+    url = '/search/'
+    weight = 50
 
   [[menu.main]]
     identifier = 'methodology'
     name = 'Methodology'
     url = '/methodology/'
-    weight = 40
+    weight = 60
 
   [[menu.main]]
     identifier = 'about'
     name = 'About'
     url = '/about/'
-    weight = 50
+    weight = 70
 
 ignoreFiles = ['data/analyzed/.*\\.md$', 'data/metrics/.*\\.md$', 'data/metrics/.*\\.jsonl$']
 

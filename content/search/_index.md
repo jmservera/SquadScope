@@ -2,7 +2,7 @@
 title = 'Search'
 date = '2026-05-18T10:27:35.339+02:00'
 draft = false
-layout = 'pagefind-search'
+layout = 'search'
 pagefind = true
 summary = 'Search weekly, monthly, and yearly SquadScope reports with Pagefind filters.'
 +++
