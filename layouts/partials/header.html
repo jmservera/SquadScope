@@ -80,4 +80,16 @@
             </div>
         </div>
     </nav>
+
+    {{- $featuredTags := first 5 site.Taxonomies.tags.ByCount }}
+    {{- if $featuredTags }}
+    <nav class="topic-shortcuts" aria-label="Topic shortcuts">
+        <span class="topic-shortcuts__label">Topics</span>
+        {{- range $featuredTags }}
+        <a href="{{ printf "tags/%s/" (.Name | urlize) | absLangURL }}">{{ .Name }}</a>
+        {{- end }}
+        <a class="topic-shortcuts__utility" href="{{ `weekly/` | absLangURL }}">All weeks</a>
+        <a class="topic-shortcuts__utility" href="{{ `search/` | absLangURL }}">Search</a>
+    </nav>
+    {{- end }}
 </header>

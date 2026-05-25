@@ -1,7 +1,7 @@
 {{- define "main" -}}
 {{- $weeklyPages := (where site.RegularPages "Type" "weekly").ByDate.Reverse -}}
 {{- $latest := cond (gt (len $weeklyPages) 0) (index $weeklyPages 0) nil -}}
-{{- $recent := after 1 $weeklyPages -}}
+{{- $topTags := first 6 site.Taxonomies.tags.ByCount -}}
 
 <div class="home-shell">
   <section class="home-hero home-hero--minimal" aria-labelledby="home-title">
@@ -21,6 +21,7 @@
     {{ partial "report-metrics.html" $latest }}
     <div class="home-actions">
       <a class="home-action-primary" href="{{ $latest.RelPermalink }}">Read full analysis</a>
+      <a class="home-action-secondary" href="{{ `weekly/` | absLangURL }}">View all weeks</a>
     </div>
   </article>
   {{- else -}}
@@ -31,24 +32,71 @@
   </section>
   {{- end -}}
 
-  {{- if gt (len $recent) 0 -}}
-  <section class="home-recent home-recent--compact" aria-labelledby="recent-reports-heading">
-    <div class="section-topline">Recent archive</div>
-    <h2 id="recent-reports-heading">Previous weekly analyses</h2>
-    <div class="home-report-list home-report-list--compact">
-      {{- range first 6 $recent -}}
-      <article class="home-report-card home-report-card--compact">
-        <a class="home-report-title" href="{{ .RelPermalink }}">
-          <span>{{ .Title }}</span>
-        </a>
-        <div class="home-report-meta">
-          {{- with .Params.week }}<span>{{ . }}</span>{{- end }}
-          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
-        </div>
-      </article>
-      {{- end -}}
-    </div>
-  </section>
+  {{- if $topTags -}}
+  <nav class="home-tag-strip" aria-label="Active topic shortcuts">
+    <span class="home-tag-label">Active topics</span>
+    {{- range $topTags }}
+    <a href="{{ printf "tags/%s/" (.Name | urlize) | absLangURL }}">{{ .Name }}</a>
+    {{- end }}
+    <a href="{{ `topics/` | absLangURL }}">All topics</a>
+  </nav>
   {{- end -}}
+
+  <div class="home-content-grid">
+    {{- if gt (len $weeklyPages) 0 -}}
+    <section class="home-recent" aria-labelledby="recent-reports-heading">
+      <div class="section-heading-row">
+        <div>
+          <div class="section-topline">Recent issues</div>
+          <h2 id="recent-reports-heading">Weekly archive</h2>
+        </div>
+        <a href="{{ `weekly/` | absLangURL }}">View all weeks</a>
+      </div>
+      <div class="home-report-list">
+        {{- range first 6 $weeklyPages -}}
+        <article class="home-report-card">
+          <a class="home-report-title" href="{{ .RelPermalink }}">
+            <span class="home-report-week">{{ .Params.week | default (.Date.Format "2006-01-02") }}</span>
+            <span>{{ .Title }}</span>
+          </a>
+          <p>{{ .Params.summary | default .Summary }}</p>
+          <div class="home-report-meta">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+            {{- with .Params.repos_featured }}<span>{{ . }} repos featured</span>{{- end }}
+          </div>
+        </article>
+        {{- end -}}
+      </div>
+    </section>
+    {{- end -}}
+
+    <aside class="home-rail" aria-labelledby="home-rail-heading">
+      {{- if $topTags -}}
+      <section class="home-topic-rail" aria-labelledby="home-rail-heading">
+        <div class="section-topline">Topics to follow</div>
+        <h2 id="home-rail-heading">Active storylines</h2>
+        <div class="home-topic-list">
+          {{- range $topTags -}}
+          <a class="home-topic-card" href="{{ printf "tags/%s/" (.Name | urlize) | absLangURL }}">
+            <span>{{ .Name }}</span>
+            <small>{{ .Count }} issue{{ if ne .Count 1 }}s{{ end }}</small>
+          </a>
+          {{- end -}}
+        </div>
+      </section>
+      {{- end -}}
+
+      <nav class="home-quick-links" aria-labelledby="quick-links-heading">
+        <div class="section-topline">Quick links</div>
+        <h2 id="quick-links-heading">Move through the report</h2>
+        <a href="{{ `weekly/` | absLangURL }}">All weeks</a>
+        <a href="{{ `topics/` | absLangURL }}">Topic index</a>
+        <a href="{{ `monthly/` | absLangURL }}">Monthly rollups</a>
+        <a href="{{ `yearly/` | absLangURL }}">Yearly rollups</a>
+        <a href="{{ `search/` | absLangURL }}">Search</a>
+        <a href="{{ `index.xml` | absLangURL }}">RSS feed</a>
+      </nav>
+    </aside>
+  </div>
 </div>
 {{- end -}}
