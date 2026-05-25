@@ -1,32 +1,37 @@
 ---
-title: "Privacy & Cookies"
+title: "Privacy Policy"
+description: "What data SquadScope collects (almost none) and how third-party analytics work."
 date: 2026-05-25
 draft: false
 ---
 
-## Overview
+## What we don't collect
 
-SquadScope respects your privacy. This policy explains what data we collect, why, and your rights. We comply with the EU General Data Protection Regulation (GDPR) and apply those principles globally.
+SquadScope is built to need almost no personal data. There are no accounts, no login, no signup, no comments, no contact form, and no newsletter.
 
-## What Data We Collect
+SquadScope itself does **not** collect, store, or process personal data on its own servers. We do not keep first-party visitor profiles, we do not run first-party tracking, and we do not store names, email addresses, payment details, or other personally identifying information. We do **not** sell data or share data with advertisers. Period.
 
-We use **Google Analytics 4 (GA4)** to understand how visitors use this site. GA4 collects:
-- Pages visited and time spent
-- Referrer source (how you arrived)
-- Device type (desktop/mobile/tablet)
-- General location (country/city-level, not precise)
-- Browser and operating system
+The editorial pipeline behind SquadScope analyzes public GitHub repository metadata and public press headlines to write weekly trend analysis. It does not ingest private user data.
 
-**We collect this data only after you consent** via the cookie consent banner. If you reject analytics, no GA4 data is sent.
+## Who we are
 
-We do not collect:
-- Personal information (names, emails, etc.) automatically
-- Payment data (this site is free and non-commercial)
-- Sensitive personal data (health, biometric, religious affiliation, etc.)
+SquadScope is an editorial trend-analysis site published from the [jmservera/SquadScope GitHub repository](https://github.com/jmservera/SquadScope). For privacy questions, use GitHub issues as the maintainer contact route: [open a SquadScope issue](https://github.com/jmservera/SquadScope/issues/new).
 
-## Legal Basis
+## What is collected by third parties
 
-Under GDPR Article 6(1)(a), we process analytics data on the basis of **your explicit consent**, which you grant via the cookie banner at the bottom of this page.
+### GitHub Pages hosting
+
+This site is hosted on GitHub Pages. When your browser loads any page, your IP address, user-agent, requested URL, timestamp, and similar server-log data may transit GitHub's CDN and infrastructure. GitHub controls that hosting data under the [GitHub Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement).
+
+### Google Analytics 4
+
+SquadScope uses Google Analytics 4 (GA4) **only if you accept the analytics category** in the cookie banner. If you reject analytics, SquadScope does not send GA4 events.
+
+After consent, GA4 helps us understand whether the site is useful: page views, referrers, session duration, device/browser information, and approximate location derived from network data. The GA4 measurement ID is configured per deployment through a repository secret, not hard-coded in this page. Google's processing is governed by [Google's Privacy Policy](https://policies.google.com/privacy). You can also use the [Google Analytics opt-out browser add-on](https://tools.google.com/dlpage/gaoptout).
+
+### Google Fonts
+
+SquadScope loads Inter and JetBrains Mono from Google Fonts. When your browser requests those font files, Google may receive request metadata such as your IP address and user-agent under [Google's Privacy Policy](https://policies.google.com/privacy).
 
 ## Cookies we use
 
@@ -40,50 +45,40 @@ We do **not** use analytics cookies unless you accept analytics in the cookie ba
 
 GA4 on this site uses Google Tag (`gtag.js`) with GA4 cookies (`_ga` and `_ga_<container_id>`). We do not configure or rely on the legacy `_gid` cookie.
 
-## Data Retention
+## Legal basis
 
-Google Analytics 4 retains analytics data for **13 months** by default. Older data is automatically deleted. You can review Google's retention policy at [support.google.com/analytics](https://support.google.com/analytics/answer/7667196).
+For analytics, the legal basis is your consent under GDPR Article 6(1)(a). You can refuse analytics and still use the site.
 
-## Who Controls Your Data
+For the essential consent cookie, the legal basis is SquadScope's legitimate interest under GDPR Article 6(1)(f): remembering your cookie choice so we can respect it and avoid asking on every page.
 
-- **Data Controller:** jmservera (SquadScope site operator)
-- **Data Processor:** Google Ireland Limited (GA4 service provider)
+## Your rights
 
-Google's use of your data is subject to [Google's Privacy Policy](https://policies.google.com/privacy). SquadScope has no visibility into or control over how Google uses aggregated analytics across its platform.
+Under GDPR Articles 15–22, you may have rights to access, rectify, erase, restrict, port, or object to processing of your personal data. You can also withdraw analytics consent at any time.
 
-## Your Rights Under GDPR
+Because SquadScope holds no first-party visitor data, most practical data-subject requests need to be exercised directly with the third party that controls the data: [GitHub privacy requests](https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement) for hosting logs, and [Google privacy controls](https://policies.google.com/privacy#infocontrols) or [Google's privacy request tools](https://support.google.com/policies/troubleshooter/7575787) for GA4 or Fonts data. You can still [open a SquadScope issue](https://github.com/jmservera/SquadScope/issues/new) if you need help identifying the right route.
 
-You have the right to:
+## How to withdraw analytics consent
 
-1. **Access** — Request a copy of the data we hold about you
-2. **Rectification** — Correct inaccurate data
-3. **Erasure** — Delete your data (subject to lawful retention obligations)
-4. **Restrict Processing** — Ask us to limit how we use your data
-5. **Portability** — Receive your data in a portable format
-6. **Objection** — Opt out of specific processing
-7. **Revoke Consent** — Withdraw analytics consent at any time
+Use the **Manage cookies** button in the footer to reopen cookie preferences, turn off Analytics, and save. You can also delete SquadScope cookies in your browser settings. Withdrawal stops future GA4 events from this browser; it does not automatically delete data already controlled by Google.
 
-To exercise these rights, **open a GitHub issue** on the [SquadScope repository](https://github.com/jmservera/SquadScope/issues) with your request, or contact jmservera directly via [GitHub profile](https://github.com/jmservera).
+## Data retention
 
-## How to Revoke Consent
+SquadScope retains no first-party visitor data because it does not collect any. The consent cookie lasts 182 days so your choice is remembered.
 
-Click the **"Manage Cookies"** link in the footer of this site (or bottom of any page) to open the cookie preferences panel. Deselect "Analytics" and save. This revokes your consent for GA4 data collection immediately.
+GA4 data is retained by Google according to the deployment's Analytics settings and Google's defaults. See [Google Analytics data retention](https://support.google.com/analytics/answer/7667196) for details.
 
-## Third-Party Services
+## Children's privacy
 
-SquadScope uses:
-- **Google Analytics 4** — analytics service (requires your consent)
-- **Google Fonts** — font delivery service used for Inter and JetBrains Mono. When your browser requests these font files, Google may receive and log your IP address and request metadata under [Google's Privacy Policy](https://policies.google.com/privacy).
-- **GitHub Pages** — hosting platform (GitHub's [Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement) applies)
+SquadScope is not directed at children. The site has no accounts or first-party data collection, including for children.
 
-## Changes to This Policy
+## International transfers
 
-We may update this privacy policy. Changes will be posted on this page with an updated "Last Modified" date.
+GitHub and Google may process data in countries outside your own. GA4 data may be transferred to the United States. Google states that it relies on applicable transfer mechanisms, including the EU-US Data Privacy Framework and Standard Contractual Clauses where relevant.
+
+## Changes to this policy
+
+Last updated: 2026-05-25. Changes are announced through the git history of this page in the public SquadScope repository, so you can review what changed and when.
 
 ## Contact
 
-For privacy questions or concerns, [open an issue](https://github.com/jmservera/SquadScope/issues) on GitHub or contact jmservera via GitHub.
-
----
-
-**Last Updated:** 2026-05-25
+For privacy questions, [open a new issue in the SquadScope repository](https://github.com/jmservera/SquadScope/issues/new). Please do not include sensitive personal data in a public issue; describe the request briefly and the maintainer can suggest a safer follow-up route if needed.
