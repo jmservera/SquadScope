@@ -14,7 +14,7 @@ Use the homepage to jump straight into the latest summary, scan the archive, or 
 
 SquadScope turns GitHub activity into readable weekly, monthly, and yearly trend reports for busy developers and technical leaders.
 
-The project favors editorial signal over dashboard noise: what mattered this week, what is merely loud, and what is missing from the conversation.
+The project favors editorial signal over dashboard noise: what mattered this week, what is merely loud, and what is missing from the conversation. Read the [methodology](/methodology/) for how we choose sources, rank signals, and disclose known biases.
 
 ## Pipeline transparency
 
