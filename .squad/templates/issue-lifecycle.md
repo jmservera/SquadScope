@@ -337,6 +337,12 @@ Scan → Categorize → Dispatch → Watch → Report → Loop
 
 See `.squad/templates/ralph-reference.md` for Ralph's full lifecycle.
 
+## External-Facing Artifact Review Gate
+
+External-facing artifacts require Nibbler review before publication or merge. This includes social posts, launch blog copy, announcements, press materials, launch graphics, and other copy or graphics intended to appear outside this repository.
+
+To request sign-off, tag `@squad:nibbler` on the PR and use the [Responsible AI checklist](../skills/responsible-ai-review/SKILL.md) (`.squad/skills/responsible-ai-review/SKILL.md`).
+
 ## PR Review Handling
 
 ### Automated Approval (CI-only projects)

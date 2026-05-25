@@ -1142,3 +1142,15 @@ This restores/regenerates from existing data without polluting the archive.
   - `format_divergences(reader_mode=False)` — new kwarg. Replaces instruction bullets with reader-friendly narrative
   - `analyze_fallback._strip_ai_instructions(content)` — new helper. Applied in no-AI path to post-process rendered content
 - **Consequences:** AI prompt path unchanged (full instructions + list continue to model); no-AI fallback now produces clean reader output. 16 new tests cover truncation, sorting, instruction stripping, narrative injection. All 498 tests passing. PR #135 merged.
+
+## Nibbler Review Gate for External-Facing Artifacts (2026-05-25)
+
+**Source:** Nibbler audit recommendation
+**Adopted by:** Leela
+**Status:** Adopted
+
+External-facing launch and announcement artifacts require Nibbler review before publication or merge. This includes Hacker News posts, LinkedIn announcements, Bluesky threads, Reddit posts, launch blogs, press copy, launch graphics, and similar materials that will appear outside this repository.
+
+PRs that ship this copy or graphics must tag `@squad:nibbler` for RAI sign-off and use the [Responsible AI checklist](skills/responsible-ai-review/SKILL.md) (`.squad/skills/responsible-ai-review/SKILL.md`) before merge.
+
+**Rationale:** Distribution copy can create reputational, safety, accessibility, or policy risk even when the underlying code is unchanged. Nibbler provides the hostile-reader and responsible-AI perspective before users encounter the material.
