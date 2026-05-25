@@ -330,7 +330,8 @@ jobs:
           # the canonical token-usage.jsonl rather than starting fresh each run.
           git fetch origin publish 2>/dev/null && \
             git checkout origin/publish -- data/metrics/ 2>/dev/null || true
-          PROMPT_FILE=$(mktemp)
+          PROMPT_FILE="data/metrics/analysis-prompt-${WEEK}.md"
+          rm -f "$PROMPT_FILE"
           python3 scripts/analyze_fallback.py --raw-json "$WEEK_FILE" --output "$OUTPUT_FILE" --current-datetime "$CURRENT_DATETIME" --print-prompt > "$PROMPT_FILE"
 
           sanitize_agent_output() {
