@@ -73,6 +73,9 @@ ignoreFiles = ['data/analyzed/.*\\.md$', 'data/metrics/.*\\.md$', 'data/metrics/
 
 [module]
   [[module.mounts]]
+    source = 'data/cookieconsent.json'
+    target = 'data/cookieconsent.json'
+  [[module.mounts]]
     source = 'data/raw'
     target = 'data/raw'
   [[module.mounts]]
