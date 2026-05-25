@@ -1,0 +1,95 @@
+---
+title: "Security Tooling, Agent Plumbing, and the Spam That Won't Stop"
+date: 2026-05-25T09:51:17Z
+week: "2026-W22"
+year: 2026
+tags: [supply-chain-security, agent-infrastructure, coding-agents, developer-tooling, skills-ecosystem, llm, ai-noise]
+categories: [weekly]
+repos_featured: 430
+stars_tracked: 20200000
+top_repo: "perplexityai/bumblebee"
+quality_score: 65
+summary: "Week 22 delivers a coherent signal cluster around agent infrastructure and supply-chain security, but both are buried under the worst noise flood the crawler has yet recorded — game cracks, polymarket bot farms, and fake AI brand repos at industrial scale."
+---
+
+## This Week's Trends
+
+**1. Agent Infrastructure Finally Develops a Basement**
+
+The most durable signal in W22 is not a single headline repo but a cluster of small-to-mid-size projects all solving the same problem from different angles: agents need plumbing. [jianshuo/ccglass](https://github.com/jianshuo/ccglass) is a local proxy and web dashboard that shows developers exactly what their coding agents (Claude Code, Codex, Kimi) are sending to the model — real transparency tooling rather than a trust-me wrapper. [akitaonrails/ai-memory](https://github.com/akitaonrails/ai-memory) provides long-term memory for agent CLIs and facilitates vendor handoff in Rust. [NanoFlow-io/engram](https://github.com/NanoFlow-io/engram) delivers hybrid memory using SQLite+FTS5 for structured facts and LanceDB for semantic recall. [workos/auth.md](https://github.com/workos/auth.md) proposes an open protocol so agents can register for services on behalf of users via a Markdown file at a domain. [nkzw-tech/cloudsail](https://github.com/nkzw-tech/cloudsail) handles self-hosted sandboxes for coding agents on Cloudflare. None of these repos is large by star count, but taken together they represent the infrastructure layer that makes agent systems trustworthy in production — memory, observability, authentication, and execution isolation addressed in a single week.
+
+**2. Supply-Chain Security Gets a Real Player**
+
+[perplexityai/bumblebee](https://github.com/perplexityai/bumblebee) is this week's clearest signal. A read-only Go-based scanner that checks on-disk package metadata, browser extension state, and developer tool configurations against known supply-chain compromise indicators — Apache-2.0 licensed, from a company with real incentives to understand developer tooling exposure. This fills a gap the security community has talked about since the XZ Utils incident. The fact that a major AI company ships this as open-source infrastructure is not a marketing move; it means their internal tools team needed it.
+
+**3. Skills as a Distribution Format Gathers Momentum**
+
+Last week, [chrisbanes/skills](https://github.com/chrisbanes/skills) was an isolated hint. This week, the pattern is unmistakable. [aref-vc/tufte-claude-skill](https://github.com/aref-vc/tufte-claude-skill) distils Edward Tufte's three visualization books into a Claude Code skill that turns a natural-language chart request into a publication-quality output. [MobiusQuant/OpenMobius-skill](https://github.com/MobiusQuant/OpenMobius-skill) packages ICT/SMC trading knowledge for AI coding agents. [VILA-Lab/FigMirror](https://github.com/VILA-Lab/FigMirror) is an AI agent tool for reproducing any paper figure's style. [open-gsd/gsd-pi](https://github.com/open-gsd/gsd-pi) and its companion [open-gsd/get-shit-done-redux](https://github.com/open-gsd/get-shit-done-redux) systematize the entire context engineering and spec-driven development workflow as an installable agent methodology. Skills as a unit of distribution is maturing from curiosity to category.
+
+**4. The Coding Agent Market Fragments Further**
+
+The trending set confirms that the coding agent race is no longer a two-horse contest. [MoonshotAI/kimi-code](https://github.com/MoonshotAI/kimi-code) launches this week with 343 stars and the marketing line "The Starting Point for Next-Gen Agents." In the trending layer, [ultraworkers/claw-code](https://github.com/ultraworkers/claw-code), [affaan-m/ECC](https://github.com/affaan-m/ECC), [anomalyco/opencode](https://github.com/anomalyco/opencode), and [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) all hold substantial positions. The platform layer is fragmenting faster than the infrastructure layer can keep up.
+
+**5. The Noise Floor Breaks Records**
+
+W22 contains more pure junk than any prior week in this dataset. A coordinated cluster of approximately 20 polymarket trading-bot repos (many with literally identical spam descriptions repeated 15 times) appeared simultaneously with near-identical fork counts around 2000–3000, indicating sybil-style manufacturing. Alongside them: FL Studio and AutoCAD "2026 crack" repos, fake Nintendo emulators, a Minecraft hack client, a Roblox exploit injector, an "Office 2026 premium free download," and two repos claiming to be Claude products ([larajuniorlara/Claude-Design-Studio](https://github.com/larajuniorlara/Claude-Design-Studio), [rayhayqal/Mythos-Claude-Skill-Forge](https://github.com/rayhayqal/Mythos-Claude-Skill-Forge)) — the latter with no code, no license, and Anthropic brand names stitched into their topic tags. This is not a background noise problem; it is a structural crawler challenge that will worsen as AI model names become more valuable for SEO manipulation.
+
+---
+
+## Where Industry Meets Code
+
+TechCrunch's most relevant W22 piece, "[How VCs and founders use inflated 'ARR' to crown AI startups](https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/)," is almost a companion piece to the W22 new-repo list. The same dynamic — inflated engagement signals, manufactured social proof, zero underlying substance — plays out in miniature on GitHub this week. The polymarket bot farm created dozens of repos with thousands of artificial forks in the same afternoon. The fake Claude brand repos applied Anthropic topic tags for discovery, not for software. Both are ecosystems of manufactured credibility.
+
+The correlations that actually matter are elsewhere. TechCrunch's "[These special phone and app features can help protect you from spyware](https://techcrunch.com/2026/05/23/you-dont-have-to-click-anything-to-get-hacked-anymore-heres-how-to-fight-back/)" lands in the same week [perplexityai/bumblebee](https://github.com/perplexityai/bumblebee) ships, but the lanes are entirely different: the article focuses on consumer zero-click attacks; bumblebee targets developer supply-chain compromise. The surface-level topic is security; the actual problems are unrelated. That separation matters because it means press is not covering developer supply-chain risk while developers quietly start shipping for it.
+
+The divergences are blunt. Press coverage this week was dominated by climate finance (solar, nuclear), space hardware (Blue Origin), and startup valuation theatrics. None of the genuine developer movement — agent memory protocols, skills packaging, supply-chain scanning, coding agent proliferation — received any coverage. The agent infrastructure layer is being built largely in silence, which historically has been a leading indicator of a market that is about to tip.
+
+---
+
+## Signal & Noise
+
+The real signal in W22 is concentrated and coherent but easy to miss when the crawler is processing hundreds of noise entries alongside it. [perplexityai/bumblebee](https://github.com/perplexityai/bumblebee) is the week's single most important new repo: genuine defensive infrastructure from a company with skin in the game, in a language (Go) suited to the task, under an enterprise-friendly license. It represents the kind of tooling that gets quietly adopted across developer environments over the following year. Next to it, the cluster of agent plumbing — ccglass, ai-memory, engram, auth.md, cloudsail, and [scheidydude/codeindex](https://github.com/scheidydude/codeindex) — constitutes a week where five different teams all concluded, independently, that agents need honest infrastructure.
+
+The noise, however, is severe and qualitatively different from W21. Last week's noise was mostly unfocused; this week's is coordinated. The polymarket trading-bot cluster shows textbook sybil mechanics: simultaneous creation, identical fork counts in the thousands, spam-repeated descriptions, no code. These repos are not even meant to be useful — they exist to game discovery algorithms. The "2026 crack" cluster (FL Studio, AutoCAD, AutoCAD plugins, KMS activators, Roblox executors) is noisier but less systematic. The fake Claude brand repos are a new category: brand parasitism targeting AI tooling. [Jawaz-Keyzor/DarkGPT](https://github.com/Jawaz-Keyzor/DarkGPT) — an "unrestricted ChatGPT client with built-in jailbreak presets" — is this week's representative of the persistent jailbreak lane. [redteamfortress/PhantomKiller](https://github.com/redteamfortress/PhantomKiller) and [nettitude/CLR-Stomp](https://github.com/nettitude/CLR-Stomp) are technically legitimate red-team tooling from named companies, but they belong in a different conversation than defensive security infrastructure. The W22 crawl requires unusually aggressive editorial filtering before any trends are visible — and `stars_gained` is still absent from all trending repo entries, so momentum remains directional inference rather than measurement.
+
+---
+
+## Blind Spots
+
+**Missing momentum data, again.** For the second consecutive week, every `trending_repos` entry carries null `stars_gained`. The trending set behaves as a large-repository census, not an acceleration leaderboard. The editorial judgment this produces is informed but structurally limited: a repo that gained 50,000 stars this week looks identical to one that gained 500.
+
+**Agent observability remains unaddressed.** ccglass and engram are starts, but there is still no general-purpose telemetry, tracing, or evaluation framework visible for agent pipelines. The industry is building agent systems without the monitoring layer that would make them trustworthy at scale.
+
+**Defensive security tooling is outnumbered.** For every perplexityai/bumblebee, the W22 crawl surfaces six offensive tools — BYOVD process killers, CLR stomping, HWID spoofers, exploit PoCs. The asymmetry reflects a real supply-and-demand gap: the market for defensive developer-tooling security infrastructure is far smaller than the market for attack primitives.
+
+**The macOS Tahoe signal has no ecosystem around it.** [kageroumado/phosphene](https://github.com/kageroumado/phosphene) — a video wallpaper engine specifically targeting macOS Tahoe — appeared with 663 stars but no surrounding tooling, extension layer, or API exploration repos. That either means Tahoe development activity hasn't started yet or it isn't landing on GitHub in English.
+
+---
+
+## The Week Ahead
+
+The agent infrastructure cluster in W22 — memory, auth, sandboxes, transparency — is the kind of coherent convergence that tends to accelerate. Watch for cross-referencing between these projects, specification proposals for agent authentication, and the first serious attempt to package memory and auth into a combined layer. The coding agent race is also worth monitoring: if [MoonshotAI/kimi-code](https://github.com/MoonshotAI/kimi-code) ships a differentiated capability rather than another Claude Code clone in the next two weeks, the fragmentation story gets significantly more interesting. The noise problem, unfortunately, will likely worsen before it gets better — GitHub's current discovery signals are precisely the kind that reward coordinated star and fork manipulation.
+
+---
+
+## Key References
+
+### Notable Projects
+
+- [perplexityai/bumblebee](https://github.com/perplexityai/bumblebee) — Read-only Go scanner checking developer environments for known supply-chain compromise indicators; the week's most important new repo.
+- [open-gsd/get-shit-done-redux](https://github.com/open-gsd/get-shit-done-redux) — Spec-driven development methodology and context engineering system for long-running autonomous agents; highest-starred genuine new entry.
+- [jianshuo/ccglass](https://github.com/jianshuo/ccglass) — Local proxy and dashboard that exposes what coding agents send to their underlying models; transparency tooling that should be standard practice.
+- [NanoFlow-io/engram](https://github.com/NanoFlow-io/engram) — Hybrid long-term memory (SQLite+FTS5 + LanceDB) for OpenClaw agents; represents the memory architecture direction most agent builders will eventually need.
+- [workos/auth.md](https://github.com/workos/auth.md) — Open protocol proposal for agents to register for services on behalf of users, discoverable through a domain-level Markdown file.
+- [nkzw-tech/cloudsail](https://github.com/nkzw-tech/cloudsail) — Self-hosted instant sandboxes for coding agents on Cloudflare; addresses execution isolation without a managed service dependency.
+- [aref-vc/tufte-claude-skill](https://github.com/aref-vc/tufte-claude-skill) — Claude Code skill that converts natural-language chart requests into Tufte-compliant visualisations; shows skills packaging working as a real distribution format.
+- [MoonshotAI/kimi-code](https://github.com/MoonshotAI/kimi-code) — Moonshot AI's entry into the coding-agent platform race; technical differentiation relative to claw-code and opencode remains to be determined.
+- [akitaonrails/ai-memory](https://github.com/akitaonrails/ai-memory) — Rust-based long-term memory for agent coding CLIs with vendor handoff; pairs well with engram as a complementary approach.
+- [scheidydude/codeindex](https://github.com/scheidydude/codeindex) — Repo dependency analyser with blast-radius impact scoring designed specifically for AI-assisted development workflows.
+
+### Press & Industry
+
+- [How VCs and founders use inflated 'ARR' to crown AI startups](https://techcrunch.com/2026/05/22/how-vcs-and-founders-use-inflated-arr-to-kingmake-ai-startups/) — TechCrunch; the manufactured-credibility dynamic it describes is visible at smaller scale in this week's sybil-bot repo clusters.
+- [These special phone and app features can help protect you from spyware](https://techcrunch.com/2026/05/23/you-dont-have-to-click-anything-to-get-hacked-anymore-heres-how-to-fight-back/) — TechCrunch; consumer-side attack surface coverage, worth cross-referencing against the supply-chain tooling gap on the developer side.
+- [SolarSquare in talks to raise up to $60M as India's rooftop solar market draws major VC interest](https://techcrunch.com/2026/05/23/solarsquare-in-talks-to-raise-up-to-60m-as-indias-rooftop-solar-market-draws-major-vc-interest/) — TechCrunch; no developer-ecosystem overlap, but marks continued capital reorientation toward climate infrastructure in contrast to software-only AI investment.
+- [Peec, one of Berlin's rising startups, more than doubled annualized revenue in months to $10M](https://techcrunch.com/2026/05/23/peec-one-of-berlins-rising-startups-more-than-doubled-annualized-revenue-in-months-to-10m-sources-say/) — TechCrunch; AI-driven search marketing growth; tangentially relevant to the AI coding assistant market dynamic.
