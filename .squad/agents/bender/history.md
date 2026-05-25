@@ -11,3 +11,4 @@
 - Analysis execution should prefer Copilot CLI first, then fall back to GitHub Models using the same rendered prompt so output contracts stay aligned.
 - Reviewer gates should validate the analyzer contract, not just artifact existence.
 - New pipeline stages should follow the `ci-data-source-integration-pattern` skill: wire the script into CI immediately, document the handoff, and test the producer/consumer schema at the boundary.
+- CI overwrite issues arise from timing conflicts between scheduled tasks and manual sync operations; use workflow gates and lockfiles to prevent concurrent writes to shared state.
