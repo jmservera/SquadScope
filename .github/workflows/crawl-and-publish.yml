@@ -290,6 +290,10 @@ jobs:
           CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
           PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
           mkdir -p data/metrics
+          # Hydrate metrics ledger from publish so track_token_usage.py appends to
+          # the canonical token-usage.jsonl rather than starting fresh each run.
+          git fetch origin publish 2>/dev/null && \
+            git checkout origin/publish -- data/metrics/ 2>/dev/null || true
           PROMPT_FILE=$(mktemp)
           python3 scripts/analyze_fallback.py --raw-json "$WEEK_FILE" --output "$OUTPUT_FILE" --current-datetime "$CURRENT_DATETIME" --print-prompt > "$PROMPT_FILE"
 
@@ -438,9 +442,11 @@ jobs:
           fi
           mkdir -p data/analyzed data/metrics
           # Only copy current week's analysis files — do not overwrite prior weeks
-          cp analyzed-data-backup/${WEEK}-summary.md data/analyzed/ 2>/dev/null || true
-          cp analyzed-data-backup/${WEEK}-correlations.json data/analyzed/ 2>/dev/null || true
-          cp analyzed-data-backup/${WEEK}-press-context.md data/analyzed/ 2>/dev/null || true
+          # Required: current week's summary must exist or the pipeline is broken
+          cp "analyzed-data-backup/${WEEK}-summary.md" data/analyzed/
+          # Optional sidecars: conditionally generated
+          cp "analyzed-data-backup/${WEEK}-correlations.json" data/analyzed/ 2>/dev/null || true
+          cp "analyzed-data-backup/${WEEK}-press-context.md" data/analyzed/ 2>/dev/null || true
           cp -r metrics-data-backup/* data/metrics/ 2>/dev/null || true
           rm -rf analyzed-data-backup metrics-data-backup
           # Restore squad learning state
@@ -507,6 +513,22 @@ jobs:
           print(f"page_path={page_path.as_posix()}")
           PYGEN
 
+      - name: Hydrate analyzed data from publish
+        env:
+          WEEK: ${{ needs.analyze.outputs.week }}
+        run: |
+          set -euo pipefail
+          git fetch origin publish
+          # Restore prior weeks' analyzed files from publish so generate_rollups.py
+          # sees accurate historical data. Skip the current week's file (already
+          # present from the downloaded artifact).
+          git ls-tree -r --name-only origin/publish -- data/analyzed/ 2>/dev/null | while read -r f; do
+            case "$f" in
+              *"${WEEK}"*) continue ;;
+            esac
+            git checkout origin/publish -- "$f" 2>/dev/null || true
+          done
+
       - name: Generate rollups
         run: python3 scripts/generate_rollups.py
 
@@ -515,6 +537,7 @@ jobs:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           DATA_BRANCH: publish
           WEEK: ${{ needs.analyze.outputs.week }}
+          PAGE_PATH: ${{ steps.generate-content.outputs.page_path }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
@@ -535,11 +558,12 @@ jobs:
             git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
           fi
           mkdir -p content/weekly content/monthly content/yearly
-          # Only copy current week's page — do not overwrite prior weeks' content
-          YEAR=$(echo "$WEEK" | cut -d'-' -f1)
-          WEEK_NUM=$(echo "$WEEK" | sed 's/.*-W//')
-          mkdir -p "content/weekly/${YEAR}"
-          cp "content-weekly-backup/${YEAR}/W${WEEK_NUM}.md" "content/weekly/${YEAR}/" 2>/dev/null || true
+          # Required: use exact page_path from generate-content step; hard-fail if missing
+          RELATIVE_FROM_WEEKLY="${PAGE_PATH#content/weekly/}"
+          mkdir -p "$(dirname "$PAGE_PATH")"
+          cp "content-weekly-backup/${RELATIVE_FROM_WEEKLY}" "$PAGE_PATH"
+          # Monthly/yearly rollups are safe to copy since generate_rollups.py was seeded
+          # with hydrated prior-week data (see Hydrate analyzed data step above)
           cp -r content-monthly-backup/* content/monthly/ 2>/dev/null || true
           cp -r content-yearly-backup/* content/yearly/ 2>/dev/null || true
           rm -rf content-weekly-backup content-monthly-backup content-yearly-backup
