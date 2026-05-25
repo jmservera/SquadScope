@@ -1,7 +1,9 @@
 {{- $cfg := .Site.Data.cookieconsent -}}
+{{- $cfgJSON := $cfg | jsonify -}}
+{{- $cfgJSON = replace $cfgJSON "__PRIVACY_URL__" ("privacy/" | relURL) -}}
 <link rel="stylesheet" href="{{ "vendor/cookieconsent/cookieconsent.css" | relURL }}">
 <script>
-  window.SquadScopeCookieConsent = {{ $cfg | jsonify | safeJS }};
+  window.SquadScopeCookieConsent = {{ $cfgJSON | safeJS }};
 </script>
 <script>
   (function () {

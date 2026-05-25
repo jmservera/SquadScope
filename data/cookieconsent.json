@@ -25,11 +25,11 @@
       "en": {
         "consentModal": {
           "title": "We use cookies",
-          "description": "We use cookies to understand how you use SquadScope. Some are necessary for the site to work; others help us improve your experience. You're in control — you can choose which cookies to accept. Read more in our <a href=\"/privacy/\">privacy policy</a>.",
+          "description": "We use cookies to understand how you use SquadScope. Some are necessary for the site to work; others help us improve your experience. You're in control — you can choose which cookies to accept. Read more in our <a href=\"__PRIVACY_URL__\">privacy policy</a>.",
           "acceptAllBtn": "Accept all",
           "acceptNecessaryBtn": "Reject all",
           "showPreferencesBtn": "Customize",
-          "footer": "<a href=\"/privacy/\">Privacy policy</a>"
+          "footer": "<a href=\"__PRIVACY_URL__\">Privacy policy</a>"
         },
         "preferencesModal": {
           "title": "Manage Your Cookies",
@@ -50,7 +50,7 @@
             },
             {
               "title": "More information",
-              "description": "For detailed information about how we use your data, retention periods, and your privacy rights, please see our <a href=\"/privacy/\" target=\"_blank\">privacy policy</a>."
+              "description": "For detailed information about how we use your data, retention periods, and your privacy rights, please see our <a href=\"__PRIVACY_URL__\" target=\"_blank\">privacy policy</a>."
             }
           ]
         }

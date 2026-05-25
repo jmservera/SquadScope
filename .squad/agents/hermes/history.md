@@ -27,3 +27,8 @@
 **Files Created:**
 - `content/privacy/_index.md` — Hugo privacy policy (~580 words, covers all GDPR minima)
 - `data/cookieconsent.json` — Cookie Consent v3 config (plain English copy, no manipulation)
+
+## Cookie Banner BaseURL-Aware Links — 2026-05-25
+
+- Cookie-banner in-site links must not hardcode root-relative paths like `/privacy/` because GitHub project Pages deploys SquadScope under `/SquadScope/`.
+- Data-file legal copy should use placeholders such as `__PRIVACY_URL__`, with Hugo partials substituting them through URL helpers (`relURL` or `absURL`) at render time.
