@@ -53,6 +53,18 @@
   --radius-lg: 12px;
   --radius-full: 9999px;
 
+  --size-header-height: 4rem;
+  --size-icon-sm: 1rem;
+  --size-icon-md: 1.5rem;
+  --size-logo-mark: 1.75rem;
+  --size-focus-ring: 0.1875rem;
+  --size-border-thin: 1px;
+  --z-header: 50;
+  --z-overlay: 100;
+
+  --tracking-tight: -0.02em;
+  --tracking-nav: 0.01em;
+
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px rgb(0 0 0 / 0.07);
   --shadow-lg: 0 10px 15px rgb(0 0 0 / 0.1);

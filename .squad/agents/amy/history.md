@@ -12,3 +12,5 @@
 - 2026-05-25 Phase 1 redesign foundation: tokens live in `assets/css/tokens.css`, and Hugo loads them before PaperMod-compatible CSS from `layouts/partials/head.html`.
 - 2026-05-25 Project-level `assets/css/core/` and `assets/css/common/` files override PaperMod submodule styles; keep the submodule clean and put SquadScope presentation changes in root assets.
 - 2026-05-25 Inter and JetBrains Mono are loaded with preload + stylesheet links; existing PaperMod variables are mapped to new `--color-*`, `--text-*`, and `--space-*` tokens for compatibility.
+- 2026-05-25 Phase 2 chrome: `layouts/partials/header.html` now owns the tokenized brand/nav/GitHub/theme-toggle header, and `layouts/partials/footer.html` overrides PaperMod's footer while preserving its scroll/theme/copy-code scripts.
+- 2026-05-25 PaperMod gotcha: adding a skip-to-content link requires overriding `layouts/_default/baseof.html`; keep the theme submodule untouched and place site-level chrome overrides in root `layouts/partials/`.
