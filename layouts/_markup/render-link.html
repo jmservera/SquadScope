@@ -1,0 +1,8 @@
+{{- $destination := .Destination -}}
+{{- $isWeeklyRepo := and (eq .Page.Type "weekly") (hasPrefix $destination "https://github.com/") -}}
+{{- $repoName := "" -}}
+{{- if $isWeeklyRepo -}}
+  {{- $repoName = replaceRE `^https://github\.com/([^/#?]+/[^/#?]+).*$` "$1" $destination -}}
+  {{- if eq $repoName $destination -}}{{- $isWeeklyRepo = false -}}{{- end -}}
+{{- end -}}
+<a href="{{ $destination | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $isWeeklyRepo }} class="repo-inline-link" aria-label="Open GitHub repository {{ $repoName }}"{{ end }}>{{ .Text | safeHTML }}</a>
