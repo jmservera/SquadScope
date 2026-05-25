@@ -14,3 +14,5 @@
 - 2026-05-25 Inter and JetBrains Mono are loaded with preload + stylesheet links; existing PaperMod variables are mapped to new `--color-*`, `--text-*`, and `--space-*` tokens for compatibility.
 - 2026-05-25 Phase 2 chrome: `layouts/partials/header.html` now owns the tokenized brand/nav/GitHub/theme-toggle header, and `layouts/partials/footer.html` overrides PaperMod's footer while preserving its scroll/theme/copy-code scripts.
 - 2026-05-25 PaperMod gotcha: adding a skip-to-content link requires overriding `layouts/_default/baseof.html`; keep the theme submodule untouched and place site-level chrome overrides in root `layouts/partials/`.
+- 2026-05-25 Phase 3 homepage: use `layouts/index.html` for editorial entry-point structure; keep home-specific styling in `assets/css/extended/squadscope.css` and reuse token variables only.
+- 2026-05-25 Home visual verification runs through `node scripts/design/verify-visual.mjs --base http://localhost:1313/SquadScope/` after starting `/tmp/hugo server -D --bind 0.0.0.0 --port 1313 --baseURL http://localhost:1313/SquadScope/`.
