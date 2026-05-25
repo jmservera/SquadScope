@@ -9,6 +9,7 @@ How to decide who handles what.
 | Data crawling, GitHub API, Actions workflows | Bender | Build crawler, fix API pagination, add rate limiting |
 | Trend analysis, content curation, critical thinking | Farnsworth | Analyze weekly data, identify trends, write summaries |
 | Frontend, site design, GitHub Pages, templates | Amy | Build site layout, create report templates, fix styling |
+| Visual design, brand assets, icons, design system | Calculon | Design tokens, icon, OG image, layout mockups, design review |
 | Architecture, scope, priorities, editorial direction | Leela | Decide tech stack, review architecture, set priorities |
 | Code review | Leela | Review PRs, check quality, approve/reject |
 | Security review, threat analysis, vulnerability triage | Hermes | Review PRs for security, triage Dependabot/CodeQL alerts, threat modeling |
