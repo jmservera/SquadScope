@@ -7,7 +7,6 @@
 .home-latest,
 .home-empty-state,
 .home-report-card,
-.home-quick-links,
 .metric-card,
 .report-shortcuts {
   border: 1px solid var(--color-border);
@@ -17,14 +16,16 @@
 
 .home-hero,
 .home-latest,
-.home-empty-state,
-.home-quick-links {
+.home-empty-state {
   padding: var(--space-4);
 }
 
-.home-hero {
+.home-hero--minimal {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-1);
+  padding-block: var(--space-3);
+  border-color: transparent;
+  background: transparent;
 }
 
 .home-eyebrow,
@@ -40,56 +41,9 @@
 }
 
 .home-hero h1 {
-  margin: var(--space-2) 0;
-  font-size: clamp(var(--text-3xl), 10vw, var(--text-4xl));
-  line-height: var(--leading-tight);
-}
-
-.home-description,
-.home-latest-hook {
-  max-width: var(--prose-measure);
-  color: var(--color-text);
-  font-size: var(--text-lg);
-  line-height: var(--leading-relaxed);
-}
-
-.home-copy {
-  max-width: var(--prose-measure);
-  color: var(--color-text-muted);
-}
-
-.home-cadence {
-  display: grid;
-  gap: var(--space-3);
-  align-content: start;
-  padding: var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-bg);
-}
-
-.home-cadence ul,
-.home-cadence dl {
-  display: grid;
-  gap: var(--space-2);
   margin: 0;
-}
-
-.home-cadence ul {
-  padding-inline-start: var(--space-4);
-}
-
-.home-cadence dt,
-.home-report-title,
-.home-quick-links a,
-.home-tag-strip a {
-  color: var(--color-text);
-  font-weight: 700;
-}
-
-.home-cadence dd {
-  margin: var(--space-1) 0 0;
-  color: var(--color-text-muted);
+  font-size: clamp(var(--text-2xl), 6vw, var(--text-3xl));
+  line-height: var(--leading-tight);
 }
 
 .home-latest {
@@ -97,9 +51,15 @@
   gap: var(--space-3);
 }
 
+.home-latest--feature {
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-left: var(--space-1) solid var(--color-accent);
+  box-shadow: var(--shadow-sm);
+}
+
 .home-latest-kicker,
-.home-report-meta,
-.home-tag-strip {
+.home-report-meta {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
@@ -111,22 +71,26 @@
 .home-latest h2 {
   max-width: var(--prose-measure);
   margin: 0;
-  font-size: clamp(var(--text-2xl), 6vw, var(--text-3xl));
+  font-size: clamp(var(--text-2xl), 6vw, var(--text-4xl));
   line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
 }
 
 .home-latest h2 a,
-.home-report-title,
-.home-quick-links a,
-.home-tag-strip a {
+.home-report-title {
   text-decoration-thickness: 1px;
   text-underline-offset: var(--space-1);
 }
 
+.home-latest-hook {
+  max-width: var(--prose-measure);
+  color: var(--color-text);
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+}
+
 .report-metrics,
-.home-report-list,
-.home-content-grid,
-.home-quick-links {
+.home-report-list {
   display: grid;
   gap: var(--space-3);
 }
@@ -180,21 +144,21 @@
   border: 1px solid var(--color-border);
 }
 
-.home-tag-strip {
-  padding: var(--space-2) var(--space-3);
-  border-block: 1px solid var(--color-border);
+.home-recent--compact {
+  display: grid;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
 }
 
-.home-tag-strip a {
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-full);
-  background: var(--color-accent-muted);
-  color: var(--color-accent);
-  text-decoration: none;
+.home-recent--compact h2 {
+  margin: 0;
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
 }
 
-.home-report-list {
-  margin-top: var(--space-3);
+.home-report-list--compact {
+  gap: var(--space-2);
 }
 
 .home-report-card,
@@ -207,36 +171,21 @@
   gap: var(--space-2);
 }
 
+.home-report-card--compact {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .home-report-title {
   display: grid;
   gap: var(--space-1);
+  color: var(--color-text);
+  font-weight: 700;
   text-decoration: none;
 }
 
 .home-report-card p {
   margin: 0;
   color: var(--color-text-muted);
-}
-
-.home-quick-links {
-  align-content: start;
-}
-
-.home-quick-links a {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-3);
-  padding: var(--space-2) 0;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.home-quick-links a::after {
-  content: "→";
-  color: var(--color-accent);
-}
-
-.home-quick-links a:last-child {
-  border-bottom: 0;
 }
 
 .squad-report .report-shortcuts {
