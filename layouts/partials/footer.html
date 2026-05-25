@@ -3,6 +3,8 @@
     <div class="site-footer__inner">
         <p class="site-footer__tagline"><strong>SquadScope</strong> — Weekly tech signal from GitHub.</p>
         <nav class="site-footer__nav" aria-label="Footer">
+            <a href="{{ "privacy/" | absLangURL }}">Privacy</a>
+            <button type="button" class="site-footer__link" onclick="CookieConsent.showPreferences()">Manage cookies</button>
             <a href="https://github.com/jmservera/SquadScope" target="_blank" rel="noopener">GitHub</a>
             <a href="{{ "index.xml" | absLangURL }}">RSS</a>
             <a href="{{ "archive/" | absLangURL }}">Archive</a>

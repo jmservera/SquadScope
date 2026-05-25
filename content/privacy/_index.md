@@ -28,9 +28,21 @@ We do not collect:
 
 Under GDPR Article 6(1)(a), we process analytics data on the basis of **your explicit consent**, which you grant via the cookie banner at the bottom of this page.
 
+## Cookies we use
+
+| Cookie name | Provider | Category | Purpose | Retention |
+| --- | --- | --- | --- | --- |
+| `squadscope_cookie_consent` | SquadScope / Cookie Consent v3 | Essential | Stores your cookie choices so the site can remember whether analytics is allowed. This is the configured Cookie Consent v3 consent record for this site. | 182 days (about 6 months) |
+| `_ga` | Google Analytics 4 | Analytics | Measures site usage by distinguishing browsers after you consent to analytics. | 13 months |
+| `_ga_<container_id>` | Google Analytics 4 | Analytics | Stores GA4 session and measurement state for this site's analytics container after you consent. | 13 months |
+
+We do **not** use analytics cookies unless you accept analytics in the cookie banner. The consent cookie is necessary because it records your choices and prevents the banner from asking again on every page. This site configures Cookie Consent v3 to keep that consent record for **182 days**, which is approximately 6 months.
+
+GA4 on this site uses Google Tag (`gtag.js`) with GA4 cookies (`_ga` and `_ga_<container_id>`). We do not configure or rely on the legacy `_gid` cookie.
+
 ## Data Retention
 
-Google Analytics 4 retains data for **14 months** by default. Older data is automatically deleted. You can review Google's retention policy at [support.google.com/analytics](https://support.google.com/analytics/answer/7667196).
+Google Analytics 4 retains analytics data for **13 months** by default. Older data is automatically deleted. You can review Google's retention policy at [support.google.com/analytics](https://support.google.com/analytics/answer/7667196).
 
 ## Who Controls Your Data
 
@@ -61,6 +73,7 @@ Click the **"Manage Cookies"** link in the footer of this site (or bottom of any
 
 SquadScope uses:
 - **Google Analytics 4** — analytics service (requires your consent)
+- **Google Fonts** — font delivery service used for Inter and JetBrains Mono. When your browser requests these font files, Google may receive and log your IP address and request metadata under [Google's Privacy Policy](https://policies.google.com/privacy).
 - **GitHub Pages** — hosting platform (GitHub's [Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement) applies)
 
 ## Changes to This Policy
