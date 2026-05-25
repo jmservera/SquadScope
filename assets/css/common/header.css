@@ -37,17 +37,16 @@
 }
 
 .site-brand__mark {
+    display: inline-flex;
     justify-content: center;
+    align-items: center;
     width: var(--size-logo-mark);
     height: var(--size-logo-mark);
+    padding: 0.125rem;
     border: var(--size-border-thin) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-accent-muted);
     color: var(--color-accent);
-    font-size: var(--text-xs);
-    line-height: var(--size-logo-mark);
-    text-align: center;
-    letter-spacing: 0;
 }
 
 .site-header__cluster {

@@ -58,3 +58,34 @@
 **Migration Phases:** 6 phases (tokens → header/footer → home → articles → cost dashboard → icons)
 
 **Issues Created:** #170-#177
+
+### 2026-05-25: Icon Safety Check Pattern
+
+**Trigger:** User directive caught potential misreading of double-S letterform as Nazi SS rune — flagged before Phase 6 shipped.
+
+**Pattern — Icon Silhouette Safety Check:**
+1. **Pre-design:** Avoid letterforms or geometric patterns that could be misread as extremist/hate symbols (double-S monograms, single-rune lightning bolts, certain cross/sun variants, certain hand signs)
+2. **Post-design verification:**
+   - Render at 16px, 32px, 64px, 512px — ambiguity often hides at small sizes
+   - Test rotation/flip — no problematic shapes should emerge
+   - Check negative space — no hidden symbols in whitespace
+   - Cross-reference against ADL Hate on Display database or similar
+3. **Document:** Include silhouette safety check results in icon spec
+
+**Replacement design:** Robot with binoculars (keeps "scope" metaphor, adds friendly personality, zero symbol ambiguity). See updated `docs/design/icon-spec.md`.
+
+**Skill created:** `.squad/skills/icon-safety-check/SKILL.md` at confidence: low (needs validation across more icon designs)
+
+### 2026-05-25: Icon Redo Learnings (PR #189)
+
+**The hallucinated-success failure mode:**
+The first pass on PR #189 reported success ("robot+binoculars SVG produced") but the actual file content still contained the old radar-sweep SVG. The edit tool appeared to confirm changes but they didn't persist. **Lesson:** After any file edit, verify file content with `cat` or `head` — don't trust the edit confirmation alone.
+
+**Pattern: asset-first, text-second:**
+When redesigning, write the new asset (SVG code) FIRST, then update all surrounding text (spec doc, header.html, CSS) to match. Never the other way around. If you write the text description first, you risk describing an asset that doesn't exist.
+
+**Read the bug report exactly:**
+The user flagged the "SS" text monogram in `layouts/partials/header.html` (line 4: `<span class="site-brand__mark">SS</span>`). The first pass updated `docs/design/icon-spec.md` without touching `header.html` — missing the actual user-visible problem entirely. **Lesson:** Trace the reported issue to the exact file/line before planning fixes.
+
+**Verification via bash:**
+For multi-file atomic changes, use bash heredocs (`cat > file << 'EOF'`) to write complete file content. This guarantees the file matches what you intended, unlike incremental edits that can silently fail.
