@@ -1,6 +1,6 @@
 .home-shell {
   display: grid;
-  gap: 2rem;
+  gap: var(--space-5);
 }
 
 .home-hero,
@@ -10,37 +10,37 @@
 .home-nav-card,
 .metric-card,
 .report-shortcuts {
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--entry);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
 }
 
 .home-hero,
 .home-latest,
 .home-empty-state {
-  padding: 1.5rem;
+  padding: var(--space-4);
 }
 
 .home-eyebrow,
 .section-topline,
 .metric-label {
   display: block;
-  color: var(--secondary);
-  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
 .home-description {
-  font-size: 1.05rem;
-  margin: 0.5rem 0 1rem;
+  font-size: var(--text-lg);
+  margin: var(--space-2) 0 var(--space-3);
 }
 
 .home-nav-grid,
 .report-metrics,
 .home-report-list {
   display: grid;
-  gap: 1rem;
+  gap: var(--space-3);
 }
 
 .home-nav-grid {
@@ -49,28 +49,28 @@
 
 .home-nav-card {
   display: grid;
-  gap: 0.5rem;
-  padding: 1rem;
+  gap: var(--space-2);
+  padding: var(--space-3);
   text-decoration: none;
 }
 
 .home-nav-title {
-  color: var(--primary);
+  color: var(--color-text);
   font-weight: 700;
 }
 
 .home-nav-copy {
-  color: var(--secondary);
-  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
 }
 
 .report-metrics {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  margin: 1.25rem 0;
+  margin: var(--space-4) 0;
 }
 
 .metric-card {
-  padding: 1rem;
+  padding: var(--space-3);
 }
 
 .metric-card-wide {
@@ -79,15 +79,15 @@
 
 .metric-value {
   display: block;
-  font-size: 1.05rem;
-  margin-top: 0.35rem;
+  font-size: var(--text-lg);
+  margin-top: var(--space-1);
 }
 
 .home-actions,
 .report-shortcuts {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: var(--space-2);
   align-items: center;
 }
 
@@ -98,19 +98,19 @@
   align-items: center;
   justify-content: center;
   min-height: 2.5rem;
-  padding: 0 0.9rem;
-  border-radius: 999px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-full);
   text-decoration: none;
 }
 
 .home-action-primary {
-  background: var(--primary);
-  color: var(--theme);
+  background: var(--color-text);
+  color: var(--color-bg);
 }
 
 .home-action-secondary,
 .report-shortcuts a {
-  border: 1px solid var(--border);
+  border: 1px solid var(--color-border);
 }
 
 .home-report-list {
@@ -119,7 +119,7 @@
 
 .home-report-card,
 .squad-archive-entry {
-  padding: 1rem;
+  padding: var(--space-3);
 }
 
 .home-report-card h3,
@@ -131,31 +131,31 @@
 .home-report-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  color: var(--secondary);
-  font-size: 0.9rem;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
 }
 
 .squad-report .report-shortcuts {
-  margin-bottom: 1.5rem;
-  padding: 0.75rem;
+  margin-bottom: var(--space-4);
+  padding: var(--space-2);
 }
 
 .search-shell,
 .taxonomy-grid {
   display: grid;
-  gap: 1rem;
+  gap: var(--space-3);
 }
 
 .search-intro-card,
 .taxonomy-card {
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--entry);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
 }
 
 .search-intro-card {
-  padding: 1rem 1.25rem;
+  padding: var(--space-3) 1.25rem;
 }
 
 .taxonomy-grid {
@@ -173,12 +173,12 @@
 
 :root {
   --pagefind-ui-scale: 0.95;
-  --pagefind-ui-primary: var(--primary);
-  --pagefind-ui-text: var(--content);
-  --pagefind-ui-background: var(--entry);
-  --pagefind-ui-border: var(--border);
-  --pagefind-ui-tag: var(--tertiary);
-  --pagefind-ui-border-radius: var(--radius);
+  --pagefind-ui-primary: var(--color-text);
+  --pagefind-ui-text: var(--color-text);
+  --pagefind-ui-background: var(--color-surface);
+  --pagefind-ui-border: var(--color-border);
+  --pagefind-ui-tag: var(--color-accent-muted);
+  --pagefind-ui-border-radius: var(--radius-md);
   --pagefind-ui-font: inherit;
 }
 
@@ -189,9 +189,9 @@ select:focus-visible,
 textarea:focus-visible,
 summary:focus-visible,
 [tabindex]:focus-visible {
-  outline: 3px solid var(--primary);
+  outline: 3px solid var(--color-accent);
   outline-offset: 3px;
-  border-radius: calc(var(--radius) / 2);
+  border-radius: var(--radius-sm);
 }
 
 .metric-value a,
@@ -209,26 +209,26 @@ summary:focus-visible,
 .search-shortcuts {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1rem;
-  color: var(--secondary);
-  font-size: 0.95rem;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
 }
 
 .search-shortcuts-title {
   align-self: center;
-  color: var(--primary);
+  color: var(--color-text);
   font-weight: 700;
 }
 
 .search-shortcut {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.7rem;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--entry);
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
 }
 
 .search-shortcut kbd {
@@ -237,22 +237,22 @@ summary:focus-visible,
   justify-content: center;
   min-width: 1.8rem;
   min-height: 1.8rem;
-  padding: 0 0.35rem;
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  background: var(--theme);
-  color: var(--primary);
+  padding: 0 var(--space-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-text);
   font: inherit;
   font-weight: 700;
 }
 
 .search-panel {
   display: grid;
-  gap: 1rem;
+  gap: var(--space-3);
 }
 
 .search-panel .pagefind-ui__search-input {
-  font-size: 1rem;
+  font-size: var(--text-base);
 }
 
 .search-panel .pagefind-ui__results,
@@ -262,16 +262,16 @@ summary:focus-visible,
 }
 
 .table-scroll {
-  margin: 1rem 0;
+  margin: var(--space-3) 0;
   overflow-x: auto;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--entry);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
   -webkit-overflow-scrolling: touch;
 }
 
 .table-scroll:focus-visible {
-  outline: 3px solid var(--primary);
+  outline: 3px solid var(--color-accent);
   outline-offset: 2px;
 }
 
@@ -310,32 +310,32 @@ summary:focus-visible,
 
   .logo {
     justify-content: space-between;
-    gap: 0.75rem;
+    gap: var(--space-2);
   }
 
   .menu {
     flex-wrap: wrap;
     overflow-x: visible;
     white-space: normal;
-    gap: 0.5rem;
+    gap: var(--space-2);
   }
 
   .menu a {
-    padding: 0.35rem 0.75rem;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: var(--entry);
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
     line-height: 1.4;
   }
 
   .post-title {
-    font-size: clamp(2rem, 8vw, 2.75rem);
+    font-size: clamp(var(--text-2xl), 8vw, var(--text-3xl));
   }
 
   .post-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.35rem 0.75rem;
+    gap: var(--space-1) var(--space-2);
   }
 
   .home-actions,
@@ -355,7 +355,7 @@ summary:focus-visible,
   }
 
   .search-panel .pagefind-ui__search-input {
-    font-size: 16px;
+    font-size: var(--text-base);
   }
 }
 

@@ -1,0 +1,129 @@
+/* SquadScope design tokens — Editorial Trend Report, 2026-05-25 */
+:root {
+  color-scheme: light dark;
+
+  --color-bg: #FAFAFA;
+  --color-surface: #FFFFFF;
+  --color-text: #1A1A1A;
+  --color-text-muted: #5C5C5C;
+  --color-accent: #0066CC;
+  --color-accent-hover: #004C99;
+  --color-accent-muted: #E6F0FA;
+  --color-border: #E0E0E0;
+  --color-danger: #CC3300;
+  --color-success: #1A8754;
+  --color-code-bg: #F5F5F5;
+  --color-code-block-bg: #1A1D21;
+  --color-code-text: #E8E8E8;
+  --color-copy-text: #FFFFFFCC;
+  --color-copy-bg: #4E4E4ECC;
+
+  --font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.25rem;
+  --text-4xl: 3rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+  --space-7: 4rem;
+  --space-8: 5rem;
+  --space-9: 6rem;
+  --space-10: 7rem;
+  --space-11: 8rem;
+  --space-12: 9rem;
+  --space-13: 10rem;
+  --space-14: 11rem;
+  --space-15: 12rem;
+  --space-16: 13rem;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px rgb(0 0 0 / 0.07);
+  --shadow-lg: 0 10px 15px rgb(0 0 0 / 0.1);
+
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  --prose-measure: 68ch;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-bg: #0D0D0D;
+    --color-surface: #1A1A1A;
+    --color-text: #E8E8E8;
+    --color-text-muted: #9C9C9C;
+    --color-accent: #4DA3FF;
+    --color-accent-hover: #80BFFF;
+    --color-accent-muted: #1A2633;
+    --color-border: #2E2E2E;
+    --color-danger: #FF6B4A;
+    --color-success: #4ADE80;
+    --color-code-bg: #24262B;
+    --color-code-block-bg: #1A1A1A;
+    --color-code-text: #E8E8E8;
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px rgb(0 0 0 / 0.3);
+    --shadow-lg: 0 10px 15px rgb(0 0 0 / 0.3);
+  }
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg: #0D0D0D;
+  --color-surface: #1A1A1A;
+  --color-text: #E8E8E8;
+  --color-text-muted: #9C9C9C;
+  --color-accent: #4DA3FF;
+  --color-accent-hover: #80BFFF;
+  --color-accent-muted: #1A2633;
+  --color-border: #2E2E2E;
+  --color-danger: #FF6B4A;
+  --color-success: #4ADE80;
+  --color-code-bg: #24262B;
+  --color-code-block-bg: #1A1A1A;
+  --color-code-text: #E8E8E8;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px rgb(0 0 0 / 0.3);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+html {
+  font-size: 16px;
+}
+
+/* Short aliases preserve the proposal vocabulary for future phases. */
+:root {
+  --bg: var(--color-bg);
+  --surface: var(--color-surface);
+  --text: var(--color-text);
+  --text-muted: var(--color-text-muted);
+  --accent: var(--color-accent);
+  --accent-hover: var(--color-accent-hover);
+  --accent-muted: var(--color-accent-muted);
+  --border-token: var(--color-border);
+  --danger: var(--color-danger);
+  --success: var(--color-success);
+}
