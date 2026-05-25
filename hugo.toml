@@ -110,6 +110,7 @@ ignoreFiles = ['data/analyzed/.*\\.md$', 'data/metrics/.*\\.md$', 'data/metrics/
   [[module.mounts]]
     source = 'data/metrics'
     target = 'data/metrics'
+    excludeFiles = ['*.md', '*.jsonl']
   [[module.mounts]]
     source = 'content'
     target = 'content'
