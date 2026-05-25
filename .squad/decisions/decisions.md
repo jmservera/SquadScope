@@ -100,3 +100,11 @@
   - `format_divergences(reader_mode=False)` — new kwarg. Replaces instruction bullets with reader-friendly narrative
   - `analyze_fallback._strip_ai_instructions(content)` — new helper. Applied in no-AI path to post-process rendered content
 - **Consequences:** AI prompt path unchanged (full instructions + list continue to model); no-AI fallback now produces clean reader output. 16 new tests cover truncation, sorting, instruction stripping, narrative injection. All 498 tests passing. PR #135 merged.
+
+## 2026-05-25: GitHub Actions PR Create Enabled
+
+- **Owner:** jmservera (via Copilot directive)
+- **Date:** 2026-05-25T16:50:00+02:00
+- **Status:** Config deployed
+- **Decision:** GitHub Actions policy now allows PRs to be created and approved automatically. The sync-publish-to-main workflow will create PRs without manual fallback.
+- **Why:** Closes loop from W21/W22 rescue session where this permission blocked autonomous sync PRs. Enables full workflow automation.
