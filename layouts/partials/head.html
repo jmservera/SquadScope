@@ -37,6 +37,11 @@
 {{- end }}
 
 {{- /* Styles */}}
+{{- $font_href := "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="{{ $font_href }}">
+<link rel="stylesheet" href="{{ $font_href }}">
 
 {{- /* includes */}}
 {{- $includes := slice }}
@@ -44,6 +49,7 @@
 
 {{- $includes_all := $includes | resources.Concat "assets/css/includes.css" }}
 
+{{- $tokens := (resources.Get "css/tokens.css") }}
 {{- $theme_vars := (resources.Get "css/core/theme-vars.css") }}
 {{- $reset := (resources.Get "css/core/reset.css") }}
 {{- $media := (resources.Get "css/core/zmedia.css") }}
@@ -55,7 +61,7 @@
 {{- $chroma_mod := (resources.Get "css/includes/chroma-mod.css") }}
 
 {{- /* order is important */}}
-{{- $core := (slice $theme_vars $reset $common $chroma_styles $chroma_mod $includes_all $media) | resources.Concat "assets/css/core.css" | resources.Minify }}
+{{- $core := (slice $tokens $theme_vars $reset $common $chroma_styles $chroma_mod $includes_all $media) | resources.Concat "assets/css/core.css" | resources.Minify }}
 {{- $extended := (resources.Match "css/extended/*.css") | resources.Concat "assets/css/extended.css" | resources.Minify }}
 
 {{- /* bundle all required css */}}
@@ -113,15 +119,15 @@
     <style>
         @media (prefers-color-scheme: dark) {
             :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
+                --theme: var(--color-bg);
+                --entry: var(--color-surface);
+                --primary: var(--color-text);
+                --secondary: var(--color-text-muted);
+                --tertiary: var(--color-accent-muted);
+                --content: var(--color-text);
+                --code-block-bg: var(--color-code-block-bg);
+                --code-bg: var(--color-code-bg);
+                --border: var(--color-border);
                 color-scheme: dark;
             }
 
