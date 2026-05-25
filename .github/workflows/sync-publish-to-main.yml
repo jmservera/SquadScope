@@ -7,6 +7,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Prevent overlapping force-pushes to sync/publish-to-main
+concurrency:
+  group: sync-publish-to-main
+  cancel-in-progress: false
+
 permissions:
   contents: write
   pull-requests: write
@@ -37,24 +42,35 @@ jobs:
           # Create or reset sync branch from main
           git checkout -B "$SYNC_BRANCH" origin/main
 
-          # Copy specific paths from publish (using git checkout from that ref)
+          # Wipe target generated dirs so deletions on publish propagate to main
+          rm -rf data/raw data/analyzed data/metrics content/weekly content/monthly content/yearly
+
+          # REQUIRED — these must exist on publish; fail loudly if not
           git checkout origin/publish -- \
             data/raw/ \
             data/analyzed/ \
             data/metrics/ \
             content/weekly/ \
             content/monthly/ \
-            content/yearly/ \
-            2>/dev/null || true
+            content/yearly/
 
-          # Copy squad learnings selectively (history files and decisions)
+          # OPTIONAL — squad state; tolerant of missing files
           git checkout origin/publish -- .squad/run-counter.txt 2>/dev/null || true
           git checkout origin/publish -- .squad/decisions.md 2>/dev/null || true
 
-          # Copy agent history files individually
-          for hist in $(git ls-tree -r --name-only origin/publish -- .squad/agents/ | grep 'history.md$'); do
-            git checkout origin/publish -- "$hist" 2>/dev/null || true
-          done
+          # Agent history files (per-agent learnings)
+          git ls-tree -r --name-only origin/publish -- .squad/agents/ 2>/dev/null \
+            | { grep 'history.md$' || true; } \
+            | while IFS= read -r hist; do
+                [ -n "$hist" ] && git checkout origin/publish -- "$hist" 2>/dev/null || true
+              done
+
+          # Skills (team-level reusable patterns)
+          git ls-tree -r --name-only origin/publish -- .squad/skills/ 2>/dev/null \
+            | { grep -E '\.md$' || true; } \
+            | while IFS= read -r skill; do
+                [ -n "$skill" ] && git checkout origin/publish -- "$skill" 2>/dev/null || true
+              done
 
           # Check if there are any changes
           if git diff --cached --quiet && git diff --quiet; then
@@ -84,18 +100,27 @@ jobs:
               --base main \
               --head "$SYNC_BRANCH" \
               --title "sync: publish data → main" \
-              --body "Automated sync of crawl data, analysis, content, and squad learnings from the publish branch to main.
+              --body "Automated sync of generated content subtrees and durable squad learnings from the publish branch to main.
 
           This PR keeps main up-to-date with generated data so that squad learnings and content are accessible from the default branch.
 
-          **Synced paths:**
+          **Synced paths (required — workflow fails if missing on publish):**
           - \`data/raw/\` — raw crawl data
           - \`data/analyzed/\` — weekly analysis summaries
           - \`data/metrics/\` — token usage metrics
           - \`content/weekly/\`, \`content/monthly/\`, \`content/yearly/\` — generated Hugo pages
+
+          **Synced from .squad/ (optional — tolerant of missing):**
           - \`.squad/agents/*/history.md\` — agent learnings
           - \`.squad/decisions.md\` — team decisions
+          - \`.squad/skills/**/*.md\` — reusable patterns
           - \`.squad/run-counter.txt\` — run counter
+
+          **Explicitly NOT synced** (session-local noise): \`.squad/log/\`, \`.squad/orchestration-log/\`, \`.squad/decisions/inbox/\`
+
+          **Notes:**
+          - Publish is authoritative for synced paths. Hand-edits on main to these paths WILL be overwritten.
+          - Deletions on publish propagate to main (target dirs are wiped before checkout).
 
           Safe to merge — contains only generated data, no code changes." \
               --label "squad"
