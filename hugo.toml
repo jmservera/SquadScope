@@ -21,6 +21,8 @@ rssLimit = 20
 
 [params]
   ga_measurement_id = ""
+  description = 'SquadScope turns GitHub activity into readable weekly, monthly, and yearly trend reports for busy developers and tech leads.'
+  default_social_image = '/images/squadscope-social-card.png'
   defaultTheme = 'auto'
   disableSpecial1stPost = true
   ShowReadingTime = true
