@@ -1,0 +1,10 @@
+{{- $page := . -}}
+{{- with $page.Params.top_repo -}}
+<section class="article-featured-repos" aria-label="Featured repository">
+  {{ partial "repo-card.html" (dict
+    "repo" .
+    "description" (printf "Top repository anchoring %s's GitHub signal." ($page.Params.week | default "this report"))
+    "variant" "hero"
+  ) }}
+</section>
+{{- end -}}
