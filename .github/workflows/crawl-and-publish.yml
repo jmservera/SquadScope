@@ -10,6 +10,11 @@ on:
         required: false
         default: false
         type: boolean
+      rebuild_week:
+        description: 'Rebuild a specific past week (e.g. 2026-W21). Skips crawl, hydrates raw/analyzed from publish, regenerates content+rollups only.'
+        required: false
+        default: ''
+        type: string
 
 permissions:
   contents: read
@@ -91,6 +96,7 @@ jobs:
           python-version: '3.12'
 
       - name: Run crawler
+        if: ${{ github.event.inputs.rebuild_week == '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/crawl.py
@@ -99,6 +105,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Crawl TechCrunch RSS
+        if: ${{ github.event.inputs.rebuild_week == '' }}
         run: |
           WEEK=$(date +%Y-W%V)
           SINCE=$(date -d '7 days ago' +%Y-%m-%d)
@@ -131,6 +138,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Commit crawl data to data branch
+        if: ${{ github.event.inputs.rebuild_week == '' }}
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           DATA_BRANCH: publish
@@ -185,10 +193,27 @@ jobs:
           ref: ${{ github.event.repository.default_branch }}
 
       - name: Download raw crawl artifact
+        if: ${{ github.event.inputs.rebuild_week == '' }}
         uses: actions/download-artifact@v4
         with:
           name: raw-data
           path: data/raw/
+
+      - name: Hydrate from publish (rebuild mode)
+        if: ${{ github.event.inputs.rebuild_week != '' }}
+        env:
+          REBUILD_WEEK: ${{ github.event.inputs.rebuild_week }}
+        run: |
+          set -euo pipefail
+          git fetch origin publish
+          mkdir -p data/raw data/analyzed data/snapshots
+          git checkout origin/publish -- "data/raw/${REBUILD_WEEK}.json"
+          git checkout origin/publish -- "data/raw/${REBUILD_WEEK}-techcrunch.json" 2>/dev/null || true
+          git checkout origin/publish -- "data/snapshots/${REBUILD_WEEK}-stars.json" 2>/dev/null || true
+          # Also hydrate ALL prior analyzed files so rollups have correct historical context
+          git ls-tree -r --name-only origin/publish -- data/analyzed/ | while read -r f; do
+            git checkout origin/publish -- "$f" 2>/dev/null || true
+          done
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -202,19 +227,26 @@ jobs:
 
       - name: Prepare analysis context
         id: analysis-context
+        env:
+          REBUILD_WEEK: ${{ github.event.inputs.rebuild_week || '' }}
         run: |
           mkdir -p data/analyzed
           CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           readarray -t CONTEXT_LINES < <(python3 - <<'PY' "$CURRENT_DATETIME"
           import json
+          import os
           import sys
           from datetime import UTC, datetime
           from pathlib import Path
 
           current_datetime = sys.argv[1]
           run_datetime = datetime.fromisoformat(current_datetime.replace("Z", "+00:00")).astimezone(UTC)
-          iso_year, iso_week, _ = run_datetime.isocalendar()
-          week = f"{iso_year}-W{iso_week:02d}"
+          rebuild_week = os.environ.get("REBUILD_WEEK", "").strip()
+          if rebuild_week:
+              week = rebuild_week
+          else:
+              iso_year, iso_week, _ = run_datetime.isocalendar()
+              week = f"{iso_year}-W{iso_week:02d}"
           week_file = Path("data/raw") / f"{week}.json"
           if not week_file.exists():
               raise SystemExit(f"Missing raw payload for current run: {week_file}")
