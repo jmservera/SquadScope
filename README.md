@@ -1,3 +1,5 @@
+[![Crawl and publish weekly data](https://github.com/jmservera/SquadScope/actions/workflows/crawl-and-publish.yml/badge.svg)](https://github.com/jmservera/SquadScope/actions/workflows/crawl-and-publish.yml)
+[![Deploy Hugo site](https://github.com/jmservera/SquadScope/actions/workflows/deploy-site.yml/badge.svg)](https://github.com/jmservera/SquadScope/actions/workflows/deploy-site.yml)
 # SquadScope
 
 SquadScope is an automated AI-powered GitHub Pages site that publishes weekly, monthly, and yearly summaries of tech trends sourced from GitHub. The system crawls trending and newly-created repositories, applies AI analysis to identify signal vs. noise, and publishes curated insights with zero manual intervention.
