@@ -36,14 +36,25 @@
     gap: var(--space-3);
 }
 
-.site-footer a {
+.site-footer a,
+.site-footer__link {
     color: var(--color-text-muted);
     text-underline-offset: var(--space-1);
     text-decoration: underline;
 }
 
+.site-footer__link {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    cursor: pointer;
+}
+
 .site-footer a:hover,
 .site-footer a:focus-visible,
+.site-footer__link:hover,
+.site-footer__link:focus-visible,
 .top-link:hover,
 .top-link:focus-visible {
     color: var(--color-accent);

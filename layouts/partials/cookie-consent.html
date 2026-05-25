@@ -1,0 +1,69 @@
+{{- $cfg := .Site.Data.cookieconsent -}}
+<link rel="stylesheet" href="{{ "vendor/cookieconsent/cookieconsent.css" | relURL }}">
+<script>
+  window.SquadScopeCookieConsent = {{ $cfg | jsonify | safeJS }};
+</script>
+<script>
+  (function () {
+    var script = document.createElement('script');
+    script.src = '{{ "vendor/cookieconsent/cookieconsent.umd.js" | relURL }}';
+    script.async = true;
+    script.onload = function () {
+      var cfg = window.SquadScopeCookieConsent || {};
+
+      function reviveCookiePattern(cookie) {
+        if (!cookie || typeof cookie.name !== 'string') return cookie;
+        var match = cookie.name.match(/^\/(.*)\/([gimsuy]*)$/);
+        if (!match) return cookie;
+
+        return Object.assign({}, cookie, {
+          name: new RegExp(match[1], match[2])
+        });
+      }
+
+      function reviveCookiePatterns(categories) {
+        Object.keys(categories || {}).forEach(function (categoryName) {
+          var category = categories[categoryName];
+          if (category.autoClear && Array.isArray(category.autoClear.cookies)) {
+            category.autoClear.cookies = category.autoClear.cookies.map(reviveCookiePattern);
+          }
+
+          Object.keys(category.services || {}).forEach(function (serviceName) {
+            var service = category.services[serviceName];
+            if (Array.isArray(service.cookies)) {
+              service.cookies = service.cookies.map(reviveCookiePattern);
+            }
+          });
+        });
+      }
+
+      reviveCookiePatterns(cfg.categories);
+
+      CookieConsent.run(Object.assign({
+        mode: 'opt-in',
+        revision: 1,
+        hideFromBots: false,
+        manageScriptTags: true,
+        cookie: {
+          name: 'squadscope_cookie_consent',
+          sameSite: 'Lax',
+          expiresAfterDays: 182
+        },
+        guiOptions: {
+          consentModal: {
+            layout: 'cloud inline',
+            position: 'bottom center',
+            equalWeightButtons: true,
+            flipButtons: false
+          },
+          preferencesModal: {
+            layout: 'box',
+            equalWeightButtons: true,
+            flipButtons: false
+          }
+        }
+      }, cfg));
+    };
+    document.head.appendChild(script);
+  })();
+</script>
