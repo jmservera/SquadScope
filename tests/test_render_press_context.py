@@ -1,7 +1,9 @@
 """Tests for scripts/render_press_context.py."""
 
+import re
 import sys
 from pathlib import Path
+from urllib.parse import urlparse
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_REPO_ROOT / "scripts"))
@@ -95,7 +97,7 @@ class TestFormatArticlesList:
     def test_single_article(self):
         result = format_articles_list([_article()])
         assert "[AI Startup Raises $10M]" in result
-        assert "techcrunch.com" in result
+        assert _article()["url"] in result
         assert "[AI, Startups]" in result
 
     def test_article_without_url(self):
@@ -495,7 +497,9 @@ class TestFormatCorrelationsNarrative:
         corr = self._corr(articles=["https://techcrunch.com/unknown-url"])
         result = _format_correlations_narrative([corr], [])
         # URL is in the corr but not in the articles list, so no link text
-        assert "[" not in result or "github.com" in result
+        # Any links present must point to github.com (repo links), not article URLs
+        link_urls = re.findall(r'\]\((https?://[^)]+)\)', result)
+        assert all(urlparse(url).netloc == "github.com" for url in link_urls)
 
     def test_reader_mode_true_uses_narrative(self):
         corr = self._corr(repo="openai/codex")

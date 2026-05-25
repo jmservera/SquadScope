@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+  # Auto-deploy after a successful crawl-and-publish run so the site always
+  # reflects the latest content committed to the publish branch.
+  workflow_run:
+    workflows: ["Crawl and publish weekly data"]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -17,7 +23,10 @@ concurrency:
 
 jobs:
   build:
-    if: github.actor != 'github-actions[bot]'
+    # Allow manual triggers, human pushes to main, and post-crawl auto-runs.
+    # Bot pushes are excluded from push events to avoid loops; workflow_run
+    # covers the bot-written publish branch updates.
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.actor != 'github-actions[bot]') || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') }}
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: 0.161.1
@@ -52,6 +61,26 @@ jobs:
           echo "${HOME}/.local/hugo" >> "${GITHUB_PATH}"
           export PATH="${HOME}/.local/hugo:${PATH}"
           hugo version
+
+      - name: Hydrate generated content from publish
+        # Architecture: code/theme/config come from main; all generated content
+        # (weekly pages, rollups, raw data) comes from the canonical publish branch.
+        # This prevents the site from ever diverging from the crawl-and-publish output.
+        run: |
+          set -euo pipefail
+          git fetch origin publish
+          # Wipe and re-checkout to mirror publish exactly (deletions propagate)
+          rm -rf content/weekly content/monthly content/yearly data/analyzed data/raw data/metrics data/snapshots
+          git checkout origin/publish -- \
+            content/weekly/ \
+            content/monthly/ \
+            content/yearly/ \
+            data/analyzed/ \
+            data/raw/ \
+            data/metrics/ \
+            data/snapshots/ || true
+          echo "Hydrated from publish:"
+          ls content/weekly/2026/ 2>/dev/null || true
 
       - name: Build site
         run: hugo --minify
