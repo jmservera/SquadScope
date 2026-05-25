@@ -15,6 +15,15 @@
 {{- with $page.Params.top_repo -}}
   {{- $meta = $meta | append (printf "Top repo: %s" .) -}}
 {{- end -}}
-{{- if gt (len $meta) 0 -}}
-<p class="article-meta" aria-label="Report metadata">{{ delimit $meta " <span aria-hidden=\"true\">·</span> " | safeHTML }}</p>
+{{- $showAIBadge := or (eq $page.Section "weekly") (eq $page.Section "topics") -}}
+{{- if or (gt (len $meta) 0) $showAIBadge -}}
+<p class="article-meta" aria-label="Report metadata">
+  {{- if gt (len $meta) 0 -}}
+    {{ delimit $meta " <span aria-hidden=\"true\">·</span> " | safeHTML }}
+  {{- end -}}
+  {{- if and (gt (len $meta) 0) $showAIBadge }} <span aria-hidden="true">·</span> {{ end -}}
+  {{- if $showAIBadge -}}
+  <span class="article-ai-badge" title="This analysis was written by an AI model using public GitHub + press data. Editorial structure and source curation by the SquadScope maintainer." aria-label="AI-generated analysis. This analysis was written by an AI model using public GitHub and press data. Editorial structure and source curation by the SquadScope maintainer.">✨ AI-generated analysis</span>
+  {{- end -}}
+</p>
 {{- end -}}

@@ -17,9 +17,9 @@
 </head>
 
 {{- if (or (ne .Kind `page` ) (eq .Layout `archives`) (eq .Layout `search`)) }}
-<body class="list" id="top">
+<body class="list" id="top" data-ai-generated="true">
 {{- else }}
-<body id="top">
+<body id="top" data-ai-generated="true">
 {{- end }}
     <a class="skip-link" href="#main-content">Skip to content</a>
     {{ partialCached "header.html" . .Page -}}

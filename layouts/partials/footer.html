@@ -2,6 +2,7 @@
 <footer class="footer site-footer" aria-label="Site footer">
     <div class="site-footer__inner">
         <p class="site-footer__tagline"><strong>SquadScope</strong> — Weekly tech signal from GitHub.</p>
+        {{ partial "ai-disclosure.html" . }}
         <nav class="site-footer__nav" aria-label="Footer">
             <a href="{{ "privacy/" | absLangURL }}">Privacy</a>
             <button type="button" class="site-footer__link" onclick="CookieConsent.showPreferences()">Manage cookies</button>
