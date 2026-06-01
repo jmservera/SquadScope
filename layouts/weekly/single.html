@@ -22,6 +22,10 @@
     {{ partial "article-content.html" . }}
   </div>
 
+  {{- if (and site.Params.ShowShareButtons (ne .Params.disableShare true)) }}
+  {{- partial "share_icons.html" . -}}
+  {{- end }}
+
   {{ partial "article-footer.html" . }}
 </article>
 {{- end }}
