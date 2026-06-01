@@ -332,30 +332,35 @@ jobs:
             git checkout origin/publish -- data/metrics/ 2>/dev/null || true
           PROMPT_FILE="data/metrics/analysis-prompt-${WEEK}.md"
           rm -f "$PROMPT_FILE"
-          python3 scripts/analyze_fallback.py --raw-json "$WEEK_FILE" --output "$OUTPUT_FILE" --current-datetime "$CURRENT_DATETIME" --print-prompt > "$PROMPT_FILE"
+          python3 scripts/analyze_fallback.py \
+            --raw-json "$WEEK_FILE" \
+            --output "$OUTPUT_FILE" \
+            --current-datetime "$CURRENT_DATETIME" \
+            --press-context "$PRESS_FILE" \
+            --print-prompt > "$PROMPT_FILE"
 
           sanitize_agent_output() {
             python3 scripts/sanitize_agent_output.py --path "$1"
           }
 
-          # Append press context to prompt if available
-          if [ -f "$PRESS_FILE" ] && [ -s "$PRESS_FILE" ]; then
-            printf '\n\n---\n## Press Context\n\n' >> "$PROMPT_FILE"
-            cat "$PRESS_FILE" >> "$PROMPT_FILE"
-          fi
-
-          if ! command -v copilot >/dev/null 2>&1; then
-            echo "::error::Copilot CLI unavailable; rerun crawl-and-publish when Copilot is available."
-            exit 1
-          fi
+          run_quality_gate() {
+            GITHUB_STEP_SUMMARY="" python3 scripts/analysis_gate.py \
+              --analysis-file "$OUTPUT_FILE" \
+              --raw-json "$WEEK_FILE" \
+              --current-datetime "$CURRENT_DATETIME" \
+              --source "$1"
+          }
 
           # Retry loop: LLM output can be non-deterministically truncated,
           # so retry up to 3 attempts if the quality gate rejects the article.
           MAX_RETRIES=2
           ATTEMPT=0
           GATE_PASSED=false
+          ANALYSIS_SOURCE=""
+          ANALYSIS_MODEL=""
 
-          while [ "$GATE_PASSED" = "false" ] && [ "$ATTEMPT" -le "$MAX_RETRIES" ]; do
+          if command -v copilot >/dev/null 2>&1; then
+            while [ "$GATE_PASSED" = "false" ] && [ "$ATTEMPT" -le "$MAX_RETRIES" ]; do
             if [ "$ATTEMPT" -gt 0 ]; then
               echo "::warning::Quality gate failed on attempt $ATTEMPT, retrying (attempt $((ATTEMPT + 1))/$((MAX_RETRIES + 1)))..."
               rm -f "$OUTPUT_FILE"
@@ -384,35 +389,44 @@ jobs:
               continue
             fi
 
-            if ! sanitize_agent_output "$OUTPUT_FILE"; then
-              echo "::warning::Sanitization failed on attempt $((ATTEMPT + 1))"
-              ATTEMPT=$((ATTEMPT + 1))
-              continue
-            fi
+            sanitize_agent_output "$OUTPUT_FILE"
 
             # Inline quality gate check (suppress step summary to avoid noise)
-            if GITHUB_STEP_SUMMARY="" python3 scripts/analysis_gate.py \
-              --analysis-file "$OUTPUT_FILE" \
-              --raw-json "$WEEK_FILE" \
-              --current-datetime "$CURRENT_DATETIME" \
-              --source copilot-cli 2>&1; then
+            if run_quality_gate copilot-cli; then
               GATE_PASSED=true
               FINAL_TRANSCRIPT="$TRANSCRIPT_FILE"
+              ANALYSIS_SOURCE="copilot-cli"
+              ANALYSIS_MODEL="copilot-default"
             fi
 
             ATTEMPT=$((ATTEMPT + 1))
           done
-
-          if [ "$GATE_PASSED" = "false" ]; then
-            echo "::error::Analysis quality gate failed after $((MAX_RETRIES + 1)) attempts. The LLM did not produce a conforming article."
-            exit 1
+          else
+            echo "::warning::Copilot CLI unavailable; falling back to GitHub Models API."
           fi
 
-          ANALYSIS_SOURCE="copilot-cli"
-          ANALYSIS_MODEL="copilot-default"
+          if [ "$GATE_PASSED" = "false" ]; then
+            echo "::warning::Copilot output failed quality gate after $((MAX_RETRIES + 1)) attempts; falling back to GitHub Models API."
+            python3 scripts/analyze_fallback.py \
+              --raw-json "$WEEK_FILE" \
+              --output "$OUTPUT_FILE" \
+              --current-datetime "$CURRENT_DATETIME" \
+              --press-context "$PRESS_FILE"
+            sanitize_agent_output "$OUTPUT_FILE"
+            if ! run_quality_gate github-models; then
+              echo "::error::Analysis quality gate failed for both Copilot CLI and GitHub Models API outputs."
+              exit 1
+            fi
+            ANALYSIS_SOURCE="github-models"
+            ANALYSIS_MODEL="${GITHUB_MODELS_MODEL:-openai/gpt-4o}"
+          fi
 
           # Copy final transcript to canonical location
-          cp "$FINAL_TRANSCRIPT" data/metrics/copilot-transcript.md 2>/dev/null || true
+          if [ -n "${FINAL_TRANSCRIPT:-}" ]; then
+            cp "$FINAL_TRANSCRIPT" data/metrics/copilot-transcript.md 2>/dev/null || true
+          else
+            rm -f data/metrics/copilot-transcript.md
+          fi
 
           TRANSCRIPT_ARGS=""
           if [ -f "data/metrics/copilot-transcript.md" ]; then

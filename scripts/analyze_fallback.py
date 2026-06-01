@@ -11,7 +11,11 @@ from pathlib import Path
 from typing import Any
 from urllib import error, request
 
-from scripts.sanitize_repo_content import sanitize_repo_payload
+try:
+    from scripts.sanitize_repo_content import sanitize_repo_payload
+except ModuleNotFoundError:  # pragma: no cover - script execution path
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from scripts.sanitize_repo_content import sanitize_repo_payload
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_PROMPT_TEMPLATE = ROOT / "prompts" / "analyze-weekly.md"
@@ -133,10 +137,18 @@ def render_prompt(
     previous_summary_path = find_previous_summary(current_week, analyzed_dir)
     previous_summary_content = previous_summary_path.read_text(encoding="utf-8") if previous_summary_path else ""
     raw_json_content = json.dumps(sanitized_payload, indent=2, ensure_ascii=False)
+    current_year, _, week_number = current_week.partition("-W")
+    generic_title_example = f"Week {int(week_number)}, {current_year} Analysis" if week_number.isdigit() else "Week NN, YYYY Analysis"
 
     prompt = prompt_template_path.read_text(encoding="utf-8")
     replacements = {
         "{{CURRENT_DATETIME}}": current_datetime,
+        "{{CURRENT_WEEK}}": current_week,
+        "{{CURRENT_YEAR}}": current_year,
+        "{{TITLE_TEMPLATE_HINT}}": (
+            f"Specific editorial headline about {current_week}'s dominant themes "
+            f"(not \"{generic_title_example}\")"
+        ),
         "{{RAW_JSON_PATH}}": str(raw_json_path),
         "{{OUTPUT_PATH}}": str(output_path),
         "{{PREVIOUS_SUMMARY_PATH_OR_NONE}}": str(previous_summary_path) if previous_summary_path else "None",
@@ -431,9 +443,16 @@ def generate_no_ai_summary(raw_json_path: Path, current_datetime: str, press_con
     year_str = week.split("-W")[0]
     week_num = week.split("-W")[1]
     topics_str = ", ".join(top_topics[:8]) if top_topics else "not available from this crawl"
+    title_topics = [topic.replace("-", " ").title() for topic in top_topics[:2] if topic]
+    if len(title_topics) == 2:
+        fallback_title = f"{title_topics[0]}, {title_topics[1]}, and This Week's Repo Signals"
+    elif len(title_topics) == 1:
+        fallback_title = f"{title_topics[0]} Leads This Week's Repo Signals"
+    else:
+        fallback_title = f"{top_repo.split('/')[-1]} Leads This Week's Repo Signals"
 
     markdown = f'''---
-title: "Week {week_num}, {year_str} Analysis"
+title: "{fallback_title}"
 date: {current_datetime}
 week: "{week}"
 year: {int(year_str)}
