@@ -260,6 +260,9 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("git add content/weekly/", commit_run)
         self.assertIn("content/monthly/", commit_run)
         self.assertIn("content/yearly/", commit_run)
+        self.assertIn("GITHUB_WORKSPACE", commit_run)
+        self.assertIn('case "$PAGE_PATH" in', commit_run)
+        self.assertIn("Expected PAGE_PATH under content/weekly/", commit_run)
 
         upload_step = next((s for s in generate_job["steps"] if s.get("name") == "Upload generated content artifact"), None)
         self.assertIsNotNone(upload_step)
@@ -289,6 +292,25 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("jq -n", webhook_run)
         self.assertIn("📊 **SquadScope Week", webhook_run)
         self.assertIn("Webhook post failed (non-critical)", webhook_run)
+
+    def test_notify_failure_job_creates_or_updates_issue(self) -> None:
+        workflow_path = Path(".github/workflows/crawl-and-publish.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+
+        notify_failure_job = workflow["jobs"]["notify-failure"]
+        self.assertEqual(notify_failure_job["needs"], ["crawl", "analyze", "generate", "deploy", "notify"])
+        self.assertEqual(notify_failure_job["if"], "${{ always() && contains(needs.*.result, 'failure') }}")
+        self.assertEqual(notify_failure_job["permissions"], {"actions": "read", "issues": "write"})
+
+        create_issue_step = next((s for s in notify_failure_job["steps"] if s.get("name") == "Create or update failure issue"), None)
+        self.assertIsNotNone(create_issue_step)
+        self.assertEqual(create_issue_step["env"]["GITHUB_TOKEN"], "${{ secrets.GITHUB_TOKEN }}")
+        create_issue_run = create_issue_step["run"]
+        self.assertIn('gh run view "${{ github.run_id }}" --json jobs', create_issue_run)
+        self.assertIn('gh issue list --state open --search', create_issue_run)
+        self.assertIn('gh issue comment "$ISSUE_NUM"', create_issue_run)
+        self.assertIn('gh issue create', create_issue_run)
+        self.assertIn('Crawl and publish pipeline failed', create_issue_run)
 
 
 class PipelineIntegrationTests(unittest.TestCase):

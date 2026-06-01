@@ -29,3 +29,12 @@
 - PR #219 opened with clean Hugo build
 - Mobile UX improved for topics navigation
 - Responsive design verified on small screens
+
+## Round 2026-06-01T12:41
+
+### PR #219 Merged
+- Review comments resolved: front matter `.Description` used, h2→h3 for card titles
+- Accessibility improvement: hidden topic chips on screens ≤768px
+- Commit e39720c
+- Merged (squash)
+- Issue #216 closed
