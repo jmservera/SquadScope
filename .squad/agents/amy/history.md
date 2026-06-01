@@ -41,3 +41,13 @@
 - Commit e39720c
 - Merged (squash)
 - Issue #216 closed
+
+## Round 2026-06-01T15:40
+
+### Issue #226: Share Button Implementation
+- PR #228 opened
+- Implemented article-level sharing via PaperMod theme
+- Vendored theme partials to project layouts
+- Mobile Web Share API + desktop fallback links (X/LinkedIn/Facebook)
+- Tokenized footer styling maintained
+- Ready for review
