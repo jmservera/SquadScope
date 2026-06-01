@@ -71,8 +71,7 @@
         "https://techcrunch.com/2026/05/31/making-sense-of-the-debate-over-ai-psychosis/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -96,8 +95,7 @@
         "https://techcrunch.com/2026/05/31/making-sense-of-the-debate-over-ai-psychosis/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -111,8 +109,7 @@
         "https://techcrunch.com/2026/05/31/making-sense-of-the-debate-over-ai-psychosis/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -122,12 +119,12 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/06/01/strava-declares-war-on-scrapers-ahead-of-ipo/",
         "https://techcrunch.com/2026/05/31/this-is-fine-artist-kc-green-reaches-agreement-with-ai-startup-artisan/",
         "https://techcrunch.com/2026/05/31/making-sense-of-the-debate-over-ai-psychosis/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -141,8 +138,7 @@
         "https://techcrunch.com/2026/05/31/making-sense-of-the-debate-over-ai-psychosis/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -156,8 +152,17 @@
         "https://techcrunch.com/2026/05/31/making-sense-of-the-debate-over-ai-psychosis/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "Makapic/RocoPilot",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -171,18 +176,21 @@
         "https://techcrunch.com/2026/05/31/making-sense-of-the-debate-over-ai-psychosis/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
     },
     {
-      "repo": "Makapic/RocoPilot",
+      "repo": "Mochocyang/QMAI",
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
-        "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/"
+        "https://techcrunch.com/2026/05/31/this-is-fine-artist-kc-green-reaches-agreement-with-ai-startup-artisan/",
+        "https://techcrunch.com/2026/05/31/making-sense-of-the-debate-over-ai-psychosis/",
+        "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
+        "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
+        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -206,8 +214,7 @@
         "https://techcrunch.com/2026/05/31/making-sense-of-the-debate-over-ai-psychosis/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -220,16 +227,6 @@
         "https://techcrunch.com/2026/06/01/unastella-a-south-korean-rocket-startup-that-launched-from-home-raises-24m/",
         "https://techcrunch.com/2026/05/31/this-weekends-two-biggest-movies-were-both-directed-by-youtubers/",
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
-      "repo": "microsoft/vscode",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -255,16 +252,6 @@
       "hype_risk": "medium"
     },
     {
-      "repo": "nodejs/node",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
       "repo": "microsoft/generative-ai-for-beginners",
       "press_correlated": true,
       "correlation_confidence": 0.6,
@@ -273,8 +260,7 @@
         "https://techcrunch.com/2026/05/31/making-sense-of-the-debate-over-ai-psychosis/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -320,24 +306,13 @@
       "hype_risk": "medium"
     },
     {
-      "repo": "openai/codex",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
       "repo": "home-assistant/core",
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
         "https://techcrunch.com/2026/06/01/unastella-a-south-korean-rocket-startup-that-launched-from-home-raises-24m/",
         "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/spacex-awarded-6-45b-in-space-force-contracts-ahead-of-ipo/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/29/spacex-awarded-6-45b-in-space-force-contracts-ahead-of-ipo/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -367,6 +342,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
+        "https://techcrunch.com/2026/06/01/strava-declares-war-on-scrapers-ahead-of-ipo/",
         "https://techcrunch.com/2026/05/30/snap-alums-unveil-ghost-angels-fund/"
       ],
       "match_type": "project_name",
@@ -393,21 +369,21 @@
       "hype_risk": "medium"
     },
     {
-      "repo": "base/node",
-      "press_correlated": true,
-      "correlation_confidence": 0.6,
-      "matched_articles": [
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
-      ],
-      "match_type": "project_name",
-      "hype_risk": "medium"
-    },
-    {
       "repo": "xtekky/gpt4free",
       "press_correlated": true,
       "correlation_confidence": 0.6,
       "matched_articles": [
         "https://techcrunch.com/2026/05/31/this-is-fine-artist-kc-green-reaches-agreement-with-ai-startup-artisan/"
+      ],
+      "match_type": "project_name",
+      "hype_risk": "medium"
+    },
+    {
+      "repo": "TheAlgorithms/Java",
+      "press_correlated": true,
+      "correlation_confidence": 0.6,
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/01/strava-declares-war-on-scrapers-ahead-of-ipo/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -461,8 +437,7 @@
         "https://techcrunch.com/2026/05/31/making-sense-of-the-debate-over-ai-psychosis/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -505,8 +480,7 @@
       "matched_articles": [
         "https://techcrunch.com/2026/06/01/unastella-a-south-korean-rocket-startup-that-launched-from-home-raises-24m/",
         "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/spacex-awarded-6-45b-in-space-force-contracts-ahead-of-ipo/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/29/spacex-awarded-6-45b-in-space-force-contracts-ahead-of-ipo/"
       ],
       "match_type": "project_name",
       "hype_risk": "medium"
@@ -522,8 +496,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -539,8 +512,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -556,8 +528,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -573,8 +544,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -590,8 +560,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -607,8 +576,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -624,8 +592,17 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
+      ],
+      "match_type": "category",
+      "hype_risk": "low"
+    },
+    {
+      "repo": "microsoft/vscode",
+      "press_correlated": true,
+      "correlation_confidence": 0.4,
+      "matched_articles": [
+        "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -641,8 +618,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -658,8 +634,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -675,8 +650,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -692,8 +666,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -709,8 +682,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -736,8 +708,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -753,8 +724,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -770,8 +740,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -787,8 +756,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -798,6 +766,7 @@
       "press_correlated": true,
       "correlation_confidence": 0.4,
       "matched_articles": [
+        "https://techcrunch.com/2026/06/01/strava-declares-war-on-scrapers-ahead-of-ipo/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
         "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
         "https://techcrunch.com/2026/05/30/tiktoks-road-to-becoming-a-super-app/"
@@ -816,8 +785,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -833,8 +801,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -850,8 +817,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -867,8 +833,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -884,8 +849,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -901,8 +865,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -919,8 +882,7 @@
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
         "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/30/tiktoks-road-to-becoming-a-super-app/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/tiktoks-road-to-becoming-a-super-app/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -936,8 +898,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -953,8 +914,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -970,8 +930,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -987,8 +946,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1014,8 +972,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1031,8 +988,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1058,8 +1014,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1085,8 +1040,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1102,8 +1056,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1119,8 +1072,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1136,8 +1088,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1153,8 +1104,7 @@
         "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
         "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
         "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
-        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
-        "https://techcrunch.com/2026/05/29/coders-are-refusing-to-work-without-ai-and-that-could-come-back-to-bite-them/"
+        "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/"
       ],
       "match_type": "category",
       "hype_risk": "low"
@@ -1229,7 +1179,7 @@
           },
           {
             "full_name": "tradeonmeta/pumpfun-sniper",
-            "stars": 64,
+            "stars": 69,
             "stars_gained": null
           }
         ],
@@ -1277,11 +1227,6 @@
             "full_name": "mkb38287-sys/MyIPTV",
             "stars": 56,
             "stars_gained": null
-          },
-          {
-            "full_name": "invokepisya/MyIPTV",
-            "stars": 56,
-            "stars_gained": null
           }
         ],
         "signal": "No TechCrunch coverage"
@@ -1291,37 +1236,37 @@
         "github_repos": [
           {
             "full_name": "flutter/flutter",
-            "stars": 176609,
+            "stars": 176603,
             "stars_gained": null
           },
           {
             "full_name": "Genymobile/scrcpy",
-            "stars": 142792,
+            "stars": 142789,
             "stars_gained": null
           },
           {
             "full_name": "facebook/react-native",
-            "stars": 125930,
+            "stars": 125923,
             "stars_gained": null
           },
           {
             "full_name": "rustdesk/rustdesk",
-            "stars": 115322,
+            "stars": 115319,
             "stars_gained": null
           },
           {
             "full_name": "2dust/v2rayNG",
-            "stars": 57241,
+            "stars": 57230,
             "stars_gained": null
           },
           {
             "full_name": "appwrite/appwrite",
-            "stars": 56190,
+            "stars": 56187,
             "stars_gained": null
           },
           {
             "full_name": "laurent22/joplin",
-            "stars": 55056,
+            "stars": 55053,
             "stars_gained": null
           }
         ],
@@ -1332,12 +1277,12 @@
         "github_repos": [
           {
             "full_name": "2aronS/Duel-Agents",
-            "stars": 608,
+            "stars": 609,
             "stars_gained": null
           },
           {
             "full_name": "ProxyShard/ShardBrowser",
-            "stars": 149,
+            "stars": 151,
             "stars_gained": null
           },
           {
@@ -1347,17 +1292,17 @@
           },
           {
             "full_name": "affaan-m/ECC",
-            "stars": 201327,
+            "stars": 201420,
             "stars_gained": null
           },
           {
             "full_name": "browser-use/browser-use",
-            "stars": 96507,
+            "stars": 96505,
             "stars_gained": null
           },
           {
             "full_name": "Mintplex-Labs/anything-llm",
-            "stars": 60877,
+            "stars": 60876,
             "stars_gained": null
           }
         ],
@@ -1368,12 +1313,12 @@
         "github_repos": [
           {
             "full_name": "vinta/awesome-python",
-            "stars": 300692,
+            "stars": 300693,
             "stars_gained": null
           },
           {
             "full_name": "awesome-selfhosted/awesome-selfhosted",
-            "stars": 296584,
+            "stars": 296586,
             "stars_gained": null
           },
           {
@@ -1388,12 +1333,12 @@
           },
           {
             "full_name": "ruvnet/RuView",
-            "stars": 69698,
+            "stars": 69709,
             "stars_gained": null
           },
           {
             "full_name": "rust-unofficial/awesome-rust",
-            "stars": 57653,
+            "stars": 57648,
             "stars_gained": null
           }
         ],
@@ -1404,22 +1349,22 @@
         "github_repos": [
           {
             "full_name": "ohmyzsh/ohmyzsh",
-            "stars": 187551,
+            "stars": 187548,
             "stars_gained": null
           },
           {
             "full_name": "sherlock-project/sherlock",
-            "stars": 84326,
+            "stars": 84327,
             "stars_gained": null
           },
           {
             "full_name": "jesseduffield/lazygit",
-            "stars": 78708,
+            "stars": 78709,
             "stars_gained": null
           },
           {
             "full_name": "BurntSushi/ripgrep",
-            "stars": 64481,
+            "stars": 64486,
             "stars_gained": null
           },
           {
@@ -1450,17 +1395,17 @@
           },
           {
             "full_name": "TauricResearch/TradingAgents",
-            "stars": 81410,
+            "stars": 81432,
             "stars_gained": null
           },
           {
             "full_name": "OpenHands/OpenHands",
-            "stars": 75556,
+            "stars": 75559,
             "stars_gained": null
           },
           {
             "full_name": "unslothai/unsloth",
-            "stars": 65491,
+            "stars": 65494,
             "stars_gained": null
           }
         ],
@@ -1471,27 +1416,27 @@
         "github_repos": [
           {
             "full_name": "public-apis/public-apis",
-            "stars": 438354,
+            "stars": 438351,
             "stars_gained": null
           },
           {
             "full_name": "neovim/neovim",
-            "stars": 99987,
+            "stars": 99985,
             "stars_gained": null
           },
           {
             "full_name": "fastapi/fastapi",
-            "stars": 98736,
+            "stars": 98732,
             "stars_gained": null
           },
           {
             "full_name": "hoppscotch/hoppscotch",
-            "stars": 79375,
+            "stars": 79371,
             "stars_gained": null
           },
           {
             "full_name": "ocornut/imgui",
-            "stars": 73602,
+            "stars": 73600,
             "stars_gained": null
           }
         ],
@@ -1502,7 +1447,7 @@
         "github_repos": [
           {
             "full_name": "docker-desktop-windows/docker-desktop",
-            "stars": 193,
+            "stars": 198,
             "stars_gained": null
           },
           {
@@ -1512,12 +1457,12 @@
           },
           {
             "full_name": "Stirling-Tools/Stirling-PDF",
-            "stars": 79986,
+            "stars": 79988,
             "stars_gained": null
           },
           {
             "full_name": "usememos/memos",
-            "stars": 60294,
+            "stars": 60295,
             "stars_gained": null
           }
         ],
@@ -1533,17 +1478,17 @@
           },
           {
             "full_name": "FuelLabs/sway",
-            "stars": 61656,
+            "stars": 61655,
             "stars_gained": null
           },
           {
             "full_name": "typst/typst",
-            "stars": 53887,
+            "stars": 53888,
             "stars_gained": null
           },
           {
             "full_name": "JetBrains/kotlin",
-            "stars": 52783,
+            "stars": 52782,
             "stars_gained": null
           }
         ],
@@ -1554,17 +1499,17 @@
         "github_repos": [
           {
             "full_name": "helloianneo/ian-xiaohei-illustrations",
-            "stars": 1567,
+            "stars": 1572,
             "stars_gained": null
           },
           {
             "full_name": "yb2460/harness-anything",
-            "stars": 254,
+            "stars": 259,
             "stars_gained": null
           },
           {
             "full_name": "thedaviddias/Front-End-Checklist",
-            "stars": 72772,
+            "stars": 72770,
             "stars_gained": null
           }
         ],
@@ -1575,7 +1520,7 @@
         "github_repos": [
           {
             "full_name": "opengeos/GeoLibre",
-            "stars": 172,
+            "stars": 174,
             "stars_gained": null
           },
           {
@@ -1585,7 +1530,7 @@
           },
           {
             "full_name": "keras-team/keras",
-            "stars": 64077,
+            "stars": 64075,
             "stars_gained": null
           }
         ],
@@ -1601,12 +1546,12 @@
           },
           {
             "full_name": "ruvnet/ruflo",
-            "stars": 57113,
+            "stars": 57128,
             "stars_gained": null
           },
           {
             "full_name": "FlowiseAI/Flowise",
-            "stars": 53245,
+            "stars": 53244,
             "stars_gained": null
           }
         ],
@@ -1617,17 +1562,38 @@
         "github_repos": [
           {
             "full_name": "ripienaar/free-for-dev",
-            "stars": 122851,
+            "stars": 122845,
             "stars_gained": null
           },
           {
             "full_name": "iluwatar/java-design-patterns",
-            "stars": 94083,
+            "stars": 94084,
             "stars_gained": null
           },
           {
             "full_name": "VoltAgent/awesome-design-md",
-            "stars": 86321,
+            "stars": 86337,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "javascript",
+        "github_repos": [
+          {
+            "full_name": "nodejs/node",
+            "stars": 117451,
+            "stars_gained": null
+          },
+          {
+            "full_name": "microsoft/TypeScript",
+            "stars": 109040,
+            "stars_gained": null
+          },
+          {
+            "full_name": "socketio/socket.io",
+            "stars": 63106,
             "stars_gained": null
           }
         ],
@@ -1638,17 +1604,17 @@
         "github_repos": [
           {
             "full_name": "axios/axios",
-            "stars": 109088,
+            "stars": 109086,
             "stars_gained": null
           },
           {
             "full_name": "tesseract-ocr/tesseract",
-            "stars": 74412,
+            "stars": 74415,
             "stars_gained": null
           },
           {
             "full_name": "pmndrs/zustand",
-            "stars": 58160,
+            "stars": 58154,
             "stars_gained": null
           }
         ],
@@ -1659,12 +1625,12 @@
         "github_repos": [
           {
             "full_name": "laravel/laravel",
-            "stars": 84354,
+            "stars": 84350,
             "stars_gained": null
           },
           {
             "full_name": "spring-projects/spring-boot",
-            "stars": 80734,
+            "stars": 80735,
             "stars_gained": null
           },
           {
@@ -1680,17 +1646,17 @@
         "github_repos": [
           {
             "full_name": "junegunn/fzf",
-            "stars": 80665,
+            "stars": 80663,
             "stars_gained": null
           },
           {
             "full_name": "warpdotdev/warp",
-            "stars": 60770,
+            "stars": 60772,
             "stars_gained": null
           },
           {
             "full_name": "starship/starship",
-            "stars": 57870,
+            "stars": 57869,
             "stars_gained": null
           }
         ],
@@ -1701,7 +1667,7 @@
         "github_repos": [
           {
             "full_name": "faldyrd/Auto-2026",
-            "stars": 232,
+            "stars": 234,
             "stars_gained": null
           },
           {
@@ -1717,12 +1683,12 @@
         "github_repos": [
           {
             "full_name": "LawmakerTreasure/deepseek-openclaw",
-            "stars": 215,
+            "stars": 219,
             "stars_gained": null
           },
           {
             "full_name": "ollama/ollama",
-            "stars": 172798,
+            "stars": 172797,
             "stars_gained": null
           }
         ],
@@ -1733,12 +1699,12 @@
         "github_repos": [
           {
             "full_name": "Christian-Katzmann/app-it",
-            "stars": 121,
+            "stars": 122,
             "stars_gained": null
           },
           {
             "full_name": "gsd-build/get-shit-done",
-            "stars": 63811,
+            "stars": 63814,
             "stars_gained": null
           }
         ],
@@ -1749,7 +1715,7 @@
         "github_repos": [
           {
             "full_name": "iliyami/MacClean",
-            "stars": 79,
+            "stars": 80,
             "stars_gained": null
           },
           {
@@ -1770,7 +1736,7 @@
           },
           {
             "full_name": "redis/redis",
-            "stars": 74644,
+            "stars": 74641,
             "stars_gained": null
           }
         ],
@@ -1786,7 +1752,7 @@
           },
           {
             "full_name": "jellyfin/jellyfin",
-            "stars": 52781,
+            "stars": 52780,
             "stars_gained": null
           }
         ],
@@ -1802,7 +1768,7 @@
           },
           {
             "full_name": "bitcoin/bitcoin",
-            "stars": 89228,
+            "stars": 89222,
             "stars_gained": null
           }
         ],
@@ -1818,23 +1784,7 @@
           },
           {
             "full_name": "oven-sh/bun",
-            "stars": 92700,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "algorithm",
-        "github_repos": [
-          {
-            "full_name": "trekhleb/javascript-algorithms",
-            "stars": 196024,
-            "stars_gained": null
-          },
-          {
-            "full_name": "TheAlgorithms/Java",
-            "stars": 65752,
+            "stars": 92692,
             "stars_gained": null
           }
         ],
@@ -1845,12 +1795,12 @@
         "github_repos": [
           {
             "full_name": "huggingface/transformers",
-            "stars": 161147,
+            "stars": 161146,
             "stars_gained": null
           },
           {
             "full_name": "FFmpeg/FFmpeg",
-            "stars": 60667,
+            "stars": 60666,
             "stars_gained": null
           }
         ],
@@ -1861,12 +1811,12 @@
         "github_repos": [
           {
             "full_name": "langflow-ai/langflow",
-            "stars": 148973,
+            "stars": 148972,
             "stars_gained": null
           },
           {
             "full_name": "Shubhamsaboo/awesome-llm-apps",
-            "stars": 112447,
+            "stars": 112449,
             "stars_gained": null
           }
         ],
@@ -1877,12 +1827,12 @@
         "github_repos": [
           {
             "full_name": "anthropics/skills",
-            "stars": 144961,
+            "stars": 144987,
             "stars_gained": null
           },
           {
             "full_name": "nexu-io/open-design",
-            "stars": 56762,
+            "stars": 56789,
             "stars_gained": null
           }
         ],
@@ -1893,12 +1843,12 @@
         "github_repos": [
           {
             "full_name": "golang/go",
-            "stars": 134160,
+            "stars": 134157,
             "stars_gained": null
           },
           {
             "full_name": "syncthing/syncthing",
-            "stars": 84840,
+            "stars": 84843,
             "stars_gained": null
           }
         ],
@@ -1909,28 +1859,12 @@
         "github_repos": [
           {
             "full_name": "electron/electron",
-            "stars": 121505,
+            "stars": 121503,
             "stars_gained": null
           },
           {
             "full_name": "opencv/opencv",
-            "stars": 87719,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "javascript",
-        "github_repos": [
-          {
-            "full_name": "microsoft/TypeScript",
-            "stars": 109047,
-            "stars_gained": null
-          },
-          {
-            "full_name": "socketio/socket.io",
-            "stars": 63110,
+            "stars": 87716,
             "stars_gained": null
           }
         ],
@@ -1941,12 +1875,12 @@
         "github_repos": [
           {
             "full_name": "puppeteer/puppeteer",
-            "stars": 94395,
+            "stars": 94394,
             "stars_gained": null
           },
           {
             "full_name": "microsoft/playwright",
-            "stars": 90008,
+            "stars": 90013,
             "stars_gained": null
           }
         ],
@@ -1957,12 +1891,12 @@
         "github_repos": [
           {
             "full_name": "PaddlePaddle/PaddleOCR",
-            "stars": 79192,
+            "stars": 79193,
             "stars_gained": null
           },
           {
             "full_name": "opendatalab/MinerU",
-            "stars": 65917,
+            "stars": 65928,
             "stars_gained": null
           }
         ],
@@ -1973,12 +1907,12 @@
         "github_repos": [
           {
             "full_name": "grafana/grafana",
-            "stars": 74071,
+            "stars": 74068,
             "stars_gained": null
           },
           {
             "full_name": "prometheus/prometheus",
-            "stars": 64229,
+            "stars": 64225,
             "stars_gained": null
           }
         ],
@@ -1989,12 +1923,12 @@
         "github_repos": [
           {
             "full_name": "AppFlowy-IO/AppFlowy",
-            "stars": 71586,
+            "stars": 71583,
             "stars_gained": null
           },
           {
             "full_name": "gatsbyjs/gatsby",
-            "stars": 55952,
+            "stars": 55950,
             "stars_gained": null
           }
         ],
@@ -2005,7 +1939,7 @@
         "github_repos": [
           {
             "full_name": "pewdiepie-archdaemon/odysseus",
-            "stars": 13114,
+            "stars": 13837,
             "stars_gained": null
           }
         ],
@@ -2016,7 +1950,7 @@
         "github_repos": [
           {
             "full_name": "op7418/guizang-social-card-skill",
-            "stars": 2328,
+            "stars": 2338,
             "stars_gained": null
           }
         ],
@@ -2027,7 +1961,7 @@
         "github_repos": [
           {
             "full_name": "MatinSenPai/SenPaiScanner",
-            "stars": 828,
+            "stars": 816,
             "stars_gained": null
           }
         ],
@@ -2038,7 +1972,7 @@
         "github_repos": [
           {
             "full_name": "withkynam/vibecode-pro-max-kit",
-            "stars": 689,
+            "stars": 691,
             "stars_gained": null
           }
         ],
@@ -2049,7 +1983,18 @@
         "github_repos": [
           {
             "full_name": "ace-trump-tech/DeltaForce-OBS-Locker",
-            "stars": 534,
+            "stars": 539,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "账号自动注册与管理 协议化付款一键开通 ChatGPT",
+        "github_repos": [
+          {
+            "full_name": "asz798838958/aBaiAutoplus",
+            "stars": 441,
             "stars_gained": null
           }
         ],
@@ -2071,18 +2016,7 @@
         "github_repos": [
           {
             "full_name": "BlackCandleLab/polymarket-trading-bot",
-            "stars": 415,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "账号自动注册与管理 协议化付款一键开通 ChatGPT",
-        "github_repos": [
-          {
-            "full_name": "asz798838958/aBaiAutoplus",
-            "stars": 408,
+            "stars": 419,
             "stars_gained": null
           }
         ],
@@ -2093,7 +2027,7 @@
         "github_repos": [
           {
             "full_name": "Stellarwolf001/forza-horizon-6-spotify-radio",
-            "stars": 376,
+            "stars": 379,
             "stars_gained": null
           }
         ],
@@ -2126,7 +2060,7 @@
         "github_repos": [
           {
             "full_name": "Dharyen/ryujinx-emu",
-            "stars": 363,
+            "stars": 366,
             "stars_gained": null
           }
         ],
@@ -2137,7 +2071,7 @@
         "github_repos": [
           {
             "full_name": "liyue-aigc/female-portrait-director",
-            "stars": 355,
+            "stars": 358,
             "stars_gained": null
           }
         ],
@@ -2148,62 +2082,7 @@
         "github_repos": [
           {
             "full_name": "QwenLM/Qwen-VLA",
-            "stars": 338,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "bacteria",
-        "github_repos": [
-          {
-            "full_name": "ikeda042/PhenoPixel",
-            "stars": 338,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "anti-detect-browser",
-        "github_repos": [
-          {
-            "full_name": "tor-browsers/tor-browser",
-            "stars": 336,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "account",
-        "github_repos": [
-          {
-            "full_name": "Noahmusahdevs/roblox-account-manager",
-            "stars": 334,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "beammp",
-        "github_repos": [
-          {
-            "full_name": "Beam-NG-Drive/BeamMP",
-            "stars": 328,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "granite-tooth-romestead",
-        "github_repos": [
-          {
-            "full_name": "malk190/Romestead-Game-Release",
-            "stars": 325,
+            "stars": 343,
             "stars_gained": null
           }
         ],
@@ -2214,7 +2093,62 @@
         "github_repos": [
           {
             "full_name": "jdevalk/specification.website",
-            "stars": 325,
+            "stars": 342,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "bacteria",
+        "github_repos": [
+          {
+            "full_name": "ikeda042/PhenoPixel",
+            "stars": 339,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "anti-detect-browser",
+        "github_repos": [
+          {
+            "full_name": "tor-browsers/tor-browser",
+            "stars": 338,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "account",
+        "github_repos": [
+          {
+            "full_name": "Noahmusahdevs/roblox-account-manager",
+            "stars": 336,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "beammp",
+        "github_repos": [
+          {
+            "full_name": "Beam-NG-Drive/BeamMP",
+            "stars": 329,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "granite-tooth-romestead",
+        "github_repos": [
+          {
+            "full_name": "malk190/Romestead-Game-Release",
+            "stars": 326,
             "stars_gained": null
           }
         ],
@@ -2225,7 +2159,7 @@
         "github_repos": [
           {
             "full_name": "Bartates/lunar-client-minecraft",
-            "stars": 320,
+            "stars": 321,
             "stars_gained": null
           }
         ],
@@ -2236,7 +2170,7 @@
         "github_repos": [
           {
             "full_name": "oyunhacktr/Windows-Xbox-Mode",
-            "stars": 319,
+            "stars": 321,
             "stars_gained": null
           }
         ],
@@ -2269,7 +2203,7 @@
         "github_repos": [
           {
             "full_name": "TaiwanBoss/DualSenseX-Steam-PC-Controller",
-            "stars": 292,
+            "stars": 295,
             "stars_gained": null
           }
         ],
@@ -2280,7 +2214,7 @@
         "github_repos": [
           {
             "full_name": "rasoir0591/Crosshair-X",
-            "stars": 291,
+            "stars": 292,
             "stars_gained": null
           }
         ],
@@ -2291,7 +2225,7 @@
         "github_repos": [
           {
             "full_name": "yuyefeiyu/yt-downloader",
-            "stars": 287,
+            "stars": 288,
             "stars_gained": null
           }
         ],
@@ -2313,7 +2247,7 @@
         "github_repos": [
           {
             "full_name": "BoundingBoxSoftware/CharacterController",
-            "stars": 257,
+            "stars": 262,
             "stars_gained": null
           }
         ],
@@ -2324,6 +2258,17 @@
         "github_repos": [
           {
             "full_name": "ShadowSpread/polymarket-auto-trading",
+            "stars": 252,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "agent skills created",
+        "github_repos": [
+          {
+            "full_name": "DannyMac180/skills",
             "stars": 252,
             "stars_gained": null
           }
@@ -2342,22 +2287,11 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "agent skills created",
-        "github_repos": [
-          {
-            "full_name": "DannyMac180/skills",
-            "stars": 234,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
         "topic": "cheato",
         "github_repos": [
           {
             "full_name": "yapeth/MaaNTE",
-            "stars": 232,
+            "stars": 234,
             "stars_gained": null
           }
         ],
@@ -2368,18 +2302,7 @@
         "github_repos": [
           {
             "full_name": "paralives-free/Paralives-Money-Cheats",
-            "stars": 230,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "Gajae Code",
-        "github_repos": [
-          {
-            "full_name": "Yeachan-Heo/gajae-code",
-            "stars": 226,
+            "stars": 231,
             "stars_gained": null
           }
         ],
@@ -2390,7 +2313,18 @@
         "github_repos": [
           {
             "full_name": "BarneyD66/open-warehouse-system",
-            "stars": 226,
+            "stars": 229,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Gajae Code",
+        "github_repos": [
+          {
+            "full_name": "Yeachan-Heo/gajae-code",
+            "stars": 227,
             "stars_gained": null
           }
         ],
@@ -2401,7 +2335,7 @@
         "github_repos": [
           {
             "full_name": "hieunc229/mailflare",
-            "stars": 225,
+            "stars": 226,
             "stars_gained": null
           }
         ],
@@ -2412,7 +2346,7 @@
         "github_repos": [
           {
             "full_name": "veryyoldman/metamask-openclaw",
-            "stars": 222,
+            "stars": 225,
             "stars_gained": null
           }
         ],
@@ -2423,18 +2357,7 @@
         "github_repos": [
           {
             "full_name": "kepengxu/PRISM-VL",
-            "stars": 222,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "LogicPipe 是一个面向边缘多设备协同 推理的开源软件项目，提供离线管线规划、分布式",
-        "github_repos": [
-          {
-            "full_name": "fxyz666/LogicPipe",
-            "stars": 198,
+            "stars": 223,
             "stars_gained": null
           }
         ],
@@ -2445,6 +2368,17 @@
         "github_repos": [
           {
             "full_name": "MatixYo/ESP32-Plane-Radar",
+            "stars": 200,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "LogicPipe 是一个面向边缘多设备协同 推理的开源软件项目，提供离线管线规划、分布式",
+        "github_repos": [
+          {
+            "full_name": "fxyz666/LogicPipe",
             "stars": 198,
             "stars_gained": null
           }
@@ -2467,7 +2401,7 @@
         "github_repos": [
           {
             "full_name": "zgwl/chinese-buy-us-stock-guide",
-            "stars": 185,
+            "stars": 187,
             "stars_gained": null
           }
         ],
@@ -2489,7 +2423,7 @@
         "github_repos": [
           {
             "full_name": "stagas/hallucinate",
-            "stars": 170,
+            "stars": 171,
             "stars_gained": null
           }
         ],
@@ -2507,21 +2441,21 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "biofeedback",
+        "topic": "docs",
         "github_repos": [
           {
-            "full_name": "marekkowalczyk/breathe-cli",
-            "stars": 167,
+            "full_name": "shipfastlabs/parsel",
+            "stars": 169,
             "stars_gained": null
           }
         ],
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "docs",
+        "topic": "biofeedback",
         "github_repos": [
           {
-            "full_name": "shipfastlabs/parsel",
+            "full_name": "marekkowalczyk/breathe-cli",
             "stars": 167,
             "stars_gained": null
           }
@@ -2555,7 +2489,7 @@
         "github_repos": [
           {
             "full_name": "g0ldyy/fh6-universal-radio",
-            "stars": 127,
+            "stars": 128,
             "stars_gained": null
           }
         ],
@@ -2650,6 +2584,17 @@
         "signal": "No TechCrunch coverage"
       },
       {
+        "topic": "Parakeet implementation with",
+        "github_repos": [
+          {
+            "full_name": "mudler/parakeet.cpp",
+            "stars": 114,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
         "topic": "arbitrage",
         "github_repos": [
           {
@@ -2665,7 +2610,7 @@
         "github_repos": [
           {
             "full_name": "ATOM00blue/machine-learning-library",
-            "stars": 111,
+            "stars": 112,
             "stars_gained": null
           }
         ],
@@ -2705,10 +2650,10 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "Parakeet implementation with",
+        "topic": "Give Claude Code's",
         "github_repos": [
           {
-            "full_name": "mudler/parakeet.cpp",
+            "full_name": "OnlyTerp/UltraCode-Shim",
             "stars": 108,
             "stars_gained": null
           }
@@ -2738,6 +2683,17 @@
         "signal": "No TechCrunch coverage"
       },
       {
+        "topic": "Official implementation Déjà",
+        "github_repos": [
+          {
+            "full_name": "nv-tlabs/dvlt",
+            "stars": 104,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
         "topic": "Rust-native server Office",
         "github_repos": [
           {
@@ -2754,17 +2710,6 @@
           {
             "full_name": "qianzii2/rockduck",
             "stars": 101,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "Give Claude Code's",
-        "github_repos": [
-          {
-            "full_name": "OnlyTerp/UltraCode-Shim",
-            "stars": 100,
             "stars_gained": null
           }
         ],
@@ -2797,17 +2742,6 @@
         "github_repos": [
           {
             "full_name": "laoshan-song/Awesome-LLM-Interview",
-            "stars": 99,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "Official implementation Déjà",
-        "github_repos": [
-          {
-            "full_name": "nv-tlabs/dvlt",
             "stars": 99,
             "stars_gained": null
           }
@@ -2852,7 +2786,7 @@
         "github_repos": [
           {
             "full_name": "a2328275243/mempalace-evolve",
-            "stars": 91,
+            "stars": 93,
             "stars_gained": null
           }
         ],
@@ -2870,10 +2804,10 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "market scanning 5,000+",
+        "topic": "agents-md",
         "github_repos": [
           {
-            "full_name": "bwjoke/fomo5000.com",
+            "full_name": "OnlyTerp/prompt-cache-skills",
             "stars": 86,
             "stars_gained": null
           }
@@ -2881,11 +2815,11 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "agents-md",
+        "topic": "market scanning 5,000+",
         "github_repos": [
           {
-            "full_name": "OnlyTerp/prompt-cache-skills",
-            "stars": 85,
+            "full_name": "bwjoke/fomo5000.com",
+            "stars": 86,
             "stars_gained": null
           }
         ],
@@ -2918,6 +2852,17 @@
         "github_repos": [
           {
             "full_name": "wwe-dog/ppt-image2-editable-rebuild",
+            "stars": 84,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Static devirtualizer VMProtect",
+        "github_repos": [
+          {
+            "full_name": "eversinc33/MogVMP",
             "stars": 83,
             "stars_gained": null
           }
@@ -2929,7 +2874,18 @@
         "github_repos": [
           {
             "full_name": "ShirleyMaxx/REST3D",
-            "stars": 82,
+            "stars": 83,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Toolkit collecting, merging,",
+        "github_repos": [
+          {
+            "full_name": "dsta022/lerobot-rgb-rgbd-vla-dataset-toolkit",
+            "stars": 83,
             "stars_gained": null
           }
         ],
@@ -2947,21 +2903,21 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "Toolkit collecting, merging,",
+        "topic": "Nova Radar desktop",
         "github_repos": [
           {
-            "full_name": "dsta022/lerobot-rgb-rgbd-vla-dataset-toolkit",
-            "stars": 81,
+            "full_name": "IRNova/NovaRadar",
+            "stars": 80,
             "stars_gained": null
           }
         ],
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "Nova Radar desktop",
+        "topic": "skill rebuttal",
         "github_repos": [
           {
-            "full_name": "IRNova/NovaRadar",
+            "full_name": "xiongqi123123/awesome-rebuttal",
             "stars": 79,
             "stars_gained": null
           }
@@ -2974,28 +2930,6 @@
           {
             "full_name": "V0id-v2/Void-Tools-v2.0",
             "stars": 79,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "skill rebuttal",
-        "github_repos": [
-          {
-            "full_name": "xiongqi123123/awesome-rebuttal",
-            "stars": 78,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "Static devirtualizer VMProtect",
-        "github_repos": [
-          {
-            "full_name": "eversinc33/MogVMP",
-            "stars": 78,
             "stars_gained": null
           }
         ],
@@ -3167,6 +3101,17 @@
         "signal": "No TechCrunch coverage"
       },
       {
+        "topic": "nodejs",
+        "github_repos": [
+          {
+            "full_name": "cron-defi/polymarket-pnl-tracker",
+            "stars": 67,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
         "topic": "微信聊天情报看板：聚合群聊信号、话题、链接和趋势",
         "github_repos": [
           {
@@ -3222,10 +3167,10 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "nodejs",
+        "topic": "Hex-Rays plugin that",
         "github_repos": [
           {
-            "full_name": "cron-defi/polymarket-pnl-tracker",
+            "full_name": "kernullist/PseudoForge",
             "stars": 63,
             "stars_gained": null
           }
@@ -3266,17 +3211,6 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "Hex-Rays plugin that",
-        "github_repos": [
-          {
-            "full_name": "kernullist/PseudoForge",
-            "stars": 61,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
         "topic": "bounty",
         "github_repos": [
           {
@@ -3310,10 +3244,32 @@
         "signal": "No TechCrunch coverage"
       },
       {
+        "topic": "AgentGuard：An Attribute-Based Access",
+        "github_repos": [
+          {
+            "full_name": "WhitzardAgent/AgentGuard",
+            "stars": 60,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
         "topic": "Slint backend jailbroken",
         "github_repos": [
           {
             "full_name": "sverrejb/slint-kindle-backend",
+            "stars": 60,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "把课堂讲义变成考试利器 PPT、Word、PDF 课件转化为结构清晰的知识清单和交互式测试题，让复习事半功倍。",
+        "github_repos": [
+          {
+            "full_name": "WUBING2023/ExamPass-Assistant",
             "stars": 59,
             "stars_gained": null
           }
@@ -3332,10 +3288,10 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "AgentGuard：An Attribute-Based Access",
+        "topic": "monorepo extensions skills",
         "github_repos": [
           {
-            "full_name": "WhitzardAgent/AgentGuard",
+            "full_name": "IgorWarzocha/howaboua-pi-stuff",
             "stars": 58,
             "stars_gained": null
           }
@@ -3398,10 +3354,10 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "monorepo extensions skills",
+        "topic": "大唐长安 Tang Changan",
         "github_repos": [
           {
-            "full_name": "IgorWarzocha/howaboua-pi-stuff",
+            "full_name": "andyhuo520/tang-changan",
             "stars": 57,
             "stars_gained": null
           }
@@ -3442,6 +3398,17 @@
         "signal": "No TechCrunch coverage"
       },
       {
+        "topic": "Quickstart deploy LiteParse",
+        "github_repos": [
+          {
+            "full_name": "run-llama/liteparse-cloudflare-worker-quickstart",
+            "stars": 56,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
         "topic": "auslogics",
         "github_repos": [
           {
@@ -3475,72 +3442,6 @@
         "signal": "No TechCrunch coverage"
       },
       {
-        "topic": "celemony-melodyne",
-        "github_repos": [
-          {
-            "full_name": "Anivesh28/Melodyne-DNA-Analyzer",
-            "stars": 56,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "iphone-passcode-remove",
-        "github_repos": [
-          {
-            "full_name": "JavierKrayacich/ios-lock-removal-toolkit",
-            "stars": 56,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "chroma-key",
-        "github_repos": [
-          {
-            "full_name": "oussama-bouarfa/ManyCam-Studio-Enhancer",
-            "stars": 56,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "ai-code-editor",
-        "github_repos": [
-          {
-            "full_name": "moazmohammad/cursor-pro-toolchain",
-            "stars": 56,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "archicad",
-        "github_repos": [
-          {
-            "full_name": "Subash1017/ArchiCAD-Workflow-Tools",
-            "stars": 56,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
-        "topic": "AI-powered GATE planner",
-        "github_repos": [
-          {
-            "full_name": "rohitsainik6203/GatePilot-",
-            "stars": 56,
-            "stars_gained": null
-          }
-        ],
-        "signal": "No TechCrunch coverage"
-      },
-      {
         "topic": "careers",
         "github_repos": [
           {
@@ -3556,7 +3457,7 @@
         "github_repos": [
           {
             "full_name": "EbookFoundation/free-programming-books",
-            "stars": 389335,
+            "stars": 389319,
             "stars_gained": null
           }
         ],
@@ -3567,7 +3468,7 @@
         "github_repos": [
           {
             "full_name": "nilbuild/developer-roadmap",
-            "stars": 355845,
+            "stars": 355846,
             "stars_gained": null
           }
         ],
@@ -3578,7 +3479,7 @@
         "github_repos": [
           {
             "full_name": "facebook/react",
-            "stars": 245366,
+            "stars": 245354,
             "stars_gained": null
           }
         ],
@@ -3589,7 +3490,7 @@
         "github_repos": [
           {
             "full_name": "torvalds/linux",
-            "stars": 235022,
+            "stars": 235008,
             "stars_gained": null
           }
         ],
@@ -3600,7 +3501,18 @@
         "github_repos": [
           {
             "full_name": "obra/superpowers",
-            "stars": 214325,
+            "stars": 214384,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "algorithm",
+        "github_repos": [
+          {
+            "full_name": "trekhleb/javascript-algorithms",
+            "stars": 196018,
             "stars_gained": null
           }
         ],
@@ -3611,7 +3523,7 @@
         "github_repos": [
           {
             "full_name": "tensorflow/tensorflow",
-            "stars": 195349,
+            "stars": 195344,
             "stars_gained": null
           }
         ],
@@ -3622,7 +3534,7 @@
         "github_repos": [
           {
             "full_name": "ultraworkers/claw-code",
-            "stars": 193040,
+            "stars": 193049,
             "stars_gained": null
           }
         ],
@@ -3633,7 +3545,7 @@
         "github_repos": [
           {
             "full_name": "twbs/bootstrap",
-            "stars": 174288,
+            "stars": 174284,
             "stars_gained": null
           }
         ],
@@ -3644,7 +3556,7 @@
         "github_repos": [
           {
             "full_name": "anomalyco/opencode",
-            "stars": 168131,
+            "stars": 168165,
             "stars_gained": null
           }
         ],
@@ -3655,7 +3567,7 @@
         "github_repos": [
           {
             "full_name": "microsoft/PowerToys",
-            "stars": 133687,
+            "stars": 133682,
             "stars_gained": null
           }
         ],
@@ -3666,7 +3578,7 @@
         "github_repos": [
           {
             "full_name": "anthropics/claude-code",
-            "stars": 129224,
+            "stars": 129243,
             "stars_gained": null
           }
         ],
@@ -3677,7 +3589,7 @@
         "github_repos": [
           {
             "full_name": "kubernetes/kubernetes",
-            "stars": 122592,
+            "stars": 122589,
             "stars_gained": null
           }
         ],
@@ -3688,7 +3600,7 @@
         "github_repos": [
           {
             "full_name": "clash-verge-rev/clash-verge-rev",
-            "stars": 122326,
+            "stars": 122341,
             "stars_gained": null
           }
         ],
@@ -3699,7 +3611,7 @@
         "github_repos": [
           {
             "full_name": "iptv-org/iptv",
-            "stars": 116724,
+            "stars": 116720,
             "stars_gained": null
           }
         ],
@@ -3710,7 +3622,7 @@
         "github_repos": [
           {
             "full_name": "shadcn-ui/ui",
-            "stars": 115399,
+            "stars": 115392,
             "stars_gained": null
           }
         ],
@@ -3721,7 +3633,7 @@
         "github_repos": [
           {
             "full_name": "ggml-org/llama.cpp",
-            "stars": 114100,
+            "stars": 114105,
             "stars_gained": null
           }
         ],
@@ -3732,7 +3644,7 @@
         "github_repos": [
           {
             "full_name": "mattpocock/skills",
-            "stars": 113672,
+            "stars": 113708,
             "stars_gained": null
           }
         ],
@@ -3754,7 +3666,7 @@
         "github_repos": [
           {
             "full_name": "mrdoob/three.js",
-            "stars": 112786,
+            "stars": 112779,
             "stars_gained": null
           }
         ],
@@ -3765,7 +3677,7 @@
         "github_repos": [
           {
             "full_name": "2dust/v2rayN",
-            "stars": 107535,
+            "stars": 107520,
             "stars_gained": null
           }
         ],
@@ -3776,7 +3688,7 @@
         "github_repos": [
           {
             "full_name": "tauri-apps/tauri",
-            "stars": 107332,
+            "stars": 107331,
             "stars_gained": null
           }
         ],
@@ -3787,7 +3699,7 @@
         "github_repos": [
           {
             "full_name": "fatedier/frp",
-            "stars": 107006,
+            "stars": 107005,
             "stars_gained": null
           }
         ],
@@ -3798,7 +3710,7 @@
         "github_repos": [
           {
             "full_name": "denoland/deno",
-            "stars": 106934,
+            "stars": 106928,
             "stars_gained": null
           }
         ],
@@ -3809,7 +3721,7 @@
         "github_repos": [
           {
             "full_name": "garrytan/gstack",
-            "stars": 105362,
+            "stars": 105391,
             "stars_gained": null
           }
         ],
@@ -3820,7 +3732,7 @@
         "github_repos": [
           {
             "full_name": "immich-app/immich",
-            "stars": 102420,
+            "stars": 102421,
             "stars_gained": null
           }
         ],
@@ -3831,7 +3743,7 @@
         "github_repos": [
           {
             "full_name": "Anduin2017/HowToCook",
-            "stars": 100426,
+            "stars": 100427,
             "stars_gained": null
           }
         ],
@@ -3842,7 +3754,7 @@
         "github_repos": [
           {
             "full_name": "pytorch/pytorch",
-            "stars": 100311,
+            "stars": 100306,
             "stars_gained": null
           }
         ],
@@ -3853,7 +3765,7 @@
         "github_repos": [
           {
             "full_name": "mui/material-ui",
-            "stars": 98377,
+            "stars": 98372,
             "stars_gained": null
           }
         ],
@@ -3864,7 +3776,7 @@
         "github_repos": [
           {
             "full_name": "ant-design/ant-design",
-            "stars": 98199,
+            "stars": 98196,
             "stars_gained": null
           }
         ],
@@ -3875,7 +3787,7 @@
         "github_repos": [
           {
             "full_name": "tailwindlabs/tailwindcss",
-            "stars": 95185,
+            "stars": 95176,
             "stars_gained": null
           }
         ],
@@ -3886,7 +3798,7 @@
         "github_repos": [
           {
             "full_name": "ruanyf/weekly",
-            "stars": 92804,
+            "stars": 92813,
             "stars_gained": null
           }
         ],
@@ -3897,7 +3809,7 @@
         "github_repos": [
           {
             "full_name": "mermaid-js/mermaid",
-            "stars": 88377,
+            "stars": 88378,
             "stars_gained": null
           }
         ],
@@ -3908,7 +3820,18 @@
         "github_repos": [
           {
             "full_name": "gohugoio/hugo",
-            "stars": 88336,
+            "stars": 88335,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Lightweight coding agent",
+        "github_repos": [
+          {
+            "full_name": "openai/codex",
+            "stars": 87544,
             "stars_gained": null
           }
         ],
@@ -3919,7 +3842,7 @@
         "github_repos": [
           {
             "full_name": "farion1231/cc-switch",
-            "stars": 87436,
+            "stars": 87495,
             "stars_gained": null
           }
         ],
@@ -3941,7 +3864,7 @@
         "github_repos": [
           {
             "full_name": "astral-sh/uv",
-            "stars": 85819,
+            "stars": 85822,
             "stars_gained": null
           }
         ],
@@ -3952,7 +3875,7 @@
         "github_repos": [
           {
             "full_name": "zed-industries/zed",
-            "stars": 84231,
+            "stars": 84236,
             "stars_gained": null
           }
         ],
@@ -3963,7 +3886,7 @@
         "github_repos": [
           {
             "full_name": "vllm-project/vllm",
-            "stars": 81556,
+            "stars": 81558,
             "stars_gained": null
           }
         ],
@@ -3974,7 +3897,7 @@
         "github_repos": [
           {
             "full_name": "vitejs/vite",
-            "stars": 80910,
+            "stars": 80907,
             "stars_gained": null
           }
         ],
@@ -3985,7 +3908,7 @@
         "github_repos": [
           {
             "full_name": "coder/code-server",
-            "stars": 77787,
+            "stars": 77782,
             "stars_gained": null
           }
         ],
@@ -3996,7 +3919,7 @@
         "github_repos": [
           {
             "full_name": "elastic/elasticsearch",
-            "stars": 76782,
+            "stars": 76778,
             "stars_gained": null
           }
         ],
@@ -4007,7 +3930,7 @@
         "github_repos": [
           {
             "full_name": "awesomedata/awesome-public-datasets",
-            "stars": 75717,
+            "stars": 75716,
             "stars_gained": null
           }
         ],
@@ -4018,7 +3941,7 @@
         "github_repos": [
           {
             "full_name": "unionlabs/union",
-            "stars": 74017,
+            "stars": 74016,
             "stars_gained": null
           }
         ],
@@ -4040,7 +3963,7 @@
         "github_repos": [
           {
             "full_name": "python/cpython",
-            "stars": 72932,
+            "stars": 72930,
             "stars_gained": null
           }
         ],
@@ -4051,7 +3974,7 @@
         "github_repos": [
           {
             "full_name": "caddyserver/caddy",
-            "stars": 72895,
+            "stars": 72896,
             "stars_gained": null
           }
         ],
@@ -4062,7 +3985,7 @@
         "github_repos": [
           {
             "full_name": "obsproject/obs-studio",
-            "stars": 72870,
+            "stars": 72868,
             "stars_gained": null
           }
         ],
@@ -4073,7 +3996,7 @@
         "github_repos": [
           {
             "full_name": "abi/screenshot-to-code",
-            "stars": 72752,
+            "stars": 72749,
             "stars_gained": null
           }
         ],
@@ -4084,7 +4007,7 @@
         "github_repos": [
           {
             "full_name": "protocolbuffers/protobuf",
-            "stars": 71300,
+            "stars": 71297,
             "stars_gained": null
           }
         ],
@@ -4095,7 +4018,7 @@
         "github_repos": [
           {
             "full_name": "danielmiessler/SecLists",
-            "stars": 71273,
+            "stars": 71271,
             "stars_gained": null
           }
         ],
@@ -4117,7 +4040,7 @@
         "github_repos": [
           {
             "full_name": "swiftlang/swift",
-            "stars": 70018,
+            "stars": 70016,
             "stars_gained": null
           }
         ],
@@ -4128,7 +4051,7 @@
         "github_repos": [
           {
             "full_name": "NationalSecurityAgency/ghidra",
-            "stars": 69062,
+            "stars": 69064,
             "stars_gained": null
           }
         ],
@@ -4139,7 +4062,7 @@
         "github_repos": [
           {
             "full_name": "toeverything/AFFiNE",
-            "stars": 68963,
+            "stars": 68958,
             "stars_gained": null
           }
         ],
@@ -4150,7 +4073,7 @@
         "github_repos": [
           {
             "full_name": "ansible/ansible",
-            "stars": 68734,
+            "stars": 68733,
             "stars_gained": null
           }
         ],
@@ -4161,7 +4084,18 @@
         "github_repos": [
           {
             "full_name": "paperclipai/paperclip",
-            "stars": 68583,
+            "stars": 68586,
+            "stars_gained": null
+          }
+        ],
+        "signal": "No TechCrunch coverage"
+      },
+      {
+        "topic": "Everything required your",
+        "github_repos": [
+          {
+            "full_name": "base/node",
+            "stars": 68542,
             "stars_gained": null
           }
         ],
@@ -4172,7 +4106,7 @@
         "github_repos": [
           {
             "full_name": "chartjs/Chart.js",
-            "stars": 67472,
+            "stars": 67469,
             "stars_gained": null
           }
         ],
@@ -4183,7 +4117,7 @@
         "github_repos": [
           {
             "full_name": "apache/echarts",
-            "stars": 66471,
+            "stars": 66470,
             "stars_gained": null
           }
         ],
@@ -4205,7 +4139,7 @@
         "github_repos": [
           {
             "full_name": "facebook/docusaurus",
-            "stars": 65071,
+            "stars": 65067,
             "stars_gained": null
           }
         ],
@@ -4216,7 +4150,7 @@
         "github_repos": [
           {
             "full_name": "traefik/traefik",
-            "stars": 63388,
+            "stars": 63387,
             "stars_gained": null
           }
         ],
@@ -4227,7 +4161,7 @@
         "github_repos": [
           {
             "full_name": "nocodb/nocodb",
-            "stars": 63188,
+            "stars": 63189,
             "stars_gained": null
           }
         ],
@@ -4238,7 +4172,7 @@
         "github_repos": [
           {
             "full_name": "pathwaycom/pathway",
-            "stars": 63156,
+            "stars": 63152,
             "stars_gained": null
           }
         ],
@@ -4249,7 +4183,7 @@
         "github_repos": [
           {
             "full_name": "cline/cline",
-            "stars": 62596,
+            "stars": 62594,
             "stars_gained": null
           }
         ],
@@ -4260,7 +4194,7 @@
         "github_repos": [
           {
             "full_name": "jgraph/drawio-desktop",
-            "stars": 61405,
+            "stars": 61404,
             "stars_gained": null
           }
         ],
@@ -4271,7 +4205,7 @@
         "github_repos": [
           {
             "full_name": "h5bp/Front-end-Developer-Interview-Questions",
-            "stars": 60871,
+            "stars": 60870,
             "stars_gained": null
           }
         ],
@@ -4282,7 +4216,7 @@
         "github_repos": [
           {
             "full_name": "topjohnwu/Magisk",
-            "stars": 60734,
+            "stars": 60733,
             "stars_gained": null
           }
         ],
@@ -4293,7 +4227,7 @@
         "github_repos": [
           {
             "full_name": "nuxt/nuxt",
-            "stars": 60312,
+            "stars": 60308,
             "stars_gained": null
           }
         ],
@@ -4304,7 +4238,7 @@
         "github_repos": [
           {
             "full_name": "jquery/jquery",
-            "stars": 59835,
+            "stars": 59834,
             "stars_gained": null
           }
         ],
@@ -4326,7 +4260,7 @@
         "github_repos": [
           {
             "full_name": "pocketbase/pocketbase",
-            "stars": 58783,
+            "stars": 58782,
             "stars_gained": null
           }
         ],
@@ -4337,7 +4271,7 @@
         "github_repos": [
           {
             "full_name": "rails/rails",
-            "stars": 58475,
+            "stars": 58473,
             "stars_gained": null
           }
         ],
@@ -4348,7 +4282,7 @@
         "github_repos": [
           {
             "full_name": "earendil-works/pi",
-            "stars": 58439,
+            "stars": 58465,
             "stars_gained": null
           }
         ],
@@ -4359,7 +4293,7 @@
         "github_repos": [
           {
             "full_name": "rclone/rclone",
-            "stars": 57524,
+            "stars": 57525,
             "stars_gained": null
           }
         ],
@@ -4370,7 +4304,7 @@
         "github_repos": [
           {
             "full_name": "ultralytics/yolov5",
-            "stars": 57463,
+            "stars": 57462,
             "stars_gained": null
           }
         ],
@@ -4381,7 +4315,7 @@
         "github_repos": [
           {
             "full_name": "rtk-ai/rtk",
-            "stars": 57112,
+            "stars": 57138,
             "stars_gained": null
           }
         ],
@@ -4392,7 +4326,7 @@
         "github_repos": [
           {
             "full_name": "FuelLabs/fuel-core",
-            "stars": 57036,
+            "stars": 57035,
             "stars_gained": null
           }
         ],
@@ -4403,7 +4337,7 @@
         "github_repos": [
           {
             "full_name": "marktext/marktext",
-            "stars": 56736,
+            "stars": 56738,
             "stars_gained": null
           }
         ],
@@ -4414,7 +4348,7 @@
         "github_repos": [
           {
             "full_name": "upstash/context7",
-            "stars": 56525,
+            "stars": 56526,
             "stars_gained": null
           }
         ],
@@ -4425,7 +4359,7 @@
         "github_repos": [
           {
             "full_name": "remix-run/react-router",
-            "stars": 56438,
+            "stars": 56434,
             "stars_gained": null
           }
         ],
@@ -4436,7 +4370,7 @@
         "github_repos": [
           {
             "full_name": "coollabsio/coolify",
-            "stars": 56291,
+            "stars": 56293,
             "stars_gained": null
           }
         ],
@@ -4447,7 +4381,7 @@
         "github_repos": [
           {
             "full_name": "go-gitea/gitea",
-            "stars": 56052,
+            "stars": 56051,
             "stars_gained": null
           }
         ],
@@ -4458,7 +4392,7 @@
         "github_repos": [
           {
             "full_name": "ChrisTitusTech/winutil",
-            "stars": 55382,
+            "stars": 55380,
             "stars_gained": null
           }
         ],
@@ -4469,7 +4403,7 @@
         "github_repos": [
           {
             "full_name": "deepfakes/faceswap",
-            "stars": 55255,
+            "stars": 55256,
             "stars_gained": null
           }
         ],
@@ -4480,7 +4414,7 @@
         "github_repos": [
           {
             "full_name": "Zie619/n8n-workflows",
-            "stars": 54914,
+            "stars": 54911,
             "stars_gained": null
           }
         ],
@@ -4524,7 +4458,7 @@
         "github_repos": [
           {
             "full_name": "PowerShell/PowerShell",
-            "stars": 53713,
+            "stars": 53710,
             "stars_gained": null
           }
         ],
@@ -4546,7 +4480,7 @@
         "github_repos": [
           {
             "full_name": "ionic-team/ionic-framework",
-            "stars": 52527,
+            "stars": 52525,
             "stars_gained": null
           }
         ],
@@ -4562,21 +4496,21 @@
     "withkynam/vibecode-pro-max-kit",
     "2aronS/Duel-Agents",
     "ace-trump-tech/DeltaForce-OBS-Locker",
+    "asz798838958/aBaiAutoplus",
     "FlashML-org/flashlib",
     "BlackCandleLab/polymarket-trading-bot",
-    "asz798838958/aBaiAutoplus",
     "Stellarwolf001/forza-horizon-6-spotify-radio",
     "garnix-io/garnix-ci",
     "Signal-Trade-Core/weather-prediction-bot",
     "Dharyen/ryujinx-emu",
     "liyue-aigc/female-portrait-director",
     "QwenLM/Qwen-VLA",
+    "jdevalk/specification.website",
     "ikeda042/PhenoPixel",
     "tor-browsers/tor-browser",
     "Noahmusahdevs/roblox-account-manager",
     "Beam-NG-Drive/BeamMP",
     "malk190/Romestead-Game-Release",
-    "jdevalk/specification.website",
     "Bartates/lunar-client-minecraft",
     "oyunhacktr/Windows-Xbox-Mode",
     "bonus-2026/crypto-casino-bonus",
@@ -4588,19 +4522,19 @@
     "BoundingBoxSoftware/CharacterController",
     "yb2460/harness-anything",
     "ShadowSpread/polymarket-auto-trading",
-    "Voxybuns/at-icons",
     "DannyMac180/skills",
+    "Voxybuns/at-icons",
     "faldyrd/Auto-2026",
     "yapeth/MaaNTE",
     "paralives-free/Paralives-Money-Cheats",
-    "Yeachan-Heo/gajae-code",
     "BarneyD66/open-warehouse-system",
+    "Yeachan-Heo/gajae-code",
     "hieunc229/mailflare",
     "veryyoldman/metamask-openclaw",
     "kepengxu/PRISM-VL",
     "LawmakerTreasure/deepseek-openclaw",
-    "fxyz666/LogicPipe",
     "MatixYo/ESP32-Plane-Radar",
+    "fxyz666/LogicPipe",
     "docker-desktop-windows/docker-desktop",
     "bozhouDev/14days-build-claude-code-cli",
     "zgwl/chinese-buy-us-stock-guide",
@@ -4608,8 +4542,8 @@
     "opengeos/GeoLibre",
     "stagas/hallucinate",
     "FoundZiGu/SMSBazaar",
-    "marekkowalczyk/breathe-cli",
     "shipfastlabs/parsel",
+    "marekkowalczyk/breathe-cli",
     "K-Dense-AI/science-superpowers",
     "modelstudioai/cli",
     "ProxyShard/ShardBrowser",
@@ -4617,8 +4551,8 @@
     "g0ldyy/fh6-universal-radio",
     "Kaimen-Inc/Co-Scientist",
     "portiongunnerestate/Auto-2026",
-    "hydra-node/polymarket-weather-bot",
     "Christian-Katzmann/app-it",
+    "hydra-node/polymarket-weather-bot",
     "risedownlabs/polymarket-weather-bot",
     "turbodragonecholegend2914353/Roblox-Exec-Collection-Desktop",
     "pattieatengco27671636211/kms-pico-latest-m4",
@@ -4630,43 +4564,43 @@
     "elvirarolando64992854260/IDM-6.42-Patch-Lifetime-Ver-26",
     "metavault-fi/solana-pumpfun-bundler",
     "openfi-dao/kalshi-trading-bot",
+    "mudler/parakeet.cpp",
     "defi-ape/polymarket-kalshi-arbitrage-bot",
     "ATOM00blue/machine-learning-library",
     "xiaojianbang8888/xiaojianbang-stealth-hook",
     "Sophomoresty/bpc-fetch",
     "dama-cyber/Distilled-Novel-Toolbox",
+    "OnlyTerp/UltraCode-Shim",
     "metavault-fi/solana-trading-bot",
     "TYOPxyz/solana-trading-bot",
-    "mudler/parakeet.cpp",
     "yejy53/GenClaw",
     "apex-dao/limitless-trading-bot",
     "Chlience/yt-dlp-tauri",
+    "nv-tlabs/dvlt",
     "Aimino-Tech/opendocswork-mcp",
     "qianzii2/rockduck",
     "metanode-trade/hyperliquid-trading-bot",
-    "OnlyTerp/UltraCode-Shim",
     "mani5717/hwid-spoofer-utility",
     "AITabby/opencodex",
     "laoshan-song/Awesome-LLM-Interview",
-    "nv-tlabs/dvlt",
     "gerardapennant96075336582/CapC-Pro-2",
     "metanode-trade/asterdex-trading-bot",
     "Gloridust/WechatOnCloud",
     "a2328275243/mempalace-evolve",
     "Genesis-Embodied-AI/genesis-nyx",
-    "bwjoke/fomo5000.com",
     "OnlyTerp/prompt-cache-skills",
+    "bwjoke/fomo5000.com",
     "weisparrow/dreamseed-pool",
     "pennydinh/marketing-pineline-share",
     "wwe-dog/ppt-image2-editable-rebuild",
+    "eversinc33/MogVMP",
     "ShirleyMaxx/REST3D",
-    "openclaw/libopus-wasm",
     "dsta022/lerobot-rgb-rgbd-vla-dataset-toolkit",
+    "openclaw/libopus-wasm",
     "IRNova/NovaRadar",
     "iliyami/MacClean",
-    "V0id-v2/Void-Tools-v2.0",
     "xiongqi123123/awesome-rebuttal",
-    "eversinc33/MogVMP",
+    "V0id-v2/Void-Tools-v2.0",
     "Heartficreate/autodesk-3ds-max-pc-setup",
     "openclaw/octopool",
     "cochransullivan52536512/LEGO-Batman-Legacy-of-the-Dark-Knight-PC-2026",
@@ -4683,34 +4617,36 @@
     "Wanduforl/MacArkPet",
     "zhaojingru-ai/multimodal-interview-system",
     "ali-vilab/DiffusionOPD",
+    "tradeonmeta/pumpfun-sniper",
     "liangjie1999/ClipGStream",
     "nuskey8/DotWasm",
+    "cron-defi/polymarket-pnl-tracker",
     "zjp1997720/wechat-radar",
     "openclaw/clawpdf",
     "FlashConjurerPrime/FPS-Tweak-26",
     "DiscoveryAndDev/MyIPTV",
     "sainbek01-commits/MyIPTV",
-    "tradeonmeta/pumpfun-sniper",
     "zyuslan25-dotcom/MyIPTV",
     "vikingmute/review-forge",
     "kyrtstn/syv",
+    "kernullist/PseudoForge",
     "franklioxygen/agent-workflows",
-    "cron-defi/polymarket-pnl-tracker",
     "Archeb/peer.as",
     "FrontierHealerLocate/Autodesk-Revit-2027-0-2-Full-Build",
     "Yukioooooo0/QingZai",
-    "kernullist/PseudoForge",
     "owenshuo/open-bounty-radar",
     "tony-cote/walletgen",
     "bynexis/MyIPTV",
     "YonghaoZhao722/cc-sanitizer",
     "biao994/DocPaws",
+    "WhitzardAgent/AgentGuard",
     "sasha888mi111-a11y/MyIPTV",
-    "mr-dast1n/MyIPTV",
     "sverrejb/slint-kindle-backend",
+    "mr-dast1n/MyIPTV",
+    "WUBING2023/ExamPass-Assistant",
     "NazzarenoGiannelli/tuiboard",
     "sediman-agent/OpenSkynet",
-    "WhitzardAgent/AgentGuard",
+    "IgorWarzocha/howaboua-pi-stuff",
     "SeemSeam/plan-tree",
     "Jhema123/Marmoset-Pipeline-Bundle",
     "evilmore91/MyIPTV",
@@ -4718,21 +4654,15 @@
     "eltohamy932/NI-LabVIEW-Studio-Tools",
     "starlight36/vibecoding-signal-light",
     "jasonengcc/KeyShot-Studio-Materials",
-    "IgorWarzocha/howaboua-pi-stuff",
+    "andyhuo520/tang-changan",
     "junno1432/Apowersoft-Recorder-Ultra-Toolkit",
     "mkb38287-sys/MyIPTV",
     "IntouchRay/beyond-compare-pro-max",
     "Pawan1702/Navicat-Premium-Enterprise-Tools",
+    "run-llama/liteparse-cloudflare-worker-quickstart",
     "Dev-Zeeshan-Qadir/Auslogics-SystemTune-Pro",
     "Tchinda123/Mirillis-Action-Pro-Config",
     "Soham8492/XSplit-Streaming-Enhancer",
-    "Anivesh28/Melodyne-DNA-Analyzer",
-    "JavierKrayacich/ios-lock-removal-toolkit",
-    "oussama-bouarfa/ManyCam-Studio-Enhancer",
-    "invokepisya/MyIPTV",
-    "moazmohammad/cursor-pro-toolchain",
-    "Subash1017/ArchiCAD-Workflow-Tools",
-    "rohitsainik6203/GatePilot-",
     "freeCodeCamp/freeCodeCamp",
     "public-apis/public-apis",
     "EbookFoundation/free-programming-books",
@@ -4764,6 +4694,7 @@
     "kubernetes/kubernetes",
     "clash-verge-rev/clash-verge-rev",
     "electron/electron",
+    "nodejs/node",
     "iptv-org/iptv",
     "shadcn-ui/ui",
     "rustdesk/rustdesk",
@@ -4798,6 +4729,7 @@
     "mermaid-js/mermaid",
     "gohugoio/hugo",
     "opencv/opencv",
+    "openai/codex",
     "louislam/uptime-kuma",
     "farion1231/cc-switch",
     "modelcontextprotocol/servers",
@@ -4843,11 +4775,11 @@
     "toeverything/AFFiNE",
     "ansible/ansible",
     "paperclipai/paperclip",
+    "base/node",
     "chartjs/Chart.js",
     "apache/echarts",
     "scikit-learn/scikit-learn",
     "opendatalab/MinerU",
-    "TheAlgorithms/Java",
     "unslothai/unsloth",
     "facebook/docusaurus",
     "BurntSushi/ripgrep",
@@ -4882,8 +4814,8 @@
     "rclone/rclone",
     "ultralytics/yolov5",
     "2dust/v2rayNG",
-    "ruvnet/ruflo",
     "rtk-ai/rtk",
+    "ruvnet/ruflo",
     "FuelLabs/fuel-core",
     "nexu-io/open-design",
     "marktext/marktext",
@@ -4909,10 +4841,10 @@
     "ionic-team/ionic-framework"
   ],
   "metadata": {
-    "repos_analyzed": 437,
-    "correlations_found": 85,
+    "repos_analyzed": 434,
+    "correlations_found": 84,
     "articles_matched": 18,
     "uncovered_tech_trends": 2,
-    "unpublicized_dev_activity": 268
+    "unpublicized_dev_activity": 267
   }
 }

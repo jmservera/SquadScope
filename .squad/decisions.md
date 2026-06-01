@@ -6,6 +6,21 @@ Applies to future weekly summaries and any generator work that consumes `data/an
 
 ---
 
+# Fry: quality gate fallback hardening
+
+Date: 2026-06-01
+
+## Context
+Issue #217 showed the weekly analysis job can fail even when crawl data is healthy because Copilot sometimes returns a generic placeholder title or no output file at all after retries.
+
+## Decision
+Keep Copilot CLI as the primary analysis generator, but if its output still fails the quality gate after retries, immediately fall back to `scripts/analyze_fallback.py` via GitHub Models. Also render the prompt with concrete `week`, `year`, and title guidance so the model is less likely to echo placeholder frontmatter.
+
+## Rationale
+This keeps the higher-quality primary path, but removes CI flakiness from transient Copilot failures and from prompt placeholders leaking into the final markdown.
+
+---
+
 # Directive: Prevent Recrawl on Previous-Week Rebuilds
 
 **Date:** 2026-05-25T15:55:00+02:00  
@@ -297,6 +312,7 @@ SquadScope is a static editorial trend-analysis site with no accounts, signup, c
 - Privacy disclosures should continue to identify GitHub Pages hosting logs, GA4, Google Fonts if used, and the essential consent cookie.
 
 # Prompt Injection Hardening for Analysis Prompts
+
 **Date:** 2026-05-25
 **Author:** Hermes
 **Status:** Proposed
@@ -318,6 +334,8 @@ Apply a layered OWASP LLM01 defense for analyzer prompt rendering:
 
 The analyzer keeps using the same editorial structure, but prompt provenance is clearer and repository descriptions have bounded influence. Suspicious descriptions are logged and truncated rather than blocked to avoid false positives disrupting publication.
 
+---
+
 # Fry: quality gate fallback hardening
 
 Date: 2026-06-01
@@ -330,4 +348,19 @@ Keep Copilot CLI as the primary analysis generator, but if its output still fail
 
 ## Rationale
 This keeps the higher-quality primary path, but removes CI flakiness from transient Copilot failures and from prompt placeholders leaking into the final markdown.
+
+---
+
+# Fry — generate-step failure handling
+
+Date: 2026-06-01
+
+## Context
+Issue #220 showed the crawl-and-publish workflow could finish crawl and analysis successfully, then fail in the generate handoff because the generated weekly page path was absolute while the publish-branch restore logic assumed a repository-relative path. The same workflow also lacked a failure-to-issue bridge, so repeated pipeline failures did not automatically open or update a GitHub issue.
+
+## Decision
+Normalize `page_path` to a repo-relative `content/weekly/...` path inside the generate commit step before copying weekly output onto the publish branch. Add a dedicated `notify-failure` job that always evaluates after the pipeline jobs and creates or updates a GitHub issue whenever any crawl/analyze/generate/deploy/notify job fails.
+
+## Rationale
+The path normalization fixes the actual handoff bug without changing `scripts/generate_content.py`, which already returns an absolute file path used elsewhere in tests. A separate failure notifier makes regressions visible even when later jobs are skipped, which is the exact reliability gap that hid the recent failures.
 
