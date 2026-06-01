@@ -36,3 +36,29 @@
 - PR #221 merged (squash). Closes #220.
 - #222 closed (transient).
 - Board clear of actionable work.
+
+## Round 5 — 2026-06-01
+
+**Trigger:** Ralph active — continuing from round 4
+
+### Board scan
+- **#226** (squad:amy) — Add share button. NEW feature.
+- **#38** (squad:farnsworth, squad:bender, squad:amy) — Hindsight validation. Phase 3, now actionable.
+- **#225** — PR sync publish→main. Merged by coordinator.
+- **#188** — Stale (morbo retired). No action.
+
+### Dispatched (Round 1)
+- **Amy** → #226: Enabled PaperMod share buttons + Web Share API for mobile + desktop fallbacks (X, LinkedIn, Facebook). PR #228 opened.
+- **Farnsworth** → #38: Built `scripts/validate_predictions.py`, prediction registry format, scorecard generation. PR #227 opened. 548 tests pass.
+- **Fry** → #38: Anticipatory tests on separate branch. Integrated into Farnsworth's PR.
+- **Leela** → Reviewed PRs #227 and #228. PR #228 clean. PR #227 had 4 issues (missing repo handling, claim classification).
+
+### Dispatched (Round 2)
+- **Farnsworth** → Fixed all 4 review issues on PR #227 (insufficient_evidence for missing repos, explicit claim_type field). 527 tests pass.
+
+### Outcome
+- PR #225 merged (publish sync)
+- PR #228 merged (squash). Closes #226.
+- PR #227 merged (squash). Closes #38.
+- Fry's test branch cleaned up.
+- Board clear except #188 (stale).
