@@ -139,7 +139,6 @@ details li ul {
 }
 
 .post-tags a,
-.share-buttons,
 .paginav {
     border-radius: var(--radius);
     background: var(--code-bg);
@@ -160,21 +159,80 @@ details li ul {
     background: var(--border);
 }
 
-.share-buttons {
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    overflow-x: auto;
-    gap: 10px;
+.share-block {
+    display: grid;
+    gap: var(--space-2);
 }
 
-.share-buttons li,
-.share-buttons a {
+.share-block__label {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: var(--tracking-nav);
+    text-transform: uppercase;
+}
+
+.share-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+.share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: 0;
+    margin: 0;
+}
+
+.share-buttons li {
     display: inline-flex;
 }
 
-.share-buttons a:not(:last-of-type) {
-    margin-inline-end: 12px;
+.share-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: calc(var(--space-5) + var(--space-2));
+    min-height: calc(var(--space-5) + var(--space-2));
+    padding: 0 var(--space-3);
+    border: var(--size-border-thin) solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.share-button:hover,
+.share-button:focus-visible {
+    color: var(--color-text);
+    border-color: var(--color-accent);
+    background: var(--color-accent-muted);
+    text-decoration: none;
+}
+
+.share-button svg {
+    width: var(--size-icon-md);
+    height: var(--size-icon-md);
+}
+
+.share-button--native {
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.share-button--icon {
+    padding: 0;
+}
+
+.share-button--icon svg {
+    width: calc(var(--size-icon-md) + 2px);
+    height: calc(var(--size-icon-md) + 2px);
 }
 
 .paginav {
