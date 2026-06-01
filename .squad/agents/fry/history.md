@@ -16,3 +16,13 @@
 - PR #218 opened with all tests passing
 - Fallback mechanism now includes GitHub Models support
 - Copilot prompt validation hardened
+
+## Round 2026-06-01T12:41
+
+### PR #218 Merged
+- Review comment resolved: removed outer quotes from YAML title hint
+- Added regression test
+- 542 tests passing
+- Commit 9d15b18
+- Merged (squash)
+- Issue #217 closed
