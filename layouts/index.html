@@ -32,16 +32,6 @@
   </section>
   {{- end -}}
 
-  {{- if $topTags -}}
-  <nav class="home-tag-strip" aria-label="Active topic shortcuts">
-    <span class="home-tag-label">Active topics</span>
-    {{- range $topTags }}
-    <a href="{{ printf "tags/%s/" (.Name | urlize) | absLangURL }}">{{ .Name }}</a>
-    {{- end }}
-    <a href="{{ `topics/` | absLangURL }}">All topics</a>
-  </nav>
-  {{- end -}}
-
   <div class="home-content-grid">
     {{- if gt (len $weeklyPages) 0 -}}
     <section class="home-recent" aria-labelledby="recent-reports-heading">
@@ -78,7 +68,7 @@
         <div class="home-topic-list">
           {{- range $topTags -}}
           <a class="home-topic-card" href="{{ printf "tags/%s/" (.Name | urlize) | absLangURL }}">
-            <span>{{ .Name }}</span>
+            <span>{{ .Name | humanize }}</span>
             <small>{{ .Count }} issue{{ if ne .Count 1 }}s{{ end }}</small>
           </a>
           {{- end -}}
