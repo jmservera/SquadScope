@@ -4,7 +4,7 @@
 <header class="page-header">
   {{- partial "breadcrumbs.html" . }}
   <h1>{{ .Title }}</h1>
-  <div class="post-description">Browse weekly issues by topic area, then jump across weekly, monthly, and yearly report categories.</div>
+  <div class="post-description">{{ .Description | default "Browse weekly issues by topic area, then jump across weekly, monthly, and yearly report categories." }}</div>
 </header>
 
 <section aria-labelledby="topics-directory-heading">
@@ -23,7 +23,7 @@
     {{- $count := .Count -}}
     {{- with site.GetPage (printf "/tags/%s" $term) }}
     <article class="home-report-card taxonomy-card">
-      <h2><a href="{{ .RelPermalink }}">{{ $term | humanize }}</a></h2>
+      <h3><a href="{{ .RelPermalink }}">{{ $term | humanize }}</a></h3>
       <p>Browse {{ $count }} weekly issue{{ if ne $count 1 }}s{{ end }} touching {{ $term | humanize | lower }}.</p>
       <div class="home-report-meta">
         <span>{{ $count }} issue{{ if ne $count 1 }}s{{ end }}</span>
@@ -56,7 +56,7 @@
     {{- $count := .Count -}}
     {{- with site.GetPage (printf "/categories/%s" $term) }}
     <article class="home-report-card taxonomy-card">
-      <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
+      <h3><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h3>
       <p>{{ .Params.summary | default (printf "Browse %d report%s filed under %s." $count (cond (eq $count 1) "" "s") ($term | humanize | lower)) }}</p>
       <div class="home-report-meta">
         <span>{{ $count }} report{{ if ne $count 1 }}s{{ end }}</span>
