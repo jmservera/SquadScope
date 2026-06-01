@@ -6,12 +6,14 @@ Prediction registry format for future weekly summaries:
 ```yaml
 predictions:
   - repo: owner/repo
+    claim_type: signal
     direction: up
     confidence: 0.72
 ```
 
 Required fields:
 - `repo`: GitHub repo in `owner/name` form.
+- `claim_type`: one of `signal`, `noise`, or `gap`.
 - `direction`: one of `up`, `flat`, or `down`.
 - `confidence`: float from 0.0 to 1.0.
 
@@ -241,10 +243,11 @@ def normalize_confidence(value: Any) -> float:
     return round(confidence, 2)
 
 
-def infer_claim_from_direction(direction: str) -> str:
-    if direction == "up":
-        return "signal"
-    return "noise"
+def normalize_claim_type(value: str) -> str:
+    claim_type = value.strip().lower()
+    if claim_type not in {"signal", "noise", "gap"}:
+        raise ValidationError(f"Unsupported prediction claim_type: {value!r}")
+    return claim_type
 
 
 def normalize_frontmatter_predictions(frontmatter: dict[str, Any], week: str, source_path: str) -> list[Prediction]:
@@ -261,9 +264,9 @@ def normalize_frontmatter_predictions(frontmatter: dict[str, Any], week: str, so
         repo = entry.get("repo")
         if not isinstance(repo, str) or not TOP_REPO_PATTERN.fullmatch(repo.strip()):
             raise ValidationError("predictions repo must use owner/repo format")
+        claim = normalize_claim_type(str(entry.get("claim_type", "")))
         direction = normalize_direction(str(entry.get("direction", "")))
         confidence = normalize_confidence(entry.get("confidence"))
-        claim = infer_claim_from_direction(direction)
         predictions.append(
             Prediction(
                 week=week,
@@ -340,28 +343,7 @@ def load_summary_predictions(summary_path: Path) -> list[Prediction]:
     source_path = str(summary_path.relative_to(ROOT)) if summary_path.is_relative_to(ROOT) else str(summary_path)
     frontmatter_predictions = normalize_frontmatter_predictions(frontmatter, week, source_path)
     if frontmatter_predictions:
-        inferred_claims = {(prediction.repo, prediction.claim): prediction for prediction in infer_predictions_from_body(body, week, source_path)}
-        merged: list[Prediction] = []
-        for prediction in frontmatter_predictions:
-            claim = prediction.claim
-            if (prediction.repo, "gap") in inferred_claims:
-                claim = "gap"
-            elif (prediction.repo, "noise") in inferred_claims and prediction.direction in {"flat", "down"}:
-                claim = "noise"
-            elif (prediction.repo, "signal") in inferred_claims and prediction.direction == "up":
-                claim = "signal"
-            merged.append(
-                Prediction(
-                    week=prediction.week,
-                    repo=prediction.repo,
-                    claim=claim,
-                    direction=prediction.direction,
-                    confidence=prediction.confidence,
-                    source=prediction.source,
-                    source_path=prediction.source_path,
-                )
-            )
-        return merged
+        return frontmatter_predictions
     return infer_predictions_from_body(body, week, source_path)
 
 
@@ -407,7 +389,29 @@ def evaluate_prediction(prediction: Prediction, raw_directory: Path, weeks_ahead
             note="No raw payload exists for the prediction week.",
         )
 
-    baseline_stars = build_repo_stars(baseline_raw).get(prediction.repo, 0)
+    baseline_stars_map = build_repo_stars(baseline_raw)
+    if prediction.repo not in baseline_stars_map:
+        return ValidationResult(
+            week=prediction.week,
+            repo=prediction.repo,
+            claim=prediction.claim,
+            direction=prediction.direction,
+            confidence=prediction.confidence,
+            source=prediction.source,
+            source_path=prediction.source_path,
+            baseline_week=prediction.week,
+            observed_week=None,
+            weeks_observed=0,
+            baseline_stars=None,
+            observed_stars=None,
+            delta_stars=None,
+            delta_pct=None,
+            score=None,
+            verdict="insufficient_evidence",
+            note="Repo was not present in the prediction-week crawl, so no baseline comparison is possible.",
+        )
+
+    baseline_stars = baseline_stars_map[prediction.repo]
     observed_week = locate_observed_week(raw_directory, prediction.week, weeks_ahead, snapshot_directory)
     if observed_week is None:
         return ValidationResult(
@@ -457,26 +461,6 @@ def evaluate_prediction(prediction: Prediction, raw_directory: Path, weeks_ahead
     weeks_observed = max(week_distance(prediction.week, observed_week), 1)
 
     if prediction.repo not in observed_set:
-        if prediction.direction == "up":
-            return ValidationResult(
-                week=prediction.week,
-                repo=prediction.repo,
-                claim=prediction.claim,
-                direction=prediction.direction,
-                confidence=prediction.confidence,
-                source=prediction.source,
-                source_path=prediction.source_path,
-                baseline_week=prediction.week,
-                observed_week=observed_week,
-                weeks_observed=weeks_observed,
-                baseline_stars=baseline_stars,
-                observed_stars=0,
-                delta_stars=-baseline_stars,
-                delta_pct=-1.0 if baseline_stars else 0.0,
-                score=0.0,
-                verdict="incorrect",
-                note="Repo dropped out of the later crawl, so the growth call did not hold.",
-            )
         return ValidationResult(
             week=prediction.week,
             repo=prediction.repo,
@@ -489,12 +473,12 @@ def evaluate_prediction(prediction: Prediction, raw_directory: Path, weeks_ahead
             observed_week=observed_week,
             weeks_observed=weeks_observed,
             baseline_stars=baseline_stars,
-            observed_stars=0,
-            delta_stars=-baseline_stars,
-            delta_pct=-1.0 if baseline_stars else 0.0,
-            score=1.0,
-            verdict="correct",
-            note="Repo disappeared from the later crawl, matching a flat/down expectation.",
+            observed_stars=None,
+            delta_stars=None,
+            delta_pct=None,
+            score=None,
+            verdict="insufficient_evidence",
+            note="Repo was not present in the later crawl payload, so the observation window is inconclusive.",
         )
 
     observed_stars = observed_stars_map[prediction.repo]
@@ -662,7 +646,7 @@ def render_markdown_scorecard(scorecard: ScorecardSummary, weeks_ahead: int) -> 
         "",
         "## Prediction Registry Format",
         "",
-        "Use `predictions: [{repo, direction, confidence}]` in analysis frontmatter. Directions are `up`, `flat`, or `down`; the validator will still infer Signal/Noise/Gaps from article sections when the registry is absent.",
+        "Use `predictions: [{repo, claim_type, direction, confidence}]` in analysis frontmatter. `claim_type` must be `signal`, `noise`, or `gap`; `direction` must be `up`, `flat`, or `down`. When the registry is absent, the validator still infers Signal/Noise/Gaps from article sections.",
         "",
         "## Quality Trend",
         "",

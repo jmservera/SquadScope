@@ -190,7 +190,7 @@ summary: "A grounded week focused on practical tools."'''.strip()
         self.assertIn("title must not use a generic week/year placeholder format.", errors)
 
     def test_validate_analysis_accepts_prediction_registry(self) -> None:
-        frontmatter = VALID_FRONTMATTER + "\npredictions:\n  - repo: owner/repo\n    direction: up\n    confidence: 0.7"
+        frontmatter = VALID_FRONTMATTER + "\npredictions:\n  - repo: owner/repo\n    claim_type: signal\n    direction: up\n    confidence: 0.7"
 
         errors, _ = analysis_gate.validate_analysis(
             make_analysis(frontmatter, make_body()),
@@ -201,7 +201,7 @@ summary: "A grounded week focused on practical tools."'''.strip()
         self.assertEqual(errors, [])
 
     def test_validate_analysis_rejects_invalid_prediction_registry(self) -> None:
-        frontmatter = VALID_FRONTMATTER + "\npredictions:\n  - repo: bad repo\n    direction: sideways\n    confidence: 1.3\n    note: nope"
+        frontmatter = VALID_FRONTMATTER + "\npredictions:\n  - repo: bad repo\n    claim_type: maybe\n    direction: sideways\n    confidence: 1.3\n    note: nope"
 
         errors, _ = analysis_gate.validate_analysis(
             make_analysis(frontmatter, make_body()),
@@ -210,6 +210,7 @@ summary: "A grounded week focused on practical tools."'''.strip()
         )
 
         self.assertIn("predictions[1].repo must use owner/repo format.", errors)
+        self.assertIn("predictions[1].claim_type must be one of signal, noise, gap.", errors)
         self.assertIn("predictions[1].direction must be one of up, flat, down.", errors)
         self.assertIn("predictions[1].confidence must be between 0 and 1.", errors)
         self.assertIn("predictions[1] has unexpected fields: note", errors)

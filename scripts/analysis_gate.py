@@ -267,17 +267,20 @@ def validate_predictions(frontmatter: dict[str, Any], errors: list[str]) -> None
             errors.append(f"predictions[{index}] must be an object.")
             continue
         repo = prediction.get("repo")
+        claim_type = prediction.get("claim_type")
         direction = prediction.get("direction")
         confidence = prediction.get("confidence")
         if not isinstance(repo, str) or not TOP_REPO_PATTERN.fullmatch(repo.strip()):
             errors.append(f"predictions[{index}].repo must use owner/repo format.")
+        if not isinstance(claim_type, str) or claim_type.strip().lower() not in {"signal", "noise", "gap"}:
+            errors.append(f"predictions[{index}].claim_type must be one of signal, noise, gap.")
         if not isinstance(direction, str) or direction.strip().lower() not in PREDICTION_DIRECTIONS:
             errors.append(f"predictions[{index}].direction must be one of up, flat, down.")
         if isinstance(confidence, bool) or not isinstance(confidence, (int, float)):
             errors.append(f"predictions[{index}].confidence must be numeric.")
         elif not 0 <= float(confidence) <= 1:
             errors.append(f"predictions[{index}].confidence must be between 0 and 1.")
-        extra_fields = sorted(set(prediction) - {"repo", "direction", "confidence"})
+        extra_fields = sorted(set(prediction) - {"repo", "claim_type", "direction", "confidence"})
         if extra_fields:
             errors.append(f"predictions[{index}] has unexpected fields: {', '.join(extra_fields)}")
 

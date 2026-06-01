@@ -42,9 +42,11 @@ summary: Validation fixture.
 quality_score: 74
 predictions:
   - repo: acme/launchpad
+    claim_type: signal
     direction: up
     confidence: 0.8
   - repo: acme/flashy-kit
+    claim_type: noise
     direction: flat
     confidence: 0.7
 ---
@@ -113,18 +115,74 @@ def test_infer_predictions_from_current_summary_patterns() -> None:
     assert ("gap", "ssreeni1/tracebase") in claims
 
 
-def test_frontmatter_predictions_override_direction_but_keep_claim_context() -> None:
-    workspace = prepare_workspace("frontmatter-merge")
+def test_frontmatter_predictions_use_explicit_claim_type() -> None:
+    workspace = prepare_workspace("frontmatter-claim-type")
     summary_path = workspace / "2026-W21-summary.md"
-    write_file(summary_path, WEEKLY_SUMMARY)
+    summary_text = WEEKLY_SUMMARY.replace(
+        "  - repo: acme/launchpad\n    claim_type: signal\n    direction: up\n    confidence: 0.8",
+        "  - repo: acme/launchpad\n    claim_type: gap\n    direction: up\n    confidence: 0.8",
+    )
+    write_file(summary_path, summary_text)
 
     predictions = validate_predictions.load_summary_predictions(summary_path)
     indexed = {prediction.repo: prediction for prediction in predictions}
 
     assert indexed["acme/launchpad"].source == "frontmatter"
-    assert indexed["acme/launchpad"].claim == "signal"
+    assert indexed["acme/launchpad"].claim == "gap"
     assert indexed["acme/launchpad"].direction == "up"
     assert indexed["acme/flashy-kit"].claim == "noise"
+
+
+def test_missing_baseline_repo_becomes_insufficient_evidence() -> None:
+    workspace = prepare_workspace("missing-baseline")
+    raw_dir = workspace / "raw"
+
+    prediction = validate_predictions.Prediction(
+        week="2026-W21",
+        repo="acme/missing-baseline",
+        claim="signal",
+        direction="up",
+        confidence=0.8,
+        source="frontmatter",
+        source_path="fixture.md",
+    )
+
+    write_json(raw_dir / "2026-W21.json", RAW_W21)
+    write_json(raw_dir / "2026-W22.json", RAW_W22)
+
+    result = validate_predictions.evaluate_prediction(prediction, raw_dir, weeks_ahead=4)
+
+    assert result.verdict == "insufficient_evidence"
+    assert result.baseline_stars is None
+    assert result.observed_stars is None
+    assert "prediction-week crawl" in result.note
+
+
+
+def test_missing_observed_repo_becomes_insufficient_evidence() -> None:
+    workspace = prepare_workspace("missing-observed")
+    raw_dir = workspace / "raw"
+
+    prediction = validate_predictions.Prediction(
+        week="2026-W21",
+        repo="acme/flashy-kit",
+        claim="noise",
+        direction="flat",
+        confidence=0.7,
+        source="frontmatter",
+        source_path="fixture.md",
+    )
+
+    write_json(raw_dir / "2026-W21.json", RAW_W21)
+    write_json(raw_dir / "2026-W22.json", RAW_W22)
+
+    result = validate_predictions.evaluate_prediction(prediction, raw_dir, weeks_ahead=4)
+
+    assert result.verdict == "insufficient_evidence"
+    assert result.baseline_stars == 100
+    assert result.observed_stars is None
+    assert "later crawl payload" in result.note
+
 
 
 def test_run_validation_writes_markdown_and_json_scorecards() -> None:
@@ -149,8 +207,8 @@ def test_run_validation_writes_markdown_and_json_scorecards() -> None:
 
     assert summary.week == "2026-W23"
     assert summary.total_predictions == 5
-    assert summary.validated == 2
-    assert summary.correct == 2
+    assert summary.validated == 1
+    assert summary.correct == 1
     assert summary.incorrect == 0
     assert summary.quality_trend["count"] == 2
 
@@ -162,6 +220,6 @@ def test_run_validation_writes_markdown_and_json_scorecards() -> None:
     assert "Prediction Registry Format" in markdown_path.read_text(encoding="utf-8")
 
     payload = json.loads(json_path.read_text(encoding="utf-8"))
-    assert payload["validated"] == 2
-    assert payload["total_validated"] == 2
+    assert payload["validated"] == 1
+    assert payload["total_validated"] == 1
     assert payload["accuracy"] == 1.0
