@@ -1,5 +1,6 @@
 import io
 import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -46,7 +47,7 @@ class AnalyzeFallbackTests(unittest.TestCase):
             raw_path.write_text(json.dumps({"week": "2026-W21", "new_repos": [], "trending_repos": []}), encoding="utf-8")
             (analyzed_dir / "2026-W20-summary.md").write_text("previous summary", encoding="utf-8")
             prompt_template.write_text(
-                "date={{CURRENT_DATETIME}}\nraw={{RAW_JSON_PATH}}\nout={{OUTPUT_PATH}}\nprev={{PREVIOUS_SUMMARY_PATH_OR_NONE}}\njson={{RAW_JSON_CONTENT}}\nbody={{PREVIOUS_SUMMARY_CONTENT_OR_EMPTY}}\n",
+                "date={{CURRENT_DATETIME}}\nweek={{CURRENT_WEEK}}\nyear={{CURRENT_YEAR}}\ntitle={{TITLE_TEMPLATE_HINT}}\nraw={{RAW_JSON_PATH}}\nout={{OUTPUT_PATH}}\nprev={{PREVIOUS_SUMMARY_PATH_OR_NONE}}\njson={{RAW_JSON_CONTENT}}\nbody={{PREVIOUS_SUMMARY_CONTENT_OR_EMPTY}}\n",
                 encoding="utf-8",
             )
 
@@ -59,12 +60,48 @@ class AnalyzeFallbackTests(unittest.TestCase):
             )
 
             self.assertIn("date=2026-05-18T13:05:53.678+02:00", prompt)
+            self.assertIn("week=2026-W21", prompt)
+            self.assertIn("year=2026", prompt)
+            self.assertIn("Specific editorial headline about 2026-W21's dominant themes", prompt)
+            self.assertIn("not \"Week 21, 2026 Analysis\"", prompt)
             self.assertIn(f"raw={raw_path}", prompt)
             self.assertIn(f"out={output_path}", prompt)
             self.assertIn("prev=", prompt)
             self.assertIn("previous summary", prompt)
             self.assertIn('"week": "2026-W21"', prompt)
             self.assertNotIn("{{CURRENT_DATETIME}}", prompt)
+            self.assertNotIn("{{CURRENT_WEEK}}", prompt)
+            self.assertNotIn("{{CURRENT_YEAR}}", prompt)
+            self.assertNotIn("{{TITLE_TEMPLATE_HINT}}", prompt)
+
+    def test_render_prompt_keeps_title_hint_yaml_valid(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W21.json"
+            analyzed_dir = base / "data" / "analyzed"
+            output_path = analyzed_dir / "2026-W21-summary.md"
+            raw_path.parent.mkdir(parents=True)
+            analyzed_dir.mkdir(parents=True)
+
+            raw_path.write_text(json.dumps({"week": "2026-W21", "new_repos": [], "trending_repos": []}), encoding="utf-8")
+
+            prompt = analyze_fallback.render_prompt(
+                prompt_template_path=analyze_fallback.DEFAULT_PROMPT_TEMPLATE,
+                raw_json_path=raw_path,
+                output_path=output_path,
+                current_datetime="2026-05-18T13:05:53.678+02:00",
+                analyzed_dir=analyzed_dir,
+            )
+
+            self.assertIn(
+                'title: Specific editorial headline about 2026-W21\'s dominant themes (not "Week 21, 2026 Analysis")',
+                prompt,
+            )
+            self.assertNotIn(
+                'title: "Specific editorial headline about 2026-W21\'s dominant themes (not "Week 21, 2026 Analysis")"',
+                prompt,
+            )
 
     def test_render_prompt_sanitizes_repo_descriptions(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -158,6 +195,61 @@ class AnalyzeFallbackTests(unittest.TestCase):
         markdown = analyze_fallback.extract_markdown(payload)
 
         self.assertEqual(markdown, "part one\npart two\n")
+
+    def test_no_ai_summary_uses_non_generic_title(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W23.json"
+            raw_path.parent.mkdir(parents=True)
+            raw_path.write_text(
+                json.dumps(
+                    {
+                        "week": "2026-W23",
+                        "new_repos": [],
+                        "trending_repos": [],
+                        "signals": {"top_topics": [{"topic": "ai"}, {"topic": "typescript"}]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            markdown = analyze_fallback.generate_no_ai_summary(raw_path, "2026-06-01T09:42:41Z")
+
+            self.assertIn('title: "Ai, Typescript, and This Week\'s Repo Signals"', markdown)
+            self.assertNotIn('title: "Week 23, 2026 Analysis"', markdown)
+
+    def test_script_runs_via_python_pathless_invocation(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        repo_root = tests_root.parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W21.json"
+            output_path = base / "data" / "analyzed" / "2026-W21-summary.md"
+            raw_path.parent.mkdir(parents=True)
+            output_path.parent.mkdir(parents=True)
+            raw_path.write_text(json.dumps({"week": "2026-W21", "new_repos": [], "trending_repos": []}), encoding="utf-8")
+
+            result = subprocess.run(
+                [
+                    "python3",
+                    "scripts/analyze_fallback.py",
+                    "--raw-json",
+                    str(raw_path),
+                    "--output",
+                    str(output_path),
+                    "--current-datetime",
+                    "2026-06-01T09:42:41Z",
+                    "--print-prompt",
+                ],
+                cwd=repo_root,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn('week: "2026-W21"', result.stdout)
 
     def test_main_writes_fallback_output(self) -> None:
         tests_root = Path(__file__).resolve().parent

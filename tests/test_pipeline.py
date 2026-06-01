@@ -226,10 +226,12 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn('ANALYSIS_MODEL="copilot-default"', run_analysis)
         self.assertNotIn("--model claude-sonnet-4", run_analysis)
         self.assertIn("mkdir -p data/metrics", run_analysis)
-        self.assertIn("Copilot CLI unavailable; rerun crawl-and-publish when Copilot is available.", run_analysis)
-        self.assertNotIn("GitHub Models API", run_analysis)
+        self.assertIn("run_quality_gate()", run_analysis)
+        self.assertIn("falling back to GitHub Models API", run_analysis)
+        self.assertIn("python3 scripts/analyze_fallback.py", run_analysis)
+        self.assertIn('--press-context "$PRESS_FILE"', run_analysis)
+        self.assertIn('ANALYSIS_SOURCE="github-models"', run_analysis)
         self.assertNotIn("no-AI", run_analysis)
-        self.assertNotIn("github-models", run_analysis)
 
     def test_generate_workflow_runs_rollups_and_commits_all_content(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
