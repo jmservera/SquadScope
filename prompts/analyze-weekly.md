@@ -151,7 +151,7 @@ Be critical, selective, and opinionated.
 
 ```md
 ---
-title: "{{TITLE_TEMPLATE_HINT}}"
+title: {{TITLE_TEMPLATE_HINT}}
 date: {{CURRENT_DATETIME}}
 week: "{{CURRENT_WEEK}}"
 year: {{CURRENT_YEAR}}

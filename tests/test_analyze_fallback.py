@@ -74,6 +74,35 @@ class AnalyzeFallbackTests(unittest.TestCase):
             self.assertNotIn("{{CURRENT_YEAR}}", prompt)
             self.assertNotIn("{{TITLE_TEMPLATE_HINT}}", prompt)
 
+    def test_render_prompt_keeps_title_hint_yaml_valid(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W21.json"
+            analyzed_dir = base / "data" / "analyzed"
+            output_path = analyzed_dir / "2026-W21-summary.md"
+            raw_path.parent.mkdir(parents=True)
+            analyzed_dir.mkdir(parents=True)
+
+            raw_path.write_text(json.dumps({"week": "2026-W21", "new_repos": [], "trending_repos": []}), encoding="utf-8")
+
+            prompt = analyze_fallback.render_prompt(
+                prompt_template_path=analyze_fallback.DEFAULT_PROMPT_TEMPLATE,
+                raw_json_path=raw_path,
+                output_path=output_path,
+                current_datetime="2026-05-18T13:05:53.678+02:00",
+                analyzed_dir=analyzed_dir,
+            )
+
+            self.assertIn(
+                'title: Specific editorial headline about 2026-W21\'s dominant themes (not "Week 21, 2026 Analysis")',
+                prompt,
+            )
+            self.assertNotIn(
+                'title: "Specific editorial headline about 2026-W21\'s dominant themes (not "Week 21, 2026 Analysis")"',
+                prompt,
+            )
+
     def test_render_prompt_sanitizes_repo_descriptions(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
