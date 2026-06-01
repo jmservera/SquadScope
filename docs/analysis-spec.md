@@ -194,7 +194,7 @@ The analyzer output must begin with YAML frontmatter containing these fields.
 
 | Field | Type | Required | Meaning |
 |---|---|---:|---|
-| `title` | string | yes | Reader-facing weekly title. Format: `Week NN, YYYY Analysis`. |
+| `title` | string | yes | Reader-facing weekly title. Use a punchy editorial headline, not a generic week label. |
 | `date` | string | yes | Analysis run timestamp in ISO 8601. |
 | `week` | string | yes | Week slug from the raw payload (`YYYY-WNN`). |
 | `year` | integer | yes | Numeric year for downstream validation and archive logic. |
@@ -205,8 +205,9 @@ The analyzer output must begin with YAML frontmatter containing these fields.
 | `top_repo` | string | yes | The repo that anchors the week’s narrative, not necessarily the highest-star repo. |
 | `quality_score` | integer | yes | Reviewer-gate score from 0-100. Must be `>= 60` to publish. |
 | `summary` | string | yes | One-sentence editorial thesis for the week. |
+| `predictions` | array<object> | no | Optional hindsight registry. Each entry is `{repo, direction, confidence}` using `owner/repo`, `up|flat|down`, and confidence from `0` to `1`. |
 
-No extra frontmatter keys should be emitted unless a later decision extends this contract.
+No extra frontmatter keys should be emitted beyond this contract.
 
 ### Required body structure
 

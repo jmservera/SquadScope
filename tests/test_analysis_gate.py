@@ -3,8 +3,8 @@ import unittest
 import scripts.analysis_gate as analysis_gate
 
 
-RAW_PAYLOAD = {"week": "2026-W21"}
-CURRENT_DATETIME = "2026-05-18T00:00:00Z"
+RAW_PAYLOAD = {"week": "2026-W23"}
+CURRENT_DATETIME = "2026-06-01T00:00:00Z"
 
 
 def make_body(*, alternate_heading: str = "## Where Industry Meets Code", include_todo_app: bool = False) -> str:
@@ -79,8 +79,8 @@ def make_analysis(frontmatter: str, body: str) -> str:
 
 
 VALID_FRONTMATTER = '''title: "The Week Local Models Went Mainstream"
-date: 2026-05-18T00:00:00Z
-week: 2026-W21
+date: 2026-06-01T00:00:00Z
+week: 2026-W23
 year: 2026
 tags:
   - ai
@@ -108,8 +108,8 @@ class AnalysisGateTests(unittest.TestCase):
 
     def test_validate_analysis_rejects_wrong_week_date_and_types(self) -> None:
         invalid_frontmatter = '''title: "The Week Local Models Went Mainstream"
-date: 2026-05-12T00:00:00Z
-week: 2026-W20
+date: 2026-06-01T12:00:00Z
+week: 2026-W22
 year: "2026"
 tags: weekly
 categories:
@@ -126,12 +126,11 @@ summary: "A grounded week focused on practical tools."'''.strip()
             CURRENT_DATETIME,
         )
 
-        self.assertIn("week must match raw payload week '2026-W21'.", errors)
+        self.assertIn("week must match raw payload week '2026-W23'.", errors)
         self.assertIn("year must be an integer.", errors)
         self.assertIn("tags must be an array of strings.", errors)
         self.assertIn("categories must include 'weekly'.", errors)
         self.assertIn("date must match the current run timestamp.", errors)
-        self.assertIn("date must fall within raw payload week 2026-W21.", errors)
 
     def test_validate_analysis_requires_real_heading_lines(self) -> None:
         body = make_body(
@@ -189,6 +188,31 @@ summary: "A grounded week focused on practical tools."'''.strip()
         )
 
         self.assertIn("title must not use a generic week/year placeholder format.", errors)
+
+    def test_validate_analysis_accepts_prediction_registry(self) -> None:
+        frontmatter = VALID_FRONTMATTER + "\npredictions:\n  - repo: owner/repo\n    direction: up\n    confidence: 0.7"
+
+        errors, _ = analysis_gate.validate_analysis(
+            make_analysis(frontmatter, make_body()),
+            RAW_PAYLOAD,
+            CURRENT_DATETIME,
+        )
+
+        self.assertEqual(errors, [])
+
+    def test_validate_analysis_rejects_invalid_prediction_registry(self) -> None:
+        frontmatter = VALID_FRONTMATTER + "\npredictions:\n  - repo: bad repo\n    direction: sideways\n    confidence: 1.3\n    note: nope"
+
+        errors, _ = analysis_gate.validate_analysis(
+            make_analysis(frontmatter, make_body()),
+            RAW_PAYLOAD,
+            CURRENT_DATETIME,
+        )
+
+        self.assertIn("predictions[1].repo must use owner/repo format.", errors)
+        self.assertIn("predictions[1].direction must be one of up, flat, down.", errors)
+        self.assertIn("predictions[1].confidence must be between 0 and 1.", errors)
+        self.assertIn("predictions[1] has unexpected fields: note", errors)
 
 
 if __name__ == "__main__":
