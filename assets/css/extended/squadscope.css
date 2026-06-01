@@ -392,6 +392,11 @@ summary:focus-visible,
     width: 100%;
   }
 
+  .home-topic-rail,
+  .post-tags__topic {
+    display: none;
+  }
+
   .table-scroll table {
     min-width: 30rem;
   }

@@ -5,10 +5,10 @@
   <div class="article-footer__taxonomies" aria-label="Report taxonomy">
     <ul class="post-tags">
       {{- range ($page.GetTerms $categories) }}
-      <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+      <li class="post-tags__category"><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
       {{- end }}
       {{- range ($page.GetTerms $tags) }}
-      <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+      <li class="post-tags__topic"><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
       {{- end }}
     </ul>
   </div>
