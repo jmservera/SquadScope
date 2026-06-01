@@ -20,3 +20,12 @@
 - 2026-05-25 Weekly press context uses canonical `## Where Industry Meets Code`; wrapping it in a Hugo partial preserves clean heading flow while giving it complementary landmark styling.
 - 2026-05-25 Phase 5 cost transparency lives in the About page via `{{< cost-dashboard >}}`; keep the shortcode as a thin wrapper over `layouts/partials/cost-dashboard.html` so direct `/dashboard/` links can reuse it.
 - 2026-05-25 PR #199 follow-up: cost dashboard metric lists live in `assets/css/common/cost-dashboard.css`; strengthen `.post-content .cost-dashboard__metrics` specificity so global `.md-content dl/dt/dd` flex rules cannot override dashboard grid layout in article content.
+- 2026-06-01 Issue #216: remove the header/home topic chip strips, keep desktop topic discovery in the homepage rail, and send mobile users to `/topics/` so topic navigation stops crowding small screens.
+- 2026-06-01 The live `/topics/` route is driven by `layouts/topics/terms.html` because Hugo treats `topics` as a taxonomy landing page; fixes for an empty Topics page belong there, not only in `content/topics/_index.md`.
+
+## Round 2026-06-01T12:19
+
+### Issue #216: Mobile Topic Buttons
+- PR #219 opened with clean Hugo build
+- Mobile UX improved for topics navigation
+- Responsive design verified on small screens

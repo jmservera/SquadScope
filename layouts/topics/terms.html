@@ -1,32 +1,71 @@
 {{- define "main" -}}
+{{- $tagTerms := site.Taxonomies.tags.ByCount -}}
+{{- $categoryTerms := site.Taxonomies.categories.Alphabetical -}}
 <header class="page-header">
   {{- partial "breadcrumbs.html" . }}
   <h1>{{ .Title }}</h1>
-  {{- with (.Description | default .Params.summary) }}
-  <div class="post-description">{{ . }}</div>
-  {{- end }}
+  <div class="post-description">{{ .Description | default "Browse weekly issues by topic area, then jump across weekly, monthly, and yearly report categories." }}</div>
 </header>
 
-{{- if .Content }}
-<div class="post-content md-content">
-  {{ .Content }}
-</div>
-{{- end }}
-
-<section class="taxonomy-grid" aria-label="{{ .Title }} terms">
-  {{- range .Data.Terms.Alphabetical }}
-  {{- $term := .Name -}}
-  {{- $count := .Count -}}
-  {{- with site.GetPage (printf "/topics/%s" $term) }}
-  <article class="home-report-card taxonomy-card">
-    <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-    <p>{{ .Params.summary | default (printf "Browse %d weekly issue%s." $count (cond (eq $count 1) "" "s")) }}</p>
-    <div class="home-report-meta">
-      <span>{{ $count }} issue{{ if ne $count 1 }}s{{ end }}</span>
-      <a href="{{ .RelPermalink }}index.xml" title="RSS feed for {{ .LinkTitle }}">RSS</a>
+<section aria-labelledby="topics-directory-heading">
+  <div class="section-heading-row">
+    <div>
+      <div class="section-topline">Browse by theme</div>
+      <h2 id="topics-directory-heading">Active topics</h2>
     </div>
-  </article>
-  {{- end }}
+    <a href="{{ `categories/` | absLangURL }}">Browse categories</a>
+  </div>
+
+  {{- if $tagTerms }}
+  <div class="taxonomy-grid">
+    {{- range $tagTerms }}
+    {{- $term := .Name -}}
+    {{- $count := .Count -}}
+    {{- with site.GetPage (printf "/tags/%s" $term) }}
+    <article class="home-report-card taxonomy-card">
+      <h3><a href="{{ .RelPermalink }}">{{ $term | humanize }}</a></h3>
+      <p>Browse {{ $count }} weekly issue{{ if ne $count 1 }}s{{ end }} touching {{ $term | humanize | lower }}.</p>
+      <div class="home-report-meta">
+        <span>{{ $count }} issue{{ if ne $count 1 }}s{{ end }}</span>
+        <span>Topic</span>
+      </div>
+    </article>
+    {{- end }}
+    {{- end }}
+  </div>
+  {{- else }}
+  <section class="home-empty-state">
+    <h2>No topics published yet</h2>
+    <p>Topic cards will appear here as soon as weekly issues ship with topic tags.</p>
+  </section>
   {{- end }}
 </section>
+
+{{- if $categoryTerms }}
+<section aria-labelledby="categories-directory-heading">
+  <div class="section-heading-row">
+    <div>
+      <div class="section-topline">Browse by cadence</div>
+      <h2 id="categories-directory-heading">Report categories</h2>
+    </div>
+    <a href="{{ `categories/` | absLangURL }}">Open categories page</a>
+  </div>
+  <div class="taxonomy-grid">
+    {{- range $categoryTerms }}
+    {{- $term := .Name -}}
+    {{- $count := .Count -}}
+    {{- with site.GetPage (printf "/categories/%s" $term) }}
+    <article class="home-report-card taxonomy-card">
+      <h3><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h3>
+      <p>{{ .Params.summary | default (printf "Browse %d report%s filed under %s." $count (cond (eq $count 1) "" "s") ($term | humanize | lower)) }}</p>
+      <div class="home-report-meta">
+        <span>{{ $count }} report{{ if ne $count 1 }}s{{ end }}</span>
+        <span>Category</span>
+      </div>
+    </article>
+    {{- end }}
+    {{- end }}
+  </div>
+</section>
+{{- end }}
 {{- end -}}
