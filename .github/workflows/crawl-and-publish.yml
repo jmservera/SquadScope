@@ -799,6 +799,7 @@ jobs:
     if: ${{ always() && contains(needs.*.result, 'failure') }}
     runs-on: ubuntu-latest
     permissions:
+      actions: read
       issues: write
 
     steps:
@@ -807,8 +808,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
         run: |
+          set -euo pipefail
           RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          FAILED_JOBS=$(gh run view "$GITHUB_RUN_ID" --json jobs --jq '[.jobs[] | select(.conclusion=="failure") | .name] | join(", ")')
+          FAILED_JOBS=$(gh run view "${{ github.run_id }}" --json jobs --jq '[.jobs[] | select(.conclusion=="failure") | .name] | join(", ")')
           if [ -z "$FAILED_JOBS" ]; then
             FAILED_JOBS="unknown"
           fi

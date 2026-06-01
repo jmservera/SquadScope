@@ -300,13 +300,13 @@ class WorkflowConfigTests(unittest.TestCase):
         notify_failure_job = workflow["jobs"]["notify-failure"]
         self.assertEqual(notify_failure_job["needs"], ["crawl", "analyze", "generate", "deploy", "notify"])
         self.assertEqual(notify_failure_job["if"], "${{ always() && contains(needs.*.result, 'failure') }}")
-        self.assertEqual(notify_failure_job["permissions"], {"issues": "write"})
+        self.assertEqual(notify_failure_job["permissions"], {"actions": "read", "issues": "write"})
 
         create_issue_step = next((s for s in notify_failure_job["steps"] if s.get("name") == "Create or update failure issue"), None)
         self.assertIsNotNone(create_issue_step)
         self.assertEqual(create_issue_step["env"]["GITHUB_TOKEN"], "${{ secrets.GITHUB_TOKEN }}")
         create_issue_run = create_issue_step["run"]
-        self.assertIn('gh run view "$GITHUB_RUN_ID" --json jobs', create_issue_run)
+        self.assertIn('gh run view "${{ github.run_id }}" --json jobs', create_issue_run)
         self.assertIn('gh issue list --state open --search', create_issue_run)
         self.assertIn('gh issue comment "$ISSUE_NUM"', create_issue_run)
         self.assertIn('gh issue create', create_issue_run)
