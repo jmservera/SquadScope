@@ -22,6 +22,9 @@
 - 2026-05-25 PR #199 follow-up: cost dashboard metric lists live in `assets/css/common/cost-dashboard.css`; strengthen `.post-content .cost-dashboard__metrics` specificity so global `.md-content dl/dt/dd` flex rules cannot override dashboard grid layout in article content.
 - 2026-06-01 Issue #216: remove the header/home topic chip strips, keep desktop topic discovery in the homepage rail, and send mobile users to `/topics/` so topic navigation stops crowding small screens.
 - 2026-06-01 The live `/topics/` route is driven by `layouts/topics/terms.html` because Hugo treats `topics` as a taxonomy landing page; fixes for an empty Topics page belong there, not only in `content/topics/_index.md`.
+- 2026-06-01 PaperMod already exposes share buttons behind `params.ShowShareButtons`; add `params.ShareButtons` in `hugo.toml`, then override `layouts/partials/share_icons.html` at the project layer to add mobile Web Share API behavior without touching the theme submodule.
+- 2026-06-01 Share-button styling belongs in `assets/css/common/post-single.css`, where article footer controls already map to the site token system and stay consistent across weekly/monthly/yearly article views.
+- 2026-06-01 `git submodule update --init --recursive && hugo --minify` only passes here after upgrading to Hugo 0.147.9 locally, adding a project `google_analytics.html` partial, fixing `layouts/partials/cost-dashboard.html` to read from `.Site.Data`, and vendoring the PaperMod partials the site expects under `layouts/partials/`.
 
 ## Round 2026-06-01T12:19
 
@@ -38,3 +41,13 @@
 - Commit e39720c
 - Merged (squash)
 - Issue #216 closed
+
+## Round 2026-06-01T15:40
+
+### Issue #226: Share Button Implementation
+- PR #228 opened
+- Implemented article-level sharing via PaperMod theme
+- Vendored theme partials to project layouts
+- Mobile Web Share API + desktop fallback links (X/LinkedIn/Facebook)
+- Tokenized footer styling maintained
+- Ready for review

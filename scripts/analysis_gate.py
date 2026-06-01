@@ -28,6 +28,8 @@ REQUIRED_FIELDS = [
     "quality_score",
     "summary",
 ]
+OPTIONAL_FIELDS = ["predictions"]
+PREDICTION_DIRECTIONS = {"up", "flat", "down"}
 REQUIRED_HEADINGS = [
     "## This Week's Trends",
     "## Where Industry Meets Code",
@@ -116,6 +118,15 @@ def parse_inline_list(value: str) -> list[str]:
     return items
 
 
+def parse_scalar(value: str) -> Any:
+    scalar = strip_quotes(value)
+    if re.fullmatch(r"-?\d+", scalar):
+        return int(scalar)
+    if re.fullmatch(r"-?\d+\.\d+", scalar):
+        return float(scalar)
+    return scalar
+
+
 def parse_frontmatter_fallback(text: str) -> dict[str, Any]:
     frontmatter: dict[str, Any] = {}
     lines = text.splitlines()
@@ -135,27 +146,48 @@ def parse_frontmatter_fallback(text: str) -> dict[str, Any]:
         if not key:
             raise ValueError(f"Malformed frontmatter key: {line}")
         if value == "":
-            items: list[str] = []
+            items: list[Any] = []
             index += 1
             while index < len(lines):
                 candidate = lines[index]
                 if not candidate.strip():
                     index += 1
                     continue
-                if not candidate.startswith((" ", "\t")):
+                candidate_indent = len(candidate) - len(candidate.lstrip(" \t"))
+                if candidate_indent == 0:
                     break
                 stripped = candidate.strip()
                 if not stripped.startswith("- "):
                     raise ValueError(f"Unsupported multiline frontmatter value for {key}: {candidate}")
-                items.append(strip_quotes(stripped[2:]))
+                item_value = stripped[2:].strip()
+                if ":" in item_value:
+                    item: dict[str, Any] = {}
+                    item_key, item_raw_value = item_value.split(":", 1)
+                    item[item_key.strip()] = parse_scalar(item_raw_value.strip())
+                    index += 1
+                    while index < len(lines):
+                        nested = lines[index]
+                        if not nested.strip():
+                            index += 1
+                            continue
+                        nested_indent = len(nested) - len(nested.lstrip(" \t"))
+                        if nested_indent <= candidate_indent:
+                            break
+                        if ":" not in nested:
+                            raise ValueError(f"Unsupported multiline frontmatter value for {key}: {nested}")
+                        nested_key, nested_raw_value = nested.strip().split(":", 1)
+                        item[nested_key.strip()] = parse_scalar(nested_raw_value.strip())
+                        index += 1
+                    items.append(item)
+                    continue
+                items.append(parse_scalar(item_value))
                 index += 1
             frontmatter[key] = items
             continue
         if value.startswith("[") and value.endswith("]"):
             frontmatter[key] = parse_inline_list(value)
         else:
-            scalar = strip_quotes(value)
-            frontmatter[key] = int(scalar) if re.fullmatch(r"-?\d+", scalar) else scalar
+            frontmatter[key] = parse_scalar(value)
         index += 1
     return frontmatter
 
@@ -223,6 +255,36 @@ def validate_string_list(
         errors.append(f"{field} must include {includes!r}.")
 
 
+def validate_predictions(frontmatter: dict[str, Any], errors: list[str]) -> None:
+    predictions = frontmatter.get("predictions")
+    if predictions is None:
+        return
+    if not isinstance(predictions, list):
+        errors.append("predictions must be an array.")
+        return
+    for index, prediction in enumerate(predictions, start=1):
+        if not isinstance(prediction, dict):
+            errors.append(f"predictions[{index}] must be an object.")
+            continue
+        repo = prediction.get("repo")
+        claim_type = prediction.get("claim_type")
+        direction = prediction.get("direction")
+        confidence = prediction.get("confidence")
+        if not isinstance(repo, str) or not TOP_REPO_PATTERN.fullmatch(repo.strip()):
+            errors.append(f"predictions[{index}].repo must use owner/repo format.")
+        if not isinstance(claim_type, str) or claim_type.strip().lower() not in {"signal", "noise", "gap"}:
+            errors.append(f"predictions[{index}].claim_type must be one of signal, noise, gap.")
+        if not isinstance(direction, str) or direction.strip().lower() not in PREDICTION_DIRECTIONS:
+            errors.append(f"predictions[{index}].direction must be one of up, flat, down.")
+        if isinstance(confidence, bool) or not isinstance(confidence, (int, float)):
+            errors.append(f"predictions[{index}].confidence must be numeric.")
+        elif not 0 <= float(confidence) <= 1:
+            errors.append(f"predictions[{index}].confidence must be between 0 and 1.")
+        extra_fields = sorted(set(prediction) - {"repo", "claim_type", "direction", "confidence"})
+        if extra_fields:
+            errors.append(f"predictions[{index}] has unexpected fields: {', '.join(extra_fields)}")
+
+
 def find_missing_headings(body: str) -> list[str]:
     headings = [f"{level} {title.strip()}" for level, title in HEADING_PATTERN.findall(body)]
     missing: list[str] = []
@@ -246,7 +308,7 @@ def validate_analysis(text: str, raw_payload: dict[str, Any], current_datetime: 
     if missing_fields:
         errors.append(f"Missing frontmatter fields: {', '.join(missing_fields)}")
 
-    extra_fields = sorted(set(frontmatter) - set(REQUIRED_FIELDS))
+    extra_fields = sorted(set(frontmatter) - set(REQUIRED_FIELDS) - set(OPTIONAL_FIELDS))
     if extra_fields:
         errors.append(f"Unexpected frontmatter fields: {', '.join(extra_fields)}")
 
@@ -264,6 +326,7 @@ def validate_analysis(text: str, raw_payload: dict[str, Any], current_datetime: 
     validate_integer_field(frontmatter, "repos_featured", errors)
     validate_integer_field(frontmatter, "stars_tracked", errors)
     validate_integer_field(frontmatter, "quality_score", errors)
+    validate_predictions(frontmatter, errors)
 
     quality_score = frontmatter.get("quality_score")
     if isinstance(quality_score, int) and quality_score < 60:

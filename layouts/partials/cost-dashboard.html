@@ -1,4 +1,4 @@
-{{- $data := index hugo.Data "metrics" "cost-summary" -}}
+{{- $data := index .Site.Data "metrics" "cost-summary" -}}
 {{- if not $data -}}
 <div class="cost-dashboard" aria-labelledby="cost-dashboard-title">
   <p>No cost data available yet.</p>
