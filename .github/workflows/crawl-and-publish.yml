@@ -609,7 +609,19 @@ jobs:
             git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
           fi
           mkdir -p content/weekly content/monthly content/yearly
-          # Required: use exact page_path from generate-content step; hard-fail if missing
+          # generate_content.py returns an absolute path; normalize it before restoring
+          # the freshly generated page onto the publish branch checkout.
+          case "$PAGE_PATH" in
+            "$GITHUB_WORKSPACE"/*) PAGE_PATH="${PAGE_PATH#"$GITHUB_WORKSPACE"/}" ;;
+          esac
+          PAGE_PATH="${PAGE_PATH#/}"
+          case "$PAGE_PATH" in
+            content/weekly/*) ;;
+            *)
+              echo "::error::Expected PAGE_PATH under content/weekly/, got: $PAGE_PATH"
+              exit 1
+              ;;
+          esac
           RELATIVE_FROM_WEEKLY="${PAGE_PATH#content/weekly/}"
           mkdir -p "$(dirname "$PAGE_PATH")"
           cp "content-weekly-backup/${RELATIVE_FROM_WEEKLY}" "$PAGE_PATH"
@@ -782,6 +794,47 @@ jobs:
             -H "Content-Type: application/json" \
             -d "$PAYLOAD" || echo "Webhook post failed (non-critical)"
 
+  notify-failure:
+    needs: [crawl, analyze, generate, deploy, notify]
+    if: ${{ always() && contains(needs.*.result, 'failure') }}
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - name: Create or update failure issue
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          FAILED_JOBS=$(gh run view "$GITHUB_RUN_ID" --json jobs --jq '[.jobs[] | select(.conclusion=="failure") | .name] | join(", ")')
+          if [ -z "$FAILED_JOBS" ]; then
+            FAILED_JOBS="unknown"
+          fi
+
+          EXISTING=$(gh issue list --state open --search 'in:title "Crawl and publish pipeline failed"' --json number --jq length)
+          if [ "$EXISTING" -gt 0 ]; then
+            ISSUE_NUM=$(gh issue list --state open --search 'in:title "Crawl and publish pipeline failed"' --json number --jq '.[0].number')
+            COMMENT_BODY=$(printf '%s\n\n%s' \
+              "Pipeline failed again: ${RUN_URL}" \
+              "Failed jobs: ${FAILED_JOBS}")
+            gh issue comment "$ISSUE_NUM" --body "$COMMENT_BODY"
+            echo "Updated existing issue #$ISSUE_NUM"
+          else
+            BODY=$(printf '%s\n\n%s\n%s\n\n%s\n%s\n%s' \
+              "The Crawl and publish weekly data workflow failed." \
+              "**Run:** ${RUN_URL}" \
+              "**Failed jobs:** ${FAILED_JOBS}" \
+              "Please triage:" \
+              "- If transient (network/rate limit), close with context" \
+              "- If real bug, assign to the right squad member")
+            gh issue create \
+              --title "🔴 Crawl and publish pipeline failed (run ${{ github.run_id }})" \
+              --label bug \
+              --label squad \
+              --body "$BODY"
+          fi
 
   reskill-check:
     needs: [crawl]
