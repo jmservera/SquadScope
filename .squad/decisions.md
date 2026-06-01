@@ -364,3 +364,48 @@ Normalize `page_path` to a repo-relative `content/weekly/...` path inside the ge
 ## Rationale
 The path normalization fixes the actual handoff bug without changing `scripts/generate_content.py`, which already returns an absolute file path used elsewhere in tests. A separate failure notifier makes regressions visible even when later jobs are skipped, which is the exact reliability gap that hid the recent failures.
 
+
+---
+
+# Amy — Share button implementation
+
+Date: 2026-06-01
+
+## Context
+Issue #226 adds article-level sharing. PaperMod already ships a share-buttons partial, but SquadScope also needs mobile-native sharing through the Web Share API and token-aligned styling.
+
+## Decision
+Enable PaperMod share support through `hugo.toml` (`params.ShowShareButtons` plus an explicit `params.ShareButtons` allowlist), then override `layouts/partials/share_icons.html` in the project to add a mobile-only native share button while keeping desktop fallback links for X, LinkedIn, and Facebook. To keep the site buildable with the current PaperMod submodule layout, vendor the theme partials the site already relies on into `layouts/partials/` instead of editing the theme.
+
+## Rationale
+This keeps the third-party theme submodule untouched, reuses the existing article-footer insertion point, and scopes the share customization to a project-level partial plus tokenized footer styles. Vendoring the required PaperMod partials also makes the build deterministic for SquadScope without depending on theme-internal `_partials` resolution quirks.
+
+---
+
+# Farnsworth — Hindsight validation decision
+
+Date: 2026-06-01
+
+## Decision
+Use an optional `predictions` frontmatter registry on weekly analysis summaries with entries shaped as `{repo, direction, confidence}`.
+
+## Why
+The published markdown is already the durable editorial artifact, so embedding prediction intent there avoids a separate ledger drifting out of sync. Legacy summaries still need heuristic extraction from Signal/Noise/Gaps prose, but future summaries should register explicit repo-level calls for cleaner hindsight scoring.
+
+## Operational note
+The validator writes a human scorecard to `.squad/reskill/scorecards/YYYY-WNN.md` and a machine-readable companion to `data/metrics/scorecards/YYYY-WNN-scorecard.json` so the current reskill tooling can ingest the same run.
+
+---
+
+# Fry — Generate-step failure handling
+
+Date: 2026-06-01
+
+## Context
+Issue #220 showed the crawl-and-publish workflow could finish crawl and analysis successfully, then fail in the generate handoff because the generated weekly page path was absolute while the publish-branch restore logic assumed a repository-relative path. The same workflow also lacked a failure-to-issue bridge, so repeated pipeline failures did not automatically open or update a GitHub issue.
+
+## Decision
+Normalize `page_path` to a repo-relative `content/weekly/...` path inside the generate commit step before copying weekly output onto the publish branch. Add a dedicated `notify-failure` job that always evaluates after the pipeline jobs and creates or updates a GitHub issue whenever any crawl/analyze/generate/deploy/notify job fails.
+
+## Rationale
+The path normalization fixes the actual handoff bug without changing `scripts/generate_content.py`, which already returns an absolute file path used elsewhere in tests. A separate failure notifier makes regressions visible even when later jobs are skipped, which is the exact reliability gap that hid the recent failures.

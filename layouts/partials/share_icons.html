@@ -1,0 +1,98 @@
+{{- $pageurl := .Permalink -}}
+{{- $title := .Title | plainify -}}
+{{- $summary := (.Description | default .Summary | default .Title) | plainify -}}
+{{- $.Scratch.Set "tags" "" -}}
+{{- with .Params.Tags -}}
+  {{- $hashtags := newScratch -}}
+  {{- range . -}}
+    {{- $hashtags.Add "tags" (slice (replaceRE "(\\s)" "" .)) -}}
+  {{- end -}}
+  {{- $.Scratch.Set "tags" (delimit ($hashtags.Get "tags") ",") -}}
+{{- end -}}
+{{- $shareButtons := .Param "ShareButtons" | default (slice "x" "linkedin" "facebook") -}}
+<div class="share-block" aria-label="Share this report">
+  <p class="share-block__label">Share this report</p>
+  <div class="share-actions">
+    <button
+      type="button"
+      class="share-button share-button--native"
+      data-share-native
+      data-share-title="{{ $title }}"
+      data-share-text="{{ $summary }}"
+      data-share-url="{{ $pageurl }}"
+      aria-label="Share this report using your device share sheet"
+      hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="18" cy="5" r="3"></circle>
+        <circle cx="6" cy="12" r="3"></circle>
+        <circle cx="18" cy="19" r="3"></circle>
+        <path d="M8.59 13.51 15.42 17.49"></path>
+        <path d="M15.41 6.51 8.59 10.49"></path>
+      </svg>
+      <span>Share</span>
+    </button>
+    <ul class="share-buttons" aria-label="Share on social platforms">
+      {{- if or (in $shareButtons "x") (in $shareButtons "twitter") }}
+      <li>
+        <a class="share-button share-button--icon" target="_blank" rel="noopener noreferrer" aria-label="Share {{ $title }} on X"
+          href="https://x.com/intent/tweet/?text={{ $title | urlquery }}&amp;url={{ $pageurl | urlquery }}&amp;hashtags={{ $.Scratch.Get "tags" | urlquery }}">
+          <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" fill="currentColor" aria-hidden="true">
+            <path d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+          </svg>
+          <span class="visually-hidden">X</span>
+        </a>
+      </li>
+      {{- end }}
+      {{- if in $shareButtons "linkedin" }}
+      <li>
+        <a class="share-button share-button--icon" target="_blank" rel="noopener noreferrer" aria-label="Share {{ $title }} on LinkedIn"
+          href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ $pageurl | urlquery }}&amp;title={{ $title | urlquery }}&amp;summary={{ $summary | urlquery }}&amp;source={{ $pageurl | urlquery }}">
+          <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" fill="currentColor" aria-hidden="true">
+            <path d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+          </svg>
+          <span class="visually-hidden">LinkedIn</span>
+        </a>
+      </li>
+      {{- end }}
+      {{- if in $shareButtons "facebook" }}
+      <li>
+        <a class="share-button share-button--icon" target="_blank" rel="noopener noreferrer" aria-label="Share {{ $title }} on Facebook"
+          href="https://facebook.com/sharer/sharer.php?u={{ $pageurl | urlquery }}">
+          <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" fill="currentColor" aria-hidden="true">
+            <path d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+          </svg>
+          <span class="visually-hidden">Facebook</span>
+        </a>
+      </li>
+      {{- end }}
+    </ul>
+  </div>
+</div>
+<script>
+  (() => {
+    const nativeShareButton = document.querySelector('[data-share-native]');
+    if (!nativeShareButton || typeof navigator === 'undefined' || typeof navigator.share !== 'function') {
+      return;
+    }
+
+    const shouldUseNativeShare = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    if (!shouldUseNativeShare) {
+      return;
+    }
+
+    nativeShareButton.hidden = false;
+    nativeShareButton.addEventListener('click', async () => {
+      try {
+        await navigator.share({
+          title: nativeShareButton.dataset.shareTitle,
+          text: nativeShareButton.dataset.shareText,
+          url: nativeShareButton.dataset.shareUrl,
+        });
+      } catch (error) {
+        if (error && error.name !== 'AbortError') {
+          window.open(nativeShareButton.dataset.shareUrl, '_blank', 'noopener');
+        }
+      }
+    });
+  })();
+</script>
