@@ -105,3 +105,18 @@
   - PR #236: CI passing, team reviewed, security gate cleared, awaits admin merge
 - **Outcome:** Both PRs mergeable but policy-blocked; awaiting admin/external approver override
 
+## Round 4 (2026-06-05 final)
+
+**Trigger:** Copilot auto-review directive enforcement
+
+- **Directive Activated:** All Copilot auto-review comments must be addressed and resolved
+  - If Copilot proposes a change, review and accept it or provide your own solution and resolve
+  - If invalid after thorough review, resolve with explanation
+- **Fry Resolution:** PR #235 Copilot review thread PRRT_kwDOSgq4hM6HaPhr resolved
+  - Fallback warning updated: "No publishable Copilot summary was produced; falling back to GitHub Models API."
+  - commit 7409b05 pushed; 9 tests passing
+- **Bender Resolution:** PR #236 Copilot review thread PRRT_kwDOSgq4hM6HaRkn resolved
+  - Docs command updated to `python3 -m scripts.techcrunch_crawler ...`
+  - commit ba2787e pushed; validation in clean venv passed
+- **Status:** Both Copilot review threads resolved. PR #235 checks green/clean. PR #236 awaiting post-commit CodeQL.
+

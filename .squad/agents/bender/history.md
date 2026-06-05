@@ -15,3 +15,12 @@
 - GitHub Actions schedule events do not have an `inputs` object; use `!inputs.X` instead of `github.event.inputs.X == ''` to safely check optional manual inputs without breaking cron triggers (critical fix, PR #164).
 - Deploy pipeline should hydrate previous-week content/data from publish branch before Hugo build to prevent main/publish divergence and preserve existing data integrity (PR #164, W21 rescue architectural fix).
 - Fork-safe deploy secrets should default to empty in Hugo config and be injected via `HUGO_PARAMS_*` environment overrides so forks render safe defaults without inherited maintainer secrets (GA4 PR #182/#191).
+
+## Round 1 (2026-06-05)
+
+- Resolved Copilot review thread PRRT_kwDOSgq4hM6HaRkn on PR #236
+- Updated docs command to `python3 -m scripts.techcrunch_crawler ...`
+- Validated command in clean venv: `python3 -m scripts.techcrunch_crawler --help` successful
+- commit ba2787e pushed; thread resolved
+- PR #236 awaiting post-commit CodeQL
+

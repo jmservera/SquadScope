@@ -63,3 +63,12 @@
 ## PR #235 Copilot review follow-up (2026-06-05)
 
 - Copilot fallback warnings should describe the observed pipeline state, not just retry exhaustion: the same branch can mean 0 Copilot attempts because the CLI is unavailable or failed attempts that never yielded a publishable summary.
+
+## PR #235 Copilot review resolution (2026-06-05)
+
+- Resolved Copilot review thread PRRT_kwDOSgq4hM6HaPhr
+- Updated fallback warning: "No publishable Copilot summary was produced; falling back to GitHub Models API."
+- Added pipeline test assertion to prevent regression
+- 9 tests passing
+- commit 7409b05 pushed; thread resolved
+
