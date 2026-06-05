@@ -87,3 +87,9 @@
 - Tests to add: merge helper validation (schema, dedupe, sorting, error handling), per-source failure handling, fallback paths, reproducibility gates, citation preservation.
 - Metrics: per-source (name, host, duration, article counts, errors) and aggregate (source_count, failed_source_count, total articles, artifact size).
 - Decision recorded in .squad/decisions.md.
+
+## Issue #238 notify triage (2026-06-05)
+
+- Run 27026348186 completed crawl, analyze, generate, and deploy successfully; only `notify` failed.
+- Root cause: `gh release create week-2026-W23` is not idempotent when the weekly release tag already exists, so rerunning/publishing the same week produced HTTP 422 `Release.tag_name already exists`.
+- QA fix: make notify update an existing weekly release with `gh release edit` instead of failing, while preserving release creation for new weeks.
