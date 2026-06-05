@@ -443,3 +443,19 @@ A missing or unauthorized model is an operational dependency failure, but the pi
 
 If model access is restored, the AI analysis path remains preferred. The no-AI path is only a terminal fallback after Copilot and GitHub Models fail.
 
+---
+
+# Leela: Close unverifiable W23 growth execution
+
+Date: 2026-06-05T15:36:19.379+00:00
+
+**By:** Leela
+
+## Decision
+
+Issue #188 was closed as obsolete/unverifiable rather than reconstructed or rerouted. W23 draft files under `.squad/posts/`, the requested `.squad/metrics/2026/w23-distribution.md`, and platform posting evidence were absent from the working tree, git history, related issues, and PR context. PR #190 and `docs/growth/distribution-strategy.md` only provide the launch strategy/template, not the W23 execution artifacts.
+
+## Rationale
+
+Recreating social posts and metrics after the distribution window would create misleading evidence. Future growth execution issues should remain open until artifact-backed proof exists, or be closed explicitly when the posting window expires without evidence.
+
