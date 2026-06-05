@@ -137,7 +137,7 @@ def _format_correlations_narrative(
     if not correlations:
         return "(No significant press correlations this week.)"
 
-    # URL → title/source lookup for inline article links
+    # URL → title lookup for inline article links
     url_to_title: dict[str, str] = {
         a["url"]: a["title"]
         for a in articles

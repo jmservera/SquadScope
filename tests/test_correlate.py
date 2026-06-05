@@ -254,6 +254,16 @@ class TestCorrelateRepo:
         assert result["correlation_strength"] == "weak"
         assert result["correlation_confidence"] == 0.4
 
+    def test_corroborated_category_match_stays_weak(self):
+        repo = _repo(owner="acme", name="tool", topics=["ai"], stars_gained=50)
+        articles = [
+            _article(url="https://example.com/a", categories=["ai"], entities=[], source="alpha"),
+            _article(url="https://example.com/b", categories=["ai"], entities=[], source="beta"),
+        ]
+        result = correlate_repo(repo, articles)
+        assert result is not None
+        assert result["correlation_strength"] == "weak"
+
 
 # ---------------------------------------------------------------------------
 # Integration: correlate_all

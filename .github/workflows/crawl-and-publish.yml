@@ -109,10 +109,12 @@ jobs:
         run: |
           WEEK=$(date +%Y-W%V)
           SINCE=$(date -d '7 days ago' +%Y-%m-%d)
+          UNTIL=$(date +%Y-%m-%d)
           python scripts/techcrunch_crawler.py \
             --sources config/external_news_sources.json \
             --output "data/raw/${WEEK}-external-news.json" \
-            --since "$SINCE"
+            --since "$SINCE" \
+            --until "$UNTIL"
           python3 - <<'PY' "data/raw/${WEEK}-external-news.json"
           import json
           import sys

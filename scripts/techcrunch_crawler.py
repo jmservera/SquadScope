@@ -34,6 +34,7 @@ from scripts.topic_paths import raw_dir
 FEED_URL = "https://techcrunch.com/feed/"
 DEFAULT_SOURCES_PATH = Path("config/external_news_sources.json")
 DEFAULT_FETCH_TIMEOUT_SECONDS = 15
+DEFAULT_FETCH_RETRIES = 1
 DEFAULT_MAX_WORKERS = 8
 CANONICAL_SCHEMA_VERSION = 2
 APPROVED_FEED_HOSTS = frozenset({
@@ -249,7 +250,7 @@ def parse_published_date(entry: Any) -> datetime | None:
 
 def fetch_feed(
     url: str = FEED_URL,
-    retries: int = 1,
+    retries: int = DEFAULT_FETCH_RETRIES,
     timeout: int = DEFAULT_FETCH_TIMEOUT_SECONDS,
 ) -> Any:
     """Fetch and parse RSS feed with bounded retries and an explicit timeout."""
@@ -407,7 +408,7 @@ def crawl_sources_parallel(
             status["success"] = True
             return source_articles, status, None
         except Exception as exc:  # pragma: no cover - defensive around network/parser failures
-            status["attempts"] = max(source_client.last_attempts, 1)
+            status["attempts"] = source_client.last_attempts or (DEFAULT_FETCH_RETRIES + 1)
             status["error_class"] = exc.__class__.__name__
             status["error_message"] = str(exc)
             error = {

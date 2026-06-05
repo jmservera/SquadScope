@@ -233,7 +233,7 @@ def correlation_strength(
     }
     corroborated = len(source_names) >= 2 or len(_unique_articles(matched_articles)) >= 2
     if match_type in WEAK_MATCH_TYPES:
-        return "strong" if corroborated else "weak"
+        return "weak"
     if match_type in {"direct_link", "org_name"} or temporal_spike or corroborated:
         return "strong"
     return "weak"
