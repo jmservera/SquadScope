@@ -41,3 +41,4 @@
 
 - Multi-source RSS remains in-process, but downstream reliability depends on a versioned canonical artifact: include crawl window, source config checksum, per-source statuses, partial failures, dedupe count, and deterministic checksum in `*-external-news.json`.
 - Press correlation must retain bounded source-aware citations and label category/fuzzy-only matches as weak so mirrored coverage or broad topics do not inflate strong press claims.
+- PR #242 review follow-up: failed RSS fetch exceptions must stamp source-level attempt/timeout telemetry before re-raising, and scheduled external-news crawls should pass both `--since` and `--until` so canonical crawl windows are reproducible.

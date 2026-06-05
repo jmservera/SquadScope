@@ -304,7 +304,12 @@ class NewsFeedSource:
         """Crawl an RSS feed and return structured articles."""
         resolved_feed_url = feed_url or self.config.feed_url
         validate_feed_url(resolved_feed_url)
-        feed = fetch_feed(resolved_feed_url)
+        try:
+            feed = fetch_feed(resolved_feed_url)
+        except Exception:
+            self.last_attempts = DEFAULT_FETCH_RETRIES + 1
+            self.last_timeout_seconds = DEFAULT_FETCH_TIMEOUT_SECONDS
+            raise
         self.last_attempts = int(getattr(feed, "squad_fetch_attempts", 1))
         self.last_timeout_seconds = int(
             getattr(feed, "squad_fetch_timeout_seconds", DEFAULT_FETCH_TIMEOUT_SECONDS)

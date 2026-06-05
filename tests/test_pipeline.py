@@ -173,6 +173,24 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn(".squad/run-counter.txt", run_script)
         self.assertIn("git add data/raw/ data/snapshots/ .squad/run-counter.txt", run_script)
 
+    def test_external_news_workflow_passes_deterministic_until(self) -> None:
+        workflow_path = Path(".github/workflows/crawl-and-publish.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+
+        crawl_job = workflow["jobs"]["crawl"]
+        external_news_step = next(
+            (
+                step for step in crawl_job["steps"]
+                if step.get("name") == "Crawl external news RSS feeds"
+            ),
+            None,
+        )
+
+        self.assertIsNotNone(external_news_step, "External news crawl step not found")
+        run_script = external_news_step["run"]
+        self.assertIn("UNTIL=$(date +%Y-%m-%d)", run_script)
+        self.assertIn('--until "$UNTIL"', run_script)
+
     def test_crawl_workflow_defines_reskill_jobs(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))

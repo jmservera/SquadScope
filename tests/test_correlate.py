@@ -11,6 +11,7 @@ from scripts.correlate import (
     assess_hype_risk,
     correlate_all,
     correlate_repo,
+    correlation_strength,
     dedupe_articles,
     extract_week_from_filename,
     fuzzy_name_score,
@@ -262,6 +263,37 @@ class TestCorrelateRepo:
         ]
         result = correlate_repo(repo, articles)
         assert result is not None
+        assert result["correlation_strength"] == "weak"
+
+    @pytest.mark.parametrize("match_type", ["category", "project_name"])
+    def test_weak_match_types_never_become_strong(self, match_type):
+        articles = [
+            _article(url="https://example.com/a", source="alpha"),
+            _article(url="https://example.com/b", source="beta"),
+        ]
+
+        assert correlation_strength(match_type, articles, temporal_spike=True) == "weak"
+
+    def test_corroborated_project_name_match_stays_weak(self):
+        repo = _repo(owner="acme", name="signal-kit", stars_gained=50)
+        articles = [
+            _article(
+                title="Signal Kit draws developer interest",
+                url="https://example.com/a",
+                entities=[],
+                source="alpha",
+            ),
+            _article(
+                title="Signal Kit keeps growing",
+                url="https://example.com/b",
+                entities=[],
+                source="beta",
+            ),
+        ]
+
+        result = correlate_repo(repo, articles)
+        assert result is not None
+        assert result["match_type"] == "project_name"
         assert result["correlation_strength"] == "weak"
 
 
