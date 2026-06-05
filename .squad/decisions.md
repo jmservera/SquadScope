@@ -736,3 +736,44 @@ Do not open a separate crawler/RSS matrix issue from this run. The existing PRD/
 **Outcome:** decisions.md grew from 45948 → 91562 bytes. Inbox purged. No duplicates found in merge. Added 5 decision dividers. Content addresses crawl matrix topology, analysis map/reduce experiment design, QA gates/tests, run diagnostics, and fallback strategy.
 
 **No archiving trigger:** decisions.md is still within typical document lifecycle size; existing PRD scope is fresh and actionable.
+
+---
+
+## Leela: Analysis rerun safety issue plan
+
+Created: 2026-06-05T20:46:00.582+00:00
+
+### Parent epic
+
+- #248 — [Protect published weekly analysis from unsafe reruns](https://github.com/jmservera/SquadScope/issues/248)
+
+### Immediate objective
+
+Stop failed, degraded, low-quality, or no-AI analysis reruns from overwriting a good published weekly article. This protection should land before map/reduce implementation changes can affect publication.
+
+### Child issues hierarchy
+
+**P0 Safety Layer (11 issues):**
+- #249 — Add candidate staging and publish eligibility manifest for analysis outputs | Bender | type:feature, priority:p0
+- #250 — Preserve existing good weekly analysis on failed/degraded reruns | Bender | type:feature, priority:p0
+- #251 — Block no-AI fallback from replacing AI-authored weekly summaries by default | Farnsworth | type:feature, priority:p0, rai
+- #252 — Add explicit safe rerun modes and restore workflow controls | Leela | type:feature, priority:p0
+- #253 — Add immutable backups and publish-branch concurrency safeguards | Bender | type:feature, priority:p0
+- #254 — Make weekly promotion atomic across analyzed/content/deploy/notify | Bender | type:feature, priority:p0
+- #255 — Strengthen analysis publish gate beyond structural validation | Farnsworth | type:feature, priority:p0, rai
+- #257 — Add overwrite-protection and rerun idempotency regression tests | Fry | type:feature, priority:p0
+
+**P1 Quality/Run Readiness (2 issues):**
+- #256 — Add preflight compaction and fallback policy for next analysis run | Farnsworth | type:feature, priority:p1
+- #259 — Document safe rerun, force-replace, and restore operations | Leela | type:docs, priority:p1
+
+**P2 Future Analysis Architecture (1 issue):**
+- #258 — Add map/reduce dry-run with claim-ledger contracts and QA comparison gates | Farnsworth with Fry QA support | type:feature, priority:p2, rai
+
+### Summary
+
+Safety-first protection layer for analysis reruns across staging/publish workflow. Prevents silent overwrite of good weekly articles on transient failures, low-quality output, or no-AI fallback misuse. Prioritizes atomic promotion, eligibility gates, and immutable backups before rolling out map/reduce.
+
+### Notes
+
+GitHub issue hierarchy represented via parent #248 with linked child issues and inline comments. All issues labeled `squad` with per-owner tracking.
