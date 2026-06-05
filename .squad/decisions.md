@@ -667,7 +667,7 @@ CI validation:
 
 Date: 2026-06-05T17:42:56.819+00:00
 Owner: Leela / Lead
-Artifact: `docs/processed/PRD-matrix-crawl-map-reduce-analysis.md`
+Artifact: `docs/PRD-matrix-crawl-map-reduce-analysis.md`
 
 ## Decision recommendation
 
