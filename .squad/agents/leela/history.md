@@ -14,6 +14,7 @@
 - 2026-06-01 review note: PR #219 stayed within presentation scope and diff-check was clean, but local Hugo validation remained blocked by the repo's existing toolchain baseline rather than the PR itself.
 - 2026-06-01 governance note: GitHub will not let this account approve its own PRs, so branches opened as `jmservera` still need an independent reviewer before Leela can treat approval gating as satisfied.
 - 2026-06-05T15:36:19.379+00:00 growth governance note: time-boxed distribution work needs repository artifacts, metrics files, or linked platform evidence before acceptance is considered verifiable; do not reconstruct stale social copy after the posting window just to satisfy checked boxes.
+- 2026-06-05 PR #235 review note: a terminal no-AI publishing fallback is acceptable when it is deterministic, explicitly attributed (`source=no-ai`, `model=none`), and still passes the same analysis quality gate; self-approval remains blocked for `jmservera`-authored PRs.
 
 ## Round 1 (2026-06-05)
 
@@ -22,3 +23,11 @@
 - Updated docs/decision (source-selection methodology, BaseURL strategy)
 - Updated docs/history with architecture notes
 - Issue #188 assigned for round 2 (missing-artifact findings from Fry)
+
+## Round 2 (2026-06-05)
+
+- PR #235 code review: approved in substance (terminal no-AI publishing fallback)
+- Formal approval blocked by GitHub own-PR rules (self-authored `jmservera` PR)
+- Posted lead review comment to PR #235
+- Awaiting independent reviewer approval before merge
+- Note: self-approval remains impossible for `jmservera`-authored PRs regardless of review gate satisfaction

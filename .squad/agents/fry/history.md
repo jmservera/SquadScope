@@ -45,3 +45,17 @@
 - Reusable skill: notify-failure job for pipeline failure visibility
 - Outcomes: #232 has PR ready, #230 closed as stale, #188 rerouted to Leela
 
+## PR #236 QA (2026-06-05)
+
+- Config-driven RSS expansion should be verified at the stage boundary: crawler output shape, correlation input resolution, press-context fallback, and rebuild hydration all need coverage.
+- Bounded in-process RSS fan-out is acceptable for the current five-source enrichment set when full tests and a live smoke confirm stable artifact production.
+
+## Round 2 (2026-06-05)
+
+- QA review of PR #236 RSS enrichment feature complete
+- 554 unit tests passed
+- Live 5-source RSS smoke test: 54 articles, 5 sources, no feed errors
+- QA verdict: **approve** (no follow-up QA work required)
+- Formal approval blocked by GitHub own-PR rules (self-authored by Fry PR author)
+- Posted QA rationale to PR #236
+- Awaiting security review (Hermes) and lead approval (Leela) before merge

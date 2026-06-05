@@ -459,3 +459,46 @@ Issue #188 was closed as obsolete/unverifiable rather than reconstructed or rero
 
 Recreating social posts and metrics after the distribution window would create misleading evidence. Future growth execution issues should remain open until artifact-backed proof exists, or be closed explicitly when the posting window expires without evidence.
 
+---
+
+# Fry PR #236 QA Review
+
+Date: 2026-06-05T15:36:19.379+00:00
+
+PR #236 keeps RSS enrichment in the existing crawl job with bounded in-process parallel fetching instead of separate Actions jobs.
+
+QA verified the diff covers config loading, multi-source crawl aggregation, metadata/errors, legacy `*-techcrunch.json` fallback, correlation handoff, press-context resolution, and rebuild hydration.
+
+Validation run in an isolated PR worktree:
+- `PYTHONPATH=. .venv/bin/python -m pytest tests -q` → 554 passed
+- Live RSS smoke with `--max-workers 5` → 54 articles from 5 sources, no feed errors
+
+Verdict: approve; no follow-up implementation owner required.
+
+---
+
+# Hermes security review — PR #236 external RSS feeds
+
+Date: 2026-06-05T15:36:19.379+00:00
+
+## Verdict
+
+Request changes before merge.
+
+## Rationale
+
+PR #236 keeps workflow secrets out of the RSS step and does not add new dependency classes, but the new config-driven fetcher currently trusts `feed_url` values without enforcing scheme/host boundaries and calls `feedparser.parse(url)` without an explicit per-request timeout. Because the workflow runs this in CI and later grants `contents: write` in the same job, external-network behavior should fail closed around the intended RSS allowlist and fail fast on slow/unresponsive feeds.
+
+## Required fixes
+
+- Validate source config with `urllib.parse.urlparse()` before crawling:
+  - require `https`;
+  - require hostnames to match the repository-owned allowlist for the five intended feeds;
+  - reject credentials, local/private/link-local hosts, and unexpected ports.
+- Fetch feeds through a code path with explicit timeout and bounded retry/backoff behavior; do not rely on the default socket timeout.
+- Keep bounded concurrency; optionally validate `--max-workers` to a safe range.
+
+## Suggested owner
+
+Bender should own the fixes so Leela does not review her own implementation changes.
+

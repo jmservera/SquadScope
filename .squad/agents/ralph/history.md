@@ -69,3 +69,19 @@
 - Issue triage routed: #232 and #230 resolved, #188 assigned to Leela
 - Clean handoff to round 2
 
+## Round 2 (2026-06-05)
+
+- **Enforced reviewer rejection protocol** across team
+- **PR #235 Status:** Approved in substance by Leela, formal approval blocked by own-PR rules
+  - Leela locked out (cannot self-approve `jmservera`-authored PR)
+  - Awaiting independent reviewer
+- **PR #236 Status:** Blocking security review by Hermes
+  - Hermes identified required fixes: URL validation, timeouts, bounded retries, `--max-workers` validation
+  - Hermes locked out (cannot self-approve own security review)
+  - Bender spawned as revision owner for security fixes
+- **Team Status:**
+  - Leela: review complete, locked out by own-PR rules
+  - Fry: QA pass, locked out by own-PR rules
+  - Hermes: security blocking, locked out by own-PR rules
+  - Bender: revision owner for PR #236 security fixes
+- **Next round:** Monitor Bender's security fixes in PR #236 revision
