@@ -195,6 +195,10 @@ def main(argv: list[str] | None = None) -> int:
     return 0
 ```
 
+### Config-Driven Parallel RSS Sources
+
+For small sets of external RSS feeds in the weekly Actions pipeline, prefer one config file plus bounded in-process parallel fetches over one job per feed. This avoids repeated checkout/setup/artifact overhead, keeps a single enrichment artifact contract, and lets maintainers add or remove sources without editing workflow topology.
+
 ## Notes
 
 - Standardize output schemas across all data sources for seamless pipeline integration

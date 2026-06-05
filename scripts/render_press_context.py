@@ -574,8 +574,11 @@ def render_press_context(
 
 
 def resolve_paths(topic: str | None, week: str) -> tuple[Path, Path]:
-    """Resolve file paths for TechCrunch and correlation data."""
-    tc_path = raw_dir(topic) / f"{week}-techcrunch.json"
+    """Resolve file paths for external news and correlation data."""
+    raw_path = raw_dir(topic)
+    external_path = raw_path / f"{week}-external-news.json"
+    legacy_path = raw_path / f"{week}-techcrunch.json"
+    tc_path = legacy_path if legacy_path.exists() and not external_path.exists() else external_path
     corr_path = analyzed_dir(topic) / f"{week}-correlations.json"
     return tc_path, corr_path
 

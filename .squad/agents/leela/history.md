@@ -5,6 +5,7 @@
 - Keeps interface contracts stable enough for specialists to work independently.
 
 ## Learnings
+- 2026-06-05T15:36:19.379+00:00 issue #234: for small RSS enrichment sets in the weekly crawl, prefer a config-driven source list plus bounded in-process parallel fetches over separate Actions jobs; runner setup/artifact overhead outweighs per-feed job parallelism.
 - Branch protection must never be bypassed; automated write paths should follow the shared `branch-protection-pr-workflow` skill instead.
 - The learning loop only works when agent identity is loaded before execution, outcomes are persisted after execution, and that state is injected into the next run.
 - Copilot CLI agent selection uses the registered agent name, not the path to the agent file.

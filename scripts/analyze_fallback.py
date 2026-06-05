@@ -374,7 +374,9 @@ def _render_press_section_no_ai(press_context_path: Path | None) -> str:
     stem = press_context_path.stem  # e.g. "2026-W21-press-context"
     week = stem.replace("-press-context", "")  # e.g. "2026-W21"
     data_dir = press_context_path.parent.parent  # data/analyzed/ -> data/
-    tc_path = data_dir / "raw" / f"{week}-techcrunch.json"
+    external_path = data_dir / "raw" / f"{week}-external-news.json"
+    legacy_path = data_dir / "raw" / f"{week}-techcrunch.json"
+    tc_path = external_path if external_path.exists() else legacy_path
     corr_path = data_dir / "analyzed" / f"{week}-correlations.json"
 
     if tc_path.exists():

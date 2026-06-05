@@ -34,3 +34,5 @@
 - Recommendation: Use Option C — keep in-process now, add per-source logs and schema versioning, add validation/merge step before analysis, defer matrix to when RSS p95 > 60s or source count > 10.
 - Acceptance criteria documented: per-source logs, schema_version, sources_requested/succeeded/failed, deterministic merge.
 - Decision recorded in .squad/decisions.md; GitHub issue #237 created for implementation.
+- External RSS crawlers must validate config URLs against an HTTPS host allowlist and fetch through explicit per-request timeouts; config-driven source lists are not a security boundary by themselves (PR #236).
+- Local validation docs for scripts importing `scripts.*` modules should use `python3 -m ...` or set `PYTHONPATH=.` so repo-root imports resolve reliably (PR #236).

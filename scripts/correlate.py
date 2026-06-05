@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Cross-source correlation engine for SquadScope.
 
-Matches TechCrunch articles to GitHub repo activity using fuzzy matching
+Matches external news articles to GitHub repo activity using fuzzy matching
 heuristics to identify press-correlated repositories.
 
 Usage:
     python scripts/correlate.py [--raw data/raw/ai-ml/2026-W21.json] \
-        [--techcrunch data/raw/ai-ml/2026-W21-techcrunch.json] \
+        [--techcrunch data/raw/ai-ml/2026-W21-external-news.json] \
         [--output data/analyzed/ai-ml/2026-W21-correlations.json] \
         [--topic ai-ml]
 """
@@ -384,7 +384,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--techcrunch", default=None,
-        help="Path to TechCrunch articles JSON file",
+        help="Path to external news articles JSON file",
     )
     parser.add_argument(
         "--output", default=None,
@@ -411,11 +411,13 @@ def main(argv: list[str] | None = None) -> int:
         log(f"Raw file not found: {raw_path}")
         return 1
 
-    # Resolve TechCrunch file
+    # Resolve external news file, with TechCrunch-only legacy fallback.
     if args.techcrunch:
         tc_path = Path(args.techcrunch)
     else:
-        tc_path = find_latest_file(raw_dir(topic), "*-techcrunch.json")
+        tc_path = find_latest_file(raw_dir(topic), "*-external-news.json")
+        if tc_path is None:
+            tc_path = find_latest_file(raw_dir(topic), "*-techcrunch.json")
 
     # Load repos
     raw_data = load_json(raw_path)

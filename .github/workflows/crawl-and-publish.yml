@@ -104,13 +104,14 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
-      - name: Crawl TechCrunch RSS
+      - name: Crawl external news RSS feeds
         if: ${{ !inputs.rebuild_week }}
         run: |
           WEEK=$(date +%Y-W%V)
           SINCE=$(date -d '7 days ago' +%Y-%m-%d)
           python scripts/techcrunch_crawler.py \
-            --output "data/raw/${WEEK}-techcrunch.json" \
+            --sources config/external_news_sources.json \
+            --output "data/raw/${WEEK}-external-news.json" \
             --since "$SINCE"
 
       - name: Upload raw crawl artifact
@@ -212,6 +213,7 @@ jobs:
           git fetch origin publish
           mkdir -p data/raw data/analyzed data/snapshots
           git checkout origin/publish -- "data/raw/${REBUILD_WEEK}.json"
+          git checkout origin/publish -- "data/raw/${REBUILD_WEEK}-external-news.json" 2>/dev/null || true
           git checkout origin/publish -- "data/raw/${REBUILD_WEEK}-techcrunch.json" 2>/dev/null || true
           git checkout origin/publish -- "data/snapshots/${REBUILD_WEEK}-stars.json" 2>/dev/null || true
           # Also hydrate ALL prior analyzed files so rollups have correct historical context
@@ -276,9 +278,12 @@ jobs:
           set -euo pipefail
           WEEK="${{ steps.analysis-context.outputs.week }}"
           WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
-          TC_FILE="data/raw/${WEEK}-techcrunch.json"
+          TC_FILE="data/raw/${WEEK}-external-news.json"
+          if [ ! -f "$TC_FILE" ]; then
+            TC_FILE="data/raw/${WEEK}-techcrunch.json"
+          fi
 
-          # Run correlate if TechCrunch data exists
+          # Run correlate if external news data exists
           if [ -f "$TC_FILE" ]; then
             mkdir -p data/analyzed
             python scripts/correlate.py \
