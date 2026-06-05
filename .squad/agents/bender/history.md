@@ -24,3 +24,13 @@
 - commit ba2787e pushed; thread resolved
 - PR #236 awaiting post-commit CodeQL
 
+- Comparing W23 crawler runs showed five in-process external RSS feeds added about 1s while the GitHub repo crawl remained the dominant 4m47s–5m58s step; keep RSS bounded in-process until source count/runtime justifies a matrix.
+
+## 2026-06-05 Crawler parallelism analysis
+
+- Analyzed old run (26753498571) vs. new run (27026348186) to assess topology options.
+- Key finding: GitHub repo crawl is bottleneck (~5m58s old, ~4m47s new); RSS parallelism not a factor (~1s).
+- Topology options: A (bounded in-process), B (matrix per-source), C (hybrid staged).
+- Recommendation: Use Option C — keep in-process now, add per-source logs and schema versioning, add validation/merge step before analysis, defer matrix to when RSS p95 > 60s or source count > 10.
+- Acceptance criteria documented: per-source logs, schema_version, sources_requested/succeeded/failed, deterministic merge.
+- Decision recorded in .squad/decisions.md; GitHub issue #237 created for implementation.
