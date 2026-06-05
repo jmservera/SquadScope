@@ -62,3 +62,46 @@
 - PR #227 merged (squash). Closes #38.
 - Fry's test branch cleaned up.
 - Board clear except #188 (stale).
+
+## Round 1 (2026-06-05)
+
+- Board scan: pre-round zero PRs, post-round PR #235 and PR #236 open with green checks
+- Issue triage routed: #232 and #230 resolved, #188 assigned to Leela
+- Clean handoff to round 2
+
+## Round 2 (2026-06-05)
+
+- **Enforced reviewer rejection protocol** across team
+- **PR #235 Status:** Approved in substance by Leela, formal approval blocked by own-PR rules
+  - Leela locked out (cannot self-approve `jmservera`-authored PR)
+  - Awaiting independent reviewer
+- **PR #236 Status:** Blocking security review by Hermes
+  - Hermes identified required fixes: URL validation, timeouts, bounded retries, `--max-workers` validation
+  - Hermes locked out (cannot self-approve own security review)
+  - Bender spawned as revision owner for security fixes
+- **Team Status:**
+  - Leela: review complete, locked out by own-PR rules
+  - Fry: QA pass, locked out by own-PR rules
+  - Hermes: security blocking, locked out by own-PR rules
+  - Bender: revision owner for PR #236 security fixes
+- **Next round:** Monitor Bender's security fixes in PR #236 revision
+
+## Round 3 (2026-06-05 final)
+
+- **Bender Security Fix Completion:** PR #236 security revision committed; all blockers resolved
+  - URL validation with `urllib.parse.urlparse()` + HTTPS + allowlist enforcement
+  - Credentials, localhost/private hosts rejected
+  - RSS fetches with explicit timeouts and bounded retries
+  - Parallel crawling capped at `DEFAULT_MAX_WORKERS`
+  - Test coverage added: 563 tests pass
+- **Hermes Re-Review:** Completed at commit `e91e2a5b33b816191148125d40192b3fff8fbc6a`
+  - **Decision: Security approval/unblock** — all technical requirements met, CodeQL checks green
+  - Formal approval blocked by own-PR token rules; unblock comment posted instead
+- **Merge Attempts:**
+  1. `gh pr merge` on PR #235 and PR #236 — blocked by base branch protection policy
+  2. `gh pr merge --auto` — repository auto-merge disabled
+- **Status Comments Posted:** Documented merge blockers on both PRs
+  - PR #235: CI passing, team reviewed, awaits admin merge
+  - PR #236: CI passing, team reviewed, security gate cleared, awaits admin merge
+- **Outcome:** Both PRs mergeable but policy-blocked; awaiting admin/external approver override
+
