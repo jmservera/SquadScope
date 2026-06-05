@@ -228,6 +228,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("mkdir -p data/metrics", run_analysis)
         self.assertIn("run_quality_gate()", run_analysis)
         self.assertIn("falling back to GitHub Models API", run_analysis)
+        self.assertIn("No publishable Copilot summary was produced", run_analysis)
         self.assertIn("python3 scripts/analyze_fallback.py", run_analysis)
         self.assertIn('--press-context "$PRESS_FILE"', run_analysis)
         self.assertIn('ANALYSIS_SOURCE="github-models"', run_analysis)

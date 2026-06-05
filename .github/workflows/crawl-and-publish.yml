@@ -406,7 +406,7 @@ jobs:
           fi
 
           if [ "$GATE_PASSED" = "false" ]; then
-            echo "::warning::Copilot output failed quality gate after $((MAX_RETRIES + 1)) attempts; falling back to GitHub Models API."
+            echo "::warning::No publishable Copilot summary was produced; falling back to GitHub Models API."
             MODELS_PASSED="false"
             if python3 scripts/analyze_fallback.py \
               --raw-json "$WEEK_FILE" \

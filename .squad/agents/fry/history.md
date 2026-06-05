@@ -59,3 +59,7 @@
 - Formal approval blocked by GitHub own-PR rules (self-authored by Fry PR author)
 - Posted QA rationale to PR #236
 - Awaiting security review (Hermes) and lead approval (Leela) before merge
+
+## PR #235 Copilot review follow-up (2026-06-05)
+
+- Copilot fallback warnings should describe the observed pipeline state, not just retry exhaustion: the same branch can mean 0 Copilot attempts because the CLI is unavailable or failed attempts that never yielded a publishable summary.
