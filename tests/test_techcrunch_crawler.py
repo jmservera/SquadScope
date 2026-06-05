@@ -13,6 +13,7 @@ from scripts.techcrunch_crawler import (
     DEFAULT_SOURCES_PATH,
     DEFAULT_FETCH_TIMEOUT_SECONDS,
     DEFAULT_FETCH_RETRIES,
+    NewsFeedSource,
     NewsSourceConfig,
     TechCrunchSource,
     build_output,
@@ -536,3 +537,16 @@ class TestExternalNewsSources:
         assert errors[0]["error_class"] == "TimeoutError"
         assert statuses[0]["attempts"] == DEFAULT_FETCH_RETRIES + 1
         assert statuses[0]["success"] is False
+
+    def test_failed_feed_fetch_records_attempts_on_source(self):
+        source = NewsFeedSource(NewsSourceConfig("alpha", "https://techcrunch.com/feed/"))
+
+        with patch("scripts.techcrunch_crawler.fetch_feed", side_effect=TimeoutError("boom")):
+            with pytest.raises(TimeoutError):
+                source.crawl(
+                    since=datetime(2026, 5, 10, tzinfo=UTC),
+                    until=datetime(2026, 5, 20, tzinfo=UTC),
+                )
+
+        assert source.last_attempts == DEFAULT_FETCH_RETRIES + 1
+        assert source.last_timeout_seconds == DEFAULT_FETCH_TIMEOUT_SECONDS
