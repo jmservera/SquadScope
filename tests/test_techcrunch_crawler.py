@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from datetime import UTC, datetime, timedelta
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -10,6 +11,7 @@ import pytest
 
 from scripts.techcrunch_crawler import (
     DEFAULT_SOURCES_PATH,
+    DEFAULT_FETCH_TIMEOUT_SECONDS,
     NewsSourceConfig,
     TechCrunchSource,
     build_output,
@@ -17,9 +19,11 @@ from scripts.techcrunch_crawler import (
     crawl_sources_parallel,
     extract_entities,
     extract_github_urls,
+    fetch_feed,
     iso_timestamp,
     load_source_configs,
     parse_published_date,
+    validate_feed_url,
     week_slug,
 )
 
@@ -307,6 +311,59 @@ class TestExternalNewsSources:
         assert "mit_technology_review" in names
         assert "github_blog" in names
 
+    @pytest.mark.parametrize(
+        "feed_url",
+        [
+            "http://techcrunch.com/feed/",
+            "https://user:pass@techcrunch.com/feed/",
+            "https://localhost/feed/",
+            "https://127.0.0.1/feed/",
+            "https://169.254.169.254/feed/",
+            "https://example.com/feed/",
+            "https://techcrunch.com:8443/feed/",
+        ],
+    )
+    def test_rejects_invalid_or_unapproved_feed_urls(self, feed_url):
+        with pytest.raises(ValueError):
+            validate_feed_url(feed_url)
+
+    def test_load_source_configs_rejects_unapproved_hosts(self):
+        payload = json.dumps([
+            {
+                "name": "evil",
+                "feed_url": "https://example.com/feed.xml",
+                "requests_per_minute": 10,
+            }
+        ])
+
+        with patch("pathlib.Path.read_text", return_value=payload):
+            with pytest.raises(ValueError, match="not approved"):
+                load_source_configs(DEFAULT_SOURCES_PATH)
+
+    def test_fetch_feed_uses_explicit_timeout(self):
+        class FakeResponse:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                return None
+
+            def read(self):
+                return b"<rss><channel></channel></rss>"
+
+        feed = _make_feed()
+        with (
+            patch(
+                "scripts.techcrunch_crawler.urlopen",
+                return_value=FakeResponse(),
+            ) as mock_urlopen,
+            patch("scripts.techcrunch_crawler.feedparser.parse", return_value=feed),
+        ):
+            result = fetch_feed("https://techcrunch.com/feed/")
+
+        assert result is feed
+        assert mock_urlopen.call_args.kwargs["timeout"] == DEFAULT_FETCH_TIMEOUT_SECONDS
+
     def test_crawl_sources_parallel_combines_sources(self):
         alpha_entry = _make_entry(
             title="Alpha AI framework",
@@ -319,16 +376,16 @@ class TestExternalNewsSources:
             published_parsed=(2026, 5, 17, 10, 0, 0, 5, 137, 0),
         )
         feeds = {
-            "https://example.com/alpha.xml": _make_feed(entries=[alpha_entry]),
-            "https://example.com/beta.xml": _make_feed(entries=[beta_entry]),
+            "https://techcrunch.com/feed/": _make_feed(entries=[alpha_entry]),
+            "https://github.blog/feed/": _make_feed(entries=[beta_entry]),
         }
 
-        def fake_fetch(url, retries=1):
+        def fake_fetch(url, retries=1, timeout=DEFAULT_FETCH_TIMEOUT_SECONDS):
             return feeds[url]
 
         sources = [
-            NewsSourceConfig("alpha", "https://example.com/alpha.xml"),
-            NewsSourceConfig("beta", "https://example.com/beta.xml"),
+            NewsSourceConfig("alpha", "https://techcrunch.com/feed/"),
+            NewsSourceConfig("beta", "https://github.blog/feed/"),
         ]
         with patch("scripts.techcrunch_crawler.fetch_feed", side_effect=fake_fetch):
             articles, errors = crawl_sources_parallel(

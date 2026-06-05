@@ -12,6 +12,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import ipaddress
 import json
 import re
 import sys
@@ -22,6 +23,8 @@ from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
+from urllib.request import Request, urlopen
 
 import feedparser
 
@@ -29,6 +32,15 @@ from scripts.topic_paths import raw_dir
 
 FEED_URL = "https://techcrunch.com/feed/"
 DEFAULT_SOURCES_PATH = Path("config/external_news_sources.json")
+DEFAULT_FETCH_TIMEOUT_SECONDS = 15
+DEFAULT_MAX_WORKERS = 8
+APPROVED_FEED_HOSTS = frozenset({
+    "techcrunch.com",
+    "blogs.nvidia.com",
+    "huggingface.co",
+    "www.technologyreview.com",
+    "github.blog",
+})
 
 GITHUB_URL_RE = re.compile(
     r"https?://github\.com/[a-zA-Z0-9_.\-]+/[a-zA-Z0-9_.\-]+"
@@ -67,6 +79,43 @@ class NewsSourceConfig:
     name: str
     feed_url: str
     requests_per_minute: int = 10
+
+    def __post_init__(self) -> None:
+        validate_feed_url(self.feed_url)
+
+
+def validate_feed_url(url: str) -> None:
+    """Validate an external RSS URL against the approved egress allowlist."""
+    parsed = urlparse(url)
+    if parsed.scheme.lower() != "https":
+        raise ValueError(f"External RSS feed URL must use HTTPS: {url}")
+    if parsed.username or parsed.password:
+        raise ValueError(f"External RSS feed URL must not include credentials: {url}")
+    host = (parsed.hostname or "").rstrip(".").lower()
+    if not host:
+        raise ValueError(f"External RSS feed URL must include a hostname: {url}")
+    try:
+        port = parsed.port
+    except ValueError as exc:
+        raise ValueError(f"External RSS feed URL has an invalid port: {url}") from exc
+    if port not in (None, 443):
+        raise ValueError(f"External RSS feed URL must not use unexpected ports: {url}")
+    if host in {"localhost", "localhost.localdomain"} or host.endswith(".local"):
+        raise ValueError(f"External RSS feed URL must not target local hosts: {url}")
+    try:
+        ip_addr = ipaddress.ip_address(host)
+    except ValueError:
+        pass
+    else:
+        if ip_addr.is_private or ip_addr.is_loopback or ip_addr.is_link_local:
+            raise ValueError(
+                f"External RSS feed URL must not target private/local IPs: {url}"
+            )
+    if host not in APPROVED_FEED_HOSTS:
+        approved = ", ".join(sorted(APPROVED_FEED_HOSTS))
+        raise ValueError(
+            f"External RSS feed host is not approved: {host} (approved: {approved})"
+        )
 
 
 def load_source_configs(path: Path = DEFAULT_SOURCES_PATH) -> list[NewsSourceConfig]:
@@ -177,10 +226,25 @@ def parse_published_date(entry: Any) -> datetime | None:
     return None
 
 
-def fetch_feed(url: str = FEED_URL, retries: int = 1) -> Any:
-    """Fetch and parse RSS feed with retry on failure."""
+def fetch_feed(
+    url: str = FEED_URL,
+    retries: int = 1,
+    timeout: int = DEFAULT_FETCH_TIMEOUT_SECONDS,
+) -> Any:
+    """Fetch and parse RSS feed with bounded retries and an explicit timeout."""
+    validate_feed_url(url)
+    if timeout <= 0:
+        raise ValueError("RSS fetch timeout must be greater than zero")
     for attempt in range(retries + 1):
-        feed = feedparser.parse(url)
+        try:
+            request = Request(url, headers={"User-Agent": "SquadScope RSS crawler"})
+            with urlopen(request, timeout=timeout) as response:
+                feed = feedparser.parse(response.read())
+        except Exception:
+            if attempt < retries:
+                time.sleep(2)
+                continue
+            raise
         if feed.bozo and not feed.entries:
             if attempt < retries:
                 time.sleep(2)
@@ -210,7 +274,9 @@ class NewsFeedSource:
         feed_url: str | None = None,
     ) -> list[dict[str, Any]]:
         """Crawl an RSS feed and return structured articles."""
-        feed = fetch_feed(feed_url or self.config.feed_url)
+        resolved_feed_url = feed_url or self.config.feed_url
+        validate_feed_url(resolved_feed_url)
+        feed = fetch_feed(resolved_feed_url)
         articles: list[dict[str, Any]] = []
 
         for entry in feed.entries:
@@ -271,7 +337,9 @@ def crawl_sources_parallel(
     if not sources:
         return [], []
 
-    workers = max_workers or min(len(sources), 8)
+    if max_workers is not None and max_workers < 1:
+        raise ValueError("--max-workers must be at least 1")
+    workers = min(max_workers or len(sources), len(sources), DEFAULT_MAX_WORKERS)
     articles: list[dict[str, Any]] = []
     errors: list[dict[str, str]] = []
     with ThreadPoolExecutor(max_workers=workers) as executor:
