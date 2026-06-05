@@ -12,11 +12,13 @@ import pytest
 from scripts.techcrunch_crawler import (
     DEFAULT_SOURCES_PATH,
     DEFAULT_FETCH_TIMEOUT_SECONDS,
+    DEFAULT_FETCH_RETRIES,
     NewsSourceConfig,
     TechCrunchSource,
     build_output,
     compute_relevance_score,
     crawl_sources_parallel,
+    dedupe_articles,
     extract_entities,
     extract_github_urls,
     fetch_feed,
@@ -388,7 +390,7 @@ class TestExternalNewsSources:
             NewsSourceConfig("beta", "https://github.blog/feed/"),
         ]
         with patch("scripts.techcrunch_crawler.fetch_feed", side_effect=fake_fetch):
-            articles, errors = crawl_sources_parallel(
+            articles, errors, statuses = crawl_sources_parallel(
                 sources,
                 since=datetime(2026, 5, 10, tzinfo=UTC),
                 until=datetime(2026, 5, 20, tzinfo=UTC),
@@ -396,6 +398,8 @@ class TestExternalNewsSources:
             )
 
         assert errors == []
+        assert {status["source"] for status in statuses} == {"alpha", "beta"}
+        assert all(status["success"] for status in statuses)
         assert [article["source"] for article in articles] == ["beta", "alpha"]
         assert {article["title"] for article in articles} == {
             "Alpha AI framework",
@@ -426,10 +430,109 @@ class TestExternalNewsSources:
             crawled_at=now,
             source="external_news",
             source_count=2,
+            crawl_window={
+                "since": "2026-05-12T00:00:00Z",
+                "until": "2026-05-19T00:00:00Z",
+            },
+            source_config_checksum_value="abc123",
+            requested_sources=["alpha", "beta", "gamma"],
+            source_statuses=[
+                {
+                    "source": "alpha",
+                    "host": "techcrunch.com",
+                    "success": True,
+                    "attempts": 1,
+                    "timeout_seconds": 15,
+                    "total_articles": 1,
+                    "relevant_articles": 1,
+                    "github_links_found": 0,
+                    "started_at": "2026-05-19T10:00:00Z",
+                    "ended_at": "2026-05-19T10:00:01Z",
+                    "duration_seconds": 1.0,
+                    "error_class": "",
+                    "error_message": "",
+                },
+                {
+                    "source": "beta",
+                    "host": "github.blog",
+                    "success": True,
+                    "attempts": 1,
+                    "timeout_seconds": 15,
+                    "total_articles": 1,
+                    "relevant_articles": 1,
+                    "github_links_found": 0,
+                    "started_at": "2026-05-19T10:00:00Z",
+                    "ended_at": "2026-05-19T10:00:01Z",
+                    "duration_seconds": 1.0,
+                    "error_class": "",
+                    "error_message": "",
+                },
+                {
+                    "source": "gamma",
+                    "host": "example.com",
+                    "success": False,
+                    "attempts": 2,
+                    "timeout_seconds": 15,
+                    "total_articles": 0,
+                    "relevant_articles": 0,
+                    "github_links_found": 0,
+                    "started_at": "2026-05-19T10:00:00Z",
+                    "ended_at": "2026-05-19T10:00:01Z",
+                    "duration_seconds": 1.0,
+                    "error_class": "TimeoutError",
+                    "error_message": "timeout",
+                },
+            ],
             errors=[{"source": "gamma", "error": "timeout"}],
         )
 
+        assert output["schema_version"] == 2
         assert output["source"] == "external_news"
         assert output["metadata"]["source_count"] == 2
+        assert output["metadata"]["source_config_checksum"] == "abc123"
+        assert output["metadata"]["sources_requested"] == ["alpha", "beta", "gamma"]
+        assert output["metadata"]["sources_succeeded"] == ["alpha", "beta"]
+        assert output["metadata"]["sources_failed"] == ["gamma"]
+        assert output["metadata"]["artifact_checksum"]
         assert output["metadata"]["sources_with_articles"] == {"alpha": 1, "beta": 1}
         assert output["metadata"]["errors"] == [{"source": "gamma", "error": "timeout"}]
+
+    def test_dedupe_articles_preserves_sources(self):
+        articles, deduped = dedupe_articles([
+            {
+                "source": "alpha",
+                "title": "Same story",
+                "url": "https://example.com/story/",
+                "published_at": "2026-05-15T10:00:00Z",
+                "github_links": ["https://github.com/a/b"],
+                "relevance_score": 0.4,
+            },
+            {
+                "source": "beta",
+                "title": "Same story mirror",
+                "url": "https://example.com/story",
+                "published_at": "2026-05-15T10:00:00Z",
+                "github_links": ["https://github.com/c/d"],
+                "relevance_score": 0.8,
+            },
+        ])
+
+        assert deduped == 1
+        assert len(articles) == 1
+        assert articles[0]["sources"] == ["alpha", "beta"]
+        assert articles[0]["relevance_score"] == 0.8
+
+    def test_failed_source_reports_bounded_retry_attempts(self):
+        source = NewsSourceConfig("alpha", "https://techcrunch.com/feed/")
+        with patch("scripts.techcrunch_crawler.fetch_feed", side_effect=TimeoutError("boom")):
+            articles, errors, statuses = crawl_sources_parallel(
+                [source],
+                since=datetime(2026, 5, 10, tzinfo=UTC),
+                until=datetime(2026, 5, 20, tzinfo=UTC),
+                max_workers=1,
+            )
+
+        assert articles == []
+        assert errors[0]["error_class"] == "TimeoutError"
+        assert statuses[0]["attempts"] == DEFAULT_FETCH_RETRIES + 1
+        assert statuses[0]["success"] is False

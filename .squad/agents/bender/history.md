@@ -36,3 +36,8 @@
 - Decision recorded in .squad/decisions.md; GitHub issue #237 created for implementation.
 - External RSS crawlers must validate config URLs against an HTTPS host allowlist and fetch through explicit per-request timeouts; config-driven source lists are not a security boundary by themselves (PR #236).
 - Local validation docs for scripts importing `scripts.*` modules should use `python3 -m ...` or set `PYTHONPATH=.` so repo-root imports resolve reliably (PR #236).
+
+## Issue #237 canonical external-news telemetry (2026-06-05)
+
+- Multi-source RSS remains in-process, but downstream reliability depends on a versioned canonical artifact: include crawl window, source config checksum, per-source statuses, partial failures, dedupe count, and deterministic checksum in `*-external-news.json`.
+- Press correlation must retain bounded source-aware citations and label category/fuzzy-only matches as weak so mirrored coverage or broad topics do not inflate strong press claims.

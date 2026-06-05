@@ -23,6 +23,12 @@ from typing import Any
 
 from scripts.topic_paths import analyzed_dir, raw_dir
 
+MAX_ARTICLES_FOR_CORRELATION = 80
+MAX_CORRELATIONS = 50
+MAX_MATCHED_ARTICLES_PER_REPO = 5
+MAX_DIVERGENCE_ARTICLES = 30
+WEAK_MATCH_TYPES = {"category", "project_name"}
+
 
 def log(message: str) -> None:
     print(f"[correlate] {message}", file=sys.stderr)
@@ -125,6 +131,114 @@ def match_category(repo: dict[str, Any], articles: list[dict[str, Any]]) -> list
     return matches
 
 
+def _normalized_article_url(url: str) -> str:
+    """Normalize an article URL for dedupe and citation joins."""
+    if not url:
+        return ""
+    from urllib.parse import urlparse
+
+    parsed = urlparse(url.strip())
+    return f"{parsed.scheme.lower()}://{parsed.netloc.lower()}{parsed.path.rstrip('/')}"
+
+
+def dedupe_articles(articles: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], int]:
+    """Deduplicate cross-source/mirrored stories by normalized URL."""
+    grouped: dict[str, dict[str, Any]] = {}
+    duplicates = 0
+    for article in sorted(
+        articles,
+        key=lambda item: (
+            item.get("published_at", ""),
+            item.get("source", ""),
+            item.get("url", ""),
+            item.get("title", ""),
+        ),
+        reverse=True,
+    ):
+        key = _normalized_article_url(str(article.get("url", "")))
+        if not key:
+            key = str(article.get("title", "")).strip().lower()
+        if key not in grouped:
+            current = dict(article)
+            current["sources"] = sorted({
+                str(current.get("source", "")) or "unknown",
+                *[str(source) for source in current.get("sources", [])],
+            })
+            grouped[key] = current
+            continue
+        duplicates += 1
+        existing = grouped[key]
+        sources = set(existing.get("sources", []))
+        sources.add(str(article.get("source", "")) or "unknown")
+        sources.update(str(source) for source in article.get("sources", []))
+        existing["sources"] = sorted(sources)
+        existing["relevance_score"] = max(
+            float(existing.get("relevance_score", 0)),
+            float(article.get("relevance_score", 0)),
+        )
+        existing_links = list(existing.get("github_links", []))
+        for link in article.get("github_links", []):
+            if link not in existing_links:
+                existing_links.append(link)
+        existing["github_links"] = existing_links
+    deduped = list(grouped.values())
+    deduped.sort(
+        key=lambda item: (
+            item.get("published_at", ""),
+            item.get("source", ""),
+            item.get("url", ""),
+            item.get("title", ""),
+        ),
+        reverse=True,
+    )
+    return deduped, duplicates
+
+
+def _article_citation(article: dict[str, Any]) -> dict[str, Any]:
+    """Return the bounded citation fields downstream renderers are allowed to use."""
+    return {
+        "title": article.get("title", ""),
+        "url": article.get("url", ""),
+        "source": article.get("source", "unknown"),
+        "sources": article.get("sources", [article.get("source", "unknown")]),
+        "published_at": article.get("published_at", ""),
+        "relevance_score": article.get("relevance_score", 0),
+    }
+
+
+def _unique_articles(articles: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Return URL-deduped articles preserving order."""
+    seen: set[str] = set()
+    unique: list[dict[str, Any]] = []
+    for article in articles:
+        key = _normalized_article_url(str(article.get("url", ""))) or str(article)
+        if key in seen:
+            continue
+        seen.add(key)
+        unique.append(article)
+    return unique
+
+
+def correlation_strength(
+    match_type: str,
+    matched_articles: list[dict[str, Any]],
+    *,
+    temporal_spike: bool,
+) -> str:
+    """Label strong vs weak correlations without letting fuzzy/category inflate claims."""
+    source_names = {
+        source
+        for article in matched_articles
+        for source in article.get("sources", [article.get("source", "unknown")])
+    }
+    corroborated = len(source_names) >= 2 or len(_unique_articles(matched_articles)) >= 2
+    if match_type in WEAK_MATCH_TYPES:
+        return "weak"
+    if match_type in {"direct_link", "org_name"} or temporal_spike or corroborated:
+        return "strong"
+    return "weak"
+
+
 def has_temporal_spike(repo: dict[str, Any], stars_threshold: int = 10) -> bool:
     """Check if repo had a stars_gained spike in the same week."""
     stars_gained = repo.get("stars_gained")
@@ -161,13 +275,15 @@ def correlate_repo(repo: dict[str, Any], articles: list[dict[str, Any]]) -> dict
     best_confidence = 0.0
     best_type = ""
     matched_articles: list[str] = []
+    matched_article_objs: list[dict[str, Any]] = []
 
     # Priority 1: Direct link match (confidence 1.0)
     direct = match_direct_link(repo, articles)
     if direct:
         best_confidence = 1.0
         best_type = "direct_link"
-        matched_articles = [a["url"] for a in direct]
+        matched_article_objs = _unique_articles(direct)[:MAX_MATCHED_ARTICLES_PER_REPO]
+        matched_articles = [a["url"] for a in matched_article_objs]
 
     # Priority 2: Org name match (confidence 0.8)
     if not matched_articles:
@@ -175,7 +291,8 @@ def correlate_repo(repo: dict[str, Any], articles: list[dict[str, Any]]) -> dict
         if org:
             best_confidence = 0.8
             best_type = "org_name"
-            matched_articles = [a["url"] for a in org]
+            matched_article_objs = _unique_articles(org)[:MAX_MATCHED_ARTICLES_PER_REPO]
+            matched_articles = [a["url"] for a in matched_article_objs]
 
     # Priority 3: Project name fuzzy match (confidence 0.6)
     if not matched_articles:
@@ -183,7 +300,8 @@ def correlate_repo(repo: dict[str, Any], articles: list[dict[str, Any]]) -> dict
         if fuzzy:
             best_confidence = 0.6
             best_type = "project_name"
-            matched_articles = [a["url"] for a in fuzzy]
+            matched_article_objs = _unique_articles(fuzzy)[:MAX_MATCHED_ARTICLES_PER_REPO]
+            matched_articles = [a["url"] for a in matched_article_objs]
 
     # Priority 4: Category correlation (confidence 0.4)
     if not matched_articles:
@@ -191,23 +309,36 @@ def correlate_repo(repo: dict[str, Any], articles: list[dict[str, Any]]) -> dict
         if cat:
             best_confidence = 0.4
             best_type = "category"
-            matched_articles = [a["url"] for a in cat]
+            matched_article_objs = _unique_articles(cat)[:MAX_MATCHED_ARTICLES_PER_REPO]
+            matched_articles = [a["url"] for a in matched_article_objs]
 
     if not matched_articles:
         return None
 
     # Priority 5: Temporal lag bonus
     press_correlated = True
-    if has_temporal_spike(repo):
+    temporal_spike = has_temporal_spike(repo)
+    if temporal_spike and best_type not in WEAK_MATCH_TYPES:
         best_confidence = min(best_confidence + 0.2, 1.0)
         press_correlated = True
+    strength = correlation_strength(
+        best_type,
+        matched_article_objs,
+        temporal_spike=temporal_spike,
+    )
 
     return {
         "repo": repo.get("full_name") or f"{repo.get('owner')}/{repo.get('name')}",
         "press_correlated": press_correlated,
         "correlation_confidence": round(best_confidence, 2),
         "matched_articles": matched_articles,
+        "matched_article_details": [
+            _article_citation(article) for article in matched_article_objs
+        ],
         "match_type": best_type,
+        "correlation_strength": strength,
+        "confidence_label": strength,
+        "temporal_spike": temporal_spike,
         "hype_risk": assess_hype_risk(best_confidence, repo.get("stars_gained")),
     }
 
@@ -253,7 +384,10 @@ def detect_divergences(
         matched_article_urls.update(corr.get("matched_articles", []))
 
     # Unmatched articles → uncovered tech trends
-    unmatched_articles = [a for a in articles if a.get("url") not in matched_article_urls]
+    unmatched_articles = [
+        a for a in articles
+        if a.get("url") not in matched_article_urls
+    ][:MAX_DIVERGENCE_ARTICLES]
 
     # Group unmatched articles by topic
     topic_articles: dict[str, list[dict[str, Any]]] = {}
@@ -264,6 +398,10 @@ def detect_divergences(
     uncovered_tech_trends = [
         {
             "topic": topic,
+            "news_articles": [
+                {"title": a.get("title", ""), "url": a.get("url", "")}
+                for a in arts
+            ],
             "techcrunch_articles": [
                 {"title": a.get("title", ""), "url": a.get("url", "")}
                 for a in arts
@@ -297,7 +435,7 @@ def detect_divergences(
                 }
                 for r in reps
             ],
-            "signal": "No TechCrunch coverage",
+            "signal": "No external press coverage",
         }
         for topic, reps in sorted(topic_repos.items(), key=lambda x: -len(x[1]))
     ]
@@ -310,6 +448,8 @@ def detect_divergences(
 
 def correlate_all(repos: list[dict[str, Any]], articles: list[dict[str, Any]], week: str) -> dict[str, Any]:
     """Run correlation engine across all repos and articles."""
+    articles, dedupe_count = dedupe_articles(articles)
+    articles = articles[:MAX_ARTICLES_FOR_CORRELATION]
     correlations: list[dict[str, Any]] = []
     uncorrelated: list[str] = []
 
@@ -322,7 +462,14 @@ def correlate_all(repos: list[dict[str, Any]], articles: list[dict[str, Any]], w
             uncorrelated.append(name)
 
     # Sort by confidence descending
-    correlations.sort(key=lambda c: c["correlation_confidence"], reverse=True)
+    correlations.sort(
+        key=lambda c: (
+            c.get("correlation_strength") != "strong",
+            -c["correlation_confidence"],
+            c.get("repo", ""),
+        )
+    )
+    correlations = correlations[:MAX_CORRELATIONS]
 
     articles_matched = len({url for c in correlations for url in c["matched_articles"]})
 
@@ -336,8 +483,23 @@ def correlate_all(repos: list[dict[str, Any]], articles: list[dict[str, Any]], w
         "uncorrelated_repos": uncorrelated,
         "metadata": {
             "repos_analyzed": len(repos),
+            "articles_analyzed": len(articles),
             "correlations_found": len(correlations),
+            "strong_correlations": sum(
+                1 for corr in correlations
+                if corr.get("correlation_strength") == "strong"
+            ),
+            "weak_correlations": sum(
+                1 for corr in correlations
+                if corr.get("correlation_strength") == "weak"
+            ),
             "articles_matched": articles_matched,
+            "dedupe_count": dedupe_count,
+            "limits": {
+                "max_articles": MAX_ARTICLES_FOR_CORRELATION,
+                "max_correlations": MAX_CORRELATIONS,
+                "max_matched_articles_per_repo": MAX_MATCHED_ARTICLES_PER_REPO,
+            },
             "uncovered_tech_trends": len(divergences["uncovered_tech_trends"]),
             "unpublicized_dev_activity": len(divergences["unpublicized_dev_activity"]),
         },
@@ -361,6 +523,30 @@ def load_json(path: Path) -> dict[str, Any]:
     """Load and return parsed JSON from a file."""
     with open(path, encoding="utf-8") as f:
         return json.load(f)
+
+
+def extract_news_metadata(news_data: dict[str, Any] | list[dict[str, Any]]) -> dict[str, Any]:
+    """Extract source/failure metadata from canonical or legacy news payloads."""
+    if isinstance(news_data, list):
+        return {
+            "schema_version": 1,
+            "sources_requested": ["techcrunch"],
+            "sources_succeeded": ["techcrunch"],
+            "sources_failed": [],
+            "source_status": [],
+            "errors": [],
+        }
+    metadata = news_data.get("metadata", {})
+    return {
+        "schema_version": news_data.get("schema_version", 1),
+        "source_config_checksum": metadata.get("source_config_checksum", ""),
+        "sources_requested": metadata.get("sources_requested", [news_data.get("source", "techcrunch")]),
+        "sources_succeeded": metadata.get("sources_succeeded", []),
+        "sources_failed": metadata.get("sources_failed", []),
+        "source_status": metadata.get("source_status", []),
+        "errors": metadata.get("errors", []),
+        "artifact_checksum": metadata.get("artifact_checksum", ""),
+    }
 
 
 def extract_week_from_filename(path: Path) -> str:
@@ -433,17 +619,21 @@ def main(argv: list[str] | None = None) -> int:
 
     # Load articles (graceful if missing)
     articles: list[dict[str, Any]] = []
+    news_metadata: dict[str, Any] = {}
     if tc_path and tc_path.exists():
         tc_data = load_json(tc_path)
+        news_metadata = extract_news_metadata(tc_data)
         articles = tc_data if isinstance(tc_data, list) else tc_data.get("articles", [])
     else:
-        log("No TechCrunch data found; producing empty correlations")
+        log("No external news data found; producing empty correlations")
 
     # Determine week
     week = extract_week_from_filename(raw_path)
 
     # Run correlation
     result = correlate_all(repos, articles, week)
+    if news_metadata:
+        result["metadata"]["news_sources"] = news_metadata
 
     # Write output
     if args.output:

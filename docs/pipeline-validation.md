@@ -38,6 +38,8 @@ Required secrets/tokens:
 **Success criteria**
 - Raw payload passes `scripts.crawl.validate_payload()`
 - External RSS payload is written for the same ISO week from `config/external_news_sources.json`
+- `data/raw/YYYY-WNN-external-news.json` uses canonical `schema_version: 2`, includes `crawl_window`, `source_config_checksum`, `sources_requested/succeeded/failed`, per-source status rows, `dedupe_count`, and `artifact_checksum`
+- Optional per-source RSS failures are warnings with a valid partial artifact; malformed config/schema/checksum errors fail the crawl step
 - Snapshot file is written for the same ISO week
 - Cache artifact uploads even on partial failures
 - Job permissions include `actions: read` and `contents: write` at workflow level for cache restore and commits
@@ -53,12 +55,16 @@ Required secrets/tokens:
 
 **Outputs**
 - `data/analyzed/YYYY-WNN-summary.md`
+- `data/analyzed/YYYY-WNN-correlations.json`
+- `data/analyzed/YYYY-WNN-press-context.md`
 - `analyzed-data` artifact
 - Commit to `main` for `data/analyzed/`
 - Job outputs: `week`, `summary_file`, `current_datetime`
 
 **Success criteria**
 - Current raw file week matches the run week
+- Correlation and press-context steps consume compact external-news data with legacy `YYYY-WNN-techcrunch.json` fallback
+- Press context preserves source names, article URLs/titles/dates, strong-vs-weak labels, and partial-source caveats while staying under the ~8k token budget
 - Copilot CLI output or fallback output is written to `data/analyzed/`
 - `scripts/analysis_gate.py` passes before publish continues
 - Job permissions include `actions: read`, `contents: write`, `copilot-requests: write`, and `models: read`
@@ -121,6 +127,8 @@ Required secrets/tokens:
 
 - Crawl: `python3 scripts/crawl.py --as-of YYYY-MM-DD`
 - External news crawl: `python3 -m scripts.techcrunch_crawler --sources config/external_news_sources.json --output data/raw/YYYY-WNN-external-news.json --since YYYY-MM-DD --until YYYY-MM-DD`
+- Correlate press: `python3 -m scripts.correlate --raw data/raw/YYYY-WNN.json --techcrunch data/raw/YYYY-WNN-external-news.json --output data/analyzed/YYYY-WNN-correlations.json`
+- Render press context: `python3 -m scripts.render_press_context --week YYYY-WNN`
 - Analyze fallback: `python3 scripts/analyze_fallback.py --raw-json data/raw/YYYY-WNN.json --output data/analyzed/YYYY-WNN-summary.md --current-datetime YYYY-MM-DDTHH:MM:SSZ`
 - Gate: `python3 scripts/analysis_gate.py --analysis-file data/analyzed/YYYY-WNN-summary.md --raw-json data/raw/YYYY-WNN.json --current-datetime YYYY-MM-DDTHH:MM:SSZ`
 - Generate: `python3 scripts/generate_content.py data/analyzed/YYYY-WNN-summary.md`
