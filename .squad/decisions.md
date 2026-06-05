@@ -696,3 +696,98 @@ In-process threading matches the current architecture better: RSS fetching is I/
 ## Scope boundary
 
 This is a small architectural refactor around an existing RSS crawler, so Leela implemented directly rather than reassigning to Bender. Deeper crawler work, such as source-specific parsing, feed health dashboards, or correlation logic, should remain Bender-owned.
+
+---
+
+# Fry — Issue #238 notify triage
+
+Date: 2026-06-05T17:11:29.929+00:00
+Issue: https://github.com/jmservera/SquadScope/issues/238
+Run: https://github.com/jmservera/SquadScope/actions/runs/27026348186
+
+## Finding
+
+The pipeline stages that produce and publish data succeeded. The only failed job was `notify`, where `gh release create week-2026-W23` returned HTTP 422 because the `week-2026-W23` release already existed.
+
+## Decision
+
+Treat this as a real QA-owned workflow idempotency bug, not a transient network or rate-limit failure. Weekly notify must be safe to rerun for an already-published week.
+
+## Fix
+
+Update the notify release step to check for the weekly release tag. If it exists, edit the existing release title/notes and mark it latest; otherwise create it as before.
+
+## Validation
+
+- `PYTHONPATH=. .venv/bin/python -m pytest tests/test_pipeline.py -q` — 9 passed.
+- `PYTHONPATH=. .venv/bin/python -m pytest tests -q` — 563 passed after installing project requirements and pytest in a local venv.
+
+---
+
+---
+
+# Leela PR #241 Review — Idempotent Weekly Release Notify
+
+- Date: 2026-06-05
+- Context: Issue #238 showed a real rerun failure in `notify`: `gh release create week-2026-W23` returned HTTP 422 because the weekly release already existed.
+- Decision: Keep weekly release notification idempotent by resolving the weekly tag first, editing an existing `week-*` release with `gh release edit`, and creating only when no release exists.
+- Review result: Approved in substance. Formal GitHub approval was blocked because the authenticated account is the PR author, so Leela posted an explicit lead approval comment instead of bypassing the review gate.
+- Validation: `tests/test_pipeline.py` passed locally (9 tests), full `tests` passed locally (563 tests), CodeQL checks were green, and Copilot PR review completed with no comments.
+- Merge gate: Do not merge from this account until the repository's independent-review requirement for `jmservera`-authored PRs is satisfied.
+- PR #241 merged at 2026-06-05T17:21:05Z, closing issue #238.
+
+---
+
+---
+
+# Bender issue #237 implementation
+
+Date: 2026-06-05
+
+## Decision
+
+Keep external RSS/news in the existing crawl job with bounded in-process parallelism, but promote the handoff to a canonical `schema_version: 2` `data/raw/{week}-external-news.json` artifact. The artifact carries crawl window, source config checksum, requested/succeeded/failed sources, per-source status metrics, dedupe count, deterministic checksum, and partial-failure metadata.
+
+## Rationale
+
+The measured bottleneck remains the GitHub repository crawl, not the five-source RSS step. Source-aware telemetry and schema validation improve downstream reliability without adding Actions matrix startup overhead or splitting cache/API behavior.
+
+## Operational notes
+
+`correlate.py` and `render_press_context.py` now preserve article source/title/date/URL citations, label strong versus weak correlations, bound press context size to an ~8k token estimate, and keep legacy `*-techcrunch.json` and no-press fallbacks.
+
+- PR #242 merged at 2026-06-05T17:24:14Z, closing issue #237.
+
+---
+
+---
+
+# Bender PR #242 Copilot Review Fixes
+
+- Keep category/project-name-only press matches weak even when temporally spiking or corroborated by multiple articles/sources.
+- Pass both `--since` and `--until` from the crawl workflow to preserve deterministic canonical `crawl_window` metadata.
+- Record bounded fetch attempts and timeout telemetry on `NewsFeedSource` even when `fetch_feed()` raises before returning a feed.
+- Keep press-context article lookup comments aligned with the actual URL-to-title mapping.
+- PR #243 merged at 2026-06-05T17:34:18Z.
+
+---
+
+---
+
+# Leela PR #243 Review
+
+- Verdict: approved in substance after independent lead review.
+- Scope checked: issue #237 acceptance criteria follow-up, PR #242 Copilot comments, PR #243 diff, tests, CodeQL, Copilot review state.
+- Local validation: clean PR worktree ran `pytest tests -q` with 574 passed.
+- Formal GitHub approval blocked: the active account is the PR author and GitHub rejected own-PR approval.
+- Merge gate: wait for an independent non-Bender reviewer/approval unless repository policy explicitly permits merge with the lead approval comment.
+
+---
+
+---
+
+### 2026-06-05T17:06:31.753+00:00: User directive — Copilot Review Asynchronous Gate
+
+**By:** jmservera (via Copilot)
+**What:** Copilot Review is asynchronous. Before merging a PR, check whether Copilot is still reviewing and do not merge until the review has finished and any review comments are handled.
+**Why:** User request — captured for team memory
