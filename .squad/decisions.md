@@ -1,3 +1,63 @@
+# Leela — Issue hierarchy refresh for safe weekly analysis reruns
+
+- Date: 2026-06-05T21:03:35.661+00:00
+- Lead: Leela
+- Parent epic: #248
+- New child: #261
+
+## Product north star
+
+SquadScope's core product is high-quality AI trend analysis and article generation. Crawling and scrape artifacts are supporting evidence systems: they should improve freshness, provenance, and analysis reliability, but they are not the product focus.
+
+## Immediate safety objective
+
+Bad, failed, degraded, stale-evidence-backed, or no-AI fallback reruns must not overwrite a previously good weekly article. A good AI-authored weekly article remains the default last-known-good artifact unless an explicit, audited force/restore path is selected.
+
+## Final hierarchy
+
+- #248 — Parent epic: protect published weekly analysis from unsafe reruns and state the AI analysis/article-generation north star.
+- #249 — Candidate staging and publish eligibility manifest, including AI provenance, source artifact provenance, freshness/reuse, and gate results.
+- #250 — Preserve existing good weekly analysis on failed/degraded/no-AI/stale-evidence reruns.
+- #251 — Block no-AI fallback from replacing AI-authored weekly summaries by default.
+- #252 — Explicit safe rerun modes and restore controls; normal reruns reuse valid same-day source artifacts and process only missing/stale sources.
+- #253 — Immutable backups and publish-branch concurrency safeguards with source provenance preserved.
+- #254 — Atomic weekly promotion across analyzed artifacts, content, deploy, and notifications.
+- #255 — Stronger analysis publish gate beyond structural validation, focused on editorial/evidence/provenance quality.
+- #256 — Deterministic preflight compaction and fallback policy, aligned to future signal-type map/reduce slices.
+- #257 — Overwrite-protection, safe-rerun idempotency, same-day reuse, and stale-evidence regression tests.
+- #258 — Selected signal-type claim-ledger map/reduce dry-run: deterministic preflight; mappers for `new_repos`, `trending_repos`, `press_correlations`, and `prior_continuity`; reducer/editorial planner; one final writer; critic/QA gates.
+- #259 — Safe rerun, force-replace, restore, no-AI, same-day reuse, and map/reduce dry-run operator docs.
+- #261 — Reuse successful same-day source scrape artifacts on rerun, with per-source reuse, missing/stale detection, freshness/date guard, deterministic fan-in/dedupe, and artifact provenance.
+
+## Rationale
+
+The hierarchy now prioritizes analysis safety and generated article quality before crawl mechanics. The crawler-related work is framed as evidence freshness and provenance, especially avoiding redundant same-day source scrapes while still detecting missing or stale sources. The map/reduce work is no longer a broad exploration: it is explicitly the signal-type claim-ledger architecture from the PRD and remains dry-run until safety, publish, and QA gates are complete.
+
+## GitHub changes made
+
+- Edited #248-#259 to clarify priorities, dependencies, and acceptance criteria.
+- Created #261 for same-day source scrape artifact reuse.
+- Added parent comment on #248 linking #261 and summarizing the refreshed hierarchy.
+- Added child comment on #261 linking it back to #248.
+
+---
+
+### 2026-06-05T21:01:05.160+00:00: User directive — Product focus
+
+**By:** jmservera (via Copilot)
+**What:** SquadScope is not a scraper; the core purpose is AI analytics and article generation. The product should prioritize trend analysis quality and generated articles over crawl mechanics.
+**Why:** User request — captured for team memory
+
+---
+
+### 2026-06-05T21:02:36.076+00:00: User directive — Same-day source reuse
+
+**By:** jmservera (via Copilot)
+**What:** Do not repeat successful scraping jobs for the same source on the same day. If a source has already been scraped successfully today, reruns should reuse the latest same-day scrape for that source and continue with the next missing or stale source.
+**Why:** User request — captured for team memory
+
+---
+
 # Fry: quality gate fallback hardening
 
 
