@@ -771,8 +771,15 @@ jobs:
           SUMMARY_FILE: ${{ needs.analyze.outputs.summary_file }}
         run: |
           WEEK=$(basename "$SUMMARY_FILE" | sed 's/-summary.md//')
+          TAG="week-${WEEK}"
+          TITLE="Week ${WEEK} — Tech Trends Summary"
 
-          gh release create "week-${WEEK}" --title "Week ${WEEK} — Tech Trends Summary" --notes-file "$SUMMARY_FILE" --latest
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "::notice::Release $TAG already exists; updating it instead of failing."
+            gh release edit "$TAG" --title "$TITLE" --notes-file "$SUMMARY_FILE" --latest
+          else
+            gh release create "$TAG" --title "$TITLE" --notes-file "$SUMMARY_FILE" --latest
+          fi
 
       - name: Post to Discussions
         env:

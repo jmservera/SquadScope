@@ -288,6 +288,10 @@ class WorkflowConfigTests(unittest.TestCase):
         release_step = next((s for s in notify_job["steps"] if s.get("name") == "Create GitHub Release"), None)
         self.assertIsNotNone(release_step)
         self.assertEqual(release_step["env"]["SUMMARY_FILE"], "${{ needs.analyze.outputs.summary_file }}")
+        release_run = release_step["run"]
+        self.assertIn('gh release view "$TAG"', release_run)
+        self.assertIn('gh release edit "$TAG"', release_run)
+        self.assertIn('gh release create "$TAG"', release_run)
 
         webhook_run = webhook_step["run"]
         self.assertIn("curl -s -X POST \"$WEBHOOK_URL\"", webhook_run)
