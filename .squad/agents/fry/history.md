@@ -93,3 +93,8 @@
 - Run 27026348186 completed crawl, analyze, generate, and deploy successfully; only `notify` failed.
 - Root cause: `gh release create week-2026-W23` is not idempotent when the weekly release tag already exists, so rerunning/publishing the same week produced HTTP 422 `Release.tag_name already exists`.
 - QA fix: make notify update an existing weekly release with `gh release edit` instead of failing, while preserving release creation for new weeks.
+
+## Matrix + map/reduce PRD QA input (2026-06-05T18:15:23Z)
+
+- Matrix crawl should be gated by deterministic shared run context, per-leg artifacts, fan-in checksums, optional-vs-required failure policy, and explicit rate-limit budgets; GitHub search fan-out is riskier than RSS fan-out because search quota is already the tight limit.
+- Map/reduce analysis is promising for context reduction only if mapper outputs are schema-validated, reducer output preserves citations and contradictions, and the final markdown still passes the existing analysis gate with current fallback paths retained.

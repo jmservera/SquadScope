@@ -42,3 +42,10 @@
 - Multi-source RSS remains in-process, but downstream reliability depends on a versioned canonical artifact: include crawl window, source config checksum, per-source statuses, partial failures, dedupe count, and deterministic checksum in `*-external-news.json`.
 - Press correlation must retain bounded source-aware citations and label category/fuzzy-only matches as weak so mirrored coverage or broad topics do not inflate strong press claims.
 - PR #242 review follow-up: failed RSS fetch exceptions must stamp source-level attempt/timeout telemetry before re-raising, and scheduled external-news crawls should pass both `--since` and `--until` so canonical crawl windows are reproducible.
+
+## 2026-06-05 Matrix crawl PRD input
+
+- Current observed run 27030646485 confirmed the pattern from issue #237: crawl job ~4m50s, GitHub `Run crawler` ~4m30s, external RSS/news ~1s.
+- Matrixing RSS is an isolation feature at current scale, not a speed feature; matrixing GitHub needs a shard experiment because search quota and secondary limits are shared across jobs.
+- Recommended PRD path is hybrid staged fan-out/fan-in: establish validated artifact contracts first, then gate RSS matrix, GitHub query matrix, and analysis map/reduce on measured thresholds.
+- Run 27030646485 also showed analysis, not crawling, is the critical-path risk: three Copilot attempts consumed ~28m41s, failed quality gates, GitHub Models had no `openai/gpt-4o` access, and the workflow shipped via no-AI fallback with ~112.9k estimated input tokens.

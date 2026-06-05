@@ -44,3 +44,4 @@
 - Routing: Bender (implementation), Fry (reliability gates), Farnsworth (press-context quality)
 - Labels: `squad`, `squad:leela`, `squad:bender`, `go:yes`
 - Decisions recorded in .squad/decisions.md under four entries (Bender, Farnsworth, Fry, Leela)
+- 2026-06-05T17:42:56.819+00:00 matrix/map-reduce PRD note: treat crawl matrix and analysis decomposition as separate decisions; keep crawl fan-out measurement-gated, while map/reduce is a citation-preserving LLM context/quality experiment with mapper claim ledgers and reducer-owned editorial coherence.
