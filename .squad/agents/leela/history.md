@@ -45,3 +45,4 @@
 - Labels: `squad`, `squad:leela`, `squad:bender`, `go:yes`
 - Decisions recorded in .squad/decisions.md under four entries (Bender, Farnsworth, Fry, Leela)
 - 2026-06-05T17:42:56.819+00:00 matrix/map-reduce PRD note: treat crawl matrix and analysis decomposition as separate decisions; keep crawl fan-out measurement-gated, while map/reduce is a citation-preserving LLM context/quality experiment with mapper claim ledgers and reducer-owned editorial coherence.
+- 2026-06-05T21:03:35.661+00:00 issue hierarchy refresh: updated #248-#259 and created #261 so safe weekly reruns preserve good AI-authored articles, treat no-AI fallback as non-publishable replacement by default, reuse successful same-day per-source evidence artifacts with provenance/freshness guards, and make signal-type claim-ledger map/reduce the selected dry-run analysis architecture.
