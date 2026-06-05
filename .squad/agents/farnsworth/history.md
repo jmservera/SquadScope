@@ -43,3 +43,4 @@
 - 548 tests passing
 - Ready for merge
 - 2026-06-05T17:42:56Z: Analysis map/reduce should be justified by context pressure and claim quality, not crawl speed; mappers should emit cited claim ledgers while a single reducer preserves global thesis, dedupe, citations, and the analysis gate contract.
+- 2026-06-05T20:57:09Z: Best analysis decomposition candidate is signal-type claim-ledger map/reduce with deterministic preflight compaction, optional hierarchical repo/source sub-mappers only above budget triggers, one reducer/final writer for global thesis and voice, and critic passes as QA rather than competing article writers.
