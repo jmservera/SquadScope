@@ -120,7 +120,7 @@ Required secrets/tokens:
 ### Trigger locally
 
 - Crawl: `python3 scripts/crawl.py --as-of YYYY-MM-DD`
-- External news crawl: `python3 scripts/techcrunch_crawler.py --sources config/external_news_sources.json --output data/raw/YYYY-WNN-external-news.json --since YYYY-MM-DD --until YYYY-MM-DD`
+- External news crawl: `python3 -m scripts.techcrunch_crawler --sources config/external_news_sources.json --output data/raw/YYYY-WNN-external-news.json --since YYYY-MM-DD --until YYYY-MM-DD`
 - Analyze fallback: `python3 scripts/analyze_fallback.py --raw-json data/raw/YYYY-WNN.json --output data/analyzed/YYYY-WNN-summary.md --current-datetime YYYY-MM-DDTHH:MM:SSZ`
 - Gate: `python3 scripts/analysis_gate.py --analysis-file data/analyzed/YYYY-WNN-summary.md --raw-json data/raw/YYYY-WNN.json --current-datetime YYYY-MM-DDTHH:MM:SSZ`
 - Generate: `python3 scripts/generate_content.py data/analyzed/YYYY-WNN-summary.md`
