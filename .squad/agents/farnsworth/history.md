@@ -23,6 +23,7 @@
 - 2026-06-01T12:16:50Z: GitHub Copilot token-billing backlash (TechCrunch, 2026-05-30) produced a clear same-week developer response in self-hosted AI workspace and alternative-routing repos — strongest press-developer convergence of W23. Monitoring for platform billing/policy changes as a leading indicator of self-hosting repo spikes is a reusable editorial pattern.
 - 2026-06-01: Added hindsight validation that backfills Signal/Noise/Gaps repo calls from legacy summaries, writes a markdown scorecard for reskill, and treats frontmatter `predictions` as the forward-looking source of truth for cleaner future scoring.
 - 2026-06-05T16:26:00+00:00: Multi-source press should feed weekly analysis as a source-aware compact correlation artifact, not as raw article dumps; preserve citations while tiering weak category/fuzzy matches separately from strong correlations.
+- **2026-06-05T18:08:08+00:00:** Fork-to-star ratio inversion (forks >> stars with keyword-stuffed descriptions) is the W23 definitive noise signature, succeeding W22's star-clustering pattern — noise actors adapt their manipulation vector week over week, and heuristics must track ratio inversions alongside creation-timestamp clustering. Odysseus (54k stars, 6.5k forks in 5 days) establishes a new baseline for genuine adoption velocity: a 12% fork ratio at scale is structurally unfarmable and should anchor future fork-credibility assessments.
 
 ## 2026-06-05 LLM input strategy assessment
 

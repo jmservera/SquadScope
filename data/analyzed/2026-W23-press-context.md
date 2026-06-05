@@ -1,101 +1,83 @@
-## Press Context (TechCrunch, week of 2026-W23)
-7 articles published relevant to tech/open-source.
+## Press Context (External news, week of 2026-W23)
+23 articles published relevant to tech/open-source.
 
 Notable coverage:
-- [Strava declares war on scrapers ahead of IPO](https://techcrunch.com/2026/06/01/strava-declares-war-on-scrapers-ahead-of-ipo/) [Apps, IPO, Strava, data scraping]
-- [Unastella, a South Korean rocket startup that launched from home, raises $24M](https://techcrunch.com/2026/06/01/unastella-a-south-korean-rocket-startup-that-launched-from-home-raises-24m/) [Space, Hanwha aerospace, launch vehicle, south korea, Unastella]
-- [‘This is fine’ artist KC Green reaches agreement with AI startup Artisan](https://techcrunch.com/2026/05/31/this-is-fine-artist-kc-green-reaches-agreement-with-ai-startup-artisan/) [Media & Entertainment, Startups, artisan, kc green]
-- [Making sense of the debate over AI psychosis](https://techcrunch.com/2026/05/31/making-sense-of-the-debate-over-ai-psychosis/) [Startups, AI, Google, Aaron Levie, DuckDuckGo, Equity podcast, ai psychosis]
-- [Black founders raise highest amount of quarterly funding since 2022, but there’s a catch](https://techcrunch.com/2026/05/31/black-founders-raise-highest-amount-of-quarterly-funding-since-2022-but-theres-a-catch/) [Startups, Venture, black founders, DEI]
-- [‘What a joke’: Github Copilot’s new token-based billing spurs consternation among devs](https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/) [AI, Microsoft]
-- [As the browser wars heat up, here are the hottest alternatives to Chrome and Safari in 2026](https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/) [Startups, AI, Apps, Browser, search engines, web browser, evergreens]
+- [Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns](https://techcrunch.com/2026/06/04/ahead-of-its-ipo-anthropics-daniela-amodei-shrugs-off-doubts-about-ais-returns/) [AI, Anthropic, IPO] — techcrunch, 2026-06-04
+- [Airbnb’s Brian Chesky plans to launch a new AI lab](https://techcrunch.com/2026/06/04/airbnbs-brian-chesky-plans-to-launch-a-new-ai-lab/) [AI, Airbnb, brian chesky, In Brief, sam altman] — techcrunch, 2026-06-04
+- [Defense tech, AI, and fundraising take center stage at StrictlyVC Los Angeles on June 18](https://techcrunch.com/2026/06/04/defense-tech-ai-and-fundraising-take-center-stage-at-strictlyvc-los-angeles-on-june-18/) [AI, Fundraising, Security, Space, Startups, Venture, StrictlyVC] — techcrunch, 2026-06-04
+- [Apple approves Poke as the first AI agent on its Messages for Business platform](https://techcrunch.com/2026/06/04/apple-approves-poke-as-the-first-ai-agent-on-its-messages-for-business-platform/) [AI, Apps, ai agent, Apple, Poke] — techcrunch, 2026-06-04
+- [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/) [Climate, Fundraising, Startups, Helion, fusion energy, Peak XV Partners, Bill Ford, Anti Fund, SoftBank Vision Fund 2, lux capital, Dustin Moscovitz, fusion power, nuclear fusion, mithril capital, boxgroup, Thrive Capital, lightspeed venture partners] — techcrunch, 2026-06-04
+- [GitHub Universe is back: All together now, in the agentic era](https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/) [Company news, News & insights, GitHub Universe] — github_blog, 2026-06-04
+- [NVIDIA Research Unlocks Advanced Grasping, Smarter Autonomous Driving and Agent Training at Scale](https://blogs.nvidia.com/blog/cvpr-research-grasping-driving-agent-training/) [Driving, Research, Robotics, Isaac, NVIDIA Research, Open Source] — nvidia_blog, 2026-06-03
+- [NVIDIA Enables the Next Era Of Physical AI Research With Agent Skills For Autonomous Vehicles, Robotics And Vision AI](https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/) [Driving, Robotics, Agentic AI, Artificial Intelligence, Computer Vision, Cosmos, Events, Isaac, Metropolis, Nemotron, NVIDIA Blueprints, NVIDIA Research, Omniverse, Open Source, Physical AI, Simulation and Design, Synthetic Data Generation] — nvidia_blog, 2026-06-03
+- [Industrial Software Leaders Build Secure, Autonomous AI Engineers With NVIDIA NemoClaw](https://blogs.nvidia.com/blog/industrial-software-leaders-secure-autonomous-ai-engineers-nemoclaw/) [AI, Agentic AI, AI Training, Artificial Intelligence, Customer Stories, Industrial and Manufacturing, Open Source, Simulation and Design] — nvidia_blog, 2026-06-02
+- [NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local](https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/) [AI, AI Infrastructure, Hardware, Networking, Software, Agentic AI, Cosmos, NVIDIA Blackwell, NVIDIA DGX, NVIDIA RTX, NVIDIA Vera Rubin, Physical AI] — nvidia_blog, 2026-06-02
+- [GitHub Copilot app: The agent-native desktop experience](https://github.blog/news-insights/product-news/github-copilot-app-the-agent-native-desktop-experience/) [Company news, News & insights, Product, GitHub Copilot, GitHub Copilot app, GitHub Copilot CLI, GitHub Copilot code review, GitHub Copilot SDK] — github_blog, 2026-06-02
+- [The Download: AI can run your admin department now](https://www.technologyreview.com/2026/06/02/1138277/the-download-ai-tips-small-businesses-admin/) [The Download] — mit_technology_review, 2026-06-02
+- [Rehumanizing global health care with agentic AI](https://www.technologyreview.com/2026/06/02/1137827/rehumanizing-global-health-care-with-agentic-ai/) [Artificial intelligence, sponsored] — mit_technology_review, 2026-06-02
+- [How small businesses can leverage AI](https://www.technologyreview.com/2026/06/02/1138227/how-small-businesses-can-leverage-ai/) [Artificial intelligence, App] — mit_technology_review, 2026-06-02
+- [Why Financial Institutions Are Converging on Transaction Foundation Models to Build Their Own Intelligence](https://blogs.nvidia.com/blog/financial-institutions-transaction-foundation-models/) [Corporate, Agentic AI, Banking, Financial Services, Nemotron, NVIDIA NeMo] — nvidia_blog, 2026-06-02
+- [NVIDIA Jetson Brings Agentic AI to the Physical World](https://blogs.nvidia.com/blog/jetson-agentic-ai-physical-world/) [AI, Hardware, Robotics, Agentic AI, Jetson, Physical AI] — nvidia_blog, 2026-06-02
+- [Introducing Mellum2: A 12B Mixture-of-Experts Model by JetBrains](https://huggingface.co/blog/JetBrains/mellum2-launch) — hugging_face_blog, 2026-06-01
+- [Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic](https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption) — hugging_face_blog, 2026-06-01
+- [NVIDIA AI Cloud Ecosystem Expands Worldwide to Meet Global AI Compute Demand](https://blogs.nvidia.com/blog/ai-cloud-ecosystem/) [AI Infrastructure, Cloud] — nvidia_blog, 2026-06-01
+- [NVIDIA Factory Operations Blueprint Gives Factories a New AI Brain](https://blogs.nvidia.com/blog/factory-operations-fox-blueprint-ai-brain/) [AI Infrastructure, Robotics, Agentic AI, COMPUTEX 2026, Industrial and Manufacturing, Metropolis] — nvidia_blog, 2026-06-01
+- [Taiwan’s Industry Titans Turbocharge World’s AI Infrastructure Buildout With NVIDIA](https://blogs.nvidia.com/blog/taiwan-ecosystem-ai-infrastructure/) [AI Infrastructure, Agentic AI, AI Factory, COMPUTEX 2026, Industrial and Manufacturing, NVIDIA Vera Rubin] — nvidia_blog, 2026-06-01
+- [How Cosmos 3 Helps Physical AI Think Before It Acts](https://blogs.nvidia.com/blog/cosmos-3-physical-ai-open-world-foundation-model/) [Robotics, Agentic AI, Computer Vision, COMPUTEX 2026, Physical AI, Simulation and Design] — nvidia_blog, 2026-06-01
+- [NVIDIA Levels Up Local AI Agents Across RTX PCs and DGX Spark](https://blogs.nvidia.com/blog/rtx-ai-garage-computex-spark-local-agents/) [AI, Agentic AI, Artificial Intelligence, NVIDIA RTX, Open Source, RTX AI Garage] — nvidia_blog, 2026-06-01
 
 ### Correlation Summary
-84 repos have press correlation:
-- github/spec-kit — match: org_name, confidence: 0.8, hype_risk: medium
-- google/material-design-icons — match: org_name, confidence: 0.8, hype_risk: medium
-- Sophomoresty/gemini-web2api — match: project_name, confidence: 0.6, hype_risk: medium
-- Allanlv5324F/Lossless-Scaling-Github — match: project_name, confidence: 0.6, hype_risk: medium
-- PolyMomentum-Labs/.github — match: project_name, confidence: 0.6, hype_risk: medium
-- PentesterFlow/agent — match: project_name, confidence: 0.6, hype_risk: medium
-- ai-best-tools/ai-image-video-gen — match: project_name, confidence: 0.6, hype_risk: medium
-- knackstedtlivia3560/Gemini-Pro-Desktop — match: project_name, confidence: 0.6, hype_risk: medium
-- stormneonnightraven4640692/DeepFake-AI-RealTime — match: project_name, confidence: 0.6, hype_risk: medium
-- c873089902979/NS-FW-AI-Image-and-Video-Generator-Uncens — match: project_name, confidence: 0.6, hype_risk: medium
-- nalltama/RAIV — match: project_name, confidence: 0.6, hype_risk: medium
-- lilliancrivaro27064501728/AI-Photo-Background-Remover — match: project_name, confidence: 0.6, hype_risk: medium
-- zyairpope7277763/RL-AI-Latest — match: project_name, confidence: 0.6, hype_risk: medium
-- Makapic/RocoPilot — match: project_name, confidence: 0.6, hype_risk: medium
-- Aimer-zero/redforge-ai — match: project_name, confidence: 0.6, hype_risk: medium
-- Mochocyang/QMAI — match: project_name, confidence: 0.6, hype_risk: medium
-- one880808/gemini-web2api — match: project_name, confidence: 0.6, hype_risk: medium
-- tizkovatereza/awesome-ai-sandboxes — match: project_name, confidence: 0.6, hype_risk: medium
-- HelpFreedom/youthub — match: project_name, confidence: 0.6, hype_risk: medium
-- 521xueweihan/HelloGitHub — match: project_name, confidence: 0.6, hype_risk: medium
-- microsoft/markitdown — match: project_name, confidence: 0.6, hype_risk: medium
-- microsoft/generative-ai-for-beginners — match: project_name, confidence: 0.6, hype_risk: medium
-- godotengine/godot — match: project_name, confidence: 0.6, hype_risk: medium
-- google-gemini/gemini-cli — match: project_name, confidence: 0.6, hype_risk: medium
-- microsoft/terminal — match: project_name, confidence: 0.6, hype_risk: medium
-- angular/angular — match: project_name, confidence: 0.6, hype_risk: medium
-- home-assistant/core — match: project_name, confidence: 0.6, hype_risk: medium
-- anuraghazra/github-readme-stats — match: project_name, confidence: 0.6, hype_risk: medium
-- nestjs/nest — match: project_name, confidence: 0.6, hype_risk: medium
-- strapi/strapi — match: project_name, confidence: 0.6, hype_risk: medium
-- moby/moby — match: project_name, confidence: 0.6, hype_risk: medium
-- pallets/flask — match: project_name, confidence: 0.6, hype_risk: medium
-- xtekky/gpt4free — match: project_name, confidence: 0.6, hype_risk: medium
-- TheAlgorithms/Java — match: project_name, confidence: 0.6, hype_risk: medium
-- webpack/webpack — match: project_name, confidence: 0.6, hype_risk: medium
-- gorhill/uBlock — match: project_name, confidence: 0.6, hype_risk: medium
-- commaai/openpilot — match: project_name, confidence: 0.6, hype_risk: medium
-- git/git — match: project_name, confidence: 0.6, hype_risk: medium
-- virattt/ai-hedge-fund — match: project_name, confidence: 0.6, hype_risk: medium
-- ghostty-org/ghostty — match: project_name, confidence: 0.6, hype_risk: medium
-- tw93/Mole — match: project_name, confidence: 0.6, hype_risk: medium
-- TryGhost/Ghost — match: project_name, confidence: 0.6, hype_risk: medium
-- vuejs/core — match: project_name, confidence: 0.6, hype_risk: medium
-- cellinlab/how-pi-agent-works — match: category, confidence: 0.4, hype_risk: low
-- polymaxi2/polymarket-arbitrage-trading-bot — match: category, confidence: 0.4, hype_risk: low
-- boona13/image-extender — match: category, confidence: 0.4, hype_risk: low
-- nekocode/filetree-skill — match: category, confidence: 0.4, hype_risk: low
-- johnbean393/KeyType — match: category, confidence: 0.4, hype_risk: low
-- openclaw/openclaw — match: category, confidence: 0.4, hype_risk: low
-- n8n-io/n8n — match: category, confidence: 0.4, hype_risk: low
-- microsoft/vscode — match: category, confidence: 0.4, hype_risk: low
-- Significant-Gravitas/AutoGPT — match: category, confidence: 0.4, hype_risk: low
-- NousResearch/hermes-agent — match: category, confidence: 0.4, hype_risk: low
-- f/prompts.chat — match: category, confidence: 0.4, hype_risk: low
-- Snailclimb/JavaGuide — match: category, confidence: 0.4, hype_risk: low
-- langgenius/dify — match: category, confidence: 0.4, hype_risk: low
-- vercel/next.js — match: category, confidence: 0.4, hype_risk: low
-- open-webui/open-webui — match: category, confidence: 0.4, hype_risk: low
-- langchain-ai/langchain — match: category, confidence: 0.4, hype_risk: low
-- firecrawl/firecrawl — match: category, confidence: 0.4, hype_risk: low
-- Comfy-Org/ComfyUI — match: category, confidence: 0.4, hype_risk: low
-- jaywcjlove/awesome-mac — match: category, confidence: 0.4, hype_risk: low
-- hacksider/Deep-Live-Cam — match: category, confidence: 0.4, hype_risk: low
-- punkpeye/awesome-mcp-servers — match: category, confidence: 0.4, hype_risk: low
-- infiniflow/ragflow — match: category, confidence: 0.4, hype_risk: low
-- thedotmack/claude-mem — match: category, confidence: 0.4, hype_risk: low
-- netdata/netdata — match: category, confidence: 0.4, hype_risk: low
-- lobehub/lobehub — match: category, confidence: 0.4, hype_risk: low
-- harry0703/MoneyPrinterTurbo — match: category, confidence: 0.4, hype_risk: low
-- daytonaio/daytona — match: category, confidence: 0.4, hype_risk: low
-- hiyouga/LlamaFactory — match: category, confidence: 0.4, hype_risk: low
-- bytedance/deer-flow — match: category, confidence: 0.4, hype_risk: low
-- OpenBB-finance/OpenBB — match: category, confidence: 0.4, hype_risk: low
-- LadybirdBrowser/ladybird — match: category, confidence: 0.4, hype_risk: low
-- docling-project/docling — match: category, confidence: 0.4, hype_risk: low
-- code-yeongyu/oh-my-openagent — match: category, confidence: 0.4, hype_risk: low
-- withastro/astro — match: category, confidence: 0.4, hype_risk: low
-- meilisearch/meilisearch — match: category, confidence: 0.4, hype_risk: low
-- safishamsi/graphify — match: category, confidence: 0.4, hype_risk: low
-- D4Vinci/Scrapling — match: category, confidence: 0.4, hype_risk: low
-- mem0ai/mem0 — match: category, confidence: 0.4, hype_risk: low
-- koala73/worldmonitor — match: category, confidence: 0.4, hype_risk: low
-- MemPalace/mempalace — match: category, confidence: 0.4, hype_risk: low
-- crewAIInc/crewAI — match: category, confidence: 0.4, hype_risk: low
+50 repos have press correlation:
+- github/spec-kit — match: org_name, strength: strong, confidence: 0.8, sources: github_blog, hype_risk: medium, cited: [GitHub Universe is back: All together now, in the agentic era](https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/)
+- microsoft/ML-For-Beginners — match: org_name, strength: strong, confidence: 0.8, sources: nvidia_blog, techcrunch, hype_risk: medium, cited: [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/)
+- microsoft/PowerToys — match: org_name, strength: strong, confidence: 0.8, sources: nvidia_blog, techcrunch, hype_risk: medium, cited: [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/)
+- microsoft/TypeScript — match: org_name, strength: strong, confidence: 0.8, sources: nvidia_blog, techcrunch, hype_risk: medium, cited: [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/)
+- microsoft/generative-ai-for-beginners — match: org_name, strength: strong, confidence: 0.8, sources: nvidia_blog, techcrunch, hype_risk: medium, cited: [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/)
+- microsoft/playwright — match: org_name, strength: strong, confidence: 0.8, sources: nvidia_blog, techcrunch, hype_risk: medium, cited: [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/)
+- microsoft/terminal — match: org_name, strength: strong, confidence: 0.8, sources: nvidia_blog, techcrunch, hype_risk: medium, cited: [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/)
+- microsoft/vscode — match: org_name, strength: strong, confidence: 0.8, sources: nvidia_blog, techcrunch, hype_risk: medium, cited: [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/)
+- pytorch/pytorch — match: org_name, strength: strong, confidence: 0.8, sources: hugging_face_blog, hype_risk: medium, cited: [Profiling in PyTorch (Part 1): A Beginner's Guide to torch.profiler](https://huggingface.co/blog/torch-profiler)
+- 2417467487-hub/WorldCupROI — match: project_name, strength: weak, confidence: 0.6, sources: nvidia_blog, hype_risk: medium, cited: [NVIDIA Jetson Brings Agentic AI to the Physical World](https://blogs.nvidia.com/blog/jetson-agentic-ai-physical-world/)
+- AI272/speaker — match: project_name, strength: weak, confidence: 0.6, sources: nvidia_blog, hype_risk: medium, cited: [NVIDIA Levels Up Local AI Agents Across RTX PCs and DGX Spark](https://blogs.nvidia.com/blog/rtx-ai-garage-computex-spark-local-agents/)
+- AppFlowy-IO/AppFlowy — match: project_name, strength: weak, confidence: 0.6, sources: techcrunch, hype_risk: medium, cited: [Apple approves Poke as the first AI agent on its Messages for Business platform](https://techcrunch.com/2026/06/04/apple-approves-poke-as-the-first-ai-agent-on-its-messages-for-business-platform/)
+- Archeb/peer.as — match: project_name, strength: weak, confidence: 0.6, sources: nvidia_blog, hype_risk: medium, cited: [NVIDIA Enables the Next Era Of Physical AI Research With Agent Skills For Autonomous Vehicles, Robotics And Vision AI](https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/)
+- Arenbai/SecSkills — match: project_name, strength: weak, confidence: 0.6, sources: nvidia_blog, hype_risk: medium, cited: [NVIDIA Enables the Next Era Of Physical AI Research With Agent Skills For Autonomous Vehicles, Robotics And Vision AI](https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/)
+- AtomFlow-AI/MoleCode — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, hype_risk: medium, cited: [Introducing Mellum2: A 12B Mixture-of-Experts Model by JetBrains](https://huggingface.co/blog/JetBrains/mellum2-launch)
+- CWS6206/Lucerne-Geo-AI-Searching — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, techcrunch, hype_risk: medium, cited: [Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns](https://techcrunch.com/2026/06/04/ahead-of-its-ipo-anthropics-daniela-amodei-shrugs-off-doubts-about-ais-returns/)
+- ChrisTitusTech/winutil — match: project_name, strength: weak, confidence: 0.6, sources: nvidia_blog, hype_risk: medium, cited: [Industrial Software Leaders Build Secure, Autonomous AI Engineers With NVIDIA NemoClaw](https://blogs.nvidia.com/blog/industrial-software-leaders-secure-autonomous-ai-engineers-nemoclaw/)
+- D4Vinci/Scrapling — match: project_name, strength: weak, confidence: 0.6, sources: nvidia_blog, hype_risk: medium, cited: [NVIDIA Research Unlocks Advanced Grasping, Smarter Autonomous Driving and Agent Training at Scale](https://blogs.nvidia.com/blog/cvpr-research-grasping-driving-agent-training/)
+- Forlives/cloudsight-ai — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, techcrunch, hype_risk: medium, cited: [Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns](https://techcrunch.com/2026/06/04/ahead-of-its-ipo-anthropics-daniela-amodei-shrugs-off-doubts-about-ais-returns/)
+- FuelLabs/sway — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, hype_risk: medium, cited: [Nemotron 3.5 Content Safety: Customizable Multimodal Safety for Global Enterprise AI](https://huggingface.co/blog/nvidia/nemotron-3-5-content-safety)
+- Fullive-AI/Anima — match: project_name, strength: weak, confidence: 0.6, sources: techcrunch, hype_risk: medium, cited: [Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns](https://techcrunch.com/2026/06/04/ahead-of-its-ipo-anthropics-daniela-amodei-shrugs-off-doubts-about-ais-returns/)
+- LLMQuant/skills — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, nvidia_blog, hype_risk: medium, cited: [NVIDIA Enables the Next Era Of Physical AI Research With Agent Skills For Autonomous Vehicles, Robotics And Vision AI](https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/)
+- Mochocyang/QMAI — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, techcrunch, hype_risk: medium, cited: [Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns](https://techcrunch.com/2026/06/04/ahead-of-its-ipo-anthropics-daniela-amodei-shrugs-off-doubts-about-ais-returns/)
+- NousResearch/hermes-agent — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, nvidia_blog, techcrunch, hype_risk: medium, cited: [Apple approves Poke as the first AI agent on its Messages for Business platform](https://techcrunch.com/2026/06/04/apple-approves-poke-as-the-first-ai-agent-on-its-messages-for-business-platform/)
+- OpenHands/OpenHands — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, nvidia_blog, hype_risk: medium, cited: [Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic](https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption)
+- PanisHandsome/ai-rules-sync — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, techcrunch, hype_risk: medium, cited: [Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns](https://techcrunch.com/2026/06/04/ahead-of-its-ipo-anthropics-daniela-amodei-shrugs-off-doubts-about-ais-returns/)
+- PentesterFlow/agent — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, nvidia_blog, techcrunch, hype_risk: medium, cited: [Apple approves Poke as the first AI agent on its Messages for Business platform](https://techcrunch.com/2026/06/04/apple-approves-poke-as-the-first-ai-agent-on-its-messages-for-business-platform/)
+- RobiMez/loadcell — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, nvidia_blog, hype_risk: medium, cited: [NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local](https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/)
+- SenhorH/tab-labeler — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, hype_risk: medium, cited: [Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic](https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption)
+- Snailclimb/JavaGuide — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, hype_risk: medium, cited: [Profiling in PyTorch (Part 1): A Beginner's Guide to torch.profiler](https://huggingface.co/blog/torch-profiler)
+- TauricResearch/TradingAgents — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, nvidia_blog, hype_risk: medium, cited: [Holo3.1: Fast & Local Computer Use Agents](https://huggingface.co/blog/Hcompany/holo31)
+- TheAlgorithms/Python — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, hype_risk: medium, cited: [Profiling in PyTorch (Part 1): A Beginner's Guide to torch.profiler](https://huggingface.co/blog/torch-profiler)
+- Unicornronote/Microsoft-Office-Activated — match: project_name, strength: weak, confidence: 0.6, sources: nvidia_blog, techcrunch, hype_risk: medium, cited: [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/)
+- V0id-v2/Void-Tools-v2.0 — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, hype_risk: medium, cited: [EVA-Bench Data 2.0: 3 Domains, 121 Tools, 213 Scenarios](https://huggingface.co/blog/ServiceNow-AI/eva-bench-data)
+- a458378326454/Windows-Optimizer — match: project_name, strength: weak, confidence: 0.6, sources: nvidia_blog, hype_risk: medium, cited: [NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local](https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/)
+- albertcheng19/MedSkillOS — match: project_name, strength: weak, confidence: 0.6, sources: nvidia_blog, hype_risk: medium, cited: [NVIDIA Enables the Next Era Of Physical AI Research With Agent Skills For Autonomous Vehicles, Robotics And Vision AI](https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/)
+- ant-design/ant-design — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, hype_risk: medium, cited: [Designing the hf CLI as an agent-optimized way to work with the Hub](https://huggingface.co/blog/hf-cli-for-agents)
+- anuraghazra/github-readme-stats — match: project_name, strength: weak, confidence: 0.6, sources: github_blog, hype_risk: medium, cited: [GitHub Universe is back: All together now, in the agentic era](https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/)
+- apache/echarts — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, hype_risk: medium, cited: [Direct Preference Optimization Beyond Chatbots](https://huggingface.co/blog/Dharma-AI/direct-preference-optimization-beyond-chatbots)
+- apache/superset — match: project_name, strength: weak, confidence: 0.6, sources: github_blog, hype_risk: medium, cited: [GitHub Universe is back: All together now, in the agentic era](https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/)
+- appwrite/appwrite — match: project_name, strength: weak, confidence: 0.6, sources: techcrunch, hype_risk: medium, cited: [Apple approves Poke as the first AI agent on its Messages for Business platform](https://techcrunch.com/2026/06/04/apple-approves-poke-as-the-first-ai-agent-on-its-messages-for-business-platform/)
+- b-nnett/goose — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, hype_risk: medium, cited: [EVA-Bench Data 2.0: 3 Domains, 121 Tools, 213 Scenarios](https://huggingface.co/blog/ServiceNow-AI/eva-bench-data)
+- base/node — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, nvidia_blog, techcrunch, hype_risk: medium, cited: [Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns](https://techcrunch.com/2026/06/04/ahead-of-its-ipo-anthropics-daniela-amodei-shrugs-off-doubts-about-ais-returns/)
+- best-spicy-ai/ai-naughty-tools — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, techcrunch, hype_risk: medium, cited: [Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns](https://techcrunch.com/2026/06/04/ahead-of-its-ipo-anthropics-daniela-amodei-shrugs-off-doubts-about-ais-returns/)
+- c873089902979/NS-FW-AI-Image-and-Video-Generator-Uncens — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, techcrunch, hype_risk: medium, cited: [Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns](https://techcrunch.com/2026/06/04/ahead-of-its-ipo-anthropics-daniela-amodei-shrugs-off-doubts-about-ais-returns/)
+- cline/cline — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, nvidia_blog, hype_risk: medium, cited: [Designing the hf CLI as an agent-optimized way to work with the Hub](https://huggingface.co/blog/hf-cli-for-agents)
+- commaai/openpilot — match: project_name, strength: weak, confidence: 0.6, sources: github_blog, hype_risk: medium, cited: [GitHub Copilot app: The agent-native desktop experience](https://github.blog/news-insights/product-news/github-copilot-app-the-agent-native-desktop-experience/)
+- coollabsio/coolify — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, hype_risk: medium, cited: [Designing the hf CLI as an agent-optimized way to work with the Hub](https://huggingface.co/blog/hf-cli-for-agents)
+- dasun539/heroicgamelauncher-windows-setup — match: project_name, strength: weak, confidence: 0.6, sources: nvidia_blog, hype_risk: medium, cited: [NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local](https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/)
+- daytonaio/daytona — match: project_name, strength: weak, confidence: 0.6, sources: hugging_face_blog, hype_risk: medium, cited: [EVA-Bench Data 2.0: 3 Domains, 121 Tools, 213 Scenarios](https://huggingface.co/blog/ServiceNow-AI/eva-bench-data)
 
 ### Instructions
 For each trending repo, note if press coverage preceded the star surge.
@@ -113,284 +95,107 @@ Include a "Press vs Reality" subsection in your analysis highlighting:
 ### Divergence Analysis
 
 #### 🔍 Tech Trends Without Dev Activity
-Topics heavily covered by TechCrunch with no matching GitHub repos:
+Topics heavily covered by external press with no matching GitHub repos:
 
-- **Biotech & Health**: [What happens in Vega$: steroids, swimmers, and a billion-dollar hustle](https://techcrunch.com/2026/05/31/i-went-to-the-so-called-steroid-olympics-to-understand-why-silicon-valley-is-obsessed-with-peptides/)
-- **Hardware**: [This $300 pizza oven can easily help elevate your summer pizza nights](https://techcrunch.com/2026/05/30/this-300-pizza-oven-can-easily-help-elevate-your-summer-pizza-nights/)
+- **The Download**: [The Download: AI-generated lawsuits and virtual power plants for data centers](https://www.technologyreview.com/2026/06/04/1138408/the-download-ai-lawsuits-virtual-power-plants-data-centers/), [The Download: Trump’s new AI order, and smart glasses for warfare](https://www.technologyreview.com/2026/06/03/1138322/the-download-trump-ai-order-smart-glasses-warfare/), [The Download: AI can run your admin department now](https://www.technologyreview.com/2026/06/02/1138277/the-download-ai-tips-small-businesses-admin/)
+- **Artificial intelligence**: [How courts are coping with a flood of AI-generated lawsuits](https://www.technologyreview.com/2026/06/04/1138391/courts-coping-ai-lawsuits/), [Rehumanizing global health care with agentic AI](https://www.technologyreview.com/2026/06/02/1137827/rehumanizing-global-health-care-with-agentic-ai/), [How small businesses can leverage AI](https://www.technologyreview.com/2026/06/02/1138227/how-small-businesses-can-leverage-ai/)
+- **Security**: [Filtr is a new privacy tool that blocks ads in almost every iPhone and Mac app](https://techcrunch.com/2026/06/04/filtr-is-a-new-privacy-tool-that-blocks-ads-in-almost-every-iphone-and-mac-app/)
+- **Startups**: [Startup Battlefield is returning to Australia — here’s what happened the last time we came to Sydney](https://techcrunch.com/2026/06/04/startup-battlefield-is-returning-to-australia-heres-what-happened-the-last-time-we-came-to-sydney/)
+- **AI**: [Meta steals a tactic from Tesla and builds data centers in tents](https://techcrunch.com/2026/06/04/meta-steals-a-tactic-from-tesla-and-builds-data-centers-in-tents/)
+- **Social**: [Meta’s Oversight Board says account bans lack due process, transparency](https://techcrunch.com/2026/06/04/metas-oversight-board-says-account-bans-lack-due-process-transparency/)
+- **Gaming**: [Forecast: Fun Ahead — 18 Games Join in June to Stream on GeForce NOW](https://blogs.nvidia.com/blog/geforce-now-thursday-june-2026-games-list/)
+- **Climate change and energy**: [How virtual power plants could provide energy for data centers](https://www.technologyreview.com/2026/06/03/1138350/virtual-power-plants-data-centers/)
+- **AI Infrastructure**: [NVIDIA Factory Operations Blueprint Gives Factories a New AI Brain](https://blogs.nvidia.com/blog/factory-operations-fox-blueprint-ai-brain/)
+- **Robotics**: [How Cosmos 3 Helps Physical AI Think Before It Acts](https://blogs.nvidia.com/blog/cosmos-3-physical-ai-open-world-foundation-model/)
 
 #### 🚀 Dev Activity Without Press Coverage
-GitHub repos/trends with no matching TechCrunch coverage:
+GitHub repos/trends with no matching external press coverage:
 
-- **bot**: hydra-node/polymarket-weather-bot (⭐122), risedownlabs/polymarket-weather-bot (⭐121), TYOPxyz/solana-pumpfun-bundler (⭐116)
-- **ProIPTVPlayer**: DiscoveryAndDev/MyIPTV (⭐65), sainbek01-commits/MyIPTV (⭐64), zyuslan25-dotcom/MyIPTV (⭐64)
-- **android**: flutter/flutter (⭐176603), Genymobile/scrcpy (⭐142789), facebook/react-native (⭐125923)
-- **ai-agents**: 2aronS/Duel-Agents (⭐609), ProxyShard/ShardBrowser (⭐151), mturac/simulacra (⭐57)
-- **awesome**: vinta/awesome-python (⭐300693), awesome-selfhosted/awesome-selfhosted (⭐296586), avelino/awesome-go (⭐174255)
-- **cli**: ohmyzsh/ohmyzsh (⭐187548), sherlock-project/sherlock (⭐84327), jesseduffield/lazygit (⭐78709)
-- **agent**: modelstudioai/cli (⭐154), bunnyos/base-agent (⭐117), TauricResearch/TradingAgents (⭐81432)
-- **api**: public-apis/public-apis (⭐438351), neovim/neovim (⭐99985), fastapi/fastapi (⭐98732)
-- **docker**: docker-desktop-windows/docker-desktop (⭐198), louislam/uptime-kuma (⭐87511), Stirling-Tools/Stirling-PDF (⭐79988)
-- **compiler**: rust-lang/rust (⭐113278), FuelLabs/sway (⭐61655), typst/typst (⭐53888)
-- **ai-agent**: helloianneo/ian-xiaohei-illustrations (⭐1572), yb2460/harness-anything (⭐259), thedaviddias/Front-End-Checklist (⭐72770)
-- **data-science**: opengeos/GeoLibre (⭐174), microsoft/ML-For-Beginners (⭐86135), keras-team/keras (⭐64075)
-- **agentic-ai**: franklioxygen/agent-workflows (⭐63), ruvnet/ruflo (⭐57128), FlowiseAI/Flowise (⭐53244)
-- **awesome-list**: ripienaar/free-for-dev (⭐122845), iluwatar/java-design-patterns (⭐94084), VoltAgent/awesome-design-md (⭐86337)
-- **javascript**: nodejs/node (⭐117451), microsoft/TypeScript (⭐109040), socketio/socket.io (⭐63106)
-- **hacktoberfest**: axios/axios (⭐109086), tesseract-ocr/tesseract (⭐74415), pmndrs/zustand (⭐58154)
-- **framework**: laravel/laravel (⭐84350), spring-projects/spring-boot (⭐80735), spring-projects/spring-framework (⭐60005)
-- **bash**: junegunn/fzf (⭐80663), warpdotdev/warp (⭐60772), starship/starship (⭐57869)
-- **auto-cad**: faldyrd/Auto-2026 (⭐234), portiongunnerestate/Auto-2026 (⭐127)
-- **deepseek**: LawmakerTreasure/deepseek-openclaw (⭐219), ollama/ollama (⭐172797)
-- **claude-code**: Christian-Katzmann/app-it (⭐122), gsd-build/get-shit-done (⭐63814)
-- **appkit**: iliyami/MacClean (⭐80), Wanduforl/MacArkPet (⭐71)
-- **cache**: openclaw/octopool (⭐77), redis/redis (⭐74641)
-- **csharp**: nuskey8/DotWasm (⭐68), jellyfin/jellyfin (⭐52780)
-- **bitcoin**: tony-cote/walletgen (⭐61), bitcoin/bitcoin (⭐89222)
-- **bun**: NazzarenoGiannelli/tuiboard (⭐59), oven-sh/bun (⭐92692)
-- **audio**: huggingface/transformers (⭐161146), FFmpeg/FFmpeg (⭐60666)
-- **agents**: langflow-ai/langflow (⭐148972), Shubhamsaboo/awesome-llm-apps (⭐112449)
-- **agent-skills**: anthropics/skills (⭐144987), nexu-io/open-design (⭐56789)
-- **go**: golang/go (⭐134157), syncthing/syncthing (⭐84843)
-- **c-plus-plus**: electron/electron (⭐121503), opencv/opencv (⭐87716)
-- **automation**: puppeteer/puppeteer (⭐94394), microsoft/playwright (⭐90013)
-- **ai4science**: PaddlePaddle/PaddleOCR (⭐79193), opendatalab/MinerU (⭐65928)
-- **alerting**: grafana/grafana (⭐74068), prometheus/prometheus (⭐64225)
-- **blog**: AppFlowy-IO/AppFlowy (⭐71583), gatsbyjs/gatsby (⭐55950)
-- **Self-hosted workspace.**: pewdiepie-archdaemon/odysseus (⭐13837)
-- **agent-skill**: op7418/guizang-social-card-skill (⭐2338)
-- **light-weight scanner Cloudflare**: MatinSenPai/SenPaiScanner (⭐816)
-- **agentic**: withkynam/vibecode-pro-max-kit (⭐691)
-- **三角洲行动OBS锁头插件 基于OBS渲染注入的智能锁头辅助，支持QQ音乐/网易云联精准骨骼识别、平滑自瞄、压枪抑制，稳定过检，提升击杀效率。动加载。DeltaForce Lockhead**: ace-trump-tech/DeltaForce-OBS-Locker (⭐539)
-- **账号自动注册与管理 协议化付款一键开通 ChatGPT**: asz798838958/aBaiAutoplus (⭐441)
-- **Fast memory-efficient classical**: FlashML-org/flashlib (⭐422)
-- **algorithmic-trading**: BlackCandleLab/polymarket-trading-bot (⭐419)
-- **fh5**: Stellarwolf001/forza-horizon-6-spotify-radio (⭐379)
-- **hosting nix-based, flakified**: garnix-io/garnix-ci (⭐367)
-- **polymarket-bot**: Signal-Trade-Core/weather-prediction-bot (⭐366)
-- **canary-ryujinx**: Dharyen/ryujinx-emu (⭐366)
-- **ai-image-generation**: liyue-aigc/female-portrait-director (⭐358)
-- **official repository Qwen-VLA**: QwenLM/Qwen-VLA (⭐343)
-- **accessibility**: jdevalk/specification.website (⭐342)
-- **bacteria**: ikeda042/PhenoPixel (⭐339)
-- **anti-detect-browser**: tor-browsers/tor-browser (⭐338)
-- **account**: Noahmusahdevs/roblox-account-manager (⭐336)
-- **beammp**: Beam-NG-Drive/BeamMP (⭐329)
-- **granite-tooth-romestead**: malk190/Romestead-Game-Release (⭐326)
-- **download-lunar-client**: Bartates/lunar-client-minecraft (⭐321)
-- **dev-mode**: oyunhacktr/Windows-Xbox-Mode (⭐321)
-- **Explore best Crypto**: bonus-2026/crypto-casino-bonus (⭐312)
-- **aerothemeplasma**: actuallyaridan/linux-devmgmt (⭐310)
-- **adaptive-triggers**: TaiwanBoss/DualSenseX-Steam-PC-Controller (⭐295)
-- **apex-crosshair**: rasoir0591/Crosshair-X (⭐292)
-- **business-video-downloader**: yuyefeiyu/yt-downloader (⭐288)
-- **Stake Monthly most**: 5-m0cftvuvif/stake-monthly (⭐266)
-- **character controller Unity**: BoundingBoxSoftware/CharacterController (⭐262)
-- **auto-trading-bot**: ShadowSpread/polymarket-auto-trading (⭐252)
-- **agent skills created**: DannyMac180/skills (⭐252)
-- **Open source icons**: Voxybuns/at-icons (⭐239)
-- **cheato**: yapeth/MaaNTE (⭐234)
-- **paralives**: paralives-free/Paralives-Money-Cheats (⭐231)
-- **Chinese-first open-source starter**: BarneyD66/open-warehouse-system (⭐229)
-- **Gajae Code**: Yeachan-Heo/gajae-code (⭐227)
-- **cloudflare**: hieunc229/mailflare (⭐226)
-- **metamask**: veryyoldman/metamask-openclaw (⭐225)
-- **PRISM-VL studies measurement-grounded**: kepengxu/PRISM-VL (⭐223)
-- **Open-source ESP32 firmware**: MatixYo/ESP32-Plane-Radar (⭐200)
-- **LogicPipe 是一个面向边缘多设备协同 推理的开源软件项目，提供离线管线规划、分布式**: fxyz666/LogicPipe (⭐198)
-- **网页版教程，看起来会舒服一点**: bozhouDev/14days-build-claude-code-cli (⭐190)
-- **美股指南**: zgwl/chinese-buy-us-stock-guide (⭐187)
-- **ATLAS Autoformalized Textbook**: facebookresearch/atlas-lean (⭐180)
-- **Massively Multiplayer Online**: stagas/hallucinate (⭐171)
-- **OPENAI(ChatGPT) 短信接码价格和库存对比看板**: FoundZiGu/SMSBazaar (⭐170)
-- **docs**: shipfastlabs/parsel (⭐169)
-- **biofeedback**: marekkowalczyk/breathe-cli (⭐167)
-- **Composable computational-science methodology**: K-Dense-AI/science-superpowers (⭐157)
-- **[PolyCite] 基于多智能体协同、多源汇聚的论文引用元数据检索工具 command-line**: steeliron550-ui/search-bibtex (⭐143)
-- **Forza Horizon universal**: g0ldyy/fh6-universal-radio (⭐128)
-- **Open Source Reimplementation**: Kaimen-Inc/Co-Scientist (⭐127)
-- **blox-fruits-script-2025**: turbodragonecholegend2914353/Roblox-Exec-Collection-Desktop (⭐119)
-- **kms-server**: pattieatengco27671636211/kms-pico-latest-m4 (⭐119)
-- **live-wallpapers**: teresiapeetz53968036169/WallpaperDownloader-Version-Pro-2 (⭐119)
-- **acrobat**: mavi9727stoke6893/Acrobat-Version-Pro-2 (⭐117)
-- **discord**: WaveStoryCourtyard/DiscordFix (⭐116)
-- **aktivasi**: elvirarolando64992854260/IDM-6.42-Patch-Lifetime-Ver-26 (⭐116)
-- **ai-trading**: openfi-dao/kalshi-trading-bot (⭐114)
-- **Parakeet implementation with**: mudler/parakeet.cpp (⭐114)
-- **arbitrage**: defi-ape/polymarket-kalshi-arbitrage-bot (⭐112)
-- **arxiv**: ATOM00blue/machine-learning-library (⭐112)
-- **Android kernel stealth**: xiaojianbang8888/xiaojianbang-stealth-hook (⭐111)
-- **Bypass paywall sites**: Sophomoresty/bpc-fetch (⭐111)
-- **??????? novel writing**: dama-cyber/Distilled-Novel-Toolbox (⭐111)
-- **Give Claude Code's**: OnlyTerp/UltraCode-Shim (⭐108)
-- **GenClaw: Code-Driven Agentic**: yejy53/GenClaw (⭐107)
-- **minimal Windows desktop**: Chlience/yt-dlp-tauri (⭐106)
-- **Official implementation Déjà**: nv-tlabs/dvlt (⭐104)
-- **Rust-native server Office**: Aimino-Tech/opendocswork-mcp (⭐102)
-- **HTAP embedded database:**: qianzii2/rockduck (⭐101)
-- **battleye**: mani5717/hwid-spoofer-utility (⭐100)
-- **Local gateway Codex**: AITabby/opencodex (⭐99)
-- **interview prep notes:**: laoshan-song/Awesome-LLM-Interview (⭐99)
-- **4k-export**: gerardapennant96075336582/CapC-Pro-2 (⭐97)
-- **aster**: metanode-trade/asterdex-trading-bot (⭐96)
-- **云微WOC，云微信，自由连接**: Gloridust/WechatOnCloud (⭐95)
-- **Self-evolving memory palace**: a2328275243/mempalace-evolve (⭐93)
-- **renderer plugin Genesis**: Genesis-Embodied-AI/genesis-nyx (⭐90)
-- **agents-md**: OnlyTerp/prompt-cache-skills (⭐86)
-- **market scanning 5,000+**: bwjoke/fomo5000.com (⭐86)
-- **DreamSeed 种梦计划 创造者大赛参赛作品**: weisparrow/dreamseed-pool (⭐85)
-- **thống động Content**: pennydinh/marketing-pineline-share (⭐84)
-- **一个基于截图/参考图重建可编辑 Codex skill。先用**: wwe-dog/ppt-image2-editable-rebuild (⭐84)
-- **Static devirtualizer VMProtect**: eversinc33/MogVMP (⭐83)
-- **From single casual**: ShirleyMaxx/REST3D (⭐83)
-- **Toolkit collecting, merging,**: dsta022/lerobot-rgb-rgbd-vla-dataset-toolkit (⭐83)
-- **Small, modern WASM**: openclaw/libopus-wasm (⭐81)
-- **Nova Radar desktop**: IRNova/NovaRadar (⭐80)
-- **skill rebuttal**: xiongqi123123/awesome-rebuttal (⭐79)
-- **discord-joiner**: V0id-v2/Void-Tools-v2.0 (⭐79)
-- **Autodesk-3ds-Max-2025-Crack-with-Smart-Modeling-Features**: Heartficreate/autodesk-3ds-max-pc-setup (⭐78)
-- **action-adventure**: cochransullivan52536512/LEGO-Batman-Legacy-of-the-Dark-Knight-PC-2026 (⭐77)
-- **curseforge-jenny-mod**: rona6314clayt8402/Jenny-Mine-MOD-2026-MoreGirls (⭐76)
-- **Linux resource process**: Trystan-SA/rproc (⭐76)
-- **alpha**: MallyDev2/DiscordLyrics (⭐76)
-- **copy-trading-bot**: Trade-Execution-Labs/polymarket-sports-trading-bot (⭐76)
-- **coinbase-copy-trading-bot**: DRVX92/coinbase-copy-trading-bot (⭐75)
-- **Secure local trace**: ssreeni1/tracebase (⭐75)
-- **anime-api**: elfriedarosner02320114921/Easy-Anime-Downloader-2026 (⭐75)
-- **brute-force**: sipaaryadi06864/Email-Security-Auditor (⭐74)
-- **small scale Proof**: OttoRenner/Gentle-Coding (⭐72)
-- **codex-skill**: w1163222589-coder/slide-image-to-editable-pptx (⭐71)
-- **Multimodal interview system**: zhaojingru-ai/multimodal-interview-system (⭐71)
-- **DiffusionOPD: Unified Perspective**: ali-vilab/DiffusionOPD (⭐69)
-- **[CVPR 2026] ClipGStream:**: liangjie1999/ClipGStream (⭐69)
-- **nodejs**: cron-defi/polymarket-pnl-tracker (⭐67)
-- **微信聊天情报看板：聚合群聊信号、话题、链接和趋势**: zjp1997720/wechat-radar (⭐67)
-- **node**: openclaw/clawpdf (⭐67)
-- **download-exitlag-github**: FlashConjurerPrime/FPS-Tweak-26 (⭐66)
-- **review-forge Agent Skill**: vikingmute/review-forge (⭐64)
-- **caching**: kyrtstn/syv (⭐63)
-- **Hex-Rays plugin that**: kernullist/PseudoForge (⭐63)
-- **PEER.AS explore global**: Archeb/peer.as (⭐63)
-- **bim-applications**: FrontierHealerLocate/Autodesk-Revit-2027-0-2-Full-Build (⭐62)
-- **抖音无水印下载 Android**: Yukioooooo0/QingZai (⭐61)
-- **bounty**: owenshuo/open-bounty-radar (⭐61)
-- **Claude Code's "Invalid**: YonghaoZhao722/cc-sanitizer (⭐61)
-- **fastapi**: biao994/DocPaws (⭐60)
-- **AgentGuard：An Attribute-Based Access**: WhitzardAgent/AgentGuard (⭐60)
-- **Slint backend jailbroken**: sverrejb/slint-kindle-backend (⭐60)
-- **把课堂讲义变成考试利器 PPT、Word、PDF 课件转化为结构清晰的知识清单和交互式测试题，让复习事半功倍。**: WUBING2023/ExamPass-Assistant (⭐59)
-- **Your 24/7 Terminator**: sediman-agent/OpenSkynet (⭐59)
-- **monorepo extensions skills**: IgorWarzocha/howaboua-pi-stuff (⭐58)
-- **Codex skill maintaining**: SeemSeam/plan-tree (⭐58)
-- **3d-baking**: Jhema123/Marmoset-Pipeline-Bundle (⭐57)
-- **data-acquisition**: eltohamy932/NI-LabVIEW-Studio-Tools (⭐57)
-- **real traffic light**: starlight36/vibecoding-signal-light (⭐57)
-- **3d-rendering**: jasonengcc/KeyShot-Studio-Materials (⭐57)
-- **大唐长安 Tang Changan**: andyhuo520/tang-changan (⭐57)
-- **apowersoft-2026**: junno1432/Apowersoft-Recorder-Ultra-Toolkit (⭐56)
-- **beyond-compare**: IntouchRay/beyond-compare-pro-max (⭐56)
-- **database-management**: Pawan1702/Navicat-Premium-Enterprise-Tools (⭐56)
-- **Quickstart deploy LiteParse**: run-llama/liteparse-cloudflare-worker-quickstart (⭐56)
-- **auslogics**: Dev-Zeeshan-Qadir/Auslogics-SystemTune-Pro (⭐56)
-- **4k-capture**: Tchinda123/Mirillis-Action-Pro-Config (⭐56)
-- **live-streaming**: Soham8492/XSplit-Streaming-Enhancer (⭐56)
-- **careers**: freeCodeCamp/freeCodeCamp (⭐445744)
-- **books**: EbookFoundation/free-programming-books (⭐389319)
-- **angular-roadmap**: nilbuild/developer-roadmap (⭐355846)
-- **declarative**: facebook/react (⭐245354)
-- **Linux kernel source**: torvalds/linux (⭐235008)
-- **agentic skills framework**: obra/superpowers (⭐214384)
-- **algorithm**: trekhleb/javascript-algorithms (⭐196018)
-- **deep-learning**: tensorflow/tensorflow (⭐195344)
-- **repo finally unlocked.**: ultraworkers/claw-code (⭐193049)
-- **bootstrap**: twbs/bootstrap (⭐174284)
-- **open source coding**: anomalyco/opencode (⭐168165)
-- **advanced-paste**: microsoft/PowerToys (⭐133682)
-- **Claude Code agentic**: anthropics/claude-code (⭐129243)
-- **cncf**: kubernetes/kubernetes (⭐122589)
-- **clash**: clash-verge-rev/clash-verge-rev (⭐122341)
-- **iptv**: iptv-org/iptv (⭐116720)
-- **base-ui**: shadcn-ui/ui (⭐115392)
-- **ggml**: ggml-org/llama.cpp (⭐114105)
-- **Skills Real Engineers.**: mattpocock/skills (⭐113708)
-- **chart**: d3/d3 (⭐112982)
-- **3d**: mrdoob/three.js (⭐112779)
-- **proxy**: 2dust/v2rayN (⭐107520)
-- **desktop-app**: tauri-apps/tauri (⭐107331)
-- **expose**: fatedier/frp (⭐107005)
-- **deno**: denoland/deno (⭐106928)
-- **Garry Tan's exact**: garrytan/gstack (⭐105391)
-- **backup-tool**: immich-app/immich (⭐102421)
-- **chinese**: Anduin2017/HowToCook (⭐100427)
-- **autograd**: pytorch/pytorch (⭐100306)
-- **design-system**: mui/material-ui (⭐98372)
-- **ant-design**: ant-design/ant-design (⭐98196)
-- **css**: tailwindlabs/tailwindcss (⭐95176)
-- **科技爱好者周刊，每周五发布**: ruanyf/weekly (⭐92813)
-- **diagrams**: mermaid-js/mermaid (⭐88378)
-- **blog-engine**: gohugoio/hugo (⭐88335)
-- **Lightweight coding agent**: openai/codex (⭐87544)
-- **ai-tools**: farion1231/cc-switch (⭐87495)
-- **Model Context Protocol**: modelcontextprotocol/servers (⭐86565)
-- **packaging**: astral-sh/uv (⭐85822)
-- **gpui**: zed-industries/zed (⭐84236)
-- **amd**: vllm-project/vllm (⭐81558)
-- **build-tool**: vitejs/vite (⭐80907)
-- **browser-ide**: coder/code-server (⭐77782)
-- **elasticsearch**: elastic/elasticsearch (⭐76778)
-- **aaron-swartz**: awesomedata/awesome-public-datasets (⭐75716)
-- **astro**: unionlabs/union (⭐74016)
-- **analytics**: apache/superset (⭐73108)
-- **Python programming language**: python/cpython (⭐72930)
-- **acme**: caddyserver/caddy (⭐72896)
-- **c**: obsproject/obs-studio (⭐72868)
-- **Drop screenshot convert**: abi/screenshot-to-code (⭐72749)
-- **marshalling**: protocolbuffers/protobuf (⭐71297)
-- **SecLists security tester's**: danielmiessler/SecLists (⭐71271)
-- **ci**: nektos/act (⭐70558)
-- **Swift Programming Language**: swiftlang/swift (⭐70016)
-- **disassembler**: NationalSecurityAgency/ghidra (⭐69064)
-- **app**: toeverything/AFFiNE (⭐68958)
-- **ansible**: ansible/ansible (⭐68733)
-- **open-source everyone uses**: paperclipai/paperclip (⭐68586)
-- **Everything required your**: base/node (⭐68542)
-- **canvas**: chartjs/Chart.js (⭐67469)
-- **apache**: apache/echarts (⭐66470)
-- **data-analysis**: scikit-learn/scikit-learn (⭐66212)
-- **documentation**: facebook/docusaurus (⭐65067)
-- **consul**: traefik/traefik (⭐63387)
-- **airtable**: nocodb/nocodb (⭐63189)
-- **batch-processing**: pathwaycom/pathway (⭐63152)
-- **Autonomous coding agent**: cline/cline (⭐62594)
-- **diagram-editor**: jgraph/drawio-desktop (⭐61404)
-- **css-questions**: h5bp/Front-end-Developer-Interview-Questions (⭐60870)
-- **Magic Mask Android**: topjohnwu/Magisk (⭐60733)
-- **csr**: nuxt/nuxt (⭐60308)
-- **jquery**: jquery/jquery (⭐59834)
-- **ad-blocker**: pi-hole/pi-hole (⭐59077)
-- **authentication**: pocketbase/pocketbase (⭐58782)
-- **activejob**: rails/rails (⭐58473)
-- **agent toolkit: coding**: earendil-works/pi (⭐58465)
-- **azure-blob**: rclone/rclone (⭐57525)
-- **coreml**: ultralytics/yolov5 (⭐57462)
-- **agentic-coding**: rtk-ai/rtk (⭐57138)
-- **blockchain**: FuelLabs/fuel-core (⭐57035)
-- **dark-mode**: marktext/marktext (⭐56738)
-- **llm**: upstash/context7 (⭐56526)
-- **Declarative routing React**: remix-run/react-router (⭐56434)
-- **coolify**: coollabsio/coolify (⭐56293)
-- **bitbucket**: go-gitea/gitea (⭐56051)
-- **Chris Titus Tech's**: ChrisTitusTech/winutil (⭐55380)
-- **deep-face-swap**: deepfakes/faceswap (⭐55256)
-- **workflows could find**: Zie619/n8n-workflows (⭐54911)
-- **bittorrent**: ngosang/trackerslist (⭐54028)
-- **client**: psf/requests (⭐54015)
-- **analyzer**: WerWolv/ImHex (⭐53734)
-- **command-line**: PowerShell/PowerShell (⭐53710)
-- **Reader JavaScript**: mozilla/pdf.js (⭐53384)
-- **angular**: ionic-team/ionic-framework (⭐52525)
+- **automation**: Wanttroregain/discord-cdn-fix (⭐66), Yellowfitzvalue/discord-cdn-fix (⭐66), LengthRobinMattock/discord-cdn-fix (⭐66)
+- **ai**: tastyeffectco/sandboxes (⭐428), johnbean393/KeyType (⭐264), ethanhq/cc-fleet (⭐98)
+- **android**: aimardcr/akane-injector (⭐81), sowardkacey3153/Unlocker-Tool-VPro-2026 (⭐68), flutter/flutter (⭐176794)
+- **cli**: r14dd/patent (⭐276), ni5arga/deanonymizer (⭐245), ohmyzsh/ohmyzsh (⭐187797)
+- **awesome**: sindresorhus/awesome (⭐473155), vinta/awesome-python (⭐301450), awesome-selfhosted/awesome-selfhosted (⭐297362)
+- **agent**: couragec/LLMInternSkill (⭐129), langgenius/dify (⭐144032), lobehub/lobehub (⭐78242)
+- **api**: public-apis/public-apis (⭐439589), neovim/neovim (⭐100188), fastapi/fastapi (⭐98949)
+- **agents**: chaitanyagiri/munder-difflin (⭐304), langflow-ai/langflow (⭐149264), langchain-ai/langchain (⭐138600)
+- **framework**: gin-gonic/gin (⭐88614), laravel/laravel (⭐84399), spring-projects/spring-boot (⭐80795)
+- **ai-agents**: ProxyShard/ShardBrowser (⭐328), ntd4996/agentpet (⭐91), affaan-m/ECC (⭐208150)
+- **hacktoberfest**: kristybilbrew14180044521/Minecraft-Server-Optimizer-2026 (⭐75), axios/axios (⭐109098), tesseract-ocr/tesseract (⭐74510)
+- **bash**: nvm-sh/nvm (⭐93691), junegunn/fzf (⭐80896), warpdotdev/warp (⭐61075)
+- **ai-agent**: Forlives/21-day-self-interview (⭐78), helloianneo/ian-xiaohei-scenes (⭐70), thedaviddias/Front-End-Checklist (⭐72824)
+- **agentic-ai**: Significant-Gravitas/AutoGPT (⭐184785), infiniflow/ragflow (⭐81989), ruvnet/ruflo (⭐58018)
+- **astro**: Chalarangelo/30-seconds-of-code (⭐128009), unionlabs/union (⭐74001), withastro/astro (⭐59861)
+- **awesome-list**: ripienaar/free-for-dev (⭐122921), iluwatar/java-design-patterns (⭐94105), VoltAgent/awesome-design-md (⭐87754)
+- **docker**: louislam/uptime-kuma (⭐87682), Stirling-Tools/Stirling-PDF (⭐80268), usememos/memos (⭐60422)
+- **Self-hosted workspace.**: pewdiepie-archdaemon/odysseus (⭐54778), pewdiepie-archdaemon/odysseus (⭐54778)
+- **claude-code**: Christian-Katzmann/app-it (⭐177), gsd-build/get-shit-done (⭐63955)
+- **3d**: mrdoob/draco.js (⭐142), mrdoob/three.js (⭐112864)
+- **algorithmic-trading**: Obsidian-Trades/polymarket-copy-trading-bot (⭐101), VoidSignals/Polymarket-trading-bot (⭐69)
+- **1-21-1**: gunnardorsey36725068/VapeV4-Client-2026 (⭐85), marvellebeouf03824566482/MineCraft-Clients-W-AND-C (⭐69)
+- **anime-api**: elfriedarosner02320114921/Easy-Anime-Downloader-2026 (⭐76), hunternightechozerozero2057154/Easy-Anime-Downloader-2026 (⭐75)
+- **ad-blocker**: lashaundashirk67060242607/SpotAd-2026 (⭐75), pi-hole/pi-hole (⭐59134)
+- **audio**: huggingface/transformers (⭐161319), FFmpeg/FFmpeg (⭐60790)
+- **blog**: vercel/next.js (⭐139845), gatsbyjs/gatsby (⭐55952)
+- **go**: golang/go (⭐134424), syncthing/syncthing (⭐85019)
+- **c-plus-plus**: electron/electron (⭐121548), opencv/opencv (⭐87797)
+- **javascript**: nodejs/node (⭐117660), socketio/socket.io (⭐63117)
+- **app**: jaywcjlove/awesome-mac (⭐105270), toeverything/AFFiNE (⭐69105)
+- **angular**: angular/angular (⭐100307), leonardomso/33-js-concepts (⭐66472)
+- **amd**: vllm-project/vllm (⭐82007), webpack/webpack (⭐65761)
+- **ai4science**: PaddlePaddle/PaddleOCR (⭐80441), opendatalab/MinerU (⭐66577)
+- **alerting**: grafana/grafana (⭐74210), prometheus/prometheus (⭐64315)
+- **c**: obsproject/obs-studio (⭐72965), git/git (⭐61320)
+- **chatbot**: xtekky/gpt4free (⭐66286), pathwaycom/llm-app (⭐59438)
+- **美股指南**: zgwl/chinese-buy-us-stock-guide (⭐3219)
+- **账号自动注册与管理 协议化付款一键开通 ChatGPT**: asz798838958/aBaiAutoplus (⭐1527)
+- **ads-b**: cpaczek/skylight (⭐1483)
+- **ai-memory**: ClaudioDrews/memory-os (⭐858)
+- **JoyAI-Echo: Pushing Frontier**: jd-opensource/JoyAI-Echo (⭐537)
+- **ai-image-generation**: liyue-aigc/female-portrait-director (⭐517)
+- **TripoSplat converts single**: VAST-AI-Research/TripoSplat (⭐410)
+- **cuda**: c0deJedi/nbd-vram (⭐399)
+- **Open-source ESP32 firmware**: MatixYo/ESP32-Plane-Radar (⭐385)
+- **把课堂讲义变成考试利器 PPT、Word、PDF 课件转化为结构清晰的知识清单和交互式测试题，让复习事半功倍。**: WUBING2023/ExamPass-Assistant (⭐360)
+- **bilibili**: Jane-xiaoer/xiaoer-videolab (⭐345)
+- **learn from your**: S-Sigdel/vimhjkl (⭐341)
+- **Give Claude Code's**: OnlyTerp/UltraCode-Shim (⭐262)
+- **biofeedback**: marekkowalczyk/breathe-cli (⭐254)
+- **Toolkit collecting, merging,**: dsta022/lerobot-rgb-rgbd-vla-dataset-toolkit (⭐252)
+- **agent-security**: duncatzat/vigils (⭐243)
+- **Static devirtualizer VMProtect**: eversinc33/MogVMP (⭐229)
+- **Give Claude Code**: bernardohcrocha/persistia-for-claude-code (⭐225)
+- **一个轻量级、低内存占用的 终端客户端（A lightweight,**: jeff141/meatshell (⭐221)
+- **Minimalist RP2350 magnetic**: torvalds/ScrollWheel (⭐220)
+- **Official implementation Déjà**: nv-tlabs/dvlt (⭐214)
+- **ابزار پشتیبانی Termux/Android/Linux**: rstagit/rstaspoof (⭐209)
+- **InfiPlot world's first**: zonghaoyuan/infiplot (⭐201)
+- **live-wallpapers**: teresiapeetz53968036169/WallpaperDownloader-Version-Pro-2 (⭐201)
+- **acrobat**: mavi9727stoke6893/Acrobat-Version-Pro-2 (⭐200)
+- **aktivasi**: elvirarolando64992854260/IDM-6.42-Patch-Lifetime-Ver-26 (⭐200)
+- **curated colour palette**: zarazhangrui/beautiful-feishu-whiteboard (⭐198)
+- **free-ai**: knackstedtlivia3560/Gemini-Pro-Desktop (⭐191)
+- **asr**: Soul-AILab/SoulX-Transcriber (⭐183)
+- **Local-first memory layer**: zaydmulani09/mnemo (⭐183)
+- **ai-deep-fake**: stormneonnightraven4640692/DeepFake-AI-RealTime (⭐182)
+- **4k-export**: gerardapennant96075336582/CapC-Pro-2 (⭐181)
+- **abuse-detection**: Albert-Weasker/niubi_guard (⭐181)
+- **browser-based video editor**: tejaswigowda/ffmpeg-webCLI (⭐176)
+- **Chinese-first open-source starter**: BarneyD66/open-warehouse-system (⭐168)
+- **DeepSeek-first desktop coding**: 233i/ore-code (⭐162)
+- **Role-specific Codex plugin**: openai/role-specific-plugins (⭐160)
+- **buffer-overflow**: 0xABCD01/CVE-2026-41089 (⭐157)
+- **ios**: krispuckett/SwiftUIShaders (⭐157)
+- **drive**: zenhosta/9drive (⭐149)
+- **一个基于截图/参考图重建可编辑 Codex skill。先用**: wwe-dog/ppt-image2-editable-rebuild (⭐138)
+- **[CVPR 2026] Humanoid-GPT:**: GalaxyGeneralRobotics/Humanoid-GPT (⭐136)
+- **Android kernel stealth**: xiaojianbang8888/xiaojianbang-stealth-hook (⭐135)
+- **马歇尔·卢森堡《非暴力沟通》(NVC) 的可执行 Skill：把任何一句话翻译成**: ayi-ai/ayi-nonviolent-communication (⭐130)
+- **Just Download Anything.**: arinltte/latte (⭐129)
+- **Azure RedOps offensive**: Mr-Un1k0d3r/AzureRedOps (⭐127)
+- **珍珠币(PEARL/PRL)矿池中转加速器 一键安装 实时面板**: Forlives/pearl-proxy-release (⭐127)
+- **harness**: hanxiao/dataroom (⭐121)
+- **docs navigator agent-readable**: enderzcx/pi-docs-playbook (⭐115)
 
-#### Divergence Instructions
-Use divergences to identify:
-- 🔮 Where industry is moving but devs haven't caught up
-- 💡 Where devs are innovating ahead of media attention
-- 📊 Opportunity gaps between narrative and reality
+### Budget Notice
+Press context truncated to ~8000 tokens; citations and source caveats above are prioritized.
