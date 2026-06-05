@@ -113,6 +113,23 @@ jobs:
             --sources config/external_news_sources.json \
             --output "data/raw/${WEEK}-external-news.json" \
             --since "$SINCE"
+          python3 - <<'PY' "data/raw/${WEEK}-external-news.json"
+          import json
+          import sys
+          from pathlib import Path
+
+          path = Path(sys.argv[1])
+          payload = json.loads(path.read_text(encoding="utf-8"))
+          metadata = payload.get("metadata", {})
+          print(
+              "::notice::External news artifact "
+              f"size_bytes={path.stat().st_size} "
+              f"articles={metadata.get('total_articles', 0)} "
+              f"relevant={metadata.get('relevant_articles', 0)} "
+              f"dedupe={metadata.get('dedupe_count', 0)} "
+              f"checksum={metadata.get('artifact_checksum', '')[:12]}"
+          )
+          PY
 
       - name: Upload raw crawl artifact
         if: always()
@@ -296,6 +313,19 @@ jobs:
           PRESS_CONTEXT=$(python scripts/render_press_context.py --week "$WEEK")
           PRESS_FILE="data/analyzed/${WEEK}-press-context.md"
           printf '%s\n' "$PRESS_CONTEXT" > "$PRESS_FILE"
+          python3 - <<'PY' "$PRESS_FILE"
+          import sys
+          from pathlib import Path
+          from scripts.render_press_context import estimate_tokens
+
+          path = Path(sys.argv[1])
+          content = path.read_text(encoding="utf-8")
+          print(
+              "::notice::Press context "
+              f"size_bytes={path.stat().st_size} "
+              f"token_estimate={estimate_tokens(content)}"
+          )
+          PY
           echo "press_file=$PRESS_FILE" >> "$GITHUB_OUTPUT"
 
       - name: Pre-flight cost check
@@ -330,6 +360,7 @@ jobs:
           WEEK="${{ steps.analysis-context.outputs.week }}"
           CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
           PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
+          ANALYSIS_STARTED=$(date +%s)
           mkdir -p data/metrics
           # Hydrate metrics ledger from publish so track_token_usage.py appends to
           # the canonical token-usage.jsonl rather than starting fresh each run.
@@ -468,6 +499,8 @@ jobs:
             --prompt-file "$PROMPT_FILE" \
             --output-file "$OUTPUT_FILE" \
             $TRANSCRIPT_ARGS
+          ANALYSIS_DURATION=$(( $(date +%s) - ANALYSIS_STARTED ))
+          echo "::notice::Analysis path source=$ANALYSIS_SOURCE model=$ANALYSIS_MODEL duration_seconds=$ANALYSIS_DURATION press_context=$PRESS_FILE"
           rm -f "$PROMPT_FILE"
           # Clean up per-attempt transcripts
           rm -f data/metrics/copilot-transcript-attempt-*.md

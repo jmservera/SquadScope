@@ -22,6 +22,11 @@ sys.path.insert(0, str(_REPO_ROOT / "scripts"))
 
 from topic_paths import raw_dir, analyzed_dir  # noqa: E402
 
+PRESS_CONTEXT_TOKEN_BUDGET = 8000
+PRESS_CONTEXT_CHAR_BUDGET = PRESS_CONTEXT_TOKEN_BUDGET * 4
+MAX_RENDERED_ARTICLES = 40
+MAX_RENDERED_CORRELATIONS = 20
+
 
 def current_week() -> str:
     """Return the current ISO week as YYYY-WNN."""
@@ -43,15 +48,23 @@ def format_articles_list(articles: list[dict]) -> str:
     if not articles:
         return "- (none)"
     lines = []
-    for article in articles:
+    for article in articles[:MAX_RENDERED_ARTICLES]:
         title = article.get("title", "Untitled")
         url = article.get("url", "")
         categories = article.get("categories", [])
+        source = article.get("source", "unknown")
+        published_at = article.get("published_at", "")
         cat_str = f" [{', '.join(categories)}]" if categories else ""
+        source_str = f" — {source}"
+        if published_at:
+            source_str += f", {published_at[:10]}"
         if url:
-            lines.append(f"- [{title}]({url}){cat_str}")
+            lines.append(f"- [{title}]({url}){cat_str}{source_str}")
         else:
-            lines.append(f"- {title}{cat_str}")
+            lines.append(f"- {title}{cat_str}{source_str}")
+    omitted = len(articles) - MAX_RENDERED_ARTICLES
+    if omitted > 0:
+        lines.append(f"…and {omitted} more relevant articles within budget")
     return "\n".join(lines)
 
 
@@ -124,7 +137,7 @@ def _format_correlations_narrative(
     if not correlations:
         return "(No significant press correlations this week.)"
 
-    # URL → title lookup for inline article links
+    # URL → title/source lookup for inline article links
     url_to_title: dict[str, str] = {
         a["url"]: a["title"]
         for a in articles
@@ -206,7 +219,7 @@ def _format_correlations_narrative(
             arts_str = _join_links(article_links)
             if idx == 0:
                 para = (
-                    f"This week's TechCrunch coverage closely tracks developer activity "
+                    f"This week's external press coverage closely tracks developer activity "
                     f"across {total} repos. {org.capitalize()} featured prominently: "
                     f"coverage of {arts_str} aligns with activity in {repos_str}."
                 )
@@ -218,7 +231,7 @@ def _format_correlations_narrative(
         else:
             if idx == 0:
                 para = (
-                    f"This week's TechCrunch coverage closely tracks developer activity "
+                    f"This week's external press coverage closely tracks developer activity "
                     f"across {total} repos. {org.capitalize()} shows the strongest signal, "
                     f"with {repos_str} seeing notable GitHub traction."
                 )
@@ -282,10 +295,25 @@ def format_correlations_list(
         repo = corr.get("repo", "unknown")
         match_type = corr.get("match_type", "unknown")
         confidence = corr.get("correlation_confidence", 0.0)
+        strength = corr.get("correlation_strength", corr.get("confidence_label", "unknown"))
         hype_risk = corr.get("hype_risk", "none")
+        details = corr.get("matched_article_details", [])
+        sources = sorted({
+            source
+            for detail in details
+            for source in detail.get("sources", [detail.get("source", "unknown")])
+        })
+        citation = ""
+        if details:
+            first = details[0]
+            title = first.get("title", "article")
+            url = first.get("url", "")
+            citation = f", cited: [{title}]({url})" if url else f", cited: {title}"
         lines.append(
             f"- {repo} — match: {match_type}, "
-            f"confidence: {confidence:.1f}, hype_risk: {hype_risk}"
+            f"strength: {strength}, confidence: {confidence:.1f}, "
+            f"sources: {', '.join(sources) if sources else 'unknown'}, "
+            f"hype_risk: {hype_risk}{citation}"
         )
 
     if omitted > 0:
@@ -378,7 +406,7 @@ def _format_uncovered_narrative(items: list[dict]) -> str:
     # Collect up to two article links across all topics
     article_links: list[str] = []
     for item in display:
-        for a in item.get("techcrunch_articles", [])[:1]:
+        for a in item.get("news_articles", item.get("techcrunch_articles", []))[:1]:
             title = a.get("title", "article")
             url = a.get("url", "")
             if url:
@@ -404,7 +432,7 @@ def _format_uncovered_narrative(items: list[dict]) -> str:
         article_str = "Press articles generated buzz"
 
     return (
-        f"TechCrunch heavily covered {topics_str} this week, but GitHub shows minimal "
+        f"External press heavily covered {topics_str} this week, but GitHub shows minimal "
         f"matching developer activity. {article_str}, yet no significant new repositories "
         f"emerged in these spaces — suggesting these are still in the narrative or "
         f"announcement phase rather than implementation."
@@ -446,10 +474,10 @@ def format_divergences(divergences: dict, *, reader_mode: bool = False) -> str:
         # AI prompt mode: full raw data for model consumption — keep unchanged
         if uncovered:
             lines.append("#### 🔍 Tech Trends Without Dev Activity")
-            lines.append("Topics heavily covered by TechCrunch with no matching GitHub repos:\n")
+            lines.append("Topics heavily covered by external press with no matching GitHub repos:\n")
             for item in uncovered:
                 topic = item.get("topic", "unknown")
-                articles = item.get("techcrunch_articles", [])
+                articles = item.get("news_articles", item.get("techcrunch_articles", []))
                 article_refs = ", ".join(
                     f"[{a.get('title', 'article')}]({a.get('url', '')})"
                     for a in articles[:3]
@@ -459,7 +487,7 @@ def format_divergences(divergences: dict, *, reader_mode: bool = False) -> str:
 
         if unpublicized:
             lines.append("#### 🚀 Dev Activity Without Press Coverage")
-            lines.append("GitHub repos/trends with no matching TechCrunch coverage:\n")
+            lines.append("GitHub repos/trends with no matching external press coverage:\n")
             for item in unpublicized:
                 topic = item.get("topic", "unknown")
                 repos = item.get("github_repos", [])
@@ -477,6 +505,55 @@ def format_divergences(divergences: dict, *, reader_mode: bool = False) -> str:
         lines.append("- 📊 Opportunity gaps between narrative and reality")
 
     return "\n".join(lines)
+
+
+def _source_caveats(techcrunch_data: dict | None, correlation_data: dict | None) -> str:
+    """Render concise partial-failure caveats from crawl/correlation metadata."""
+    metadata: dict = {}
+    if techcrunch_data:
+        metadata = techcrunch_data.get("metadata", {})
+    corr_sources = {}
+    if correlation_data:
+        corr_sources = correlation_data.get("metadata", {}).get("news_sources", {})
+
+    requested = metadata.get("sources_requested") or corr_sources.get("sources_requested") or []
+    succeeded = metadata.get("sources_succeeded") or corr_sources.get("sources_succeeded") or []
+    failed = metadata.get("sources_failed") or corr_sources.get("sources_failed") or []
+    errors = metadata.get("errors") or corr_sources.get("errors") or []
+    if not requested and not failed:
+        return ""
+    lines = [
+        "### Source Coverage",
+        f"- Sources requested: {', '.join(requested) if requested else 'unknown'}",
+        f"- Sources succeeded: {', '.join(succeeded) if succeeded else 'none'}",
+    ]
+    if failed:
+        lines.append(f"- Partial crawl caveat: failed sources: {', '.join(failed)}")
+        for error in errors[:3]:
+            lines.append(
+                f"  - {error.get('source', 'unknown')}: "
+                f"{error.get('error_class', 'error')} {error.get('error', '')}".strip()
+            )
+    return "\n".join(lines)
+
+
+def estimate_tokens(markdown: str) -> int:
+    """Return a rough token estimate used for telemetry and hard budget checks."""
+    return max(1, (len(markdown) + 3) // 4)
+
+
+def enforce_press_context_budget(markdown: str) -> str:
+    """Keep press context below the documented token budget."""
+    if estimate_tokens(markdown) <= PRESS_CONTEXT_TOKEN_BUDGET:
+        return markdown
+    budget_note = (
+        "\n\n### Budget Notice\n"
+        f"Press context truncated to ~{PRESS_CONTEXT_TOKEN_BUDGET} tokens; "
+        "citations and source caveats above are prioritized.\n"
+    )
+    keep_chars = max(0, PRESS_CONTEXT_CHAR_BUDGET - len(budget_note))
+    truncated = markdown[:keep_chars].rsplit("\n", 1)[0]
+    return truncated + budget_note
 
 
 def render_press_context(
@@ -539,10 +616,12 @@ def render_press_context(
             ),
         )
 
-    top_n = 10 if reader_mode else None
+    top_n = MAX_RENDERED_CORRELATIONS if reader_mode else None
 
     # Render template
-    rendered = template.replace("{date}", week)
+    source_label = "External news"
+    rendered = template.replace("TechCrunch", source_label)
+    rendered = rendered.replace("{date}", week)
     rendered = rendered.replace("{article_count}", str(article_count))
     rendered = rendered.replace("{articles_list}", format_articles_list(articles))
     rendered = rendered.replace("{correlation_count}", str(correlation_count))
@@ -570,7 +649,19 @@ def render_press_context(
     if divergence_section:
         rendered += "\n" + divergence_section
 
-    return rendered
+    caveats = _source_caveats(techcrunch_data, correlation_data)
+    if caveats:
+        rendered += "\n\n" + caveats
+
+    rendered += (
+        "\n\n### Press Context Telemetry\n"
+        f"- token_estimate: {estimate_tokens(rendered)}\n"
+        f"- token_budget: {PRESS_CONTEXT_TOKEN_BUDGET}\n"
+        f"- article_limit: {MAX_RENDERED_ARTICLES}\n"
+        f"- correlation_limit: {MAX_RENDERED_CORRELATIONS if reader_mode else 'unbounded-input'}\n"
+    )
+
+    return enforce_press_context_budget(rendered)
 
 
 def resolve_paths(topic: str | None, week: str) -> tuple[Path, Path]:

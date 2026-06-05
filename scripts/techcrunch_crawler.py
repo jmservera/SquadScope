@@ -12,6 +12,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import ipaddress
 import json
 import re
@@ -34,6 +35,7 @@ FEED_URL = "https://techcrunch.com/feed/"
 DEFAULT_SOURCES_PATH = Path("config/external_news_sources.json")
 DEFAULT_FETCH_TIMEOUT_SECONDS = 15
 DEFAULT_MAX_WORKERS = 8
+CANONICAL_SCHEMA_VERSION = 2
 APPROVED_FEED_HOSTS = frozenset({
     "techcrunch.com",
     "blogs.nvidia.com",
@@ -82,6 +84,11 @@ class NewsSourceConfig:
 
     def __post_init__(self) -> None:
         validate_feed_url(self.feed_url)
+
+    @property
+    def host(self) -> str:
+        """Return the normalized feed host."""
+        return (urlparse(self.feed_url).hostname or "").rstrip(".").lower()
 
 
 def validate_feed_url(url: str) -> None:
@@ -142,6 +149,20 @@ def load_source_configs(path: Path = DEFAULT_SOURCES_PATH) -> list[NewsSourceCon
             requests_per_minute=int(raw.get("requests_per_minute", 10)),
         ))
     return sources
+
+
+def source_config_checksum(sources: list[NewsSourceConfig]) -> str:
+    """Return a stable checksum for the effective source config."""
+    canonical = [
+        {
+            "feed_url": source.feed_url,
+            "name": source.name,
+            "requests_per_minute": source.requests_per_minute,
+        }
+        for source in sorted(sources, key=lambda item: item.name)
+    ]
+    payload = json.dumps(canonical, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
 def iso_timestamp(value: datetime) -> str:
@@ -240,6 +261,8 @@ def fetch_feed(
             request = Request(url, headers={"User-Agent": "SquadScope RSS crawler"})
             with urlopen(request, timeout=timeout) as response:
                 feed = feedparser.parse(response.read())
+            setattr(feed, "squad_fetch_attempts", attempt + 1)
+            setattr(feed, "squad_fetch_timeout_seconds", timeout)
         except Exception:
             if attempt < retries:
                 time.sleep(2)
@@ -250,6 +273,8 @@ def fetch_feed(
                 time.sleep(2)
                 continue
             # Return partial result even on failure
+            setattr(feed, "squad_fetch_attempts", attempt + 1)
+            setattr(feed, "squad_fetch_timeout_seconds", timeout)
             return feed
         return feed
     return feed  # pragma: no cover
@@ -260,6 +285,8 @@ class NewsFeedSource:
 
     def __init__(self, config: NewsSourceConfig) -> None:
         self.config = config
+        self.last_attempts = 0
+        self.last_timeout_seconds = DEFAULT_FETCH_TIMEOUT_SECONDS
 
     def get_name(self) -> str:
         return self.config.name
@@ -277,6 +304,10 @@ class NewsFeedSource:
         resolved_feed_url = feed_url or self.config.feed_url
         validate_feed_url(resolved_feed_url)
         feed = fetch_feed(resolved_feed_url)
+        self.last_attempts = int(getattr(feed, "squad_fetch_attempts", 1))
+        self.last_timeout_seconds = int(
+            getattr(feed, "squad_fetch_timeout_seconds", DEFAULT_FETCH_TIMEOUT_SECONDS)
+        )
         articles: list[dict[str, Any]] = []
 
         for entry in feed.entries:
@@ -332,33 +363,186 @@ def crawl_sources_parallel(
     since: datetime,
     until: datetime,
     max_workers: int | None = None,
-) -> tuple[list[dict[str, Any]], list[dict[str, str]]]:
-    """Crawl configured RSS sources concurrently and return articles plus errors."""
+) -> tuple[list[dict[str, Any]], list[dict[str, str]], list[dict[str, Any]]]:
+    """Crawl configured RSS sources concurrently and return articles, errors, statuses."""
     if not sources:
-        return [], []
+        return [], [], []
 
     if max_workers is not None and max_workers < 1:
         raise ValueError("--max-workers must be at least 1")
     workers = min(max_workers or len(sources), len(sources), DEFAULT_MAX_WORKERS)
     articles: list[dict[str, Any]] = []
     errors: list[dict[str, str]] = []
+    statuses: list[dict[str, Any]] = []
+
+    def crawl_one(source: NewsSourceConfig) -> tuple[list[dict[str, Any]], dict[str, Any], dict[str, str] | None]:
+        started = datetime.now(UTC)
+        source_client = NewsFeedSource(source)
+        status: dict[str, Any] = {
+            "source": source.name,
+            "host": source.host,
+            "started_at": iso_timestamp(started),
+            "timeout_seconds": DEFAULT_FETCH_TIMEOUT_SECONDS,
+            "attempts": 0,
+            "total_articles": 0,
+            "relevant_articles": 0,
+            "github_links_found": 0,
+            "success": False,
+            "error_class": "",
+            "error_message": "",
+        }
+        try:
+            source_articles = source_client.crawl(since, until)
+            status["attempts"] = source_client.last_attempts or 1
+            status["timeout_seconds"] = source_client.last_timeout_seconds
+            status["total_articles"] = len(source_articles)
+            status["relevant_articles"] = sum(
+                1 for article in source_articles
+                if article.get("relevance_score", 0) >= 0.4
+            )
+            github_links: set[str] = set()
+            for article in source_articles:
+                github_links.update(article.get("github_links", []))
+            status["github_links_found"] = len(github_links)
+            status["success"] = True
+            return source_articles, status, None
+        except Exception as exc:  # pragma: no cover - defensive around network/parser failures
+            status["attempts"] = max(source_client.last_attempts, 1)
+            status["error_class"] = exc.__class__.__name__
+            status["error_message"] = str(exc)
+            error = {
+                "source": source.name,
+                "error_class": exc.__class__.__name__,
+                "error": str(exc),
+            }
+            return [], status, error
+        finally:
+            ended = datetime.now(UTC)
+            status["ended_at"] = iso_timestamp(ended)
+            status["duration_seconds"] = round((ended - started).total_seconds(), 3)
+
     with ThreadPoolExecutor(max_workers=workers) as executor:
         futures = {
-            executor.submit(NewsFeedSource(source).crawl, since, until): source
+            executor.submit(crawl_one, source): source
             for source in sources
         }
         for future in as_completed(futures):
-            source = futures[future]
-            try:
-                articles.extend(future.result())
-            except Exception as exc:  # pragma: no cover - defensive around network/parser failures
-                errors.append({"source": source.name, "error": str(exc)})
+            source_articles, status, error = future.result()
+            articles.extend(source_articles)
+            statuses.append(status)
+            if error:
+                errors.append(error)
 
     articles.sort(
-        key=lambda article: (article.get("published_at", ""), article.get("source", "")),
+        key=lambda article: (
+            article.get("published_at", ""),
+            article.get("source", ""),
+            article.get("url", ""),
+            article.get("title", ""),
+        ),
         reverse=True,
     )
-    return articles, errors
+    statuses.sort(key=lambda status: status["source"])
+    errors.sort(key=lambda error: error["source"])
+    for status in statuses:
+        state = "ok" if status["success"] else f"failed:{status['error_class']}"
+        print(
+            "[external-news] "
+            f"{status['source']} host={status['host']} status={state} "
+            f"duration={status['duration_seconds']:.3f}s attempts={status['attempts']} "
+            f"articles={status['total_articles']} relevant={status['relevant_articles']} "
+            f"github_links={status['github_links_found']}",
+            file=sys.stderr,
+        )
+    return articles, errors, statuses
+
+
+def _normalized_article_url(url: str) -> str:
+    """Normalize a URL for cross-source dedupe."""
+    if not url:
+        return ""
+    parsed = urlparse(url.strip())
+    host = (parsed.netloc or "").lower()
+    path = parsed.path.rstrip("/")
+    return f"{parsed.scheme.lower()}://{host}{path}"
+
+
+def dedupe_articles(articles: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], int]:
+    """Deduplicate mirrored articles by URL while preserving provenance."""
+    grouped: dict[str, dict[str, Any]] = {}
+    duplicates = 0
+    for article in sorted(
+        articles,
+        key=lambda item: (
+            item.get("published_at", ""),
+            item.get("source", ""),
+            item.get("url", ""),
+            item.get("title", ""),
+        ),
+        reverse=True,
+    ):
+        key = _normalized_article_url(str(article.get("url", "")))
+        if not key:
+            key = "|".join([
+                str(article.get("source", "")),
+                str(article.get("published_at", "")),
+                str(article.get("title", "")).lower(),
+            ])
+        if key not in grouped:
+            current = dict(article)
+            current["sources"] = sorted({
+                str(article.get("source", "")) or "unknown",
+                *[str(s) for s in article.get("sources", [])],
+            })
+            grouped[key] = current
+            continue
+        duplicates += 1
+        existing = grouped[key]
+        existing_sources = set(existing.get("sources", []))
+        existing_sources.add(str(article.get("source", "")) or "unknown")
+        existing_sources.update(str(s) for s in article.get("sources", []))
+        existing["sources"] = sorted(existing_sources)
+        existing["relevance_score"] = max(
+            float(existing.get("relevance_score", 0)),
+            float(article.get("relevance_score", 0)),
+        )
+        existing_links = list(existing.get("github_links", []))
+        for link in article.get("github_links", []):
+            if link not in existing_links:
+                existing_links.append(link)
+        existing["github_links"] = existing_links
+    deduped = list(grouped.values())
+    deduped.sort(
+        key=lambda article: (
+            article.get("published_at", ""),
+            article.get("source", ""),
+            article.get("url", ""),
+            article.get("title", ""),
+        ),
+        reverse=True,
+    )
+    return deduped, duplicates
+
+
+def _checksum_payload(output: dict[str, Any]) -> dict[str, Any]:
+    """Return the deterministic subset covered by artifact_checksum."""
+    metadata = dict(output.get("metadata", {}))
+    metadata.pop("artifact_checksum", None)
+    payload = dict(output)
+    payload["metadata"] = metadata
+    payload.pop("crawled_at", None)
+    return payload
+
+
+def artifact_checksum(output: dict[str, Any]) -> str:
+    """Return a stable checksum for the canonical artifact content."""
+    payload = json.dumps(
+        _checksum_payload(output),
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+    )
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
 def build_output(
@@ -367,29 +551,88 @@ def build_output(
     *,
     source: str = "techcrunch",
     source_count: int = 1,
+    crawl_window: dict[str, str] | None = None,
+    source_config_checksum_value: str | None = None,
+    requested_sources: list[str] | None = None,
+    source_statuses: list[dict[str, Any]] | None = None,
     errors: list[dict[str, str]] | None = None,
 ) -> dict[str, Any]:
     """Build the final output structure with metadata."""
+    articles, dedupe_count = dedupe_articles(articles)
     relevant = [a for a in articles if a["relevance_score"] >= 0.4]
     all_github_links = set()
     for a in articles:
         all_github_links.update(a.get("github_links", []))
 
+    statuses = source_statuses or []
+    succeeded = [
+        str(status.get("source"))
+        for status in statuses
+        if status.get("success")
+    ]
+    failed = [
+        str(status.get("source"))
+        for status in statuses
+        if not status.get("success")
+    ]
+    requested = requested_sources or sorted({
+        str(article.get("source", source)) for article in articles
+    }) or [source]
     by_source = Counter(str(article.get("source", source)) for article in articles)
-    return {
+    output = {
+        "schema_version": CANONICAL_SCHEMA_VERSION,
         "week": week_slug(crawled_at),
         "source": source,
         "crawled_at": iso_timestamp(crawled_at),
+        "crawl_window": crawl_window or {},
         "articles": articles,
         "metadata": {
             "source_count": source_count,
+            "source_config_checksum": source_config_checksum_value or "",
+            "sources_requested": sorted(requested),
+            "sources_succeeded": sorted(succeeded or requested),
+            "sources_failed": sorted(failed),
+            "source_status": sorted(statuses, key=lambda status: status["source"]),
             "sources_with_articles": dict(sorted(by_source.items())),
             "total_articles": len(articles),
             "relevant_articles": len(relevant),
             "github_links_found": len(all_github_links),
+            "dedupe_count": dedupe_count,
             "errors": errors or [],
         },
     }
+    output["metadata"]["artifact_checksum"] = artifact_checksum(output)
+    validate_canonical_output(output)
+    return output
+
+
+def validate_canonical_output(output: dict[str, Any]) -> None:
+    """Validate canonical external-news artifact shape."""
+    if output.get("schema_version") != CANONICAL_SCHEMA_VERSION:
+        raise ValueError("External news artifact has unsupported schema_version")
+    if output.get("source") == "external_news" and not output.get("crawl_window"):
+        raise ValueError("Canonical external news artifact requires crawl_window")
+    metadata = output.get("metadata")
+    if not isinstance(metadata, dict):
+        raise ValueError("External news artifact requires metadata")
+    required = {
+        "source_config_checksum",
+        "sources_requested",
+        "sources_succeeded",
+        "sources_failed",
+        "source_status",
+        "total_articles",
+        "relevant_articles",
+        "dedupe_count",
+        "errors",
+        "artifact_checksum",
+    }
+    missing = sorted(required - set(metadata))
+    if missing:
+        raise ValueError(f"External news artifact missing metadata keys: {missing}")
+    expected_checksum = artifact_checksum(output)
+    if metadata.get("artifact_checksum") != expected_checksum:
+        raise ValueError("External news artifact checksum mismatch")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -438,7 +681,7 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     source_configs = load_source_configs(Path(args.sources))
-    articles, errors = crawl_sources_parallel(
+    articles, errors, statuses = crawl_sources_parallel(
         source_configs, since=since, until=until, max_workers=args.max_workers
     )
     output = build_output(
@@ -446,6 +689,13 @@ def main(argv: list[str] | None = None) -> int:
         crawled_at=now,
         source="external_news",
         source_count=len(source_configs),
+        crawl_window={
+            "since": iso_timestamp(since),
+            "until": iso_timestamp(until),
+        },
+        source_config_checksum_value=source_config_checksum(source_configs),
+        requested_sources=[source.name for source in source_configs],
+        source_statuses=statuses,
         errors=errors,
     )
 
@@ -462,7 +712,8 @@ def main(argv: list[str] | None = None) -> int:
 
     print(f"Crawled {output['metadata']['total_articles']} articles "
           f"from {output['metadata']['source_count']} sources "
-          f"({output['metadata']['relevant_articles']} relevant) → {out_path}")
+          f"({output['metadata']['relevant_articles']} relevant, "
+          f"{output['metadata']['dedupe_count']} deduped) → {out_path}")
     return 0
 
 
