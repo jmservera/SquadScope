@@ -26,10 +26,11 @@ Crawl → Analyze → Generate → Deploy → Reskill
 JSON    Markdown   Hugo      Pages    Improvements
 ```
 
-**Stage 1: Crawl** (`scripts/crawl.py`)
+**Stage 1: Crawl** (`scripts/crawl.py`, `scripts/techcrunch_crawler.py`)
 - Queries GitHub API for repos created/trending in the current week
+- Fetches configured external RSS feeds from `config/external_news_sources.json` in parallel as an enrichment signal
 - Applies heuristic filtering (language, topic, description quality)
-- Outputs: `data/raw/YYYY-WNN.json`, `data/snapshots/YYYY-WNN-stars.json`
+- Outputs: `data/raw/YYYY-WNN.json`, `data/raw/YYYY-WNN-external-news.json`, `data/snapshots/YYYY-WNN-stars.json`
 
 **Stage 2: Analyze** (Copilot CLI or fallback)
 - Reads raw JSON; applies AI analysis to classify repos as signal/noise/gaps
@@ -93,7 +94,8 @@ JSON    Markdown   Hugo      Pages    Improvements
 - `content/weekly/YYYY/WNN.md` — immutable weekly summaries (published once, never modified)
 - `content/monthly/YYYY/MM.md` — monthly rollups (append-only)
 - `content/yearly/YYYY.md` — yearly summaries (append-only)
-- `data/raw/YYYY-WNN.json` — crawler output (JSON object with keys: `week`, `new_repos`, `trending_repos`, `signals`, `metadata`)
+- `data/raw/YYYY-WNN.json` — GitHub crawler output (JSON object with keys: `week`, `new_repos`, `trending_repos`, `signals`, `metadata`)
+- `data/raw/YYYY-WNN-external-news.json` — external RSS enrichment output from sources configured in `config/external_news_sources.json`
 - `data/analyzed/YYYY-WNN-summary.md` — AI analysis with quality score
 - `data/snapshots/YYYY-WNN-stars.json` — star count snapshots for trending analysis
 
@@ -101,7 +103,7 @@ JSON    Markdown   Hugo      Pages    Improvements
 
 `.github/workflows/crawl-and-publish.yml` runs the full weekly automation every Monday at 08:00 UTC:
 
-1. **Crawl:** GitHub API → `data/raw/YYYY-WNN.json`
+1. **Crawl:** GitHub API → `data/raw/YYYY-WNN.json`; external RSS feeds → `data/raw/YYYY-WNN-external-news.json`
 2. **Analyze:** Copilot → `data/analyzed/YYYY-WNN-summary.md`
 3. **Quality gate:** Validates quality_score ≥ 60; blocks publish if failed
 4. **Generate:** Markdown → `content/weekly/YYYY/WNN.md`

@@ -9,12 +9,16 @@ from unittest.mock import patch
 import pytest
 
 from scripts.techcrunch_crawler import (
+    DEFAULT_SOURCES_PATH,
+    NewsSourceConfig,
     TechCrunchSource,
     build_output,
     compute_relevance_score,
+    crawl_sources_parallel,
     extract_entities,
     extract_github_urls,
     iso_timestamp,
+    load_source_configs,
     parse_published_date,
     week_slug,
 )
@@ -188,6 +192,7 @@ class TestTechCrunchSourceCrawl:
             )
 
         assert len(articles) == 1
+        assert articles[0]["source"] == "techcrunch"
         assert articles[0]["title"] == "Test Article"
 
     def test_crawl_extracts_github_links(self):
@@ -267,9 +272,11 @@ class TestBuildOutput:
         assert output["source"] == "techcrunch"
         assert output["week"] == week_slug(now)
         assert output["crawled_at"] == "2026-05-19T10:00:00Z"
+        assert output["metadata"]["source_count"] == 1
         assert output["metadata"]["total_articles"] == 2
         assert output["metadata"]["relevant_articles"] == 1
         assert output["metadata"]["github_links_found"] == 1
+        assert output["metadata"]["errors"] == []
         assert len(output["articles"]) == 2
 
 
@@ -285,3 +292,87 @@ class TestDataSourceProtocol:
         limits = source.get_rate_limits()
         assert "requests_per_minute" in limits
         assert limits["requests_per_minute"] == 10
+
+
+# --- Config and parallel crawl tests ---
+
+class TestExternalNewsSources:
+    def test_load_default_source_configs(self):
+        sources = load_source_configs(DEFAULT_SOURCES_PATH)
+        names = {source.name for source in sources}
+
+        assert "techcrunch" in names
+        assert "nvidia_blog" in names
+        assert "hugging_face_blog" in names
+        assert "mit_technology_review" in names
+        assert "github_blog" in names
+
+    def test_crawl_sources_parallel_combines_sources(self):
+        alpha_entry = _make_entry(
+            title="Alpha AI framework",
+            link="https://example.com/alpha",
+            published_parsed=(2026, 5, 16, 10, 0, 0, 4, 136, 0),
+        )
+        beta_entry = _make_entry(
+            title="Beta developer API",
+            link="https://example.com/beta",
+            published_parsed=(2026, 5, 17, 10, 0, 0, 5, 137, 0),
+        )
+        feeds = {
+            "https://example.com/alpha.xml": _make_feed(entries=[alpha_entry]),
+            "https://example.com/beta.xml": _make_feed(entries=[beta_entry]),
+        }
+
+        def fake_fetch(url, retries=1):
+            return feeds[url]
+
+        sources = [
+            NewsSourceConfig("alpha", "https://example.com/alpha.xml"),
+            NewsSourceConfig("beta", "https://example.com/beta.xml"),
+        ]
+        with patch("scripts.techcrunch_crawler.fetch_feed", side_effect=fake_fetch):
+            articles, errors = crawl_sources_parallel(
+                sources,
+                since=datetime(2026, 5, 10, tzinfo=UTC),
+                until=datetime(2026, 5, 20, tzinfo=UTC),
+                max_workers=2,
+            )
+
+        assert errors == []
+        assert [article["source"] for article in articles] == ["beta", "alpha"]
+        assert {article["title"] for article in articles} == {
+            "Alpha AI framework",
+            "Beta developer API",
+        }
+
+    def test_external_news_output_metadata(self):
+        now = datetime(2026, 5, 19, 10, 0, 0, tzinfo=UTC)
+        output = build_output(
+            [
+                {
+                    "source": "alpha",
+                    "title": "AI framework",
+                    "summary": "open source",
+                    "categories": [],
+                    "github_links": [],
+                    "relevance_score": 0.4,
+                },
+                {
+                    "source": "beta",
+                    "title": "Developer API",
+                    "summary": "sdk",
+                    "categories": [],
+                    "github_links": [],
+                    "relevance_score": 0.4,
+                },
+            ],
+            crawled_at=now,
+            source="external_news",
+            source_count=2,
+            errors=[{"source": "gamma", "error": "timeout"}],
+        )
+
+        assert output["source"] == "external_news"
+        assert output["metadata"]["source_count"] == 2
+        assert output["metadata"]["sources_with_articles"] == {"alpha": 1, "beta": 1}
+        assert output["metadata"]["errors"] == [{"source": "gamma", "error": "timeout"}]

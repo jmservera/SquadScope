@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""TechCrunch RSS crawler with entity extraction for SquadScope.
+"""External news RSS crawler with entity extraction for SquadScope.
 
-Fetches articles from TechCrunch RSS feed, extracts structured metadata,
+Fetches configured RSS feeds in parallel, extracts structured metadata,
 GitHub URLs, and entities (company/project names).
 
 Usage:
     python scripts/techcrunch_crawler.py [--topic ai-ml] \
-        [--output data/raw/ai-ml/2026-W21-techcrunch.json] [--since 2026-05-11]
+        [--output data/raw/ai-ml/2026-W21-external-news.json] [--since 2026-05-11]
 """
 
 from __future__ import annotations
@@ -16,6 +16,9 @@ import json
 import re
 import sys
 import time
+from collections import Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -25,6 +28,7 @@ import feedparser
 from scripts.topic_paths import raw_dir
 
 FEED_URL = "https://techcrunch.com/feed/"
+DEFAULT_SOURCES_PATH = Path("config/external_news_sources.json")
 
 GITHUB_URL_RE = re.compile(
     r"https?://github\.com/[a-zA-Z0-9_.\-]+/[a-zA-Z0-9_.\-]+"
@@ -54,6 +58,41 @@ STOP_WORDS = {
     "took", "goes", "went", "comes", "came", "wants", "launches",
     "raises", "builds", "looks", "like", "use", "using", "used",
 }
+
+
+@dataclass(frozen=True, slots=True)
+class NewsSourceConfig:
+    """Configuration for one external RSS source."""
+
+    name: str
+    feed_url: str
+    requests_per_minute: int = 10
+
+
+def load_source_configs(path: Path = DEFAULT_SOURCES_PATH) -> list[NewsSourceConfig]:
+    """Load external RSS source config from JSON."""
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, list):
+        raise ValueError(f"Expected a list of source configs in {path}")
+
+    sources: list[NewsSourceConfig] = []
+    seen_names: set[str] = set()
+    for raw in payload:
+        if not isinstance(raw, dict):
+            raise ValueError(f"Invalid source config in {path}: {raw!r}")
+        name = str(raw.get("name", "")).strip()
+        feed_url = str(raw.get("feed_url", "")).strip()
+        if not name or not feed_url:
+            raise ValueError(f"Source configs require name and feed_url: {raw!r}")
+        if name in seen_names:
+            raise ValueError(f"Duplicate external news source name: {name}")
+        seen_names.add(name)
+        sources.append(NewsSourceConfig(
+            name=name,
+            feed_url=feed_url,
+            requests_per_minute=int(raw.get("requests_per_minute", 10)),
+        ))
+    return sources
 
 
 def iso_timestamp(value: datetime) -> str:
@@ -152,23 +191,26 @@ def fetch_feed(url: str = FEED_URL, retries: int = 1) -> Any:
     return feed  # pragma: no cover
 
 
-class TechCrunchSource:
-    """TechCrunch RSS data source following the DataSource protocol."""
+class NewsFeedSource:
+    """RSS data source following the DataSource protocol."""
+
+    def __init__(self, config: NewsSourceConfig) -> None:
+        self.config = config
 
     def get_name(self) -> str:
-        return "techcrunch"
+        return self.config.name
 
     def get_rate_limits(self) -> dict:
-        return {"requests_per_minute": 10}
+        return {"requests_per_minute": self.config.requests_per_minute}
 
     def crawl(
         self,
         since: datetime,
         until: datetime,
-        feed_url: str = FEED_URL,
+        feed_url: str | None = None,
     ) -> list[dict[str, Any]]:
-        """Crawl TechCrunch RSS feed and return structured articles."""
-        feed = fetch_feed(feed_url)
+        """Crawl an RSS feed and return structured articles."""
+        feed = fetch_feed(feed_url or self.config.feed_url)
         articles: list[dict[str, Any]] = []
 
         for entry in feed.entries:
@@ -197,6 +239,7 @@ class TechCrunchSource:
                 summary = summary[:497] + "..."
 
             article: dict[str, Any] = {
+                "source": self.get_name(),
                 "title": getattr(entry, "title", ""),
                 "url": getattr(entry, "link", ""),
                 "published_at": iso_timestamp(pub_date),
@@ -211,9 +254,52 @@ class TechCrunchSource:
         return articles
 
 
+class TechCrunchSource(NewsFeedSource):
+    """Backward-compatible TechCrunch RSS source."""
+
+    def __init__(self) -> None:
+        super().__init__(NewsSourceConfig("techcrunch", FEED_URL, 10))
+
+
+def crawl_sources_parallel(
+    sources: list[NewsSourceConfig],
+    since: datetime,
+    until: datetime,
+    max_workers: int | None = None,
+) -> tuple[list[dict[str, Any]], list[dict[str, str]]]:
+    """Crawl configured RSS sources concurrently and return articles plus errors."""
+    if not sources:
+        return [], []
+
+    workers = max_workers or min(len(sources), 8)
+    articles: list[dict[str, Any]] = []
+    errors: list[dict[str, str]] = []
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = {
+            executor.submit(NewsFeedSource(source).crawl, since, until): source
+            for source in sources
+        }
+        for future in as_completed(futures):
+            source = futures[future]
+            try:
+                articles.extend(future.result())
+            except Exception as exc:  # pragma: no cover - defensive around network/parser failures
+                errors.append({"source": source.name, "error": str(exc)})
+
+    articles.sort(
+        key=lambda article: (article.get("published_at", ""), article.get("source", "")),
+        reverse=True,
+    )
+    return articles, errors
+
+
 def build_output(
     articles: list[dict[str, Any]],
     crawled_at: datetime,
+    *,
+    source: str = "techcrunch",
+    source_count: int = 1,
+    errors: list[dict[str, str]] | None = None,
 ) -> dict[str, Any]:
     """Build the final output structure with metadata."""
     relevant = [a for a in articles if a["relevance_score"] >= 0.4]
@@ -221,22 +307,26 @@ def build_output(
     for a in articles:
         all_github_links.update(a.get("github_links", []))
 
+    by_source = Counter(str(article.get("source", source)) for article in articles)
     return {
         "week": week_slug(crawled_at),
-        "source": "techcrunch",
+        "source": source,
         "crawled_at": iso_timestamp(crawled_at),
         "articles": articles,
         "metadata": {
+            "source_count": source_count,
+            "sources_with_articles": dict(sorted(by_source.items())),
             "total_articles": len(articles),
             "relevant_articles": len(relevant),
             "github_links_found": len(all_github_links),
+            "errors": errors or [],
         },
     }
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Crawl TechCrunch RSS feed for SquadScope"
+        description="Crawl external news RSS feeds for SquadScope"
     )
     parser.add_argument(
         "--topic", default="general",
@@ -254,6 +344,17 @@ def main(argv: list[str] | None = None) -> int:
         "--until", default=None,
         help="End date filter (YYYY-MM-DD, default: now)",
     )
+    parser.add_argument(
+        "--sources",
+        default=str(DEFAULT_SOURCES_PATH),
+        help="Path to external RSS source config JSON",
+    )
+    parser.add_argument(
+        "--max-workers",
+        type=int,
+        default=None,
+        help="Maximum parallel RSS fetches (default: one per source, capped at 8)",
+    )
     args = parser.parse_args(argv)
 
     now = datetime.now(UTC)
@@ -268,22 +369,31 @@ def main(argv: list[str] | None = None) -> int:
         else now
     )
 
-    source = TechCrunchSource()
-    articles = source.crawl(since=since, until=until)
-    output = build_output(articles, crawled_at=now)
+    source_configs = load_source_configs(Path(args.sources))
+    articles, errors = crawl_sources_parallel(
+        source_configs, since=since, until=until, max_workers=args.max_workers
+    )
+    output = build_output(
+        articles,
+        crawled_at=now,
+        source="external_news",
+        source_count=len(source_configs),
+        errors=errors,
+    )
 
     if args.output:
         out_path = Path(args.output)
     else:
         out_dir = raw_dir(args.topic)
         out_dir.mkdir(parents=True, exist_ok=True)
-        out_path = out_dir / f"{week_slug(now)}-techcrunch.json"
+        out_path = out_dir / f"{week_slug(now)}-external-news.json"
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
 
     print(f"Crawled {output['metadata']['total_articles']} articles "
+          f"from {output['metadata']['source_count']} sources "
           f"({output['metadata']['relevant_articles']} relevant) → {out_path}")
     return 0
 
