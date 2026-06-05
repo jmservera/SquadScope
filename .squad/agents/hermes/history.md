@@ -48,3 +48,18 @@
   5. Optional `--max-workers` concurrency validation
 - **Ownership:** Bender assigned as revision owner to avoid Leela reviewing own implementation changes
 - **Impact:** PR #236 cannot merge until security fixes implemented and re-reviewed
+
+## PR #236 Security Re-Review (2026-06-05 final)
+
+- Re-reviewed PR #236 at Bender fix commit `e91e2a5b33b816191148125d40192b3fff8fbc6a`
+- **All security blockers resolved:**
+  - `urllib.parse.urlparse()` validation implemented with HTTPS + allowlist enforcement
+  - Credentials, localhost/private IPs, invalid ports rejected
+  - RSS fetches use `urlopen(..., timeout=DEFAULT_FETCH_TIMEOUT_SECONDS)` with bounded retries
+  - Parallel RSS crawling capped at `DEFAULT_MAX_WORKERS`; `--max-workers < 1` rejected
+  - Test coverage: unsafe URL rejection, explicit timeout propagation
+- **Validation:** 563 tests passed in isolated PR worktree
+- **Decision: Security approval/unblock** — CodeQL checks green
+- **GitHub limitation:** Formal approval rejected due to own-PR token restrictions; unblock comment posted instead
+- **Outcome:** Technical security gate cleared; awaits admin merge due to policy blocker
+

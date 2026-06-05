@@ -85,3 +85,23 @@
   - Hermes: security blocking, locked out by own-PR rules
   - Bender: revision owner for PR #236 security fixes
 - **Next round:** Monitor Bender's security fixes in PR #236 revision
+
+## Round 3 (2026-06-05 final)
+
+- **Bender Security Fix Completion:** PR #236 security revision committed; all blockers resolved
+  - URL validation with `urllib.parse.urlparse()` + HTTPS + allowlist enforcement
+  - Credentials, localhost/private hosts rejected
+  - RSS fetches with explicit timeouts and bounded retries
+  - Parallel crawling capped at `DEFAULT_MAX_WORKERS`
+  - Test coverage added: 563 tests pass
+- **Hermes Re-Review:** Completed at commit `e91e2a5b33b816191148125d40192b3fff8fbc6a`
+  - **Decision: Security approval/unblock** — all technical requirements met, CodeQL checks green
+  - Formal approval blocked by own-PR token rules; unblock comment posted instead
+- **Merge Attempts:**
+  1. `gh pr merge` on PR #235 and PR #236 — blocked by base branch protection policy
+  2. `gh pr merge --auto` — repository auto-merge disabled
+- **Status Comments Posted:** Documented merge blockers on both PRs
+  - PR #235: CI passing, team reviewed, awaits admin merge
+  - PR #236: CI passing, team reviewed, security gate cleared, awaits admin merge
+- **Outcome:** Both PRs mergeable but policy-blocked; awaiting admin/external approver override
+

@@ -502,3 +502,22 @@ PR #236 keeps workflow secrets out of the RSS step and does not add new dependen
 
 Bender should own the fixes so Leela does not review her own implementation changes.
 
+---
+
+# PR #236 security unblock
+
+Date: 2026-06-05T16:00:00+00:00
+
+Hermes re-reviewed PR #236 at Bender fix commit `e91e2a5b33b816191148125d40192b3fff8fbc6a`.
+
+Security blockers from the prior review are resolved:
+- external RSS feed URLs are parsed with `urllib.parse.urlparse()` and restricted to HTTPS on the approved host allowlist;
+- credentials, localhost/local domains, private/link-local IP literals, invalid ports, and non-443 ports are rejected;
+- RSS fetches use `urlopen(..., timeout=DEFAULT_FETCH_TIMEOUT_SECONDS)` with bounded retry attempts;
+- parallel RSS crawling caps workers at `DEFAULT_MAX_WORKERS` and rejects `--max-workers < 1`;
+- tests cover unsafe URL rejection and explicit timeout propagation.
+
+Validation: `PYTHONPATH=. python -m pytest tests -q` in an isolated PR worktree passed with 563 tests.
+
+Decision: Hermes security approval/unblock for merge, with CodeQL checks green on the PR.
+
