@@ -42,3 +42,4 @@
 - Validator generates scorecards: `.squad/reskill/scorecards/YYYY-WNN.md` (human) and `data/metrics/scorecards/YYYY-WNN-scorecard.json` (machine)
 - 548 tests passing
 - Ready for merge
+- 2026-06-05T17:42:56Z: Analysis map/reduce should be justified by context pressure and claim quality, not crawl speed; mappers should emit cited claim ledgers while a single reducer preserves global thesis, dedupe, citations, and the analysis gate contract.
