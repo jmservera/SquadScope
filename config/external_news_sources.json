@@ -1,0 +1,27 @@
+[
+  {
+    "name": "techcrunch",
+    "feed_url": "https://techcrunch.com/feed/",
+    "requests_per_minute": 10
+  },
+  {
+    "name": "nvidia_blog",
+    "feed_url": "https://blogs.nvidia.com/feed/",
+    "requests_per_minute": 10
+  },
+  {
+    "name": "hugging_face_blog",
+    "feed_url": "https://huggingface.co/blog/feed.xml",
+    "requests_per_minute": 10
+  },
+  {
+    "name": "mit_technology_review",
+    "feed_url": "https://www.technologyreview.com/feed",
+    "requests_per_minute": 10
+  },
+  {
+    "name": "github_blog",
+    "feed_url": "https://github.blog/feed/",
+    "requests_per_minute": 10
+  }
+]
