@@ -13,3 +13,12 @@
 - 2026-06-01 review note: PR #218 looked structurally sound and its targeted analysis tests passed locally after dependency setup; the fix closes prompt placeholder leakage and restores the GitHub Models fallback path.
 - 2026-06-01 review note: PR #219 stayed within presentation scope and diff-check was clean, but local Hugo validation remained blocked by the repo's existing toolchain baseline rather than the PR itself.
 - 2026-06-01 governance note: GitHub will not let this account approve its own PRs, so branches opened as `jmservera` still need an independent reviewer before Leela can treat approval gating as satisfied.
+- 2026-06-05T15:36:19.379+00:00 growth governance note: time-boxed distribution work needs repository artifacts, metrics files, or linked platform evidence before acceptance is considered verifiable; do not reconstruct stale social copy after the posting window just to satisfy checked boxes.
+
+## Round 1 (2026-06-05)
+
+- Implemented issue #234: config-driven RSS sources + bounded parallel fetching
+- PR #236: 554 tests pass, 5-feed live smoke crawl green, CodeQL clean
+- Updated docs/decision (source-selection methodology, BaseURL strategy)
+- Updated docs/history with architecture notes
+- Issue #188 assigned for round 2 (missing-artifact findings from Fry)

@@ -36,3 +36,12 @@
 - Generated comprehensive test suite for hindsight validation
 - Covers prediction registration, scorecard generation, metrics output
 - Ready for integration with Farnsworth implementation
+
+## Round 1 (2026-06-05)
+
+- Triaged issues #232, #230, #188
+- PR #235: quality-gate fallback hardening (Copilot → GitHub Models path)
+- Decision: data-only fallback when all AI sources fail
+- Reusable skill: notify-failure job for pipeline failure visibility
+- Outcomes: #232 has PR ready, #230 closed as stale, #188 rerouted to Leela
+

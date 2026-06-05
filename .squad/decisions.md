@@ -409,3 +409,37 @@ Normalize `page_path` to a repo-relative `content/weekly/...` path inside the ge
 
 ## Rationale
 The path normalization fixes the actual handoff bug without changing `scripts/generate_content.py`, which already returns an absolute file path used elsewhere in tests. A separate failure notifier makes regressions visible even when later jobs are skipped, which is the exact reliability gap that hid the recent failures.
+
+---
+
+# Farnsworth hindsight validation decision
+
+Date: 2026-06-01
+
+## Decision
+Use an optional `predictions` frontmatter registry on weekly analysis summaries with entries shaped as `{repo, direction, confidence}`.
+
+## Why
+The published markdown is already the durable editorial artifact, so embedding prediction intent there avoids a separate ledger drifting out of sync. Legacy summaries still need heuristic extraction from Signal/Noise/Gaps prose, but future summaries should register explicit repo-level calls for cleaner hindsight scoring.
+
+## Operational note
+The validator writes a human scorecard to `.squad/reskill/scorecards/YYYY-WNN.md` and a machine-readable companion to `data/metrics/scorecards/YYYY-WNN-scorecard.json` so the current reskill tooling can ingest the same run.
+
+---
+
+# Fry QA triage decision
+
+Date: 2026-06-05T15:36:19.379+00:00
+
+## Decision
+
+The crawl-and-publish analysis stage should degrade to a data-only no-AI weekly summary when both Copilot output and GitHub Models output are unavailable or rejected by the quality gate.
+
+## Rationale
+
+A missing or unauthorized model is an operational dependency failure, but the pipeline still has verified crawl data. Publishing a clearly labeled data-only summary is more reliable than failing the entire weekly handoff after preserving no reader-facing output.
+
+## Follow-up
+
+If model access is restored, the AI analysis path remains preferred. The no-AI path is only a terminal fallback after Copilot and GitHub Models fail.
+

@@ -62,3 +62,10 @@
 - PR #227 merged (squash). Closes #38.
 - Fry's test branch cleaned up.
 - Board clear except #188 (stale).
+
+## Round 1 (2026-06-05)
+
+- Board scan: pre-round zero PRs, post-round PR #235 and PR #236 open with green checks
+- Issue triage routed: #232 and #230 resolved, #188 assigned to Leela
+- Clean handoff to round 2
+
