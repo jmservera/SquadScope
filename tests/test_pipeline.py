@@ -319,6 +319,57 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("📊 **SquadScope Week", webhook_run)
         self.assertIn("Webhook post failed (non-critical)", webhook_run)
 
+    def test_publish_workflow_uses_candidate_manifest_before_promotion(self) -> None:
+        workflow_path = Path(".github/workflows/crawl-and-publish.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+
+        analyze = workflow["jobs"]["analyze"]
+        self.assertEqual(analyze["outputs"]["summary_file"], "${{ steps.analysis-context.outputs.published_output_file }}")
+        self.assertEqual(
+            analyze["outputs"]["candidate_summary_file"],
+            "${{ steps.analysis-context.outputs.candidate_output_file }}",
+        )
+        self.assertEqual(
+            analyze["outputs"]["publish_manifest_file"],
+            "${{ steps.analysis-context.outputs.publish_manifest_file }}",
+        )
+
+        prepare_step = next((s for s in analyze["steps"] if s.get("name") == "Prepare analysis context"), None)
+        self.assertIsNotNone(prepare_step)
+        prepare_run = prepare_step["run"]
+        self.assertIn("data/candidates", prepare_run)
+        self.assertIn("candidate_output_file", prepare_run)
+        self.assertIn("publish_manifest_file", prepare_run)
+        self.assertIn("published_output_file=data/analyzed", prepare_run)
+
+        manifest_step = next((s for s in analyze["steps"] if s.get("name") == "Emit publish eligibility manifest"), None)
+        self.assertIsNotNone(manifest_step)
+        manifest_run = manifest_step["run"]
+        self.assertIn("scripts/publish_manifest.py create", manifest_run)
+        self.assertIn("--analysis-source", manifest_run)
+        self.assertIn("--analysis-model", manifest_run)
+        self.assertIn("--validation-status passed", manifest_run)
+
+        assert_step = next((s for s in analyze["steps"] if s.get("name") == "Assert candidate is eligible for promotion"), None)
+        self.assertIsNotNone(assert_step)
+        self.assertIn("scripts/publish_manifest.py assert-eligible", assert_step["run"])
+
+        commit_step = next((s for s in analyze["steps"] if s.get("name") == "Commit analysis and learnings to data branch"), None)
+        self.assertIsNotNone(commit_step)
+        commit_run = commit_step["run"]
+        self.assertIn('assert-eligible --manifest "$MANIFEST_FILE"', commit_run)
+        self.assertIn('cp "$CANDIDATE_SUMMARY" "$PUBLISHED_SUMMARY"', commit_run)
+        self.assertIn("git add data/analyzed/ data/candidates/", commit_run)
+
+        upload_candidate = next((s for s in analyze["steps"] if s.get("name") == "Upload analysis candidate"), None)
+        self.assertIsNotNone(upload_candidate)
+        self.assertEqual(upload_candidate["if"], "always()")
+
+        generate = workflow["jobs"]["generate"]
+        generate_step = next((s for s in generate["steps"] if s.get("name") == "Generate weekly content"), None)
+        self.assertIsNotNone(generate_step)
+        self.assertIn('assert-eligible --manifest "$MANIFEST_FILE"', generate_step["run"])
+
     def test_notify_failure_job_creates_or_updates_issue(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
