@@ -231,7 +231,10 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("python3 scripts/analyze_fallback.py", run_analysis)
         self.assertIn('--press-context "$PRESS_FILE"', run_analysis)
         self.assertIn('ANALYSIS_SOURCE="github-models"', run_analysis)
-        self.assertNotIn("no-AI", run_analysis)
+        self.assertIn("--no-ai", run_analysis)
+        self.assertIn('ANALYSIS_SOURCE="no-ai"', run_analysis)
+        self.assertIn('ANALYSIS_MODEL="none"', run_analysis)
+        self.assertIn("GitHub Models fallback failed; falling back to data-only no-AI summary", run_analysis)
 
     def test_generate_workflow_runs_rollups_and_commits_all_content(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")

@@ -5,6 +5,7 @@
 - Uses test coverage to keep workflow changes honest.
 
 ## Learnings
+- 2026-06-05T15:36:19.379+00:00: The weekly crawl pipeline needs a terminal data-only no-AI analysis fallback after Copilot and GitHub Models fail, because model-access errors such as `no_access` are real reliability bugs, not transient deploy noise.
 - The PaperMod theme in this repo needs Hugo `v0.146.0+`, so build validation must use a sufficiently new Hugo binary.
 - End-to-end checks matter more than isolated unit confidence when artifacts move across crawl, analyze, and publish stages.
 - Raw crawl output can be publishable with curation, but trend filters still need skepticism about exploit noise and weak momentum data.

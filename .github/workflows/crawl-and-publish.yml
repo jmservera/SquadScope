@@ -407,18 +407,39 @@ jobs:
 
           if [ "$GATE_PASSED" = "false" ]; then
             echo "::warning::Copilot output failed quality gate after $((MAX_RETRIES + 1)) attempts; falling back to GitHub Models API."
-            python3 scripts/analyze_fallback.py \
+            MODELS_PASSED="false"
+            if python3 scripts/analyze_fallback.py \
               --raw-json "$WEEK_FILE" \
               --output "$OUTPUT_FILE" \
               --current-datetime "$CURRENT_DATETIME" \
-              --press-context "$PRESS_FILE"
-            sanitize_agent_output "$OUTPUT_FILE"
-            if ! run_quality_gate github-models; then
-              echo "::error::Analysis quality gate failed for both Copilot CLI and GitHub Models API outputs."
-              exit 1
+              --press-context "$PRESS_FILE"; then
+              sanitize_agent_output "$OUTPUT_FILE"
+              if run_quality_gate github-models; then
+                MODELS_PASSED="true"
+                ANALYSIS_SOURCE="github-models"
+                ANALYSIS_MODEL="${GITHUB_MODELS_MODEL:-openai/gpt-4o}"
+              else
+                echo "::warning::GitHub Models output failed quality gate; falling back to data-only no-AI summary."
+              fi
+            else
+              echo "::warning::GitHub Models fallback failed; falling back to data-only no-AI summary."
             fi
-            ANALYSIS_SOURCE="github-models"
-            ANALYSIS_MODEL="${GITHUB_MODELS_MODEL:-openai/gpt-4o}"
+
+            if [ "$MODELS_PASSED" = "false" ]; then
+              python3 scripts/analyze_fallback.py \
+                --raw-json "$WEEK_FILE" \
+                --output "$OUTPUT_FILE" \
+                --current-datetime "$CURRENT_DATETIME" \
+                --press-context "$PRESS_FILE" \
+                --no-ai
+              sanitize_agent_output "$OUTPUT_FILE"
+              if ! run_quality_gate no-ai; then
+                echo "::error::Analysis quality gate failed for Copilot CLI, GitHub Models API, and no-AI outputs."
+                exit 1
+              fi
+              ANALYSIS_SOURCE="no-ai"
+              ANALYSIS_MODEL="none"
+            fi
           fi
 
           # Copy final transcript to canonical location
