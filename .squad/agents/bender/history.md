@@ -49,3 +49,4 @@
 - Matrixing RSS is an isolation feature at current scale, not a speed feature; matrixing GitHub needs a shard experiment because search quota and secondary limits are shared across jobs.
 - Recommended PRD path is hybrid staged fan-out/fan-in: establish validated artifact contracts first, then gate RSS matrix, GitHub query matrix, and analysis map/reduce on measured thresholds.
 - Run 27030646485 also showed analysis, not crawling, is the critical-path risk: three Copilot attempts consumed ~28m41s, failed quality gates, GitHub Models had no `openai/gpt-4o` access, and the workflow shipped via no-AI fallback with ~112.9k estimated input tokens.
+- Issue #249 implementation: weekly analysis now writes to `data/candidates/<week>/<run_id>/` first and emits a `publish_eligibility_v1` manifest before any `data/analyzed/<week>-summary.md` promotion; promotion must fail closed on no-AI, stale source evidence, missing checksums, or failed validation.

@@ -202,7 +202,9 @@ jobs:
       contents: write
     outputs:
       week: ${{ steps.analysis-context.outputs.week }}
-      summary_file: ${{ steps.analysis-context.outputs.output_file }}
+      summary_file: ${{ steps.analysis-context.outputs.published_output_file }}
+      candidate_summary_file: ${{ steps.analysis-context.outputs.candidate_output_file }}
+      publish_manifest_file: ${{ steps.analysis-context.outputs.publish_manifest_file }}
       current_datetime: ${{ steps.analysis-context.outputs.current_datetime }}
 
     steps:
@@ -255,7 +257,7 @@ jobs:
         env:
           REBUILD_WEEK: ${{ inputs.rebuild_week || '' }}
         run: |
-          mkdir -p data/analyzed
+          mkdir -p data/analyzed data/candidates
           CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           readarray -t CONTEXT_LINES < <(python3 - <<'PY' "$CURRENT_DATETIME"
           import json
@@ -280,7 +282,11 @@ jobs:
               raise SystemExit(f"Raw payload week mismatch: expected {week}, found {payload.get('week')!r}")
           print(f"week_file={week_file.as_posix()}")
           print(f"week={week}")
-          print(f"output_file=data/analyzed/{week}-summary.md")
+          run_id = os.environ.get("GITHUB_RUN_ID", "local")
+          candidate_dir = Path("data/candidates") / week / run_id
+          print(f"candidate_output_file={(candidate_dir / f'{week}-summary.md').as_posix()}")
+          print(f"publish_manifest_file={(candidate_dir / 'publish-manifest.json').as_posix()}")
+          print(f"published_output_file=data/analyzed/{week}-summary.md")
           PY
           )
           {
@@ -357,13 +363,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          OUTPUT_FILE="${{ steps.analysis-context.outputs.output_file }}"
+          OUTPUT_FILE="${{ steps.analysis-context.outputs.candidate_output_file }}"
           WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
           WEEK="${{ steps.analysis-context.outputs.week }}"
           CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
           PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
           ANALYSIS_STARTED=$(date +%s)
-          mkdir -p data/metrics
+          mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")"
           # Hydrate metrics ledger from publish so track_token_usage.py appends to
           # the canonical token-usage.jsonl rather than starting fresh each run.
           git fetch origin publish 2>/dev/null && \
@@ -507,10 +513,11 @@ jobs:
           # Clean up per-attempt transcripts
           rm -f data/metrics/copilot-transcript-attempt-*.md
           echo "analysis_source=$ANALYSIS_SOURCE" >> "$GITHUB_OUTPUT"
+          echo "analysis_model=$ANALYSIS_MODEL" >> "$GITHUB_OUTPUT"
 
       - name: quality-check
         env:
-          ANALYSIS_FILE: ${{ steps.analysis-context.outputs.output_file }}
+          ANALYSIS_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
           ANALYSIS_SOURCE: ${{ steps.run-analysis.outputs.analysis_source }}
           RAW_JSON_FILE: ${{ steps.analysis-context.outputs.week_file }}
           CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
@@ -521,22 +528,70 @@ jobs:
             --current-datetime "$CURRENT_DATETIME" \
             --source "$ANALYSIS_SOURCE"
 
+      - name: Emit publish eligibility manifest
+        env:
+          WEEK: ${{ steps.analysis-context.outputs.week }}
+          RUN_ID: ${{ github.run_id }}
+          CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
+          CANDIDATE_SUMMARY: ${{ steps.analysis-context.outputs.candidate_output_file }}
+          PUBLISHED_SUMMARY: ${{ steps.analysis-context.outputs.published_output_file }}
+          RAW_JSON_FILE: ${{ steps.analysis-context.outputs.week_file }}
+          ANALYSIS_SOURCE: ${{ steps.run-analysis.outputs.analysis_source }}
+          ANALYSIS_MODEL: ${{ steps.run-analysis.outputs.analysis_model }}
+          MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
+        run: |
+          set -euo pipefail
+          ARTIFACT_ARGS=()
+          for candidate in \
+            "external_news=data/raw/${WEEK}-external-news.json" \
+            "techcrunch_news=data/raw/${WEEK}-techcrunch.json" \
+            "correlations=data/analyzed/${WEEK}-correlations.json" \
+            "press_context=data/analyzed/${WEEK}-press-context.md"
+          do
+            path="${candidate#*=}"
+            [ -f "$path" ] && ARTIFACT_ARGS+=(--artifact "$candidate")
+          done
+          python3 scripts/publish_manifest.py create \
+            --week "$WEEK" \
+            --run-id "$RUN_ID" \
+            --current-datetime "$CURRENT_DATETIME" \
+            --summary "$CANDIDATE_SUMMARY" \
+            --published-summary "$PUBLISHED_SUMMARY" \
+            --raw-json "$RAW_JSON_FILE" \
+            --analysis-source "$ANALYSIS_SOURCE" \
+            --analysis-model "$ANALYSIS_MODEL" \
+            --validation-status passed \
+            --output "$MANIFEST_FILE" \
+            "${ARTIFACT_ARGS[@]}"
+
+      - name: Assert candidate is eligible for promotion
+        run: python3 scripts/publish_manifest.py assert-eligible --manifest "${{ steps.analysis-context.outputs.publish_manifest_file }}"
+
       - name: Commit analysis and learnings to data branch
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           DATA_BRANCH: publish
           WEEK: ${{ steps.analysis-context.outputs.week }}
+          CANDIDATE_SUMMARY: ${{ steps.analysis-context.outputs.candidate_output_file }}
+          PUBLISHED_SUMMARY: ${{ steps.analysis-context.outputs.published_output_file }}
+          MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
+          python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
+          cp scripts/publish_manifest.py publish-manifest-tool.py
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # Check for analysis data OR squad learning state changes
-          if ! git status --short -- data/analyzed data/metrics .squad | grep -q .; then
+          if ! git status --short -- data/analyzed data/candidates data/metrics .squad | grep -q .; then
             echo "No analyzed data, token usage, or learning state changes to commit."
+            rm -f publish-manifest-tool.py
             exit 0
           fi
+          mkdir -p "$(dirname "$PUBLISHED_SUMMARY")"
+          cp "$CANDIDATE_SUMMARY" "$PUBLISHED_SUMMARY"
           cp -r data/analyzed analyzed-data-backup
+          cp -r data/candidates candidates-data-backup
           cp -r data/metrics metrics-data-backup
           # Preserve any .squad changes written by the agent (learnings, skills)
           if git status --short -- .squad | grep -q .; then
@@ -552,30 +607,41 @@ jobs:
             git fetch origin "$DEFAULT_BRANCH"
             git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
           fi
-          mkdir -p data/analyzed data/metrics
+          mkdir -p data/analyzed data/candidates data/metrics
+          python3 publish-manifest-tool.py assert-eligible --manifest "candidates-data-backup/${WEEK}/${GITHUB_RUN_ID}/publish-manifest.json"
           # Only copy current week's analysis files — do not overwrite prior weeks
-          # Required: current week's summary must exist or the pipeline is broken
+          # Required: current week's promoted summary must be backed by an eligible manifest
           cp "analyzed-data-backup/${WEEK}-summary.md" data/analyzed/
+          cp -r "candidates-data-backup/${WEEK}" data/candidates/
           # Optional sidecars: conditionally generated
           cp "analyzed-data-backup/${WEEK}-correlations.json" data/analyzed/ 2>/dev/null || true
           cp "analyzed-data-backup/${WEEK}-press-context.md" data/analyzed/ 2>/dev/null || true
           cp -r metrics-data-backup/* data/metrics/ 2>/dev/null || true
-          rm -rf analyzed-data-backup metrics-data-backup
+          rm -rf analyzed-data-backup candidates-data-backup metrics-data-backup publish-manifest-tool.py
           # Restore squad learning state
           if [ "$HAS_LEARNINGS" = "true" ]; then
             cp -r squad-learning-backup/* .squad/ 2>/dev/null || true
             rm -rf squad-learning-backup
           fi
-          git add data/analyzed/ data/metrics/ .squad/
+          git add data/analyzed/ data/candidates/ data/metrics/ .squad/
           git diff --cached --quiet && exit 0
           git commit -m "analysis: weekly summary + learnings $WEEK [run #${GITHUB_RUN_ID}]"
           git push origin "$DATA_BRANCH"
 
       - name: Upload analyzed data
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: analyzed-data
           path: data/analyzed/
+          if-no-files-found: warn
+
+      - name: Upload analysis candidate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: analysis-candidate
+          path: data/candidates/
           if-no-files-found: warn
 
   generate:
@@ -600,6 +666,12 @@ jobs:
           name: analyzed-data
           path: data/analyzed/
 
+      - name: Download analysis candidate artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: analysis-candidate
+          path: data/candidates/
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -612,8 +684,10 @@ jobs:
         id: generate-content
         env:
           SUMMARY_FILE: ${{ needs.analyze.outputs.summary_file }}
+          MANIFEST_FILE: ${{ needs.analyze.outputs.publish_manifest_file }}
         run: |
           set -euo pipefail
+          python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
           python3 - <<'PYGEN' "$SUMMARY_FILE" >> "$GITHUB_OUTPUT"
           import sys
           from pathlib import Path
@@ -628,8 +702,10 @@ jobs:
       - name: Hydrate analyzed data from publish
         env:
           WEEK: ${{ needs.analyze.outputs.week }}
+          MANIFEST_FILE: ${{ needs.analyze.outputs.publish_manifest_file }}
         run: |
           set -euo pipefail
+          python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
           git fetch origin publish
           # Restore prior weeks' analyzed files from publish so generate_rollups.py
           # sees accurate historical data. Skip the current week's file (already
@@ -650,9 +726,11 @@ jobs:
           DATA_BRANCH: publish
           WEEK: ${{ needs.analyze.outputs.week }}
           PAGE_PATH: ${{ steps.generate-content.outputs.page_path }}
+          MANIFEST_FILE: ${{ needs.analyze.outputs.publish_manifest_file }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
+          python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           if ! git status --short -- content/weekly content/monthly content/yearly | grep -q .; then
@@ -800,11 +878,18 @@ jobs:
           name: analyzed-data
           path: data/analyzed/
 
+      - uses: actions/download-artifact@v4
+        with:
+          name: analysis-candidate
+          path: data/candidates/
+
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SUMMARY_FILE: ${{ needs.analyze.outputs.summary_file }}
+          MANIFEST_FILE: ${{ needs.analyze.outputs.publish_manifest_file }}
         run: |
+          python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
           WEEK=$(basename "$SUMMARY_FILE" | sed 's/-summary.md//')
           TAG="week-${WEEK}"
           TITLE="Week ${WEEK} — Tech Trends Summary"
