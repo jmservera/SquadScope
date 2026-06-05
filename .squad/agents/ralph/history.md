@@ -105,3 +105,52 @@
   - PR #236: CI passing, team reviewed, security gate cleared, awaits admin merge
 - **Outcome:** Both PRs mergeable but policy-blocked; awaiting admin/external approver override
 
+## Round 4 (2026-06-05 final)
+
+**Trigger:** Copilot auto-review directive enforcement
+
+- **Directive Activated:** All Copilot auto-review comments must be addressed and resolved
+  - If Copilot proposes a change, review and accept it or provide your own solution and resolve
+  - If invalid after thorough review, resolve with explanation
+- **Fry Resolution:** PR #235 Copilot review thread PRRT_kwDOSgq4hM6HaPhr resolved
+  - Fallback warning updated: "No publishable Copilot summary was produced; falling back to GitHub Models API."
+  - commit 7409b05 pushed; 9 tests passing
+- **Bender Resolution:** PR #236 Copilot review thread PRRT_kwDOSgq4hM6HaRkn resolved
+  - Docs command updated to `python3 -m scripts.techcrunch_crawler ...`
+  - commit ba2787e pushed; validation in clean venv passed
+- **Status:** Both Copilot review threads resolved. PR #235 checks green/clean. PR #236 awaiting post-commit CodeQL.
+
+
+## Round 5 (2026-06-05 final board scan)
+
+**Trigger:** Scribe process initiated after three squad PRs merged
+
+- **PR #241 Status:** Merged at 2026-06-05T17:21:05Z (issue #238 closed)
+  - Idempotent weekly release notify: check-tag, edit-if-exists, create-else logic
+  - Full validation: 563 tests pass, CodeQL green, Copilot review no comments
+  - Leela approved in substance; formal approval blocked by own-PR rules
+
+- **PR #242 Status:** Merged at 2026-06-05T17:24:14Z (issue #237 closed)
+  - Schema v2 external-news artifact with source-aware telemetry
+  - Source config checksum, per-source status, dedupe count, deterministic checksum
+  - Validation: 569 tests pass after Copilot review fixes
+  - Leela approved in substance; formal approval blocked by own-PR rules
+
+- **PR #243 Status:** Merged at 2026-06-05T17:34:18Z
+  - Residual Copilot review fixes: weak-match regressions, deterministic --until, fetch telemetry
+  - Validation: 574 tests pass, CodeQL green, Copilot review no comments
+  - Leela approved in substance; formal approval blocked by own-PR rules
+
+- **Final Board Scan:**
+  - No open squad-labeled issues
+  - No open squad-labeled pull requests
+  - Local main synced to origin/main
+  - All unrelated local files preserved (squad config/templates)
+
+- **Scribe Handoff:**
+  - Decision inbox merged: 6 entries, no duplicates (Fry, Leela, Bender, user directive)
+  - Inbox files deleted post-merge
+  - Orchestration log created
+  - Commit ready for staging
+
+- **Outcome:** Three-PR merge chain complete, squad work complete, board clear, Scribe process ready

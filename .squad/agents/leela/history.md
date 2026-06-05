@@ -16,6 +16,7 @@
 - 2026-06-01 governance note: GitHub will not let this account approve its own PRs, so branches opened as `jmservera` still need an independent reviewer before Leela can treat approval gating as satisfied.
 - 2026-06-05T15:36:19.379+00:00 growth governance note: time-boxed distribution work needs repository artifacts, metrics files, or linked platform evidence before acceptance is considered verifiable; do not reconstruct stale social copy after the posting window just to satisfy checked boxes.
 - 2026-06-05 PR #235 review note: a terminal no-AI publishing fallback is acceptable when it is deterministic, explicitly attributed (`source=no-ai`, `model=none`), and still passes the same analysis quality gate; self-approval remains blocked for `jmservera`-authored PRs.
+- 2026-06-05 crawler topology note: keep GitHub repo crawl monolithic/cached and RSS in-process until measured triggers justify matrix isolation; improve source-aware press correlation/rendering rather than creating a new compact press artifact path.
 
 ## Round 1 (2026-06-05)
 
@@ -32,3 +33,14 @@
 - Posted lead review comment to PR #235
 - Awaiting independent reviewer approval before merge
 - Note: self-approval remains impossible for `jmservera`-authored PRs regardless of review gate satisfaction
+
+## Round 3 (2026-06-05T16:26:00Z)
+
+- Crawler improvement analysis completed: squad findings synthesized into GitHub issue #237
+- Issue title: "Improve multi-source crawler telemetry and source-aware press correlation"
+- Lead decision: keep GitHub crawl monolithic, keep RSS in-process bounded parallelism, defer matrix fan-out to triggered conditions (RSS p95 > 60s, source count > 10, per-source retry/quota needed)
+- Scope: per-source metrics, schema versioning, deterministic merge before analysis, cross-source dedupe, press-context bounds and telemetry, tests for partial failures/fallback/reproducibility
+- Non-goals: LLM staged analysis, GitHub raw compaction, matrix unless triggered, core GitHub crawler changes
+- Routing: Bender (implementation), Fry (reliability gates), Farnsworth (press-context quality)
+- Labels: `squad`, `squad:leela`, `squad:bender`, `go:yes`
+- Decisions recorded in .squad/decisions.md under four entries (Bender, Farnsworth, Fry, Leela)

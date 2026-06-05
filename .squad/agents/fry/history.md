@@ -63,3 +63,33 @@
 ## PR #235 Copilot review follow-up (2026-06-05)
 
 - Copilot fallback warnings should describe the observed pipeline state, not just retry exhaustion: the same branch can mean 0 Copilot attempts because the CLI is unavailable or failed attempts that never yielded a publishable summary.
+
+## PR #235 Copilot review resolution (2026-06-05)
+
+- Resolved Copilot review thread PRRT_kwDOSgq4hM6HaPhr
+- Updated fallback warning: "No publishable Copilot summary was produced; falling back to GitHub Models API."
+- Added pipeline test assertion to prevent regression
+- 9 tests passing
+- commit 7409b05 pushed; thread resolved
+
+
+## Crawler reliability analysis (2026-06-05)
+
+- Multi-source RSS is not yet the crawl bottleneck; GitHub API crawl still dominates wall time, while five external RSS sources completed in about one second after dependency setup.
+- Next reliability iteration should keep GitHub crawl/cache as one core job and matrix only optional external news sources, merging per-source artifacts before analysis for isolation, retry granularity, and reproducible handoff.
+
+## Crawler reliability architecture assessment (2026-06-05T16:26:00Z)
+
+- Reviewed old (26753498571) vs. new (27026348186) crawl jobs; GitHub repo crawl is the actual bottleneck (~4m47s–5m58s).
+- In-process model is operationally simple/fast but offers poor per-source failure isolation; retry requires full crawl rerun.
+- Recommendation: hybrid staged topology — keep GitHub crawl monolithic; add matrix for external RSS with fail-fast: false, per-source artifacts, and deterministic merge before analysis.
+- Acceptance criteria: shared crawl context (week, since, until, source config), per-source artifacts (success or error JSON), merge job on `if: always()`, explicit optional-source degradation, backward-compatible rebuild mode.
+- Tests to add: merge helper validation (schema, dedupe, sorting, error handling), per-source failure handling, fallback paths, reproducibility gates, citation preservation.
+- Metrics: per-source (name, host, duration, article counts, errors) and aggregate (source_count, failed_source_count, total articles, artifact size).
+- Decision recorded in .squad/decisions.md.
+
+## Issue #238 notify triage (2026-06-05)
+
+- Run 27026348186 completed crawl, analyze, generate, and deploy successfully; only `notify` failed.
+- Root cause: `gh release create week-2026-W23` is not idempotent when the weekly release tag already exists, so rerunning/publishing the same week produced HTTP 422 `Release.tag_name already exists`.
+- QA fix: make notify update an existing weekly release with `gh release edit` instead of failing, while preserving release creation for new weeks.

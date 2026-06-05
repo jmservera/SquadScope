@@ -1,12 +1,12 @@
 ---
 title: "Python, Automation, and This Week's Repo Signals"
-date: 2026-06-05T16:21:00Z
+date: 2026-06-05T17:48:23Z
 week: "2026-W23"
 year: 2026
 tags: [python, automation, tool, bypass, chatgpt-fix]
 categories: [weekly]
 repos_featured: 449
-stars_tracked: 23711079
+stars_tracked: 23713122
 top_repo: "sindresorhus/awesome"
 quality_score: 62
 summary: "Automated data-only summary for 2026-W23. AI analysis was unavailable; this report presents raw crawl statistics and top repositories without editorial commentary."
@@ -14,70 +14,77 @@ summary: "Automated data-only summary for 2026-W23. AI analysis was unavailable;
 
 ## This Week's Trends
 
-Without AI-powered analysis, this section reports observed patterns from crawl data rather than synthesized editorial trends. The top community topics this week are python, automation, tool, bypass, chatgpt-fix, discord-fix, dpi-bypass, goodbyedpi, and the dominant languages are Python (98), TypeScript (80), C++ (31), Rust (31), JavaScript (29). These signals point to where developer attention is concentrated, though qualitative interpretation of which patterns are durable versus incidental requires a full AI-enabled analysis run.
+Without AI-powered analysis, this section reports observed patterns from crawl data rather than synthesized editorial trends. The top community topics this week are python, automation, tool, bypass, chatgpt-fix, discord-fix, dpi-bypass, goodbyedpi, and the dominant languages are Python (96), TypeScript (77), C++ (37), Rust (30), JavaScript (29). These signals point to where developer attention is concentrated, though qualitative interpretation of which patterns are durable versus incidental requires a full AI-enabled analysis run.
 
-The crawler captured 449 repositories this week (213 new, 236 trending) with 23,711,079 cumulative stars. The top repository by star count is [sindresorhus/awesome](https://github.com/sindresorhus/awesome). Raw patterns suggest continued investment in Python (98), TypeScript (80), C++ (31), Rust (31), JavaScript (29), but without editorial judgment these should be treated as directional rather than conclusive.
+The crawler captured 449 repositories this week (213 new, 236 trending) with 23,713,122 cumulative stars. The top repository by star count is [sindresorhus/awesome](https://github.com/sindresorhus/awesome). Raw patterns suggest continued investment in Python (96), TypeScript (77), C++ (37), Rust (30), JavaScript (29), but without editorial judgment these should be treated as directional rather than conclusive.
 
 ## Where Industry Meets Code
 
-## Press Context (TechCrunch, week of 2026-W23)
-27 articles published relevant to tech/open-source.
+## Press Context (External news, week of 2026-W23)
+23 articles published relevant to tech/open-source.
 
 Notable coverage:
-- [NASA briefly sheltered space station astronauts in SpaceX’s Dragon due to leaks](https://techcrunch.com/2026/06/05/nasa-briefly-sheltered-space-station-astronauts-in-spacexs-dragon-due-to-leaks/) [Space, crew dragon, Dragon, international space station, NASA, SpaceX]
-- [NSA said to be readying Anthropic’s Mythos for use in cyber operations](https://techcrunch.com/2026/06/05/nsa-said-to-be-readying-anthropics-mythos-for-use-in-cyber-operations/) [Security, Anthropic, cyberattacks, cybersecurity, In Brief, Mythos, National Security Agency]
-- [The Download: AI hacking beyond Mythos, and chatbots’ impact on our brains](https://www.technologyreview.com/2026/06/05/1138452/the-download-ai-hacking-mythos-chatbots-brain-impacts/) [The Download]
-- [The Meta hack shows there’s more to AI security than Mythos](https://www.technologyreview.com/2026/06/05/1138437/the-meta-hack-shows-theres-more-to-ai-security-than-mythos/) [Artificial intelligence, App, artificial intelligence, Summary]
-- [Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns](https://techcrunch.com/2026/06/04/ahead-of-its-ipo-anthropics-daniela-amodei-shrugs-off-doubts-about-ais-returns/) [AI, Anthropic, IPO]
-- [Airbnb’s Brian Chesky plans to launch a new AI lab](https://techcrunch.com/2026/06/04/airbnbs-brian-chesky-plans-to-launch-a-new-ai-lab/) [AI, Airbnb, brian chesky, In Brief, sam altman]
-- [Defense tech, AI, and fundraising take center stage at StrictlyVC Los Angeles on June 18](https://techcrunch.com/2026/06/04/defense-tech-ai-and-fundraising-take-center-stage-at-strictlyvc-los-angeles-on-june-18/) [AI, Fundraising, Security, Space, Startups, Venture, StrictlyVC]
-- [Apple approves Poke as the first AI agent on its Messages for Business platform](https://techcrunch.com/2026/06/04/apple-approves-poke-as-the-first-ai-agent-on-its-messages-for-business-platform/) [AI, Apps, ai agent, Apple, Poke]
-- [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/) [Climate, Fundraising, Startups, Helion, fusion energy, Peak XV Partners, Bill Ford, Anti Fund, SoftBank Vision Fund 2, lux capital, Dustin Moscovitz, fusion power, nuclear fusion, mithril capital, boxgroup, Thrive Capital, lightspeed venture partners]
-- [GitHub Universe is back: All together now, in the agentic era](https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/) [Company news, News & insights, GitHub Universe]
-- [NVIDIA Research Unlocks Advanced Grasping, Smarter Autonomous Driving and Agent Training at Scale](https://blogs.nvidia.com/blog/cvpr-research-grasping-driving-agent-training/) [Driving, Research, Robotics, Isaac, NVIDIA Research, Open Source]
-- [NVIDIA Enables the Next Era Of Physical AI Research With Agent Skills For Autonomous Vehicles, Robotics And Vision AI](https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/) [Driving, Robotics, Agentic AI, Artificial Intelligence, Computer Vision, Cosmos, Events, Isaac, Metropolis, Nemotron, NVIDIA Blueprints, NVIDIA Research, Omniverse, Open Source, Physical AI, Simulation and Design, Synthetic Data Generation]
-- [Industrial Software Leaders Build Secure, Autonomous AI Engineers With NVIDIA NemoClaw](https://blogs.nvidia.com/blog/industrial-software-leaders-secure-autonomous-ai-engineers-nemoclaw/) [AI, Agentic AI, AI Training, Artificial Intelligence, Customer Stories, Industrial and Manufacturing, Open Source, Simulation and Design]
-- [NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local](https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/) [AI, AI Infrastructure, Hardware, Networking, Software, Agentic AI, Cosmos, NVIDIA Blackwell, NVIDIA DGX, NVIDIA RTX, NVIDIA Vera Rubin, Physical AI]
-- [GitHub Copilot app: The agent-native desktop experience](https://github.blog/news-insights/product-news/github-copilot-app-the-agent-native-desktop-experience/) [Company news, News & insights, Product, GitHub Copilot, GitHub Copilot app, GitHub Copilot CLI, GitHub Copilot code review, GitHub Copilot SDK]
-- [The Download: AI can run your admin department now](https://www.technologyreview.com/2026/06/02/1138277/the-download-ai-tips-small-businesses-admin/) [The Download]
-- [Rehumanizing global health care with agentic AI](https://www.technologyreview.com/2026/06/02/1137827/rehumanizing-global-health-care-with-agentic-ai/) [Artificial intelligence, sponsored]
-- [How small businesses can leverage AI](https://www.technologyreview.com/2026/06/02/1138227/how-small-businesses-can-leverage-ai/) [Artificial intelligence, App]
-- [Why Financial Institutions Are Converging on Transaction Foundation Models to Build Their Own Intelligence](https://blogs.nvidia.com/blog/financial-institutions-transaction-foundation-models/) [Corporate, Agentic AI, Banking, Financial Services, Nemotron, NVIDIA NeMo]
-- [NVIDIA Jetson Brings Agentic AI to the Physical World](https://blogs.nvidia.com/blog/jetson-agentic-ai-physical-world/) [AI, Hardware, Robotics, Agentic AI, Jetson, Physical AI]
-- [Introducing Mellum2: A 12B Mixture-of-Experts Model by JetBrains](https://huggingface.co/blog/JetBrains/mellum2-launch)
-- [Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic](https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption)
-- [NVIDIA AI Cloud Ecosystem Expands Worldwide to Meet Global AI Compute Demand](https://blogs.nvidia.com/blog/ai-cloud-ecosystem/) [AI Infrastructure, Cloud]
-- [NVIDIA Factory Operations Blueprint Gives Factories a New AI Brain](https://blogs.nvidia.com/blog/factory-operations-fox-blueprint-ai-brain/) [AI Infrastructure, Robotics, Agentic AI, COMPUTEX 2026, Industrial and Manufacturing, Metropolis]
-- [Taiwan’s Industry Titans Turbocharge World’s AI Infrastructure Buildout With NVIDIA](https://blogs.nvidia.com/blog/taiwan-ecosystem-ai-infrastructure/) [AI Infrastructure, Agentic AI, AI Factory, COMPUTEX 2026, Industrial and Manufacturing, NVIDIA Vera Rubin]
-- [How Cosmos 3 Helps Physical AI Think Before It Acts](https://blogs.nvidia.com/blog/cosmos-3-physical-ai-open-world-foundation-model/) [Robotics, Agentic AI, Computer Vision, COMPUTEX 2026, Physical AI, Simulation and Design]
-- [NVIDIA Levels Up Local AI Agents Across RTX PCs and DGX Spark](https://blogs.nvidia.com/blog/rtx-ai-garage-computex-spark-local-agents/) [AI, Agentic AI, Artificial Intelligence, NVIDIA RTX, Open Source, RTX AI Garage]
+- [Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns](https://techcrunch.com/2026/06/04/ahead-of-its-ipo-anthropics-daniela-amodei-shrugs-off-doubts-about-ais-returns/) [AI, Anthropic, IPO] — techcrunch, 2026-06-04
+- [Airbnb’s Brian Chesky plans to launch a new AI lab](https://techcrunch.com/2026/06/04/airbnbs-brian-chesky-plans-to-launch-a-new-ai-lab/) [AI, Airbnb, brian chesky, In Brief, sam altman] — techcrunch, 2026-06-04
+- [Defense tech, AI, and fundraising take center stage at StrictlyVC Los Angeles on June 18](https://techcrunch.com/2026/06/04/defense-tech-ai-and-fundraising-take-center-stage-at-strictlyvc-los-angeles-on-june-18/) [AI, Fundraising, Security, Space, Startups, Venture, StrictlyVC] — techcrunch, 2026-06-04
+- [Apple approves Poke as the first AI agent on its Messages for Business platform](https://techcrunch.com/2026/06/04/apple-approves-poke-as-the-first-ai-agent-on-its-messages-for-business-platform/) [AI, Apps, ai agent, Apple, Poke] — techcrunch, 2026-06-04
+- [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/) [Climate, Fundraising, Startups, Helion, fusion energy, Peak XV Partners, Bill Ford, Anti Fund, SoftBank Vision Fund 2, lux capital, Dustin Moscovitz, fusion power, nuclear fusion, mithril capital, boxgroup, Thrive Capital, lightspeed venture partners] — techcrunch, 2026-06-04
+- [GitHub Universe is back: All together now, in the agentic era](https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/) [Company news, News & insights, GitHub Universe] — github_blog, 2026-06-04
+- [NVIDIA Research Unlocks Advanced Grasping, Smarter Autonomous Driving and Agent Training at Scale](https://blogs.nvidia.com/blog/cvpr-research-grasping-driving-agent-training/) [Driving, Research, Robotics, Isaac, NVIDIA Research, Open Source] — nvidia_blog, 2026-06-03
+- [NVIDIA Enables the Next Era Of Physical AI Research With Agent Skills For Autonomous Vehicles, Robotics And Vision AI](https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/) [Driving, Robotics, Agentic AI, Artificial Intelligence, Computer Vision, Cosmos, Events, Isaac, Metropolis, Nemotron, NVIDIA Blueprints, NVIDIA Research, Omniverse, Open Source, Physical AI, Simulation and Design, Synthetic Data Generation] — nvidia_blog, 2026-06-03
+- [Industrial Software Leaders Build Secure, Autonomous AI Engineers With NVIDIA NemoClaw](https://blogs.nvidia.com/blog/industrial-software-leaders-secure-autonomous-ai-engineers-nemoclaw/) [AI, Agentic AI, AI Training, Artificial Intelligence, Customer Stories, Industrial and Manufacturing, Open Source, Simulation and Design] — nvidia_blog, 2026-06-02
+- [NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local](https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/) [AI, AI Infrastructure, Hardware, Networking, Software, Agentic AI, Cosmos, NVIDIA Blackwell, NVIDIA DGX, NVIDIA RTX, NVIDIA Vera Rubin, Physical AI] — nvidia_blog, 2026-06-02
+- [GitHub Copilot app: The agent-native desktop experience](https://github.blog/news-insights/product-news/github-copilot-app-the-agent-native-desktop-experience/) [Company news, News & insights, Product, GitHub Copilot, GitHub Copilot app, GitHub Copilot CLI, GitHub Copilot code review, GitHub Copilot SDK] — github_blog, 2026-06-02
+- [The Download: AI can run your admin department now](https://www.technologyreview.com/2026/06/02/1138277/the-download-ai-tips-small-businesses-admin/) [The Download] — mit_technology_review, 2026-06-02
+- [Rehumanizing global health care with agentic AI](https://www.technologyreview.com/2026/06/02/1137827/rehumanizing-global-health-care-with-agentic-ai/) [Artificial intelligence, sponsored] — mit_technology_review, 2026-06-02
+- [How small businesses can leverage AI](https://www.technologyreview.com/2026/06/02/1138227/how-small-businesses-can-leverage-ai/) [Artificial intelligence, App] — mit_technology_review, 2026-06-02
+- [Why Financial Institutions Are Converging on Transaction Foundation Models to Build Their Own Intelligence](https://blogs.nvidia.com/blog/financial-institutions-transaction-foundation-models/) [Corporate, Agentic AI, Banking, Financial Services, Nemotron, NVIDIA NeMo] — nvidia_blog, 2026-06-02
+- [NVIDIA Jetson Brings Agentic AI to the Physical World](https://blogs.nvidia.com/blog/jetson-agentic-ai-physical-world/) [AI, Hardware, Robotics, Agentic AI, Jetson, Physical AI] — nvidia_blog, 2026-06-02
+- [Introducing Mellum2: A 12B Mixture-of-Experts Model by JetBrains](https://huggingface.co/blog/JetBrains/mellum2-launch) — hugging_face_blog, 2026-06-01
+- [Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic](https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption) — hugging_face_blog, 2026-06-01
+- [NVIDIA AI Cloud Ecosystem Expands Worldwide to Meet Global AI Compute Demand](https://blogs.nvidia.com/blog/ai-cloud-ecosystem/) [AI Infrastructure, Cloud] — nvidia_blog, 2026-06-01
+- [NVIDIA Factory Operations Blueprint Gives Factories a New AI Brain](https://blogs.nvidia.com/blog/factory-operations-fox-blueprint-ai-brain/) [AI Infrastructure, Robotics, Agentic AI, COMPUTEX 2026, Industrial and Manufacturing, Metropolis] — nvidia_blog, 2026-06-01
+- [Taiwan’s Industry Titans Turbocharge World’s AI Infrastructure Buildout With NVIDIA](https://blogs.nvidia.com/blog/taiwan-ecosystem-ai-infrastructure/) [AI Infrastructure, Agentic AI, AI Factory, COMPUTEX 2026, Industrial and Manufacturing, NVIDIA Vera Rubin] — nvidia_blog, 2026-06-01
+- [How Cosmos 3 Helps Physical AI Think Before It Acts](https://blogs.nvidia.com/blog/cosmos-3-physical-ai-open-world-foundation-model/) [Robotics, Agentic AI, Computer Vision, COMPUTEX 2026, Physical AI, Simulation and Design] — nvidia_blog, 2026-06-01
+- [NVIDIA Levels Up Local AI Agents Across RTX PCs and DGX Spark](https://blogs.nvidia.com/blog/rtx-ai-garage-computex-spark-local-agents/) [AI, Agentic AI, Artificial Intelligence, NVIDIA RTX, Open Source, RTX AI Garage] — nvidia_blog, 2026-06-01
 
 ### Correlation Summary
-This week's TechCrunch coverage closely tracks developer activity across 171 repos. Microsoft featured prominently: coverage of [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/) and [NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local](https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/) aligns with activity in [vscode](https://github.com/microsoft/vscode), [PowerToys](https://github.com/microsoft/PowerToys), and [generative-ai-for-beginners](https://github.com/microsoft/generative-ai-for-beginners).
+This week's external press coverage closely tracks developer activity across 50 repos. Microsoft featured prominently: coverage of [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/) and [NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local](https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/) aligns with activity in [ML-For-Beginners](https://github.com/microsoft/ML-For-Beginners), [PowerToys](https://github.com/microsoft/PowerToys), and [TypeScript](https://github.com/microsoft/TypeScript).
 
-Facebook also shows strong press-to-code correlation, with activity in [react](https://github.com/facebook/react), [react-native](https://github.com/facebook/react-native) — Build mobile apps with React, and [docusaurus](https://github.com/facebook/docusaurus).
+Apache's press footprint also intersects with GitHub: coverage of [GitHub Universe is back: All together now, in the agentic era](https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/) tracks activity in [echarts](https://github.com/apache/echarts) — Apache ECharts is a free, powerful charting and visualization library offering easy ways to add intuitive, interactive, and highly customizable charts to your commercial products. It is written in pure JavaScript and based on zrender, which is a whole new lightweight canvas library and [superset](https://github.com/apache/superset) — or more contributor license agreements.
 
-Apache's press footprint also intersects with GitHub: coverage of [GitHub Universe is back: All together now, in the agentic era](https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/) tracks activity in [superset](https://github.com/apache/superset) — or more contributor license agreements and [echarts](https://github.com/apache/echarts) — Apache ECharts is a free, powerful charting and visualization library offering easy ways to add intuitive, interactive, and highly customizable charts to your commercial products. It is written in pure JavaScript and based on zrender, which is a whole new lightweight canvas library.
+Github's press footprint also intersects with GitHub: coverage of [GitHub Universe is back: All together now, in the agentic era](https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/) and [GitHub Copilot app: The agent-native desktop experience](https://github.blog/news-insights/product-news/github-copilot-app-the-agent-native-desktop-experience/) tracks activity in [spec-kit](https://github.com/github/spec-kit).
 
 
 ### Divergence Analysis
 
 #### 🔍 Tech Trends Without Dev Activity
 
-TechCrunch heavily covered Social this week, but GitHub shows minimal matching developer activity. Articles like [Meta’s Oversight Board says account bans lack due process, transparency](https://techcrunch.com/2026/06/04/metas-oversight-board-says-account-bans-lack-due-process-transparency/) generated buzz, yet no significant new repositories emerged in these spaces — suggesting these are still in the narrative or announcement phase rather than implementation.
+External press heavily covered The Download, Artificial intelligence, Security, Startups, and AI this week, but GitHub shows minimal matching developer activity. Articles like [The Download: AI-generated lawsuits and virtual power plants for data centers](https://www.technologyreview.com/2026/06/04/1138408/the-download-ai-lawsuits-virtual-power-plants-data-centers/) and [How courts are coping with a flood of AI-generated lawsuits](https://www.technologyreview.com/2026/06/04/1138391/courts-coping-ai-lawsuits/) generated buzz, yet no significant new repositories emerged in these spaces — suggesting these are still in the narrative or announcement phase rather than implementation.
 
 #### 🚀 Dev Activity Without Press Coverage
 
-Developer activity this week shows momentum in areas the tech press isn't covering. awesome saw activity with [awesome](https://github.com/sindresorhus/awesome), [awesome-python](https://github.com/vinta/awesome-python), and [awesome-go](https://github.com/avelino/awesome-go); careers saw activity with [freeCodeCamp](https://github.com/freeCodeCamp/freeCodeCamp); cli saw activity with [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh), [lazygit](https://github.com/jesseduffield/lazygit), and [ripgrep](https://github.com/BurntSushi/ripgrep).
+Developer activity this week shows momentum in areas the tech press isn't covering. ai saw activity with [openclaw](https://github.com/openclaw/openclaw), [n8n](https://github.com/n8n-io/n8n), and [prompts.chat](https://github.com/f/prompts.chat); awesome saw activity with [awesome](https://github.com/sindresorhus/awesome), [awesome-python](https://github.com/vinta/awesome-python), and [awesome-selfhosted](https://github.com/awesome-selfhosted/awesome-selfhosted); api saw activity with [public-apis](https://github.com/public-apis/public-apis), [neovim](https://github.com/neovim/neovim), and [fastapi](https://github.com/fastapi/fastapi).
 
-Additional activity surfaced in books with [free-programming-books](https://github.com/EbookFoundation/free-programming-books), angular-roadmap with [developer-roadmap](https://github.com/nilbuild/developer-roadmap), framework with [gin](https://github.com/gin-gonic/gin), [spring-boot](https://github.com/spring-projects/spring-boot), and [nest](https://github.com/nestjs/nest).
+Additional activity surfaced in android with [flutter](https://github.com/flutter/flutter), [react-native](https://github.com/facebook/react-native), and [rustdesk](https://github.com/rustdesk/rustdesk), cli with [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh), [sherlock](https://github.com/sherlock-project/sherlock), and [lazygit](https://github.com/jesseduffield/lazygit), agents with [langflow](https://github.com/langflow-ai/langflow), [langchain](https://github.com/langchain-ai/langchain), and [awesome-llm-apps](https://github.com/Shubhamsaboo/awesome-llm-apps).
 
 These gaps suggest that foundational developer tooling — the infrastructure that powers daily workflows — grows through community word-of-mouth rather than press cycles.
 
 
+### Source Coverage
+- Sources requested: github_blog, hugging_face_blog, mit_technology_review, nvidia_blog, techcrunch
+- Sources succeeded: github_blog, hugging_face_blog, mit_technology_review, nvidia_blog, techcrunch
+
+### Press Context Telemetry
+- token_estimate: 2693
+- token_budget: 8000
+- article_limit: 40
+- correlation_limit: 20
+
+
 ## Signal & Noise
 
-The primary observable signal this week comes from language and topic distribution. The top languages are Python (98), TypeScript (80), C++ (31), Rust (31), JavaScript (29). The top community topics are python, automation, tool, bypass, chatgpt-fix, discord-fix, dpi-bypass, goodbyedpi. These patterns indicate where developer attention is concentrating and what categories are gaining traction relative to prior weeks.
+The primary observable signal this week comes from language and topic distribution. The top languages are Python (96), TypeScript (77), C++ (37), Rust (30), JavaScript (29). The top community topics are python, automation, tool, bypass, chatgpt-fix, discord-fix, dpi-bypass, goodbyedpi. These patterns indicate where developer attention is concentrating and what categories are gaining traction relative to prior weeks.
 
 Without AI-powered filtering, distinguishing signal from noise requires manual review. Some repositories in the crawl may represent low-quality forks, exploit tools, or promotional projects that inflate topic counts without contributing meaningful innovation. Future AI-enabled runs will provide better noise filtering and critical editorial judgment.
 
@@ -87,75 +94,82 @@ This automated summary lacks the editorial judgment that AI analysis would norma
 
 ## The Week Ahead
 
-Week 23 of 2026 captured 449 repositories with 23,711,079 cumulative stars tracked. The top repository is [sindresorhus/awesome](https://github.com/sindresorhus/awesome). This summary was generated without AI assistance and presents factual crawl statistics only. A full analytical run should be attempted when AI model access is restored to provide trend synthesis and editorial judgment.
+Week 23 of 2026 captured 449 repositories with 23,713,122 cumulative stars tracked. The top repository is [sindresorhus/awesome](https://github.com/sindresorhus/awesome). This summary was generated without AI assistance and presents factual crawl statistics only. A full analytical run should be attempted when AI model access is restored to provide trend synthesis and editorial judgment.
 
 ## Key References
 
 ### Notable Projects
 
-- [pewdiepie-archdaemon/odysseus](https://github.com/pewdiepie-archdaemon/odysseus) (Python, 54,523 stars): Self-hosted AI workspace. 
-- [zgwl/chinese-buy-us-stock-guide](https://github.com/zgwl/chinese-buy-us-stock-guide) (Unknown, 3,208 stars): 美股指南
-- [b-nnett/goose](https://github.com/b-nnett/goose) (Rust, 2,098 stars): Goose Swift proof-of-concept README
-- [asz798838958/aBaiAutoplus](https://github.com/asz798838958/aBaiAutoplus) (Python, 1,524 stars): 多平台 AI 账号自动注册与管理 · 协议化付款一键开通 ChatGPT Plus
-- [cpaczek/skylight](https://github.com/cpaczek/skylight) (TypeScript, 1,439 stars): Project the aircraft passing overhead onto your ceiling in real time, from an RTL-SDR — with a live sky layer (sun, moon, stars, ISS) and where each plane is headed.
-- [ClaudioDrews/memory-os](https://github.com/ClaudioDrews/memory-os) (Python, 857 stars): A 7-layer memory operating system for Hermes Agent — persistent memory with Qdrant, structured facts, fabric recall, auto-curated wiki, and surgical context injection. Runs locally, any LLM provider.
-- [V0id-v2/Void-Tools-v2.0](https://github.com/V0id-v2/Void-Tools-v2.0) (Python, 544 stars): Python terminal multitool — OSINT, Discord, web & network utilities. Rich TUI, 13 themes, remote updates. Educational use only.
-- [jd-opensource/JoyAI-Echo](https://github.com/jd-opensource/JoyAI-Echo) (Python, 531 stars): JoyAI-Echo: Pushing the Frontier of Long Audio-Visual Generation
+- [pewdiepie-archdaemon/odysseus](https://github.com/pewdiepie-archdaemon/odysseus) (Python, 54,778 stars): Self-hosted AI workspace. 
+- [zgwl/chinese-buy-us-stock-guide](https://github.com/zgwl/chinese-buy-us-stock-guide) (Unknown, 3,219 stars): 美股指南
+- [b-nnett/goose](https://github.com/b-nnett/goose) (Rust, 2,102 stars): Goose Swift proof-of-concept README
+- [asz798838958/aBaiAutoplus](https://github.com/asz798838958/aBaiAutoplus) (Python, 1,527 stars): 多平台 AI 账号自动注册与管理 · 协议化付款一键开通 ChatGPT Plus
+- [cpaczek/skylight](https://github.com/cpaczek/skylight) (TypeScript, 1,483 stars): Project the aircraft passing overhead onto your ceiling in real time, from an RTL-SDR — with a live sky layer (sun, moon, stars, ISS) and where each plane is headed.
+- [ClaudioDrews/memory-os](https://github.com/ClaudioDrews/memory-os) (Python, 858 stars): A 7-layer memory operating system for Hermes Agent — persistent memory with Qdrant, structured facts, fabric recall, auto-curated wiki, and surgical context injection. Runs locally, any LLM provider.
+- [V0id-v2/Void-Tools-v2.0](https://github.com/V0id-v2/Void-Tools-v2.0) (Python, 567 stars): Python terminal multitool — OSINT, Discord, web & network utilities. Rich TUI, 13 themes, remote updates. Educational use only.
+- [jd-opensource/JoyAI-Echo](https://github.com/jd-opensource/JoyAI-Echo) (Python, 537 stars): JoyAI-Echo: Pushing the Frontier of Long Audio-Visual Generation
 - [liyue-aigc/female-portrait-director](https://github.com/liyue-aigc/female-portrait-director) (Unknown, 517 stars): A modular Codex Skill for directing and expanding detailed AI female portrait prompts.
-- [tastyeffectco/sandboxes](https://github.com/tastyeffectco/sandboxes) (Go, 426 stars): Self-hosted dev sandboxes with preview URLs. One command. No Kubernetes, perfect for coding agents and Saas factories
+- [tastyeffectco/sandboxes](https://github.com/tastyeffectco/sandboxes) (Go, 428 stars): Self-hosted dev sandboxes with preview URLs. One command. No Kubernetes, perfect for coding agents and Saas factories
 
 ### Press & Industry
 
-## Press Context (TechCrunch, week of 2026-W23)
-27 articles published relevant to tech/open-source.
+## Press Context (External news, week of 2026-W23)
+23 articles published relevant to tech/open-source.
 
 Notable coverage:
-- [NASA briefly sheltered space station astronauts in SpaceX’s Dragon due to leaks](https://techcrunch.com/2026/06/05/nasa-briefly-sheltered-space-station-astronauts-in-spacexs-dragon-due-to-leaks/) [Space, crew dragon, Dragon, international space station, NASA, SpaceX]
-- [NSA said to be readying Anthropic’s Mythos for use in cyber operations](https://techcrunch.com/2026/06/05/nsa-said-to-be-readying-anthropics-mythos-for-use-in-cyber-operations/) [Security, Anthropic, cyberattacks, cybersecurity, In Brief, Mythos, National Security Agency]
-- [The Download: AI hacking beyond Mythos, and chatbots’ impact on our brains](https://www.technologyreview.com/2026/06/05/1138452/the-download-ai-hacking-mythos-chatbots-brain-impacts/) [The Download]
-- [The Meta hack shows there’s more to AI security than Mythos](https://www.technologyreview.com/2026/06/05/1138437/the-meta-hack-shows-theres-more-to-ai-security-than-mythos/) [Artificial intelligence, App, artificial intelligence, Summary]
-- [Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns](https://techcrunch.com/2026/06/04/ahead-of-its-ipo-anthropics-daniela-amodei-shrugs-off-doubts-about-ais-returns/) [AI, Anthropic, IPO]
-- [Airbnb’s Brian Chesky plans to launch a new AI lab](https://techcrunch.com/2026/06/04/airbnbs-brian-chesky-plans-to-launch-a-new-ai-lab/) [AI, Airbnb, brian chesky, In Brief, sam altman]
-- [Defense tech, AI, and fundraising take center stage at StrictlyVC Los Angeles on June 18](https://techcrunch.com/2026/06/04/defense-tech-ai-and-fundraising-take-center-stage-at-strictlyvc-los-angeles-on-june-18/) [AI, Fundraising, Security, Space, Startups, Venture, StrictlyVC]
-- [Apple approves Poke as the first AI agent on its Messages for Business platform](https://techcrunch.com/2026/06/04/apple-approves-poke-as-the-first-ai-agent-on-its-messages-for-business-platform/) [AI, Apps, ai agent, Apple, Poke]
-- [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/) [Climate, Fundraising, Startups, Helion, fusion energy, Peak XV Partners, Bill Ford, Anti Fund, SoftBank Vision Fund 2, lux capital, Dustin Moscovitz, fusion power, nuclear fusion, mithril capital, boxgroup, Thrive Capital, lightspeed venture partners]
-- [GitHub Universe is back: All together now, in the agentic era](https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/) [Company news, News & insights, GitHub Universe]
-- [NVIDIA Research Unlocks Advanced Grasping, Smarter Autonomous Driving and Agent Training at Scale](https://blogs.nvidia.com/blog/cvpr-research-grasping-driving-agent-training/) [Driving, Research, Robotics, Isaac, NVIDIA Research, Open Source]
-- [NVIDIA Enables the Next Era Of Physical AI Research With Agent Skills For Autonomous Vehicles, Robotics And Vision AI](https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/) [Driving, Robotics, Agentic AI, Artificial Intelligence, Computer Vision, Cosmos, Events, Isaac, Metropolis, Nemotron, NVIDIA Blueprints, NVIDIA Research, Omniverse, Open Source, Physical AI, Simulation and Design, Synthetic Data Generation]
-- [Industrial Software Leaders Build Secure, Autonomous AI Engineers With NVIDIA NemoClaw](https://blogs.nvidia.com/blog/industrial-software-leaders-secure-autonomous-ai-engineers-nemoclaw/) [AI, Agentic AI, AI Training, Artificial Intelligence, Customer Stories, Industrial and Manufacturing, Open Source, Simulation and Design]
-- [NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local](https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/) [AI, AI Infrastructure, Hardware, Networking, Software, Agentic AI, Cosmos, NVIDIA Blackwell, NVIDIA DGX, NVIDIA RTX, NVIDIA Vera Rubin, Physical AI]
-- [GitHub Copilot app: The agent-native desktop experience](https://github.blog/news-insights/product-news/github-copilot-app-the-agent-native-desktop-experience/) [Company news, News & insights, Product, GitHub Copilot, GitHub Copilot app, GitHub Copilot CLI, GitHub Copilot code review, GitHub Copilot SDK]
-- [The Download: AI can run your admin department now](https://www.technologyreview.com/2026/06/02/1138277/the-download-ai-tips-small-businesses-admin/) [The Download]
-- [Rehumanizing global health care with agentic AI](https://www.technologyreview.com/2026/06/02/1137827/rehumanizing-global-health-care-with-agentic-ai/) [Artificial intelligence, sponsored]
-- [How small businesses can leverage AI](https://www.technologyreview.com/2026/06/02/1138227/how-small-businesses-can-leverage-ai/) [Artificial intelligence, App]
-- [Why Financial Institutions Are Converging on Transaction Foundation Models to Build Their Own Intelligence](https://blogs.nvidia.com/blog/financial-institutions-transaction-foundation-models/) [Corporate, Agentic AI, Banking, Financial Services, Nemotron, NVIDIA NeMo]
-- [NVIDIA Jetson Brings Agentic AI to the Physical World](https://blogs.nvidia.com/blog/jetson-agentic-ai-physical-world/) [AI, Hardware, Robotics, Agentic AI, Jetson, Physical AI]
-- [Introducing Mellum2: A 12B Mixture-of-Experts Model by JetBrains](https://huggingface.co/blog/JetBrains/mellum2-launch)
-- [Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic](https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption)
-- [NVIDIA AI Cloud Ecosystem Expands Worldwide to Meet Global AI Compute Demand](https://blogs.nvidia.com/blog/ai-cloud-ecosystem/) [AI Infrastructure, Cloud]
-- [NVIDIA Factory Operations Blueprint Gives Factories a New AI Brain](https://blogs.nvidia.com/blog/factory-operations-fox-blueprint-ai-brain/) [AI Infrastructure, Robotics, Agentic AI, COMPUTEX 2026, Industrial and Manufacturing, Metropolis]
-- [Taiwan’s Industry Titans Turbocharge World’s AI Infrastructure Buildout With NVIDIA](https://blogs.nvidia.com/blog/taiwan-ecosystem-ai-infrastructure/) [AI Infrastructure, Agentic AI, AI Factory, COMPUTEX 2026, Industrial and Manufacturing, NVIDIA Vera Rubin]
-- [How Cosmos 3 Helps Physical AI Think Before It Acts](https://blogs.nvidia.com/blog/cosmos-3-physical-ai-open-world-foundation-model/) [Robotics, Agentic AI, Computer Vision, COMPUTEX 2026, Physical AI, Simulation and Design]
-- [NVIDIA Levels Up Local AI Agents Across RTX PCs and DGX Spark](https://blogs.nvidia.com/blog/rtx-ai-garage-computex-spark-local-agents/) [AI, Agentic AI, Artificial Intelligence, NVIDIA RTX, Open Source, RTX AI Garage]
+- [Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns](https://techcrunch.com/2026/06/04/ahead-of-its-ipo-anthropics-daniela-amodei-shrugs-off-doubts-about-ais-returns/) [AI, Anthropic, IPO] — techcrunch, 2026-06-04
+- [Airbnb’s Brian Chesky plans to launch a new AI lab](https://techcrunch.com/2026/06/04/airbnbs-brian-chesky-plans-to-launch-a-new-ai-lab/) [AI, Airbnb, brian chesky, In Brief, sam altman] — techcrunch, 2026-06-04
+- [Defense tech, AI, and fundraising take center stage at StrictlyVC Los Angeles on June 18](https://techcrunch.com/2026/06/04/defense-tech-ai-and-fundraising-take-center-stage-at-strictlyvc-los-angeles-on-june-18/) [AI, Fundraising, Security, Space, Startups, Venture, StrictlyVC] — techcrunch, 2026-06-04
+- [Apple approves Poke as the first AI agent on its Messages for Business platform](https://techcrunch.com/2026/06/04/apple-approves-poke-as-the-first-ai-agent-on-its-messages-for-business-platform/) [AI, Apps, ai agent, Apple, Poke] — techcrunch, 2026-06-04
+- [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/) [Climate, Fundraising, Startups, Helion, fusion energy, Peak XV Partners, Bill Ford, Anti Fund, SoftBank Vision Fund 2, lux capital, Dustin Moscovitz, fusion power, nuclear fusion, mithril capital, boxgroup, Thrive Capital, lightspeed venture partners] — techcrunch, 2026-06-04
+- [GitHub Universe is back: All together now, in the agentic era](https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/) [Company news, News & insights, GitHub Universe] — github_blog, 2026-06-04
+- [NVIDIA Research Unlocks Advanced Grasping, Smarter Autonomous Driving and Agent Training at Scale](https://blogs.nvidia.com/blog/cvpr-research-grasping-driving-agent-training/) [Driving, Research, Robotics, Isaac, NVIDIA Research, Open Source] — nvidia_blog, 2026-06-03
+- [NVIDIA Enables the Next Era Of Physical AI Research With Agent Skills For Autonomous Vehicles, Robotics And Vision AI](https://blogs.nvidia.com/blog/cvpr-physical-ai-research-agent-skills/) [Driving, Robotics, Agentic AI, Artificial Intelligence, Computer Vision, Cosmos, Events, Isaac, Metropolis, Nemotron, NVIDIA Blueprints, NVIDIA Research, Omniverse, Open Source, Physical AI, Simulation and Design, Synthetic Data Generation] — nvidia_blog, 2026-06-03
+- [Industrial Software Leaders Build Secure, Autonomous AI Engineers With NVIDIA NemoClaw](https://blogs.nvidia.com/blog/industrial-software-leaders-secure-autonomous-ai-engineers-nemoclaw/) [AI, Agentic AI, AI Training, Artificial Intelligence, Customer Stories, Industrial and Manufacturing, Open Source, Simulation and Design] — nvidia_blog, 2026-06-02
+- [NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local](https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/) [AI, AI Infrastructure, Hardware, Networking, Software, Agentic AI, Cosmos, NVIDIA Blackwell, NVIDIA DGX, NVIDIA RTX, NVIDIA Vera Rubin, Physical AI] — nvidia_blog, 2026-06-02
+- [GitHub Copilot app: The agent-native desktop experience](https://github.blog/news-insights/product-news/github-copilot-app-the-agent-native-desktop-experience/) [Company news, News & insights, Product, GitHub Copilot, GitHub Copilot app, GitHub Copilot CLI, GitHub Copilot code review, GitHub Copilot SDK] — github_blog, 2026-06-02
+- [The Download: AI can run your admin department now](https://www.technologyreview.com/2026/06/02/1138277/the-download-ai-tips-small-businesses-admin/) [The Download] — mit_technology_review, 2026-06-02
+- [Rehumanizing global health care with agentic AI](https://www.technologyreview.com/2026/06/02/1137827/rehumanizing-global-health-care-with-agentic-ai/) [Artificial intelligence, sponsored] — mit_technology_review, 2026-06-02
+- [How small businesses can leverage AI](https://www.technologyreview.com/2026/06/02/1138227/how-small-businesses-can-leverage-ai/) [Artificial intelligence, App] — mit_technology_review, 2026-06-02
+- [Why Financial Institutions Are Converging on Transaction Foundation Models to Build Their Own Intelligence](https://blogs.nvidia.com/blog/financial-institutions-transaction-foundation-models/) [Corporate, Agentic AI, Banking, Financial Services, Nemotron, NVIDIA NeMo] — nvidia_blog, 2026-06-02
+- [NVIDIA Jetson Brings Agentic AI to the Physical World](https://blogs.nvidia.com/blog/jetson-agentic-ai-physical-world/) [AI, Hardware, Robotics, Agentic AI, Jetson, Physical AI] — nvidia_blog, 2026-06-02
+- [Introducing Mellum2: A 12B Mixture-of-Experts Model by JetBrains](https://huggingface.co/blog/JetBrains/mellum2-launch) — hugging_face_blog, 2026-06-01
+- [Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic](https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption) — hugging_face_blog, 2026-06-01
+- [NVIDIA AI Cloud Ecosystem Expands Worldwide to Meet Global AI Compute Demand](https://blogs.nvidia.com/blog/ai-cloud-ecosystem/) [AI Infrastructure, Cloud] — nvidia_blog, 2026-06-01
+- [NVIDIA Factory Operations Blueprint Gives Factories a New AI Brain](https://blogs.nvidia.com/blog/factory-operations-fox-blueprint-ai-brain/) [AI Infrastructure, Robotics, Agentic AI, COMPUTEX 2026, Industrial and Manufacturing, Metropolis] — nvidia_blog, 2026-06-01
+- [Taiwan’s Industry Titans Turbocharge World’s AI Infrastructure Buildout With NVIDIA](https://blogs.nvidia.com/blog/taiwan-ecosystem-ai-infrastructure/) [AI Infrastructure, Agentic AI, AI Factory, COMPUTEX 2026, Industrial and Manufacturing, NVIDIA Vera Rubin] — nvidia_blog, 2026-06-01
+- [How Cosmos 3 Helps Physical AI Think Before It Acts](https://blogs.nvidia.com/blog/cosmos-3-physical-ai-open-world-foundation-model/) [Robotics, Agentic AI, Computer Vision, COMPUTEX 2026, Physical AI, Simulation and Design] — nvidia_blog, 2026-06-01
+- [NVIDIA Levels Up Local AI Agents Across RTX PCs and DGX Spark](https://blogs.nvidia.com/blog/rtx-ai-garage-computex-spark-local-agents/) [AI, Agentic AI, Artificial Intelligence, NVIDIA RTX, Open Source, RTX AI Garage] — nvidia_blog, 2026-06-01
 
 ### Correlation Summary
-This week's TechCrunch coverage closely tracks developer activity across 171 repos. Microsoft featured prominently: coverage of [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/) and [NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local](https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/) aligns with activity in [vscode](https://github.com/microsoft/vscode), [PowerToys](https://github.com/microsoft/PowerToys), and [generative-ai-for-beginners](https://github.com/microsoft/generative-ai-for-beginners).
+This week's external press coverage closely tracks developer activity across 50 repos. Microsoft featured prominently: coverage of [Helion, the Sam Altman-backed fusion startup, raises $465M to build a power plant for Microsoft](https://techcrunch.com/2026/06/04/helion-the-sam-altman-backed-fusion-startup-raises-465m-to-build-a-power-plant-for-microsoft/) and [NVIDIA Partners With Microsoft on Unified Stack for Agentic AI Deployment, From Windows Devices to Cloud to Local](https://blogs.nvidia.com/blog/microsoft-build-windows-local-cloud-devices/) aligns with activity in [ML-For-Beginners](https://github.com/microsoft/ML-For-Beginners), [PowerToys](https://github.com/microsoft/PowerToys), and [TypeScript](https://github.com/microsoft/TypeScript).
 
-Facebook also shows strong press-to-code correlation, with activity in [react](https://github.com/facebook/react), [react-native](https://github.com/facebook/react-native) — Build mobile apps with React, and [docusaurus](https://github.com/facebook/docusaurus).
+Apache's press footprint also intersects with GitHub: coverage of [GitHub Universe is back: All together now, in the agentic era](https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/) tracks activity in [echarts](https://github.com/apache/echarts) — Apache ECharts is a free, powerful charting and visualization library offering easy ways to add intuitive, interactive, and highly customizable charts to your commercial products. It is written in pure JavaScript and based on zrender, which is a whole new lightweight canvas library and [superset](https://github.com/apache/superset) — or more contributor license agreements.
 
-Apache's press footprint also intersects with GitHub: coverage of [GitHub Universe is back: All together now, in the agentic era](https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/) tracks activity in [superset](https://github.com/apache/superset) — or more contributor license agreements and [echarts](https://github.com/apache/echarts) — Apache ECharts is a free, powerful charting and visualization library offering easy ways to add intuitive, interactive, and highly customizable charts to your commercial products. It is written in pure JavaScript and based on zrender, which is a whole new lightweight canvas library.
+Github's press footprint also intersects with GitHub: coverage of [GitHub Universe is back: All together now, in the agentic era](https://github.blog/news-insights/company-news/github-universe-is-back-all-together-now-in-the-agentic-era/) and [GitHub Copilot app: The agent-native desktop experience](https://github.blog/news-insights/product-news/github-copilot-app-the-agent-native-desktop-experience/) tracks activity in [spec-kit](https://github.com/github/spec-kit).
 
 
 ### Divergence Analysis
 
 #### 🔍 Tech Trends Without Dev Activity
 
-TechCrunch heavily covered Social this week, but GitHub shows minimal matching developer activity. Articles like [Meta’s Oversight Board says account bans lack due process, transparency](https://techcrunch.com/2026/06/04/metas-oversight-board-says-account-bans-lack-due-process-transparency/) generated buzz, yet no significant new repositories emerged in these spaces — suggesting these are still in the narrative or announcement phase rather than implementation.
+External press heavily covered The Download, Artificial intelligence, Security, Startups, and AI this week, but GitHub shows minimal matching developer activity. Articles like [The Download: AI-generated lawsuits and virtual power plants for data centers](https://www.technologyreview.com/2026/06/04/1138408/the-download-ai-lawsuits-virtual-power-plants-data-centers/) and [How courts are coping with a flood of AI-generated lawsuits](https://www.technologyreview.com/2026/06/04/1138391/courts-coping-ai-lawsuits/) generated buzz, yet no significant new repositories emerged in these spaces — suggesting these are still in the narrative or announcement phase rather than implementation.
 
 #### 🚀 Dev Activity Without Press Coverage
 
-Developer activity this week shows momentum in areas the tech press isn't covering. awesome saw activity with [awesome](https://github.com/sindresorhus/awesome), [awesome-python](https://github.com/vinta/awesome-python), and [awesome-go](https://github.com/avelino/awesome-go); careers saw activity with [freeCodeCamp](https://github.com/freeCodeCamp/freeCodeCamp); cli saw activity with [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh), [lazygit](https://github.com/jesseduffield/lazygit), and [ripgrep](https://github.com/BurntSushi/ripgrep).
+Developer activity this week shows momentum in areas the tech press isn't covering. ai saw activity with [openclaw](https://github.com/openclaw/openclaw), [n8n](https://github.com/n8n-io/n8n), and [prompts.chat](https://github.com/f/prompts.chat); awesome saw activity with [awesome](https://github.com/sindresorhus/awesome), [awesome-python](https://github.com/vinta/awesome-python), and [awesome-selfhosted](https://github.com/awesome-selfhosted/awesome-selfhosted); api saw activity with [public-apis](https://github.com/public-apis/public-apis), [neovim](https://github.com/neovim/neovim), and [fastapi](https://github.com/fastapi/fastapi).
 
-Additional activity surfaced in books with [free-programming-books](https://github.com/EbookFoundation/free-programming-books), angular-roadmap with [developer-roadmap](https://github.com/nilbuild/developer-roadmap), framework with [gin](https://github.com/gin-gonic/gin), [spring-boot](https://github.com/spring-projects/spring-boot), and [nest](https://github.com/nestjs/nest).
+Additional activity surfaced in android with [flutter](https://github.com/flutter/flutter), [react-native](https://github.com/facebook/react-native), and [rustdesk](https://github.com/rustdesk/rustdesk), cli with [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh), [sherlock](https://github.com/sherlock-project/sherlock), and [lazygit](https://github.com/jesseduffield/lazygit), agents with [langflow](https://github.com/langflow-ai/langflow), [langchain](https://github.com/langchain-ai/langchain), and [awesome-llm-apps](https://github.com/Shubhamsaboo/awesome-llm-apps).
 
 These gaps suggest that foundational developer tooling — the infrastructure that powers daily workflows — grows through community word-of-mouth rather than press cycles.
+
+
+### Source Coverage
+- Sources requested: github_blog, hugging_face_blog, mit_technology_review, nvidia_blog, techcrunch
+- Sources succeeded: github_blog, hugging_face_blog, mit_technology_review, nvidia_blog, techcrunch
+
+### Press Context Telemetry
+- token_estimate: 2693
+- token_budget: 8000
+- article_limit: 40
+- correlation_limit: 20

@@ -22,10 +22,18 @@
 - 2026-06-01T12:16:50Z: Agent skills crossed a cultural boundary in W23 with the first major Chinese-platform design skills (Xiaohongshu, WeChat) achieving 1k-2k+ stars. Skills economy is now multilingual; editorial framing should treat geographic and linguistic expansion of skills as a trend signal distinct from English-developer workflow skills.
 - 2026-06-01T12:16:50Z: GitHub Copilot token-billing backlash (TechCrunch, 2026-05-30) produced a clear same-week developer response in self-hosted AI workspace and alternative-routing repos — strongest press-developer convergence of W23. Monitoring for platform billing/policy changes as a leading indicator of self-hosting repo spikes is a reusable editorial pattern.
 - 2026-06-01: Added hindsight validation that backfills Signal/Noise/Gaps repo calls from legacy summaries, writes a markdown scorecard for reskill, and treats frontmatter `predictions` as the forward-looking source of truth for cleaner future scoring.
+- 2026-06-05T16:26:00+00:00: Multi-source press should feed weekly analysis as a source-aware compact correlation artifact, not as raw article dumps; preserve citations while tiering weak category/fuzzy matches separately from strong correlations.
+- **2026-06-05T18:08:08+00:00:** Fork-to-star ratio inversion (forks >> stars with keyword-stuffed descriptions) is the W23 definitive noise signature, succeeding W22's star-clustering pattern — noise actors adapt their manipulation vector week over week, and heuristics must track ratio inversions alongside creation-timestamp clustering. Odysseus (54k stars, 6.5k forks in 5 days) establishes a new baseline for genuine adoption velocity: a 12% fork ratio at scale is structurally unfarmable and should anchor future fork-credibility assessments.
 
-- 2026-06-05T16:45:08+00:00: When press and developer layers converge on the same attack surface simultaneously — as happened this week with MIT Technology Review's Meta agent hack and three independent agent-safety repos arriving in the same crawl — that convergence is the week's editorial anchor, not just a correlation note. Name the convergence explicitly in the lede trend.
-- 2026-06-05T16:45:08+00:00: Fork/star ratio is now a dual-purpose signal: high ratio (niubi_guard at 112fk/178★) signals genuine developer utility; zero forks despite high stars signals coordinated inflation. Make both directions explicit in Signal & Noise rather than treating fork analysis as only a noise-filter.
-- 2026-06-05T16:45:08+00:00: The stars_tracked field remains a hand-estimated value (~17M for W23) because pipeline tooling does not inject it. Escalating this as a pipeline improvement: the analyzer should receive pre-computed stats in the prompt rather than estimating them.
+## 2026-06-05 LLM input strategy assessment
+
+- Evaluated 4 options: raw dumps, merged/summarized, staged source-specific, compact correlation.
+- Finding: New multi-source crawl produces ~74k tokens GitHub raw + ~11.4k tokens external-news; old was ~7k TechCrunch press context.
+- Recommendation: Use compact press-context artifact (Option 4) as the only external-news input to weekly analysis.
+- Press context design: ranked press items (5-10 with URL, source, date, relevance, why-it-matters), ranked repo/news correlations (5-10 strong), weak-correlation bucket (category-only), divergences (3-6), complete citations.
+- Token budget: <= 8k token-estimate.
+- Quality gate additions: check 3-5 article links, no raw dumps, distinguish strong vs. weak correlations, caveat on source errors.
+- Decision recorded in .squad/decisions.md.
 
 ## Round 2026-06-01T15:40
 
