@@ -21,3 +21,17 @@
 - 2026-06-01T12:16:50Z: W23's dominant noise pattern shifted from star-clustering (W22) to fork-inflation — polymarket bot repos landing with fork counts 10-20x their star count and keyword-stuffed descriptions. Same coordinated intent, new metric vector. Noise classification heuristics should track fork/star ratio as a manipulation signal alongside creation-timestamp clustering.
 - 2026-06-01T12:16:50Z: Agent skills crossed a cultural boundary in W23 with the first major Chinese-platform design skills (Xiaohongshu, WeChat) achieving 1k-2k+ stars. Skills economy is now multilingual; editorial framing should treat geographic and linguistic expansion of skills as a trend signal distinct from English-developer workflow skills.
 - 2026-06-01T12:16:50Z: GitHub Copilot token-billing backlash (TechCrunch, 2026-05-30) produced a clear same-week developer response in self-hosted AI workspace and alternative-routing repos — strongest press-developer convergence of W23. Monitoring for platform billing/policy changes as a leading indicator of self-hosting repo spikes is a reusable editorial pattern.
+- 2026-06-01: Added hindsight validation that backfills Signal/Noise/Gaps repo calls from legacy summaries, writes a markdown scorecard for reskill, and treats frontmatter `predictions` as the forward-looking source of truth for cleaner future scoring.
+
+- 2026-06-05T16:45:08+00:00: When press and developer layers converge on the same attack surface simultaneously — as happened this week with MIT Technology Review's Meta agent hack and three independent agent-safety repos arriving in the same crawl — that convergence is the week's editorial anchor, not just a correlation note. Name the convergence explicitly in the lede trend.
+- 2026-06-05T16:45:08+00:00: Fork/star ratio is now a dual-purpose signal: high ratio (niubi_guard at 112fk/178★) signals genuine developer utility; zero forks despite high stars signals coordinated inflation. Make both directions explicit in Signal & Noise rather than treating fork analysis as only a noise-filter.
+- 2026-06-05T16:45:08+00:00: The stars_tracked field remains a hand-estimated value (~17M for W23) because pipeline tooling does not inject it. Escalating this as a pipeline improvement: the analyzer should receive pre-computed stats in the prompt rather than estimating them.
+
+## Round 2026-06-01T15:40
+
+### Issue #38: Hindsight Validation
+- PR #227 opened
+- Implemented `predictions` frontmatter schema: `{repo, direction, confidence}`
+- Validator generates scorecards: `.squad/reskill/scorecards/YYYY-WNN.md` (human) and `data/metrics/scorecards/YYYY-WNN-scorecard.json` (machine)
+- 548 tests passing
+- Ready for merge
