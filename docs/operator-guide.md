@@ -258,19 +258,42 @@ Output shows:
 {
   "source_artifacts": [
     {
-      "name": "github_crawl",
-      "status": "reused",
-      "timestamp": "2026-05-20T10:15:00Z"
+      "role": "raw_github",
+      "path": "data/candidates/2026-W21/github-crawl.json",
+      "exists": true,
+      "size_bytes": 45823,
+      "sha256": "686085ace216e10d36837a91471e28a334b2fc3d93cc1085b8d5d0e7616891bf",
+      "same_day_reuse": {
+        "status": "reused",
+        "source": "default"
+      },
+      "freshness": {
+        "status": "fresh",
+        "reasons": []
+      },
+      "provenance": {
+        "generated_at": "2026-05-20T10:15:00Z",
+        "sha256": "686085ace216e10d36837a91471e28a334b2fc3d93cc1085b8d5d0e7616891bf"
+      }
     },
     {
-      "name": "external_news",
-      "status": "refreshed",
-      "reason": "previous_artifact_failed"
-    },
-    {
-      "name": "correlations",
-      "status": "missing",
-      "reason": "no_prior_artifact"
+      "role": "external_news",
+      "path": "data/candidates/2026-W21/news-articles.json",
+      "exists": true,
+      "size_bytes": 28941,
+      "sha256": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1",
+      "same_day_reuse": {
+        "status": "not_reused",
+        "source": "refresh_policy"
+      },
+      "freshness": {
+        "status": "stale",
+        "reasons": ["source_refresh_policy=refresh-missing-stale"]
+      },
+      "provenance": {
+        "generated_at": "2026-05-21T08:30:00Z",
+        "sha256": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1"
+      }
     }
   ]
 }
@@ -493,34 +516,52 @@ data/candidates/YYYY-WNN/RUN_ID/
 ```bash
 # View gate failure for attempt 0
 cat data/candidates/2026-W21/RUN_ID/diagnostics/gate-copilot-cli-attempt-0.json | jq '{
-  validation_status: .validation_status,
-  quality_score: .quality_score,
-  validation_failures: .validation_failures,
-  repair_suggestions: .repair_suggestions
+  passed: .passed,
+  gates: .gates,
+  errors_before_repair: .errors_before_repair,
+  repair_actions: .repair_actions,
+  failure_class: .failure_class
 }'
 ```
 
 Gate report output:
 ```json
 {
-  "validation_status": "failed",
-  "quality_score": 45,
-  "validation_failures": [
-    {
-      "field": "signal",
-      "issue": "missing",
-      "description": "Signal section is empty or malformed"
+  "passed": false,
+  "gates": {
+    "structural_schema": {
+      "passed": false,
+      "errors": [
+        "Signal section is empty or malformed",
+        "Signal section must contain at least 3 significant claims"
+      ]
     },
-    {
-      "field": "noise",
-      "issue": "incomplete",
-      "description": "Noise section has fewer than 3 signal claims"
+    "editorial_quality": {
+      "passed": false,
+      "errors": [
+        "Noise section has fewer than 3 spurious claims"
+      ]
+    },
+    "ai_provenance": {
+      "passed": true,
+      "errors": []
+    },
+    "evidence_citation": {
+      "passed": true,
+      "errors": []
     }
+  },
+  "errors_before_repair": [
+    "Signal section is empty or malformed",
+    "Signal section must contain at least 3 significant claims",
+    "Noise section has fewer than 3 spurious claims"
   ],
-  "repair_suggestions": [
-    "Ensure Signal section is populated with at least 3 significant claims",
-    "Ensure Noise section lists at least 3 spurious/false claims"
-  ]
+  "repair_actions": [
+    "Expanded Signal section with 3 significant claims from trending repositories",
+    "Added 3 spurious/false claims to Noise section"
+  ],
+  "errors_after_repair": [],
+  "failure_class": "passed"
 }
 ```
 
@@ -567,8 +608,7 @@ To test map/reduce without risk of publication:
 ```bash
 gh workflow run crawl-and-publish.yml \
   -R YOUR_USERNAME/SquadScope \
-  -f "run_mode=dry-run" \
-  -f "map_reduce_enabled=true"  # Once implementation is available
+  -f "run_mode=dry-run"
 ```
 
 Dry-run mode ensures:
