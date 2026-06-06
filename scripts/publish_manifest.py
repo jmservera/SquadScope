@@ -78,6 +78,8 @@ def same_day_reuse_status(payload: dict[str, Any] | None) -> dict[str, Any]:
     if not isinstance(metadata, dict):
         metadata = {}
     explicit = metadata.get("same_day_reuse") or metadata.get("same_day_reuse_status")
+    if isinstance(explicit, dict):
+        return dict(explicit)
     if explicit:
         return {"status": str(explicit), "source": "artifact-metadata"}
     return {
