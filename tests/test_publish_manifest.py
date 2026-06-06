@@ -29,7 +29,32 @@ def write_raw(path: Path, *, week: str = WEEK, crawled_at: str = CURRENT_DATETIM
 
 def write_summary(path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("---\nweek: 2026-W21\n---\n\nbody\n", encoding="utf-8")
+    path.write_text('---\nweek: "2026-W21"\nquality_score: 75\n---\n\nbody\n', encoding="utf-8")
+
+
+def write_good_summary(path: Path, *, quality_score: int = 90) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        f"""---
+title: "Good AI Article"
+date: {CURRENT_DATETIME}
+week: "{WEEK}"
+year: 2026
+tags: [ai]
+categories: [weekly]
+repos_featured: 1
+stars_tracked: 100
+top_repo: "owner/good"
+quality_score: {quality_score}
+summary: "A good AI-authored weekly summary."
+---
+
+## This Week's Trends
+
+Canonical good analysis.
+""",
+        encoding="utf-8",
+    )
 
 
 class PublishManifestTests(unittest.TestCase):
@@ -117,6 +142,7 @@ class PublishManifestTests(unittest.TestCase):
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertFalse(payload["promotion"]["eligible"])
+            self.assertEqual(payload["promotion"]["decision"], "block")
             self.assertIn("analysis source is not AI-publishable", payload["promotion"]["reasons"][0])
             with self.assertRaises(SystemExit):
                 publish_manifest.main(["assert-eligible", "--manifest", str(manifest)])
@@ -127,9 +153,11 @@ class PublishManifestTests(unittest.TestCase):
             base = Path(tmpdir)
             raw = base / "data/raw/2026-W21.json"
             summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            published = base / "data/analyzed/2026-W21-summary.md"
             manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
             write_raw(raw, crawled_at="2026-05-11T08:00:00Z")
             write_summary(summary)
+            write_good_summary(published)
 
             publish_manifest.main(
                 [
@@ -143,7 +171,7 @@ class PublishManifestTests(unittest.TestCase):
                     "--summary",
                     str(summary),
                     "--published-summary",
-                    str(base / "data/analyzed/2026-W21-summary.md"),
+                    str(published),
                     "--raw-json",
                     str(raw),
                     "--analysis-source",
@@ -159,8 +187,100 @@ class PublishManifestTests(unittest.TestCase):
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertFalse(payload["promotion"]["eligible"])
+            self.assertEqual(payload["promotion"]["decision"], "preserve")
+            self.assertTrue(payload["preservation"]["preserve_existing"])
             self.assertEqual(payload["source_artifacts"][0]["freshness"]["status"], "stale")
             self.assertTrue(any("timestamp week mismatch" in reason for reason in payload["promotion"]["reasons"]))
+
+    def test_no_ai_candidate_preserves_existing_good_summary(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            published = base / "data/analyzed/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_good_summary(published)
+
+            publish_manifest.main(
+                [
+                    "create",
+                    "--week",
+                    WEEK,
+                    "--run-id",
+                    RUN_ID,
+                    "--current-datetime",
+                    CURRENT_DATETIME,
+                    "--summary",
+                    str(summary),
+                    "--published-summary",
+                    str(published),
+                    "--raw-json",
+                    str(raw),
+                    "--analysis-source",
+                    "no-ai",
+                    "--analysis-model",
+                    "none",
+                    "--validation-status",
+                    "passed",
+                    "--output",
+                    str(manifest),
+                ]
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertEqual(payload["promotion"]["decision"], "preserve")
+            self.assertTrue(payload["published"]["good"])
+            self.assertTrue(payload["preservation"]["preserve_existing"])
+            self.assertEqual(payload["preservation"]["preserved_summary_path"], published.as_posix())
+            self.assertEqual(payload["preservation"]["rejected_candidate_path"], summary.as_posix())
+
+    def test_lower_quality_candidate_preserves_existing_good_summary(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            published = base / "data/analyzed/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            write_raw(raw)
+            write_good_summary(summary, quality_score=70)
+            write_good_summary(published, quality_score=90)
+
+            publish_manifest.main(
+                [
+                    "create",
+                    "--week",
+                    WEEK,
+                    "--run-id",
+                    RUN_ID,
+                    "--current-datetime",
+                    CURRENT_DATETIME,
+                    "--summary",
+                    str(summary),
+                    "--published-summary",
+                    str(published),
+                    "--raw-json",
+                    str(raw),
+                    "--analysis-source",
+                    "copilot-cli",
+                    "--analysis-model",
+                    "copilot-default",
+                    "--validation-status",
+                    "passed",
+                    "--output",
+                    str(manifest),
+                ]
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertEqual(payload["promotion"]["decision"], "preserve")
+            self.assertTrue(
+                any("lower than published good quality_score" in reason for reason in payload["promotion"]["reasons"])
+            )
 
 
 if __name__ == "__main__":

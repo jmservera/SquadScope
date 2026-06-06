@@ -461,8 +461,8 @@ jobs:
               FINAL_FAILURE_CLASS="$FAILURE_CLASS"
               echo "::warning::Copilot CLI failed on attempt $((ATTEMPT + 1)); class=${FAILURE_CLASS}; report=${COPILOT_FAILURE_REPORT}"
               if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "copilot_inaccessible" ] || [ "$FAILURE_CLASS" = "context_too_large" ]; then
-                echo "::error::Non-retryable Copilot analysis failure (${FAILURE_CLASS}). See ${COPILOT_FAILURE_REPORT}."
-                exit 1
+                echo "::warning::Non-retryable Copilot analysis failure (${FAILURE_CLASS}). Writing a non-publishable no-AI candidate so the current published article can be preserved. See ${COPILOT_FAILURE_REPORT}."
+                break
               fi
               ATTEMPT=$((ATTEMPT + 1))
               continue
@@ -497,12 +497,11 @@ jobs:
           done
           else
             FINAL_FAILURE_CLASS="copilot_inaccessible"
-            echo "::error::Copilot CLI unavailable; this repository has no GitHub Models/OpenAI fallback."
-            exit 1
+            echo "::warning::Copilot CLI unavailable; writing a non-publishable no-AI candidate so the current published article can be preserved."
           fi
 
           if [ "$GATE_PASSED" = "false" ]; then
-            echo "::error::No publishable Copilot summary was produced; this repository has no GitHub Models/OpenAI fallback. Final failure class: ${FINAL_FAILURE_CLASS:-quality_gate}"
+            echo "::warning::No publishable Copilot summary was produced. Final failure class: ${FINAL_FAILURE_CLASS:-quality_gate}. The publish manifest will preserve any existing good weekly article."
             python3 scripts/analyze_fallback.py \
               --raw-json "$WEEK_FILE" \
               --output "$OUTPUT_FILE" \
@@ -513,7 +512,8 @@ jobs:
             NO_AI_GATE_REPORT="$DIAGNOSTICS_DIR/gate-no-ai-attempt-0.json"
             run_quality_gate no-ai "$NO_AI_GATE_REPORT" || true
             cp "$OUTPUT_FILE" "$DIAGNOSTICS_DIR/candidate-no-ai-attempt-0.md" 2>/dev/null || true
-            exit 1
+            ANALYSIS_SOURCE="no-ai"
+            ANALYSIS_MODEL="none"
           fi
 
           # Copy final transcript to canonical location
@@ -546,6 +546,8 @@ jobs:
           echo "analysis_model=$ANALYSIS_MODEL" >> "$GITHUB_OUTPUT"
 
       - name: quality-check
+        id: quality-check
+        continue-on-error: true
         env:
           ANALYSIS_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
           ANALYSIS_SOURCE: ${{ steps.run-analysis.outputs.analysis_source }}
@@ -568,9 +570,11 @@ jobs:
           RAW_JSON_FILE: ${{ steps.analysis-context.outputs.week_file }}
           ANALYSIS_SOURCE: ${{ steps.run-analysis.outputs.analysis_source }}
           ANALYSIS_MODEL: ${{ steps.run-analysis.outputs.analysis_model }}
+          VALIDATION_STATUS: ${{ steps.quality-check.outcome == 'success' && 'passed' || 'failed' }}
           MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
         run: |
           set -euo pipefail
+          git fetch origin publish 2>/dev/null && git checkout origin/publish -- "$PUBLISHED_SUMMARY" 2>/dev/null || true
           ARTIFACT_ARGS=()
           for candidate in \
             "external_news=data/raw/${WEEK}-external-news.json" \
@@ -590,7 +594,7 @@ jobs:
             --raw-json "$RAW_JSON_FILE" \
             --analysis-source "$ANALYSIS_SOURCE" \
             --analysis-model "$ANALYSIS_MODEL" \
-            --validation-status passed \
+            --validation-status "$VALIDATION_STATUS" \
             --output "$MANIFEST_FILE" \
             "${ARTIFACT_ARGS[@]}"
 

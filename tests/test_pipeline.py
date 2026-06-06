@@ -249,11 +249,11 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("--create-token-issue", run_analysis)
         self.assertIn('FINAL_FAILURE_CLASS=""', run_analysis)
         self.assertIn("No publishable Copilot summary was produced", run_analysis)
-        self.assertIn("no GitHub Models/OpenAI fallback", run_analysis)
+        self.assertIn("current published article can be preserved", run_analysis)
         self.assertIn("python3 scripts/analyze_fallback.py", run_analysis)
         self.assertIn('--press-context "$PRESS_FILE"', run_analysis)
         self.assertIn("--no-ai", run_analysis)
-        self.assertIn("exit 1", run_analysis)
+        self.assertIn('ANALYSIS_SOURCE="no-ai"', run_analysis)
         self.assertNotIn('ANALYSIS_SOURCE="github-models"', run_analysis)
         self.assertNotIn("falling back to GitHub Models API", run_analysis)
 
@@ -381,7 +381,8 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("scripts/publish_manifest.py create", manifest_run)
         self.assertIn("--analysis-source", manifest_run)
         self.assertIn("--analysis-model", manifest_run)
-        self.assertIn("--validation-status passed", manifest_run)
+        self.assertIn('git checkout origin/publish -- "$PUBLISHED_SUMMARY"', manifest_run)
+        self.assertIn('--validation-status "$VALIDATION_STATUS"', manifest_run)
 
         assert_step = next((s for s in analyze["steps"] if s.get("name") == "Assert candidate is eligible for promotion"), None)
         self.assertIsNotNone(assert_step)
