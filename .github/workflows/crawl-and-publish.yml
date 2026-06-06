@@ -307,6 +307,7 @@ jobs:
           candidate_dir = Path("data/candidates") / week / run_id
           print(f"candidate_output_file={(candidate_dir / f'{week}-summary.md').as_posix()}")
           print(f"publish_manifest_file={(candidate_dir / 'publish-manifest.json').as_posix()}")
+          print(f"analysis_gate_report_file={(candidate_dir / 'analysis-gate-report.json').as_posix()}")
           print(f"published_output_file=data/analyzed/{week}-summary.md")
           PY
           )
@@ -388,6 +389,8 @@ jobs:
           WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
           WEEK="${{ steps.analysis-context.outputs.week }}"
           CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
+          MANIFEST_FILE="${{ steps.analysis-context.outputs.publish_manifest_file }}"
+          PUBLISHED_SUMMARY="${{ steps.analysis-context.outputs.published_output_file }}"
           PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
           ANALYSIS_STARTED=$(date +%s)
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
@@ -415,8 +418,9 @@ jobs:
               --raw-json "$WEEK_FILE" \
               --current-datetime "$CURRENT_DATETIME" \
               --source "$1" \
+              --model "$2" \
               --repair-safe \
-              --report-json "$2"
+              --report-json "$3"
           }
 
           # Retry loop: LLM output can be non-deterministically truncated,
@@ -497,8 +501,9 @@ jobs:
 
             # Inline quality gate check (suppress step summary to avoid noise).
             # The gate applies deterministic metadata/schema repairs and writes an auditable report.
-            if run_quality_gate copilot-cli "$GATE_REPORT"; then
+            if run_quality_gate copilot-cli copilot-default "$GATE_REPORT"; then
               cp "$OUTPUT_FILE" "$CANDIDATE_SNAPSHOT" 2>/dev/null || true
+              cp "$GATE_REPORT" "${{ steps.analysis-context.outputs.analysis_gate_report_file }}" 2>/dev/null || true
               GATE_PASSED=true
               FINAL_TRANSCRIPT="$TRANSCRIPT_FILE"
               ANALYSIS_SOURCE="copilot-cli"
@@ -547,7 +552,8 @@ jobs:
               --no-ai
             sanitize_agent_output "$OUTPUT_FILE"
             NO_AI_GATE_REPORT="$DIAGNOSTICS_DIR/gate-no-ai-attempt-0.json"
-            run_quality_gate no-ai "$NO_AI_GATE_REPORT" || true
+            run_quality_gate no-ai none "$NO_AI_GATE_REPORT" || true
+            cp "$NO_AI_GATE_REPORT" "${{ steps.analysis-context.outputs.analysis_gate_report_file }}" 2>/dev/null || true
             cp "$OUTPUT_FILE" "$DIAGNOSTICS_DIR/candidate-no-ai-attempt-0.md" 2>/dev/null || true
             ANALYSIS_SOURCE="no-ai"
             ANALYSIS_MODEL="none"
@@ -588,14 +594,18 @@ jobs:
         env:
           ANALYSIS_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
           ANALYSIS_SOURCE: ${{ steps.run-analysis.outputs.analysis_source }}
+          ANALYSIS_MODEL: ${{ steps.run-analysis.outputs.analysis_model }}
           RAW_JSON_FILE: ${{ steps.analysis-context.outputs.week_file }}
           CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
+          GATE_REPORT: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
         run: |
           python3 scripts/analysis_gate.py \
             --analysis-file "$ANALYSIS_FILE" \
             --raw-json "$RAW_JSON_FILE" \
             --current-datetime "$CURRENT_DATETIME" \
-            --source "$ANALYSIS_SOURCE"
+            --source "$ANALYSIS_SOURCE" \
+            --model "$ANALYSIS_MODEL" \
+            --report-json "$GATE_REPORT"
 
       - name: Emit publish eligibility manifest
         env:
@@ -609,6 +619,7 @@ jobs:
           ANALYSIS_MODEL: ${{ steps.run-analysis.outputs.analysis_model }}
           VALIDATION_STATUS: ${{ steps.quality-check.outcome == 'success' && 'passed' || 'failed' }}
           MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
+          GATE_REPORT: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
         run: |
           set -euo pipefail
           git fetch origin publish 2>/dev/null && git checkout origin/publish -- "$PUBLISHED_SUMMARY" 2>/dev/null || true
@@ -632,6 +643,7 @@ jobs:
             --analysis-source "$ANALYSIS_SOURCE" \
             --analysis-model "$ANALYSIS_MODEL" \
             --validation-status "$VALIDATION_STATUS" \
+            --gate-report "$GATE_REPORT" \
             --output "$MANIFEST_FILE" \
             "${ARTIFACT_ARGS[@]}"
 

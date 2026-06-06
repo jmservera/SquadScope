@@ -1,4 +1,5 @@
 import json
+import os
 import tempfile
 import unittest
 from argparse import Namespace
@@ -75,6 +76,69 @@ def write_no_ai_summary(path: Path, *, quality_score: int = 70) -> None:
     )
 
 
+def write_gate_report(path: Path, *, passed: bool = True, errors: list[str] | None = None) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    gate_errors = errors or []
+    gates = {
+        "structural_schema": {"passed": passed, "errors": gate_errors if not passed else []},
+        "ai_provenance": {"passed": True, "errors": []},
+        "evidence_citation": {"passed": True, "errors": []},
+        "editorial_quality": {"passed": True, "errors": []},
+    }
+    path.write_text(
+        json.dumps(
+            {
+                "passed": passed,
+                "source": "copilot-cli",
+                "model": "copilot-default",
+                "failure_class": "passed" if passed else "structural_schema",
+                "errors_after_repair": gate_errors,
+                "repair_actions": [],
+                "gates": gates,
+            }
+        ),
+        encoding="utf-8",
+    )
+
+
+def create_args(base: Path, raw: Path, summary: Path, manifest: Path, *, source: str = "copilot-cli", model: str | None = "copilot-default", gate_report: Path | None = None, validation_status: str = "passed") -> list[str]:
+    args = [
+        "create",
+        "--week",
+        WEEK,
+        "--run-id",
+        RUN_ID,
+        "--current-datetime",
+        CURRENT_DATETIME,
+        "--summary",
+        str(summary),
+        "--published-summary",
+        str(base / "data/analyzed/2026-W21-summary.md"),
+        "--raw-json",
+        str(raw),
+        "--analysis-source",
+        source,
+        "--validation-status",
+        validation_status,
+        "--output",
+        str(manifest),
+    ]
+    if model is not None:
+        args.extend(["--analysis-model", model])
+    if gate_report is not None:
+        args.extend(["--gate-report", str(gate_report)])
+    return args
+
+
+def assert_eligible_from_root(root: Path, manifest: Path) -> int:
+    previous_cwd = Path.cwd()
+    try:
+        os.chdir(root)
+        return publish_manifest.main(["assert-eligible", "--manifest", str(manifest)])
+    finally:
+        os.chdir(previous_cwd)
+
+
 class PublishManifestTests(unittest.TestCase):
     def test_ai_candidate_with_fresh_sources_is_eligible(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -83,33 +147,13 @@ class PublishManifestTests(unittest.TestCase):
             raw = base / "data/raw/2026-W21.json"
             summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
             manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
             write_raw(raw)
             write_summary(summary)
+            write_gate_report(gate_report)
 
             exit_code = publish_manifest.main(
-                [
-                    "create",
-                    "--week",
-                    WEEK,
-                    "--run-id",
-                    RUN_ID,
-                    "--current-datetime",
-                    CURRENT_DATETIME,
-                    "--summary",
-                    str(summary),
-                    "--published-summary",
-                    str(base / "data/analyzed/2026-W21-summary.md"),
-                    "--raw-json",
-                    str(raw),
-                    "--analysis-source",
-                    "copilot-cli",
-                    "--analysis-model",
-                    "copilot-default",
-                    "--validation-status",
-                    "passed",
-                    "--output",
-                    str(manifest),
-                ]
+                create_args(base, raw, summary, manifest, gate_report=gate_report)
             )
 
             self.assertEqual(exit_code, 0)
@@ -120,7 +164,7 @@ class PublishManifestTests(unittest.TestCase):
             self.assertEqual(payload["promotion"]["decision"], "promote")
             self.assertRegex(payload["candidate"]["summary_sha256"], r"^[0-9a-f]{64}$")
             self.assertRegex(payload["source_artifacts"][0]["sha256"], r"^[0-9a-f]{64}$")
-            self.assertEqual(publish_manifest.main(["assert-eligible", "--manifest", str(manifest)]), 0)
+            self.assertEqual(assert_eligible_from_root(base, manifest), 0)
 
     def test_no_ai_candidate_is_not_eligible(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -129,33 +173,13 @@ class PublishManifestTests(unittest.TestCase):
             raw = base / "data/raw/2026-W21.json"
             summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
             manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
             write_raw(raw)
             write_summary(summary)
+            write_gate_report(gate_report)
 
             publish_manifest.main(
-                [
-                    "create",
-                    "--week",
-                    WEEK,
-                    "--run-id",
-                    RUN_ID,
-                    "--current-datetime",
-                    CURRENT_DATETIME,
-                    "--summary",
-                    str(summary),
-                    "--published-summary",
-                    str(base / "data/analyzed/2026-W21-summary.md"),
-                    "--raw-json",
-                    str(raw),
-                    "--analysis-source",
-                    "no-ai",
-                    "--analysis-model",
-                    "none",
-                    "--validation-status",
-                    "passed",
-                    "--output",
-                    str(manifest),
-                ]
+                create_args(base, raw, summary, manifest, source="no-ai", model="none", gate_report=gate_report)
             )
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
@@ -164,7 +188,26 @@ class PublishManifestTests(unittest.TestCase):
             self.assertEqual(payload["analysis"]["provenance"]["authorship"], "no-ai-fallback")
             self.assertIn("fallback_reason is required", payload["promotion"]["reasons"][0])
             with self.assertRaises(SystemExit):
-                publish_manifest.main(["assert-eligible", "--manifest", str(manifest)])
+                assert_eligible_from_root(base, manifest)
+
+    def test_copilot_candidate_without_explicit_model_uses_publishable_default(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report)
+
+            publish_manifest.main(create_args(base, raw, summary, manifest, model=None, gate_report=gate_report))
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertEqual(payload["analysis"]["model"], "copilot-default")
+            self.assertEqual(payload["analysis"]["model_status"], "available")
+            self.assertTrue(payload["promotion"]["eligible"])
 
     def test_no_ai_default_cannot_replace_existing_good_ai_article(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -209,8 +252,10 @@ class PublishManifestTests(unittest.TestCase):
             raw = base / "data/raw/2026-W21.json"
             summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
             manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
             write_raw(raw)
             write_no_ai_summary(summary)
+            write_gate_report(gate_report)
 
             publish_manifest.main(
                 [
@@ -224,6 +269,7 @@ class PublishManifestTests(unittest.TestCase):
                     "--analysis-source", "no-ai",
                     "--analysis-model", "none",
                     "--validation-status", "passed",
+                    "--gate-report", str(gate_report),
                     "--fallback-reason", "copilot unavailable",
                     "--attempted-ai-path", "provider=copilot-cli,model=copilot-default,status=failed",
                     "--publish-policy", "allow-no-ai-first-publish",
@@ -235,7 +281,7 @@ class PublishManifestTests(unittest.TestCase):
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertTrue(payload["promotion"]["eligible"])
             self.assertEqual(payload["promotion"]["policy"], "allow-no-ai-first-publish")
-            self.assertEqual(publish_manifest.main(["assert-eligible", "--manifest", str(manifest)]), 0)
+            self.assertEqual(assert_eligible_from_root(base, manifest), 0)
 
     def test_no_ai_explicit_policy_requires_higher_fallback_quality_score(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -244,8 +290,10 @@ class PublishManifestTests(unittest.TestCase):
             raw = base / "data/raw/2026-W21.json"
             summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
             manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
             write_raw(raw)
             write_no_ai_summary(summary, quality_score=69)
+            write_gate_report(gate_report)
 
             publish_manifest.main(
                 [
@@ -259,6 +307,7 @@ class PublishManifestTests(unittest.TestCase):
                     "--analysis-source", "no-ai",
                     "--analysis-model", "none",
                     "--validation-status", "passed",
+                    "--gate-report", str(gate_report),
                     "--fallback-reason", "copilot unavailable",
                     "--attempted-ai-path", "provider=copilot-cli,model=copilot-default,status=failed",
                     "--publish-policy", "allow-no-ai-first-publish",
@@ -278,9 +327,11 @@ class PublishManifestTests(unittest.TestCase):
             summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
             published = base / "data/analyzed/2026-W21-summary.md"
             manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
             write_raw(raw)
             write_no_ai_summary(summary)
             write_good_summary(published)
+            write_gate_report(gate_report)
 
             publish_manifest.main(
                 [
@@ -294,6 +345,7 @@ class PublishManifestTests(unittest.TestCase):
                     "--analysis-source", "no-ai",
                     "--analysis-model", "none",
                     "--validation-status", "passed",
+                    "--gate-report", str(gate_report),
                     "--fallback-reason", "copilot unavailable",
                     "--attempted-ai-path", "provider=copilot-cli,model=copilot-default,status=failed",
                     "--publish-policy", "force-replace",
@@ -307,7 +359,7 @@ class PublishManifestTests(unittest.TestCase):
             self.assertTrue(payload["promotion"]["eligible"])
             self.assertEqual(payload["audit"]["mode"], "force-replace")
             self.assertEqual(payload["audit"]["actor"], "jmservera")
-            self.assertEqual(publish_manifest.main(["assert-eligible", "--manifest", str(manifest)]), 0)
+            self.assertEqual(assert_eligible_from_root(base, manifest), 0)
 
     def test_missing_candidate_summary_only_reports_missing_summary(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -316,39 +368,17 @@ class PublishManifestTests(unittest.TestCase):
             raw = base / "data/raw/2026-W21.json"
             summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
             manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
             write_raw(raw)
+            write_gate_report(gate_report)
 
-            publish_manifest.main(
-                [
-                    "create",
-                    "--week",
-                    WEEK,
-                    "--run-id",
-                    RUN_ID,
-                    "--current-datetime",
-                    CURRENT_DATETIME,
-                    "--summary",
-                    str(summary),
-                    "--published-summary",
-                    str(base / "data/analyzed/2026-W21-summary.md"),
-                    "--raw-json",
-                    str(raw),
-                    "--analysis-source",
-                    "copilot-cli",
-                    "--analysis-model",
-                    "copilot-default",
-                    "--validation-status",
-                    "passed",
-                    "--output",
-                    str(manifest),
-                ]
-            )
+            publish_manifest.main(create_args(base, raw, summary, manifest, gate_report=gate_report))
 
             reasons = json.loads(manifest.read_text(encoding="utf-8"))["promotion"]["reasons"]
             self.assertTrue(any(reason.startswith("candidate summary missing:") for reason in reasons))
             self.assertFalse(any("quality_score" in reason for reason in reasons))
 
-    def test_stale_source_artifact_blocks_promotion(self) -> None:
+    def test_stale_source_artifact_blocks_promotion_and_preserves_existing_good_summary(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             base = Path(tmpdir)
@@ -356,42 +386,60 @@ class PublishManifestTests(unittest.TestCase):
             summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
             published = base / "data/analyzed/2026-W21-summary.md"
             manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
             write_raw(raw, crawled_at="2026-05-11T08:00:00Z")
             write_summary(summary)
             write_good_summary(published)
+            write_gate_report(gate_report)
 
             publish_manifest.main(
-                [
-                    "create",
-                    "--week",
-                    WEEK,
-                    "--run-id",
-                    RUN_ID,
-                    "--current-datetime",
-                    CURRENT_DATETIME,
-                    "--summary",
-                    str(summary),
-                    "--published-summary",
-                    str(published),
-                    "--raw-json",
-                    str(raw),
-                    "--analysis-source",
-                    "github-models",
-                    "--analysis-model",
-                    "openai/gpt-4o",
-                    "--validation-status",
-                    "passed",
-                    "--output",
-                    str(manifest),
-                ]
+                create_args(base, raw, summary, manifest, source="github-models", model="openai/gpt-4o", gate_report=gate_report)
             )
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertFalse(payload["promotion"]["eligible"])
             self.assertEqual(payload["promotion"]["decision"], "preserve")
             self.assertTrue(payload["preservation"]["preserve_existing"])
+            self.assertEqual(payload["source_artifacts"][0]["generated_at"], "2026-05-11T08:00:00Z")
             self.assertEqual(payload["source_artifacts"][0]["freshness"]["status"], "stale")
             self.assertTrue(any("timestamp week mismatch" in reason for reason in payload["promotion"]["reasons"]))
+
+    def test_payload_generated_at_takes_precedence_over_crawled_at(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw, crawled_at="2026-05-18T07:00:00Z")
+            payload = json.loads(raw.read_text(encoding="utf-8"))
+            payload["generated_at"] = "2026-05-18T08:00:00Z"
+            raw.write_text(json.dumps(payload), encoding="utf-8")
+            write_summary(summary)
+            write_gate_report(gate_report)
+
+            publish_manifest.main(create_args(base, raw, summary, manifest, gate_report=gate_report))
+
+            manifest_payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertEqual(manifest_payload["source_artifacts"][0]["generated_at"], "2026-05-18T08:00:00Z")
+
+    def test_artifact_entry_handles_missing_or_malformed_json(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            missing = base / "data/raw/missing.json"
+            malformed = base / "data/raw/malformed.json"
+            malformed.parent.mkdir(parents=True, exist_ok=True)
+            malformed.write_text("{not json", encoding="utf-8")
+
+            missing_entry = publish_manifest.artifact_entry("raw_github", missing, WEEK, CURRENT_DATETIME)
+            malformed_entry = publish_manifest.artifact_entry("raw_github", malformed, WEEK, CURRENT_DATETIME)
+
+            self.assertEqual(missing_entry["generated_at"], CURRENT_DATETIME)
+            self.assertEqual(malformed_entry["generated_at"], CURRENT_DATETIME)
+            self.assertEqual(missing_entry["freshness"]["status"], "missing")
+            self.assertEqual(malformed_entry["freshness"]["status"], "missing")
 
     def test_no_ai_candidate_preserves_existing_good_summary(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -401,33 +449,26 @@ class PublishManifestTests(unittest.TestCase):
             summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
             published = base / "data/analyzed/2026-W21-summary.md"
             manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
             write_raw(raw)
             write_summary(summary)
             write_good_summary(published)
+            write_gate_report(gate_report)
 
             publish_manifest.main(
                 [
                     "create",
-                    "--week",
-                    WEEK,
-                    "--run-id",
-                    RUN_ID,
-                    "--current-datetime",
-                    CURRENT_DATETIME,
-                    "--summary",
-                    str(summary),
-                    "--published-summary",
-                    str(published),
-                    "--raw-json",
-                    str(raw),
-                    "--analysis-source",
-                    "no-ai",
-                    "--analysis-model",
-                    "none",
-                    "--validation-status",
-                    "passed",
-                    "--output",
-                    str(manifest),
+                    "--week", WEEK,
+                    "--run-id", RUN_ID,
+                    "--current-datetime", CURRENT_DATETIME,
+                    "--summary", str(summary),
+                    "--published-summary", str(published),
+                    "--raw-json", str(raw),
+                    "--analysis-source", "no-ai",
+                    "--analysis-model", "none",
+                    "--validation-status", "passed",
+                    "--gate-report", str(gate_report),
+                    "--output", str(manifest),
                 ]
             )
 
@@ -447,35 +488,13 @@ class PublishManifestTests(unittest.TestCase):
             summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
             published = base / "data/analyzed/2026-W21-summary.md"
             manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
             write_raw(raw)
             write_good_summary(summary, quality_score=70)
             write_good_summary(published, quality_score=90)
+            write_gate_report(gate_report)
 
-            publish_manifest.main(
-                [
-                    "create",
-                    "--week",
-                    WEEK,
-                    "--run-id",
-                    RUN_ID,
-                    "--current-datetime",
-                    CURRENT_DATETIME,
-                    "--summary",
-                    str(summary),
-                    "--published-summary",
-                    str(published),
-                    "--raw-json",
-                    str(raw),
-                    "--analysis-source",
-                    "copilot-cli",
-                    "--analysis-model",
-                    "copilot-default",
-                    "--validation-status",
-                    "passed",
-                    "--output",
-                    str(manifest),
-                ]
-            )
+            publish_manifest.main(create_args(base, raw, summary, manifest, gate_report=gate_report))
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertEqual(payload["promotion"]["decision"], "preserve")
@@ -628,6 +647,46 @@ class PublishManifestTests(unittest.TestCase):
             reuse = json.loads(manifest.read_text(encoding="utf-8"))["source_artifacts"][0]["same_day_reuse"]
             self.assertEqual(reuse["status"], "reused")
             self.assertEqual(reuse["source_id"], "github-search")
+
+    def test_failed_gate_report_blocks_promotion(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report, passed=False, errors=["editorial_quality: low-quality summary"])
+
+            publish_manifest.main(create_args(base, raw, summary, manifest, gate_report=gate_report))
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertEqual(payload["validation"]["quality_gates"][0]["status"], "failed")
+            self.assertTrue(any("low-quality summary" in reason for reason in payload["promotion"]["reasons"]))
+
+    def test_missing_required_gate_family_blocks_promotion(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report)
+            payload = json.loads(gate_report.read_text(encoding="utf-8"))
+            del payload["gates"]["evidence_citation"]
+            gate_report.write_text(json.dumps(payload), encoding="utf-8")
+
+            publish_manifest.main(create_args(base, raw, summary, manifest, gate_report=gate_report))
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertTrue(any("evidence_citation gate missing" in reason for reason in payload["promotion"]["reasons"]))
 
 
 if __name__ == "__main__":
