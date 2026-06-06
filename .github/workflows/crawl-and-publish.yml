@@ -480,7 +480,11 @@ jobs:
                 --run-id "${GITHUB_RUN_ID:-local}")
               FINAL_FAILURE_CLASS="$FAILURE_CLASS"
               echo "::warning::Copilot CLI failed on attempt $((ATTEMPT + 1)); class=${FAILURE_CLASS}; report=${COPILOT_FAILURE_REPORT}"
-              if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "copilot_inaccessible" ] || [ "$FAILURE_CLASS" = "context_too_large" ]; then
+              if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "copilot_inaccessible" ]; then
+                echo "::error::Copilot access failure (${FAILURE_CLASS}). Renewal issue was created or updated; failing without no-AI fallback. See ${COPILOT_FAILURE_REPORT}."
+                exit 1
+              fi
+              if [ "$FAILURE_CLASS" = "context_too_large" ]; then
                 echo "::warning::Non-retryable Copilot analysis failure (${FAILURE_CLASS}). Writing a non-publishable no-AI candidate so the current published article can be preserved. See ${COPILOT_FAILURE_REPORT}."
                 break
               fi
@@ -517,7 +521,20 @@ jobs:
           done
           else
             FINAL_FAILURE_CLASS="copilot_inaccessible"
-            echo "::warning::Copilot CLI unavailable; writing a non-publishable no-AI candidate so the current published article can be preserved."
+            COPILOT_LOG="$DIAGNOSTICS_DIR/copilot-cli-unavailable.log"
+            COPILOT_FAILURE_REPORT="$DIAGNOSTICS_DIR/copilot-cli-failure-unavailable.json"
+            echo "copilot is not available: command not found" > "$COPILOT_LOG"
+            python3 scripts/copilot_failure.py \
+              --log "$COPILOT_LOG" \
+              --exit-code 127 \
+              --report-json "$COPILOT_FAILURE_REPORT" \
+              --create-token-issue \
+              --repo "${GITHUB_REPOSITORY:-jmservera/SquadScope}" \
+              --assignee "jmservera" \
+              --week "$WEEK" \
+              --run-id "${GITHUB_RUN_ID:-local}" >/dev/null
+            echo "::error::Copilot CLI unavailable. Renewal issue was created or updated; failing without no-AI fallback. See ${COPILOT_FAILURE_REPORT}."
+            exit 1
           fi
 
           if [ "$GATE_PASSED" = "false" ]; then
