@@ -1,3 +1,4 @@
+import json
 import tempfile
 import unittest
 from argparse import Namespace
@@ -215,6 +216,56 @@ class CrawlTests(unittest.TestCase):
 
             self.assertIsNotNone(reused)
             self.assertEqual(reused["metadata"]["same_day_reuse"]["status"], "reused")
+            self.assertEqual(reused["metadata"]["same_day_reuse"]["source_id"], "github-search")
+
+    def test_main_emits_github_source_id_in_same_day_reuse_metadata(self) -> None:
+        class FakeClient:
+            def __init__(self, token: str, **kwargs) -> None:
+                self.token = token
+                self.api_calls_used = 0
+                self.cache_hits = 0
+                self.stale_cache_hits = 0
+                self.rate_limit_limit = None
+                self.rate_limit_remaining = None
+                self.rate_limit_reset = None
+                self.rate_limit_resource = None
+                self.errors = []
+
+            def search_repositories(self, query: str, *, max_results: int = 1000):
+                return []
+
+            def has_readme(self, full_name: str) -> bool:
+                return True
+
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            output = Path(tmpdir) / "data/raw/2026-W21.json"
+            args = Namespace(
+                since="2026-05-12",
+                as_of="2026-05-19",
+                max_results=25,
+                output=str(output),
+                topic=None,
+                config=None,
+                force_refresh=True,
+            )
+
+            with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
+                "os.environ", {"GITHUB_TOKEN": "token"}, clear=False
+            ), mock.patch.object(crawl, "GitHubClient", FakeClient), mock.patch.object(
+                crawl, "load_previous_star_snapshot", return_value={}
+            ), mock.patch.object(
+                crawl, "snapshots_dir", return_value=Path(tmpdir) / "data/snapshots"
+            ), mock.patch.object(
+                crawl, "utc_now", return_value=datetime(2026, 5, 19, 10, 0, tzinfo=crawl.UTC)
+            ):
+                exit_code = crawl.main()
+
+            self.assertEqual(exit_code, 0)
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(payload["metadata"]["same_day_reuse"]["status"], "not_reused")
+            self.assertEqual(payload["metadata"]["same_day_reuse"]["source"], "github")
+            self.assertEqual(payload["metadata"]["same_day_reuse"]["source_id"], "github-search")
 
     def test_load_reusable_github_payload_rejects_config_mismatch(self) -> None:
         tests_root = Path(__file__).resolve().parent

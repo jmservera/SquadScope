@@ -1,8 +1,11 @@
 import json
 import tempfile
 import unittest
+from argparse import Namespace
+from datetime import datetime
 from pathlib import Path
 
+import scripts.crawl as crawl
 import scripts.publish_manifest as publish_manifest
 
 
@@ -233,6 +236,86 @@ class PublishManifestTests(unittest.TestCase):
             self.assertEqual(reuse["schema_checksum"], "schema-sha")
             self.assertEqual(reuse["content_checksum"], "content-sha")
             self.assertNotEqual(reuse["status"], str(dict(reuse)))
+
+    def test_manifest_preserves_source_id_from_crawl_reuse_metadata(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            since = datetime(2026, 5, 12, tzinfo=crawl.UTC)
+            window_end = datetime(2026, 5, 19, tzinfo=crawl.UTC)
+            original_crawled_at = datetime(2026, 5, 19, 8, 0, tzinfo=crawl.UTC)
+            reused_at = datetime(2026, 5, 19, 10, 0, tzinfo=crawl.UTC)
+            args = Namespace(since="2026-05-12", as_of="2026-05-19", max_results=25, output=str(raw), topic=None, config=None)
+            checksum = crawl.github_crawl_config_checksum(args, since, window_end, 25)
+            payload = {
+                "week": WEEK,
+                "crawled_at": crawl.iso_timestamp(original_crawled_at),
+                "new_repos": [],
+                "trending_repos": [],
+                "signals": {"top_topics": []},
+                "metadata": {
+                    "api_calls_used": 1,
+                    "cache_hits": 0,
+                    "stale_cache_hits": 0,
+                    "rate_limit_limit": None,
+                    "rate_limit_remaining": None,
+                    "rate_limit_reset": None,
+                    "rate_limit_resource": None,
+                    "partial_failures": [],
+                    "run_id": "111111",
+                    "snapshot_path": "data/snapshots/2026-W21-stars.json",
+                    "crawl_window": {"since": "2026-05-12", "until": "2026-05-19"},
+                    "crawl_config_checksum": checksum,
+                    "schema_checksum": crawl.github_schema_checksum(),
+                    "same_day_reuse": {"status": "not_reused", "source": "github", "source_id": crawl.GITHUB_SOURCE_ID},
+                },
+            }
+            payload["metadata"]["artifact_checksum"] = crawl.github_artifact_checksum(payload)
+            crawl.write_payload(raw, payload)
+            reused = crawl.load_reusable_github_payload(
+                raw,
+                week=WEEK,
+                crawled_at=reused_at,
+                since=since,
+                window_end=window_end,
+                config_checksum=checksum,
+            )
+            self.assertIsNotNone(reused)
+            crawl.write_payload(raw, reused)
+            write_summary(summary)
+
+            publish_manifest.main(
+                [
+                    "create",
+                    "--week",
+                    WEEK,
+                    "--run-id",
+                    RUN_ID,
+                    "--current-datetime",
+                    CURRENT_DATETIME,
+                    "--summary",
+                    str(summary),
+                    "--published-summary",
+                    str(base / "data/analyzed/2026-W21-summary.md"),
+                    "--raw-json",
+                    str(raw),
+                    "--analysis-source",
+                    "copilot-cli",
+                    "--analysis-model",
+                    "copilot-default",
+                    "--validation-status",
+                    "passed",
+                    "--output",
+                    str(manifest),
+                ]
+            )
+
+            reuse = json.loads(manifest.read_text(encoding="utf-8"))["source_artifacts"][0]["same_day_reuse"]
+            self.assertEqual(reuse["status"], "reused")
+            self.assertEqual(reuse["source_id"], "github-search")
 
 
 if __name__ == "__main__":

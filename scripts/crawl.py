@@ -90,6 +90,7 @@ DEFAULT_HEADERS = {
     "X-GitHub-Api-Version": "2022-11-28",
     "User-Agent": "SquadScope-Crawler/1.0",
 }
+GITHUB_SOURCE_ID = "github-search"
 
 
 def log(message: str) -> None:
@@ -647,6 +648,7 @@ def load_reusable_github_payload(
     metadata["same_day_reuse"] = {
         "status": "reused",
         "source": "github",
+        "source_id": GITHUB_SOURCE_ID,
         "original_run_id": metadata.get("run_id", ""),
         "original_crawled_at": payload.get("crawled_at"),
         "reused_at": iso_timestamp(crawled_at),
@@ -996,7 +998,7 @@ def main() -> int:
             },
             "crawl_config_checksum": config_checksum,
             "schema_checksum": github_schema_checksum(),
-            "same_day_reuse": {"status": "not_reused", "source": "github"},
+            "same_day_reuse": {"status": "not_reused", "source": "github", "source_id": GITHUB_SOURCE_ID},
             "filter_summary": {
                 "new_repos": new_filters,
                 "trending_repos": trending_filters,
