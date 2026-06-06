@@ -377,8 +377,14 @@ jobs:
               f"bytes={report['prompt_bytes']} "
               f"degraded={report['degraded']} "
               f"publish_eligible={report['publish_eligible']} "
+              f"promotion_policy={report.get('promotion_policy', 'unspecified')} "
               f"checksum={report['prompt_checksum_sha256'][:12]}"
           )
+          if report.get("degraded") or not report.get("publish_eligible"):
+              print(
+                  "::warning::Analysis preflight is degraded/compacted or publish-ineligible; "
+                  "output will remain staged/candidate-only unless an explicit promotion policy allows it."
+              )
           PY
           echo "prompt_file=$PROMPT_FILE" >> "$GITHUB_OUTPUT"
           echo "preflight_report_json=$PREFLIGHT_JSON" >> "$GITHUB_OUTPUT"
@@ -590,6 +596,7 @@ jobs:
           ANALYSIS_SOURCE: ${{ steps.run-analysis.outputs.analysis_source }}
           ANALYSIS_MODEL: ${{ steps.run-analysis.outputs.analysis_model }}
           MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
+          PREFLIGHT_REPORT: ${{ steps.prompt-preflight.outputs.preflight_report_json }}
         run: |
           set -euo pipefail
           ARTIFACT_ARGS=()
@@ -611,6 +618,7 @@ jobs:
             --raw-json "$RAW_JSON_FILE" \
             --analysis-source "$ANALYSIS_SOURCE" \
             --analysis-model "$ANALYSIS_MODEL" \
+            --preflight-report "$PREFLIGHT_REPORT" \
             --validation-status passed \
             --output "$MANIFEST_FILE" \
             "${ARTIFACT_ARGS[@]}"

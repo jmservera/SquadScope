@@ -57,6 +57,8 @@ class PromptPreflight:
     prompt_within_budget: bool
     degraded: bool
     publish_eligible: bool
+    promotion_policy: str
+    degradation_reason: str | None
     fallback_policy: str
     components: list[PromptComponent]
     deterministic_slices: list[str]
@@ -444,16 +446,27 @@ def _build_prompt(
         ),
     ]
     prompt_tokens = estimate_tokens(prompt)
+    prompt_within_budget = prompt_tokens <= prompt_token_budget
+    degradation_reason = (
+        "Prompt was deterministically compacted to fit the configured token budget." if degraded else None
+    )
     preflight = PromptPreflight(
         prompt_token_budget=prompt_token_budget,
         prompt_tokens=prompt_tokens,
         prompt_bytes=len(prompt.encode("utf-8")),
         prompt_checksum_sha256=checksum_text(prompt),
-        prompt_within_budget=prompt_tokens <= prompt_token_budget,
+        prompt_within_budget=prompt_within_budget,
         degraded=degraded,
-        publish_eligible=prompt_tokens <= prompt_token_budget,
+        publish_eligible=prompt_within_budget and not degraded,
+        promotion_policy=(
+            "normal-promotion"
+            if not degraded
+            else "staged/candidate-only by default; degraded compacted output requires an explicit future promotion policy."
+        ),
+        degradation_reason=degradation_reason,
         fallback_policy=(
-            "copilot-only; no GitHub Models/OpenAI fallback. no-ai is diagnostic/staged-only and publish-ineligible."
+            "copilot-only; no GitHub Models/OpenAI fallback. no-ai is diagnostic/staged-only and publish-ineligible. "
+            "degraded/compacted prompts are staged/candidate-only by default."
         ),
         components=components,
         deterministic_slices=["new_repos", "trending_repos", "press_correlations", "prior_continuity"],
@@ -499,7 +512,9 @@ def write_preflight_reports(preflight: PromptPreflight, json_path: Path | None, 
             f"- Rendered prompt: `{preflight.prompt_tokens}` tokens / `{preflight.prompt_bytes}` bytes",
             f"- Prompt checksum: `{preflight.prompt_checksum_sha256}`",
             f"- Degraded/compacted: `{str(preflight.degraded).lower()}`",
+            f"- Degradation reason: {preflight.degradation_reason or 'none'}",
             f"- Publish eligible: `{str(preflight.publish_eligible).lower()}`",
+            f"- Promotion policy: {preflight.promotion_policy}",
             f"- Fallback policy: {preflight.fallback_policy}",
             f"- Deterministic slices: {', '.join(preflight.deterministic_slices)}",
             "",

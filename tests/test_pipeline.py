@@ -245,6 +245,8 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("--preflight-report-md", preflight_run)
         self.assertIn("--print-prompt > \"$PROMPT_FILE\"", preflight_run)
         self.assertIn("--context-files \"$PROMPT_FILE\"", preflight_run)
+        self.assertIn("promotion_policy=", preflight_run)
+        self.assertIn("staged/candidate-only", preflight_run)
 
         run_analysis_step = next((s for s in analyze["steps"] if s.get("name") == "Run analysis"), None)
         self.assertIsNotNone(run_analysis_step)
@@ -265,6 +267,12 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("exit 1", run_analysis)
         self.assertNotIn('ANALYSIS_SOURCE="github-models"', run_analysis)
         self.assertNotIn("falling back to GitHub Models API", run_analysis)
+
+        manifest_step = next((s for s in analyze["steps"] if s.get("name") == "Emit publish eligibility manifest"), None)
+        self.assertIsNotNone(manifest_step)
+        manifest_run = manifest_step["run"]
+        self.assertEqual(manifest_step["env"]["PREFLIGHT_REPORT"], "${{ steps.prompt-preflight.outputs.preflight_report_json }}")
+        self.assertIn('--preflight-report "$PREFLIGHT_REPORT"', manifest_run)
 
     def test_generate_workflow_runs_rollups_and_commits_all_content(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")

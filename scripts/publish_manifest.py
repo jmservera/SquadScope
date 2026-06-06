@@ -26,6 +26,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     create.add_argument("--raw-json", required=True, type=Path)
     create.add_argument("--analysis-source", required=True)
     create.add_argument("--analysis-model", required=True)
+    create.add_argument(
+        "--preflight-report",
+        type=Path,
+        help="Analysis preflight report JSON used to decide whether AI output is normally promotable.",
+    )
     create.add_argument("--validation-status", choices=["passed", "failed"], required=True)
     create.add_argument("--output", required=True, type=Path)
     create.add_argument("--artifact", action="append", default=[], help="Additional source artifact as role=path.")
@@ -71,6 +76,22 @@ def load_json(path: Path) -> dict[str, Any] | None:
     except (OSError, json.JSONDecodeError):
         return None
     return payload if isinstance(payload, dict) else None
+
+
+def load_preflight(path: Path | None) -> tuple[dict[str, Any] | None, list[str]]:
+    if path is None:
+        return None, []
+    payload = load_json(path)
+    if payload is None:
+        return None, [f"preflight report missing or malformed: {path}"]
+    reasons: list[str] = []
+    if payload.get("degraded") is True:
+        reasons.append(
+            "preflight degraded/compacted; candidate is staged-only unless an explicit promotion policy allows it"
+        )
+    if payload.get("publish_eligible") is not True:
+        reasons.append("preflight report marks candidate as publish-ineligible")
+    return payload, reasons
 
 
 def same_day_reuse_status(payload: dict[str, Any] | None) -> dict[str, Any]:
@@ -161,9 +182,11 @@ def create_manifest(args: argparse.Namespace) -> int:
 
     analysis_source = args.analysis_source.strip()
     ai_status = "ai" if analysis_source in AI_SOURCES else "no-ai" if analysis_source == "no-ai" else "unknown"
+    preflight, preflight_reasons = load_preflight(args.preflight_report)
+    preflight_allows_promotion = not preflight_reasons
     candidate_exists = args.summary.exists()
     validation_passed = args.validation_status == "passed"
-    eligible = candidate_exists and validation_passed and ai_status == "ai" and not artifact_reasons
+    eligible = candidate_exists and validation_passed and ai_status == "ai" and preflight_allows_promotion and not artifact_reasons
 
     reasons: list[str] = []
     if not candidate_exists:
@@ -172,6 +195,7 @@ def create_manifest(args: argparse.Namespace) -> int:
         reasons.append("analysis validation did not pass")
     if ai_status != "ai":
         reasons.append(f"analysis source is not AI-publishable: {analysis_source or 'unknown'}")
+    reasons.extend(preflight_reasons)
     reasons.extend(artifact_reasons)
 
     manifest = {
@@ -189,9 +213,20 @@ def create_manifest(args: argparse.Namespace) -> int:
             "ai_status": ai_status,
             "source": analysis_source,
             "model": args.analysis_model,
+            "preflight": {
+                "path": args.preflight_report.as_posix() if args.preflight_report else None,
+                "degraded": preflight.get("degraded") if preflight else None,
+                "publish_eligible": preflight.get("publish_eligible") if preflight else None,
+                "prompt_tokens": preflight.get("prompt_tokens") if preflight else None,
+                "prompt_token_budget": preflight.get("prompt_token_budget") if preflight else None,
+                "prompt_checksum_sha256": preflight.get("prompt_checksum_sha256") if preflight else None,
+                "promotion_policy": preflight.get("promotion_policy") if preflight else None,
+                "degradation_reason": preflight.get("degradation_reason") if preflight else None,
+            },
             "provenance": {
                 "run_id": args.run_id,
                 "current_datetime": args.current_datetime,
+                "degraded": preflight.get("degraded") if preflight else None,
             },
         },
         "validation": {
