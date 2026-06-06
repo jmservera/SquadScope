@@ -246,7 +246,7 @@ def call_github_models(prompt: str) -> str:
                     f"GitHub Models API request failed ({exc.code}, {retry_class}): {detail}{access_hint}"
                 ) from exc
             # Determine delay: respect Retry-After header on 429
-            retry_after = exc.headers.get("Retry-After") if exc.code == 429 else None
+            retry_after = exc.headers.get("Retry-After") if exc.code == 429 and exc.headers is not None else None
             if retry_after is not None:
                 try:
                     delay = float(retry_after)
