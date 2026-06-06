@@ -470,7 +470,7 @@ categories: [weekly]
 repos_featured: {repos_featured}
 stars_tracked: {total_stars}
 top_repo: "{top_repo}"
-quality_score: 62
+quality_score: 70
 summary: "Automated data-only summary for {week}. AI analysis was unavailable; this report presents raw crawl statistics and top repositories without editorial commentary."
 ---
 

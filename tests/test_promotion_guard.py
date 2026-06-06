@@ -112,6 +112,26 @@ def manifest_for(root: Path, name: str, **overrides) -> Path:
     return manifest_path
 
 
+def no_ai_manifest_for(root: Path, name: str, *, policy: dict | None = None, quality_score: int = 70) -> Path:
+    summary = VALID_REPLACEMENT_SUMMARY.replace("quality_score: 90", f"quality_score: {quality_score}").replace(
+        "Better candidate analysis.", "Automated data-only summary generated without AI assistance."
+    )
+    policy = policy or {"mode": "default"}
+    return manifest_for(
+        root,
+        name,
+        summary=summary,
+        ai_provenance={
+            "source": "no-ai",
+            "model": "none",
+            "degraded": False,
+            "fallback_reason": "copilot quality gate failed",
+            "attempted_ai_paths": ["provider=copilot-cli,model=copilot-default,status=failed"],
+        },
+        promotion_policy=policy,
+    )
+
+
 class PromotionGuardTests(unittest.TestCase):
     def test_failed_degraded_and_no_ai_candidates_do_not_replace_existing_good_article(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -190,6 +210,47 @@ class PromotionGuardTests(unittest.TestCase):
             self.assertEqual(second_content.read_text(encoding="utf-8"), first_content_text)
             self.assertEqual(second_summary.read_text(encoding="utf-8").count("Better candidate analysis."), 1)
             self.assertEqual(second_content.read_text(encoding="utf-8").count("Better candidate rendered content."), 1)
+
+    def test_no_ai_first_publish_requires_explicit_policy_and_no_existing_good_article(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            default_manifest = no_ai_manifest_for(root, "no-ai-default")
+
+            with self.assertRaises(promotion_guard.PromotionBlocked) as default_block:
+                promotion_guard.promote_candidate(default_manifest, root=root)
+            self.assertIn("no-AI fallback is ineligible for default promotion.", default_block.exception.reasons)
+
+            allow_manifest = no_ai_manifest_for(root, "no-ai-first", policy={"mode": "allow-no-ai-first-publish"})
+            summary_path, _ = promotion_guard.promote_candidate(allow_manifest, root=root)
+
+            self.assertIn("Automated data-only summary", summary_path.read_text(encoding="utf-8"))
+
+    def test_force_replace_no_ai_requires_audit_and_writes_audit_log(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            canonical_summary, _ = install_existing_good_article(root)
+            original_summary = canonical_summary.read_text(encoding="utf-8")
+            missing_audit = no_ai_manifest_for(root, "force-missing", policy={"mode": "force-replace"})
+
+            with self.assertRaises(promotion_guard.PromotionBlocked) as blocked:
+                promotion_guard.promote_candidate(missing_audit, root=root)
+            self.assertIn("force-replace requires a reason.", blocked.exception.reasons)
+            self.assertEqual(canonical_summary.read_text(encoding="utf-8"), original_summary)
+
+            force_manifest = no_ai_manifest_for(
+                root,
+                "force-ok",
+                policy={"mode": "force-replace", "reason": "operator approved emergency replace", "actor": "jmservera"},
+            )
+            summary_path, _ = promotion_guard.promote_candidate(force_manifest, root=root)
+
+            self.assertIn("Automated data-only summary", summary_path.read_text(encoding="utf-8"))
+            audit_path = root / "data/diagnostics/promotion/2026-W23-force-replace-audit.json"
+            self.assertTrue(audit_path.exists())
+            audit = json.loads(audit_path.read_text(encoding="utf-8"))
+            self.assertEqual(audit["actor"], "jmservera")
 
     def test_same_day_reused_source_candidate_can_promote_when_manifest_is_fresh(self) -> None:
         tests_root = Path(__file__).resolve().parent
