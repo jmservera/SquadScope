@@ -30,6 +30,9 @@ class PublishSafetyTests(unittest.TestCase):
             target = root / "content/weekly/2026/W23.md"
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text("known good article\n", encoding="utf-8")
+            transaction_manifest = root / "data/published/2026-W23/promotion-manifest.json"
+            transaction_manifest.parent.mkdir(parents=True, exist_ok=True)
+            transaction_manifest.write_text('{"schema_version":"promotion_transaction_v1","transaction_id":"old"}\n', encoding="utf-8")
             source = root / "data/raw/2026-W23.json"
             source.parent.mkdir(parents=True, exist_ok=True)
             source.write_text('{"week":"2026-W23"}\n', encoding="utf-8")
@@ -54,6 +57,8 @@ class PublishSafetyTests(unittest.TestCase):
                     "abc",
                     "--path",
                     "content/weekly/2026/W23.md",
+                    "--path",
+                    "data/published/2026-W23/promotion-manifest.json",
                 ]
             )
 
@@ -64,6 +69,9 @@ class PublishSafetyTests(unittest.TestCase):
             self.assertEqual(payload["publish_ref"]["expected"], "abc")
             self.assertEqual(payload["source_manifest"]["source_artifacts"][0]["sha256"], "raw-sha")
             self.assertRegex(payload["files"][0]["sha256"], r"^[0-9a-f]{64}$")
+            backed_up_paths = {entry["path"] for entry in payload["files"]}
+            self.assertIn("content/weekly/2026/W23.md", backed_up_paths)
+            self.assertIn("data/published/2026-W23/promotion-manifest.json", backed_up_paths)
 
             with self.assertRaises(SystemExit):
                 publish_safety.main(
@@ -85,11 +93,17 @@ class PublishSafetyTests(unittest.TestCase):
                 )
 
             target.write_text("bad replacement\n", encoding="utf-8")
+            transaction_manifest.write_text(
+                '{"schema_version":"promotion_transaction_v1","transaction_id":"new"}\n',
+                encoding="utf-8",
+            )
             self.assertEqual(
                 publish_safety.main(["restore-backup", "--root", str(root), "--backup-manifest", str(backup_manifest)]),
                 0,
             )
             self.assertEqual(target.read_text(encoding="utf-8"), "known good article\n")
+            restored_transaction = json.loads(transaction_manifest.read_text(encoding="utf-8"))
+            self.assertEqual(restored_transaction["transaction_id"], "old")
 
     def test_backup_existing_requires_loadable_publish_manifest(self) -> None:
         tests_root = Path(__file__).resolve().parent

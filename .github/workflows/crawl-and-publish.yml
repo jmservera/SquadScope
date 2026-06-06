@@ -945,6 +945,7 @@ jobs:
             --path "data/analyzed/${WEEK}-summary.md" \
             --path "data/analyzed/${WEEK}-correlations.json" \
             --path "data/analyzed/${WEEK}-press-context.md" \
+            --path "data/published/${WEEK}/promotion-manifest.json" \
             --path "$PAGE_PATH"
           cp -r metrics-data-backup/* data/metrics/ 2>/dev/null || true
           cp "analyzed-data-backup/${WEEK}-correlations.json" data/analyzed/ 2>/dev/null || true

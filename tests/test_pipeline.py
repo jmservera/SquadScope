@@ -442,6 +442,7 @@ class WorkflowConfigTests(unittest.TestCase):
         content_commit_run = content_commit_step["run"]
         self.assertIn("Publish branch drifted between analyze and content promotion", content_commit_run)
         self.assertIn("backup-existing", content_commit_run)
+        self.assertIn('--path "data/published/${WEEK}/promotion-manifest.json"', content_commit_run)
         self.assertIn("promotion-guard-tool.py --manifest", content_commit_run)
         self.assertIn("data/published/", content_commit_run)
         self.assertIn("--force-with-lease", content_commit_run)
