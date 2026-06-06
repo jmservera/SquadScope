@@ -216,6 +216,52 @@ class PromotionGuardTests(unittest.TestCase):
             self.assertIn("Better AI Article", summary_path.read_text(encoding="utf-8"))
             self.assertIn("Better AI Article", content_path.read_text(encoding="utf-8"))
 
+    def test_candidate_paths_cannot_traverse_outside_repository_root(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            canonical_summary, canonical_content = install_existing_good_article(root)
+            original_summary = canonical_summary.read_text(encoding="utf-8")
+            original_content = canonical_content.read_text(encoding="utf-8")
+
+            outside_summary = root.parent / f"{root.name}-outside-summary.md"
+            outside_content = root.parent / f"{root.name}-outside-content.md"
+            try:
+                outside_summary.write_text(VALID_REPLACEMENT_SUMMARY, encoding="utf-8")
+                outside_content.write_text(VALID_REPLACEMENT_CONTENT, encoding="utf-8")
+                manifest_path = manifest_for(
+                    root,
+                    "traversal",
+                    candidate_summary_path=f"../{outside_summary.name}",
+                    candidate_content_path=f"../{outside_content.name}",
+                )
+
+                with self.assertRaises(promotion_guard.PromotionBlocked) as blocked:
+                    promotion_guard.promote_candidate(manifest_path, root=root)
+
+                self.assertIn("candidate_summary_path must stay under the repository root.", blocked.exception.reasons)
+                self.assertIn("candidate_content_path must stay under the repository root.", blocked.exception.reasons)
+                self.assertEqual(canonical_summary.read_text(encoding="utf-8"), original_summary)
+                self.assertEqual(canonical_content.read_text(encoding="utf-8"), original_content)
+            finally:
+                outside_summary.unlink(missing_ok=True)
+                outside_content.unlink(missing_ok=True)
+
+    def test_manifest_path_must_be_directly_under_data_staging(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            install_existing_good_article(root)
+            valid_manifest = manifest_for(root, "misplaced")
+            misplaced_manifest = root / "other" / "data" / "staging" / "publish-manifest.json"
+            misplaced_manifest.parent.mkdir(parents=True, exist_ok=True)
+            misplaced_manifest.write_text(valid_manifest.read_text(encoding="utf-8"), encoding="utf-8")
+
+            with self.assertRaises(promotion_guard.PromotionBlocked) as blocked:
+                promotion_guard.promote_candidate(misplaced_manifest, root=root)
+
+            self.assertIn("Publish manifest must live under data/staging/.", blocked.exception.reasons)
+
 
 if __name__ == "__main__":
     unittest.main()

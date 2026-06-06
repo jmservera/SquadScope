@@ -61,7 +61,14 @@ def _resolve_under_root(root: Path, value: Any, field: str, reasons: list[str]) 
     if path.is_absolute():
         reasons.append(f"{field} must be relative to the repository root.")
         return None
-    return root / path
+    resolved_root = root.resolve()
+    resolved_path = (resolved_root / path).resolve()
+    try:
+        resolved_path.relative_to(resolved_root)
+    except ValueError:
+        reasons.append(f"{field} must stay under the repository root.")
+        return None
+    return resolved_path
 
 
 def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path) -> tuple[str, Path, Path, list[str]]:
@@ -135,7 +142,7 @@ def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path
     except ValueError:
         reasons.append("Publish manifest must be under the repository root.")
         manifest_relative = Path()
-    if "data/staging/" not in manifest_relative.as_posix():
+    if manifest_relative.parts[:2] != ("data", "staging"):
         reasons.append("Publish manifest must live under data/staging/.")
 
     return str(week), candidate_summary or root, candidate_content or root, reasons
