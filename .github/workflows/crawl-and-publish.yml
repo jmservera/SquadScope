@@ -288,7 +288,7 @@ jobs:
       publish_manifest_file: ${{ steps.analysis-context.outputs.publish_manifest_file }}
       current_datetime: ${{ steps.analysis-context.outputs.current_datetime }}
       publish_base_sha: ${{ steps.publish-base.outputs.sha }}
-      publish_head_sha: ${{ steps.commit-analysis.outputs.publish_head_sha || steps.publish-base.outputs.sha }}
+      publish_head_sha: ${{ steps.publish-base.outputs.sha }}
       run_mode: ${{ steps.analysis-context.outputs.run_mode }}
 
     steps:
@@ -761,99 +761,6 @@ jobs:
         if: ${{ steps.analysis-context.outputs.run_mode != 'dry-run' && steps.analysis-context.outputs.run_mode != 'candidate-only' }}
         run: python3 scripts/publish_manifest.py assert-eligible --manifest "${{ steps.analysis-context.outputs.publish_manifest_file }}"
 
-      - name: Commit analysis and learnings to data branch
-        id: commit-analysis
-        if: ${{ steps.analysis-context.outputs.run_mode != 'dry-run' && steps.analysis-context.outputs.run_mode != 'candidate-only' }}
-        env:
-          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-          DATA_BRANCH: publish
-          WEEK: ${{ steps.analysis-context.outputs.week }}
-          CANDIDATE_SUMMARY: ${{ steps.analysis-context.outputs.candidate_output_file }}
-          PUBLISHED_SUMMARY: ${{ steps.analysis-context.outputs.published_output_file }}
-          MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
-          EXPECTED_PUBLISH_SHA: ${{ steps.publish-base.outputs.sha }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
-          cp scripts/publish_manifest.py publish-manifest-tool.py
-          cp scripts/publish_safety.py publish-safety-tool.py
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          # Check for analysis data OR squad learning state changes
-          if ! git status --short -- data/analyzed data/candidates data/metrics .squad | grep -q .; then
-            echo "No analyzed data, token usage, or learning state changes to commit."
-            rm -f publish-manifest-tool.py publish-safety-tool.py
-            exit 0
-          fi
-          mkdir -p "$(dirname "$PUBLISHED_SUMMARY")"
-          cp "$CANDIDATE_SUMMARY" "$PUBLISHED_SUMMARY"
-          cp -r data/analyzed analyzed-data-backup
-          cp -r data/candidates candidates-data-backup
-          cp -r data/metrics metrics-data-backup
-          # Preserve any .squad changes written by the agent (learnings, skills)
-          if git status --short -- .squad | grep -q .; then
-            cp -r .squad squad-learning-backup
-            HAS_LEARNINGS=true
-          else
-            HAS_LEARNINGS=false
-          fi
-          # Push to the unprotected data branch
-          if git fetch origin "$DATA_BRANCH" 2>/dev/null; then
-            CURRENT_PUBLISH_SHA=$(git rev-parse "origin/$DATA_BRANCH")
-            if [ -n "$EXPECTED_PUBLISH_SHA" ] && [ "$CURRENT_PUBLISH_SHA" != "$EXPECTED_PUBLISH_SHA" ]; then
-              echo "::error::Publish branch drifted since analysis began: expected $EXPECTED_PUBLISH_SHA, found $CURRENT_PUBLISH_SHA"
-              exit 1
-            fi
-            git checkout -f -B "$DATA_BRANCH" "origin/$DATA_BRANCH"
-          else
-            CURRENT_PUBLISH_SHA=""
-            if [ -n "$EXPECTED_PUBLISH_SHA" ]; then
-              echo "::error::Publish branch disappeared since analysis began: expected $EXPECTED_PUBLISH_SHA"
-              exit 1
-            fi
-            git fetch origin "$DEFAULT_BRANCH"
-            git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
-          fi
-          mkdir -p data/analyzed data/candidates data/metrics
-          python3 publish-manifest-tool.py assert-eligible --manifest "candidates-data-backup/${WEEK}/${GITHUB_RUN_ID}/publish-manifest.json"
-          cp -r "candidates-data-backup/${WEEK}" data/candidates/
-          python3 publish-safety-tool.py backup-existing \
-            --week "$WEEK" \
-            --run-id "$GITHUB_RUN_ID" \
-            --kind analysis \
-            --manifest "data/candidates/${WEEK}/${GITHUB_RUN_ID}/publish-manifest.json" \
-            --expected-publish-ref "$EXPECTED_PUBLISH_SHA" \
-            --actual-publish-ref "$CURRENT_PUBLISH_SHA" \
-            --path "data/analyzed/${WEEK}-summary.md" \
-            --path "data/analyzed/${WEEK}-correlations.json" \
-            --path "data/analyzed/${WEEK}-press-context.md"
-          # Only copy current week's analysis files — do not overwrite prior weeks
-          # Required: current week's promoted summary must be backed by an eligible manifest
-          cp "analyzed-data-backup/${WEEK}-summary.md" data/analyzed/
-          # Optional sidecars: conditionally generated
-          cp "analyzed-data-backup/${WEEK}-correlations.json" data/analyzed/ 2>/dev/null || true
-          cp "analyzed-data-backup/${WEEK}-press-context.md" data/analyzed/ 2>/dev/null || true
-          cp -r metrics-data-backup/* data/metrics/ 2>/dev/null || true
-          rm -rf analyzed-data-backup candidates-data-backup metrics-data-backup publish-manifest-tool.py publish-safety-tool.py
-          # Restore squad learning state
-          if [ "$HAS_LEARNINGS" = "true" ]; then
-            cp -r squad-learning-backup/* .squad/ 2>/dev/null || true
-            rm -rf squad-learning-backup
-          fi
-          git add data/analyzed/ data/candidates/ data/metrics/ data/backups/ .squad/
-          if git diff --cached --quiet; then
-            echo "publish_head_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          git commit -m "analysis: weekly summary + learnings $WEEK [run #${GITHUB_RUN_ID}]"
-          if [ -n "$CURRENT_PUBLISH_SHA" ]; then
-            git push --force-with-lease="refs/heads/$DATA_BRANCH:$CURRENT_PUBLISH_SHA" origin HEAD:"$DATA_BRANCH"
-          else
-            git push origin HEAD:"$DATA_BRANCH"
-          fi
-          echo "publish_head_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-
       - name: Upload analyzed data
         if: always()
         uses: actions/upload-artifact@v4
@@ -910,21 +817,38 @@ jobs:
       - name: Generate weekly content
         id: generate-content
         env:
-          SUMMARY_FILE: ${{ needs.analyze.outputs.summary_file }}
+          WEEK: ${{ needs.analyze.outputs.week }}
+          SUMMARY_FILE: ${{ needs.analyze.outputs.candidate_summary_file }}
           MANIFEST_FILE: ${{ needs.analyze.outputs.publish_manifest_file }}
         run: |
           set -euo pipefail
           python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
-          python3 - <<'PYGEN' "$SUMMARY_FILE" >> "$GITHUB_OUTPUT"
+          python3 - <<'PYGEN' "$WEEK" "$SUMMARY_FILE" "$MANIFEST_FILE" >> "$GITHUB_OUTPUT"
+          import json
           import sys
           from pathlib import Path
 
           import scripts.generate_content as generate_content
+          import scripts.publish_manifest as publish_manifest
 
-          summary_path = Path(sys.argv[1])
-          page_path = generate_content.generate_content(summary_path)
-          print(f"page_path={page_path.as_posix()}")
+          week = sys.argv[1]
+          summary_path = Path(sys.argv[2])
+          manifest_path = Path(sys.argv[3])
+          candidate_content = manifest_path.parent / f"{week}-content.md"
+          page_path = generate_content.generate_content(summary_path, candidate_content)
+
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          manifest["candidate_content_path"] = page_path.as_posix()
+          manifest.setdefault("candidate", {})["content_path"] = page_path.as_posix()
+          manifest["candidate"]["content_sha256"] = publish_manifest.sha256_file(page_path)
+          manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+          final_page_path = generate_content.infer_output_path(week, Path.cwd())
+          print(f"page_path={final_page_path.as_posix()}")
+          print(f"candidate_content_path={page_path.as_posix()}")
           PYGEN
+          python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
+          python3 scripts/promotion_guard.py --manifest "$MANIFEST_FILE"
 
       - name: Hydrate analyzed data from publish
         env:
@@ -960,13 +884,20 @@ jobs:
           set -euo pipefail
           python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
           cp scripts/publish_safety.py publish-safety-tool.py
+          cp scripts/promotion_guard.py promotion-guard-tool.py
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ! git status --short -- content/weekly content/monthly content/yearly | grep -q .; then
-            echo "No generated content changes to commit."
-            rm -f publish-safety-tool.py
+          python3 scripts/promotion_guard.py --manifest "$MANIFEST_FILE"
+          python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
+          if ! git status --short -- data/analyzed data/candidates data/metrics data/published content/weekly content/monthly content/yearly | grep -q .; then
+            echo "No promoted analysis or generated content changes to commit."
+            rm -f publish-safety-tool.py promotion-guard-tool.py
             exit 0
           fi
+          cp -r data/analyzed analyzed-data-backup
+          cp -r data/candidates candidates-data-backup
+          cp -r data/metrics metrics-data-backup 2>/dev/null || true
+          cp -r data/published published-data-backup 2>/dev/null || true
           cp -r content/weekly content-weekly-backup 2>/dev/null || true
           cp -r content/monthly content-monthly-backup 2>/dev/null || true
           cp -r content/yearly content-yearly-backup 2>/dev/null || true
@@ -987,7 +918,7 @@ jobs:
             git fetch origin "$DEFAULT_BRANCH"
             git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
           fi
-          mkdir -p content/weekly content/monthly content/yearly
+          mkdir -p data/analyzed data/candidates data/metrics data/published content/weekly content/monthly content/yearly
           # generate_content.py returns an absolute path; normalize it before restoring
           # the freshly generated page onto the publish branch checkout.
           case "$PAGE_PATH" in
@@ -1003,6 +934,7 @@ jobs:
           esac
           RELATIVE_FROM_WEEKLY="${PAGE_PATH#content/weekly/}"
           mkdir -p "$(dirname "$PAGE_PATH")"
+          cp -r "candidates-data-backup/${WEEK}" data/candidates/
           python3 publish-safety-tool.py backup-existing \
             --week "$WEEK" \
             --run-id "$GITHUB_RUN_ID" \
@@ -1010,16 +942,23 @@ jobs:
             --manifest "$MANIFEST_FILE" \
             --expected-publish-ref "$EXPECTED_PUBLISH_SHA" \
             --actual-publish-ref "$CURRENT_PUBLISH_SHA" \
+            --path "data/analyzed/${WEEK}-summary.md" \
+            --path "data/analyzed/${WEEK}-correlations.json" \
+            --path "data/analyzed/${WEEK}-press-context.md" \
+            --path "data/published/${WEEK}/promotion-manifest.json" \
             --path "$PAGE_PATH"
-          cp "content-weekly-backup/${RELATIVE_FROM_WEEKLY}" "$PAGE_PATH"
+          cp -r metrics-data-backup/* data/metrics/ 2>/dev/null || true
+          cp "analyzed-data-backup/${WEEK}-correlations.json" data/analyzed/ 2>/dev/null || true
+          cp "analyzed-data-backup/${WEEK}-press-context.md" data/analyzed/ 2>/dev/null || true
+          python3 promotion-guard-tool.py --manifest "data/candidates/${WEEK}/${GITHUB_RUN_ID}/publish-manifest.json"
           # Monthly/yearly rollups are safe to copy since generate_rollups.py was seeded
           # with hydrated prior-week data (see Hydrate analyzed data step above)
           cp -r content-monthly-backup/* content/monthly/ 2>/dev/null || true
           cp -r content-yearly-backup/* content/yearly/ 2>/dev/null || true
-          rm -rf content-weekly-backup content-monthly-backup content-yearly-backup publish-safety-tool.py
-          git add content/weekly/ content/monthly/ content/yearly/ data/backups/
+          rm -rf analyzed-data-backup candidates-data-backup metrics-data-backup published-data-backup content-weekly-backup content-monthly-backup content-yearly-backup publish-safety-tool.py promotion-guard-tool.py
+          git add data/analyzed/ data/candidates/ data/metrics/ data/published/ content/weekly/ content/monthly/ content/yearly/ data/backups/
           git diff --cached --quiet && exit 0
-          git commit -m "content: weekly page $WEEK [run #${GITHUB_RUN_ID}]"
+          git commit -m "publish: weekly article transaction $WEEK [run #${GITHUB_RUN_ID}]"
           if [ -n "$CURRENT_PUBLISH_SHA" ]; then
             git push --force-with-lease="refs/heads/$DATA_BRANCH:$CURRENT_PUBLISH_SHA" origin HEAD:"$DATA_BRANCH"
           else
@@ -1034,6 +973,13 @@ jobs:
             content/weekly/
             content/monthly/
             content/yearly/
+          if-no-files-found: warn
+
+      - name: Upload promoted analyzed artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: promoted-analyzed-data
+          path: data/analyzed/
           if-no-files-found: warn
 
   deploy:
@@ -1071,7 +1017,7 @@ jobs:
       - name: Download analyzed data artifact
         uses: actions/download-artifact@v4
         with:
-          name: analyzed-data
+          name: promoted-analyzed-data
           path: data/analyzed/
 
       - name: Download generated content artifact
@@ -1128,7 +1074,7 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: analyzed-data
+          name: promoted-analyzed-data
           path: data/analyzed/
 
       - uses: actions/download-artifact@v4

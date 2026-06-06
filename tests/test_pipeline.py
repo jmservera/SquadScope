@@ -307,7 +307,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("content/weekly", commit_run)
         self.assertIn("content/monthly", commit_run)
         self.assertIn("content/yearly", commit_run)
-        self.assertIn("git add content/weekly/", commit_run)
+        self.assertIn("content/weekly/", commit_run)
         self.assertIn("content/monthly/", commit_run)
         self.assertIn("content/yearly/", commit_run)
         self.assertIn("GITHUB_WORKSPACE", commit_run)
@@ -318,6 +318,9 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIsNotNone(upload_step)
         self.assertIn("content/monthly/", upload_step["with"]["path"])
         self.assertIn("content/yearly/", upload_step["with"]["path"])
+        promoted_upload = next((s for s in generate_job["steps"] if s.get("name") == "Upload promoted analyzed artifact"), None)
+        self.assertIsNotNone(promoted_upload)
+        self.assertEqual(promoted_upload["with"]["name"], "promoted-analyzed-data")
 
     def test_sync_publish_to_main_excludes_squad_state_and_regenerates_rollups(self) -> None:
         workflow_path = Path(".github/workflows/sync-publish-to-main.yml")
@@ -356,6 +359,9 @@ class WorkflowConfigTests(unittest.TestCase):
 
         notify_job = workflow["jobs"]["notify"]
         self.assertEqual(notify_job["needs"], ["analyze", "generate", "deploy"])
+        analyzed_download = next((s for s in notify_job["steps"] if s.get("uses") == "actions/download-artifact@v4" and s.get("with", {}).get("path") == "data/analyzed/"), None)
+        self.assertIsNotNone(analyzed_download)
+        self.assertEqual(analyzed_download["with"]["name"], "promoted-analyzed-data")
 
         webhook_step = next((s for s in notify_job["steps"] if s.get("name") == "Post to webhook"), None)
         self.assertIsNotNone(webhook_step)
@@ -416,17 +422,9 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIsNotNone(assert_step)
         self.assertIn("scripts/publish_manifest.py assert-eligible", assert_step["run"])
 
+        self.assertEqual(analyze["outputs"]["publish_head_sha"], "${{ steps.publish-base.outputs.sha }}")
         commit_step = next((s for s in analyze["steps"] if s.get("name") == "Commit analysis and learnings to data branch"), None)
-        self.assertIsNotNone(commit_step)
-        commit_run = commit_step["run"]
-        self.assertIn('assert-eligible --manifest "$MANIFEST_FILE"', commit_run)
-        self.assertIn("Publish branch drifted since analysis began", commit_run)
-        self.assertIn("publish_safety.py", commit_run)
-        self.assertIn("backup-existing", commit_run)
-        self.assertIn("data/backups/", commit_run)
-        self.assertIn("--force-with-lease", commit_run)
-        self.assertIn('cp "$CANDIDATE_SUMMARY" "$PUBLISHED_SUMMARY"', commit_run)
-        self.assertIn("git add data/analyzed/ data/candidates/", commit_run)
+        self.assertIsNone(commit_step)
 
         upload_candidate = next((s for s in analyze["steps"] if s.get("name") == "Upload analysis candidate"), None)
         self.assertIsNotNone(upload_candidate)
@@ -436,12 +434,17 @@ class WorkflowConfigTests(unittest.TestCase):
         generate_step = next((s for s in generate["steps"] if s.get("name") == "Generate weekly content"), None)
         self.assertIsNotNone(generate_step)
         self.assertIn('assert-eligible --manifest "$MANIFEST_FILE"', generate_step["run"])
+        self.assertIn("candidate_content_path", generate_step["run"])
+        self.assertIn("scripts/promotion_guard.py --manifest", generate_step["run"])
 
         content_commit_step = next((s for s in generate["steps"] if s.get("name") == "Commit generated content to data branch"), None)
         self.assertIsNotNone(content_commit_step)
         content_commit_run = content_commit_step["run"]
         self.assertIn("Publish branch drifted between analyze and content promotion", content_commit_run)
         self.assertIn("backup-existing", content_commit_run)
+        self.assertIn('--path "data/published/${WEEK}/promotion-manifest.json"', content_commit_run)
+        self.assertIn("promotion-guard-tool.py --manifest", content_commit_run)
+        self.assertIn("data/published/", content_commit_run)
         self.assertIn("--force-with-lease", content_commit_run)
 
     def test_rerun_mode_inputs_and_guards_are_declared(self) -> None:
