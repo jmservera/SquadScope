@@ -14,7 +14,7 @@ This checklist validates the automated weekly workflow in `.github/workflows/cra
 Required secrets/tokens:
 
 - `COPILOT_GH_TOKEN` — fine-grained PAT used as `COPILOT_GITHUB_TOKEN` for Copilot CLI analysis.
-- `GITHUB_TOKEN` — built-in workflow token used for crawling, artifact downloads, commits, fallback GitHub Models calls, and Pages deployment.
+- `GITHUB_TOKEN` — built-in workflow token used for crawling, artifact downloads, commits, token-renewal issue creation, and Pages deployment.
 
 ## Stage-by-stage validation
 
@@ -51,7 +51,7 @@ Required secrets/tokens:
 **Inputs**
 - `raw-data` artifact downloaded into `data/raw/`
 - `COPILOT_GH_TOKEN` for Copilot CLI primary path
-- `GITHUB_TOKEN` for GitHub Models fallback
+- `GITHUB_TOKEN` for diagnostics, commits, and Copilot-token renewal issue creation
 
 **Outputs**
 - `data/analyzed/YYYY-WNN-summary.md`
@@ -65,9 +65,9 @@ Required secrets/tokens:
 - Current raw file week matches the run week
 - Correlation and press-context steps consume compact external-news data with legacy `YYYY-WNN-techcrunch.json` fallback
 - Press context preserves source names, article URLs/titles/dates, strong-vs-weak labels, and partial-source caveats while staying under the ~8k token budget
-- Copilot CLI output or fallback output is written to `data/analyzed/`
+- Copilot CLI output is written to `data/analyzed/`; if Copilot cannot produce publishable analysis, no-AI output is diagnostic only and the run fails.
 - `scripts/analysis_gate.py` passes before publish continues
-- Job permissions include `actions: read`, `contents: write`, `copilot-requests: write`, and `models: read`
+- Job permissions include `actions: read`, `contents: write`, and `issues: write`
 
 ### 3. Generate
 
@@ -129,14 +129,14 @@ Required secrets/tokens:
 - External news crawl: `python3 -m scripts.techcrunch_crawler --sources config/external_news_sources.json --output data/raw/YYYY-WNN-external-news.json --since YYYY-MM-DD --until YYYY-MM-DD`
 - Correlate press: `python3 -m scripts.correlate --raw data/raw/YYYY-WNN.json --techcrunch data/raw/YYYY-WNN-external-news.json --output data/analyzed/YYYY-WNN-correlations.json`
 - Render press context: `python3 -m scripts.render_press_context --week YYYY-WNN`
-- Analyze fallback: `python3 scripts/analyze_fallback.py --raw-json data/raw/YYYY-WNN.json --output data/analyzed/YYYY-WNN-summary.md --current-datetime YYYY-MM-DDTHH:MM:SSZ`
+- Render analysis prompt/diagnostic no-AI output: `python3 scripts/analyze_fallback.py --raw-json data/raw/YYYY-WNN.json --output data/analyzed/YYYY-WNN-summary.md --current-datetime YYYY-MM-DDTHH:MM:SSZ --print-prompt`
 - Gate: `python3 scripts/analysis_gate.py --analysis-file data/analyzed/YYYY-WNN-summary.md --raw-json data/raw/YYYY-WNN.json --current-datetime YYYY-MM-DDTHH:MM:SSZ`
 - Generate: `python3 scripts/generate_content.py data/analyzed/YYYY-WNN-summary.md`
 - Deploy build check: `hugo --minify`
 
 ## Known limitations and workarounds
 
-- Copilot CLI in CI depends on `COPILOT_GH_TOKEN`; when unavailable, the workflow falls back to GitHub Models automatically.
+- Copilot CLI in CI depends on `COPILOT_GH_TOKEN`; when token/auth fails, the workflow fails immediately and creates or updates an issue assigned to `@jmservera` to renew the token. There is no GitHub Models/OpenAI fallback for weekly analysis.
 - Weekly momentum quality is only as good as the historical star snapshots; first runs and sparse history can make `stars_gained` incomplete.
 - Hugo must be `0.146.0+`; the workflow pins `0.161.1` because older runner binaries fail with the current theme.
 - The scheduled workflow now deploys Pages directly. `deploy-site.yml` skips bot-authored pushes so the scheduled run does not trigger a duplicate Pages deployment.

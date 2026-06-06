@@ -200,6 +200,7 @@ jobs:
     permissions:
       actions: read
       contents: write
+      issues: write
     outputs:
       week: ${{ steps.analysis-context.outputs.week }}
       summary_file: ${{ steps.analysis-context.outputs.published_output_file }}
@@ -406,6 +407,7 @@ jobs:
           ANALYSIS_SOURCE=""
           ANALYSIS_MODEL=""
           LAST_GATE_FINGERPRINT=""
+          FINAL_FAILURE_CLASS=""
 
           if command -v copilot >/dev/null 2>&1; then
             while [ "$GATE_PASSED" = "false" ] && [ "$ATTEMPT" -le "$MAX_RETRIES" ]; do
@@ -420,7 +422,9 @@ jobs:
             TRANSCRIPT_FILE="data/metrics/copilot-transcript-attempt-${ATTEMPT}.md"
             GATE_REPORT="$DIAGNOSTICS_DIR/gate-copilot-cli-attempt-${ATTEMPT}.json"
             CANDIDATE_SNAPSHOT="$DIAGNOSTICS_DIR/candidate-copilot-cli-attempt-${ATTEMPT}.md"
-            rm -f "$TRANSCRIPT_FILE"
+            COPILOT_LOG="$DIAGNOSTICS_DIR/copilot-cli-attempt-${ATTEMPT}.log"
+            COPILOT_FAILURE_REPORT="$DIAGNOSTICS_DIR/copilot-cli-failure-attempt-${ATTEMPT}.json"
+            rm -f "$TRANSCRIPT_FILE" "$COPILOT_LOG" "$COPILOT_FAILURE_REPORT"
             REPAIR_CONTEXT=""
             if [ "$ATTEMPT" -gt 0 ]; then
               PREVIOUS_REPORT="$DIAGNOSTICS_DIR/gate-copilot-cli-attempt-$((ATTEMPT - 1)).json"
@@ -430,7 +434,8 @@ jobs:
             fi
 
             # Intentionally rely on Copilot CLI's default model so CI follows the platform-supported default.
-            if ! copilot \
+            set +e
+            copilot \
               --agent squad \
               -p "Farnsworth, read the file at ${PROMPT_FILE} — it contains the weekly data and analysis instructions. Follow them exactly and write the analysis to ${OUTPUT_FILE}.${REPAIR_CONTEXT}" \
               -s \
@@ -440,8 +445,25 @@ jobs:
               --allow-tool=glob \
               --allow-tool=grep \
               --share="$TRANSCRIPT_FILE" \
-              > /dev/null; then
-              echo "::warning::Copilot CLI failed on attempt $((ATTEMPT + 1))"
+              > "$COPILOT_LOG" 2>&1
+            COPILOT_STATUS=$?
+            set -e
+            if [ "$COPILOT_STATUS" -ne 0 ]; then
+              FAILURE_CLASS=$(python3 scripts/copilot_failure.py \
+                --log "$COPILOT_LOG" \
+                --exit-code "$COPILOT_STATUS" \
+                --report-json "$COPILOT_FAILURE_REPORT" \
+                --create-token-issue \
+                --repo "${GITHUB_REPOSITORY:-jmservera/SquadScope}" \
+                --assignee "jmservera" \
+                --week "$WEEK" \
+                --run-id "${GITHUB_RUN_ID:-local}")
+              FINAL_FAILURE_CLASS="$FAILURE_CLASS"
+              echo "::warning::Copilot CLI failed on attempt $((ATTEMPT + 1)); class=${FAILURE_CLASS}; report=${COPILOT_FAILURE_REPORT}"
+              if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "copilot_inaccessible" ] || [ "$FAILURE_CLASS" = "context_too_large" ]; then
+                echo "::error::Non-retryable Copilot analysis failure (${FAILURE_CLASS}). See ${COPILOT_FAILURE_REPORT}."
+                exit 1
+              fi
               ATTEMPT=$((ATTEMPT + 1))
               continue
             fi
@@ -473,49 +495,24 @@ jobs:
             ATTEMPT=$((ATTEMPT + 1))
           done
           else
-            echo "::warning::Copilot CLI unavailable; falling back to GitHub Models API."
+            FINAL_FAILURE_CLASS="copilot_inaccessible"
+            echo "::error::Copilot CLI unavailable; this repository has no GitHub Models/OpenAI fallback."
+            exit 1
           fi
 
           if [ "$GATE_PASSED" = "false" ]; then
-            echo "::warning::No publishable Copilot summary was produced; falling back to GitHub Models API."
-            MODELS_PASSED="false"
-            MODELS_GATE_REPORT="$DIAGNOSTICS_DIR/gate-github-models-attempt-0.json"
-            if python3 scripts/analyze_fallback.py \
+            echo "::error::No publishable Copilot summary was produced; this repository has no GitHub Models/OpenAI fallback. Final failure class: ${FINAL_FAILURE_CLASS:-quality_gate}"
+            python3 scripts/analyze_fallback.py \
               --raw-json "$WEEK_FILE" \
               --output "$OUTPUT_FILE" \
               --current-datetime "$CURRENT_DATETIME" \
-              --press-context "$PRESS_FILE"; then
-              sanitize_agent_output "$OUTPUT_FILE"
-              if run_quality_gate github-models "$MODELS_GATE_REPORT"; then
-                cp "$OUTPUT_FILE" "$DIAGNOSTICS_DIR/candidate-github-models-attempt-0.md" 2>/dev/null || true
-                MODELS_PASSED="true"
-                ANALYSIS_SOURCE="github-models"
-                ANALYSIS_MODEL="${GITHUB_MODELS_MODEL:-openai/gpt-4o}"
-              else
-                cp "$OUTPUT_FILE" "$DIAGNOSTICS_DIR/candidate-github-models-attempt-0.md" 2>/dev/null || true
-                echo "::warning::GitHub Models output failed quality gate; falling back to data-only no-AI summary."
-              fi
-            else
-              echo "::warning::GitHub Models fallback failed; falling back to data-only no-AI summary."
-            fi
-
-            if [ "$MODELS_PASSED" = "false" ]; then
-              python3 scripts/analyze_fallback.py \
-                --raw-json "$WEEK_FILE" \
-                --output "$OUTPUT_FILE" \
-                --current-datetime "$CURRENT_DATETIME" \
-                --press-context "$PRESS_FILE" \
-                --no-ai
-              sanitize_agent_output "$OUTPUT_FILE"
-              NO_AI_GATE_REPORT="$DIAGNOSTICS_DIR/gate-no-ai-attempt-0.json"
-              if ! run_quality_gate no-ai "$NO_AI_GATE_REPORT"; then
-                echo "::error::Analysis quality gate failed for Copilot CLI, GitHub Models API, and no-AI outputs."
-                exit 1
-              fi
-              cp "$OUTPUT_FILE" "$DIAGNOSTICS_DIR/candidate-no-ai-attempt-0.md" 2>/dev/null || true
-              ANALYSIS_SOURCE="no-ai"
-              ANALYSIS_MODEL="none"
-            fi
+              --press-context "$PRESS_FILE" \
+              --no-ai
+            sanitize_agent_output "$OUTPUT_FILE"
+            NO_AI_GATE_REPORT="$DIAGNOSTICS_DIR/gate-no-ai-attempt-0.json"
+            run_quality_gate no-ai "$NO_AI_GATE_REPORT" || true
+            cp "$OUTPUT_FILE" "$DIAGNOSTICS_DIR/candidate-no-ai-attempt-0.md" 2>/dev/null || true
+            exit 1
           fi
 
           # Copy final transcript to canonical location

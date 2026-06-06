@@ -231,7 +231,7 @@ Navigate to **Actions → Crawl and Publish** in your repo. Green checkmarks = s
 4. Update the secret: `gh secret set COPILOT_GH_TOKEN --body YOUR_NEW_PAT -R YOUR_USERNAME/SquadScope`
 5. Re-run the workflow
 
-**Fallback:** The workflow automatically falls back to GitHub Models API if Copilot fails. Check the workflow logs to see which path was used.
+**Fallback:** There is no GitHub Models/OpenAI fallback for weekly analysis. Token/auth failures fail immediately and create or update an issue assigned to `@jmservera` to renew `COPILOT_GH_TOKEN`.
 
 ### ❌ GitHub API rate limits exceeded
 
@@ -255,7 +255,7 @@ Navigate to **Actions → Crawl and Publish** in your repo. Green checkmarks = s
 **Fix:**
 1. Check your Copilot usage: https://github.com/settings/copilot
 2. If you hit the limit, wait for the next billing cycle or upgrade your plan
-3. The workflow will automatically fall back to GitHub Models API (lower quality, but functional)
+3. The workflow retries transient Copilot failures, but no GitHub Models/OpenAI fallback is configured for weekly analysis.
 
 **Mitigation:** Copilot Pro includes generous quota. For automated pipelines, consider Copilot Team (more quota, better for organizations).
 
