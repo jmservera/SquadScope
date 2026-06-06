@@ -30,6 +30,8 @@ REQUIRED_FIELDS = [
 ]
 OPTIONAL_FIELDS = ["predictions"]
 PREDICTION_DIRECTIONS = {"up", "flat", "down"}
+PREDICTION_CLAIM_TYPES = {"signal", "noise", "gap"}
+PREDICTION_FIELDS = {"repo", "claim_type", "direction", "confidence"}
 REQUIRED_HEADINGS = [
     "## This Week's Trends",
     "## Where Industry Meets Code",
@@ -70,6 +72,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--raw-json", required=True, type=Path, help="Path to the raw weekly payload.")
     parser.add_argument("--current-datetime", required=True, help="Current run timestamp in ISO 8601 format.")
     parser.add_argument("--source", default="unknown", help="Analysis source label for summaries.")
+    parser.add_argument(
+        "--repair-safe",
+        action="store_true",
+        help="Apply deterministic frontmatter/schema repairs before final validation.",
+    )
+    parser.add_argument("--report-json", type=Path, help="Write a machine-readable gate report.")
     return parser.parse_args(argv)
 
 
@@ -205,12 +213,127 @@ def parse_frontmatter(text: str) -> dict[str, Any]:
     return parse_frontmatter_fallback(text)
 
 
+def dump_frontmatter(data: dict[str, Any]) -> str:
+    if yaml is not None:
+        dumped = yaml.safe_dump(data, sort_keys=False, allow_unicode=True).strip()
+        return re.sub(r"^(date): '([^']+)'$", r"\1: \2", dumped, flags=re.MULTILINE)
+
+    def format_scalar(value: Any) -> str:
+        if isinstance(value, str):
+            return json.dumps(value)
+        if isinstance(value, (int, float)):
+            return str(value)
+        raise TypeError(f"Unsupported frontmatter value for fallback dump: {value!r}")
+
+    lines: list[str] = []
+    for key, value in data.items():
+        if isinstance(value, list):
+            if not value:
+                lines.append(f"{key}: []")
+                continue
+            lines.append(f"{key}:")
+            for item in value:
+                if isinstance(item, dict):
+                    item_fields = list(item.items())
+                    first_key, first_value = item_fields[0]
+                    lines.append(f"  - {first_key}: {format_scalar(first_value)}")
+                    for nested_key, nested_value in item_fields[1:]:
+                        lines.append(f"    {nested_key}: {format_scalar(nested_value)}")
+                else:
+                    lines.append(f"  - {format_scalar(item)}")
+        else:
+            lines.append(f"{key}: {format_scalar(value)}")
+    return "\n".join(lines)
+
+
 def extract_frontmatter(text: str) -> tuple[dict[str, Any], str]:
     match = FRONTMATTER_PATTERN.match(text)
     if not match:
         raise ValueError("Analysis output is missing YAML frontmatter.")
     frontmatter_text, body = match.groups()
     return parse_frontmatter(frontmatter_text), body
+
+
+def render_analysis(frontmatter: dict[str, Any], body: str) -> str:
+    return f"---\n{dump_frontmatter(frontmatter)}\n---\n{body}"
+
+
+def expected_repo_counts(raw_payload: dict[str, Any]) -> tuple[int, int]:
+    repos: list[dict[str, Any]] = []
+    for field in ("new_repos", "trending_repos"):
+        value = raw_payload.get(field)
+        if isinstance(value, list):
+            repos.extend(item for item in value if isinstance(item, dict))
+    stars = sum(star for repo in repos if isinstance((star := repo.get("stars")), int) and not isinstance(star, bool))
+    return len(repos), stars
+
+
+def repair_analysis(
+    text: str,
+    raw_payload: dict[str, Any],
+    current_datetime: str,
+) -> tuple[str, list[str]]:
+    frontmatter, body = extract_frontmatter(text)
+    repaired = dict(frontmatter)
+    actions: list[str] = []
+
+    expected_week = raw_payload.get("week")
+    week_match = WEEK_PATTERN.fullmatch(expected_week) if isinstance(expected_week, str) else None
+    if isinstance(expected_week, str) and repaired.get("week") != expected_week:
+        repaired["week"] = expected_week
+        actions.append(f"set week from raw payload ({expected_week})")
+    if week_match:
+        expected_year = int(week_match.group("year"))
+        if repaired.get("year") != expected_year:
+            repaired["year"] = expected_year
+            actions.append(f"set year from raw payload week ({expected_year})")
+    if repaired.get("date") != current_datetime:
+        repaired["date"] = current_datetime
+        actions.append("set date from current run timestamp")
+
+    repos_featured, stars_tracked = expected_repo_counts(raw_payload)
+    if repaired.get("repos_featured") != repos_featured:
+        repaired["repos_featured"] = repos_featured
+        actions.append(f"set repos_featured from raw repo counts ({repos_featured})")
+    if repaired.get("stars_tracked") != stars_tracked:
+        repaired["stars_tracked"] = stars_tracked
+        actions.append(f"set stars_tracked from raw repo stars ({stars_tracked})")
+
+    predictions = repaired.get("predictions")
+    if isinstance(predictions, list):
+        repaired_predictions = []
+        changed_predictions = False
+        for index, prediction in enumerate(predictions, start=1):
+            if not isinstance(prediction, dict):
+                repaired_predictions.append(prediction)
+                continue
+            repaired_prediction = dict(prediction)
+            if "claim_type" not in repaired_prediction:
+                for alias in ("claim", "claimType", "type", "kind"):
+                    alias_value = repaired_prediction.get(alias)
+                    if isinstance(alias_value, str) and alias_value.strip().lower() in PREDICTION_CLAIM_TYPES:
+                        repaired_prediction["claim_type"] = alias_value.strip().lower()
+                        del repaired_prediction[alias]
+                        changed_predictions = True
+                        actions.append(f"set predictions[{index}].claim_type from {alias}")
+                        break
+            claim_type = repaired_prediction.get("claim_type")
+            if isinstance(claim_type, str) and claim_type.strip().lower() in PREDICTION_CLAIM_TYPES and claim_type != claim_type.strip().lower():
+                repaired_prediction["claim_type"] = claim_type.strip().lower()
+                changed_predictions = True
+                actions.append(f"normalized predictions[{index}].claim_type")
+            direction = repaired_prediction.get("direction")
+            if isinstance(direction, str) and direction.strip().lower() in PREDICTION_DIRECTIONS and direction != direction.strip().lower():
+                repaired_prediction["direction"] = direction.strip().lower()
+                changed_predictions = True
+                actions.append(f"normalized predictions[{index}].direction")
+            repaired_predictions.append(repaired_prediction)
+        if changed_predictions:
+            repaired["predictions"] = repaired_predictions
+
+    if not actions:
+        return text, actions
+    return render_analysis(repaired, body), actions
 
 
 def validate_string_field(frontmatter: dict[str, Any], field: str, errors: list[str]) -> None:
@@ -272,7 +395,7 @@ def validate_predictions(frontmatter: dict[str, Any], errors: list[str]) -> None
         confidence = prediction.get("confidence")
         if not isinstance(repo, str) or not TOP_REPO_PATTERN.fullmatch(repo.strip()):
             errors.append(f"predictions[{index}].repo must use owner/repo format.")
-        if not isinstance(claim_type, str) or claim_type.strip().lower() not in {"signal", "noise", "gap"}:
+        if not isinstance(claim_type, str) or claim_type.strip().lower() not in PREDICTION_CLAIM_TYPES:
             errors.append(f"predictions[{index}].claim_type must be one of signal, noise, gap.")
         if not isinstance(direction, str) or direction.strip().lower() not in PREDICTION_DIRECTIONS:
             errors.append(f"predictions[{index}].direction must be one of up, flat, down.")
@@ -280,7 +403,7 @@ def validate_predictions(frontmatter: dict[str, Any], errors: list[str]) -> None
             errors.append(f"predictions[{index}].confidence must be numeric.")
         elif not 0 <= float(confidence) <= 1:
             errors.append(f"predictions[{index}].confidence must be between 0 and 1.")
-        extra_fields = sorted(set(prediction) - {"repo", "claim_type", "direction", "confidence"})
+        extra_fields = sorted(set(prediction) - PREDICTION_FIELDS)
         if extra_fields:
             errors.append(f"predictions[{index}] has unexpected fields: {', '.join(extra_fields)}")
 
@@ -401,6 +524,46 @@ def report_success(path: Path, source: str, word_count: int, summary_path: str |
             handle.write(f"- Word count: `{word_count}`\n")
 
 
+def write_gate_report(
+    path: Path | None,
+    *,
+    analysis_file: Path,
+    source: str,
+    errors_before: list[str],
+    errors_after: list[str],
+    repair_actions: list[str],
+    word_count: int,
+) -> None:
+    if path is None:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "analysis_file": analysis_file.as_posix(),
+        "source": source,
+        "passed": not errors_after,
+        "word_count": word_count,
+        "errors_before_repair": errors_before,
+        "repair_actions": repair_actions,
+        "errors_after_repair": errors_after,
+        "failure_class": classify_gate_errors(errors_after),
+    }
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def classify_gate_errors(errors: list[str]) -> str:
+    if not errors:
+        return "passed"
+    if all(
+        error.startswith(("date must", "week must", "year must", "repos_featured must", "stars_tracked must"))
+        or ".claim_type must" in error
+        for error in errors
+    ):
+        return "metadata_schema"
+    if any(error.startswith("Missing required section heading") or "body" in error for error in errors):
+        return "content_structure"
+    return "quality_gate"
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
@@ -410,7 +573,32 @@ def main(argv: list[str] | None = None) -> int:
 
     text = args.analysis_file.read_text(encoding="utf-8")
     raw_payload = load_json(args.raw_json)
-    errors, word_count = validate_analysis(text, raw_payload, args.current_datetime)
+    errors_before, word_count = validate_analysis(text, raw_payload, args.current_datetime)
+    errors = errors_before
+    repair_actions: list[str] = []
+    if errors and args.repair_safe:
+        try:
+            repaired_text, repair_actions = repair_analysis(text, raw_payload, args.current_datetime)
+        except ValueError as exc:
+            repair_actions = [f"repair skipped: {exc}"]
+        else:
+            if repair_actions and repaired_text != text:
+                args.analysis_file.write_text(repaired_text, encoding="utf-8")
+                text = repaired_text
+                errors, word_count = validate_analysis(text, raw_payload, args.current_datetime)
+                print(
+                    f"::notice::Analysis gate applied safe repairs: {', '.join(repair_actions)}",
+                    file=sys.stderr,
+                )
+    write_gate_report(
+        args.report_json,
+        analysis_file=args.analysis_file,
+        source=args.source,
+        errors_before=errors_before,
+        errors_after=errors,
+        repair_actions=repair_actions,
+        word_count=word_count,
+    )
     if errors:
         fail(errors, summary_path)
 

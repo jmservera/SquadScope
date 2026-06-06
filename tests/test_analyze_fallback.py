@@ -5,6 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
+from urllib import error
 
 import scripts.analyze_fallback as analyze_fallback
 
@@ -288,6 +289,23 @@ class AnalyzeFallbackTests(unittest.TestCase):
             self.assertEqual(exit_code, 0)
             self.assertEqual(output_path.read_text(encoding="utf-8"), "# Summary\n")
             self.assertEqual(urlopen_mock.call_args.kwargs["timeout"], analyze_fallback.DEFAULT_MODELS_TIMEOUT)
+
+    def test_github_models_403_is_non_retryable_access_failure(self) -> None:
+        forbidden = error.HTTPError(
+            url=analyze_fallback.DEFAULT_MODELS_ENDPOINT,
+            code=403,
+            msg="Forbidden",
+            hdrs={},
+            fp=io.BytesIO(b'{"error":{"code":"no_access"}}'),
+        )
+
+        with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
+            analyze_fallback.request, "urlopen", side_effect=forbidden
+        ) as urlopen_mock:
+            with self.assertRaisesRegex(RuntimeError, "403, non-retryable.*no_access.*access is unavailable"):
+                analyze_fallback.call_github_models("prompt")
+
+        self.assertEqual(urlopen_mock.call_count, 1)
 
 
 if __name__ == "__main__":

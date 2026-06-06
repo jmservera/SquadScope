@@ -1,9 +1,15 @@
 import unittest
+from pathlib import Path
 
 import scripts.analysis_gate as analysis_gate
 
 
 RAW_PAYLOAD = {"week": "2026-W23"}
+RAW_PAYLOAD_WITH_REPOS = {
+    "week": "2026-W23",
+    "new_repos": [{"full_name": "owner/repo", "stars": 1000}],
+    "trending_repos": [{"full_name": "owner/repo-b", "stars": 200}],
+}
 CURRENT_DATETIME = "2026-06-01T00:00:00Z"
 
 
@@ -200,6 +206,42 @@ summary: "A grounded week focused on practical tools."'''.strip()
 
         self.assertEqual(errors, [])
 
+    def test_repair_analysis_refuses_to_guess_legacy_prediction_claim_type(self) -> None:
+        frontmatter = VALID_FRONTMATTER.replace(
+            "date: 2026-06-01T00:00:00Z",
+            "date: 2026-06-01T12:00:00Z",
+        ) + "\npredictions:\n  - repo: owner/repo\n    direction: up\n    confidence: 0.7"
+
+        repaired_text, actions = analysis_gate.repair_analysis(
+            make_analysis(frontmatter, make_body()),
+            RAW_PAYLOAD_WITH_REPOS,
+            CURRENT_DATETIME,
+        )
+        errors, _ = analysis_gate.validate_analysis(repaired_text, RAW_PAYLOAD_WITH_REPOS, CURRENT_DATETIME)
+        frontmatter_after, _ = analysis_gate.extract_frontmatter(repaired_text)
+
+        self.assertEqual(errors, ["predictions[1].claim_type must be one of signal, noise, gap."])
+        self.assertIn("set date from current run timestamp", actions)
+        self.assertNotIn("claim_type", frontmatter_after["predictions"][0])
+        self.assertEqual(frontmatter_after["repos_featured"], 2)
+        self.assertEqual(frontmatter_after["stars_tracked"], 1200)
+
+    def test_repair_analysis_normalizes_safe_prediction_claim_alias(self) -> None:
+        frontmatter = VALID_FRONTMATTER + "\npredictions:\n  - repo: owner/repo\n    claim: Signal\n    direction: UP\n    confidence: 0.7"
+
+        repaired_text, actions = analysis_gate.repair_analysis(
+            make_analysis(frontmatter, make_body()),
+            RAW_PAYLOAD,
+            CURRENT_DATETIME,
+        )
+        errors, _ = analysis_gate.validate_analysis(repaired_text, RAW_PAYLOAD, CURRENT_DATETIME)
+        frontmatter_after, _ = analysis_gate.extract_frontmatter(repaired_text)
+
+        self.assertEqual(errors, [])
+        self.assertIn("set predictions[1].claim_type from claim", actions)
+        self.assertEqual(frontmatter_after["predictions"][0]["claim_type"], "signal")
+        self.assertNotIn("claim", frontmatter_after["predictions"][0])
+
     def test_validate_analysis_rejects_invalid_prediction_registry(self) -> None:
         frontmatter = VALID_FRONTMATTER + "\npredictions:\n  - repo: bad repo\n    claim_type: maybe\n    direction: sideways\n    confidence: 1.3\n    note: nope"
 
@@ -214,6 +256,16 @@ summary: "A grounded week focused on practical tools."'''.strip()
         self.assertIn("predictions[1].direction must be one of up, flat, down.", errors)
         self.assertIn("predictions[1].confidence must be between 0 and 1.", errors)
         self.assertIn("predictions[1] has unexpected fields: note", errors)
+
+    def test_prediction_contract_examples_stay_aligned_with_gate(self) -> None:
+        repo_root = Path(__file__).resolve().parent.parent
+        docs = (repo_root / "docs" / "analysis-spec.md").read_text(encoding="utf-8")
+        prompt = (repo_root / "prompts" / "analyze-weekly.md").read_text(encoding="utf-8")
+
+        for content in (docs, prompt):
+            self.assertIn("{repo, claim_type, direction, confidence}", content)
+            self.assertIn("signal|noise|gap", content)
+            self.assertNotIn("{repo, direction, confidence}", content)
 
 
 if __name__ == "__main__":

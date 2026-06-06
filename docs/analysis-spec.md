@@ -205,7 +205,7 @@ The analyzer output must begin with YAML frontmatter containing these fields.
 | `top_repo` | string | yes | The repo that anchors the week’s narrative, not necessarily the highest-star repo. |
 | `quality_score` | integer | yes | Reviewer-gate score from 0-100. Must be `>= 60` to publish. |
 | `summary` | string | yes | One-sentence editorial thesis for the week. |
-| `predictions` | array<object> | no | Optional hindsight registry. Each entry is `{repo, direction, confidence}` using `owner/repo`, `up|flat|down`, and confidence from `0` to `1`. |
+| `predictions` | array<object> | no | Optional hindsight registry. Each entry is `{repo, claim_type, direction, confidence}` using `owner/repo`, `signal|noise|gap`, `up|flat|down`, and confidence from `0` to `1`. |
 
 No extra frontmatter keys should be emitted beyond this contract.
 
