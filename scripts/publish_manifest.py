@@ -27,6 +27,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     create.add_argument("--analysis-source", required=True)
     create.add_argument("--analysis-model", required=True)
     create.add_argument("--validation-status", choices=["passed", "failed"], required=True)
+    create.add_argument("--gate-report", type=Path, help="Structured analysis gate report emitted by analysis_gate.py.")
     create.add_argument("--output", required=True, type=Path)
     create.add_argument("--artifact", action="append", default=[], help="Additional source artifact as role=path.")
 
@@ -160,6 +161,73 @@ def parse_artifacts(values: list[str]) -> list[tuple[str, Path]]:
     return artifacts
 
 
+def load_gate_report(path: Path | None) -> dict[str, Any]:
+    if path is None:
+        return {
+            "path": None,
+            "present": False,
+            "passed": False,
+            "gates": {},
+            "errors": ["structured analysis gate report was not provided"],
+        }
+    payload = load_json(path)
+    if payload is None:
+        return {
+            "path": path.as_posix(),
+            "present": False,
+            "passed": False,
+            "gates": {},
+            "errors": ["structured analysis gate report is missing or malformed"],
+        }
+    gates = payload.get("gates")
+    if not isinstance(gates, dict):
+        gates = {}
+    errors = payload.get("errors_after_repair")
+    if not isinstance(errors, list):
+        errors = []
+    report = {
+        "path": path.as_posix(),
+        "present": True,
+        "passed": payload.get("passed") is True,
+        "failure_class": payload.get("failure_class"),
+        "source": payload.get("source"),
+        "model": payload.get("model"),
+        "repair_actions": payload.get("repair_actions") if isinstance(payload.get("repair_actions"), list) else [],
+        "errors": [str(error) for error in errors],
+        "gates": gates,
+        "sha256": sha256_file(path),
+    }
+    for gate_name in ("structural_schema", "ai_provenance", "evidence_citation", "editorial_quality"):
+        gate = gates.get(gate_name)
+        if not isinstance(gate, dict) or gate.get("passed") is not True:
+            report["passed"] = False
+    return report
+
+
+def gate_reasons(report: dict[str, Any]) -> list[str]:
+    reasons: list[str] = []
+    if not report.get("present"):
+        return [str(error) for error in report.get("errors", ["structured analysis gate report missing"])]
+    for name, gate in report.get("gates", {}).items():
+        if isinstance(gate, dict) and gate.get("passed") is not True:
+            gate_errors = gate.get("errors") if isinstance(gate.get("errors"), list) else []
+            if gate_errors:
+                reasons.extend(f"{name}: {error}" for error in gate_errors)
+            else:
+                reasons.append(f"{name} gate did not pass")
+    for error in report.get("errors", []):
+        if not any(str(error) in reason for reason in reasons):
+            reasons.append(str(error))
+    return reasons
+
+
+def publishable_model_status(model: str) -> str:
+    normalized = model.strip().lower()
+    if normalized in {"", "unknown", "unavailable", "none", "no-ai"}:
+        return "unavailable"
+    return "available"
+
+
 def create_manifest(args: argparse.Namespace) -> int:
     artifacts = [("raw_github", args.raw_json), *parse_artifacts(args.artifact)]
     source_artifacts = [artifact_entry(role, path, args.week) for role, path in artifacts if path.exists() or role == "raw_github"]
@@ -171,9 +239,12 @@ def create_manifest(args: argparse.Namespace) -> int:
 
     analysis_source = args.analysis_source.strip()
     ai_status = "ai" if analysis_source in AI_SOURCES else "no-ai" if analysis_source == "no-ai" else "unknown"
+    model_status = publishable_model_status(args.analysis_model)
+    gate_report = load_gate_report(args.gate_report)
     candidate_exists = args.summary.exists()
     validation_passed = args.validation_status == "passed"
-    eligible = candidate_exists and validation_passed and ai_status == "ai" and not artifact_reasons
+    gates_passed = gate_report.get("present") is True and gate_report.get("passed") is True
+    eligible = candidate_exists and validation_passed and ai_status == "ai" and model_status == "available" and gates_passed and not artifact_reasons
 
     reasons: list[str] = []
     if not candidate_exists:
@@ -182,6 +253,10 @@ def create_manifest(args: argparse.Namespace) -> int:
         reasons.append("analysis validation did not pass")
     if ai_status != "ai":
         reasons.append(f"analysis source is not AI-publishable: {analysis_source or 'unknown'}")
+    if model_status != "available":
+        reasons.append(f"analysis model is not AI-publishable: {args.analysis_model or 'unknown'}")
+    if not gates_passed:
+        reasons.extend(gate_reasons(gate_report))
     reasons.extend(artifact_reasons)
 
     manifest = {
@@ -199,6 +274,7 @@ def create_manifest(args: argparse.Namespace) -> int:
             "ai_status": ai_status,
             "source": analysis_source,
             "model": args.analysis_model,
+            "model_status": model_status,
             "provenance": {
                 "run_id": args.run_id,
                 "current_datetime": args.current_datetime,
@@ -206,11 +282,13 @@ def create_manifest(args: argparse.Namespace) -> int:
         },
         "validation": {
             "status": args.validation_status,
+            "gate_report": gate_report,
             "quality_gates": [
                 {
                     "name": "analysis_gate",
-                    "status": args.validation_status,
+                    "status": "passed" if gates_passed else "failed",
                     "source": analysis_source,
+                    "report": gate_report.get("path"),
                 }
             ],
         },
@@ -236,6 +314,19 @@ def assert_eligible(args: argparse.Namespace) -> int:
         raise SystemExit(f"Publish manifest is missing or malformed: {args.manifest}")
     if payload.get("schema_version") != SCHEMA_VERSION:
         raise SystemExit(f"Unsupported publish manifest schema: {payload.get('schema_version')!r}")
+    analysis = payload.get("analysis")
+    if not isinstance(analysis, dict) or analysis.get("ai_status") != "ai":
+        raise SystemExit("Manifest lacks publishable AI provenance.")
+    if analysis.get("model_status") != "available":
+        raise SystemExit("Manifest lacks an available AI model.")
+    validation = payload.get("validation")
+    gate_report = validation.get("gate_report") if isinstance(validation, dict) else None
+    if not isinstance(gate_report, dict) or gate_report.get("present") is not True or gate_report.get("passed") is not True:
+        raise SystemExit("Manifest lacks a passing structured analysis gate report.")
+    for gate_name in ("structural_schema", "ai_provenance", "evidence_citation", "editorial_quality"):
+        gate = gate_report.get("gates", {}).get(gate_name) if isinstance(gate_report.get("gates"), dict) else None
+        if not isinstance(gate, dict) or gate.get("passed") is not True:
+            raise SystemExit(f"Manifest analysis gate did not pass: {gate_name}")
     promotion = payload.get("promotion")
     if not isinstance(promotion, dict) or promotion.get("eligible") is not True or promotion.get("decision") != "promote":
         reasons = promotion.get("reasons") if isinstance(promotion, dict) else ["missing promotion block"]

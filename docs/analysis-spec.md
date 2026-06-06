@@ -326,7 +326,7 @@ Compare the current week to the prior week when a prior summary exists. Note con
 
 ## Reviewer-Gate Expectations
 
-A weekly analysis is publishable only if all of the following are true:
+A weekly analysis is structurally valid only if all of the following are true:
 
 - `quality_score >= 60`
 - all required frontmatter fields are present,
@@ -334,6 +334,15 @@ A weekly analysis is publishable only if all of the following are true:
 - `### Notable Projects` and `### Press & Industry` subsections are present under `## Key References`,
 - body word count is at least 200,
 - the prose contains no raw JSON, tool logs, or placeholder text.
+
+Publication also requires a structured gate report with four passing gate families:
+
+- `structural_schema` — frontmatter, schema, dates, headings, section order, and deterministic repair results.
+- `ai_provenance` — a publishable AI source and available model; `no-ai`, unknown, unavailable, or deterministic repair failure outputs are staged but not promoted.
+- `evidence_citation` — fresh raw evidence and markdown citations to raw-payload repositories where repository evidence exists.
+- `editorial_quality` — enough section depth, explanatory trend judgment, no contradictory claims, and no generic low-signal prose.
+
+The publish manifest records these gate outcomes and promotion must consume them before replacing a previously published AI-authored article.
 
 ## Generator Handoff Rules
 

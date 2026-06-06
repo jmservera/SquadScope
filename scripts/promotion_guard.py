@@ -71,6 +71,49 @@ def _resolve_under_root(root: Path, value: Any, field: str, reasons: list[str]) 
     return resolved_path
 
 
+def _manifest_candidate_path(manifest: dict[str, Any], legacy_key: str, nested_key: str) -> Any:
+    candidate = manifest.get("candidate")
+    if isinstance(candidate, dict) and nested_key in candidate:
+        return candidate.get(nested_key)
+    return manifest.get(legacy_key)
+
+
+def _manifest_promotion_eligible(manifest: dict[str, Any]) -> bool:
+    promotion = manifest.get("promotion")
+    if isinstance(promotion, dict):
+        return promotion.get("eligible") is True and promotion.get("decision") == "promote"
+    return manifest.get("promotion_eligible") is True
+
+
+def _manifest_ai_provenance(manifest: dict[str, Any]) -> dict[str, Any] | None:
+    analysis = manifest.get("analysis")
+    if isinstance(analysis, dict):
+        return {
+            "source": analysis.get("source"),
+            "model": analysis.get("model"),
+            "degraded": analysis.get("ai_status") != "ai" or analysis.get("model_status") != "available",
+        }
+    ai_provenance = manifest.get("ai_provenance")
+    return ai_provenance if isinstance(ai_provenance, dict) else None
+
+
+def _manifest_gate_results(manifest: dict[str, Any]) -> dict[str, bool] | None:
+    gate_results = manifest.get("gate_results")
+    if isinstance(gate_results, dict):
+        return {str(key): value is True for key, value in gate_results.items()}
+    validation = manifest.get("validation")
+    gate_report = validation.get("gate_report") if isinstance(validation, dict) else None
+    gates = gate_report.get("gates") if isinstance(gate_report, dict) else None
+    if isinstance(gates, dict):
+        return {str(key): isinstance(value, dict) and value.get("passed") is True for key, value in gates.items()}
+    return None
+
+
+def _manifest_source_artifacts(manifest: dict[str, Any]) -> list[Any] | None:
+    artifacts = manifest.get("source_artifacts")
+    return artifacts if isinstance(artifacts, list) else None
+
+
 def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path) -> tuple[str, Path, Path, list[str]]:
     reasons: list[str] = []
 
@@ -84,13 +127,13 @@ def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path
     elif not WEEK_PATTERN.fullmatch(week):
         reasons.append("week must use YYYY-WNN format.")
 
-    if manifest.get("promotion_eligible") is not True:
+    if not _manifest_promotion_eligible(manifest):
         reasons.append("promotion_eligible must be true.")
 
-    candidate_summary = _resolve_under_root(root, manifest.get("candidate_summary_path"), "candidate_summary_path", reasons)
-    candidate_content = _resolve_under_root(root, manifest.get("candidate_content_path"), "candidate_content_path", reasons)
+    candidate_summary = _resolve_under_root(root, _manifest_candidate_path(manifest, "candidate_summary_path", "summary_path"), "candidate_summary_path", reasons)
+    candidate_content = _resolve_under_root(root, _manifest_candidate_path(manifest, "candidate_content_path", "content_path"), "candidate_content_path", reasons)
 
-    ai_provenance = manifest.get("ai_provenance")
+    ai_provenance = _manifest_ai_provenance(manifest)
     if not isinstance(ai_provenance, dict):
         reasons.append("ai_provenance is required.")
     else:
@@ -100,19 +143,24 @@ def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path
         if ai_provenance.get("degraded") is True:
             reasons.append("degraded AI provenance is not eligible for normal promotion.")
 
-    gate_results = manifest.get("gate_results")
+    gate_results = _manifest_gate_results(manifest)
     if not isinstance(gate_results, dict):
         reasons.append("gate_results is required.")
     else:
-        for gate in ("analysis_gate", "editorial_quality_gate", "evidence_freshness_gate"):
-            if gate_results.get(gate) is not True:
+        for gate in ("structural_schema", "ai_provenance", "evidence_citation", "editorial_quality"):
+            if gate in gate_results and gate_results.get(gate) is not True:
                 reasons.append(f"{gate} must pass.")
+        legacy_gates = ("analysis_gate", "editorial_quality_gate", "evidence_freshness_gate")
+        if any(gate in gate_results for gate in legacy_gates):
+            for gate in legacy_gates:
+                if gate_results.get(gate) is not True:
+                    reasons.append(f"{gate} must pass.")
 
     run_date = _parse_date(manifest.get("run_started_at"))
     if run_date is None:
         reasons.append("run_started_at must be an ISO date or timestamp.")
 
-    source_artifacts = manifest.get("source_artifacts")
+    source_artifacts = _manifest_source_artifacts(manifest)
     if not isinstance(source_artifacts, list) or not source_artifacts:
         reasons.append("source_artifacts must include at least one artifact.")
     else:
@@ -121,9 +169,10 @@ def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path
             if not isinstance(artifact, dict):
                 reasons.append(f"{prefix} must be an object.")
                 continue
-            if artifact.get("stale") is True:
+            freshness = artifact.get("freshness")
+            if artifact.get("stale") is True or (isinstance(freshness, dict) and freshness.get("status") == "stale"):
                 reasons.append(f"{prefix} is stale.")
-            generated_date = _parse_date(artifact.get("generated_at"))
+            generated_date = _parse_date(artifact.get("generated_at") or artifact.get("crawled_at"))
             if generated_date is None:
                 reasons.append(f"{prefix}.generated_at must be an ISO date or timestamp.")
             elif run_date is not None and generated_date != run_date and artifact.get("reused_same_day") is not True:

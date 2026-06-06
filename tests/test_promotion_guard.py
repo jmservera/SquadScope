@@ -112,6 +112,59 @@ def manifest_for(root: Path, name: str, **overrides) -> Path:
     return manifest_path
 
 
+def nested_manifest_for(root: Path, name: str, **overrides) -> Path:
+    summary_path, content_path = write_candidate(
+        root,
+        name,
+        overrides.pop("summary", VALID_REPLACEMENT_SUMMARY),
+        overrides.pop("content", VALID_REPLACEMENT_CONTENT),
+    )
+    source_artifact = write_source_artifact(root, name)
+    manifest = {
+        "schema_version": "publish_eligibility_v1",
+        "week": WEEK,
+        "run_id": f"{WEEK}-{name}",
+        "run_started_at": RUN_STARTED_AT,
+        "candidate": {
+            "summary_path": summary_path.relative_to(root).as_posix(),
+            "content_path": content_path.relative_to(root).as_posix(),
+            "summary_sha256": "sha256:test",
+        },
+        "analysis": {
+            "ai_status": "ai",
+            "source": "copilot-cli",
+            "model": "copilot-default",
+            "model_status": "available",
+        },
+        "validation": {
+            "gate_report": {
+                "present": True,
+                "passed": True,
+                "gates": {
+                    "structural_schema": {"passed": True, "errors": []},
+                    "ai_provenance": {"passed": True, "errors": []},
+                    "evidence_citation": {"passed": True, "errors": []},
+                    "editorial_quality": {"passed": True, "errors": []},
+                },
+            },
+        },
+        "promotion": {"eligible": True, "decision": "promote", "reasons": []},
+        "source_artifacts": [
+            {
+                "path": source_artifact.relative_to(root).as_posix(),
+                "sha256": "test",
+                "crawled_at": RUN_STARTED_AT,
+                "freshness": {"status": "fresh", "reasons": []},
+            }
+        ],
+    }
+    for key, value in overrides.items():
+        manifest[key] = value
+    manifest_path = root / "data" / "staging" / WEEK / name / "publish-manifest.json"
+    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return manifest_path
+
+
 class PromotionGuardTests(unittest.TestCase):
     def test_failed_degraded_and_no_ai_candidates_do_not_replace_existing_good_article(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -261,6 +314,35 @@ class PromotionGuardTests(unittest.TestCase):
                 promotion_guard.promote_candidate(misplaced_manifest, root=root)
 
             self.assertIn("Publish manifest must live under data/staging/.", blocked.exception.reasons)
+
+    def test_nested_manifest_gate_decisions_are_consumed(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            install_existing_good_article(root)
+            blocked = nested_manifest_for(
+                root,
+                "nested-blocked",
+                validation={
+                    "gate_report": {
+                        "present": True,
+                        "passed": False,
+                        "gates": {
+                            "structural_schema": {"passed": True, "errors": []},
+                            "ai_provenance": {"passed": True, "errors": []},
+                            "evidence_citation": {"passed": False, "errors": ["missing evidence"]},
+                            "editorial_quality": {"passed": True, "errors": []},
+                        },
+                    }
+                },
+                promotion={"eligible": False, "decision": "block", "reasons": ["missing evidence"]},
+            )
+
+            with self.assertRaises(promotion_guard.PromotionBlocked) as raised:
+                promotion_guard.promote_candidate(blocked, root=root)
+
+            self.assertIn("promotion_eligible must be true.", raised.exception.reasons)
+            self.assertIn("evidence_citation must pass.", raised.exception.reasons)
 
 
 if __name__ == "__main__":

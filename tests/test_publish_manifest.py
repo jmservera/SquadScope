@@ -41,6 +41,60 @@ def write_summary(path: Path) -> None:
     path.write_text("---\nweek: 2026-W21\n---\n\nbody\n", encoding="utf-8")
 
 
+def write_gate_report(path: Path, *, passed: bool = True, errors: list[str] | None = None) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    gate_errors = errors or []
+    gates = {
+        "structural_schema": {"passed": passed, "errors": gate_errors if not passed else []},
+        "ai_provenance": {"passed": True, "errors": []},
+        "evidence_citation": {"passed": True, "errors": []},
+        "editorial_quality": {"passed": True, "errors": []},
+    }
+    path.write_text(
+        json.dumps(
+            {
+                "passed": passed,
+                "source": "copilot-cli",
+                "model": "copilot-default",
+                "failure_class": "passed" if passed else "structural_schema",
+                "errors_after_repair": gate_errors,
+                "repair_actions": [],
+                "gates": gates,
+            }
+        ),
+        encoding="utf-8",
+    )
+
+
+def create_args(base: Path, raw: Path, summary: Path, manifest: Path, *, source: str = "copilot-cli", model: str = "copilot-default", gate_report: Path | None = None, validation_status: str = "passed") -> list[str]:
+    args = [
+        "create",
+        "--week",
+        WEEK,
+        "--run-id",
+        RUN_ID,
+        "--current-datetime",
+        CURRENT_DATETIME,
+        "--summary",
+        str(summary),
+        "--published-summary",
+        str(base / "data/analyzed/2026-W21-summary.md"),
+        "--raw-json",
+        str(raw),
+        "--analysis-source",
+        source,
+        "--analysis-model",
+        model,
+        "--validation-status",
+        validation_status,
+        "--output",
+        str(manifest),
+    ]
+    if gate_report is not None:
+        args.extend(["--gate-report", str(gate_report)])
+    return args
+
+
 class PublishManifestTests(unittest.TestCase):
     def test_ai_candidate_with_fresh_sources_is_eligible(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -49,33 +103,13 @@ class PublishManifestTests(unittest.TestCase):
             raw = base / "data/raw/2026-W21.json"
             summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
             manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
             write_raw(raw)
             write_summary(summary)
+            write_gate_report(gate_report)
 
             exit_code = publish_manifest.main(
-                [
-                    "create",
-                    "--week",
-                    WEEK,
-                    "--run-id",
-                    RUN_ID,
-                    "--current-datetime",
-                    CURRENT_DATETIME,
-                    "--summary",
-                    str(summary),
-                    "--published-summary",
-                    str(base / "data/analyzed/2026-W21-summary.md"),
-                    "--raw-json",
-                    str(raw),
-                    "--analysis-source",
-                    "copilot-cli",
-                    "--analysis-model",
-                    "copilot-default",
-                    "--validation-status",
-                    "passed",
-                    "--output",
-                    str(manifest),
-                ]
+                create_args(base, raw, summary, manifest, gate_report=gate_report)
             )
 
             self.assertEqual(exit_code, 0)
@@ -95,33 +129,13 @@ class PublishManifestTests(unittest.TestCase):
             raw = base / "data/raw/2026-W21.json"
             summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
             manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
             write_raw(raw)
             write_summary(summary)
+            write_gate_report(gate_report)
 
             publish_manifest.main(
-                [
-                    "create",
-                    "--week",
-                    WEEK,
-                    "--run-id",
-                    RUN_ID,
-                    "--current-datetime",
-                    CURRENT_DATETIME,
-                    "--summary",
-                    str(summary),
-                    "--published-summary",
-                    str(base / "data/analyzed/2026-W21-summary.md"),
-                    "--raw-json",
-                    str(raw),
-                    "--analysis-source",
-                    "no-ai",
-                    "--analysis-model",
-                    "none",
-                    "--validation-status",
-                    "passed",
-                    "--output",
-                    str(manifest),
-                ]
+                create_args(base, raw, summary, manifest, source="no-ai", model="none", gate_report=gate_report)
             )
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
@@ -137,33 +151,13 @@ class PublishManifestTests(unittest.TestCase):
             raw = base / "data/raw/2026-W21.json"
             summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
             manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
             write_raw(raw, crawled_at="2026-05-11T08:00:00Z")
             write_summary(summary)
+            write_gate_report(gate_report)
 
             publish_manifest.main(
-                [
-                    "create",
-                    "--week",
-                    WEEK,
-                    "--run-id",
-                    RUN_ID,
-                    "--current-datetime",
-                    CURRENT_DATETIME,
-                    "--summary",
-                    str(summary),
-                    "--published-summary",
-                    str(base / "data/analyzed/2026-W21-summary.md"),
-                    "--raw-json",
-                    str(raw),
-                    "--analysis-source",
-                    "github-models",
-                    "--analysis-model",
-                    "openai/gpt-4o",
-                    "--validation-status",
-                    "passed",
-                    "--output",
-                    str(manifest),
-                ]
+                create_args(base, raw, summary, manifest, source="github-models", model="openai/gpt-4o", gate_report=gate_report)
             )
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
@@ -316,6 +310,25 @@ class PublishManifestTests(unittest.TestCase):
             reuse = json.loads(manifest.read_text(encoding="utf-8"))["source_artifacts"][0]["same_day_reuse"]
             self.assertEqual(reuse["status"], "reused")
             self.assertEqual(reuse["source_id"], "github-search")
+
+    def test_failed_gate_report_blocks_promotion(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report, passed=False, errors=["editorial_quality: low-quality summary"])
+
+            publish_manifest.main(create_args(base, raw, summary, manifest, gate_report=gate_report))
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertEqual(payload["validation"]["quality_gates"][0]["status"], "failed")
+            self.assertTrue(any("low-quality summary" in reason for reason in payload["promotion"]["reasons"]))
 
 
 if __name__ == "__main__":

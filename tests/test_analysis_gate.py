@@ -10,6 +10,7 @@ import scripts.analysis_gate as analysis_gate
 RAW_PAYLOAD = {"week": "2026-W23"}
 RAW_PAYLOAD_WITH_REPOS = {
     "week": "2026-W23",
+    "crawled_at": "2026-06-01T00:00:00Z",
     "new_repos": [{"full_name": "owner/repo", "stars": 1000}],
     "trending_repos": [{"full_name": "owner/repo-b", "stars": 200}],
 }
@@ -330,6 +331,98 @@ summary: "A grounded week focused on practical tools."'''.strip()
             report = analysis_gate.load_json(report_path)
             self.assertEqual(report["repair_actions"], ["repair skipped: boom"])
             self.assertIn("predictions[1].repo must use owner/repo format.", report["errors_after_repair"])
+
+    def test_publish_quality_gate_rejects_structurally_valid_low_quality_summary(self) -> None:
+        generic = " ".join(["Projects were active this week and many updates appeared across the list."] * 12)
+        low_quality = f"""
+## This Week's Trends
+
+{generic}
+
+## Where Industry Meets Code
+
+{generic}
+
+## Signal & Noise
+
+{generic}
+
+## Blind Spots
+
+{generic}
+
+## The Week Ahead
+
+{generic}
+
+## Key References
+
+### Notable Projects
+
+- [owner/repo-a](https://github.com/owner/repo-a) — appeared in the list.
+- [owner/repo-b](https://github.com/owner/repo-b) — appeared in the list.
+
+### Press & Industry
+
+No press data was provided this week.
+""".strip()
+        errors, gates = analysis_gate.validate_publish_quality(
+            make_analysis(VALID_FRONTMATTER, low_quality),
+            RAW_PAYLOAD,
+            source="copilot-cli",
+            model="copilot-default",
+        )
+
+        self.assertTrue(any("editorial analysis" in error for error in errors))
+        self.assertFalse(gates["editorial_quality"]["passed"])
+
+    def test_publish_quality_gate_rejects_missing_evidence_citations(self) -> None:
+        body = make_body().replace("[owner/repo-b](https://github.com/owner/repo-b)", "owner/repo-b")
+        errors, gates = analysis_gate.validate_publish_quality(
+            make_analysis(VALID_FRONTMATTER, body),
+            RAW_PAYLOAD_WITH_REPOS,
+            source="copilot-cli",
+            model="copilot-default",
+        )
+
+        self.assertIn("evidence citations must include at least one repository link from the raw payload.", errors)
+        self.assertFalse(gates["evidence_citation"]["passed"])
+
+    def test_publish_quality_gate_rejects_stale_evidence(self) -> None:
+        stale_payload = dict(RAW_PAYLOAD_WITH_REPOS, crawled_at="2026-05-25T00:00:00Z")
+        errors, gates = analysis_gate.validate_publish_quality(
+            make_analysis(VALID_FRONTMATTER, make_body()),
+            stale_payload,
+            source="copilot-cli",
+            model="copilot-default",
+        )
+
+        self.assertTrue(any("raw evidence timestamp week mismatch" in error for error in errors))
+        self.assertFalse(gates["evidence_citation"]["passed"])
+
+    def test_publish_quality_gate_rejects_no_ai_provenance(self) -> None:
+        errors, gates = analysis_gate.validate_publish_quality(
+            make_analysis(VALID_FRONTMATTER, make_body()),
+            RAW_PAYLOAD,
+            source="no-ai",
+            model="none",
+        )
+
+        self.assertIn("AI provenance source is not publishable: no-ai.", errors)
+        self.assertIn("AI provenance model is not publishable: none.", errors)
+        self.assertFalse(gates["ai_provenance"]["passed"])
+
+    def test_publish_quality_gate_rejects_contradictory_press_claims(self) -> None:
+        body = make_body() + "\n\nNo press data was provided this week, but TechCrunch reported a major launch."
+        errors, gates = analysis_gate.validate_publish_quality(
+            make_analysis(VALID_FRONTMATTER, body),
+            RAW_PAYLOAD,
+            source="copilot-cli",
+            model="copilot-default",
+        )
+
+        self.assertTrue(any("contradictory claim" in error for error in errors))
+        self.assertFalse(gates["editorial_quality"]["passed"])
 
 
 if __name__ == "__main__":
