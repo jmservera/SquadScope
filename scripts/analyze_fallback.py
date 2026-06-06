@@ -25,6 +25,7 @@ DEFAULT_SKILLS_DIR = ROOT / ".squad" / "skills"
 DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
 DEFAULT_MODELS_MODEL = "openai/gpt-4o"
 DEFAULT_MODELS_TIMEOUT = 30
+NO_AI_DIAGNOSTIC_QUALITY_SCORE = 40
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -470,7 +471,7 @@ categories: [weekly]
 repos_featured: {repos_featured}
 stars_tracked: {total_stars}
 top_repo: "{top_repo}"
-quality_score: 70
+quality_score: {NO_AI_DIAGNOSTIC_QUALITY_SCORE}
 summary: "Automated data-only summary for {week}. AI analysis was unavailable; this report presents raw crawl statistics and top repositories without editorial commentary."
 ---
 
