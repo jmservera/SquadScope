@@ -284,7 +284,7 @@ def source_reuse_decisions(
             if metadata.get("source_config_checksum") != current_config_checksum:
                 global_reasons.append("source config checksum mismatch")
             artifact_code_sha = metadata.get("crawler_code_sha")
-            if current_code_sha and artifact_code_sha and artifact_code_sha != current_code_sha:
+            if current_code_sha and artifact_code_sha != current_code_sha:
                 global_reasons.append("crawler/config fingerprint mismatch")
         if articles_malformed:
             global_reasons.append("artifact articles malformed")
@@ -357,7 +357,7 @@ def plan_source_reuse(
         if metadata.get("schema_checksum") != expected_schema_checksum:
             stale_reasons.append("schema_checksum mismatch")
         artifact_code_sha = metadata.get("crawler_code_sha")
-        if current_code_sha and artifact_code_sha and artifact_code_sha != current_code_sha:
+        if current_code_sha and artifact_code_sha != current_code_sha:
             stale_reasons.append("crawler/config fingerprint mismatch")
 
     previous_metadata = previous.get("metadata", {}) if isinstance(previous, dict) and isinstance(previous.get("metadata"), dict) else {}

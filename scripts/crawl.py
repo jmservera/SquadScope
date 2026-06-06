@@ -692,7 +692,7 @@ def load_reusable_github_payload(
     ):
         return None
     artifact_code_sha = metadata.get("crawler_code_sha")
-    if current_code_sha and artifact_code_sha and artifact_code_sha != current_code_sha:
+    if current_code_sha and artifact_code_sha != current_code_sha:
         return None
     original_checksum = metadata.get("artifact_checksum")
     metadata["same_day_reuse"] = {
@@ -716,16 +716,38 @@ def load_reusable_github_payload(
     return payload
 
 
-def restore_reused_snapshot(reuse_path: Path, metadata: dict[str, Any]) -> None:
+def _safe_snapshot_destination(snapshot_path: str, expected_snapshot_dir: Path = SNAPSHOT_ROOT) -> Path | None:
+    destination = Path(snapshot_path)
+    expected_root = Path("data") / "snapshots"
+    if destination.is_absolute() or ".." in destination.parts:
+        return None
+    if len(destination.parts) < 3 or destination.parts[:2] != expected_root.parts:
+        return None
+    expected_dir = expected_snapshot_dir.resolve()
+    resolved_destination = destination.resolve()
+    if expected_dir != resolved_destination.parent and expected_dir not in resolved_destination.parents:
+        return None
+    return destination
+
+
+def restore_reused_snapshot(
+    reuse_path: Path,
+    metadata: dict[str, Any],
+    *,
+    expected_snapshot_dir: Path = SNAPSHOT_ROOT,
+) -> None:
     snapshot_path = metadata.get("snapshot_path")
     if not isinstance(snapshot_path, str) or not snapshot_path:
+        return
+    destination = _safe_snapshot_destination(snapshot_path, expected_snapshot_dir)
+    if destination is None:
         return
     source_snapshot = reuse_path.parent.parent / "snapshots" / Path(snapshot_path).name
     if not source_snapshot.exists():
         return
     snapshot_payload = load_json_artifact(source_snapshot)
     if snapshot_payload is not None:
-        write_payload(Path(snapshot_path), snapshot_payload)
+        write_payload(destination, snapshot_payload)
 
 
 def load_previous_star_snapshot(snapshot_dir: Path, current_week: str, *raw_dirs: Path) -> dict[str, int]:
@@ -1001,7 +1023,7 @@ def main() -> int:
         )
         if reusable is not None:
             write_payload(output_path, reusable)
-            restore_reused_snapshot(reuse_path, reusable.get("metadata", {}))
+            restore_reused_snapshot(reuse_path, reusable.get("metadata", {}), expected_snapshot_dir=topic_snapshots)
             print(f"Reused same-day GitHub raw artifact {reuse_path} -> {output_path}; used 0 API calls.")
             return 0
 
