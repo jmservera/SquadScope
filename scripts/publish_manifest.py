@@ -22,6 +22,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     create.add_argument("--run-id", required=True)
     create.add_argument("--current-datetime", required=True)
     create.add_argument("--summary", required=True, type=Path)
+    create.add_argument("--content", type=Path, help="Rendered candidate content path. Defaults to --summary for legacy summary-only manifests.")
     create.add_argument("--published-summary", required=True, type=Path)
     create.add_argument("--raw-json", required=True, type=Path)
     create.add_argument("--analysis-source", required=True)
@@ -116,7 +117,7 @@ def freshness_for_json_artifact(role: str, week: str, payload: dict[str, Any] | 
     return {"status": "fresh" if not reasons else "stale", "reasons": reasons}
 
 
-def artifact_entry(role: str, path: Path, week: str) -> dict[str, Any]:
+def artifact_entry(role: str, path: Path, week: str, generated_at: str | None = None) -> dict[str, Any]:
     payload = load_json(path) if path.suffix == ".json" else None
     metadata = payload.get("metadata", {}) if isinstance(payload, dict) and isinstance(payload.get("metadata"), dict) else {}
     entry: dict[str, Any] = {
@@ -128,6 +129,7 @@ def artifact_entry(role: str, path: Path, week: str) -> dict[str, Any]:
         "artifact_checksum": metadata.get("artifact_checksum"),
         "week": payload.get("week") if isinstance(payload, dict) else None,
         "crawled_at": payload.get("crawled_at") if isinstance(payload, dict) else None,
+        "generated_at": (payload.get("generated_at") or generated_at) if isinstance(payload, dict) else generated_at,
         "same_day_reuse": same_day_reuse_status(payload),
         "freshness": freshness_for_json_artifact(role, week, payload) if path.suffix == ".json" else {"status": "not_applicable", "reasons": []},
     }
@@ -236,7 +238,7 @@ def publishable_model_status(model: str) -> str:
 
 def create_manifest(args: argparse.Namespace) -> int:
     artifacts = [("raw_github", args.raw_json), *parse_artifacts(args.artifact)]
-    source_artifacts = [artifact_entry(role, path, args.week) for role, path in artifacts if path.exists() or role == "raw_github"]
+    source_artifacts = [artifact_entry(role, path, args.week, args.current_datetime) for role, path in artifacts if path.exists() or role == "raw_github"]
     artifact_reasons = [
         f"{entry['role']}: {reason}"
         for entry in source_artifacts
@@ -248,13 +250,17 @@ def create_manifest(args: argparse.Namespace) -> int:
     model_status = publishable_model_status(args.analysis_model)
     gate_report = load_gate_report(args.gate_report)
     candidate_exists = args.summary.exists()
+    candidate_content = args.content or args.summary
+    candidate_content_exists = candidate_content.exists()
     validation_passed = args.validation_status == "passed"
     gates_passed = gate_report.get("present") is True and gate_report.get("passed") is True
-    eligible = candidate_exists and validation_passed and ai_status == "ai" and model_status == "available" and gates_passed and not artifact_reasons
+    eligible = candidate_exists and candidate_content_exists and validation_passed and ai_status == "ai" and model_status == "available" and gates_passed and not artifact_reasons
 
     reasons: list[str] = []
     if not candidate_exists:
         reasons.append(f"candidate summary missing: {args.summary}")
+    if not candidate_content_exists:
+        reasons.append(f"candidate content missing: {candidate_content}")
     if not validation_passed:
         reasons.append("analysis validation did not pass")
     if ai_status != "ai":
@@ -270,8 +276,13 @@ def create_manifest(args: argparse.Namespace) -> int:
         "run_id": args.run_id,
         "week": args.week,
         "generated_at": args.current_datetime,
+        "run_started_at": args.current_datetime,
+        "candidate_summary_path": args.summary.as_posix(),
+        "candidate_content_path": candidate_content.as_posix(),
+        "promotion_eligible": eligible,
         "candidate": {
             "summary_path": args.summary.as_posix(),
+            "content_path": candidate_content.as_posix(),
             "published_summary_path": args.published_summary.as_posix(),
             "summary_sha256": sha256_file(args.summary),
         },
@@ -285,6 +296,15 @@ def create_manifest(args: argparse.Namespace) -> int:
                 "run_id": args.run_id,
                 "current_datetime": args.current_datetime,
             },
+        },
+        "ai_provenance": {
+            "source": analysis_source,
+            "model": args.analysis_model,
+            "degraded": ai_status != "ai" or model_status != "available",
+        },
+        "gate_results": {
+            name: isinstance(gate, dict) and gate.get("passed") is True
+            for name, gate in (gate_report.get("gates") if isinstance(gate_report.get("gates"), dict) else {}).items()
         },
         "validation": {
             "status": args.validation_status,

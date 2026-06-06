@@ -78,6 +78,13 @@ def _manifest_candidate_path(manifest: dict[str, Any], legacy_key: str, nested_k
     return manifest.get(legacy_key)
 
 
+def _manifest_candidate_content_path(manifest: dict[str, Any]) -> Any:
+    content_path = _manifest_candidate_path(manifest, "candidate_content_path", "content_path")
+    if content_path is not None:
+        return content_path
+    return _manifest_candidate_path(manifest, "candidate_summary_path", "summary_path")
+
+
 def _manifest_promotion_eligible(manifest: dict[str, Any]) -> bool:
     promotion = manifest.get("promotion")
     if isinstance(promotion, dict):
@@ -120,6 +127,19 @@ def _manifest_source_artifacts(manifest: dict[str, Any]) -> list[Any] | None:
     return artifacts if isinstance(artifacts, list) else None
 
 
+def _manifest_run_started_at(manifest: dict[str, Any]) -> Any:
+    return manifest.get("run_started_at") or manifest.get("generated_at")
+
+
+def _artifact_reused_same_day(artifact: dict[str, Any]) -> bool:
+    if artifact.get("reused_same_day") is True:
+        return True
+    same_day_reuse = artifact.get("same_day_reuse")
+    if isinstance(same_day_reuse, dict):
+        return str(same_day_reuse.get("status", "")).lower() in {"reused", "same_day_reuse", "same-day-reuse"}
+    return str(same_day_reuse or "").lower() in {"reused", "same_day_reuse", "same-day-reuse"}
+
+
 def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path) -> tuple[str, Path, Path, list[str]]:
     reasons: list[str] = []
 
@@ -137,7 +157,7 @@ def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path
         reasons.append("promotion_eligible must be true.")
 
     candidate_summary = _resolve_under_root(root, _manifest_candidate_path(manifest, "candidate_summary_path", "summary_path"), "candidate_summary_path", reasons)
-    candidate_content = _resolve_under_root(root, _manifest_candidate_path(manifest, "candidate_content_path", "content_path"), "candidate_content_path", reasons)
+    candidate_content = _resolve_under_root(root, _manifest_candidate_content_path(manifest), "candidate_content_path", reasons)
 
     ai_provenance = _manifest_ai_provenance(manifest)
     if not isinstance(ai_provenance, dict):
@@ -168,9 +188,9 @@ def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path
                 if gate_results.get(gate) is not True:
                     reasons.append(f"{gate} must pass.")
 
-    run_date = _parse_date(manifest.get("run_started_at"))
+    run_date = _parse_date(_manifest_run_started_at(manifest))
     if run_date is None:
-        reasons.append("run_started_at must be an ISO date or timestamp.")
+        reasons.append("run_started_at/generated_at must be an ISO date or timestamp.")
 
     source_artifacts = _manifest_source_artifacts(manifest)
     if not isinstance(source_artifacts, list) or not source_artifacts:
@@ -187,7 +207,7 @@ def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path
             generated_date = _parse_date(artifact.get("generated_at") or artifact.get("crawled_at"))
             if generated_date is None:
                 reasons.append(f"{prefix}.generated_at must be an ISO date or timestamp.")
-            elif run_date is not None and generated_date != run_date and artifact.get("reused_same_day") is not True:
+            elif run_date is not None and generated_date != run_date and not _artifact_reused_same_day(artifact):
                 reasons.append(f"{prefix} is not from the current run date or marked as same-day reuse.")
             artifact_path = _resolve_under_root(root, artifact.get("path"), f"{prefix}.path", reasons)
             if artifact_path is not None and not artifact_path.exists():
@@ -203,8 +223,8 @@ def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path
     except ValueError:
         reasons.append("Publish manifest must be under the repository root.")
         manifest_relative = Path()
-    if manifest_relative.parts[:2] != ("data", "staging"):
-        reasons.append("Publish manifest must live under data/staging/.")
+    if manifest_relative.parts[:2] not in {("data", "staging"), ("data", "candidates")}:
+        reasons.append("Publish manifest must live under data/staging/ or data/candidates/.")
 
     return str(week), candidate_summary or root, candidate_content or root, reasons
 
