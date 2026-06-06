@@ -146,15 +146,37 @@ The workflow takes ~2-3 minutes depending on GitHub API response times.
 
 Manual runs default to `run_mode=normal` and `source_refresh_policy=reuse-same-day`. Normal mode is fail-closed: it may publish only after the existing analysis and freshness gates pass, and same-day successful source artifacts are reused instead of scraping again. Missing, failed, stale, wrong-week, or wrong-window sources are refreshed.
 
-Use explicit modes for safer or destructive intent:
+##### Rerun mode reference
 
-- `dry-run`: build candidate artifacts only; never commit, deploy, notify, or publish a release.
-- `candidate-only`: run crawl/analysis and upload candidates; promotion is blocked by the manifest.
-- `restore`: requires `rebuild_week=YYYY-WNN`; hydrates artifacts from `publish` for audited restore/regeneration.
-- `force-replace`: explicit replacement intent, but gates still must pass before promotion.
-- `source_refresh_policy=force-refresh`: explicitly bypass same-day source reuse and refresh sources.
+All rerun modes are validated before any publishing side effects:
 
-Invalid combinations (for example `rebuild_week` without `run_mode=restore`, `publish_release` with `dry-run`, or `restore` with `force-refresh`) fail before publish content can be modified.
+| Mode | Crawl | Promotion | Intent | Use case |
+|------|-------|-----------|--------|----------|
+| `normal` (default) | ✓ Fresh | ✓ Guarded gates | Produce fresh analysis, publish if gates pass | Standard weekly run |
+| `dry-run` | ✓ Fresh | ✗ Never | Build candidates only for inspection | Test analysis quality, verify gates, debug analysis |
+| `candidate-only` | ✓ Fresh | ✗ Manifest blocks | Run crawl/analysis but hold for manual approval | Staged analysis, manual promotion workflow |
+| `restore` | ✗ Hydrate | ✓ Guarded gates | Regenerate prior week from published artifacts | Restore/audit trail, regenerate HTML/feeds |
+| `force-replace` | ✓ Fresh | ✓ Guarded gates | Explicit replacement run, gates still enforce | Planned content refresh, operator override |
+
+##### Source refresh policies
+
+Control how same-day artifacts are handled during reruns:
+
+| Policy | Behavior | Use case |
+|--------|----------|----------|
+| `reuse-same-day` (default) | Reuse eligible same-day raw artifacts; refresh missing/stale/failed sources | Safe rerun without redundant API calls |
+| `refresh-missing-stale` | Like reuse-same-day but also refresh sources with missing or stale status | Partial refresh, correct specific source issues |
+| `force-refresh` | Refresh all sources regardless of prior status | Force all new data, ignore cache |
+
+Same-day artifact reuse is safe by design:
+- Only successfully crawled artifacts are eligible for reuse
+- Missing, failed, stale (>24 hours old), or wrong-week sources are always refreshed
+- Source status (reused/refreshed/missing/failed/stale) is recorded in the publish manifest for audit trail
+
+Invalid combinations fail immediately with clear error messages:
+- `rebuild_week` without `run_mode=restore`
+- `run_mode=restore` with `source_refresh_policy=force-refresh`
+- `publish_release=true` with `dry-run` or `candidate-only`
 
 ### Option C: Run individual stages locally
 
@@ -205,6 +227,403 @@ hugo --minify
 ```
 
 Output: `public/` directory ready for GitHub Pages.
+
+## Understanding Source Artifacts and Reuse
+
+### Source artifact tracking
+
+When SquadScope crawls, it records detailed information about each source artifact:
+
+- **Status:** One of `reused`, `refreshed`, `missing`, `failed`, or `stale`
+- **Artifact checksum:** SHA256 of successful crawls for integrity verification
+- **Timestamp:** When the artifact was produced or reused
+- **Code checksum:** Hash of the crawler code that produced it (detects version drift)
+
+This metadata is stored in the **publish manifest** (`data/candidates/YYYY-WNN/RUN_ID/publish-manifest.json`) for every run, creating an auditable trail of:
+- Which sources were fetched vs. reused
+- Why sources were refreshed (missing, failed, stale, code drift)
+- Provenance of every analysis artifact
+
+### Examining source status
+
+After a run completes, check the publish manifest to see which sources were reused or refreshed:
+
+```bash
+# Find the latest manifest for week 2026-W21
+find data/candidates/2026-W21 -name publish-manifest.json | sort -V | tail -1 | xargs cat | jq '.source_artifacts'
+```
+
+Output shows:
+```json
+{
+  "source_artifacts": [
+    {
+      "role": "raw_github",
+      "path": "data/candidates/2026-W21/github-crawl.json",
+      "exists": true,
+      "size_bytes": 45823,
+      "sha256": "686085ace216e10d36837a91471e28a334b2fc3d93cc1085b8d5d0e7616891bf",
+      "same_day_reuse": {
+        "status": "reused",
+        "source": "default"
+      },
+      "freshness": {
+        "status": "fresh",
+        "reasons": []
+      },
+      "provenance": {
+        "generated_at": "2026-05-20T10:15:00Z",
+        "sha256": "686085ace216e10d36837a91471e28a334b2fc3d93cc1085b8d5d0e7616891bf"
+      }
+    },
+    {
+      "role": "external_news",
+      "path": "data/candidates/2026-W21/news-articles.json",
+      "exists": true,
+      "size_bytes": 28941,
+      "sha256": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1",
+      "same_day_reuse": {
+        "status": "not_reused",
+        "source": "refresh_policy"
+      },
+      "freshness": {
+        "status": "stale",
+        "reasons": ["source_refresh_policy=refresh-missing-stale"]
+      },
+      "provenance": {
+        "generated_at": "2026-05-21T08:30:00Z",
+        "sha256": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1"
+      }
+    }
+  ]
+}
+```
+
+### Safe rerun scenario
+
+**Scenario:** You rerun Monday's analysis on Tuesday morning (same week) to fix a quality gate failure.
+
+**Expected behavior with `source_refresh_policy=reuse-same-day` (default):**
+1. Monday's successful GitHub crawl is reused (1 API call saved)
+2. Any failed or missing sources from Monday are refreshed
+3. Analysis gates run on fresh analysis only
+4. If gates pass, publish replaces Monday's article
+5. If gates fail, the publish manifest blocks the promotion and preserves Monday's good article
+
+**This is safe because:**
+- Only Monday's *successful* artifacts are reused
+- Any source that failed on Monday is fetched fresh
+- The manifest explicitly records what was reused
+- Quality gates prevent bad analysis from being published
+- Good prior analysis is preserved if the retry fails
+
+### When to use each policy
+
+**Use `reuse-same-day` (default):**
+- Standard reruns within the same day
+- Debugging analysis issues
+- Retrying quality gates after minor fixes
+
+**Use `refresh-missing-stale`:**
+- Some sources failed and you've fixed the crawler
+- You want to update stale sources without fully refreshing
+
+**Use `force-refresh`:**
+- You suspect source data is corrupted or needs manual validation
+- You're testing source updates
+- Policy: Always use explicit intent for full refresh
+
+## Safe Restore from Backup
+
+### Understanding backups
+
+Before any weekly article or analysis is replaced in the `publish` branch, an immutable backup is created at:
+
+```
+data/backups/YYYY-WNN/RUN_ID/[analysis|content]/manifest.json
+```
+
+Backups include:
+- The exact prior content being replaced (e.g., `content/weekly/2026/W21.md`)
+- The prior analysis file (e.g., `data/analyzed/2026-W21-summary.md`)
+- SHA256 checksums of all backed-up files
+- Timestamp and run context
+
+### When backups are created
+
+A backup is automatically created when:
+1. A new analysis is about to replace a prior week's analysis, OR
+2. A new content page is about to replace a prior week's HTML page
+
+Backups are immutable—they cannot be modified or deleted by subsequent runs.
+
+### Viewing available backups
+
+```bash
+# List all available backups for week 2026-W21
+find data/backups/2026-W21 -name manifest.json | sort -V
+
+# Inspect a backup manifest
+cat data/backups/2026-W21/RUN_ID/content/manifest.json | jq .
+```
+
+Backup manifest shows:
+```json
+{
+  "schema_version": "publish_backup_v1",
+  "week": "2026-W21",
+  "run_id": 12345678,
+  "timestamp": "2026-05-20T10:15:00Z",
+  "backed_up_artifacts": [
+    {
+      "path": "data/analyzed/2026-W21-summary.md",
+      "sha256": "abc123...",
+      "exists_before_replacement": true
+    },
+    {
+      "path": "content/weekly/2026/W21.md",
+      "sha256": "def456...",
+      "exists_before_replacement": true
+    }
+  ]
+}
+```
+
+### Restore a prior week from backup
+
+To restore a prior week (e.g., restore 2026-W21 to a known-good state):
+
+1. **Identify the backup manifest** you want to restore:
+   ```bash
+   # List backups for week 2026-W21, sorted by timestamp
+   find data/backups/2026-W21 -name manifest.json | sort -V
+   ```
+
+2. **Trigger the restore workflow:**
+   ```bash
+   gh workflow run restore-publish-backup.yml \
+     -R YOUR_USERNAME/SquadScope \
+     -f "backup_manifest=data/backups/2026-W21/RUN_ID/content/manifest.json"
+   ```
+
+   Or through the UI:
+   - Go to **Actions → Restore publish backup**
+   - Click **Run workflow**
+   - Paste the backup manifest path (e.g., `data/backups/2026-W21/12345678/content/manifest.json`)
+   - Click **Run workflow**
+
+3. **Restore will:**
+   - Check out the `publish` branch
+   - Validate the backup manifest integrity
+   - Restore all backed-up files to their pre-replacement state
+   - Commit with message: `restore: publish backup {manifest_path}`
+   - Force-push to `publish` with lease safety guards
+
+4. **Monitor the restore:**
+   ```bash
+   gh run view --log -R YOUR_USERNAME/SquadScope
+   ```
+
+### Restore operation guarantees
+
+- **Immutable:** Backup manifests are never modified after creation
+- **Atomic:** Restore applies all backed-up files or fails with no partial changes
+- **Lease-guarded:** Force-push uses `--force-with-lease` to detect concurrent modifications
+- **Audited:** Restore commit message includes the backup manifest path for traceability
+- **Non-destructive:** Restoring does not delete new backups created since the restore date
+
+**After a restore:**
+- The `publish` branch is reverted to the state before that run
+- Previous good analysis remains published
+- The restore itself appears in git history for audit trail
+
+## No-AI Fallback Policy
+
+### Why no-AI is not a replacement strategy
+
+SquadScope includes a no-AI fallback analysis script (`scripts/analyze_fallback.py`) that can generate a basic summary using heuristics when Copilot is unavailable. However, **no-AI output is explicitly not a replacement for Copilot analysis** and has specific constraints:
+
+**No-AI fallback is used only when:**
+1. Copilot CLI fails with a non-auth error (after retries), OR
+2. Copilot encounters a non-recoverable error (e.g., context too large), OR
+3. Copilot is completely inaccessible
+
+**No-AI output characteristics:**
+- Lower quality_score (typically 40–50 vs. 60+ for Copilot)
+- Simple heuristic categorization (no editorial synthesis)
+- May have incomplete signal/noise/gaps sections
+- Preserved as a "rejected candidate" artifact
+- **Does not publish without explicit operator override**
+
+### Publish manifest promotion policy
+
+When Copilot fails and no-AI fallback is generated:
+1. The no-AI candidate is created and stored in `data/candidates/YYYY-WNN/RUN_ID/`
+2. The publish manifest records `analysis_source: "no-ai"` and `quality_validation: "failed"`
+3. **The promotion guard blocks publication** regardless of whether gates pass
+4. The prior week's good analysis remains published (safe default)
+
+To inspect a rejected no-AI candidate:
+
+```bash
+# List rejected candidates for week 2026-W21
+find data/candidates/2026-W21 -name 'candidate-no-ai-attempt-*.md'
+
+# Review the no-AI candidate and its gate report
+cat data/candidates/2026-W21/RUN_ID/diagnostics/candidate-no-ai-attempt-0.md
+cat data/candidates/2026-W21/RUN_ID/diagnostics/gate-no-ai-attempt-0.json | jq '.validation_failures'
+```
+
+### Copilot access failures
+
+If Copilot CLI fails with an authentication or access error:
+- The workflow **fails immediately without attempting no-AI fallback**
+- An issue is created (or updated) to notify the operator to renew `COPILOT_GH_TOKEN`
+- The failure report is available at `data/candidates/YYYY-WNN/RUN_ID/diagnostics/copilot-cli-failure-*.json`
+
+This ensures that **transient Copilot issues do not silently degrade to no-AI analysis.**
+
+### Copilot retries
+
+If Copilot produces output that doesn't pass the quality gate, the workflow automatically retries up to 3 times:
+- Each retry includes focused diagnostics from the prior gate failure
+- If all retries fail, no-AI fallback is attempted as a last resort
+- Each retry and its diagnostics are recorded for audit trail
+
+## Rejected Candidate Diagnostics
+
+When analysis fails to pass quality gates, detailed diagnostics are recorded for investigation:
+
+### Candidate directory structure
+
+```
+data/candidates/YYYY-WNN/RUN_ID/
+  ├── YYYY-WNN-summary.md              # Candidate analysis (if produced)
+  ├── YYYY-WNN-content.md              # Generated HTML candidate (if produced)
+  ├── publish-manifest.json            # Eligibility and provenance
+  └── diagnostics/
+      ├── analysis-preflight.json      # Pre-analysis context budget check
+      ├── analysis-preflight.md        # Preflight diagnostic report
+      ├── copilot-cli-attempt-N.log    # Raw Copilot CLI stderr/stdout
+      ├── gate-copilot-cli-attempt-N.json  # Quality gate failure details
+      ├── candidate-copilot-cli-attempt-N.md  # Candidate snapshot
+      ├── candidate-no-ai-attempt-0.md      # No-AI fallback (if used)
+      └── gate-no-ai-attempt-0.json        # No-AI gate report
+```
+
+### Examining a failed gate report
+
+```bash
+# View gate failure for attempt 0
+cat data/candidates/2026-W21/RUN_ID/diagnostics/gate-copilot-cli-attempt-0.json | jq '{
+  passed: .passed,
+  gates: .gates,
+  errors_before_repair: .errors_before_repair,
+  repair_actions: .repair_actions,
+  failure_class: .failure_class
+}'
+```
+
+Gate report output:
+```json
+{
+  "passed": false,
+  "gates": {
+    "structural_schema": {
+      "passed": false,
+      "errors": [
+        "Signal section is empty or malformed",
+        "Signal section must contain at least 3 significant claims"
+      ]
+    },
+    "editorial_quality": {
+      "passed": false,
+      "errors": [
+        "Noise section has fewer than 3 spurious claims"
+      ]
+    },
+    "ai_provenance": {
+      "passed": true,
+      "errors": []
+    },
+    "evidence_citation": {
+      "passed": true,
+      "errors": []
+    }
+  },
+  "errors_before_repair": [
+    "Signal section is empty or malformed",
+    "Signal section must contain at least 3 significant claims",
+    "Noise section has fewer than 3 spurious claims"
+  ],
+  "repair_actions": [
+    "Expanded Signal section with 3 significant claims from trending repositories",
+    "Added 3 spurious/false claims to Noise section"
+  ],
+  "errors_after_repair": [],
+  "failure_class": "passed"
+}
+```
+
+### Quality gate specifics
+
+The publish manifest records:
+- `quality_score`: 0–100, where 60+ is publishable
+- `quality_source`: "copilot-cli", "no-ai", etc.
+- `validation_status`: "passed" or "failed"
+- `validation_failures`: Array of specific failures with repair suggestions
+
+Failed gates block promotion but don't prevent the candidate from being stored for audit trail.
+
+## Map/Reduce Analysis Status (Dry-Run Only)
+
+### Why map/reduce remains experimental
+
+SquadScope's analysis pipeline is currently single-pass for production use. Map/reduce analysis—dividing evidence into smaller chunks, analyzing each independently, then combining results—is **only available as a dry-run experimental feature** and cannot publish. This decision was made after evidence from live runs and is documented in `docs/PRD-matrix-crawl-map-reduce-analysis.md`.
+
+### Current limitations preventing map/reduce publication
+
+1. **Analysis specification mismatch:** Map/reduce mapper outputs would create intermediate artifacts not conforming to `docs/analysis-spec.md`
+2. **Citation preservation:** Combining mapper outputs risks losing original citations and creating false attribution
+3. **Claim deduplication:** Reducer must reliably dedupe claims across mappers; no production-grade deduplication exists yet
+4. **Token accounting:** Final combined analysis may exceed token budgets; mechanism for bounded reduction is unproven
+5. **Quality gate compliance:** Existing gates expect single-pass analysis structure; map/reduce will need new gates
+
+### QA gates required before map/reduce can publish (#258)
+
+Before map/reduce analysis can be enabled for production promotion, all of these QA gates must pass:
+
+- [ ] **Mapper-reducer contract testing:** Mappers and reducers in sandboxed runs must produce deterministic, validated outputs
+- [ ] **Citation preservation testing:** Full analysis -> map/reduce roundtrip must preserve or improve citation count/accuracy
+- [ ] **Claim deduplication testing:** Reducer must reliably identify and merge duplicate claims across mappers
+- [ ] **Token budget compliance:** End-to-end analysis must stay within token limits; no truncation or quality regression
+- [ ] **Spec compliance testing:** Generated analysis must pass all existing `analysis_gate.py` checks without modification
+- [ ] **Human editorial review:** Blind A/B comparison of single-pass vs. map/reduce outputs from 4+ weeks of real data
+- [ ] **Fallback behavior:** Ensure Copilot retries and no-AI fallback work correctly with map/reduce logic
+
+### Testing map/reduce in dry-run mode
+
+To test map/reduce without risk of publication:
+
+```bash
+gh workflow run crawl-and-publish.yml \
+  -R YOUR_USERNAME/SquadScope \
+  -f "run_mode=dry-run"
+```
+
+Dry-run mode ensures:
+- Analysis is generated but never promoted
+- No HTML is published
+- Candidates are stored for inspection
+- You can review results before any live traffic sees them
+
+### Expected timeline
+
+Map/reduce publication will be enabled in a future phase after:
+- All QA gates (#258) are implemented and passing
+- Human review confirms output quality meets or exceeds single-pass
+- Operator documentation is completed
+- Rollback procedures are tested
 
 ## Monitoring the Cron Schedule
 
