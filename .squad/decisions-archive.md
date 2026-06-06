@@ -2397,10 +2397,6 @@ The hierarchy now prioritizes analysis safety and generated article quality befo
 
 ---
 
-# Fry: quality gate fallback hardening
-
-
----
 
 # Leela — PR review gate follow-up
 
@@ -2418,10 +2414,6 @@ The hierarchy now prioritizes analysis safety and generated article quality befo
 
 ---
 
-# Fry: quality gate fallback hardening
-
-
----
 
 # Fry — generate-step failure handling
 
