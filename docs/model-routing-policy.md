@@ -10,6 +10,10 @@ This policy defines when SquadScope agents use expensive high-reasoning models (
 
 **Governing principle:** Cost first, **unless code is being produced**. Visual/design work always uses premium vision-capable models. Cross-family review assignments reduce correlated blind spots.
 
+**Pricing source:** [GitHub Copilot Models and Pricing](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing), fetched 2026-06-06. Pricing assumptions must be reviewed every two months.
+
+The scheduled workflow `.github/workflows/copilot-pricing-review.yml` runs every two months to open or update a review issue when the table is due. It is notification-only and must not change pricing data without a PR.
+
 ---
 
 ## Model Selection Hierarchy
@@ -115,7 +119,7 @@ claude-sonnet-4.6 → claude-sonnet-4.5 → gpt-5.4 → gpt-5.3-codex → claude
 
 **Fast chain (Haiku/budget):**
 ```
-claude-haiku-4.5 → gpt-5.4-mini → gpt-5.1-codex-mini → gpt-4.1 → (omit model)
+claude-haiku-4.5 → gpt-5.4-mini → gpt-5-mini → gpt-5.4-nano → (omit model)
 ```
 
 `(omit model)` = Call the tool without the `model` parameter. The platform default applies (nuclear fallback — always works).
@@ -251,11 +255,11 @@ For lightweight code clarity reviews or rubber-duck debugging:
 
 ### Plan-Specific Guidance for SquadScope
 
-**SquadScope typically runs on:** GitHub Actions with Copilot Business or GitHub Models API  
+**SquadScope weekly analysis runs on:** GitHub Actions with Copilot CLI. GitHub Models/OpenAI fallback is not configured for analysis; Copilot failures fail closed or produce publish-ineligible diagnostic artifacts for operator triage.
 **Assumed availability:**
 - Claude Sonnet 4.6, Claude Haiku 4.5
-- GPT-5.3-Codex, GPT-5.4, GPT mini
-- Gemini 3.1 Pro, Gemini Flash
+- GPT-5.3-Codex, GPT-5.4, GPT-5.4 mini, GPT-5 mini
+- Gemini 3.1 Pro, Gemini 3 Flash, Gemini 3.5 Flash
 
 **High-cost operations** (analysis, reskill, complex code reviews):
 - Check model availability before spawning
@@ -386,7 +390,7 @@ Otherwise, Sonnet is sufficient for routine PRs.
 
 **Owner:** Lead Architect (Leela)  
 **Last Updated:** 2026-06-06  
-**Review Cycle:** Quarterly (next: 2026-09-06)  
+**Review Cycle:** Every two months for pricing assumptions (next: 2026-08-06); broader routing policy quarterly.
 **Changes Require:** Issue + consensus from development team  
 
 This policy is **descriptive** (documents current practice) and **prescriptive** (governs future decisions). Changes to this policy should be reflected in both `.squad/config.json` (if persistent config changes) and this document (for governance/principle changes).

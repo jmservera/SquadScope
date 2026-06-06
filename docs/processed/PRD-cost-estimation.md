@@ -9,9 +9,9 @@
 
 ## Executive Summary
 
-SquadScope runs automated AI analysis weekly using GitHub Copilot CLI and GitHub Models API inside GitHub Actions. With GitHub Copilot's shift to token-based consumption billing (AI Credits at $0.01/credit), every pipeline run has a measurable cost. This PRD quantifies per-run and annual costs, projects context growth over 6–12 months, and defines optimization strategies and budget controls to keep SquadScope economically sustainable as a zero-revenue open-source project.
+SquadScope runs automated AI analysis weekly using GitHub Copilot CLI inside GitHub Actions; analysis is Copilot-only and has no GitHub Models/OpenAI operational fallback. With GitHub Copilot's shift to token-based consumption billing (AI Credits at $0.01/credit), every pipeline run has a measurable cost. This PRD quantifies per-run and annual costs, projects context growth over 6–12 months, and defines optimization strategies and budget controls to keep SquadScope economically sustainable as a zero-revenue open-source project.
 
-**Key finding:** A weekly analysis run costs approximately **$0.27–$0.35** in AI credits. The annual projection table totals **$15.96/year** at current configuration. Accounting for context growth (5–10% over 12 months), occasional fallback runs (~$0.20 each), and variance in weekly token counts, the realistic annual range is **$16–$20/year** — comparable to a cheap newsletter service, and orders of magnitude cheaper than a human analyst.
+**Key finding:** A weekly analysis run costs approximately **$0.27–$0.35** in AI credits. The annual projection table totals **$16.18/year** at current configuration. Accounting for context growth (5–10% over 12 months), diagnostic no-AI candidate runs after Copilot failures, and variance in weekly token counts, the realistic annual range is **$16–$20/year** — comparable to a cheap newsletter service, and orders of magnitude cheaper than a human analyst.
 
 ---
 
@@ -29,7 +29,9 @@ SquadScope runs automated AI analysis weekly using GitHub Copilot CLI and GitHub
 
 ## Token Pricing Model Summary
 
-*(Source: [GitHub Copilot Models and Pricing](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing), fetched 2026-05-19)*
+*(Source: [GitHub Copilot Models and Pricing](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing), fetched 2026-06-06. Prices must be reviewed every two months.)*
+
+The notification-only `.github/workflows/copilot-pricing-review.yml` workflow runs every two months and opens or updates a GitHub issue when pricing data is due for manual review. It must not mutate pricing tables directly; changes go through code/docs/tests and PR review.
 
 ### Core Concepts
 
@@ -41,12 +43,25 @@ SquadScope runs automated AI analysis weekly using GitHub Copilot CLI and GitHub
 ### Relevant Model Pricing (per 1M tokens)
 
 | Model | Category | Input | Cached Input | Output | Cache Write |
-|-------|----------|-------|--------------|--------|-------------|
-| **Claude Sonnet 4** (primary) | Versatile | $3.00 | $0.30 | $15.00 | $3.75 |
-| **GPT-4.1** (fallback) | Versatile | $2.00 | $0.50 | $8.00 | — |
-| GPT-5 mini | Lightweight | $0.25 | $0.025 | $2.00 | — |
-| Claude Haiku 4.5 | Versatile | $1.00 | $0.10 | $5.00 | $1.25 |
-| Gemini 3 Flash | Lightweight | $0.50 | $0.05 | $3.00 | — |
+|-------|----------|------:|-------------:|-------:|------------:|
+| GPT-5 mini | OpenAI | $0.25 | $0.025 | $2.00 | — |
+| GPT-5.3-Codex | OpenAI | $1.75 | $0.175 | $14.00 | — |
+| GPT-5.4 (≤272K input) | OpenAI | $2.50 | $0.25 | $15.00 | — |
+| GPT-5.4 (>272K input) | OpenAI | $5.00 | $0.50 | $22.50 | — |
+| GPT-5.4 mini | OpenAI | $0.75 | $0.075 | $4.50 | — |
+| GPT-5.4 nano | OpenAI | $0.20 | $0.02 | $1.25 | — |
+| GPT-5.5 (≤272K input) | OpenAI | $5.00 | $0.50 | $30.00 | — |
+| GPT-5.5 (>272K input) | OpenAI | $10.00 | $1.00 | $45.00 | — |
+| Claude Haiku 4.5 | Anthropic | $1.00 | $0.10 | $5.00 | $1.25 |
+| **Claude Sonnet 4 / 4.5 / 4.6** (primary) | Anthropic | $3.00 | $0.30 | $15.00 | $3.75 |
+| Claude Opus 4.5 / 4.6 / 4.7 / 4.8 | Anthropic | $5.00 | $0.50 | $25.00 | $6.25 |
+| Gemini 2.5 Pro | Google | $1.25 | $0.125 | $10.00 | — |
+| Gemini 3 Flash | Google | $0.50 | $0.05 | $3.00 | — |
+| Gemini 3.1 Pro (≤200K input) | Google | $2.00 | $0.20 | $12.00 | — |
+| Gemini 3.1 Pro (>200K input) | Google | $4.00 | $0.40 | $18.00 | — |
+| Gemini 3.5 Flash | Google | $1.50 | $0.15 | $9.00 | — |
+| Raptor mini | Fine-tuned/GitHub | $0.25 | $0.025 | $2.00 | — |
+| MAI-Code-1-Flash | Microsoft | $0.75 | $0.075 | $4.50 | — |
 
 ### Plan Allowances
 
@@ -96,7 +111,7 @@ Total per weekly run:              ≈ $0.30
 
 **In AI Credits: ~30 credits per weekly run.**
 
-### Stage 2: Reskill (Every 5th Week — GitHub Models API — GPT-4.1)
+### Stage 2: Reskill (Every 5th Week — Copilot CLI — copilot-default)
 
 The reskill run is larger because it reads 5 weeks of history plus snapshot data.
 
@@ -116,29 +131,26 @@ The reskill run is larger because it reads 5 weeks of history plus snapshot data
 | Wisdom updates | ~1 KB | ~250 |
 | **Total output tokens** | **~5 KB** | **~1,250** |
 
-**Reskill cost (GPT-4.1 via GitHub Models):**
+**Reskill cost (copilot-default at Claude Sonnet 4 rates):**
 
 ```
-Input:  13,060 tokens × $2.00/1M = $0.0261
-Output:  1,250 tokens × $8.00/1M = $0.0100
+Input:  13,060 tokens × $3.00/1M = $0.0392
+Output:  1,250 tokens × $15.00/1M = $0.0188
 ─────────────────────────────────────────────
-Total per reskill run:             ≈ $0.036
+Total per reskill run:             ≈ $0.058
 ```
 
-**In AI Credits: ~4 credits per reskill run.**
+**In AI Credits: ~6 credits per reskill run.**
 
-### Stage 3: Fallback Analysis (GitHub Models API — GPT-4.1)
+### Stage 3: Copilot Failure Diagnosis (No GitHub Models/OpenAI fallback)
 
-When Copilot CLI fails and the fallback triggers:
+When Copilot CLI fails, weekly analysis must fail closed or produce a diagnostic no-AI candidate artifact that is publish-ineligible. There is no GitHub Models/OpenAI analysis fallback configured, so cost tooling may estimate alternate Copilot model choices but must not present GitHub Models as an operational recovery path.
 
 ```
-Input:  90,175 tokens × $2.00/1M = $0.1804
-Output:  2,000 tokens × $8.00/1M = $0.0160
-─────────────────────────────────────────────
-Total per fallback run:            ≈ $0.20
+Publishable AI output: none
+AI token cost for diagnostic no-AI artifact: $0.00
+Operator action: inspect Copilot failure classification, token/auth issue, and workflow logs
 ```
-
-**Fallback is ~33% cheaper than primary** due to GPT-4.1's lower rates vs Claude Sonnet 4.
 
 ### Stage 4: GitHub Actions Compute
 
@@ -186,26 +198,26 @@ Total per fallback run:            ≈ $0.20
 | Line Item | Frequency | Unit Cost | Annual Cost |
 |-----------|-----------|-----------|-------------|
 | Weekly analysis (Claude Sonnet 4) | 52/year | $0.30 | $15.60 |
-| Reskill (GPT-4.1) | ~10/year | $0.036 | $0.36 |
+| Reskill (copilot-default / Claude Sonnet rates) | ~10/year | $0.058 | $0.58 |
 | GitHub Actions compute | 52/year | $0.00 (public) | $0.00 |
-| **Total annual AI cost** | | | **$15.96** |
+| **Total annual AI cost** | | | **$16.18** |
 
 ### Cost per Published Page
 
 ```
-Annual AI cost / 52 pages = $15.96 / 52 = $0.307 per page
+Annual AI cost / 52 pages = $16.18 / 52 = $0.311 per page
 ```
 
 Including amortized reskill:
 ```
-($15.60 + $0.36) / 52 = $0.307 per page (reskill is negligible)
+($15.60 + $0.58) / 52 = $0.311 per page (reskill is small)
 ```
 
 ### Comparative Analysis
 
 | Approach | Annual Cost | Cost per Page | Quality |
 |----------|-------------|---------------|---------|
-| **SquadScope (automated)** | **~$16/year** | **$0.31** | Consistent, opinionated, improving |
+| **SquadScope (automated)** | **~$16/year** | **$0.30** | Consistent, opinionated, improving |
 | Human analyst (freelance) | $5,200–$10,400/year | $100–$200 | High but variable |
 | Newsletter service (Substack Pro) | $600/year | $11.50 | Platform cost only, still need writer |
 | Manual GPT-4 chat (copy-paste) | ~$50/year | ~$1 | Inconsistent, no learning loop |
@@ -220,11 +232,11 @@ Including amortized reskill:
 
 | Task | Current Model | Optimized Model | Savings |
 |------|---------------|-----------------|---------|
-| Weekly analysis | Claude Sonnet 4 ($0.30) | GPT-5 mini ($0.02 input + $0.004 output) | **92%** |
-| Reskill | GPT-4.1 ($0.036) | Keep (already cheap, quality matters) | 0% |
-| Fallback analysis | GPT-4.1 ($0.20) | GPT-5 mini ($0.024) | **88%** |
+| Weekly analysis | Claude Sonnet 4 ($0.30) | GPT-5 mini ($0.023 input + $0.004 output) | **91%** |
+| Reskill | copilot-default / Claude Sonnet rates ($0.058) | Keep Copilot-only; no GitHub Models fallback | 0% |
+| Copilot failure diagnosis | No AI ($0.00) | Fail closed or produce publish-ineligible diagnostic artifact | N/A |
 
-**Recommendation:** Start with Claude Sonnet 4 for quality. If quality_score consistently ≥ 75, experiment with GPT-4.1 or Claude Haiku 4.5 for weekly analysis. Reserve premium models for reskill where judgment quality matters most.
+**Recommendation:** Start with Claude Sonnet 4 for quality. If quality_score consistently ≥ 75, experiment with GPT-5.4 mini, GPT-5 mini, or Claude Haiku 4.5 for weekly analysis. Reserve premium models for reskill where judgment quality matters most.
 
 ### Strategy 2: Context Window Management
 
@@ -288,7 +300,7 @@ Savings: $0.232 per run = 77% reduction on the JSON portion
 ### Per-Run Token Tracking
 
 1. **Copilot CLI transcript:** The `--share=PATH` flag exports a session transcript. Parse it post-run to extract actual token counts.
-2. **GitHub Models API response headers (assumption to validate):** The API is expected to return `x-ratelimit-remaining` headers and usage metadata in response JSON. Current scripts only parse the JSON body and discard headers; implementation will need to explicitly capture response headers and extract usage fields. This assumption requires validation against live API responses.
+2. **API-compatible response metadata (general tooling only):** The cost ledger can parse OpenAI-compatible `usage` JSON for non-analysis experiments, but weekly analysis remains Copilot-only and does not use GitHub Models/OpenAI fallback.
 3. **Workflow annotations:** Log token estimates and actuals as workflow summary annotations.
 
 ### Implementation
@@ -340,19 +352,19 @@ Normal Mode (cost < $0.50/run)
   └─ Full context (raw JSON + wisdom + skills + prior week)
 
 Budget Mode (cost would exceed $0.50/run)
-  └─ Switch to GPT-4.1 (saves ~33%)
+  └─ Switch to GPT-5.4 mini (saves ~74%)
   └─ Truncate raw JSON to top 100 repos
   └─ Omit skills context
 
 Minimal Mode (monthly budget exhausted)
-  └─ Switch to GPT-5 mini (saves ~92%)
+  └─ Switch to GPT-5 mini (saves ~91%)
   └─ Truncate raw JSON to top 30 repos
   └─ Omit all optional context
   └─ Quality gate threshold lowered to 50
 
 Emergency Mode (all credits exhausted)
   └─ Skip AI analysis entirely
-  └─ Publish raw data summary (stats only, no editorial)
+  └─ Produce diagnostic/staged no-AI artifact only; publish-ineligible
   └─ Open issue for manual intervention
 ```
 
@@ -362,10 +374,11 @@ Before invoking the model, estimate cost:
 
 ```python
 def estimate_cost(input_tokens: int, output_estimate: int, model: str) -> float:
+    # Centralized implementation lives in scripts/model_pricing.py.
     rates = {
         "claude-sonnet-4": {"input": 3.00, "output": 15.00},
-        "openai/gpt-4.1": {"input": 2.00, "output": 8.00},
-        "openai/gpt-5-mini": {"input": 0.25, "output": 2.00},
+        "gpt-5.4-mini": {"input": 0.75, "output": 4.50},
+        "gpt-5-mini": {"input": 0.25, "output": 2.00},
     }
     r = rates[model]
     return (input_tokens * r["input"] + output_estimate * r["output"]) / 1_000_000
@@ -407,7 +420,7 @@ def estimate_cost(input_tokens: int, output_estimate: int, model: str) -> float:
 | OQ3 | Is prompt caching available for Copilot CLI in non-interactive mode? | Medium — could save 77% on JSON input | Monitor GitHub changelog |
 | OQ4 | What's the actual token count for the raw JSON? (estimated 86K, need actuals) | Medium — calibration | Add tokenizer count in pre-flight step |
 | OQ5 | How does GitHub bill for the Copilot CLI invocation itself vs. the underlying model tokens? | High — may have additional overhead | Review billing after first month |
-| OQ6 | Are GitHub Models API calls billed differently from Copilot CLI calls against the same model? | Medium — affects fallback cost comparison | Compare billing line items |
+| OQ6 | Can Copilot CLI expose more detailed actual token usage for cache/cached-input accounting? | Medium — affects estimate precision | Review Copilot CLI release notes and billing exports |
 | OQ7 | What happens when the Copilot Pro credit allowance is consumed mid-month? | High — operational risk | Set up overage alerts, test degradation path |
 
 ---

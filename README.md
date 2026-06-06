@@ -32,7 +32,7 @@ JSON    Markdown   Hugo      Pages    Improvements
 - Applies heuristic filtering (language, topic, description quality)
 - Outputs: `data/raw/YYYY-WNN.json`, `data/raw/YYYY-WNN-external-news.json`, `data/snapshots/YYYY-WNN-stars.json`
 
-**Stage 2: Analyze** (Copilot CLI or fallback)
+**Stage 2: Analyze** (Copilot CLI only)
 - Reads raw JSON; applies AI analysis to classify repos as signal/noise/gaps
 - Outputs: `data/analyzed/YYYY-WNN-summary.md` with quality score and summary sections
 - Quality gate: Blocks publish if quality_score < 60 or missing required sections
@@ -58,7 +58,7 @@ JSON    Markdown   Hugo      Pages    Improvements
 - **Notifications:** RSS feeds + GitHub Releases
 - **Automation:** GitHub Actions
 - **Deployment:** GitHub Pages
-- **Analysis engine:** Copilot CLI (with GitHub Models API fallback)
+- **Analysis engine:** Copilot CLI only; no GitHub Models/OpenAI analysis fallback
 
 ## Quick start
 
@@ -117,8 +117,8 @@ JSON    Markdown   Hugo      Pages    Improvements
 
 ### Required secrets
 
-- `COPILOT_GH_TOKEN` — Fine-grained PAT with **Account → Copilot Requests** permission (primary analysis)
-- `GITHUB_TOKEN` — Built-in; used for crawling, fallback analysis, commits, Pages deployment
+- `COPILOT_GH_TOKEN` — Fine-grained PAT with **Account → Copilot Requests** permission for Copilot CLI analysis
+- `GITHUB_TOKEN` — Built-in; used for crawling, commits, Pages deployment, and issue/notification automation
 
 ## Crawler notes
 

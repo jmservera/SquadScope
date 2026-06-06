@@ -13,7 +13,7 @@ import sys
 # Tier definitions
 TIERS = {
     "normal": {"model": "claude-sonnet-4", "max_repos": None, "skip_ai": False},
-    "budget": {"model": "gpt-4.1", "max_repos": 100, "skip_ai": False},
+    "budget": {"model": "gpt-5.4-mini", "max_repos": 100, "skip_ai": False},
     "minimal": {"model": "gpt-5-mini", "max_repos": 30, "skip_ai": False},
     "emergency": {"model": None, "max_repos": None, "skip_ai": True},
 }
