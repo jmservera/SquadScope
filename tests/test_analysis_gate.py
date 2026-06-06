@@ -505,6 +505,22 @@ No press data was provided this week.
         self.assertTrue(any("raw evidence timestamp week mismatch" in error for error in errors))
         self.assertFalse(gates["evidence_citation"]["passed"])
 
+    def test_publish_quality_gate_prefers_generated_at_for_republished_evidence(self) -> None:
+        republished_payload = dict(
+            RAW_PAYLOAD_WITH_REPOS,
+            crawled_at="2026-05-25T00:00:00Z",
+            generated_at="2026-06-01T00:00:00Z",
+        )
+        errors, gates = analysis_gate.validate_publish_quality(
+            make_analysis(VALID_FRONTMATTER, make_body()),
+            republished_payload,
+            source="copilot-cli",
+            model="copilot-default",
+        )
+
+        self.assertEqual(errors, [])
+        self.assertTrue(gates["evidence_citation"]["passed"])
+
     def test_publish_quality_gate_rejects_no_ai_provenance(self) -> None:
         errors, gates = analysis_gate.validate_publish_quality(
             make_analysis(VALID_FRONTMATTER, make_body()),

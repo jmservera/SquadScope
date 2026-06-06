@@ -215,6 +215,23 @@ class PublishManifestTests(unittest.TestCase):
             manifest_payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertEqual(manifest_payload["source_artifacts"][0]["generated_at"], "2026-05-18T08:00:00Z")
 
+    def test_artifact_entry_handles_missing_or_malformed_json(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            missing = base / "data/raw/missing.json"
+            malformed = base / "data/raw/malformed.json"
+            malformed.parent.mkdir(parents=True, exist_ok=True)
+            malformed.write_text("{not json", encoding="utf-8")
+
+            missing_entry = publish_manifest.artifact_entry("raw_github", missing, WEEK, CURRENT_DATETIME)
+            malformed_entry = publish_manifest.artifact_entry("raw_github", malformed, WEEK, CURRENT_DATETIME)
+
+            self.assertEqual(missing_entry["generated_at"], CURRENT_DATETIME)
+            self.assertEqual(malformed_entry["generated_at"], CURRENT_DATETIME)
+            self.assertEqual(missing_entry["freshness"]["status"], "missing")
+            self.assertEqual(malformed_entry["freshness"]["status"], "missing")
+
     def test_structured_same_day_reuse_metadata_remains_machine_readable(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:

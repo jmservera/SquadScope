@@ -132,11 +132,10 @@ def freshness_for_json_artifact(role: str, week: str, payload: dict[str, Any] | 
 def artifact_entry(role: str, path: Path, week: str, generated_at: str | None = None) -> dict[str, Any]:
     payload = load_json(path) if path.suffix == ".json" else None
     metadata = payload.get("metadata", {}) if isinstance(payload, dict) and isinstance(payload.get("metadata"), dict) else {}
-    artifact_generated_at = (
-        payload.get("generated_at") or payload.get("crawled_at") or generated_at
-        if isinstance(payload, dict)
-        else generated_at
-    )
+    if isinstance(payload, dict):
+        artifact_generated_at = payload.get("generated_at") or payload.get("crawled_at") or generated_at
+    else:
+        artifact_generated_at = generated_at
     entry: dict[str, Any] = {
         "role": role,
         "path": path.as_posix(),

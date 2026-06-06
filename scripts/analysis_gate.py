@@ -494,7 +494,7 @@ def raw_repo_names(raw_payload: dict[str, Any]) -> set[str]:
 def raw_artifact_week_errors(raw_payload: dict[str, Any], expected_week: Any) -> list[str]:
     if not isinstance(expected_week, str):
         return []
-    timestamp = raw_payload.get("crawled_at") or raw_payload.get("generated_at")
+    timestamp = raw_payload.get("generated_at") or raw_payload.get("crawled_at")
     if not isinstance(timestamp, str) or not timestamp.strip():
         return []
     try:
