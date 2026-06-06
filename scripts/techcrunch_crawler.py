@@ -252,8 +252,21 @@ def source_reuse_decisions(
     to_crawl: list[NewsSourceConfig] = []
     metadata = payload.get("metadata", {}) if isinstance(payload, dict) else {}
     statuses = metadata.get("source_status", []) if isinstance(metadata, dict) else []
+    if not isinstance(statuses, list):
+        statuses = []
     status_by_source = {str(status.get("source")): status for status in statuses if isinstance(status, dict)}
-    articles = payload.get("articles", []) if isinstance(payload, dict) else []
+    raw_articles = payload.get("articles", []) if isinstance(payload, dict) else []
+    articles: list[dict[str, Any]] = []
+    articles_malformed = False
+    if isinstance(raw_articles, list):
+        for article in raw_articles:
+            article_sources = article.get("sources", []) if isinstance(article, dict) else None
+            if not isinstance(article, dict) or not isinstance(article_sources, list):
+                articles_malformed = True
+                break
+            articles.append(article)
+    else:
+        articles_malformed = True
     global_reasons: list[str] = []
     if policy == "force-refresh":
         global_reasons.append("source_refresh_policy=force-refresh")
@@ -273,6 +286,8 @@ def source_reuse_decisions(
             artifact_code_sha = metadata.get("crawler_code_sha")
             if current_code_sha and artifact_code_sha and artifact_code_sha != current_code_sha:
                 global_reasons.append("crawler/config fingerprint mismatch")
+        if articles_malformed:
+            global_reasons.append("artifact articles malformed")
     for source in sources:
         source_reasons = list(global_reasons)
         status = status_by_source.get(source.name)

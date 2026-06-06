@@ -178,8 +178,8 @@ jobs:
         run: |
           WEEK=$(date -u +%Y-W%V)
           CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          SINCE=$(date -d '7 days ago' +%Y-%m-%d)
-          UNTIL=$(date +%Y-%m-%d)
+          SINCE=$(date -u -d '7 days ago' +%Y-%m-%d)
+          UNTIL=$(date -u +%Y-%m-%d)
           CODE_SHA=$(git hash-object scripts/techcrunch_crawler.py config/external_news_sources.json 2>/dev/null | sha256sum | cut -d' ' -f1)
           python scripts/techcrunch_crawler.py \
             --sources config/external_news_sources.json \

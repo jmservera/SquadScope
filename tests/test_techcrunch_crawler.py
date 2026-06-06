@@ -358,6 +358,40 @@ class TestExternalNewsSources:
             "github-blog": "refresh",
         }
 
+    def test_source_reuse_decisions_refreshes_malformed_article_artifact(self):
+        sources = [NewsSourceConfig("techcrunch", "https://techcrunch.com/feed/")]
+        since = datetime(2026, 5, 11, tzinfo=UTC)
+        until = datetime(2026, 5, 18, tzinfo=UTC)
+        payload = {
+            "week": "2026-W21",
+            "crawled_at": "2026-05-18T08:00:00Z",
+            "crawl_window": {"since": iso_timestamp(since), "until": iso_timestamp(until)},
+            "articles": [{"source": "techcrunch", "sources": 1, "title": "Malformed"}],
+            "metadata": {
+                "source_config_checksum": source_config_checksum(sources),
+                "source_status": [{"source": "techcrunch", "success": True}],
+            },
+        }
+
+        reused, to_crawl, reused_statuses, decisions = source_reuse_decisions(
+            payload,
+            sources,
+            week="2026-W21",
+            run_date=datetime(2026, 5, 18, tzinfo=UTC).date(),
+            since=since,
+            until=until,
+            policy="reuse-same-day",
+            current_config_checksum=source_config_checksum(sources),
+            current_code_sha=None,
+        )
+
+        assert reused == []
+        assert [source.name for source in to_crawl] == ["techcrunch"]
+        assert reused_statuses == []
+        assert decisions == [
+            {"source": "techcrunch", "decision": "refresh", "reasons": ["artifact articles malformed"]}
+        ]
+
     @pytest.mark.parametrize(
         "feed_url",
         [

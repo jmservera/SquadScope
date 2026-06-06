@@ -169,6 +169,8 @@ def parse_artifacts(values: list[str]) -> list[tuple[str, Path]]:
 def create_manifest(args: argparse.Namespace) -> int:
     artifacts = [("raw_github", args.raw_json), *parse_artifacts(args.artifact)]
     run_date = parse_datetime(args.current_datetime)
+    if run_date is None:
+        raise SystemExit(f"Invalid --current-datetime value: {args.current_datetime!r}")
     source_artifacts = [
         artifact_entry(role, path, args.week, run_date=run_date, run_mode=args.run_mode)
         for role, path in artifacts

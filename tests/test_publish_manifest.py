@@ -357,6 +357,44 @@ class PublishManifestTests(unittest.TestCase):
             self.assertFalse(payload["promotion"]["eligible"])
             self.assertTrue(any("current UTC run date" in reason for reason in payload["promotion"]["reasons"]))
 
+    def test_invalid_current_datetime_fails_manifest_creation(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            write_raw(raw)
+            write_summary(summary)
+
+            with self.assertRaises(SystemExit):
+                publish_manifest.main(
+                    [
+                        "create",
+                        "--week",
+                        WEEK,
+                        "--run-id",
+                        RUN_ID,
+                        "--current-datetime",
+                        "not-a-date",
+                        "--summary",
+                        str(summary),
+                        "--published-summary",
+                        str(base / "data/analyzed/2026-W21-summary.md"),
+                        "--raw-json",
+                        str(raw),
+                        "--analysis-source",
+                        "copilot-cli",
+                        "--analysis-model",
+                        "copilot-default",
+                        "--validation-status",
+                        "passed",
+                        "--output",
+                        str(manifest),
+                    ]
+                )
+            self.assertFalse(manifest.exists())
+
     def test_candidate_only_mode_blocks_promotion_even_with_valid_sources(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:

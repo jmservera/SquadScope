@@ -188,7 +188,8 @@ class WorkflowConfigTests(unittest.TestCase):
 
         self.assertIsNotNone(external_news_step, "External news crawl step not found")
         run_script = external_news_step["run"]
-        self.assertIn("UNTIL=$(date +%Y-%m-%d)", run_script)
+        self.assertIn("SINCE=$(date -u -d '7 days ago' +%Y-%m-%d)", run_script)
+        self.assertIn("UNTIL=$(date -u +%Y-%m-%d)", run_script)
         self.assertIn('--until "$UNTIL"', run_script)
 
     def test_crawl_workflow_defines_reskill_jobs(self) -> None:
