@@ -35,6 +35,14 @@ on:
         required: false
         default: ''
         type: string
+      analysis_path:
+        description: 'Analysis path. map-reduce-dry-run is allowed only with dry-run/candidate-only and never promotes content.'
+        required: false
+        default: single-pass
+        type: choice
+        options:
+          - single-pass
+          - map-reduce-dry-run
 
 permissions:
   contents: read
@@ -489,6 +497,7 @@ jobs:
           echo "preflight_report_md=$PREFLIGHT_MD" >> "$GITHUB_OUTPUT"
 
       - name: Install Copilot CLI
+        if: ${{ inputs.analysis_path != 'map-reduce-dry-run' }}
         id: install-copilot
         run: npm install -g @github/copilot
 
@@ -507,6 +516,8 @@ jobs:
           MANIFEST_FILE="${{ steps.analysis-context.outputs.publish_manifest_file }}"
           PUBLISHED_SUMMARY="${{ steps.analysis-context.outputs.published_output_file }}"
           PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
+          ANALYSIS_PATH="${{ inputs.analysis_path || 'single-pass' }}"
+          RUN_MODE="${{ steps.analysis-context.outputs.run_mode }}"
           ANALYSIS_STARTED=$(date +%s)
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
@@ -526,6 +537,37 @@ jobs:
               --repair-safe \
               --report-json "$3"
           }
+
+          if [ "$ANALYSIS_PATH" = "map-reduce-dry-run" ]; then
+            if [ "$RUN_MODE" != "dry-run" ] && [ "$RUN_MODE" != "candidate-only" ]; then
+              echo "::error::map-reduce-dry-run requires run_mode=dry-run or candidate-only and cannot run in a publishing mode."
+              exit 1
+            fi
+            MAP_REDUCE_DIR="$(dirname "$OUTPUT_FILE")/map-reduce"
+            python3 scripts/map_reduce_dry_run.py \
+              --raw-json "$WEEK_FILE" \
+              --press-context "$PRESS_FILE" \
+              --output-dir "$MAP_REDUCE_DIR" \
+              --current-datetime "$CURRENT_DATETIME" \
+              --run-id "${GITHUB_RUN_ID:-local}" \
+              --baseline-summary "$PUBLISHED_SUMMARY"
+            cp "$MAP_REDUCE_DIR/${WEEK}-map-reduce-candidate.md" "$OUTPUT_FILE"
+            ANALYSIS_SOURCE="map-reduce-dry-run"
+            ANALYSIS_MODEL="local-deterministic"
+            python3 scripts/track_token_usage.py \
+              --stage analysis \
+              --source "$ANALYSIS_SOURCE" \
+              --model "$ANALYSIS_MODEL" \
+              --current-datetime "$CURRENT_DATETIME" \
+              --week "$WEEK" \
+              --prompt-file "$PROMPT_FILE" \
+              --output-file "$OUTPUT_FILE"
+            echo "::notice::Map/reduce dry-run candidate written to $OUTPUT_FILE with sidecars under $MAP_REDUCE_DIR. It is not publish eligible."
+            rm -f "$PROMPT_FILE"
+            echo "analysis_source=$ANALYSIS_SOURCE" >> "$GITHUB_OUTPUT"
+            echo "analysis_model=$ANALYSIS_MODEL" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
 
           # Retry loop: LLM output can be non-deterministically truncated,
           # so retry up to 3 attempts if the quality gate rejects the article.
@@ -735,7 +777,9 @@ jobs:
             "external_news=data/raw/${WEEK}-external-news.json" \
             "techcrunch_news=data/raw/${WEEK}-techcrunch.json" \
             "correlations=data/analyzed/${WEEK}-correlations.json" \
-            "press_context=data/analyzed/${WEEK}-press-context.md"
+            "press_context=data/analyzed/${WEEK}-press-context.md" \
+            "map_reduce_manifest=data/candidates/${WEEK}/${RUN_ID}/map-reduce/manifest.json" \
+            "map_reduce_qa=data/candidates/${WEEK}/${RUN_ID}/map-reduce/qa-comparison-report.json"
           do
             path="${candidate#*=}"
             [ -f "$path" ] && ARTIFACT_ARGS+=(--artifact "$candidate")
