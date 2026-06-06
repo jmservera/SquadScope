@@ -62,6 +62,14 @@ TRANSIENT_PATTERNS = (
 
 def classify_log(log_text: str, exit_code: int | None = None) -> CopilotFailure:
     normalized = log_text.lower()
+    if "copilot is not available" in normalized or "command not found" in normalized:
+        return CopilotFailure(
+            "copilot_inaccessible",
+            retryable=False,
+            actionable=True,
+            diagnostic="Copilot CLI is unavailable in the runner; install Copilot CLI or verify runner access.",
+            exit_code=exit_code,
+        )
     if any(pattern in normalized for pattern in TOKEN_PATTERNS):
         return CopilotFailure(
             "copilot_token_failure",
@@ -96,10 +104,10 @@ def classify_log(log_text: str, exit_code: int | None = None) -> CopilotFailure:
         )
     if any(pattern in normalized for pattern in INACCESSIBLE_PATTERNS):
         return CopilotFailure(
-            "copilot_inaccessible",
+            "copilot_token_failure",
             retryable=False,
             actionable=True,
-            diagnostic="Copilot is inaccessible for this workflow; verify Copilot availability and permissions.",
+            diagnostic="Copilot authentication/access failure; renew COPILOT_GH_TOKEN or verify Copilot permissions.",
             exit_code=exit_code,
         )
     return CopilotFailure(

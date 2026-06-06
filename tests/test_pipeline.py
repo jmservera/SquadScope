@@ -218,7 +218,7 @@ class WorkflowConfigTests(unittest.TestCase):
 
         reskill_step = next((s for s in reskill["steps"] if s.get("name") == "Run reskill"), None)
         self.assertIsNotNone(reskill_step)
-        self.assertEqual(workflow["env"]["GITHUB_MODELS_MODEL"], "${{ vars.GITHUB_MODELS_MODEL || 'openai/gpt-4o' }}")
+        self.assertNotIn("GITHUB_MODELS_MODEL", workflow["env"])
         self.assertEqual(reskill_step["env"]["COPILOT_GITHUB_TOKEN"], "${{ secrets.COPILOT_GH_TOKEN }}")
         reskill_run = reskill_step["run"]
         self.assertIn("python3 scripts/reskill.py --current-datetime", reskill_run)
@@ -231,6 +231,10 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("trigger-log.txt", reskill_run)
         self.assertIn("git add .squad/", reskill_run)
         self.assertIn("data/metrics/", reskill_run)
+        self.assertIn("no GitHub Models/OpenAI reskill fallback", reskill_run)
+        self.assertNotIn("${GITHUB_MODELS_MODEL}", reskill_run)
+        self.assertNotIn('RESKILL_SOURCE="github-models"', reskill_run)
+        self.assertNotIn("used GitHub Models API fallback", reskill_run)
         # Reskill prompt addresses the team, not an individual agent
         self.assertIn('"Team, take a nap and reskill"', reskill_run)
         self.assertNotIn("Farnsworth, read the file", reskill_run)
@@ -238,6 +242,17 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn('RESKILL_PROMPT=".squad/reskill/current-prompt.md"', reskill_run)
 
         analyze = workflow["jobs"]["analyze"]
+        preflight_step = next((s for s in analyze["steps"] if s.get("name") == "Render and preflight analysis prompt"), None)
+        self.assertIsNotNone(preflight_step)
+        preflight_run = preflight_step["run"]
+        self.assertIn("--prompt-token-budget", preflight_run)
+        self.assertIn("--preflight-report-json", preflight_run)
+        self.assertIn("--preflight-report-md", preflight_run)
+        self.assertIn("--print-prompt > \"$PROMPT_FILE\"", preflight_run)
+        self.assertIn("--context-files \"$PROMPT_FILE\"", preflight_run)
+        self.assertIn("promotion_policy=", preflight_run)
+        self.assertIn("staged/candidate-only", preflight_run)
+
         run_analysis_step = next((s for s in analyze["steps"] if s.get("name") == "Run analysis"), None)
         self.assertIsNotNone(run_analysis_step)
         run_analysis = run_analysis_step["run"]
@@ -261,6 +276,12 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn('ANALYSIS_SOURCE="no-ai"', run_analysis)
         self.assertNotIn('ANALYSIS_SOURCE="github-models"', run_analysis)
         self.assertNotIn("falling back to GitHub Models API", run_analysis)
+
+        manifest_step = next((s for s in analyze["steps"] if s.get("name") == "Emit publish eligibility manifest"), None)
+        self.assertIsNotNone(manifest_step)
+        manifest_run = manifest_step["run"]
+        self.assertEqual(manifest_step["env"]["PREFLIGHT_REPORT"], "${{ steps.prompt-preflight.outputs.preflight_report_json }}")
+        self.assertIn('--preflight-report "$PREFLIGHT_REPORT"', manifest_run)
 
     def test_generate_workflow_runs_rollups_and_commits_all_content(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
@@ -557,7 +578,7 @@ class PipelineIntegrationTests(unittest.TestCase):
             self.assertNotIn("quality_score", rendered)
             self.assertIn("## This Week's Trends", rendered)
 
-    def test_analyze_fallback_can_process_raw_data(self) -> None:
+    def test_analyze_fallback_no_ai_can_process_raw_data(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             base = Path(tmpdir)
@@ -567,13 +588,7 @@ class PipelineIntegrationTests(unittest.TestCase):
             output_path.parent.mkdir(parents=True)
             raw_path.write_text(json.dumps(make_raw_payload()), encoding="utf-8")
 
-            response = _FakeHTTPResponse(
-                json.dumps({"choices": [{"message": {"content": make_analysis_markdown()}}]}).encode("utf-8")
-            )
-
-            with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
-                analyze_fallback.request, "urlopen", return_value=response
-            ):
+            with mock.patch.object(analyze_fallback.request, "urlopen") as urlopen_mock:
                 exit_code = analyze_fallback.main(
                     [
                         "--raw-json",
@@ -584,13 +599,15 @@ class PipelineIntegrationTests(unittest.TestCase):
                         FIXED_RUN_DATETIME,
                         "--analyzed-dir",
                         str(output_path.parent),
+                        "--no-ai",
                     ]
                 )
 
             self.assertEqual(exit_code, 0)
             written = output_path.read_text(encoding="utf-8")
-            self.assertIn("Reliable Automation Gains Ground", written)
+            self.assertIn("Automation, Observability, and This Week's Repo Signals", written)
             self.assertIn("## Signal & Noise", written)
+            urlopen_mock.assert_not_called()
 
     def test_analysis_gate_validates_analysis_output_correctly(self) -> None:
         tests_root = Path(__file__).resolve().parent

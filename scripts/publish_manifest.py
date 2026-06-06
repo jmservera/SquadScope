@@ -11,7 +11,7 @@ from typing import Any
 
 
 SCHEMA_VERSION = "publish_eligibility_v1"
-AI_SOURCES = {"copilot-cli", "github-models"}
+AI_SOURCES = {"copilot-cli"}
 RUN_MODES = {"normal", "dry-run", "restore", "force-replace", "candidate-only"}
 SOURCE_REFRESH_POLICIES = {"reuse-same-day", "refresh-missing-stale", "force-refresh"}
 ALLOWED_PROMOTION_MANIFEST_ROOTS = {("data", "staging"), ("data", "candidates")}
@@ -42,6 +42,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     create.add_argument("--raw-json", required=True, type=Path)
     create.add_argument("--analysis-source", required=True)
     create.add_argument("--analysis-model", default="copilot-default")
+    create.add_argument(
+        "--preflight-report",
+        type=Path,
+        help="Analysis preflight report JSON used to decide whether Copilot output is normally promotable.",
+    )
     create.add_argument("--validation-status", choices=["passed", "failed"], required=True)
     create.add_argument("--run-mode", choices=sorted(RUN_MODES), default="normal")
     create.add_argument("--source-refresh-policy", choices=sorted(SOURCE_REFRESH_POLICIES), default="reuse-same-day")
@@ -109,6 +114,24 @@ def load_json(path: Path) -> dict[str, Any] | None:
     except (OSError, json.JSONDecodeError):
         return None
     return payload if isinstance(payload, dict) else None
+
+
+def load_preflight(path: Path | None, *, required: bool = False) -> tuple[dict[str, Any] | None, list[str]]:
+    if path is None:
+        if required:
+            return None, ["preflight report is required for Copilot CLI promotion"]
+        return None, []
+    payload = load_json(path)
+    if payload is None:
+        return None, [f"preflight report missing or malformed: {path}"]
+    reasons: list[str] = []
+    if payload.get("degraded") is True:
+        reasons.append(
+            "preflight degraded/compacted; candidate is staged-only unless an explicit promotion policy allows it"
+        )
+    if payload.get("publish_eligible") is not True:
+        reasons.append("preflight report marks candidate as publish-ineligible")
+    return payload, reasons
 
 
 def manifest_lives_under_allowed_promotion_root(manifest_path: Path, root: Path | None = None) -> bool:
@@ -463,6 +486,7 @@ def create_manifest(args: argparse.Namespace) -> int:
     analysis_source = args.analysis_source.strip()
     ai_status = "ai" if analysis_source in AI_SOURCES else "no-ai" if analysis_source == NO_AI_SOURCE else "unknown"
     model_status = publishable_model_status(args.analysis_model)
+    preflight, preflight_reasons = load_preflight(args.preflight_report, required=ai_status == "ai")
     gate_report = load_gate_report(args.gate_report)
     candidate_metadata = markdown_metadata(args.summary)
     published_status = published_summary_status(args.published_summary, args.week)
@@ -524,6 +548,7 @@ def create_manifest(args: argparse.Namespace) -> int:
         reasons.append("analysis validation did not pass")
     if ai_status not in {"ai", "no-ai"}:
         reasons.append(f"analysis source is not AI-publishable: {analysis_source or 'unknown'}")
+    reasons.extend(preflight_reasons)
     if not mode_allows_promotion:
         reasons.append(f"run mode {args.run_mode} is non-publishing")
     if ai_status == "ai" and model_status != "available":
@@ -540,6 +565,7 @@ def create_manifest(args: argparse.Namespace) -> int:
         and gates_passed
         and not artifact_reasons
         and not comparison_reasons
+        and not preflight_reasons
         and mode_allows_promotion
         and not reasons
         and (
@@ -577,12 +603,23 @@ def create_manifest(args: argparse.Namespace) -> int:
             "model": args.analysis_model,
             "model_status": model_status,
             "provider": analysis_source,
+            "preflight": {
+                "path": args.preflight_report.as_posix() if args.preflight_report else None,
+                "degraded": preflight.get("degraded") if preflight else None,
+                "publish_eligible": preflight.get("publish_eligible") if preflight else None,
+                "prompt_tokens": preflight.get("prompt_tokens") if preflight else None,
+                "prompt_token_budget": preflight.get("prompt_token_budget") if preflight else None,
+                "prompt_checksum_sha256": preflight.get("prompt_checksum_sha256") if preflight else None,
+                "promotion_policy": preflight.get("promotion_policy") if preflight else None,
+                "degradation_reason": preflight.get("degradation_reason") if preflight else None,
+            },
             "provenance": {
                 "run_id": args.run_id,
                 "current_datetime": args.current_datetime,
                 "authorship": "ai-authored" if ai_status == "ai" else "no-ai-fallback" if ai_status == "no-ai" else "unknown",
                 "provider": analysis_source,
                 "model": args.analysis_model,
+                "degraded": preflight.get("degraded") if preflight else None,
                 "fallback_reason": args.fallback_reason.strip() or None,
                 "attempted_ai_paths": attempted_ai_paths,
             },
@@ -674,6 +711,12 @@ def assert_eligible(args: argparse.Namespace) -> int:
     ai_status = analysis.get("ai_status")
     if ai_status == "ai" and analysis.get("model_status") != "available":
         raise SystemExit("Manifest lacks an available AI model.")
+    if ai_status == "ai":
+        preflight = analysis.get("preflight")
+        if not isinstance(preflight, dict) or preflight.get("publish_eligible") is not True:
+            raise SystemExit("Manifest lacks a publish-eligible Copilot preflight report.")
+        if preflight.get("degraded") is True:
+            raise SystemExit("Manifest preflight is degraded/compacted and staged-only by default.")
     validation = payload.get("validation")
     gate_report = validation.get("gate_report") if isinstance(validation, dict) else None
     if not isinstance(gate_report, dict) or gate_report.get("present") is not True or gate_report.get("passed") is not True:

@@ -104,45 +104,73 @@ def write_gate_report(root: Path, path: Path, *, passed: bool = True) -> None:
     )
 
 
+def write_preflight(root: Path, path: Path, *, degraded: bool = False, publish_eligible: bool = True) -> None:
+    write_file(
+        root,
+        path.as_posix(),
+        json.dumps(
+            {
+                "prompt_token_budget": 90000,
+                "prompt_tokens": 1200,
+                "prompt_bytes": 4800,
+                "prompt_checksum_sha256": "a" * 64,
+                "prompt_within_budget": True,
+                "degraded": degraded,
+                "publish_eligible": publish_eligible,
+                "promotion_policy": "normal-promotion" if publish_eligible else "staged/candidate-only by default",
+                "degradation_reason": "Prompt was deterministically compacted." if degraded else None,
+                "fallback_policy": "copilot-only",
+                "components": [],
+                "deterministic_slices": [],
+            }
+        )
+        + "\n",
+    )
+
+
 def create_publish_manifest(root: Path, name: str, *, source: str = "copilot-cli", model: str = "copilot-default", gate_passed: bool = True) -> Path:
     candidate_dir = Path("data/candidates") / WEEK / name
     summary_path = candidate_dir / f"{WEEK}-summary.md"
     manifest_path = candidate_dir / "publish-manifest.json"
     gate_report = candidate_dir / "analysis-gate-report.json"
+    preflight_report = candidate_dir / "diagnostics" / "analysis-preflight.json"
     write_file(root, summary_path.as_posix(), VALID_REPLACEMENT_SUMMARY)
     write_publish_raw(root)
     write_gate_report(root, gate_report, passed=gate_passed)
+    if source == "copilot-cli":
+        write_preflight(root, preflight_report)
 
     previous_cwd = Path.cwd()
     try:
         os.chdir(root)
-        publish_manifest.main(
-            [
-                "create",
-                "--week",
-                WEEK,
-                "--run-id",
-                name,
-                "--current-datetime",
-                RUN_STARTED_AT,
-                "--summary",
-                summary_path.as_posix(),
-                "--published-summary",
-                f"data/analyzed/{WEEK}-summary.md",
-                "--raw-json",
-                f"data/raw/{WEEK}.json",
-                "--analysis-source",
-                source,
-                "--analysis-model",
-                model,
-                "--validation-status",
-                "passed" if gate_passed else "failed",
-                "--gate-report",
-                gate_report.as_posix(),
-                "--output",
-                manifest_path.as_posix(),
-            ]
-        )
+        args = [
+            "create",
+            "--week",
+            WEEK,
+            "--run-id",
+            name,
+            "--current-datetime",
+            RUN_STARTED_AT,
+            "--summary",
+            summary_path.as_posix(),
+            "--published-summary",
+            f"data/analyzed/{WEEK}-summary.md",
+            "--raw-json",
+            f"data/raw/{WEEK}.json",
+            "--analysis-source",
+            source,
+            "--analysis-model",
+            model,
+            "--validation-status",
+            "passed" if gate_passed else "failed",
+            "--gate-report",
+            gate_report.as_posix(),
+            "--output",
+            manifest_path.as_posix(),
+        ]
+        if source == "copilot-cli":
+            args.extend(["--preflight-report", preflight_report.as_posix()])
+        publish_manifest.main(args)
     finally:
         os.chdir(previous_cwd)
     return root / manifest_path

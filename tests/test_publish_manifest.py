@@ -101,7 +101,45 @@ def write_gate_report(path: Path, *, passed: bool = True, errors: list[str] | No
     )
 
 
-def create_args(base: Path, raw: Path, summary: Path, manifest: Path, *, source: str = "copilot-cli", model: str | None = "copilot-default", gate_report: Path | None = None, validation_status: str = "passed") -> list[str]:
+def write_preflight(path: Path, *, degraded: bool = False, publish_eligible: bool = True) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(
+            {
+                "prompt_token_budget": 90000,
+                "prompt_tokens": 1200,
+                "prompt_bytes": 4800,
+                "prompt_checksum_sha256": "a" * 64,
+                "prompt_within_budget": True,
+                "degraded": degraded,
+                "publish_eligible": publish_eligible,
+                "promotion_policy": (
+                    "normal-promotion"
+                    if not degraded
+                    else "staged/candidate-only by default; degraded compacted output requires an explicit future promotion policy."
+                ),
+                "degradation_reason": "Prompt was deterministically compacted." if degraded else None,
+                "fallback_policy": "copilot-only",
+                "components": [],
+                "deterministic_slices": [],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+
+def create_args(
+    base: Path,
+    raw: Path,
+    summary: Path,
+    manifest: Path,
+    *,
+    source: str = "copilot-cli",
+    model: str | None = "copilot-default",
+    gate_report: Path | None = None,
+    validation_status: str = "passed",
+    preflight: Path | None | bool = True,
+) -> list[str]:
     args = [
         "create",
         "--week",
@@ -127,6 +165,12 @@ def create_args(base: Path, raw: Path, summary: Path, manifest: Path, *, source:
         args.extend(["--analysis-model", model])
     if gate_report is not None:
         args.extend(["--gate-report", str(gate_report)])
+    if preflight is True and source == "copilot-cli":
+        preflight_path = manifest.parent / "diagnostics" / "analysis-preflight.json"
+        write_preflight(preflight_path)
+        args.extend(["--preflight-report", str(preflight_path)])
+    elif isinstance(preflight, Path):
+        args.extend(["--preflight-report", str(preflight)])
     return args
 
 
@@ -160,6 +204,9 @@ class PublishManifestTests(unittest.TestCase):
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertEqual(payload["schema_version"], "publish_eligibility_v1")
             self.assertEqual(payload["analysis"]["ai_status"], "ai")
+            self.assertEqual(payload["analysis"]["preflight"]["degraded"], False)
+            self.assertEqual(payload["analysis"]["preflight"]["publish_eligible"], True)
+            self.assertEqual(payload["analysis"]["preflight"]["promotion_policy"], "normal-promotion")
             self.assertTrue(payload["promotion"]["eligible"])
             self.assertEqual(payload["promotion"]["decision"], "promote")
             self.assertRegex(payload["candidate"]["summary_sha256"], r"^[0-9a-f]{64}$")
@@ -189,6 +236,84 @@ class PublishManifestTests(unittest.TestCase):
             self.assertEqual(payload["promotion"]["decision"], "block")
             self.assertEqual(payload["analysis"]["provenance"]["authorship"], "no-ai-fallback")
             self.assertIn("fallback_reason is required", payload["promotion"]["reasons"][0])
+            with self.assertRaises(SystemExit):
+                assert_eligible_from_root(base, manifest)
+
+    def test_copilot_ai_candidate_requires_preflight_for_promotion(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report)
+
+            publish_manifest.main(
+                create_args(base, raw, summary, manifest, gate_report=gate_report, preflight=False)
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertEqual(payload["analysis"]["ai_status"], "ai")
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertTrue(any("preflight report is required" in reason for reason in payload["promotion"]["reasons"]))
+
+    def test_github_models_source_is_not_ai_publishable(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report)
+
+            publish_manifest.main(
+                create_args(
+                    base,
+                    raw,
+                    summary,
+                    manifest,
+                    source="github-models",
+                    model="openai/gpt-4o",
+                    gate_report=gate_report,
+                )
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertEqual(payload["analysis"]["ai_status"], "unknown")
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertTrue(any("analysis source is not AI-publishable" in reason for reason in payload["promotion"]["reasons"]))
+
+    def test_degraded_preflight_candidate_is_staged_only_by_default(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            preflight = base / "data/candidates/2026-W21/123456/diagnostics/analysis-preflight.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report)
+            write_preflight(preflight, degraded=True, publish_eligible=False)
+
+            publish_manifest.main(
+                create_args(base, raw, summary, manifest, gate_report=gate_report, preflight=preflight)
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertEqual(payload["promotion"]["decision"], "block")
+            self.assertTrue(payload["analysis"]["preflight"]["degraded"])
+            self.assertFalse(payload["analysis"]["preflight"]["publish_eligible"])
+            self.assertIn("staged/candidate-only", payload["analysis"]["preflight"]["promotion_policy"])
+            self.assertTrue(any("preflight degraded/compacted" in reason for reason in payload["promotion"]["reasons"]))
             with self.assertRaises(SystemExit):
                 assert_eligible_from_root(base, manifest)
 

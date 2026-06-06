@@ -45,7 +45,6 @@ concurrency:
 
 env:
   PYTHONPATH: ${{ github.workspace }}
-  GITHUB_MODELS_MODEL: ${{ vars.GITHUB_MODELS_MODEL || 'openai/gpt-4o' }}
 
 jobs:
   crawl:
@@ -436,27 +435,65 @@ jobs:
           PY
           echo "press_file=$PRESS_FILE" >> "$GITHUB_OUTPUT"
 
-      - name: Pre-flight cost check
-        id: preflight-cost
+      - name: Render and preflight analysis prompt
+        id: prompt-preflight
         run: |
+          set -euo pipefail
           WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
-          CONTEXT_FILES=("$WEEK_FILE")
-          if [ -f ".squad/skills/wisdom.md" ]; then
-            CONTEXT_FILES+=(".squad/skills/wisdom.md")
-          fi
-          for f in .squad/skills/*.md; do
-            [ -f "$f" ] && CONTEXT_FILES+=("$f")
-          done
-          # Use the generic Copilot default cost profile so the workflow never pins a stale CLI model.
+          WEEK="${{ steps.analysis-context.outputs.week }}"
+          OUTPUT_FILE="${{ steps.analysis-context.outputs.candidate_output_file }}"
+          CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
+          PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
+          DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
+          PROMPT_FILE="data/metrics/analysis-prompt-${WEEK}.md"
+          PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-preflight.json"
+          PREFLIGHT_MD="$DIAGNOSTICS_DIR/analysis-preflight.md"
+          mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
+          # Hydrate metrics ledger from publish before writing this run's prompt/preflight artifacts.
+          git fetch origin publish 2>/dev/null && \
+            git checkout origin/publish -- data/metrics/ 2>/dev/null || true
+          python3 scripts/analyze_fallback.py \
+            --raw-json "$WEEK_FILE" \
+            --output "$OUTPUT_FILE" \
+            --current-datetime "$CURRENT_DATETIME" \
+            --press-context "$PRESS_FILE" \
+            --prompt-token-budget "${ANALYSIS_PROMPT_TOKEN_BUDGET:-90000}" \
+            --preflight-report-json "$PREFLIGHT_JSON" \
+            --preflight-report-md "$PREFLIGHT_MD" \
+            --print-prompt > "$PROMPT_FILE"
           python3 scripts/preflight_cost_check.py \
-            --context-files "${CONTEXT_FILES[@]}"
+            --context-files "$PROMPT_FILE"
+          python3 - <<'PY' "$PREFLIGHT_JSON"
+          import json
+          import sys
+          from pathlib import Path
+
+          report = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          print(
+              "::notice::Analysis preflight "
+              f"tokens={report['prompt_tokens']}/{report['prompt_token_budget']} "
+              f"bytes={report['prompt_bytes']} "
+              f"degraded={report['degraded']} "
+              f"publish_eligible={report['publish_eligible']} "
+              f"promotion_policy={report.get('promotion_policy', 'unspecified')} "
+              f"checksum={report['prompt_checksum_sha256'][:12]}"
+          )
+          if report.get("degraded") or not report.get("publish_eligible"):
+              print(
+                  "::warning::Analysis preflight is degraded/compacted or publish-ineligible; "
+                  "output will remain staged/candidate-only unless an explicit promotion policy allows it."
+              )
+          PY
+          echo "prompt_file=$PROMPT_FILE" >> "$GITHUB_OUTPUT"
+          echo "preflight_report_json=$PREFLIGHT_JSON" >> "$GITHUB_OUTPUT"
+          echo "preflight_report_md=$PREFLIGHT_MD" >> "$GITHUB_OUTPUT"
 
       - name: Install Copilot CLI
         id: install-copilot
         run: npm install -g @github/copilot
 
       - name: Run analysis
-        if: steps.preflight-cost.outcome == 'success'
+        if: steps.prompt-preflight.outcome == 'success'
         id: run-analysis
         env:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GH_TOKEN }}
@@ -473,18 +510,7 @@ jobs:
           ANALYSIS_STARTED=$(date +%s)
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
-          # Hydrate metrics ledger from publish so track_token_usage.py appends to
-          # the canonical token-usage.jsonl rather than starting fresh each run.
-          git fetch origin publish 2>/dev/null && \
-            git checkout origin/publish -- data/metrics/ 2>/dev/null || true
-          PROMPT_FILE="data/metrics/analysis-prompt-${WEEK}.md"
-          rm -f "$PROMPT_FILE"
-          python3 scripts/analyze_fallback.py \
-            --raw-json "$WEEK_FILE" \
-            --output "$OUTPUT_FILE" \
-            --current-datetime "$CURRENT_DATETIME" \
-            --press-context "$PRESS_FILE" \
-            --print-prompt > "$PROMPT_FILE"
+          PROMPT_FILE="${{ steps.prompt-preflight.outputs.prompt_file }}"
 
           sanitize_agent_output() {
             python3 scripts/sanitize_agent_output.py --path "$1"
@@ -700,6 +726,7 @@ jobs:
           RUN_MODE: ${{ steps.analysis-context.outputs.run_mode }}
           SOURCE_REFRESH_POLICY: ${{ steps.analysis-context.outputs.source_refresh_policy }}
           GATE_REPORT: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
+          PREFLIGHT_REPORT: ${{ steps.prompt-preflight.outputs.preflight_report_json }}
         run: |
           set -euo pipefail
           git fetch origin publish 2>/dev/null && git checkout origin/publish -- "$PUBLISHED_SUMMARY" 2>/dev/null || true
@@ -722,6 +749,7 @@ jobs:
             --raw-json "$RAW_JSON_FILE" \
             --analysis-source "$ANALYSIS_SOURCE" \
             --analysis-model "$ANALYSIS_MODEL" \
+            --preflight-report "$PREFLIGHT_REPORT" \
             --validation-status "$VALIDATION_STATUS" \
             --run-mode "$RUN_MODE" \
             --source-refresh-policy "$SOURCE_REFRESH_POLICY" \
@@ -1320,16 +1348,11 @@ jobs:
             --allow-tool=grep \
             > /dev/null; then
             echo "✅ Reskill via Copilot CLI with agent identity"
-          # Fallback: GitHub Models API via reskill.py
-          elif python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME" --output "$RESKILL_OUTPUT" --prompt-output "$RESKILL_PROMPT"; then
-            RESKILL_SOURCE="github-models"
-            RESKILL_MODEL="${GITHUB_MODELS_MODEL}"
-            echo "⚠️  Copilot CLI unavailable; used GitHub Models API fallback."
           else
             RESKILL_SOURCE="none"
             RESKILL_MODEL="none"
             rm -f "$RESKILL_PROMPT"
-            echo "Reskill failed on all paths; writing placeholder trigger log."
+            echo "Copilot CLI reskill failed; no GitHub Models/OpenAI reskill fallback is configured. Writing placeholder trigger log."
             echo "Reskill triggered at run #$COUNTER ($CURRENT_DATETIME)" >> .squad/reskill/trigger-log.txt
           fi
 

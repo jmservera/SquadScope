@@ -14,8 +14,8 @@ def test_classifies_copilot_token_failure_as_actionable_non_retryable() -> None:
     assert report.retryable is False
     assert report.actionable is True
     assert "renew COPILOT_GH_TOKEN" in report.diagnostic
-    assert copilot_failure.classify_log("HTTP 403 from Copilot").failure_class == "copilot_inaccessible"
-    assert copilot_failure.classify_log("HTTP 401 from Copilot").failure_class == "copilot_inaccessible"
+    assert copilot_failure.classify_log("HTTP 403 from Copilot").failure_class == "copilot_token_failure"
+    assert copilot_failure.classify_log("HTTP 401 from Copilot").failure_class == "copilot_token_failure"
     assert copilot_failure.classify_log("HTTP 403 invalid token").failure_class == "copilot_token_failure"
 
 
