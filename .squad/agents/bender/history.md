@@ -51,3 +51,13 @@
 - Run 27030646485 also showed analysis, not crawling, is the critical-path risk: three Copilot attempts consumed ~28m41s, failed quality gates, GitHub Models had no `openai/gpt-4o` access, and the workflow shipped via no-AI fallback with ~112.9k estimated input tokens.
 - Issue #249 implementation: weekly analysis now writes to `data/candidates/<week>/<run_id>/` first and emits a `publish_eligibility_v1` manifest before any `data/analyzed/<week>-summary.md` promotion; promotion must fail closed on no-AI, stale source evidence, missing checksums, or failed validation.
 - Analysis preflight now emits raw and prompt-visible repository evidence inventories with byte/token/checksum metadata; analysis gate rejects final repo links outside current raw evidence when inventory is available.
+
+## Issue #287 — Analysis Gate Preflight Hardening (2026-06-06T21:23:50.664Z)
+
+- ✅ COMPLETE: Implemented evidence inventories (repo, article, source ledgers with integrity checksums)
+- ✅ COMPLETE: Repository evidence validation with citation/link integrity
+- ✅ COMPLETE: Structured gate failure summaries with classification (contract, context, timeout, fallback, other)
+- ✅ COMPLETE: Documentation and test coverage
+- pytest: 673 passed, 2 subtests
+- PR #288 created; ready for merge after Fry validation
+- Orchestration log recorded at `.squad/orchestration-log/20260606T212350Z-bender.md`
