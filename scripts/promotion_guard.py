@@ -109,6 +109,12 @@ def _manifest_gate_results(manifest: dict[str, Any]) -> dict[str, bool] | None:
     return None
 
 
+def _manifest_gate_report(manifest: dict[str, Any]) -> dict[str, Any] | None:
+    validation = manifest.get("validation")
+    gate_report = validation.get("gate_report") if isinstance(validation, dict) else None
+    return gate_report if isinstance(gate_report, dict) else None
+
+
 def _manifest_source_artifacts(manifest: dict[str, Any]) -> list[Any] | None:
     artifacts = manifest.get("source_artifacts")
     return artifacts if isinstance(artifacts, list) else None
@@ -143,12 +149,18 @@ def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path
         if ai_provenance.get("degraded") is True:
             reasons.append("degraded AI provenance is not eligible for normal promotion.")
 
+    gate_report = _manifest_gate_report(manifest)
+    if gate_report is not None and gate_report.get("passed") is not True:
+        reasons.append("validation.gate_report.passed must be true.")
+
     gate_results = _manifest_gate_results(manifest)
     if not isinstance(gate_results, dict):
         reasons.append("gate_results is required.")
     else:
         for gate in ("structural_schema", "ai_provenance", "evidence_citation", "editorial_quality"):
-            if gate in gate_results and gate_results.get(gate) is not True:
+            if gate not in gate_results:
+                reasons.append(f"gate_results must include passing {gate}.")
+            elif gate_results.get(gate) is not True:
                 reasons.append(f"{gate} must pass.")
         legacy_gates = ("analysis_gate", "editorial_quality_gate", "evidence_freshness_gate")
         if any(gate in gate_results for gate in legacy_gates):

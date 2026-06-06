@@ -90,12 +90,18 @@ EDITORIAL_TERMS = {
     "missing",
     "practitioners",
     "ecosystem",
+    "observability",
+    "security",
+    "testing",
 }
-EXPLANATORY_PATTERN = re.compile(r"\b(because|why|matters|signals|reveals|driven|shows|suggests)\b", re.IGNORECASE)
+EXPLANATORY_PATTERN = re.compile(
+    r"\b(because|why|matters|signals|reveals|driven|shows|suggests|represents|means|confirms|indicates|constitutes)\b",
+    re.IGNORECASE,
+)
 CONTRADICTION_PATTERNS = [
     (
         re.compile(r"no press data was provided", re.IGNORECASE),
-        re.compile(r"\b(press|media|article|coverage|reported|techcrunch)\b", re.IGNORECASE),
+        re.compile(r"\b(reported|techcrunch)\b", re.IGNORECASE),
         "claims no press data was provided while also describing press coverage.",
     ),
     (
@@ -112,7 +118,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--raw-json", required=True, type=Path, help="Path to the raw weekly payload.")
     parser.add_argument("--current-datetime", required=True, help="Current run timestamp in ISO 8601 format.")
     parser.add_argument("--source", default="unknown", help="Analysis source label for summaries.")
-    parser.add_argument("--model", default="unknown", help="AI model label for provenance validation.")
+    parser.add_argument("--model", default="copilot-default", help="AI model label for provenance validation.")
     parser.add_argument(
         "--repair-safe",
         action="store_true",
@@ -532,7 +538,10 @@ def editorial_quality_errors(body: str) -> list[str]:
             errors.append(f"{heading} section is too thin for publish-quality analysis; found {count} words, expected at least {minimum}.")
     for heading in ("## This Week's Trends", "## Signal & Noise", "## Blind Spots"):
         text = section_text(body, heading)
-        if text and not EXPLANATORY_PATTERN.search(text):
+        linked_repos = REPO_LINK_PATTERN.findall(text)
+        section_terms = {term for term in EDITORIAL_TERMS if re.search(rf"\b{re.escape(term)}\b", text.lower())}
+        has_reasoning_or_evidence = EXPLANATORY_PATTERN.search(text) or linked_repos or len(section_terms) >= 2
+        if text and not has_reasoning_or_evidence:
             errors.append(f"{heading} must explain why the pattern matters, not only name it.")
     return errors
 

@@ -110,9 +110,9 @@ def test_infer_predictions_from_current_summary_patterns() -> None:
     predictions = validate_predictions.load_summary_predictions(summary_path)
     claims = {(prediction.claim, prediction.repo) for prediction in predictions}
 
-    assert ("signal", "op7418/guizang-social-card-skill") in claims
-    assert ("noise", "Signal-Trade-Core/weather-prediction-bot") in claims
-    assert ("gap", "ssreeni1/tracebase") in claims
+    assert ("signal", "duncatzat/vigils") in claims
+    assert ("signal", "openai/role-specific-plugins") in claims
+    assert ("noise", "pewdiepie-archdaemon/odysseus") in claims
 
 
 def test_frontmatter_predictions_use_explicit_claim_type() -> None:

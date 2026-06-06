@@ -389,6 +389,8 @@ jobs:
           WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
           WEEK="${{ steps.analysis-context.outputs.week }}"
           CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
+          MANIFEST_FILE="${{ steps.analysis-context.outputs.publish_manifest_file }}"
+          PUBLISHED_SUMMARY="${{ steps.analysis-context.outputs.published_output_file }}"
           PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
           ANALYSIS_STARTED=$(date +%s)
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
@@ -535,7 +537,20 @@ jobs:
             sanitize_agent_output "$OUTPUT_FILE"
             NO_AI_GATE_REPORT="$DIAGNOSTICS_DIR/gate-no-ai-attempt-0.json"
             run_quality_gate no-ai none "$NO_AI_GATE_REPORT" || true
+            cp "$NO_AI_GATE_REPORT" "${{ steps.analysis-context.outputs.analysis_gate_report_file }}" 2>/dev/null || true
             cp "$OUTPUT_FILE" "$DIAGNOSTICS_DIR/candidate-no-ai-attempt-0.md" 2>/dev/null || true
+            python3 scripts/publish_manifest.py create \
+              --week "$WEEK" \
+              --run-id "${GITHUB_RUN_ID:-local}" \
+              --current-datetime "$CURRENT_DATETIME" \
+              --summary "$OUTPUT_FILE" \
+              --published-summary "$PUBLISHED_SUMMARY" \
+              --raw-json "$WEEK_FILE" \
+              --analysis-source no-ai \
+              --analysis-model none \
+              --validation-status failed \
+              --gate-report "$NO_AI_GATE_REPORT" \
+              --output "$MANIFEST_FILE" || true
             exit 1
           fi
 

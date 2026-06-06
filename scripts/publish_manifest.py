@@ -25,7 +25,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     create.add_argument("--published-summary", required=True, type=Path)
     create.add_argument("--raw-json", required=True, type=Path)
     create.add_argument("--analysis-source", required=True)
-    create.add_argument("--analysis-model", required=True)
+    create.add_argument("--analysis-model", default="copilot-default")
     create.add_argument("--validation-status", choices=["passed", "failed"], required=True)
     create.add_argument("--gate-report", type=Path, help="Structured analysis gate report emitted by analysis_gate.py.")
     create.add_argument("--output", required=True, type=Path)
@@ -208,7 +208,13 @@ def gate_reasons(report: dict[str, Any]) -> list[str]:
     reasons: list[str] = []
     if not report.get("present"):
         return [str(error) for error in report.get("errors", ["structured analysis gate report missing"])]
-    for name, gate in report.get("gates", {}).items():
+    gates = report.get("gates", {})
+    if not isinstance(gates, dict):
+        gates = {}
+    for required_gate in ("structural_schema", "ai_provenance", "evidence_citation", "editorial_quality"):
+        if required_gate not in gates:
+            reasons.append(f"{required_gate} gate missing from structured analysis gate report")
+    for name, gate in gates.items():
         if isinstance(gate, dict) and gate.get("passed") is not True:
             gate_errors = gate.get("errors") if isinstance(gate.get("errors"), list) else []
             if gate_errors:

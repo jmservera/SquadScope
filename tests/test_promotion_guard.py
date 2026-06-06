@@ -91,9 +91,10 @@ def manifest_for(root: Path, name: str, **overrides) -> Path:
             "degraded": False,
         },
         "gate_results": {
-            "analysis_gate": True,
-            "editorial_quality_gate": True,
-            "evidence_freshness_gate": True,
+            "structural_schema": True,
+            "ai_provenance": True,
+            "evidence_citation": True,
+            "editorial_quality": True,
         },
         "source_artifacts": [
             {
@@ -342,7 +343,34 @@ class PromotionGuardTests(unittest.TestCase):
                 promotion_guard.promote_candidate(blocked, root=root)
 
             self.assertIn("promotion_eligible must be true.", raised.exception.reasons)
+            self.assertIn("validation.gate_report.passed must be true.", raised.exception.reasons)
             self.assertIn("evidence_citation must pass.", raised.exception.reasons)
+
+    def test_nested_manifest_missing_required_gate_family_blocks_promotion(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            install_existing_good_article(root)
+            manifest_path = nested_manifest_for(
+                root,
+                "missing-gate-family",
+                validation={
+                    "gate_report": {
+                        "present": True,
+                        "passed": True,
+                        "gates": {
+                            "structural_schema": {"passed": True, "errors": []},
+                            "ai_provenance": {"passed": True, "errors": []},
+                            "editorial_quality": {"passed": True, "errors": []},
+                        },
+                    }
+                },
+            )
+
+            with self.assertRaises(promotion_guard.PromotionBlocked) as raised:
+                promotion_guard.promote_candidate(manifest_path, root=root)
+
+            self.assertIn("gate_results must include passing evidence_citation.", raised.exception.reasons)
 
 
 if __name__ == "__main__":

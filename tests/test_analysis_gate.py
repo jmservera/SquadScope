@@ -376,6 +376,68 @@ No press data was provided this week.
         self.assertTrue(any("editorial analysis" in error for error in errors))
         self.assertFalse(gates["editorial_quality"]["passed"])
 
+    def test_publish_quality_gate_accepts_known_good_weekly_outputs(self) -> None:
+        repo_root = Path(__file__).resolve().parent.parent
+        fixtures = [
+            (
+                "2026-W22",
+                "2026-05-25T11:56:08Z",
+                "perplexityai/bumblebee",
+                repo_root / "data/analyzed/2026-W22-summary.md",
+            ),
+            (
+                "2026-W23",
+                "2026-06-06T07:49:43Z",
+                "pewdiepie-archdaemon/odysseus",
+                repo_root / "data/analyzed/2026-W23-summary.md",
+            ),
+        ]
+
+        for week, crawled_at, repo_name, summary_path in fixtures:
+            with self.subTest(week=week):
+                raw_payload = {
+                    "week": week,
+                    "crawled_at": crawled_at,
+                    "new_repos": [{"full_name": repo_name, "stars": 100}],
+                    "trending_repos": [],
+                }
+                text = summary_path.read_text(encoding="utf-8")
+
+                structure_errors, word_count = analysis_gate.validate_analysis(text, raw_payload, crawled_at)
+                publish_errors, gates = analysis_gate.validate_publish_quality(
+                    text,
+                    raw_payload,
+                    source="copilot-cli",
+                    model="copilot-default",
+                )
+
+                self.assertEqual(structure_errors, [])
+                self.assertGreater(word_count, 200)
+                self.assertEqual(publish_errors, [])
+                self.assertTrue(all(gate["passed"] for gate in gates.values()))
+
+    def test_copilot_source_without_explicit_model_uses_publishable_default(self) -> None:
+        errors, gates = analysis_gate.validate_publish_quality(
+            make_analysis(VALID_FRONTMATTER, make_body()),
+            RAW_PAYLOAD_WITH_REPOS,
+            source="copilot-cli",
+            model=analysis_gate.parse_args(
+                [
+                    "--analysis-file",
+                    "candidate.md",
+                    "--raw-json",
+                    "raw.json",
+                    "--current-datetime",
+                    CURRENT_DATETIME,
+                    "--source",
+                    "copilot-cli",
+                ]
+            ).model,
+        )
+
+        self.assertEqual(errors, [])
+        self.assertTrue(gates["ai_provenance"]["passed"])
+
     def test_publish_quality_gate_rejects_missing_evidence_citations(self) -> None:
         body = make_body().replace("[owner/repo-b](https://github.com/owner/repo-b)", "owner/repo-b")
         errors, gates = analysis_gate.validate_publish_quality(

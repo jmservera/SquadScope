@@ -66,7 +66,7 @@ def write_gate_report(path: Path, *, passed: bool = True, errors: list[str] | No
     )
 
 
-def create_args(base: Path, raw: Path, summary: Path, manifest: Path, *, source: str = "copilot-cli", model: str = "copilot-default", gate_report: Path | None = None, validation_status: str = "passed") -> list[str]:
+def create_args(base: Path, raw: Path, summary: Path, manifest: Path, *, source: str = "copilot-cli", model: str | None = "copilot-default", gate_report: Path | None = None, validation_status: str = "passed") -> list[str]:
     args = [
         "create",
         "--week",
@@ -83,13 +83,13 @@ def create_args(base: Path, raw: Path, summary: Path, manifest: Path, *, source:
         str(raw),
         "--analysis-source",
         source,
-        "--analysis-model",
-        model,
         "--validation-status",
         validation_status,
         "--output",
         str(manifest),
     ]
+    if model is not None:
+        args.extend(["--analysis-model", model])
     if gate_report is not None:
         args.extend(["--gate-report", str(gate_report)])
     return args
@@ -143,6 +143,25 @@ class PublishManifestTests(unittest.TestCase):
             self.assertIn("analysis source is not AI-publishable", payload["promotion"]["reasons"][0])
             with self.assertRaises(SystemExit):
                 publish_manifest.main(["assert-eligible", "--manifest", str(manifest)])
+
+    def test_copilot_candidate_without_explicit_model_uses_publishable_default(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report)
+
+            publish_manifest.main(create_args(base, raw, summary, manifest, model=None, gate_report=gate_report))
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertEqual(payload["analysis"]["model"], "copilot-default")
+            self.assertEqual(payload["analysis"]["model_status"], "available")
+            self.assertTrue(payload["promotion"]["eligible"])
 
     def test_stale_source_artifact_blocks_promotion(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -329,6 +348,27 @@ class PublishManifestTests(unittest.TestCase):
             self.assertFalse(payload["promotion"]["eligible"])
             self.assertEqual(payload["validation"]["quality_gates"][0]["status"], "failed")
             self.assertTrue(any("low-quality summary" in reason for reason in payload["promotion"]["reasons"]))
+
+    def test_missing_required_gate_family_blocks_promotion(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report)
+            payload = json.loads(gate_report.read_text(encoding="utf-8"))
+            del payload["gates"]["evidence_citation"]
+            gate_report.write_text(json.dumps(payload), encoding="utf-8")
+
+            publish_manifest.main(create_args(base, raw, summary, manifest, gate_report=gate_report))
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertTrue(any("evidence_citation gate missing" in reason for reason in payload["promotion"]["reasons"]))
 
 
 if __name__ == "__main__":
