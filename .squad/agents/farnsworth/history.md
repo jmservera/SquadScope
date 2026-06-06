@@ -22,6 +22,17 @@
 - 2026-06-01T12:16:50Z: Agent skills crossed a cultural boundary in W23 with the first major Chinese-platform design skills (Xiaohongshu, WeChat) achieving 1k-2k+ stars. Skills economy is now multilingual; editorial framing should treat geographic and linguistic expansion of skills as a trend signal distinct from English-developer workflow skills.
 - 2026-06-01T12:16:50Z: GitHub Copilot token-billing backlash (TechCrunch, 2026-05-30) produced a clear same-week developer response in self-hosted AI workspace and alternative-routing repos — strongest press-developer convergence of W23. Monitoring for platform billing/policy changes as a leading indicator of self-hosting repo spikes is a reusable editorial pattern.
 - 2026-06-01: Added hindsight validation that backfills Signal/Noise/Gaps repo calls from legacy summaries, writes a markdown scorecard for reskill, and treats frontmatter `predictions` as the forward-looking source of truth for cleaner future scoring.
+- 2026-06-05T16:26:00+00:00: Multi-source press should feed weekly analysis as a source-aware compact correlation artifact, not as raw article dumps; preserve citations while tiering weak category/fuzzy matches separately from strong correlations.
+
+## 2026-06-05 LLM input strategy assessment
+
+- Evaluated 4 options: raw dumps, merged/summarized, staged source-specific, compact correlation.
+- Finding: New multi-source crawl produces ~74k tokens GitHub raw + ~11.4k tokens external-news; old was ~7k TechCrunch press context.
+- Recommendation: Use compact press-context artifact (Option 4) as the only external-news input to weekly analysis.
+- Press context design: ranked press items (5-10 with URL, source, date, relevance, why-it-matters), ranked repo/news correlations (5-10 strong), weak-correlation bucket (category-only), divergences (3-6), complete citations.
+- Token budget: <= 8k token-estimate.
+- Quality gate additions: check 3-5 article links, no raw dumps, distinguish strong vs. weak correlations, caveat on source errors.
+- Decision recorded in .squad/decisions.md.
 
 ## Round 2026-06-01T15:40
 
@@ -31,3 +42,5 @@
 - Validator generates scorecards: `.squad/reskill/scorecards/YYYY-WNN.md` (human) and `data/metrics/scorecards/YYYY-WNN-scorecard.json` (machine)
 - 548 tests passing
 - Ready for merge
+- 2026-06-05T17:42:56Z: Analysis map/reduce should be justified by context pressure and claim quality, not crawl speed; mappers should emit cited claim ledgers while a single reducer preserves global thesis, dedupe, citations, and the analysis gate contract.
+- 2026-06-05T20:57:09Z: Best analysis decomposition candidate is signal-type claim-ledger map/reduce with deterministic preflight compaction, optional hierarchical repo/source sub-mappers only above budget triggers, one reducer/final writer for global thesis and voice, and critic passes as QA rather than competing article writers.

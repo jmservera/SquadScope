@@ -5,8 +5,10 @@ import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
+from urllib import error
 
 import scripts.analyze_fallback as analyze_fallback
+import scripts.publish_manifest as publish_manifest
 
 
 class _FakeHTTPResponse(io.BytesIO):
@@ -178,6 +180,125 @@ class AnalyzeFallbackTests(unittest.TestCase):
             self.assertNotIn("{{WISDOM}}", prompt)
             self.assertNotIn("{{SKILLS}}", prompt)
 
+    def test_main_writes_prompt_preflight_report_for_exact_rendered_prompt(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W21.json"
+            prompt_template = base / "prompt.md"
+            output_path = base / "data" / "analyzed" / "2026-W21-summary.md"
+            report_path = base / "diagnostics" / "preflight.json"
+            raw_path.parent.mkdir(parents=True)
+            output_path.parent.mkdir(parents=True)
+            raw_path.write_text(
+                json.dumps(
+                    {
+                        "week": "2026-W21",
+                        "new_repos": [{"full_name": "owner/new", "stars": 10}],
+                        "trending_repos": [{"full_name": "owner/trend", "stars": 20, "stars_gained": 5}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            prompt_template.write_text("{{RAW_JSON_CONTENT}}\n{{WISDOM}}\n{{SKILLS}}", encoding="utf-8")
+
+            with mock.patch("sys.stdout", new_callable=io.StringIO) as stdout:
+                exit_code = analyze_fallback.main(
+                    [
+                        "--raw-json",
+                        str(raw_path),
+                        "--output",
+                        str(output_path),
+                        "--current-datetime",
+                        "2026-05-18T13:05:53.678+02:00",
+                        "--prompt-template",
+                        str(prompt_template),
+                        "--analyzed-dir",
+                        str(output_path.parent),
+                        "--wisdom-file",
+                        str(base / "missing-wisdom.md"),
+                        "--skills-dir",
+                        str(base / "missing-skills"),
+                        "--preflight-report-json",
+                        str(report_path),
+                        "--print-prompt",
+                    ]
+                )
+
+            rendered = stdout.getvalue()
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            self.assertEqual(exit_code, 0)
+            self.assertEqual(report["prompt_checksum_sha256"], analyze_fallback.checksum_text(rendered))
+            self.assertEqual(report["deterministic_slices"], ["new_repos", "trending_repos", "press_correlations", "prior_continuity"])
+            self.assertFalse(report["degraded"])
+            self.assertTrue(report["publish_eligible"])
+            self.assertEqual(report["promotion_policy"], "normal-promotion")
+            self.assertIn("no-ai is diagnostic/staged-only", report["fallback_policy"])
+            components = {component["name"]: component for component in report["components"]}
+            self.assertEqual(components["new_repos"]["inclusion_reason"], "Deterministic mapper slice: newly discovered repositories.")
+            self.assertEqual(components["trending_repos"]["compaction_decision"], "included")
+
+    def test_preflight_compacts_before_prompt_exceeds_budget(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W21.json"
+            prompt_template = base / "prompt.md"
+            output_path = base / "data" / "analyzed" / "2026-W21-summary.md"
+            report_path = base / "diagnostics" / "preflight.json"
+            report_md_path = base / "diagnostics" / "preflight.md"
+            raw_path.parent.mkdir(parents=True)
+            output_path.parent.mkdir(parents=True)
+            raw_path.write_text(
+                json.dumps(
+                    {
+                        "week": "2026-W21",
+                        "new_repos": [{"full_name": f"owner/new-{i}", "stars": i} for i in range(60)],
+                        "trending_repos": [
+                            {"full_name": f"owner/trend-{i}", "stars": i, "stars_gained": i} for i in range(60)
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            prompt_template.write_text("{{RAW_JSON_CONTENT}}", encoding="utf-8")
+
+            exit_code = analyze_fallback.main(
+                [
+                    "--raw-json",
+                    str(raw_path),
+                    "--output",
+                    str(output_path),
+                    "--current-datetime",
+                    "2026-05-18T13:05:53.678+02:00",
+                    "--prompt-template",
+                    str(prompt_template),
+                    "--analyzed-dir",
+                    str(output_path.parent),
+                    "--preflight-report-json",
+                    str(report_path),
+                    "--preflight-report-md",
+                    str(report_md_path),
+                    "--prompt-token-budget",
+                    "2000",
+                    "--print-prompt",
+                ]
+            )
+
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            self.assertEqual(exit_code, 0)
+            self.assertTrue(report["degraded"])
+            self.assertFalse(report["publish_eligible"])
+            self.assertIn("staged/candidate-only", report["promotion_policy"])
+            self.assertIn("compacted", report["degradation_reason"])
+            report_markdown = report_md_path.read_text(encoding="utf-8")
+            self.assertIn("Degraded/compacted: `true`", report_markdown)
+            self.assertIn("Publish eligible: `false`", report_markdown)
+            self.assertIn("staged/candidate-only", report_markdown)
+            components = {component["name"]: component for component in report["components"]}
+            self.assertIn("compacted to top", components["new_repos"]["compaction_decision"])
+            self.assertIn("compacted to top", components["trending_repos"]["compaction_decision"])
+
     def test_extract_markdown_supports_message_parts(self) -> None:
         payload = {
             "choices": [
@@ -219,6 +340,22 @@ class AnalyzeFallbackTests(unittest.TestCase):
             self.assertIn('title: "Ai, Typescript, and This Week\'s Repo Signals"', markdown)
             self.assertNotIn('title: "Week 23, 2026 Analysis"', markdown)
 
+    def test_no_ai_summary_quality_score_stays_below_publication_threshold(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W23.json"
+            raw_path.parent.mkdir(parents=True)
+            raw_path.write_text(json.dumps({"week": "2026-W23", "new_repos": [], "trending_repos": []}), encoding="utf-8")
+
+            markdown = analyze_fallback.generate_no_ai_summary(raw_path, "2026-06-01T09:42:41Z")
+
+            self.assertLess(
+                analyze_fallback.NO_AI_DIAGNOSTIC_QUALITY_SCORE,
+                publish_manifest.FALLBACK_MIN_QUALITY_SCORE,
+            )
+            self.assertIn(f"quality_score: {analyze_fallback.NO_AI_DIAGNOSTIC_QUALITY_SCORE}", markdown)
+
     def test_script_runs_via_python_pathless_invocation(self) -> None:
         tests_root = Path(__file__).resolve().parent
         repo_root = tests_root.parent
@@ -251,7 +388,7 @@ class AnalyzeFallbackTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn('week: "2026-W21"', result.stdout)
 
-    def test_main_writes_fallback_output(self) -> None:
+    def test_main_without_no_ai_rejects_github_models_fallback(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             base = Path(tmpdir)
@@ -263,13 +400,9 @@ class AnalyzeFallbackTests(unittest.TestCase):
             raw_path.write_text(json.dumps({"week": "2026-W21", "new_repos": [], "trending_repos": []}), encoding="utf-8")
             prompt_template.write_text("{{RAW_JSON_CONTENT}}", encoding="utf-8")
 
-            response = _FakeHTTPResponse(
-                json.dumps({"choices": [{"message": {"content": "# Summary\n"}}]}).encode("utf-8")
-            )
-
-            with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
-                analyze_fallback.request, "urlopen", return_value=response
-            ) as urlopen_mock:
+            with mock.patch.object(analyze_fallback.request, "urlopen") as urlopen_mock, mock.patch(
+                "sys.stderr", new_callable=io.StringIO
+            ) as stderr:
                 exit_code = analyze_fallback.main(
                     [
                         "--raw-json",
@@ -285,9 +418,48 @@ class AnalyzeFallbackTests(unittest.TestCase):
                     ]
                 )
 
-            self.assertEqual(exit_code, 0)
-            self.assertEqual(output_path.read_text(encoding="utf-8"), "# Summary\n")
-            self.assertEqual(urlopen_mock.call_args.kwargs["timeout"], analyze_fallback.DEFAULT_MODELS_TIMEOUT)
+            self.assertEqual(exit_code, 1)
+            self.assertFalse(output_path.exists())
+            self.assertIn("GitHub Models/OpenAI analysis fallback is disabled", stderr.getvalue())
+            urlopen_mock.assert_not_called()
+
+    def test_github_models_403_is_non_retryable_access_failure(self) -> None:
+        forbidden = error.HTTPError(
+            url=analyze_fallback.DEFAULT_MODELS_ENDPOINT,
+            code=403,
+            msg="Forbidden",
+            hdrs={},
+            fp=io.BytesIO(b'{"error":{"code":"no_access"}}'),
+        )
+
+        with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
+            analyze_fallback.request, "urlopen", side_effect=forbidden
+        ) as urlopen_mock:
+            with self.assertRaisesRegex(RuntimeError, "403, non-retryable.*no_access.*access is unavailable"):
+                analyze_fallback.call_github_models("prompt")
+
+        self.assertEqual(urlopen_mock.call_count, 1)
+
+    def test_github_models_429_without_headers_retries_safely(self) -> None:
+        rate_limited = error.HTTPError(
+            url=analyze_fallback.DEFAULT_MODELS_ENDPOINT,
+            code=429,
+            msg="Too Many Requests",
+            hdrs=None,
+            fp=io.BytesIO(b'{"error":{"code":"rate_limited"}}'),
+        )
+        response = _FakeHTTPResponse(json.dumps({"choices": [{"message": {"content": "# Summary\n"}}]}).encode("utf-8"))
+
+        with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
+            analyze_fallback.request, "urlopen", side_effect=[rate_limited, response]
+        ) as urlopen_mock, mock.patch.object(analyze_fallback.random, "uniform", return_value=0), mock.patch.object(
+            analyze_fallback.time, "sleep"
+        ) as sleep_mock:
+            markdown = analyze_fallback.call_github_models("prompt")
+
+        self.assertEqual(markdown, "# Summary\n")
+        self.assertEqual(urlopen_mock.call_count, 2)
+        sleep_mock.assert_called_once_with(analyze_fallback.BASE_DELAY)
 
 
 if __name__ == "__main__":

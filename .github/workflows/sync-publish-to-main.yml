@@ -54,23 +54,9 @@ jobs:
             content/monthly/ \
             content/yearly/
 
-          # OPTIONAL — squad state; tolerant of missing files
-          git checkout origin/publish -- .squad/run-counter.txt 2>/dev/null || true
-          git checkout origin/publish -- .squad/decisions.md 2>/dev/null || true
-
-          # Agent history files (per-agent learnings)
-          git ls-tree -r --name-only origin/publish -- .squad/agents/ 2>/dev/null \
-            | { grep 'history.md$' || true; } \
-            | while IFS= read -r hist; do
-                [ -n "$hist" ] && git checkout origin/publish -- "$hist" 2>/dev/null || true
-              done
-
-          # Skills (team-level reusable patterns)
-          git ls-tree -r --name-only origin/publish -- .squad/skills/ 2>/dev/null \
-            | { grep -E '\.md$' || true; } \
-            | while IFS= read -r skill; do
-                [ -n "$skill" ] && git checkout origin/publish -- "$skill" 2>/dev/null || true
-              done
+          # Rebuild rollups from the synced analyzed summaries so monthly/yearly
+          # pages cannot drift from the weekly content in the generated sync PR.
+          python3 scripts/generate_rollups.py
 
           # Check if there are any changes
           if git diff --cached --quiet && git diff --quiet; then
@@ -79,6 +65,12 @@ jobs:
           fi
 
           git add -A
+          if git diff --cached --name-only | grep -E '^\.squad/' >/dev/null; then
+            echo "::error::Refusing to sync .squad state from publish to main."
+            git diff --cached --name-only | grep -E '^\.squad/' || true
+            exit 1
+          fi
+
           if git diff --cached --quiet; then
             echo "No changes to sync after staging."
             exit 0
@@ -86,7 +78,7 @@ jobs:
 
           git commit -m "sync: publish data → main
 
-          Automated sync of crawl data, analysis, content, and squad learnings
+          Automated sync of crawl data, analysis, and content
           from the publish branch."
 
           git push -f origin "$SYNC_BRANCH"
@@ -100,9 +92,9 @@ jobs:
               --base main \
               --head "$SYNC_BRANCH" \
               --title "sync: publish data → main" \
-              --body "Automated sync of generated content subtrees and durable squad learnings from the publish branch to main.
+              --body "Automated sync of generated content and data subtrees from the publish branch to main.
 
-          This PR keeps main up-to-date with generated data so that squad learnings and content are accessible from the default branch.
+          This PR keeps main up-to-date with generated data and content from the crawl/publish pipeline.
 
           **Synced paths (required — workflow fails if missing on publish):**
           - \`data/raw/\` — raw crawl data
@@ -110,13 +102,8 @@ jobs:
           - \`data/metrics/\` — token usage metrics
           - \`content/weekly/\`, \`content/monthly/\`, \`content/yearly/\` — generated Hugo pages
 
-          **Synced from .squad/ (optional — tolerant of missing):**
-          - \`.squad/agents/*/history.md\` — agent learnings
-          - \`.squad/decisions.md\` — team decisions
-          - \`.squad/skills/**/*.md\` — reusable patterns
-          - \`.squad/run-counter.txt\` — run counter
-
-          **Explicitly NOT synced** (session-local noise): \`.squad/log/\`, \`.squad/orchestration-log/\`, \`.squad/decisions/inbox/\`
+          **Explicitly NOT synced:**
+          - \`.squad/**\` — Squad memory, decisions, run counters, skills, logs, and agent histories are not authoritative on publish.
 
           **Notes:**
           - Publish is authoritative for synced paths. Hand-edits on main to these paths WILL be overwritten.

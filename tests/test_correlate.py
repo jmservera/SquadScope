@@ -11,6 +11,8 @@ from scripts.correlate import (
     assess_hype_risk,
     correlate_all,
     correlate_repo,
+    correlation_strength,
+    dedupe_articles,
     extract_week_from_filename,
     fuzzy_name_score,
     has_temporal_spike,
@@ -54,13 +56,18 @@ def _article(
     github_links: list[str] | None = None,
     entities: list[str] | None = None,
     categories: list[str] | None = None,
+    source: str = "techcrunch",
+    published_at: str = "2026-05-15T10:00:00Z",
 ) -> dict:
     return {
+        "source": source,
         "title": title,
         "url": url,
+        "published_at": published_at,
         "github_links": github_links or [],
         "entities": entities or [],
         "categories": categories or [],
+        "relevance_score": 0.8,
     }
 
 
@@ -224,6 +231,8 @@ class TestCorrelateRepo:
         assert result is not None
         assert result["match_type"] == "direct_link"
         assert result["correlation_confidence"] == 1.0
+        assert result["correlation_strength"] == "strong"
+        assert result["matched_article_details"][0]["source"] == "techcrunch"
 
     def test_no_match_returns_none(self):
         repo = _repo(owner="nobody", name="nothing", topics=[])
@@ -236,6 +245,56 @@ class TestCorrelateRepo:
         result = correlate_repo(repo, [article])
         assert result is not None
         assert result["correlation_confidence"] == 1.0  # 0.8 + 0.2
+
+    def test_category_only_match_is_weak(self):
+        repo = _repo(owner="acme", name="tool", topics=["ai"], stars_gained=0)
+        article = _article(categories=["ai"], entities=[])
+        result = correlate_repo(repo, [article])
+        assert result is not None
+        assert result["match_type"] == "category"
+        assert result["correlation_strength"] == "weak"
+        assert result["correlation_confidence"] == 0.4
+
+    def test_corroborated_category_match_stays_weak(self):
+        repo = _repo(owner="acme", name="tool", topics=["ai"], stars_gained=50)
+        articles = [
+            _article(url="https://example.com/a", categories=["ai"], entities=[], source="alpha"),
+            _article(url="https://example.com/b", categories=["ai"], entities=[], source="beta"),
+        ]
+        result = correlate_repo(repo, articles)
+        assert result is not None
+        assert result["correlation_strength"] == "weak"
+
+    @pytest.mark.parametrize("match_type", ["category", "project_name"])
+    def test_weak_match_types_never_become_strong(self, match_type):
+        articles = [
+            _article(url="https://example.com/a", source="alpha"),
+            _article(url="https://example.com/b", source="beta"),
+        ]
+
+        assert correlation_strength(match_type, articles, temporal_spike=True) == "weak"
+
+    def test_corroborated_project_name_match_stays_weak(self):
+        repo = _repo(owner="acme", name="signal-kit", stars_gained=50)
+        articles = [
+            _article(
+                title="Signal Kit draws developer interest",
+                url="https://example.com/a",
+                entities=[],
+                source="alpha",
+            ),
+            _article(
+                title="Signal Kit keeps growing",
+                url="https://example.com/b",
+                entities=[],
+                source="beta",
+            ),
+        ]
+
+        result = correlate_repo(repo, articles)
+        assert result is not None
+        assert result["match_type"] == "project_name"
+        assert result["correlation_strength"] == "weak"
 
 
 # ---------------------------------------------------------------------------
@@ -257,12 +316,32 @@ class TestCorrelateAll:
         assert "nobody/unrelated" in result["uncorrelated_repos"]
         assert result["metadata"]["repos_analyzed"] == 2
         assert result["metadata"]["correlations_found"] == 1
+        assert result["metadata"]["strong_correlations"] == 1
+        assert result["metadata"]["weak_correlations"] == 0
 
     def test_empty_articles(self):
         repos = [_repo()]
         result = correlate_all(repos, [], "2026-W21")
         assert result["correlations"] == []
         assert len(result["uncorrelated_repos"]) == 1
+
+    def test_cross_source_dedupe(self):
+        articles = [
+            _article(
+                url="https://example.com/story/",
+                source="alpha",
+                github_links=["https://github.com/acme/cool-project"],
+            ),
+            _article(
+                url="https://example.com/story",
+                source="beta",
+                github_links=["https://github.com/acme/cool-project"],
+            ),
+        ]
+        result = correlate_all([_repo()], articles, "2026-W21")
+        assert result["metadata"]["dedupe_count"] == 1
+        details = result["correlations"][0]["matched_article_details"][0]
+        assert details["sources"] == ["alpha", "beta"]
 
 
 # ---------------------------------------------------------------------------
@@ -284,6 +363,14 @@ class TestUtilities:
 
     def test_fuzzy_name_score_empty(self):
         assert fuzzy_name_score("", "something") == 0.0
+
+    def test_dedupe_articles_preserves_provenance(self):
+        articles, count = dedupe_articles([
+            _article(url="https://example.com/a/", source="alpha"),
+            _article(url="https://example.com/a", source="beta"),
+        ])
+        assert count == 1
+        assert articles[0]["sources"] == ["alpha", "beta"]
 
 
 # ---------------------------------------------------------------------------

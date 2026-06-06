@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -30,6 +31,8 @@ REQUIRED_FIELDS = [
 ]
 OPTIONAL_FIELDS = ["predictions"]
 PREDICTION_DIRECTIONS = {"up", "flat", "down"}
+PREDICTION_CLAIM_TYPES = {"signal", "noise", "gap"}
+PREDICTION_FIELDS = {"repo", "claim_type", "direction", "confidence"}
 REQUIRED_HEADINGS = [
     "## This Week's Trends",
     "## Where Industry Meets Code",
@@ -40,6 +43,8 @@ REQUIRED_HEADINGS = [
     "### Notable Projects",
     "### Press & Industry",
 ]
+PUBLISHABLE_AI_SOURCES = {"copilot-cli", "github-models"}
+UNPUBLISHABLE_MODEL_VALUES = {"", "unknown", "unavailable", "none", "no-ai"}
 RAW_MARKERS = [
     "```json",
     '"week":',
@@ -62,6 +67,49 @@ GENERIC_TITLE_PATTERNS = [
     re.compile(r"^Week\s+\d+.*Analysis$", re.IGNORECASE),
     re.compile(r"^Week\s+\d+,\s*\d{4}$", re.IGNORECASE),
 ]
+REPO_LINK_PATTERN = re.compile(r"\[([^/\]\s]+/[^/\]\s]+)\]\(https://github\.com/\1\)")
+SECTION_MIN_WORDS = {
+    "## This Week's Trends": 60,
+    "## Where Industry Meets Code": 40,
+    "## Signal & Noise": 50,
+    "## Blind Spots": 30,
+    "## The Week Ahead": 30,
+}
+EDITORIAL_TERMS = {
+    "signal",
+    "noise",
+    "gap",
+    "gaps",
+    "durable",
+    "hype",
+    "matters",
+    "evidence",
+    "trend",
+    "trends",
+    "blind",
+    "missing",
+    "practitioners",
+    "ecosystem",
+    "observability",
+    "security",
+    "testing",
+}
+EXPLANATORY_PATTERN = re.compile(
+    r"\b(because|why|matters|signals|reveals|driven|shows|suggests|represents|means|confirms|indicates|constitutes)\b",
+    re.IGNORECASE,
+)
+CONTRADICTION_PATTERNS = [
+    (
+        re.compile(r"no press data was provided", re.IGNORECASE),
+        re.compile(r"\b(reported|techcrunch)\b", re.IGNORECASE),
+        "claims no press data was provided while also describing press coverage.",
+    ),
+    (
+        re.compile(r"no meaningful developer activity", re.IGNORECASE),
+        REPO_LINK_PATTERN,
+        "claims no meaningful developer activity while citing active repositories.",
+    ),
+]
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -70,6 +118,13 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--raw-json", required=True, type=Path, help="Path to the raw weekly payload.")
     parser.add_argument("--current-datetime", required=True, help="Current run timestamp in ISO 8601 format.")
     parser.add_argument("--source", default="unknown", help="Analysis source label for summaries.")
+    parser.add_argument("--model", default="copilot-default", help="AI model label for provenance validation.")
+    parser.add_argument(
+        "--repair-safe",
+        action="store_true",
+        help="Apply deterministic frontmatter/schema repairs before final validation.",
+    )
+    parser.add_argument("--report-json", type=Path, help="Write a machine-readable gate report.")
     return parser.parse_args(argv)
 
 
@@ -205,12 +260,130 @@ def parse_frontmatter(text: str) -> dict[str, Any]:
     return parse_frontmatter_fallback(text)
 
 
+def dump_frontmatter(data: dict[str, Any]) -> str:
+    if yaml is not None:
+        dumped = yaml.safe_dump(data, sort_keys=False, allow_unicode=True).strip()
+        return re.sub(r"^(date): '([^']+)'$", r"\1: \2", dumped, flags=re.MULTILINE)
+
+    def format_scalar(value: Any) -> str:
+        if isinstance(value, str):
+            return json.dumps(value)
+        if isinstance(value, (int, float)):
+            return str(value)
+        raise TypeError(f"Unsupported frontmatter value for fallback dump: {value!r}")
+
+    lines: list[str] = []
+    for key, value in data.items():
+        if isinstance(value, list):
+            if not value:
+                lines.append(f"{key}: []")
+                continue
+            lines.append(f"{key}:")
+            for item in value:
+                if isinstance(item, dict):
+                    if not item:
+                        lines.append("  - {}")
+                        continue
+                    item_fields = list(item.items())
+                    first_key, first_value = item_fields[0]
+                    lines.append(f"  - {first_key}: {format_scalar(first_value)}")
+                    for nested_key, nested_value in item_fields[1:]:
+                        lines.append(f"    {nested_key}: {format_scalar(nested_value)}")
+                else:
+                    lines.append(f"  - {format_scalar(item)}")
+        else:
+            lines.append(f"{key}: {format_scalar(value)}")
+    return "\n".join(lines)
+
+
 def extract_frontmatter(text: str) -> tuple[dict[str, Any], str]:
     match = FRONTMATTER_PATTERN.match(text)
     if not match:
         raise ValueError("Analysis output is missing YAML frontmatter.")
     frontmatter_text, body = match.groups()
     return parse_frontmatter(frontmatter_text), body
+
+
+def render_analysis(frontmatter: dict[str, Any], body: str) -> str:
+    return f"---\n{dump_frontmatter(frontmatter)}\n---\n{body}"
+
+
+def expected_repo_counts(raw_payload: dict[str, Any]) -> tuple[int, int]:
+    repos: list[dict[str, Any]] = []
+    for field in ("new_repos", "trending_repos"):
+        value = raw_payload.get(field)
+        if isinstance(value, list):
+            repos.extend(item for item in value if isinstance(item, dict))
+    stars = sum(star for repo in repos if isinstance((star := repo.get("stars")), int) and not isinstance(star, bool))
+    return len(repos), stars
+
+
+def repair_analysis(
+    text: str,
+    raw_payload: dict[str, Any],
+    current_datetime: str,
+) -> tuple[str, list[str]]:
+    frontmatter, body = extract_frontmatter(text)
+    repaired = dict(frontmatter)
+    actions: list[str] = []
+
+    expected_week = raw_payload.get("week")
+    week_match = WEEK_PATTERN.fullmatch(expected_week) if isinstance(expected_week, str) else None
+    if isinstance(expected_week, str) and repaired.get("week") != expected_week:
+        repaired["week"] = expected_week
+        actions.append(f"set week from raw payload ({expected_week})")
+    if week_match:
+        expected_year = int(week_match.group("year"))
+        if repaired.get("year") != expected_year:
+            repaired["year"] = expected_year
+            actions.append(f"set year from raw payload week ({expected_year})")
+    if repaired.get("date") != current_datetime:
+        repaired["date"] = current_datetime
+        actions.append("set date from current run timestamp")
+
+    repos_featured, stars_tracked = expected_repo_counts(raw_payload)
+    if repaired.get("repos_featured") != repos_featured:
+        repaired["repos_featured"] = repos_featured
+        actions.append(f"set repos_featured from raw repo counts ({repos_featured})")
+    if repaired.get("stars_tracked") != stars_tracked:
+        repaired["stars_tracked"] = stars_tracked
+        actions.append(f"set stars_tracked from raw repo stars ({stars_tracked})")
+
+    predictions = repaired.get("predictions")
+    if isinstance(predictions, list):
+        repaired_predictions = []
+        changed_predictions = False
+        for index, prediction in enumerate(predictions, start=1):
+            if not isinstance(prediction, dict):
+                repaired_predictions.append(prediction)
+                continue
+            repaired_prediction = dict(prediction)
+            if "claim_type" not in repaired_prediction:
+                for alias in ("claim", "claimType", "type", "kind"):
+                    alias_value = repaired_prediction.get(alias)
+                    if isinstance(alias_value, str) and alias_value.strip().lower() in PREDICTION_CLAIM_TYPES:
+                        repaired_prediction["claim_type"] = alias_value.strip().lower()
+                        del repaired_prediction[alias]
+                        changed_predictions = True
+                        actions.append(f"set predictions[{index}].claim_type from {alias}")
+                        break
+            claim_type = repaired_prediction.get("claim_type")
+            if isinstance(claim_type, str) and claim_type.strip().lower() in PREDICTION_CLAIM_TYPES and claim_type != claim_type.strip().lower():
+                repaired_prediction["claim_type"] = claim_type.strip().lower()
+                changed_predictions = True
+                actions.append(f"normalized predictions[{index}].claim_type")
+            direction = repaired_prediction.get("direction")
+            if isinstance(direction, str) and direction.strip().lower() in PREDICTION_DIRECTIONS and direction != direction.strip().lower():
+                repaired_prediction["direction"] = direction.strip().lower()
+                changed_predictions = True
+                actions.append(f"normalized predictions[{index}].direction")
+            repaired_predictions.append(repaired_prediction)
+        if changed_predictions:
+            repaired["predictions"] = repaired_predictions
+
+    if not actions:
+        return text, actions
+    return render_analysis(repaired, body), actions
 
 
 def validate_string_field(frontmatter: dict[str, Any], field: str, errors: list[str]) -> None:
@@ -272,7 +445,7 @@ def validate_predictions(frontmatter: dict[str, Any], errors: list[str]) -> None
         confidence = prediction.get("confidence")
         if not isinstance(repo, str) or not TOP_REPO_PATTERN.fullmatch(repo.strip()):
             errors.append(f"predictions[{index}].repo must use owner/repo format.")
-        if not isinstance(claim_type, str) or claim_type.strip().lower() not in {"signal", "noise", "gap"}:
+        if not isinstance(claim_type, str) or claim_type.strip().lower() not in PREDICTION_CLAIM_TYPES:
             errors.append(f"predictions[{index}].claim_type must be one of signal, noise, gap.")
         if not isinstance(direction, str) or direction.strip().lower() not in PREDICTION_DIRECTIONS:
             errors.append(f"predictions[{index}].direction must be one of up, flat, down.")
@@ -280,7 +453,7 @@ def validate_predictions(frontmatter: dict[str, Any], errors: list[str]) -> None
             errors.append(f"predictions[{index}].confidence must be numeric.")
         elif not 0 <= float(confidence) <= 1:
             errors.append(f"predictions[{index}].confidence must be between 0 and 1.")
-        extra_fields = sorted(set(prediction) - {"repo", "claim_type", "direction", "confidence"})
+        extra_fields = sorted(set(prediction) - PREDICTION_FIELDS)
         if extra_fields:
             errors.append(f"predictions[{index}] has unexpected fields: {', '.join(extra_fields)}")
 
@@ -295,6 +468,152 @@ def find_missing_headings(body: str) -> list[str]:
         except ValueError:
             missing.append(required)
     return missing
+
+
+def section_text(body: str, heading: str) -> str:
+    heading_match = re.search(rf"(?m)^{re.escape(heading)}\s*$", body)
+    if heading_match is None:
+        return ""
+    next_heading = re.search(r"(?m)^##\s+", body[heading_match.end() :])
+    end = heading_match.end() + next_heading.start() if next_heading else len(body)
+    return body[heading_match.end() : end].strip()
+
+
+def raw_repo_names(raw_payload: dict[str, Any]) -> set[str]:
+    names: set[str] = set()
+    for field in ("new_repos", "trending_repos"):
+        repos = raw_payload.get(field)
+        if not isinstance(repos, list):
+            continue
+        for repo in repos:
+            if isinstance(repo, dict) and isinstance(repo.get("full_name"), str):
+                names.add(repo["full_name"].strip())
+    return {name for name in names if TOP_REPO_PATTERN.fullmatch(name)}
+
+
+def raw_artifact_week_errors(raw_payload: dict[str, Any], expected_week: Any) -> list[str]:
+    if not isinstance(expected_week, str):
+        return []
+    timestamp = raw_payload.get("generated_at") or raw_payload.get("crawled_at")
+    if not isinstance(timestamp, str) or not timestamp.strip():
+        return []
+    try:
+        parsed = parse_datetime(timestamp)
+    except (TypeError, ValueError) as exc:
+        return [f"raw evidence timestamp is invalid: {exc}"]
+    artifact_week = week_slug(parsed)
+    if artifact_week != expected_week:
+        return [f"raw evidence timestamp week mismatch: expected {expected_week}, found {artifact_week}."]
+    return []
+
+
+def evidence_citation_errors(body: str, raw_payload: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    repos = raw_repo_names(raw_payload)
+    linked_repos = set(REPO_LINK_PATTERN.findall(body))
+    if repos and not linked_repos.intersection(repos):
+        errors.append("evidence citations must include at least one repository link from the raw payload.")
+    if repos and "## Key References" in body:
+        notable = section_text(body, "## Key References")
+        notable_links = set(REPO_LINK_PATTERN.findall(notable))
+        if not notable_links.intersection(repos):
+            errors.append("Key References must cite at least one raw-payload repository link.")
+    errors.extend(raw_artifact_week_errors(raw_payload, raw_payload.get("week")))
+    return errors
+
+
+def editorial_quality_errors(body: str) -> list[str]:
+    errors: list[str] = []
+    prose = "\n".join(line for line in body.splitlines() if not line.lstrip().startswith("#"))
+    lower_body = prose.lower()
+    terms_found = {term for term in EDITORIAL_TERMS if re.search(rf"\b{re.escape(term)}\b", lower_body)}
+    if len(terms_found) < 3:
+        errors.append("editorial analysis must use trend/evidence judgment language, not generic summary prose.")
+    for heading, minimum in SECTION_MIN_WORDS.items():
+        text = section_text(body, heading)
+        if not text:
+            continue
+        count = len(WORD_PATTERN.findall(text))
+        if count < minimum:
+            errors.append(f"{heading} section is too thin for publish-quality analysis; found {count} words, expected at least {minimum}.")
+    for heading in ("## This Week's Trends", "## Signal & Noise", "## Blind Spots"):
+        text = section_text(body, heading)
+        linked_repos = REPO_LINK_PATTERN.findall(text)
+        section_terms = {term for term in EDITORIAL_TERMS if re.search(rf"\b{re.escape(term)}\b", text.lower())}
+        has_reasoning_or_evidence = EXPLANATORY_PATTERN.search(text) or linked_repos or len(section_terms) >= 2
+        if text and not has_reasoning_or_evidence:
+            errors.append(f"{heading} must explain why the pattern matters, not only name it.")
+    return errors
+
+
+def contradiction_errors(body: str) -> list[str]:
+    errors: list[str] = []
+    for negative_pattern, positive_pattern, message in CONTRADICTION_PATTERNS:
+        for match in negative_pattern.finditer(body):
+            window_start = max(0, match.start() - 300)
+            window_end = min(len(body), match.end() + 300)
+            window = body[window_start:window_end]
+            if positive_pattern.search(window.replace(match.group(0), "", 1)):
+                errors.append(f"contradictory claim: {message}")
+                break
+    return errors
+
+
+def ai_provenance_errors(source: str, model: str) -> list[str]:
+    errors: list[str] = []
+    normalized_source = source.strip()
+    normalized_model = model.strip()
+    if normalized_source not in PUBLISHABLE_AI_SOURCES:
+        errors.append(f"AI provenance source is not publishable: {normalized_source or 'unknown'}.")
+    if normalized_model.lower() in UNPUBLISHABLE_MODEL_VALUES:
+        errors.append(f"AI provenance model is not publishable: {normalized_model or 'unknown'}.")
+    return errors
+
+
+def categorize_gate_error(error: str) -> str:
+    if error.startswith("AI provenance"):
+        return "ai_provenance"
+    if error.startswith(("evidence citations", "Key References", "raw evidence")):
+        return "evidence_citation"
+    if error.startswith(("editorial analysis", "contradictory claim")) or "section is too thin" in error or "must explain why" in error:
+        return "editorial_quality"
+    if "quality_score" in error or "generic week/year" in error or "placeholder" in error:
+        return "editorial_quality"
+    return "structural_schema"
+
+
+def build_gate_results(errors: list[str]) -> dict[str, dict[str, Any]]:
+    gates = {
+        "structural_schema": {"passed": True, "errors": []},
+        "ai_provenance": {"passed": True, "errors": []},
+        "evidence_citation": {"passed": True, "errors": []},
+        "editorial_quality": {"passed": True, "errors": []},
+    }
+    for error in errors:
+        category = categorize_gate_error(error)
+        gates[category]["passed"] = False
+        gates[category]["errors"].append(error)
+    return gates
+
+
+def validate_publish_quality(
+    text: str,
+    raw_payload: dict[str, Any],
+    *,
+    source: str,
+    model: str,
+) -> tuple[list[str], dict[str, dict[str, Any]]]:
+    try:
+        _, body = extract_frontmatter(text)
+    except ValueError:
+        body = ""
+    errors: list[str] = []
+    errors.extend(ai_provenance_errors(source, model))
+    if body:
+        errors.extend(evidence_citation_errors(body, raw_payload))
+        errors.extend(editorial_quality_errors(body))
+        errors.extend(contradiction_errors(body))
+    return errors, build_gate_results(errors)
 
 
 def validate_analysis(text: str, raw_payload: dict[str, Any], current_datetime: str) -> tuple[list[str], int]:
@@ -401,6 +720,66 @@ def report_success(path: Path, source: str, word_count: int, summary_path: str |
             handle.write(f"- Word count: `{word_count}`\n")
 
 
+def write_gate_report(
+    path: Path | None,
+    *,
+    analysis_file: Path,
+    source: str,
+    model: str,
+    errors_before: list[str],
+    errors_after: list[str],
+    repair_actions: list[str],
+    word_count: int,
+    gate_results: dict[str, dict[str, Any]],
+) -> None:
+    if path is None:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "analysis_file": analysis_file.as_posix(),
+        "source": source,
+        "model": model,
+        "passed": not errors_after,
+        "word_count": word_count,
+        "gates": gate_results,
+        "errors_before_repair": errors_before,
+        "repair_actions": repair_actions,
+        "errors_after_repair": errors_after,
+        "failure_class": classify_gate_errors(errors_after),
+    }
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def classify_gate_errors(errors: list[str]) -> str:
+    if not errors:
+        return "passed"
+    categories = {categorize_gate_error(error) for error in errors}
+    if len(categories) == 1:
+        return next(iter(categories))
+    if all(
+        error.startswith(("date must", "week must", "year must", "repos_featured must", "stars_tracked must"))
+        or ".claim_type must" in error
+        for error in errors
+    ):
+        return "metadata_schema"
+    if any(error.startswith("Missing required section heading") or "body" in error for error in errors):
+        return "content_structure"
+    return "quality_gate"
+
+
+def gate_report_fingerprint(path: Path) -> str:
+    try:
+        report = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return ""
+    if not isinstance(report, dict):
+        return ""
+    errors = report.get("errors_after_repair") or report.get("errors_before_repair") or []
+    if not isinstance(errors, list):
+        return ""
+    return hashlib.sha256(json.dumps(errors, sort_keys=True).encode("utf-8")).hexdigest()
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
@@ -410,7 +789,39 @@ def main(argv: list[str] | None = None) -> int:
 
     text = args.analysis_file.read_text(encoding="utf-8")
     raw_payload = load_json(args.raw_json)
-    errors, word_count = validate_analysis(text, raw_payload, args.current_datetime)
+    errors_before, word_count = validate_analysis(text, raw_payload, args.current_datetime)
+    publish_errors_before, _ = validate_publish_quality(text, raw_payload, source=args.source, model=args.model)
+    combined_errors_before = errors_before + [error for error in publish_errors_before if error not in errors_before]
+    errors = errors_before
+    repair_actions: list[str] = []
+    if errors and args.repair_safe:
+        try:
+            repaired_text, repair_actions = repair_analysis(text, raw_payload, args.current_datetime)
+        except Exception as exc:  # noqa: BLE001 - repair is best-effort; validation/reporting must continue.
+            repair_actions = [f"repair skipped: {exc}"]
+        else:
+            if repair_actions and repaired_text != text:
+                args.analysis_file.write_text(repaired_text, encoding="utf-8")
+                text = repaired_text
+                errors, word_count = validate_analysis(text, raw_payload, args.current_datetime)
+                print(
+                    f"::notice::Analysis gate applied safe repairs: {', '.join(repair_actions)}",
+                    file=sys.stderr,
+                )
+    publish_errors, _ = validate_publish_quality(text, raw_payload, source=args.source, model=args.model)
+    errors = errors + [error for error in publish_errors if error not in errors]
+    gate_results = build_gate_results(errors)
+    write_gate_report(
+        args.report_json,
+        analysis_file=args.analysis_file,
+        source=args.source,
+        model=args.model,
+        errors_before=combined_errors_before,
+        errors_after=errors,
+        repair_actions=repair_actions,
+        word_count=word_count,
+        gate_results=gate_results,
+    )
     if errors:
         fail(errors, summary_path)
 

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from datetime import UTC, datetime, timedelta
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -9,13 +10,25 @@ from unittest.mock import patch
 import pytest
 
 from scripts.techcrunch_crawler import (
+    DEFAULT_SOURCES_PATH,
+    DEFAULT_FETCH_TIMEOUT_SECONDS,
+    DEFAULT_FETCH_RETRIES,
+    NewsFeedSource,
+    NewsSourceConfig,
     TechCrunchSource,
     build_output,
     compute_relevance_score,
+    crawl_sources_parallel,
+    dedupe_articles,
     extract_entities,
     extract_github_urls,
+    fetch_feed,
     iso_timestamp,
+    load_source_configs,
     parse_published_date,
+    source_config_checksum,
+    source_reuse_decisions,
+    validate_feed_url,
     week_slug,
 )
 
@@ -188,6 +201,7 @@ class TestTechCrunchSourceCrawl:
             )
 
         assert len(articles) == 1
+        assert articles[0]["source"] == "techcrunch"
         assert articles[0]["title"] == "Test Article"
 
     def test_crawl_extracts_github_links(self):
@@ -267,9 +281,11 @@ class TestBuildOutput:
         assert output["source"] == "techcrunch"
         assert output["week"] == week_slug(now)
         assert output["crawled_at"] == "2026-05-19T10:00:00Z"
+        assert output["metadata"]["source_count"] == 1
         assert output["metadata"]["total_articles"] == 2
         assert output["metadata"]["relevant_articles"] == 1
         assert output["metadata"]["github_links_found"] == 1
+        assert output["metadata"]["errors"] == []
         assert len(output["articles"]) == 2
 
 
@@ -285,3 +301,507 @@ class TestDataSourceProtocol:
         limits = source.get_rate_limits()
         assert "requests_per_minute" in limits
         assert limits["requests_per_minute"] == 10
+
+
+# --- Config and parallel crawl tests ---
+
+class TestExternalNewsSources:
+    def test_load_default_source_configs(self):
+        sources = load_source_configs(DEFAULT_SOURCES_PATH)
+        names = {source.name for source in sources}
+
+        assert "techcrunch" in names
+        assert "nvidia_blog" in names
+        assert "hugging_face_blog" in names
+        assert "mit_technology_review" in names
+        assert "github_blog" in names
+
+
+    def test_source_reuse_decisions_reuses_successful_same_day_sources_and_refreshes_failed(self):
+        sources = [
+            NewsSourceConfig("techcrunch", "https://techcrunch.com/feed/"),
+            NewsSourceConfig("github-blog", "https://github.blog/feed/"),
+        ]
+        since = datetime(2026, 5, 11, tzinfo=UTC)
+        until = datetime(2026, 5, 18, tzinfo=UTC)
+        payload = {
+            "week": "2026-W21",
+            "crawled_at": "2026-05-18T08:00:00Z",
+            "crawl_window": {"since": iso_timestamp(since), "until": iso_timestamp(until)},
+            "articles": [{"source": "techcrunch", "title": "Reused", "published_at": "2026-05-17T00:00:00Z"}],
+            "metadata": {
+                "source_config_checksum": source_config_checksum(sources),
+                "source_status": [
+                    {"source": "techcrunch", "success": True},
+                    {"source": "github-blog", "success": False},
+                ],
+            },
+        }
+
+        reused, to_crawl, reused_statuses, decisions = source_reuse_decisions(
+            payload,
+            sources,
+            week="2026-W21",
+            run_date=datetime(2026, 5, 18, tzinfo=UTC).date(),
+            since=since,
+            until=until,
+            policy="reuse-same-day",
+            current_config_checksum=source_config_checksum(sources),
+            current_code_sha=None,
+        )
+
+        assert [article["title"] for article in reused] == ["Reused"]
+        assert [source.name for source in to_crawl] == ["github-blog"]
+        assert reused_statuses[0]["reused_same_day"] is True
+        assert {decision["source"]: decision["decision"] for decision in decisions} == {
+            "techcrunch": "reuse",
+            "github-blog": "refresh",
+        }
+
+    def test_source_reuse_decisions_refreshes_malformed_article_artifact(self):
+        sources = [NewsSourceConfig("techcrunch", "https://techcrunch.com/feed/")]
+        since = datetime(2026, 5, 11, tzinfo=UTC)
+        until = datetime(2026, 5, 18, tzinfo=UTC)
+        payload = {
+            "week": "2026-W21",
+            "crawled_at": "2026-05-18T08:00:00Z",
+            "crawl_window": {"since": iso_timestamp(since), "until": iso_timestamp(until)},
+            "articles": [{"source": "techcrunch", "sources": 1, "title": "Malformed"}],
+            "metadata": {
+                "source_config_checksum": source_config_checksum(sources),
+                "source_status": [{"source": "techcrunch", "success": True}],
+            },
+        }
+
+        reused, to_crawl, reused_statuses, decisions = source_reuse_decisions(
+            payload,
+            sources,
+            week="2026-W21",
+            run_date=datetime(2026, 5, 18, tzinfo=UTC).date(),
+            since=since,
+            until=until,
+            policy="reuse-same-day",
+            current_config_checksum=source_config_checksum(sources),
+            current_code_sha=None,
+        )
+
+        assert reused == []
+        assert [source.name for source in to_crawl] == ["techcrunch"]
+        assert reused_statuses == []
+        assert decisions == [
+            {"source": "techcrunch", "decision": "refresh", "reasons": ["artifact articles malformed"]}
+        ]
+
+    def test_source_reuse_decisions_refreshes_missing_code_fingerprint_when_required(self):
+        sources = [NewsSourceConfig("techcrunch", "https://techcrunch.com/feed/")]
+        since = datetime(2026, 5, 11, tzinfo=UTC)
+        until = datetime(2026, 5, 18, tzinfo=UTC)
+        payload = {
+            "week": "2026-W21",
+            "crawled_at": "2026-05-18T08:00:00Z",
+            "crawl_window": {"since": iso_timestamp(since), "until": iso_timestamp(until)},
+            "articles": [{"source": "techcrunch", "title": "Reused", "published_at": "2026-05-17T00:00:00Z"}],
+            "metadata": {
+                "source_config_checksum": source_config_checksum(sources),
+                "source_status": [{"source": "techcrunch", "success": True}],
+            },
+        }
+
+        reused, to_crawl, reused_statuses, decisions = source_reuse_decisions(
+            payload,
+            sources,
+            week="2026-W21",
+            run_date=datetime(2026, 5, 18, tzinfo=UTC).date(),
+            since=since,
+            until=until,
+            policy="reuse-same-day",
+            current_config_checksum=source_config_checksum(sources),
+            current_code_sha="sha",
+        )
+
+        assert reused == []
+        assert [source.name for source in to_crawl] == ["techcrunch"]
+        assert reused_statuses == []
+        assert decisions == [
+            {"source": "techcrunch", "decision": "refresh", "reasons": ["crawler/config fingerprint mismatch"]}
+        ]
+
+    @pytest.mark.parametrize(
+        "feed_url",
+        [
+            "http://techcrunch.com/feed/",
+            "https://user:pass@techcrunch.com/feed/",
+            "https://localhost/feed/",
+            "https://127.0.0.1/feed/",
+            "https://169.254.169.254/feed/",
+            "https://example.com/feed/",
+            "https://techcrunch.com:8443/feed/",
+        ],
+    )
+    def test_rejects_invalid_or_unapproved_feed_urls(self, feed_url):
+        with pytest.raises(ValueError):
+            validate_feed_url(feed_url)
+
+    def test_load_source_configs_rejects_unapproved_hosts(self):
+        payload = json.dumps([
+            {
+                "name": "evil",
+                "feed_url": "https://example.com/feed.xml",
+                "requests_per_minute": 10,
+            }
+        ])
+
+        with patch("pathlib.Path.read_text", return_value=payload):
+            with pytest.raises(ValueError, match="not approved"):
+                load_source_configs(DEFAULT_SOURCES_PATH)
+
+    def test_fetch_feed_uses_explicit_timeout(self):
+        class FakeResponse:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                return None
+
+            def read(self):
+                return b"<rss><channel></channel></rss>"
+
+        feed = _make_feed()
+        with (
+            patch(
+                "scripts.techcrunch_crawler.urlopen",
+                return_value=FakeResponse(),
+            ) as mock_urlopen,
+            patch("scripts.techcrunch_crawler.feedparser.parse", return_value=feed),
+        ):
+            result = fetch_feed("https://techcrunch.com/feed/")
+
+        assert result is feed
+        assert mock_urlopen.call_args.kwargs["timeout"] == DEFAULT_FETCH_TIMEOUT_SECONDS
+
+    def test_crawl_sources_parallel_combines_sources(self):
+        alpha_entry = _make_entry(
+            title="Alpha AI framework",
+            link="https://example.com/alpha",
+            published_parsed=(2026, 5, 16, 10, 0, 0, 4, 136, 0),
+        )
+        beta_entry = _make_entry(
+            title="Beta developer API",
+            link="https://example.com/beta",
+            published_parsed=(2026, 5, 17, 10, 0, 0, 5, 137, 0),
+        )
+        feeds = {
+            "https://techcrunch.com/feed/": _make_feed(entries=[alpha_entry]),
+            "https://github.blog/feed/": _make_feed(entries=[beta_entry]),
+        }
+
+        def fake_fetch(url, retries=1, timeout=DEFAULT_FETCH_TIMEOUT_SECONDS):
+            return feeds[url]
+
+        sources = [
+            NewsSourceConfig("alpha", "https://techcrunch.com/feed/"),
+            NewsSourceConfig("beta", "https://github.blog/feed/"),
+        ]
+        with patch("scripts.techcrunch_crawler.fetch_feed", side_effect=fake_fetch):
+            articles, errors, statuses = crawl_sources_parallel(
+                sources,
+                since=datetime(2026, 5, 10, tzinfo=UTC),
+                until=datetime(2026, 5, 20, tzinfo=UTC),
+                max_workers=2,
+            )
+
+        assert errors == []
+        assert {status["source"] for status in statuses} == {"alpha", "beta"}
+        assert all(status["success"] for status in statuses)
+        assert [article["source"] for article in articles] == ["beta", "alpha"]
+        assert {article["title"] for article in articles} == {
+            "Alpha AI framework",
+            "Beta developer API",
+        }
+
+    def test_external_news_output_metadata(self):
+        now = datetime(2026, 5, 19, 10, 0, 0, tzinfo=UTC)
+        output = build_output(
+            [
+                {
+                    "source": "alpha",
+                    "title": "AI framework",
+                    "summary": "open source",
+                    "categories": [],
+                    "github_links": [],
+                    "relevance_score": 0.4,
+                },
+                {
+                    "source": "beta",
+                    "title": "Developer API",
+                    "summary": "sdk",
+                    "categories": [],
+                    "github_links": [],
+                    "relevance_score": 0.4,
+                },
+            ],
+            crawled_at=now,
+            source="external_news",
+            source_count=2,
+            crawl_window={
+                "since": "2026-05-12T00:00:00Z",
+                "until": "2026-05-19T00:00:00Z",
+            },
+            source_config_checksum_value="abc123",
+            requested_sources=["alpha", "beta", "gamma"],
+            source_statuses=[
+                {
+                    "source": "alpha",
+                    "host": "techcrunch.com",
+                    "success": True,
+                    "attempts": 1,
+                    "timeout_seconds": 15,
+                    "total_articles": 1,
+                    "relevant_articles": 1,
+                    "github_links_found": 0,
+                    "started_at": "2026-05-19T10:00:00Z",
+                    "ended_at": "2026-05-19T10:00:01Z",
+                    "duration_seconds": 1.0,
+                    "error_class": "",
+                    "error_message": "",
+                },
+                {
+                    "source": "beta",
+                    "host": "github.blog",
+                    "success": True,
+                    "attempts": 1,
+                    "timeout_seconds": 15,
+                    "total_articles": 1,
+                    "relevant_articles": 1,
+                    "github_links_found": 0,
+                    "started_at": "2026-05-19T10:00:00Z",
+                    "ended_at": "2026-05-19T10:00:01Z",
+                    "duration_seconds": 1.0,
+                    "error_class": "",
+                    "error_message": "",
+                },
+                {
+                    "source": "gamma",
+                    "host": "example.com",
+                    "success": False,
+                    "attempts": 2,
+                    "timeout_seconds": 15,
+                    "total_articles": 0,
+                    "relevant_articles": 0,
+                    "github_links_found": 0,
+                    "started_at": "2026-05-19T10:00:00Z",
+                    "ended_at": "2026-05-19T10:00:01Z",
+                    "duration_seconds": 1.0,
+                    "error_class": "TimeoutError",
+                    "error_message": "timeout",
+                },
+            ],
+            errors=[{"source": "gamma", "error": "timeout"}],
+        )
+
+        assert output["schema_version"] == 2
+        assert output["source"] == "external_news"
+        assert output["metadata"]["source_count"] == 2
+        assert output["metadata"]["source_config_checksum"] == "abc123"
+        assert output["metadata"]["sources_requested"] == ["alpha", "beta", "gamma"]
+        assert output["metadata"]["sources_succeeded"] == ["alpha", "beta"]
+        assert output["metadata"]["sources_failed"] == ["gamma"]
+        assert output["metadata"]["artifact_checksum"]
+        assert output["metadata"]["sources_with_articles"] == {"alpha": 1, "beta": 1}
+        assert output["metadata"]["errors"] == [{"source": "gamma", "error": "timeout"}]
+
+    def test_dedupe_articles_preserves_sources(self):
+        articles, deduped = dedupe_articles([
+            {
+                "source": "alpha",
+                "title": "Same story",
+                "url": "https://example.com/story/",
+                "published_at": "2026-05-15T10:00:00Z",
+                "github_links": ["https://github.com/a/b"],
+                "relevance_score": 0.4,
+            },
+            {
+                "source": "beta",
+                "title": "Same story mirror",
+                "url": "https://example.com/story",
+                "published_at": "2026-05-15T10:00:00Z",
+                "github_links": ["https://github.com/c/d"],
+                "relevance_score": 0.8,
+            },
+        ])
+
+        assert deduped == 1
+        assert len(articles) == 1
+        assert articles[0]["sources"] == ["alpha", "beta"]
+        assert articles[0]["relevance_score"] == 0.8
+
+    def test_failed_source_reports_bounded_retry_attempts(self):
+        source = NewsSourceConfig("alpha", "https://techcrunch.com/feed/")
+        with patch("scripts.techcrunch_crawler.fetch_feed", side_effect=TimeoutError("boom")):
+            articles, errors, statuses = crawl_sources_parallel(
+                [source],
+                since=datetime(2026, 5, 10, tzinfo=UTC),
+                until=datetime(2026, 5, 20, tzinfo=UTC),
+                max_workers=1,
+            )
+
+        assert articles == []
+        assert errors[0]["error_class"] == "TimeoutError"
+        assert statuses[0]["attempts"] == DEFAULT_FETCH_RETRIES + 1
+        assert statuses[0]["success"] is False
+
+    def test_failed_feed_fetch_records_attempts_on_source(self):
+        source = NewsFeedSource(NewsSourceConfig("alpha", "https://techcrunch.com/feed/"))
+
+        with patch("scripts.techcrunch_crawler.fetch_feed", side_effect=TimeoutError("boom")):
+            with pytest.raises(TimeoutError):
+                source.crawl(
+                    since=datetime(2026, 5, 10, tzinfo=UTC),
+                    until=datetime(2026, 5, 20, tzinfo=UTC),
+                )
+
+        assert source.last_attempts == DEFAULT_FETCH_RETRIES + 1
+        assert source.last_timeout_seconds == DEFAULT_FETCH_TIMEOUT_SECONDS
+
+class TestSameDaySourceReuse:
+    def _sources(self):
+        return [
+            NewsSourceConfig("alpha", "https://techcrunch.com/feed/"),
+            NewsSourceConfig("beta", "https://github.blog/feed/"),
+        ]
+
+    def _article(self, source, title, url):
+        return {
+            "source": source,
+            "title": title,
+            "url": url,
+            "published_at": "2026-05-19T10:00:00Z",
+            "categories": ["AI"],
+            "summary": "open source AI framework",
+            "github_links": [],
+            "entities": [],
+            "relevance_score": 0.6,
+        }
+
+    def _write_previous(self, path, *, crawled_at, statuses=None, articles=None, sources=None):
+        from scripts.techcrunch_crawler import source_config_checksum
+        sources = sources or self._sources()
+        output = build_output(
+            articles or [self._article("alpha", "Alpha", "https://example.com/alpha")],
+            crawled_at=crawled_at,
+            source="external_news",
+            source_count=len(sources),
+            crawl_window={
+                "since": "2026-05-12T00:00:00Z",
+                "until": "2026-05-19T00:00:00Z",
+            },
+            source_config_checksum_value=source_config_checksum(sources),
+            requested_sources=[source.name for source in sources],
+            source_statuses=statuses or [
+                {"source": "alpha", "host": "techcrunch.com", "success": True, "attempts": 1, "timeout_seconds": 15, "total_articles": 1, "relevant_articles": 1, "github_links_found": 0, "started_at": "2026-05-19T08:00:00Z", "ended_at": "2026-05-19T08:00:01Z", "duration_seconds": 1.0, "error_class": "", "error_message": ""},
+                {"source": "beta", "host": "github.blog", "success": True, "attempts": 1, "timeout_seconds": 15, "total_articles": 0, "relevant_articles": 0, "github_links_found": 0, "started_at": "2026-05-19T08:00:00Z", "ended_at": "2026-05-19T08:00:01Z", "duration_seconds": 1.0, "error_class": "", "error_message": ""},
+            ],
+            source_reuse_summary=[],
+            source_artifact_provenance=[],
+            run_id="111",
+        )
+        path.write_text(json.dumps(output), encoding="utf-8")
+
+    def test_reuses_successful_same_day_sources(self, tmp_path):
+        from scripts.techcrunch_crawler import plan_source_reuse, source_config_checksum
+        sources = self._sources()
+        path = tmp_path / "external.json"
+        now = datetime(2026, 5, 19, 9, 0, tzinfo=UTC)
+        self._write_previous(path, crawled_at=now)
+
+        reused, pending, summary, provenance, _ = plan_source_reuse(
+            path,
+            sources,
+            now=now,
+            since=datetime(2026, 5, 12, tzinfo=UTC),
+            until=datetime(2026, 5, 19, tzinfo=UTC),
+            config_checksum=source_config_checksum(sources),
+        )
+
+        assert [item["action"] for item in summary] == ["reused", "reused"]
+        assert pending == []
+        assert [article["title"] for article in reused] == ["Alpha"]
+        assert provenance[0]["original_run_id"] == "111"
+        assert provenance[0]["content_checksum"]
+
+    def test_rejects_yesterday_artifact_as_stale(self, tmp_path):
+        from scripts.techcrunch_crawler import plan_source_reuse, source_config_checksum
+        sources = self._sources()
+        path = tmp_path / "external.json"
+        self._write_previous(path, crawled_at=datetime(2026, 5, 18, 9, 0, tzinfo=UTC))
+
+        reused, pending, summary, _, _ = plan_source_reuse(
+            path,
+            sources,
+            now=datetime(2026, 5, 19, 9, 0, tzinfo=UTC),
+            since=datetime(2026, 5, 12, tzinfo=UTC),
+            until=datetime(2026, 5, 19, tzinfo=UTC),
+            config_checksum=source_config_checksum(sources),
+        )
+
+        assert reused == []
+        assert [source.name for source in pending] == ["alpha", "beta"]
+        assert {item["action"] for item in summary} == {"stale"}
+
+    def test_rejects_missing_code_fingerprint_when_required(self, tmp_path):
+        from scripts.techcrunch_crawler import plan_source_reuse, source_config_checksum
+        sources = self._sources()
+        path = tmp_path / "external.json"
+        now = datetime(2026, 5, 19, 9, 0, tzinfo=UTC)
+        self._write_previous(path, crawled_at=now)
+
+        reused, pending, summary, _, _ = plan_source_reuse(
+            path,
+            sources,
+            now=now,
+            since=datetime(2026, 5, 12, tzinfo=UTC),
+            until=datetime(2026, 5, 19, tzinfo=UTC),
+            config_checksum=source_config_checksum(sources),
+            current_code_sha="sha",
+        )
+
+        assert reused == []
+        assert [source.name for source in pending] == ["alpha", "beta"]
+        assert {item["action"] for item in summary} == {"stale"}
+        assert all("crawler/config fingerprint mismatch" in item["reasons"] for item in summary)
+
+    def test_partial_rerun_reuses_success_and_fetches_failed(self, tmp_path):
+        from scripts.techcrunch_crawler import plan_source_reuse, source_config_checksum
+        sources = self._sources()
+        path = tmp_path / "external.json"
+        self._write_previous(
+            path,
+            crawled_at=datetime(2026, 5, 19, 9, 0, tzinfo=UTC),
+            statuses=[
+                {"source": "alpha", "host": "techcrunch.com", "success": True, "attempts": 1, "timeout_seconds": 15, "total_articles": 1, "relevant_articles": 1, "github_links_found": 0, "started_at": "2026-05-19T08:00:00Z", "ended_at": "2026-05-19T08:00:01Z", "duration_seconds": 1.0, "error_class": "", "error_message": ""},
+                {"source": "beta", "host": "github.blog", "success": False, "attempts": 2, "timeout_seconds": 15, "total_articles": 0, "relevant_articles": 0, "github_links_found": 0, "started_at": "2026-05-19T08:00:00Z", "ended_at": "2026-05-19T08:00:01Z", "duration_seconds": 1.0, "error_class": "TimeoutError", "error_message": "timeout"},
+            ],
+        )
+
+        reused, pending, summary, _, _ = plan_source_reuse(
+            path,
+            sources,
+            now=datetime(2026, 5, 19, 10, 0, tzinfo=UTC),
+            since=datetime(2026, 5, 12, tzinfo=UTC),
+            until=datetime(2026, 5, 19, tzinfo=UTC),
+            config_checksum=source_config_checksum(sources),
+        )
+
+        assert [article["source"] for article in reused] == ["alpha"]
+        assert [source.name for source in pending] == ["beta"]
+        assert {item["source"]: item["action"] for item in summary} == {"alpha": "reused", "beta": "failed"}
+
+    def test_deterministic_fan_in_dedupes_reused_and_refreshed_articles(self):
+        first = self._article("alpha", "Same", "https://example.com/story/")
+        second = self._article("beta", "Same mirror", "https://example.com/story")
+        deduped_once, count_once = dedupe_articles([first, second])
+        deduped_twice, count_twice = dedupe_articles([second, first])
+
+        assert count_once == count_twice == 1
+        assert deduped_once == deduped_twice
+        assert deduped_once[0]["sources"] == ["alpha", "beta"]

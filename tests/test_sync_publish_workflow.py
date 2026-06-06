@@ -1,0 +1,53 @@
+from pathlib import Path
+
+
+WORKFLOW = Path(".github/workflows/sync-publish-to-main.yml")
+RESTORE_WORKFLOW = Path(".github/workflows/restore-publish-backup.yml")
+
+
+def test_publish_sync_only_checks_out_generated_content_paths() -> None:
+    workflow = WORKFLOW.read_text(encoding="utf-8")
+
+    for path in (
+        "data/raw/",
+        "data/analyzed/",
+        "data/metrics/",
+        "content/weekly/",
+        "content/monthly/",
+        "content/yearly/",
+    ):
+        assert path in workflow
+
+    assert "git checkout origin/publish -- .squad" not in workflow
+    assert "git ls-tree -r --name-only origin/publish -- .squad" not in workflow
+    assert "squad learnings" not in workflow.lower()
+    assert "python3 scripts/generate_rollups.py" in workflow
+
+
+def test_publish_sync_refuses_staged_squad_changes() -> None:
+    workflow = WORKFLOW.read_text(encoding="utf-8")
+
+    assert "Refusing to sync .squad state from publish to main" in workflow
+    assert "git diff --cached --name-only | grep -E '^\\.squad/'" in workflow
+    assert "data/raw/" in workflow
+    assert ".squad/**" in workflow
+
+
+def test_restore_publish_backup_workflow_uses_immutable_backup_manifest() -> None:
+    workflow = RESTORE_WORKFLOW.read_text(encoding="utf-8")
+
+    assert "backup_manifest" in workflow
+    assert "python3 ../workflow-source/scripts/publish_safety.py restore-backup" in workflow
+    assert "--force-with-lease" in workflow
+    assert "ref: publish" in workflow
+
+
+def test_restore_publish_backup_workflow_keeps_helper_available_after_publish_checkout() -> None:
+    workflow = RESTORE_WORKFLOW.read_text(encoding="utf-8")
+
+    assert "path: workflow-source" in workflow
+    assert "ref: ${{ github.sha }}" in workflow
+    assert "path: publish" in workflow
+    assert "cd publish" in workflow
+    assert "python3 scripts/publish_safety.py restore-backup" not in workflow
+    assert "python3 ../workflow-source/scripts/publish_safety.py restore-backup" in workflow

@@ -5,16 +5,44 @@ on:
     - cron: '30 8 * * 1'
   workflow_dispatch:
     inputs:
+      run_mode:
+        description: 'Rerun mode: normal is guarded/non-destructive; dry-run/candidate-only never publish; restore requires rebuild_week; force-replace is explicit replacement.'
+        required: false
+        default: normal
+        type: choice
+        options:
+          - normal
+          - dry-run
+          - restore
+          - force-replace
+          - candidate-only
+      source_refresh_policy:
+        description: 'Source refresh policy for reruns. Default reuses eligible same-day source artifacts and refreshes missing/stale sources.'
+        required: false
+        default: reuse-same-day
+        type: choice
+        options:
+          - reuse-same-day
+          - refresh-missing-stale
+          - force-refresh
       publish_release:
-        description: 'Create or update the weekly GitHub Release during a manual run.'
+        description: 'Create or update the weekly GitHub Release during a manual run. Not allowed for dry-run/candidate-only.'
         required: false
         default: false
         type: boolean
       rebuild_week:
-        description: 'Rebuild a specific past week (e.g. 2026-W21). Skips crawl, hydrates raw/analyzed from publish, regenerates content+rollups only.'
+        description: 'Restore a specific past week (e.g. 2026-W21). Requires run_mode=restore; skips crawl and hydrates from publish.'
         required: false
         default: ''
         type: string
+      analysis_path:
+        description: 'Analysis path. map-reduce-dry-run is allowed only with dry-run/candidate-only and never promotes content.'
+        required: false
+        default: single-pass
+        type: choice
+        options:
+          - single-pass
+          - map-reduce-dry-run
 
 permissions:
   contents: read
@@ -25,7 +53,6 @@ concurrency:
 
 env:
   PYTHONPATH: ${{ github.workspace }}
-  GITHUB_MODELS_MODEL: ${{ vars.GITHUB_MODELS_MODEL || 'openai/gpt-4o' }}
 
 jobs:
   crawl:
@@ -40,6 +67,23 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
+
+      - name: Validate rerun mode
+        id: rerun-mode
+        env:
+          RUN_MODE: ${{ inputs.run_mode || 'normal' }}
+          SOURCE_REFRESH_POLICY: ${{ inputs.source_refresh_policy || 'reuse-same-day' }}
+          REBUILD_WEEK: ${{ inputs.rebuild_week || '' }}
+          PUBLISH_RELEASE: ${{ inputs.publish_release || false }}
+        run: |
+          set -euo pipefail
+          ARGS=(--run-mode "$RUN_MODE" --source-refresh-policy "$SOURCE_REFRESH_POLICY" --rebuild-week "$REBUILD_WEEK" --summary-json data/diagnostics/rerun-mode.json)
+          if [ "$PUBLISH_RELEASE" = "true" ]; then
+            ARGS+=(--publish-release)
+          fi
+          python3 scripts/rerun_modes.py "${ARGS[@]}"
+          echo "run_mode=$RUN_MODE" >> "$GITHUB_OUTPUT"
+          echo "source_refresh_policy=$SOURCE_REFRESH_POLICY" >> "$GITHUB_OUTPUT"
 
       - name: Find latest successful crawl cache
         id: previous-cache-run
@@ -90,6 +134,26 @@ jobs:
           name: crawl-cache
           path: data/cache/
 
+      - name: Download previous raw artifacts for same-day reuse
+        if: ${{ steps.previous-cache-run.outputs.run_id != '' && !inputs.rebuild_week }}
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ steps.previous-cache-run.outputs.run_id }}
+          name: raw-data
+          path: .artifact-reuse/raw-data/
+
+      - name: Download previous snapshots for same-day reuse
+        if: ${{ steps.previous-cache-run.outputs.run_id != '' && !inputs.rebuild_week }}
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ steps.previous-cache-run.outputs.run_id }}
+          name: crawl-snapshots
+          path: .artifact-reuse/snapshots/
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -99,19 +163,57 @@ jobs:
         if: ${{ !inputs.rebuild_week }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python scripts/crawl.py
+          SOURCE_REFRESH_POLICY: ${{ steps.rerun-mode.outputs.source_refresh_policy }}
+        run: |
+          set -euo pipefail
+          WEEK=$(date -u +%Y-W%V)
+          CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          CODE_SHA=$(git hash-object scripts/crawl.py squadscope.topic.yml 2>/dev/null | sha256sum | cut -d' ' -f1)
+          python scripts/crawl.py \
+            --reuse-artifact ".artifact-reuse/raw-data/${WEEK}.json" \
+            --source-refresh-policy "$SOURCE_REFRESH_POLICY" \
+            --run-started-at "$CURRENT_DATETIME" \
+            --current-code-sha "$CODE_SHA"
 
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
-      - name: Crawl TechCrunch RSS
+      - name: Crawl external news RSS feeds
         if: ${{ !inputs.rebuild_week }}
+        env:
+          SOURCE_REFRESH_POLICY: ${{ steps.rerun-mode.outputs.source_refresh_policy }}
         run: |
-          WEEK=$(date +%Y-W%V)
-          SINCE=$(date -d '7 days ago' +%Y-%m-%d)
+          WEEK=$(date -u +%Y-W%V)
+          CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          SINCE=$(date -u -d '7 days ago' +%Y-%m-%d)
+          UNTIL=$(date -u +%Y-%m-%d)
+          CODE_SHA=$(git hash-object scripts/techcrunch_crawler.py config/external_news_sources.json 2>/dev/null | sha256sum | cut -d' ' -f1)
           python scripts/techcrunch_crawler.py \
-            --output "data/raw/${WEEK}-techcrunch.json" \
-            --since "$SINCE"
+            --sources config/external_news_sources.json \
+            --output "data/raw/${WEEK}-external-news.json" \
+            --since "$SINCE" \
+            --until "$UNTIL" \
+            --reuse-artifact ".artifact-reuse/raw-data/${WEEK}-external-news.json" \
+            --source-refresh-policy "$SOURCE_REFRESH_POLICY" \
+            --run-started-at "$CURRENT_DATETIME" \
+            --current-code-sha "$CODE_SHA"
+          python3 - <<'PY' "data/raw/${WEEK}-external-news.json"
+          import json
+          import sys
+          from pathlib import Path
+
+          path = Path(sys.argv[1])
+          payload = json.loads(path.read_text(encoding="utf-8"))
+          metadata = payload.get("metadata", {})
+          print(
+              "::notice::External news artifact "
+              f"size_bytes={path.stat().st_size} "
+              f"articles={metadata.get('total_articles', 0)} "
+              f"relevant={metadata.get('relevant_articles', 0)} "
+              f"dedupe={metadata.get('dedupe_count', 0)} "
+              f"checksum={metadata.get('artifact_checksum', '')[:12]}"
+          )
+          PY
 
       - name: Upload raw crawl artifact
         if: always()
@@ -138,7 +240,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Commit crawl data to data branch
-        if: ${{ !inputs.rebuild_week }}
+        if: ${{ !inputs.rebuild_week && inputs.run_mode != 'dry-run' && inputs.run_mode != 'candidate-only' }}
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           DATA_BRANCH: publish
@@ -152,8 +254,10 @@ jobs:
           cp -r data/snapshots crawl-snapshots-backup
           # Fetch or create the unprotected data branch
           if git fetch origin "$DATA_BRANCH" 2>/dev/null; then
+            EXPECTED_PUBLISH_SHA=$(git rev-parse "origin/$DATA_BRANCH")
             git checkout -f -B "$DATA_BRANCH" "origin/$DATA_BRANCH"
           else
+            EXPECTED_PUBLISH_SHA=""
             git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
           fi
           # Restore crawl output on top of data branch
@@ -172,7 +276,11 @@ jobs:
           git add data/raw/ data/snapshots/ .squad/run-counter.txt
           git diff --cached --quiet && exit 0
           git commit -m "data: weekly crawl $WEEK [run #${GITHUB_RUN_ID}]"
-          git push origin "$DATA_BRANCH"
+          if [ -n "$EXPECTED_PUBLISH_SHA" ]; then
+            git push --force-with-lease="refs/heads/$DATA_BRANCH:$EXPECTED_PUBLISH_SHA" origin HEAD:"$DATA_BRANCH"
+          else
+            git push origin HEAD:"$DATA_BRANCH"
+          fi
 
   analyze:
     needs: crawl
@@ -180,10 +288,16 @@ jobs:
     permissions:
       actions: read
       contents: write
+      issues: write
     outputs:
       week: ${{ steps.analysis-context.outputs.week }}
-      summary_file: ${{ steps.analysis-context.outputs.output_file }}
+      summary_file: ${{ steps.analysis-context.outputs.published_output_file }}
+      candidate_summary_file: ${{ steps.analysis-context.outputs.candidate_output_file }}
+      publish_manifest_file: ${{ steps.analysis-context.outputs.publish_manifest_file }}
       current_datetime: ${{ steps.analysis-context.outputs.current_datetime }}
+      publish_base_sha: ${{ steps.publish-base.outputs.sha }}
+      publish_head_sha: ${{ steps.publish-base.outputs.sha }}
+      run_mode: ${{ steps.analysis-context.outputs.run_mode }}
 
     steps:
       - name: Check out repository
@@ -212,12 +326,23 @@ jobs:
           git fetch origin publish
           mkdir -p data/raw data/analyzed data/snapshots
           git checkout origin/publish -- "data/raw/${REBUILD_WEEK}.json"
+          git checkout origin/publish -- "data/raw/${REBUILD_WEEK}-external-news.json" 2>/dev/null || true
           git checkout origin/publish -- "data/raw/${REBUILD_WEEK}-techcrunch.json" 2>/dev/null || true
           git checkout origin/publish -- "data/snapshots/${REBUILD_WEEK}-stars.json" 2>/dev/null || true
           # Also hydrate ALL prior analyzed files so rollups have correct historical context
           git ls-tree -r --name-only origin/publish -- data/analyzed/ | while read -r f; do
             git checkout origin/publish -- "$f" 2>/dev/null || true
           done
+
+      - name: Record publish branch base
+        id: publish-base
+        run: |
+          set -euo pipefail
+          if git fetch origin publish 2>/dev/null; then
+            echo "sha=$(git rev-parse origin/publish)" >> "$GITHUB_OUTPUT"
+          else
+            echo "sha=" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -233,8 +358,10 @@ jobs:
         id: analysis-context
         env:
           REBUILD_WEEK: ${{ inputs.rebuild_week || '' }}
+          RUN_MODE: ${{ inputs.run_mode || 'normal' }}
+          SOURCE_REFRESH_POLICY: ${{ inputs.source_refresh_policy || 'reuse-same-day' }}
         run: |
-          mkdir -p data/analyzed
+          mkdir -p data/analyzed data/candidates
           CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           readarray -t CONTEXT_LINES < <(python3 - <<'PY' "$CURRENT_DATETIME"
           import json
@@ -259,12 +386,19 @@ jobs:
               raise SystemExit(f"Raw payload week mismatch: expected {week}, found {payload.get('week')!r}")
           print(f"week_file={week_file.as_posix()}")
           print(f"week={week}")
-          print(f"output_file=data/analyzed/{week}-summary.md")
+          run_id = os.environ.get("GITHUB_RUN_ID", "local")
+          candidate_dir = Path("data/candidates") / week / run_id
+          print(f"candidate_output_file={(candidate_dir / f'{week}-summary.md').as_posix()}")
+          print(f"publish_manifest_file={(candidate_dir / 'publish-manifest.json').as_posix()}")
+          print(f"analysis_gate_report_file={(candidate_dir / 'analysis-gate-report.json').as_posix()}")
+          print(f"published_output_file=data/analyzed/{week}-summary.md")
           PY
           )
           {
             printf '%s\n' "${CONTEXT_LINES[@]}"
             echo "current_datetime=$CURRENT_DATETIME"
+            echo "run_mode=$RUN_MODE"
+            echo "source_refresh_policy=$SOURCE_REFRESH_POLICY"
           } >> "$GITHUB_OUTPUT"
 
       - name: Install Python dependencies
@@ -276,9 +410,12 @@ jobs:
           set -euo pipefail
           WEEK="${{ steps.analysis-context.outputs.week }}"
           WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
-          TC_FILE="data/raw/${WEEK}-techcrunch.json"
+          TC_FILE="data/raw/${WEEK}-external-news.json"
+          if [ ! -f "$TC_FILE" ]; then
+            TC_FILE="data/raw/${WEEK}-techcrunch.json"
+          fi
 
-          # Run correlate if TechCrunch data exists
+          # Run correlate if external news data exists
           if [ -f "$TC_FILE" ]; then
             mkdir -p data/analyzed
             python scripts/correlate.py \
@@ -291,53 +428,100 @@ jobs:
           PRESS_CONTEXT=$(python scripts/render_press_context.py --week "$WEEK")
           PRESS_FILE="data/analyzed/${WEEK}-press-context.md"
           printf '%s\n' "$PRESS_CONTEXT" > "$PRESS_FILE"
+          python3 - <<'PY' "$PRESS_FILE"
+          import sys
+          from pathlib import Path
+          from scripts.render_press_context import estimate_tokens
+
+          path = Path(sys.argv[1])
+          content = path.read_text(encoding="utf-8")
+          print(
+              "::notice::Press context "
+              f"size_bytes={path.stat().st_size} "
+              f"token_estimate={estimate_tokens(content)}"
+          )
+          PY
           echo "press_file=$PRESS_FILE" >> "$GITHUB_OUTPUT"
 
-      - name: Pre-flight cost check
-        id: preflight-cost
+      - name: Render and preflight analysis prompt
+        id: prompt-preflight
         run: |
+          set -euo pipefail
           WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
-          CONTEXT_FILES=("$WEEK_FILE")
-          if [ -f ".squad/skills/wisdom.md" ]; then
-            CONTEXT_FILES+=(".squad/skills/wisdom.md")
-          fi
-          for f in .squad/skills/*.md; do
-            [ -f "$f" ] && CONTEXT_FILES+=("$f")
-          done
-          # Use the generic Copilot default cost profile so the workflow never pins a stale CLI model.
+          WEEK="${{ steps.analysis-context.outputs.week }}"
+          OUTPUT_FILE="${{ steps.analysis-context.outputs.candidate_output_file }}"
+          CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
+          PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
+          DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
+          PROMPT_FILE="data/metrics/analysis-prompt-${WEEK}.md"
+          PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-preflight.json"
+          PREFLIGHT_MD="$DIAGNOSTICS_DIR/analysis-preflight.md"
+          mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
+          # Hydrate metrics ledger from publish before writing this run's prompt/preflight artifacts.
+          git fetch origin publish 2>/dev/null && \
+            git checkout origin/publish -- data/metrics/ 2>/dev/null || true
+          python3 scripts/analyze_fallback.py \
+            --raw-json "$WEEK_FILE" \
+            --output "$OUTPUT_FILE" \
+            --current-datetime "$CURRENT_DATETIME" \
+            --press-context "$PRESS_FILE" \
+            --prompt-token-budget "${ANALYSIS_PROMPT_TOKEN_BUDGET:-90000}" \
+            --preflight-report-json "$PREFLIGHT_JSON" \
+            --preflight-report-md "$PREFLIGHT_MD" \
+            --print-prompt > "$PROMPT_FILE"
           python3 scripts/preflight_cost_check.py \
-            --context-files "${CONTEXT_FILES[@]}"
+            --context-files "$PROMPT_FILE"
+          python3 - <<'PY' "$PREFLIGHT_JSON"
+          import json
+          import sys
+          from pathlib import Path
+
+          report = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          print(
+              "::notice::Analysis preflight "
+              f"tokens={report['prompt_tokens']}/{report['prompt_token_budget']} "
+              f"bytes={report['prompt_bytes']} "
+              f"degraded={report['degraded']} "
+              f"publish_eligible={report['publish_eligible']} "
+              f"promotion_policy={report.get('promotion_policy', 'unspecified')} "
+              f"checksum={report['prompt_checksum_sha256'][:12]}"
+          )
+          if report.get("degraded") or not report.get("publish_eligible"):
+              print(
+                  "::warning::Analysis preflight is degraded/compacted or publish-ineligible; "
+                  "output will remain staged/candidate-only unless an explicit promotion policy allows it."
+              )
+          PY
+          echo "prompt_file=$PROMPT_FILE" >> "$GITHUB_OUTPUT"
+          echo "preflight_report_json=$PREFLIGHT_JSON" >> "$GITHUB_OUTPUT"
+          echo "preflight_report_md=$PREFLIGHT_MD" >> "$GITHUB_OUTPUT"
 
       - name: Install Copilot CLI
+        if: ${{ inputs.analysis_path != 'map-reduce-dry-run' }}
         id: install-copilot
         run: npm install -g @github/copilot
 
       - name: Run analysis
-        if: steps.preflight-cost.outcome == 'success'
+        if: steps.prompt-preflight.outcome == 'success'
         id: run-analysis
         env:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          OUTPUT_FILE="${{ steps.analysis-context.outputs.output_file }}"
+          OUTPUT_FILE="${{ steps.analysis-context.outputs.candidate_output_file }}"
           WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
           WEEK="${{ steps.analysis-context.outputs.week }}"
           CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
+          MANIFEST_FILE="${{ steps.analysis-context.outputs.publish_manifest_file }}"
+          PUBLISHED_SUMMARY="${{ steps.analysis-context.outputs.published_output_file }}"
           PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
-          mkdir -p data/metrics
-          # Hydrate metrics ledger from publish so track_token_usage.py appends to
-          # the canonical token-usage.jsonl rather than starting fresh each run.
-          git fetch origin publish 2>/dev/null && \
-            git checkout origin/publish -- data/metrics/ 2>/dev/null || true
-          PROMPT_FILE="data/metrics/analysis-prompt-${WEEK}.md"
-          rm -f "$PROMPT_FILE"
-          python3 scripts/analyze_fallback.py \
-            --raw-json "$WEEK_FILE" \
-            --output "$OUTPUT_FILE" \
-            --current-datetime "$CURRENT_DATETIME" \
-            --press-context "$PRESS_FILE" \
-            --print-prompt > "$PROMPT_FILE"
+          ANALYSIS_PATH="${{ inputs.analysis_path || 'single-pass' }}"
+          RUN_MODE="${{ steps.analysis-context.outputs.run_mode }}"
+          ANALYSIS_STARTED=$(date +%s)
+          DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
+          mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
+          PROMPT_FILE="${{ steps.prompt-preflight.outputs.prompt_file }}"
 
           sanitize_agent_output() {
             python3 scripts/sanitize_agent_output.py --path "$1"
@@ -348,8 +532,42 @@ jobs:
               --analysis-file "$OUTPUT_FILE" \
               --raw-json "$WEEK_FILE" \
               --current-datetime "$CURRENT_DATETIME" \
-              --source "$1"
+              --source "$1" \
+              --model "$2" \
+              --repair-safe \
+              --report-json "$3"
           }
+
+          if [ "$ANALYSIS_PATH" = "map-reduce-dry-run" ]; then
+            if [ "$RUN_MODE" != "dry-run" ] && [ "$RUN_MODE" != "candidate-only" ]; then
+              echo "::error::map-reduce-dry-run requires run_mode=dry-run or candidate-only and cannot run in a publishing mode."
+              exit 1
+            fi
+            MAP_REDUCE_DIR="$(dirname "$OUTPUT_FILE")/map-reduce"
+            python3 scripts/map_reduce_dry_run.py \
+              --raw-json "$WEEK_FILE" \
+              --press-context "$PRESS_FILE" \
+              --output-dir "$MAP_REDUCE_DIR" \
+              --current-datetime "$CURRENT_DATETIME" \
+              --run-id "${GITHUB_RUN_ID:-local}" \
+              --baseline-summary "$PUBLISHED_SUMMARY"
+            cp "$MAP_REDUCE_DIR/${WEEK}-map-reduce-candidate.md" "$OUTPUT_FILE"
+            ANALYSIS_SOURCE="map-reduce-dry-run"
+            ANALYSIS_MODEL="local-deterministic"
+            python3 scripts/track_token_usage.py \
+              --stage analysis \
+              --source "$ANALYSIS_SOURCE" \
+              --model "$ANALYSIS_MODEL" \
+              --current-datetime "$CURRENT_DATETIME" \
+              --week "$WEEK" \
+              --prompt-file "$PROMPT_FILE" \
+              --output-file "$OUTPUT_FILE"
+            echo "::notice::Map/reduce dry-run candidate written to $OUTPUT_FILE with sidecars under $MAP_REDUCE_DIR. It is not publish eligible."
+            rm -f "$PROMPT_FILE"
+            echo "analysis_source=$ANALYSIS_SOURCE" >> "$GITHUB_OUTPUT"
+            echo "analysis_model=$ANALYSIS_MODEL" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
 
           # Retry loop: LLM output can be non-deterministically truncated,
           # so retry up to 3 attempts if the quality gate rejects the article.
@@ -358,11 +576,13 @@ jobs:
           GATE_PASSED=false
           ANALYSIS_SOURCE=""
           ANALYSIS_MODEL=""
+          LAST_GATE_FINGERPRINT=""
+          FINAL_FAILURE_CLASS=""
 
           if command -v copilot >/dev/null 2>&1; then
             while [ "$GATE_PASSED" = "false" ] && [ "$ATTEMPT" -le "$MAX_RETRIES" ]; do
             if [ "$ATTEMPT" -gt 0 ]; then
-              echo "::warning::Quality gate failed on attempt $ATTEMPT, retrying (attempt $((ATTEMPT + 1))/$((MAX_RETRIES + 1)))..."
+              echo "::warning::Quality gate failed on attempt $ATTEMPT; retrying with focused gate diagnostics (attempt $((ATTEMPT + 1))/$((MAX_RETRIES + 1)))..."
               rm -f "$OUTPUT_FILE"
               # Reset any .squad changes from failed attempt
               git checkout -- .squad 2>/dev/null || true
@@ -370,12 +590,24 @@ jobs:
 
             echo "::notice::Running Copilot analysis attempt $((ATTEMPT + 1))/$((MAX_RETRIES + 1))"
             TRANSCRIPT_FILE="data/metrics/copilot-transcript-attempt-${ATTEMPT}.md"
-            rm -f "$TRANSCRIPT_FILE"
+            GATE_REPORT="$DIAGNOSTICS_DIR/gate-copilot-cli-attempt-${ATTEMPT}.json"
+            CANDIDATE_SNAPSHOT="$DIAGNOSTICS_DIR/candidate-copilot-cli-attempt-${ATTEMPT}.md"
+            COPILOT_LOG="$DIAGNOSTICS_DIR/copilot-cli-attempt-${ATTEMPT}.log"
+            COPILOT_FAILURE_REPORT="$DIAGNOSTICS_DIR/copilot-cli-failure-attempt-${ATTEMPT}.json"
+            rm -f "$TRANSCRIPT_FILE" "$COPILOT_LOG" "$COPILOT_FAILURE_REPORT"
+            REPAIR_CONTEXT=""
+            if [ "$ATTEMPT" -gt 0 ]; then
+              PREVIOUS_REPORT="$DIAGNOSTICS_DIR/gate-copilot-cli-attempt-$((ATTEMPT - 1)).json"
+              if [ -f "$PREVIOUS_REPORT" ]; then
+                REPAIR_CONTEXT=" Previous gate report: ${PREVIOUS_REPORT}. Correct exactly those validation errors; do not regenerate unrelated content."
+              fi
+            fi
 
             # Intentionally rely on Copilot CLI's default model so CI follows the platform-supported default.
-            if ! copilot \
+            set +e
+            copilot \
               --agent squad \
-              -p "Farnsworth, read the file at ${PROMPT_FILE} — it contains the weekly data and analysis instructions. Follow them exactly and write the analysis to ${OUTPUT_FILE}." \
+              -p "Farnsworth, read the file at ${PROMPT_FILE} — it contains the weekly data and analysis instructions. Follow them exactly and write the analysis to ${OUTPUT_FILE}.${REPAIR_CONTEXT}" \
               -s \
               --no-ask-user \
               --allow-tool=read \
@@ -383,42 +615,94 @@ jobs:
               --allow-tool=glob \
               --allow-tool=grep \
               --share="$TRANSCRIPT_FILE" \
-              > /dev/null; then
-              echo "::warning::Copilot CLI failed on attempt $((ATTEMPT + 1))"
+              > "$COPILOT_LOG" 2>&1
+            COPILOT_STATUS=$?
+            set -e
+            if [ "$COPILOT_STATUS" -ne 0 ]; then
+              FAILURE_CLASS=$(python3 scripts/copilot_failure.py \
+                --log "$COPILOT_LOG" \
+                --exit-code "$COPILOT_STATUS" \
+                --report-json "$COPILOT_FAILURE_REPORT" \
+                --create-token-issue \
+                --repo "${GITHUB_REPOSITORY:-jmservera/SquadScope}" \
+                --assignee "jmservera" \
+                --week "$WEEK" \
+                --run-id "${GITHUB_RUN_ID:-local}")
+              FINAL_FAILURE_CLASS="$FAILURE_CLASS"
+              echo "::warning::Copilot CLI failed on attempt $((ATTEMPT + 1)); class=${FAILURE_CLASS}; report=${COPILOT_FAILURE_REPORT}"
+              if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "copilot_inaccessible" ]; then
+                echo "::error::Copilot access failure (${FAILURE_CLASS}). Renewal issue was created or updated; failing without no-AI fallback. See ${COPILOT_FAILURE_REPORT}."
+                exit 1
+              fi
+              if [ "$FAILURE_CLASS" = "context_too_large" ]; then
+                echo "::warning::Non-retryable Copilot analysis failure (${FAILURE_CLASS}). Writing a non-publishable no-AI candidate so the current published article can be preserved. See ${COPILOT_FAILURE_REPORT}."
+                break
+              fi
               ATTEMPT=$((ATTEMPT + 1))
               continue
             fi
 
+            FINAL_FAILURE_CLASS=""
             sanitize_agent_output "$OUTPUT_FILE"
 
-            # Inline quality gate check (suppress step summary to avoid noise)
-            if run_quality_gate copilot-cli; then
+            # Inline quality gate check (suppress step summary to avoid noise).
+            # The gate applies deterministic metadata/schema repairs and writes an auditable report.
+            if run_quality_gate copilot-cli copilot-default "$GATE_REPORT"; then
+              cp "$OUTPUT_FILE" "$CANDIDATE_SNAPSHOT" 2>/dev/null || true
+              cp "$GATE_REPORT" "${{ steps.analysis-context.outputs.analysis_gate_report_file }}" 2>/dev/null || true
               GATE_PASSED=true
               FINAL_TRANSCRIPT="$TRANSCRIPT_FILE"
               ANALYSIS_SOURCE="copilot-cli"
               ANALYSIS_MODEL="copilot-default"
+            else
+              cp "$OUTPUT_FILE" "$CANDIDATE_SNAPSHOT" 2>/dev/null || true
+              CURRENT_GATE_FINGERPRINT=$(python3 -c 'import sys; from pathlib import Path; import scripts.analysis_gate as gate; print(gate.gate_report_fingerprint(Path(sys.argv[1])))' "$GATE_REPORT" 2>/dev/null || true)
+              if [ -n "$CURRENT_GATE_FINGERPRINT" ]; then
+                if [ -n "$LAST_GATE_FINGERPRINT" ] && [ "$CURRENT_GATE_FINGERPRINT" = "$LAST_GATE_FINGERPRINT" ]; then
+                  echo "::error::Repeated deterministic analysis gate failure after repair. See ${GATE_REPORT} and ${CANDIDATE_SNAPSHOT}."
+                  break
+                fi
+                LAST_GATE_FINGERPRINT="$CURRENT_GATE_FINGERPRINT"
+              else
+                echo "::warning::Gate report missing or invalid; continuing fallback path without deterministic repeat fingerprint. Expected report: ${GATE_REPORT}"
+              fi
             fi
 
             ATTEMPT=$((ATTEMPT + 1))
           done
           else
-            echo "::warning::Copilot CLI unavailable; falling back to GitHub Models API."
+            FINAL_FAILURE_CLASS="copilot_inaccessible"
+            COPILOT_LOG="$DIAGNOSTICS_DIR/copilot-cli-unavailable.log"
+            COPILOT_FAILURE_REPORT="$DIAGNOSTICS_DIR/copilot-cli-failure-unavailable.json"
+            echo "copilot is not available: command not found" > "$COPILOT_LOG"
+            python3 scripts/copilot_failure.py \
+              --log "$COPILOT_LOG" \
+              --exit-code 127 \
+              --report-json "$COPILOT_FAILURE_REPORT" \
+              --create-token-issue \
+              --repo "${GITHUB_REPOSITORY:-jmservera/SquadScope}" \
+              --assignee "jmservera" \
+              --week "$WEEK" \
+              --run-id "${GITHUB_RUN_ID:-local}" >/dev/null
+            echo "::error::Copilot CLI unavailable. Renewal issue was created or updated; failing without no-AI fallback. See ${COPILOT_FAILURE_REPORT}."
+            exit 1
           fi
 
           if [ "$GATE_PASSED" = "false" ]; then
-            echo "::warning::Copilot output failed quality gate after $((MAX_RETRIES + 1)) attempts; falling back to GitHub Models API."
+            echo "::warning::No publishable Copilot summary was produced. Final failure class: ${FINAL_FAILURE_CLASS:-quality_gate}. The publish manifest will preserve any existing good weekly article."
             python3 scripts/analyze_fallback.py \
               --raw-json "$WEEK_FILE" \
               --output "$OUTPUT_FILE" \
               --current-datetime "$CURRENT_DATETIME" \
-              --press-context "$PRESS_FILE"
+              --press-context "$PRESS_FILE" \
+              --no-ai
             sanitize_agent_output "$OUTPUT_FILE"
-            if ! run_quality_gate github-models; then
-              echo "::error::Analysis quality gate failed for both Copilot CLI and GitHub Models API outputs."
-              exit 1
-            fi
-            ANALYSIS_SOURCE="github-models"
-            ANALYSIS_MODEL="${GITHUB_MODELS_MODEL:-openai/gpt-4o}"
+            NO_AI_GATE_REPORT="$DIAGNOSTICS_DIR/gate-no-ai-attempt-0.json"
+            run_quality_gate no-ai none "$NO_AI_GATE_REPORT" || true
+            cp "$NO_AI_GATE_REPORT" "${{ steps.analysis-context.outputs.analysis_gate_report_file }}" 2>/dev/null || true
+            cp "$OUTPUT_FILE" "$DIAGNOSTICS_DIR/candidate-no-ai-attempt-0.md" 2>/dev/null || true
+            ANALYSIS_SOURCE="no-ai"
+            ANALYSIS_MODEL="none"
           fi
 
           # Copy final transcript to canonical location
@@ -442,83 +726,104 @@ jobs:
             --prompt-file "$PROMPT_FILE" \
             --output-file "$OUTPUT_FILE" \
             $TRANSCRIPT_ARGS
+          ANALYSIS_DURATION=$(( $(date +%s) - ANALYSIS_STARTED ))
+          echo "::notice::Analysis path source=$ANALYSIS_SOURCE model=$ANALYSIS_MODEL duration_seconds=$ANALYSIS_DURATION press_context=$PRESS_FILE"
           rm -f "$PROMPT_FILE"
           # Clean up per-attempt transcripts
           rm -f data/metrics/copilot-transcript-attempt-*.md
           echo "analysis_source=$ANALYSIS_SOURCE" >> "$GITHUB_OUTPUT"
+          echo "analysis_model=$ANALYSIS_MODEL" >> "$GITHUB_OUTPUT"
 
       - name: quality-check
+        id: quality-check
+        continue-on-error: true
         env:
-          ANALYSIS_FILE: ${{ steps.analysis-context.outputs.output_file }}
+          ANALYSIS_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
           ANALYSIS_SOURCE: ${{ steps.run-analysis.outputs.analysis_source }}
+          ANALYSIS_MODEL: ${{ steps.run-analysis.outputs.analysis_model }}
           RAW_JSON_FILE: ${{ steps.analysis-context.outputs.week_file }}
           CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
+          GATE_REPORT: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
         run: |
           python3 scripts/analysis_gate.py \
             --analysis-file "$ANALYSIS_FILE" \
             --raw-json "$RAW_JSON_FILE" \
             --current-datetime "$CURRENT_DATETIME" \
-            --source "$ANALYSIS_SOURCE"
+            --source "$ANALYSIS_SOURCE" \
+            --model "$ANALYSIS_MODEL" \
+            --report-json "$GATE_REPORT"
 
-      - name: Commit analysis and learnings to data branch
+      - name: Emit publish eligibility manifest
         env:
-          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-          DATA_BRANCH: publish
           WEEK: ${{ steps.analysis-context.outputs.week }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.run_id }}
+          CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
+          CANDIDATE_SUMMARY: ${{ steps.analysis-context.outputs.candidate_output_file }}
+          PUBLISHED_SUMMARY: ${{ steps.analysis-context.outputs.published_output_file }}
+          RAW_JSON_FILE: ${{ steps.analysis-context.outputs.week_file }}
+          ANALYSIS_SOURCE: ${{ steps.run-analysis.outputs.analysis_source }}
+          ANALYSIS_MODEL: ${{ steps.run-analysis.outputs.analysis_model }}
+          VALIDATION_STATUS: ${{ steps.quality-check.outcome == 'success' && 'passed' || 'failed' }}
+          MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
+          RUN_MODE: ${{ steps.analysis-context.outputs.run_mode }}
+          SOURCE_REFRESH_POLICY: ${{ steps.analysis-context.outputs.source_refresh_policy }}
+          GATE_REPORT: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
+          PREFLIGHT_REPORT: ${{ steps.prompt-preflight.outputs.preflight_report_json }}
         run: |
           set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          # Check for analysis data OR squad learning state changes
-          if ! git status --short -- data/analyzed data/metrics .squad | grep -q .; then
-            echo "No analyzed data, token usage, or learning state changes to commit."
-            exit 0
-          fi
-          cp -r data/analyzed analyzed-data-backup
-          cp -r data/metrics metrics-data-backup
-          # Preserve any .squad changes written by the agent (learnings, skills)
-          if git status --short -- .squad | grep -q .; then
-            cp -r .squad squad-learning-backup
-            HAS_LEARNINGS=true
-          else
-            HAS_LEARNINGS=false
-          fi
-          # Push to the unprotected data branch
-          if git fetch origin "$DATA_BRANCH" 2>/dev/null; then
-            git checkout -f -B "$DATA_BRANCH" "origin/$DATA_BRANCH"
-          else
-            git fetch origin "$DEFAULT_BRANCH"
-            git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
-          fi
-          mkdir -p data/analyzed data/metrics
-          # Only copy current week's analysis files — do not overwrite prior weeks
-          # Required: current week's summary must exist or the pipeline is broken
-          cp "analyzed-data-backup/${WEEK}-summary.md" data/analyzed/
-          # Optional sidecars: conditionally generated
-          cp "analyzed-data-backup/${WEEK}-correlations.json" data/analyzed/ 2>/dev/null || true
-          cp "analyzed-data-backup/${WEEK}-press-context.md" data/analyzed/ 2>/dev/null || true
-          cp -r metrics-data-backup/* data/metrics/ 2>/dev/null || true
-          rm -rf analyzed-data-backup metrics-data-backup
-          # Restore squad learning state
-          if [ "$HAS_LEARNINGS" = "true" ]; then
-            cp -r squad-learning-backup/* .squad/ 2>/dev/null || true
-            rm -rf squad-learning-backup
-          fi
-          git add data/analyzed/ data/metrics/ .squad/
-          git diff --cached --quiet && exit 0
-          git commit -m "analysis: weekly summary + learnings $WEEK [run #${GITHUB_RUN_ID}]"
-          git push origin "$DATA_BRANCH"
+          git fetch origin publish 2>/dev/null && git checkout origin/publish -- "$PUBLISHED_SUMMARY" 2>/dev/null || true
+          ARTIFACT_ARGS=()
+          for candidate in \
+            "external_news=data/raw/${WEEK}-external-news.json" \
+            "techcrunch_news=data/raw/${WEEK}-techcrunch.json" \
+            "correlations=data/analyzed/${WEEK}-correlations.json" \
+            "press_context=data/analyzed/${WEEK}-press-context.md" \
+            "map_reduce_manifest=data/candidates/${WEEK}/${RUN_ID}/map-reduce/manifest.json" \
+            "map_reduce_qa=data/candidates/${WEEK}/${RUN_ID}/map-reduce/qa-comparison-report.json"
+          do
+            path="${candidate#*=}"
+            [ -f "$path" ] && ARTIFACT_ARGS+=(--artifact "$candidate")
+          done
+          python3 scripts/publish_manifest.py create \
+            --week "$WEEK" \
+            --run-id "$RUN_ID" \
+            --current-datetime "$CURRENT_DATETIME" \
+            --summary "$CANDIDATE_SUMMARY" \
+            --published-summary "$PUBLISHED_SUMMARY" \
+            --raw-json "$RAW_JSON_FILE" \
+            --analysis-source "$ANALYSIS_SOURCE" \
+            --analysis-model "$ANALYSIS_MODEL" \
+            --preflight-report "$PREFLIGHT_REPORT" \
+            --validation-status "$VALIDATION_STATUS" \
+            --run-mode "$RUN_MODE" \
+            --source-refresh-policy "$SOURCE_REFRESH_POLICY" \
+            --gate-report "$GATE_REPORT" \
+            --output "$MANIFEST_FILE" \
+            "${ARTIFACT_ARGS[@]}"
+
+      - name: Assert candidate is eligible for promotion
+        if: ${{ steps.analysis-context.outputs.run_mode != 'dry-run' && steps.analysis-context.outputs.run_mode != 'candidate-only' }}
+        run: python3 scripts/publish_manifest.py assert-eligible --manifest "${{ steps.analysis-context.outputs.publish_manifest_file }}"
 
       - name: Upload analyzed data
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: analyzed-data
           path: data/analyzed/
           if-no-files-found: warn
 
+      - name: Upload analysis candidate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: analysis-candidate
+          path: data/candidates/
+          if-no-files-found: warn
+
   generate:
     needs: analyze
+    if: ${{ needs.analyze.outputs.run_mode != 'dry-run' && needs.analyze.outputs.run_mode != 'candidate-only' }}
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -539,6 +844,12 @@ jobs:
           name: analyzed-data
           path: data/analyzed/
 
+      - name: Download analysis candidate artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: analysis-candidate
+          path: data/candidates/
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -550,25 +861,46 @@ jobs:
       - name: Generate weekly content
         id: generate-content
         env:
-          SUMMARY_FILE: ${{ needs.analyze.outputs.summary_file }}
+          WEEK: ${{ needs.analyze.outputs.week }}
+          SUMMARY_FILE: ${{ needs.analyze.outputs.candidate_summary_file }}
+          MANIFEST_FILE: ${{ needs.analyze.outputs.publish_manifest_file }}
         run: |
           set -euo pipefail
-          python3 - <<'PYGEN' "$SUMMARY_FILE" >> "$GITHUB_OUTPUT"
+          python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
+          python3 - <<'PYGEN' "$WEEK" "$SUMMARY_FILE" "$MANIFEST_FILE" >> "$GITHUB_OUTPUT"
+          import json
           import sys
           from pathlib import Path
 
           import scripts.generate_content as generate_content
+          import scripts.publish_manifest as publish_manifest
 
-          summary_path = Path(sys.argv[1])
-          page_path = generate_content.generate_content(summary_path)
-          print(f"page_path={page_path.as_posix()}")
+          week = sys.argv[1]
+          summary_path = Path(sys.argv[2])
+          manifest_path = Path(sys.argv[3])
+          candidate_content = manifest_path.parent / f"{week}-content.md"
+          page_path = generate_content.generate_content(summary_path, candidate_content)
+
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          manifest["candidate_content_path"] = page_path.as_posix()
+          manifest.setdefault("candidate", {})["content_path"] = page_path.as_posix()
+          manifest["candidate"]["content_sha256"] = publish_manifest.sha256_file(page_path)
+          manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+          final_page_path = generate_content.infer_output_path(week, Path.cwd())
+          print(f"page_path={final_page_path.as_posix()}")
+          print(f"candidate_content_path={page_path.as_posix()}")
           PYGEN
+          python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
+          python3 scripts/promotion_guard.py --manifest "$MANIFEST_FILE"
 
       - name: Hydrate analyzed data from publish
         env:
           WEEK: ${{ needs.analyze.outputs.week }}
+          MANIFEST_FILE: ${{ needs.analyze.outputs.publish_manifest_file }}
         run: |
           set -euo pipefail
+          python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
           git fetch origin publish
           # Restore prior weeks' analyzed files from publish so generate_rollups.py
           # sees accurate historical data. Skip the current week's file (already
@@ -589,26 +921,48 @@ jobs:
           DATA_BRANCH: publish
           WEEK: ${{ needs.analyze.outputs.week }}
           PAGE_PATH: ${{ steps.generate-content.outputs.page_path }}
+          MANIFEST_FILE: ${{ needs.analyze.outputs.publish_manifest_file }}
+          EXPECTED_PUBLISH_SHA: ${{ needs.analyze.outputs.publish_head_sha }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
+          python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
+          cp scripts/publish_safety.py publish-safety-tool.py
+          cp scripts/promotion_guard.py promotion-guard-tool.py
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ! git status --short -- content/weekly content/monthly content/yearly | grep -q .; then
-            echo "No generated content changes to commit."
+          python3 scripts/promotion_guard.py --manifest "$MANIFEST_FILE"
+          python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
+          if ! git status --short -- data/analyzed data/candidates data/metrics data/published content/weekly content/monthly content/yearly | grep -q .; then
+            echo "No promoted analysis or generated content changes to commit."
+            rm -f publish-safety-tool.py promotion-guard-tool.py
             exit 0
           fi
+          cp -r data/analyzed analyzed-data-backup
+          cp -r data/candidates candidates-data-backup
+          cp -r data/metrics metrics-data-backup 2>/dev/null || true
+          cp -r data/published published-data-backup 2>/dev/null || true
           cp -r content/weekly content-weekly-backup 2>/dev/null || true
           cp -r content/monthly content-monthly-backup 2>/dev/null || true
           cp -r content/yearly content-yearly-backup 2>/dev/null || true
           # Push to the unprotected data branch
           if git fetch origin "$DATA_BRANCH" 2>/dev/null; then
+            CURRENT_PUBLISH_SHA=$(git rev-parse "origin/$DATA_BRANCH")
+            if [ -n "$EXPECTED_PUBLISH_SHA" ] && [ "$CURRENT_PUBLISH_SHA" != "$EXPECTED_PUBLISH_SHA" ]; then
+              echo "::error::Publish branch drifted between analyze and content promotion: expected $EXPECTED_PUBLISH_SHA, found $CURRENT_PUBLISH_SHA"
+              exit 1
+            fi
             git checkout -f -B "$DATA_BRANCH" "origin/$DATA_BRANCH"
           else
+            CURRENT_PUBLISH_SHA=""
+            if [ -n "$EXPECTED_PUBLISH_SHA" ]; then
+              echo "::error::Publish branch disappeared between analyze and content promotion: expected $EXPECTED_PUBLISH_SHA"
+              exit 1
+            fi
             git fetch origin "$DEFAULT_BRANCH"
             git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
           fi
-          mkdir -p content/weekly content/monthly content/yearly
+          mkdir -p data/analyzed data/candidates data/metrics data/published content/weekly content/monthly content/yearly
           # generate_content.py returns an absolute path; normalize it before restoring
           # the freshly generated page onto the publish branch checkout.
           case "$PAGE_PATH" in
@@ -624,16 +978,36 @@ jobs:
           esac
           RELATIVE_FROM_WEEKLY="${PAGE_PATH#content/weekly/}"
           mkdir -p "$(dirname "$PAGE_PATH")"
-          cp "content-weekly-backup/${RELATIVE_FROM_WEEKLY}" "$PAGE_PATH"
+          cp -r "candidates-data-backup/${WEEK}" data/candidates/
+          python3 publish-safety-tool.py backup-existing \
+            --week "$WEEK" \
+            --run-id "$GITHUB_RUN_ID" \
+            --kind content \
+            --manifest "$MANIFEST_FILE" \
+            --expected-publish-ref "$EXPECTED_PUBLISH_SHA" \
+            --actual-publish-ref "$CURRENT_PUBLISH_SHA" \
+            --path "data/analyzed/${WEEK}-summary.md" \
+            --path "data/analyzed/${WEEK}-correlations.json" \
+            --path "data/analyzed/${WEEK}-press-context.md" \
+            --path "data/published/${WEEK}/promotion-manifest.json" \
+            --path "$PAGE_PATH"
+          cp -r metrics-data-backup/* data/metrics/ 2>/dev/null || true
+          cp "analyzed-data-backup/${WEEK}-correlations.json" data/analyzed/ 2>/dev/null || true
+          cp "analyzed-data-backup/${WEEK}-press-context.md" data/analyzed/ 2>/dev/null || true
+          python3 promotion-guard-tool.py --manifest "data/candidates/${WEEK}/${GITHUB_RUN_ID}/publish-manifest.json"
           # Monthly/yearly rollups are safe to copy since generate_rollups.py was seeded
           # with hydrated prior-week data (see Hydrate analyzed data step above)
           cp -r content-monthly-backup/* content/monthly/ 2>/dev/null || true
           cp -r content-yearly-backup/* content/yearly/ 2>/dev/null || true
-          rm -rf content-weekly-backup content-monthly-backup content-yearly-backup
-          git add content/weekly/ content/monthly/ content/yearly/
+          rm -rf analyzed-data-backup candidates-data-backup metrics-data-backup published-data-backup content-weekly-backup content-monthly-backup content-yearly-backup publish-safety-tool.py promotion-guard-tool.py
+          git add data/analyzed/ data/candidates/ data/metrics/ data/published/ content/weekly/ content/monthly/ content/yearly/ data/backups/
           git diff --cached --quiet && exit 0
-          git commit -m "content: weekly page $WEEK [run #${GITHUB_RUN_ID}]"
-          git push origin "$DATA_BRANCH"
+          git commit -m "publish: weekly article transaction $WEEK [run #${GITHUB_RUN_ID}]"
+          if [ -n "$CURRENT_PUBLISH_SHA" ]; then
+            git push --force-with-lease="refs/heads/$DATA_BRANCH:$CURRENT_PUBLISH_SHA" origin HEAD:"$DATA_BRANCH"
+          else
+            git push origin HEAD:"$DATA_BRANCH"
+          fi
 
       - name: Upload generated content artifact
         uses: actions/upload-artifact@v4
@@ -645,8 +1019,16 @@ jobs:
             content/yearly/
           if-no-files-found: warn
 
+      - name: Upload promoted analyzed artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: promoted-analyzed-data
+          path: data/analyzed/
+          if-no-files-found: warn
+
   deploy:
     needs: [crawl, analyze, generate]
+    if: ${{ needs.analyze.outputs.run_mode != 'dry-run' && needs.analyze.outputs.run_mode != 'candidate-only' }}
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -679,7 +1061,7 @@ jobs:
       - name: Download analyzed data artifact
         uses: actions/download-artifact@v4
         with:
-          name: analyzed-data
+          name: promoted-analyzed-data
           path: data/analyzed/
 
       - name: Download generated content artifact
@@ -724,7 +1106,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
   notify:
-    if: github.event_name == 'schedule' || github.event.inputs.publish_release == 'true'
+    if: ${{ (github.event_name == 'schedule' || github.event.inputs.publish_release == 'true') && needs.analyze.outputs.run_mode != 'dry-run' && needs.analyze.outputs.run_mode != 'candidate-only' }}
     needs: [analyze, generate, deploy]
     runs-on: ubuntu-latest
     permissions:
@@ -736,17 +1118,31 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: analyzed-data
+          name: promoted-analyzed-data
           path: data/analyzed/
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: analysis-candidate
+          path: data/candidates/
 
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SUMMARY_FILE: ${{ needs.analyze.outputs.summary_file }}
+          MANIFEST_FILE: ${{ needs.analyze.outputs.publish_manifest_file }}
         run: |
+          python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
           WEEK=$(basename "$SUMMARY_FILE" | sed 's/-summary.md//')
+          TAG="week-${WEEK}"
+          TITLE="Week ${WEEK} — Tech Trends Summary"
 
-          gh release create "week-${WEEK}" --title "Week ${WEEK} — Tech Trends Summary" --notes-file "$SUMMARY_FILE" --latest
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "::notice::Release $TAG already exists; updating it instead of failing."
+            gh release edit "$TAG" --title "$TITLE" --notes-file "$SUMMARY_FILE" --latest
+          else
+            gh release create "$TAG" --title "$TITLE" --notes-file "$SUMMARY_FILE" --latest
+          fi
 
       - name: Post to Discussions
         env:
@@ -942,16 +1338,11 @@ jobs:
             --allow-tool=grep \
             > /dev/null; then
             echo "✅ Reskill via Copilot CLI with agent identity"
-          # Fallback: GitHub Models API via reskill.py
-          elif python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME" --output "$RESKILL_OUTPUT" --prompt-output "$RESKILL_PROMPT"; then
-            RESKILL_SOURCE="github-models"
-            RESKILL_MODEL="${GITHUB_MODELS_MODEL}"
-            echo "⚠️  Copilot CLI unavailable; used GitHub Models API fallback."
           else
             RESKILL_SOURCE="none"
             RESKILL_MODEL="none"
             rm -f "$RESKILL_PROMPT"
-            echo "Reskill failed on all paths; writing placeholder trigger log."
+            echo "Copilot CLI reskill failed; no GitHub Models/OpenAI reskill fallback is configured. Writing placeholder trigger log."
             echo "Reskill triggered at run #$COUNTER ($CURRENT_DATETIME)" >> .squad/reskill/trigger-log.txt
           fi
 

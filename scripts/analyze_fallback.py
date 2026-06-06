@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import random
 import sys
 import time
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 from urllib import error, request
@@ -25,10 +27,46 @@ DEFAULT_SKILLS_DIR = ROOT / ".squad" / "skills"
 DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
 DEFAULT_MODELS_MODEL = "openai/gpt-4o"
 DEFAULT_MODELS_TIMEOUT = 30
+NO_AI_DIAGNOSTIC_QUALITY_SCORE = 40
+DEFAULT_PROMPT_TOKEN_BUDGET = 90_000
+COMPACTED_NEW_REPOS_LIMIT = 25
+COMPACTED_TRENDING_REPOS_LIMIT = 25
+COMPACTED_PREVIOUS_SUMMARY_CHARS = 8_000
+COMPACTED_WISDOM_CHARS = 8_000
+COMPACTED_SKILLS_CHARS = 10_000
+COMPACTED_PRESS_CONTEXT_CHARS = 14_000
+
+
+@dataclass
+class PromptComponent:
+    name: str
+    path: str | None
+    included: bool
+    inclusion_reason: str
+    compaction_decision: str
+    bytes: int
+    token_estimate: int
+    checksum_sha256: str
+
+
+@dataclass
+class PromptPreflight:
+    prompt_token_budget: int
+    prompt_tokens: int
+    prompt_bytes: int
+    prompt_checksum_sha256: str
+    prompt_within_budget: bool
+    degraded: bool
+    publish_eligible: bool
+    promotion_policy: str
+    degradation_reason: str | None
+    fallback_policy: str
+    components: list[PromptComponent]
+    deterministic_slices: list[str]
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Fallback weekly analysis via GitHub Models API.")
+    parser = argparse.ArgumentParser(description="Render/preflight weekly analysis prompts or generate diagnostic no-AI output.")
     parser.add_argument("--raw-json", required=True, type=Path, help="Path to the weekly raw JSON payload.")
     parser.add_argument("--output", required=True, type=Path, help="Path to write the analyzed markdown output.")
     parser.add_argument("--current-datetime", required=True, help="ISO-8601 timestamp for the analysis run.")
@@ -72,11 +110,111 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Generate a data-only summary without calling any AI API.",
     )
+    parser.add_argument(
+        "--prompt-token-budget",
+        type=int,
+        default=DEFAULT_PROMPT_TOKEN_BUDGET,
+        help=f"Maximum rendered prompt tokens before model invocation (default: {DEFAULT_PROMPT_TOKEN_BUDGET}).",
+    )
+    parser.add_argument(
+        "--preflight-report-json",
+        type=Path,
+        help="Write deterministic rendered-prompt preflight details as JSON.",
+    )
+    parser.add_argument(
+        "--preflight-report-md",
+        type=Path,
+        help="Write deterministic rendered-prompt preflight details as Markdown.",
+    )
     return parser.parse_args(argv)
 
 
 def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def estimate_tokens(text: str) -> int:
+    """Deterministic local estimate used for preflight bounds."""
+    return (len(text.encode("utf-8")) + 3) // 4
+
+
+def checksum_text(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def _component(
+    *,
+    name: str,
+    content: str,
+    path: Path | None,
+    included: bool,
+    inclusion_reason: str,
+    compaction_decision: str,
+) -> PromptComponent:
+    return PromptComponent(
+        name=name,
+        path=path.as_posix() if path else None,
+        included=included,
+        inclusion_reason=inclusion_reason,
+        compaction_decision=compaction_decision,
+        bytes=len(content.encode("utf-8")),
+        token_estimate=estimate_tokens(content),
+        checksum_sha256=checksum_text(content),
+    )
+
+
+def truncate_with_notice(content: str, limit: int, label: str) -> tuple[str, str]:
+    if len(content) <= limit:
+        return content, "included"
+    omitted = len(content) - limit
+    return (
+        content[:limit].rstrip()
+        + f"\n\n[Preflight compaction: truncated {label}; omitted {omitted} characters to stay within prompt budget.]",
+        "compacted",
+    )
+
+
+def _load_yaml(path: Path) -> dict[str, Any]:
+    try:
+        import yaml  # type: ignore[import-untyped]
+    except ImportError:
+        return {}
+    if not path.exists():
+        return {}
+    with open(path, encoding="utf-8") as f:
+        payload = yaml.safe_load(f) or {}
+    return payload if isinstance(payload, dict) else {}
+
+
+def _resolve_existing_path(configured: str | None, fallback: Path) -> Path:
+    candidates: list[Path] = []
+    if configured:
+        configured_path = Path(configured)
+        candidates.append(configured_path if configured_path.is_absolute() else ROOT / configured_path)
+        if not configured_path.is_absolute():
+            candidates.append(ROOT / ".squad" / configured_path)
+    candidates.append(fallback)
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return candidates[0] if candidates else fallback
+
+
+def resolve_analysis_context_paths() -> tuple[Path, Path]:
+    """Resolve analysis-specific learned context, avoiding unrelated squad workflow context."""
+    config = _load_yaml(ROOT / "squadscope.topic.yml")
+    topic = config.get("topic") if isinstance(config.get("topic"), dict) else {}
+    learning = config.get("learning") if isinstance(config.get("learning"), dict) else {}
+    topic_id = str(topic.get("id") or "general")
+    wisdom_path = _resolve_existing_path(
+        learning.get("wisdom_file"),
+        ROOT / ".squad" / "topics" / topic_id / "wisdom.md",
+    )
+    skills_path = _resolve_existing_path(
+        learning.get("skills_dir"),
+        ROOT / ".squad" / "topics" / topic_id / "skills",
+    )
+    return wisdom_path, skills_path
 
 
 def find_previous_summary(current_week: str, analyzed_dir: Path) -> Path | None:
@@ -120,6 +258,223 @@ def render_skills(skills_dir: Path) -> str:
     return "\n\n".join(blocks) if blocks else "_No learned skills have been extracted yet._"
 
 
+def _sort_repos_for_compaction(repos: list[dict[str, Any]], score_key: str) -> list[dict[str, Any]]:
+    return sorted(
+        repos,
+        key=lambda repo: (
+            int(repo.get(score_key) or 0),
+            int(repo.get("stars") or 0),
+            str(repo.get("full_name") or ""),
+        ),
+        reverse=True,
+    )
+
+
+def compact_payload(payload: dict[str, Any]) -> tuple[dict[str, Any], dict[str, str]]:
+    compacted = dict(payload)
+    decisions = {"new_repos": "included", "trending_repos": "included"}
+    new_repos = payload.get("new_repos")
+    if isinstance(new_repos, list) and len(new_repos) > COMPACTED_NEW_REPOS_LIMIT:
+        compacted["new_repos"] = _sort_repos_for_compaction(new_repos, "stars")[:COMPACTED_NEW_REPOS_LIMIT]
+        decisions["new_repos"] = f"compacted to top {COMPACTED_NEW_REPOS_LIMIT} repos by stars"
+    trending_repos = payload.get("trending_repos")
+    if isinstance(trending_repos, list) and len(trending_repos) > COMPACTED_TRENDING_REPOS_LIMIT:
+        compacted["trending_repos"] = _sort_repos_for_compaction(trending_repos, "stars_gained")[
+            :COMPACTED_TRENDING_REPOS_LIMIT
+        ]
+        decisions["trending_repos"] = f"compacted to top {COMPACTED_TRENDING_REPOS_LIMIT} repos by stars_gained/stars"
+    if decisions["new_repos"] != "included" or decisions["trending_repos"] != "included":
+        compacted["_preflight_compaction"] = {
+            "reason": "Rendered prompt exceeded explicit token budget before model invocation.",
+            "new_repos_original_count": len(new_repos) if isinstance(new_repos, list) else 0,
+            "trending_repos_original_count": len(trending_repos) if isinstance(trending_repos, list) else 0,
+            "new_repos_decision": decisions["new_repos"],
+            "trending_repos_decision": decisions["trending_repos"],
+        }
+    return compacted, decisions
+
+
+def _build_prompt(
+    *,
+    prompt_template_path: Path,
+    raw_json_path: Path,
+    output_path: Path,
+    current_datetime: str,
+    analyzed_dir: Path,
+    wisdom_file: Path = DEFAULT_WISDOM_FILE,
+    skills_dir: Path = DEFAULT_SKILLS_DIR,
+    press_context_path: Path | None = None,
+    prompt_token_budget: int = DEFAULT_PROMPT_TOKEN_BUDGET,
+    allow_compaction: bool = True,
+) -> tuple[str, PromptPreflight]:
+    payload = load_json(raw_json_path)
+    sanitized_payload = sanitize_repo_payload(payload)
+    current_week = sanitized_payload["week"]
+    previous_summary_path = find_previous_summary(current_week, analyzed_dir)
+    previous_summary_content = previous_summary_path.read_text(encoding="utf-8") if previous_summary_path else ""
+    wisdom_content = render_wisdom(wisdom_file)
+    skills_content = render_skills(skills_dir)
+    press_content = (
+        press_context_path.read_text(encoding="utf-8").strip()
+        if press_context_path and press_context_path.exists() and press_context_path.stat().st_size > 0
+        else ""
+    )
+    payload_for_prompt = sanitized_payload
+    raw_decisions = {"new_repos": "included", "trending_repos": "included"}
+    previous_decision = "included" if previous_summary_path else "not included: no previous summary"
+    wisdom_decision = "included" if wisdom_file.exists() else "not included: no analysis-specific wisdom file"
+    skills_decision = "included" if skills_dir.exists() and iter_skill_files(skills_dir) else "not included: no analysis-specific skills"
+    press_decision = "included" if press_content else "not included: no press context"
+    degraded = False
+
+    def assemble() -> str:
+        raw_json_content = json.dumps(payload_for_prompt, indent=2, ensure_ascii=False)
+        current_year, _, week_number = current_week.partition("-W")
+        generic_title_example = (
+            f"Week {int(week_number)}, {current_year} Analysis" if week_number.isdigit() else "Week NN, YYYY Analysis"
+        )
+        prompt = prompt_template_path.read_text(encoding="utf-8")
+        replacements = {
+            "{{CURRENT_DATETIME}}": current_datetime,
+            "{{CURRENT_WEEK}}": current_week,
+            "{{CURRENT_YEAR}}": current_year,
+            "{{TITLE_TEMPLATE_HINT}}": (
+                f"Specific editorial headline about {current_week}'s dominant themes "
+                f"(not \"{generic_title_example}\")"
+            ),
+            "{{RAW_JSON_PATH}}": str(raw_json_path),
+            "{{OUTPUT_PATH}}": str(output_path),
+            "{{PREVIOUS_SUMMARY_PATH_OR_NONE}}": str(previous_summary_path) if previous_summary_path else "None",
+            "{{RAW_JSON_CONTENT}}": raw_json_content,
+            "{{PREVIOUS_SUMMARY_CONTENT_OR_EMPTY}}": previous_summary_content.strip(),
+            "{{WISDOM}}": wisdom_content,
+            "{{SKILLS}}": skills_content,
+        }
+        for needle, value in replacements.items():
+            prompt = prompt.replace(needle, value)
+        if press_content:
+            prompt += f"\n\n---\n## Press Context\n\n{press_content}\n"
+        return prompt
+
+    prompt = assemble()
+    if allow_compaction and estimate_tokens(prompt) > prompt_token_budget:
+        degraded = True
+        payload_for_prompt, raw_decisions = compact_payload(sanitized_payload)
+        previous_summary_content, previous_decision = truncate_with_notice(
+            previous_summary_content, COMPACTED_PREVIOUS_SUMMARY_CHARS, "prior continuity"
+        )
+        wisdom_content, wisdom_decision = truncate_with_notice(wisdom_content, COMPACTED_WISDOM_CHARS, "analysis wisdom")
+        skills_content, skills_decision = truncate_with_notice(skills_content, COMPACTED_SKILLS_CHARS, "analysis skills")
+        press_content, press_decision = truncate_with_notice(
+            press_content, COMPACTED_PRESS_CONTEXT_CHARS, "press correlations"
+        )
+        prompt = assemble()
+
+    raw_json_content = json.dumps(payload_for_prompt, indent=2, ensure_ascii=False)
+    current_year, _, week_number = current_week.partition("-W")
+    components = [
+        _component(
+            name="prompt_template",
+            content=prompt_template_path.read_text(encoding="utf-8"),
+            path=prompt_template_path,
+            included=True,
+            inclusion_reason="Base weekly analysis instructions.",
+            compaction_decision="included",
+        ),
+        _component(
+            name="new_repos",
+            content=json.dumps(payload_for_prompt.get("new_repos", []), indent=2, ensure_ascii=False),
+            path=raw_json_path,
+            included=True,
+            inclusion_reason="Deterministic mapper slice: newly discovered repositories.",
+            compaction_decision=raw_decisions["new_repos"],
+        ),
+        _component(
+            name="trending_repos",
+            content=json.dumps(payload_for_prompt.get("trending_repos", []), indent=2, ensure_ascii=False),
+            path=raw_json_path,
+            included=True,
+            inclusion_reason="Deterministic mapper slice: continuing/trending repositories.",
+            compaction_decision=raw_decisions["trending_repos"],
+        ),
+        _component(
+            name="raw_metadata",
+            content=raw_json_content,
+            path=raw_json_path,
+            included=True,
+            inclusion_reason=f"Sanitized current weekly payload for {current_year}-W{week_number}.",
+            compaction_decision="included" if not degraded else "included with compacted repo slices",
+        ),
+        _component(
+            name="prior_continuity",
+            content=previous_summary_content,
+            path=previous_summary_path,
+            included=bool(previous_summary_path),
+            inclusion_reason="Deterministic mapper slice: prior weekly continuity.",
+            compaction_decision=previous_decision,
+        ),
+        _component(
+            name="analysis_wisdom",
+            content=wisdom_content,
+            path=wisdom_file,
+            included=wisdom_file.exists(),
+            inclusion_reason="Analysis-specific wisdom capsule from topic learning state.",
+            compaction_decision=wisdom_decision,
+        ),
+        _component(
+            name="analysis_skills",
+            content=skills_content,
+            path=skills_dir,
+            included=skills_dir.exists() and bool(iter_skill_files(skills_dir)),
+            inclusion_reason="Analysis-specific learned skill capsule from topic learning state.",
+            compaction_decision=skills_decision,
+        ),
+        _component(
+            name="press_correlations",
+            content=press_content,
+            path=press_context_path,
+            included=bool(press_content),
+            inclusion_reason="Deterministic mapper slice: press/developer correlation context.",
+            compaction_decision=press_decision,
+        ),
+        _component(
+            name="rendered_prompt",
+            content=prompt,
+            path=None,
+            included=True,
+            inclusion_reason="Exact prompt that will be passed to Copilot CLI.",
+            compaction_decision="included" if not degraded else "included after deterministic compaction",
+        ),
+    ]
+    prompt_tokens = estimate_tokens(prompt)
+    prompt_within_budget = prompt_tokens <= prompt_token_budget
+    degradation_reason = (
+        "Prompt was deterministically compacted to fit the configured token budget." if degraded else None
+    )
+    preflight = PromptPreflight(
+        prompt_token_budget=prompt_token_budget,
+        prompt_tokens=prompt_tokens,
+        prompt_bytes=len(prompt.encode("utf-8")),
+        prompt_checksum_sha256=checksum_text(prompt),
+        prompt_within_budget=prompt_within_budget,
+        degraded=degraded,
+        publish_eligible=prompt_within_budget and not degraded,
+        promotion_policy=(
+            "normal-promotion"
+            if not degraded
+            else "staged/candidate-only by default; degraded compacted output requires an explicit future promotion policy."
+        ),
+        degradation_reason=degradation_reason,
+        fallback_policy=(
+            "copilot-only; no GitHub Models/OpenAI fallback. no-ai is diagnostic/staged-only and publish-ineligible. "
+            "degraded/compacted prompts are staged/candidate-only by default."
+        ),
+        components=components,
+        deterministic_slices=["new_repos", "trending_repos", "press_correlations", "prior_continuity"],
+    )
+    return prompt, preflight
+
+
 def render_prompt(
     *,
     prompt_template_path: Path,
@@ -131,41 +486,60 @@ def render_prompt(
     skills_dir: Path = DEFAULT_SKILLS_DIR,
     press_context_path: Path | None = None,
 ) -> str:
-    payload = load_json(raw_json_path)
-    sanitized_payload = sanitize_repo_payload(payload)
-    current_week = sanitized_payload["week"]
-    previous_summary_path = find_previous_summary(current_week, analyzed_dir)
-    previous_summary_content = previous_summary_path.read_text(encoding="utf-8") if previous_summary_path else ""
-    raw_json_content = json.dumps(sanitized_payload, indent=2, ensure_ascii=False)
-    current_year, _, week_number = current_week.partition("-W")
-    generic_title_example = f"Week {int(week_number)}, {current_year} Analysis" if week_number.isdigit() else "Week NN, YYYY Analysis"
-
-    prompt = prompt_template_path.read_text(encoding="utf-8")
-    replacements = {
-        "{{CURRENT_DATETIME}}": current_datetime,
-        "{{CURRENT_WEEK}}": current_week,
-        "{{CURRENT_YEAR}}": current_year,
-        "{{TITLE_TEMPLATE_HINT}}": (
-            f"Specific editorial headline about {current_week}'s dominant themes "
-            f"(not \"{generic_title_example}\")"
-        ),
-        "{{RAW_JSON_PATH}}": str(raw_json_path),
-        "{{OUTPUT_PATH}}": str(output_path),
-        "{{PREVIOUS_SUMMARY_PATH_OR_NONE}}": str(previous_summary_path) if previous_summary_path else "None",
-        "{{RAW_JSON_CONTENT}}": raw_json_content,
-        "{{PREVIOUS_SUMMARY_CONTENT_OR_EMPTY}}": previous_summary_content.strip(),
-        "{{WISDOM}}": render_wisdom(wisdom_file),
-        "{{SKILLS}}": render_skills(skills_dir),
-    }
-    for needle, value in replacements.items():
-        prompt = prompt.replace(needle, value)
-
-    # Append press context if available
-    if press_context_path and press_context_path.exists() and press_context_path.stat().st_size > 0:
-        press_content = press_context_path.read_text(encoding="utf-8").strip()
-        prompt += f"\n\n---\n## Press Context\n\n{press_content}\n"
-
+    prompt, _ = _build_prompt(
+        prompt_template_path=prompt_template_path,
+        raw_json_path=raw_json_path,
+        output_path=output_path,
+        current_datetime=current_datetime,
+        analyzed_dir=analyzed_dir,
+        wisdom_file=wisdom_file,
+        skills_dir=skills_dir,
+        press_context_path=press_context_path,
+        allow_compaction=False,
+    )
     return prompt
+
+
+def write_preflight_reports(preflight: PromptPreflight, json_path: Path | None, md_path: Path | None) -> None:
+    if json_path:
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(asdict(preflight), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    if md_path:
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        rows = [
+            "# Analysis Prompt Preflight",
+            "",
+            f"- Prompt budget: `{preflight.prompt_token_budget}` tokens",
+            f"- Rendered prompt: `{preflight.prompt_tokens}` tokens / `{preflight.prompt_bytes}` bytes",
+            f"- Prompt checksum: `{preflight.prompt_checksum_sha256}`",
+            f"- Degraded/compacted: `{str(preflight.degraded).lower()}`",
+            f"- Degradation reason: {preflight.degradation_reason or 'none'}",
+            f"- Publish eligible: `{str(preflight.publish_eligible).lower()}`",
+            f"- Promotion policy: {preflight.promotion_policy}",
+            f"- Fallback policy: {preflight.fallback_policy}",
+            f"- Deterministic slices: {', '.join(preflight.deterministic_slices)}",
+            "",
+            "| Component | Included | Bytes | Tokens | Checksum | Path | Inclusion reason | Compaction decision |",
+            "| --- | --- | ---: | ---: | --- | --- | --- | --- |",
+        ]
+        for component in preflight.components:
+            rows.append(
+                "| "
+                + " | ".join(
+                    [
+                        component.name,
+                        str(component.included).lower(),
+                        str(component.bytes),
+                        str(component.token_estimate),
+                        component.checksum_sha256,
+                        component.path or "",
+                        component.inclusion_reason.replace("|", "\\|"),
+                        component.compaction_decision.replace("|", "\\|"),
+                    ]
+                )
+                + " |"
+            )
+        md_path.write_text("\n".join(rows) + "\n", encoding="utf-8")
 
 
 def extract_markdown(response_payload: dict[str, Any]) -> str:
@@ -197,6 +571,7 @@ def extract_markdown(response_payload: dict[str, Any]) -> str:
 
 
 RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
+NON_RETRYABLE_STATUS_CLASSES = {400, 401, 403, 404}
 MAX_RETRIES = 3
 BASE_DELAY = 2  # seconds
 
@@ -235,11 +610,17 @@ def call_github_models(prompt: str) -> str:
         except error.HTTPError as exc:
             if exc.code not in RETRYABLE_STATUS_CODES or attempt == MAX_RETRIES:
                 detail = exc.read().decode("utf-8", errors="replace")
+                retry_class = (
+                    "non-retryable"
+                    if exc.code in NON_RETRYABLE_STATUS_CLASSES or exc.code not in RETRYABLE_STATUS_CODES
+                    else "retry-exhausted"
+                )
+                access_hint = " GitHub Models access is unavailable for this model." if exc.code == 403 else ""
                 raise RuntimeError(
-                    f"GitHub Models API request failed ({exc.code}): {detail}"
+                    f"GitHub Models API request failed ({exc.code}, {retry_class}): {detail}{access_hint}"
                 ) from exc
             # Determine delay: respect Retry-After header on 429
-            retry_after = exc.headers.get("Retry-After") if exc.code == 429 else None
+            retry_after = exc.headers.get("Retry-After") if exc.code == 429 and exc.headers is not None else None
             if retry_after is not None:
                 try:
                     delay = float(retry_after)
@@ -374,7 +755,9 @@ def _render_press_section_no_ai(press_context_path: Path | None) -> str:
     stem = press_context_path.stem  # e.g. "2026-W21-press-context"
     week = stem.replace("-press-context", "")  # e.g. "2026-W21"
     data_dir = press_context_path.parent.parent  # data/analyzed/ -> data/
-    tc_path = data_dir / "raw" / f"{week}-techcrunch.json"
+    external_path = data_dir / "raw" / f"{week}-external-news.json"
+    legacy_path = data_dir / "raw" / f"{week}-techcrunch.json"
+    tc_path = external_path if external_path.exists() else legacy_path
     corr_path = data_dir / "analyzed" / f"{week}-correlations.json"
 
     if tc_path.exists():
@@ -461,7 +844,7 @@ categories: [weekly]
 repos_featured: {repos_featured}
 stars_tracked: {total_stars}
 top_repo: "{top_repo}"
-quality_score: 62
+quality_score: {NO_AI_DIAGNOSTIC_QUALITY_SCORE}
 summary: "Automated data-only summary for {week}. AI analysis was unavailable; this report presents raw crawl statistics and top repositories without editorial commentary."
 ---
 
@@ -504,25 +887,45 @@ Week {week_num} of {year_str} captured {repos_featured} repositories with {total
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
-    prompt = render_prompt(
+    wisdom_file = args.wisdom_file
+    skills_dir = args.skills_dir
+    if wisdom_file == DEFAULT_WISDOM_FILE and skills_dir == DEFAULT_SKILLS_DIR:
+        wisdom_file, skills_dir = resolve_analysis_context_paths()
+
+    prompt, preflight = _build_prompt(
         prompt_template_path=args.prompt_template,
         raw_json_path=args.raw_json,
         output_path=args.output,
         current_datetime=args.current_datetime,
         analyzed_dir=args.analyzed_dir,
-        wisdom_file=args.wisdom_file,
-        skills_dir=args.skills_dir,
+        wisdom_file=wisdom_file,
+        skills_dir=skills_dir,
         press_context_path=args.press_context,
+        prompt_token_budget=args.prompt_token_budget,
+        allow_compaction=True,
     )
+    write_preflight_reports(preflight, args.preflight_report_json, args.preflight_report_md)
+
+    if not preflight.prompt_within_budget:
+        print(
+            "::error::Rendered analysis prompt exceeds explicit budget after deterministic compaction: "
+            f"{preflight.prompt_tokens}/{preflight.prompt_token_budget} tokens.",
+            file=sys.stderr,
+        )
+        return 1
 
     if args.print_prompt:
-        print(prompt)
+        sys.stdout.write(prompt)
         return 0
 
     if args.no_ai:
         markdown = generate_no_ai_summary(args.raw_json, args.current_datetime, args.press_context)
     else:
-        markdown = call_github_models(prompt)
+        print(
+            "::error::GitHub Models/OpenAI analysis fallback is disabled; use Copilot CLI or --no-ai for staged diagnostics.",
+            file=sys.stderr,
+        )
+        return 1
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(markdown, encoding="utf-8")

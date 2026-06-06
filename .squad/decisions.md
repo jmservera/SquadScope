@@ -1,411 +1,372 @@
-# Squad Decisions
+# Run 27055543722 — Analysis Failure Root Cause & Diagnosis [2026-06-06]
 
-## Impact
+## Executive Summary
 
-Applies to future weekly summaries and any generator work that consumes `data/analyzed/*-summary.md`.
+Workflow run 27055543722 confirmed persistent analysis failures traced to **AI output contract inconsistency**, **deterministic retry loops**, and **unavailable fallback**. The crawler was healthy; analysis failed deterministically after ~25 minutes across all Copilot attempts, falling through to no-AI fallback which the safety manifest correctly blocked.
+
+## Consolidated Root Causes (Ranked by Confidence)
+
+### 1. Prompt/Spec/Gate Schema Drift — Very High Confidence
+- `prompts/analyze-weekly.md` and `docs/analysis-spec.md` specify predictions as `{repo, direction, confidence}`
+- `scripts/analysis_gate.py` requires `predictions[].claim_type in {signal, noise, gap}`
+- Run 27030646485: All 3 Copilot attempts failed on `predictions[*].claim_type must be one of signal, noise, gap`
+- Run 27055543722: Same deterministic failure across all 3 attempts
+- **Immediate action:** Align contract; update gate or prompt to match
+
+### 2. Context Bloat & Undercounted Preflight — Very High Confidence
+- Preflight estimates: ~74k tokens (raw JSON + skills only)
+- Actual final ledger: ~113k tokens (preflight + template + identity/wisdom + prior summary + press context + agent wrapper)
+- Gap of ~39k tokens (38% undercount) dilutes model attention
+- Renders skills payload (~45.8 KB / 11.4k tokens) contains unrelated operational/design skills, not analysis-specific
+- **Immediate action:** Render exact prompt before preflight; use analysis-specific wisdom capsule
+
+### 3. Blind Deterministic Retry Loop — Very High Confidence
+- Three full Copilot attempts (9-11 min each) repeated identical flawed prompt
+- No gate-error classification or deterministic repair (e.g., timestamp/schema normalization)
+- Retries waste 25-29 minutes, then fall through to no-AI
+- **Immediate action:** Classify gate failures; repair frontmatter once; fail-fast on systematic errors
+
+### 4. Unavailable AI Fallback — High Confidence
+- GitHub Models configured to `openai/gpt-4o` → `403 no_access` on both runs
+- No fallback to accessible model; pipeline jumps directly to no-AI
+- **Immediate action:** Preflight model access before expensive Copilot attempts
+
+### 5. No-AI Fallback Provenance Not Enforced — High Confidence
+- `analysis_gate.py` checks structure only, not provenance
+- No-AI output (quality_score 62, self-referential language) passed structural gate
+- Run 27030646485: No-AI published despite existing AI article from previous week
+- **Immediate action:** Enforce no-AI publish-blocking in manifest (already done in #249); add to diagnostics
+
+### 6. Weak Evidence/Citation Validation — Medium-High Confidence
+- Gate does not validate repo-link coverage (every mentioned repo must be `[owner/repo](url)`)
+- Gate does not validate press citation integrity or that links resolve to retained articles
+- No-AI fallback uses raw descriptions without editorial curation
+
+### 7. Learned Context Overhead & Agent Wrapper — Medium-High Confidence
+- Workflow calls `copilot --agent squad` for publication analysis
+- Squad agent adds routing/delegation instructions on top of the rendered prompt
+- Flat skills bundle mixes unrelated squad operational skills with analysis context
+
+## Recommended Immediate Fixes
+
+### 1. Align Prediction Contract (Blocker for Next Run)
+- **Decision:** Require `claim_type in {signal, noise, gap}` (supports hindsight classification)
+- **Actions:**
+  - Update `docs/analysis-spec.md` and `prompts/analyze-weekly.md` to specify predictions as `{repo, claim_type, direction, confidence}`
+  - Add contract-drift test: parse docs/prompt/gate and assert matching prediction schema
+  - Add regression fixtures for bad-date and prediction-shape errors
+
+### 2. Deterministic Frontmatter & Repair Loop
+- **Actions:**
+  - Precompute and mechanically inject `date`, `week`, `year`, `repos_featured`, `stars_tracked`
+  - Add focused repair prompt for gate failures (classifies errors; repairs timestamp/schema once)
+  - Fail-fast if error is systematic; do not retry if only deterministic fields are wrong
+
+### 3. Exact Rendered Prompt Preflight
+- **Actions:**
+  - Build `analysis-input-manifest.json` with component byte/token counts
+  - Render exact prompt (template + raw JSON + wisdom + skills + press context + prior summary)
+  - Compare rendered-prompt estimate to final ledger; fail or compact if gap > 10%
+
+### 4. Analysis-Specific Wisdom Capsule
+- **Actions:**
+  - Replace full learned-context injection with `{{EDITORIAL_WISDOM_CAPSULE}}` (~1-2k tokens max)
+  - Select only analysis-relevant learnings; exclude operational/design/PR workflow skills
+  - Keep prior-week continuity notes (~500 tokens) for editorial context
+
+### 5. GitHub Models Access Preflight
+- **Actions:**
+  - Add fast `models-health` check before Copilot attempts
+  - If configured model is inaccessible, switch to known-good fallback or mark unavailable up front
+  - Record provider/model/access status in `models-health.json` artifact
+
+### 6. No-AI as Diagnostic Only
+- **Actions:**
+  - Keep no-AI fallback for diagnostics/artifact purposes
+  - Tag as `diagnostic_no_ai_candidate` (not fallback recovery)
+  - Ensure manifest blocks promotion unless explicit force flag is set
+  - Do not let no-AI replace existing good AI article
+
+### 7. Direct Analyzer Invocation
+- **Actions:**
+  - Stop calling `--agent squad` for publication analysis
+  - Use plain Copilot CLI or minimal analyzer agent (Farnsworth-only)
+  - Remove squad routing/delegation context from analysis prompt
+
+## Map/Reduce Status
+
+**Hold for now.** Map/reduce remains dry-run candidate only after immediate fixes land. The signal-type claim-ledger architecture is sound but adding a second pipeline before deterministic contract/repair/preflight are solid risks masking the same root causes across more calls.
+
+## Observability to Add
+
+- `analysis-input-manifest.json`: component token counts by segment
+- `analysis-attempts.jsonl`: per-attempt provider, model, duration, gate errors, failure class
+- `models-health.json`: endpoint, model, access status, fallback selected
+- `gate-report.json`: structured `analysis_gate.py` output
+- Persist failed candidates under `data/candidates/{week}/{run_id}/` for reproduction
+
+## Acceptance Criteria for Next Run
+
+1. ✅ Prediction contract aligned across docs, prompt, gate
+2. ✅ Exact rendered-prompt preflight within 10% of final ledger
+3. ✅ Deterministic frontmatter/schema failures do not trigger full retries
+4. ✅ GitHub Models access is preflighted or marked unavailable
+5. ✅ No-AI manifest blocks promotion unless existing AI article is gone
+6. ✅ Final markdown passes both structural and evidence-citation gates
+7. ✅ Attempt artifacts retained for root-cause analysis
+
+## Cross-Team Notes
+
+- **Farnsworth:** Comprehensive root-cause diagnosis and process proposal documented
+- **Bender:** Pipeline failure mechanics, contract mismatch, context bloat analysis
+- **Fry:** QA test fixtures, gate/spec alignment, publish protection test plan, rollout phases
+- **Leela:** Issue hierarchy (#248-#261), GitHub creation/updates, PR #245 safety review
+
+## Related Issues
+
+- #248 — Parent epic: protect published analysis from unsafe reruns
+- #249 — Publish eligibility manifest with no-AI blocking (✅ safety gate worked this run)
+- #255 — Strengthen publish gate beyond structural validation
+- #256 — Deterministic preflight compaction and fallback policy
+- #265 — Triaged run 27055543722 as real P0 analysis bug
+- #266 — New immediate P0 child for contract alignment and deterministic repair
 
 ---
 
-# Fry: quality gate fallback hardening
+---
 
-Date: 2026-06-01
+## Run 27056632166 — Successful analysis and publish cycle
 
-## Context
-Issue #217 showed the weekly analysis job can fail even when crawl data is healthy because Copilot sometimes returns a generic placeholder title or no output file at all after retries.
+**Date:** 2026-06-06T07:43:44.173+00:00  
+**Run:** #27056632166  
+**Status:** ✅ End-to-end success: Copilot analysis passed; publish manifest decision promoted; generate/deploy succeeded; notify skipped (publish_release=false)
 
-## Decision
-Keep Copilot CLI as the primary analysis generator, but if its output still fails the quality gate after retries, immediately fall back to `scripts/analyze_fallback.py` via GitHub Models. Also render the prompt with concrete `week`, `year`, and title guidance so the model is less likely to echo placeholder frontmatter.
+### Key outcomes
 
-## Rationale
-This keeps the higher-quality primary path, but removes CI flakiness from transient Copilot failures and from prompt placeholders leaking into the final markdown.
+- **Analysis:** Copilot-only path completed successfully with prediction schema aligned and gate passing
+- **Publish decision:** Manifest promotion confirmed eligibility; run 27055543722 overwrite-protection validated
+- **Deploy:** Content and weekly page generated and deployed to main
+- **PRs merged:** #267, #268, #271, #272 integrated into main
+
+### Related PRs and commits
+
+- **#267** (QA guard prediction schema repair loop): Fixed schema mismatch between prediction format and `analysis_gate.py` requirement; validated with regression tests
+- **#268** (Copilot-only analysis): Made weekly analysis Copilot-only with failure classifier and token-renewal issue handling
+- **#271** (Exclude squad state from publish sync): Fixed publish sync to exclude .squad directory
+- **#272** (Sync publish data to main): Successfully synced generated content and data to main
+
+### Failure classification and handling
+
+- **Run 27055543722 failure** (safely blocked): No-AI blocked by publish manifest; no overwrite occurred
+- **Immediate action:** Created issue for Copilot token renewal if needed; classified failures by cause (inaccessible, token, context, timeout, transient, other)
+
+### Analysis insights
+
+- Analysis time: ~28m41s with initial Copilot attempts
+- Token usage: ~112.9k estimated input tokens
+- Crawl/news: Healthy; no performance issues
+- Press context: Capped at ~8k tokens; working as designed
+- Key learning: Schema contract discipline prevents retry cascade
+
+### Follow-up PRs and decisions
+
+- **#269** (closed as unsafe): Would have regressed .squad state; closed per safety policy
+- **#270** (closed): Superseded by #271 and #272
+- **#271 & #272** (merged): Safely synced generated content and squad state exclusion
+
+### Decision summary
+
+1. ✅ Copilot analysis Copilot-only when GitHub Models/OpenAI unavailable
+2. ✅ Token failures fail immediately with issue creation for renewal
+3. ✅ Transient failures retry; eventually fail for rerun
+4. ✅ Publish manifest blocks unsafe reruns effectively
+5. ✅ No-AI candidates tagged diagnostic, not as fallback recovery
+6. ✅ Schema contract alignment prevents retry cascade
+
+### Model research outcome
+
+Model recommendations from #268 analysis:
+- **GPT-5.5**: Best choice for high-reasoning coding/editorial (high cost)
+- **GPT-5.3-Codex / Sonnet**: Routine coding tasks
+- **Haiku / GPT mini**: Mappers and Scribe tasks
+- **Cross-family rubber-duck reviews**: Recommended for code quality
 
 ---
 
-# Directive: Prevent Recrawl on Previous-Week Rebuilds
+## Analysis Decomposition Feasibility & Architecture
 
-**Date:** 2026-05-25T15:55:00+02:00  
-**Source:** User directive (jmservera via Copilot)  
-**Status:** Active
+**Authors:** Bender (Crawler & Data Collector), Farnsworth (Content Curator), Fry (QA)  
+**Date:** 2026-06-05T20:57:09.910+00:00  
+**Status:** Recommendation finalized; proceeding post-safety layer
+
+### Executive recommendation
 
-## Active Decisions
+**Adopt hierarchical claim-ledger map/reduce pipeline with signal-type mappers as MVP**, deterministic retrieval/compaction before every LLM call, and single reducer/final writer responsible for global thesis and reader-facing prose.
+
+**Best candidate:** deterministic preflight/compaction + signal-type claim-ledger mappers + reducer/editorial-plan + single final writer, run as non-publishing dry-run until rerun safety layer (#248-#259) is complete.
 
-# Leela — PR review gate follow-up
+### Why this architecture wins
 
-- Date: 2026-06-01
-- Context: Round review of PR #218 and PR #219 showed both branches were opened by `jmservera`, which means the current GitHub identity cannot submit an approving review on them.
-- Decision: Do not bypass the review gate on self-authored pull requests. Treat independent approval as still required before merging branches opened by the same account Leela is operating under.
-- Why: GitHub blocks self-approval, and preserving the review gate matters more than forcing a merge from the lead seat.
+1. **Uses existing artifacts:** `data/raw/{week}.json`, `data/raw/{week}-external-news.json`, `data/analyzed/{week}-correlations.json`, rendered press context, prior summaries, token/cost telemetry
+2. **Deterministic slicing:** Matches current data contracts (`new_repos`, `trending_repos`, `press_correlations`, `prior_continuity`)
+3. **Minimal new machinery:** No embeddings, vector store, source-specific model swarm, or GitHub crawl matrix needed for MVP
+4. **Targets measured problem:** Analysis was ~28m41s with three failed Copilot gates and ~112.9k tokens; crawl/news healthy
+5. **Preserves quality:** Mappers emit cited JSON ledgers; reducer/final writer owns article voice; must pass `analysis_gate.py` + evidence-contract validator
 
-## Cost Transparency Placement (2026-05-25)
+### Rejected alternatives
 
-**Decision:** The AI pipeline cost dashboard is part of `/about/` under a Pipeline transparency section, with the existing `/dashboard/` page retained as a direct audit link that reuses the same shortcode.
+- **Source-specific news mappers:** Low MVP value; defer until source heterogeneity demands isolation
+- **Independent full analyses + comparer:** Poor context hygiene; multiplies cost without improving provenance; acceptable only for human A/B during dry-run
+- **Repo clusters first:** Risky without stable cluster IDs, overlap policy, and coverage accounting; phase 2 after deterministic topic/language sidecars
 
-**Rationale:** Cost reporting is operational transparency, not a primary navigation destination or product dashboard. Keeping it on About matches the editorial-restrained redesign while preserving the old URL for references.
+### MVP mappers (signal-type)
 
-## Nibbler Review Gate for External-Facing Artifacts (2026-05-25)
+1. `signal-type:new-repos` — novelty, launch quality, repo clusters within discoveries
+2. `signal-type:trending-repos` — momentum, star gains, established anchors, noise
+3. `signal-type:press-correlations` — strong/weak alignment, divergence, source caveats
+4. `signal-type:prior-continuity` — prior predictions, reversals, follow-through
 
-**Source:** Nibbler audit recommendation
-**Adopted by:** Leela
-**Status:** Adopted
+### Deterministic compaction (MVP, improves current path)
 
-External-facing launch and announcement artifacts require Nibbler review before publication or merge. This includes Hacker News posts, LinkedIn announcements, Bluesky threads, Reddit posts, launch blogs, press copy, launch graphics, and similar materials that will appear outside this repository.
+**Before map/reduce:**
+- Preflight computes authoritative totals, repo/article inventories, sizes, token estimates, source status, top candidates
+- Emit compact per-slice evidence with: `full_name`, `url`, `description`, `language`, `topics`, `stars`, `stars_gained`, `created_at`, plus source/correlation metadata
+- Remove repeated raw JSON, skills, boilerplate; keep untrusted evidence delimiters
+- Cap press context; pass machine-readable correlation/article citations to press mapper
 
-PRs that ship this copy or graphics must tag `@squad:nibbler` for RAI sign-off and use the [Responsible AI checklist](skills/responsible-ai-review/SKILL.md) (`.squad/skills/responsible-ai-review/SKILL.md`) before merge.
+**Avoid for MVP:**
+- Embeddings/vector retrieval
+- LLM choosing retrieval without deterministic coverage ledger
+- Raw README fetching unless explicitly bounded and cached
 
-**Rationale:** Distribution copy can create reputational, safety, accessibility, or policy risk even when the underlying code is unchanged. Nibbler provides the hostile-reader and responsible-AI perspective before users encounter the material.
+### Data contracts (MVP minimum)
 
+1. **Shared run context:** `run_id`, `week`, `current_datetime`, `raw_sha256`, `external_news_sha256`, `correlations_sha256`, `code_sha`, created timestamp
+2. **Preflight manifest:** Authoritative repos/counts/stars tracked, source coverage, citation inventory, token estimates by segment, slice definitions
+3. **Mapper output:** `analysis_map_v1` JSON with shard_id, input_refs, token estimate, coverage, claims/findings, citations, confidence, uncertainties, contradictions, status, model/provider, duration, errors
+4. **Reducer input:** Only preflight manifest + validated mapper ledgers + compact global metadata
+5. **Reducer output:** `analysis_editorial_plan_v1` with selected claims, citation bindings, rejected claims, contradictions, quality notes, title/top_repo/tags
+6. **Final writer output:** Existing markdown contract only; no mapper prose seams
+7. **Evidence validation:** Final repo/press links must resolve to inventories/ledgers before `analysis_gate.py` passes
 
-# AI Disclosure Pattern
+### Fan-in failure policy
 
-**Date:** 2026-05-25  
-**Author:** Amy  
-**Status:** Proposed  
+- **Missing raw GitHub/preflight:** Fail closed
+- **Missing required mapper (new_repos, trending_repos):** Fall back to current path
+- **Missing optional mapper (press/prior):** Allowed with explicit degraded note and source caveat
+- **Malformed mapper JSON/citations/week mismatch:** Reject and fail/degrade per shard criticality
+- **Reducer over budget:** Compact or hierarchical reduce before model call
+- **Final gate/evidence validation failure:** Do not publish map/reduce; preserve good article per #248-#259
 
-Every page renders an AI-disclosure footer partial; article pages additionally show a prominent AI-generated badge in the meta block. Single partial = single source of truth.
+### Token/runtime baseline
 
-# Amy — Cookie Consent vendoring
+Known baseline:
+- Final observed: ~112.9k input tokens / ~119.6k total
+- Preflight estimated: ~74.3k
+- Press context: ~8k tokens (capped)
+- Wall time: ~28m41s across three Copilot attempts
 
-Date: 2026-05-25
+Expected MVP budget shape:
+- Preflight/manifest: deterministic, no model call
+- new_repos mapper: 15k-25k input tokens
+- trending_repos mapper: 15k-25k input tokens
+- press_correlations mapper: 8k-12k input tokens
+- prior_continuity mapper: 3k-8k input tokens
+- Reducer/editorial plan: 10k-20k input tokens
+- Final writer: 8k-15k input tokens
 
-Decision: vendor Cookie Consent v3 directly in `static/vendor/cookieconsent/` and pin it to upstream version `v3.0.1`.
+**Acceptance target:** max per-call context reduction >=30% first, then total token/runtime improvement after prompt boilerplate is compacted.
 
-Rationale:
-- Cookie consent must run before optional analytics scripts are activated.
-- Vendoring avoids relying on the jsDelivr CDN at runtime.
-- The pinned files are the published `dist` CSS and UMD bundle from `orestbida/cookieconsent@v3.0.1`.
+### QA validation strategy
 
-Checksums:
-- `cookieconsent.css`: `sha256 ca046b8b1b1094107205988e7096a687b241c8ef5f3fefe5e543ed28d26646c1`
-- `cookieconsent.umd.js`: `sha256 1267fd33fcf3ab4043a7cc62cc9259a2c66f839f695216f7737ed37b7b3e62e6`
+1. Deterministic preflight: test week/checksum mismatch, missing citations, malformed mapper output, duplicates, contradictions, over-budget reduce input
+2. Mapper ledgers: test claims/citations coverage, confidence/uncertainty preservation, contradiction sidecars
+3. Reducer: test editorial plan quality, claim bindings, rejected-claim reasons
+4. Final writer: test markdown contract, citation provenance, gate pass/fail, evidence validator pass/fail
+5. Rerun stability: compare same-input reruns for top_repo/key-reference overlap before default-on
+6. A/B against current path: gate pass, citation coverage, unsupported claims, max per-call tokens, total tokens, wall time, fallback count
 
-# Article errata schema
+### Staged MVP after #248-#259
 
-**Date:** 2026-05-25  
-**Author:** Amy  
-**Status:** Proposed
+**Stage A — Contracts and deterministic preflight**
+- Add schemas/validators for preflight, mapper ledgers, reducer input, editorial plan, evidence validation
+- Build compact deterministic slices from existing artifacts
+- Add fixture tests for week/checksum mismatch, missing citations, malformed mapper, duplicates, contradictions, over-budget reduce
 
-## Decision
+**Stage B — Local/no-publish map/reduce dry-run**
+- Implement four signal-type mappers as claim-ledger producers
+- Reducer emits editorial plan and rejected/contradiction sidecars
+- Final writer emits candidate markdown
+- Run `analysis_gate.py` and evidence validator; do not publish as canonical
 
-Articles declare corrections in front-matter using `errata: [{date, note}]`; the article footer renders those entries at the end of the article.
+**Stage C — CI A/B mode (4 weekly cycles)**
+- Add workflow_dispatch flag and scheduled dry-run for replay fixtures
+- Upload artifacts/metrics; compare against current source-of-truth
 
-## Schema example
+**Stage D — Guarded promotion (after A/B success)**
+- Candidate into staged publish eligibility manifest only after: existing gate passes, evidence validator zero missing citations, max per-call context drops >=30%, no publish failure increase, no quality regression, fallback available
 
-```yaml
-errata:
-  - date: 2026-05-26
-    note: "Corrected the company name in the EU AI Act section (was 'Mistral.ai', now 'Mistral AI')."
-```
+### Decision
 
-## Rationale
-
-Keeping corrections in front-matter makes the article-level errata path data-driven, reviewable in Git, and visible to readers without requiring silent edits to published analysis.
-
-# Home hero restructure
-
-**Date:** 2026-05-25  
-**Author:** Amy (Frontend Engineer)  
-**Status:** Proposed
-
-## Decision
-
-Home page is a publication front page — the latest weekly analysis IS the hero. Explainer lives at `/about/`.
-
-# Amy Phase 1 Design Foundation Implementation
-
-**Date:** 2026-05-25  
-**Author:** Amy (Frontend Developer)  
-**Status:** Implemented
-
-## Decision
-
-Phase 1 tokens and typography are implemented as a Hugo asset-pipeline foundation without changing page layouts.
-
-## File locations
-
-- `assets/css/tokens.css` is the design-system entry point for color, type, spacing, radius, shadow, and line-height tokens.
-- `layouts/partials/head.html` loads Inter and JetBrains Mono from Google Fonts using preload + stylesheet links, then includes `tokens.css` before the PaperMod-compatible CSS bundle.
-- `assets/css/core/theme-vars.css` maps PaperMod legacy variables to SquadScope tokens so existing templates continue to render.
-- `assets/css/core/reset.css` applies the base reset, body typography, heading scale, and monospace stack.
-- `assets/css/common/*.css`, `assets/css/extended/squadscope.css`, and `assets/css/badges.css` consume the token aliases while preserving existing layouts.
-
-## How to extend
-
-Future phases should add new tokens to `assets/css/tokens.css` first, then consume them through component or layout CSS. Keep semantic tokens stable (`--color-*`, `--text-*`, `--space-*`) and add component-specific variables only when a pattern repeats across multiple publishing surfaces.
-
-## Gotchas
-
-PaperMod lives as a submodule, so theme CSS changes should be copied into root-level `assets/css/` overrides rather than editing `themes/PaperMod` directly. Hugo resolves these project assets through the existing asset pipeline while leaving the third-party theme clean.
-
-# Amy Phase 2 Implementation Notes
-
-Date: 2026-05-25
-Author: Amy
-Status: Implemented in PR branch
-
-## Decisions
-
-- Override PaperMod chrome at the project layer (`layouts/partials/header.html`, `layouts/partials/footer.html`) rather than editing the theme submodule.
-- Add `layouts/_default/baseof.html` solely to place the skip-to-content link before the cached header and give the main landmark `id="main-content"`.
-- Keep the primary nav intentionally scoped to Weekly, Monthly, Yearly, and About for Phase 2; archive/search/taxonomy links remain in the page body and footer where already present.
-- Use a native `<details>` disclosure for mobile navigation so the collapsed menu remains keyboard reachable without adding new JavaScript.
-
-## Implications
-
-Future chrome work should continue to extend root layouts and tokenized CSS. If PaperMod changes its base template, compare against this override before upgrading the theme.
-
-# Amy — Topic buttons follow-up
-
-- Date: 2026-06-01
-- Context: Issue #216 mobile topic buttons regression
-- Proposal: Keep topic discovery centered on `/topics/`, remove the global header topic shortcut strip, and hide per-report topic chips on screens up to 768px while leaving desktop topic browsing available through the homepage rail and Topics page.
-- Why: The repeated chip rows were consuming too much vertical space on mobile and duplicated navigation that already exists in the primary menu.
-
-# Decision: GA4 fork-safe secret injection
-
-**Date:** 2026-05-25T22:30:00+02:00  
-**Author:** Bender (Crawler/CI)  
-**Status:** Proposed
-
-## Context
-
-SquadScope needs GA4 analytics for the upstream site, but forks must not silently report traffic to the maintainer's GA property. Repository secrets are not inherited by forks, so analytics must depend on an explicitly provided secret and render nothing when absent.
-
-## Decision
-
-Use a secret-default-empty pattern: Hugo config defines `params.ga_measurement_id = ""`, while the Pages deploy workflow injects `${{ secrets.GA_MEASUREMENT_ID }}` through `HUGO_PARAMS_GA_MEASUREMENT_ID`. Hugo maps that environment key to `params.ga.measurement.id`, and the analytics partial renders GA4 only when either config path is non-empty. The rendered scripts are marked with `data-cc-category="analytics"` so Cookie Consent v3 can load them only after analytics consent.
-
-## Rationale
-
-The empty config default is safe for forks and local builds. The environment override keeps the maintainer measurement ID out of source control while still enabling analytics in the upstream deployment. Consent-category script tagging keeps analytics dormant until the consent integration activates the analytics category.
-
-## Impact
-
-- Upstream deploys can enable GA4 by setting `GA_MEASUREMENT_ID`.
-- Forks build without analytics by default.
-- Maintainers can opt out by deleting the secret.
-- Cookie consent integration can activate the tagged scripts without changing the GA4 partial.
-
-# Decision: Journalistic shell baseline
-
-**Date:** 2026-05-25T23:31:03+02:00  
-**Owner:** Calculon  
-**Status:** Proposed
-
-## Decision
-
-The journalistic shell is a non-negotiable baseline for SquadScope. Navigation density, search, weekly archive access, and topic shortcuts must remain present in future home-page cleanups.
-
-## Rationale
-
-jmservera rejected the PR #205 revision because it over-pruned the publication shell. Future cleanups may relocate explanatory body content, but they must not remove the publication affordances that make the site feel like an editorial front page.
-
-## Implications
-
-- Keep top-level access to all weeks, topics, and search.
-- Keep a home-page rail or equivalent surfacing active topics and recent issues.
-- Preserve `/about/` as the home for the explainer and transparency dashboard.
-
-# Design Direction: Editorial Trend Report
-
-**Date:** 2026-05-25  
-**Author:** Calculon (Designer)  
-**Status:** Proposed
-
-## Decision
-
-**Visual Direction:** Editorial Trend Report — Dense but Quiet
-
-This positions SquadScope as a credible, opinionated weekly briefing rather than a generic blog or SaaS dashboard. Typography carries the design; images and color accents are supporting actors.
-
-## Rationale
-
-After studying GitHub Pulse, TechCrunch, Wired, and The Verge:
-- GitHub Pulse is too dashboard-like for editorial content
-- TechCrunch provides good headline hierarchy but is too news-feed
-- Wired is too image-dependent for text-first analysis
-- The Verge shows density can work if hierarchy is clear
-
-SquadScope is closer to a weekly briefing document than any of these. The design borrows TechCrunch's reading rhythm, GitHub Pulse's monochrome discipline, and The Verge's willingness to be dense — while avoiding their weaknesses.
-
-## Token Summary
-
-**Palette:** Monochrome foundation with single accent (#0066CC light, #4DA3FF dark). All combinations WCAG AA verified.
-
-**Typography:** Inter system stack for headlines and body. JetBrains Mono for code. Type scale from 0.75rem (tiny) to 2.25rem (h1). Optimal prose measure 68ch.
-
-## Phase Plan
-
-1. Tokens + Typography Foundation
-2. Header + Footer + Navigation
-3. Home Page Layout
-4. Article Layout + Components
-5. Cost Dashboard Refresh
-6. Icon + Favicon + Social Images
-
-Each phase ships independently. Tokens must land first; other phases have light dependencies.
-
-## Icon
-
-Radar sweep concept — concentric circles with sweep line and signal blip. Represents continuous scanning. Hand-coded SVG, no external fonts, under 2KB. Uses currentColor for automatic mode adaptation.
-
-## References
-
-- `docs/design/redesign-proposal-2026-05.md`
-- `docs/design/icon-spec.md`
-- Issues #170-#177
-
-
-# Source-selection methodology disclosure
-
-- **Date:** 2026-05-25
-- **Owner:** Farnsworth
-- **Status:** Proposed for merge
-
-## Decision
-
-Source-selection biases are publicly disclosed at `/methodology/`; updates to scoring, source ingestion, crawl thresholds, or press coverage should be reflected there.
-
-## Context
-
-Nibbler's second responsible-AI sweep identified source-selection bias disclosure as a high-severity fairness and transparency gap. The methodology page gives readers a plain-English explanation of source inputs, ranking logic, and interpretation limits.
-
-## Consequences
-
-- Pipeline changes that alter source mix or scoring should include a reader-facing methodology update.
-- Future bias metrics can link back to `/methodology/` as the stable disclosure surface.
-
-# BaseURL-aware links in data files
-
-Date: 2026-05-25
-Owner: Hermes
-
-## Decision
-
-Links inside `data/*.json` files must use `__TOKEN__` placeholders substituted by partials with Hugo URL helpers; never hardcode `/path/` prefixes inside data files.
-
-## Rationale
-
-SquadScope is currently deployed on GitHub project Pages under `/SquadScope/`, so root-relative links such as `/privacy/` resolve outside the site and can 404. If the site later moves to an apex/custom domain, Hugo URL helpers will render the same logical route correctly without changing legal-copy JSON.
-
-## Implementation note
-
-For cookie-consent copy, `data/cookieconsent.json` uses `__PRIVACY_URL__`, and `layouts/partials/cookie-consent.html` replaces it with `"privacy/" | relURL` before initializing Cookie Consent.
-
-# Hermes Privacy Policy v1
-
-Date: 2026-05-25
-Author: Hermes (Security & Legal)
-Status: Proposed
-
-## Decision
-
-GA4 is our ONLY analytics; no first-party tracking.
-
-## Context
-
-SquadScope is a static editorial trend-analysis site with no accounts, signup, comments, contact form, or newsletter. The site is hosted on GitHub Pages and uses a cookie consent banner before analytics can run.
-
-## Consequences
-
-- SquadScope must not add first-party visitor profiling, server-side personal-data storage, or additional analytics tools without a new privacy review.
-- GA4 must remain consent-gated behind the analytics cookie category.
-- Privacy disclosures should continue to identify GitHub Pages hosting logs, GA4, Google Fonts if used, and the essential consent cookie.
-
-# Prompt Injection Hardening for Analysis Prompts
-
-**Date:** 2026-05-25
-**Author:** Hermes
-**Status:** Proposed
-
-## Context
-
-Nibbler's RAI audit identified user-controlled GitHub repository descriptions entering the weekly analysis prompt through `{{RAW_JSON_CONTENT}}`. A malicious repo description can contain prompt-injection text that attempts to override Farnsworth's editorial instructions.
-
-## Decision
-
-Apply a layered OWASP LLM01 defense for analyzer prompt rendering:
-
-1. Mark raw crawl JSON as untrusted data with explicit `<untrusted-content>` boundaries.
-2. Sanitize repository descriptions before prompt rendering by stripping leading whitespace, escaping boundary-closing tags, truncating long text, and warning on common prompt-injection phrases.
-3. Add output guardrails telling the analyst to stop on unsupported claims and avoid verbatim descriptions containing meta-instructions.
-4. Repeat the editorial mission after the untrusted content so late prompt text reinforces trusted instructions.
-
-## Consequences
-
-The analyzer keeps using the same editorial structure, but prompt provenance is clearer and repository descriptions have bounded influence. Suspicious descriptions are logged and truncated rather than blocked to avoid false positives disrupting publication.
+Proceed with **signal-type map/reduce + deterministic compaction** as safest and highest-leverage candidate after safety epic. Treat source-specific maps, repo clusters, hierarchical reduce as later scale tools.
 
 ---
 
-# Fry: quality gate fallback hardening
+## Issue #249 — Candidate staging and publish manifest
 
-Date: 2026-06-01
+**Author:** Bender  
+**Status:** ✅ Implemented in run 27056632166
 
-## Context
-Issue #217 showed the weekly analysis job can fail even when crawl data is healthy because Copilot sometimes returns a generic placeholder title or no output file at all after retries.
+Weekly analysis candidates are now staged under `data/candidates/<week>/<run_id>/` and promoted to `data/analyzed/<week>-summary.md` only after `publish_eligibility_v1` manifest confirms eligibility.
 
-## Decision
-Keep Copilot CLI as the primary analysis generator, but if its output still fails the quality gate after retries, immediately fall back to `scripts/analyze_fallback.py` via GitHub Models. Also render the prompt with concrete `week`, `year`, and title guidance so the model is less likely to echo placeholder frontmatter.
+**Rationale:** Makes failed, degraded, stale-evidence-backed, and no-AI candidates debuggable without overwriting good published articles. Promotion jobs verify candidate/source checksums, AI provenance, analysis gate status, source freshness, and promotion decision.
 
-## Rationale
-This keeps the higher-quality primary path, but removes CI flakiness from transient Copilot failures and from prompt placeholders leaking into the final markdown.
+**Follow-ups:** Future safe-rerun and same-day reuse work can add explicit per-source reuse markers to manifest; current manifests default missing reuse metadata to `not_reused` for visibility rather than inference.
 
 ---
 
-# Fry — generate-step failure handling
+## Issue #266 — Analysis contract repair
 
-Date: 2026-06-01
+**Author:** Farnsworth  
+**Date:** 2026-06-06T07:19:25Z  
+**Status:** ✅ Fixed in PR #267
 
-## Context
-Issue #220 showed the crawl-and-publish workflow could finish crawl and analysis successfully, then fail in the generate handoff because the generated weekly page path was absolute while the publish-branch restore logic assumed a repository-relative path. The same workflow also lacked a failure-to-issue bridge, so repeated pipeline failures did not automatically open or update a GitHub issue.
+**Context:** Run 27055543722 failed repeatedly because prompt/spec showed legacy prediction frontmatter while `analysis_gate.py` required `claim_type`.
 
-## Decision
-Normalize `page_path` to a repo-relative `content/weekly/...` path inside the generate commit step before copying weekly output onto the publish branch. Add a dedicated `notify-failure` job that always evaluates after the pipeline jobs and creates or updates a GitHub issue whenever any crawl/analyze/generate/deploy/notify job fails.
+**Decision:** Treat `predictions[]` as `{repo, claim_type, direction, confidence}` everywhere. Allow only audited deterministic metadata/schema repairs before gate validation. Persist gate reports and candidate snapshots per attempt.
 
-## Rationale
-The path normalization fixes the actual handoff bug without changing `scripts/generate_content.py`, which already returns an absolute file path used elsewhere in tests. A separate failure notifier makes regressions visible even when later jobs are skipped, which is the exact reliability gap that hid the recent failures.
-
+**Rationale:** Repeating full generation on deterministic schema drift wastes AI attempts and risks no-AI fallback pressure against the product north star of high-quality AI-authored analysis.
 
 ---
 
-# Amy — Share button implementation
+## Issue #257 — Rerun protection and regression tests
 
-Date: 2026-06-01
+**Author:** Fry  
+**Date:** 2026-06-05T21:16:49Z  
+**Parent:** #248  
+**Status:** ✅ Merged in main
 
-## Context
-Issue #226 adds article-level sharing. PaperMod already ships a share-buttons partial, but SquadScope also needs mobile-native sharing through the Web Share API and token-aligned styling.
+Added small deterministic promotion-guard helper and regression tests for publish eligibility contract while #249 staging/manifest work proceeded in parallel.
 
-## Decision
-Enable PaperMod share support through `hugo.toml` (`params.ShowShareButtons` plus an explicit `params.ShareButtons` allowlist), then override `layouts/partials/share_icons.html` in the project to add a mobile-only native share button while keeping desktop fallback links for X, LinkedIn, and Facebook. To keep the site buildable with the current PaperMod submodule layout, vendor the theme partials the site already relies on into `layouts/partials/` instead of editing the theme.
+**Quality rule captured:** A normal rerun may promote only from `data/staging/` with valid `publish_eligibility_v1` manifest, AI-authored non-degraded provenance, passing analysis/editorial/evidence gates, and fresh or explicitly same-day-reused source artifacts. Missing, malformed, stale, failed, degraded, or no-AI candidates are blocked and written to diagnostics without touching canonical weekly summary/content.
 
-## Rationale
-This keeps the third-party theme submodule untouched, reuses the existing article-footer insertion point, and scopes the share customization to a project-level partial plus tokenized footer styles. Vendoring the required PaperMod partials also makes the build deterministic for SquadScope without depending on theme-internal `_partials` resolution quirks.
-
----
-
-# Farnsworth — Hindsight validation decision
-
-Date: 2026-06-01
-
-## Decision
-Use an optional `predictions` frontmatter registry on weekly analysis summaries with entries shaped as `{repo, direction, confidence}`.
-
-## Why
-The published markdown is already the durable editorial artifact, so embedding prediction intent there avoids a separate ledger drifting out of sync. Legacy summaries still need heuristic extraction from Signal/Noise/Gaps prose, but future summaries should register explicit repo-level calls for cleaner hindsight scoring.
-
-## Operational note
-The validator writes a human scorecard to `.squad/reskill/scorecards/YYYY-WNN.md` and a machine-readable companion to `data/metrics/scorecards/YYYY-WNN-scorecard.json` so the current reskill tooling can ingest the same run.
+**Validation:** ✅ Local validation passed with `PYTHONPATH=. .tools/venv/bin/python -m pytest tests -q` (581 passed).
 
 ---
 
-# Fry — Generate-step failure handling
+## Copilot analysis directive
 
-Date: 2026-06-01
+**By:** jmservera (via Copilot)  
+**Date:** 2026-06-06T07:43:44.173+00:00  
+**Status:** ✅ Implemented
 
-## Context
-Issue #220 showed the crawl-and-publish workflow could finish crawl and analysis successfully, then fail in the generate handoff because the generated weekly page path was absolute while the publish-branch restore logic assumed a repository-relative path. The same workflow also lacked a failure-to-issue bridge, so repeated pipeline failures did not automatically open or update a GitHub issue.
+**What:** GitHub Models/OpenAI fallback is not configured for this repository. Workflow analysis must use GitHub Copilot as the AI path. If Copilot analysis fails, classify the cause:
+- Copilot inaccessible / token failure → fail immediately; create/update issue for token renewal assigned to repo owner
+- Context too large → record in diagnostics; fall back only after safety layer ready
+- Timeout → classify as transient
+- Transient error → use existing retry procedure; can eventually fail for later rerun
+- Other → classify and record
 
-## Decision
-Normalize `page_path` to a repo-relative `content/weekly/...` path inside the generate commit step before copying weekly output onto the publish branch. Add a dedicated `notify-failure` job that always evaluates after the pipeline jobs and creates or updates a GitHub issue whenever any crawl/analyze/generate/deploy/notify job fails.
+**Captured for team memory:** User request that prioritizes Copilot reliability and token lifecycle management over automatic fallback.
 
-## Rationale
-The path normalization fixes the actual handoff bug without changing `scripts/generate_content.py`, which already returns an absolute file path used elsewhere in tests. A separate failure notifier makes regressions visible even when later jobs are skipped, which is the exact reliability gap that hid the recent failures.
+

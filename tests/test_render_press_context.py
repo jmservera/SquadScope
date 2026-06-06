@@ -192,10 +192,15 @@ class TestRenderPressContext:
 class TestResolvePaths:
     def test_with_topic(self):
         tc, corr = resolve_paths("ai-ml", "2026-W21")
-        assert "raw/ai-ml/2026-W21-techcrunch.json" in str(tc)
+        assert "raw/ai-ml/2026-W21-external-news.json" in str(tc)
         assert "analyzed/ai-ml/2026-W21-correlations.json" in str(corr)
 
     def test_without_topic(self):
+        tc, corr = resolve_paths(None, "2026-W99")
+        assert "2026-W99-external-news.json" in str(tc)
+        assert "2026-W99-correlations.json" in str(corr)
+
+    def test_legacy_techcrunch_fallback(self):
         tc, corr = resolve_paths(None, "2026-W21")
         assert "2026-W21-techcrunch.json" in str(tc)
         assert "2026-W21-correlations.json" in str(corr)
@@ -276,7 +281,7 @@ class TestFormatDivergencesReaderMode:
     def test_reader_mode_has_narrative(self):
         result = format_divergences(self._divergences(), reader_mode=True)
         # Narrative prose paragraphs, no raw bullet lists
-        assert "TechCrunch heavily covered" in result
+        assert "External press heavily covered" in result
         assert "Developer activity this week" in result
         assert "- **quantum-computing**:" not in result
         assert "- **wasm-tooling**:" not in result

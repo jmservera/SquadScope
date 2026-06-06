@@ -33,10 +33,10 @@ Use this only if it is provided. If it is missing, unavailable, or empty, say so
 
 ## Learned context
 
-The analyze job must resolve both learned-state placeholders before invoking Copilot CLI or the GitHub Models fallback.
+The analyze job must resolve both learned-state placeholders before invoking Copilot CLI. Weekly AI analysis is Copilot-only; there is no GitHub Models/OpenAI fallback configured for this repository.
 
-1. Read `.squad/identity/wisdom.md` and inject its current contents into `{{WISDOM}}`.
-2. Read markdown files under `.squad/skills/` (for example `SKILL.md` files in nested skill folders), concatenate them in a stable sorted order, and inject that bundle into `{{SKILLS}}`.
+1. Inject only the analysis/topic-specific wisdom capsule into `{{WISDOM}}` (for this topic, the `.squad/topics/<topic>/wisdom.md` learning state or configured equivalent).
+2. Inject only analysis/topic-specific skill markdown into `{{SKILLS}}`, in stable sorted order. Do not include unrelated squad workflow, UI, PR-review, or release-process skills.
 3. If either source is missing or empty, inject a short explicit note rather than leaving the placeholder unresolved.
 4. Treat learned context as guidance that sharpens judgment, not as permission to ignore the current week's evidence.
 
@@ -102,7 +102,7 @@ Be critical, selective, and opinionated.
 11. `stars_tracked` should equal the total stars across those repos.
 12. `top_repo` should be the repo that best anchors the editorial narrative, not automatically the most-starred repo.
 13. `quality_score` must be an honest 0-100 self-assessment; publishable work is `>= 60`.
-14. If you include `predictions`, each entry must be `{repo, direction, confidence}` with `direction` in `up|flat|down` and `confidence` from `0` to `1`.
+14. If you include `predictions`, each entry must be `{repo, claim_type, direction, confidence}` with `claim_type` in `signal|noise|gap`, `direction` in `up|flat|down`, and `confidence` from `0` to `1`.
 15. Include all required sections in this exact order:
 
 ```md
@@ -166,6 +166,7 @@ quality_score: 0
 summary: "One-sentence editorial thesis."
 predictions:
   - repo: owner/repo
+    claim_type: signal
     direction: up
     confidence: 0.72
 ---
