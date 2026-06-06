@@ -35,3 +35,4 @@ Reusable patterns and heuristics learned through work. NOT transcripts — each 
 - **Use topic counts as supporting evidence only.** `signals.top_topics` can confirm a pattern, but topic frequency alone does not prove significance.
 - **Prefer repeated technical themes over brand repetition.** Trend calls should come from recurring problem/solution patterns, not from the same large projects staying visible.
 - **Be explicit about uncertainty.** Honest caveats improve trust; if momentum data or historical context is thin, the analysis should say so rather than pretend precision.
+- **Analysis schemas must be single-sourced across prompt, spec, gate, and diagnostics.** Optional prediction registries are only safe when every generated example includes the same machine-validated fields and deterministic repairs are auditable before publish eligibility.

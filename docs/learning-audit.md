@@ -217,7 +217,7 @@ Reskill → report → [NOT COMMITTED] → Lost
    - Produces a scorecard that feeds into the next reskill
 
 6. **Define prediction registry format (new issue):**
-   - Frontmatter additions: `predictions: [{repo, direction, confidence}]`
+   - Frontmatter additions: `predictions: [{repo, claim_type, direction, confidence}]`
    - Machine-readable claims enable automated scoring
 
 7. **Verify star snapshots are being produced:**

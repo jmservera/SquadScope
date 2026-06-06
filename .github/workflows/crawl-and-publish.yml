@@ -369,7 +369,8 @@ jobs:
           CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
           PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
           ANALYSIS_STARTED=$(date +%s)
-          mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")"
+          DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
+          mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
           # Hydrate metrics ledger from publish so track_token_usage.py appends to
           # the canonical token-usage.jsonl rather than starting fresh each run.
           git fetch origin publish 2>/dev/null && \
@@ -392,7 +393,9 @@ jobs:
               --analysis-file "$OUTPUT_FILE" \
               --raw-json "$WEEK_FILE" \
               --current-datetime "$CURRENT_DATETIME" \
-              --source "$1"
+              --source "$1" \
+              --repair-safe \
+              --report-json "$2"
           }
 
           # Retry loop: LLM output can be non-deterministically truncated,
@@ -402,11 +405,12 @@ jobs:
           GATE_PASSED=false
           ANALYSIS_SOURCE=""
           ANALYSIS_MODEL=""
+          LAST_GATE_FINGERPRINT=""
 
           if command -v copilot >/dev/null 2>&1; then
             while [ "$GATE_PASSED" = "false" ] && [ "$ATTEMPT" -le "$MAX_RETRIES" ]; do
             if [ "$ATTEMPT" -gt 0 ]; then
-              echo "::warning::Quality gate failed on attempt $ATTEMPT, retrying (attempt $((ATTEMPT + 1))/$((MAX_RETRIES + 1)))..."
+              echo "::warning::Quality gate failed on attempt $ATTEMPT; retrying with focused gate diagnostics (attempt $((ATTEMPT + 1))/$((MAX_RETRIES + 1)))..."
               rm -f "$OUTPUT_FILE"
               # Reset any .squad changes from failed attempt
               git checkout -- .squad 2>/dev/null || true
@@ -414,12 +418,21 @@ jobs:
 
             echo "::notice::Running Copilot analysis attempt $((ATTEMPT + 1))/$((MAX_RETRIES + 1))"
             TRANSCRIPT_FILE="data/metrics/copilot-transcript-attempt-${ATTEMPT}.md"
+            GATE_REPORT="$DIAGNOSTICS_DIR/gate-copilot-cli-attempt-${ATTEMPT}.json"
+            CANDIDATE_SNAPSHOT="$DIAGNOSTICS_DIR/candidate-copilot-cli-attempt-${ATTEMPT}.md"
             rm -f "$TRANSCRIPT_FILE"
+            REPAIR_CONTEXT=""
+            if [ "$ATTEMPT" -gt 0 ]; then
+              PREVIOUS_REPORT="$DIAGNOSTICS_DIR/gate-copilot-cli-attempt-$((ATTEMPT - 1)).json"
+              if [ -f "$PREVIOUS_REPORT" ]; then
+                REPAIR_CONTEXT=" Previous gate report: ${PREVIOUS_REPORT}. Correct exactly those validation errors; do not regenerate unrelated content."
+              fi
+            fi
 
             # Intentionally rely on Copilot CLI's default model so CI follows the platform-supported default.
             if ! copilot \
               --agent squad \
-              -p "Farnsworth, read the file at ${PROMPT_FILE} — it contains the weekly data and analysis instructions. Follow them exactly and write the analysis to ${OUTPUT_FILE}." \
+              -p "Farnsworth, read the file at ${PROMPT_FILE} — it contains the weekly data and analysis instructions. Follow them exactly and write the analysis to ${OUTPUT_FILE}.${REPAIR_CONTEXT}" \
               -s \
               --no-ask-user \
               --allow-tool=read \
@@ -435,12 +448,26 @@ jobs:
 
             sanitize_agent_output "$OUTPUT_FILE"
 
-            # Inline quality gate check (suppress step summary to avoid noise)
-            if run_quality_gate copilot-cli; then
+            # Inline quality gate check (suppress step summary to avoid noise).
+            # The gate applies deterministic metadata/schema repairs and writes an auditable report.
+            if run_quality_gate copilot-cli "$GATE_REPORT"; then
+              cp "$OUTPUT_FILE" "$CANDIDATE_SNAPSHOT" 2>/dev/null || true
               GATE_PASSED=true
               FINAL_TRANSCRIPT="$TRANSCRIPT_FILE"
               ANALYSIS_SOURCE="copilot-cli"
               ANALYSIS_MODEL="copilot-default"
+            else
+              cp "$OUTPUT_FILE" "$CANDIDATE_SNAPSHOT" 2>/dev/null || true
+              CURRENT_GATE_FINGERPRINT=$(python3 -c 'import sys; from pathlib import Path; import scripts.analysis_gate as gate; print(gate.gate_report_fingerprint(Path(sys.argv[1])))' "$GATE_REPORT" 2>/dev/null || true)
+              if [ -n "$CURRENT_GATE_FINGERPRINT" ]; then
+                if [ -n "$LAST_GATE_FINGERPRINT" ] && [ "$CURRENT_GATE_FINGERPRINT" = "$LAST_GATE_FINGERPRINT" ]; then
+                  echo "::error::Repeated deterministic analysis gate failure after repair. See ${GATE_REPORT} and ${CANDIDATE_SNAPSHOT}."
+                  break
+                fi
+                LAST_GATE_FINGERPRINT="$CURRENT_GATE_FINGERPRINT"
+              else
+                echo "::warning::Gate report missing or invalid; continuing fallback path without deterministic repeat fingerprint. Expected report: ${GATE_REPORT}"
+              fi
             fi
 
             ATTEMPT=$((ATTEMPT + 1))
@@ -452,17 +479,20 @@ jobs:
           if [ "$GATE_PASSED" = "false" ]; then
             echo "::warning::No publishable Copilot summary was produced; falling back to GitHub Models API."
             MODELS_PASSED="false"
+            MODELS_GATE_REPORT="$DIAGNOSTICS_DIR/gate-github-models-attempt-0.json"
             if python3 scripts/analyze_fallback.py \
               --raw-json "$WEEK_FILE" \
               --output "$OUTPUT_FILE" \
               --current-datetime "$CURRENT_DATETIME" \
               --press-context "$PRESS_FILE"; then
               sanitize_agent_output "$OUTPUT_FILE"
-              if run_quality_gate github-models; then
+              if run_quality_gate github-models "$MODELS_GATE_REPORT"; then
+                cp "$OUTPUT_FILE" "$DIAGNOSTICS_DIR/candidate-github-models-attempt-0.md" 2>/dev/null || true
                 MODELS_PASSED="true"
                 ANALYSIS_SOURCE="github-models"
                 ANALYSIS_MODEL="${GITHUB_MODELS_MODEL:-openai/gpt-4o}"
               else
+                cp "$OUTPUT_FILE" "$DIAGNOSTICS_DIR/candidate-github-models-attempt-0.md" 2>/dev/null || true
                 echo "::warning::GitHub Models output failed quality gate; falling back to data-only no-AI summary."
               fi
             else
@@ -477,10 +507,12 @@ jobs:
                 --press-context "$PRESS_FILE" \
                 --no-ai
               sanitize_agent_output "$OUTPUT_FILE"
-              if ! run_quality_gate no-ai; then
+              NO_AI_GATE_REPORT="$DIAGNOSTICS_DIR/gate-no-ai-attempt-0.json"
+              if ! run_quality_gate no-ai "$NO_AI_GATE_REPORT"; then
                 echo "::error::Analysis quality gate failed for Copilot CLI, GitHub Models API, and no-AI outputs."
                 exit 1
               fi
+              cp "$OUTPUT_FILE" "$DIAGNOSTICS_DIR/candidate-no-ai-attempt-0.md" 2>/dev/null || true
               ANALYSIS_SOURCE="no-ai"
               ANALYSIS_MODEL="none"
             fi

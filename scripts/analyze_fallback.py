@@ -197,6 +197,7 @@ def extract_markdown(response_payload: dict[str, Any]) -> str:
 
 
 RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
+NON_RETRYABLE_STATUS_CLASSES = {400, 401, 403, 404}
 MAX_RETRIES = 3
 BASE_DELAY = 2  # seconds
 
@@ -235,11 +236,17 @@ def call_github_models(prompt: str) -> str:
         except error.HTTPError as exc:
             if exc.code not in RETRYABLE_STATUS_CODES or attempt == MAX_RETRIES:
                 detail = exc.read().decode("utf-8", errors="replace")
+                retry_class = (
+                    "non-retryable"
+                    if exc.code in NON_RETRYABLE_STATUS_CLASSES or exc.code not in RETRYABLE_STATUS_CODES
+                    else "retry-exhausted"
+                )
+                access_hint = " GitHub Models access is unavailable for this model." if exc.code == 403 else ""
                 raise RuntimeError(
-                    f"GitHub Models API request failed ({exc.code}): {detail}"
+                    f"GitHub Models API request failed ({exc.code}, {retry_class}): {detail}{access_hint}"
                 ) from exc
             # Determine delay: respect Retry-After header on 429
-            retry_after = exc.headers.get("Retry-After") if exc.code == 429 else None
+            retry_after = exc.headers.get("Retry-After") if exc.code == 429 and exc.headers is not None else None
             if retry_after is not None:
                 try:
                     delay = float(retry_after)

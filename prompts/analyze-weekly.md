@@ -102,7 +102,7 @@ Be critical, selective, and opinionated.
 11. `stars_tracked` should equal the total stars across those repos.
 12. `top_repo` should be the repo that best anchors the editorial narrative, not automatically the most-starred repo.
 13. `quality_score` must be an honest 0-100 self-assessment; publishable work is `>= 60`.
-14. If you include `predictions`, each entry must be `{repo, direction, confidence}` with `direction` in `up|flat|down` and `confidence` from `0` to `1`.
+14. If you include `predictions`, each entry must be `{repo, claim_type, direction, confidence}` with `claim_type` in `signal|noise|gap`, `direction` in `up|flat|down`, and `confidence` from `0` to `1`.
 15. Include all required sections in this exact order:
 
 ```md
@@ -166,6 +166,7 @@ quality_score: 0
 summary: "One-sentence editorial thesis."
 predictions:
   - repo: owner/repo
+    claim_type: signal
     direction: up
     confidence: 0.72
 ---

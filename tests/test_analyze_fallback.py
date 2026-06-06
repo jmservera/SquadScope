@@ -5,6 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
+from urllib import error
 
 import scripts.analyze_fallback as analyze_fallback
 
@@ -288,6 +289,44 @@ class AnalyzeFallbackTests(unittest.TestCase):
             self.assertEqual(exit_code, 0)
             self.assertEqual(output_path.read_text(encoding="utf-8"), "# Summary\n")
             self.assertEqual(urlopen_mock.call_args.kwargs["timeout"], analyze_fallback.DEFAULT_MODELS_TIMEOUT)
+
+    def test_github_models_403_is_non_retryable_access_failure(self) -> None:
+        forbidden = error.HTTPError(
+            url=analyze_fallback.DEFAULT_MODELS_ENDPOINT,
+            code=403,
+            msg="Forbidden",
+            hdrs={},
+            fp=io.BytesIO(b'{"error":{"code":"no_access"}}'),
+        )
+
+        with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
+            analyze_fallback.request, "urlopen", side_effect=forbidden
+        ) as urlopen_mock:
+            with self.assertRaisesRegex(RuntimeError, "403, non-retryable.*no_access.*access is unavailable"):
+                analyze_fallback.call_github_models("prompt")
+
+        self.assertEqual(urlopen_mock.call_count, 1)
+
+    def test_github_models_429_without_headers_retries_safely(self) -> None:
+        rate_limited = error.HTTPError(
+            url=analyze_fallback.DEFAULT_MODELS_ENDPOINT,
+            code=429,
+            msg="Too Many Requests",
+            hdrs=None,
+            fp=io.BytesIO(b'{"error":{"code":"rate_limited"}}'),
+        )
+        response = _FakeHTTPResponse(json.dumps({"choices": [{"message": {"content": "# Summary\n"}}]}).encode("utf-8"))
+
+        with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
+            analyze_fallback.request, "urlopen", side_effect=[rate_limited, response]
+        ) as urlopen_mock, mock.patch.object(analyze_fallback.random, "uniform", return_value=0), mock.patch.object(
+            analyze_fallback.time, "sleep"
+        ) as sleep_mock:
+            markdown = analyze_fallback.call_github_models("prompt")
+
+        self.assertEqual(markdown, "# Summary\n")
+        self.assertEqual(urlopen_mock.call_count, 2)
+        sleep_mock.assert_called_once_with(analyze_fallback.BASE_DELAY)
 
 
 if __name__ == "__main__":
