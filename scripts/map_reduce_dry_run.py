@@ -375,8 +375,13 @@ def validate_map(payload: dict[str, Any]) -> list[str]:
     for field in ("run_id", "week", "shard_id", "slice", "coverage", "findings", "citations", "reference_candidates", "provenance"):
         if field not in payload:
             errors.append(f"mapper missing {field}")
+    if "findings" in payload and not isinstance(payload.get("findings"), list):
+        errors.append("findings must be a list")
     findings = payload.get("findings") if isinstance(payload.get("findings"), list) else []
     for index, finding in enumerate(findings):
+        if not isinstance(finding, dict):
+            errors.append(f"finding {index} must be an object")
+            continue
         for field in ("claim_id", "claim", "category", "source_type", "evidence_refs", "confidence", "contra_refs", "uncertainties"):
             if field not in finding:
                 errors.append(f"finding {index} missing {field}")
@@ -390,6 +395,8 @@ def validate_map(payload: dict[str, Any]) -> list[str]:
         confidence = finding.get("confidence")
         if not isinstance(confidence, (int, float)) or not (0 <= float(confidence) <= 1):
             errors.append(f"finding {index} confidence out of range")
+        if "contra_refs" in finding and not isinstance(finding.get("contra_refs"), list):
+            errors.append(f"finding {index} contra_refs must be a list")
     coverage = payload.get("coverage")
     if not isinstance(coverage, dict):
         errors.append("coverage must be an object")
@@ -397,6 +404,34 @@ def validate_map(payload: dict[str, Any]) -> list[str]:
         for key in ("repo_ids_seen", "article_urls_seen", "excluded_reason_counts"):
             if key not in coverage:
                 errors.append(f"coverage missing {key}")
+        if "repo_ids_seen" in coverage and not isinstance(coverage.get("repo_ids_seen"), list):
+            errors.append("coverage repo_ids_seen must be a list")
+        if "article_urls_seen" in coverage and not isinstance(coverage.get("article_urls_seen"), list):
+            errors.append("coverage article_urls_seen must be a list")
+        excluded = coverage.get("excluded_reason_counts")
+        if "excluded_reason_counts" in coverage and not isinstance(excluded, dict):
+            errors.append("coverage excluded_reason_counts must be an object")
+        elif isinstance(excluded, dict):
+            for reason, count in excluded.items():
+                if not reason or not isinstance(count, int) or count < 0:
+                    errors.append("coverage excluded_reason_counts must contain non-negative integer counts")
+                    break
+        for prefix in ("repo", "article"):
+            input_key = f"{prefix}_count_input"
+            mapped_key = f"{prefix}_count_mapped"
+            if input_key in coverage or mapped_key in coverage:
+                input_count = coverage.get(input_key)
+                mapped_count = coverage.get(mapped_key)
+                if not isinstance(input_count, int) or not isinstance(mapped_count, int) or input_count < 0 or mapped_count < 0:
+                    errors.append(f"coverage {prefix} counts must be non-negative integers")
+                    continue
+                if mapped_count > input_count:
+                    errors.append(f"coverage {mapped_key} exceeds {input_key}")
+                if mapped_count < input_count and not coverage.get("excluded_reason_counts"):
+                    errors.append(f"coverage {mapped_key} below {input_key} without excluded reasons")
+        status = payload.get("status")
+        if status == "failed":
+            errors.append("mapper status failed")
     return errors
 
 
@@ -406,6 +441,41 @@ def normalized_claim_key(finding: dict[str, Any]) -> str:
     claim = str(finding.get("claim") or "").lower()
     words = "-".join(re.findall(r"[a-z0-9]+", claim)[:8])
     return f"{finding.get('category')}:{repo or article or words}"
+
+
+def contra_ref_targets(contra_refs: Any) -> set[str]:
+    targets: set[str] = set()
+    if not isinstance(contra_refs, list):
+        return targets
+    for ref in contra_refs:
+        if isinstance(ref, str) and ref:
+            targets.add(ref)
+        elif isinstance(ref, dict):
+            for key in ("claim_id", "ref", "url"):
+                value = ref.get(key)
+                if value:
+                    targets.add(str(value))
+    return targets
+
+
+def contradiction_record(
+    finding: dict[str, Any],
+    ledger: dict[str, Any],
+    *,
+    contradicted_by: list[str],
+) -> dict[str, Any]:
+    contra_refs = finding.get("contra_refs") if isinstance(finding.get("contra_refs"), list) else []
+    return {
+        "claim_id": finding.get("claim_id"),
+        "claim": finding.get("claim"),
+        "source_shard": ledger.get("shard_id"),
+        "normalized_claim_key": normalized_claim_key(finding),
+        "evidence_refs": finding.get("evidence_refs") if isinstance(finding.get("evidence_refs"), list) else [],
+        "contra_refs": contra_refs,
+        "contradicted_by": sorted(set(contradicted_by)),
+        "resolution": "rejected_unresolved",
+        "reason": "Unresolved contradiction refs are preserved for audit and excluded from selected editorial material.",
+    }
 
 
 def reduce_ledgers(ledgers: list[dict[str, Any]], *, raw_payload: dict[str, Any]) -> tuple[dict[str, Any], list[dict[str, Any]], list[dict[str, Any]]]:
@@ -422,9 +492,27 @@ def reduce_ledgers(ledgers: list[dict[str, Any]], *, raw_payload: dict[str, Any]
         "press_divergence": "Where Industry Meets Code",
         "continuity": "The Week Ahead",
     }
+    inbound_contradictions: dict[str, list[str]] = {}
     for ledger in ledgers:
-        for finding in ledger.get("findings", []):
+        for finding in ledger.get("findings", []) if isinstance(ledger.get("findings"), list) else []:
+            if not isinstance(finding, dict):
+                continue
+            source_claim_id = finding.get("claim_id")
+            for target in contra_ref_targets(finding.get("contra_refs")):
+                inbound_contradictions.setdefault(target, []).append(str(source_claim_id))
+    for ledger in ledgers:
+        ledger_findings = ledger.get("findings", []) if isinstance(ledger.get("findings"), list) else []
+        for finding in ledger_findings:
+            if not isinstance(finding, dict):
+                rejected.append({"claim_id": None, "reason": "malformed_finding", "source_shard": ledger.get("shard_id")})
+                continue
             refs = finding.get("evidence_refs") if isinstance(finding.get("evidence_refs"), list) else []
+            contra_refs = finding.get("contra_refs") if isinstance(finding.get("contra_refs"), list) else []
+            contradicted_by = inbound_contradictions.get(str(finding.get("claim_id")), [])
+            if contra_refs or contradicted_by:
+                contradictions.append(contradiction_record(finding, ledger, contradicted_by=contradicted_by))
+                rejected.append({"claim_id": finding.get("claim_id"), "reason": "unresolved_contradiction", "source_shard": ledger.get("shard_id")})
+                continue
             if not refs:
                 rejected.append({"claim_id": finding.get("claim_id"), "reason": "weak_citation", "source_shard": ledger.get("shard_id")})
                 continue
@@ -454,6 +542,7 @@ def reduce_ledgers(ledgers: list[dict[str, Any]], *, raw_payload: dict[str, Any]
     for claim in selected:
         claim["citation_bindings"]["repos"] = sorted(set(filter(None, claim["citation_bindings"]["repos"])))
         claim["citation_bindings"]["articles"] = sorted(set(filter(None, claim["citation_bindings"]["articles"])))
+    contradictions = sorted(contradictions, key=lambda c: (str(c.get("source_shard")), str(c.get("claim_id"))))
     selected = sorted(selected, key=lambda c: (SECTION_ORDER.index(c["section"]) if c["section"] in SECTION_ORDER else 99, -float(c["confidence"]), c["claim_id"]))[:16]
     all_repos = raw_payload.get("new_repos", []) + raw_payload.get("trending_repos", [])
     top_repo = normalize_repo_name(sorted_repos(all_repos, mode="new")[:1][0]) if all_repos else "unknown/unknown"

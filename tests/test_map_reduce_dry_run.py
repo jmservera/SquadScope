@@ -109,3 +109,92 @@ def test_validate_map_rejects_citationless_findings() -> None:
     }
 
     assert "finding 0 has no evidence refs" in dry_run.validate_map(payload)
+
+
+def valid_ledger(findings: list[dict[str, object]] | None = None) -> dict[str, object]:
+    return {
+        "schema_version": "analysis_map_v1",
+        "run_id": "local",
+        "week": "2026-W21",
+        "shard_id": "signal-type:test",
+        "slice": {},
+        "coverage": {
+            "repo_ids_seen": ["octo/alpha"],
+            "article_urls_seen": [],
+            "repo_count_input": 1,
+            "repo_count_mapped": 1,
+            "article_count_input": 0,
+            "article_count_mapped": 0,
+            "excluded_reason_counts": {},
+        },
+        "findings": findings
+        if findings is not None
+        else [
+            {
+                "claim_id": "claim-a",
+                "claim": "octo/alpha is supported by direct repository evidence.",
+                "category": "trend",
+                "source_type": "github",
+                "evidence_refs": [{"type": "repo", "ref": "octo/alpha", "url": "https://github.com/octo/alpha"}],
+                "repo_full_name": "octo/alpha",
+                "news_url": None,
+                "confidence": 0.8,
+                "contra_refs": [],
+                "uncertainties": [],
+            }
+        ],
+        "citations": [],
+        "reference_candidates": {"notable_projects": ["octo/alpha"], "press_articles": []},
+        "provenance": {},
+    }
+
+
+def test_validate_map_rejects_malformed_ledger() -> None:
+    payload = valid_ledger()
+    payload.pop("coverage")
+    payload["findings"] = "not-a-list"
+
+    errors = dry_run.validate_map(payload)
+
+    assert "mapper missing coverage" in errors
+    assert "findings must be a list" in errors
+    assert "coverage must be an object" in errors
+
+
+def test_validate_map_rejects_failed_or_low_coverage() -> None:
+    payload = valid_ledger()
+    payload["coverage"] = {
+        "repo_ids_seen": ["octo/alpha"],
+        "article_urls_seen": [],
+        "repo_count_input": 3,
+        "repo_count_mapped": 1,
+        "article_count_input": 0,
+        "article_count_mapped": 1,
+        "excluded_reason_counts": {},
+    }
+    payload["status"] = "failed"
+
+    errors = dry_run.validate_map(payload)
+
+    assert "coverage repo_count_mapped below repo_count_input without excluded reasons" in errors
+    assert "coverage article_count_mapped exceeds article_count_input" in errors
+    assert "mapper status failed" in errors
+
+
+def test_reduce_rejects_and_preserves_contradictory_claims() -> None:
+    supported = valid_ledger()["findings"][0]
+    contradictory = {
+        **supported,
+        "claim_id": "claim-b",
+        "claim": "octo/alpha evidence is contradicted by another retained source.",
+        "contra_refs": ["claim-a"],
+        "confidence": 0.9,
+    }
+    ledger = valid_ledger([supported, contradictory])
+
+    plan, rejected, contradictions = dry_run.reduce_ledgers([ledger], raw_payload={"week": "2026-W21", "new_repos": [make_repo("octo", "alpha", 1200)], "trending_repos": []})
+
+    assert plan["selected_claims"] == []
+    assert [item["claim_id"] for item in contradictions] == ["claim-a", "claim-b"]
+    assert {item["claim_id"] for item in rejected if item["reason"] == "unresolved_contradiction"} == {"claim-a", "claim-b"}
+    assert plan["contradictions"] == contradictions
