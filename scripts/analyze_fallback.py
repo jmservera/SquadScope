@@ -920,7 +920,11 @@ def main(argv: list[str] | None = None) -> int:
     if args.no_ai:
         markdown = generate_no_ai_summary(args.raw_json, args.current_datetime, args.press_context)
     else:
-        markdown = call_github_models(prompt)
+        print(
+            "::error::GitHub Models/OpenAI analysis fallback is disabled; use Copilot CLI or --no-ai for staged diagnostics.",
+            file=sys.stderr,
+        )
+        return 1
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(markdown, encoding="utf-8")

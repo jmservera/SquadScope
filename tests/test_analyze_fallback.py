@@ -371,7 +371,7 @@ class AnalyzeFallbackTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn('week: "2026-W21"', result.stdout)
 
-    def test_main_writes_fallback_output(self) -> None:
+    def test_main_without_no_ai_rejects_github_models_fallback(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             base = Path(tmpdir)
@@ -383,13 +383,9 @@ class AnalyzeFallbackTests(unittest.TestCase):
             raw_path.write_text(json.dumps({"week": "2026-W21", "new_repos": [], "trending_repos": []}), encoding="utf-8")
             prompt_template.write_text("{{RAW_JSON_CONTENT}}", encoding="utf-8")
 
-            response = _FakeHTTPResponse(
-                json.dumps({"choices": [{"message": {"content": "# Summary\n"}}]}).encode("utf-8")
-            )
-
-            with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
-                analyze_fallback.request, "urlopen", return_value=response
-            ) as urlopen_mock:
+            with mock.patch.object(analyze_fallback.request, "urlopen") as urlopen_mock, mock.patch(
+                "sys.stderr", new_callable=io.StringIO
+            ) as stderr:
                 exit_code = analyze_fallback.main(
                     [
                         "--raw-json",
@@ -405,9 +401,10 @@ class AnalyzeFallbackTests(unittest.TestCase):
                     ]
                 )
 
-            self.assertEqual(exit_code, 0)
-            self.assertEqual(output_path.read_text(encoding="utf-8"), "# Summary\n")
-            self.assertEqual(urlopen_mock.call_args.kwargs["timeout"], analyze_fallback.DEFAULT_MODELS_TIMEOUT)
+            self.assertEqual(exit_code, 1)
+            self.assertFalse(output_path.exists())
+            self.assertIn("GitHub Models/OpenAI analysis fallback is disabled", stderr.getvalue())
+            urlopen_mock.assert_not_called()
 
     def test_github_models_403_is_non_retryable_access_failure(self) -> None:
         forbidden = error.HTTPError(

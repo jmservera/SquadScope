@@ -164,6 +164,92 @@ class PublishManifestTests(unittest.TestCase):
             with self.assertRaises(SystemExit):
                 publish_manifest.main(["assert-eligible", "--manifest", str(manifest)])
 
+    def test_copilot_ai_candidate_requires_preflight_for_promotion(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            write_raw(raw)
+            write_summary(summary)
+
+            publish_manifest.main(
+                [
+                    "create",
+                    "--week",
+                    WEEK,
+                    "--run-id",
+                    RUN_ID,
+                    "--current-datetime",
+                    CURRENT_DATETIME,
+                    "--summary",
+                    str(summary),
+                    "--published-summary",
+                    str(base / "data/analyzed/2026-W21-summary.md"),
+                    "--raw-json",
+                    str(raw),
+                    "--analysis-source",
+                    "copilot-cli",
+                    "--analysis-model",
+                    "copilot-default",
+                    "--validation-status",
+                    "passed",
+                    "--output",
+                    str(manifest),
+                ]
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertEqual(payload["analysis"]["ai_status"], "ai")
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertTrue(any("preflight report is required" in reason for reason in payload["promotion"]["reasons"]))
+
+    def test_github_models_source_is_not_ai_publishable(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            preflight = base / "data/candidates/2026-W21/123456/diagnostics/analysis-preflight.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_preflight(preflight, degraded=False, publish_eligible=True)
+
+            publish_manifest.main(
+                [
+                    "create",
+                    "--week",
+                    WEEK,
+                    "--run-id",
+                    RUN_ID,
+                    "--current-datetime",
+                    CURRENT_DATETIME,
+                    "--summary",
+                    str(summary),
+                    "--published-summary",
+                    str(base / "data/analyzed/2026-W21-summary.md"),
+                    "--raw-json",
+                    str(raw),
+                    "--analysis-source",
+                    "github-models",
+                    "--analysis-model",
+                    "openai/gpt-4o",
+                    "--preflight-report",
+                    str(preflight),
+                    "--validation-status",
+                    "passed",
+                    "--output",
+                    str(manifest),
+                ]
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertEqual(payload["analysis"]["ai_status"], "unknown")
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertTrue(any("analysis source is not AI-publishable" in reason for reason in payload["promotion"]["reasons"]))
+
     def test_degraded_preflight_candidate_is_staged_only_by_default(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:

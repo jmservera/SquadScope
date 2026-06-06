@@ -10,7 +10,7 @@ from typing import Any
 
 
 SCHEMA_VERSION = "publish_eligibility_v1"
-AI_SOURCES = {"copilot-cli", "github-models"}
+AI_SOURCES = {"copilot-cli"}
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -78,8 +78,10 @@ def load_json(path: Path) -> dict[str, Any] | None:
     return payload if isinstance(payload, dict) else None
 
 
-def load_preflight(path: Path | None) -> tuple[dict[str, Any] | None, list[str]]:
+def load_preflight(path: Path | None, *, required: bool = False) -> tuple[dict[str, Any] | None, list[str]]:
     if path is None:
+        if required:
+            return None, ["preflight report is required for Copilot CLI promotion"]
         return None, []
     payload = load_json(path)
     if payload is None:
@@ -192,7 +194,7 @@ def create_manifest(args: argparse.Namespace) -> int:
 
     analysis_source = args.analysis_source.strip()
     ai_status = "ai" if analysis_source in AI_SOURCES else "no-ai" if analysis_source == "no-ai" else "unknown"
-    preflight, preflight_reasons = load_preflight(args.preflight_report)
+    preflight, preflight_reasons = load_preflight(args.preflight_report, required=ai_status == "ai")
     preflight_allows_promotion = not preflight_reasons
     candidate_exists = args.summary.exists()
     validation_passed = args.validation_status == "passed"

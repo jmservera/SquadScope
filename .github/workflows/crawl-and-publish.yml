@@ -1174,16 +1174,12 @@ jobs:
             --allow-tool=grep \
             > /dev/null; then
             echo "✅ Reskill via Copilot CLI with agent identity"
-          # Fallback: GitHub Models API via reskill.py
-          elif python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME" --output "$RESKILL_OUTPUT" --prompt-output "$RESKILL_PROMPT"; then
-            RESKILL_SOURCE="github-models"
-            RESKILL_MODEL="${GITHUB_MODELS_MODEL}"
-            echo "⚠️  Copilot CLI unavailable; used GitHub Models API fallback."
           else
             RESKILL_SOURCE="none"
             RESKILL_MODEL="none"
             rm -f "$RESKILL_PROMPT"
-            echo "Reskill failed on all paths; writing placeholder trigger log."
+            echo "Copilot CLI unavailable or failed; this repository has no GitHub Models/OpenAI reskill fallback."
+            echo "Writing placeholder trigger log."
             echo "Reskill triggered at run #$COUNTER ($CURRENT_DATETIME)" >> .squad/reskill/trigger-log.txt
           fi
 
