@@ -24,13 +24,14 @@ TOKEN_PATTERNS = (
     "token expired",
     "authentication failed",
     "unauthorized",
-    "401",
-    "403",
     "copilot_github_token",
 )
 INACCESSIBLE_PATTERNS = (
+    "401",
+    "403",
     "copilot is not available",
     "copilot unavailable",
+    "permission",
     "not subscribed",
     "subscription",
     "access to copilot",
@@ -133,6 +134,10 @@ def run_gh(args: list[str]) -> subprocess.CompletedProcess[str]:
     return subprocess.run(["gh", *args], check=False, capture_output=True, text=True)
 
 
+def issue_url(repo: str, number: str) -> str:
+    return f"https://github.com/{repo}/issues/{number}"
+
+
 def create_or_update_token_issue(report: CopilotFailure, *, repo: str, assignee: str, week: str, run_id: str) -> str:
     title = issue_title()
     body = issue_body(report, week=week, run_id=run_id)
@@ -163,7 +168,7 @@ def create_or_update_token_issue(report: CopilotFailure, *, repo: str, assignee:
                 comment = run_gh(["issue", "comment", number, "--repo", repo, "--body", body])
                 if comment.returncode != 0:
                     raise RuntimeError(comment.stderr.strip() or "failed to update Copilot token issue")
-                return number
+                return issue_url(repo, number)
 
     created = run_gh(
         [
@@ -183,7 +188,10 @@ def create_or_update_token_issue(report: CopilotFailure, *, repo: str, assignee:
     )
     if created.returncode != 0:
         raise RuntimeError(created.stderr.strip() or "failed to create Copilot token issue")
-    return created.stdout.strip()
+    created_output = created.stdout.strip()
+    if created_output.startswith("https://"):
+        return created_output
+    return created_output or issue_url(repo, "unknown")
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:

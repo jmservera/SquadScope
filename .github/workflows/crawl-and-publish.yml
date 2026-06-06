@@ -468,6 +468,7 @@ jobs:
               continue
             fi
 
+            FINAL_FAILURE_CLASS=""
             sanitize_agent_output "$OUTPUT_FILE"
 
             # Inline quality gate check (suppress step summary to avoid noise).

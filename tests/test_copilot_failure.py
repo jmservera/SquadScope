@@ -14,7 +14,9 @@ def test_classifies_copilot_token_failure_as_actionable_non_retryable() -> None:
     assert report.retryable is False
     assert report.actionable is True
     assert "renew COPILOT_GH_TOKEN" in report.diagnostic
-    assert copilot_failure.classify_log("HTTP 403 from Copilot").failure_class == "copilot_token_failure"
+    assert copilot_failure.classify_log("HTTP 403 from Copilot").failure_class == "copilot_inaccessible"
+    assert copilot_failure.classify_log("HTTP 401 from Copilot").failure_class == "copilot_inaccessible"
+    assert copilot_failure.classify_log("HTTP 403 invalid token").failure_class == "copilot_token_failure"
 
 
 def test_classifies_context_timeout_and_transient_failures() -> None:
@@ -55,7 +57,11 @@ def test_main_creates_or_updates_issue_for_token_failure(tmp_path: Path) -> None
     report_path = tmp_path / "report.json"
     log_path.write_text("COPILOT_GITHUB_TOKEN invalid token", encoding="utf-8")
 
-    with mock.patch.object(copilot_failure, "create_or_update_token_issue", return_value="123") as issue_mock:
+    with mock.patch.object(
+        copilot_failure,
+        "create_or_update_token_issue",
+        return_value="https://github.com/jmservera/SquadScope/issues/123",
+    ) as issue_mock:
         exit_code = copilot_failure.main(
             [
                 "--log",
@@ -77,5 +83,43 @@ def test_main_creates_or_updates_issue_for_token_failure(tmp_path: Path) -> None
     payload = json.loads(report_path.read_text(encoding="utf-8"))
     assert exit_code == 0
     assert payload["failure_class"] == "copilot_token_failure"
-    assert payload["issue"] == "123"
+    assert payload["issue"] == "https://github.com/jmservera/SquadScope/issues/123"
     issue_mock.assert_called_once()
+
+
+def test_create_or_update_token_issue_returns_consistent_url_for_existing_issue() -> None:
+    report = copilot_failure.classify_log("invalid token")
+    responses = [
+        mock.Mock(returncode=0, stdout='[{"number": 123, "title": "Renew GitHub Copilot token for weekly analysis workflow"}]', stderr=""),
+        mock.Mock(returncode=0, stdout="", stderr=""),
+    ]
+
+    with mock.patch.object(copilot_failure, "run_gh", side_effect=responses):
+        result = copilot_failure.create_or_update_token_issue(
+            report,
+            repo="jmservera/SquadScope",
+            assignee="jmservera",
+            week="2026-W23",
+            run_id="27055543722",
+        )
+
+    assert result == "https://github.com/jmservera/SquadScope/issues/123"
+
+
+def test_create_or_update_token_issue_returns_consistent_url_for_created_issue() -> None:
+    report = copilot_failure.classify_log("invalid token")
+    responses = [
+        mock.Mock(returncode=0, stdout="[]", stderr=""),
+        mock.Mock(returncode=0, stdout="https://github.com/jmservera/SquadScope/issues/124\n", stderr=""),
+    ]
+
+    with mock.patch.object(copilot_failure, "run_gh", side_effect=responses):
+        result = copilot_failure.create_or_update_token_issue(
+            report,
+            repo="jmservera/SquadScope",
+            assignee="jmservera",
+            week="2026-W23",
+            run_id="27055543722",
+        )
+
+    assert result == "https://github.com/jmservera/SquadScope/issues/124"

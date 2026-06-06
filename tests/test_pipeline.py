@@ -247,6 +247,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("run_quality_gate()", run_analysis)
         self.assertIn("python3 scripts/copilot_failure.py", run_analysis)
         self.assertIn("--create-token-issue", run_analysis)
+        self.assertIn('FINAL_FAILURE_CLASS=""', run_analysis)
         self.assertIn("No publishable Copilot summary was produced", run_analysis)
         self.assertIn("no GitHub Models/OpenAI fallback", run_analysis)
         self.assertIn("python3 scripts/analyze_fallback.py", run_analysis)
