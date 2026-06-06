@@ -8,6 +8,7 @@ from unittest import mock
 from urllib import error
 
 import scripts.analyze_fallback as analyze_fallback
+import scripts.publish_manifest as publish_manifest
 
 
 class _FakeHTTPResponse(io.BytesIO):
@@ -219,6 +220,22 @@ class AnalyzeFallbackTests(unittest.TestCase):
 
             self.assertIn('title: "Ai, Typescript, and This Week\'s Repo Signals"', markdown)
             self.assertNotIn('title: "Week 23, 2026 Analysis"', markdown)
+
+    def test_no_ai_summary_quality_score_stays_below_publication_threshold(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W23.json"
+            raw_path.parent.mkdir(parents=True)
+            raw_path.write_text(json.dumps({"week": "2026-W23", "new_repos": [], "trending_repos": []}), encoding="utf-8")
+
+            markdown = analyze_fallback.generate_no_ai_summary(raw_path, "2026-06-01T09:42:41Z")
+
+            self.assertLess(
+                analyze_fallback.NO_AI_DIAGNOSTIC_QUALITY_SCORE,
+                publish_manifest.FALLBACK_MIN_QUALITY_SCORE,
+            )
+            self.assertIn(f"quality_score: {analyze_fallback.NO_AI_DIAGNOSTIC_QUALITY_SCORE}", markdown)
 
     def test_script_runs_via_python_pathless_invocation(self) -> None:
         tests_root = Path(__file__).resolve().parent

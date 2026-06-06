@@ -39,7 +39,41 @@ def write_raw(
 
 def write_summary(path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("---\nweek: 2026-W21\n---\n\nbody\n", encoding="utf-8")
+    path.write_text('---\nweek: "2026-W21"\nquality_score: 75\n---\n\nbody\n', encoding="utf-8")
+
+
+def write_good_summary(path: Path, *, quality_score: int = 90) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        f"""---
+title: "Good AI Article"
+date: {CURRENT_DATETIME}
+week: "{WEEK}"
+year: 2026
+tags: [ai]
+categories: [weekly]
+repos_featured: 1
+stars_tracked: 100
+top_repo: "owner/good"
+quality_score: {quality_score}
+summary: "A good AI-authored weekly summary."
+---
+
+## This Week's Trends
+
+Canonical good analysis.
+""",
+        encoding="utf-8",
+    )
+
+
+def write_no_ai_summary(path: Path, *, quality_score: int = 70) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        f"---\nweek: 2026-W21\nquality_score: {quality_score}\nsummary: fallback\n---\n\n"
+        "Automated data-only summary generated without AI assistance.\n",
+        encoding="utf-8",
+    )
 
 
 def write_gate_report(path: Path, *, passed: bool = True, errors: list[str] | None = None) -> None:
@@ -150,7 +184,9 @@ class PublishManifestTests(unittest.TestCase):
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertFalse(payload["promotion"]["eligible"])
-            self.assertIn("analysis source is not AI-publishable", payload["promotion"]["reasons"][0])
+            self.assertEqual(payload["promotion"]["decision"], "block")
+            self.assertEqual(payload["analysis"]["provenance"]["authorship"], "no-ai-fallback")
+            self.assertIn("fallback_reason is required", payload["promotion"]["reasons"][0])
             with self.assertRaises(SystemExit):
                 assert_eligible_from_root(base, manifest)
 
@@ -173,7 +209,43 @@ class PublishManifestTests(unittest.TestCase):
             self.assertEqual(payload["analysis"]["model_status"], "available")
             self.assertTrue(payload["promotion"]["eligible"])
 
-    def test_stale_source_artifact_blocks_promotion(self) -> None:
+    def test_no_ai_default_cannot_replace_existing_good_ai_article(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            published = base / "data/analyzed/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            write_raw(raw)
+            write_no_ai_summary(summary)
+            write_good_summary(published)
+
+            publish_manifest.main(
+                [
+                    "create",
+                    "--week", WEEK,
+                    "--run-id", RUN_ID,
+                    "--current-datetime", CURRENT_DATETIME,
+                    "--summary", str(summary),
+                    "--published-summary", str(published),
+                    "--raw-json", str(raw),
+                    "--analysis-source", "no-ai",
+                    "--analysis-model", "none",
+                    "--validation-status", "passed",
+                    "--fallback-reason", "copilot quality gate failed",
+                    "--attempted-ai-path", "provider=copilot-cli,model=copilot-default,status=failed",
+                    "--output", str(manifest),
+                ]
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertEqual(payload["promotion"]["decision"], "preserve")
+            self.assertTrue(payload["existing_article"]["good_ai_authored"])
+            self.assertIn("no-AI fallback is ineligible to replace", " ".join(payload["promotion"]["reasons"]))
+
+    def test_no_ai_first_publish_requires_explicit_policy_and_quality_gate(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             base = Path(tmpdir)
@@ -181,8 +253,143 @@ class PublishManifestTests(unittest.TestCase):
             summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
             manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
             gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_no_ai_summary(summary)
+            write_gate_report(gate_report)
+
+            publish_manifest.main(
+                [
+                    "create",
+                    "--week", WEEK,
+                    "--run-id", RUN_ID,
+                    "--current-datetime", CURRENT_DATETIME,
+                    "--summary", str(summary),
+                    "--published-summary", str(base / "data/analyzed/2026-W21-summary.md"),
+                    "--raw-json", str(raw),
+                    "--analysis-source", "no-ai",
+                    "--analysis-model", "none",
+                    "--validation-status", "passed",
+                    "--gate-report", str(gate_report),
+                    "--fallback-reason", "copilot unavailable",
+                    "--attempted-ai-path", "provider=copilot-cli,model=copilot-default,status=failed",
+                    "--publish-policy", "allow-no-ai-first-publish",
+                    "--actor", "jmservera",
+                    "--output", str(manifest),
+                ]
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertTrue(payload["promotion"]["eligible"])
+            self.assertEqual(payload["promotion"]["policy"], "allow-no-ai-first-publish")
+            self.assertEqual(assert_eligible_from_root(base, manifest), 0)
+
+    def test_no_ai_explicit_policy_requires_higher_fallback_quality_score(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_no_ai_summary(summary, quality_score=69)
+            write_gate_report(gate_report)
+
+            publish_manifest.main(
+                [
+                    "create",
+                    "--week", WEEK,
+                    "--run-id", RUN_ID,
+                    "--current-datetime", CURRENT_DATETIME,
+                    "--summary", str(summary),
+                    "--published-summary", str(base / "data/analyzed/2026-W21-summary.md"),
+                    "--raw-json", str(raw),
+                    "--analysis-source", "no-ai",
+                    "--analysis-model", "none",
+                    "--validation-status", "passed",
+                    "--gate-report", str(gate_report),
+                    "--fallback-reason", "copilot unavailable",
+                    "--attempted-ai-path", "provider=copilot-cli,model=copilot-default,status=failed",
+                    "--publish-policy", "allow-no-ai-first-publish",
+                    "--output", str(manifest),
+                ]
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertIn("quality_score must be at least 70", " ".join(payload["promotion"]["reasons"]))
+
+    def test_force_replace_requires_audit_and_allows_no_ai_over_existing_good_article(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            published = base / "data/analyzed/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_no_ai_summary(summary)
+            write_good_summary(published)
+            write_gate_report(gate_report)
+
+            publish_manifest.main(
+                [
+                    "create",
+                    "--week", WEEK,
+                    "--run-id", RUN_ID,
+                    "--current-datetime", CURRENT_DATETIME,
+                    "--summary", str(summary),
+                    "--published-summary", str(published),
+                    "--raw-json", str(raw),
+                    "--analysis-source", "no-ai",
+                    "--analysis-model", "none",
+                    "--validation-status", "passed",
+                    "--gate-report", str(gate_report),
+                    "--fallback-reason", "copilot unavailable",
+                    "--attempted-ai-path", "provider=copilot-cli,model=copilot-default,status=failed",
+                    "--publish-policy", "force-replace",
+                    "--force-reason", "operator approved emergency publish",
+                    "--actor", "jmservera",
+                    "--output", str(manifest),
+                ]
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertTrue(payload["promotion"]["eligible"])
+            self.assertEqual(payload["audit"]["mode"], "force-replace")
+            self.assertEqual(payload["audit"]["actor"], "jmservera")
+            self.assertEqual(assert_eligible_from_root(base, manifest), 0)
+
+    def test_missing_candidate_summary_only_reports_missing_summary(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_gate_report(gate_report)
+
+            publish_manifest.main(create_args(base, raw, summary, manifest, gate_report=gate_report))
+
+            reasons = json.loads(manifest.read_text(encoding="utf-8"))["promotion"]["reasons"]
+            self.assertTrue(any(reason.startswith("candidate summary missing:") for reason in reasons))
+            self.assertFalse(any("quality_score" in reason for reason in reasons))
+
+    def test_stale_source_artifact_blocks_promotion_and_preserves_existing_good_summary(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            published = base / "data/analyzed/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
             write_raw(raw, crawled_at="2026-05-11T08:00:00Z")
             write_summary(summary)
+            write_good_summary(published)
             write_gate_report(gate_report)
 
             publish_manifest.main(
@@ -191,6 +398,8 @@ class PublishManifestTests(unittest.TestCase):
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertFalse(payload["promotion"]["eligible"])
+            self.assertEqual(payload["promotion"]["decision"], "preserve")
+            self.assertTrue(payload["preservation"]["preserve_existing"])
             self.assertEqual(payload["source_artifacts"][0]["generated_at"], "2026-05-11T08:00:00Z")
             self.assertEqual(payload["source_artifacts"][0]["freshness"]["status"], "stale")
             self.assertTrue(any("timestamp week mismatch" in reason for reason in payload["promotion"]["reasons"]))
@@ -231,6 +440,67 @@ class PublishManifestTests(unittest.TestCase):
             self.assertEqual(malformed_entry["generated_at"], CURRENT_DATETIME)
             self.assertEqual(missing_entry["freshness"]["status"], "missing")
             self.assertEqual(malformed_entry["freshness"]["status"], "missing")
+
+    def test_no_ai_candidate_preserves_existing_good_summary(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            published = base / "data/analyzed/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_good_summary(published)
+            write_gate_report(gate_report)
+
+            publish_manifest.main(
+                [
+                    "create",
+                    "--week", WEEK,
+                    "--run-id", RUN_ID,
+                    "--current-datetime", CURRENT_DATETIME,
+                    "--summary", str(summary),
+                    "--published-summary", str(published),
+                    "--raw-json", str(raw),
+                    "--analysis-source", "no-ai",
+                    "--analysis-model", "none",
+                    "--validation-status", "passed",
+                    "--gate-report", str(gate_report),
+                    "--output", str(manifest),
+                ]
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertEqual(payload["promotion"]["decision"], "preserve")
+            self.assertTrue(payload["published"]["good"])
+            self.assertTrue(payload["preservation"]["preserve_existing"])
+            self.assertEqual(payload["preservation"]["preserved_summary_path"], published.as_posix())
+            self.assertEqual(payload["preservation"]["rejected_candidate_path"], summary.as_posix())
+
+    def test_lower_quality_candidate_preserves_existing_good_summary(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            published = base / "data/analyzed/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_good_summary(summary, quality_score=70)
+            write_good_summary(published, quality_score=90)
+            write_gate_report(gate_report)
+
+            publish_manifest.main(create_args(base, raw, summary, manifest, gate_report=gate_report))
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertEqual(payload["promotion"]["decision"], "preserve")
+            self.assertTrue(
+                any("lower than published good quality_score" in reason for reason in payload["promotion"]["reasons"])
+            )
 
     def test_structured_same_day_reuse_metadata_remains_machine_readable(self) -> None:
         tests_root = Path(__file__).resolve().parent
