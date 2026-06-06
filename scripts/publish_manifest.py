@@ -12,7 +12,9 @@ from typing import Any
 
 SCHEMA_VERSION = "publish_eligibility_v1"
 AI_SOURCES = {"copilot-cli", "github-models"}
+NO_AI_SOURCE = "no-ai"
 MIN_PUBLISH_QUALITY_SCORE = 60
+FALLBACK_MIN_QUALITY_SCORE = 70
 NO_AI_MARKERS = (
     "AI analysis was unavailable",
     "without AI-powered analysis",
@@ -38,6 +40,25 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     create.add_argument("--validation-status", choices=["passed", "failed"], required=True)
     create.add_argument("--output", required=True, type=Path)
     create.add_argument("--artifact", action="append", default=[], help="Additional source artifact as role=path.")
+    create.add_argument(
+        "--fallback-reason",
+        default="",
+        help="Required reason when analysis-source is no-ai; records why AI output was unavailable.",
+    )
+    create.add_argument(
+        "--attempted-ai-path",
+        action="append",
+        default=[],
+        help="AI path attempted before this candidate, e.g. provider=copilot-cli,model=copilot-default,status=failed.",
+    )
+    create.add_argument(
+        "--publish-policy",
+        choices=["default", "allow-no-ai-first-publish", "force-replace"],
+        default="default",
+        help="Explicit operator policy for no-AI fallback publication.",
+    )
+    create.add_argument("--force-reason", default="", help="Operator reason required for force-replace.")
+    create.add_argument("--actor", default="", help="Operator or automation actor requesting explicit fallback policy.")
 
     check = subparsers.add_parser("assert-eligible", help="Fail unless the manifest permits promotion.")
     check.add_argument("--manifest", required=True, type=Path)
@@ -209,6 +230,18 @@ def published_summary_status(path: Path, week: str) -> dict[str, Any]:
     return status
 
 
+def fallback_quality_errors(summary: Path, validation_passed: bool) -> list[str]:
+    errors: list[str] = []
+    if not validation_passed:
+        errors.append("no-AI fallback cannot publish because analysis validation did not pass")
+    quality_score = markdown_metadata(summary).get("quality_score")
+    if not isinstance(quality_score, (int, float)) or quality_score < FALLBACK_MIN_QUALITY_SCORE:
+        errors.append(
+            f"no-AI fallback quality_score must be at least {FALLBACK_MIN_QUALITY_SCORE} for explicit fallback publication"
+        )
+    return errors
+
+
 def same_day_reuse_status(payload: dict[str, Any] | None) -> dict[str, Any]:
     metadata = payload.get("metadata", {}) if isinstance(payload, dict) else {}
     if not isinstance(metadata, dict):
@@ -306,12 +339,14 @@ def create_manifest(args: argparse.Namespace) -> int:
     ]
 
     analysis_source = args.analysis_source.strip()
-    ai_status = "ai" if analysis_source in AI_SOURCES else "no-ai" if analysis_source == "no-ai" else "unknown"
+    ai_status = "ai" if analysis_source in AI_SOURCES else "no-ai" if analysis_source == NO_AI_SOURCE else "unknown"
     candidate_metadata = markdown_metadata(args.summary)
     published_status = published_summary_status(args.published_summary, args.week)
     candidate_exists = args.summary.exists()
     validation_passed = args.validation_status == "passed"
     candidate_quality = candidate_metadata.get("quality_score")
+    attempted_ai_paths = [path for path in args.attempted_ai_path if path.strip()]
+    force_replacing_no_ai = ai_status == "no-ai" and args.publish_policy == "force-replace"
     comparison_reasons: list[str] = []
     if candidate_exists:
         if candidate_metadata.get("week") not in {None, args.week}:
@@ -322,25 +357,56 @@ def create_manifest(args: argparse.Namespace) -> int:
             comparison_reasons.append("candidate summary lacks quality_score")
         elif candidate_quality < MIN_PUBLISH_QUALITY_SCORE:
             comparison_reasons.append(f"candidate quality_score below {MIN_PUBLISH_QUALITY_SCORE}: {candidate_quality}")
-        if published_status.get("good") and isinstance(candidate_quality, (int, float)):
+        if published_status.get("good") and isinstance(candidate_quality, (int, float)) and not force_replacing_no_ai:
             published_quality = published_status.get("quality_score")
             if isinstance(published_quality, (int, float)) and candidate_quality < published_quality:
                 comparison_reasons.append(
                     f"candidate quality_score {candidate_quality} is lower than published good quality_score {published_quality}"
                 )
 
-    eligible = candidate_exists and validation_passed and ai_status == "ai" and not artifact_reasons and not comparison_reasons
-
     reasons: list[str] = []
+    fallback_errors: list[str] = []
+    if ai_status == "no-ai":
+        if not args.fallback_reason.strip():
+            reasons.append("fallback_reason is required for no-AI fallback candidates")
+        if not attempted_ai_paths:
+            reasons.append("attempted_ai_paths must record attempted AI paths for no-AI fallback candidates")
+        if args.publish_policy == "default":
+            if published_status.get("good"):
+                reasons.append("no-AI fallback is ineligible to replace an existing good AI-authored article by default")
+            else:
+                reasons.append("no-AI fallback requires explicit allow-no-ai-first-publish or force-replace policy")
+        elif args.publish_policy == "allow-no-ai-first-publish":
+            if published_status.get("good"):
+                reasons.append("allow-no-ai-first-publish cannot replace an existing good AI-authored article")
+            fallback_errors = fallback_quality_errors(args.summary, validation_passed)
+        elif args.publish_policy == "force-replace":
+            if not args.force_reason.strip():
+                reasons.append("force-replace requires force_reason")
+            if not args.actor.strip():
+                reasons.append("force-replace requires actor")
+            fallback_errors = fallback_quality_errors(args.summary, validation_passed)
+        reasons.extend(fallback_errors)
+
     if not candidate_exists:
         reasons.append(f"candidate summary missing: {args.summary}")
     if not validation_passed:
         reasons.append("analysis validation did not pass")
-    if ai_status != "ai":
+    if ai_status not in {"ai", "no-ai"}:
         reasons.append(f"analysis source is not AI-publishable: {analysis_source or 'unknown'}")
     reasons.extend(artifact_reasons)
     reasons.extend(comparison_reasons)
 
+    eligible = (
+        candidate_exists
+        and validation_passed
+        and not artifact_reasons
+        and not comparison_reasons
+        and (
+            ai_status == "ai"
+            or (ai_status == "no-ai" and args.publish_policy in {"allow-no-ai-first-publish", "force-replace"} and not reasons)
+        )
+    )
     preserve_existing = bool(published_status.get("good") and not eligible)
     decision = "promote" if eligible else "preserve" if preserve_existing else "block"
 
@@ -362,10 +428,29 @@ def create_manifest(args: argparse.Namespace) -> int:
             "ai_status": ai_status,
             "source": analysis_source,
             "model": args.analysis_model,
+            "provider": analysis_source,
             "provenance": {
                 "run_id": args.run_id,
                 "current_datetime": args.current_datetime,
+                "authorship": "ai-authored" if ai_status == "ai" else "no-ai-fallback" if ai_status == "no-ai" else "unknown",
+                "provider": analysis_source,
+                "model": args.analysis_model,
+                "fallback_reason": args.fallback_reason.strip() or None,
+                "attempted_ai_paths": attempted_ai_paths,
             },
+        },
+        "existing_article": {
+            "exists": published_status["exists"],
+            "path": published_status["path"],
+            "quality_score": published_status.get("quality_score"),
+            "provenance": (
+                "no-ai-fallback"
+                if published_status.get("ai_status") == "no-ai"
+                else "ai-authored-assumed"
+                if published_status["exists"]
+                else "none"
+            ),
+            "good_ai_authored": bool(published_status.get("good")),
         },
         "validation": {
             "status": args.validation_status,
@@ -380,7 +465,15 @@ def create_manifest(args: argparse.Namespace) -> int:
         "promotion": {
             "eligible": eligible,
             "decision": decision,
+            "policy": args.publish_policy,
             "reasons": reasons,
+        },
+        "audit": {
+            "mode": args.publish_policy,
+            "actor": args.actor.strip() or None,
+            "reason": args.force_reason.strip() or None,
+            "source_artifact_count": len(source_artifacts),
+            "source_artifacts": source_artifacts,
         },
         "preservation": {
             "preserve_existing": preserve_existing,
@@ -409,6 +502,21 @@ def assert_eligible(args: argparse.Namespace) -> int:
         raise SystemExit(f"Publish manifest is missing or malformed: {args.manifest}")
     if payload.get("schema_version") != SCHEMA_VERSION:
         raise SystemExit(f"Unsupported publish manifest schema: {payload.get('schema_version')!r}")
+    analysis = payload.get("analysis")
+    ai_status = analysis.get("ai_status") if isinstance(analysis, dict) else None
+    promotion_policy = (payload.get("promotion") or {}).get("policy") if isinstance(payload.get("promotion"), dict) else None
+    if ai_status == "no-ai":
+        provenance = analysis.get("provenance") if isinstance(analysis, dict) else {}
+        if not isinstance(provenance, dict) or provenance.get("authorship") != "no-ai-fallback":
+            raise SystemExit("Manifest lacks no-AI fallback provenance.")
+        if not provenance.get("fallback_reason"):
+            raise SystemExit("Manifest lacks no-AI fallback reason.")
+        if not provenance.get("attempted_ai_paths"):
+            raise SystemExit("Manifest lacks attempted AI path audit.")
+        if promotion_policy == "force-replace":
+            audit = payload.get("audit")
+            if not isinstance(audit, dict) or not audit.get("actor") or not audit.get("reason"):
+                raise SystemExit("Force replacement requires actor and reason in manifest audit.")
     promotion = payload.get("promotion")
     if not isinstance(promotion, dict) or promotion.get("eligible") is not True or promotion.get("decision") != "promote":
         reasons = promotion.get("reasons") if isinstance(promotion, dict) else ["missing promotion block"]
