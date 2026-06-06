@@ -14,7 +14,7 @@ This policy defines when SquadScope agents use expensive high-reasoning models (
 
 ## Model Selection Hierarchy
 
-The model selection process follows a 4-layer hierarchy. The first matching layer wins.
+The model selection process follows a 6-layer hierarchy (Layers 0–5 plus fallback chains). The first matching layer wins.
 
 ### Layer 0: Persistent Configuration
 
@@ -86,7 +86,7 @@ If no override was specified, **determine the task output type** and select acco
 When task-aware selection is active, use this table to resolve defaults for each role:
 
 | Role | Default Model | Why | Exceptions |
-|------|--------------|-----|------------|
+|---|---|---|---|
 | **Core Dev / Backend / Frontend** | `claude-sonnet-4.6` | Writes code — quality first | Heavy code gen (500+ lines) → `gpt-5.3-codex` |
 | **Tester / QA** | `claude-sonnet-4.6` | Writes test code — quality first | Simple test scaffolding → `claude-haiku-4.5` |
 | **Lead / Architect** | *per-task* | Mixed: code review needs quality, planning needs cost | See task-aware rules above |
@@ -99,7 +99,7 @@ When task-aware selection is active, use this table to resolve defaults for each
 
 ### Layer 5: Fallback Chains
 
-If a selected model is unavailable (plan restriction, deprecation, rate limit, org policy), **silently retry with the next model in the chain**. Do NOT tell the user unless they ask.
+If a selected model is unavailable (plan restriction, deprecation, rate limit, org policy), **retry with the next model in the chain**. When degrading from a requested model, acknowledge the change to the user (see **User notification** guidance in Handling Unavailability section below).
 
 **Fallback chains (in priority order):**
 
@@ -227,14 +227,15 @@ For lightweight code clarity reviews or rubber-duck debugging:
 - Limited model availability
 - Premium/reasoning models may be restricted to Copilot Pro users
 
-**GitHub Copilot Coding Agent (autonomous agent mode):**
-- Follows CLI availability rules
+**GitHub Copilot Coding Agent (cloud autonomous agent mode):**
+- Model availability may differ from CLI/Chat depending on cloud agent configuration and plan
 - Some models may have per-session or per-day limits
+- Consult your cloud agent provisioning docs for availability specifics
 
 ### By Organization Plan
 
 | Plan | Models Available | Restrictions |
-|------|-----------------|--------------|
+|---|---|---|
 | **Free / Community** | Haiku, GPT mini | No Sonnet or premium; may have rate limits |
 | **Copilot Free** | Haiku, GPT mini, Sonnet | No premium (Opus, GPT-5.5); limited requests |
 | **Copilot Pro** | All models | Full access; may have per-session limits |
@@ -373,11 +374,11 @@ Otherwise, Sonnet is sufficient for routine PRs.
 
 ### Q: How do I know if a model is available?
 
-**A:** Run a preflight check:
-```bash
-curl -X POST https://api.github.com/repos/jmservera/SquadScope/check-copilot-models
-```
-Or check the `.squad/health/models-health.json` artifact from the most recent workflow run.
+**A:** Check your Copilot surface docs or contact your account manager:
+- **CLI users:** Run `gh copilot models list` to see available models on your plan
+- **VS Code users:** Check the model selector in the Copilot Chat interface
+- **GitHub Models API users:** Consult the GitHub Models availability page for current supported models
+- **Business/Enterprise:** Contact your GitHub account team for plan-specific model access
 
 ---
 
