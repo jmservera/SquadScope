@@ -11,6 +11,7 @@ from typing import Any
 
 
 BACKUP_SCHEMA_VERSION = "publish_backup_v1"
+PUBLISH_MANIFEST_SCHEMA_VERSION = "publish_eligibility_v1"
 
 
 def sha256_file(path: Path) -> str | None:
@@ -43,6 +44,16 @@ def relpath_under_root(root: Path, value: str) -> Path:
         raise SystemExit(f"Path must stay under repository root: {value}") from exc
 
 
+def path_under_root(root: Path, value: Path) -> tuple[Path, Path]:
+    resolved_root = root.resolve()
+    resolved_path = (value if value.is_absolute() else resolved_root / value).resolve()
+    try:
+        relative = resolved_path.relative_to(resolved_root)
+    except ValueError as exc:
+        raise SystemExit(f"Path must stay under repository root: {value}") from exc
+    return relative, resolved_path
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Publish-branch backup and restore safeguards.")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -70,6 +81,31 @@ def backup_existing(args: argparse.Namespace) -> int:
     source_manifest_relative = relpath_under_root(root, args.manifest.as_posix())
     source_manifest = root / source_manifest_relative
     source_manifest_payload = load_json(source_manifest)
+    if source_manifest_payload is None:
+        raise SystemExit(f"Publish manifest is missing or malformed: {source_manifest_relative.as_posix()}")
+    if source_manifest_payload.get("schema_version") != PUBLISH_MANIFEST_SCHEMA_VERSION:
+        raise SystemExit(f"Unsupported publish manifest schema: {source_manifest_payload.get('schema_version')!r}")
+    if not isinstance(source_manifest_payload.get("candidate"), dict):
+        raise SystemExit("Publish manifest lacks candidate block.")
+    if not isinstance(source_manifest_payload.get("source_artifacts"), list):
+        raise SystemExit("Publish manifest lacks source artifact provenance.")
+    if not isinstance(source_manifest_payload.get("analysis"), dict):
+        raise SystemExit("Publish manifest lacks analysis provenance.")
+
+    entries: list[dict[str, Any]] = []
+    for raw_path in args.path:
+        relative = relpath_under_root(root, raw_path)
+        source = root / relative
+        if source.exists() and not source.is_file():
+            raise SystemExit(f"Backup target must be a regular file: {relative.as_posix()}")
+        entries.append(
+            {
+                "path": relative.as_posix(),
+                "existed": source.exists(),
+                "size_bytes": source.stat().st_size if source.exists() else 0,
+                "sha256": sha256_file(source),
+            }
+        )
 
     backup_root = root / relpath_under_root(root, args.backup_root.as_posix())
     backup_dir = backup_root / args.week / args.run_id / args.kind
@@ -79,22 +115,14 @@ def backup_existing(args: argparse.Namespace) -> int:
     backup_dir.mkdir(parents=True, exist_ok=False)
 
     files_dir = backup_dir / "files"
-    entries: list[dict[str, Any]] = []
-    for raw_path in args.path:
-        relative = relpath_under_root(root, raw_path)
+    for entry in entries:
+        relative = Path(entry["path"])
         source = root / relative
-        entry: dict[str, Any] = {
-            "path": relative.as_posix(),
-            "existed": source.exists(),
-            "size_bytes": source.stat().st_size if source.exists() and source.is_file() else 0,
-            "sha256": sha256_file(source),
-        }
-        if source.exists() and source.is_file():
+        if source.exists():
             destination = files_dir / relative
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, destination)
             entry["backup_path"] = destination.relative_to(root).as_posix()
-        entries.append(entry)
 
     manifest = {
         "schema_version": BACKUP_SCHEMA_VERSION,
@@ -122,7 +150,7 @@ def backup_existing(args: argparse.Namespace) -> int:
 
 def restore_backup(args: argparse.Namespace) -> int:
     root = args.root.resolve()
-    backup_manifest = args.backup_manifest if args.backup_manifest.is_absolute() else root / args.backup_manifest
+    backup_manifest_relative, backup_manifest = path_under_root(root, args.backup_manifest)
     payload = load_json(backup_manifest)
     if payload is None:
         raise SystemExit(f"Backup manifest is missing or malformed: {backup_manifest}")
@@ -149,7 +177,7 @@ def restore_backup(args: argparse.Namespace) -> int:
             shutil.copy2(source, target)
         else:
             target.unlink(missing_ok=True)
-    print(f"Restored publish backup: {backup_manifest.relative_to(root).as_posix()}")
+    print(f"Restored publish backup: {backup_manifest_relative.as_posix()}")
     return 0
 
 
