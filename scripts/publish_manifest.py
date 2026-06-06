@@ -11,6 +11,8 @@ from typing import Any
 
 SCHEMA_VERSION = "publish_eligibility_v1"
 AI_SOURCES = {"copilot-cli", "github-models"}
+RUN_MODES = {"normal", "dry-run", "restore", "force-replace", "candidate-only"}
+SOURCE_REFRESH_POLICIES = {"reuse-same-day", "refresh-missing-stale", "force-refresh"}
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -27,6 +29,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     create.add_argument("--analysis-source", required=True)
     create.add_argument("--analysis-model", required=True)
     create.add_argument("--validation-status", choices=["passed", "failed"], required=True)
+    create.add_argument("--run-mode", choices=sorted(RUN_MODES), default="normal")
+    create.add_argument("--source-refresh-policy", choices=sorted(SOURCE_REFRESH_POLICIES), default="reuse-same-day")
     create.add_argument("--output", required=True, type=Path)
     create.add_argument("--artifact", action="append", default=[], help="Additional source artifact as role=path.")
 
@@ -87,7 +91,7 @@ def same_day_reuse_status(payload: dict[str, Any] | None) -> dict[str, Any]:
     }
 
 
-def freshness_for_json_artifact(role: str, week: str, payload: dict[str, Any] | None) -> dict[str, Any]:
+def freshness_for_json_artifact(role: str, week: str, payload: dict[str, Any] | None, *, run_date: datetime | None = None, run_mode: str = "normal") -> dict[str, Any]:
     if payload is None:
         return {"status": "missing" if role == "raw_github" else "not_applicable", "reasons": ["artifact missing"]}
 
@@ -103,6 +107,8 @@ def freshness_for_json_artifact(role: str, week: str, payload: dict[str, Any] | 
             reasons.append("missing or invalid crawled_at/generated_at timestamp")
         elif week_slug(parsed) != week:
             reasons.append(f"timestamp week mismatch: expected {week}, found {week_slug(parsed)}")
+        elif run_date is not None and run_mode not in {"restore", "force-replace"} and parsed.astimezone(UTC).date() != run_date.astimezone(UTC).date():
+            reasons.append("timestamp date is not the current UTC run date")
 
     crawl_window = payload.get("crawl_window")
     if role in {"external_news", "techcrunch_news"} and isinstance(crawl_window, dict):
@@ -113,7 +119,7 @@ def freshness_for_json_artifact(role: str, week: str, payload: dict[str, Any] | 
     return {"status": "fresh" if not reasons else "stale", "reasons": reasons}
 
 
-def artifact_entry(role: str, path: Path, week: str) -> dict[str, Any]:
+def artifact_entry(role: str, path: Path, week: str, *, run_date: datetime | None = None, run_mode: str = "normal") -> dict[str, Any]:
     payload = load_json(path) if path.suffix == ".json" else None
     metadata = payload.get("metadata", {}) if isinstance(payload, dict) and isinstance(payload.get("metadata"), dict) else {}
     entry: dict[str, Any] = {
@@ -126,7 +132,7 @@ def artifact_entry(role: str, path: Path, week: str) -> dict[str, Any]:
         "week": payload.get("week") if isinstance(payload, dict) else None,
         "crawled_at": payload.get("crawled_at") if isinstance(payload, dict) else None,
         "same_day_reuse": same_day_reuse_status(payload),
-        "freshness": freshness_for_json_artifact(role, week, payload) if path.suffix == ".json" else {"status": "not_applicable", "reasons": []},
+        "freshness": freshness_for_json_artifact(role, week, payload, run_date=run_date, run_mode=run_mode) if path.suffix == ".json" else {"status": "not_applicable", "reasons": []},
     }
     if "source_status" in metadata:
         entry["source_status"] = metadata["source_status"]
@@ -152,7 +158,12 @@ def parse_artifacts(values: list[str]) -> list[tuple[str, Path]]:
 
 def create_manifest(args: argparse.Namespace) -> int:
     artifacts = [("raw_github", args.raw_json), *parse_artifacts(args.artifact)]
-    source_artifacts = [artifact_entry(role, path, args.week) for role, path in artifacts if path.exists() or role == "raw_github"]
+    run_date = parse_datetime(args.current_datetime)
+    source_artifacts = [
+        artifact_entry(role, path, args.week, run_date=run_date, run_mode=args.run_mode)
+        for role, path in artifacts
+        if path.exists() or role == "raw_github"
+    ]
     artifact_reasons = [
         f"{entry['role']}: {reason}"
         for entry in source_artifacts
@@ -163,7 +174,8 @@ def create_manifest(args: argparse.Namespace) -> int:
     ai_status = "ai" if analysis_source in AI_SOURCES else "no-ai" if analysis_source == "no-ai" else "unknown"
     candidate_exists = args.summary.exists()
     validation_passed = args.validation_status == "passed"
-    eligible = candidate_exists and validation_passed and ai_status == "ai" and not artifact_reasons
+    mode_allows_promotion = args.run_mode not in {"dry-run", "candidate-only"}
+    eligible = candidate_exists and validation_passed and ai_status == "ai" and not artifact_reasons and mode_allows_promotion
 
     reasons: list[str] = []
     if not candidate_exists:
@@ -172,6 +184,8 @@ def create_manifest(args: argparse.Namespace) -> int:
         reasons.append("analysis validation did not pass")
     if ai_status != "ai":
         reasons.append(f"analysis source is not AI-publishable: {analysis_source or 'unknown'}")
+    if not mode_allows_promotion:
+        reasons.append(f"run mode {args.run_mode} is non-publishing")
     reasons.extend(artifact_reasons)
 
     manifest = {
@@ -179,6 +193,8 @@ def create_manifest(args: argparse.Namespace) -> int:
         "run_id": args.run_id,
         "week": args.week,
         "generated_at": args.current_datetime,
+        "run_mode": args.run_mode,
+        "source_refresh_policy": args.source_refresh_policy,
         "candidate": {
             "summary_path": args.summary.as_posix(),
             "published_summary_path": args.published_summary.as_posix(),
@@ -207,6 +223,8 @@ def create_manifest(args: argparse.Namespace) -> int:
         "promotion": {
             "eligible": eligible,
             "decision": "promote" if eligible else "block",
+            "mode": args.run_mode,
+            "source_refresh_policy": args.source_refresh_policy,
             "reasons": reasons,
         },
     }

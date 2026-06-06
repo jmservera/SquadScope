@@ -21,7 +21,7 @@ import time
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
@@ -176,6 +176,95 @@ def week_slug(value: datetime) -> str:
     year, week, _ = value.isocalendar()
     return f"{year}-W{week:02d}"
 
+
+
+def parse_datetime(value: Any) -> datetime | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    candidate = value.strip()
+    if candidate.endswith("Z"):
+        candidate = f"{candidate[:-1]}+00:00"
+    try:
+        parsed = datetime.fromisoformat(candidate)
+    except ValueError:
+        return None
+    return parsed.astimezone(UTC) if parsed.tzinfo else parsed.replace(tzinfo=UTC)
+
+
+def load_json_artifact(path: Path) -> dict[str, Any] | None:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def same_utc_day(value: str | None, expected: date) -> bool:
+    parsed = parse_datetime(value)
+    return parsed is not None and parsed.date() == expected
+
+
+def source_reuse_decisions(
+    payload: dict[str, Any] | None,
+    sources: list[NewsSourceConfig],
+    *,
+    week: str,
+    run_date: date,
+    since: datetime,
+    until: datetime,
+    policy: str,
+    current_config_checksum: str,
+    current_code_sha: str | None,
+) -> tuple[list[dict[str, Any]], list[NewsSourceConfig], list[dict[str, Any]], list[dict[str, Any]]]:
+    force_reason = "source_refresh_policy=force-refresh" if policy == "force-refresh" else ""
+    decisions: list[dict[str, Any]] = []
+    reused_articles: list[dict[str, Any]] = []
+    reused_statuses: list[dict[str, Any]] = []
+    to_crawl: list[NewsSourceConfig] = []
+
+    metadata = payload.get("metadata", {}) if isinstance(payload, dict) else {}
+    statuses = metadata.get("source_status", []) if isinstance(metadata, dict) else []
+    status_by_source = {str(status.get("source")): status for status in statuses if isinstance(status, dict)}
+    articles = payload.get("articles", []) if isinstance(payload, dict) else []
+
+    global_reasons: list[str] = []
+    if force_reason:
+        global_reasons.append(force_reason)
+    if payload is None:
+        global_reasons.append("artifact missing or malformed")
+    else:
+        if payload.get("week") != week:
+            global_reasons.append(f"week mismatch: expected {week}, found {payload.get('week')!r}")
+        if not same_utc_day(payload.get("crawled_at"), run_date):
+            global_reasons.append("artifact is not from the current UTC run date")
+        window = payload.get("crawl_window") if isinstance(payload.get("crawl_window"), dict) else {}
+        if window.get("since") != iso_timestamp(since) or window.get("until") != iso_timestamp(until):
+            global_reasons.append("crawl window mismatch")
+        if isinstance(metadata, dict):
+            if metadata.get("source_config_checksum") != current_config_checksum:
+                global_reasons.append("source config checksum mismatch")
+            artifact_code_sha = metadata.get("crawler_code_sha")
+            if current_code_sha and artifact_code_sha and artifact_code_sha != current_code_sha:
+                global_reasons.append("crawler/config fingerprint mismatch")
+
+    for source in sources:
+        source_reasons = list(global_reasons)
+        status = status_by_source.get(source.name)
+        if not status or status.get("success") is not True:
+            source_reasons.append("source missing or previously failed")
+        if source_reasons:
+            decisions.append({"source": source.name, "decision": "refresh", "reasons": source_reasons})
+            to_crawl.append(source)
+            continue
+        source_articles = [article for article in articles if source.name in {str(article.get("source", "")), *[str(item) for item in article.get("sources", [])]}]
+        reused_articles.extend(source_articles)
+        reused_status = dict(status)
+        reused_status["reused_same_day"] = True
+        reused_status["success"] = True
+        reused_statuses.append(reused_status)
+        decisions.append({"source": source.name, "decision": "reuse", "reasons": []})
+
+    return reused_articles, to_crawl, reused_statuses, decisions
 
 def extract_github_urls(text: str) -> list[str]:
     """Extract unique GitHub repository URLs from text."""
@@ -672,9 +761,34 @@ def main(argv: list[str] | None = None) -> int:
         default=None,
         help="Maximum parallel RSS fetches (default: one per source, capped at 8)",
     )
+    parser.add_argument(
+        "--reuse-artifact",
+        default=None,
+        help="Existing external-news artifact to reuse per source when fresh for this run window.",
+    )
+    parser.add_argument(
+        "--source-refresh-policy",
+        choices=["reuse-same-day", "refresh-missing-stale", "force-refresh"],
+        default="reuse-same-day",
+        help="Source refresh policy for reruns (default: reuse eligible same-day sources).",
+    )
+    parser.add_argument(
+        "--run-started-at",
+        default=None,
+        help="UTC run start timestamp used for same-day reuse checks (ISO 8601). Defaults to now.",
+    )
+    parser.add_argument(
+        "--current-code-sha",
+        default=None,
+        help="Optional crawler/config fingerprint; reused artifacts with a conflicting fingerprint are stale.",
+    )
     args = parser.parse_args(argv)
 
     now = datetime.now(UTC)
+    run_started_at = parse_datetime(args.run_started_at) if args.run_started_at else now
+    if run_started_at is None:
+        print("--run-started-at must be an ISO 8601 timestamp", file=sys.stderr)
+        return 1
     since = (
         datetime.strptime(args.since, "%Y-%m-%d").replace(tzinfo=UTC)
         if args.since
@@ -687,9 +801,31 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     source_configs = load_source_configs(Path(args.sources))
-    articles, errors, statuses = crawl_sources_parallel(
-        source_configs, since=since, until=until, max_workers=args.max_workers
+    config_checksum = source_config_checksum(source_configs)
+    current_code_sha = args.current_code_sha or ""
+    reused_articles, sources_to_crawl, reused_statuses, reuse_decisions = source_reuse_decisions(
+        load_json_artifact(Path(args.reuse_artifact)) if args.reuse_artifact else None,
+        source_configs,
+        week=week_slug(now),
+        run_date=run_started_at.astimezone(UTC).date(),
+        since=since,
+        until=until,
+        policy=args.source_refresh_policy,
+        current_config_checksum=config_checksum,
+        current_code_sha=current_code_sha,
     )
+    for decision in reuse_decisions:
+        print(
+            "[external-news] "
+            f"source={decision['source']} decision={decision['decision']} "
+            f"reasons={'; '.join(decision['reasons']) or 'eligible same-day reuse'}",
+            file=sys.stderr,
+        )
+    fresh_articles, errors, fresh_statuses = crawl_sources_parallel(
+        sources_to_crawl, since=since, until=until, max_workers=args.max_workers
+    )
+    articles = [*reused_articles, *fresh_articles]
+    statuses = [*reused_statuses, *fresh_statuses]
     output = build_output(
         articles,
         crawled_at=now,
@@ -699,11 +835,17 @@ def main(argv: list[str] | None = None) -> int:
             "since": iso_timestamp(since),
             "until": iso_timestamp(until),
         },
-        source_config_checksum_value=source_config_checksum(source_configs),
+        source_config_checksum_value=config_checksum,
         requested_sources=[source.name for source in source_configs],
         source_statuses=statuses,
         errors=errors,
     )
+    output["metadata"]["same_day_reuse"] = "mixed" if reused_articles and fresh_articles else "reused" if reused_articles else "not_reused"
+    output["metadata"]["source_refresh_policy"] = args.source_refresh_policy
+    output["metadata"]["source_reuse_decisions"] = reuse_decisions
+    output["metadata"]["crawler_code_sha"] = current_code_sha
+    output["metadata"]["artifact_checksum"] = artifact_checksum(output)
+    validate_canonical_output(output)
 
     if args.output:
         out_path = Path(args.output)

@@ -382,6 +382,8 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("--analysis-source", manifest_run)
         self.assertIn("--analysis-model", manifest_run)
         self.assertIn("--validation-status passed", manifest_run)
+        self.assertIn("--run-mode", manifest_run)
+        self.assertIn("--source-refresh-policy", manifest_run)
 
         assert_step = next((s for s in analyze["steps"] if s.get("name") == "Assert candidate is eligible for promotion"), None)
         self.assertIsNotNone(assert_step)
@@ -402,6 +404,26 @@ class WorkflowConfigTests(unittest.TestCase):
         generate_step = next((s for s in generate["steps"] if s.get("name") == "Generate weekly content"), None)
         self.assertIsNotNone(generate_step)
         self.assertIn('assert-eligible --manifest "$MANIFEST_FILE"', generate_step["run"])
+
+    def test_rerun_mode_inputs_and_guards_are_declared(self) -> None:
+        workflow_path = Path(".github/workflows/crawl-and-publish.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+        inputs = workflow[True]["workflow_dispatch"]["inputs"]
+
+        self.assertEqual(inputs["run_mode"]["default"], "normal")
+        self.assertIn("restore", inputs["run_mode"]["options"])
+        self.assertEqual(inputs["source_refresh_policy"]["default"], "reuse-same-day")
+        self.assertIn("force-refresh", inputs["source_refresh_policy"]["options"])
+
+        crawl_steps = workflow["jobs"]["crawl"]["steps"]
+        validate_step = next((s for s in crawl_steps if s.get("name") == "Validate rerun mode"), None)
+        self.assertIsNotNone(validate_step)
+        self.assertIn("scripts/rerun_modes.py", validate_step["run"])
+
+        run_crawler = next((s for s in crawl_steps if s.get("name") == "Run crawler"), None)
+        self.assertIn("--reuse-artifact", run_crawler["run"])
+        self.assertIn("--source-refresh-policy", run_crawler["run"])
+
 
     def test_notify_failure_job_creates_or_updates_issue(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")

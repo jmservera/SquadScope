@@ -1,6 +1,8 @@
+import json
 import tempfile
 import unittest
 from argparse import Namespace
+from datetime import UTC, datetime
 from pathlib import Path
 from unittest import mock
 
@@ -95,6 +97,59 @@ class CrawlTests(unittest.TestCase):
             client._pause_for_rate_limit("https://example.com")
 
         sleep_mock.assert_called_once()
+
+    def test_main_reuses_valid_same_day_raw_artifact_without_github_token(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            existing = base / "reuse" / "2026-W21.json"
+            output = base / "data" / "raw" / "2026-W21.json"
+            existing.parent.mkdir(parents=True)
+            existing.write_text(
+                json.dumps(
+                    {
+                        "week": "2026-W21",
+                        "crawled_at": "2026-05-18T08:00:00Z",
+                        "new_repos": [],
+                        "trending_repos": [],
+                        "signals": {},
+                        "metadata": {
+                            "api_calls_used": 0,
+                            "cache_hits": 0,
+                            "stale_cache_hits": 0,
+                            "rate_limit_limit": None,
+                            "rate_limit_remaining": None,
+                            "rate_limit_reset": None,
+                            "rate_limit_resource": None,
+                            "partial_failures": [],
+                            "snapshot_path": str(base / "data" / "snapshots" / "2026-W21-stars.json"),
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            args = Namespace(
+                since=None,
+                as_of="2026-05-18",
+                max_results=25,
+                output=str(output),
+                topic=None,
+                config=None,
+                reuse_artifact=str(existing),
+                source_refresh_policy="reuse-same-day",
+                run_started_at="2026-05-18T09:00:00Z",
+                current_code_sha="sha",
+            )
+
+            with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
+                "os.environ", {}, clear=True
+            ), mock.patch.object(crawl, "utc_now", return_value=datetime(2026, 5, 18, 8, 0, 0, tzinfo=UTC)):
+                exit_code = crawl.main()
+
+            self.assertEqual(exit_code, 0)
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(payload["metadata"]["same_day_reuse"], "reused")
+
 
     def test_main_uses_open_ended_queries_for_live_runs(self) -> None:
         queries: list[str] = []

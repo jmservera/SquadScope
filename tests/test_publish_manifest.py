@@ -162,6 +162,90 @@ class PublishManifestTests(unittest.TestCase):
             self.assertEqual(payload["source_artifacts"][0]["freshness"]["status"], "stale")
             self.assertTrue(any("timestamp week mismatch" in reason for reason in payload["promotion"]["reasons"]))
 
+    def test_same_week_wrong_day_source_blocks_normal_promotion(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            write_raw(raw, crawled_at="2026-05-19T08:00:00Z")
+            write_summary(summary)
+
+            publish_manifest.main(
+                [
+                    "create",
+                    "--week",
+                    WEEK,
+                    "--run-id",
+                    RUN_ID,
+                    "--current-datetime",
+                    "2026-05-20T08:00:00Z",
+                    "--summary",
+                    str(summary),
+                    "--published-summary",
+                    str(base / "data/analyzed/2026-W21-summary.md"),
+                    "--raw-json",
+                    str(raw),
+                    "--analysis-source",
+                    "copilot-cli",
+                    "--analysis-model",
+                    "copilot-default",
+                    "--validation-status",
+                    "passed",
+                    "--output",
+                    str(manifest),
+                ]
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertTrue(any("current UTC run date" in reason for reason in payload["promotion"]["reasons"]))
+
+
+    def test_candidate_only_mode_blocks_promotion_even_with_valid_sources(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            write_raw(raw)
+            write_summary(summary)
+
+            publish_manifest.main(
+                [
+                    "create",
+                    "--week",
+                    WEEK,
+                    "--run-id",
+                    RUN_ID,
+                    "--current-datetime",
+                    CURRENT_DATETIME,
+                    "--summary",
+                    str(summary),
+                    "--published-summary",
+                    str(base / "data/analyzed/2026-W21-summary.md"),
+                    "--raw-json",
+                    str(raw),
+                    "--analysis-source",
+                    "copilot-cli",
+                    "--analysis-model",
+                    "copilot-default",
+                    "--validation-status",
+                    "passed",
+                    "--run-mode",
+                    "candidate-only",
+                    "--output",
+                    str(manifest),
+                ]
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertEqual(payload["run_mode"], "candidate-only")
+            self.assertTrue(any("non-publishing" in reason for reason in payload["promotion"]["reasons"]))
+
 
 if __name__ == "__main__":
     unittest.main()

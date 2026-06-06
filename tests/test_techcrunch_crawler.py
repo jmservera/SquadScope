@@ -26,6 +26,8 @@ from scripts.techcrunch_crawler import (
     iso_timestamp,
     load_source_configs,
     parse_published_date,
+    source_config_checksum,
+    source_reuse_decisions,
     validate_feed_url,
     week_slug,
 )
@@ -313,6 +315,48 @@ class TestExternalNewsSources:
         assert "hugging_face_blog" in names
         assert "mit_technology_review" in names
         assert "github_blog" in names
+
+
+    def test_source_reuse_decisions_reuses_successful_same_day_sources_and_refreshes_failed(self):
+        sources = [
+            NewsSourceConfig("techcrunch", "https://techcrunch.com/feed/"),
+            NewsSourceConfig("github-blog", "https://github.blog/feed/"),
+        ]
+        since = datetime(2026, 5, 11, tzinfo=UTC)
+        until = datetime(2026, 5, 18, tzinfo=UTC)
+        payload = {
+            "week": "2026-W21",
+            "crawled_at": "2026-05-18T08:00:00Z",
+            "crawl_window": {"since": iso_timestamp(since), "until": iso_timestamp(until)},
+            "articles": [{"source": "techcrunch", "title": "Reused", "published_at": "2026-05-17T00:00:00Z"}],
+            "metadata": {
+                "source_config_checksum": source_config_checksum(sources),
+                "source_status": [
+                    {"source": "techcrunch", "success": True},
+                    {"source": "github-blog", "success": False},
+                ],
+            },
+        }
+
+        reused, to_crawl, reused_statuses, decisions = source_reuse_decisions(
+            payload,
+            sources,
+            week="2026-W21",
+            run_date=datetime(2026, 5, 18, tzinfo=UTC).date(),
+            since=since,
+            until=until,
+            policy="reuse-same-day",
+            current_config_checksum=source_config_checksum(sources),
+            current_code_sha=None,
+        )
+
+        assert [article["title"] for article in reused] == ["Reused"]
+        assert [source.name for source in to_crawl] == ["github-blog"]
+        assert reused_statuses[0]["reused_same_day"] is True
+        assert {decision["source"]: decision["decision"] for decision in decisions} == {
+            "techcrunch": "reuse",
+            "github-blog": "refresh",
+        }
 
     @pytest.mark.parametrize(
         "feed_url",
