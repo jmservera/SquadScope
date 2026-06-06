@@ -319,17 +319,26 @@ def artifact_entry(
         artifact_generated_at = payload.get("generated_at") or payload.get("crawled_at") or generated_at
     else:
         artifact_generated_at = generated_at
+    reuse_status = same_day_reuse_status(payload)
+    checksum = sha256_file(path)
     entry: dict[str, Any] = {
         "role": role,
         "path": path.as_posix(),
         "exists": path.exists(),
         "size_bytes": path.stat().st_size if path.exists() else 0,
-        "sha256": sha256_file(path),
+        "sha256": checksum,
         "artifact_checksum": metadata.get("artifact_checksum"),
         "week": payload.get("week") if isinstance(payload, dict) else None,
         "crawled_at": payload.get("crawled_at") if isinstance(payload, dict) else None,
         "generated_at": artifact_generated_at,
-        "same_day_reuse": same_day_reuse_status(payload),
+        "same_day_reuse": reuse_status,
+        "provenance": {
+            "path": path.as_posix(),
+            "sha256": checksum,
+            "artifact_checksum": metadata.get("artifact_checksum"),
+            "generated_at": artifact_generated_at,
+            "same_day_reuse": reuse_status,
+        },
         "freshness": freshness_for_json_artifact(role, week, payload, run_date=run_date, run_mode=run_mode) if path.suffix == ".json" else {"status": "not_applicable", "reasons": []},
     }
     if "source_status" in metadata:
@@ -701,6 +710,11 @@ def assert_eligible(args: argparse.Namespace) -> int:
     for entry in source_artifacts:
         if not isinstance(entry, dict) or not entry.get("sha256"):
             raise SystemExit("Manifest source artifact is missing a checksum.")
+        provenance = entry.get("provenance")
+        if not isinstance(provenance, dict) or provenance.get("sha256") != entry.get("sha256"):
+            raise SystemExit("Manifest source artifact is missing auditable provenance.")
+        if not isinstance(provenance.get("same_day_reuse"), dict):
+            raise SystemExit("Manifest source artifact reuse provenance is missing.")
         freshness = entry.get("freshness", {})
         if isinstance(freshness, dict) and freshness.get("status") == "stale":
             raise SystemExit(f"Manifest source artifact is stale: {entry.get('path')}")
