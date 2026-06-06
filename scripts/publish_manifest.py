@@ -11,6 +11,8 @@ from typing import Any
 
 SCHEMA_VERSION = "publish_eligibility_v1"
 AI_SOURCES = {"copilot-cli", "github-models"}
+ALLOWED_PROMOTION_MANIFEST_ROOTS = {("data", "staging"), ("data", "candidates")}
+PROMOTION_MANIFEST_ROOT_ERROR = "Publish manifest must live under data/staging/ or data/candidates/."
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -73,6 +75,16 @@ def load_json(path: Path) -> dict[str, Any] | None:
     except (OSError, json.JSONDecodeError):
         return None
     return payload if isinstance(payload, dict) else None
+
+
+def manifest_lives_under_allowed_promotion_root(manifest_path: Path, root: Path | None = None) -> bool:
+    workspace = (root or Path.cwd()).resolve()
+    resolved_manifest = manifest_path if manifest_path.is_absolute() else workspace / manifest_path
+    try:
+        manifest_relative = resolved_manifest.resolve().relative_to(workspace)
+    except ValueError:
+        return False
+    return manifest_relative.parts[:2] in ALLOWED_PROMOTION_MANIFEST_ROOTS
 
 
 def same_day_reuse_status(payload: dict[str, Any] | None) -> dict[str, Any]:
@@ -338,6 +350,8 @@ def assert_eligible(args: argparse.Namespace) -> int:
     payload = load_json(args.manifest)
     if payload is None:
         raise SystemExit(f"Publish manifest is missing or malformed: {args.manifest}")
+    if not manifest_lives_under_allowed_promotion_root(args.manifest):
+        raise SystemExit(PROMOTION_MANIFEST_ROOT_ERROR)
     if payload.get("schema_version") != SCHEMA_VERSION:
         raise SystemExit(f"Unsupported publish manifest schema: {payload.get('schema_version')!r}")
     analysis = payload.get("analysis")

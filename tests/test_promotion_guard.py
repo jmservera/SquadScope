@@ -148,6 +148,15 @@ def create_publish_manifest(root: Path, name: str, *, source: str = "copilot-cli
     return root / manifest_path
 
 
+def assert_eligible_from_root(root: Path, manifest_path: Path) -> int:
+    previous_cwd = Path.cwd()
+    try:
+        os.chdir(root)
+        return publish_manifest.main(["assert-eligible", "--manifest", str(manifest_path)])
+    finally:
+        os.chdir(previous_cwd)
+
+
 def manifest_for(root: Path, name: str, **overrides) -> Path:
     summary_path, content_path = write_candidate(
         root,
@@ -395,6 +404,24 @@ class PromotionGuardTests(unittest.TestCase):
 
             self.assertIn("Publish manifest must live under data/staging/ or data/candidates/.", blocked.exception.reasons)
 
+    def test_publish_manifest_outside_allowed_roots_is_rejected_by_both_gates(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            install_existing_good_article(root)
+            valid_manifest = create_publish_manifest(root, "outside-root")
+            misplaced_manifest = root / "other" / "data" / "candidates" / WEEK / "outside-root" / "publish-manifest.json"
+            misplaced_manifest.parent.mkdir(parents=True, exist_ok=True)
+            misplaced_manifest.write_text(valid_manifest.read_text(encoding="utf-8"), encoding="utf-8")
+
+            with self.assertRaises(SystemExit) as assert_blocked:
+                assert_eligible_from_root(root, misplaced_manifest)
+            with self.assertRaises(promotion_guard.PromotionBlocked) as promote_blocked:
+                promotion_guard.promote_candidate(misplaced_manifest, root=root)
+
+            self.assertEqual(str(assert_blocked.exception), "Publish manifest must live under data/staging/ or data/candidates/.")
+            self.assertIn("Publish manifest must live under data/staging/ or data/candidates/.", promote_blocked.exception.reasons)
+
     def test_publish_manifest_created_candidate_is_accepted_by_promotion_guard(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
@@ -402,7 +429,7 @@ class PromotionGuardTests(unittest.TestCase):
             install_existing_good_article(root)
             manifest_path = create_publish_manifest(root, "publish-compatible")
 
-            self.assertEqual(publish_manifest.main(["assert-eligible", "--manifest", str(manifest_path)]), 0)
+            self.assertEqual(assert_eligible_from_root(root, manifest_path), 0)
             summary_path, content_path = promotion_guard.promote_candidate(manifest_path, root=root)
 
             self.assertIn("Better AI Article", summary_path.read_text(encoding="utf-8"))
@@ -418,7 +445,7 @@ class PromotionGuardTests(unittest.TestCase):
             manifest_path = create_publish_manifest(root, "publish-rejected", source="no-ai", model="none")
 
             with self.assertRaises(SystemExit):
-                publish_manifest.main(["assert-eligible", "--manifest", str(manifest_path)])
+                assert_eligible_from_root(root, manifest_path)
             with self.assertRaises(promotion_guard.PromotionBlocked):
                 promotion_guard.promote_candidate(manifest_path, root=root)
 

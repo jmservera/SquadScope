@@ -1,4 +1,5 @@
 import json
+import os
 import tempfile
 import unittest
 from argparse import Namespace
@@ -95,6 +96,15 @@ def create_args(base: Path, raw: Path, summary: Path, manifest: Path, *, source:
     return args
 
 
+def assert_eligible_from_root(root: Path, manifest: Path) -> int:
+    previous_cwd = Path.cwd()
+    try:
+        os.chdir(root)
+        return publish_manifest.main(["assert-eligible", "--manifest", str(manifest)])
+    finally:
+        os.chdir(previous_cwd)
+
+
 class PublishManifestTests(unittest.TestCase):
     def test_ai_candidate_with_fresh_sources_is_eligible(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -120,7 +130,7 @@ class PublishManifestTests(unittest.TestCase):
             self.assertEqual(payload["promotion"]["decision"], "promote")
             self.assertRegex(payload["candidate"]["summary_sha256"], r"^[0-9a-f]{64}$")
             self.assertRegex(payload["source_artifacts"][0]["sha256"], r"^[0-9a-f]{64}$")
-            self.assertEqual(publish_manifest.main(["assert-eligible", "--manifest", str(manifest)]), 0)
+            self.assertEqual(assert_eligible_from_root(base, manifest), 0)
 
     def test_no_ai_candidate_is_not_eligible(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -142,7 +152,7 @@ class PublishManifestTests(unittest.TestCase):
             self.assertFalse(payload["promotion"]["eligible"])
             self.assertIn("analysis source is not AI-publishable", payload["promotion"]["reasons"][0])
             with self.assertRaises(SystemExit):
-                publish_manifest.main(["assert-eligible", "--manifest", str(manifest)])
+                assert_eligible_from_root(base, manifest)
 
     def test_copilot_candidate_without_explicit_model_uses_publishable_default(self) -> None:
         tests_root = Path(__file__).resolve().parent
