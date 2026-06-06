@@ -365,6 +365,7 @@ jobs:
           candidate_dir = Path("data/candidates") / week / run_id
           print(f"candidate_output_file={(candidate_dir / f'{week}-summary.md').as_posix()}")
           print(f"publish_manifest_file={(candidate_dir / 'publish-manifest.json').as_posix()}")
+          print(f"analysis_gate_report_file={(candidate_dir / 'analysis-gate-report.json').as_posix()}")
           print(f"published_output_file=data/analyzed/{week}-summary.md")
           PY
           )
@@ -448,6 +449,8 @@ jobs:
           WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
           WEEK="${{ steps.analysis-context.outputs.week }}"
           CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
+          MANIFEST_FILE="${{ steps.analysis-context.outputs.publish_manifest_file }}"
+          PUBLISHED_SUMMARY="${{ steps.analysis-context.outputs.published_output_file }}"
           PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
           ANALYSIS_STARTED=$(date +%s)
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
@@ -475,8 +478,9 @@ jobs:
               --raw-json "$WEEK_FILE" \
               --current-datetime "$CURRENT_DATETIME" \
               --source "$1" \
+              --model "$2" \
               --repair-safe \
-              --report-json "$2"
+              --report-json "$3"
           }
 
           # Retry loop: LLM output can be non-deterministically truncated,
@@ -540,9 +544,13 @@ jobs:
                 --run-id "${GITHUB_RUN_ID:-local}")
               FINAL_FAILURE_CLASS="$FAILURE_CLASS"
               echo "::warning::Copilot CLI failed on attempt $((ATTEMPT + 1)); class=${FAILURE_CLASS}; report=${COPILOT_FAILURE_REPORT}"
-              if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "copilot_inaccessible" ] || [ "$FAILURE_CLASS" = "context_too_large" ]; then
-                echo "::error::Non-retryable Copilot analysis failure (${FAILURE_CLASS}). See ${COPILOT_FAILURE_REPORT}."
+              if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "copilot_inaccessible" ]; then
+                echo "::error::Copilot access failure (${FAILURE_CLASS}). Renewal issue was created or updated; failing without no-AI fallback. See ${COPILOT_FAILURE_REPORT}."
                 exit 1
+              fi
+              if [ "$FAILURE_CLASS" = "context_too_large" ]; then
+                echo "::warning::Non-retryable Copilot analysis failure (${FAILURE_CLASS}). Writing a non-publishable no-AI candidate so the current published article can be preserved. See ${COPILOT_FAILURE_REPORT}."
+                break
               fi
               ATTEMPT=$((ATTEMPT + 1))
               continue
@@ -553,8 +561,9 @@ jobs:
 
             # Inline quality gate check (suppress step summary to avoid noise).
             # The gate applies deterministic metadata/schema repairs and writes an auditable report.
-            if run_quality_gate copilot-cli "$GATE_REPORT"; then
+            if run_quality_gate copilot-cli copilot-default "$GATE_REPORT"; then
               cp "$OUTPUT_FILE" "$CANDIDATE_SNAPSHOT" 2>/dev/null || true
+              cp "$GATE_REPORT" "${{ steps.analysis-context.outputs.analysis_gate_report_file }}" 2>/dev/null || true
               GATE_PASSED=true
               FINAL_TRANSCRIPT="$TRANSCRIPT_FILE"
               ANALYSIS_SOURCE="copilot-cli"
@@ -577,12 +586,24 @@ jobs:
           done
           else
             FINAL_FAILURE_CLASS="copilot_inaccessible"
-            echo "::error::Copilot CLI unavailable; this repository has no GitHub Models/OpenAI fallback."
+            COPILOT_LOG="$DIAGNOSTICS_DIR/copilot-cli-unavailable.log"
+            COPILOT_FAILURE_REPORT="$DIAGNOSTICS_DIR/copilot-cli-failure-unavailable.json"
+            echo "copilot is not available: command not found" > "$COPILOT_LOG"
+            python3 scripts/copilot_failure.py \
+              --log "$COPILOT_LOG" \
+              --exit-code 127 \
+              --report-json "$COPILOT_FAILURE_REPORT" \
+              --create-token-issue \
+              --repo "${GITHUB_REPOSITORY:-jmservera/SquadScope}" \
+              --assignee "jmservera" \
+              --week "$WEEK" \
+              --run-id "${GITHUB_RUN_ID:-local}" >/dev/null
+            echo "::error::Copilot CLI unavailable. Renewal issue was created or updated; failing without no-AI fallback. See ${COPILOT_FAILURE_REPORT}."
             exit 1
           fi
 
           if [ "$GATE_PASSED" = "false" ]; then
-            echo "::error::No publishable Copilot summary was produced; this repository has no GitHub Models/OpenAI fallback. Final failure class: ${FINAL_FAILURE_CLASS:-quality_gate}"
+            echo "::warning::No publishable Copilot summary was produced. Final failure class: ${FINAL_FAILURE_CLASS:-quality_gate}. The publish manifest will preserve any existing good weekly article."
             python3 scripts/analyze_fallback.py \
               --raw-json "$WEEK_FILE" \
               --output "$OUTPUT_FILE" \
@@ -591,9 +612,11 @@ jobs:
               --no-ai
             sanitize_agent_output "$OUTPUT_FILE"
             NO_AI_GATE_REPORT="$DIAGNOSTICS_DIR/gate-no-ai-attempt-0.json"
-            run_quality_gate no-ai "$NO_AI_GATE_REPORT" || true
+            run_quality_gate no-ai none "$NO_AI_GATE_REPORT" || true
+            cp "$NO_AI_GATE_REPORT" "${{ steps.analysis-context.outputs.analysis_gate_report_file }}" 2>/dev/null || true
             cp "$OUTPUT_FILE" "$DIAGNOSTICS_DIR/candidate-no-ai-attempt-0.md" 2>/dev/null || true
-            exit 1
+            ANALYSIS_SOURCE="no-ai"
+            ANALYSIS_MODEL="none"
           fi
 
           # Copy final transcript to canonical location
@@ -626,17 +649,23 @@ jobs:
           echo "analysis_model=$ANALYSIS_MODEL" >> "$GITHUB_OUTPUT"
 
       - name: quality-check
+        id: quality-check
+        continue-on-error: true
         env:
           ANALYSIS_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
           ANALYSIS_SOURCE: ${{ steps.run-analysis.outputs.analysis_source }}
+          ANALYSIS_MODEL: ${{ steps.run-analysis.outputs.analysis_model }}
           RAW_JSON_FILE: ${{ steps.analysis-context.outputs.week_file }}
           CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
+          GATE_REPORT: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
         run: |
           python3 scripts/analysis_gate.py \
             --analysis-file "$ANALYSIS_FILE" \
             --raw-json "$RAW_JSON_FILE" \
             --current-datetime "$CURRENT_DATETIME" \
-            --source "$ANALYSIS_SOURCE"
+            --source "$ANALYSIS_SOURCE" \
+            --model "$ANALYSIS_MODEL" \
+            --report-json "$GATE_REPORT"
 
       - name: Emit publish eligibility manifest
         env:
@@ -648,11 +677,14 @@ jobs:
           RAW_JSON_FILE: ${{ steps.analysis-context.outputs.week_file }}
           ANALYSIS_SOURCE: ${{ steps.run-analysis.outputs.analysis_source }}
           ANALYSIS_MODEL: ${{ steps.run-analysis.outputs.analysis_model }}
+          VALIDATION_STATUS: ${{ steps.quality-check.outcome == 'success' && 'passed' || 'failed' }}
           MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
           RUN_MODE: ${{ steps.analysis-context.outputs.run_mode }}
           SOURCE_REFRESH_POLICY: ${{ steps.analysis-context.outputs.source_refresh_policy }}
+          GATE_REPORT: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
         run: |
           set -euo pipefail
+          git fetch origin publish 2>/dev/null && git checkout origin/publish -- "$PUBLISHED_SUMMARY" 2>/dev/null || true
           ARTIFACT_ARGS=()
           for candidate in \
             "external_news=data/raw/${WEEK}-external-news.json" \
@@ -672,9 +704,10 @@ jobs:
             --raw-json "$RAW_JSON_FILE" \
             --analysis-source "$ANALYSIS_SOURCE" \
             --analysis-model "$ANALYSIS_MODEL" \
-            --validation-status passed \
+            --validation-status "$VALIDATION_STATUS" \
             --run-mode "$RUN_MODE" \
             --source-refresh-policy "$SOURCE_REFRESH_POLICY" \
+            --gate-report "$GATE_REPORT" \
             --output "$MANIFEST_FILE" \
             "${ARTIFACT_ARGS[@]}"
 
