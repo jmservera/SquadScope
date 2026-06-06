@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import re
-import shutil
 from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
@@ -18,6 +19,7 @@ class PromotionBlocked(ValueError):
 WEEK_PATTERN = re.compile(r"^(?P<year>\d{4})-W(?P<week>\d{2})$")
 FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
 FALLBACK_MIN_QUALITY_SCORE = 70
+PROMOTION_TRANSACTION_SCHEMA_VERSION = "promotion_transaction_v1"
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -138,6 +140,20 @@ def _manifest_source_artifacts(manifest: dict[str, Any]) -> list[Any] | None:
 
 def _manifest_run_started_at(manifest: dict[str, Any]) -> Any:
     return manifest.get("run_started_at") or manifest.get("generated_at")
+
+
+def _sha256_file(path: Path) -> str | None:
+    if not path.exists() or not path.is_file():
+        return None
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _relative_to_root(root: Path, path: Path) -> str:
+    return path.resolve().relative_to(root.resolve()).as_posix()
 
 
 def _artifact_reused_same_day(artifact: dict[str, Any]) -> bool:
@@ -354,6 +370,87 @@ def _write_force_audit(root: Path, week: str, manifest: dict[str, Any]) -> Path 
     return audit_path
 
 
+def _promotion_transaction_record(
+    *,
+    root: Path,
+    week: str,
+    manifest_path: Path,
+    manifest: dict[str, Any],
+    candidate_summary: Path,
+    candidate_content: Path,
+    canonical_summary: Path,
+    canonical_content: Path,
+) -> dict[str, Any]:
+    manifest_relative = _relative_to_root(root, manifest_path)
+    summary_sha = _sha256_file(candidate_summary)
+    content_sha = _sha256_file(candidate_content)
+    stable_record: dict[str, Any] = {
+        "schema_version": PROMOTION_TRANSACTION_SCHEMA_VERSION,
+        "week": week,
+        "run_id": manifest.get("run_id"),
+        "source_manifest": {
+            "path": manifest_relative,
+            "sha256": _sha256_file(manifest_path),
+        },
+        "candidate": {
+            "summary_path": _relative_to_root(root, candidate_summary),
+            "summary_sha256": summary_sha,
+            "content_path": _relative_to_root(root, candidate_content),
+            "content_sha256": content_sha,
+        },
+        "published_artifacts": [
+            {
+                "role": "analysis_summary",
+                "path": _relative_to_root(root, canonical_summary),
+                "source_path": _relative_to_root(root, candidate_summary),
+                "sha256": summary_sha,
+            },
+            {
+                "role": "hugo_content",
+                "path": _relative_to_root(root, canonical_content),
+                "source_path": _relative_to_root(root, candidate_content),
+                "sha256": content_sha,
+            },
+        ],
+        "provenance": {
+            "source_artifacts": manifest.get("source_artifacts", []),
+            "analysis": manifest.get("analysis") or manifest.get("ai_provenance"),
+            "validation": manifest.get("validation") or {"gate_results": manifest.get("gate_results")},
+            "promotion": manifest.get("promotion") or {"eligible": manifest.get("promotion_eligible")},
+        },
+    }
+    transaction_payload = json.dumps(stable_record, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    stable_record["transaction_id"] = hashlib.sha256(transaction_payload).hexdigest()
+    return stable_record
+
+
+def _write_transactionally(targets: list[tuple[Path, bytes]]) -> None:
+    originals: list[tuple[Path, bool, bytes | None]] = []
+    written: list[Path] = []
+    temp_paths: list[Path] = []
+    for target, _ in targets:
+        originals.append((target, target.exists(), target.read_bytes() if target.exists() else None))
+        target.parent.mkdir(parents=True, exist_ok=True)
+
+    try:
+        for index, (target, payload) in enumerate(targets):
+            tmp = target.with_name(f".{target.name}.promotion-{os.getpid()}-{index}.tmp")
+            temp_paths.append(tmp)
+            tmp.write_bytes(payload)
+            tmp.replace(target)
+            written.append(target)
+    except Exception:
+        for tmp in temp_paths:
+            tmp.unlink(missing_ok=True)
+        for target, existed, payload in reversed(originals):
+            if existed and payload is not None:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(payload)
+            elif target in written or target.exists():
+                target.unlink(missing_ok=True)
+        raise
+
+
 def promote_candidate(manifest_path: Path, *, root: Path | None = None) -> tuple[Path, Path]:
     workspace = (root or Path.cwd()).resolve()
     resolved_manifest_path = manifest_path if manifest_path.is_absolute() else workspace / manifest_path
@@ -375,11 +472,28 @@ def promote_candidate(manifest_path: Path, *, root: Path | None = None) -> tuple
         raise PromotionBlocked(["week must use YYYY-WNN format."])
     year, week_number = match.group("year"), match.group("week")
     canonical_content = workspace / "content" / "weekly" / year / f"W{week_number}.md"
-    canonical_summary.parent.mkdir(parents=True, exist_ok=True)
-    canonical_content.parent.mkdir(parents=True, exist_ok=True)
+    transaction_manifest = workspace / "data" / "published" / week / "promotion-manifest.json"
     _write_force_audit(workspace, week, manifest)
-    shutil.copyfile(candidate_summary, canonical_summary)
-    shutil.copyfile(candidate_content, canonical_content)
+    transaction_record = _promotion_transaction_record(
+        root=workspace,
+        week=week,
+        manifest_path=resolved_manifest_path,
+        manifest=manifest,
+        candidate_summary=candidate_summary,
+        candidate_content=candidate_content,
+        canonical_summary=canonical_summary,
+        canonical_content=canonical_content,
+    )
+    _write_transactionally(
+        [
+            (canonical_summary, candidate_summary.read_bytes()),
+            (canonical_content, candidate_content.read_bytes()),
+            (
+                transaction_manifest,
+                (json.dumps(transaction_record, indent=2, sort_keys=True) + "\n").encode("utf-8"),
+            ),
+        ]
+    )
     return canonical_summary, canonical_content
 
 

@@ -380,6 +380,16 @@ class PromotionGuardTests(unittest.TestCase):
             self.assertEqual(second_content.read_text(encoding="utf-8"), first_content_text)
             self.assertEqual(second_summary.read_text(encoding="utf-8").count("Better candidate analysis."), 1)
             self.assertEqual(second_content.read_text(encoding="utf-8").count("Better candidate rendered content."), 1)
+            transaction_path = root / "data/published/2026-W23/promotion-manifest.json"
+            first_transaction = json.loads(transaction_path.read_text(encoding="utf-8"))
+            promotion_guard.promote_candidate(manifest_path, root=root)
+            second_transaction = json.loads(transaction_path.read_text(encoding="utf-8"))
+            self.assertEqual(second_transaction, first_transaction)
+            self.assertEqual(first_transaction["schema_version"], "promotion_transaction_v1")
+            self.assertEqual(first_transaction["source_manifest"]["path"], "data/staging/2026-W23/valid/publish-manifest.json")
+            self.assertEqual(first_transaction["provenance"]["source_artifacts"][0]["path"], "data/raw/2026-W23-valid.json")
+            self.assertEqual(first_transaction["published_artifacts"][0]["path"], "data/analyzed/2026-W23-summary.md")
+            self.assertEqual(first_transaction["published_artifacts"][1]["path"], "content/weekly/2026/W23.md")
 
     def test_no_ai_first_publish_requires_explicit_policy_and_no_existing_good_article(self) -> None:
         tests_root = Path(__file__).resolve().parent
