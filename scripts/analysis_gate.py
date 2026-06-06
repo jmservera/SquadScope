@@ -235,6 +235,9 @@ def dump_frontmatter(data: dict[str, Any]) -> str:
             lines.append(f"{key}:")
             for item in value:
                 if isinstance(item, dict):
+                    if not item:
+                        lines.append("  - {}")
+                        continue
                     item_fields = list(item.items())
                     first_key, first_value = item_fields[0]
                     lines.append(f"  - {first_key}: {format_scalar(first_value)}")
@@ -593,7 +596,7 @@ def main(argv: list[str] | None = None) -> int:
     if errors and args.repair_safe:
         try:
             repaired_text, repair_actions = repair_analysis(text, raw_payload, args.current_datetime)
-        except ValueError as exc:
+        except Exception as exc:  # noqa: BLE001 - repair is best-effort; validation/reporting must continue.
             repair_actions = [f"repair skipped: {exc}"]
         else:
             if repair_actions and repaired_text != text:

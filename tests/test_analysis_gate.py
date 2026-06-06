@@ -2,6 +2,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import scripts.analysis_gate as analysis_gate
 
@@ -285,6 +286,50 @@ summary: "A grounded week focused on practical tools."'''.strip()
             self.assertEqual(analysis_gate.gate_report_fingerprint(missing), "")
             self.assertEqual(analysis_gate.gate_report_fingerprint(invalid), "")
             self.assertRegex(analysis_gate.gate_report_fingerprint(report), r"^[0-9a-f]{64}$")
+
+    def test_fallback_frontmatter_dump_handles_empty_dict_list_items(self) -> None:
+        original_yaml = analysis_gate.yaml
+        try:
+            analysis_gate.yaml = None
+            dumped = analysis_gate.dump_frontmatter({"predictions": [{}]})
+        finally:
+            analysis_gate.yaml = original_yaml
+
+        self.assertIn("  - {}", dumped)
+
+    def test_repair_exception_still_writes_gate_report(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            workspace = Path(tmpdir)
+            analysis_path = workspace / "candidate.md"
+            raw_path = workspace / "raw.json"
+            report_path = workspace / "report.json"
+            analysis_path.write_text(
+                make_analysis(VALID_FRONTMATTER + "\npredictions:\n  - {}", make_body()),
+                encoding="utf-8",
+            )
+            raw_path.write_text('{"week": "2026-W23"}', encoding="utf-8")
+
+            with mock.patch.object(analysis_gate, "repair_analysis", side_effect=RuntimeError("boom")):
+                with self.assertRaises(SystemExit) as raised:
+                    analysis_gate.main(
+                        [
+                            "--analysis-file",
+                            str(analysis_path),
+                            "--raw-json",
+                            str(raw_path),
+                            "--current-datetime",
+                            CURRENT_DATETIME,
+                            "--repair-safe",
+                            "--report-json",
+                            str(report_path),
+                        ]
+                    )
+
+            self.assertEqual(raised.exception.code, 1)
+            report = analysis_gate.load_json(report_path)
+            self.assertEqual(report["repair_actions"], ["repair skipped: boom"])
+            self.assertIn("predictions[1].repo must use owner/repo format.", report["errors_after_repair"])
 
 
 if __name__ == "__main__":
