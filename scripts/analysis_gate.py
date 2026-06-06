@@ -790,6 +790,8 @@ def main(argv: list[str] | None = None) -> int:
     text = args.analysis_file.read_text(encoding="utf-8")
     raw_payload = load_json(args.raw_json)
     errors_before, word_count = validate_analysis(text, raw_payload, args.current_datetime)
+    publish_errors_before, _ = validate_publish_quality(text, raw_payload, source=args.source, model=args.model)
+    combined_errors_before = errors_before + [error for error in publish_errors_before if error not in errors_before]
     errors = errors_before
     repair_actions: list[str] = []
     if errors and args.repair_safe:
@@ -806,8 +808,6 @@ def main(argv: list[str] | None = None) -> int:
                     f"::notice::Analysis gate applied safe repairs: {', '.join(repair_actions)}",
                     file=sys.stderr,
                 )
-    publish_errors_before, _ = validate_publish_quality(text, raw_payload, source=args.source, model=args.model)
-    combined_errors_before = errors_before + [error for error in publish_errors_before if error not in errors_before]
     publish_errors, _ = validate_publish_quality(text, raw_payload, source=args.source, model=args.model)
     errors = errors + [error for error in publish_errors if error not in errors]
     gate_results = build_gate_results(errors)

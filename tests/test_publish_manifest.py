@@ -191,8 +191,29 @@ class PublishManifestTests(unittest.TestCase):
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertFalse(payload["promotion"]["eligible"])
+            self.assertEqual(payload["source_artifacts"][0]["generated_at"], "2026-05-11T08:00:00Z")
             self.assertEqual(payload["source_artifacts"][0]["freshness"]["status"], "stale")
             self.assertTrue(any("timestamp week mismatch" in reason for reason in payload["promotion"]["reasons"]))
+
+    def test_payload_generated_at_takes_precedence_over_crawled_at(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw, crawled_at="2026-05-18T07:00:00Z")
+            payload = json.loads(raw.read_text(encoding="utf-8"))
+            payload["generated_at"] = "2026-05-18T08:00:00Z"
+            raw.write_text(json.dumps(payload), encoding="utf-8")
+            write_summary(summary)
+            write_gate_report(gate_report)
+
+            publish_manifest.main(create_args(base, raw, summary, manifest, gate_report=gate_report))
+
+            manifest_payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertEqual(manifest_payload["source_artifacts"][0]["generated_at"], "2026-05-18T08:00:00Z")
 
     def test_structured_same_day_reuse_metadata_remains_machine_readable(self) -> None:
         tests_root = Path(__file__).resolve().parent

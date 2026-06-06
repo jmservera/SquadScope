@@ -332,6 +332,49 @@ summary: "A grounded week focused on practical tools."'''.strip()
             self.assertEqual(report["repair_actions"], ["repair skipped: boom"])
             self.assertIn("predictions[1].repo must use owner/repo format.", report["errors_after_repair"])
 
+    def test_gate_report_captures_pre_repair_publish_errors_from_original_text(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            workspace = Path(tmpdir)
+            analysis_path = workspace / "candidate.md"
+            raw_path = workspace / "raw.json"
+            report_path = workspace / "report.json"
+            original_text = make_analysis(
+                VALID_FRONTMATTER.replace("date: 2026-06-01T00:00:00Z", "date: 2026-06-01T12:00:00Z"),
+                make_body(),
+            )
+            analysis_path.write_text(original_text, encoding="utf-8")
+            raw_path.write_text(json.dumps(RAW_PAYLOAD_WITH_REPOS), encoding="utf-8")
+
+            def publish_quality_for(text: str, raw_payload: dict, *, source: str, model: str) -> tuple[list[str], dict]:
+                if text == original_text:
+                    return ["pre-repair publish-quality failure"], analysis_gate.build_gate_results(
+                        ["pre-repair publish-quality failure"]
+                    )
+                return [], analysis_gate.build_gate_results([])
+
+            with mock.patch.object(analysis_gate, "validate_publish_quality", side_effect=publish_quality_for):
+                self.assertEqual(
+                    analysis_gate.main(
+                        [
+                            "--analysis-file",
+                            str(analysis_path),
+                            "--raw-json",
+                            str(raw_path),
+                            "--current-datetime",
+                            CURRENT_DATETIME,
+                            "--repair-safe",
+                            "--report-json",
+                            str(report_path),
+                        ]
+                    ),
+                    0,
+                )
+
+            report = analysis_gate.load_json(report_path)
+            self.assertIn("pre-repair publish-quality failure", report["errors_before_repair"])
+            self.assertNotIn("pre-repair publish-quality failure", report["errors_after_repair"])
+
     def test_publish_quality_gate_rejects_structurally_valid_low_quality_summary(self) -> None:
         generic = " ".join(["Projects were active this week and many updates appeared across the list."] * 12)
         low_quality = f"""
