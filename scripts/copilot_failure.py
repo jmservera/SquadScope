@@ -118,14 +118,14 @@ def issue_title() -> str:
 def issue_body(report: CopilotFailure, *, week: str, run_id: str) -> str:
     return "\n".join(
         [
-            "The weekly analysis workflow cannot run because GitHub Copilot authentication failed.",
+            "The weekly analysis workflow cannot run because GitHub Copilot authentication or access failed.",
             "",
             f"- Week: `{week}`",
             f"- Run ID: `{run_id}`",
             f"- Failure class: `{report.failure_class}`",
             f"- Diagnostic: {report.diagnostic}",
             "",
-            "Please renew or replace the `COPILOT_GH_TOKEN` secret, then rerun the workflow.",
+            "Please renew or replace the `COPILOT_GH_TOKEN` secret, verify Copilot access, then rerun the workflow.",
         ]
     )
 
@@ -214,7 +214,7 @@ def main(argv: list[str] | None = None) -> int:
     payload = asdict(report)
     payload["log_path"] = args.log.as_posix()
 
-    if args.create_token_issue and report.failure_class == "copilot_token_failure":
+    if args.create_token_issue and report.failure_class in {"copilot_token_failure", "copilot_inaccessible"}:
         payload["issue"] = create_or_update_token_issue(
             report,
             repo=args.repo,

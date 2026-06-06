@@ -43,6 +43,8 @@ REQUIRED_HEADINGS = [
     "### Notable Projects",
     "### Press & Industry",
 ]
+PUBLISHABLE_AI_SOURCES = {"copilot-cli", "github-models"}
+UNPUBLISHABLE_MODEL_VALUES = {"", "unknown", "unavailable", "none", "no-ai"}
 RAW_MARKERS = [
     "```json",
     '"week":',
@@ -65,6 +67,49 @@ GENERIC_TITLE_PATTERNS = [
     re.compile(r"^Week\s+\d+.*Analysis$", re.IGNORECASE),
     re.compile(r"^Week\s+\d+,\s*\d{4}$", re.IGNORECASE),
 ]
+REPO_LINK_PATTERN = re.compile(r"\[([^/\]\s]+/[^/\]\s]+)\]\(https://github\.com/\1\)")
+SECTION_MIN_WORDS = {
+    "## This Week's Trends": 60,
+    "## Where Industry Meets Code": 40,
+    "## Signal & Noise": 50,
+    "## Blind Spots": 30,
+    "## The Week Ahead": 30,
+}
+EDITORIAL_TERMS = {
+    "signal",
+    "noise",
+    "gap",
+    "gaps",
+    "durable",
+    "hype",
+    "matters",
+    "evidence",
+    "trend",
+    "trends",
+    "blind",
+    "missing",
+    "practitioners",
+    "ecosystem",
+    "observability",
+    "security",
+    "testing",
+}
+EXPLANATORY_PATTERN = re.compile(
+    r"\b(because|why|matters|signals|reveals|driven|shows|suggests|represents|means|confirms|indicates|constitutes)\b",
+    re.IGNORECASE,
+)
+CONTRADICTION_PATTERNS = [
+    (
+        re.compile(r"no press data was provided", re.IGNORECASE),
+        re.compile(r"\b(reported|techcrunch)\b", re.IGNORECASE),
+        "claims no press data was provided while also describing press coverage.",
+    ),
+    (
+        re.compile(r"no meaningful developer activity", re.IGNORECASE),
+        REPO_LINK_PATTERN,
+        "claims no meaningful developer activity while citing active repositories.",
+    ),
+]
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -73,6 +118,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--raw-json", required=True, type=Path, help="Path to the raw weekly payload.")
     parser.add_argument("--current-datetime", required=True, help="Current run timestamp in ISO 8601 format.")
     parser.add_argument("--source", default="unknown", help="Analysis source label for summaries.")
+    parser.add_argument("--model", default="copilot-default", help="AI model label for provenance validation.")
     parser.add_argument(
         "--repair-safe",
         action="store_true",
@@ -424,6 +470,152 @@ def find_missing_headings(body: str) -> list[str]:
     return missing
 
 
+def section_text(body: str, heading: str) -> str:
+    heading_match = re.search(rf"(?m)^{re.escape(heading)}\s*$", body)
+    if heading_match is None:
+        return ""
+    next_heading = re.search(r"(?m)^##\s+", body[heading_match.end() :])
+    end = heading_match.end() + next_heading.start() if next_heading else len(body)
+    return body[heading_match.end() : end].strip()
+
+
+def raw_repo_names(raw_payload: dict[str, Any]) -> set[str]:
+    names: set[str] = set()
+    for field in ("new_repos", "trending_repos"):
+        repos = raw_payload.get(field)
+        if not isinstance(repos, list):
+            continue
+        for repo in repos:
+            if isinstance(repo, dict) and isinstance(repo.get("full_name"), str):
+                names.add(repo["full_name"].strip())
+    return {name for name in names if TOP_REPO_PATTERN.fullmatch(name)}
+
+
+def raw_artifact_week_errors(raw_payload: dict[str, Any], expected_week: Any) -> list[str]:
+    if not isinstance(expected_week, str):
+        return []
+    timestamp = raw_payload.get("generated_at") or raw_payload.get("crawled_at")
+    if not isinstance(timestamp, str) or not timestamp.strip():
+        return []
+    try:
+        parsed = parse_datetime(timestamp)
+    except (TypeError, ValueError) as exc:
+        return [f"raw evidence timestamp is invalid: {exc}"]
+    artifact_week = week_slug(parsed)
+    if artifact_week != expected_week:
+        return [f"raw evidence timestamp week mismatch: expected {expected_week}, found {artifact_week}."]
+    return []
+
+
+def evidence_citation_errors(body: str, raw_payload: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    repos = raw_repo_names(raw_payload)
+    linked_repos = set(REPO_LINK_PATTERN.findall(body))
+    if repos and not linked_repos.intersection(repos):
+        errors.append("evidence citations must include at least one repository link from the raw payload.")
+    if repos and "## Key References" in body:
+        notable = section_text(body, "## Key References")
+        notable_links = set(REPO_LINK_PATTERN.findall(notable))
+        if not notable_links.intersection(repos):
+            errors.append("Key References must cite at least one raw-payload repository link.")
+    errors.extend(raw_artifact_week_errors(raw_payload, raw_payload.get("week")))
+    return errors
+
+
+def editorial_quality_errors(body: str) -> list[str]:
+    errors: list[str] = []
+    prose = "\n".join(line for line in body.splitlines() if not line.lstrip().startswith("#"))
+    lower_body = prose.lower()
+    terms_found = {term for term in EDITORIAL_TERMS if re.search(rf"\b{re.escape(term)}\b", lower_body)}
+    if len(terms_found) < 3:
+        errors.append("editorial analysis must use trend/evidence judgment language, not generic summary prose.")
+    for heading, minimum in SECTION_MIN_WORDS.items():
+        text = section_text(body, heading)
+        if not text:
+            continue
+        count = len(WORD_PATTERN.findall(text))
+        if count < minimum:
+            errors.append(f"{heading} section is too thin for publish-quality analysis; found {count} words, expected at least {minimum}.")
+    for heading in ("## This Week's Trends", "## Signal & Noise", "## Blind Spots"):
+        text = section_text(body, heading)
+        linked_repos = REPO_LINK_PATTERN.findall(text)
+        section_terms = {term for term in EDITORIAL_TERMS if re.search(rf"\b{re.escape(term)}\b", text.lower())}
+        has_reasoning_or_evidence = EXPLANATORY_PATTERN.search(text) or linked_repos or len(section_terms) >= 2
+        if text and not has_reasoning_or_evidence:
+            errors.append(f"{heading} must explain why the pattern matters, not only name it.")
+    return errors
+
+
+def contradiction_errors(body: str) -> list[str]:
+    errors: list[str] = []
+    for negative_pattern, positive_pattern, message in CONTRADICTION_PATTERNS:
+        for match in negative_pattern.finditer(body):
+            window_start = max(0, match.start() - 300)
+            window_end = min(len(body), match.end() + 300)
+            window = body[window_start:window_end]
+            if positive_pattern.search(window.replace(match.group(0), "", 1)):
+                errors.append(f"contradictory claim: {message}")
+                break
+    return errors
+
+
+def ai_provenance_errors(source: str, model: str) -> list[str]:
+    errors: list[str] = []
+    normalized_source = source.strip()
+    normalized_model = model.strip()
+    if normalized_source not in PUBLISHABLE_AI_SOURCES:
+        errors.append(f"AI provenance source is not publishable: {normalized_source or 'unknown'}.")
+    if normalized_model.lower() in UNPUBLISHABLE_MODEL_VALUES:
+        errors.append(f"AI provenance model is not publishable: {normalized_model or 'unknown'}.")
+    return errors
+
+
+def categorize_gate_error(error: str) -> str:
+    if error.startswith("AI provenance"):
+        return "ai_provenance"
+    if error.startswith(("evidence citations", "Key References", "raw evidence")):
+        return "evidence_citation"
+    if error.startswith(("editorial analysis", "contradictory claim")) or "section is too thin" in error or "must explain why" in error:
+        return "editorial_quality"
+    if "quality_score" in error or "generic week/year" in error or "placeholder" in error:
+        return "editorial_quality"
+    return "structural_schema"
+
+
+def build_gate_results(errors: list[str]) -> dict[str, dict[str, Any]]:
+    gates = {
+        "structural_schema": {"passed": True, "errors": []},
+        "ai_provenance": {"passed": True, "errors": []},
+        "evidence_citation": {"passed": True, "errors": []},
+        "editorial_quality": {"passed": True, "errors": []},
+    }
+    for error in errors:
+        category = categorize_gate_error(error)
+        gates[category]["passed"] = False
+        gates[category]["errors"].append(error)
+    return gates
+
+
+def validate_publish_quality(
+    text: str,
+    raw_payload: dict[str, Any],
+    *,
+    source: str,
+    model: str,
+) -> tuple[list[str], dict[str, dict[str, Any]]]:
+    try:
+        _, body = extract_frontmatter(text)
+    except ValueError:
+        body = ""
+    errors: list[str] = []
+    errors.extend(ai_provenance_errors(source, model))
+    if body:
+        errors.extend(evidence_citation_errors(body, raw_payload))
+        errors.extend(editorial_quality_errors(body))
+        errors.extend(contradiction_errors(body))
+    return errors, build_gate_results(errors)
+
+
 def validate_analysis(text: str, raw_payload: dict[str, Any], current_datetime: str) -> tuple[list[str], int]:
     errors: list[str] = []
     try:
@@ -533,10 +725,12 @@ def write_gate_report(
     *,
     analysis_file: Path,
     source: str,
+    model: str,
     errors_before: list[str],
     errors_after: list[str],
     repair_actions: list[str],
     word_count: int,
+    gate_results: dict[str, dict[str, Any]],
 ) -> None:
     if path is None:
         return
@@ -544,8 +738,10 @@ def write_gate_report(
     payload = {
         "analysis_file": analysis_file.as_posix(),
         "source": source,
+        "model": model,
         "passed": not errors_after,
         "word_count": word_count,
+        "gates": gate_results,
         "errors_before_repair": errors_before,
         "repair_actions": repair_actions,
         "errors_after_repair": errors_after,
@@ -557,6 +753,9 @@ def write_gate_report(
 def classify_gate_errors(errors: list[str]) -> str:
     if not errors:
         return "passed"
+    categories = {categorize_gate_error(error) for error in errors}
+    if len(categories) == 1:
+        return next(iter(categories))
     if all(
         error.startswith(("date must", "week must", "year must", "repos_featured must", "stars_tracked must"))
         or ".claim_type must" in error
@@ -591,6 +790,8 @@ def main(argv: list[str] | None = None) -> int:
     text = args.analysis_file.read_text(encoding="utf-8")
     raw_payload = load_json(args.raw_json)
     errors_before, word_count = validate_analysis(text, raw_payload, args.current_datetime)
+    publish_errors_before, _ = validate_publish_quality(text, raw_payload, source=args.source, model=args.model)
+    combined_errors_before = errors_before + [error for error in publish_errors_before if error not in errors_before]
     errors = errors_before
     repair_actions: list[str] = []
     if errors and args.repair_safe:
@@ -607,14 +808,19 @@ def main(argv: list[str] | None = None) -> int:
                     f"::notice::Analysis gate applied safe repairs: {', '.join(repair_actions)}",
                     file=sys.stderr,
                 )
+    publish_errors, _ = validate_publish_quality(text, raw_payload, source=args.source, model=args.model)
+    errors = errors + [error for error in publish_errors if error not in errors]
+    gate_results = build_gate_results(errors)
     write_gate_report(
         args.report_json,
         analysis_file=args.analysis_file,
         source=args.source,
-        errors_before=errors_before,
+        model=args.model,
+        errors_before=combined_errors_before,
         errors_after=errors,
         repair_actions=repair_actions,
         word_count=word_count,
+        gate_results=gate_results,
     )
     if errors:
         fail(errors, summary_path)

@@ -188,7 +188,8 @@ class WorkflowConfigTests(unittest.TestCase):
 
         self.assertIsNotNone(external_news_step, "External news crawl step not found")
         run_script = external_news_step["run"]
-        self.assertIn("UNTIL=$(date +%Y-%m-%d)", run_script)
+        self.assertIn("SINCE=$(date -u -d '7 days ago' +%Y-%m-%d)", run_script)
+        self.assertIn("UNTIL=$(date -u +%Y-%m-%d)", run_script)
         self.assertIn('--until "$UNTIL"', run_script)
 
     def test_crawl_workflow_defines_reskill_jobs(self) -> None:
@@ -248,12 +249,16 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("python3 scripts/copilot_failure.py", run_analysis)
         self.assertIn("--create-token-issue", run_analysis)
         self.assertIn('FINAL_FAILURE_CLASS=""', run_analysis)
+        self.assertIn('if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "copilot_inaccessible" ]; then', run_analysis)
+        self.assertIn("failing without no-AI fallback", run_analysis)
+        self.assertIn('echo "copilot is not available: command not found" > "$COPILOT_LOG"', run_analysis)
+        self.assertIn("--exit-code 127", run_analysis)
         self.assertIn("No publishable Copilot summary was produced", run_analysis)
-        self.assertIn("no GitHub Models/OpenAI fallback", run_analysis)
+        self.assertIn("current published article can be preserved", run_analysis)
         self.assertIn("python3 scripts/analyze_fallback.py", run_analysis)
         self.assertIn('--press-context "$PRESS_FILE"', run_analysis)
         self.assertIn("--no-ai", run_analysis)
-        self.assertIn("exit 1", run_analysis)
+        self.assertIn('ANALYSIS_SOURCE="no-ai"', run_analysis)
         self.assertNotIn('ANALYSIS_SOURCE="github-models"', run_analysis)
         self.assertNotIn("falling back to GitHub Models API", run_analysis)
 
@@ -381,7 +386,10 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("scripts/publish_manifest.py create", manifest_run)
         self.assertIn("--analysis-source", manifest_run)
         self.assertIn("--analysis-model", manifest_run)
-        self.assertIn("--validation-status passed", manifest_run)
+        self.assertIn('--validation-status "$VALIDATION_STATUS"', manifest_run)
+        self.assertIn("--run-mode", manifest_run)
+        self.assertIn("--source-refresh-policy", manifest_run)
+        self.assertIn('git checkout origin/publish -- "$PUBLISHED_SUMMARY"', manifest_run)
 
         assert_step = next((s for s in analyze["steps"] if s.get("name") == "Assert candidate is eligible for promotion"), None)
         self.assertIsNotNone(assert_step)
@@ -414,6 +422,26 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("Publish branch drifted between analyze and content promotion", content_commit_run)
         self.assertIn("backup-existing", content_commit_run)
         self.assertIn("--force-with-lease", content_commit_run)
+
+    def test_rerun_mode_inputs_and_guards_are_declared(self) -> None:
+        workflow_path = Path(".github/workflows/crawl-and-publish.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+        inputs = workflow[True]["workflow_dispatch"]["inputs"]
+
+        self.assertEqual(inputs["run_mode"]["default"], "normal")
+        self.assertIn("restore", inputs["run_mode"]["options"])
+        self.assertEqual(inputs["source_refresh_policy"]["default"], "reuse-same-day")
+        self.assertIn("force-refresh", inputs["source_refresh_policy"]["options"])
+
+        crawl_steps = workflow["jobs"]["crawl"]["steps"]
+        validate_step = next((s for s in crawl_steps if s.get("name") == "Validate rerun mode"), None)
+        self.assertIsNotNone(validate_step)
+        self.assertIn("scripts/rerun_modes.py", validate_step["run"])
+
+        run_crawler = next((s for s in crawl_steps if s.get("name") == "Run crawler"), None)
+        self.assertIn("--reuse-artifact", run_crawler["run"])
+        self.assertIn("--source-refresh-policy", run_crawler["run"])
+
 
     def test_notify_failure_job_creates_or_updates_issue(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
