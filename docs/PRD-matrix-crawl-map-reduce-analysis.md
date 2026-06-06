@@ -2,7 +2,7 @@
 
 **Author:** Leela (Lead/Architect)  
 **Date:** 2026-06-05  
-**Status:** Draft  
+**Status:** Phase 2 dry-run scaffolding implemented for issue #258
 **Type:** Product / Design Requirements Document  
 **Depends on:** docs/analysis-spec.md, docs/pipeline-validation.md, .squad/decisions.md, scripts/analysis_gate.py  
 **Inputs synthesized:** Bender matrix crawl findings, Farnsworth map/reduce analysis findings, Fry QA gates
@@ -771,6 +771,17 @@ The map/reduce analysis path may become publishable only when:
 9. Quality does not regress in human review against single-pass output.
 10. Reruns on identical input are stable: same top repo or documented reason for change, and at least 70% overlap in selected key references.
 11. Existing Copilot -> GitHub Models -> no-AI fallback path remains available until map/reduce beats current path on gate pass rate, citation coverage, and editorial review.
+
+### Issue #258 dry-run implementation notes
+
+The first implementation is intentionally candidate-only:
+
+- `scripts/map_reduce_dry_run.py` performs deterministic local mappers for `new_repos`, `trending_repos`, `press_correlations`, and `prior_continuity`.
+- Each mapper writes an `analysis_map_v1` claim ledger with stable claim IDs, evidence refs, confidence/uncertainty, coverage counts, and artifact checksums.
+- The reducer writes `analysis_editorial_plan_v1`, plus `sidecars/rejected-claims.json` and `sidecars/contradictions.json`.
+- The final writer emits one reader-facing markdown candidate under `data/candidates/.../map-reduce/`; it is marked not publish eligible.
+- `qa-comparison-report.json` records structural analysis-gate status, evidence/editorial gate status, expected publish-provenance failure, blockers, and baseline comparison metadata.
+- Workflow dispatch exposes `analysis_path=map-reduce-dry-run`, but the workflow rejects it unless `run_mode` is `dry-run` or `candidate-only`. It never runs generate/deploy/notify/promotion paths.
 
 ---
 
