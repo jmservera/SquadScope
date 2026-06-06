@@ -293,6 +293,37 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("content/monthly/", upload_step["with"]["path"])
         self.assertIn("content/yearly/", upload_step["with"]["path"])
 
+    def test_sync_publish_to_main_excludes_squad_state_and_regenerates_rollups(self) -> None:
+        workflow_path = Path(".github/workflows/sync-publish-to-main.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+
+        sync_job = workflow["jobs"]["sync"]
+        sync_step = next((s for s in sync_job["steps"] if s.get("name") == "Sync data from publish"), None)
+        self.assertIsNotNone(sync_step)
+
+        sync_run = sync_step["run"]
+        for generated_path in (
+            "data/raw/",
+            "data/analyzed/",
+            "data/metrics/",
+            "content/weekly/",
+            "content/monthly/",
+            "content/yearly/",
+        ):
+            self.assertIn(generated_path, sync_run)
+
+        self.assertIn("python3 scripts/generate_rollups.py", sync_run)
+        self.assertLess(sync_run.index("python3 scripts/generate_rollups.py"), sync_run.index("git add -A"))
+        self.assertIn("Refusing to sync .squad state from publish to main.", sync_run)
+        self.assertLess(sync_run.index("Refusing to sync .squad"), sync_run.index("git commit -m"))
+        self.assertIn("**Explicitly NOT synced:**", sync_run)
+        self.assertIn(".squad/**", sync_run)
+        self.assertNotIn("git checkout origin/publish -- .squad", sync_run)
+        self.assertNotIn("git ls-tree -r --name-only origin/publish -- .squad", sync_run)
+        self.assertNotIn(".squad/decisions.md", sync_run)
+        self.assertNotIn(".squad/agents/*/history.md", sync_run)
+        self.assertNotIn("squad learnings", sync_run.lower())
+
     def test_notify_workflow_posts_optional_webhook(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
