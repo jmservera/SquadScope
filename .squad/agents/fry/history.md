@@ -103,3 +103,9 @@
 
 - Signal-type hierarchical map/reduce is the lowest-risk analysis decomposition MVP because it matches current raw payload boundaries, is fixture-testable, and can run sidecar-first without overwriting the existing Copilot -> GitHub Models -> no-AI publish path.
 - Map/reduce must not become publishable until mapper/reducer schemas, citation bindings, rejected-claim/contradiction sidecars, final `analysis_gate.py` compliance, fallback preservation, and A/B quality metrics pass.
+
+## Issue #257 overwrite-protection test groundwork (2026-06-05T21:16:49Z)
+
+- Added deterministic no-network regression coverage around publish eligibility manifests and promotion guard behavior.
+- Good canonical weekly summary/content must remain unchanged when candidates are failed, degraded, no-AI, stale, missing-manifest, or malformed-manifest.
+- Safe rerun promotion is copy-stable and must not append or duplicate article body content; ineligible candidates should remain in staging with promotion diagnostics for debugging.
