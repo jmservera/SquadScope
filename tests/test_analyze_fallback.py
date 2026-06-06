@@ -179,6 +179,112 @@ class AnalyzeFallbackTests(unittest.TestCase):
             self.assertNotIn("{{WISDOM}}", prompt)
             self.assertNotIn("{{SKILLS}}", prompt)
 
+    def test_main_writes_prompt_preflight_report_for_exact_rendered_prompt(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W21.json"
+            prompt_template = base / "prompt.md"
+            output_path = base / "data" / "analyzed" / "2026-W21-summary.md"
+            report_path = base / "diagnostics" / "preflight.json"
+            raw_path.parent.mkdir(parents=True)
+            output_path.parent.mkdir(parents=True)
+            raw_path.write_text(
+                json.dumps(
+                    {
+                        "week": "2026-W21",
+                        "new_repos": [{"full_name": "owner/new", "stars": 10}],
+                        "trending_repos": [{"full_name": "owner/trend", "stars": 20, "stars_gained": 5}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            prompt_template.write_text("{{RAW_JSON_CONTENT}}\n{{WISDOM}}\n{{SKILLS}}", encoding="utf-8")
+
+            with mock.patch("sys.stdout", new_callable=io.StringIO) as stdout:
+                exit_code = analyze_fallback.main(
+                    [
+                        "--raw-json",
+                        str(raw_path),
+                        "--output",
+                        str(output_path),
+                        "--current-datetime",
+                        "2026-05-18T13:05:53.678+02:00",
+                        "--prompt-template",
+                        str(prompt_template),
+                        "--analyzed-dir",
+                        str(output_path.parent),
+                        "--wisdom-file",
+                        str(base / "missing-wisdom.md"),
+                        "--skills-dir",
+                        str(base / "missing-skills"),
+                        "--preflight-report-json",
+                        str(report_path),
+                        "--print-prompt",
+                    ]
+                )
+
+            rendered = stdout.getvalue()
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            self.assertEqual(exit_code, 0)
+            self.assertEqual(report["prompt_checksum_sha256"], analyze_fallback.checksum_text(rendered))
+            self.assertEqual(report["deterministic_slices"], ["new_repos", "trending_repos", "press_correlations", "prior_continuity"])
+            self.assertIn("no-ai is diagnostic/staged-only", report["fallback_policy"])
+            components = {component["name"]: component for component in report["components"]}
+            self.assertEqual(components["new_repos"]["inclusion_reason"], "Deterministic mapper slice: newly discovered repositories.")
+            self.assertEqual(components["trending_repos"]["compaction_decision"], "included")
+
+    def test_preflight_compacts_before_prompt_exceeds_budget(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W21.json"
+            prompt_template = base / "prompt.md"
+            output_path = base / "data" / "analyzed" / "2026-W21-summary.md"
+            report_path = base / "diagnostics" / "preflight.json"
+            raw_path.parent.mkdir(parents=True)
+            output_path.parent.mkdir(parents=True)
+            raw_path.write_text(
+                json.dumps(
+                    {
+                        "week": "2026-W21",
+                        "new_repos": [{"full_name": f"owner/new-{i}", "stars": i} for i in range(60)],
+                        "trending_repos": [
+                            {"full_name": f"owner/trend-{i}", "stars": i, "stars_gained": i} for i in range(60)
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            prompt_template.write_text("{{RAW_JSON_CONTENT}}", encoding="utf-8")
+
+            exit_code = analyze_fallback.main(
+                [
+                    "--raw-json",
+                    str(raw_path),
+                    "--output",
+                    str(output_path),
+                    "--current-datetime",
+                    "2026-05-18T13:05:53.678+02:00",
+                    "--prompt-template",
+                    str(prompt_template),
+                    "--analyzed-dir",
+                    str(output_path.parent),
+                    "--preflight-report-json",
+                    str(report_path),
+                    "--prompt-token-budget",
+                    "2000",
+                    "--print-prompt",
+                ]
+            )
+
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            self.assertEqual(exit_code, 0)
+            self.assertTrue(report["degraded"])
+            components = {component["name"]: component for component in report["components"]}
+            self.assertIn("compacted to top", components["new_repos"]["compaction_decision"])
+            self.assertIn("compacted to top", components["trending_repos"]["compaction_decision"])
+
     def test_extract_markdown_supports_message_parts(self) -> None:
         payload = {
             "choices": [

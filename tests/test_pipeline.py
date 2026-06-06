@@ -217,7 +217,7 @@ class WorkflowConfigTests(unittest.TestCase):
 
         reskill_step = next((s for s in reskill["steps"] if s.get("name") == "Run reskill"), None)
         self.assertIsNotNone(reskill_step)
-        self.assertEqual(workflow["env"]["GITHUB_MODELS_MODEL"], "${{ vars.GITHUB_MODELS_MODEL || 'openai/gpt-4o' }}")
+        self.assertNotIn("GITHUB_MODELS_MODEL", workflow["env"])
         self.assertEqual(reskill_step["env"]["COPILOT_GITHUB_TOKEN"], "${{ secrets.COPILOT_GH_TOKEN }}")
         reskill_run = reskill_step["run"]
         self.assertIn("python3 scripts/reskill.py --current-datetime", reskill_run)
@@ -237,6 +237,15 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn('RESKILL_PROMPT=".squad/reskill/current-prompt.md"', reskill_run)
 
         analyze = workflow["jobs"]["analyze"]
+        preflight_step = next((s for s in analyze["steps"] if s.get("name") == "Render and preflight analysis prompt"), None)
+        self.assertIsNotNone(preflight_step)
+        preflight_run = preflight_step["run"]
+        self.assertIn("--prompt-token-budget", preflight_run)
+        self.assertIn("--preflight-report-json", preflight_run)
+        self.assertIn("--preflight-report-md", preflight_run)
+        self.assertIn("--print-prompt > \"$PROMPT_FILE\"", preflight_run)
+        self.assertIn("--context-files \"$PROMPT_FILE\"", preflight_run)
+
         run_analysis_step = next((s for s in analyze["steps"] if s.get("name") == "Run analysis"), None)
         self.assertIsNotNone(run_analysis_step)
         run_analysis = run_analysis_step["run"]

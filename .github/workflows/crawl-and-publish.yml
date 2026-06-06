@@ -25,7 +25,6 @@ concurrency:
 
 env:
   PYTHONPATH: ${{ github.workspace }}
-  GITHUB_MODELS_MODEL: ${{ vars.GITHUB_MODELS_MODEL || 'openai/gpt-4o' }}
 
 jobs:
   crawl:
@@ -337,27 +336,60 @@ jobs:
           PY
           echo "press_file=$PRESS_FILE" >> "$GITHUB_OUTPUT"
 
-      - name: Pre-flight cost check
-        id: preflight-cost
+      - name: Render and preflight analysis prompt
+        id: prompt-preflight
         run: |
+          set -euo pipefail
           WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
-          CONTEXT_FILES=("$WEEK_FILE")
-          if [ -f ".squad/skills/wisdom.md" ]; then
-            CONTEXT_FILES+=(".squad/skills/wisdom.md")
-          fi
-          for f in .squad/skills/*.md; do
-            [ -f "$f" ] && CONTEXT_FILES+=("$f")
-          done
-          # Use the generic Copilot default cost profile so the workflow never pins a stale CLI model.
+          WEEK="${{ steps.analysis-context.outputs.week }}"
+          OUTPUT_FILE="${{ steps.analysis-context.outputs.candidate_output_file }}"
+          CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
+          PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
+          DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
+          PROMPT_FILE="data/metrics/analysis-prompt-${WEEK}.md"
+          PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-preflight.json"
+          PREFLIGHT_MD="$DIAGNOSTICS_DIR/analysis-preflight.md"
+          mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
+          # Hydrate metrics ledger from publish before writing this run's prompt/preflight artifacts.
+          git fetch origin publish 2>/dev/null && \
+            git checkout origin/publish -- data/metrics/ 2>/dev/null || true
+          python3 scripts/analyze_fallback.py \
+            --raw-json "$WEEK_FILE" \
+            --output "$OUTPUT_FILE" \
+            --current-datetime "$CURRENT_DATETIME" \
+            --press-context "$PRESS_FILE" \
+            --prompt-token-budget "${ANALYSIS_PROMPT_TOKEN_BUDGET:-90000}" \
+            --preflight-report-json "$PREFLIGHT_JSON" \
+            --preflight-report-md "$PREFLIGHT_MD" \
+            --print-prompt > "$PROMPT_FILE"
+          # Use the exact rendered prompt for the existing cost guard.
           python3 scripts/preflight_cost_check.py \
-            --context-files "${CONTEXT_FILES[@]}"
+            --context-files "$PROMPT_FILE"
+          python3 - <<'PY' "$PREFLIGHT_JSON"
+          import json
+          import sys
+          from pathlib import Path
+
+          report = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          print(
+              "::notice::Analysis preflight "
+              f"tokens={report['prompt_tokens']}/{report['prompt_token_budget']} "
+              f"bytes={report['prompt_bytes']} "
+              f"degraded={report['degraded']} "
+              f"publish_eligible={report['publish_eligible']} "
+              f"checksum={report['prompt_checksum_sha256'][:12]}"
+          )
+          PY
+          echo "prompt_file=$PROMPT_FILE" >> "$GITHUB_OUTPUT"
+          echo "preflight_report_json=$PREFLIGHT_JSON" >> "$GITHUB_OUTPUT"
+          echo "preflight_report_md=$PREFLIGHT_MD" >> "$GITHUB_OUTPUT"
 
       - name: Install Copilot CLI
         id: install-copilot
         run: npm install -g @github/copilot
 
       - name: Run analysis
-        if: steps.preflight-cost.outcome == 'success'
+        if: steps.prompt-preflight.outcome == 'success'
         id: run-analysis
         env:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GH_TOKEN }}
@@ -372,18 +404,7 @@ jobs:
           ANALYSIS_STARTED=$(date +%s)
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
-          # Hydrate metrics ledger from publish so track_token_usage.py appends to
-          # the canonical token-usage.jsonl rather than starting fresh each run.
-          git fetch origin publish 2>/dev/null && \
-            git checkout origin/publish -- data/metrics/ 2>/dev/null || true
-          PROMPT_FILE="data/metrics/analysis-prompt-${WEEK}.md"
-          rm -f "$PROMPT_FILE"
-          python3 scripts/analyze_fallback.py \
-            --raw-json "$WEEK_FILE" \
-            --output "$OUTPUT_FILE" \
-            --current-datetime "$CURRENT_DATETIME" \
-            --press-context "$PRESS_FILE" \
-            --print-prompt > "$PROMPT_FILE"
+          PROMPT_FILE="${{ steps.prompt-preflight.outputs.prompt_file }}"
 
           sanitize_agent_output() {
             python3 scripts/sanitize_agent_output.py --path "$1"
@@ -460,7 +481,7 @@ jobs:
                 --run-id "${GITHUB_RUN_ID:-local}")
               FINAL_FAILURE_CLASS="$FAILURE_CLASS"
               echo "::warning::Copilot CLI failed on attempt $((ATTEMPT + 1)); class=${FAILURE_CLASS}; report=${COPILOT_FAILURE_REPORT}"
-              if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "copilot_inaccessible" ] || [ "$FAILURE_CLASS" = "context_too_large" ]; then
+              if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "context_too_large" ]; then
                 echo "::error::Non-retryable Copilot analysis failure (${FAILURE_CLASS}). See ${COPILOT_FAILURE_REPORT}."
                 exit 1
               fi
@@ -496,7 +517,7 @@ jobs:
             ATTEMPT=$((ATTEMPT + 1))
           done
           else
-            FINAL_FAILURE_CLASS="copilot_inaccessible"
+            FINAL_FAILURE_CLASS="other"
             echo "::error::Copilot CLI unavailable; this repository has no GitHub Models/OpenAI fallback."
             exit 1
           fi
@@ -538,8 +559,8 @@ jobs:
             --output-file "$OUTPUT_FILE" \
             $TRANSCRIPT_ARGS
           ANALYSIS_DURATION=$(( $(date +%s) - ANALYSIS_STARTED ))
-          echo "::notice::Analysis path source=$ANALYSIS_SOURCE model=$ANALYSIS_MODEL duration_seconds=$ANALYSIS_DURATION press_context=$PRESS_FILE"
-          rm -f "$PROMPT_FILE"
+          PREFLIGHT_REPORT="${{ steps.prompt-preflight.outputs.preflight_report_json }}"
+          echo "::notice::Analysis path source=$ANALYSIS_SOURCE model=$ANALYSIS_MODEL duration_seconds=$ANALYSIS_DURATION press_context=$PRESS_FILE preflight_report=$PREFLIGHT_REPORT"
           # Clean up per-attempt transcripts
           rm -f data/metrics/copilot-transcript-attempt-*.md
           echo "analysis_source=$ANALYSIS_SOURCE" >> "$GITHUB_OUTPUT"
