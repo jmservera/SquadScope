@@ -458,12 +458,16 @@ jobs:
               ANALYSIS_MODEL="copilot-default"
             else
               cp "$OUTPUT_FILE" "$CANDIDATE_SNAPSHOT" 2>/dev/null || true
-              CURRENT_GATE_FINGERPRINT=$(python3 -c 'import hashlib,json,sys; from pathlib import Path; report=json.loads(Path(sys.argv[1]).read_text(encoding="utf-8")); errors=report.get("errors_after_repair") or report.get("errors_before_repair") or []; print(hashlib.sha256(json.dumps(errors, sort_keys=True).encode("utf-8")).hexdigest())' "$GATE_REPORT")
-              if [ -n "$LAST_GATE_FINGERPRINT" ] && [ "$CURRENT_GATE_FINGERPRINT" = "$LAST_GATE_FINGERPRINT" ]; then
-                echo "::error::Repeated deterministic analysis gate failure after repair. See ${GATE_REPORT} and ${CANDIDATE_SNAPSHOT}."
-                break
+              CURRENT_GATE_FINGERPRINT=$(python3 -c 'import sys; from pathlib import Path; import scripts.analysis_gate as gate; print(gate.gate_report_fingerprint(Path(sys.argv[1])))' "$GATE_REPORT" 2>/dev/null || true)
+              if [ -n "$CURRENT_GATE_FINGERPRINT" ]; then
+                if [ -n "$LAST_GATE_FINGERPRINT" ] && [ "$CURRENT_GATE_FINGERPRINT" = "$LAST_GATE_FINGERPRINT" ]; then
+                  echo "::error::Repeated deterministic analysis gate failure after repair. See ${GATE_REPORT} and ${CANDIDATE_SNAPSHOT}."
+                  break
+                fi
+                LAST_GATE_FINGERPRINT="$CURRENT_GATE_FINGERPRINT"
+              else
+                echo "::warning::Gate report missing or invalid; continuing fallback path without deterministic repeat fingerprint. Expected report: ${GATE_REPORT}"
               fi
-              LAST_GATE_FINGERPRINT="$CURRENT_GATE_FINGERPRINT"
             fi
 
             ATTEMPT=$((ATTEMPT + 1))

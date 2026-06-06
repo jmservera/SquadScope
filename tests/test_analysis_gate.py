@@ -1,3 +1,5 @@
+import json
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -266,6 +268,23 @@ summary: "A grounded week focused on practical tools."'''.strip()
             self.assertIn("{repo, claim_type, direction, confidence}", content)
             self.assertIn("signal|noise|gap", content)
             self.assertNotIn("{repo, direction, confidence}", content)
+
+    def test_gate_report_fingerprint_tolerates_missing_or_invalid_reports(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            workspace = Path(tmpdir)
+            missing = workspace / "missing.json"
+            invalid = workspace / "invalid.json"
+            report = workspace / "report.json"
+            invalid.write_text("not json", encoding="utf-8")
+            report.write_text(
+                json.dumps({"errors_after_repair": ["date must match the current run timestamp."]}),
+                encoding="utf-8",
+            )
+
+            self.assertEqual(analysis_gate.gate_report_fingerprint(missing), "")
+            self.assertEqual(analysis_gate.gate_report_fingerprint(invalid), "")
+            self.assertRegex(analysis_gate.gate_report_fingerprint(report), r"^[0-9a-f]{64}$")
 
 
 if __name__ == "__main__":

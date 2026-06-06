@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -562,6 +563,19 @@ def classify_gate_errors(errors: list[str]) -> str:
     if any(error.startswith("Missing required section heading") or "body" in error for error in errors):
         return "content_structure"
     return "quality_gate"
+
+
+def gate_report_fingerprint(path: Path) -> str:
+    try:
+        report = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return ""
+    if not isinstance(report, dict):
+        return ""
+    errors = report.get("errors_after_repair") or report.get("errors_before_repair") or []
+    if not isinstance(errors, list):
+        return ""
+    return hashlib.sha256(json.dumps(errors, sort_keys=True).encode("utf-8")).hexdigest()
 
 
 def main(argv: list[str] | None = None) -> int:
