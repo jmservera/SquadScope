@@ -5,13 +5,33 @@ on:
     - cron: '30 8 * * 1'
   workflow_dispatch:
     inputs:
+      run_mode:
+        description: 'Rerun mode: normal is guarded/non-destructive; dry-run/candidate-only never publish; restore requires rebuild_week; force-replace is explicit replacement.'
+        required: false
+        default: normal
+        type: choice
+        options:
+          - normal
+          - dry-run
+          - restore
+          - force-replace
+          - candidate-only
+      source_refresh_policy:
+        description: 'Source refresh policy for reruns. Default reuses eligible same-day source artifacts and refreshes missing/stale sources.'
+        required: false
+        default: reuse-same-day
+        type: choice
+        options:
+          - reuse-same-day
+          - refresh-missing-stale
+          - force-refresh
       publish_release:
-        description: 'Create or update the weekly GitHub Release during a manual run.'
+        description: 'Create or update the weekly GitHub Release during a manual run. Not allowed for dry-run/candidate-only.'
         required: false
         default: false
         type: boolean
       rebuild_week:
-        description: 'Rebuild a specific past week (e.g. 2026-W21). Skips crawl, hydrates raw/analyzed from publish, regenerates content+rollups only.'
+        description: 'Restore a specific past week (e.g. 2026-W21). Requires run_mode=restore; skips crawl and hydrates from publish.'
         required: false
         default: ''
         type: string
@@ -40,6 +60,23 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
+
+      - name: Validate rerun mode
+        id: rerun-mode
+        env:
+          RUN_MODE: ${{ inputs.run_mode || 'normal' }}
+          SOURCE_REFRESH_POLICY: ${{ inputs.source_refresh_policy || 'reuse-same-day' }}
+          REBUILD_WEEK: ${{ inputs.rebuild_week || '' }}
+          PUBLISH_RELEASE: ${{ inputs.publish_release || false }}
+        run: |
+          set -euo pipefail
+          ARGS=(--run-mode "$RUN_MODE" --source-refresh-policy "$SOURCE_REFRESH_POLICY" --rebuild-week "$REBUILD_WEEK" --summary-json data/diagnostics/rerun-mode.json)
+          if [ "$PUBLISH_RELEASE" = "true" ]; then
+            ARGS+=(--publish-release)
+          fi
+          python3 scripts/rerun_modes.py "${ARGS[@]}"
+          echo "run_mode=$RUN_MODE" >> "$GITHUB_OUTPUT"
+          echo "source_refresh_policy=$SOURCE_REFRESH_POLICY" >> "$GITHUB_OUTPUT"
 
       - name: Find latest successful crawl cache
         id: previous-cache-run
@@ -90,25 +127,25 @@ jobs:
           name: crawl-cache
           path: data/cache/
 
-      - name: Restore previous raw data for safe same-day reuse
-        if: steps.previous-cache-run.outputs.run_id != ''
+      - name: Download previous raw artifacts for same-day reuse
+        if: ${{ steps.previous-cache-run.outputs.run_id != '' && !inputs.rebuild_week }}
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ steps.previous-cache-run.outputs.run_id }}
           name: raw-data
-          path: data/raw/
+          path: .artifact-reuse/raw-data/
 
-      - name: Restore previous snapshots for safe same-day reuse
-        if: steps.previous-cache-run.outputs.run_id != ''
+      - name: Download previous snapshots for same-day reuse
+        if: ${{ steps.previous-cache-run.outputs.run_id != '' && !inputs.rebuild_week }}
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ steps.previous-cache-run.outputs.run_id }}
           name: crawl-snapshots
-          path: data/snapshots/
+          path: .artifact-reuse/snapshots/
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -119,22 +156,40 @@ jobs:
         if: ${{ !inputs.rebuild_week }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python scripts/crawl.py
+          SOURCE_REFRESH_POLICY: ${{ steps.rerun-mode.outputs.source_refresh_policy }}
+        run: |
+          set -euo pipefail
+          WEEK=$(date -u +%Y-W%V)
+          CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          CODE_SHA=$(git hash-object scripts/crawl.py squadscope.topic.yml 2>/dev/null | sha256sum | cut -d' ' -f1)
+          python scripts/crawl.py \
+            --reuse-artifact ".artifact-reuse/raw-data/${WEEK}.json" \
+            --source-refresh-policy "$SOURCE_REFRESH_POLICY" \
+            --run-started-at "$CURRENT_DATETIME" \
+            --current-code-sha "$CODE_SHA"
 
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
       - name: Crawl external news RSS feeds
         if: ${{ !inputs.rebuild_week }}
+        env:
+          SOURCE_REFRESH_POLICY: ${{ steps.rerun-mode.outputs.source_refresh_policy }}
         run: |
-          WEEK=$(date +%Y-W%V)
-          SINCE=$(date -d '7 days ago' +%Y-%m-%d)
-          UNTIL=$(date +%Y-%m-%d)
+          WEEK=$(date -u +%Y-W%V)
+          CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          SINCE=$(date -u -d '7 days ago' +%Y-%m-%d)
+          UNTIL=$(date -u +%Y-%m-%d)
+          CODE_SHA=$(git hash-object scripts/techcrunch_crawler.py config/external_news_sources.json 2>/dev/null | sha256sum | cut -d' ' -f1)
           python scripts/techcrunch_crawler.py \
             --sources config/external_news_sources.json \
             --output "data/raw/${WEEK}-external-news.json" \
             --since "$SINCE" \
-            --until "$UNTIL"
+            --until "$UNTIL" \
+            --reuse-artifact ".artifact-reuse/raw-data/${WEEK}-external-news.json" \
+            --source-refresh-policy "$SOURCE_REFRESH_POLICY" \
+            --run-started-at "$CURRENT_DATETIME" \
+            --current-code-sha "$CODE_SHA"
           python3 - <<'PY' "data/raw/${WEEK}-external-news.json"
           import json
           import sys
@@ -178,7 +233,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Commit crawl data to data branch
-        if: ${{ !inputs.rebuild_week }}
+        if: ${{ !inputs.rebuild_week && inputs.run_mode != 'dry-run' && inputs.run_mode != 'candidate-only' }}
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           DATA_BRANCH: publish
@@ -227,6 +282,7 @@ jobs:
       candidate_summary_file: ${{ steps.analysis-context.outputs.candidate_output_file }}
       publish_manifest_file: ${{ steps.analysis-context.outputs.publish_manifest_file }}
       current_datetime: ${{ steps.analysis-context.outputs.current_datetime }}
+      run_mode: ${{ steps.analysis-context.outputs.run_mode }}
 
     steps:
       - name: Check out repository
@@ -277,6 +333,8 @@ jobs:
         id: analysis-context
         env:
           REBUILD_WEEK: ${{ inputs.rebuild_week || '' }}
+          RUN_MODE: ${{ inputs.run_mode || 'normal' }}
+          SOURCE_REFRESH_POLICY: ${{ inputs.source_refresh_policy || 'reuse-same-day' }}
         run: |
           mkdir -p data/analyzed data/candidates
           CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
@@ -314,6 +372,8 @@ jobs:
           {
             printf '%s\n' "${CONTEXT_LINES[@]}"
             echo "current_datetime=$CURRENT_DATETIME"
+            echo "run_mode=$RUN_MODE"
+            echo "source_refresh_policy=$SOURCE_REFRESH_POLICY"
           } >> "$GITHUB_OUTPUT"
 
       - name: Install Python dependencies
@@ -619,6 +679,8 @@ jobs:
           ANALYSIS_MODEL: ${{ steps.run-analysis.outputs.analysis_model }}
           VALIDATION_STATUS: ${{ steps.quality-check.outcome == 'success' && 'passed' || 'failed' }}
           MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
+          RUN_MODE: ${{ steps.analysis-context.outputs.run_mode }}
+          SOURCE_REFRESH_POLICY: ${{ steps.analysis-context.outputs.source_refresh_policy }}
           GATE_REPORT: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
         run: |
           set -euo pipefail
@@ -643,14 +705,18 @@ jobs:
             --analysis-source "$ANALYSIS_SOURCE" \
             --analysis-model "$ANALYSIS_MODEL" \
             --validation-status "$VALIDATION_STATUS" \
+            --run-mode "$RUN_MODE" \
+            --source-refresh-policy "$SOURCE_REFRESH_POLICY" \
             --gate-report "$GATE_REPORT" \
             --output "$MANIFEST_FILE" \
             "${ARTIFACT_ARGS[@]}"
 
       - name: Assert candidate is eligible for promotion
+        if: ${{ steps.analysis-context.outputs.run_mode != 'dry-run' && steps.analysis-context.outputs.run_mode != 'candidate-only' }}
         run: python3 scripts/publish_manifest.py assert-eligible --manifest "${{ steps.analysis-context.outputs.publish_manifest_file }}"
 
       - name: Commit analysis and learnings to data branch
+        if: ${{ steps.analysis-context.outputs.run_mode != 'dry-run' && steps.analysis-context.outputs.run_mode != 'candidate-only' }}
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           DATA_BRANCH: publish
@@ -729,6 +795,7 @@ jobs:
 
   generate:
     needs: analyze
+    if: ${{ needs.analyze.outputs.run_mode != 'dry-run' && needs.analyze.outputs.run_mode != 'candidate-only' }}
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -869,6 +936,7 @@ jobs:
 
   deploy:
     needs: [crawl, analyze, generate]
+    if: ${{ needs.analyze.outputs.run_mode != 'dry-run' && needs.analyze.outputs.run_mode != 'candidate-only' }}
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -946,7 +1014,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
   notify:
-    if: github.event_name == 'schedule' || github.event.inputs.publish_release == 'true'
+    if: ${{ (github.event_name == 'schedule' || github.event.inputs.publish_release == 'true') && needs.analyze.outputs.run_mode != 'dry-run' && needs.analyze.outputs.run_mode != 'candidate-only' }}
     needs: [analyze, generate, deploy]
     runs-on: ubuntu-latest
     permissions:

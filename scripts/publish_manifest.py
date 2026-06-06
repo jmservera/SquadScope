@@ -12,6 +12,8 @@ from typing import Any
 
 SCHEMA_VERSION = "publish_eligibility_v1"
 AI_SOURCES = {"copilot-cli", "github-models"}
+RUN_MODES = {"normal", "dry-run", "restore", "force-replace", "candidate-only"}
+SOURCE_REFRESH_POLICIES = {"reuse-same-day", "refresh-missing-stale", "force-refresh"}
 ALLOWED_PROMOTION_MANIFEST_ROOTS = {("data", "staging"), ("data", "candidates")}
 PROMOTION_MANIFEST_ROOT_ERROR = "Publish manifest must live under data/staging/ or data/candidates/."
 NO_AI_SOURCE = "no-ai"
@@ -41,6 +43,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     create.add_argument("--analysis-source", required=True)
     create.add_argument("--analysis-model", default="copilot-default")
     create.add_argument("--validation-status", choices=["passed", "failed"], required=True)
+    create.add_argument("--run-mode", choices=sorted(RUN_MODES), default="normal")
+    create.add_argument("--source-refresh-policy", choices=sorted(SOURCE_REFRESH_POLICIES), default="reuse-same-day")
     create.add_argument("--gate-report", type=Path, help="Structured analysis gate report emitted by analysis_gate.py.")
     create.add_argument("--output", required=True, type=Path)
     create.add_argument("--artifact", action="append", default=[], help="Additional source artifact as role=path.")
@@ -272,7 +276,7 @@ def same_day_reuse_status(payload: dict[str, Any] | None) -> dict[str, Any]:
     }
 
 
-def freshness_for_json_artifact(role: str, week: str, payload: dict[str, Any] | None) -> dict[str, Any]:
+def freshness_for_json_artifact(role: str, week: str, payload: dict[str, Any] | None, *, run_date: datetime | None = None, run_mode: str = "normal") -> dict[str, Any]:
     if payload is None:
         return {"status": "missing" if role == "raw_github" else "not_applicable", "reasons": ["artifact missing"]}
 
@@ -288,6 +292,8 @@ def freshness_for_json_artifact(role: str, week: str, payload: dict[str, Any] | 
             reasons.append("missing or invalid crawled_at/generated_at timestamp")
         elif week_slug(parsed) != week:
             reasons.append(f"timestamp week mismatch: expected {week}, found {week_slug(parsed)}")
+        elif run_date is not None and run_mode not in {"restore", "force-replace"} and parsed.astimezone(UTC).date() != run_date.astimezone(UTC).date():
+            reasons.append("timestamp date is not the current UTC run date")
 
     crawl_window = payload.get("crawl_window")
     if role in {"external_news", "techcrunch_news"} and isinstance(crawl_window, dict):
@@ -298,7 +304,15 @@ def freshness_for_json_artifact(role: str, week: str, payload: dict[str, Any] | 
     return {"status": "fresh" if not reasons else "stale", "reasons": reasons}
 
 
-def artifact_entry(role: str, path: Path, week: str, generated_at: str | None = None) -> dict[str, Any]:
+def artifact_entry(
+    role: str,
+    path: Path,
+    week: str,
+    generated_at: str | None = None,
+    *,
+    run_date: datetime | None = None,
+    run_mode: str = "normal",
+) -> dict[str, Any]:
     payload = load_json(path) if path.suffix == ".json" else None
     metadata = payload.get("metadata", {}) if isinstance(payload, dict) and isinstance(payload.get("metadata"), dict) else {}
     if isinstance(payload, dict):
@@ -316,7 +330,7 @@ def artifact_entry(role: str, path: Path, week: str, generated_at: str | None = 
         "crawled_at": payload.get("crawled_at") if isinstance(payload, dict) else None,
         "generated_at": artifact_generated_at,
         "same_day_reuse": same_day_reuse_status(payload),
-        "freshness": freshness_for_json_artifact(role, week, payload) if path.suffix == ".json" else {"status": "not_applicable", "reasons": []},
+        "freshness": freshness_for_json_artifact(role, week, payload, run_date=run_date, run_mode=run_mode) if path.suffix == ".json" else {"status": "not_applicable", "reasons": []},
     }
     if "source_status" in metadata:
         entry["source_status"] = metadata["source_status"]
@@ -423,7 +437,14 @@ def publishable_model_status(model: str) -> str:
 
 def create_manifest(args: argparse.Namespace) -> int:
     artifacts = [("raw_github", args.raw_json), *parse_artifacts(args.artifact)]
-    source_artifacts = [artifact_entry(role, path, args.week, args.current_datetime) for role, path in artifacts if path.exists() or role == "raw_github"]
+    run_date = parse_datetime(args.current_datetime)
+    if run_date is None:
+        raise SystemExit(f"Invalid --current-datetime value: {args.current_datetime!r}")
+    source_artifacts = [
+        artifact_entry(role, path, args.week, args.current_datetime, run_date=run_date, run_mode=args.run_mode)
+        for role, path in artifacts
+        if path.exists() or role == "raw_github"
+    ]
     artifact_reasons = [
         f"{entry['role']}: {reason}"
         for entry in source_artifacts
@@ -440,6 +461,7 @@ def create_manifest(args: argparse.Namespace) -> int:
     candidate_content = args.content or args.summary
     candidate_content_exists = candidate_content.exists()
     validation_passed = args.validation_status == "passed"
+    mode_allows_promotion = args.run_mode not in {"dry-run", "candidate-only"}
     gates_passed = gate_report.get("present") is True and gate_report.get("passed") is True
     candidate_quality = candidate_metadata.get("quality_score")
     attempted_ai_paths = [path for path in args.attempted_ai_path if path.strip()]
@@ -493,6 +515,8 @@ def create_manifest(args: argparse.Namespace) -> int:
         reasons.append("analysis validation did not pass")
     if ai_status not in {"ai", "no-ai"}:
         reasons.append(f"analysis source is not AI-publishable: {analysis_source or 'unknown'}")
+    if not mode_allows_promotion:
+        reasons.append(f"run mode {args.run_mode} is non-publishing")
     if ai_status == "ai" and model_status != "available":
         reasons.append(f"analysis model is not AI-publishable: {args.analysis_model or 'unknown'}")
     if not gates_passed:
@@ -507,6 +531,7 @@ def create_manifest(args: argparse.Namespace) -> int:
         and gates_passed
         and not artifact_reasons
         and not comparison_reasons
+        and mode_allows_promotion
         and not reasons
         and (
             (ai_status == "ai" and model_status == "available")
@@ -521,6 +546,8 @@ def create_manifest(args: argparse.Namespace) -> int:
         "run_id": args.run_id,
         "week": args.week,
         "generated_at": args.current_datetime,
+        "run_mode": args.run_mode,
+        "source_refresh_policy": args.source_refresh_policy,
         "run_started_at": args.current_datetime,
         "candidate_summary_path": args.summary.as_posix(),
         "candidate_content_path": candidate_content.as_posix(),
@@ -591,6 +618,8 @@ def create_manifest(args: argparse.Namespace) -> int:
         "promotion": {
             "eligible": eligible,
             "decision": decision,
+            "mode": args.run_mode,
+            "source_refresh_policy": args.source_refresh_policy,
             "policy": args.publish_policy,
             "reasons": reasons,
         },
