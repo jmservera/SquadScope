@@ -5,13 +5,33 @@ on:
     - cron: '30 8 * * 1'
   workflow_dispatch:
     inputs:
+      run_mode:
+        description: 'Rerun mode: normal is guarded/non-destructive; dry-run/candidate-only never publish; restore requires rebuild_week; force-replace is explicit replacement.'
+        required: false
+        default: normal
+        type: choice
+        options:
+          - normal
+          - dry-run
+          - restore
+          - force-replace
+          - candidate-only
+      source_refresh_policy:
+        description: 'Source refresh policy for reruns. Default reuses eligible same-day source artifacts and refreshes missing/stale sources.'
+        required: false
+        default: reuse-same-day
+        type: choice
+        options:
+          - reuse-same-day
+          - refresh-missing-stale
+          - force-refresh
       publish_release:
-        description: 'Create or update the weekly GitHub Release during a manual run.'
+        description: 'Create or update the weekly GitHub Release during a manual run. Not allowed for dry-run/candidate-only.'
         required: false
         default: false
         type: boolean
       rebuild_week:
-        description: 'Rebuild a specific past week (e.g. 2026-W21). Skips crawl, hydrates raw/analyzed from publish, regenerates content+rollups only.'
+        description: 'Restore a specific past week (e.g. 2026-W21). Requires run_mode=restore; skips crawl and hydrates from publish.'
         required: false
         default: ''
         type: string
@@ -39,6 +59,23 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
+
+      - name: Validate rerun mode
+        id: rerun-mode
+        env:
+          RUN_MODE: ${{ inputs.run_mode || 'normal' }}
+          SOURCE_REFRESH_POLICY: ${{ inputs.source_refresh_policy || 'reuse-same-day' }}
+          REBUILD_WEEK: ${{ inputs.rebuild_week || '' }}
+          PUBLISH_RELEASE: ${{ inputs.publish_release || false }}
+        run: |
+          set -euo pipefail
+          ARGS=(--run-mode "$RUN_MODE" --source-refresh-policy "$SOURCE_REFRESH_POLICY" --rebuild-week "$REBUILD_WEEK" --summary-json data/diagnostics/rerun-mode.json)
+          if [ "$PUBLISH_RELEASE" = "true" ]; then
+            ARGS+=(--publish-release)
+          fi
+          python3 scripts/rerun_modes.py "${ARGS[@]}"
+          echo "run_mode=$RUN_MODE" >> "$GITHUB_OUTPUT"
+          echo "source_refresh_policy=$SOURCE_REFRESH_POLICY" >> "$GITHUB_OUTPUT"
 
       - name: Find latest successful crawl cache
         id: previous-cache-run
@@ -89,25 +126,25 @@ jobs:
           name: crawl-cache
           path: data/cache/
 
-      - name: Restore previous raw data for safe same-day reuse
-        if: steps.previous-cache-run.outputs.run_id != ''
+      - name: Download previous raw artifacts for same-day reuse
+        if: ${{ steps.previous-cache-run.outputs.run_id != '' && !inputs.rebuild_week }}
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ steps.previous-cache-run.outputs.run_id }}
           name: raw-data
-          path: data/raw/
+          path: .artifact-reuse/raw-data/
 
-      - name: Restore previous snapshots for safe same-day reuse
-        if: steps.previous-cache-run.outputs.run_id != ''
+      - name: Download previous snapshots for same-day reuse
+        if: ${{ steps.previous-cache-run.outputs.run_id != '' && !inputs.rebuild_week }}
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ steps.previous-cache-run.outputs.run_id }}
           name: crawl-snapshots
-          path: data/snapshots/
+          path: .artifact-reuse/snapshots/
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -118,22 +155,40 @@ jobs:
         if: ${{ !inputs.rebuild_week }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python scripts/crawl.py
+          SOURCE_REFRESH_POLICY: ${{ steps.rerun-mode.outputs.source_refresh_policy }}
+        run: |
+          set -euo pipefail
+          WEEK=$(date -u +%Y-W%V)
+          CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          CODE_SHA=$(git hash-object scripts/crawl.py squadscope.topic.yml 2>/dev/null | sha256sum | cut -d' ' -f1)
+          python scripts/crawl.py \
+            --reuse-artifact ".artifact-reuse/raw-data/${WEEK}.json" \
+            --source-refresh-policy "$SOURCE_REFRESH_POLICY" \
+            --run-started-at "$CURRENT_DATETIME" \
+            --current-code-sha "$CODE_SHA"
 
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
       - name: Crawl external news RSS feeds
         if: ${{ !inputs.rebuild_week }}
+        env:
+          SOURCE_REFRESH_POLICY: ${{ steps.rerun-mode.outputs.source_refresh_policy }}
         run: |
-          WEEK=$(date +%Y-W%V)
-          SINCE=$(date -d '7 days ago' +%Y-%m-%d)
-          UNTIL=$(date +%Y-%m-%d)
+          WEEK=$(date -u +%Y-W%V)
+          CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          SINCE=$(date -u -d '7 days ago' +%Y-%m-%d)
+          UNTIL=$(date -u +%Y-%m-%d)
+          CODE_SHA=$(git hash-object scripts/techcrunch_crawler.py config/external_news_sources.json 2>/dev/null | sha256sum | cut -d' ' -f1)
           python scripts/techcrunch_crawler.py \
             --sources config/external_news_sources.json \
             --output "data/raw/${WEEK}-external-news.json" \
             --since "$SINCE" \
-            --until "$UNTIL"
+            --until "$UNTIL" \
+            --reuse-artifact ".artifact-reuse/raw-data/${WEEK}-external-news.json" \
+            --source-refresh-policy "$SOURCE_REFRESH_POLICY" \
+            --run-started-at "$CURRENT_DATETIME" \
+            --current-code-sha "$CODE_SHA"
           python3 - <<'PY' "data/raw/${WEEK}-external-news.json"
           import json
           import sys
@@ -177,7 +232,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Commit crawl data to data branch
-        if: ${{ !inputs.rebuild_week }}
+        if: ${{ !inputs.rebuild_week && inputs.run_mode != 'dry-run' && inputs.run_mode != 'candidate-only' }}
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           DATA_BRANCH: publish
@@ -191,8 +246,10 @@ jobs:
           cp -r data/snapshots crawl-snapshots-backup
           # Fetch or create the unprotected data branch
           if git fetch origin "$DATA_BRANCH" 2>/dev/null; then
+            EXPECTED_PUBLISH_SHA=$(git rev-parse "origin/$DATA_BRANCH")
             git checkout -f -B "$DATA_BRANCH" "origin/$DATA_BRANCH"
           else
+            EXPECTED_PUBLISH_SHA=""
             git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
           fi
           # Restore crawl output on top of data branch
@@ -211,7 +268,11 @@ jobs:
           git add data/raw/ data/snapshots/ .squad/run-counter.txt
           git diff --cached --quiet && exit 0
           git commit -m "data: weekly crawl $WEEK [run #${GITHUB_RUN_ID}]"
-          git push origin "$DATA_BRANCH"
+          if [ -n "$EXPECTED_PUBLISH_SHA" ]; then
+            git push --force-with-lease="refs/heads/$DATA_BRANCH:$EXPECTED_PUBLISH_SHA" origin HEAD:"$DATA_BRANCH"
+          else
+            git push origin HEAD:"$DATA_BRANCH"
+          fi
 
   analyze:
     needs: crawl
@@ -226,6 +287,9 @@ jobs:
       candidate_summary_file: ${{ steps.analysis-context.outputs.candidate_output_file }}
       publish_manifest_file: ${{ steps.analysis-context.outputs.publish_manifest_file }}
       current_datetime: ${{ steps.analysis-context.outputs.current_datetime }}
+      publish_base_sha: ${{ steps.publish-base.outputs.sha }}
+      publish_head_sha: ${{ steps.commit-analysis.outputs.publish_head_sha || steps.publish-base.outputs.sha }}
+      run_mode: ${{ steps.analysis-context.outputs.run_mode }}
 
     steps:
       - name: Check out repository
@@ -262,6 +326,16 @@ jobs:
             git checkout origin/publish -- "$f" 2>/dev/null || true
           done
 
+      - name: Record publish branch base
+        id: publish-base
+        run: |
+          set -euo pipefail
+          if git fetch origin publish 2>/dev/null; then
+            echo "sha=$(git rev-parse origin/publish)" >> "$GITHUB_OUTPUT"
+          else
+            echo "sha=" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -276,6 +350,8 @@ jobs:
         id: analysis-context
         env:
           REBUILD_WEEK: ${{ inputs.rebuild_week || '' }}
+          RUN_MODE: ${{ inputs.run_mode || 'normal' }}
+          SOURCE_REFRESH_POLICY: ${{ inputs.source_refresh_policy || 'reuse-same-day' }}
         run: |
           mkdir -p data/analyzed data/candidates
           CURRENT_DATETIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
@@ -306,12 +382,15 @@ jobs:
           candidate_dir = Path("data/candidates") / week / run_id
           print(f"candidate_output_file={(candidate_dir / f'{week}-summary.md').as_posix()}")
           print(f"publish_manifest_file={(candidate_dir / 'publish-manifest.json').as_posix()}")
+          print(f"analysis_gate_report_file={(candidate_dir / 'analysis-gate-report.json').as_posix()}")
           print(f"published_output_file=data/analyzed/{week}-summary.md")
           PY
           )
           {
             printf '%s\n' "${CONTEXT_LINES[@]}"
             echo "current_datetime=$CURRENT_DATETIME"
+            echo "run_mode=$RUN_MODE"
+            echo "source_refresh_policy=$SOURCE_REFRESH_POLICY"
           } >> "$GITHUB_OUTPUT"
 
       - name: Install Python dependencies
@@ -382,7 +461,6 @@ jobs:
             --preflight-report-json "$PREFLIGHT_JSON" \
             --preflight-report-md "$PREFLIGHT_MD" \
             --print-prompt > "$PROMPT_FILE"
-          # Use the exact rendered prompt for the existing cost guard.
           python3 scripts/preflight_cost_check.py \
             --context-files "$PROMPT_FILE"
           python3 - <<'PY' "$PREFLIGHT_JSON"
@@ -426,6 +504,8 @@ jobs:
           WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
           WEEK="${{ steps.analysis-context.outputs.week }}"
           CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
+          MANIFEST_FILE="${{ steps.analysis-context.outputs.publish_manifest_file }}"
+          PUBLISHED_SUMMARY="${{ steps.analysis-context.outputs.published_output_file }}"
           PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
           ANALYSIS_STARTED=$(date +%s)
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
@@ -442,8 +522,9 @@ jobs:
               --raw-json "$WEEK_FILE" \
               --current-datetime "$CURRENT_DATETIME" \
               --source "$1" \
+              --model "$2" \
               --repair-safe \
-              --report-json "$2"
+              --report-json "$3"
           }
 
           # Retry loop: LLM output can be non-deterministically truncated,
@@ -507,9 +588,13 @@ jobs:
                 --run-id "${GITHUB_RUN_ID:-local}")
               FINAL_FAILURE_CLASS="$FAILURE_CLASS"
               echo "::warning::Copilot CLI failed on attempt $((ATTEMPT + 1)); class=${FAILURE_CLASS}; report=${COPILOT_FAILURE_REPORT}"
-              if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "context_too_large" ]; then
-                echo "::error::Non-retryable Copilot analysis failure (${FAILURE_CLASS}). See ${COPILOT_FAILURE_REPORT}."
+              if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "copilot_inaccessible" ]; then
+                echo "::error::Copilot access failure (${FAILURE_CLASS}). Renewal issue was created or updated; failing without no-AI fallback. See ${COPILOT_FAILURE_REPORT}."
                 exit 1
+              fi
+              if [ "$FAILURE_CLASS" = "context_too_large" ]; then
+                echo "::warning::Non-retryable Copilot analysis failure (${FAILURE_CLASS}). Writing a non-publishable no-AI candidate so the current published article can be preserved. See ${COPILOT_FAILURE_REPORT}."
+                break
               fi
               ATTEMPT=$((ATTEMPT + 1))
               continue
@@ -520,8 +605,9 @@ jobs:
 
             # Inline quality gate check (suppress step summary to avoid noise).
             # The gate applies deterministic metadata/schema repairs and writes an auditable report.
-            if run_quality_gate copilot-cli "$GATE_REPORT"; then
+            if run_quality_gate copilot-cli copilot-default "$GATE_REPORT"; then
               cp "$OUTPUT_FILE" "$CANDIDATE_SNAPSHOT" 2>/dev/null || true
+              cp "$GATE_REPORT" "${{ steps.analysis-context.outputs.analysis_gate_report_file }}" 2>/dev/null || true
               GATE_PASSED=true
               FINAL_TRANSCRIPT="$TRANSCRIPT_FILE"
               ANALYSIS_SOURCE="copilot-cli"
@@ -543,13 +629,25 @@ jobs:
             ATTEMPT=$((ATTEMPT + 1))
           done
           else
-            FINAL_FAILURE_CLASS="other"
-            echo "::error::Copilot CLI unavailable; this repository has no GitHub Models/OpenAI fallback."
+            FINAL_FAILURE_CLASS="copilot_inaccessible"
+            COPILOT_LOG="$DIAGNOSTICS_DIR/copilot-cli-unavailable.log"
+            COPILOT_FAILURE_REPORT="$DIAGNOSTICS_DIR/copilot-cli-failure-unavailable.json"
+            echo "copilot is not available: command not found" > "$COPILOT_LOG"
+            python3 scripts/copilot_failure.py \
+              --log "$COPILOT_LOG" \
+              --exit-code 127 \
+              --report-json "$COPILOT_FAILURE_REPORT" \
+              --create-token-issue \
+              --repo "${GITHUB_REPOSITORY:-jmservera/SquadScope}" \
+              --assignee "jmservera" \
+              --week "$WEEK" \
+              --run-id "${GITHUB_RUN_ID:-local}" >/dev/null
+            echo "::error::Copilot CLI unavailable. Renewal issue was created or updated; failing without no-AI fallback. See ${COPILOT_FAILURE_REPORT}."
             exit 1
           fi
 
           if [ "$GATE_PASSED" = "false" ]; then
-            echo "::error::No publishable Copilot summary was produced; this repository has no GitHub Models/OpenAI fallback. Final failure class: ${FINAL_FAILURE_CLASS:-quality_gate}"
+            echo "::warning::No publishable Copilot summary was produced. Final failure class: ${FINAL_FAILURE_CLASS:-quality_gate}. The publish manifest will preserve any existing good weekly article."
             python3 scripts/analyze_fallback.py \
               --raw-json "$WEEK_FILE" \
               --output "$OUTPUT_FILE" \
@@ -558,9 +656,11 @@ jobs:
               --no-ai
             sanitize_agent_output "$OUTPUT_FILE"
             NO_AI_GATE_REPORT="$DIAGNOSTICS_DIR/gate-no-ai-attempt-0.json"
-            run_quality_gate no-ai "$NO_AI_GATE_REPORT" || true
+            run_quality_gate no-ai none "$NO_AI_GATE_REPORT" || true
+            cp "$NO_AI_GATE_REPORT" "${{ steps.analysis-context.outputs.analysis_gate_report_file }}" 2>/dev/null || true
             cp "$OUTPUT_FILE" "$DIAGNOSTICS_DIR/candidate-no-ai-attempt-0.md" 2>/dev/null || true
-            exit 1
+            ANALYSIS_SOURCE="no-ai"
+            ANALYSIS_MODEL="none"
           fi
 
           # Copy final transcript to canonical location
@@ -585,25 +685,31 @@ jobs:
             --output-file "$OUTPUT_FILE" \
             $TRANSCRIPT_ARGS
           ANALYSIS_DURATION=$(( $(date +%s) - ANALYSIS_STARTED ))
-          PREFLIGHT_REPORT="${{ steps.prompt-preflight.outputs.preflight_report_json }}"
-          echo "::notice::Analysis path source=$ANALYSIS_SOURCE model=$ANALYSIS_MODEL duration_seconds=$ANALYSIS_DURATION press_context=$PRESS_FILE preflight_report=$PREFLIGHT_REPORT"
+          echo "::notice::Analysis path source=$ANALYSIS_SOURCE model=$ANALYSIS_MODEL duration_seconds=$ANALYSIS_DURATION press_context=$PRESS_FILE"
+          rm -f "$PROMPT_FILE"
           # Clean up per-attempt transcripts
           rm -f data/metrics/copilot-transcript-attempt-*.md
           echo "analysis_source=$ANALYSIS_SOURCE" >> "$GITHUB_OUTPUT"
           echo "analysis_model=$ANALYSIS_MODEL" >> "$GITHUB_OUTPUT"
 
       - name: quality-check
+        id: quality-check
+        continue-on-error: true
         env:
           ANALYSIS_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
           ANALYSIS_SOURCE: ${{ steps.run-analysis.outputs.analysis_source }}
+          ANALYSIS_MODEL: ${{ steps.run-analysis.outputs.analysis_model }}
           RAW_JSON_FILE: ${{ steps.analysis-context.outputs.week_file }}
           CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
+          GATE_REPORT: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
         run: |
           python3 scripts/analysis_gate.py \
             --analysis-file "$ANALYSIS_FILE" \
             --raw-json "$RAW_JSON_FILE" \
             --current-datetime "$CURRENT_DATETIME" \
-            --source "$ANALYSIS_SOURCE"
+            --source "$ANALYSIS_SOURCE" \
+            --model "$ANALYSIS_MODEL" \
+            --report-json "$GATE_REPORT"
 
       - name: Emit publish eligibility manifest
         env:
@@ -615,10 +721,15 @@ jobs:
           RAW_JSON_FILE: ${{ steps.analysis-context.outputs.week_file }}
           ANALYSIS_SOURCE: ${{ steps.run-analysis.outputs.analysis_source }}
           ANALYSIS_MODEL: ${{ steps.run-analysis.outputs.analysis_model }}
+          VALIDATION_STATUS: ${{ steps.quality-check.outcome == 'success' && 'passed' || 'failed' }}
           MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
+          RUN_MODE: ${{ steps.analysis-context.outputs.run_mode }}
+          SOURCE_REFRESH_POLICY: ${{ steps.analysis-context.outputs.source_refresh_policy }}
+          GATE_REPORT: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
           PREFLIGHT_REPORT: ${{ steps.prompt-preflight.outputs.preflight_report_json }}
         run: |
           set -euo pipefail
+          git fetch origin publish 2>/dev/null && git checkout origin/publish -- "$PUBLISHED_SUMMARY" 2>/dev/null || true
           ARTIFACT_ARGS=()
           for candidate in \
             "external_news=data/raw/${WEEK}-external-news.json" \
@@ -639,14 +750,20 @@ jobs:
             --analysis-source "$ANALYSIS_SOURCE" \
             --analysis-model "$ANALYSIS_MODEL" \
             --preflight-report "$PREFLIGHT_REPORT" \
-            --validation-status passed \
+            --validation-status "$VALIDATION_STATUS" \
+            --run-mode "$RUN_MODE" \
+            --source-refresh-policy "$SOURCE_REFRESH_POLICY" \
+            --gate-report "$GATE_REPORT" \
             --output "$MANIFEST_FILE" \
             "${ARTIFACT_ARGS[@]}"
 
       - name: Assert candidate is eligible for promotion
+        if: ${{ steps.analysis-context.outputs.run_mode != 'dry-run' && steps.analysis-context.outputs.run_mode != 'candidate-only' }}
         run: python3 scripts/publish_manifest.py assert-eligible --manifest "${{ steps.analysis-context.outputs.publish_manifest_file }}"
 
       - name: Commit analysis and learnings to data branch
+        id: commit-analysis
+        if: ${{ steps.analysis-context.outputs.run_mode != 'dry-run' && steps.analysis-context.outputs.run_mode != 'candidate-only' }}
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           DATA_BRANCH: publish
@@ -654,17 +771,19 @@ jobs:
           CANDIDATE_SUMMARY: ${{ steps.analysis-context.outputs.candidate_output_file }}
           PUBLISHED_SUMMARY: ${{ steps.analysis-context.outputs.published_output_file }}
           MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
+          EXPECTED_PUBLISH_SHA: ${{ steps.publish-base.outputs.sha }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
           cp scripts/publish_manifest.py publish-manifest-tool.py
+          cp scripts/publish_safety.py publish-safety-tool.py
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # Check for analysis data OR squad learning state changes
           if ! git status --short -- data/analyzed data/candidates data/metrics .squad | grep -q .; then
             echo "No analyzed data, token usage, or learning state changes to commit."
-            rm -f publish-manifest-tool.py
+            rm -f publish-manifest-tool.py publish-safety-tool.py
             exit 0
           fi
           mkdir -p "$(dirname "$PUBLISHED_SUMMARY")"
@@ -681,31 +800,59 @@ jobs:
           fi
           # Push to the unprotected data branch
           if git fetch origin "$DATA_BRANCH" 2>/dev/null; then
+            CURRENT_PUBLISH_SHA=$(git rev-parse "origin/$DATA_BRANCH")
+            if [ -n "$EXPECTED_PUBLISH_SHA" ] && [ "$CURRENT_PUBLISH_SHA" != "$EXPECTED_PUBLISH_SHA" ]; then
+              echo "::error::Publish branch drifted since analysis began: expected $EXPECTED_PUBLISH_SHA, found $CURRENT_PUBLISH_SHA"
+              exit 1
+            fi
             git checkout -f -B "$DATA_BRANCH" "origin/$DATA_BRANCH"
           else
+            CURRENT_PUBLISH_SHA=""
+            if [ -n "$EXPECTED_PUBLISH_SHA" ]; then
+              echo "::error::Publish branch disappeared since analysis began: expected $EXPECTED_PUBLISH_SHA"
+              exit 1
+            fi
             git fetch origin "$DEFAULT_BRANCH"
             git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
           fi
           mkdir -p data/analyzed data/candidates data/metrics
           python3 publish-manifest-tool.py assert-eligible --manifest "candidates-data-backup/${WEEK}/${GITHUB_RUN_ID}/publish-manifest.json"
+          cp -r "candidates-data-backup/${WEEK}" data/candidates/
+          python3 publish-safety-tool.py backup-existing \
+            --week "$WEEK" \
+            --run-id "$GITHUB_RUN_ID" \
+            --kind analysis \
+            --manifest "data/candidates/${WEEK}/${GITHUB_RUN_ID}/publish-manifest.json" \
+            --expected-publish-ref "$EXPECTED_PUBLISH_SHA" \
+            --actual-publish-ref "$CURRENT_PUBLISH_SHA" \
+            --path "data/analyzed/${WEEK}-summary.md" \
+            --path "data/analyzed/${WEEK}-correlations.json" \
+            --path "data/analyzed/${WEEK}-press-context.md"
           # Only copy current week's analysis files — do not overwrite prior weeks
           # Required: current week's promoted summary must be backed by an eligible manifest
           cp "analyzed-data-backup/${WEEK}-summary.md" data/analyzed/
-          cp -r "candidates-data-backup/${WEEK}" data/candidates/
           # Optional sidecars: conditionally generated
           cp "analyzed-data-backup/${WEEK}-correlations.json" data/analyzed/ 2>/dev/null || true
           cp "analyzed-data-backup/${WEEK}-press-context.md" data/analyzed/ 2>/dev/null || true
           cp -r metrics-data-backup/* data/metrics/ 2>/dev/null || true
-          rm -rf analyzed-data-backup candidates-data-backup metrics-data-backup publish-manifest-tool.py
+          rm -rf analyzed-data-backup candidates-data-backup metrics-data-backup publish-manifest-tool.py publish-safety-tool.py
           # Restore squad learning state
           if [ "$HAS_LEARNINGS" = "true" ]; then
             cp -r squad-learning-backup/* .squad/ 2>/dev/null || true
             rm -rf squad-learning-backup
           fi
-          git add data/analyzed/ data/candidates/ data/metrics/ .squad/
-          git diff --cached --quiet && exit 0
+          git add data/analyzed/ data/candidates/ data/metrics/ data/backups/ .squad/
+          if git diff --cached --quiet; then
+            echo "publish_head_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           git commit -m "analysis: weekly summary + learnings $WEEK [run #${GITHUB_RUN_ID}]"
-          git push origin "$DATA_BRANCH"
+          if [ -n "$CURRENT_PUBLISH_SHA" ]; then
+            git push --force-with-lease="refs/heads/$DATA_BRANCH:$CURRENT_PUBLISH_SHA" origin HEAD:"$DATA_BRANCH"
+          else
+            git push origin HEAD:"$DATA_BRANCH"
+          fi
+          echo "publish_head_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Upload analyzed data
         if: always()
@@ -725,6 +872,7 @@ jobs:
 
   generate:
     needs: analyze
+    if: ${{ needs.analyze.outputs.run_mode != 'dry-run' && needs.analyze.outputs.run_mode != 'candidate-only' }}
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -806,14 +954,17 @@ jobs:
           WEEK: ${{ needs.analyze.outputs.week }}
           PAGE_PATH: ${{ steps.generate-content.outputs.page_path }}
           MANIFEST_FILE: ${{ needs.analyze.outputs.publish_manifest_file }}
+          EXPECTED_PUBLISH_SHA: ${{ needs.analyze.outputs.publish_head_sha }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
+          cp scripts/publish_safety.py publish-safety-tool.py
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           if ! git status --short -- content/weekly content/monthly content/yearly | grep -q .; then
             echo "No generated content changes to commit."
+            rm -f publish-safety-tool.py
             exit 0
           fi
           cp -r content/weekly content-weekly-backup 2>/dev/null || true
@@ -821,8 +972,18 @@ jobs:
           cp -r content/yearly content-yearly-backup 2>/dev/null || true
           # Push to the unprotected data branch
           if git fetch origin "$DATA_BRANCH" 2>/dev/null; then
+            CURRENT_PUBLISH_SHA=$(git rev-parse "origin/$DATA_BRANCH")
+            if [ -n "$EXPECTED_PUBLISH_SHA" ] && [ "$CURRENT_PUBLISH_SHA" != "$EXPECTED_PUBLISH_SHA" ]; then
+              echo "::error::Publish branch drifted between analyze and content promotion: expected $EXPECTED_PUBLISH_SHA, found $CURRENT_PUBLISH_SHA"
+              exit 1
+            fi
             git checkout -f -B "$DATA_BRANCH" "origin/$DATA_BRANCH"
           else
+            CURRENT_PUBLISH_SHA=""
+            if [ -n "$EXPECTED_PUBLISH_SHA" ]; then
+              echo "::error::Publish branch disappeared between analyze and content promotion: expected $EXPECTED_PUBLISH_SHA"
+              exit 1
+            fi
             git fetch origin "$DEFAULT_BRANCH"
             git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
           fi
@@ -842,16 +1003,28 @@ jobs:
           esac
           RELATIVE_FROM_WEEKLY="${PAGE_PATH#content/weekly/}"
           mkdir -p "$(dirname "$PAGE_PATH")"
+          python3 publish-safety-tool.py backup-existing \
+            --week "$WEEK" \
+            --run-id "$GITHUB_RUN_ID" \
+            --kind content \
+            --manifest "$MANIFEST_FILE" \
+            --expected-publish-ref "$EXPECTED_PUBLISH_SHA" \
+            --actual-publish-ref "$CURRENT_PUBLISH_SHA" \
+            --path "$PAGE_PATH"
           cp "content-weekly-backup/${RELATIVE_FROM_WEEKLY}" "$PAGE_PATH"
           # Monthly/yearly rollups are safe to copy since generate_rollups.py was seeded
           # with hydrated prior-week data (see Hydrate analyzed data step above)
           cp -r content-monthly-backup/* content/monthly/ 2>/dev/null || true
           cp -r content-yearly-backup/* content/yearly/ 2>/dev/null || true
-          rm -rf content-weekly-backup content-monthly-backup content-yearly-backup
-          git add content/weekly/ content/monthly/ content/yearly/
+          rm -rf content-weekly-backup content-monthly-backup content-yearly-backup publish-safety-tool.py
+          git add content/weekly/ content/monthly/ content/yearly/ data/backups/
           git diff --cached --quiet && exit 0
           git commit -m "content: weekly page $WEEK [run #${GITHUB_RUN_ID}]"
-          git push origin "$DATA_BRANCH"
+          if [ -n "$CURRENT_PUBLISH_SHA" ]; then
+            git push --force-with-lease="refs/heads/$DATA_BRANCH:$CURRENT_PUBLISH_SHA" origin HEAD:"$DATA_BRANCH"
+          else
+            git push origin HEAD:"$DATA_BRANCH"
+          fi
 
       - name: Upload generated content artifact
         uses: actions/upload-artifact@v4
@@ -865,6 +1038,7 @@ jobs:
 
   deploy:
     needs: [crawl, analyze, generate]
+    if: ${{ needs.analyze.outputs.run_mode != 'dry-run' && needs.analyze.outputs.run_mode != 'candidate-only' }}
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -942,7 +1116,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
   notify:
-    if: github.event_name == 'schedule' || github.event.inputs.publish_release == 'true'
+    if: ${{ (github.event_name == 'schedule' || github.event.inputs.publish_release == 'true') && needs.analyze.outputs.run_mode != 'dry-run' && needs.analyze.outputs.run_mode != 'candidate-only' }}
     needs: [analyze, generate, deploy]
     runs-on: ubuntu-latest
     permissions:
@@ -1178,8 +1352,7 @@ jobs:
             RESKILL_SOURCE="none"
             RESKILL_MODEL="none"
             rm -f "$RESKILL_PROMPT"
-            echo "Copilot CLI unavailable or failed; this repository has no GitHub Models/OpenAI reskill fallback."
-            echo "Writing placeholder trigger log."
+            echo "Copilot CLI reskill failed; no GitHub Models/OpenAI reskill fallback is configured. Writing placeholder trigger log."
             echo "Reskill triggered at run #$COUNTER ($CURRENT_DATETIME)" >> .squad/reskill/trigger-log.txt
           fi
 

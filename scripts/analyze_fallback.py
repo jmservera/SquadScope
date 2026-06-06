@@ -27,6 +27,7 @@ DEFAULT_SKILLS_DIR = ROOT / ".squad" / "skills"
 DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
 DEFAULT_MODELS_MODEL = "openai/gpt-4o"
 DEFAULT_MODELS_TIMEOUT = 30
+NO_AI_DIAGNOSTIC_QUALITY_SCORE = 40
 DEFAULT_PROMPT_TOKEN_BUDGET = 90_000
 COMPACTED_NEW_REPOS_LIMIT = 25
 COMPACTED_TRENDING_REPOS_LIMIT = 25
@@ -65,7 +66,7 @@ class PromptPreflight:
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Fallback weekly analysis via GitHub Models API.")
+    parser = argparse.ArgumentParser(description="Render/preflight weekly analysis prompts or generate diagnostic no-AI output.")
     parser.add_argument("--raw-json", required=True, type=Path, help="Path to the weekly raw JSON payload.")
     parser.add_argument("--output", required=True, type=Path, help="Path to write the analyzed markdown output.")
     parser.add_argument("--current-datetime", required=True, help="ISO-8601 timestamp for the analysis run.")
@@ -843,7 +844,7 @@ categories: [weekly]
 repos_featured: {repos_featured}
 stars_tracked: {total_stars}
 top_repo: "{top_repo}"
-quality_score: 62
+quality_score: {NO_AI_DIAGNOSTIC_QUALITY_SCORE}
 summary: "Automated data-only summary for {week}. AI analysis was unavailable; this report presents raw crawl statistics and top repositories without editorial commentary."
 ---
 

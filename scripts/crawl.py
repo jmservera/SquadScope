@@ -496,6 +496,27 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Refresh GitHub data even when a same-day raw artifact is reusable.",
     )
+    parser.add_argument(
+        "--reuse-artifact",
+        default=None,
+        help="Existing raw GitHub artifact to reuse when it is fresh for this run window.",
+    )
+    parser.add_argument(
+        "--source-refresh-policy",
+        choices=["reuse-same-day", "refresh-missing-stale", "force-refresh"],
+        default="reuse-same-day",
+        help="Source refresh policy for reruns (default: reuse eligible same-day artifacts).",
+    )
+    parser.add_argument(
+        "--run-started-at",
+        default=None,
+        help="UTC run start timestamp used for same-day reuse checks (ISO 8601). Defaults to now.",
+    )
+    parser.add_argument(
+        "--current-code-sha",
+        default=None,
+        help="Optional crawler/config fingerprint; reused artifacts with a conflicting fingerprint are stale.",
+    )
     return parser.parse_args()
 
 
@@ -605,6 +626,27 @@ def github_artifact_checksum(payload: dict[str, Any]) -> str:
     return sha256_text(json.dumps(candidate, sort_keys=True, separators=(",", ":"), ensure_ascii=False))
 
 
+def parse_datetime(value: Any) -> datetime | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    candidate = value.strip()
+    if candidate.endswith("Z"):
+        candidate = f"{candidate[:-1]}+00:00"
+    try:
+        parsed = datetime.fromisoformat(candidate)
+    except ValueError:
+        return None
+    return parsed.astimezone(UTC) if parsed.tzinfo else parsed.replace(tzinfo=UTC)
+
+
+def load_json_artifact(path: Path) -> dict[str, Any] | None:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
 def load_reusable_github_payload(
     path: Path,
     *,
@@ -613,7 +655,11 @@ def load_reusable_github_payload(
     since: datetime,
     window_end: datetime,
     config_checksum: str,
+    policy: str = "reuse-same-day",
+    current_code_sha: str | None = None,
 ) -> dict[str, Any] | None:
+    if policy == "force-refresh":
+        return None
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
@@ -645,6 +691,10 @@ def load_reusable_github_payload(
         or metadata.get("artifact_checksum") != github_artifact_checksum(payload)
     ):
         return None
+    artifact_code_sha = metadata.get("crawler_code_sha")
+    if current_code_sha and artifact_code_sha != current_code_sha:
+        return None
+    original_checksum = metadata.get("artifact_checksum")
     metadata["same_day_reuse"] = {
         "status": "reused",
         "source": "github",
@@ -656,10 +706,48 @@ def load_reusable_github_payload(
         "crawl_window": window,
         "crawl_config_checksum": config_checksum,
         "schema_checksum": github_schema_checksum(),
-        "content_checksum": metadata.get("artifact_checksum"),
+        "content_checksum": original_checksum,
     }
+    metadata["source_refresh_policy"] = policy
+    if current_code_sha:
+        metadata.setdefault("crawler_code_sha", current_code_sha)
     payload["metadata"] = metadata
+    metadata["artifact_checksum"] = github_artifact_checksum(payload)
     return payload
+
+
+def _safe_snapshot_destination(snapshot_path: str, expected_snapshot_dir: Path = SNAPSHOT_ROOT) -> Path | None:
+    destination = Path(snapshot_path)
+    expected_root = Path("data") / "snapshots"
+    if destination.is_absolute() or ".." in destination.parts:
+        return None
+    if len(destination.parts) < 3 or destination.parts[:2] != expected_root.parts:
+        return None
+    expected_dir = expected_snapshot_dir.resolve()
+    resolved_destination = destination.resolve()
+    if expected_dir != resolved_destination.parent and expected_dir not in resolved_destination.parents:
+        return None
+    return destination
+
+
+def restore_reused_snapshot(
+    reuse_path: Path,
+    metadata: dict[str, Any],
+    *,
+    expected_snapshot_dir: Path = SNAPSHOT_ROOT,
+) -> None:
+    snapshot_path = metadata.get("snapshot_path")
+    if not isinstance(snapshot_path, str) or not snapshot_path:
+        return
+    destination = _safe_snapshot_destination(snapshot_path, expected_snapshot_dir)
+    if destination is None:
+        return
+    source_snapshot = reuse_path.parent.parent / "snapshots" / Path(snapshot_path).name
+    if not source_snapshot.exists():
+        return
+    snapshot_payload = load_json_artifact(source_snapshot)
+    if snapshot_payload is not None:
+        write_payload(destination, snapshot_payload)
 
 
 def load_previous_star_snapshot(snapshot_dir: Path, current_week: str, *raw_dirs: Path) -> dict[str, int]:
@@ -895,10 +983,6 @@ def write_payload(path: Path, payload: dict[str, Any]) -> None:
 
 def main() -> int:
     args = parse_args()
-    github_token = os.environ.get("GITHUB_TOKEN")
-    if not github_token:
-        print("GITHUB_TOKEN is required", file=sys.stderr)
-        return 1
 
     topic_id = args.topic
     topic_raw = raw_dir(topic_id)
@@ -906,28 +990,48 @@ def main() -> int:
     topic_cache = cache_dir(topic_id)
 
     crawled_at = utc_now()
+    run_started_at_arg = getattr(args, "run_started_at", None)
+    run_started_at = parse_datetime(run_started_at_arg) if run_started_at_arg else crawled_at
+    if run_started_at is None:
+        print("--run-started-at must be an ISO 8601 timestamp", file=sys.stderr)
+        return 1
     window_end = datetime.strptime(args.as_of, "%Y-%m-%d").replace(tzinfo=UTC) if args.as_of else crawled_at
     since = datetime.strptime(args.since, "%Y-%m-%d").replace(tzinfo=UTC) if args.since else window_end - timedelta(days=7)
     week = week_slug(window_end)
     output_path = Path(args.output) if args.output else topic_raw / f"{week}.json"
     snapshot_path = topic_snapshots / f"{week}-stars.json"
-    client = GitHubClient(github_token, cache_dir=topic_cache)
     max_results = max(1, min(args.max_results, 1000))
     config_checksum = github_crawl_config_checksum(args, since, window_end, max_results)
+    source_refresh_policy = (
+        "force-refresh"
+        if getattr(args, "force_refresh", False)
+        else getattr(args, "source_refresh_policy", "reuse-same-day")
+    )
+    current_code_sha = getattr(args, "current_code_sha", None) or os.environ.get("CRAWLER_CODE_SHA")
 
-    if not getattr(args, "force_refresh", False):
+    if source_refresh_policy != "force-refresh":
+        reuse_path = Path(getattr(args, "reuse_artifact", "")) if getattr(args, "reuse_artifact", None) else output_path
         reusable = load_reusable_github_payload(
-            output_path,
+            reuse_path,
             week=week,
-            crawled_at=crawled_at,
+            crawled_at=run_started_at,
             since=since,
             window_end=window_end,
             config_checksum=config_checksum,
+            policy=source_refresh_policy,
+            current_code_sha=current_code_sha,
         )
         if reusable is not None:
             write_payload(output_path, reusable)
-            print(f"Reused same-day GitHub raw artifact {output_path}; used 0 API calls.")
+            restore_reused_snapshot(reuse_path, reusable.get("metadata", {}), expected_snapshot_dir=topic_snapshots)
+            print(f"Reused same-day GitHub raw artifact {reuse_path} -> {output_path}; used 0 API calls.")
             return 0
+
+    github_token = os.environ.get("GITHUB_TOKEN")
+    if not github_token:
+        print("GITHUB_TOKEN is required", file=sys.stderr)
+        return 1
+    client = GitHubClient(github_token, cache_dir=topic_cache)
 
     if args.config:
         template_vars = {
@@ -1004,6 +1108,8 @@ def main() -> int:
                 "trending_repos": trending_filters,
             },
             "snapshot_path": snapshot_path.as_posix(),
+            "source_refresh_policy": source_refresh_policy,
+            "crawler_code_sha": current_code_sha or "",
         },
     }
     payload["metadata"]["artifact_checksum"] = github_artifact_checksum(payload)

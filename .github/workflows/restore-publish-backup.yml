@@ -1,0 +1,53 @@
+name: Restore publish backup
+
+on:
+  workflow_dispatch:
+    inputs:
+      backup_manifest:
+        description: 'Immutable backup manifest on publish (for example data/backups/2026-W23/123/content/manifest.json).'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: restore-publish-backup
+  cancel-in-progress: false
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out workflow source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: workflow-source
+
+      - name: Check out publish
+        uses: actions/checkout@v4
+        with:
+          ref: publish
+          fetch-depth: 0
+          path: publish
+
+      - name: Restore immutable backup
+        env:
+          BACKUP_MANIFEST: ${{ inputs.backup_manifest }}
+        run: |
+          set -euo pipefail
+          cd publish
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin publish
+          EXPECTED_PUBLISH_SHA=$(git rev-parse origin/publish)
+          git checkout -f -B publish origin/publish
+          python3 ../workflow-source/scripts/publish_safety.py restore-backup --backup-manifest "$BACKUP_MANIFEST"
+          git add data/analyzed/ content/weekly/
+          if git diff --cached --quiet; then
+            echo "Backup restore produced no changes."
+            exit 0
+          fi
+          git commit -m "restore: publish backup ${BACKUP_MANIFEST}"
+          git push --force-with-lease="refs/heads/publish:$EXPECTED_PUBLISH_SHA" origin HEAD:publish

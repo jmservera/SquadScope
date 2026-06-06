@@ -142,6 +142,20 @@ Or through the GitHub UI:
 
 The workflow takes ~2-3 minutes depending on GitHub API response times.
 
+#### Manual rerun modes
+
+Manual runs default to `run_mode=normal` and `source_refresh_policy=reuse-same-day`. Normal mode is fail-closed: it may publish only after the existing analysis and freshness gates pass, and same-day successful source artifacts are reused instead of scraping again. Missing, failed, stale, wrong-week, or wrong-window sources are refreshed.
+
+Use explicit modes for safer or destructive intent:
+
+- `dry-run`: build candidate artifacts only; never commit, deploy, notify, or publish a release.
+- `candidate-only`: run crawl/analysis and upload candidates; promotion is blocked by the manifest.
+- `restore`: requires `rebuild_week=YYYY-WNN`; hydrates artifacts from `publish` for audited restore/regeneration.
+- `force-replace`: explicit replacement intent, but gates still must pass before promotion.
+- `source_refresh_policy=force-refresh`: explicitly bypass same-day source reuse and refresh sources.
+
+Invalid combinations (for example `rebuild_week` without `run_mode=restore`, `publish_release` with `dry-run`, or `restore` with `force-refresh`) fail before publish content can be modified.
+
 ### Option C: Run individual stages locally
 
 For debugging or testing, run stages separately:

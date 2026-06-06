@@ -218,6 +218,64 @@ class CrawlTests(unittest.TestCase):
             self.assertEqual(reused["metadata"]["same_day_reuse"]["status"], "reused")
             self.assertEqual(reused["metadata"]["same_day_reuse"]["source_id"], "github-search")
 
+    def test_main_reuses_valid_same_day_raw_artifact_without_github_token(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            existing = base / "reuse/raw-data/2026-W21.json"
+            output = base / "data/raw/2026-W21.json"
+            args = Namespace(
+                since="2026-05-12",
+                as_of="2026-05-19",
+                max_results=25,
+                output=str(output),
+                topic=None,
+                config=None,
+                reuse_artifact=str(existing),
+                source_refresh_policy="reuse-same-day",
+                run_started_at="2026-05-19T10:00:00Z",
+                current_code_sha="sha",
+            )
+            since = datetime(2026, 5, 12, tzinfo=crawl.UTC)
+            window_end = datetime(2026, 5, 19, tzinfo=crawl.UTC)
+            checksum = crawl.github_crawl_config_checksum(args, since, window_end, 25)
+            payload = {
+                "week": "2026-W21",
+                "crawled_at": "2026-05-19T08:00:00Z",
+                "new_repos": [],
+                "trending_repos": [],
+                "signals": {"top_topics": []},
+                "metadata": {
+                    "api_calls_used": 1,
+                    "cache_hits": 0,
+                    "stale_cache_hits": 0,
+                    "rate_limit_limit": None,
+                    "rate_limit_remaining": None,
+                    "rate_limit_reset": None,
+                    "rate_limit_resource": None,
+                    "partial_failures": [],
+                    "run_id": "111111",
+                    "snapshot_path": "data/snapshots/2026-W21-stars.json",
+                    "crawl_window": {"since": "2026-05-12", "until": "2026-05-19"},
+                    "crawl_config_checksum": checksum,
+                    "schema_checksum": crawl.github_schema_checksum(),
+                    "same_day_reuse": {"status": "not_reused", "source": "github", "source_id": crawl.GITHUB_SOURCE_ID},
+                    "crawler_code_sha": "sha",
+                },
+            }
+            payload["metadata"]["artifact_checksum"] = crawl.github_artifact_checksum(payload)
+            crawl.write_payload(existing, payload)
+
+            with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
+                "os.environ", {}, clear=True
+            ), mock.patch.object(crawl, "utc_now", return_value=datetime(2026, 5, 19, 10, 0, tzinfo=crawl.UTC)):
+                exit_code = crawl.main()
+
+            self.assertEqual(exit_code, 0)
+            reused = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(reused["metadata"]["same_day_reuse"]["status"], "reused")
+            self.assertEqual(reused["metadata"]["source_refresh_policy"], "reuse-same-day")
+
     def test_main_emits_github_source_id_in_same_day_reuse_metadata(self) -> None:
         class FakeClient:
             def __init__(self, token: str, **kwargs) -> None:
@@ -307,6 +365,67 @@ class CrawlTests(unittest.TestCase):
             )
 
             self.assertIsNone(reused)
+
+    def test_load_reusable_github_payload_rejects_missing_code_fingerprint_when_required(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            output = base / "data/raw/2026-W21.json"
+            args = Namespace(since="2026-05-12", as_of="2026-05-19", max_results=25, output=str(output), topic=None, config=None)
+            since = datetime(2026, 5, 12, tzinfo=crawl.UTC)
+            window_end = datetime(2026, 5, 19, tzinfo=crawl.UTC)
+            checksum = crawl.github_crawl_config_checksum(args, since, window_end, 25)
+            payload = {
+                "week": "2026-W21",
+                "crawled_at": "2026-05-19T08:00:00Z",
+                "new_repos": [],
+                "trending_repos": [],
+                "signals": {"top_topics": []},
+                "metadata": {
+                    "api_calls_used": 1,
+                    "cache_hits": 0,
+                    "stale_cache_hits": 0,
+                    "rate_limit_limit": None,
+                    "rate_limit_remaining": None,
+                    "rate_limit_reset": None,
+                    "rate_limit_resource": None,
+                    "partial_failures": [],
+                    "snapshot_path": "data/snapshots/2026-W21-stars.json",
+                    "crawl_window": {"since": "2026-05-12", "until": "2026-05-19"},
+                    "crawl_config_checksum": checksum,
+                    "schema_checksum": crawl.github_schema_checksum(),
+                    "same_day_reuse": {"status": "not_reused", "source": "github"},
+                },
+            }
+            payload["metadata"]["artifact_checksum"] = crawl.github_artifact_checksum(payload)
+            crawl.write_payload(output, payload)
+
+            reused = crawl.load_reusable_github_payload(
+                output,
+                week="2026-W21",
+                crawled_at=datetime(2026, 5, 19, 10, 0, tzinfo=crawl.UTC),
+                since=since,
+                window_end=window_end,
+                config_checksum=checksum,
+                current_code_sha="sha",
+            )
+
+            self.assertIsNone(reused)
+
+    def test_restore_reused_snapshot_rejects_unsafe_metadata_path(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            reuse_path = base / "reuse/raw/2026-W21.json"
+            source_snapshot = base / "reuse/snapshots/2026-W21-stars.json"
+            source_snapshot.parent.mkdir(parents=True)
+            source_snapshot.write_text('{"stars": {"owner/repo": 1}}\n', encoding="utf-8")
+
+            for unsafe_path in ("/home/azureuser/source/SquadScope/data/snapshots/2026-W21-stars.json", "data/snapshots/../raw/evil.json"):
+                with mock.patch.object(crawl, "write_payload") as write_mock:
+                    crawl.restore_reused_snapshot(reuse_path, {"snapshot_path": unsafe_path})
+
+                write_mock.assert_not_called()
 
 
 if __name__ == "__main__":
