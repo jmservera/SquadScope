@@ -1,6 +1,7 @@
 import tempfile
 import unittest
 from argparse import Namespace
+from datetime import datetime
 from pathlib import Path
 from unittest import mock
 
@@ -167,6 +168,94 @@ class CrawlTests(unittest.TestCase):
                 "pushed:2026-05-11..2026-05-18 stars:>50",
             ],
         )
+
+    def test_load_reusable_github_payload_accepts_same_day_matching_artifact(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            output = base / "data/raw/2026-W21.json"
+            args = Namespace(since="2026-05-12", as_of="2026-05-19", max_results=25, output=str(output), topic=None, config=None)
+            since = datetime(2026, 5, 12, tzinfo=crawl.UTC)
+            window_end = datetime(2026, 5, 19, tzinfo=crawl.UTC)
+            crawled_at = datetime(2026, 5, 19, 8, 0, tzinfo=crawl.UTC)
+            checksum = crawl.github_crawl_config_checksum(args, since, window_end, 25)
+            payload = {
+                "week": "2026-W21",
+                "crawled_at": crawl.iso_timestamp(crawled_at),
+                "new_repos": [],
+                "trending_repos": [],
+                "signals": {"top_topics": []},
+                "metadata": {
+                    "api_calls_used": 1,
+                    "cache_hits": 0,
+                    "stale_cache_hits": 0,
+                    "rate_limit_limit": None,
+                    "rate_limit_remaining": None,
+                    "rate_limit_reset": None,
+                    "rate_limit_resource": None,
+                    "partial_failures": [],
+                    "snapshot_path": "data/snapshots/2026-W21-stars.json",
+                    "crawl_window": {"since": "2026-05-12", "until": "2026-05-19"},
+                    "crawl_config_checksum": checksum,
+                    "schema_checksum": crawl.github_schema_checksum(),
+                    "same_day_reuse": {"status": "not_reused", "source": "github"},
+                },
+            }
+            payload["metadata"]["artifact_checksum"] = crawl.github_artifact_checksum(payload)
+            crawl.write_payload(output, payload)
+
+            reused = crawl.load_reusable_github_payload(
+                output,
+                week="2026-W21",
+                crawled_at=datetime(2026, 5, 19, 10, 0, tzinfo=crawl.UTC),
+                since=since,
+                window_end=window_end,
+                config_checksum=checksum,
+            )
+
+            self.assertIsNotNone(reused)
+            self.assertEqual(reused["metadata"]["same_day_reuse"]["status"], "reused")
+
+    def test_load_reusable_github_payload_rejects_config_mismatch(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            output = base / "data/raw/2026-W21.json"
+            payload = {
+                "week": "2026-W21",
+                "crawled_at": "2026-05-19T08:00:00Z",
+                "new_repos": [],
+                "trending_repos": [],
+                "signals": {"top_topics": []},
+                "metadata": {
+                    "api_calls_used": 1,
+                    "cache_hits": 0,
+                    "stale_cache_hits": 0,
+                    "rate_limit_limit": None,
+                    "rate_limit_remaining": None,
+                    "rate_limit_reset": None,
+                    "rate_limit_resource": None,
+                    "partial_failures": [],
+                    "snapshot_path": "data/snapshots/2026-W21-stars.json",
+                    "crawl_window": {"since": "2026-05-12", "until": "2026-05-19"},
+                    "crawl_config_checksum": "old",
+                    "schema_checksum": crawl.github_schema_checksum(),
+                    "same_day_reuse": {"status": "not_reused", "source": "github"},
+                },
+            }
+            payload["metadata"]["artifact_checksum"] = crawl.github_artifact_checksum(payload)
+            crawl.write_payload(output, payload)
+
+            reused = crawl.load_reusable_github_payload(
+                output,
+                week="2026-W21",
+                crawled_at=datetime(2026, 5, 19, 10, 0, tzinfo=crawl.UTC),
+                since=datetime(2026, 5, 12, tzinfo=crawl.UTC),
+                window_end=datetime(2026, 5, 19, tzinfo=crawl.UTC),
+                config_checksum="new",
+            )
+
+            self.assertIsNone(reused)
 
 
 if __name__ == "__main__":

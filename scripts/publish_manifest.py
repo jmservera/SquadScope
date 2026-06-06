@@ -130,6 +130,14 @@ def artifact_entry(role: str, path: Path, week: str) -> dict[str, Any]:
     }
     if "source_status" in metadata:
         entry["source_status"] = metadata["source_status"]
+    if "source_reuse_summary" in metadata:
+        entry["source_reuse_summary"] = metadata["source_reuse_summary"]
+    if "source_artifact_provenance" in metadata:
+        entry["source_artifact_provenance"] = metadata["source_artifact_provenance"]
+    if "source_config_checksum" in metadata:
+        entry["source_config_checksum"] = metadata["source_config_checksum"]
+    if "schema_checksum" in metadata:
+        entry["schema_checksum"] = metadata["schema_checksum"]
     if "sources_requested" in metadata:
         entry["sources_requested"] = metadata["sources_requested"]
         entry["sources_succeeded"] = metadata.get("sources_succeeded", [])
