@@ -156,6 +156,45 @@ class PublishManifestTests(unittest.TestCase):
             with self.assertRaises(SystemExit):
                 publish_manifest.main(["assert-eligible", "--manifest", str(manifest)])
 
+    def test_missing_candidate_summary_only_reports_missing_summary(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            write_raw(raw)
+
+            publish_manifest.main(
+                [
+                    "create",
+                    "--week",
+                    WEEK,
+                    "--run-id",
+                    RUN_ID,
+                    "--current-datetime",
+                    CURRENT_DATETIME,
+                    "--summary",
+                    str(summary),
+                    "--published-summary",
+                    str(base / "data/analyzed/2026-W21-summary.md"),
+                    "--raw-json",
+                    str(raw),
+                    "--analysis-source",
+                    "copilot-cli",
+                    "--analysis-model",
+                    "copilot-default",
+                    "--validation-status",
+                    "passed",
+                    "--output",
+                    str(manifest),
+                ]
+            )
+
+            reasons = json.loads(manifest.read_text(encoding="utf-8"))["promotion"]["reasons"]
+            self.assertTrue(any(reason.startswith("candidate summary missing:") for reason in reasons))
+            self.assertFalse(any("quality_score" in reason for reason in reasons))
+
     def test_stale_source_artifact_blocks_promotion(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:

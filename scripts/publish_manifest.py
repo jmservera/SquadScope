@@ -313,20 +313,21 @@ def create_manifest(args: argparse.Namespace) -> int:
     validation_passed = args.validation_status == "passed"
     candidate_quality = candidate_metadata.get("quality_score")
     comparison_reasons: list[str] = []
-    if candidate_metadata.get("week") not in {None, args.week}:
-        comparison_reasons.append(
-            f"candidate summary week mismatch: expected {args.week}, found {candidate_metadata.get('week')!r}"
-        )
-    if candidate_quality is None:
-        comparison_reasons.append("candidate summary lacks quality_score")
-    elif candidate_quality < MIN_PUBLISH_QUALITY_SCORE:
-        comparison_reasons.append(f"candidate quality_score below {MIN_PUBLISH_QUALITY_SCORE}: {candidate_quality}")
-    if published_status.get("good") and isinstance(candidate_quality, (int, float)):
-        published_quality = published_status.get("quality_score")
-        if isinstance(published_quality, (int, float)) and candidate_quality < published_quality:
+    if candidate_exists:
+        if candidate_metadata.get("week") not in {None, args.week}:
             comparison_reasons.append(
-                f"candidate quality_score {candidate_quality} is lower than published good quality_score {published_quality}"
+                f"candidate summary week mismatch: expected {args.week}, found {candidate_metadata.get('week')!r}"
             )
+        if candidate_quality is None:
+            comparison_reasons.append("candidate summary lacks quality_score")
+        elif candidate_quality < MIN_PUBLISH_QUALITY_SCORE:
+            comparison_reasons.append(f"candidate quality_score below {MIN_PUBLISH_QUALITY_SCORE}: {candidate_quality}")
+        if published_status.get("good") and isinstance(candidate_quality, (int, float)):
+            published_quality = published_status.get("quality_score")
+            if isinstance(published_quality, (int, float)) and candidate_quality < published_quality:
+                comparison_reasons.append(
+                    f"candidate quality_score {candidate_quality} is lower than published good quality_score {published_quality}"
+                )
 
     eligible = candidate_exists and validation_passed and ai_status == "ai" and not artifact_reasons and not comparison_reasons
 
