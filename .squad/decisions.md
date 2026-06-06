@@ -837,3 +837,137 @@ Safety-first protection layer for analysis reruns across staging/publish workflo
 ### Notes
 
 GitHub issue hierarchy represented via parent #248 with linked child issues and inline comments. All issues labeled `squad` with per-owner tracking.
+# Run 27055543722 — Analysis Failure Root Cause & Diagnosis [2026-06-06]
+
+## Executive Summary
+
+Workflow run 27055543722 confirmed persistent analysis failures traced to **AI output contract inconsistency**, **deterministic retry loops**, and **unavailable fallback**. The crawler was healthy; analysis failed deterministically after ~25 minutes across all Copilot attempts, falling through to no-AI fallback which the safety manifest correctly blocked.
+
+## Consolidated Root Causes (Ranked by Confidence)
+
+### 1. Prompt/Spec/Gate Schema Drift — Very High Confidence
+- `prompts/analyze-weekly.md` and `docs/analysis-spec.md` specify predictions as `{repo, direction, confidence}`
+- `scripts/analysis_gate.py` requires `predictions[].claim_type in {signal, noise, gap}`
+- Run 27030646485: All 3 Copilot attempts failed on `predictions[*].claim_type must be one of signal, noise, gap`
+- Run 27055543722: Same deterministic failure across all 3 attempts
+- **Immediate action:** Align contract; update gate or prompt to match
+
+### 2. Context Bloat & Undercounted Preflight — Very High Confidence
+- Preflight estimates: ~74k tokens (raw JSON + skills only)
+- Actual final ledger: ~113k tokens (preflight + template + identity/wisdom + prior summary + press context + agent wrapper)
+- Gap of ~39k tokens (38% undercount) dilutes model attention
+- Renders skills payload (~45.8 KB / 11.4k tokens) contains unrelated operational/design skills, not analysis-specific
+- **Immediate action:** Render exact prompt before preflight; use analysis-specific wisdom capsule
+
+### 3. Blind Deterministic Retry Loop — Very High Confidence
+- Three full Copilot attempts (9-11 min each) repeated identical flawed prompt
+- No gate-error classification or deterministic repair (e.g., timestamp/schema normalization)
+- Retries waste 25-29 minutes, then fall through to no-AI
+- **Immediate action:** Classify gate failures; repair frontmatter once; fail-fast on systematic errors
+
+### 4. Unavailable AI Fallback — High Confidence
+- GitHub Models configured to `openai/gpt-4o` → `403 no_access` on both runs
+- No fallback to accessible model; pipeline jumps directly to no-AI
+- **Immediate action:** Preflight model access before expensive Copilot attempts
+
+### 5. No-AI Fallback Provenance Not Enforced — High Confidence
+- `analysis_gate.py` checks structure only, not provenance
+- No-AI output (quality_score 62, self-referential language) passed structural gate
+- Run 27030646485: No-AI published despite existing AI article from previous week
+- **Immediate action:** Enforce no-AI publish-blocking in manifest (already done in #249); add to diagnostics
+
+### 6. Weak Evidence/Citation Validation — Medium-High Confidence
+- Gate does not validate repo-link coverage (every mentioned repo must be `[owner/repo](url)`)
+- Gate does not validate press citation integrity or that links resolve to retained articles
+- No-AI fallback uses raw descriptions without editorial curation
+
+### 7. Learned Context Overhead & Agent Wrapper — Medium-High Confidence
+- Workflow calls `copilot --agent squad` for publication analysis
+- Squad agent adds routing/delegation instructions on top of the rendered prompt
+- Flat skills bundle mixes unrelated squad operational skills with analysis context
+
+## Recommended Immediate Fixes
+
+### 1. Align Prediction Contract (Blocker for Next Run)
+- **Decision:** Require `claim_type in {signal, noise, gap}` (supports hindsight classification)
+- **Actions:**
+  - Update `docs/analysis-spec.md` and `prompts/analyze-weekly.md` to specify predictions as `{repo, claim_type, direction, confidence}`
+  - Add contract-drift test: parse docs/prompt/gate and assert matching prediction schema
+  - Add regression fixtures for bad-date and prediction-shape errors
+
+### 2. Deterministic Frontmatter & Repair Loop
+- **Actions:**
+  - Precompute and mechanically inject `date`, `week`, `year`, `repos_featured`, `stars_tracked`
+  - Add focused repair prompt for gate failures (classifies errors; repairs timestamp/schema once)
+  - Fail-fast if error is systematic; do not retry if only deterministic fields are wrong
+
+### 3. Exact Rendered Prompt Preflight
+- **Actions:**
+  - Build `analysis-input-manifest.json` with component byte/token counts
+  - Render exact prompt (template + raw JSON + wisdom + skills + press context + prior summary)
+  - Compare rendered-prompt estimate to final ledger; fail or compact if gap > 10%
+
+### 4. Analysis-Specific Wisdom Capsule
+- **Actions:**
+  - Replace full learned-context injection with `{{EDITORIAL_WISDOM_CAPSULE}}` (~1-2k tokens max)
+  - Select only analysis-relevant learnings; exclude operational/design/PR workflow skills
+  - Keep prior-week continuity notes (~500 tokens) for editorial context
+
+### 5. GitHub Models Access Preflight
+- **Actions:**
+  - Add fast `models-health` check before Copilot attempts
+  - If configured model is inaccessible, switch to known-good fallback or mark unavailable up front
+  - Record provider/model/access status in `models-health.json` artifact
+
+### 6. No-AI as Diagnostic Only
+- **Actions:**
+  - Keep no-AI fallback for diagnostics/artifact purposes
+  - Tag as `diagnostic_no_ai_candidate` (not fallback recovery)
+  - Ensure manifest blocks promotion unless explicit force flag is set
+  - Do not let no-AI replace existing good AI article
+
+### 7. Direct Analyzer Invocation
+- **Actions:**
+  - Stop calling `--agent squad` for publication analysis
+  - Use plain Copilot CLI or minimal analyzer agent (Farnsworth-only)
+  - Remove squad routing/delegation context from analysis prompt
+
+## Map/Reduce Status
+
+**Hold for now.** Map/reduce remains dry-run candidate only after immediate fixes land. The signal-type claim-ledger architecture is sound but adding a second pipeline before deterministic contract/repair/preflight are solid risks masking the same root causes across more calls.
+
+## Observability to Add
+
+- `analysis-input-manifest.json`: component token counts by segment
+- `analysis-attempts.jsonl`: per-attempt provider, model, duration, gate errors, failure class
+- `models-health.json`: endpoint, model, access status, fallback selected
+- `gate-report.json`: structured `analysis_gate.py` output
+- Persist failed candidates under `data/candidates/{week}/{run_id}/` for reproduction
+
+## Acceptance Criteria for Next Run
+
+1. ✅ Prediction contract aligned across docs, prompt, gate
+2. ✅ Exact rendered-prompt preflight within 10% of final ledger
+3. ✅ Deterministic frontmatter/schema failures do not trigger full retries
+4. ✅ GitHub Models access is preflighted or marked unavailable
+5. ✅ No-AI manifest blocks promotion unless existing AI article is gone
+6. ✅ Final markdown passes both structural and evidence-citation gates
+7. ✅ Attempt artifacts retained for root-cause analysis
+
+## Cross-Team Notes
+
+- **Farnsworth:** Comprehensive root-cause diagnosis and process proposal documented
+- **Bender:** Pipeline failure mechanics, contract mismatch, context bloat analysis
+- **Fry:** QA test fixtures, gate/spec alignment, publish protection test plan, rollout phases
+- **Leela:** Issue hierarchy (#248-#261), GitHub creation/updates, PR #245 safety review
+
+## Related Issues
+
+- #248 — Parent epic: protect published analysis from unsafe reruns
+- #249 — Publish eligibility manifest with no-AI blocking (✅ safety gate worked this run)
+- #255 — Strengthen publish gate beyond structural validation
+- #256 — Deterministic preflight compaction and fallback policy
+- #265 — Triaged run 27055543722 as real P0 analysis bug
+- #266 — New immediate P0 child for contract alignment and deterministic repair
+
+---
