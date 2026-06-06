@@ -89,6 +89,26 @@ jobs:
           name: crawl-cache
           path: data/cache/
 
+      - name: Restore previous raw data for safe same-day reuse
+        if: steps.previous-cache-run.outputs.run_id != ''
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ steps.previous-cache-run.outputs.run_id }}
+          name: raw-data
+          path: data/raw/
+
+      - name: Restore previous snapshots for safe same-day reuse
+        if: steps.previous-cache-run.outputs.run_id != ''
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ steps.previous-cache-run.outputs.run_id }}
+          name: crawl-snapshots
+          path: data/snapshots/
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
