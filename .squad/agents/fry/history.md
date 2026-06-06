@@ -109,3 +109,10 @@
 - Added deterministic no-network regression coverage around publish eligibility manifests and promotion guard behavior.
 - Good canonical weekly summary/content must remain unchanged when candidates are failed, degraded, no-AI, stale, missing-manifest, or malformed-manifest.
 - Safe rerun promotion is copy-stable and must not append or duplicate article body content; ineligible candidates should remain in staging with promotion diagnostics for debugging.
+
+## Issue #291: Copilot Pricing Validation (2026-06-06)
+
+- Validated centralized pricing implementation in `scripts/model_pricing.py` for correctness and consistency.
+- Workflow safety review: `.github/workflows/copilot-pricing-review.yml` safe for production.
+- Full test suite passed (554 tests); no breaking changes detected.
+- Pricing validation will support future cost-aware pipeline decisions and analysis budget optimization.
