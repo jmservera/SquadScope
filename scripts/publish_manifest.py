@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -11,6 +12,14 @@ from typing import Any
 
 SCHEMA_VERSION = "publish_eligibility_v1"
 AI_SOURCES = {"copilot-cli", "github-models"}
+MIN_PUBLISH_QUALITY_SCORE = 60
+NO_AI_MARKERS = (
+    "AI analysis was unavailable",
+    "without AI-powered analysis",
+    "Automated data-only summary",
+    "generated without AI assistance",
+)
+FRONTMATTER_PATTERN = re.compile(r"^---\n(?P<frontmatter>.*?)\n---\n(?P<body>.*)\Z", re.DOTALL)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -71,6 +80,133 @@ def load_json(path: Path) -> dict[str, Any] | None:
     except (OSError, json.JSONDecodeError):
         return None
     return payload if isinstance(payload, dict) else None
+
+
+def _parse_scalar(value: str) -> Any:
+    stripped = value.strip().strip('"\'')
+    if re.fullmatch(r"-?\d+", stripped):
+        return int(stripped)
+    if re.fullmatch(r"-?\d+\.\d+", stripped):
+        return float(stripped)
+    if stripped.lower() == "true":
+        return True
+    if stripped.lower() == "false":
+        return False
+    return stripped
+
+
+def markdown_metadata(path: Path) -> dict[str, Any]:
+    if not path.exists() or not path.is_file():
+        return {
+            "exists": False,
+            "path": path.as_posix(),
+            "sha256": None,
+            "quality_score": None,
+            "week": None,
+            "ai_status": "missing",
+            "reasons": ["summary missing"],
+        }
+
+    text = path.read_text(encoding="utf-8", errors="replace")
+    match = FRONTMATTER_PATTERN.match(text)
+    frontmatter: dict[str, Any] = {}
+    reasons: list[str] = []
+    if match:
+        for line in match.group("frontmatter").splitlines():
+            if ":" not in line or line.startswith((" ", "\t")):
+                continue
+            key, value = line.split(":", 1)
+            frontmatter[key.strip()] = _parse_scalar(value)
+    else:
+        reasons.append("summary lacks YAML frontmatter")
+
+    quality = frontmatter.get("quality_score")
+    if not isinstance(quality, (int, float)):
+        quality = None
+    ai_status = "no-ai" if any(marker in text for marker in NO_AI_MARKERS) else "unknown"
+    source = str(frontmatter.get("analysis_source") or frontmatter.get("source") or "").strip()
+    if source in AI_SOURCES:
+        ai_status = "ai"
+    elif source == "no-ai":
+        ai_status = "no-ai"
+
+    return {
+        "exists": True,
+        "path": path.as_posix(),
+        "sha256": sha256_file(path),
+        "quality_score": quality,
+        "week": frontmatter.get("week"),
+        "title": frontmatter.get("title"),
+        "ai_status": ai_status,
+        "reasons": reasons,
+    }
+
+
+def _published_manifest_paths(published_summary: Path, week: str) -> list[Path]:
+    root = published_summary
+    for parent in [published_summary, *published_summary.parents]:
+        if (parent / "data").exists():
+            root = parent
+            break
+    candidate_root = root / "data" / "candidates" / week
+    return sorted(candidate_root.glob("*/publish-manifest.json")) if candidate_root.exists() else []
+
+
+def _ai_status_from_manifest(payload: dict[str, Any]) -> str:
+    analysis = payload.get("analysis")
+    if isinstance(analysis, dict):
+        ai_status = analysis.get("ai_status")
+        if ai_status in {"ai", "no-ai"}:
+            return ai_status
+    ai_provenance = payload.get("ai_provenance")
+    if isinstance(ai_provenance, dict):
+        source = ai_provenance.get("source")
+        if source in AI_SOURCES:
+            return "ai"
+        if source == "no-ai":
+            return "no-ai"
+    return "unknown"
+
+
+def published_summary_status(path: Path, week: str) -> dict[str, Any]:
+    status = markdown_metadata(path)
+    if not status["exists"]:
+        status.update({"good": False, "provenance_source": "missing"})
+        return status
+
+    matching_manifest: dict[str, Any] | None = None
+    summary_sha = status.get("sha256")
+    for manifest_path in _published_manifest_paths(path, week):
+        payload = load_json(manifest_path)
+        if not payload:
+            continue
+        candidate = payload.get("candidate")
+        candidate_sha = candidate.get("summary_sha256") if isinstance(candidate, dict) else None
+        if candidate_sha == summary_sha:
+            matching_manifest = payload
+            status["provenance_manifest_path"] = manifest_path.as_posix()
+            break
+
+    if matching_manifest:
+        status["ai_status"] = _ai_status_from_manifest(matching_manifest)
+        status["provenance_source"] = "publish-manifest"
+    else:
+        status["provenance_source"] = "summary"
+
+    reasons = list(status.get("reasons", []))
+    if status.get("week") != week:
+        reasons.append(f"published summary week mismatch: expected {week}, found {status.get('week')!r}")
+    quality = status.get("quality_score")
+    if quality is None:
+        reasons.append("published summary lacks quality_score")
+    elif quality < MIN_PUBLISH_QUALITY_SCORE:
+        reasons.append(f"published summary quality_score below {MIN_PUBLISH_QUALITY_SCORE}: {quality}")
+    if status.get("ai_status") == "no-ai":
+        reasons.append("published summary is no-AI fallback")
+
+    status["reasons"] = reasons
+    status["good"] = not reasons and status.get("ai_status") != "no-ai"
+    return status
 
 
 def same_day_reuse_status(payload: dict[str, Any] | None) -> dict[str, Any]:
@@ -171,9 +307,29 @@ def create_manifest(args: argparse.Namespace) -> int:
 
     analysis_source = args.analysis_source.strip()
     ai_status = "ai" if analysis_source in AI_SOURCES else "no-ai" if analysis_source == "no-ai" else "unknown"
+    candidate_metadata = markdown_metadata(args.summary)
+    published_status = published_summary_status(args.published_summary, args.week)
     candidate_exists = args.summary.exists()
     validation_passed = args.validation_status == "passed"
-    eligible = candidate_exists and validation_passed and ai_status == "ai" and not artifact_reasons
+    candidate_quality = candidate_metadata.get("quality_score")
+    comparison_reasons: list[str] = []
+    if candidate_exists:
+        if candidate_metadata.get("week") not in {None, args.week}:
+            comparison_reasons.append(
+                f"candidate summary week mismatch: expected {args.week}, found {candidate_metadata.get('week')!r}"
+            )
+        if candidate_quality is None:
+            comparison_reasons.append("candidate summary lacks quality_score")
+        elif candidate_quality < MIN_PUBLISH_QUALITY_SCORE:
+            comparison_reasons.append(f"candidate quality_score below {MIN_PUBLISH_QUALITY_SCORE}: {candidate_quality}")
+        if published_status.get("good") and isinstance(candidate_quality, (int, float)):
+            published_quality = published_status.get("quality_score")
+            if isinstance(published_quality, (int, float)) and candidate_quality < published_quality:
+                comparison_reasons.append(
+                    f"candidate quality_score {candidate_quality} is lower than published good quality_score {published_quality}"
+                )
+
+    eligible = candidate_exists and validation_passed and ai_status == "ai" and not artifact_reasons and not comparison_reasons
 
     reasons: list[str] = []
     if not candidate_exists:
@@ -183,6 +339,10 @@ def create_manifest(args: argparse.Namespace) -> int:
     if ai_status != "ai":
         reasons.append(f"analysis source is not AI-publishable: {analysis_source or 'unknown'}")
     reasons.extend(artifact_reasons)
+    reasons.extend(comparison_reasons)
+
+    preserve_existing = bool(published_status.get("good") and not eligible)
+    decision = "promote" if eligible else "preserve" if preserve_existing else "block"
 
     manifest = {
         "schema_version": SCHEMA_VERSION,
@@ -193,7 +353,10 @@ def create_manifest(args: argparse.Namespace) -> int:
             "summary_path": args.summary.as_posix(),
             "published_summary_path": args.published_summary.as_posix(),
             "summary_sha256": sha256_file(args.summary),
+            "quality_score": candidate_quality,
+            "ai_status": ai_status,
         },
+        "published": published_status,
         "source_artifacts": source_artifacts,
         "analysis": {
             "ai_status": ai_status,
@@ -216,14 +379,24 @@ def create_manifest(args: argparse.Namespace) -> int:
         },
         "promotion": {
             "eligible": eligible,
-            "decision": "promote" if eligible else "block",
+            "decision": decision,
             "reasons": reasons,
+        },
+        "preservation": {
+            "preserve_existing": preserve_existing,
+            "preserved_summary_path": args.published_summary.as_posix() if preserve_existing else None,
+            "rejected_candidate_path": args.summary.as_posix() if not eligible and candidate_exists else None,
+            "reasons": reasons if preserve_existing else [],
         },
     }
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(f"Publish manifest decision={manifest['promotion']['decision']} path={args.output}")
+    if preserve_existing:
+        print(f"Preserving published summary: {args.published_summary}")
+        if candidate_exists:
+            print(f"Rejected candidate summary: {args.summary}")
     if reasons:
         for reason in reasons:
             print(f"- {reason}")

@@ -65,8 +65,8 @@ Required secrets/tokens:
 - Current raw file week matches the run week
 - Correlation and press-context steps consume compact external-news data with legacy `YYYY-WNN-techcrunch.json` fallback
 - Press context preserves source names, article URLs/titles/dates, strong-vs-weak labels, and partial-source caveats while staying under the ~8k token budget
-- Copilot CLI output is written to `data/analyzed/`; if Copilot cannot produce publishable analysis, no-AI output is diagnostic only and the run fails.
-- `scripts/analysis_gate.py` passes before publish continues
+- Copilot CLI output is staged under `data/candidates/YYYY-WNN/<run-id>/`; if Copilot cannot produce publishable analysis, a no-AI candidate is kept as a rejected artifact and the run fails closed before promotion.
+- `scripts/analysis_gate.py` passes before publish continues, and `scripts/publish_manifest.py` records promote-vs-preserve decisions against any existing good published summary.
 - Job permissions include `actions: read`, `contents: write`, and `issues: write`
 
 ### 3. Generate
