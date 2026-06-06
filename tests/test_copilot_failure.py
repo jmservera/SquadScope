@@ -87,6 +87,41 @@ def test_main_creates_or_updates_issue_for_token_failure(tmp_path: Path) -> None
     issue_mock.assert_called_once()
 
 
+def test_main_creates_or_updates_issue_for_copilot_inaccessible(tmp_path: Path) -> None:
+    log_path = tmp_path / "copilot.log"
+    report_path = tmp_path / "report.json"
+    log_path.write_text("copilot is not available: command not found", encoding="utf-8")
+
+    with mock.patch.object(
+        copilot_failure,
+        "create_or_update_token_issue",
+        return_value="https://github.com/jmservera/SquadScope/issues/123",
+    ) as issue_mock:
+        exit_code = copilot_failure.main(
+            [
+                "--log",
+                str(log_path),
+                "--exit-code",
+                "127",
+                "--report-json",
+                str(report_path),
+                "--create-token-issue",
+                "--repo",
+                "jmservera/SquadScope",
+                "--week",
+                "2026-W23",
+                "--run-id",
+                "27055543722",
+            ]
+        )
+
+    payload = json.loads(report_path.read_text(encoding="utf-8"))
+    assert exit_code == 0
+    assert payload["failure_class"] == "copilot_inaccessible"
+    assert payload["issue"] == "https://github.com/jmservera/SquadScope/issues/123"
+    issue_mock.assert_called_once()
+
+
 def test_create_or_update_token_issue_returns_consistent_url_for_existing_issue() -> None:
     report = copilot_failure.classify_log("invalid token")
     responses = [
