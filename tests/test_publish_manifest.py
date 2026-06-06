@@ -77,6 +77,8 @@ class PublishManifestTests(unittest.TestCase):
             self.assertEqual(payload["promotion"]["decision"], "promote")
             self.assertRegex(payload["candidate"]["summary_sha256"], r"^[0-9a-f]{64}$")
             self.assertRegex(payload["source_artifacts"][0]["sha256"], r"^[0-9a-f]{64}$")
+            self.assertEqual(payload["source_artifacts"][0]["provenance"]["sha256"], payload["source_artifacts"][0]["sha256"])
+            self.assertEqual(payload["source_artifacts"][0]["provenance"]["same_day_reuse"]["status"], "not_reused")
             self.assertEqual(publish_manifest.main(["assert-eligible", "--manifest", str(manifest)]), 0)
 
     def test_no_ai_candidate_is_not_eligible(self) -> None:

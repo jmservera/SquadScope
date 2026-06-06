@@ -391,6 +391,11 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIsNotNone(commit_step)
         commit_run = commit_step["run"]
         self.assertIn('assert-eligible --manifest "$MANIFEST_FILE"', commit_run)
+        self.assertIn("Publish branch drifted since analysis began", commit_run)
+        self.assertIn("publish_safety.py", commit_run)
+        self.assertIn("backup-existing", commit_run)
+        self.assertIn("data/backups/", commit_run)
+        self.assertIn("--force-with-lease", commit_run)
         self.assertIn('cp "$CANDIDATE_SUMMARY" "$PUBLISHED_SUMMARY"', commit_run)
         self.assertIn("git add data/analyzed/ data/candidates/", commit_run)
 
@@ -402,6 +407,13 @@ class WorkflowConfigTests(unittest.TestCase):
         generate_step = next((s for s in generate["steps"] if s.get("name") == "Generate weekly content"), None)
         self.assertIsNotNone(generate_step)
         self.assertIn('assert-eligible --manifest "$MANIFEST_FILE"', generate_step["run"])
+
+        content_commit_step = next((s for s in generate["steps"] if s.get("name") == "Commit generated content to data branch"), None)
+        self.assertIsNotNone(content_commit_step)
+        content_commit_run = content_commit_step["run"]
+        self.assertIn("Publish branch drifted between analyze and content promotion", content_commit_run)
+        self.assertIn("backup-existing", content_commit_run)
+        self.assertIn("--force-with-lease", content_commit_run)
 
     def test_notify_failure_job_creates_or_updates_issue(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")

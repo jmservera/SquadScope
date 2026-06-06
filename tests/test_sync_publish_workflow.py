@@ -2,6 +2,7 @@ from pathlib import Path
 
 
 WORKFLOW = Path(".github/workflows/sync-publish-to-main.yml")
+RESTORE_WORKFLOW = Path(".github/workflows/restore-publish-backup.yml")
 
 
 def test_publish_sync_only_checks_out_generated_content_paths() -> None:
@@ -30,3 +31,12 @@ def test_publish_sync_refuses_staged_squad_changes() -> None:
     assert "git diff --cached --name-only | grep -E '^\\.squad/'" in workflow
     assert "data/raw/" in workflow
     assert ".squad/**" in workflow
+
+
+def test_restore_publish_backup_workflow_uses_immutable_backup_manifest() -> None:
+    workflow = RESTORE_WORKFLOW.read_text(encoding="utf-8")
+
+    assert "backup_manifest" in workflow
+    assert "scripts/publish_safety.py restore-backup" in workflow
+    assert "--force-with-lease" in workflow
+    assert "ref: publish" in workflow
