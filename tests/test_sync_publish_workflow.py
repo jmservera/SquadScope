@@ -37,6 +37,17 @@ def test_restore_publish_backup_workflow_uses_immutable_backup_manifest() -> Non
     workflow = RESTORE_WORKFLOW.read_text(encoding="utf-8")
 
     assert "backup_manifest" in workflow
-    assert "scripts/publish_safety.py restore-backup" in workflow
+    assert "python3 ../workflow-source/scripts/publish_safety.py restore-backup" in workflow
     assert "--force-with-lease" in workflow
     assert "ref: publish" in workflow
+
+
+def test_restore_publish_backup_workflow_keeps_helper_available_after_publish_checkout() -> None:
+    workflow = RESTORE_WORKFLOW.read_text(encoding="utf-8")
+
+    assert "path: workflow-source" in workflow
+    assert "ref: ${{ github.sha }}" in workflow
+    assert "path: publish" in workflow
+    assert "cd publish" in workflow
+    assert "python3 scripts/publish_safety.py restore-backup" not in workflow
+    assert "python3 ../workflow-source/scripts/publish_safety.py restore-backup" in workflow

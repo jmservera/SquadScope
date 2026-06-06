@@ -19,23 +19,31 @@ jobs:
   restore:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out workflow source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: workflow-source
+
       - name: Check out publish
         uses: actions/checkout@v4
         with:
           ref: publish
           fetch-depth: 0
+          path: publish
 
       - name: Restore immutable backup
         env:
           BACKUP_MANIFEST: ${{ inputs.backup_manifest }}
         run: |
           set -euo pipefail
+          cd publish
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git fetch origin publish
           EXPECTED_PUBLISH_SHA=$(git rev-parse origin/publish)
           git checkout -f -B publish origin/publish
-          python3 scripts/publish_safety.py restore-backup --backup-manifest "$BACKUP_MANIFEST"
+          python3 ../workflow-source/scripts/publish_safety.py restore-backup --backup-manifest "$BACKUP_MANIFEST"
           git add data/analyzed/ content/weekly/
           if git diff --cached --quiet; then
             echo "Backup restore produced no changes."
