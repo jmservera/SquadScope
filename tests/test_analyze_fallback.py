@@ -237,6 +237,11 @@ class AnalyzeFallbackTests(unittest.TestCase):
             components = {component["name"]: component for component in report["components"]}
             self.assertEqual(components["new_repos"]["inclusion_reason"], "Deterministic mapper slice: newly discovered repositories.")
             self.assertEqual(components["trending_repos"]["compaction_decision"], "included")
+            inventories = {inventory["name"]: inventory for inventory in report["evidence_inventories"]}
+            self.assertEqual(inventories["raw_new_repos"]["item_count"], 1)
+            self.assertEqual(inventories["raw_new_repos"]["repos"][0]["full_name"], "owner/new")
+            self.assertEqual(inventories["raw_trending_repos"]["repos"][0]["stars_gained"], 5)
+            self.assertGreater(inventories["prompt_new_repos"]["token_estimate"], 0)
 
     def test_preflight_compacts_before_prompt_exceeds_budget(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -298,6 +303,14 @@ class AnalyzeFallbackTests(unittest.TestCase):
             components = {component["name"]: component for component in report["components"]}
             self.assertIn("compacted to top", components["new_repos"]["compaction_decision"])
             self.assertIn("compacted to top", components["trending_repos"]["compaction_decision"])
+            inventories = {inventory["name"]: inventory for inventory in report["evidence_inventories"]}
+            self.assertEqual(inventories["raw_new_repos"]["item_count"], 60)
+            self.assertEqual(inventories["prompt_new_repos"]["item_count"], analyze_fallback.COMPACTED_NEW_REPOS_LIMIT)
+            self.assertEqual(inventories["raw_trending_repos"]["item_count"], 60)
+            self.assertEqual(
+                inventories["prompt_trending_repos"]["item_count"],
+                analyze_fallback.COMPACTED_TRENDING_REPOS_LIMIT,
+            )
 
     def test_extract_markdown_supports_message_parts(self) -> None:
         payload = {

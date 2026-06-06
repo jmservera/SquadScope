@@ -12,7 +12,10 @@ RAW_PAYLOAD_WITH_REPOS = {
     "week": "2026-W23",
     "crawled_at": "2026-06-01T00:00:00Z",
     "new_repos": [{"full_name": "owner/repo", "stars": 1000}],
-    "trending_repos": [{"full_name": "owner/repo-b", "stars": 200}],
+    "trending_repos": [
+        {"full_name": "owner/repo-a", "stars": 300},
+        {"full_name": "owner/repo-b", "stars": 200},
+    ],
 }
 CURRENT_DATETIME = "2026-06-01T00:00:00Z"
 
@@ -227,8 +230,8 @@ summary: "A grounded week focused on practical tools."'''.strip()
         self.assertEqual(errors, ["predictions[1].claim_type must be one of signal, noise, gap."])
         self.assertIn("set date from current run timestamp", actions)
         self.assertNotIn("claim_type", frontmatter_after["predictions"][0])
-        self.assertEqual(frontmatter_after["repos_featured"], 2)
-        self.assertEqual(frontmatter_after["stars_tracked"], 1200)
+        self.assertEqual(frontmatter_after["repos_featured"], 3)
+        self.assertEqual(frontmatter_after["stars_tracked"], 1500)
 
     def test_repair_analysis_normalizes_safe_prediction_claim_alias(self) -> None:
         frontmatter = VALID_FRONTMATTER + "\npredictions:\n  - repo: owner/repo\n    claim: Signal\n    direction: UP\n    confidence: 0.7"
@@ -445,6 +448,12 @@ No press data was provided this week.
                     "trending_repos": [],
                 }
                 text = summary_path.read_text(encoding="utf-8")
+                linked_repos = sorted(analysis_gate.REPO_LINK_PATTERN.findall(text))
+                raw_payload["new_repos"].extend(
+                    {"full_name": name, "stars": 100}
+                    for name in linked_repos
+                    if name != repo_name
+                )
 
                 structure_errors, word_count = analysis_gate.validate_analysis(text, raw_payload, crawled_at)
                 publish_errors, gates = analysis_gate.validate_publish_quality(
@@ -482,7 +491,10 @@ No press data was provided this week.
         self.assertTrue(gates["ai_provenance"]["passed"])
 
     def test_publish_quality_gate_rejects_missing_evidence_citations(self) -> None:
-        body = make_body().replace("[owner/repo-b](https://github.com/owner/repo-b)", "owner/repo-b")
+        body = make_body().replace("[owner/repo-a](https://github.com/owner/repo-a)", "owner/repo-a").replace(
+            "[owner/repo-b](https://github.com/owner/repo-b)",
+            "owner/repo-b",
+        )
         errors, gates = analysis_gate.validate_publish_quality(
             make_analysis(VALID_FRONTMATTER, body),
             RAW_PAYLOAD_WITH_REPOS,
@@ -491,6 +503,18 @@ No press data was provided this week.
         )
 
         self.assertIn("evidence citations must include at least one repository link from the raw payload.", errors)
+        self.assertFalse(gates["evidence_citation"]["passed"])
+
+    def test_publish_quality_gate_rejects_repo_links_outside_current_inventory(self) -> None:
+        body = make_body().replace("[owner/repo-a](https://github.com/owner/repo-a)", "[other/repo](https://github.com/other/repo)")
+        errors, gates = analysis_gate.validate_publish_quality(
+            make_analysis(VALID_FRONTMATTER, body),
+            RAW_PAYLOAD_WITH_REPOS,
+            source="copilot-cli",
+            model="copilot-default",
+        )
+
+        self.assertIn("repository links must resolve to the current raw evidence inventory: other/repo.", errors)
         self.assertFalse(gates["evidence_citation"]["passed"])
 
     def test_publish_quality_gate_rejects_stale_evidence(self) -> None:
@@ -532,6 +556,26 @@ No press data was provided this week.
         self.assertIn("AI provenance source is not publishable: no-ai.", errors)
         self.assertIn("AI provenance model is not publishable: none.", errors)
         self.assertFalse(gates["ai_provenance"]["passed"])
+
+    def test_publish_quality_gate_rejects_github_models_provenance(self) -> None:
+        errors, gates = analysis_gate.validate_publish_quality(
+            make_analysis(VALID_FRONTMATTER, make_body()),
+            RAW_PAYLOAD,
+            source="github-models",
+            model="openai/gpt-4o",
+        )
+
+        self.assertIn("AI provenance source is not publishable: github-models.", errors)
+        self.assertFalse(gates["ai_provenance"]["passed"])
+
+    def test_gate_report_includes_structured_failure_summary(self) -> None:
+        errors = ["repository links must resolve to the current raw evidence inventory: other/repo."]
+        gates = analysis_gate.build_gate_results(errors)
+        summary = analysis_gate.build_failure_summary(errors, gates)
+
+        self.assertEqual(summary["failure_class"], "evidence_citation")
+        self.assertEqual(summary["failure_categories"], ["evidence_citation"])
+        self.assertEqual(summary["error_count"], 1)
 
     def test_publish_quality_gate_rejects_contradictory_press_claims(self) -> None:
         body = make_body() + "\n\nNo press data was provided this week, but TechCrunch reported a major launch."
