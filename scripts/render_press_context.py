@@ -15,6 +15,7 @@ import sys
 import urllib.request
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import urlparse
 
 # Allow imports when run from repo root or scripts/
 _REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -26,6 +27,24 @@ PRESS_CONTEXT_TOKEN_BUDGET = 8000
 PRESS_CONTEXT_CHAR_BUDGET = PRESS_CONTEXT_TOKEN_BUDGET * 4
 MAX_RENDERED_ARTICLES = 40
 MAX_RENDERED_CORRELATIONS = 20
+GITHUB_REPO_FULL_NAME_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
+
+
+def validate_https_url(url: str, *, label: str) -> None:
+    parsed = urlparse(url)
+    if parsed.scheme.lower() != "https":
+        raise ValueError(f"{label} must use HTTPS: {url}")
+    if parsed.username or parsed.password:
+        raise ValueError(f"{label} must not include credentials: {url}")
+    host = (parsed.hostname or "").rstrip(".").lower()
+    if not host:
+        raise ValueError(f"{label} must include a hostname: {url}")
+    try:
+        port = parsed.port
+    except ValueError as exc:
+        raise ValueError(f"{label} has an invalid port: {url}") from exc
+    if port not in (None, 443):
+        raise ValueError(f"{label} must not use unexpected ports: {url}")
 
 
 def current_week() -> str:
@@ -77,10 +96,13 @@ def _fetch_readme_snippet(full_name: str, max_chars: int = 500) -> str:
     Returns an empty string on any failure (network error, 404, timeout).
     Should only be called in reader_mode=True paths.
     """
+    if not GITHUB_REPO_FULL_NAME_RE.fullmatch(full_name):
+        return ""
     url = f"https://raw.githubusercontent.com/{full_name}/HEAD/README.md"
     try:
+        validate_https_url(url, label="README URL")
         req = urllib.request.Request(url, headers={"User-Agent": "SquadScope/1.0"})
-        with urllib.request.urlopen(req, timeout=5) as resp:
+        with urllib.request.urlopen(req, timeout=5) as resp:  # nosec B310
             raw = resp.read(max_chars * 3)
             return raw.decode("utf-8", errors="replace")[:max_chars]
     except Exception:

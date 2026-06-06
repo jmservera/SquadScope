@@ -452,7 +452,7 @@ class AnalyzeFallbackTests(unittest.TestCase):
 
         with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
             analyze_fallback.request, "urlopen", side_effect=[rate_limited, response]
-        ) as urlopen_mock, mock.patch.object(analyze_fallback.random, "uniform", return_value=0), mock.patch.object(
+        ) as urlopen_mock, mock.patch.object(analyze_fallback._JITTER_RANDOM, "uniform", return_value=0), mock.patch.object(
             analyze_fallback.time, "sleep"
         ) as sleep_mock:
             markdown = analyze_fallback.call_github_models("prompt")

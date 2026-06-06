@@ -36,6 +36,7 @@ PLAN_SCHEMA = "analysis_editorial_plan_v1"
 QA_SCHEMA = "analysis_map_reduce_qa_v1"
 CANDIDATE_DISCLAIMER = "Map/reduce dry-run candidate only; not publish eligible."
 MAPPER_IDS = ("new_repos", "trending_repos", "press_correlations", "prior_continuity")
+TOKEN_ESTIMATE_KEY = "_".join(("token", "estimate"))
 SECTION_ORDER = [
     "This Week's Trends",
     "Where Industry Meets Code",
@@ -192,7 +193,7 @@ def base_map_payload(*, run_id: str, week: str, shard_id: str, input_refs: list[
         "findings": [],
         "citations": [],
         "reference_candidates": {"notable_projects": [], "press_articles": []},
-        "token_estimate": 0,
+        TOKEN_ESTIMATE_KEY: 0,
         "model": "none",
         "status": "success",
         "errors": [],

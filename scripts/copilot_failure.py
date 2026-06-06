@@ -3,7 +3,8 @@ from __future__ import annotations
 
 import argparse
 import json
-import subprocess
+import shutil
+import subprocess  # nosec B404
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -139,7 +140,10 @@ def issue_body(report: CopilotFailure, *, week: str, run_id: str) -> str:
 
 
 def run_gh(args: list[str]) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(["gh", *args], check=False, capture_output=True, text=True)
+    gh_path = shutil.which("gh")
+    if gh_path is None:
+        raise RuntimeError("GitHub CLI executable not found on PATH")
+    return subprocess.run([gh_path, *args], check=False, capture_output=True, text=True)  # nosec B603
 
 
 def issue_url(repo: str, number: str) -> str:
