@@ -1,0 +1,11 @@
+# Bandit security scanning configuration
+# Baseline exceptions for legitimate patterns
+
+# Exclude virtual environments and third-party code
+exclude_dirs:
+  - .venv
+  - venv
+  - site-packages
+  - node_modules
+  - __pycache__
+  - tests

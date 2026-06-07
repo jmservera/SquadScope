@@ -13,6 +13,8 @@ public/
 resources/_gen/
 .hugo_build.lock
 
+.venv
+
 # Git worktrees
 .worktrees/
 *.pyc

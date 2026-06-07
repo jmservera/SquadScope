@@ -5,13 +5,13 @@ import argparse
 import hashlib
 import json
 import os
-import random
+import secrets
 import sys
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
-from urllib import error, request
+from urllib import error, parse, request
 
 try:
     from scripts.sanitize_repo_content import sanitize_repo_payload
@@ -27,6 +27,8 @@ DEFAULT_SKILLS_DIR = ROOT / ".squad" / "skills"
 DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
 DEFAULT_MODELS_MODEL = "openai/gpt-4o"
 DEFAULT_MODELS_TIMEOUT = 30
+ALLOWED_MODELS_HOSTS: frozenset[str] = frozenset({"models.github.ai"})
+_JITTER_RANDOM = secrets.SystemRandom()
 NO_AI_DIAGNOSTIC_QUALITY_SCORE = 40
 DEFAULT_PROMPT_TOKEN_BUDGET = 90_000
 COMPACTED_NEW_REPOS_LIMIT = 25
@@ -576,12 +578,31 @@ MAX_RETRIES = 3
 BASE_DELAY = 2  # seconds
 
 
+def validate_https_url(url: str, *, label: str, allowed_hosts: frozenset[str] | None = None) -> None:
+    parsed = parse.urlparse(url)
+    if parsed.scheme.lower() != "https":
+        raise ValueError(f"{label} must use HTTPS: {url}")
+    if parsed.username or parsed.password:
+        raise ValueError(f"{label} must not include credentials: {url}")
+    if not parsed.hostname:
+        raise ValueError(f"{label} must include a hostname: {url}")
+    try:
+        port = parsed.port
+    except ValueError as exc:
+        raise ValueError(f"{label} has an invalid port: {url}") from exc
+    if port not in (None, 443):
+        raise ValueError(f"{label} must not use unexpected ports: {url}")
+    if allowed_hosts is not None and parsed.hostname.lower() not in allowed_hosts:
+        raise ValueError(f"{label} host must be one of {sorted(allowed_hosts)}: {url}")
+
+
 def call_github_models(prompt: str) -> str:
     token = os.environ.get("GITHUB_TOKEN")
     if not token:
         raise RuntimeError("GITHUB_TOKEN is required for GitHub Models fallback.")
 
     endpoint = os.environ.get("GITHUB_MODELS_ENDPOINT", DEFAULT_MODELS_ENDPOINT)
+    validate_https_url(endpoint, label="GitHub Models endpoint", allowed_hosts=ALLOWED_MODELS_HOSTS)
     model = os.environ.get("GITHUB_MODELS_MODEL", DEFAULT_MODELS_MODEL)
     timeout = int(os.environ.get("GITHUB_MODELS_TIMEOUT", str(DEFAULT_MODELS_TIMEOUT)))
     payload = {
@@ -604,7 +625,7 @@ def call_github_models(prompt: str) -> str:
             method="POST",
         )
         try:
-            with request.urlopen(req, timeout=timeout) as response:
+            with request.urlopen(req, timeout=timeout) as response:  # nosec B310
                 response_payload = json.load(response)
             return extract_markdown(response_payload)
         except error.HTTPError as exc:
@@ -628,7 +649,7 @@ def call_github_models(prompt: str) -> str:
                     delay = BASE_DELAY ** (attempt + 1)
             else:
                 delay = BASE_DELAY ** (attempt + 1)
-            jitter = random.uniform(0, 1)  # noqa: S311
+            jitter = _JITTER_RANDOM.uniform(0, 1)
             total_delay = delay + jitter
             print(
                 f"[retry] GitHub Models API returned {exc.code}, "
@@ -642,7 +663,7 @@ def call_github_models(prompt: str) -> str:
                 raise RuntimeError(
                     f"GitHub Models API request failed: {exc.reason}"
                 ) from exc
-            delay = BASE_DELAY ** (attempt + 1) + random.uniform(0, 1)  # noqa: S311
+            delay = BASE_DELAY ** (attempt + 1) + _JITTER_RANDOM.uniform(0, 1)
             print(
                 f"[retry] GitHub Models API network error: {exc.reason}, "
                 f"retrying in {delay:.1f}s (attempt {attempt + 1}/{MAX_RETRIES})",

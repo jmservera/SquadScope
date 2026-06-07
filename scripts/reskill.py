@@ -8,7 +8,7 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
-from urllib import error, request
+from urllib import error, parse, request
 
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
@@ -26,6 +26,25 @@ DEFAULT_REPORT_DIR = ROOT / ".squad" / "reskill"
 DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
 DEFAULT_MODELS_MODEL = "openai/gpt-4o"
 DEFAULT_MODELS_TIMEOUT = 30
+ALLOWED_MODELS_HOSTS: frozenset[str] = frozenset({"models.github.ai"})
+
+
+def validate_https_url(url: str, *, label: str, allowed_hosts: frozenset[str] | None = None) -> None:
+    parsed = parse.urlparse(url)
+    if parsed.scheme.lower() != "https":
+        raise ValueError(f"{label} must use HTTPS: {url}")
+    if parsed.username or parsed.password:
+        raise ValueError(f"{label} must not include credentials: {url}")
+    if not parsed.hostname:
+        raise ValueError(f"{label} must include a hostname: {url}")
+    try:
+        port = parsed.port
+    except ValueError as exc:
+        raise ValueError(f"{label} has an invalid port: {url}") from exc
+    if port not in (None, 443):
+        raise ValueError(f"{label} must not use unexpected ports: {url}")
+    if allowed_hosts is not None and parsed.hostname.lower() not in allowed_hosts:
+        raise ValueError(f"{label} host must be one of {sorted(allowed_hosts)}: {url}")
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -241,6 +260,7 @@ def call_github_models(prompt: str) -> str:
         raise RuntimeError("GITHUB_TOKEN is required for GitHub Models fallback.")
 
     endpoint = os.environ.get("GITHUB_MODELS_ENDPOINT", DEFAULT_MODELS_ENDPOINT)
+    validate_https_url(endpoint, label="GitHub Models endpoint", allowed_hosts=ALLOWED_MODELS_HOSTS)
     model = os.environ.get("GITHUB_MODELS_MODEL", DEFAULT_MODELS_MODEL)
     timeout = int(os.environ.get("GITHUB_MODELS_TIMEOUT", str(DEFAULT_MODELS_TIMEOUT)))
     payload = {
@@ -261,7 +281,7 @@ def call_github_models(prompt: str) -> str:
     )
 
     try:
-        with request.urlopen(req, timeout=timeout) as response:
+        with request.urlopen(req, timeout=timeout) as response:  # nosec B310
             response_payload = json.load(response)
     except error.HTTPError as exc:  # pragma: no cover - exercised via message formatting
         detail = exc.read().decode("utf-8", errors="replace")

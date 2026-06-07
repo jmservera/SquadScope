@@ -7,8 +7,8 @@ import argparse
 import hashlib
 import json
 import os
-import random
 import re
+import secrets
 import sys
 import time
 from collections import Counter
@@ -22,6 +22,7 @@ from scripts.topic_paths import cache_dir, raw_dir, snapshots_dir
 
 API_ROOT = "https://api.github.com"
 SEARCH_REPOSITORIES = f"{API_ROOT}/search/repositories"
+_JITTER_RANDOM = secrets.SystemRandom()
 CACHE_ROOT = Path("data/cache")
 RAW_ROOT = Path("data/raw")
 SNAPSHOT_ROOT = Path("data/snapshots")
@@ -203,6 +204,7 @@ class GitHubClient:
         max_delay_seconds: float = 300.0,
     ) -> CacheEntry:
         query = f"{url}?{parse.urlencode(params)}" if params else url
+        self._validate_github_api_url(query)
         accepted = acceptable_statuses or set()
         retry_limit = self.max_retries if max_retries is None else max_retries
         ttl = ttl_seconds if ttl_seconds is not None else self._cache_ttl(url)
@@ -227,7 +229,7 @@ class GitHubClient:
             self._respect_min_interval(url)
             req = request.Request(query, headers=self._headers())
             try:
-                with request.urlopen(req, timeout=self.timeout) as response:
+                with request.urlopen(req, timeout=self.timeout) as response:  # nosec B310
                     self.api_calls_used += 1
                     headers = {name: value for name, value in response.headers.items()}
                     self._update_rate_limit(headers)
@@ -364,10 +366,10 @@ class GitHubClient:
         if retry_after is not None and (self.rate_limit_reset is None or (self.rate_limit_remaining or 0) <= 0):
             self.rate_limit_reset = max(self.rate_limit_reset or 0, int(time.time() + retry_after))
         base_delay = min(2**attempt, 60)
-        jitter = random.uniform(0.3, 1.7)
+        jitter = _JITTER_RANDOM.uniform(0.3, 1.7)
         delay = retry_after or reset_delay or (base_delay + jitter)
         if "secondary rate limit" in body.lower():
-            delay = max(delay, 8.0 + random.uniform(0.0, 5.0))
+            delay = max(delay, 8.0 + _JITTER_RANDOM.uniform(0.0, 5.0))
         delay = min(delay, max_delay_seconds)
         log(f"Retrying {query} in {delay:.1f}s (attempt {attempt + 1}/{retry_limit}).")
         time.sleep(delay)
@@ -399,7 +401,7 @@ class GitHubClient:
                 time.sleep(delay)
             return
         if self.rate_limit_remaining <= critical_threshold:
-            delay = min(reset_delay + random.uniform(0.3, 1.5), 300.0)
+            delay = min(reset_delay + _JITTER_RANDOM.uniform(0.3, 1.5), 300.0)
             log(f"Rate limit nearly exhausted before {query}; pausing {delay:.1f}s until reset window.")
             time.sleep(delay)
             return
@@ -420,6 +422,22 @@ class GitHubClient:
             return max(int(reset) - int(time.time()), 1)
         except ValueError:
             return None
+
+    def _validate_github_api_url(self, url: str) -> None:
+        parsed = parse.urlparse(url)
+        if parsed.scheme.lower() != "https":
+            raise ValueError(f"GitHub API URL must use HTTPS: {url}")
+        if parsed.username or parsed.password:
+            raise ValueError(f"GitHub API URL must not include credentials: {url}")
+        host = (parsed.hostname or "").rstrip(".").lower()
+        if host != "api.github.com":
+            raise ValueError(f"GitHub API URL must target api.github.com: {url}")
+        try:
+            port = parsed.port
+        except ValueError as exc:
+            raise ValueError(f"GitHub API URL has an invalid port: {url}") from exc
+        if port not in (None, 443):
+            raise ValueError(f"GitHub API URL must not use unexpected ports: {url}")
 
     def _update_rate_limit(self, headers: dict[str, str] | None) -> None:
         limit = headers.get("X-RateLimit-Limit") if headers else None
