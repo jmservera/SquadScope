@@ -815,8 +815,8 @@ def run(args: argparse.Namespace) -> dict[str, Path]:
             "generated_evidence_slices": slice_components,
             "rendered_prompt_estimate": {
                 "bytes": len(candidate_text.encode("utf-8")),
-                "token_estimate": estimate_tokens(candidate_text),
-                "sha256": sha256_bytes(candidate_text.encode("utf-8")),
+                "tokens": estimate_tokens(candidate_text),
+                "checksum_sha256": sha256_bytes(candidate_text.encode("utf-8")),
             },
         },
         "citation_inventories": {

@@ -455,6 +455,7 @@ jobs:
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           PROMPT_FILE="data/metrics/analysis-prompt-${WEEK}.md"
           PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-input-manifest.json"
+          LEGACY_PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-preflight.json"
           PREFLIGHT_MD="$DIAGNOSTICS_DIR/analysis-preflight.md"
           mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
           # Hydrate metrics ledger from publish before writing this run's prompt/preflight artifacts.
@@ -469,6 +470,7 @@ jobs:
             --preflight-report-json "$PREFLIGHT_JSON" \
             --preflight-report-md "$PREFLIGHT_MD" \
             --print-prompt > "$PROMPT_FILE"
+          cp "$PREFLIGHT_JSON" "$LEGACY_PREFLIGHT_JSON"
           python3 scripts/preflight_cost_check.py \
             --context-files "$PROMPT_FILE"
           python3 - <<'PY' "$PREFLIGHT_JSON"

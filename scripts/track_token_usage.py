@@ -222,7 +222,7 @@ def validate_input_manifest(path: Path | None, input_tokens: int) -> dict[str, o
     if estimated_tokens is None:
         raise ValueError(f"Input manifest missing rendered prompt token estimate: {path}")
     delta = abs(input_tokens - estimated_tokens)
-    ratio = delta / max(estimated_tokens, 1)
+    ratio = delta / max(input_tokens, 1)
     degraded = bool(manifest.get("degraded")) or not bool(manifest.get("prompt_within_budget", True))
     passed = ratio <= 0.10
     reason = None
