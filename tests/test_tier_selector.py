@@ -41,7 +41,7 @@ class TestBuildConfig:
 
     def test_budget_config(self):
         cfg = build_config("budget")
-        assert cfg == {"tier": "budget", "model": "gpt-4.1", "max_repos": 100, "skip_ai": False}
+        assert cfg == {"tier": "budget", "model": "gpt-5.4-mini", "max_repos": 100, "skip_ai": False}
 
     def test_minimal_config(self):
         cfg = build_config("minimal")

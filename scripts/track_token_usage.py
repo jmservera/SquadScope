@@ -9,18 +9,11 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
+from scripts.model_pricing import estimate_cost_usd
+
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_USAGE_FILE = ROOT / "data" / "metrics" / "token-usage.jsonl"
 CHARS_PER_TOKEN = 4
-MODEL_RATES = {
-    "copilot-default": {"input": 3.00, "output": 15.00},
-    "claude-sonnet-4": {"input": 3.00, "output": 15.00},
-    "openai/gpt-4.1": {"input": 2.00, "output": 8.00},
-    "gpt-4.1": {"input": 2.00, "output": 8.00},
-    "openai/gpt-5-mini": {"input": 0.25, "output": 2.00},
-    "gpt-5-mini": {"input": 0.25, "output": 2.00},
-    "claude-haiku-4.5": {"input": 1.00, "output": 5.00},
-}
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -139,14 +132,6 @@ def parse_api_response(path: Path) -> tuple[int, int] | None:
         return prompt_tokens, completion_tokens
 
     return None
-
-
-def estimate_cost_usd(model: str, input_tokens: int, output_tokens: int) -> float | None:
-    rates = MODEL_RATES.get(model)
-    if not rates:
-        return None
-    total = (input_tokens * rates["input"] + output_tokens * rates["output"]) / 1_000_000
-    return round(total, 6)
 
 
 def build_record(args: argparse.Namespace) -> dict[str, object]:

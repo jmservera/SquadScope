@@ -65,7 +65,7 @@ class TrackTokenUsageTests(unittest.TestCase):
                     "--source",
                     "github-models",
                     "--model",
-                    "openai/gpt-4.1",
+                    "gpt-5.4-mini",
                     "--current-datetime",
                     "2026-05-19T08:00:00Z",
                     "--input-tokens",
@@ -83,7 +83,7 @@ class TrackTokenUsageTests(unittest.TestCase):
             self.assertEqual(record["output_tokens"], 250)
             self.assertEqual(record["total_tokens"], 1250)
             self.assertEqual(record["week"], "2026-W21")
-            self.assertEqual(record["cost_usd"], 0.004)
+            self.assertEqual(record["cost_usd"], 0.001875)
             self.assertFalse(record["estimated"])
 
     def test_input_manifest_validation_fails_when_final_usage_differs_by_more_than_10_percent(self) -> None:
@@ -368,7 +368,7 @@ class TokenSourcePriorityTests(unittest.TestCase):
                 [
                     "--stage", "reskill",
                     "--source", "github-models",
-                    "--model", "gpt-4.1",
+                    "--model", "gpt-5.4-mini",
                     "--current-datetime", "2026-05-19T08:00:00Z",
                     "--prompt-file", str(prompt_path),
                     "--api-response", str(api_response),
@@ -439,6 +439,48 @@ class TokenSourcePriorityTests(unittest.TestCase):
             self.assertEqual(record["input_tokens"], 10)
             self.assertEqual(record["output_tokens"], 5)
             self.assertTrue(record["estimated"])
+
+
+class ModelPricingTests(unittest.TestCase):
+    def test_prices_representative_current_models(self) -> None:
+        self.assertEqual(track_token_usage.estimate_cost_usd("gpt-5-mini", 1_000_000, 1_000_000), 2.25)
+        self.assertEqual(track_token_usage.estimate_cost_usd("claude-haiku-4.5", 1_000_000, 1_000_000), 6.0)
+        self.assertEqual(track_token_usage.estimate_cost_usd("gemini-3-flash", 1_000_000, 1_000_000), 3.5)
+        self.assertEqual(track_token_usage.estimate_cost_usd("mai-code-1-flash", 1_000_000, 1_000_000), 5.25)
+
+    def test_long_context_threshold_rates_apply(self) -> None:
+        self.assertEqual(track_token_usage.estimate_cost_usd("gpt-5.4", 272_000, 1_000), 0.695)
+        self.assertEqual(track_token_usage.estimate_cost_usd("gpt-5.4", 272_001, 1_000), 1.382505)
+        self.assertEqual(track_token_usage.estimate_cost_usd("gemini-3.1-pro", 200_001, 1_000), 0.818004)
+
+    def test_cached_and_cache_write_tokens_are_supported(self) -> None:
+        cost = track_token_usage.estimate_cost_usd(
+            "claude-sonnet-4.6",
+            input_tokens=1_000_000,
+            output_tokens=1_000_000,
+            cached_input_tokens=1_000_000,
+            cache_write_tokens=1_000_000,
+        )
+        self.assertEqual(cost, 22.05)
+
+    def test_cached_tokens_do_not_trigger_long_context_rates(self) -> None:
+        cost = track_token_usage.estimate_cost_usd(
+            "gpt-5.4",
+            input_tokens=272_000,
+            output_tokens=1_000,
+            cached_input_tokens=1,
+        )
+        self.assertEqual(cost, 0.695)
+
+    def test_unsupported_cache_write_tokens_return_unknown(self) -> None:
+        self.assertIsNone(
+            track_token_usage.estimate_cost_usd(
+                "gpt-5-mini",
+                input_tokens=1_000_000,
+                output_tokens=1_000_000,
+                cache_write_tokens=1,
+            )
+        )
 
 
 if __name__ == "__main__":

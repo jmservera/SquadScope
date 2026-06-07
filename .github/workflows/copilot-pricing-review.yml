@@ -1,0 +1,51 @@
+name: Copilot Pricing Review
+
+on:
+  schedule:
+    # Run every two months on the 6th, matching the pricing table's 2026-06-06 review baseline.
+    - cron: "23 9 6 2,4,6,8,10,12 *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  review-pricing:
+    runs-on: ubuntu-latest
+    steps:
+      # actions/checkout@v4 pinned to a full commit SHA for zizmor.
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          persist-credentials: false
+
+      - name: Capture Copilot pricing source metadata
+        run: |
+          curl -fsSLI "https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing" > copilot-pricing-source-headers.txt || true
+
+      - name: Check Copilot pricing review status
+        id: pricing
+        run: |
+          python3 scripts/check_copilot_pricing_review.py \
+            --source-headers copilot-pricing-source-headers.txt \
+            --output copilot-pricing-review.md \
+            --github-output "$GITHUB_OUTPUT"
+
+      - name: Create or update pricing review issue
+        if: steps.pricing.outputs.needs_review == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          TITLE="Copilot model pricing review required"
+          EXISTING=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body-file copilot-pricing-review.md
+            echo "Updated existing pricing review issue #$EXISTING"
+          else
+            gh issue create \
+              --title "$TITLE" \
+              --label squad \
+              --body-file copilot-pricing-review.md
+          fi

@@ -10,9 +10,11 @@ import argparse
 import sys
 from pathlib import Path
 
-from scripts.track_token_usage import (
+from scripts.model_pricing import (
     MODEL_RATES,
     estimate_cost_usd,
+)
+from scripts.track_token_usage import (
     estimate_tokens_from_path,
 )
 
