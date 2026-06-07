@@ -136,8 +136,7 @@ def estimate_cost_usd(
     cached_input_tokens: int = 0,
     cache_write_tokens: int = 0,
 ) -> float | None:
-    threshold_input_tokens = input_tokens + cached_input_tokens + cache_write_tokens
-    rates = get_model_rate(model, threshold_input_tokens)
+    rates = get_model_rate(model, input_tokens)
     if rates is None:
         return None
     total = (

@@ -329,6 +329,16 @@ class ModelPricingTests(unittest.TestCase):
         )
         self.assertEqual(cost, 22.05)
 
+    def test_cached_tokens_do_not_trigger_long_context_rates(self) -> None:
+        cost = track_token_usage.estimate_cost_usd(
+            "gpt-5.4",
+            input_tokens=272_000,
+            output_tokens=1_000,
+            cached_input_tokens=1,
+            cache_write_tokens=1,
+        )
+        self.assertEqual(cost, 0.695003)
+
 
 if __name__ == "__main__":
     unittest.main()
