@@ -44,3 +44,9 @@
 - Ready for merge
 - 2026-06-05T17:42:56Z: Analysis map/reduce should be justified by context pressure and claim quality, not crawl speed; mappers should emit cited claim ledgers while a single reducer preserves global thesis, dedupe, citations, and the analysis gate contract.
 - 2026-06-05T20:57:09Z: Best analysis decomposition candidate is signal-type claim-ledger map/reduce with deterministic preflight compaction, optional hierarchical repo/source sub-mappers only above budget triggers, one reducer/final writer for global thesis and voice, and critic passes as QA rather than competing article writers.
+
+## 2026-06-06 — Issue #258 map/reduce dry-run scaffolding
+- Added deterministic/local `scripts/map_reduce_dry_run.py` candidate-only analysis path with `analysis_map_v1` mapper ledgers for new repos, trending repos, press correlations, and prior continuity.
+- Reducer emits `analysis_editorial_plan_v1`, rejected-claims and contradictions sidecars, a single reader-facing candidate, and a QA comparison report that blocks publish eligibility by design.
+- Workflow wiring exposes `analysis_path=map-reduce-dry-run` only for `dry-run`/`candidate-only`; current crawl/analyze/publish behavior remains default and promotion/deploy paths remain skipped.
+- Validation: `pytest -q` passed (667 tests, 2 subtests).
