@@ -8,7 +8,7 @@ import re
 from datetime import UTC, datetime
 from pathlib import Path
 
-from scripts.model_pricing import MODEL_RATES, estimate_cost_usd
+from scripts.model_pricing import estimate_cost_usd
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_USAGE_FILE = ROOT / "data" / "metrics" / "token-usage.jsonl"

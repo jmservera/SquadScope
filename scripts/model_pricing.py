@@ -39,9 +39,15 @@ class TieredModelRate:
     def rate_for(self, input_tokens: int) -> ModelRate:
         return self.long_context if input_tokens > self.long_context_threshold else self.default
 
-    def as_dict(self) -> dict[str, float]:
-        values = self.default.as_dict()
-        values["long_context_threshold"] = float(self.long_context_threshold)
+    def as_dict(self) -> dict[str, float | int]:
+        values: dict[str, float | int] = {
+            "input": self.default.input,
+            "cached_input": self.default.cached_input,
+            "output": self.default.output,
+        }
+        if self.default.cache_write is not None:
+            values["cache_write"] = self.default.cache_write
+        values["long_context_threshold"] = self.long_context_threshold
         values["long_context_input"] = self.long_context.input
         values["long_context_cached_input"] = self.long_context.cached_input
         values["long_context_output"] = self.long_context.output

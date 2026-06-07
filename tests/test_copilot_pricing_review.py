@@ -70,8 +70,10 @@ class CopilotPricingReviewWorkflowTests(unittest.TestCase):
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
 
         self.assertEqual(workflow["name"], "Copilot Pricing Review")
-        self.assertEqual(workflow[True]["schedule"][0]["cron"], "23 9 6 */2 *")
-        self.assertIn("workflow_dispatch", workflow[True])
+        trigger = workflow.get("on", workflow.get(True))
+        self.assertIsNotNone(trigger)
+        self.assertEqual(trigger["schedule"][0]["cron"], "23 9 6 2,4,6,8,10,12 *")
+        self.assertIn("workflow_dispatch", trigger)
         self.assertEqual(workflow["permissions"], {"contents": "read", "issues": "write"})
 
         job = workflow["jobs"]["review-pricing"]

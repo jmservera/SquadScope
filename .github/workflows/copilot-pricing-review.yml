@@ -3,7 +3,7 @@ name: Copilot Pricing Review
 on:
   schedule:
     # Run every two months on the 6th, matching the pricing table's 2026-06-06 review baseline.
-    - cron: "23 9 6 */2 *"
+    - cron: "23 9 6 2,4,6,8,10,12 *"
   workflow_dispatch:
 
 permissions:

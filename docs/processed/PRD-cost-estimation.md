@@ -217,7 +217,7 @@ Including amortized reskill:
 
 | Approach | Annual Cost | Cost per Page | Quality |
 |----------|-------------|---------------|---------|
-| **SquadScope (automated)** | **~$16/year** | **$0.30** | Consistent, opinionated, improving |
+| **SquadScope (automated)** | **~$16/year** | **$0.311** | Consistent, opinionated, improving |
 | Human analyst (freelance) | $5,200–$10,400/year | $100–$200 | High but variable |
 | Newsletter service (Substack Pro) | $600/year | $11.50 | Platform cost only, still need writer |
 | Manual GPT-4 chat (copy-paste) | ~$50/year | ~$1 | Inconsistent, no learning loop |

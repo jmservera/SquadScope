@@ -21,7 +21,7 @@ Scheduled reminder: `.github/workflows/copilot-pricing-review.yml` checks this c
 1. Monthly budget remaining > 50%: use Claude Sonnet 4
 2. Monthly budget 20-50%: switch Copilot model to GPT-5.4 mini
 3. Monthly budget < 20%: switch to GPT-5 mini
-4. Monthly budget exhausted: emergency mode (raw stats only)
+4. Monthly budget exhausted: diagnostic no-AI mode only (raw stats are publish-ineligible; no AI fallback)
 
 ## Quality Thresholds
 
