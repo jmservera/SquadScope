@@ -335,9 +335,18 @@ class ModelPricingTests(unittest.TestCase):
             input_tokens=272_000,
             output_tokens=1_000,
             cached_input_tokens=1,
-            cache_write_tokens=1,
         )
-        self.assertEqual(cost, 0.695003)
+        self.assertEqual(cost, 0.695)
+
+    def test_unsupported_cache_write_tokens_return_unknown(self) -> None:
+        self.assertIsNone(
+            track_token_usage.estimate_cost_usd(
+                "gpt-5-mini",
+                input_tokens=1_000_000,
+                output_tokens=1_000_000,
+                cache_write_tokens=1,
+            )
+        )
 
 
 if __name__ == "__main__":

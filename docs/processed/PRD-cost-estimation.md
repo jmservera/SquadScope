@@ -373,15 +373,16 @@ Emergency Mode (all credits exhausted)
 Before invoking the model, estimate cost:
 
 ```python
-def estimate_cost(input_tokens: int, output_estimate: int, model: str) -> float:
+from scripts.model_pricing import estimate_cost_usd
+
+
+def estimate_cost(input_tokens: int, output_estimate: int, model: str) -> float | None:
     # Centralized implementation lives in scripts/model_pricing.py.
-    rates = {
-        "claude-sonnet-4": {"input": 3.00, "output": 15.00},
-        "gpt-5.4-mini": {"input": 0.75, "output": 4.50},
-        "gpt-5-mini": {"input": 0.25, "output": 2.00},
-    }
-    r = rates[model]
-    return (input_tokens * r["input"] + output_estimate * r["output"]) / 1_000_000
+    return estimate_cost_usd(
+        model,
+        input_tokens=input_tokens,
+        output_tokens=output_estimate,
+    )
 ```
 
 ---

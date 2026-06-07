@@ -139,10 +139,12 @@ def estimate_cost_usd(
     rates = get_model_rate(model, input_tokens)
     if rates is None:
         return None
+    if cache_write_tokens > 0 and "cache_write" not in rates:
+        return None
     total = (
         input_tokens * rates["input"]
         + cached_input_tokens * rates["cached_input"]
-        + cache_write_tokens * rates.get("cache_write", rates["input"])
+        + cache_write_tokens * rates.get("cache_write", 0)
         + output_tokens * rates["output"]
     ) / 1_000_000
     return round(total, 6)
