@@ -56,3 +56,4 @@
 - P0 safety layer (#250/#251/#252/#253) must complete before #254 atomicity can start
 - Issue sequencing finalized: contract/preflight (Phase 1) → atomicity/quality gates (Phase 2) → docs/evidence (Phase 3) → map/reduce stays dry-run (Phase 4)
 - 2026-06-07T14:46:18.154+00:00 issue #297 podcast PRD note: select Signal Check as a reviewed two-host weekly podcast; use Azure Speech for MVP TTS, Blob Storage for audio, non-blocking generation, claim-ledger safety gates, AI disclosure, and cost guardrails.
+- 2026-06-07T15:00:15.655+00:00 issue #299 rubber-duck amendment: podcast MVP requires `podcast-review` environment approval before TTS, explicit post-publish dispatch, privacy-before-TTS, provider listening test, stable RSS enclosure URLs, Hugo shortcode embed, voice-only MVP, and total cost guardrails.
