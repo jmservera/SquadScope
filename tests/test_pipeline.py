@@ -390,6 +390,17 @@ class WorkflowConfigTests(unittest.TestCase):
 
         podcaster_job = workflow["jobs"]["podcaster-handoff"]
         self.assertEqual(podcaster_job["needs"], ["analyze", "generate", "deploy"])
+        checkout_step = next((s for s in podcaster_job["steps"] if s.get("name") == "Check out repository"), None)
+        self.assertEqual(
+            checkout_step["uses"],
+            "actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd",
+        )
+        self.assertFalse(checkout_step["with"]["persist-credentials"])
+        download_step = next((s for s in podcaster_job["steps"] if s.get("name") == "Download analysis candidate"), None)
+        self.assertEqual(
+            download_step["uses"],
+            "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+        )
         self.assertEqual(podcaster_job["if"], "${{ needs.analyze.outputs.run_mode == 'normal' }}")
         self.assertTrue(podcaster_job["continue-on-error"])
         self.assertNotIn("force-replace", podcaster_job["if"])

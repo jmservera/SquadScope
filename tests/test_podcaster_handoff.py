@@ -75,6 +75,19 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertNotIn("force", payload)
         self.assertNotIn("dry_run", payload)
 
+    def test_podcaster_dry_run_sets_payload_flag(self) -> None:
+        payload = podcaster_handoff.build_payload(
+            week="2026-W23",
+            article_url="https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+            article_path="content/weekly/2026/W23.md",
+            publish_run_id="123456789",
+            publish_mode="normal",
+            podcaster_dry_run=True,
+        )
+
+        self.assertTrue(payload["dry_run"])
+        self.assertEqual(payload["publish_mode"], "normal")
+
     def test_missing_config_skips_without_calling_podcaster(self) -> None:
         with mock.patch.object(podcaster_handoff.request, "urlopen") as urlopen_mock, mock.patch.dict(
             podcaster_handoff.os.environ, {"PODCASTER_API_KEY": ""}

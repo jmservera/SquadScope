@@ -26,6 +26,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--publish-run-id", required=True, help="GitHub Actions run ID that published the article.")
     parser.add_argument("--publish-mode", default="normal", help="Publish mode; only normal is eligible for Podcaster handoff.")
     parser.add_argument("--manifest", type=Path, help="Optional publish manifest used for article hash/source artifact metadata.")
+    parser.add_argument("--podcaster-dry-run", action="store_true", help="Ask Podcaster to validate without generating an episode; intended only for the manual smoke workflow.")
     parser.add_argument("--endpoint", default=os.environ.get("PODCASTER_ENDPOINT", ""))
     parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT_SECONDS)
     return parser.parse_args(argv)
@@ -104,6 +105,7 @@ def build_payload(
     publish_run_id: str,
     publish_mode: str = "normal",
     manifest_path: Path | None = None,
+    podcaster_dry_run: bool = False,
 ) -> dict[str, Any]:
     manifest = _load_manifest(manifest_path)
     if not _manifest_allows_handoff(manifest, week=week, publish_mode=publish_mode):
@@ -125,6 +127,8 @@ def build_payload(
     source_refs = _source_artifact_refs(manifest)
     if source_refs:
         payload["source_artifacts"] = source_refs
+    if podcaster_dry_run:
+        payload["dry_run"] = True
     return payload
 
 
@@ -195,6 +199,7 @@ def main(argv: list[str] | None = None) -> int:
             publish_run_id=args.publish_run_id,
             publish_mode=args.publish_mode,
             manifest_path=args.manifest,
+            podcaster_dry_run=args.podcaster_dry_run,
         )
         post_handoff(endpoint, api_key, payload, timeout=args.timeout)
     except PodcasterHandoffError as exc:
