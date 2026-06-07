@@ -2,6 +2,11 @@
 <footer class="post-footer article-footer">
   {{- $tags := $page.Language.Params.Taxonomies.tag | default "tags" -}}
   {{- $categories := $page.Language.Params.Taxonomies.category | default "categories" -}}
+  {{- $week := $page.Params.week | default $page.Title -}}
+  {{- $articleURL := $page.Permalink -}}
+  {{- $issueTitle := printf "Correction report: %s" $week -}}
+  {{- $issueBody := printf "## Correction / source / safety concern\n\nArticle: %s\nWeek: %s\n\nConcern type: correction / source concern / safety concern\nSuggested labels for maintainers: correction, source concern, safety concern, or bias/framing concern\n\nWhat should be corrected or reviewed?\n\n\nSuggested source(s) or evidence:\n\n\nVisible correction note needed? yes/no\n" $articleURL $week -}}
+  {{- $reportURL := printf "https://github.com/jmservera/SquadScope/issues/new?title=%s&body=%s&labels=%s" ($issueTitle | urlquery) ($issueBody | urlquery) ("correction,reader-report" | urlquery) -}}
   <div class="article-footer__taxonomies" aria-label="Report taxonomy">
     <ul class="post-tags">
       {{- range ($page.GetTerms $categories) }}
@@ -33,6 +38,15 @@
     <span aria-hidden="true">·</span>
     <a href="mailto:?subject={{ $page.Title | urlquery }}&amp;body={{ $page.Permalink | urlquery }}">Share this report</a>
   </div>
+
+  <section class="article-correction-path" aria-labelledby="article-correction-path-title">
+    <h2 id="article-correction-path-title" class="article-correction-path__title">Methodology and corrections</h2>
+    <p>
+      Read the <a href="{{ "methodology/" | absURL }}">methodology and correction policy</a>,
+      or <a href="{{ $reportURL | safeURL }}">report a correction, source concern, or safety concern</a>.
+      The report link prefills this article URL and week.
+    </p>
+  </section>
 
   <p class="article-footer__updated">Last updated <time datetime="{{ $page.Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ $page.Lastmod.Format "Jan 2, 2006" }}</time></p>
 

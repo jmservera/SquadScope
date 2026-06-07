@@ -26,18 +26,35 @@ For topic channels, `scripts/score_repos.py` can compute a 0-100 relevance score
 
 `signals.json` is not a separate source; in the current payload, `signals` is the structured summary generated from crawled repositories. `scripts/momentum_tracker.py` adds a hindsight check for press-correlated repos: after two or four weeks, a repo is marked sustained if its later stars gained are at least 20% of the initial gain; otherwise it is marked faded. The recorded decay rate is `1 - current / initial`, clamped between 0 and 1.
 
-## Biases readers should account for
+## Responsible-AI caveats and bias limits
 
+- **Source bias:** GitHub repositories and the current TechCrunch feed are only a slice of developer activity. Private work, enterprise pilots, package registries, community forums, regional press, and smaller newsletters are under-observed, so SquadScope should not be read as a neutral or complete map of technology.
 - **English-language source bias:** GitHub metadata and the current TechCrunch feed favor English-language projects and coverage; treat non-English ecosystem absence as under-observation, not lack of activity.
+- **Platform bias:** GitHub-centric measurement over-represents open-source projects, public launch behavior, star-seeking promotion, and communities that already use GitHub. Work happening on GitLab, SourceHut, Bitbucket, self-hosted forges, package registries, Discord, Slack, or behind company firewalls may be invisible.
 - **High-star bias:** The default crawl requires more than 50 stars and sorts by stars, so important niche projects can be missed until they are already visible.
 - **US and Bay Area press bias:** TechCrunch coverage reflects a US startup lens; read press correlation as one narrative input, not a global technology map.
 - **BigCo signal-strength bias:** Large companies create more repos, launches, docs, and articles, so their activity can look more important than quieter independent work.
 - **Survivorship bias:** We mostly see projects that remain public and crawlable; failed experiments, abandoned private work, and deleted repos are largely invisible.
 - **Recency bias:** A weekly window is good at catching spikes but can miss slower ecosystem shifts; use monthly and yearly rollups for longer arcs.
 
+These caveats are part of the analysis, not a disclaimer that makes the output neutral. The AI-assisted write-up can still over-weight vivid examples, repeat gaps in source coverage, or describe a project more confidently than the evidence supports. Reader reports are welcome when a claim, framing, source choice, or safety implication needs review.
+
+## Corrections and reader reports
+
+Weekly articles include a footer link to report a correction, source concern, or safety concern through GitHub Issues. The link prefills the article URL and week so reports can be triaged against the exact published page.
+
+When a report arrives, maintainers should:
+
+1. **Triage the report.** Confirm the affected article/week, classify it as factual correction, source-quality issue, safety concern, bias/framing concern, or duplicate/out of scope, and ask for additional evidence only if the report cannot be evaluated from public sources.
+2. **Update carefully.** Preserve the article's original publication context where possible. Fix clear factual errors, broken links, unsafe framing, or materially misleading source descriptions in the content or template that caused them.
+3. **Leave visible correction notes.** For material changes, add an `errata` entry to the weekly article front matter with the correction date and a concise note. Minor typo/link fixes may be corrected without an errata note, but source, safety, ranking, or claim changes should be visible to readers.
+4. **Close the loop.** Reply on the GitHub issue with what changed, what was not changed, and why. If the concern reveals a process gap, update this methodology or the relevant pipeline documentation.
+
+Correction reports are not used to provide private support, remove criticism without evidence, or retroactively make every old article match the latest methodology. They are a path for readers to challenge evidence, improve safety, and make material updates visible.
+
 ## What we do not do
 
-We do not sell paid placements, accept sponsor influence over selection, or reserve ranking slots for partners. Editorial articles are AI-generated from collected signals; see the site footer disclosure and [About](/about/) page for that operating model. We do not retroactively rewrite past articles after publication. Until the dedicated errata process from issue #209 lands, corrections and concerns should be raised through [GitHub issues](https://github.com/jmservera/SquadScope/issues/new).
+We do not sell paid placements, accept sponsor influence over selection, or reserve ranking slots for partners. Editorial articles are AI-generated from collected signals; see the site footer disclosure and [About](/about/) page for that operating model. We do not silently retroactively rewrite past articles after publication. Corrections and concerns should be raised through [GitHub issues](https://github.com/jmservera/SquadScope/issues/new?labels=correction%2Creader-report).
 
 ## Future work
 

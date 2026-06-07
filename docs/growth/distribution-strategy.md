@@ -212,6 +212,8 @@ campaign the crawl has caught.
 
 **Input:** `content/weekly/2026/W22.md` (published Monday 8:30 AM UTC)
 
+**Before promotion:** Read the public [Methodology and corrections policy](../../content/methodology/_index.md) and link the live methodology page (`https://jmservera.github.io/SquadScope/methodology/`) in launch/crosspost context when space allows. Do not promote an article as neutral or comprehensive; frame it as GitHub- and current-source-based analysis with known source, language, and platform limits.
+
 **Step 1: Extract key angles** (5 min)
 - Skim article for 3-5 "most quotable" sections
 - Identify 1-2 thread hooks (what's surprising, what's missing)
@@ -553,4 +555,3 @@ Before GA4, log weekly:
    - Evaluate whether newsletter should move off Buttondown (if >1K subscribers)
    - Explore paid distribution options (if metrics justify)
    - Build SquadScope brand presence on all key platforms
-

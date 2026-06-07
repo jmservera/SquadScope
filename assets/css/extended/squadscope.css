@@ -465,6 +465,7 @@ summary:focus-visible,
 .article-footer__prompt,
 .article-footer__updated,
 .article-errata,
+.article-correction-path,
 .repo-card__stats {
   color: var(--color-text-muted);
   font-size: var(--text-sm);
@@ -718,6 +719,25 @@ summary:focus-visible,
   border-radius: var(--radius-md);
   background: var(--color-surface);
   font-style: italic;
+}
+
+.article-correction-path {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: var(--size-border-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.article-correction-path__title {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--text-base);
+}
+
+.article-correction-path p {
+  margin: 0;
 }
 
 .article-errata__title {
