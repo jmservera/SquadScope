@@ -502,7 +502,7 @@ data/candidates/YYYY-WNN/RUN_ID/
   ├── YYYY-WNN-content.md              # Generated HTML candidate (if produced)
   ├── publish-manifest.json            # Eligibility and provenance
   └── diagnostics/
-      ├── analysis-preflight.json      # Pre-analysis context budget check
+      ├── analysis-preflight.json      # Deterministic input manifest, context budget, evidence inventory
       ├── analysis-preflight.md        # Preflight diagnostic report
       ├── copilot-cli-attempt-N.log    # Raw Copilot CLI stderr/stdout
       ├── gate-copilot-cli-attempt-N.json  # Quality gate failure details
@@ -520,7 +520,8 @@ cat data/candidates/2026-W21/RUN_ID/diagnostics/gate-copilot-cli-attempt-0.json 
   gates: .gates,
   errors_before_repair: .errors_before_repair,
   repair_actions: .repair_actions,
-  failure_class: .failure_class
+  failure_class: .failure_class,
+  failure_summary: .failure_summary
 }'
 ```
 
@@ -561,9 +562,17 @@ Gate report output:
     "Added 3 spurious/false claims to Noise section"
   ],
   "errors_after_repair": [],
-  "failure_class": "passed"
+  "failure_class": "passed",
+  "failure_summary": {
+    "failure_class": "passed",
+    "failure_categories": [],
+    "error_count": 0,
+    "retryable": false
+  }
 }
 ```
+
+`analysis-preflight.json` is the source of truth for prompt inputs. It includes byte/token/checksum metadata for each prompt component and evidence inventories (`raw_new_repos`, `raw_trending_repos`, `prompt_new_repos`, `prompt_trending_repos`) so operators can verify whether a final repo link was present in current crawl evidence or only in compacted prompt context.
 
 ### Quality gate specifics
 

@@ -109,3 +109,11 @@
 - Added deterministic no-network regression coverage around publish eligibility manifests and promotion guard behavior.
 - Good canonical weekly summary/content must remain unchanged when candidates are failed, degraded, no-AI, stale, missing-manifest, or malformed-manifest.
 - Safe rerun promotion is copy-stable and must not append or duplicate article body content; ineligible candidates should remain in staging with promotion diagnostics for debugging.
+
+## Issue #287 — Analysis Gate Preflight Hardening (2026-06-06T21:23:50.664Z)
+
+- ✅ APPROVED: Bender's evidence inventory and gate failure classification implementation
+- ✅ Validated: Evidence schema, citation link integrity, gate failure handling across all cases
+- ✅ No regressions: pytest full pass (673 passed, 2 subtests)
+- PR #288 validated and approved; ready for Coordinator merge workflow
+- Orchestration log recorded at `.squad/orchestration-log/20260606T212350Z-fry.md`

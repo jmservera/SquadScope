@@ -43,7 +43,7 @@ REQUIRED_HEADINGS = [
     "### Notable Projects",
     "### Press & Industry",
 ]
-PUBLISHABLE_AI_SOURCES = {"copilot-cli", "github-models"}
+PUBLISHABLE_AI_SOURCES = {"copilot-cli"}
 UNPUBLISHABLE_MODEL_VALUES = {"", "unknown", "unavailable", "none", "no-ai"}
 RAW_MARKERS = [
     "```json",
@@ -513,6 +513,11 @@ def evidence_citation_errors(body: str, raw_payload: dict[str, Any]) -> list[str
     linked_repos = set(REPO_LINK_PATTERN.findall(body))
     if repos and not linked_repos.intersection(repos):
         errors.append("evidence citations must include at least one repository link from the raw payload.")
+    unresolved_links = sorted(linked_repos - repos) if repos else []
+    if unresolved_links:
+        preview = ", ".join(unresolved_links[:10])
+        suffix = f" (+{len(unresolved_links) - 10} more)" if len(unresolved_links) > 10 else ""
+        errors.append(f"repository links must resolve to the current raw evidence inventory: {preview}{suffix}.")
     if repos and "## Key References" in body:
         notable = section_text(body, "## Key References")
         notable_links = set(REPO_LINK_PATTERN.findall(notable))
@@ -573,7 +578,7 @@ def ai_provenance_errors(source: str, model: str) -> list[str]:
 def categorize_gate_error(error: str) -> str:
     if error.startswith("AI provenance"):
         return "ai_provenance"
-    if error.startswith(("evidence citations", "Key References", "raw evidence")):
+    if error.startswith(("evidence citations", "Key References", "raw evidence", "repository links")):
         return "evidence_citation"
     if error.startswith(("editorial analysis", "contradictory claim")) or "section is too thin" in error or "must explain why" in error:
         return "editorial_quality"
@@ -742,12 +747,23 @@ def write_gate_report(
         "passed": not errors_after,
         "word_count": word_count,
         "gates": gate_results,
+        "failure_summary": build_failure_summary(errors_after, gate_results),
         "errors_before_repair": errors_before,
         "repair_actions": repair_actions,
         "errors_after_repair": errors_after,
         "failure_class": classify_gate_errors(errors_after),
     }
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def build_failure_summary(errors: list[str], gate_results: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    categories = sorted(category for category, result in gate_results.items() if not result.get("passed"))
+    return {
+        "failure_class": classify_gate_errors(errors),
+        "failure_categories": categories,
+        "error_count": len(errors),
+        "retryable": bool(errors) and not any(category == "ai_provenance" for category in categories),
+    }
 
 
 def classify_gate_errors(errors: list[str]) -> str:

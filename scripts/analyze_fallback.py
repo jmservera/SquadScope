@@ -52,6 +52,26 @@ class PromptComponent:
 
 
 @dataclass
+class EvidenceRepoRef:
+    full_name: str
+    url: str | None
+    source: str
+    stars: int | None
+    stars_gained: int | None
+
+
+@dataclass
+class EvidenceInventory:
+    name: str
+    path: str
+    item_count: int
+    bytes: int
+    token_estimate: int
+    checksum_sha256: str
+    repos: list[EvidenceRepoRef]
+
+
+@dataclass
 class PromptPreflight:
     prompt_token_budget: int
     prompt_tokens: int
@@ -65,6 +85,7 @@ class PromptPreflight:
     fallback_policy: str
     components: list[PromptComponent]
     deterministic_slices: list[str]
+    evidence_inventories: list[EvidenceInventory]
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -162,6 +183,48 @@ def _component(
         bytes=len(content.encode("utf-8")),
         token_estimate=estimate_tokens(content),
         checksum_sha256=checksum_text(content),
+    )
+
+
+def _repo_int(value: Any) -> int | None:
+    return value if isinstance(value, int) and not isinstance(value, bool) else None
+
+
+def _inventory_repo_refs(payload: dict[str, Any], field: str) -> list[EvidenceRepoRef]:
+    repos = payload.get(field)
+    if not isinstance(repos, list):
+        return []
+    refs: list[EvidenceRepoRef] = []
+    for repo in repos:
+        if not isinstance(repo, dict):
+            continue
+        full_name = repo.get("full_name")
+        if not isinstance(full_name, str) or "/" not in full_name:
+            continue
+        url = repo.get("url")
+        refs.append(
+            EvidenceRepoRef(
+                full_name=full_name.strip(),
+                url=url if isinstance(url, str) and url.strip() else None,
+                source=field,
+                stars=_repo_int(repo.get("stars")),
+                stars_gained=_repo_int(repo.get("stars_gained")),
+            )
+        )
+    return refs
+
+
+def _evidence_inventory(name: str, payload: dict[str, Any], field: str, path: Path) -> EvidenceInventory:
+    content = json.dumps(payload.get(field, []), indent=2, ensure_ascii=False)
+    repos = _inventory_repo_refs(payload, field)
+    return EvidenceInventory(
+        name=name,
+        path=path.as_posix(),
+        item_count=len(repos),
+        bytes=len(content.encode("utf-8")),
+        token_estimate=estimate_tokens(content),
+        checksum_sha256=checksum_text(content),
+        repos=repos,
     )
 
 
@@ -473,6 +536,12 @@ def _build_prompt(
         ),
         components=components,
         deterministic_slices=["new_repos", "trending_repos", "press_correlations", "prior_continuity"],
+        evidence_inventories=[
+            _evidence_inventory("raw_new_repos", sanitized_payload, "new_repos", raw_json_path),
+            _evidence_inventory("raw_trending_repos", sanitized_payload, "trending_repos", raw_json_path),
+            _evidence_inventory("prompt_new_repos", payload_for_prompt, "new_repos", raw_json_path),
+            _evidence_inventory("prompt_trending_repos", payload_for_prompt, "trending_repos", raw_json_path),
+        ],
     )
     return prompt, preflight
 
