@@ -14,7 +14,10 @@ jobs:
   review-pricing:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # actions/checkout@v4 pinned to a full commit SHA for zizmor.
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          persist-credentials: false
 
       - name: Capture Copilot pricing source metadata
         run: |
