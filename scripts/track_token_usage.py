@@ -5,6 +5,7 @@ import argparse
 import json
 import math
 import re
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -35,6 +36,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--output-tokens", type=int, help="Explicit output token count.")
     parser.add_argument("--transcript", type=Path, help="Copilot CLI --share transcript file for parsing token usage.")
     parser.add_argument("--api-response", type=Path, help="GitHub Models API response JSON for extracting usage data.")
+    parser.add_argument(
+        "--input-manifest",
+        type=Path,
+        help="analysis-input-manifest JSON used to validate final prompt input tokens within 10%.",
+    )
     parser.add_argument("--usage-file", type=Path, default=DEFAULT_USAGE_FILE, help="JSONL path for usage ledger.")
     return parser.parse_args(argv)
 
@@ -179,7 +185,7 @@ def build_record(args: argparse.Namespace) -> dict[str, object]:
         output_tokens = estimate_tokens_from_path(args.output_file)
 
     cost = estimate_cost_usd(args.model, input_tokens, output_tokens)
-    return {
+    record: dict[str, object] = {
         "timestamp": parsed_datetime.isoformat().replace("+00:00", "Z"),
         "month": parsed_datetime.strftime("%Y-%m"),
         "week": week,
@@ -192,6 +198,51 @@ def build_record(args: argparse.Namespace) -> dict[str, object]:
         "cost_usd": cost,
         "estimated": estimated,
     }
+    validation = validate_input_manifest(args.input_manifest, input_tokens)
+    if validation is not None:
+        record["input_manifest_validation"] = validation
+    return record
+
+
+def _manifest_prompt_tokens(manifest: dict[str, object]) -> int | None:
+    rendered = manifest.get("rendered_prompt_estimate")
+    if isinstance(rendered, dict) and isinstance(rendered.get("tokens"), int):
+        return int(rendered["tokens"])
+    value = manifest.get("prompt_tokens")
+    return int(value) if isinstance(value, int) else None
+
+
+def validate_input_manifest(path: Path | None, input_tokens: int) -> dict[str, object] | None:
+    if path is None:
+        return None
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(manifest, dict):
+        raise ValueError(f"Input manifest must be an object: {path}")
+    estimated_tokens = _manifest_prompt_tokens(manifest)
+    if estimated_tokens is None:
+        raise ValueError(f"Input manifest missing rendered prompt token estimate: {path}")
+    delta = abs(input_tokens - estimated_tokens)
+    ratio = delta / max(estimated_tokens, 1)
+    degraded = bool(manifest.get("degraded")) or not bool(manifest.get("prompt_within_budget", True))
+    passed = ratio <= 0.10
+    reason = None
+    if not passed:
+        reason = (
+            f"Final input usage differs from manifest by {ratio:.1%} "
+            f"({input_tokens} actual vs {estimated_tokens} estimated)."
+        )
+        if degraded:
+            reason += " Manifest is degraded/compacted, so the run is already marked candidate-only."
+    return {
+        "manifest_path": path.as_posix(),
+        "estimated_input_tokens": estimated_tokens,
+        "actual_input_tokens": input_tokens,
+        "delta_tokens": delta,
+        "delta_ratio": round(ratio, 6),
+        "within_10_percent": passed,
+        "degraded_or_compacted": degraded,
+        "reason": reason,
+    }
 
 
 def append_record(path: Path, record: dict[str, object]) -> None:
@@ -203,7 +254,15 @@ def append_record(path: Path, record: dict[str, object]) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
-    record = build_record(args)
+    try:
+        record = build_record(args)
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        print(f"::error::Token usage manifest validation failed: {exc}", file=sys.stderr)
+        return 1
+    validation = record.get("input_manifest_validation")
+    if isinstance(validation, dict) and not validation.get("within_10_percent") and not validation.get("degraded_or_compacted"):
+        print(f"::error::{validation.get('reason')}", file=sys.stderr)
+        return 1
     append_record(args.usage_file, record)
     print(json.dumps(record, indent=2))
     return 0

@@ -559,6 +559,19 @@ def _source_caveats(techcrunch_data: dict | None, correlation_data: dict | None)
     return "\n".join(lines)
 
 
+def _source_coverage(techcrunch_data: dict | None, correlation_data: dict | None) -> dict[str, list[str]]:
+    metadata = techcrunch_data.get("metadata", {}) if techcrunch_data else {}
+    corr_sources = correlation_data.get("metadata", {}).get("news_sources", {}) if correlation_data else {}
+    requested = metadata.get("sources_requested") or corr_sources.get("sources_requested") or []
+    succeeded = metadata.get("sources_succeeded") or corr_sources.get("sources_succeeded") or []
+    failed = metadata.get("sources_failed") or corr_sources.get("sources_failed") or []
+    return {
+        "requested": [str(item) for item in requested],
+        "succeeded": [str(item) for item in succeeded],
+        "failed": [str(item) for item in failed],
+    }
+
+
 def estimate_tokens(markdown: str) -> int:
     """Return a rough token estimate used for telemetry and hard budget checks."""
     return max(1, (len(markdown) + 3) // 4)
@@ -680,7 +693,17 @@ def render_press_context(
         f"- token_estimate: {estimate_tokens(rendered)}\n"
         f"- token_budget: {PRESS_CONTEXT_TOKEN_BUDGET}\n"
         f"- article_limit: {MAX_RENDERED_ARTICLES}\n"
+        f"- articles_retained: {min(article_count, MAX_RENDERED_ARTICLES)}\n"
+        f"- articles_dropped: {max(0, article_count - MAX_RENDERED_ARTICLES)}\n"
         f"- correlation_limit: {MAX_RENDERED_CORRELATIONS if reader_mode else 'unbounded-input'}\n"
+        f"- correlations_retained: {min(correlation_count, MAX_RENDERED_CORRELATIONS) if reader_mode else correlation_count}\n"
+        f"- correlations_dropped: {max(0, correlation_count - MAX_RENDERED_CORRELATIONS) if reader_mode else 0}\n"
+    )
+    coverage = _source_coverage(techcrunch_data, correlation_data)
+    rendered += (
+        f"- sources_requested: {', '.join(coverage['requested']) if coverage['requested'] else 'unknown'}\n"
+        f"- sources_succeeded: {', '.join(coverage['succeeded']) if coverage['succeeded'] else 'unknown'}\n"
+        f"- sources_failed: {', '.join(coverage['failed']) if coverage['failed'] else 'none'}\n"
     )
 
     return enforce_press_context_budget(rendered)

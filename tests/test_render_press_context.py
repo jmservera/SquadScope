@@ -164,6 +164,9 @@ class TestRenderPressContext:
         assert "1 repos have press correlation" in result
         assert "AI Startup Raises $10M" in result
         assert "acme/cool-project" in result
+        assert "articles_retained: 1" in result
+        assert "articles_dropped: 0" in result
+        assert "sources_failed: none" in result
 
     def test_filters_low_relevance_articles(self):
         low = _article(title="Irrelevant", relevance_score=0.2)

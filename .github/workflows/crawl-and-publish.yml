@@ -454,7 +454,7 @@ jobs:
           PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           PROMPT_FILE="data/metrics/analysis-prompt-${WEEK}.md"
-          PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-preflight.json"
+          PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-input-manifest.json"
           PREFLIGHT_MD="$DIAGNOSTICS_DIR/analysis-preflight.md"
           mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
           # Hydrate metrics ledger from publish before writing this run's prompt/preflight artifacts.
@@ -561,7 +561,8 @@ jobs:
               --current-datetime "$CURRENT_DATETIME" \
               --week "$WEEK" \
               --prompt-file "$PROMPT_FILE" \
-              --output-file "$OUTPUT_FILE"
+              --output-file "$OUTPUT_FILE" \
+              --input-manifest "${{ steps.prompt-preflight.outputs.preflight_report_json }}"
             echo "::notice::Map/reduce dry-run candidate written to $OUTPUT_FILE with sidecars under $MAP_REDUCE_DIR. It is not publish eligible."
             rm -f "$PROMPT_FILE"
             echo "analysis_source=$ANALYSIS_SOURCE" >> "$GITHUB_OUTPUT"
@@ -725,6 +726,7 @@ jobs:
             --week "$WEEK" \
             --prompt-file "$PROMPT_FILE" \
             --output-file "$OUTPUT_FILE" \
+            --input-manifest "${{ steps.prompt-preflight.outputs.preflight_report_json }}" \
             $TRANSCRIPT_ARGS
           ANALYSIS_DURATION=$(( $(date +%s) - ANALYSIS_STARTED ))
           echo "::notice::Analysis path source=$ANALYSIS_SOURCE model=$ANALYSIS_MODEL duration_seconds=$ANALYSIS_DURATION press_context=$PRESS_FILE"

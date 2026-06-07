@@ -86,6 +86,95 @@ class TrackTokenUsageTests(unittest.TestCase):
             self.assertEqual(record["cost_usd"], 0.004)
             self.assertFalse(record["estimated"])
 
+    def test_input_manifest_validation_fails_when_final_usage_differs_by_more_than_10_percent(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            usage_file = base / "token-usage.jsonl"
+            manifest = base / "analysis-input-manifest.json"
+            manifest.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "analysis_input_manifest_v1",
+                        "rendered_prompt_estimate": {"tokens": 1000, "bytes": 4000, "checksum_sha256": "abc"},
+                        "prompt_within_budget": True,
+                        "degraded": False,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            exit_code = track_token_usage.main(
+                [
+                    "--stage",
+                    "analysis",
+                    "--source",
+                    "copilot-cli",
+                    "--model",
+                    "copilot-default",
+                    "--current-datetime",
+                    "2026-05-19T08:00:00Z",
+                    "--input-tokens",
+                    "1200",
+                    "--output-tokens",
+                    "1",
+                    "--input-manifest",
+                    str(manifest),
+                    "--usage-file",
+                    str(usage_file),
+                ]
+            )
+
+            self.assertEqual(exit_code, 1)
+            self.assertFalse(usage_file.exists())
+
+    def test_input_manifest_validation_records_degraded_over_budget_compaction_reason(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            usage_file = base / "token-usage.jsonl"
+            manifest = base / "analysis-input-manifest.json"
+            manifest.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "analysis_input_manifest_v1",
+                        "prompt_tokens": 1000,
+                        "prompt_within_budget": False,
+                        "degraded": True,
+                        "degradation_reason": "Prompt was deterministically compacted to fit the configured token budget.",
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            exit_code = track_token_usage.main(
+                [
+                    "--stage",
+                    "analysis",
+                    "--source",
+                    "copilot-cli",
+                    "--model",
+                    "copilot-default",
+                    "--current-datetime",
+                    "2026-05-19T08:00:00Z",
+                    "--input-tokens",
+                    "1200",
+                    "--output-tokens",
+                    "1",
+                    "--input-manifest",
+                    str(manifest),
+                    "--usage-file",
+                    str(usage_file),
+                ]
+            )
+
+            self.assertEqual(exit_code, 0)
+            record = json.loads(usage_file.read_text(encoding="utf-8").strip())
+            validation = record["input_manifest_validation"]
+            self.assertFalse(validation["within_10_percent"])
+            self.assertTrue(validation["degraded_or_compacted"])
+            self.assertIn("Manifest is degraded/compacted", validation["reason"])
+
 
 class ParseCopilotTranscriptTests(unittest.TestCase):
     def test_parses_input_output_tokens_pattern(self) -> None:
