@@ -15,6 +15,7 @@ Required secrets/tokens:
 
 - `COPILOT_GH_TOKEN` — fine-grained PAT used as `COPILOT_GITHUB_TOKEN` for Copilot CLI analysis.
 - `GITHUB_TOKEN` — built-in workflow token used for crawling, artifact downloads, commits, token-renewal issue creation, and Pages deployment.
+- Optional Podcaster handoff: Actions variable `PODCASTER_ENDPOINT` and Actions secret `PODCASTER_API_KEY`.
 
 ## Stage-by-stage validation
 
@@ -116,6 +117,7 @@ Required secrets/tokens:
 - `crawl` → later runs: `crawl-cache`
 - `analyze` → `generate`: `analyzed-data`
 - `generate` → `deploy`: `generated-content`
+- `generate` + `deploy` → `podcaster-handoff`: normal-mode generated page path plus candidate publish manifest after a successful Pages deploy; Podcaster failures are reported as warnings and do not block or roll back weekly article publication.
 - `crawl` and `analyze` also feed `deploy` so the final build uses the same run's data artifacts
 
 ## Manual validation flow

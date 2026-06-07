@@ -384,6 +384,40 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("📊 **SquadScope Week", webhook_run)
         self.assertIn("Webhook post failed (non-critical)", webhook_run)
 
+    def test_podcaster_handoff_runs_only_after_normal_deploy_without_blocking_deploy(self) -> None:
+        workflow_path = Path(".github/workflows/crawl-and-publish.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+
+        podcaster_job = workflow["jobs"]["podcaster-handoff"]
+        self.assertEqual(podcaster_job["needs"], ["analyze", "generate", "deploy"])
+        self.assertEqual(podcaster_job["if"], "${{ needs.analyze.outputs.run_mode == 'normal' }}")
+        self.assertTrue(podcaster_job["continue-on-error"])
+        self.assertNotIn("force-replace", podcaster_job["if"])
+        self.assertNotIn("restore", podcaster_job["if"])
+
+        deploy_job = workflow["jobs"]["deploy"]
+        self.assertEqual(deploy_job["needs"], ["crawl", "analyze", "generate"])
+        self.assertNotIn("podcaster-handoff", deploy_job["needs"])
+
+        notify_step = next((s for s in podcaster_job["steps"] if s.get("name") == "Notify Podcaster"), None)
+        self.assertIsNotNone(notify_step)
+        self.assertEqual(notify_step["env"]["PODCASTER_ENDPOINT"], "${{ vars.PODCASTER_ENDPOINT }}")
+        self.assertEqual(notify_step["env"]["PODCASTER_API_KEY"], "${{ secrets.PODCASTER_API_KEY }}")
+        run_script = notify_step["run"]
+        self.assertIn("article_url_from_page_path", run_script)
+        self.assertIn("scripts/publish_manifest.py assert-eligible", run_script)
+        self.assertIn("publish manifest is not eligible", run_script)
+        self.assertIn("scripts/podcaster_handoff.py", run_script)
+        self.assertIn('--article-path "$PAGE_PATH"', run_script)
+        self.assertIn('--publish-run-id "$PUBLISH_RUN_ID"', run_script)
+        self.assertIn('--publish-mode "$RUN_MODE"', run_script)
+        self.assertIn('--manifest "$MANIFEST_FILE"', run_script)
+        self.assertIn("weekly article publication remains complete", run_script)
+        self.assertNotIn("--force", run_script)
+        self.assertNotIn("--dry-run", run_script)
+        self.assertNotIn("echo $PODCASTER_API_KEY", run_script)
+        self.assertNotIn("curl", run_script)
+
     def test_publish_workflow_uses_candidate_manifest_before_promotion(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))

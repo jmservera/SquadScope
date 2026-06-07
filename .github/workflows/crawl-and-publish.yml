@@ -1109,6 +1109,58 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+  podcaster-handoff:
+    needs: [analyze, generate, deploy]
+    if: ${{ needs.analyze.outputs.run_mode == 'normal' }}
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Download analysis candidate
+        uses: actions/download-artifact@v4
+        with:
+          name: analysis-candidate
+          path: data/candidates/
+
+      - name: Notify Podcaster
+        env:
+          PODCASTER_ENDPOINT: ${{ vars.PODCASTER_ENDPOINT }}
+          PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
+          WEEK: ${{ needs.analyze.outputs.week }}
+          PAGE_PATH: ${{ needs.generate.outputs.page_path }}
+          MANIFEST_FILE: ${{ needs.analyze.outputs.publish_manifest_file }}
+          RUN_MODE: ${{ needs.analyze.outputs.run_mode }}
+          PUBLISH_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          ARTICLE_URL=$(python3 - <<'PY' "$PAGE_PATH"
+          import sys
+          from scripts.podcaster_handoff import article_url_from_page_path
+
+          print(article_url_from_page_path("https://jmservera.github.io/SquadScope/", sys.argv[1]))
+          PY
+          )
+          if ! python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"; then
+            echo "::warning::Podcaster handoff skipped because the publish manifest is not eligible."
+            exit 0
+          fi
+          ARGS=(
+            --week "$WEEK"
+            --article-url "$ARTICLE_URL"
+            --article-path "$PAGE_PATH"
+            --publish-run-id "$PUBLISH_RUN_ID"
+            --publish-mode "$RUN_MODE"
+            --manifest "$MANIFEST_FILE"
+          )
+          if ! python3 scripts/podcaster_handoff.py "${ARGS[@]}"; then
+            echo "::warning::Podcaster handoff failed or was rejected; weekly article publication remains complete."
+          fi
+
   notify:
     if: ${{ (github.event_name == 'schedule' || github.event.inputs.publish_release == 'true') && needs.analyze.outputs.run_mode != 'dry-run' && needs.analyze.outputs.run_mode != 'candidate-only' }}
     needs: [analyze, generate, deploy]

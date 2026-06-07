@@ -119,6 +119,7 @@ JSON    Markdown   Hugo      Pages    Improvements
 
 - `COPILOT_GH_TOKEN` — Fine-grained PAT with **Account → Copilot Requests** permission for Copilot CLI analysis
 - `GITHUB_TOKEN` — Built-in; used for crawling, commits, Pages deployment, and issue/notification automation
+- `PODCASTER_API_KEY` — Optional; used with the `PODCASTER_ENDPOINT` Actions variable for the post-publish Podcaster handoff. The value must never be logged or committed.
 
 ## Crawler notes
 

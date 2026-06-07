@@ -5,6 +5,9 @@
 - Produces structured artifacts for analysis rather than editorial output.
 
 ## Learnings
+- 2026-06-07T21:42:28.011+00:00: Issue #302 Podcaster handoff now belongs after successful normal weekly article deploy: `podcaster-handoff` depends on `analyze`, `generate`, and `deploy`, gates on `run_mode == 'normal'`, and stays non-blocking for article publication.
+- 2026-06-07T21:42:28.011+00:00: Podcaster payload contract is produced by `scripts/podcaster_handoff.py` and includes week, article URL/path, article hash when available, publish run ID, publish mode, and source artifact references while reading endpoint/key from Actions variable/secret without logging the key.
+- 2026-06-07T21:42:28.011+00:00: Ineligible modes for Podcaster are enforced both at workflow and manifest/script boundaries: dry-run, candidate-only, restore, force-replace, no-AI, and failed publish/deploy paths must not call Podcaster.
 - Weekly crawl output should preserve both newly discovered repos and momentum candidates so downstream stages can reason about freshness and star gains.
 - Star-gain estimates depend on comparing current search results against the most recent prior snapshot, so snapshot compatibility matters as much as the live crawl.
 - Rate-limited integrations should follow the shared `exponential-backoff-with-jitter` skill instead of open-coding retry behavior.
