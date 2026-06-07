@@ -2,7 +2,7 @@
 
 **Author:** Leela (Lead/Architect)  
 **Date:** 2026-06-07  
-**Status:** Draft for issue #297  
+**Status:** Accepted / amended after rubber-duck review for issue #299
 **Type:** Product Requirements Document  
 **Depends on:** content/methodology/_index.md, content/privacy/_index.md, docs/analysis-spec.md, docs/pipeline-validation.md, hugo.toml
 
@@ -15,10 +15,10 @@ SquadScope should add a weekly short-form podcast that turns each published week
 The MVP recommendation is:
 
 1. Generate a human-reviewed script from the already-published weekly article and its source-backed evidence.
-2. Use **Azure AI Speech neural TTS** for synthesis by default because SquadScope already expects Azure-friendly operations, Azure Speech supports neural voices, SSML, batch synthesis, and billable-character pricing (https://learn.microsoft.com/en-us/azure/ai-services/speech-service/text-to-speech).
+2. Run the Phase 2 TTS proof of concept before full storage/RSS build-out: compare Azure Speech Standard neural voices, Azure Speech HD/OpenAI voices in Azure if available, and OpenAI `tts-1` or `gpt-4o-mini-tts`; choose the MVP provider from a documented listening test plus cost/privacy review.
 3. Store MP3s, transcripts, show manifests, and RSS media metadata in **Azure Blob Storage**, which is designed for unstructured objects, streaming media, and HTTP(S) access (https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction).
 4. Publish a podcast RSS feed at `/podcast/index.xml` and embed each episode in the matching weekly article only after gates pass.
-5. Keep podcast generation in a separate non-blocking workflow, `podcast-generate.yml`, triggered after weekly article publishing and by manual dispatch.
+5. Keep podcast generation in a separate non-blocking workflow, `podcast-generate.yml`, started by explicit dispatch from `crawl-and-publish.yml` only after a confirmed normal publish, plus manual dispatch for operators.
 
 Do **not** commit MP3s to git. GitHub Pages has 1 GB site/repository guidance, a 100 GB monthly soft bandwidth limit, and is not intended as free business or CDN hosting (https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits). Pages can host the RSS XML and player pages; object storage should host audio.
 
@@ -49,7 +49,7 @@ This PRD defines the recommended editorial format, technical path, safety gates,
 - Make episodes useful and entertaining: dynamic, conversational, lightly funny, and technically grounded.
 - Preserve SquadScope's source-backed methodology, correction path, and no-paid-placement editorial stance unless explicitly changed and disclosed.
 - Require a claim ledger, source-backed show notes, and human review for the MVP.
-- Use low-cost, automatable TTS with future quality experiments isolated from MVP reliability.
+- Use low-cost, automatable TTS selected by an early Phase 2 listening-test comparison before storage/RSS implementation.
 - Publish standards-compliant podcast RSS with stable episode identity.
 - Avoid blocking weekly article publishing when podcast generation fails.
 - Define safe monetization phases that protect reader/listener trust.
@@ -121,7 +121,7 @@ published weekly article
   -> episode outline
   -> two-host conversational script
   -> citation and fact check
-  -> editorial/safety review
+  -> GitHub Environment podcast-review approval
   -> final script
   -> TTS synthesis
   -> ffmpeg post-process
@@ -133,13 +133,19 @@ published weekly article
 ### Required artifacts per episode
 
 - `episode_manifest.json`: week, article URL, article hash, script prompt version, voice config hash, TTS provider, duration, file length, cost, license/disclosure status, publish status.
-- `claim_ledger.json`: every substantive claim, source URL, article paragraph/source, support status, and reviewer decision.
+- `claim_ledger.json`: every substantive claim derived from the published article, source URL, article paragraph/source, validation status against existing analysis/publish artifacts where available, support status, and reviewer decision.
 - `script.md`: final reviewed script.
 - `transcript.txt` or `transcript.md`: public transcript generated from the final script.
 - `show_notes.md`: article link, source URLs, AI disclosure, corrections link, sponsor/affiliate disclosures if any.
 - `episode.mp3`: hosted in Blob Storage, not git.
 
 If future implementation stores manifests under `data/`, `hugo.toml` must add explicit module mounts because this repo uses custom data mounts.
+
+
+### Human review mechanism
+
+MVP uses a single concrete review mechanism: the GitHub Environment `podcast-review` with required reviewers. `podcast-generate.yml` uploads the generated script package as workflow artifacts, then pauses before any non-dry-run TTS call by entering the `podcast-review` environment. TTS cannot proceed until the environment approval is granted. Reviewers inspect `script.md`, `claim_ledger.json`, `show_notes.md`, `transcript.md`, and `episode_manifest.json`, with attention to source support, disclosure, tone, privacy readiness, and budget status.
+
 
 ---
 
@@ -158,9 +164,9 @@ If future implementation stores manifests under `data/`, `hugo.toml` must add ex
 
 | Option | Pros | Cons | Decision |
 | --- | --- | --- | --- |
-| Azure AI Speech neural TTS | Mature SDK/REST, neural voices, SSML, batch synthesis, enterprise auth, billable characters (https://learn.microsoft.com/en-us/azure/ai-services/speech-service/text-to-speech) | Voice quality may be less expressive than newest generative voices | **Default MVP** |
-| Azure OpenAI voices via Azure Speech | Higher-quality experiment path, Azure operational surface, OpenAI voices/formats with SSML differences (https://learn.microsoft.com/en-us/azure/ai-services/speech-service/openai-voices) | Availability/format differences; should not block MVP | Experiment after MVP |
-| OpenAI `gpt-4o-mini-tts` | Strong controllability and built-in voices; docs require disclosure that the voice is AI-generated (https://developers.openai.com/api/docs/guides/text-to-speech) | Another provider/privacy path; commercial terms must be reviewed | Experiment after MVP |
+| Azure Speech Standard neural TTS | Mature SDK/REST, neural voices, SSML, batch synthesis, enterprise auth, billable characters (https://learn.microsoft.com/en-us/azure/ai-services/speech-service/text-to-speech) | Voice quality may be less expressive than newest generative voices | Include in Phase 2 POC |
+| Azure Speech HD/OpenAI voices in Azure, if available | Higher-quality experiment path, Azure operational surface, OpenAI voices/formats with SSML differences (https://learn.microsoft.com/en-us/azure/ai-services/speech-service/openai-voices) | Availability/format differences; privacy/commercial terms must be confirmed | Include in Phase 2 POC |
+| OpenAI `tts-1` or `gpt-4o-mini-tts` | Strong controllability and built-in voices; docs require disclosure that the voice is AI-generated (https://developers.openai.com/api/docs/guides/text-to-speech) | Another provider/privacy path; commercial terms must be reviewed | Include in Phase 2 POC |
 | MAI Voice or other providers | Potential quality upside | Unknown licensing/availability/cost in this repo | Research later |
 | Human narration | Best disclosure simplicity | Cost and cadence burden | Defer |
 
@@ -171,7 +177,7 @@ If future implementation stores manifests under `data/`, `hugo.toml` must add ex
 | Commit MP3s to git/Pages | Very simple URLs | Bloats repo; Pages limits; not CDN/business hosting (https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits) | Reject |
 | Azure Blob Storage | Designed for unstructured data, audio/video streaming, HTTP(S) access (https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction) | Requires storage account/secrets/CORS/headers | **Select** |
 | External podcast host | Turnkey analytics/distribution | Cost, lock-in, privacy review | Defer |
-| CDN in front of Blob | Better scaling | Not needed for MVP | Optional later |
+| CDN in front of Blob | Better scaling and stable public URLs | Extra configuration | Optional later; acceptable if URLs are stable |
 
 ---
 
@@ -181,8 +187,10 @@ If future implementation stores manifests under `data/`, `hugo.toml` must add ex
 
 - Add a future separate workflow: `.github/workflows/podcast-generate.yml`.
 - Trigger modes:
-  - `workflow_run` after successful weekly article publish.
-  - `workflow_dispatch` with selected week and optional dry-run flag.
+  - Preferred automated path: after `crawl-and-publish.yml` confirms a normal weekly publish, it explicitly dispatches `podcast-generate.yml` with the week, article path/URL, source run ID, publish mode, and article artifact identifiers.
+  - `workflow_dispatch` with selected week and optional dry-run flag for operators.
+- Do not rely on a naive `workflow_run` trigger. If a future implementation uses `workflow_run`, it must fetch and validate the triggering run inputs/artifacts and prove the run was a normal publish before synthesis.
+- Dry-run, candidate-only, restore, failed, or no-AI fallback replacement runs must not synthesize audio or publish podcast artifacts.
 - Podcast failures must not block article publishing.
 - Manual reruns must be idempotent.
 
@@ -194,7 +202,7 @@ Episode generation identity is:
 week + article_hash + script_prompt_version + voice_config_hash
 ```
 
-If the key is unchanged, reruns should reuse the existing reviewed script/audio unless explicitly forced. If the article changes materially, regenerate the claim ledger and require review again.
+If the key is unchanged, reruns should reuse the existing reviewed script/audio unless explicitly forced. If the article changes materially, derive a new podcast claim ledger from the published article, validate those claims against available analysis/publish artifacts, and require review again.
 
 ### Audio requirements
 
@@ -214,23 +222,29 @@ Apple's podcast requirements include RSS 2.0, a public feed, correct enclosure U
 
 - `/podcast/index.xml` generated from manifests.
 - One stable GUID per episode.
-- `enclosure` with public HTTPS URL, exact byte length, and `audio/mpeg` type.
+- `enclosure` with stable public HTTPS URL, exact byte length, and `audio/mpeg` type.
 - RFC 2822 publication date.
 - ASCII-only filenames and URLs.
 - Feed/image metadata ready for podcast directories.
 - Validation that the audio endpoint supports `HEAD` and byte-range requests before publishing.
+- Enclosure URLs must use public anonymous Blob read access or CDN-backed stable public URLs; expiring SAS URLs are explicitly prohibited for RSS enclosures.
+- If MVP writes `static/podcast/index.xml`, it must not coexist ambiguously with a future Hugo `content/podcast/` section. If a Hugo podcast section is added, remove or replace static XML generation so only one feed owner exists.
+
+### Hugo article embed
+
+Weekly articles must use a Hugo `podcast-episode` shortcode/partial, not raw HTML. The embed renders the audio player, transcript link, show notes link, correction path, and AI-generated voice disclosure while leaving Hugo `unsafe = false` unchanged.
 
 ### Cost controls
 
-Expected scripts are about 4,500-9,000 billable characters for 5-10 minutes, which keeps Azure Speech neural TTS and likely OpenAI/Azure OpenAI mini TTS at cents-level per episode, depending on provider, region, and free allowance. Annual weekly TTS should likely stay under $10, but operations must track actual costs.
+Expected scripts are about 4,500-9,000 billable characters for 5-10 minutes, which keeps many TTS options at cents-level per episode, depending on provider, region, and free allowance. Operations must track total podcast cost, not just TTS: TTS, storage, egress/download bandwidth, script generation, validation, and any CDN charges. Egress may dominate if downloads grow.
 
 MVP guardrails:
 
 - Max 5 episodes per month.
-- Max $5/month TTS budget.
+- Max $5/month total podcast budget for TTS, storage, egress, script generation, validation, and CDN if used.
 - Max 10 minutes per episode.
-- Cost ledger entry per episode.
-- Workflow fails closed before synthesis when limits would be exceeded.
+- Cost ledger entry per episode with per-category estimates/actuals.
+- Workflow fails closed before non-dry-run synthesis or publish when limits would be exceeded.
 
 ---
 
@@ -243,13 +257,13 @@ No public episode may ship unless all are true:
 1. AI voice disclosure appears in the first 60 seconds and show notes. OpenAI's TTS guide explicitly requires clear disclosure that TTS voice is AI-generated and not human (https://developers.openai.com/api/docs/guides/text-to-speech).
 2. Paid/commercial-use voice license is documented for the selected provider and voices.
 3. No real-person voice cloning, no celebrity/podcast-host imitation, and no Hard Fork/NYT marks or copied expression.
-4. Music/SFX are absent or licensed for commercial podcast use, with license recorded.
-5. Human script review is complete before synthesis for MVP.
+4. MVP is voice-only: no music or SFX unless/until a licensed track/effect is selected and recorded in the manifest. Licensed music/SFX is a later issue with explicit acceptance criteria.
+5. Human script review is complete through the GitHub Environment `podcast-review` gate before synthesis for MVP.
 6. Claim ledger shows every factual claim is supported or removed.
 7. Show notes include source URLs and corrections link.
 8. No unsupported facts, no defamatory motive claims, and no fake sponsorship language.
 9. Sponsorship/affiliate disclosures appear before any sponsor or affiliate segment.
-10. Privacy policy is updated before using voice providers, podcast analytics, ad tech, or payment redirects.
+10. Privacy policy is updated before any non-dry-run TTS call or before using podcast analytics, ad tech, or payment redirects.
 11. GDPR/cookie consent covers non-essential podcast analytics before analytics tags or third-party players are enabled.
 
 ### FTC and monetization compliance
@@ -263,7 +277,7 @@ FTC endorsement guidance requires endorsements and ads to be honest, not mislead
 
 ### Privacy requirements
 
-Before launch with production providers, update `content/privacy/_index.md` to document:
+Before Phase 2 performs any non-dry-run TTS call, update `content/privacy/_index.md` to document the selected voice-provider candidates and data flow. This privacy update is a prerequisite to Phase 2, not a launch cleanup item. Also update it before analytics, ad tech, or payment redirects are enabled to document:
 
 - Voice provider(s), data sent, retention, and region if configurable.
 - Audio hosting provider and logs.
@@ -306,11 +320,11 @@ SquadScope should not store payment data. Use Stripe, PayPal, Ko-fi, Patreon, or
 - Two-host script generated from article plus existing evidence artifacts.
 - Claim ledger and source-backed show notes.
 - Human review before synthesis.
-- Azure AI Speech neural TTS.
+- TTS provider selected after a Phase 2 listening-test POC.
 - MP3 post-processing and Blob Storage hosting.
 - Podcast RSS feed and weekly article embed.
 - AI voice disclosure and correction path.
-- Cost ledger and monthly budget guardrail.
+- Cost ledger and monthly budget guardrail covering TTS, storage, egress, script generation, validation, and CDN if used.
 - Manual dispatch and post-publish workflow trigger.
 
 ### Out of scope for MVP
@@ -322,7 +336,7 @@ SquadScope should not store payment data. Use Stripe, PayPal, Ko-fi, Patreon, or
 - Listener analytics beyond basic hosting logs, unless privacy/consent work is done.
 - Fully automated publish without human review.
 - Voice cloning or real-person mimicry.
-- CDN optimization.
+- CDN optimization, unless needed for stable public enclosure URLs.
 
 ---
 
@@ -330,7 +344,7 @@ SquadScope should not store payment data. Use Stripe, PayPal, Ko-fi, Patreon, or
 
 ### Product acceptance
 
-- A reviewer can listen to a generated episode and map every substantive factual claim to the article, claim ledger, or cited source.
+- A reviewer can inspect the reviewed script artifact, claim ledger, show notes, transcript, manifest, and generated audio, then map every substantive factual claim to the published article and cited source/artifact validation.
 - Episode length fits the 8-12 minute show format, and automated MVP runs are no more than 10 minutes unless manually overridden.
 - The show sounds distinct from copied podcasts and uses the approved `Signal Check` structure.
 - Jokes clarify or compress analysis without adding unsupported claims or targeting individuals unfairly.
@@ -343,16 +357,16 @@ SquadScope should not store payment data. Use Stripe, PayPal, Ko-fi, Patreon, or
 - Article publishing succeeds even if podcast generation fails.
 - MP3 is hosted outside git, under the size/duration/audio constraints.
 - RSS validates against Apple-style requirements: public RSS 2.0, stable GUID, enclosure URL/length/type, RFC 2822 date, ASCII URL, HEAD and byte-range support (https://podcasters.apple.com/support/823-podcast-requirements).
-- Cost ledger records provider, character count, duration, estimated/actual cost, and monthly budget status.
+- Cost ledger records provider, character count, duration, TTS/storage/egress/script-generation/validation/CDN estimated or actual costs, and monthly budget status.
 - Secrets are not logged or committed.
 
 ### Safety acceptance
 
-- Human reviewer approval is recorded before synthesis.
+- Human reviewer approval is recorded via GitHub Environment `podcast-review` before synthesis; reviewers inspect `script.md`, `claim_ledger.json`, `show_notes.md`, `transcript.md`, and `episode_manifest.json` before allowing TTS.
 - Provider voice license and AI disclosure are documented.
 - No real-person voice cloning or protected podcast imitation occurs.
 - Sponsorship/affiliate text, if present, is disclosed before the relevant segment.
-- Privacy policy changes are merged before production analytics/providers beyond current hosting are enabled.
+- Privacy policy changes are merged before any non-dry-run TTS call and before production analytics/providers beyond current hosting are enabled.
 
 ---
 
@@ -360,11 +374,11 @@ SquadScope should not store payment data. Use Stripe, PayPal, Ko-fi, Patreon, or
 
 1. **Design and contracts:** Define manifest, claim ledger, show notes, RSS fields, storage naming, and review statuses.
 2. **Script generation dry run:** Generate script/ledger/show notes from existing weekly articles without TTS or publishing.
-3. **TTS proof of concept:** Synthesize reviewed scripts with Azure Speech in a private artifact path; measure cost, duration, and quality.
+3. **TTS proof of concept:** After the privacy update, synthesize reviewed private samples with Azure Speech Standard, Azure Speech HD/OpenAI voices in Azure if available, and OpenAI `tts-1` or `gpt-4o-mini-tts`; run a listening test and select the provider before full storage/RSS infrastructure.
 4. **Audio hosting and RSS:** Upload approved MP3s to Blob Storage, generate `/podcast/index.xml`, and validate enclosures.
-5. **Article embed:** Add a Hugo partial/shortcode or content data path to embed the latest episode on weekly articles.
+5. **Article embed:** Add a Hugo `podcast-episode` shortcode/partial so weekly articles can render audio player, transcript link, show notes, and AI disclosure while keeping `unsafe = false` unchanged.
 6. **MVP launch:** Enable non-blocking post-publish podcast workflow with human review gate.
-7. **Quality experiments:** Compare Azure OpenAI/OpenAI `gpt-4o-mini-tts` or MAI Voice against Azure Speech after MVP reliability is proven.
+7. **Quality experiments:** Revisit voices, providers, music/SFX, and production polish after the Phase 2 provider decision and MVP reliability are proven.
 8. **Monetization experiments:** Add support/donation links first; defer ads/premium until disclosure, privacy, and audience metrics justify them.
 
 ---
@@ -372,9 +386,9 @@ SquadScope should not store payment data. Use Stripe, PayPal, Ko-fi, Patreon, or
 ## Open Questions
 
 - Which Azure region and Speech resource should be used for production?
-- Which two neural voices best represent Curator and Skeptic while avoiding real-person mimicry?
-- Should script review happen through a GitHub PR, issue checklist, environment approval, or repository artifact approval file?
-- Should RSS be generated by Hugo from data files or by a standalone script that writes static XML?
+- Which provider/voice pair wins the Phase 2 listening test while avoiding real-person mimicry?
+- Which required reviewers should be configured on the GitHub Environment `podcast-review`?
+- Should RSS stay as standalone `static/podcast/index.xml`, or should a future Hugo `content/podcast/` section replace static XML generation?
 - What public podcast cover art should be used, and does it require a new design asset?
 - What is the minimum listener metric needed before monetization moves beyond donations?
 
@@ -382,4 +396,4 @@ SquadScope should not store payment data. Use Stripe, PayPal, Ko-fi, Patreon, or
 
 ## Decision
 
-Proceed with a docs-only design now. For implementation, build **SquadScope: Signal Check** as a human-reviewed, source-backed, two-host weekly podcast using Azure AI Speech neural TTS by default, Blob Storage for audio, a separate non-blocking generation workflow, and strict disclosure/safety/cost gates. Defer higher-quality TTS experiments, analytics, ads, premium feeds, and full automation until the MVP proves reliable and trustworthy.
+Proceed with this amended docs-only design. For implementation, build **SquadScope: Signal Check** as a human-reviewed, source-backed, two-host weekly podcast using the GitHub Environment `podcast-review` gate, explicit post-publish dispatch from `crawl-and-publish.yml`, a Phase 2 TTS listening-test provider decision, stable public Blob/CDN enclosure URLs, a Hugo `podcast-episode` shortcode/partial, and strict disclosure/privacy/safety/cost gates. Defer analytics, ads, premium feeds, music/SFX, and full automation until the MVP proves reliable and trustworthy.
