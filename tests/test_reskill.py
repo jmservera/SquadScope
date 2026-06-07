@@ -230,6 +230,33 @@ class ReskillTests(unittest.TestCase):
             self.assertIn("Reskill skipped", content)
             self.assertIn("403", content)
 
+    def test_github_models_endpoint_rejects_non_allowlisted_host(self) -> None:
+        with mock.patch.dict(
+            "os.environ",
+            {"GITHUB_TOKEN": "token", "GITHUB_MODELS_ENDPOINT": "https://evil.example.com/v1/chat"},
+            clear=False,
+        ):
+            with self.assertRaisesRegex(ValueError, "host must be one of"):
+                reskill.call_github_models("prompt")
+
+    def test_github_models_endpoint_accepts_allowlisted_host(self) -> None:
+        class _FakeResponse(io.BytesIO):
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *_):
+                self.close()
+                return False
+
+        response = _FakeResponse(json.dumps({"choices": [{"message": {"content": "# Reskill\n"}}]}).encode("utf-8"))
+        with mock.patch.dict(
+            "os.environ",
+            {"GITHUB_TOKEN": "token", "GITHUB_MODELS_ENDPOINT": reskill.DEFAULT_MODELS_ENDPOINT},
+            clear=False,
+        ), mock.patch.object(reskill.request, "urlopen", return_value=response):
+            markdown = reskill.call_github_models("prompt")
+        self.assertEqual(markdown, "# Reskill\n")
+
 
 if __name__ == "__main__":
     unittest.main()

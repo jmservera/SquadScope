@@ -27,6 +27,7 @@ DEFAULT_SKILLS_DIR = ROOT / ".squad" / "skills"
 DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
 DEFAULT_MODELS_MODEL = "openai/gpt-4o"
 DEFAULT_MODELS_TIMEOUT = 30
+ALLOWED_MODELS_HOSTS: frozenset[str] = frozenset({"models.github.ai"})
 _JITTER_RANDOM = secrets.SystemRandom()
 NO_AI_DIAGNOSTIC_QUALITY_SCORE = 40
 DEFAULT_PROMPT_TOKEN_BUDGET = 90_000
@@ -577,7 +578,7 @@ MAX_RETRIES = 3
 BASE_DELAY = 2  # seconds
 
 
-def validate_https_url(url: str, *, label: str) -> None:
+def validate_https_url(url: str, *, label: str, allowed_hosts: frozenset[str] | None = None) -> None:
     parsed = parse.urlparse(url)
     if parsed.scheme.lower() != "https":
         raise ValueError(f"{label} must use HTTPS: {url}")
@@ -591,6 +592,8 @@ def validate_https_url(url: str, *, label: str) -> None:
         raise ValueError(f"{label} has an invalid port: {url}") from exc
     if port not in (None, 443):
         raise ValueError(f"{label} must not use unexpected ports: {url}")
+    if allowed_hosts is not None and parsed.hostname.lower() not in allowed_hosts:
+        raise ValueError(f"{label} host must be one of {sorted(allowed_hosts)}: {url}")
 
 
 def call_github_models(prompt: str) -> str:
@@ -599,7 +602,7 @@ def call_github_models(prompt: str) -> str:
         raise RuntimeError("GITHUB_TOKEN is required for GitHub Models fallback.")
 
     endpoint = os.environ.get("GITHUB_MODELS_ENDPOINT", DEFAULT_MODELS_ENDPOINT)
-    validate_https_url(endpoint, label="GitHub Models endpoint")
+    validate_https_url(endpoint, label="GitHub Models endpoint", allowed_hosts=ALLOWED_MODELS_HOSTS)
     model = os.environ.get("GITHUB_MODELS_MODEL", DEFAULT_MODELS_MODEL)
     timeout = int(os.environ.get("GITHUB_MODELS_TIMEOUT", str(DEFAULT_MODELS_TIMEOUT)))
     payload = {

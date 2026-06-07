@@ -13,9 +13,11 @@ on:
   push:
     branches:
       - main
+      - dev
   pull_request:
     branches:
       - main
+      - dev
 
 permissions: {}
 
@@ -117,4 +119,3 @@ jobs:
           # SARIF output automatically uploaded to GitHub Code Scanning
           # Focuses on P0 findings: template-injection and dangerous-triggers
           advanced-security: true
-          # config: .zizmor.yml

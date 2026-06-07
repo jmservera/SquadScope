@@ -461,6 +461,25 @@ class AnalyzeFallbackTests(unittest.TestCase):
         self.assertEqual(urlopen_mock.call_count, 2)
         sleep_mock.assert_called_once_with(analyze_fallback.BASE_DELAY)
 
+    def test_github_models_endpoint_rejects_non_allowlisted_host(self) -> None:
+        with mock.patch.dict(
+            "os.environ",
+            {"GITHUB_TOKEN": "token", "GITHUB_MODELS_ENDPOINT": "https://evil.example.com/v1/chat"},
+            clear=False,
+        ):
+            with self.assertRaisesRegex(ValueError, "host must be one of"):
+                analyze_fallback.call_github_models("prompt")
+
+    def test_github_models_endpoint_accepts_allowlisted_host(self) -> None:
+        response = _FakeHTTPResponse(json.dumps({"choices": [{"message": {"content": "# Summary\n"}}]}).encode("utf-8"))
+        with mock.patch.dict(
+            "os.environ",
+            {"GITHUB_TOKEN": "token", "GITHUB_MODELS_ENDPOINT": analyze_fallback.DEFAULT_MODELS_ENDPOINT},
+            clear=False,
+        ), mock.patch.object(analyze_fallback.request, "urlopen", return_value=response):
+            markdown = analyze_fallback.call_github_models("prompt")
+        self.assertEqual(markdown, "# Summary\n")
+
 
 if __name__ == "__main__":
     unittest.main()
