@@ -507,6 +507,7 @@ jobs:
         env:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PREFLIGHT_REPORT_JSON: ${{ steps.prompt-preflight.outputs.preflight_report_json }}
         run: |
           set -euo pipefail
           OUTPUT_FILE="${{ steps.analysis-context.outputs.candidate_output_file }}"
@@ -562,8 +563,7 @@ jobs:
               --week "$WEEK" \
               --prompt-file "$PROMPT_FILE" \
               --output-file "$OUTPUT_FILE" \
-              --input-manifest "${{ steps.prompt-preflight.outputs.preflight_report_json }}"
-            echo "::notice::Map/reduce dry-run candidate written to $OUTPUT_FILE with sidecars under $MAP_REDUCE_DIR. It is not publish eligible."
+              --input-manifest "$PREFLIGHT_REPORT_JSON"
             rm -f "$PROMPT_FILE"
             echo "analysis_source=$ANALYSIS_SOURCE" >> "$GITHUB_OUTPUT"
             echo "analysis_model=$ANALYSIS_MODEL" >> "$GITHUB_OUTPUT"
@@ -726,7 +726,7 @@ jobs:
             --week "$WEEK" \
             --prompt-file "$PROMPT_FILE" \
             --output-file "$OUTPUT_FILE" \
-            --input-manifest "${{ steps.prompt-preflight.outputs.preflight_report_json }}" \
+            --input-manifest "$PREFLIGHT_REPORT_JSON" \
             $TRANSCRIPT_ARGS
           ANALYSIS_DURATION=$(( $(date +%s) - ANALYSIS_STARTED ))
           echo "::notice::Analysis path source=$ANALYSIS_SOURCE model=$ANALYSIS_MODEL duration_seconds=$ANALYSIS_DURATION press_context=$PRESS_FILE"
