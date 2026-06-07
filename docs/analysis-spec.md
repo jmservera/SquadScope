@@ -344,6 +344,10 @@ Publication also requires a structured gate report with four passing gate famili
 
 The publish manifest records these gate outcomes and promotion must consume them before replacing a previously published AI-authored article.
 
+The preflight stage must also emit a deterministic analysis input manifest (`analysis-preflight.json`) before Copilot runs. That manifest records the rendered prompt byte/token estimate, prompt checksum, every prompt component with byte/token/checksum metadata, deterministic slice names, and evidence inventories for raw and prompt-visible repository sets. Each evidence inventory lists resolvable `owner/repo` names, source slice, GitHub URL when present, stars, and `stars_gained` when present. The gate must reject repository markdown links that do not resolve to the current raw evidence inventory when that inventory is available.
+
+Gate reports are machine-readable failure contracts. They include per-family `gates`, repair actions, `failure_class`, and a structured `failure_summary` with failed categories and error count so workflow retries and publish preservation can classify failures deterministically.
+
 ## Generator Handoff Rules
 
 The generator may assume:

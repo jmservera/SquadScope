@@ -57,3 +57,14 @@
 - Added `.github/workflows/copilot-pricing-review.yml` for scheduled pricing review automation.
 - Pricing data now decoupled from scattered configuration; future pipeline cost analysis can rely on unified pricing module.
 - All tests pass; policy preservation: Copilot-only analysis requirement maintained.
+- Analysis preflight now emits raw and prompt-visible repository evidence inventories with byte/token/checksum metadata; analysis gate rejects final repo links outside current raw evidence when inventory is available.
+
+## Issue #287 — Analysis Gate Preflight Hardening (2026-06-06T21:23:50.664Z)
+
+- ✅ COMPLETE: Implemented evidence inventories (repo, article, source ledgers with integrity checksums)
+- ✅ COMPLETE: Repository evidence validation with citation/link integrity
+- ✅ COMPLETE: Structured gate failure summaries with classification (contract, context, timeout, fallback, other)
+- ✅ COMPLETE: Documentation and test coverage
+- pytest: 673 passed, 2 subtests
+- PR #288 created; ready for merge after Fry validation
+- Orchestration log recorded at `.squad/orchestration-log/20260606T212350Z-bender.md`

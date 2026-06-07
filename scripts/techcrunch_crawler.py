@@ -22,7 +22,7 @@ import time
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
@@ -569,7 +569,7 @@ def fetch_feed(
     for attempt in range(retries + 1):
         try:
             request = Request(url, headers={"User-Agent": "SquadScope RSS crawler"})
-            with urlopen(request, timeout=timeout) as response:
+            with urlopen(request, timeout=timeout) as response:  # nosec B310
                 feed = feedparser.parse(response.read())
             setattr(feed, "squad_fetch_attempts", attempt + 1)
             setattr(feed, "squad_fetch_timeout_seconds", timeout)

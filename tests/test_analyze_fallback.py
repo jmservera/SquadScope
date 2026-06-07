@@ -237,6 +237,11 @@ class AnalyzeFallbackTests(unittest.TestCase):
             components = {component["name"]: component for component in report["components"]}
             self.assertEqual(components["new_repos"]["inclusion_reason"], "Deterministic mapper slice: newly discovered repositories.")
             self.assertEqual(components["trending_repos"]["compaction_decision"], "included")
+            inventories = {inventory["name"]: inventory for inventory in report["evidence_inventories"]}
+            self.assertEqual(inventories["raw_new_repos"]["item_count"], 1)
+            self.assertEqual(inventories["raw_new_repos"]["repos"][0]["full_name"], "owner/new")
+            self.assertEqual(inventories["raw_trending_repos"]["repos"][0]["stars_gained"], 5)
+            self.assertGreater(inventories["prompt_new_repos"]["token_estimate"], 0)
 
     def test_preflight_compacts_before_prompt_exceeds_budget(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -298,6 +303,14 @@ class AnalyzeFallbackTests(unittest.TestCase):
             components = {component["name"]: component for component in report["components"]}
             self.assertIn("compacted to top", components["new_repos"]["compaction_decision"])
             self.assertIn("compacted to top", components["trending_repos"]["compaction_decision"])
+            inventories = {inventory["name"]: inventory for inventory in report["evidence_inventories"]}
+            self.assertEqual(inventories["raw_new_repos"]["item_count"], 60)
+            self.assertEqual(inventories["prompt_new_repos"]["item_count"], analyze_fallback.COMPACTED_NEW_REPOS_LIMIT)
+            self.assertEqual(inventories["raw_trending_repos"]["item_count"], 60)
+            self.assertEqual(
+                inventories["prompt_trending_repos"]["item_count"],
+                analyze_fallback.COMPACTED_TRENDING_REPOS_LIMIT,
+            )
 
     def test_extract_markdown_supports_message_parts(self) -> None:
         payload = {
@@ -452,7 +465,7 @@ class AnalyzeFallbackTests(unittest.TestCase):
 
         with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
             analyze_fallback.request, "urlopen", side_effect=[rate_limited, response]
-        ) as urlopen_mock, mock.patch.object(analyze_fallback.random, "uniform", return_value=0), mock.patch.object(
+        ) as urlopen_mock, mock.patch.object(analyze_fallback._JITTER_RANDOM, "uniform", return_value=0), mock.patch.object(
             analyze_fallback.time, "sleep"
         ) as sleep_mock:
             markdown = analyze_fallback.call_github_models("prompt")
@@ -460,6 +473,25 @@ class AnalyzeFallbackTests(unittest.TestCase):
         self.assertEqual(markdown, "# Summary\n")
         self.assertEqual(urlopen_mock.call_count, 2)
         sleep_mock.assert_called_once_with(analyze_fallback.BASE_DELAY)
+
+    def test_github_models_endpoint_rejects_non_allowlisted_host(self) -> None:
+        with mock.patch.dict(
+            "os.environ",
+            {"GITHUB_TOKEN": "token", "GITHUB_MODELS_ENDPOINT": "https://evil.example.com/v1/chat"},
+            clear=False,
+        ):
+            with self.assertRaisesRegex(ValueError, "host must be one of"):
+                analyze_fallback.call_github_models("prompt")
+
+    def test_github_models_endpoint_accepts_allowlisted_host(self) -> None:
+        response = _FakeHTTPResponse(json.dumps({"choices": [{"message": {"content": "# Summary\n"}}]}).encode("utf-8"))
+        with mock.patch.dict(
+            "os.environ",
+            {"GITHUB_TOKEN": "token", "GITHUB_MODELS_ENDPOINT": analyze_fallback.DEFAULT_MODELS_ENDPOINT},
+            clear=False,
+        ), mock.patch.object(analyze_fallback.request, "urlopen", return_value=response):
+            markdown = analyze_fallback.call_github_models("prompt")
+        self.assertEqual(markdown, "# Summary\n")
 
 
 if __name__ == "__main__":

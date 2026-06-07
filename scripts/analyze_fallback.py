@@ -5,13 +5,13 @@ import argparse
 import hashlib
 import json
 import os
-import random
+import secrets
 import sys
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
-from urllib import error, request
+from urllib import error, parse, request
 
 try:
     from scripts.sanitize_repo_content import sanitize_repo_payload
@@ -27,6 +27,8 @@ DEFAULT_SKILLS_DIR = ROOT / ".squad" / "skills"
 DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
 DEFAULT_MODELS_MODEL = "openai/gpt-4o"
 DEFAULT_MODELS_TIMEOUT = 30
+ALLOWED_MODELS_HOSTS: frozenset[str] = frozenset({"models.github.ai"})
+_JITTER_RANDOM = secrets.SystemRandom()
 NO_AI_DIAGNOSTIC_QUALITY_SCORE = 40
 DEFAULT_PROMPT_TOKEN_BUDGET = 90_000
 COMPACTED_NEW_REPOS_LIMIT = 25
@@ -50,6 +52,26 @@ class PromptComponent:
 
 
 @dataclass
+class EvidenceRepoRef:
+    full_name: str
+    url: str | None
+    source: str
+    stars: int | None
+    stars_gained: int | None
+
+
+@dataclass
+class EvidenceInventory:
+    name: str
+    path: str
+    item_count: int
+    bytes: int
+    token_estimate: int
+    checksum_sha256: str
+    repos: list[EvidenceRepoRef]
+
+
+@dataclass
 class PromptPreflight:
     prompt_token_budget: int
     prompt_tokens: int
@@ -63,6 +85,7 @@ class PromptPreflight:
     fallback_policy: str
     components: list[PromptComponent]
     deterministic_slices: list[str]
+    evidence_inventories: list[EvidenceInventory]
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -160,6 +183,48 @@ def _component(
         bytes=len(content.encode("utf-8")),
         token_estimate=estimate_tokens(content),
         checksum_sha256=checksum_text(content),
+    )
+
+
+def _repo_int(value: Any) -> int | None:
+    return value if isinstance(value, int) and not isinstance(value, bool) else None
+
+
+def _inventory_repo_refs(payload: dict[str, Any], field: str) -> list[EvidenceRepoRef]:
+    repos = payload.get(field)
+    if not isinstance(repos, list):
+        return []
+    refs: list[EvidenceRepoRef] = []
+    for repo in repos:
+        if not isinstance(repo, dict):
+            continue
+        full_name = repo.get("full_name")
+        if not isinstance(full_name, str) or "/" not in full_name:
+            continue
+        url = repo.get("url")
+        refs.append(
+            EvidenceRepoRef(
+                full_name=full_name.strip(),
+                url=url if isinstance(url, str) and url.strip() else None,
+                source=field,
+                stars=_repo_int(repo.get("stars")),
+                stars_gained=_repo_int(repo.get("stars_gained")),
+            )
+        )
+    return refs
+
+
+def _evidence_inventory(name: str, payload: dict[str, Any], field: str, path: Path) -> EvidenceInventory:
+    content = json.dumps(payload.get(field, []), indent=2, ensure_ascii=False)
+    repos = _inventory_repo_refs(payload, field)
+    return EvidenceInventory(
+        name=name,
+        path=path.as_posix(),
+        item_count=len(repos),
+        bytes=len(content.encode("utf-8")),
+        token_estimate=estimate_tokens(content),
+        checksum_sha256=checksum_text(content),
+        repos=repos,
     )
 
 
@@ -471,6 +536,12 @@ def _build_prompt(
         ),
         components=components,
         deterministic_slices=["new_repos", "trending_repos", "press_correlations", "prior_continuity"],
+        evidence_inventories=[
+            _evidence_inventory("raw_new_repos", sanitized_payload, "new_repos", raw_json_path),
+            _evidence_inventory("raw_trending_repos", sanitized_payload, "trending_repos", raw_json_path),
+            _evidence_inventory("prompt_new_repos", payload_for_prompt, "new_repos", raw_json_path),
+            _evidence_inventory("prompt_trending_repos", payload_for_prompt, "trending_repos", raw_json_path),
+        ],
     )
     return prompt, preflight
 
@@ -576,12 +647,31 @@ MAX_RETRIES = 3
 BASE_DELAY = 2  # seconds
 
 
+def validate_https_url(url: str, *, label: str, allowed_hosts: frozenset[str] | None = None) -> None:
+    parsed = parse.urlparse(url)
+    if parsed.scheme.lower() != "https":
+        raise ValueError(f"{label} must use HTTPS: {url}")
+    if parsed.username or parsed.password:
+        raise ValueError(f"{label} must not include credentials: {url}")
+    if not parsed.hostname:
+        raise ValueError(f"{label} must include a hostname: {url}")
+    try:
+        port = parsed.port
+    except ValueError as exc:
+        raise ValueError(f"{label} has an invalid port: {url}") from exc
+    if port not in (None, 443):
+        raise ValueError(f"{label} must not use unexpected ports: {url}")
+    if allowed_hosts is not None and parsed.hostname.lower() not in allowed_hosts:
+        raise ValueError(f"{label} host must be one of {sorted(allowed_hosts)}: {url}")
+
+
 def call_github_models(prompt: str) -> str:
     token = os.environ.get("GITHUB_TOKEN")
     if not token:
         raise RuntimeError("GITHUB_TOKEN is required for GitHub Models fallback.")
 
     endpoint = os.environ.get("GITHUB_MODELS_ENDPOINT", DEFAULT_MODELS_ENDPOINT)
+    validate_https_url(endpoint, label="GitHub Models endpoint", allowed_hosts=ALLOWED_MODELS_HOSTS)
     model = os.environ.get("GITHUB_MODELS_MODEL", DEFAULT_MODELS_MODEL)
     timeout = int(os.environ.get("GITHUB_MODELS_TIMEOUT", str(DEFAULT_MODELS_TIMEOUT)))
     payload = {
@@ -604,7 +694,7 @@ def call_github_models(prompt: str) -> str:
             method="POST",
         )
         try:
-            with request.urlopen(req, timeout=timeout) as response:
+            with request.urlopen(req, timeout=timeout) as response:  # nosec B310
                 response_payload = json.load(response)
             return extract_markdown(response_payload)
         except error.HTTPError as exc:
@@ -628,7 +718,7 @@ def call_github_models(prompt: str) -> str:
                     delay = BASE_DELAY ** (attempt + 1)
             else:
                 delay = BASE_DELAY ** (attempt + 1)
-            jitter = random.uniform(0, 1)  # noqa: S311
+            jitter = _JITTER_RANDOM.uniform(0, 1)
             total_delay = delay + jitter
             print(
                 f"[retry] GitHub Models API returned {exc.code}, "
@@ -642,7 +732,7 @@ def call_github_models(prompt: str) -> str:
                 raise RuntimeError(
                     f"GitHub Models API request failed: {exc.reason}"
                 ) from exc
-            delay = BASE_DELAY ** (attempt + 1) + random.uniform(0, 1)  # noqa: S311
+            delay = BASE_DELAY ** (attempt + 1) + _JITTER_RANDOM.uniform(0, 1)
             print(
                 f"[retry] GitHub Models API network error: {exc.reason}, "
                 f"retrying in {delay:.1f}s (attempt {attempt + 1}/{MAX_RETRIES})",

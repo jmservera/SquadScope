@@ -46,3 +46,12 @@
 - Decisions recorded in .squad/decisions.md under four entries (Bender, Farnsworth, Fry, Leela)
 - 2026-06-05T17:42:56.819+00:00 matrix/map-reduce PRD note: treat crawl matrix and analysis decomposition as separate decisions; keep crawl fan-out measurement-gated, while map/reduce is a citation-preserving LLM context/quality experiment with mapper claim ledgers and reducer-owned editorial coherence.
 - 2026-06-05T21:03:35.661+00:00 issue hierarchy refresh: updated #248-#259 and created #261 so safe weekly reruns preserve good AI-authored articles, treat no-AI fallback as non-publishable replacement by default, reuse successful same-day per-source evidence artifacts with provenance/freshness guards, and make signal-type claim-ledger map/reduce the selected dry-run analysis architecture.
+
+## Round 4 (2026-06-06T21:19:24Z)
+
+- Orchestration session synthesized next priority from team learnings and run 27055543722 diagnosis
+- Ranked recommendations: (1) analysis gate & contract validation [P0 blocking], (2) deterministic preflight compaction [P0 supporting], (3) reader-facing methodology & governance path [P1 strategic]
+- Merged 10 inbox decisions from Bender, Farnsworth, Fry into .squad/decisions.md; documented orchestration at .squad/orchestration-log/2026-06-06T21-19-24Z-leela.md
+- Run 27056632166 post-mortems confirmed safety gates work; no-AI blocking and preservation validated in production
+- P0 safety layer (#250/#251/#252/#253) must complete before #254 atomicity can start
+- Issue sequencing finalized: contract/preflight (Phase 1) → atomicity/quality gates (Phase 2) → docs/evidence (Phase 3) → map/reduce stays dry-run (Phase 4)
