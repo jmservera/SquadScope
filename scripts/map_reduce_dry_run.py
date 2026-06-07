@@ -163,6 +163,13 @@ def make_repo_finding(repo: dict[str, Any], *, mapper: str, category: str, role:
                 "type": "repo",
                 "ref": full_name,
                 "url": repo_url(repo, full_name),
+                "full_name": full_name,
+                "description": repo.get("description"),
+                "language": repo.get("language"),
+                "topics": topics,
+                "stars": stars,
+                "stars_gained": gained,
+                "created_at": repo.get("created_at"),
                 "role": "anchor",
                 "evidence_note": f"Crawler metrics show {metric_note}.",
             }
@@ -751,8 +758,17 @@ def run(args: argparse.Namespace) -> dict[str, Path]:
     out = args.output_dir
     maps_dir = out / "maps"
     sidecars_dir = out / "sidecars"
+    evidence_slices_dir = sidecars_dir / "evidence-slices"
+    evidence_slice_refs: dict[str, dict[str, Any]] = {}
     for name, payload in maps.items():
-        write_json(maps_dir / f"{name}.json", payload)
+        map_path = maps_dir / f"{name}.json"
+        write_json(map_path, payload)
+        map_ref = file_ref(map_path)
+        if map_ref:
+            addressed_path = evidence_slices_dir / f"{name}-{map_ref.sha256[:12]}.json"
+            write_json(addressed_path, payload)
+            addressed_ref = file_ref(addressed_path)
+            evidence_slice_refs[name] = asdict(addressed_ref) if addressed_ref else {}
     write_json(out / "editorial-plan.json", plan)
     write_json(sidecars_dir / "rejected-claims.json", {"schema_version": "analysis_rejected_claims_v1", "week": week, "rejected_claims": rejected})
     write_json(sidecars_dir / "contradictions.json", {"schema_version": "analysis_contradictions_v1", "week": week, "contradictions": contradictions})
@@ -770,6 +786,11 @@ def run(args: argparse.Namespace) -> dict[str, Path]:
         model=args.analysis_model,
     )
     write_json(out / "qa-comparison-report.json", qa)
+    raw_component = file_ref(args.raw_json)
+    press_component = file_ref(args.press_context)
+    template_component = file_ref(ROOT / "prompts" / "analyze-weekly.md")
+    prior_component = file_ref(previous_summary)
+    slice_components = {name: ref for name, ref in evidence_slice_refs.items()}
     manifest = {
         "schema_version": "analysis_map_reduce_dry_run_manifest_v1",
         "week": week,
@@ -779,11 +800,44 @@ def run(args: argparse.Namespace) -> dict[str, Path]:
         "candidate_only": True,
         "artifacts": {
             "maps": {name: (maps_dir / f"{name}.json").as_posix() for name in MAPPER_IDS},
+            "evidence_slices": {name: ref.get("path") for name, ref in evidence_slice_refs.items()},
             "editorial_plan": (out / "editorial-plan.json").as_posix(),
             "rejected_claims": (sidecars_dir / "rejected-claims.json").as_posix(),
             "contradictions": (sidecars_dir / "contradictions.json").as_posix(),
             "candidate": candidate_path.as_posix(),
             "qa_report": (out / "qa-comparison-report.json").as_posix(),
+        },
+        "component_estimates": {
+            "raw_json": asdict(raw_component) if raw_component else None,
+            "press_context": asdict(press_component) if press_component else None,
+            "prompt_template": asdict(template_component) if template_component else None,
+            "prior_continuity": asdict(prior_component) if prior_component else None,
+            "generated_evidence_slices": slice_components,
+            "rendered_prompt_estimate": {
+                "bytes": len(candidate_text.encode("utf-8")),
+                "tokens": estimate_tokens(candidate_text),
+                "checksum_sha256": sha256_bytes(candidate_text.encode("utf-8")),
+            },
+        },
+        "citation_inventories": {
+            "repos": sorted(
+                {
+                    ref.get("ref")
+                    for payload in maps.values()
+                    for finding in payload.get("findings", [])
+                    for ref in finding.get("evidence_refs", [])
+                    if isinstance(ref, dict) and ref.get("type") == "repo" and ref.get("ref")
+                }
+            ),
+            "press_articles": sorted(
+                {
+                    ref.get("url")
+                    for payload in maps.values()
+                    for finding in payload.get("findings", [])
+                    for ref in finding.get("evidence_refs", [])
+                    if isinstance(ref, dict) and ref.get("type") == "article" and ref.get("url")
+                }
+            ),
         },
         "promotion_policy": "blocked: dry-run/candidate-only map/reduce output must not write data/analyzed, content/weekly, deploy, notify, or satisfy publish eligibility.",
     }

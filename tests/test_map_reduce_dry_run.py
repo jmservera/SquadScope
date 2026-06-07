@@ -63,6 +63,10 @@ def test_dry_run_emits_valid_contract_artifacts() -> None:
         manifest = json.loads((output_dir / "manifest.json").read_text(encoding="utf-8"))
         assert manifest["publish_eligible"] is False
         assert manifest["candidate_only"] is True
+        rendered_estimate = manifest["component_estimates"]["rendered_prompt_estimate"]
+        assert set(rendered_estimate) == {"bytes", "tokens", "checksum_sha256"}
+        assert rendered_estimate["tokens"] > 0
+        assert rendered_estimate["checksum_sha256"]
         for mapper in dry_run.MAPPER_IDS:
             ledger = json.loads((output_dir / "maps" / f"{mapper}.json").read_text(encoding="utf-8"))
             assert ledger["schema_version"] == "analysis_map_v1"

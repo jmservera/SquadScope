@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import secrets
 import sys
 import time
@@ -55,9 +56,24 @@ class PromptComponent:
 class EvidenceRepoRef:
     full_name: str
     url: str | None
+    description: str | None
+    language: str | None
+    topics: list[str]
     source: str
     stars: int | None
     stars_gained: int | None
+    created_at: str | None
+
+
+@dataclass
+class EvidencePressRef:
+    title: str | None
+    url: str
+    source: str | None
+    published_at: str | None
+    categories: list[str]
+    relevance_score: float | None
+    correlation_repos: list[str]
 
 
 @dataclass
@@ -72,11 +88,36 @@ class EvidenceInventory:
 
 
 @dataclass
+class PressInventory:
+    name: str
+    path: str | None
+    item_count: int
+    bytes: int
+    token_estimate: int
+    checksum_sha256: str
+    articles: list[EvidencePressRef]
+
+
+@dataclass
+class EvidenceSliceRef:
+    name: str
+    path: str | None
+    item_count: int
+    bytes: int
+    token_estimate: int
+    checksum_sha256: str
+    provenance: dict[str, Any]
+    validation_errors: list[str]
+
+
+@dataclass
 class PromptPreflight:
+    schema_version: str
     prompt_token_budget: int
     prompt_tokens: int
     prompt_bytes: int
     prompt_checksum_sha256: str
+    rendered_prompt_estimate: dict[str, int | str]
     prompt_within_budget: bool
     degraded: bool
     publish_eligible: bool
@@ -85,7 +126,10 @@ class PromptPreflight:
     fallback_policy: str
     components: list[PromptComponent]
     deterministic_slices: list[str]
+    generated_evidence_slices: list[EvidenceSliceRef]
+    evidence_slice_payloads: dict[str, dict[str, Any]]
     evidence_inventories: list[EvidenceInventory]
+    press_inventories: list[PressInventory]
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -165,6 +209,14 @@ def checksum_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+def stable_json(payload: Any) -> str:
+    return json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+
+
+def checksum_payload(payload: Any) -> str:
+    return checksum_text(stable_json(payload))
+
+
 def _component(
     *,
     name: str,
@@ -190,6 +242,40 @@ def _repo_int(value: Any) -> int | None:
     return value if isinstance(value, int) and not isinstance(value, bool) else None
 
 
+def _repo_topics(value: Any) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    return [str(topic) for topic in value if isinstance(topic, (str, int, float)) and str(topic).strip()]
+
+
+REQUIRED_REPO_SLICE_FIELDS = (
+    "full_name",
+    "url",
+    "description",
+    "language",
+    "topics",
+    "stars",
+    "stars_gained",
+    "created_at",
+)
+
+
+def compact_repo_record(repo: dict[str, Any], *, source: str) -> dict[str, Any]:
+    full_name = str(repo.get("full_name") or "").strip()
+    url = repo.get("url")
+    return {
+        "full_name": full_name,
+        "url": url if isinstance(url, str) and url.strip() else (f"https://github.com/{full_name}" if full_name else None),
+        "description": repo.get("description") if isinstance(repo.get("description"), str) else None,
+        "language": repo.get("language") if isinstance(repo.get("language"), str) else None,
+        "topics": _repo_topics(repo.get("topics")),
+        "stars": _repo_int(repo.get("stars")),
+        "stars_gained": _repo_int(repo.get("stars_gained")),
+        "created_at": repo.get("created_at") if isinstance(repo.get("created_at"), str) else None,
+        "source": source,
+    }
+
+
 def _inventory_repo_refs(payload: dict[str, Any], field: str) -> list[EvidenceRepoRef]:
     repos = payload.get(field)
     if not isinstance(repos, list):
@@ -206,9 +292,13 @@ def _inventory_repo_refs(payload: dict[str, Any], field: str) -> list[EvidenceRe
             EvidenceRepoRef(
                 full_name=full_name.strip(),
                 url=url if isinstance(url, str) and url.strip() else None,
+                description=repo.get("description") if isinstance(repo.get("description"), str) else None,
+                language=repo.get("language") if isinstance(repo.get("language"), str) else None,
+                topics=_repo_topics(repo.get("topics")),
                 source=field,
                 stars=_repo_int(repo.get("stars")),
                 stars_gained=_repo_int(repo.get("stars_gained")),
+                created_at=repo.get("created_at") if isinstance(repo.get("created_at"), str) else None,
             )
         )
     return refs
@@ -226,6 +316,251 @@ def _evidence_inventory(name: str, payload: dict[str, Any], field: str, path: Pa
         checksum_sha256=checksum_text(content),
         repos=repos,
     )
+
+
+def _press_paths_for_context(press_context_path: Path | None, week: str) -> tuple[Path | None, Path | None]:
+    if press_context_path is None:
+        return None, None
+    data_dir = press_context_path.parent.parent
+    external_path = data_dir / "raw" / f"{week}-external-news.json"
+    legacy_path = data_dir / "raw" / f"{week}-techcrunch.json"
+    corr_path = data_dir / "analyzed" / f"{week}-correlations.json"
+    news_path = external_path if external_path.exists() else legacy_path if legacy_path.exists() else None
+    return news_path, corr_path if corr_path.exists() else None
+
+
+def _safe_load_json(path: Path | None) -> dict[str, Any] | None:
+    if path is None or not path.exists():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def _article_inventory(news_payload: dict[str, Any] | None, correlation_payload: dict[str, Any] | None, path: Path | None) -> PressInventory:
+    articles = news_payload.get("articles", []) if news_payload else []
+    correlations = correlation_payload.get("correlations", []) if correlation_payload else []
+    repo_by_url: dict[str, set[str]] = {}
+    for corr in correlations if isinstance(correlations, list) else []:
+        if not isinstance(corr, dict):
+            continue
+        repo = corr.get("repo")
+        for url in corr.get("matched_articles", []) if isinstance(corr.get("matched_articles"), list) else []:
+            if isinstance(url, str) and isinstance(repo, str):
+                repo_by_url.setdefault(url, set()).add(repo)
+        for detail in corr.get("matched_article_details", []) if isinstance(corr.get("matched_article_details"), list) else []:
+            if isinstance(detail, dict) and isinstance(detail.get("url"), str) and isinstance(repo, str):
+                repo_by_url.setdefault(detail["url"], set()).add(repo)
+    refs: list[EvidencePressRef] = []
+    for article in articles if isinstance(articles, list) else []:
+        if not isinstance(article, dict) or not isinstance(article.get("url"), str) or not article["url"].strip():
+            continue
+        categories = article.get("categories") if isinstance(article.get("categories"), list) else []
+        relevance = article.get("relevance_score")
+        refs.append(
+            EvidencePressRef(
+                title=article.get("title") if isinstance(article.get("title"), str) else None,
+                url=article["url"],
+                source=article.get("source") if isinstance(article.get("source"), str) else None,
+                published_at=article.get("published_at") if isinstance(article.get("published_at"), str) else None,
+                categories=[str(category) for category in categories],
+                relevance_score=float(relevance) if isinstance(relevance, (int, float)) and not isinstance(relevance, bool) else None,
+                correlation_repos=sorted(repo_by_url.get(article["url"], set())),
+            )
+        )
+    content = stable_json([asdict(ref) for ref in refs])
+    return PressInventory(
+        name="press_articles",
+        path=path.as_posix() if path else None,
+        item_count=len(refs),
+        bytes=len(content.encode("utf-8")),
+        token_estimate=estimate_tokens(content),
+        checksum_sha256=checksum_text(content),
+        articles=refs,
+    )
+
+
+def _source_ref(path: Path | None, content: str | None = None) -> dict[str, Any] | None:
+    if path is None and content is None:
+        return None
+    if content is None:
+        if path is None or not path.exists():
+            return None
+        data = path.read_bytes()
+        return {"path": path.as_posix(), "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()}
+    encoded = content.encode("utf-8")
+    return {
+        "path": path.as_posix() if path else None,
+        "bytes": len(encoded),
+        "sha256": checksum_text(content),
+    }
+
+
+def _slice_checksum_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    stripped = dict(payload)
+    stripped.pop("checksum_sha256", None)
+    return stripped
+
+
+def validate_evidence_slice(payload: dict[str, Any], *, expected_checksum: str | None = None) -> list[str]:
+    errors: list[str] = []
+    for field in ("schema_version", "slice_name", "component", "records", "provenance", "checksum_sha256"):
+        if field not in payload:
+            errors.append(f"slice missing {field}")
+    checksum = payload.get("checksum_sha256")
+    if isinstance(checksum, str):
+        actual = checksum_payload(_slice_checksum_payload(payload))
+        if checksum != actual:
+            errors.append("slice checksum mismatch")
+        if expected_checksum is not None and checksum != expected_checksum:
+            errors.append("slice checksum does not match manifest reference")
+    elif "checksum_sha256" in payload:
+        errors.append("slice checksum_sha256 must be a string")
+    records = payload.get("records")
+    if not isinstance(records, list):
+        errors.append("slice records must be a list")
+        records = []
+    provenance = payload.get("provenance")
+    if not isinstance(provenance, dict):
+        errors.append("slice provenance must be an object")
+    else:
+        sources = provenance.get("sources")
+        if not isinstance(sources, dict) or not sources:
+            errors.append("slice provenance sources missing")
+        else:
+            for name, source in sources.items():
+                if not isinstance(source, dict) or not source.get("sha256") or not isinstance(source.get("bytes"), int):
+                    errors.append(f"slice provenance source {name} missing checksum/bytes")
+    if payload.get("component") in {"new_repos", "trending_repos"}:
+        for index, record in enumerate(records):
+            if not isinstance(record, dict):
+                errors.append(f"record {index} must be an object")
+                continue
+            for field in REQUIRED_REPO_SLICE_FIELDS:
+                if field not in record:
+                    errors.append(f"record {index} missing {field}")
+    return errors
+
+
+def _build_slice(name: str, records: list[dict[str, Any]], provenance: dict[str, Any]) -> dict[str, Any]:
+    payload = {
+        "schema_version": "analysis_evidence_slice_v1",
+        "slice_name": name,
+        "component": name,
+        "records": records,
+        "provenance": provenance,
+    }
+    payload["checksum_sha256"] = checksum_payload(payload)
+    return payload
+
+
+def build_evidence_slices(
+    *,
+    week: str,
+    raw_path: Path,
+    sanitized_payload: dict[str, Any],
+    payload_for_prompt: dict[str, Any],
+    press_context_path: Path | None,
+    press_content: str,
+    previous_summary_path: Path | None,
+    previous_summary_content: str,
+) -> dict[str, dict[str, Any]]:
+    raw_source = _source_ref(raw_path)
+    press_source = _source_ref(press_context_path, press_content) if press_content else None
+    previous_source = _source_ref(previous_summary_path, previous_summary_content) if previous_summary_content else None
+    news_path, corr_path = _press_paths_for_context(press_context_path, week)
+    news_payload = _safe_load_json(news_path)
+    corr_payload = _safe_load_json(corr_path)
+    news_source = _source_ref(news_path)
+    corr_source = _source_ref(corr_path)
+    base_provenance = {"week": week, "sources": {"raw_json": raw_source} if raw_source else {}}
+    slices = {
+        "new_repos": _build_slice(
+            "new_repos",
+            [compact_repo_record(repo, source="new_repos") for repo in payload_for_prompt.get("new_repos", []) if isinstance(repo, dict)],
+            base_provenance,
+        ),
+        "trending_repos": _build_slice(
+            "trending_repos",
+            [
+                compact_repo_record(repo, source="trending_repos")
+                for repo in payload_for_prompt.get("trending_repos", [])
+                if isinstance(repo, dict)
+            ],
+            base_provenance,
+        ),
+    }
+    press_sources = {}
+    for key, source in (("raw_json", raw_source), ("press_context", press_source), ("external_news", news_source), ("correlations", corr_source)):
+        if source:
+            press_sources[key] = source
+    press_records: list[dict[str, Any]] = []
+    correlations = corr_payload.get("correlations", []) if corr_payload else []
+    for corr in correlations if isinstance(correlations, list) else []:
+        if isinstance(corr, dict):
+            press_records.append(
+                {
+                    "repo": corr.get("repo"),
+                    "matched_articles": corr.get("matched_articles", []),
+                    "matched_article_details": corr.get("matched_article_details", []),
+                    "match_type": corr.get("match_type"),
+                    "correlation_confidence": corr.get("correlation_confidence"),
+                    "correlation_strength": corr.get("correlation_strength"),
+                    "hype_risk": corr.get("hype_risk"),
+                }
+            )
+    if not press_records and press_content:
+        urls = sorted(set(re.findall(r"https?://[^\s)\]]+", press_content)))
+        press_records = [{"url": url.rstrip(".,"), "source": "rendered_press_context"} for url in urls]
+    slices["press_correlations"] = _build_slice(
+        "press_correlations",
+        press_records,
+        {"week": week, "sources": press_sources},
+    )
+    prior_sources = {"raw_json": raw_source} if raw_source else {}
+    if previous_source:
+        prior_sources["prior_summary"] = previous_source
+    slices["prior_continuity"] = _build_slice(
+        "prior_continuity",
+        [
+            {
+                "source_path": previous_summary_path.as_posix() if previous_summary_path else None,
+                "present": bool(previous_summary_content),
+                "excerpt": previous_summary_content[:1000],
+            }
+        ],
+        {"week": week, "sources": prior_sources},
+    )
+    return slices
+
+
+def write_evidence_slices(slices: dict[str, dict[str, Any]], manifest_path: Path | None) -> list[EvidenceSliceRef]:
+    refs: list[EvidenceSliceRef] = []
+    output_dir = manifest_path.parent / "evidence-slices" if manifest_path else None
+    if output_dir:
+        output_dir.mkdir(parents=True, exist_ok=True)
+    for name in sorted(slices):
+        payload = slices[name]
+        checksum = str(payload["checksum_sha256"])
+        text = stable_json(payload)
+        path = output_dir / f"{name}-{checksum[:12]}.json" if output_dir else None
+        if path:
+            path.write_text(text, encoding="utf-8")
+        refs.append(
+            EvidenceSliceRef(
+                name=name,
+                path=path.as_posix() if path else None,
+                item_count=len(payload.get("records", [])) if isinstance(payload.get("records"), list) else 0,
+                bytes=len(text.encode("utf-8")),
+                token_estimate=estimate_tokens(text),
+                checksum_sha256=checksum,
+                provenance=payload.get("provenance", {}) if isinstance(payload.get("provenance"), dict) else {},
+                validation_errors=validate_evidence_slice(payload),
+            )
+        )
+    return refs
 
 
 def truncate_with_notice(content: str, limit: int, label: str) -> tuple[str, str]:
@@ -516,11 +851,30 @@ def _build_prompt(
     degradation_reason = (
         "Prompt was deterministically compacted to fit the configured token budget." if degraded else None
     )
+    evidence_slices = build_evidence_slices(
+        week=current_week,
+        raw_path=raw_json_path,
+        sanitized_payload=sanitized_payload,
+        payload_for_prompt=payload_for_prompt,
+        press_context_path=press_context_path,
+        press_content=press_content,
+        previous_summary_path=previous_summary_path,
+        previous_summary_content=previous_summary_content,
+    )
+    news_path, corr_path = _press_paths_for_context(press_context_path, current_week)
+    press_inventory = _article_inventory(_safe_load_json(news_path), _safe_load_json(corr_path), news_path)
+    slice_refs = write_evidence_slices(evidence_slices, None)
     preflight = PromptPreflight(
+        schema_version="analysis_input_manifest_v1",
         prompt_token_budget=prompt_token_budget,
         prompt_tokens=prompt_tokens,
         prompt_bytes=len(prompt.encode("utf-8")),
         prompt_checksum_sha256=checksum_text(prompt),
+        rendered_prompt_estimate={
+            "bytes": len(prompt.encode("utf-8")),
+            "tokens": prompt_tokens,
+            "checksum_sha256": checksum_text(prompt),
+        },
         prompt_within_budget=prompt_within_budget,
         degraded=degraded,
         publish_eligible=prompt_within_budget and not degraded,
@@ -536,12 +890,15 @@ def _build_prompt(
         ),
         components=components,
         deterministic_slices=["new_repos", "trending_repos", "press_correlations", "prior_continuity"],
+        generated_evidence_slices=slice_refs,
+        evidence_slice_payloads=evidence_slices,
         evidence_inventories=[
             _evidence_inventory("raw_new_repos", sanitized_payload, "new_repos", raw_json_path),
             _evidence_inventory("raw_trending_repos", sanitized_payload, "trending_repos", raw_json_path),
             _evidence_inventory("prompt_new_repos", payload_for_prompt, "new_repos", raw_json_path),
             _evidence_inventory("prompt_trending_repos", payload_for_prompt, "trending_repos", raw_json_path),
         ],
+        press_inventories=[press_inventory],
     )
     return prompt, preflight
 
@@ -572,6 +929,8 @@ def render_prompt(
 
 
 def write_preflight_reports(preflight: PromptPreflight, json_path: Path | None, md_path: Path | None) -> None:
+    if json_path and preflight.evidence_slice_payloads:
+        preflight.generated_evidence_slices = write_evidence_slices(preflight.evidence_slice_payloads, json_path)
     if json_path:
         json_path.parent.mkdir(parents=True, exist_ok=True)
         json_path.write_text(json.dumps(asdict(preflight), indent=2, sort_keys=True) + "\n", encoding="utf-8")

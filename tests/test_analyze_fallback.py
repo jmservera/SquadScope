@@ -229,6 +229,8 @@ class AnalyzeFallbackTests(unittest.TestCase):
             report = json.loads(report_path.read_text(encoding="utf-8"))
             self.assertEqual(exit_code, 0)
             self.assertEqual(report["prompt_checksum_sha256"], analyze_fallback.checksum_text(rendered))
+            self.assertEqual(report["schema_version"], "analysis_input_manifest_v1")
+            self.assertEqual(report["rendered_prompt_estimate"]["tokens"], report["prompt_tokens"])
             self.assertEqual(report["deterministic_slices"], ["new_repos", "trending_repos", "press_correlations", "prior_continuity"])
             self.assertFalse(report["degraded"])
             self.assertTrue(report["publish_eligible"])
@@ -242,6 +244,15 @@ class AnalyzeFallbackTests(unittest.TestCase):
             self.assertEqual(inventories["raw_new_repos"]["repos"][0]["full_name"], "owner/new")
             self.assertEqual(inventories["raw_trending_repos"]["repos"][0]["stars_gained"], 5)
             self.assertGreater(inventories["prompt_new_repos"]["token_estimate"], 0)
+            slices = {item["name"]: item for item in report["generated_evidence_slices"]}
+            self.assertEqual(set(slices), {"new_repos", "trending_repos", "press_correlations", "prior_continuity"})
+            for slice_ref in slices.values():
+                self.assertTrue(slice_ref["path"].endswith(f"{slice_ref['checksum_sha256'][:12]}.json"))
+                self.assertFalse(slice_ref["validation_errors"])
+                self.assertTrue(Path(slice_ref["path"]).exists())
+            new_slice = json.loads(Path(slices["new_repos"]["path"]).read_text(encoding="utf-8"))
+            self.assertEqual(new_slice["records"][0]["full_name"], "owner/new")
+            self.assertIn("raw_json", new_slice["provenance"]["sources"])
 
     def test_preflight_compacts_before_prompt_exceeds_budget(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -311,6 +322,28 @@ class AnalyzeFallbackTests(unittest.TestCase):
                 inventories["prompt_trending_repos"]["item_count"],
                 analyze_fallback.COMPACTED_TRENDING_REPOS_LIMIT,
             )
+
+    def test_validate_evidence_slice_rejects_checksum_provenance_and_missing_fields(self) -> None:
+        payload = {
+            "schema_version": "analysis_evidence_slice_v1",
+            "slice_name": "new_repos",
+            "component": "new_repos",
+            "records": [{"full_name": "owner/repo"}],
+            "provenance": {"sources": {"raw_json": {"bytes": 10, "sha256": "abc"}}},
+        }
+        payload["checksum_sha256"] = analyze_fallback.checksum_payload(payload)
+        payload["records"][0]["full_name"] = "tampered/repo"
+
+        errors = analyze_fallback.validate_evidence_slice(payload, expected_checksum="different")
+
+        self.assertIn("slice checksum mismatch", errors)
+        self.assertIn("slice checksum does not match manifest reference", errors)
+        self.assertIn("record 0 missing url", errors)
+        self.assertIn("record 0 missing created_at", errors)
+
+        payload["provenance"] = {"sources": {}}
+        errors = analyze_fallback.validate_evidence_slice(payload)
+        self.assertIn("slice provenance sources missing", errors)
 
     def test_extract_markdown_supports_message_parts(self) -> None:
         payload = {

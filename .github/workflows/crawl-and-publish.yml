@@ -454,7 +454,8 @@ jobs:
           PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           PROMPT_FILE="data/metrics/analysis-prompt-${WEEK}.md"
-          PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-preflight.json"
+          PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-input-manifest.json"
+          LEGACY_PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-preflight.json"
           PREFLIGHT_MD="$DIAGNOSTICS_DIR/analysis-preflight.md"
           mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
           # Hydrate metrics ledger from publish before writing this run's prompt/preflight artifacts.
@@ -469,6 +470,7 @@ jobs:
             --preflight-report-json "$PREFLIGHT_JSON" \
             --preflight-report-md "$PREFLIGHT_MD" \
             --print-prompt > "$PROMPT_FILE"
+          cp "$PREFLIGHT_JSON" "$LEGACY_PREFLIGHT_JSON"
           python3 scripts/preflight_cost_check.py \
             --context-files "$PROMPT_FILE"
           python3 - <<'PY' "$PREFLIGHT_JSON"
@@ -507,6 +509,7 @@ jobs:
         env:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PREFLIGHT_REPORT_JSON: ${{ steps.prompt-preflight.outputs.preflight_report_json }}
         run: |
           set -euo pipefail
           OUTPUT_FILE="${{ steps.analysis-context.outputs.candidate_output_file }}"
@@ -561,8 +564,8 @@ jobs:
               --current-datetime "$CURRENT_DATETIME" \
               --week "$WEEK" \
               --prompt-file "$PROMPT_FILE" \
-              --output-file "$OUTPUT_FILE"
-            echo "::notice::Map/reduce dry-run candidate written to $OUTPUT_FILE with sidecars under $MAP_REDUCE_DIR. It is not publish eligible."
+              --output-file "$OUTPUT_FILE" \
+              --input-manifest "$PREFLIGHT_REPORT_JSON"
             rm -f "$PROMPT_FILE"
             echo "analysis_source=$ANALYSIS_SOURCE" >> "$GITHUB_OUTPUT"
             echo "analysis_model=$ANALYSIS_MODEL" >> "$GITHUB_OUTPUT"
@@ -725,6 +728,7 @@ jobs:
             --week "$WEEK" \
             --prompt-file "$PROMPT_FILE" \
             --output-file "$OUTPUT_FILE" \
+            --input-manifest "$PREFLIGHT_REPORT_JSON" \
             $TRANSCRIPT_ARGS
           ANALYSIS_DURATION=$(( $(date +%s) - ANALYSIS_STARTED ))
           echo "::notice::Analysis path source=$ANALYSIS_SOURCE model=$ANALYSIS_MODEL duration_seconds=$ANALYSIS_DURATION press_context=$PRESS_FILE"
