@@ -10,7 +10,7 @@
 
 ## Executive Summary
 
-SquadScope should create **SquadScope: Signal Check**, an 8-12 minute weekly two-host podcast generated from the already-published weekly article. The podcast is a **separate product** distributed through Spotify and/or a podcast platform, not hosted inside the SquadScope website. The website MVP only adds a configurable link to the external podcast page once that page exists.
+SquadScope should enable **SquadScope: Signal Check**, an 8-12 minute weekly two-host podcast generated from the already-published weekly article. The podcast/Podcaster capability is a **sister product/tool**, not a SquadScope website feature. It should be distributed through Spotify and/or a podcast platform, not hosted inside the SquadScope website. The website MVP only adds a configurable link to the external podcast page once that page exists.
 
 The MVP recommendation is:
 
@@ -19,9 +19,9 @@ The MVP recommendation is:
 3. Store generated MP3s and working artifacts temporarily in **Azure Blob Storage** as staging storage with retention and cleanup controls. Blob Storage is not the final public podcast host for MVP unless a later delivery decision explicitly approves it.
 4. Prepare a manual Spotify publishing packet for the operator: MP3, title, description, transcript/show notes, AI disclosure, sponsor/affiliate disclosures if any, source article URL, and corrections link.
 5. Investigate whether Spotify supports episode upload/publish automation. Initial documentation research suggests the Spotify Web API is primarily for streaming-service interactions such as metadata, playlists, playback, and user library operations, not clearly for podcast episode upload; this must be verified against Spotify for Creators and current podcast delivery docs.
-6. Keep podcast generation in a separate non-blocking workflow, `podcast-generate.yml`, started by explicit dispatch from `crawl-and-publish.yml` only after a confirmed normal article publish, plus manual dispatch for operators.
+6. Keep SquadScope's publishing path unchanged. Any temporary workflow in this repo may only be manually invoked or emit/consume post-publish artifacts after normal publishing is complete; the production podcast generation workflow should live in the separate Podcaster project once the project boundary is defined.
 
-Do **not** commit MP3s to git. Do **not** build website-hosted podcast pages, audio players, article audio embeds, or a site-owned feed as MVP scope. If an RSS feed exists during MVP, it is for podcast-platform ingestion or a future podcast host migration, not for SquadScope website consumption.
+Do **not** commit MP3s to git. Do **not** build website-hosted podcast pages, audio players, article audio embeds, or a site-owned feed as MVP scope; those website-hosted consumption patterns are explicitly deferred/non-MVP. If an RSS feed exists during MVP, it is for podcast-platform ingestion or a future podcast host migration, not for SquadScope website consumption.
 
 ---
 
@@ -36,6 +36,7 @@ The clarified product scope changes delivery:
 - Initial Spotify publishing is manual.
 - Automation feasibility must be researched before promising automatic publish.
 - The website only links out to the external podcast/platform page.
+- The current weekly crawl/analyze/generate/deploy publishing process must not be modified, gated, delayed, or made dependent on podcast generation.
 
 Key risks:
 
@@ -43,6 +44,7 @@ Key risks:
 - Jokes can distort nuance or target individuals unfairly.
 - Synthetic voices require clear disclosure and licensing discipline.
 - Platform publishing workflows may require manual steps or third-party hosting APIs.
+- Azure podcast resources belong to the future Podcaster project, not the SquadScope publishing runtime, unless a later architecture decision explicitly says otherwise.
 - Temporary audio artifacts need retention, cleanup, and access controls.
 - Monetization adds FTC disclosure, privacy, and trust obligations for both podcast and website.
 
@@ -53,26 +55,28 @@ Key risks:
 ### Goals
 
 - Convert each published weekly article into one short podcast episode.
-- Treat the podcast as a separate product with Spotify/podcast-platform publishing as the target.
+- Treat Podcaster as a separate sister product/tool with Spotify/podcast-platform publishing as the target.
 - Preserve SquadScope's source-backed methodology, correction path, and no-paid-placement editorial stance unless explicitly changed and disclosed.
 - Require a claim ledger, source-backed show notes, publishing packet, and human review for MVP.
 - Use low-cost, automatable TTS selected by an early listening-test comparison.
 - Store generated audio temporarily in Azure Blob Storage with retention and cleanup.
 - Support manual Spotify publishing first, then research and design automation if available.
 - Limit website integration to a configurable external podcast link.
+- Preserve zero impact on existing weekly crawl/analyze/generate/deploy behavior.
 - Define safe monetization phases for podcast and website.
 
 ### Non-Goals
 
-- Implementing code, workflows, templates, storage, publishing integrations, or RSS generation in this issue.
+- Implementing code, workflows, templates, storage, publishing integrations, Azure infrastructure, or RSS generation in this issue.
 - Hosting the podcast inside the SquadScope website.
-- Website-hosted audio players, article audio embeds, Hugo podcast shortcodes, or podcast landing/player pages for MVP.
-- Publishing a SquadScope-site-owned `/podcast/index.xml` feed for listener consumption in MVP.
+- Website-hosted audio players, article audio embeds, Hugo podcast shortcodes, or podcast landing/player pages are non-MVP/deferred.
+- Publishing a SquadScope-site-owned `/podcast/index.xml` feed for listener consumption is non-MVP/deferred.
 - Replacing the written weekly article.
 - Creating a daily show, long-form interview show, or news desk.
 - Cloning or imitating real people, Hard Fork hosts, NYT marks, jingles, segment names, or protected expression.
 - Committing MP3s or other generated audio binaries to git.
 - Launching paid ads, dynamic ad insertion, premium feeds, or analytics before privacy and disclosure work is complete.
+- Changing the current weekly crawl/analyze/generate/deploy pipeline, publish manifests, article publishing gates, or critical-path behavior for podcast needs.
 
 ---
 
@@ -123,28 +127,41 @@ The show may use broad conversational tech-podcast energy, but it must not copy 
 
 ---
 
+### Product boundary
+
+Podcaster is a sister product/tool that consumes SquadScope outputs; it is not a SquadScope website feature. SquadScope remains responsible for publishing the weekly article and, at most, exposing stable post-publish artifacts such as article URL, article content, source artifact references, or a manifest. Podcaster is responsible for script generation, TTS, audio staging, platform publishing packets, Azure resources, podcast operations, and any future podcast workflow once separated.
+
+### Zero-impact publishing principle
+
+Podcast work must have zero impact on existing publishing:
+
+- No changes to the current weekly crawl/analyze/generate/deploy behavior.
+- No gating, delaying, rolling back, or replacing article publishing because of podcast generation.
+- No changes to existing publish manifests for podcast-only metadata unless a separate backward-compatible contract is approved.
+- No audio generation, TTS provider calls, Blob uploads, or podcast validation inside the article publishing critical path.
+- No requirement that podcast artifacts exist before an article is considered published.
+- Any future SquadScope workflow may only emit a post-publish event/artifact or be manually invoked; the podcast generation workflow should live in Podcaster once the project is separated.
+
+---
+
 ## Article-to-Episode Workflow
 
 ```text
-published weekly article
-  -> claim and source extraction
-  -> claim ledger
-  -> episode outline
-  -> two-host conversational script
-  -> citation and fact check
-  -> GitHub Environment podcast-review approval
-  -> final script
-  -> TTS synthesis
-  -> ffmpeg post-process
-  -> upload MP3/transcript/manifest to temporary Azure Blob staging
-  -> generate manual Spotify/platform publishing packet
+SquadScope normal weekly publish completes unchanged
+  -> SquadScope exports stable post-publish article URL/content/artifact manifest
+  -> Podcaster consumes the artifact asynchronously or via manual invocation
+  -> Podcaster performs claim and source extraction
+  -> Podcaster creates claim ledger, outline, two-host script, show notes, transcript, and publishing packet
+  -> Podcaster review gate approves script package
+  -> Podcaster performs TTS synthesis and ffmpeg post-process outside SquadScope critical path
+  -> Podcaster uploads MP3/transcript/manifest to its temporary Azure Blob staging
   -> operator manually publishes to Spotify or selected podcast platform
-  -> website external podcast link is updated only when a platform page exists
+  -> SquadScope website external podcast link is updated only when a platform page exists
 ```
 
 ### Required artifacts per episode
 
-- `episode_manifest.json`: week, article URL, article hash, script prompt version, voice config hash, TTS provider, duration, file length, cost, license/disclosure status, staging storage URI, retention expiry, reviewer, and publish status.
+- `episode_manifest.json`: week, article URL, article/content/artifact manifest reference, article hash, script prompt version, voice config hash, TTS provider, duration, file length, cost, license/disclosure status, staging storage URI, retention expiry, reviewer, and publish status.
 - `claim_ledger.json`: every substantive claim derived from the published article, source URL, article paragraph/source, validation status against existing analysis/publish artifacts where available, support status, and reviewer decision.
 - `script.md`: final reviewed script.
 - `transcript.txt` or `transcript.md`: transcript generated from the final script.
@@ -152,11 +169,11 @@ published weekly article
 - `publishing_packet.md` or equivalent operator summary: MP3 path, title, description, transcript/show notes, disclosures, source article URL, corrections link, and manual publish checklist.
 - `episode.mp3`: temporary staging artifact in Azure Blob Storage, not git.
 
-If future implementation stores manifests under `data/`, `hugo.toml` must add explicit module mounts because this repo uses custom data mounts.
+If a temporary prototype stores docs or sample manifests under `data/`, `hugo.toml` must add explicit module mounts because this repo uses custom data mounts. Production podcast manifests should belong to Podcaster or the selected podcast platform/host, not SquadScope's existing publish manifests.
 
 ### Human review mechanism
 
-MVP uses a single concrete review mechanism: the GitHub Environment `podcast-review` with required reviewers. `podcast-generate.yml` uploads the generated script package as workflow artifacts, then pauses before any non-dry-run TTS call by entering the `podcast-review` environment. TTS cannot proceed until the environment approval is granted. Reviewers inspect `script.md`, `claim_ledger.json`, `show_notes.md`, `transcript.md`, `publishing_packet.md`, and `episode_manifest.json`, with attention to source support, disclosure, tone, privacy readiness, budget status, and manual publishing readiness.
+MVP uses a concrete review mechanism before synthesis. If a temporary prototype remains in this repo, the GitHub Environment `podcast-review` can pause that manually invoked/post-publish workflow before any non-dry-run TTS call. Once separated, Podcaster should own the equivalent review gate in its own deployment lifecycle. TTS cannot proceed until approval is granted. Reviewers inspect `script.md`, `claim_ledger.json`, `show_notes.md`, `transcript.md`, `publishing_packet.md`, and `episode_manifest.json`, with attention to source support, disclosure, tone, privacy readiness, budget status, and manual publishing readiness.
 
 ---
 
@@ -194,15 +211,26 @@ MVP uses a single concrete review mechanism: the GitHub Environment `podcast-rev
 
 ---
 
+### Architecture and repository boundary options
+
+| Option | Description | Pros | Cons | Decision |
+| --- | --- | --- | --- | --- |
+| Option A: temporary folder in this repo | Keep docs, contracts, sample artifacts, and possibly throwaway prototypes in a clearly isolated folder. | Fastest learning path; keeps article contract close to SquadScope. | Easy to blur product ownership; must not affect publishing, manifests, workflows, or deploys. | Accept only for prototypes/docs that cannot affect publishing. |
+| Option B: separate repo/project from the start | Create a `Podcaster` project/repo for implementation, tests, workflow, secrets, and release process. | Clean ownership; protects SquadScope publishing; easier independent roadmap. | Slight setup overhead before first prototype. | Preferred before implementation grows beyond contracts/prototypes. |
+| Option C: Azure-native project/resource group | Build Podcaster as its own Azure resource group/subscription boundary with IaC and independent deployment lifecycle. | Best fit for Azure Speech/Blob/identity/cost governance; clear resource ownership. | Requires infrastructure governance and cost controls up front. | Required before any Azure resource deployment. |
+
+**Recommendation:** Keep the SquadScope repo as the source of article export contracts, PRD, and planning now. Move implementation to a separate **Podcaster** project/repo before deploying Azure resources. Use a temporary folder in this repo only for prototypes that cannot affect publishing and do not add audio steps to the article critical path.
+
+---
+
 ## Technical Requirements
 
 ### Generation workflow
 
-- Add a future separate workflow: `.github/workflows/podcast-generate.yml`.
-- Trigger modes:
-  - Preferred automated path: after `crawl-and-publish.yml` confirms a normal weekly publish, it explicitly dispatches `podcast-generate.yml` with the week, article path/URL, source run ID, publish mode, and article artifact identifiers.
-  - `workflow_dispatch` with selected week and optional dry-run flag for operators.
-- Do not rely on a naive `workflow_run` trigger. If a future implementation uses `workflow_run`, it must fetch and validate the triggering run inputs/artifacts and prove the run was a normal publish before synthesis.
+- SquadScope must not add podcast generation to the weekly crawl/analyze/generate/deploy critical path.
+- SquadScope may expose a stable post-publish artifact/API/URL contract containing week, article URL/path, content or content hash, source artifact references, run ID, and publish mode after normal publishing completes.
+- Communication is by stable artifact, API, URL, or manual input. Podcaster must not directly mutate SquadScope publishing flow, publish manifests, article content, or deploy state.
+- Any future workflow that remains in SquadScope may only emit a post-publish event/artifact or be manually invoked for a prototype; production podcast generation should live in Podcaster once separated.
 - Dry-run, candidate-only, restore, failed, or no-AI fallback replacement runs must not synthesize audio or publish podcast artifacts.
 - Podcast failures must not block article publishing.
 - Manual reruns must be idempotent.
@@ -229,9 +257,16 @@ If the key is unchanged, reruns should reuse the existing reviewed script/audio 
 - Loudness: normalize around -16 LUFS.
 - Post-processing: use `ffmpeg` for normalization, metadata, and deterministic output checks.
 
+### Integration boundary requirements
+
+- SquadScope exports article URL/content/artifact manifest after a successful normal publish.
+- Podcaster consumes that export asynchronously and owns all podcast-specific processing.
+- Integration must be additive and backward-compatible; existing publish manifests remain unchanged unless a separate contract version is approved.
+- The Podcaster implementation must use least-privilege access to read only the exported article/artifacts it needs.
+
 ### Temporary Azure Blob Storage requirements
 
-- Use Blob Storage for staging generated MP3s, transcripts, manifests, and publishing packets.
+- Use Podcaster-owned Blob Storage for staging generated MP3s, transcripts, manifests, and publishing packets.
 - Apply least-privilege access; public anonymous read is not required for MVP staging.
 - Configure retention/cleanup so generated audio is removed after publishing is confirmed or after a defined expiry.
 - Do not use expiring staging URLs in any public podcast feed or platform field.
@@ -293,12 +328,12 @@ No public episode may ship unless all are true:
 2. Paid/commercial-use voice license is documented for the selected provider and voices.
 3. No real-person voice cloning, no celebrity/podcast-host imitation, and no Hard Fork/NYT marks or copied expression.
 4. MVP is voice-only: no music or SFX unless/until a licensed track/effect is selected and recorded in the manifest.
-5. Human script review is complete through the GitHub Environment `podcast-review` gate before synthesis for MVP.
+5. Human script review is complete through the Podcaster review gate before synthesis for MVP; a temporary in-repo prototype may use the GitHub Environment `podcast-review`.
 6. Claim ledger shows every factual claim is supported or removed.
 7. Show notes include source URLs and corrections link.
 8. No unsupported facts, no defamatory motive claims, and no fake sponsorship language.
 9. Sponsorship/affiliate/support disclosures appear before any sponsor, affiliate, or paid support segment.
-10. Privacy policy is updated before any non-dry-run TTS call or before using podcast analytics, ad tech, payment redirects, or third-party embedded players.
+10. Privacy policy is updated before any non-dry-run TTS call or before any future/deferred use of podcast analytics, ad tech, payment redirects, or third-party embedded players.
 11. GDPR/cookie consent covers non-essential podcast analytics before analytics tags or third-party players are enabled.
 
 ### FTC and monetization compliance
@@ -367,13 +402,14 @@ SquadScope should not store payment data. Use Stripe, PayPal, Ko-fi, Patreon, Gi
 - Website configurable external podcast link only.
 - AI voice disclosure and correction path.
 - Cost ledger and monthly budget guardrail covering TTS, staging storage, script generation, validation, and platform/provider costs.
-- Manual dispatch and safe post-publish workflow trigger.
+- Manual invocation and safe post-publish artifact/event handoff.
+- Repository/project boundary defined before infrastructure code is written.
 
 ### Out of scope for MVP
 
 - Hosting the podcast in the SquadScope website.
 - Website-hosted podcast RSS for listener consumption.
-- Article audio embeds, embedded players, Hugo podcast shortcodes, and website-hosted player pages.
+- Article audio embeds, embedded players, Hugo podcast shortcodes, and website-hosted player pages are non-MVP/deferred.
 - Automated Spotify publishing before API feasibility is verified.
 - Dynamic ad insertion.
 - Premium/private feeds.
@@ -400,8 +436,8 @@ SquadScope should not store payment data. Use Stripe, PayPal, Ko-fi, Patreon, Gi
 
 ### Technical acceptance
 
-- Podcast workflow can be rerun for a selected week without duplicate episodes.
-- Article publishing succeeds even if podcast generation fails.
+- Podcaster workflow can be rerun for a selected week without duplicate episodes.
+- Article publishing behavior, publish manifests, deploy timing, and success criteria are unchanged even if podcast generation fails or never runs.
 - MP3 is staged outside git, under the size/duration/audio constraints.
 - Temporary Blob artifacts have documented access controls, retention, and cleanup.
 - Manual publishing packet includes MP3, title, description, transcript/show notes, disclosures, source article URL, and corrections link.
@@ -411,7 +447,7 @@ SquadScope should not store payment data. Use Stripe, PayPal, Ko-fi, Patreon, Gi
 
 ### Safety acceptance
 
-- Human reviewer approval is recorded via GitHub Environment `podcast-review` before synthesis; reviewers inspect `script.md`, `claim_ledger.json`, `show_notes.md`, `transcript.md`, `publishing_packet.md`, and `episode_manifest.json` before allowing TTS.
+- Human reviewer approval is recorded via the Podcaster review gate before synthesis; a temporary in-repo prototype may use GitHub Environment `podcast-review`. Reviewers inspect `script.md`, `claim_ledger.json`, `show_notes.md`, `transcript.md`, `publishing_packet.md`, and `episode_manifest.json` before allowing TTS.
 - Provider voice license and AI disclosure are documented.
 - No real-person voice cloning or protected podcast imitation occurs.
 - Sponsorship/affiliate/support text, if present, is disclosed before the relevant segment.
@@ -421,21 +457,23 @@ SquadScope should not store payment data. Use Stripe, PayPal, Ko-fi, Patreon, Gi
 
 ## Implementation Phases
 
-1. **Design and contracts:** Define manifest, claim ledger, show notes, publishing packet, staging storage, retention, review statuses, and website external-link configuration.
-2. **Script generation dry run:** Generate script/ledger/show notes/transcript/publishing packet from existing weekly articles without TTS or publishing.
-3. **TTS proof of concept:** After the privacy update, synthesize reviewed private samples with Azure Speech Standard, Azure Speech HD/OpenAI voices in Azure if available, and OpenAI `tts-1` or `gpt-4o-mini-tts`; run a listening test and select the provider.
-4. **Temporary staging:** Upload approved MP3s and packet artifacts to Azure Blob Storage with access controls, manifest recording, retention, and cleanup.
-5. **Spotify/API research:** Verify direct Spotify upload/publish support; if unsupported, document manual Spotify for Creators flow and/or podcast host/provider RSS/API options.
-6. **Manual launch:** Generate the publishing packet and manually publish to Spotify or selected platform.
-7. **Website external link:** Add a configurable link to the external podcast/platform page once available.
-8. **Quality experiments:** Revisit voices, providers, music/SFX, and production polish after the Phase 2 provider decision and MVP reliability are proven.
-9. **Monetization experiments:** Add support/donation links first; defer sponsorships, ads, premium feeds, and dynamic insertion until disclosure, privacy, and audience metrics justify them.
+1. **Design and contracts:** Define the SquadScope export contract, Podcaster-owned manifest, claim ledger, show notes, publishing packet, staging storage, retention, review statuses, and website external-link configuration.
+2. **Repository/project boundary gate:** Decide the Podcaster repo/project boundary and Azure resource ownership before infrastructure code, secrets, or deploy workflows are written.
+3. **Script generation dry run:** Generate script/ledger/show notes/transcript/publishing packet from existing weekly articles without TTS or publishing, using only exported artifacts or manual input.
+4. **TTS proof of concept:** After the privacy update, synthesize reviewed private samples with Azure Speech Standard, Azure Speech HD/OpenAI voices in Azure if available, and OpenAI `tts-1` or `gpt-4o-mini-tts`; run a listening test and select the provider.
+5. **Temporary staging:** Upload approved MP3s and packet artifacts to Podcaster-owned Azure Blob Storage with access controls, manifest recording, retention, and cleanup.
+6. **Spotify/API research:** Verify direct Spotify upload/publish support; if unsupported, document manual Spotify for Creators flow and/or podcast host/provider RSS/API options.
+7. **Manual launch:** Generate the publishing packet and manually publish to Spotify or selected platform.
+8. **Website external link:** Add a configurable link to the external podcast/platform page once available.
+9. **Quality experiments:** Revisit voices, providers, music/SFX, and production polish after the Phase 2 provider decision and MVP reliability are proven.
+10. **Monetization experiments:** Add support/donation links first; defer sponsorships, ads, premium feeds, and dynamic insertion until disclosure, privacy, and audience metrics justify them.
 
 ---
 
 ## Open Questions
 
-- Which Azure region and Speech resource should be used for production?
+- Which repository/project owns Podcaster implementation before Azure infrastructure is written?
+- Which Azure resource group/subscription, region, Speech resource, Blob account, identities, and budget alerts should Podcaster own for production?
 - Which provider/voice pair wins the Phase 2 listening test while avoiding real-person mimicry?
 - Which required reviewers should be configured on the GitHub Environment `podcast-review`?
 - Does Spotify currently support episode upload/publish automation, or is manual Spotify for Creators / provider RSS the right MVP path?
@@ -447,4 +485,4 @@ SquadScope should not store payment data. Use Stripe, PayPal, Ko-fi, Patreon, Gi
 
 ## Decision
 
-Proceed with this amended docs-only design. For implementation, build **SquadScope: Signal Check** as a human-reviewed, source-backed, two-host weekly podcast that is generated from weekly articles but distributed as a separate podcast product. Use the GitHub Environment `podcast-review` gate, explicit post-publish dispatch from `crawl-and-publish.yml`, a Phase 2 TTS listening-test provider decision, temporary Azure Blob Storage staging with retention/cleanup, a manual Spotify/platform publishing packet, Spotify/API automation research, a website external-link-only integration, and strict disclosure/privacy/safety/cost gates. Defer site-hosted podcast consumption, embedded players, ads, premium feeds, music/SFX, and full publish automation until the MVP proves reliable and trustworthy.
+Proceed with this amended docs-only design. For implementation, build **SquadScope: Signal Check** through **Podcaster**, a human-reviewed, source-backed, two-host sister product/tool that consumes SquadScope's published article artifacts asynchronously and is distributed as a separate podcast product. Keep SquadScope's existing publishing behavior, gates, manifests, deploys, and critical path unchanged. Define the repository/project boundary and Azure resource ownership before infrastructure code is written; keep only docs/contracts and harmless prototypes in SquadScope until Podcaster is separated. Use a review gate, post-publish artifact/API/URL handoff or manual invocation, a Phase 2 TTS listening-test provider decision, Podcaster-owned temporary Azure Blob Storage staging with retention/cleanup, a manual Spotify/platform publishing packet, Spotify/API automation research, a website external-link-only integration, and strict disclosure/privacy/safety/cost gates. Defer site-hosted podcast consumption, embedded players, ads, premium feeds, music/SFX, and full publish automation until the MVP proves reliable and trustworthy.
