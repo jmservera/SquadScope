@@ -55,3 +55,4 @@
 - Run 27056632166 post-mortems confirmed safety gates work; no-AI blocking and preservation validated in production
 - P0 safety layer (#250/#251/#252/#253) must complete before #254 atomicity can start
 - Issue sequencing finalized: contract/preflight (Phase 1) → atomicity/quality gates (Phase 2) → docs/evidence (Phase 3) → map/reduce stays dry-run (Phase 4)
+- 2026-06-07T14:46:18.154+00:00 issue #297 podcast PRD note: select Signal Check as a reviewed two-host weekly podcast; use Azure Speech for MVP TTS, Blob Storage for audio, non-blocking generation, claim-ledger safety gates, AI disclosure, and cost guardrails.
