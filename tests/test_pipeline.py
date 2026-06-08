@@ -457,6 +457,19 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertEqual(upload_candidate["if"], "always()")
 
         generate = workflow["jobs"]["generate"]
+        generate_raw_download = next(
+            (
+                s
+                for s in generate["steps"]
+                if s.get("name") == "Download raw crawl artifact"
+                and s.get("uses") == "actions/download-artifact@v4"
+                and s.get("with", {}).get("name") == "raw-data"
+                and s.get("with", {}).get("path") == "data/raw/"
+            ),
+            None,
+        )
+        self.assertIsNotNone(generate_raw_download)
+
         generate_step = next((s for s in generate["steps"] if s.get("name") == "Generate weekly content"), None)
         self.assertIsNotNone(generate_step)
         self.assertIn('assert-eligible --manifest "$MANIFEST_FILE"', generate_step["run"])

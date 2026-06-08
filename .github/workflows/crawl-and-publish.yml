@@ -854,6 +854,12 @@ jobs:
           name: analysis-candidate
           path: data/candidates/
 
+      - name: Download raw crawl artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: raw-data
+          path: data/raw/
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
