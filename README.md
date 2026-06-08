@@ -101,7 +101,7 @@ JSON    Markdown   Hugo      Pages    Improvements
 
 ## Automated weekly pipeline
 
-`.github/workflows/crawl-and-publish.yml` runs the full weekly automation every Monday at 08:00 UTC:
+`.github/workflows/crawl-and-publish.yml` runs the full weekly automation every Monday at 07:54 UTC:
 
 1. **Crawl:** GitHub API → `data/raw/YYYY-WNN.json`; external RSS feeds → `data/raw/YYYY-WNN-external-news.json`
 2. **Analyze:** Copilot → `data/analyzed/YYYY-WNN-summary.md`
@@ -112,7 +112,7 @@ JSON    Markdown   Hugo      Pages    Improvements
 
 ### Schedule and manual runs
 
-- **Automated schedule:** Monday 08:00 UTC (`0 8 * * 1`)
+- **Automated schedule:** Monday 07:54 UTC (`54 7 * * 1`)
 - **Manual trigger:** `gh workflow run crawl-and-publish.yml` or GitHub Actions UI
 
 ### Required secrets

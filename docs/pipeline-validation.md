@@ -5,7 +5,7 @@ This checklist validates the automated weekly workflow in `.github/workflows/cra
 ## Trigger and scheduling
 
 - [x] `schedule` is enabled in the workflow.
-- [x] Cron is `0 8 * * 1`, which runs every Monday at 08:00 UTC.
+- [x] Cron is `54 7 * * 1`, which runs every Monday at 07:54 UTC.
 - [x] `workflow_dispatch` is enabled for manual runs from the Actions tab or `gh workflow run crawl-and-publish.yml`.
 - [x] `concurrency.group` is `weekly-crawl` with `cancel-in-progress: false`, so a second run waits instead of overlapping the active run.
 
