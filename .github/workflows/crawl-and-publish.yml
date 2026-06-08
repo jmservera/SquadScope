@@ -2,7 +2,7 @@ name: Crawl and publish weekly data
 
 on:
   schedule:
-    - cron: '30 8 * * 1'
+    - cron: '54 7 * * 1'
   workflow_dispatch:
     inputs:
       run_mode:
