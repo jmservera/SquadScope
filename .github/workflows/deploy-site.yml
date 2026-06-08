@@ -48,13 +48,18 @@ jobs:
 
       - name: Install Hugo
         run: |
+          set -euo pipefail
+          RELEASE_URL="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}"
           TARBALL="hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
-          curl -sLJO "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/${TARBALL}"
+          CHECKSUM_FILE="hugo_${HUGO_VERSION}_checksums.txt"
+          curl --fail --silent --show-error --location --retry 5 --retry-delay 2 --retry-all-errors \
+            --output "${TARBALL}" "${RELEASE_URL}/${TARBALL}"
           
           # Download and verify checksums
-          curl -sLJO "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_checksums.txt"
-          sha256sum --check hugo_${HUGO_VERSION}_checksums.txt --ignore-missing || exit 1
-          rm "hugo_${HUGO_VERSION}_checksums.txt"
+          curl --fail --silent --show-error --location --retry 5 --retry-delay 2 --retry-all-errors \
+            --output "${CHECKSUM_FILE}" "${RELEASE_URL}/${CHECKSUM_FILE}"
+          awk -v file="${TARBALL}" '$2 == file {print; found=1} END {if (!found) exit 1}' "${CHECKSUM_FILE}" | sha256sum --check
+          rm "${CHECKSUM_FILE}"
           
           mkdir -p "${HOME}/.local/hugo"
           tar -C "${HOME}/.local/hugo" -xf "${TARBALL}"
