@@ -462,7 +462,7 @@ class WorkflowConfigTests(unittest.TestCase):
                 s
                 for s in generate["steps"]
                 if s.get("name") == "Download raw crawl artifact"
-                and s.get("uses") == "actions/download-artifact@v4"
+                and s.get("uses") == "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093"
                 and s.get("with", {}).get("name") == "raw-data"
                 and s.get("with", {}).get("path") == "data/raw/"
             ),
