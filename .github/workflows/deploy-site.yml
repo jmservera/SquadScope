@@ -58,7 +58,11 @@ jobs:
           # Download and verify checksums
           curl --fail --silent --show-error --location --retry 5 --retry-delay 2 --retry-all-errors \
             --output "${CHECKSUM_FILE}" "${RELEASE_URL}/${CHECKSUM_FILE}"
-          if ! awk -v file="${TARBALL}" '$NF == file {print; found=1} END {if (!found) exit 1}' "${CHECKSUM_FILE}" | sha256sum --check; then
+          checksum_line="$(awk -v file="${TARBALL}" '$NF == file {print; found=1} END {if (!found) exit 1}' "${CHECKSUM_FILE}")" || {
+            echo "Error: No checksum entry for ${TARBALL} found in ${CHECKSUM_FILE}" >&2
+            exit 1
+          }
+          if ! printf '%s\n' "${checksum_line}" | sha256sum --check; then
             echo "Error: Checksum verification failed for ${TARBALL}" >&2
             exit 1
           fi
