@@ -1089,7 +1089,10 @@ jobs:
             --output "${TARBALL}" "${RELEASE_URL}/${TARBALL}"
           curl --fail --silent --show-error --location --retry 5 --retry-delay 2 --retry-all-errors \
             --output "${CHECKSUM_FILE}" "${RELEASE_URL}/${CHECKSUM_FILE}"
-          awk -v file="${TARBALL}" '$2 == file {print; found=1} END {if (!found) exit 1}' "${CHECKSUM_FILE}" | sha256sum --check
+          if ! awk -v file="${TARBALL}" '$NF == file {print; found=1} END {if (!found) exit 1}' "${CHECKSUM_FILE}" | sha256sum --check; then
+            echo "Error: Checksum verification failed for ${TARBALL}" >&2
+            exit 1
+          fi
           rm "${CHECKSUM_FILE}"
           mkdir -p "${HOME}/.local/hugo"
           tar -C "${HOME}/.local/hugo" -xf "${TARBALL}"
