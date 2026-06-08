@@ -151,7 +151,7 @@ Each article gets a relevance score (0–10) based on title + description:
 
 ### The Problem: RSS is Real-Time, SquadScope is Weekly
 
-TechCrunch publishes continuously. SquadScope runs weekly (Monday 07:54 UTC). This creates a timing mismatch:
+TechCrunch publishes continuously. SquadScope runs weekly (Monday 06:53 UTC). This creates a timing mismatch:
 
 - An article published Tuesday about Project X won't be seen until the following Monday
 - By then, the GitHub star surge may have already peaked and fallen
@@ -160,7 +160,7 @@ TechCrunch publishes continuously. SquadScope runs weekly (Monday 07:54 UTC). Th
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│  Monday 07:54 UTC: Crawl job runs                   │
+│  Monday 06:53 UTC: Crawl job runs                   │
 │                                                     │
 │  1. Fetch all RSS items from past 7 days            │
 │  2. Filter (3-stage pipeline above)                 │
