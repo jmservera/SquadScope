@@ -13,6 +13,7 @@ How to decide who handles what.
 | Architecture, scope, priorities, editorial direction | Leela | Decide tech stack, review architecture, set priorities |
 | Code review | Leela | Review PRs, check quality, approve/reject |
 | Security review, threat analysis, vulnerability triage | Hermes | Review PRs for security, triage Dependabot/CodeQL alerts, threat modeling |
+| Prompt injection, AI safety, harmful content, dark-pattern review | Nibbler | Prompt/input-output guardrails, untrusted-content fencing, canary checks, RAI review, accessibility/dark-pattern sweeps |
 | Testing, QA, validation | Fry | Write tests, validate pipeline, find edge cases |
 | Scope & priorities | Leela | What to build next, trade-offs, decisions |
 | Session logging | Scribe | Automatic — never needs routing |
@@ -46,3 +47,4 @@ How to decide who handles what.
 5. **"Team, ..." → fan-out.** Spawn all relevant agents in parallel as `mode: "background"`.
 6. **Anticipate downstream work.** If a feature is being built, spawn the tester to write test cases from requirements simultaneously.
 7. **Issue-labeled work** — when a `squad:{member}` label is applied to an issue, route to that member. The Lead handles all `squad` (base label) triage.
+8. **AI-safety review** — work that changes prompts, imported external text, generated content, or user-facing AI output routes through Nibbler before merge.

@@ -48,6 +48,13 @@
       "created_at": "2026-05-25T17:05:00Z",
       "legacy_named": false,
       "status": "active"
+    },
+    "rai_reviewer": {
+      "persistent_name": "Nibbler",
+      "universe": "Futurama",
+      "created_at": "2026-05-25T18:00:00Z",
+      "legacy_named": false,
+      "status": "active"
     }
   }
 }
