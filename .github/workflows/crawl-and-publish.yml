@@ -2,7 +2,8 @@ name: Crawl and publish weekly data
 
 on:
   schedule:
-    - cron: '54 7 * * 1'
+    # Mondays at 06:53 UTC (GitHub can delay scheduled workflows during peak load)
+    - cron: '53 6 * * 1'
   workflow_dispatch:
     inputs:
       run_mode:
