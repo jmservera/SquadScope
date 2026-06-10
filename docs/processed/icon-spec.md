@@ -1,5 +1,7 @@
 # SquadScope Icon Spec
 
+> **Archived (processed) — historical reference.** This spec is implemented (issues #175 and #176 closed). Retained for design history; the shipped icon/favicon assets are the live source of truth.
+
 ## Concept
 
 **Robot with binoculars.** A minimalist robot head holding binoculars to its eyes — keeps the "scope/observation" metaphor (binoculars = signal-spotting) and grounds it in a friendly editorial personality (this site IS auto-generated weekly trend analysis; the robot is honest about that).
