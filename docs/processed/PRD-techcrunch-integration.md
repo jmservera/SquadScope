@@ -4,7 +4,7 @@
 **Date:** 2026-05-19  
 **Status:** Completed — implemented and archived 2026-06-10 (see `scripts/techcrunch_crawler.py`, `tests/test_techcrunch_crawler.py`, and `data/raw/*-external-news.json`)  
 **Type:** Feature PRD (Enrichment Signal)  
-**Depends on:** .squad/decisions.md (Decision #7 — Crawler Plugin Architecture), docs/PRD-topic-channels.md
+**Depends on:** `docs/processed/PRD-topic-channels.md`
 
 > **Archived as-is.** This PRD is preserved as a historical planning record. The current canonical paths, field names, and interfaces live in code — see `scripts/techcrunch_crawler.py`, `config/external_news_sources.json`, and `.github/workflows/crawl-and-publish.yml`. The most misleading specifics below have been corrected to match what shipped (the crawler now ingests multiple external news sources, not TechCrunch alone).
 
@@ -91,6 +91,8 @@ This positions SquadScope as providing analysis that neither TechCrunch nor GitH
 TechCrunch publishes **30–50 articles per day** (210–350 per week). Without aggressive filtering, this overwhelms the pipeline with noise. The crawler must reduce this to a manageable set before any correlation attempt.
 
 ### Three-Stage Filtering Pipeline
+
+> **As-shipped note:** This three-stage design (category allowlist → keyword filter → entity extraction) was the original plan and is **not** how the crawler ultimately shipped. The implemented crawler (`scripts/techcrunch_crawler.py`) uses a single `compute_relevance_score()` heuristic and keeps articles whose `relevance_score` meets a threshold (currently `>= 0.4`); there is no RSS `<category>` allowlist or separate multi-stage pipeline. The pipeline below is preserved as historical design rationale only.
 
 ```
 Stage 1: Category Filter (RSS metadata)
@@ -441,9 +443,9 @@ No additional API keys or authentication required. RSS is public.
 
 ## Relationship to Other PRDs
 
-- **PRD-topic-channels.md:** Topic channels define per-domain crawling. TechCrunch integration is orthogonal — it enriches ANY topic channel with press signal. A `rust` channel could correlate TechCrunch Rust articles with Rust repo trends.
+- **`docs/processed/PRD-topic-channels.md`:** Topic channels define per-domain crawling. TechCrunch integration is orthogonal — it enriches ANY topic channel with press signal. A `rust` channel could correlate TechCrunch Rust articles with Rust repo trends.
 - **PRD-cost-estimation.md:** TechCrunch adds negligible cost ($0.10–$0.21/year in tokens). No budget concern.
-- **Decision #7 (Plugin Architecture):** TechCrunch is the first non-GitHub `DataSource` plugin, validating the extensible crawler design.
+- **Crawler plugin architecture:** TechCrunch is the first non-GitHub `DataSource` plugin, validating the extensible crawler design.
 
 ---
 
