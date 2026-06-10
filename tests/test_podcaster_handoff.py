@@ -210,11 +210,42 @@ class PodcasterHandoffTests(unittest.TestCase):
                     manifest_path=no_ai_manifest,
                 )
 
+    def test_missing_manifest_path_raises_fail_closed(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            missing = Path(tmpdir) / "does-not-exist.json"
+            with self.assertRaisesRegex(podcaster_handoff.PodcasterHandoffError, "does not exist"):
+                podcaster_handoff.build_payload(
+                    week="2026-W23",
+                    article_url="https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                    article_path="content/weekly/2026/W23.md",
+                    publish_run_id="123456789",
+                    publish_mode="normal",
+                    manifest_path=missing,
+                )
+
     def test_validate_response_rejects_failed_status_or_errors(self) -> None:
         with self.assertRaises(podcaster_handoff.PodcasterHandoffError):
             podcaster_handoff.validate_response({"job_id": "podcast-1", "status": "failed", "errors": []})
         with self.assertRaises(podcaster_handoff.PodcasterHandoffError):
             podcaster_handoff.validate_response({"job_id": "podcast-1", "status": "accepted", "errors": ["bad"]})
+
+    def test_validate_response_rejects_unexpected_or_missing_status(self) -> None:
+        for status in ("rejected", "queued", "pending", None):
+            with self.assertRaisesRegex(
+                podcaster_handoff.PodcasterHandoffError, "known success status"
+            ):
+                podcaster_handoff.validate_response({"job_id": "podcast-1", "status": status, "errors": []})
+        with self.assertRaisesRegex(
+            podcaster_handoff.PodcasterHandoffError, "known success status"
+        ):
+            podcaster_handoff.validate_response({"job_id": "podcast-1", "errors": []})
+
+    def test_validate_response_accepts_known_success_status(self) -> None:
+        result = podcaster_handoff.validate_response(
+            {"job_id": "podcast-1", "status": "accepted", "errors": []}
+        )
+        self.assertEqual(result["status"], "accepted")
 
     def test_non_2xx_response_fails_handoff(self) -> None:
         http_err = error.HTTPError(

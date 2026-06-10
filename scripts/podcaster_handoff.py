@@ -64,13 +64,22 @@ def validate_endpoint(endpoint: str) -> None:
     if parsed.scheme not in {"https", "http"} or not parsed.netloc:
         raise PodcasterHandoffError("PODCASTER_ENDPOINT must be an absolute HTTP(S) URL.")
     if parsed.scheme == "http" and parsed.hostname not in {"localhost", "127.0.0.1", "::1"}:
-        raise PodcasterHandoffError("PODCASTER_ENDPOINT may use HTTP only for localhost.")
+        raise PodcasterHandoffError(
+            "PODCASTER_ENDPOINT may use HTTP only for localhost or loopback addresses (127.0.0.1, ::1)."
+        )
 
 
 def _load_manifest(path: Path | None) -> dict[str, Any]:
-    if path is None or not path.exists():
+    if path is None:
         return {}
-    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not path.exists():
+        raise PodcasterHandoffError(
+            f"Publish manifest path was provided but does not exist: {path}"
+        )
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PodcasterHandoffError(f"Publish manifest could not be read: {path}") from exc
     if not isinstance(payload, dict):
         raise PodcasterHandoffError(f"Publish manifest must be a JSON object: {path}")
     return payload
@@ -150,13 +159,19 @@ def build_payload(
     return payload
 
 
+SUCCESS_RESPONSE_STATUSES = {"accepted"}
+
+
 def validate_response(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise PodcasterHandoffError("Podcaster response must be a JSON object.")
     status = payload.get("status")
     errors = payload.get("errors", [])
-    if status == "failed":
-        raise PodcasterHandoffError("Podcaster reported status=failed.")
+    if status not in SUCCESS_RESPONSE_STATUSES:
+        raise PodcasterHandoffError(
+            f"Podcaster response status was not a known success status "
+            f"(expected one of {sorted(SUCCESS_RESPONSE_STATUSES)}): {status!r}."
+        )
     if isinstance(errors, list) and errors:
         raise PodcasterHandoffError("Podcaster response contained errors.")
     if errors not in ([], None) and not isinstance(errors, list):
