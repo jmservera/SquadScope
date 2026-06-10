@@ -1,6 +1,6 @@
 name: Sync publish data to main
 
-on:
+on: # zizmor: ignore[dangerous-triggers] intentional chaining off crawl-and-publish; sync job guarded by workflow_run.conclusion==success
   workflow_run:
     workflows: ["Crawl and publish weekly data"]
     types: [completed]
