@@ -1,0 +1,91 @@
+name: Podcaster handoff smoke test
+
+on:
+  workflow_dispatch:
+    inputs:
+      week:
+        description: 'Week slug to validate, e.g. 2026-W23.'
+        required: true
+        type: string
+      article_url:
+        description: 'Published SquadScope article URL to send to Podcaster.'
+        required: true
+        type: string
+      article_path:
+        description: 'Published article path, e.g. content/weekly/2026/W23.md.'
+        required: true
+        type: string
+      article_sha256:
+        description: 'Optional 64-character article SHA-256 to include in the dry-run payload.'
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+        with:
+          python-version: '3.12'
+
+      - name: Smoke test Podcaster dry run
+        env:
+          PODCASTER_ENDPOINT: ${{ vars.PODCASTER_ENDPOINT }}
+          PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
+          WEEK: ${{ inputs.week }}
+          ARTICLE_URL: ${{ inputs.article_url }}
+          ARTICLE_PATH: ${{ inputs.article_path }}
+          ARTICLE_SHA256: ${{ inputs.article_sha256 || '' }}
+          PUBLISH_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          if [ -z "$PODCASTER_ENDPOINT" ] || [ -z "$PODCASTER_API_KEY" ]; then
+            echo "::error::Podcaster smoke test requires PODCASTER_ENDPOINT variable and PODCASTER_API_KEY secret."
+            exit 1
+          fi
+          MANIFEST_ARGS=()
+          if [ -n "$ARTICLE_SHA256" ]; then
+            if ! [[ "$ARTICLE_SHA256" =~ ^[0-9a-f]{64}$ ]]; then
+              echo "::error::article_sha256 must be lowercase 64-character hex when provided."
+              exit 1
+            fi
+            mkdir -p .podcaster-smoke
+            python3 - <<'PY' "$WEEK" "$ARTICLE_SHA256" .podcaster-smoke/publish-manifest.json
+          import json
+          import sys
+          from pathlib import Path
+
+          week, article_sha, manifest_path = sys.argv[1:]
+          manifest = {
+              "week": week,
+              "run_mode": "normal",
+              "candidate": {"summary_sha256": article_sha},
+              "analysis": {"ai_status": "ai"},
+              "promotion": {"eligible": True, "decision": "promote"},
+              "source_artifacts": [],
+          }
+          Path(manifest_path).write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+          PY
+            MANIFEST_ARGS=(--manifest .podcaster-smoke/publish-manifest.json)
+          fi
+          python3 scripts/podcaster_handoff.py \
+            --week "$WEEK" \
+            --article-url "$ARTICLE_URL" \
+            --article-path "$ARTICLE_PATH" \
+            --publish-run-id "$PUBLISH_RUN_ID" \
+            --publish-mode normal \
+            --podcaster-dry-run \
+            "${MANIFEST_ARGS[@]}"

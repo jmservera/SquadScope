@@ -94,14 +94,23 @@ Supported endpoints:
 
 If `WEBHOOK_URL` is unset, the workflow skips the webhook step automatically.
 
-### Step 5: Enable GitHub Pages
+### Step 5: Configure optional Podcaster handoff
+
+To ask the separate Podcaster service to generate an episode after a normal weekly article is published and deployed, configure:
+
+- Actions variable `PODCASTER_ENDPOINT`, for example `https://<function-app-name>.azurewebsites.net/api/generate` or local testing URL `http://localhost:7071/api/generate`
+- Actions secret `PODCASTER_API_KEY`
+
+The workflow sends `week`, `article_url`, `article_path`, `article_sha256` when available, `publish_run_id`, `publish_mode`, and source artifact references after the normal article deploy succeeds. Dry-run, candidate-only, restore, force-replace, no-AI, and failed runs do not call Podcaster. If either endpoint value is missing, the handoff is skipped. The API key is sent only as the `x-podcaster-api-key` header and must not be printed, logged, or committed. Handoff failure is non-critical and does not roll back or block article publication.
+
+### Step 6: Enable GitHub Pages
 
 1. Navigate to repo **Settings → Pages**
 2. Set **Source** to "GitHub Actions"
 3. (Optional) Configure custom domain if desired
 4. Save
 
-### Step 6: Test local build
+### Step 7: Test local build
 
 Ensure the Hugo build works locally:
 

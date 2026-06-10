@@ -5,6 +5,8 @@
 - Uses test coverage to keep workflow changes honest.
 
 ## Learnings
+- 2026-06-07T21:42:28.011+00:00: Podcaster handoff QA passed local mock dry-run and full tests without exposing secrets; Actions has Podcaster endpoint/key configured by presence only, but the current workflow has no safe live Podcaster dry-run path because dry-run/candidate-only skip `podcaster-handoff` and normal/force-replace can mutate production content.
+- 2026-06-07T21:42:28.011+00:00: Issue #302 handoff readiness landed in PR #314: the `podcaster-handoff` job now declares `needs: [analyze, generate, deploy]` so it waits for the Pages deploy, the payload carries publish run ID (`--publish-run-id`) and publish mode (`--publish-mode`), and the job runs with `continue-on-error: true` so Podcaster errors no longer fail the weekly workflow. Remaining note: the handoff is still an in-workflow job rather than a separate post-success workflow.
 - 2026-06-05T15:36:19.379+00:00: The weekly crawl pipeline needs a terminal data-only no-AI analysis fallback after Copilot and GitHub Models fail, because model-access errors such as `no_access` are real reliability bugs, not transient deploy noise.
 - The PaperMod theme in this repo needs Hugo `v0.146.0+`, so build validation must use a sufficiently new Hugo binary.
 - End-to-end checks matter more than isolated unit confidence when artifacts move across crawl, analyze, and publish stages.
@@ -123,3 +125,12 @@
 - ✅ No regressions: pytest full pass (673 passed, 2 subtests)
 - PR #288 validated and approved; ready for Coordinator merge workflow
 - Orchestration log recorded at `.squad/orchestration-log/20260606T212350Z-fry.md`
+
+## Podcaster handoff QA validation (2026-06-07T21:42:28.011+00:00)
+
+- Validated SquadScope-side Podcaster handoff locally without reading or printing `PODCASTER_API_KEY`; local shell did not expose Podcaster endpoint/key, while Actions has both `PODCASTER_ENDPOINT` variable and `PODCASTER_API_KEY` secret configured by presence check only.
+- Commands: `TMPDIR=$PWD/.copilot/local-tmp python3 -m pytest tests/test_podcaster_handoff.py tests/test_pipeline.py -q` passed 20 tests; `TMPDIR=$PWD/.copilot/local-tmp python3 -m pytest -q` passed 702 tests plus 2 subtests.
+- Mock dry-run exercised `scripts/podcaster_handoff.py --podcaster-dry-run` against a localhost HTTP server with a placeholder key: response accepted, auth header present, stdout did not disclose the key, and payload included `week`, `article_url`, `article_sha256`, `source_artifacts`, and `dry_run: true`.
+- Workflow audit: `.github/workflows/crawl-and-publish.yml` only runs `podcaster-handoff` for non-`dry-run`/non-`candidate-only` runs, so `gh workflow run crawl-and-publish.yml -f run_mode=dry-run` is safe for the article pipeline but cannot validate the real Podcaster secret/endpoint handoff.
+- QA blocker for first live Podcaster dry-run: the configured secret is Actions-only and there is no dedicated non-publishing Podcaster dry-run workflow/job. Do not dispatch a normal run solely to test Podcaster because it can publish or replace production content.
+- Issue #302 acceptance gaps resolved in PR #314: the handoff job now declares `needs: [analyze, generate, deploy]` so it waits for `deploy`, passes publish run ID and publish mode in the payload, and runs with `continue-on-error: true` so a Podcaster failure cannot fail the weekly workflow. Remaining design note: it is still an in-workflow job rather than a separate post-success workflow.
