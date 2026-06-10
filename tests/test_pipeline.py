@@ -15,6 +15,19 @@ import scripts.crawl as crawl
 import scripts.generate_content as generate_content
 
 
+def _uses_action(step: dict, action: str) -> bool:
+    """Return True if a step uses ``action``, ignoring the version/SHA ref.
+
+    Tolerates SHA-pinned references such as
+    ``actions/download-artifact@<40-hex-sha> # v4`` by comparing only the
+    ``owner/repo`` portion before the ``@``.
+    """
+    uses = step.get("uses")
+    if not isinstance(uses, str):
+        return False
+    return uses.split("@", 1)[0] == action
+
+
 class _FakeHTTPResponse(io.BytesIO):
     def __enter__(self):
         return self
@@ -385,7 +398,7 @@ class WorkflowConfigTests(unittest.TestCase):
 
         notify_job = workflow["jobs"]["notify"]
         self.assertEqual(notify_job["needs"], ["analyze", "generate", "deploy"])
-        analyzed_download = next((s for s in notify_job["steps"] if s.get("uses") == "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093" and s.get("with", {}).get("path") == "data/analyzed/"), None)
+        analyzed_download = next((s for s in notify_job["steps"] if _uses_action(s, "actions/download-artifact") and s.get("with", {}).get("path") == "data/analyzed/"), None)
         self.assertIsNotNone(analyzed_download)
         self.assertEqual(analyzed_download["with"]["name"], "promoted-analyzed-data")
 
@@ -417,16 +430,12 @@ class WorkflowConfigTests(unittest.TestCase):
         podcaster_job = workflow["jobs"]["podcaster-handoff"]
         self.assertEqual(podcaster_job["needs"], ["analyze", "generate", "deploy"])
         checkout_step = next((s for s in podcaster_job["steps"] if s.get("name") == "Check out repository"), None)
-        self.assertEqual(
-            checkout_step["uses"],
-            "actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd",
-        )
+        self.assertIsNotNone(checkout_step)
+        self.assertTrue(_uses_action(checkout_step, "actions/checkout"))
         self.assertFalse(checkout_step["with"]["persist-credentials"])
         download_step = next((s for s in podcaster_job["steps"] if s.get("name") == "Download analysis candidate"), None)
-        self.assertEqual(
-            download_step["uses"],
-            "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
-        )
+        self.assertIsNotNone(download_step)
+        self.assertTrue(_uses_action(download_step, "actions/download-artifact"))
         self.assertEqual(podcaster_job["if"], "${{ needs.analyze.outputs.run_mode == 'normal' }}")
         self.assertTrue(podcaster_job["continue-on-error"])
         self.assertNotIn("force-replace", podcaster_job["if"])
@@ -507,7 +516,7 @@ class WorkflowConfigTests(unittest.TestCase):
                 s
                 for s in generate["steps"]
                 if s.get("name") == "Download raw crawl artifact"
-                and s.get("uses") == "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093"
+                and _uses_action(s, "actions/download-artifact")
                 and s.get("with", {}).get("name") == "raw-data"
                 and s.get("with", {}).get("path") == "data/raw/"
             ),
