@@ -10,7 +10,8 @@ name: Site Preview (redesign PRs)
 #   - The build job, which executes untrusted PR templates/layouts, runs with
 #     `contents: read` only and has no access to secrets.
 #   - The comment job does NOT check out PR code; it only posts a comment with
-#     `pull-requests: write`, keeping the privileged token away from PR content.
+#     `pull-requests: write` plus `issues: write` (PR comments go through the
+#     Issues API), keeping the privileged token away from PR content.
 #   - All actions are pinned to a full commit SHA; checkout uses
 #     persist-credentials: false; no `${{ }}` interpolation inside run blocks.
 
@@ -98,7 +99,7 @@ jobs:
         run: npx pagefind --site public/
 
       - name: Upload preview site artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v4.3.6
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
         with:
           name: site-preview
           path: ./public
@@ -136,6 +137,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write  # post/update the preview instructions comment
+      issues: write  # PR comments are created via the Issues API (listComments/createComment/updateComment)
     steps:
       - name: Post or update preview comment
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
