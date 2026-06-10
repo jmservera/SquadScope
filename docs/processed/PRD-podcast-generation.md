@@ -2,9 +2,10 @@
 
 **Author:** Leela (Lead/Architect)
 **Date:** 2026-06-07
-**Status:** Accepted / amended for issue #310 platform-podcast scope
+**Status:** Accepted / amended for issue #310 platform-podcast scope. Archived 2026-06-10 — remaining execution work is tracked by issue #355 and its linked issues (#335–#350); this document is retained as the reference PRD.
 **Type:** Product Requirements Document
 **Depends on:** content/methodology/_index.md, content/privacy/_index.md, docs/analysis-spec.md, docs/pipeline-validation.md
+**Companion plan:** `docs/processed/podcast-generation-plan.md`
 
 ---
 

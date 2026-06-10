@@ -3,7 +3,8 @@
 **Issue:** #310
 **Date:** 2026-06-07
 **Lead:** Leela
-**Companion PRD:** docs/PRD-podcast-generation.md
+**Status:** Archived 2026-06-10 — remaining execution work is tracked by issue #355 and its linked issues; retained as reference.
+**Companion PRD:** `docs/processed/PRD-podcast-generation.md`
 
 ---
 
