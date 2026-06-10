@@ -72,7 +72,7 @@ jobs:
           manifest = {
               "week": week,
               "run_mode": "normal",
-              "candidate": {"content_sha256": article_sha},
+              "candidate": {"summary_sha256": article_sha},
               "analysis": {"ai_status": "ai"},
               "promotion": {"eligible": True, "decision": "promote"},
               "source_artifacts": [],

@@ -145,7 +145,7 @@ def build_payload(
         "publish_mode": publish_mode,
     }
     article_sha = (
-        manifest.get("candidate", {}).get("content_sha256")
+        manifest.get("candidate", {}).get("summary_sha256")
         if isinstance(manifest.get("candidate"), dict)
         else None
     )

@@ -32,7 +32,7 @@ class PodcasterHandoffTests(unittest.TestCase):
                     "week": "2026-W23",
                     "run_id": "123456789",
                     "run_mode": run_mode,
-                    "candidate": {"content_sha256": "a" * 64},
+                    "candidate": {"summary_sha256": "a" * 64},
                     "analysis": {"ai_status": ai_status},
                     "promotion": {"eligible": True, "decision": "promote"},
                     "source_artifacts": [
