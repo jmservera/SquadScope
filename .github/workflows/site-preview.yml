@@ -1,0 +1,189 @@
+name: Site Preview (redesign PRs)
+
+# Preview gate for web / look-and-feel PRs (issue #354).
+# Builds the Hugo site the same way as deploy-site.yml, then publishes the
+# rendered site as a downloadable artifact and posts a PR comment explaining
+# how reviewers and the operator can inspect the look-and-feel before merge.
+#
+# Security notes:
+#   - Triggered by `pull_request` (NOT pull_request_target).
+#   - The build job, which executes untrusted PR templates/layouts, runs with
+#     `contents: read` only and has no access to secrets.
+#   - The comment job does NOT check out PR code; it only posts a comment with
+#     `pull-requests: write` plus `issues: write` (PR comments go through the
+#     Issues API), keeping the privileged token away from PR content.
+#   - All actions are pinned to a full commit SHA; checkout uses
+#     persist-credentials: false; no `${{ }}` interpolation inside run blocks.
+
+on:
+  pull_request:
+    paths:
+      - 'layouts/**'
+      - 'assets/**'
+      - 'themes/**'
+      - 'content/**'
+      - 'static/**'
+      - 'config/**'
+      - 'hugo.toml'
+      - '.github/workflows/site-preview.yml'
+
+# Least privilege at the top level; jobs widen only what they need.
+permissions:
+  contents: read  # only needed to read repository contents for the build
+
+concurrency:
+  group: site-preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build-preview:
+    name: Build preview site
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read  # checkout PR sources; no secrets exposed to PR templates
+    env:
+      HUGO_VERSION: 0.161.1
+      # Relative root base URL so the bundle is portable; reviewers serve it
+      # from a local web server (see the PR comment for instructions).
+      PREVIEW_BASEURL: "/"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        with:
+          fetch-depth: 0
+          submodules: recursive
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4.4.0
+        with:
+          node-version: '20'
+
+      - name: Install Hugo
+        run: |
+          set -euo pipefail
+          RELEASE_URL="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}"
+          TARBALL="hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          CHECKSUM_FILE="hugo_${HUGO_VERSION}_checksums.txt"
+          curl --fail --silent --show-error --location --retry 10 --retry-delay 5 --retry-max-time 300 --retry-all-errors \
+            --output "${TARBALL}" "${RELEASE_URL}/${TARBALL}"
+
+          # Download and verify checksums (same hardening as deploy-site.yml).
+          curl --fail --silent --show-error --location --retry 10 --retry-delay 5 --retry-max-time 300 --retry-all-errors \
+            --output "${CHECKSUM_FILE}" "${RELEASE_URL}/${CHECKSUM_FILE}"
+          checksum_line="$(awk -v file="${TARBALL}" '$NF == file {print; found=1} END {if (!found) exit 1}' "${CHECKSUM_FILE}")" || {
+            echo "Error: No checksum entry for ${TARBALL} found in ${CHECKSUM_FILE}" >&2
+            exit 1
+          }
+          if ! printf '%s\n' "${checksum_line}" | sha256sum --check; then
+            echo "Error: Checksum verification failed for ${TARBALL}" >&2
+            exit 1
+          fi
+          rm "${CHECKSUM_FILE}"
+
+          mkdir -p "${HOME}/.local/hugo"
+          tar -C "${HOME}/.local/hugo" -xf "${TARBALL}"
+          rm "${TARBALL}"
+          echo "${HOME}/.local/hugo" >> "${GITHUB_PATH}"
+          export PATH="${HOME}/.local/hugo:${PATH}"
+          hugo version
+
+      - name: Build preview site
+        # Same minify flag as production, but with a preview baseURL and with
+        # drafts + future-dated content included so reviewers see everything.
+        run: |
+          set -euo pipefail
+          hugo --gc --minify --buildDrafts --buildFuture --baseURL "${PREVIEW_BASEURL}"
+
+      - name: Build Pagefind search index
+        run: npx pagefind --site public/
+
+      - name: Upload preview site artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: site-preview
+          path: ./public
+          retention-days: 14
+          if-no-files-found: error
+
+      - name: Write preview summary
+        run: |
+          set -euo pipefail
+          {
+            echo "## 🔎 Site preview built"
+            echo ""
+            echo "Hugo extended **${HUGO_VERSION}** build succeeded (drafts + future content included)."
+            echo ""
+            echo "Download the **\`site-preview\`** artifact from this run, unzip it, then serve it:"
+            echo ""
+            echo '```bash'
+            echo "unzip site-preview.zip -d site-preview && cd site-preview"
+            echo "python3 -m http.server 8080   # then open http://localhost:8080/"
+            echo '```'
+            echo ""
+            echo "### Reviewer checklist"
+            echo "- [ ] Homepage renders correctly"
+            echo "- [ ] Latest weekly article renders correctly"
+            echo "- [ ] Representative archive / rollup (monthly, yearly, topics) pages render"
+            echo "- [ ] Navigation menu, search page, and footer look correct"
+            echo "- [ ] Light + dark themes both look correct"
+            echo "- [ ] Mobile widths checked: 320 / 360 / 390 / 414 / 768 px"
+            echo "- [ ] Screenshots attached to the PR for the operator / Fry / Calculon review"
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+  comment:
+    name: Post preview instructions
+    needs: build-preview
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write  # post/update the preview instructions comment
+      issues: write  # PR comments are created via the Issues API (listComments/createComment/updateComment)
+    steps:
+      - name: Post or update preview comment
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        with:
+          script: |
+            const marker = '<!-- site-preview-bot -->';
+            const runUrl = process.env.RUN_URL;
+            const prNumber = context.payload.pull_request.number;
+            const body = [
+              marker,
+              '## 🔎 Site preview ready',
+              '',
+              'A rendered preview of this PR was built with Hugo extended (drafts + future content included).',
+              '',
+              `**Download it:** open the [workflow run](${runUrl}) → **Artifacts** → \`site-preview\`.`,
+              '',
+              'Then serve and open it locally:',
+              '',
+              '```bash',
+              'unzip site-preview.zip -d site-preview && cd site-preview',
+              'python3 -m http.server 8080   # then open http://localhost:8080/',
+              '```',
+              '',
+              '_(Links are root-relative, so open it via a local web server rather than `file://`.)_',
+              '',
+              '### Reviewer checklist',
+              '- [ ] Homepage renders correctly',
+              '- [ ] Latest weekly article renders correctly',
+              '- [ ] Representative archive / rollup (monthly, yearly, topics) pages render',
+              '- [ ] Navigation menu, search page, and footer look correct',
+              '- [ ] Light + dark themes both look correct',
+              '- [ ] Mobile widths checked: 320 / 360 / 390 / 414 / 768 px',
+              '- [ ] Screenshots attached for the operator / Fry / Calculon review',
+            ].join('\n');
+
+            const { owner, repo } = context.repo;
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner, repo, issue_number: prNumber, per_page: 100,
+            });
+            const existing = comments.find(c => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+              core.info(`Updated preview comment ${existing.id}`);
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number: prNumber, body });
+              core.info('Created preview comment');
+            }
