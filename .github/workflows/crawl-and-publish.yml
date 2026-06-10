@@ -63,8 +63,8 @@ jobs:
       contents: write
 
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
+      - name: Check out repository # zizmor: ignore[artipacked] crawl job pushes to the publish branch; checkout token is reused by a later git push
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
@@ -88,7 +88,7 @@ jobs:
 
       - name: Find latest successful crawl cache
         id: previous-cache-run
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
         with:
           script: |
             const workflowId = 'crawl-and-publish.yml';
@@ -128,7 +128,7 @@ jobs:
       - name: Restore previous crawl cache
         if: steps.previous-cache-run.outputs.run_id != ''
         continue-on-error: true
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ steps.previous-cache-run.outputs.run_id }}
@@ -138,7 +138,7 @@ jobs:
       - name: Download previous raw artifacts for same-day reuse
         if: ${{ steps.previous-cache-run.outputs.run_id != '' && !inputs.rebuild_week }}
         continue-on-error: true
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ steps.previous-cache-run.outputs.run_id }}
@@ -148,7 +148,7 @@ jobs:
       - name: Download previous snapshots for same-day reuse
         if: ${{ steps.previous-cache-run.outputs.run_id != '' && !inputs.rebuild_week }}
         continue-on-error: true
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ steps.previous-cache-run.outputs.run_id }}
@@ -156,7 +156,7 @@ jobs:
           path: .artifact-reuse/snapshots/
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: '3.12'
 
@@ -218,7 +218,7 @@ jobs:
 
       - name: Upload raw crawl artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: raw-data
           path: data/raw/
@@ -226,7 +226,7 @@ jobs:
 
       - name: Upload snapshot artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: crawl-snapshots
           path: data/snapshots/
@@ -234,7 +234,7 @@ jobs:
 
       - name: Upload cache artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: crawl-cache
           path: data/cache/
@@ -302,14 +302,15 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
 
       - name: Download raw crawl artifact
         if: ${{ !inputs.rebuild_week }}
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: raw-data
           path: data/raw/
@@ -346,12 +347,12 @@ jobs:
           fi
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '22'
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: '3.12'
 
@@ -407,10 +408,13 @@ jobs:
 
       - name: Run correlation and press context
         id: press-context
+        env:
+          IN_WEEK: ${{ steps.analysis-context.outputs.week }}
+          IN_WEEK_FILE: ${{ steps.analysis-context.outputs.week_file }}
         run: |
           set -euo pipefail
-          WEEK="${{ steps.analysis-context.outputs.week }}"
-          WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
+          WEEK="$IN_WEEK"
+          WEEK_FILE="$IN_WEEK_FILE"
           TC_FILE="data/raw/${WEEK}-external-news.json"
           if [ ! -f "$TC_FILE" ]; then
             TC_FILE="data/raw/${WEEK}-techcrunch.json"
@@ -446,13 +450,19 @@ jobs:
 
       - name: Render and preflight analysis prompt
         id: prompt-preflight
+        env:
+          IN_WEEK_FILE: ${{ steps.analysis-context.outputs.week_file }}
+          IN_WEEK: ${{ steps.analysis-context.outputs.week }}
+          IN_OUTPUT_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
+          IN_CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
+          IN_PRESS_FILE: ${{ steps.press-context.outputs.press_file }}
         run: |
           set -euo pipefail
-          WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
-          WEEK="${{ steps.analysis-context.outputs.week }}"
-          OUTPUT_FILE="${{ steps.analysis-context.outputs.candidate_output_file }}"
-          CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
-          PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
+          WEEK_FILE="$IN_WEEK_FILE"
+          WEEK="$IN_WEEK"
+          OUTPUT_FILE="$IN_OUTPUT_FILE"
+          CURRENT_DATETIME="$IN_CURRENT_DATETIME"
+          PRESS_FILE="$IN_PRESS_FILE"
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           PROMPT_FILE="data/metrics/analysis-prompt-${WEEK}.md"
           PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-input-manifest.json"
@@ -511,21 +521,32 @@ jobs:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PREFLIGHT_REPORT_JSON: ${{ steps.prompt-preflight.outputs.preflight_report_json }}
+          IN_OUTPUT_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
+          IN_WEEK_FILE: ${{ steps.analysis-context.outputs.week_file }}
+          IN_WEEK: ${{ steps.analysis-context.outputs.week }}
+          IN_CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
+          IN_MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
+          IN_PUBLISHED_SUMMARY: ${{ steps.analysis-context.outputs.published_output_file }}
+          IN_PRESS_FILE: ${{ steps.press-context.outputs.press_file }}
+          IN_ANALYSIS_PATH: ${{ inputs.analysis_path || 'single-pass' }}
+          IN_RUN_MODE: ${{ steps.analysis-context.outputs.run_mode }}
+          IN_PROMPT_FILE: ${{ steps.prompt-preflight.outputs.prompt_file }}
+          IN_GATE_REPORT_FILE: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
         run: |
           set -euo pipefail
-          OUTPUT_FILE="${{ steps.analysis-context.outputs.candidate_output_file }}"
-          WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
-          WEEK="${{ steps.analysis-context.outputs.week }}"
-          CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
-          MANIFEST_FILE="${{ steps.analysis-context.outputs.publish_manifest_file }}"
-          PUBLISHED_SUMMARY="${{ steps.analysis-context.outputs.published_output_file }}"
-          PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
-          ANALYSIS_PATH="${{ inputs.analysis_path || 'single-pass' }}"
-          RUN_MODE="${{ steps.analysis-context.outputs.run_mode }}"
+          OUTPUT_FILE="$IN_OUTPUT_FILE"
+          WEEK_FILE="$IN_WEEK_FILE"
+          WEEK="$IN_WEEK"
+          CURRENT_DATETIME="$IN_CURRENT_DATETIME"
+          MANIFEST_FILE="$IN_MANIFEST_FILE"
+          PUBLISHED_SUMMARY="$IN_PUBLISHED_SUMMARY"
+          PRESS_FILE="$IN_PRESS_FILE"
+          ANALYSIS_PATH="$IN_ANALYSIS_PATH"
+          RUN_MODE="$IN_RUN_MODE"
           ANALYSIS_STARTED=$(date +%s)
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
-          PROMPT_FILE="${{ steps.prompt-preflight.outputs.prompt_file }}"
+          PROMPT_FILE="$IN_PROMPT_FILE"
 
           sanitize_agent_output() {
             python3 scripts/sanitize_agent_output.py --path "$1"
@@ -653,7 +674,7 @@ jobs:
             # The gate applies deterministic metadata/schema repairs and writes an auditable report.
             if run_quality_gate copilot-cli copilot-default "$GATE_REPORT"; then
               cp "$OUTPUT_FILE" "$CANDIDATE_SNAPSHOT" 2>/dev/null || true
-              cp "$GATE_REPORT" "${{ steps.analysis-context.outputs.analysis_gate_report_file }}" 2>/dev/null || true
+              cp "$GATE_REPORT" "$IN_GATE_REPORT_FILE" 2>/dev/null || true
               GATE_PASSED=true
               FINAL_TRANSCRIPT="$TRANSCRIPT_FILE"
               ANALYSIS_SOURCE="copilot-cli"
@@ -703,7 +724,7 @@ jobs:
             sanitize_agent_output "$OUTPUT_FILE"
             NO_AI_GATE_REPORT="$DIAGNOSTICS_DIR/gate-no-ai-attempt-0.json"
             run_quality_gate no-ai none "$NO_AI_GATE_REPORT" || true
-            cp "$NO_AI_GATE_REPORT" "${{ steps.analysis-context.outputs.analysis_gate_report_file }}" 2>/dev/null || true
+            cp "$NO_AI_GATE_REPORT" "$IN_GATE_REPORT_FILE" 2>/dev/null || true
             cp "$OUTPUT_FILE" "$DIAGNOSTICS_DIR/candidate-no-ai-attempt-0.md" 2>/dev/null || true
             ANALYSIS_SOURCE="no-ai"
             ANALYSIS_MODEL="none"
@@ -808,11 +829,13 @@ jobs:
 
       - name: Assert candidate is eligible for promotion
         if: ${{ steps.analysis-context.outputs.run_mode != 'dry-run' && steps.analysis-context.outputs.run_mode != 'candidate-only' }}
-        run: python3 scripts/publish_manifest.py assert-eligible --manifest "${{ steps.analysis-context.outputs.publish_manifest_file }}"
+        env:
+          IN_MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
+        run: python3 scripts/publish_manifest.py assert-eligible --manifest "$IN_MANIFEST_FILE"
 
       - name: Upload analyzed data
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: analyzed-data
           path: data/analyzed/
@@ -820,7 +843,7 @@ jobs:
 
       - name: Upload analysis candidate
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: analysis-candidate
           path: data/candidates/
@@ -837,32 +860,32 @@ jobs:
       page_path: ${{ steps.generate-content.outputs.page_path }}
 
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
+      - name: Check out repository # zizmor: ignore[artipacked] generate job pushes to the publish branch; checkout token is reused by a later git push
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
 
       - name: Download analyzed data artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: analyzed-data
           path: data/analyzed/
 
       - name: Download analysis candidate artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: analysis-candidate
           path: data/candidates/
 
       - name: Download raw crawl artifact
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: raw-data
           path: data/raw/
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: '3.12'
 
@@ -1021,7 +1044,7 @@ jobs:
           fi
 
       - name: Upload generated content artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: generated-content
           path: |
@@ -1031,7 +1054,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Upload promoted analyzed artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: promoted-analyzed-data
           path: data/analyzed/
@@ -1057,26 +1080,27 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           submodules: recursive
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
 
       - name: Download raw crawl artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: raw-data
           path: data/raw/
 
       - name: Download analyzed data artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: promoted-analyzed-data
           path: data/analyzed/
 
       - name: Download generated content artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: generated-content
           path: content/
@@ -1084,7 +1108,7 @@ jobs:
 
       # Deploy builds from artifacts — no dependency on PR merges to main.
       - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
 
       - name: Install Hugo
         run: |
@@ -1119,13 +1143,13 @@ jobs:
         run: npx pagefind --site public/
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa  # v3
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
           path: ./public
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e  # v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
 
   podcaster-handoff:
     needs: [analyze, generate, deploy]
@@ -1190,14 +1214,16 @@ jobs:
       discussions: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: promoted-analyzed-data
           path: data/analyzed/
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: analysis-candidate
           path: data/candidates/
@@ -1223,6 +1249,9 @@ jobs:
       - name: Post to Discussions
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          GH_REPOSITORY: ${{ github.repository }}
         run: |
           set -e
           
@@ -1230,13 +1259,13 @@ jobs:
           WEEK=$(basename "$SUMMARY" | sed 's/-summary.md//')
           
           # Create discussion via GraphQL (Announcements category)
-          REPO_ID=$(gh api repos/${{ github.repository }} --jq '.node_id')
+          REPO_ID=$(gh api "repos/$GH_REPOSITORY" --jq '.node_id')
           if [ -z "$REPO_ID" ]; then
             echo "::error::Failed to get repository node_id"
             exit 1
           fi
           
-          CAT_ID=$(gh api graphql -f query='{ repository(owner:"${{ github.repository_owner }}", name:"${{ github.event.repository.name }}") { discussionCategories(first:10) { nodes { id name } } } }' --jq '.data.repository.discussionCategories.nodes[] | select(.name=="Announcements") | .id' 2>&1 || echo "")
+          CAT_ID=$(gh api graphql -f query='{ repository(owner:"'"$REPO_OWNER"'", name:"'"$REPO_NAME"'") { discussionCategories(first:10) { nodes { id name } } } }' --jq '.data.repository.discussionCategories.nodes[] | select(.name=="Announcements") | .id' 2>/dev/null || echo "")
           if [ -z "$CAT_ID" ]; then
             echo "::warning::Announcements discussion category not found; skipping discussion creation"
             exit 0
@@ -1279,10 +1308,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+          RUN_ID: ${{ github.run_id }}
         run: |
           set -euo pipefail
-          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          FAILED_JOBS=$(gh run view "${{ github.run_id }}" --json jobs --jq '[.jobs[] | select(.conclusion=="failure") | .name] | join(", ")')
+          RUN_URL="${SERVER_URL}/${GH_REPO}/actions/runs/${RUN_ID}"
+          FAILED_JOBS=$(gh run view "$RUN_ID" --json jobs --jq '[.jobs[] | select(.conclusion=="failure") | .name] | join(", ")')
           if [ -z "$FAILED_JOBS" ]; then
             FAILED_JOBS="unknown"
           fi
@@ -1304,7 +1335,7 @@ jobs:
               "- If transient (network/rate limit), close with context" \
               "- If real bug, assign to the right squad member")
             gh issue create \
-              --title "🔴 Crawl and publish pipeline failed (run ${{ github.run_id }})" \
+              --title "🔴 Crawl and publish pipeline failed (run ${RUN_ID})" \
               --label bug \
               --label squad \
               --body "$BODY"
@@ -1317,17 +1348,20 @@ jobs:
       should_reskill: ${{ steps.check.outputs.reskill }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
           ref: publish
+          persist-credentials: false
         continue-on-error: true
 
       - name: Fallback to default branch for counter
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           if [ ! -f .squad/run-counter.txt ]; then
-            git fetch origin "${{ github.event.repository.default_branch }}" 2>/dev/null || true
-            git checkout "origin/${{ github.event.repository.default_branch }}" -- .squad/run-counter.txt 2>/dev/null || true
+            git fetch origin "$DEFAULT_BRANCH" 2>/dev/null || true
+            git checkout "origin/$DEFAULT_BRANCH" -- .squad/run-counter.txt 2>/dev/null || true
           fi
 
       - name: Check reskill trigger
@@ -1350,26 +1384,28 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1 # zizmor: ignore[artipacked] reskill job pushes to the publish branch; checkout token is reused by a later git push
         with:
           fetch-depth: 0
           ref: publish
         continue-on-error: true
 
       - name: Fallback to default branch
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           if [ ! -d .squad ]; then
-            git fetch origin "${{ github.event.repository.default_branch }}"
-            git checkout "origin/${{ github.event.repository.default_branch }}" -- . 2>/dev/null || true
+            git fetch origin "$DEFAULT_BRANCH"
+            git checkout "origin/$DEFAULT_BRANCH" -- . 2>/dev/null || true
           fi
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '22'
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: '3.12'
 

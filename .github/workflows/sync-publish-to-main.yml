@@ -1,6 +1,6 @@
 name: Sync publish data to main
 
-on:
+on: # zizmor: ignore[dangerous-triggers] intentional chaining off crawl-and-publish; sync job guarded by workflow_run.conclusion==success
   workflow_run:
     workflows: ["Crawl and publish weekly data"]
     types: [completed]
@@ -21,8 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: Check out main
-        uses: actions/checkout@v4
+      - name: Check out main # zizmor: ignore[artipacked] sync job force-pushes the sync branch; checkout token is reused by git push
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           ref: main
           fetch-depth: 0

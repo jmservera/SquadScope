@@ -20,13 +20,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out workflow source
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           ref: ${{ github.sha }}
           path: workflow-source
+          persist-credentials: false
 
-      - name: Check out publish
-        uses: actions/checkout@v4
+      - name: Check out publish # zizmor: ignore[artipacked] this job force-pushes the restored backup to publish; checkout token is reused by git push
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           ref: publish
           fetch-depth: 0
