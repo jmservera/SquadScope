@@ -1,301 +1,443 @@
-# PRD: TechCrunch RSS Integration for Cross-Source Trend Correlation
+# PRD: TechCrunch RSS Integration for Cross-Signal Enrichment
 
-**Author:** Farnsworth (Analyst/Content Curator)  
+**Author:** Farnsworth (Analyst), revised by Bender (Crawler)  
 **Date:** 2026-05-19  
-**Status:** Draft  
-**Type:** Feature PRD  
-**Depends on:** .squad/decisions.md (Decision #7: Crawler Plugin Architecture), docs/PRD-topic-channels.md
+**Status:** Completed — implemented and archived 2026-06-10 (see `scripts/techcrunch_crawler.py`, `tests/test_techcrunch_crawler.py`, and `data/raw/*-techcrunch.json`)  
+**Type:** Feature PRD (Enrichment Signal)  
+**Depends on:** .squad/decisions.md (Decision #7 — Crawler Plugin Architecture), docs/PRD-topic-channels.md
 
 ---
 
 ## Executive Summary
 
-SquadScope currently derives all insights from a single signal source: GitHub activity. While GitHub reveals *what developers are building*, it cannot tell us *why* activity is spiking — whether it's organic community interest, a VC-backed launch, or a viral TechCrunch article driving attention. This PRD proposes integrating TechCrunch's RSS feed as SquadScope's first non-GitHub data source, enabling **cross-source trend correlation** that distinguishes organic momentum from press-driven hype.
+SquadScope tracks GitHub repository trends weekly. This PRD proposes adding TechCrunch RSS as a **supplementary enrichment signal** — not a primary data source — to detect the *delta* between press hype and actual GitHub traction. When TechCrunch covers a technology or project that also shows unusual GitHub star activity, that correlation is newsworthy. When press coverage does NOT correlate with GitHub activity, that absence is equally informative.
 
-**Key insight:** GitHub star surges often lag TechCrunch coverage by 24–72 hours. Detecting this pattern lets SquadScope editorially distinguish "genuinely important" (organic growth) from "temporarily hyped" (press-driven spike that fades within a week).
+**Key constraint acknowledged upfront:** The correlation hit rate between TechCrunch articles and specific GitHub repositories is estimated at only **5–15%**. This feature is designed as a low-cost enrichment layer that adds value when correlations exist, and degrades gracefully (adds zero noise) when they don't.
 
 ---
 
 ## Problem Statement
 
-### What GitHub data alone cannot tell us
+### The Gap: Press Hype vs. Real Adoption
 
-1. **Causality is invisible.** A repo gaining 2,000 stars in a week is interesting, but *why* matters editorially. Is it because the project shipped a breakthrough feature, or because TechCrunch wrote about it and HN amplified?
+1. **GitHub stars measure developer interest.** A repo gaining 500 stars in a week signals genuine traction from people who build things.
 
-2. **Funding and launch context is missing.** When a startup raises a $50M Series B and open-sources their core library, GitHub shows a star spike — but without the funding context, the analysis misattributes organic community excitement.
+2. **TechCrunch coverage measures press/VC interest.** An article about a startup or technology signals attention from the funding and media ecosystem.
 
-3. **Industry narrative gaps.** SquadScope's "Gaps" section (what's missing from the conversation) is currently limited to what's absent from GitHub. But sometimes the gap is between what the industry *claims* to care about (per press coverage) and what's actually *being built* (per GitHub).
+3. **The delta between these signals is the insight.** Three scenarios produce editorial value:
+   - **Hype confirmed:** TechCrunch covers X, and X's GitHub repos are surging → "Real momentum, developers agree"
+   - **Hype without substance:** TechCrunch covers Y, but Y has zero or declining GitHub activity → "Marketing over engineering"
+   - **Quiet breakout:** No press coverage, but a repo is exploding on GitHub → "Under the radar"
 
-4. **Hype detection requires a baseline.** To identify noise, you need to know what the press machine is amplifying. Without press data, everything on GitHub looks equally "organic."
+4. **Currently, SquadScope only sees scenario 3.** Adding press signal enables detecting scenarios 1 and 2, making the weekly digest more insightful.
 
-5. **Prediction accuracy suffers.** The topic-channels PRD envisions a prediction ledger. Cross-referencing press coverage with subsequent GitHub activity dramatically improves prediction calibration.
+### Why TechCrunch Specifically
 
----
-
-## Value Proposition
-
-### For SquadScope readers
-
-| Current State (GitHub-only) | With TechCrunch Correlation |
-|---|---|
-| "Repo X gained 3,000 stars this week" | "Repo X gained 3,000 stars after TechCrunch covered their $30M raise — watch if stars sustain past week 2" |
-| "These 5 AI repos are trending" | "3 of 5 trending AI repos correlate with press coverage; 2 show organic growth (stronger signal)" |
-| "Gap: No new observability tools" | "Gap: TechCrunch covered 4 observability startups this month, but none have meaningful GitHub traction yet — vaporware risk" |
-
-### For SquadScope's editorial stance
-
-- **Critical thinking becomes measurable:** "Press-amplified vs. organically growing" is a concrete, data-backed editorial judgment
-- **Signal vs. noise gets sharper:** Hype detection moves from vibes-based to correlation-based
-- **The Gaps section gains depth:** Disconnects between press narrative and actual developer activity become visible
+- TechCrunch has a well-maintained RSS feed (`http://techcrunch.com/feed`) with full article metadata
+- It covers the startup/tech ecosystem most likely to overlap with open-source GitHub activity
+- RSS is free, requires no API key, and is stable
+- Other sources (HN, Reddit) can follow the same plugin pattern later
 
 ---
 
-## Correlation Model
+## Value Proposition: The Delta Model
 
-### How TechCrunch articles map to GitHub signals
+The value of this integration is **NOT** in summarizing TechCrunch articles (readers can read TechCrunch themselves). The value is in the **cross-reference delta**:
 
 ```
-┌─────────────────┐         ┌──────────────────────┐
-│  TechCrunch RSS │         │  GitHub Weekly Crawl  │
-│  (article feed) │         │  (repo activity)      │
-└────────┬────────┘         └──────────┬───────────┘
-         │                              │
-         ▼                              ▼
-┌─────────────────┐         ┌──────────────────────┐
-│ Extract:        │         │ Extract:             │
-│ - Company/proj  │         │ - Repo name/org      │
-│ - Category      │         │ - Star delta         │
-│ - Funding amt   │         │ - Fork delta         │
-│ - GitHub links  │         │ - Contributor growth  │
-└────────┬────────┘         └──────────┬───────────┘
-         │                              │
-         └──────────┬───────────────────┘
-                    ▼
-         ┌─────────────────────┐
-         │  Correlation Engine  │
-         │  (fuzzy matching)    │
-         └──────────┬──────────┘
-                    ▼
-         ┌─────────────────────┐
-         │  Annotated Analysis │
-         │  - press_correlated │
-         │  - organic_growth   │
-         │  - hype_risk_score  │
-         └─────────────────────┘
+Value = f(TechCrunch_coverage, GitHub_activity) where:
+  - Both high  → "Confirmed trend"    (correlation)
+  - TC high, GH low  → "Hype alert"   (anti-correlation)
+  - TC low, GH high  → "Sleeper hit"  (absence signal)
+  - Both low  → No signal             (filtered out)
 ```
 
-### Correlation heuristics
-
-1. **Direct link match:** TechCrunch article contains a GitHub URL → exact match to crawled repo
-2. **Organization match:** Article mentions company X → match to `github.com/X/*` repos gaining stars
-3. **Project name match:** Article title/body contains project name → fuzzy match against repo names in weekly crawl
-4. **Category correlation:** Article tagged "AI" published Monday → AI-category repos spiking by Thursday
-5. **Temporal lag analysis:** Stars gained within 72 hours of article publication → likely press-correlated
-
-### Hype risk scoring
-
-| Pattern | Hype Risk | Editorial Label |
-|---------|-----------|-----------------|
-| Stars spike post-article, sustain 2+ weeks | Low | "Press-validated, community-sustained" |
-| Stars spike post-article, decay within 7 days | High | "Press-driven hype, fading interest" |
-| Stars growing before any press coverage | Very Low | "Organic growth — genuinely interesting" |
-| Press coverage but no GitHub activity | Medium | "Announced but unbuilt / closed-source" |
+This positions SquadScope as providing analysis that neither TechCrunch nor GitHub alone can offer.
 
 ---
 
-## Technical Approach
+## Honest Assessment: Correlation Rates
 
-### Data Source: TechCrunch RSS
+### Expected Hit Rates
 
-- **Feed URL:** `https://techcrunch.com/feed/`
-- **Format:** RSS 2.0 / XML
-- **Update frequency:** ~20-40 articles/day
-- **Relevant categories:** Startups, Apps, AI, Funding, Open Source
-- **Rate limits:** None (public RSS)
-- **Content available in feed:** Title, excerpt/summary, author, publish date, categories, link
+| Correlation Type | Estimated Rate | Reasoning |
+|-----------------|---------------|-----------|
+| Direct match (TC mentions a specific repo) | 2–5% | Few TC articles name exact repos |
+| Indirect match (TC covers technology X, repo uses topic X) | 10–15% | Broader topic matching catches more |
+| No correlation found | 80–93% | Most TC articles have no GitHub signal |
 
-### Architecture: Fits Decision #7 (Crawler Plugin)
+### Why Low Rates Are Acceptable
 
-The existing `DataSource` protocol interface applies directly:
+1. **Low false-positive cost:** Uncorrelated articles are simply ignored — they add zero noise to the output.
+2. **High value per hit:** When a correlation IS found, it's genuinely interesting editorial content.
+3. **Asymmetric payoff:** Even 2–3 notable correlations per week would meaningfully enrich a weekly digest.
+4. **Trend over time:** Cross-referencing accumulated over weeks reveals patterns invisible in any single week.
+
+### What This Feature Is NOT
+
+- NOT a TechCrunch summarizer
+- NOT a primary data source for SquadScope
+- NOT expected to produce signal every week
+- NOT a replacement for GitHub-native trend detection
+
+---
+
+## Filtering Strategy
+
+### The Problem: Volume
+
+TechCrunch publishes **30–50 articles per day** (210–350 per week). Without aggressive filtering, this overwhelms the pipeline with noise. The crawler must reduce this to a manageable set before any correlation attempt.
+
+### Three-Stage Filtering Pipeline
+
+```
+Stage 1: Category Filter (RSS metadata)
+  Input:  ~250 articles/week (full RSS feed)
+  Filter: Keep only categories relevant to developer tools/open-source
+  Output: ~60-80 articles/week (70% reduction)
+  Method: Allowlist of RSS <category> tags
+
+Stage 2: Keyword Filter (title + description)
+  Input:  ~60-80 articles/week
+  Filter: Must contain technology/developer keywords
+  Output: ~20-30 articles/week (60% reduction)
+  Method: Keyword scoring (open-source, GitHub, developer, API, SDK, framework, etc.)
+
+Stage 3: Entity Extraction (lightweight)
+  Input:  ~20-30 articles/week
+  Filter: Extract mentioned technologies, companies, project names
+  Output: ~20-30 enriched article records with entity tags
+  Method: Regex patterns + known project name dictionary
+```
+
+### Category Allowlist (Initial)
+
+```yaml
+allowed_categories:
+  - Apps
+  - Artificial Intelligence
+  - Cloud
+  - Developer
+  - Enterprise
+  - Hardware
+  - Open Source
+  - Robotics
+  - Security
+  - Startups
+
+blocked_categories:
+  - Media & Entertainment
+  - Transportation
+  - Government & Policy
+  - Crypto  # Too noisy, low GitHub correlation
+```
+
+### Keyword Scoring
+
+Each article gets a relevance score (0–10) based on title + description:
+
+| Keyword Group | Weight | Examples |
+|--------------|--------|----------|
+| Direct GitHub mentions | +5 | "GitHub", "open source", "repository" |
+| Developer tools | +3 | "API", "SDK", "framework", "library", "CLI" |
+| Technology names | +2 | "Python", "Rust", "Kubernetes", "LLM" |
+| Funding/startup | +1 | "raises", "Series A", "launch" |
+
+**Threshold:** Articles scoring ≥ 3 proceed to entity extraction. Expected pass rate: ~40% of category-filtered articles.
+
+---
+
+## Temporal Alignment
+
+### The Problem: RSS is Real-Time, SquadScope is Weekly
+
+TechCrunch publishes continuously. SquadScope runs weekly (Monday 06:53 UTC). This creates a timing mismatch:
+
+- An article published Tuesday about Project X won't be seen until the following Monday
+- By then, the GitHub star surge may have already peaked and fallen
+
+### Solution: Weekly Batch with 7-Day Window
+
+```
+┌─────────────────────────────────────────────────────┐
+│  Monday 06:53 UTC: Crawl job runs                   │
+│                                                     │
+│  1. Fetch all RSS items from past 7 days            │
+│  2. Filter (3-stage pipeline above)                 │
+│  3. Extract entities from filtered articles         │
+│  4. Cross-reference entities against weekly          │
+│     GitHub trending repos (already collected)       │
+│  5. Output correlation data for Farnsworth          │
+└─────────────────────────────────────────────────────┘
+```
+
+### Why Weekly Batch Is Sufficient
+
+1. **SquadScope is a weekly digest.** Real-time alerting is out of scope.
+2. **7-day accumulation helps.** A trend covered across multiple articles in a week is stronger signal.
+3. **GitHub stars data is also weekly.** Both signals align on the same time window.
+4. **Simplicity:** No state management, no incremental polling, no deduplication across runs.
+
+### Freshness Guarantee
+
+- RSS feed items older than 7 days are discarded
+- If the RSS feed doesn't contain 7 days of history (TechCrunch's feed typically holds 20–30 items), supplement with the feed's full available content
+- Each item's `<pubDate>` is checked against the collection window
+
+---
+
+## Correlation Approach
+
+### Entity-to-Repository Matching
+
+```
+TechCrunch Entity          →  GitHub Signal
+─────────────────────────────────────────────────
+"Anthropic" (company)      →  repos with topic:anthropic or org:anthropic
+"LangChain" (project)      →  repo langchain-ai/langchain stars_gained
+"Rust 2024 edition" (tech) →  repos with topic:rust AND stars_gained > threshold
+"Series B: Acme Corp"      →  repos owned by acme-corp org
+```
+
+### Matching Strategies (in priority order)
+
+1. **Exact name match:** Article mentions "LangChain" → search for repos named `langchain*`
+2. **Organization match:** Article mentions company → search GitHub org
+3. **Topic match:** Article discusses technology → match against repo topics
+4. **Description match:** Fuzzy match article entities against repo descriptions
+
+### Scoring Correlation Strength
+
+| Match Type | Confidence | Example |
+|-----------|-----------|---------|
+| Exact repo name in article | 0.9 | "...announced on their GitHub repo langchain-ai/langchain..." |
+| Organization name + topic overlap | 0.7 | Article about Anthropic + repo topics include "claude" |
+| Technology keyword + trending | 0.5 | Article about "Rust" + Rust repo trending |
+| Company name only (no GitHub signal) | 0.3 | Article about startup with no public repos |
+
+### Output Format
+
+```json
+{
+  "week": "2026-W21",
+  "correlations": [
+    {
+      "article_title": "LangChain raises $25M Series A",
+      "article_url": "https://techcrunch.com/...",
+      "article_date": "2026-05-15",
+      "matched_repos": ["langchain-ai/langchain"],
+      "match_type": "exact_name",
+      "confidence": 0.9,
+      "github_signal": {
+        "stars_gained": 847,
+        "percentile": 98
+      },
+      "delta_type": "confirmed_trend"
+    }
+  ],
+  "unmatched_articles": 24,
+  "total_filtered_articles": 27
+}
+```
+
+---
+
+## Technical Implementation
+
+### Architecture: Plugin Pattern (Decision #7)
+
+This integration implements the `DataSource` protocol defined in Decision #7:
 
 ```python
 class TechCrunchSource:
-    """Crawler plugin for TechCrunch RSS feed."""
+    """TechCrunch RSS crawler plugin for SquadScope."""
 
     def get_name(self) -> str:
         return "techcrunch"
 
     def get_rate_limits(self) -> RateLimits:
-        return RateLimits(requests_per_hour=10, burst=5)
+        return RateLimits(
+            requests_per_minute=10,  # Polite RSS polling
+            retry_after_seconds=60
+        )
 
-    async def crawl(self, config: CrawlConfig) -> CrawlResult:
-        """Fetch and parse TechCrunch RSS, extract structured articles."""
-        ...
+    def crawl(self, window_start: datetime, window_end: datetime) -> CrawlResult:
+        """Fetch, filter, and extract entities from TechCrunch RSS."""
+        raw_items = self._fetch_rss(window_start, window_end)
+        filtered = self._apply_filters(raw_items)
+        enriched = self._extract_entities(filtered)
+        return CrawlResult(source="techcrunch", items=enriched)
 ```
 
-### Data flow integration
+### File Layout
 
 ```
-Existing:   data/raw/YYYY-WNN.json          (GitHub crawl)
-New:        data/raw/YYYY-WNN-techcrunch.json (TechCrunch crawl)
-Merged:     data/analyzed/YYYY-WNN-summary.md  (cross-referenced analysis)
+scripts/
+  sources/
+    __init__.py
+    base.py              # DataSource protocol
+    techcrunch.py        # TechCrunch RSS plugin
+    config/
+      techcrunch.yml     # Category allowlist, keywords, thresholds
+data/
+  enrichment/
+    techcrunch/
+      2026-W21.json      # Weekly filtered articles + entities
+  correlations/
+    2026-W21.json        # Cross-reference results (output for Farnsworth)
 ```
 
-### RSS parsing requirements
+### Dependencies
 
-| Requirement | Approach |
-|-------------|----------|
-| XML parsing | `feedparser` (Python) — battle-tested RSS library |
-| Category extraction | Map TC categories to SquadScope topic taxonomy |
-| GitHub link extraction | Regex scan article content for `github.com` URLs |
-| Entity extraction | Match company/project names against crawled repos |
-| Deduplication | Hash on article URL; skip already-processed items |
-| Storage | JSON array, same weekly naming as GitHub crawl |
+| Dependency | Purpose | Size Impact |
+|-----------|---------|-------------|
+| `feedparser` | RSS parsing | ~200 KB, pure Python |
+| `re` (stdlib) | Entity extraction patterns | None |
+| `datetime` (stdlib) | Window filtering | None |
 
-### Output schema (per article)
+No additional API keys or authentication required. RSS is public.
 
-```json
-{
-  "source": "techcrunch",
-  "title": "Anthropic open-sources Claude's tool-use framework",
-  "url": "https://techcrunch.com/2026/05/15/...",
-  "published_at": "2026-05-15T14:30:00Z",
-  "categories": ["ai", "open-source", "funding"],
-  "github_links": ["https://github.com/anthropics/tool-use-sdk"],
-  "entities": ["Anthropic", "Claude"],
-  "funding_amount": null,
-  "relevance_score": 0.85
-}
+### Integration with Existing Crawl Workflow
+
+```yaml
+# In crawl-and-publish.yml (additions only)
+- name: Crawl TechCrunch RSS
+  run: |
+    python3 scripts/sources/techcrunch.py \
+      --window-days 7 \
+      --output data/enrichment/techcrunch/$WEEK.json
+  env:
+    WEEK: ${{ env.WEEK }}
+
+- name: Cross-reference correlations
+  run: |
+    python3 scripts/correlate.py \
+      --github-data data/raw/$WEEK.json \
+      --techcrunch-data data/enrichment/techcrunch/$WEEK.json \
+      --output data/correlations/$WEEK.json
 ```
 
-### Analyzer changes
+### Error Handling
 
-The analyzer prompt gains a new context block:
-
-```
-## Press Context (TechCrunch, week of {date})
-{N} articles published relevant to tech/open-source.
-Notable coverage:
-- {title} ({category}) — mentions {github_links}
-- ...
-
-Cross-reference: For each trending repo, note if press coverage
-preceded the star surge. Label as "press-correlated" or "organic."
-```
+| Failure Mode | Response | Impact |
+|-------------|----------|--------|
+| RSS feed unreachable | Retry 3×, then skip TechCrunch for this week | None — enrichment is optional |
+| RSS feed format changed | Log warning, skip parsing, open issue | None — graceful degradation |
+| Zero correlations found | Normal — output empty correlations file | Expected most weeks |
+| Malformed XML in feed | Skip malformed items, process rest | Partial data is fine |
 
 ---
 
-## Phases
+## Cost Estimate
 
-### Phase 1: RSS Crawl Plugin (1–2 weeks)
+### Compute Cost
 
-- Implement `TechCrunchSource` crawler plugin
-- Parse RSS feed, extract structured article data
-- Store as `data/raw/YYYY-WNN-techcrunch.json`
-- Filter to tech/open-source relevant articles only
-- Basic deduplication
-- **Output:** Weekly TechCrunch article JSON alongside GitHub JSON
+| Resource | Usage | Cost |
+|---------|-------|------|
+| RSS fetch | 1 HTTP request/week | $0.00 |
+| Python processing | ~5 seconds CPU | $0.00 (free Actions minutes) |
+| Correlation script | ~2 seconds CPU | $0.00 |
+| **Total infrastructure cost** | | **$0.00/week** |
 
-### Phase 2: Correlation Engine (2–3 weeks)
+### Token Cost (if Farnsworth uses correlations in analysis)
 
-- Implement GitHub URL extraction from articles
-- Fuzzy entity matching (company name → GitHub org)
-- Temporal correlation (article date vs. star surge timing)
-- Add `press_correlated: bool` and `hype_risk: low|medium|high` to repo analysis
-- **Output:** Enriched analysis with cross-source annotations
+| Component | Size | Tokens | Cost Impact |
+|-----------|------|--------|-------------|
+| Correlations JSON (typical week, 2–5 hits) | ~2 KB | ~570 | +$0.002/week |
+| Correlations JSON (zero hits) | ~0.2 KB | ~57 | +$0.0002/week |
+| Correlations JSON (exceptional week, 10+ hits) | ~5 KB | ~1,400 | +$0.004/week |
 
-### Phase 3: Editorial Integration (1–2 weeks)
+**Annual token cost impact: $0.10–$0.21/year** (negligible relative to $16/year baseline).
 
-- Update analyzer prompt to consume TechCrunch context
-- Add "Press vs. Reality" subsection to weekly summary
-- Surface disconnects in Gaps section
-- Update Hugo templates to render correlation badges
-- **Output:** Reader-facing cross-source insights on the published site
+### Development Cost
 
-### Phase 4: Prediction Enhancement (future)
-
-- Track whether press-correlated repos sustain momentum
-- Feed correlation accuracy back into prediction ledger
-- Calibrate hype risk scoring over time
-- **Output:** Improved prediction accuracy in topic channels
-
----
-
-## Cost & Resource Impact
-
-| Resource | Impact |
-|----------|--------|
-| RSS fetch | Negligible (1 HTTP request/week, public feed, no auth) |
-| Storage | ~50-100 KB/week JSON (40 articles × metadata) |
-| Analyzer tokens | +500-800 tokens input context per run (~$0.002/week) |
-| API rate limits | Zero impact (RSS is not GitHub API) |
-| CI minutes | +5-10 seconds per run (RSS fetch + parse) |
-| Dependencies | `feedparser` (Python, MIT license, mature) |
-
-**Total incremental cost: <$0.01/week.** Trivial relative to base pipeline costs documented in PRD-cost-estimation.md.
-
----
-
-## Risks & Mitigations
-
-| Risk | Probability | Impact | Mitigation |
-|------|------------|--------|------------|
-| TechCrunch changes RSS format | Low | Medium | feedparser handles format variations; alert on parse failures |
-| RSS feed discontinued | Very Low | Low | Graceful degradation — analysis runs without press context |
-| False correlations (noise) | Medium | Medium | Require temporal proximity (72h) + name match confidence >0.7 |
-| Over-weighting press signal | Medium | High | Editorial rule: press correlation is annotation, not ranking factor |
-| Content extraction blocked | Low | Low | Use RSS summary only, don't scrape full articles |
-
----
-
-## Open Questions
-
-1. **OQ1: Should we also extract from TechCrunch's category-specific feeds?**
-   - `techcrunch.com/category/artificial-intelligence/feed/` for topic-channel alignment
-   - Pro: Better relevance filtering. Con: More feeds to manage.
-
-2. **OQ2: Full article fetch vs. RSS excerpt only?**
-   - RSS includes ~200 word excerpt. Full article requires HTTP fetch + HTML parsing.
-   - Recommendation: Start with RSS excerpt only. Avoids scraping concerns and ToS issues.
-
-3. **OQ3: Should correlation annotations be visible to readers or analyst-only?**
-   - Option A: Show "📰 Press-correlated" badge on repo entries
-   - Option B: Keep as internal signal that shapes editorial tone only
-   - Recommendation: Option A for transparency (readers deserve to know *why* something is trending)
-
-4. **OQ4: Add HackerNews as a second correlation source simultaneously?**
-   - HN has an API, overlaps with TechCrunch coverage, and better represents developer sentiment
-   - Recommendation: TechCrunch first (simpler, RSS), HN second (API, different signal)
-
-5. **OQ5: How to handle TechCrunch articles about closed-source products?**
-   - Many TC articles cover proprietary SaaS with no GitHub presence
-   - Recommendation: Filter to articles containing GitHub links OR open-source keywords only
+| Task | Effort | Priority |
+|------|--------|----------|
+| `techcrunch.py` plugin | 2–3 hours | Medium |
+| `correlate.py` script | 2–3 hours | Medium |
+| Configuration + tests | 1–2 hours | Medium |
+| Workflow integration | 1 hour | Low |
+| **Total** | **6–9 hours** | |
 
 ---
 
 ## Success Criteria
 
+### Quantitative Metrics (measured after 8 weeks of operation)
+
 | Metric | Target | Measurement |
 |--------|--------|-------------|
-| Articles crawled per week | 15-40 relevant | Count in weekly JSON |
-| Correlation hit rate | >30% of trending repos have press match | Cross-reference accuracy |
-| Hype detection accuracy | >70% of "high hype risk" repos show star decay at week +2 | Retrospective validation |
-| Reader value signal | Qualitative improvement in Gaps section depth | Editorial review |
-| Zero pipeline failures from RSS source | 100% graceful degradation | CI logs |
+| RSS fetch success rate | ≥ 95% | Weeks with successful fetch / total weeks |
+| Filter reduction ratio | 85–95% reduction | (Raw articles - filtered) / raw articles |
+| Correlation hit rate | ≥ 5% of filtered articles | Articles with ≥1 GitHub match / filtered articles |
+| False positive rate | ≤ 2% | Matches marked incorrect in manual review / total matches |
+| Zero-noise weeks | 100% | Weeks where zero-correlation produces zero output noise |
+| Enrichment value (subjective) | ≥ 3/5 quality rating | Monthly review: "Did correlations improve the digest?" |
+
+### Qualitative Success Indicators
+
+- At least 1 "hype vs reality" insight per month that wouldn't exist without this signal
+- Zero instances where TechCrunch noise degrades the digest quality
+- The feature is invisible when it has nothing useful to contribute
+
+### Failure Criteria (triggers feature removal)
+
+- Hit rate below 2% after 8 weeks → feature adds complexity without value
+- False positives above 10% → feature introduces noise
+- RSS feed breaks and stays broken for 4+ consecutive weeks → dependency unreliable
+- Farnsworth (analyst) consistently ignores correlation data in analysis → no downstream value
 
 ---
 
-## Relationship to Existing PRDs
+## Phased Rollout
 
-- **PRD-topic-channels.md:** TechCrunch correlation enriches per-topic analysis. AI-focused TC articles correlate with `ai-ml` topic channel repos.
-- **PRD-cost-estimation.md:** Incremental cost is negligible (<$0.01/week). No tier change needed.
-- **decisions.md Decision #7:** This is the first concrete implementation of the crawler plugin architecture.
-- **decisions.md MCP Tools:** TechCrunch RSS fetch can be an MCP tool, registered in allowlist per Decision 5.
+### Phase 1: RSS Collection Only (Week 1–2)
+
+- Implement `techcrunch.py` with 3-stage filtering
+- Output `data/enrichment/techcrunch/{week}.json`
+- No integration with analysis — just collect and validate filter quality
+- **Exit criteria:** Filter reduces volume by ≥ 80%, entity extraction produces meaningful tags
+
+### Phase 2: Correlation Script (Week 3–4)
+
+- Implement `correlate.py` cross-reference logic
+- Output `data/correlations/{week}.json`
+- Manual review of correlation quality for 2 weeks
+- **Exit criteria:** Hit rate ≥ 3%, false positive rate ≤ 5%
+
+### Phase 3: Analysis Integration (Week 5–6)
+
+- Farnsworth consumes `data/correlations/{week}.json` in analysis prompt
+- Correlation data appears in weekly digest when relevant
+- **Exit criteria:** At least 1 correlation adds editorial value in 2 of 4 weeks
+
+### Phase 4: Steady State (Week 7+)
+
+- Monitor success metrics
+- Tune keyword lists and category filters based on actual hit rates
+- Consider adding second source (HN) if TechCrunch proves the plugin model
 
 ---
 
-## Editorial Philosophy Note
+## Open Questions
 
-TechCrunch integration does NOT mean SquadScope becomes a TechCrunch aggregator. The feed is a **correlation signal**, not content to republish. SquadScope's voice remains: "Here's what's actually happening on GitHub this week, and here's what the press says is happening. Notice the gap? That's where the real story is."
+| # | Question | Impact | Proposed Resolution |
+|---|----------|--------|---------------------|
+| OQ1 | Does TechCrunch's RSS feed include full article text or just excerpts? | Medium — affects entity extraction quality | Spike: inspect actual feed content. If excerpts only, extraction limited to title + summary. |
+| OQ2 | How stable is TechCrunch's RSS feed over time? | Low — RSS is a mature standard | Monitor for 4 weeks before hard dependency. Breakage triggers graceful skip. |
+| OQ3 | Should entity extraction use AI (LLM) or stay rule-based? | Medium — cost vs quality trade-off | Start rule-based (zero cost). Upgrade to LLM extraction in Phase 4 if hit rates are too low. |
+| OQ4 | What's the right confidence threshold for surfacing correlations? | Medium — affects noise level | Start conservative (confidence ≥ 0.7). Lower if too few results after 4 weeks. |
+| OQ5 | Should correlations appear as a separate section in the digest or inline? | Low — editorial decision | Defer to Farnsworth. Provide data; let analyst decide presentation. |
+| OQ6 | Can we use GitHub's topic taxonomy to improve matching? | Medium — could boost hit rate | Investigate `GET /repos/{owner}/{repo}/topics` coverage during Phase 2. |
 
-The editorial value is in the *delta* between press narrative and developer activity — not in summarizing TechCrunch articles.
+---
+
+## Relationship to Other PRDs
+
+- **PRD-topic-channels.md:** Topic channels define per-domain crawling. TechCrunch integration is orthogonal — it enriches ANY topic channel with press signal. A `rust` channel could correlate TechCrunch Rust articles with Rust repo trends.
+- **PRD-cost-estimation.md:** TechCrunch adds negligible cost ($0.10–$0.21/year in tokens). No budget concern.
+- **Decision #7 (Plugin Architecture):** TechCrunch is the first non-GitHub `DataSource` plugin, validating the extensible crawler design.
+
+---
+
+*This PRD will be updated with actual hit rates and filter performance after Phase 1 completes (target: 2 weeks post-implementation).*
