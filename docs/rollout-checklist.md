@@ -68,7 +68,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
   - [ ] Verify workflow file: `.github/workflows/crawl-and-publish.yml` has schedule trigger:
     ```yaml
     schedule:
-      - cron: '0 8 * * 1'  # Monday 08:00 UTC
+      - cron: '53 6 * * 1'  # Monday 06:53 UTC
     ```
   - [ ] Confirm schedule is correct for your timezone
 
@@ -79,7 +79,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
 
 ## First Automated Run
 
-- [ ] **Automated run completed (wait until next Monday 08:00 UTC or manual trigger)**
+- [ ] **Automated run completed (wait until next Monday 06:53 UTC or manual trigger)**
   - [ ] Check Actions tab at scheduled time
   - [ ] Verify workflow completed with green checkmark
   - [ ] Monitor logs for any warnings or errors

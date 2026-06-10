@@ -48,13 +48,25 @@ jobs:
 
       - name: Install Hugo
         run: |
+          set -euo pipefail
+          RELEASE_URL="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}"
           TARBALL="hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
-          curl -sLJO "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/${TARBALL}"
+          CHECKSUM_FILE="hugo_${HUGO_VERSION}_checksums.txt"
+          curl --fail --silent --show-error --location --retry 10 --retry-delay 5 --retry-max-time 300 --retry-all-errors \
+            --output "${TARBALL}" "${RELEASE_URL}/${TARBALL}"
           
           # Download and verify checksums
-          curl -sLJO "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_checksums.txt"
-          sha256sum --check hugo_${HUGO_VERSION}_checksums.txt --ignore-missing || exit 1
-          rm "hugo_${HUGO_VERSION}_checksums.txt"
+          curl --fail --silent --show-error --location --retry 10 --retry-delay 5 --retry-max-time 300 --retry-all-errors \
+            --output "${CHECKSUM_FILE}" "${RELEASE_URL}/${CHECKSUM_FILE}"
+          checksum_line="$(awk -v file="${TARBALL}" '$NF == file {print; found=1} END {if (!found) exit 1}' "${CHECKSUM_FILE}")" || {
+            echo "Error: No checksum entry for ${TARBALL} found in ${CHECKSUM_FILE}" >&2
+            exit 1
+          }
+          if ! printf '%s\n' "${checksum_line}" | sha256sum --check; then
+            echo "Error: Checksum verification failed for ${TARBALL}" >&2
+            exit 1
+          fi
+          rm "${CHECKSUM_FILE}"
           
           mkdir -p "${HOME}/.local/hugo"
           tar -C "${HOME}/.local/hugo" -xf "${TARBALL}"

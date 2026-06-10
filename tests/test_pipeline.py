@@ -155,6 +155,32 @@ No press data was provided this week.
 
 
 class WorkflowConfigTests(unittest.TestCase):
+    def test_hugo_install_steps_use_release_urls_and_resilient_retries(self) -> None:
+        expected_retry_flags = "--retry 10 --retry-delay 5 --retry-max-time 300 --retry-all-errors"
+
+        for workflow_file in (
+            ".github/workflows/deploy-site.yml",
+            ".github/workflows/crawl-and-publish.yml",
+        ):
+            workflow_path = Path(workflow_file)
+            workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+
+            install_step = next(
+                (
+                    step
+                    for job in workflow["jobs"].values()
+                    for step in job.get("steps", [])
+                    if step.get("name") == "Install Hugo"
+                ),
+                None,
+            )
+            self.assertIsNotNone(install_step, f"Install Hugo step not found in {workflow_file}")
+            install_run = install_step["run"]
+            self.assertIn('RELEASE_URL="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}"', install_run)
+            self.assertIn('TARBALL="hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"', install_run)
+            self.assertIn('CHECKSUM_FILE="hugo_${HUGO_VERSION}_checksums.txt"', install_run)
+            self.assertEqual(install_run.count(expected_retry_flags), 2)
+
     def test_crawl_workflow_persists_run_counter(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
@@ -476,6 +502,19 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertEqual(upload_candidate["if"], "always()")
 
         generate = workflow["jobs"]["generate"]
+        generate_raw_download = next(
+            (
+                s
+                for s in generate["steps"]
+                if s.get("name") == "Download raw crawl artifact"
+                and s.get("uses") == "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093"
+                and s.get("with", {}).get("name") == "raw-data"
+                and s.get("with", {}).get("path") == "data/raw/"
+            ),
+            None,
+        )
+        self.assertIsNotNone(generate_raw_download)
+
         generate_step = next((s for s in generate["steps"] if s.get("name") == "Generate weekly content"), None)
         self.assertIsNotNone(generate_step)
         self.assertIn('assert-eligible --manifest "$MANIFEST_FILE"', generate_step["run"])

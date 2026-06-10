@@ -132,7 +132,7 @@ This generates the `public/` directory with optimized static assets.
 
 ### Option A: Automatic scheduling (default)
 
-The pipeline runs automatically every **Monday at 08:00 UTC** via `.github/workflows/crawl-and-publish.yml`.
+The pipeline runs automatically every **Monday at 06:53 UTC** via `.github/workflows/crawl-and-publish.yml`.
 
 You don't need to do anything. Go to your repo's **Actions** tab to monitor runs.
 
@@ -806,7 +806,7 @@ Edit `.github/workflows/crawl-and-publish.yml`:
 ```yaml
 on:
   schedule:
-    - cron: '0 8 * * 1'  # Change to your desired time (UTC)
+    - cron: '53 6 * * 1'  # Change to your desired time (UTC)
 ```
 
 Times are in UTC. Use crontab.guru to generate your schedule.
