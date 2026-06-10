@@ -88,6 +88,17 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertTrue(payload["dry_run"])
         self.assertEqual(payload["publish_mode"], "normal")
 
+    def test_build_payload_normalizes_absolute_article_path(self) -> None:
+        payload = podcaster_handoff.build_payload(
+            week="2026-W23",
+            article_url="https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+            article_path="/home/runner/work/SquadScope/SquadScope/content/weekly/2026/W23.md",
+            publish_run_id="123456789",
+            publish_mode="normal",
+        )
+
+        self.assertEqual(payload["article_path"], "content/weekly/2026/W23.md")
+
     def test_missing_config_skips_without_calling_podcaster(self) -> None:
         with mock.patch.object(podcaster_handoff.request, "urlopen") as urlopen_mock, mock.patch.dict(
             podcaster_handoff.os.environ, {"PODCASTER_API_KEY": ""}
@@ -232,6 +243,15 @@ class PodcasterHandoffTests(unittest.TestCase):
             podcaster_handoff.article_url_from_page_path(
                 "https://jmservera.github.io/SquadScope/",
                 "content/weekly/2026/W23.md",
+            ),
+            "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+        )
+
+    def test_article_url_from_page_path_normalizes_absolute_runner_path(self) -> None:
+        self.assertEqual(
+            podcaster_handoff.article_url_from_page_path(
+                "https://jmservera.github.io/SquadScope/",
+                "/home/runner/work/SquadScope/SquadScope/content/weekly/2026/W23.md",
             ),
             "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
         )

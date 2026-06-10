@@ -32,12 +32,30 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
+WEEKLY_CONTENT_PREFIX = "content/weekly/"
+
+
+def normalize_page_path(page_path: str) -> str:
+    """Reduce an absolute Actions page path to its repo-relative form.
+
+    The generate job emits page_path as an absolute runner path on GitHub
+    Actions (see scripts/generate_content.py); mirror the workflow's
+    GITHUB_WORKSPACE normalization by reducing any absolute path to the
+    repo-relative segment beginning at content/weekly/.
+    """
+    path = page_path.strip().replace("\\", "/")
+    index = path.find(WEEKLY_CONTENT_PREFIX)
+    if index != -1:
+        path = path[index:]
+    return path.lstrip("/")
+
+
 def article_url_from_page_path(base_url: str, page_path: str) -> str:
     base = base_url.rstrip("/") + "/"
-    path = page_path.strip().lstrip("/")
-    if not path.startswith("content/weekly/") or not path.endswith(".md"):
+    path = normalize_page_path(page_path)
+    if not path.startswith(WEEKLY_CONTENT_PREFIX) or not path.endswith(".md"):
         raise PodcasterHandoffError(f"Cannot derive weekly article URL from page path: {page_path}")
-    slug = path.removeprefix("content/weekly/").removesuffix(".md").lower()
+    slug = path.removeprefix(WEEKLY_CONTENT_PREFIX).removesuffix(".md").lower()
     return urljoin(base, f"weekly/{slug}/")
 
 
@@ -113,7 +131,7 @@ def build_payload(
     payload: dict[str, Any] = {
         "week": week,
         "article_url": article_url,
-        "article_path": article_path,
+        "article_path": normalize_page_path(article_path),
         "publish_run_id": publish_run_id,
         "publish_mode": publish_mode,
     }
