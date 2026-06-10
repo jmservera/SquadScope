@@ -63,7 +63,7 @@ jobs:
       contents: write
 
     steps:
-      - name: Check out repository
+      - name: Check out repository # zizmor: ignore[artipacked] crawl job pushes to the publish branch; checkout token is reused by a later git push
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
@@ -860,7 +860,7 @@ jobs:
       page_path: ${{ steps.generate-content.outputs.page_path }}
 
     steps:
-      - name: Check out repository
+      - name: Check out repository # zizmor: ignore[artipacked] generate job pushes to the publish branch; checkout token is reused by a later git push
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           fetch-depth: 0
@@ -1381,7 +1381,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1 # zizmor: ignore[artipacked] reskill job pushes to the publish branch; checkout token is reused by a later git push
         with:
           fetch-depth: 0
           ref: publish
