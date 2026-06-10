@@ -2,9 +2,11 @@
 
 **Author:** Farnsworth (Analyst), revised by Bender (Crawler)  
 **Date:** 2026-05-19  
-**Status:** Completed — implemented and archived 2026-06-10 (see `scripts/techcrunch_crawler.py`, `tests/test_techcrunch_crawler.py`, and `data/raw/*-techcrunch.json`)  
+**Status:** Completed — implemented and archived 2026-06-10 (see `scripts/techcrunch_crawler.py`, `tests/test_techcrunch_crawler.py`, and `data/raw/*-external-news.json`)  
 **Type:** Feature PRD (Enrichment Signal)  
 **Depends on:** .squad/decisions.md (Decision #7 — Crawler Plugin Architecture), docs/PRD-topic-channels.md
+
+> **Archived as-is.** This PRD is preserved as a historical planning record. The current canonical paths, field names, and interfaces live in code — see `scripts/techcrunch_crawler.py`, `config/external_news_sources.json`, and `.github/workflows/crawl-and-publish.yml`. The most misleading specifics below have been corrected to match what shipped (the crawler now ingests multiple external news sources, not TechCrunch alone).
 
 ---
 
@@ -33,7 +35,7 @@ SquadScope tracks GitHub repository trends weekly. This PRD proposes adding Tech
 
 ### Why TechCrunch Specifically
 
-- TechCrunch has a well-maintained RSS feed (`http://techcrunch.com/feed`) with full article metadata
+- TechCrunch has a well-maintained RSS feed (`https://techcrunch.com/feed/`) with full article metadata
 - It covers the startup/tech ecosystem most likely to overlap with open-source GitHub activity
 - RSS is free, requires no API key, and is stable
 - Other sources (HN, Reddit) can follow the same plugin pattern later
@@ -249,42 +251,47 @@ TechCrunch Entity          →  GitHub Signal
 This integration implements the `DataSource` protocol defined in Decision #7:
 
 ```python
-class TechCrunchSource:
-    """TechCrunch RSS crawler plugin for SquadScope."""
+# As shipped: scripts/techcrunch_crawler.py
+class NewsFeedSource:
+    """RSS data source following the DataSource protocol."""
+
+    def __init__(self, config: NewsSourceConfig) -> None:
+        self.config = config
 
     def get_name(self) -> str:
-        return "techcrunch"
+        return self.config.name
 
-    def get_rate_limits(self) -> RateLimits:
-        return RateLimits(
-            requests_per_minute=10,  # Polite RSS polling
-            retry_after_seconds=60
-        )
+    def get_rate_limits(self) -> dict:
+        # Plain dict, not a RateLimits type.
+        return {"requests_per_minute": self.config.requests_per_minute}
 
-    def crawl(self, window_start: datetime, window_end: datetime) -> CrawlResult:
-        """Fetch, filter, and extract entities from TechCrunch RSS."""
-        raw_items = self._fetch_rss(window_start, window_end)
-        filtered = self._apply_filters(raw_items)
-        enriched = self._extract_entities(filtered)
-        return CrawlResult(source="techcrunch", items=enriched)
+    def crawl(
+        self,
+        since: datetime,
+        until: datetime,
+        feed_url: str | None = None,
+    ) -> list[dict]:
+        """Fetch, filter, and extract entities from an RSS feed."""
+        ...
 ```
+
+`TechCrunchSource` is a thin subclass of `NewsFeedSource`; each source is
+described by a `NewsSourceConfig` (`name`, `feed_url`, `requests_per_minute`)
+loaded from `config/external_news_sources.json`.
 
 ### File Layout
 
 ```
 scripts/
-  sources/
-    __init__.py
-    base.py              # DataSource protocol
-    techcrunch.py        # TechCrunch RSS plugin
-    config/
-      techcrunch.yml     # Category allowlist, keywords, thresholds
+  techcrunch_crawler.py    # Multi-source RSS crawler (DataSource protocol)
+  correlate.py             # Cross-reference GitHub vs external news
+config/
+  external_news_sources.json  # Per-source feed_url + requests_per_minute
 data/
-  enrichment/
-    techcrunch/
-      2026-W21.json      # Weekly filtered articles + entities
-  correlations/
-    2026-W21.json        # Cross-reference results (output for Farnsworth)
+  raw/
+    {week}-external-news.json   # Merged crawl output (legacy: {week}-techcrunch.json)
+  analyzed/
+    {week}-correlations.json    # Cross-reference results (output for Farnsworth)
 ```
 
 ### Dependencies
@@ -301,20 +308,20 @@ No additional API keys or authentication required. RSS is public.
 
 ```yaml
 # In crawl-and-publish.yml (additions only)
-- name: Crawl TechCrunch RSS
+- name: Crawl external news RSS
   run: |
-    python3 scripts/sources/techcrunch.py \
-      --window-days 7 \
-      --output data/enrichment/techcrunch/$WEEK.json
-  env:
-    WEEK: ${{ env.WEEK }}
+    python3 scripts/techcrunch_crawler.py \
+      --sources config/external_news_sources.json \
+      --output "data/raw/${WEEK}-external-news.json" \
+      --since "$SINCE" \
+      --until "$UNTIL"
 
 - name: Cross-reference correlations
   run: |
     python3 scripts/correlate.py \
-      --github-data data/raw/$WEEK.json \
-      --techcrunch-data data/enrichment/techcrunch/$WEEK.json \
-      --output data/correlations/$WEEK.json
+      --raw "$WEEK_FILE" \
+      --techcrunch "data/raw/${WEEK}-external-news.json" \
+      --output "data/analyzed/${WEEK}-correlations.json"
 ```
 
 ### Error Handling
@@ -393,21 +400,21 @@ No additional API keys or authentication required. RSS is public.
 
 ### Phase 1: RSS Collection Only (Week 1–2)
 
-- Implement `techcrunch.py` with 3-stage filtering
-- Output `data/enrichment/techcrunch/{week}.json`
+- Implement `scripts/techcrunch_crawler.py` with 3-stage filtering
+- Output `data/raw/{week}-external-news.json` (legacy `data/raw/{week}-techcrunch.json`)
 - No integration with analysis — just collect and validate filter quality
 - **Exit criteria:** Filter reduces volume by ≥ 80%, entity extraction produces meaningful tags
 
 ### Phase 2: Correlation Script (Week 3–4)
 
 - Implement `correlate.py` cross-reference logic
-- Output `data/correlations/{week}.json`
+- Output `data/analyzed/{week}-correlations.json`
 - Manual review of correlation quality for 2 weeks
 - **Exit criteria:** Hit rate ≥ 3%, false positive rate ≤ 5%
 
 ### Phase 3: Analysis Integration (Week 5–6)
 
-- Farnsworth consumes `data/correlations/{week}.json` in analysis prompt
+- Farnsworth consumes `data/analyzed/{week}-correlations.json` in analysis prompt
 - Correlation data appears in weekly digest when relevant
 - **Exit criteria:** At least 1 correlation adds editorial value in 2 of 4 weeks
 
@@ -440,4 +447,4 @@ No additional API keys or authentication required. RSS is public.
 
 ---
 
-*This PRD will be updated with actual hit rates and filter performance after Phase 1 completes (target: 2 weeks post-implementation).*
+*Archived as-is. This PRD reflects the original plan; the integration shipped on 2026-06-10. For canonical paths, field names, and interfaces, see the code (`scripts/techcrunch_crawler.py`, `config/external_news_sources.json`, `.github/workflows/crawl-and-publish.yml`).*
