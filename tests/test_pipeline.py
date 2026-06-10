@@ -385,7 +385,7 @@ class WorkflowConfigTests(unittest.TestCase):
 
         notify_job = workflow["jobs"]["notify"]
         self.assertEqual(notify_job["needs"], ["analyze", "generate", "deploy"])
-        analyzed_download = next((s for s in notify_job["steps"] if s.get("uses") == "actions/download-artifact@v4" and s.get("with", {}).get("path") == "data/analyzed/"), None)
+        analyzed_download = next((s for s in notify_job["steps"] if s.get("uses") == "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093" and s.get("with", {}).get("path") == "data/analyzed/"), None)
         self.assertIsNotNone(analyzed_download)
         self.assertEqual(analyzed_download["with"]["name"], "promoted-analyzed-data")
 
