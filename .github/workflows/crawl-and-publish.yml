@@ -1265,7 +1265,7 @@ jobs:
             exit 1
           fi
           
-          CAT_ID=$(gh api graphql -f query='{ repository(owner:"'"$REPO_OWNER"'", name:"'"$REPO_NAME"'") { discussionCategories(first:10) { nodes { id name } } } }' --jq '.data.repository.discussionCategories.nodes[] | select(.name=="Announcements") | .id' 2>&1 || echo "")
+          CAT_ID=$(gh api graphql -f query='{ repository(owner:"'"$REPO_OWNER"'", name:"'"$REPO_NAME"'") { discussionCategories(first:10) { nodes { id name } } } }' --jq '.data.repository.discussionCategories.nodes[] | select(.name=="Announcements") | .id' 2>/dev/null || echo "")
           if [ -z "$CAT_ID" ]; then
             echo "::warning::Announcements discussion category not found; skipping discussion creation"
             exit 0
