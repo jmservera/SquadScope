@@ -573,7 +573,8 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIsNotNone(create_issue_step)
         self.assertEqual(create_issue_step["env"]["GITHUB_TOKEN"], "${{ secrets.GITHUB_TOKEN }}")
         create_issue_run = create_issue_step["run"]
-        self.assertIn('gh run view "${{ github.run_id }}" --json jobs', create_issue_run)
+        self.assertIn('gh run view "$RUN_ID" --json jobs', create_issue_run)
+        self.assertEqual(create_issue_step["env"]["RUN_ID"], "${{ github.run_id }}")
         self.assertIn('gh issue list --state open --search', create_issue_run)
         self.assertIn('gh issue comment "$ISSUE_NUM"', create_issue_run)
         self.assertIn('gh issue create', create_issue_run)

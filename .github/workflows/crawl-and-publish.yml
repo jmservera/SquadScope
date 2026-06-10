@@ -1251,6 +1251,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO_OWNER: ${{ github.repository_owner }}
           REPO_NAME: ${{ github.event.repository.name }}
+          GH_REPOSITORY: ${{ github.repository }}
         run: |
           set -e
           
@@ -1258,7 +1259,7 @@ jobs:
           WEEK=$(basename "$SUMMARY" | sed 's/-summary.md//')
           
           # Create discussion via GraphQL (Announcements category)
-          REPO_ID=$(gh api repos/${{ github.repository }} --jq '.node_id')
+          REPO_ID=$(gh api "repos/$GH_REPOSITORY" --jq '.node_id')
           if [ -z "$REPO_ID" ]; then
             echo "::error::Failed to get repository node_id"
             exit 1
@@ -1307,10 +1308,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+          RUN_ID: ${{ github.run_id }}
         run: |
           set -euo pipefail
-          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          FAILED_JOBS=$(gh run view "${{ github.run_id }}" --json jobs --jq '[.jobs[] | select(.conclusion=="failure") | .name] | join(", ")')
+          RUN_URL="${SERVER_URL}/${GH_REPO}/actions/runs/${RUN_ID}"
+          FAILED_JOBS=$(gh run view "$RUN_ID" --json jobs --jq '[.jobs[] | select(.conclusion=="failure") | .name] | join(", ")')
           if [ -z "$FAILED_JOBS" ]; then
             FAILED_JOBS="unknown"
           fi
@@ -1332,7 +1335,7 @@ jobs:
               "- If transient (network/rate limit), close with context" \
               "- If real bug, assign to the right squad member")
             gh issue create \
-              --title "🔴 Crawl and publish pipeline failed (run ${{ github.run_id }})" \
+              --title "🔴 Crawl and publish pipeline failed (run ${RUN_ID})" \
               --label bug \
               --label squad \
               --body "$BODY"

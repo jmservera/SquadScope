@@ -28,6 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pages: write
     env:
       HUGO_VERSION: 0.161.1
       HUGO_PARAMS_GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
@@ -132,21 +133,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+          RUN_ID: ${{ github.run_id }}
         run: |
+          RUN_URL="${SERVER_URL}/${GH_REPO}/actions/runs/${RUN_ID}"
           EXISTING=$(gh issue list --label 'deploy-failure' --state open --json number --jq length)
           if [ "$EXISTING" -gt 0 ]; then
             ISSUE_NUM=$(gh issue list --label 'deploy-failure' --state open --json number --jq '.[0].number')
-            gh issue comment "$ISSUE_NUM" --body "Deploy failed again: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            gh issue comment "$ISSUE_NUM" --body "Deploy failed again: ${RUN_URL}"
             echo "Updated existing issue #$ISSUE_NUM"
           else
             BODY=$(printf '%s\n\n%s\n\n%s\n%s\n%s' \
               "The Deploy Hugo site workflow failed." \
-              "**Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              "**Run:** ${RUN_URL}" \
               "Please triage:" \
               "- If transient (rate limit, network), close with comment" \
               "- If real bug, assign to the right squad member")
             gh issue create \
-              --title "🔴 Deploy Hugo site failed (run ${{ github.run_id }})" \
+              --title "🔴 Deploy Hugo site failed (run ${RUN_ID})" \
               --label 'squad,deploy-failure' \
               --body "$BODY"
           fi
