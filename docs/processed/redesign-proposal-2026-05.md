@@ -1,8 +1,10 @@
 # SquadScope Visual Redesign Proposal
 
+> **Archived (processed) — historical reference.** The original six-phase redesign plan in this document is implemented (issues #170–#177 closed). It is superseded by the newer modern look-and-feel handoff tracked in #357 (epic) and #327–#330 / #358. Retained for design history.
+
 **Date:** 2026-05-25  
 **Author:** Calculon (Designer)  
-**Status:** Proposed
+**Status:** Implemented / Archived (superseded by #357 and #327–#330, #358)
 
 ---
 
