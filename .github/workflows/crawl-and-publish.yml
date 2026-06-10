@@ -408,10 +408,13 @@ jobs:
 
       - name: Run correlation and press context
         id: press-context
+        env:
+          IN_WEEK: ${{ steps.analysis-context.outputs.week }}
+          IN_WEEK_FILE: ${{ steps.analysis-context.outputs.week_file }}
         run: |
           set -euo pipefail
-          WEEK="${{ steps.analysis-context.outputs.week }}"
-          WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
+          WEEK="$IN_WEEK"
+          WEEK_FILE="$IN_WEEK_FILE"
           TC_FILE="data/raw/${WEEK}-external-news.json"
           if [ ! -f "$TC_FILE" ]; then
             TC_FILE="data/raw/${WEEK}-techcrunch.json"
@@ -447,13 +450,19 @@ jobs:
 
       - name: Render and preflight analysis prompt
         id: prompt-preflight
+        env:
+          IN_WEEK_FILE: ${{ steps.analysis-context.outputs.week_file }}
+          IN_WEEK: ${{ steps.analysis-context.outputs.week }}
+          IN_OUTPUT_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
+          IN_CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
+          IN_PRESS_FILE: ${{ steps.press-context.outputs.press_file }}
         run: |
           set -euo pipefail
-          WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
-          WEEK="${{ steps.analysis-context.outputs.week }}"
-          OUTPUT_FILE="${{ steps.analysis-context.outputs.candidate_output_file }}"
-          CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
-          PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
+          WEEK_FILE="$IN_WEEK_FILE"
+          WEEK="$IN_WEEK"
+          OUTPUT_FILE="$IN_OUTPUT_FILE"
+          CURRENT_DATETIME="$IN_CURRENT_DATETIME"
+          PRESS_FILE="$IN_PRESS_FILE"
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           PROMPT_FILE="data/metrics/analysis-prompt-${WEEK}.md"
           PREFLIGHT_JSON="$DIAGNOSTICS_DIR/analysis-input-manifest.json"
@@ -512,21 +521,32 @@ jobs:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PREFLIGHT_REPORT_JSON: ${{ steps.prompt-preflight.outputs.preflight_report_json }}
+          IN_OUTPUT_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
+          IN_WEEK_FILE: ${{ steps.analysis-context.outputs.week_file }}
+          IN_WEEK: ${{ steps.analysis-context.outputs.week }}
+          IN_CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
+          IN_MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
+          IN_PUBLISHED_SUMMARY: ${{ steps.analysis-context.outputs.published_output_file }}
+          IN_PRESS_FILE: ${{ steps.press-context.outputs.press_file }}
+          IN_ANALYSIS_PATH: ${{ inputs.analysis_path || 'single-pass' }}
+          IN_RUN_MODE: ${{ steps.analysis-context.outputs.run_mode }}
+          IN_PROMPT_FILE: ${{ steps.prompt-preflight.outputs.prompt_file }}
+          IN_GATE_REPORT_FILE: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
         run: |
           set -euo pipefail
-          OUTPUT_FILE="${{ steps.analysis-context.outputs.candidate_output_file }}"
-          WEEK_FILE="${{ steps.analysis-context.outputs.week_file }}"
-          WEEK="${{ steps.analysis-context.outputs.week }}"
-          CURRENT_DATETIME="${{ steps.analysis-context.outputs.current_datetime }}"
-          MANIFEST_FILE="${{ steps.analysis-context.outputs.publish_manifest_file }}"
-          PUBLISHED_SUMMARY="${{ steps.analysis-context.outputs.published_output_file }}"
-          PRESS_FILE="${{ steps.press-context.outputs.press_file }}"
-          ANALYSIS_PATH="${{ inputs.analysis_path || 'single-pass' }}"
-          RUN_MODE="${{ steps.analysis-context.outputs.run_mode }}"
+          OUTPUT_FILE="$IN_OUTPUT_FILE"
+          WEEK_FILE="$IN_WEEK_FILE"
+          WEEK="$IN_WEEK"
+          CURRENT_DATETIME="$IN_CURRENT_DATETIME"
+          MANIFEST_FILE="$IN_MANIFEST_FILE"
+          PUBLISHED_SUMMARY="$IN_PUBLISHED_SUMMARY"
+          PRESS_FILE="$IN_PRESS_FILE"
+          ANALYSIS_PATH="$IN_ANALYSIS_PATH"
+          RUN_MODE="$IN_RUN_MODE"
           ANALYSIS_STARTED=$(date +%s)
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           mkdir -p data/metrics "$(dirname "$OUTPUT_FILE")" "$DIAGNOSTICS_DIR"
-          PROMPT_FILE="${{ steps.prompt-preflight.outputs.prompt_file }}"
+          PROMPT_FILE="$IN_PROMPT_FILE"
 
           sanitize_agent_output() {
             python3 scripts/sanitize_agent_output.py --path "$1"
@@ -654,7 +674,7 @@ jobs:
             # The gate applies deterministic metadata/schema repairs and writes an auditable report.
             if run_quality_gate copilot-cli copilot-default "$GATE_REPORT"; then
               cp "$OUTPUT_FILE" "$CANDIDATE_SNAPSHOT" 2>/dev/null || true
-              cp "$GATE_REPORT" "${{ steps.analysis-context.outputs.analysis_gate_report_file }}" 2>/dev/null || true
+              cp "$GATE_REPORT" "$IN_GATE_REPORT_FILE" 2>/dev/null || true
               GATE_PASSED=true
               FINAL_TRANSCRIPT="$TRANSCRIPT_FILE"
               ANALYSIS_SOURCE="copilot-cli"
@@ -704,7 +724,7 @@ jobs:
             sanitize_agent_output "$OUTPUT_FILE"
             NO_AI_GATE_REPORT="$DIAGNOSTICS_DIR/gate-no-ai-attempt-0.json"
             run_quality_gate no-ai none "$NO_AI_GATE_REPORT" || true
-            cp "$NO_AI_GATE_REPORT" "${{ steps.analysis-context.outputs.analysis_gate_report_file }}" 2>/dev/null || true
+            cp "$NO_AI_GATE_REPORT" "$IN_GATE_REPORT_FILE" 2>/dev/null || true
             cp "$OUTPUT_FILE" "$DIAGNOSTICS_DIR/candidate-no-ai-attempt-0.md" 2>/dev/null || true
             ANALYSIS_SOURCE="no-ai"
             ANALYSIS_MODEL="none"
@@ -809,7 +829,9 @@ jobs:
 
       - name: Assert candidate is eligible for promotion
         if: ${{ steps.analysis-context.outputs.run_mode != 'dry-run' && steps.analysis-context.outputs.run_mode != 'candidate-only' }}
-        run: python3 scripts/publish_manifest.py assert-eligible --manifest "${{ steps.analysis-context.outputs.publish_manifest_file }}"
+        env:
+          IN_MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
+        run: python3 scripts/publish_manifest.py assert-eligible --manifest "$IN_MANIFEST_FILE"
 
       - name: Upload analyzed data
         if: always()
@@ -1227,6 +1249,8 @@ jobs:
       - name: Post to Discussions
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
         run: |
           set -e
           
@@ -1240,7 +1264,7 @@ jobs:
             exit 1
           fi
           
-          CAT_ID=$(gh api graphql -f query='{ repository(owner:"${{ github.repository_owner }}", name:"${{ github.event.repository.name }}") { discussionCategories(first:10) { nodes { id name } } } }' --jq '.data.repository.discussionCategories.nodes[] | select(.name=="Announcements") | .id' 2>&1 || echo "")
+          CAT_ID=$(gh api graphql -f query='{ repository(owner:"'"$REPO_OWNER"'", name:"'"$REPO_NAME"'") { discussionCategories(first:10) { nodes { id name } } } }' --jq '.data.repository.discussionCategories.nodes[] | select(.name=="Announcements") | .id' 2>&1 || echo "")
           if [ -z "$CAT_ID" ]; then
             echo "::warning::Announcements discussion category not found; skipping discussion creation"
             exit 0
@@ -1329,10 +1353,12 @@ jobs:
         continue-on-error: true
 
       - name: Fallback to default branch for counter
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           if [ ! -f .squad/run-counter.txt ]; then
-            git fetch origin "${{ github.event.repository.default_branch }}" 2>/dev/null || true
-            git checkout "origin/${{ github.event.repository.default_branch }}" -- .squad/run-counter.txt 2>/dev/null || true
+            git fetch origin "$DEFAULT_BRANCH" 2>/dev/null || true
+            git checkout "origin/$DEFAULT_BRANCH" -- .squad/run-counter.txt 2>/dev/null || true
           fi
 
       - name: Check reskill trigger
@@ -1362,10 +1388,12 @@ jobs:
         continue-on-error: true
 
       - name: Fallback to default branch
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           if [ ! -d .squad ]; then
-            git fetch origin "${{ github.event.repository.default_branch }}"
-            git checkout "origin/${{ github.event.repository.default_branch }}" -- . 2>/dev/null || true
+            git fetch origin "$DEFAULT_BRANCH"
+            git checkout "origin/$DEFAULT_BRANCH" -- . 2>/dev/null || true
           fi
 
       - name: Set up Node
