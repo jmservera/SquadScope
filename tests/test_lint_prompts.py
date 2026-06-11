@@ -47,7 +47,8 @@ def test_lint_fails_on_unfenced_untrusted_variable(tmp_path: Path) -> None:
 
 def test_lint_main_passes_real_prompts() -> None:
     """Ensure the actual prompts/ directory passes lint."""
-    result = main(["--prompts-dir", "prompts"])
+    prompts_dir = Path(__file__).resolve().parent.parent / "prompts"
+    result = main(["--prompts-dir", str(prompts_dir)])
     assert result == 0, "Real prompt templates failed lint — fix them before merging"
 
 
