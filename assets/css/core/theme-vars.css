@@ -2,7 +2,7 @@
     --gap: var(--space-4);
     --content-gap: var(--space-4);
     --nav-width: 1024px;
-    --main-width: 720px;
+    --main-width: 800px;
     --header-height: var(--size-header-height);
     --footer-height: var(--size-header-height);
     --radius: var(--radius-md);
