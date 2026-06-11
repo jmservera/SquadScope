@@ -36,10 +36,14 @@ const DATE_SLUG = getArg('--date', '2026-05-25');
 const OUT_DIR   = getArg('--out',  join('screenshots', 'design-verification', DATE_SLUG));
 
 const VIEWPORTS = [
-  { name: 'mobile',   width: 375,  height: 667  },
-  { name: 'tablet',   width: 768,  height: 1024 },
-  { name: 'desktop',  width: 1280, height: 800  },
-  { name: 'wide',     width: 1920, height: 1080 },
+  { name: 'mobile-320', width: 320,  height: 568  },
+  { name: 'mobile-360', width: 360,  height: 640  },
+  { name: 'mobile',     width: 375,  height: 667  },
+  { name: 'mobile-390', width: 390,  height: 844  },
+  { name: 'mobile-414', width: 414,  height: 896  },
+  { name: 'tablet',     width: 768,  height: 1024 },
+  { name: 'desktop',    width: 1280, height: 800  },
+  { name: 'wide',       width: 1920, height: 1080 },
 ];
 
 const THEMES = ['light', 'dark'];

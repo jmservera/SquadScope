@@ -149,12 +149,56 @@ git push
 
 | File | Purpose |
 |------|---------|
-| `scripts/design/verify-visual.mjs` | Standalone capture script — no test framework needed |
+| `scripts/design/verify-visual.mjs` | Standalone capture script — now includes the added 320/360/390/414 mobile widths |
+| `scripts/design/lighthouse-gates.mjs` | Lighthouse accessibility / best-practices / CLS gate runner |
 | `tests/visual/playwright.config.mjs` | Playwright config for snapshot regression tests |
 | `tests/visual/visual.spec.mjs` | Snapshot specs for each page |
+| `tests/visual/a11y-perf.spec.mjs` | Playwright viewport gate checks for overflow, tap targets, and pre-content height |
 | `tests/visual/snapshots/` | Committed baseline screenshots |
 | `screenshots/design-verification/` | Ad-hoc capture output (gitignored) |
 | `.squad/skills/design-visual-verification/SKILL.md` | Full skill pattern for the team |
+
+---
+
+
+## Accessibility & Performance Gates
+
+The design review flow now includes a lightweight gate pass focused on mobile resilience and Lighthouse regressions.
+
+### Gate viewport matrix
+
+- `320×568`
+- `360×640`
+- `390×844`
+- `414×896`
+- `768×1024`
+
+### Checks performed
+
+- No horizontal overflow (`document.documentElement.scrollWidth <= document.documentElement.clientWidth`)
+- Tap targets for all visible `<a>` and `<button>` elements are at least `44×44px` unless explicitly marked with `data-small-ok`
+- Home-page pre-content height guard: the main content container (`.main`, `main`, or `#main-content`) must begin within `600px` of the top edge at `320–414px`
+- Lighthouse mobile gates on `/`, `/weekly/2026/w22/`, `/monthly/2026/05/`, and `/yearly/2026/`
+
+### Thresholds
+
+- Accessibility score ≥ `95`
+- Best Practices score ≥ `95`
+- CLS ≤ `0.1`
+- Tap targets ≥ `44×44`
+- No horizontal scrolling
+- Pre-content start ≤ `600px` on home at mobile widths
+
+### How to run
+
+```bash
+npx playwright test --config tests/visual/playwright.config.mjs tests/visual/a11y-perf.spec.mjs
+node scripts/design/lighthouse-gates.mjs
+```
+
+### PR review summary (Fry)
+
+Fry should summarize the gate pass as a page-by-page matrix, call out any tap-target or pre-content exceptions that need `data-small-ok`, and include the Lighthouse score table with any threshold failures highlighted for reviewers.
 
 ---
 
