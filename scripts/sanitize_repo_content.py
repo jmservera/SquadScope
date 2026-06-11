@@ -83,7 +83,7 @@ def sanitize_text(
     lowered = sanitized.lower()
     suspicious_matches = [phrase for phrase in INJECTION_PHRASES if phrase in lowered]
 
-    limit = SUSPICIOUS_DESCRIPTION_LENGTH if suspicious_matches else max_length
+    limit = min(SUSPICIOUS_DESCRIPTION_LENGTH, max_length) if suspicious_matches else max_length
     truncated = _truncate(sanitized, limit)
 
     if suspicious_matches:

@@ -55,6 +55,16 @@ UNTRUSTED_VARIABLES = frozenset(
     }
 )
 
+# Single-brace format variables that carry untrusted external content and MUST
+# be inside <untrusted-content> blocks regardless of which template they appear in.
+UNTRUSTED_FORMAT_VARIABLES = frozenset(
+    {
+        "articles_list",
+        "correlations_list",
+        "scorecard_summary",
+    }
+)
+
 # All known variables for the unknown-variable check.
 ALL_KNOWN_VARIABLES = TRUSTED_VARIABLES | SEMI_TRUSTED_VARIABLES | UNTRUSTED_VARIABLES
 
@@ -121,23 +131,25 @@ def lint_prompt(path: Path) -> list[str]:
             f"<untrusted-content> boundary tags"
         )
 
-    # Check that {format_style} variables (single-brace) in press-context are fenced
-    if "press-context" in path.name:
-        for var_match in re.finditer(r"\{(articles_list|correlations_list)\}", content):
-            # These should be inside untrusted-content blocks
-            pos = var_match.start()
-            fenced_ranges: list[tuple[int, int]] = []
-            for m in re.finditer(re.escape(UNTRUSTED_OPEN), content):
-                close_match = re.search(
-                    re.escape(UNTRUSTED_CLOSE), content[m.end() :]
-                )
-                if close_match:
-                    fenced_ranges.append((m.start(), m.end() + close_match.end()))
-            if not any(start <= pos <= end for start, end in fenced_ranges):
-                errors.append(
-                    f"{path}: untrusted variable {{{var_match.group(1)}}} "
-                    f"is not inside <untrusted-content> boundary tags"
-                )
+    # Check that single-brace format variables carrying untrusted content are fenced
+    for var_match in re.finditer(r"\{([a-z_]+)\}", content):
+        var_name = var_match.group(1)
+        if var_name not in UNTRUSTED_FORMAT_VARIABLES:
+            continue
+        pos = var_match.start()
+        fenced_ranges: list[tuple[int, int]] = []
+        for m in re.finditer(re.escape(UNTRUSTED_OPEN), content):
+            close_match = re.search(
+                re.escape(UNTRUSTED_CLOSE), content[m.end():]
+            )
+            if close_match:
+                fenced_ranges.append((m.start(), m.end() + close_match.end()))
+        if not any(start <= pos <= end for start, end in fenced_ranges):
+            errors.append(
+                f"{path}: untrusted variable {{{var_name}}} "
+                f"is not inside <untrusted-content> boundary tags"
+            )
+            break  # report once per file for each variable
 
     return errors
 
