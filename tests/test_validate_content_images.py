@@ -148,7 +148,8 @@ class TestRegistryValidation:
             '---\ncover_image: "covers/x.webp"\n---\n',
         )
         violations = validator.validate_registry_references(content_dir, tmp_path / "nonexistent.json")
-        assert len(violations) == 0
+        assert len(violations) == 1
+        assert "not found" in violations[0]
 
 
 class TestHelpers:

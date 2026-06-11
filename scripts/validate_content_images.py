@@ -120,6 +120,7 @@ def validate_registry_references(
     """Verify local image references in frontmatter exist in the registry."""
     violations: list[str] = []
     if not registry_path.exists():
+        violations.append(f"Image registry file not found: {registry_path}")
         return violations
     try:
         registry = json.loads(registry_path.read_text(encoding="utf-8"))

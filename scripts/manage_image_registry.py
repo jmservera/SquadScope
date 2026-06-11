@@ -105,6 +105,9 @@ def add_image(args: argparse.Namespace) -> int:
 
 
 def validate_registry(args: argparse.Namespace) -> int:
+    if not REGISTRY_PATH.exists():
+        print(f"FAIL: Image registry file not found: {REGISTRY_PATH}", file=sys.stderr)
+        return 1
     registry = load_registry(allow_missing=False)
     errors: list[str] = []
 
