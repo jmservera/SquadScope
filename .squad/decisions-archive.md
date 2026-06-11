@@ -3168,3 +3168,31 @@ Safety-first protection layer for analysis reruns across staging/publish workflo
 ### Notes
 
 GitHub issue hierarchy represented via parent #248 with linked child issues and inline comments. All issues labeled `squad` with per-owner tracking.
+### 2026-06-09T15-55-26: PRD triage disposition and move block
+**By:** Leela
+**What:** PRD triage disposition and move block
+**References:** #327, #328, #329, #330, #331, #332, #333, #302, #307
+**Why:** Reviewed PRD/planning docs and GitHub issues/PRs on 2026-06-09. Completed or superseded docs should not be moved in the current worktree because unrelated dirty Squad upgrade files are present. Remaining work is tracked by existing issues: #327 mobile density/scannability, #328 generated visuals and cover/frontmatter support, #329 copyright-safe image policy/registry, #330 accessibility/performance gates, #331 map/reduce promotion, #333 crawl matrix readiness, #302 Podcaster handoff, #307 external podcast link, and #332 archive-after-clean-worktree. No duplicate feature issues are needed.
+
+# Podcaster handoff boundary for issue #302
+
+Date: 2026-06-07T21:42:28.011+00:00
+
+Decision: SquadScope emits the Podcaster handoff only after a successful normal weekly article deploy. The handoff job depends on `analyze`, `generate`, and `deploy`, gates on `run_mode == 'normal'`, and is non-blocking so Podcaster errors cannot fail, roll back, or delay article publication.
+
+Rationale: Podcaster is a sister project. SquadScope should provide a trusted post-publish contract, not own podcast generation or Azure podcast resources. Dry-run, candidate-only, restore, force-replace, no-AI, and failed paths are excluded to avoid downstream generation from unpromoted, replacement, or fallback content.
+
+Implementation notes: `scripts/podcaster_handoff.py` reads `PODCASTER_ENDPOINT` from Actions variables and `PODCASTER_API_KEY` from Actions secrets, sends the key only in the `x-podcaster-api-key` header, and never logs the key. The payload includes `week`, `article_url`, `article_path`, `article_sha256` when available, `publish_run_id`, `publish_mode`, and source artifact references.
+
+# Fry Podcaster validation recommendation
+
+Date: 2026-06-07T21:42:28.011+00:00
+
+## Recommendation
+
+Do not use a normal `crawl-and-publish.yml` dispatch as the first Podcaster dry-run path. The safe first live validation path should be a dedicated non-publishing Podcaster dry-run workflow/job that uses the configured Actions `PODCASTER_ENDPOINT` variable and `PODCASTER_API_KEY` secret, sends `dry_run: true`, and cannot publish, restore, force-replace, or mutate production content.
+
+## Rationale
+
+Local mocks validate the SquadScope handoff client and redaction behavior, but local live validation is blocked because the Podcaster secret is only available in Actions. The existing `crawl-and-publish.yml` dry-run and candidate-only modes explicitly skip `podcaster-handoff`, while normal/force-replace modes can touch production content.
+
