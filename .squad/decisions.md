@@ -578,3 +578,4 @@ Added small deterministic promotion-guard helper and regression tests for publis
 - ⛔ **#258 map/reduce must stay dry-run** until P0 safety layer is solid
 - ✓ **#273 (model routing)** has zero blocking dependencies and can start today
 
+

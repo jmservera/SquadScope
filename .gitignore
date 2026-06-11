@@ -18,3 +18,19 @@ resources/_gen/
 # Git worktrees
 .worktrees/
 *.pyc
+.squad/.cache/
+
+# Runtime temp files
+.agent_tmp/
+.ralph/
+ralph_squadscope.log
+squadscope-agent-result.json
+
+# Local copilot skills (machine-specific)
+.copilot/
+
+# Squad memory (runtime state)
+.squad/memory/
+.squad/reskill/
+.squad/casting-*.json
+.ralph_tick.log
