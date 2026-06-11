@@ -51,6 +51,19 @@
               "width": { "type": "integer" },
               "height": { "type": "integer" }
             }
+          },
+          "checksum": {
+            "type": "string",
+            "description": "SHA-256 hash of the image file for integrity verification"
+          },
+          "review_status": {
+            "type": "string",
+            "enum": ["pending", "approved", "rejected"],
+            "description": "Policy review status (Hermes approval)"
+          },
+          "alt_text": {
+            "type": "string",
+            "description": "Accessible alt text describing the image content"
           }
         }
       }
