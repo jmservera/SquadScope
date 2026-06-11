@@ -15,6 +15,10 @@
 {{- $heading := .heading | default "Signal & Noise at a glance" -}}
 {{- $level := .level | default "h2" | lower -}}
 {{- if not (in (slice "h2" "h3" "h4" "h5" "h6") $level) }}{{ $level = "h2" }}{{ end -}}
+{{- /* $level is strictly whitelisted above, so the tag name is safe to emit;
+       the heading text itself remains contextually auto-escaped. */ -}}
+{{- $hOpen := printf `<%s class="signal-noise__heading">` $level | safeHTML -}}
+{{- $hClose := printf "</%s>" $level | safeHTML -}}
 {{- with $data -}}
 {{- $signal := (index . "signal") | default slice -}}
 {{- $noise := (index . "noise") | default slice -}}
@@ -22,7 +26,7 @@
 {{- $source := (index . "source") | default "" -}}
 {{- if or (gt (len $signal) 0) (gt (len $noise) 0) -}}
 <section class="signal-noise" aria-label="{{ $heading }}">
-  <{{ $level }} class="signal-noise__heading">{{ $heading }}</{{ $level }}>
+  {{ $hOpen }}{{ $heading }}{{ $hClose }}
   <div class="signal-noise__cols">
     {{- if gt (len $signal) 0 }}
     <div class="signal-noise__col signal-noise__col--signal">

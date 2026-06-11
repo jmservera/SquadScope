@@ -18,6 +18,10 @@
 {{- $heading := .heading | default (cond (ne (printf "%v" $repo) "<nil>") (printf "%s — trend" $repo) "Trend") -}}
 {{- $level := .level | default "h3" | lower -}}
 {{- if not (in (slice "h2" "h3" "h4" "h5" "h6") $level) }}{{ $level = "h3" }}{{ end -}}
+{{- /* $level is strictly whitelisted above, so the tag name is safe to emit;
+       the heading text itself remains contextually auto-escaped. */ -}}
+{{- $hOpen := printf `<%s class="repo-trend__heading">` $level | safeHTML -}}
+{{- $hClose := printf "</%s>" $level | safeHTML -}}
 {{- $caption := .caption -}}
 {{- if gt (len $values) 0 -}}
   {{- $max := 0.0 -}}
@@ -30,9 +34,9 @@
     {{- $summary = $summary | append (printf "%s: %s" $lab (lang.FormatNumber 0 $v)) -}}
   {{- end -}}
 <figure class="repo-trend" role="group" aria-label="{{ $heading }}">
-  <{{ $level }} class="repo-trend__heading">
+  {{ $hOpen }}
     {{- if $repo }}<a href="https://github.com/{{ $repo }}" aria-label="Open GitHub repository {{ $repo }}">{{ $heading }}</a>{{ else }}{{ $heading }}{{ end -}}
-  </{{ $level }}>
+  {{ $hClose }}
   <svg class="repo-trend__chart" viewBox="0 0 {{ mul $n 100 }} 320" preserveAspectRatio="none" aria-hidden="true" focusable="false">
     {{- $slot := 100 -}}
     {{- range $i, $v := $values -}}

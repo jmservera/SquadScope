@@ -70,6 +70,19 @@ def test_heading_levels_are_whitelisted() -> None:
         text = _read(VIS / name)
         assert '| lower' in text
         assert 'in (slice "h2" "h3" "h4" "h5" "h6")' in text
+        # The tag name is emitted only from the whitelisted value via safeHTML,
+        # never by interpolating the raw input as a tag name (`<{{ $level }}>`).
+        assert "<{{ $level }}>" not in text
+        assert "| safeHTML" in text
+
+
+def test_topic_constellation_coerces_numeric_figures() -> None:
+    # `.repos`/`.stars` arrive as strings from the shortcode (`.Get`); only
+    # digit strings are passed to lang.FormatNumber, non-numeric input is dropped
+    # rather than erroring the build.
+    text = _read(VIS / "topic-constellation.html")
+    assert 'findRE "^[0-9]+$"' in text
+    assert "lang.FormatNumber 0 (int" in text
 
 
 def test_unsafe_markdown_remains_disabled() -> None:
