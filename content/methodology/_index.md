@@ -14,9 +14,17 @@ Claracle is a weekly, AI-assisted read on developer and open-source momentum. We
 
 We start with GitHub repository search in `scripts/crawl.py`. On the general weekly crawl, we look for repositories created during the current seven-day window and repositories pushed during that same window, with both searches requiring more than 50 stars. Results are sorted by stars through the GitHub search API, deduplicated, checked for a README, and filtered to remove forks, templates, missing descriptions, homework/course material, demos, and other low-signal patterns. Topic-specific crawls can replace the default search with configured primary and secondary topic queries.
 
-We also ingest press context. Today the automated press source is **TechCrunch RSS**, crawled by `scripts/techcrunch_crawler.py` over the same default seven-day window. That crawler extracts titles, summaries, categories, GitHub links, and likely company or project names, then keeps technology/open-source relevant articles for correlation. We do not currently ingest The Verge, Wired, Ars Technica, Hacker News, Reddit, non-English outlets, or paywalled newsletters as first-class automated sources. If we add those sources, this page should change.
+We also ingest external news context. The automated external-news crawler (`scripts/techcrunch_crawler.py`) reads its feed list from `config/external_news_sources.json` and currently fetches five RSS sources over the same default seven-day window:
 
-The cadence is weekly. Unless an operator passes explicit dates, the GitHub and TechCrunch crawls look back seven days from the crawl time and write an ISO-week artifact such as `2026-W22.json`.
+- **TechCrunch** (`techcrunch.com`) — startup and technology press.
+- **NVIDIA blog** (`blogs.nvidia.com`) — NVIDIA's first-party product and research blog.
+- **Hugging Face blog** (`huggingface.co`) — Hugging Face's first-party blog.
+- **MIT Technology Review** (`www.technologyreview.com`) — technology journalism and analysis.
+- **GitHub blog** (`github.blog`) — GitHub's first-party product and engineering blog.
+
+For each feed the crawler extracts titles, summaries, categories, GitHub links, and likely company or project names, then keeps technology/open-source relevant articles for correlation. The combined run is written to the canonical artifact `data/raw/{week}-external-news.json` (for example `data/raw/2026-W24-external-news.json`), which records every article, which source it came from, the per-source relevant-article and GitHub-link counts, and the source config used for the run. We do not currently ingest general-interest outlets such as The Verge, Wired, or Ars Technica, nor community aggregators like Hacker News or Reddit, non-English outlets, or paywalled newsletters as first-class automated sources. If we add or drop feeds in `config/external_news_sources.json`, this page should change.
+
+The cadence is weekly. Unless an operator passes explicit dates, the GitHub crawl and the external-news crawl look back seven days from the crawl time and write ISO-week artifacts such as `2026-W24.json` and `2026-W24-external-news.json`.
 
 ## How we score and rank
 
@@ -28,12 +36,12 @@ For topic channels, `scripts/score_repos.py` can compute a 0-100 relevance score
 
 ## Responsible-AI caveats and bias limits
 
-- **Source bias:** GitHub repositories and the current TechCrunch feed are only a slice of developer activity. Private work, enterprise pilots, package registries, community forums, regional press, and smaller newsletters are under-observed, so Claracle should not be read as a neutral or complete map of technology.
-- **English-language source bias:** GitHub metadata and the current TechCrunch feed favor English-language projects and coverage; treat non-English ecosystem absence as under-observation, not lack of activity.
+- **Source bias:** GitHub repositories and the current external-news feeds are only a slice of developer activity. Private work, enterprise pilots, package registries, community forums, regional press, and smaller newsletters are under-observed, so Claracle should not be read as a neutral or complete map of technology.
+- **English-language source bias:** GitHub metadata and all five external-news feeds (TechCrunch, NVIDIA, Hugging Face, MIT Technology Review, and GitHub) publish primarily in English and cover mostly US and big-tech topics; treat non-English ecosystem absence as under-observation, not lack of activity.
 - **Platform bias:** GitHub-centric measurement over-represents open-source projects, public launch behavior, star-seeking promotion, and communities that already use GitHub. Work happening on GitLab, SourceHut, Bitbucket, self-hosted forges, package registries, Discord, Slack, or behind company firewalls may be invisible.
 - **High-star bias:** The default crawl requires more than 50 stars and sorts by stars, so important niche projects can be missed until they are already visible.
-- **US and Bay Area press bias:** TechCrunch coverage reflects a US startup lens; read press correlation as one narrative input, not a global technology map.
-- **BigCo signal-strength bias:** Large companies create more repos, launches, docs, and articles, so their activity can look more important than quieter independent work.
+- **Vendor and corporate-blog bias:** Three of the five external-news feeds — the NVIDIA, Hugging Face, and GitHub blogs — are first-party, promotional sources. They cover their own products, launches, and partners, so they over-represent those vendors and frame news favorably. MIT Technology Review and TechCrunch are independent press but still skew toward English-language, US, and big-tech stories. Read all press correlation as narrative input, not a global or neutral technology map.
+- **BigCo signal-strength bias:** Large companies create more repos, launches, docs, and articles — and several of our feeds are run by large companies — so their activity can look more important than quieter independent work.
 - **Survivorship bias:** We mostly see projects that remain public and crawlable; failed experiments, abandoned private work, and deleted repos are largely invisible.
 - **Recency bias:** A weekly window is good at catching spikes but can miss slower ecosystem shifts; use monthly and yearly rollups for longer arcs.
 
