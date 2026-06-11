@@ -496,13 +496,15 @@ summary:focus-visible,
     display: none;
   }
 
-  /* Scannability: shorten the section rhythm so long articles don't read as a wall. */
-  .article-content h2 {
+  /* Scannability: shorten the section rhythm so long articles don't read as a wall.
+     Scoped under .squad-article so these win over the base .article-content rules
+     that appear later in this file, without touching desktop. */
+  .squad-article .article-content h2 {
     margin-top: var(--space-5);
     padding-top: var(--space-3);
   }
 
-  .article-content h3 {
+  .squad-article .article-content h3 {
     margin-top: var(--space-4);
   }
 
@@ -514,8 +516,8 @@ summary:focus-visible,
     margin-block: var(--space-4) var(--space-3);
   }
 
-  .article-content blockquote,
-  .press-context-callout {
+  .squad-article .article-content blockquote,
+  .squad-article .press-context-callout {
     margin-block: var(--space-4);
   }
 }
