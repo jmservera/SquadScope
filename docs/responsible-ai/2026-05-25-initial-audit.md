@@ -25,10 +25,10 @@
 
 **Severity:** info  
 **Principle:** Reliability & Safety, Accountability  
-**Artifact:** `docs/processed/icon-spec.md` (current file documents the **radar sweep** replacement, which is safe; the rejected SS-rune design is documented in project history but not in any current spec file)
+**Artifact:** `docs/processed/icon-spec.md` (current file documents the **robot with binoculars** replacement, which is safe; the rejected SS-rune design is documented in project history but not in any current spec file)
 
 **Finding:**  
-The old double-S monogram design was caught by the human user (jmservera), not by any agent or checklist. The icon-safety-check skill now exists (`.squad/skills/icon-safety-check/SKILL.md`), and the current radar-sweep spec is clean: concentric circles + sweep line + signal blip. No hate-symbol resemblance at any tested size or transformation. The silhouette at 16px is unambiguous (circle with radial line).
+The old double-S monogram design was caught by the human user (jmservera), not by any agent or checklist. The icon-safety-check skill now exists (`.squad/skills/icon-safety-check/SKILL.md`), and the current robot-with-binoculars spec is clean: a rounded-square robot head with a single antenna and two circular binocular eyepieces. No hate-symbol resemblance at any tested size or transformation. The silhouette at 16px is unambiguous (robot face with antenna and prominent circular "eyes").
 
 **Why the catch was missed by existing process:**  
 No icon safety check existed in the team's workflow at the time Calculon proposed the original design. Calculon's design review skill (`design-visual-verification`) is focused on layout/contrast/typography matching — it does not include a hate-symbol silhouette screen. The failure mode is a classic **domain gap**: the aesthetic reviewer was optimizing for craft, not for adversarial misreading. A hostile viewer or bad-faith screenshotter can extract a thumbnail at 16px with ambiguous letterforms and the framing does the rest.
