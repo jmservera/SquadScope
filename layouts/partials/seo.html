@@ -1,5 +1,5 @@
 {{- $title := cond .IsHome .Site.Title (printf "%s | %s" .Title .Site.Title) -}}
-{{- $siteDescription := .Site.Params.description | default "SquadScope turns GitHub activity into weekly tech trend analysis for developers and tech leads." -}}
+{{- $siteDescription := .Site.Params.description | default "Claracle turns GitHub activity into weekly tech trend analysis for developers and tech leads." -}}
 {{- $description := .Description | default .Summary | default $siteDescription | plainify | htmlUnescape | chomp -}}
 {{- $description = $description | truncate 155 -}}
 {{- $defaultImage := .Site.Params.default_social_image | default "/images/squadscope-social-card.png" -}}
@@ -18,7 +18,7 @@
 
 <title>{{ $title }}</title>
 <meta name="description" content="{{ $description }}">
-<meta name="author" content="{{ .Site.Params.author | default "SquadScope" }}">
+<meta name="author" content="{{ .Site.Params.author | default "Claracle" }}">
 <link rel="canonical" href="{{ .Permalink }}">
 
 <meta property="og:title" content="{{ $title }}">
@@ -34,7 +34,7 @@
 <meta name="twitter:image" content="{{ $image }}">
 
 {{- if $isArticle }}
-{{- $publisher := dict "@type" "Organization" "name" "SquadScope" "logo" (dict "@type" "ImageObject" "url" $publisherLogo) -}}
+{{- $publisher := dict "@type" "Organization" "name" "Claracle" "logo" (dict "@type" "ImageObject" "url" $publisherLogo) -}}
 {{- $schema := dict
   "@context" "https://schema.org"
   "@type" "Article"
@@ -43,7 +43,7 @@
   "image" $image
   "url" .Permalink
   "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")
-  "author" (dict "@type" "Organization" "name" "SquadScope")
+  "author" (dict "@type" "Organization" "name" "Claracle")
   "publisher" $publisher
 -}}
 <script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
