@@ -18,11 +18,14 @@ def test_footer_conditionally_renders_podcast_link() -> None:
     footer = (REPO_ROOT / "layouts" / "partials" / "footer.html").read_text(encoding="utf-8")
     # Must use Hugo's `with` or `if` to conditionally render
     assert "site.Params.podcast_url" in footer
-    # Must open in new tab with noopener
-    assert 'target="_blank"' in footer
-    assert 'rel="noopener"' in footer
-    # Must include the word "Podcast" as link text
-    assert ">Podcast<" in footer
+    # Must pipe through safeURL to prevent unsafe schemes
+    assert "safeURL" in footer
+    # Extract the Podcast link line and verify its attributes specifically
+    podcast_lines = [line for line in footer.splitlines() if ">Podcast<" in line]
+    assert podcast_lines, "Footer must contain a Podcast link"
+    podcast_link = podcast_lines[0]
+    assert 'target="_blank"' in podcast_link
+    assert 'rel="noopener"' in podcast_link
 
 
 def test_podcast_url_defaults_to_empty() -> None:
