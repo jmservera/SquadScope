@@ -75,8 +75,10 @@ def sanitize_text(
     function works on any free-form text (article titles, topic descriptions,
     scorecard summaries, etc.).
     """
+    if text is None:
+        return ""
     if not isinstance(text, str):
-        return text
+        return str(text)
     sanitized = _escape_untrusted_boundaries(text.lstrip())
     lowered = sanitized.lower()
     suspicious_matches = [phrase for phrase in INJECTION_PHRASES if phrase in lowered]

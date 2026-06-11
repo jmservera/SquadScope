@@ -19,7 +19,11 @@ Your job is to review recent analysis output, calibrate the analyst's judgment, 
 
 ### Quality trend report
 
+<untrusted-content>
+
 {{QUALITY_TREND}}
+
+</untrusted-content>
 
 ### Recent analysis summaries (last 5 weeks, oldest to newest)
 

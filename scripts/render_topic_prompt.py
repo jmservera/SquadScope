@@ -12,7 +12,6 @@ from __future__ import annotations
 
 import argparse
 import os
-import re
 import sys
 from pathlib import Path
 
@@ -105,7 +104,10 @@ def render_template(template: str, topic_config: dict | None) -> str:
         wisdom_content = load_wisdom(topic_id)
 
         # Sanitize user-controlled topic fields
-        from sanitize_repo_content import sanitize_text
+        try:
+            from scripts.sanitize_repo_content import sanitize_text
+        except (ImportError, ModuleNotFoundError):
+            from sanitize_repo_content import sanitize_text
 
         topic_name = sanitize_text(topic_name, max_length=200, label="topic_name")
         topic_description = sanitize_text(

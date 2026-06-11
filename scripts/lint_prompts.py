@@ -51,8 +51,12 @@ UNTRUSTED_VARIABLES = frozenset(
         "{{RECENT_ANALYSES}}",
         "{{SNAPSHOT_CONTEXT}}",
         "{{SCORECARD}}",
+        "{{QUALITY_TREND}}",
     }
 )
+
+# All known variables for the unknown-variable check.
+ALL_KNOWN_VARIABLES = TRUSTED_VARIABLES | SEMI_TRUSTED_VARIABLES | UNTRUSTED_VARIABLES
 
 CLOSING_CONSTRAINT_PATTERN = re.compile(
     r"##\s+closing\s+security\s+constraint", re.IGNORECASE
@@ -98,6 +102,16 @@ def lint_prompt(path: Path) -> list[str]:
     # Check for closing security constraint
     if not CLOSING_CONSTRAINT_PATTERN.search(content):
         errors.append(f"{path}: missing '## Closing security constraint' section")
+
+    # Check for unknown/unclassified template variables
+    all_vars = set(re.findall(r"\{\{[A-Z][A-Z_]*\}\}", content))
+    unknown_vars = all_vars - ALL_KNOWN_VARIABLES
+    # Exclude conditional block markers like {{#IF_TOPIC}} / {{/IF_TOPIC}}
+    for var in sorted(unknown_vars):
+        errors.append(
+            f"{path}: unknown variable {var} is not classified as "
+            f"trusted/semi-trusted/untrusted in lint_prompts.py"
+        )
 
     # Check untrusted variables are inside fenced blocks
     unfenced = _find_unfenced_variables(content)
