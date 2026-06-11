@@ -143,7 +143,7 @@ class AnalyzeFallbackTests(unittest.TestCase):
 
             self.assertNotIn('"description": "  ', prompt)
             self.assertNotIn("</untrusted-content>", prompt)
-            self.assertIn("<\\\\/untrusted-content>", prompt)
+            self.assertIn("[boundary-close-removed]", prompt)
 
     def test_render_prompt_injects_wisdom_and_skills(self) -> None:
         tests_root = Path(__file__).resolve().parent

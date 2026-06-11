@@ -14,14 +14,31 @@ LOGGER = logging.getLogger(__name__)
 
 MAX_DESCRIPTION_LENGTH = 500
 SUSPICIOUS_DESCRIPTION_LENGTH = 200
+BOUNDARY_OPEN = "<untrusted-content>"
 BOUNDARY_CLOSE = "</untrusted-content>"
-BOUNDARY_CLOSE_ESCAPED = "<\\/untrusted-content>"
+BOUNDARY_CLOSE_ESCAPED = "[boundary-close-removed]"
+BOUNDARY_OPEN_ESCAPED = "[boundary-open-removed]"
 INJECTION_PHRASES = (
     "ignore previous",
     "ignore all previous",
+    "ignore the above",
+    "ignore instructions",
+    "ignore restrictions",
     "disregard",
     "you are now",
+    "you are a",
+    "pretend to be",
+    "act as if",
+    "roleplay",
+    "new instructions",
     "system:",
+    "system prompt",
+    "user:",
+    "assistant:",
+    "</untrusted-content>",
+    "<untrusted-content>",
+    "do not follow",
+    "override",
     BOUNDARY_CLOSE,
 )
 
@@ -43,7 +60,41 @@ def _truncate(value: str, max_length: int) -> str:
 
 
 def _escape_untrusted_boundaries(value: str) -> str:
-    return value.replace(BOUNDARY_CLOSE, BOUNDARY_CLOSE_ESCAPED)
+    result = value.replace(BOUNDARY_CLOSE, BOUNDARY_CLOSE_ESCAPED)
+    result = result.replace(BOUNDARY_OPEN, BOUNDARY_OPEN_ESCAPED)
+    return result
+
+
+def sanitize_text(
+    text: Any,
+    *,
+    max_length: int = MAX_DESCRIPTION_LENGTH,
+    label: str = "text",
+) -> str:
+    """Sanitize arbitrary untrusted text for safe prompt injection.
+
+    Unlike sanitize_description (which targets repo description fields), this
+    function works on any free-form text (article titles, topic descriptions,
+    scorecard summaries, etc.).
+    """
+    if text is None:
+        return ""
+    if not isinstance(text, str):
+        text = str(text)
+    sanitized = _escape_untrusted_boundaries(text.lstrip())
+    lowered = sanitized.lower()
+    suspicious_matches = [phrase for phrase in INJECTION_PHRASES if phrase in lowered]
+
+    limit = min(SUSPICIOUS_DESCRIPTION_LENGTH, max_length) if suspicious_matches else max_length
+    truncated = _truncate(sanitized, limit)
+
+    if suspicious_matches:
+        LOGGER.warning(
+            "Suspicious %s contained possible prompt-injection phrase(s): %s",
+            label,
+            ", ".join(suspicious_matches),
+        )
+    return truncated
 
 
 def sanitize_description(

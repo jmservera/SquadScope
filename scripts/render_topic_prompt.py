@@ -88,6 +88,17 @@ def load_wisdom(topic_id: str | None) -> str:
     return ""
 
 
+def _load_sanitize_text():
+    try:
+        from scripts.sanitize_repo_content import sanitize_text as _sanitize_text
+    except (ImportError, ModuleNotFoundError):
+        scripts_dir = Path(__file__).resolve().parent
+        if str(scripts_dir) not in sys.path:
+            sys.path.insert(0, str(scripts_dir))
+        from sanitize_repo_content import sanitize_text as _sanitize_text
+    return _sanitize_text
+
+
 def render_template(template: str, topic_config: dict | None) -> str:
     """Render the topic-aware prompt template with config values.
 
@@ -102,6 +113,14 @@ def render_template(template: str, topic_config: dict | None) -> str:
         topic_name = topic_config.get("name", "")
         topic_description = topic_config.get("description", "")
         wisdom_content = load_wisdom(topic_id)
+
+        # Sanitize user-controlled topic fields
+        sanitize_text = _load_sanitize_text()
+
+        topic_name = sanitize_text(topic_name, max_length=200, label="topic_name")
+        topic_description = sanitize_text(
+            topic_description, max_length=500, label="topic_description"
+        )
 
         # Remove IF_NO_TOPIC blocks
         rendered = _remove_blocks(template, "IF_NO_TOPIC")
