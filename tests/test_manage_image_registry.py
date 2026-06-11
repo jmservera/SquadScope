@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import json
 import os
-import tempfile
 from pathlib import Path
 from unittest.mock import patch
 
@@ -147,3 +146,14 @@ class TestValidateCommand:
         ], ["validate"])
         assert rc == 1
 
+
+class TestListCommand:
+    def test_lists_registered_images(self, tmp_path: Path, capsys) -> None:
+        rc = _run_with_registry(tmp_path, [
+            {"filename": "assets/covers/img.webp", "license": "CC0", "added_by": "op"},
+        ], ["list"])
+        captured = capsys.readouterr()
+        assert rc == 0
+        assert "assets/covers/img.webp" in captured.out
+        assert "[CC0]" in captured.out
+        assert "by op" in captured.out

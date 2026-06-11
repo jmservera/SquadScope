@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import csv
 import re
+import warnings
 from pathlib import Path
 
 import yaml
@@ -139,6 +140,23 @@ def yaml_quote(value: str) -> str:
     return '"' + value.replace('\\', '\\\\').replace('"', '\\"') + '"'
 
 
+def optional_string(value: object) -> str:
+    return "" if value is None else str(value)
+
+
+def is_local_asset_path(value: object) -> bool:
+    if not isinstance(value, str) or not value:
+        return False
+    if value.startswith(("http://", "https://", "//")):
+        return False
+    asset_path = Path(value)
+    if asset_path.is_absolute():
+        return False
+    if ".." in asset_path.parts:
+        return False
+    return True
+
+
 def render_frontmatter(data: dict[str, object]) -> str:
     lines = [
         "---",
@@ -205,17 +223,17 @@ def transform_summary(frontmatter: dict[str, object], body: str) -> str:
         page_frontmatter["cover"] = {
             "image": str(cover_image),
             "alt": str(cover_alt) if cover_alt else "",
-            "attribution": str(cover_attribution) if cover_attribution else "",
-            "license": str(cover_license) if cover_license else "",
+            "attribution": optional_string(cover_attribution),
+            "license": optional_string(cover_license),
         }
 
     # Pass through OG image override — reject URLs to enforce no-hotlinking policy
     og_image = frontmatter.get("og_image")
-    if og_image and isinstance(og_image, str):
-        if og_image.startswith(("http://", "https://", "//")):
-            pass  # Reject URL-like og_image values (no hotlinking)
+    if og_image:
+        if is_local_asset_path(og_image):
+            page_frontmatter["og_image"] = str(og_image)
         else:
-            page_frontmatter["og_image"] = og_image
+            warnings.warn(f"Skipping non-local og_image value: {og_image}", stacklevel=2)
 
     return render_frontmatter(page_frontmatter) + "\n" + body.lstrip()
 

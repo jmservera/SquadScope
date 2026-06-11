@@ -44,9 +44,9 @@ def _is_safe_local_path(filename: str) -> tuple[bool, str]:
     """Check that filename is a safe local relative path."""
     if filename.startswith(("http://", "https://", "//")):
         return False, "filename is a URL (no hotlinking allowed)"
-    if filename.startswith("/"):
+    if Path(filename).is_absolute():
         return False, "filename is an absolute path (must be relative)"
-    if ".." in filename.split("/"):
+    if ".." in Path(filename).parts:
         return False, "filename contains path traversal (..)"
     return True, ""
 
