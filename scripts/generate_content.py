@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import csv
 import re
+import warnings
 from pathlib import Path
 
 import yaml
@@ -139,6 +140,23 @@ def yaml_quote(value: str) -> str:
     return '"' + value.replace('\\', '\\\\').replace('"', '\\"') + '"'
 
 
+def optional_string(value: object) -> str:
+    return "" if value is None else str(value)
+
+
+def is_local_asset_path(value: object) -> bool:
+    if not isinstance(value, str) or not value:
+        return False
+    if value.startswith(("http://", "https://", "//")):
+        return False
+    asset_path = Path(value)
+    if asset_path.is_absolute():
+        return False
+    if ".." in asset_path.parts:
+        return False
+    return True
+
+
 def render_frontmatter(data: dict[str, object]) -> str:
     lines = [
         "---",
@@ -152,9 +170,29 @@ def render_frontmatter(data: dict[str, object]) -> str:
         f'top_repo: {yaml_quote(str(data["top_repo"]))}',
         f'summary: {yaml_quote(str(data["summary"]))}',
         "draft: false",
-        "---",
-        "",
     ]
+
+    # Cover image frontmatter (PaperMod convention)
+    cover = data.get("cover")
+    if cover and isinstance(cover, dict):
+        lines.append("cover:")
+        if cover.get("image"):
+            lines.append(f'  image: {yaml_quote(str(cover["image"]))}')
+        if cover.get("alt"):
+            lines.append(f'  alt: {yaml_quote(str(cover["alt"]))}')
+        if cover.get("caption"):
+            lines.append(f'  caption: {yaml_quote(str(cover["caption"]))}')
+        if cover.get("attribution"):
+            lines.append(f'  attribution: {yaml_quote(str(cover["attribution"]))}')
+        if cover.get("license"):
+            lines.append(f'  license: {yaml_quote(str(cover["license"]))}')
+        lines.append("  relative: false")
+
+    # Explicit OG image override
+    if data.get("og_image"):
+        lines.append(f'og_image: {yaml_quote(str(data["og_image"]))}')
+
+    lines.extend(["---", ""])
     return "\n".join(lines)
 
 
@@ -164,7 +202,7 @@ def transform_summary(frontmatter: dict[str, object], body: str) -> str:
     if "weekly" not in categories:
         categories = [*categories, "weekly"]
 
-    page_frontmatter = {
+    page_frontmatter: dict[str, object] = {
         "title": normalize_title(str(frontmatter["title"])),
         "date": str(frontmatter["date"]),
         "week": str(frontmatter["week"]),
@@ -175,6 +213,31 @@ def transform_summary(frontmatter: dict[str, object], body: str) -> str:
         "top_repo": str(frontmatter["top_repo"]),
         "summary": str(frontmatter["summary"]),
     }
+
+    cover = frontmatter.get("cover") if isinstance(frontmatter.get("cover"), dict) else {}
+    cover_image = frontmatter.get("cover_image") or cover.get("image")
+    if cover_image:
+        if is_local_asset_path(cover_image):
+            cover_alt = frontmatter.get("cover_alt") or cover.get("alt")
+            cover_attribution = frontmatter.get("cover_attribution") or cover.get("attribution")
+            cover_license = frontmatter.get("cover_license") or cover.get("license")
+            page_frontmatter["cover"] = {
+                "image": str(cover_image),
+                "alt": optional_string(cover_alt),
+                "attribution": optional_string(cover_attribution),
+                "license": optional_string(cover_license),
+            }
+        else:
+            warnings.warn(f"Skipping non-local cover image value: {cover_image}", stacklevel=2)
+
+    # Pass through OG image override — reject URLs to enforce no-hotlinking policy
+    og_image = frontmatter.get("og_image")
+    if og_image:
+        if is_local_asset_path(og_image):
+            page_frontmatter["og_image"] = str(og_image)
+        else:
+            warnings.warn(f"Skipping non-local og_image value: {og_image}", stacklevel=2)
+
     return render_frontmatter(page_frontmatter) + "\n" + body.lstrip()
 
 

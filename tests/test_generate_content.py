@@ -116,6 +116,165 @@ title: \"Week 21, 2026 Analysis\"
         self.assertIn('"bad: injection"', output)
         self.assertNotIn("\nbad:", output)
 
+    def test_render_frontmatter_includes_cover_fields(self) -> None:
+        """Cover image frontmatter is rendered when present."""
+        data = {
+            "title": "Test Week",
+            "date": "2026-05-18",
+            "week": "2026-W20",
+            "tags": ["ai"],
+            "categories": ["weekly"],
+            "repos_featured": 1,
+            "stars_tracked": 100,
+            "top_repo": "owner/repo",
+            "summary": "Test.",
+            "cover": {
+                "image": "covers/2026-W20.webp",
+                "alt": "AI trends visualization",
+                "attribution": "Photo by Author on Openverse",
+                "license": "CC0",
+            },
+            "og_image": "covers/2026-W20-og.png",
+        }
+        output = generate_content.render_frontmatter(data)
+        self.assertIn("cover:", output)
+        self.assertIn('image: "covers/2026-W20.webp"', output)
+        self.assertIn('alt: "AI trends visualization"', output)
+        self.assertIn('attribution: "Photo by Author on Openverse"', output)
+        self.assertIn('license: "CC0"', output)
+        self.assertIn("relative: false", output)
+        self.assertIn('og_image: "covers/2026-W20-og.png"', output)
+
+    def test_transform_summary_passes_cover_fields(self) -> None:
+        """Cover fields from analysis frontmatter are passed to output."""
+        doc = """---
+title: "Week 20 Analysis"
+date: 2026-05-11
+week: "2026-W20"
+year: 2026
+tags: [ai]
+categories: [weekly]
+repos_featured: 5
+stars_tracked: 1000
+top_repo: "owner/repo"
+quality_score: 90
+summary: "Test summary."
+cover_image: "covers/test.webp"
+cover_alt: "Test alt text"
+cover_attribution: "Test Author"
+cover_license: "CC0"
+---
+
+Body content.
+"""
+        frontmatter, body = generate_content.parse_frontmatter(doc)
+        output = generate_content.transform_summary(frontmatter, body)
+        self.assertIn('image: "covers/test.webp"', output)
+        self.assertIn('alt: "Test alt text"', output)
+        self.assertIn("relative: false", output)
+
+    def test_transform_summary_null_cover_attribution_does_not_emit_none(self) -> None:
+        """YAML null in cover_attribution/cover_license must not produce 'None' string."""
+        doc = """---
+title: "Week 20 Analysis"
+date: 2026-05-11
+week: "2026-W20"
+year: 2026
+tags: [ai]
+categories: [weekly]
+repos_featured: 5
+stars_tracked: 1000
+top_repo: "owner/repo"
+quality_score: 90
+summary: "Test summary."
+cover_image: "covers/test.webp"
+cover_attribution: null
+cover_license: null
+---
+
+Body.
+"""
+        frontmatter, body = generate_content.parse_frontmatter(doc)
+        output = generate_content.transform_summary(frontmatter, body)
+        self.assertNotIn("None", output)
+        self.assertIn('image: "covers/test.webp"', output)
+
+    def test_transform_summary_rejects_url_og_image(self) -> None:
+        """og_image values that are URLs must be silently dropped (no hotlinking)."""
+        doc = """---
+title: "Week 20 Analysis"
+date: 2026-05-11
+week: "2026-W20"
+year: 2026
+tags: [ai]
+categories: [weekly]
+repos_featured: 5
+stars_tracked: 1000
+top_repo: "owner/repo"
+quality_score: 90
+summary: "Test summary."
+og_image: "https://evil.com/image.png"
+---
+
+Body.
+"""
+        frontmatter, body = generate_content.parse_frontmatter(doc)
+        output = generate_content.transform_summary(frontmatter, body)
+        self.assertNotIn("og_image", output)
+        self.assertNotIn("evil.com", output)
+
+    def test_transform_summary_rejects_url_cover_image(self) -> None:
+        """cover_image values that are URLs must be dropped."""
+        doc = """---
+title: "Week 20 Analysis"
+date: 2026-05-11
+week: "2026-W20"
+year: 2026
+tags: [ai]
+categories: [weekly]
+repos_featured: 5
+stars_tracked: 1000
+top_repo: "owner/repo"
+quality_score: 90
+summary: "Test summary."
+cover_image: "https://evil.com/cover.png"
+---
+
+Body.
+"""
+        frontmatter, body = generate_content.parse_frontmatter(doc)
+        output = generate_content.transform_summary(frontmatter, body)
+        self.assertNotIn("cover:", output)
+        self.assertNotIn("evil.com", output)
+
+    def test_transform_summary_falls_back_to_cover_block_attribution_and_license(self) -> None:
+        doc = """---
+title: "Week 20 Analysis"
+date: 2026-05-11
+week: "2026-W20"
+year: 2026
+tags: [ai]
+categories: [weekly]
+repos_featured: 5
+stars_tracked: 1000
+top_repo: "owner/repo"
+quality_score: 90
+summary: "Test summary."
+cover:
+  image: "covers/test.webp"
+  alt: "Test alt text"
+  attribution: "Existing Author"
+  license: "Openverse"
+---
+
+Body.
+"""
+        frontmatter, body = generate_content.parse_frontmatter(doc)
+        output = generate_content.transform_summary(frontmatter, body)
+        self.assertIn('image: "covers/test.webp"', output)
+        self.assertIn('attribution: "Existing Author"', output)
+        self.assertIn('license: "Openverse"', output)
+
 
 if __name__ == "__main__":
     unittest.main()
