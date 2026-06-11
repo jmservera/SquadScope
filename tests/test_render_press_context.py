@@ -182,7 +182,7 @@ class TestRenderPressContext:
         assert "Press-correlated" in result
         assert "Organic growth" in result
         assert "Hype risk" in result
-        assert "Press vs Reality" in result
+        assert "Press & Industry" in result
 
     def test_hype_risk_labels(self):
         corr = _correlation(hype_risk="high")
@@ -309,7 +309,7 @@ class TestRenderPressContextReaderMode:
         )
         assert "### Instructions" not in result
         assert "Press-correlated" not in result
-        assert "Press vs Reality" not in result
+        assert "Press & Industry" not in result
 
     def test_ai_mode_keeps_instructions_block(self):
         result = render_press_context(

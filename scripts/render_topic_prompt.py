@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -102,6 +103,14 @@ def render_template(template: str, topic_config: dict | None) -> str:
         topic_name = topic_config.get("name", "")
         topic_description = topic_config.get("description", "")
         wisdom_content = load_wisdom(topic_id)
+
+        # Sanitize user-controlled topic fields
+        from sanitize_repo_content import sanitize_text
+
+        topic_name = sanitize_text(topic_name, max_length=200, label="topic_name")
+        topic_description = sanitize_text(
+            topic_description, max_length=500, label="topic_description"
+        )
 
         # Remove IF_NO_TOPIC blocks
         rendered = _remove_blocks(template, "IF_NO_TOPIC")

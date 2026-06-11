@@ -64,11 +64,17 @@ def load_json(path: Path) -> dict | None:
 
 def format_articles_list(articles: list[dict]) -> str:
     """Format articles into a markdown list."""
+    from sanitize_repo_content import sanitize_text
+
     if not articles:
         return "- (none)"
     lines = []
     for article in articles[:MAX_RENDERED_ARTICLES]:
-        title = article.get("title", "Untitled")
+        title = sanitize_text(
+            article.get("title", "Untitled"),
+            max_length=200,
+            label="article_title",
+        )
         url = article.get("url", "")
         categories = article.get("categories", [])
         source = article.get("source", "unknown")
