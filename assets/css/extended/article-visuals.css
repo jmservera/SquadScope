@@ -79,16 +79,35 @@
 .article-cover__topic {
   padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-full);
-  background: var(--color-accent-muted);
-  color: var(--color-accent);
   font-size: var(--text-xs);
   font-weight: 700;
 }
 
-.article-cover__topic--more {
+/* Real links to the tag term page keep an interactive pill affordance. */
+.article-cover__topic--link {
+  background: var(--color-accent-muted);
+  color: var(--color-accent);
+}
+
+.article-cover__topic--link a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.article-cover__topic--link:hover,
+.article-cover__topic--link:focus-within {
+  background: var(--color-accent);
+  color: var(--color-surface);
+}
+
+/* Non-interactive labels: plain text, no button/border/background affordance. */
+.article-cover__topic--static {
+  padding-inline: 0;
+  border: 0;
   background: transparent;
-  border: var(--size-border-thin) solid var(--color-border);
   color: var(--color-text-muted);
+  font-weight: 600;
 }
 
 .article-cover__fallback-note {
@@ -203,12 +222,34 @@
 
 .topic-stars__chip {
   padding: var(--space-1) var(--space-3);
-  border: var(--size-border-thin) solid var(--color-border);
   border-radius: var(--radius-full);
-  background: var(--color-accent-muted);
-  color: var(--color-accent);
   font-size: var(--text-sm);
   font-weight: 700;
+}
+
+/* Real links to a topic/tag term page keep an interactive pill affordance. */
+.topic-stars__chip--link {
+  border: var(--size-border-thin) solid var(--color-border);
+  background: var(--color-accent-muted);
+  color: var(--color-accent);
+}
+
+.topic-stars__chip--link a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.topic-stars__chip--link:hover,
+.topic-stars__chip--link:focus-within {
+  background: var(--color-accent);
+  color: var(--color-surface);
+}
+
+/* Non-interactive labels: plain text, no button/border/background affordance. */
+.topic-stars__chip--static {
+  padding-inline: 0;
+  color: var(--color-text-muted);
 }
 
 .topic-stars__figures {

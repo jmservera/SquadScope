@@ -5,7 +5,9 @@
     repo-trend repo="cpaczek/skylight" values="120|340|512|890|2332" labels="W20|W21|W22|W23|W24" caption="Weekly star count."
 */ -}}
 {{- $values := slice -}}
-{{- with .Get "values" }}{{ range (split . "|") }}{{ $values = $values | append (. | float) }}{{ end }}{{ end -}}
+{{- /* Coerce only well-formed numeric tokens; skip empty/non-numeric input so a
+       stray token (e.g. "N/A") never errors the build. */ -}}
+{{- with .Get "values" }}{{ range (split . "|") }}{{ $t := trim . " " }}{{ if findRE `^-?[0-9]+(\.[0-9]+)?$` $t }}{{ $values = $values | append ($t | float) }}{{ end }}{{ end }}{{ end -}}
 {{- $labels := slice -}}
 {{- with .Get "labels" }}{{ $labels = split . "|" }}{{ end -}}
 {{ partial "visuals/repo-trend.html" (dict

@@ -26,7 +26,15 @@
     {{- range $topics }}
       {{- $name := . -}}
       {{- if reflect.IsMap . }}{{ $name = .name }}{{ end }}
-      <li class="topic-stars__chip">{{ $name }}</li>
+      {{- /* Link to a matching topic/tag term page when one exists; otherwise a
+             plain, non-interactive label (never button-styled non-link text). */ -}}
+      {{- $slug := $name | urlize -}}
+      {{- $term := or (site.GetPage (printf "/topics/%s" $slug)) (site.GetPage (printf "/tags/%s" $slug)) -}}
+      {{- if $term }}
+      <li class="topic-stars__chip topic-stars__chip--link"><a href="{{ $term.RelPermalink }}">{{ $name }}</a></li>
+      {{- else }}
+      <li class="topic-stars__chip topic-stars__chip--static">{{ $name }}</li>
+      {{- end }}
     {{- end }}
   </ul>
   {{- /* Coerce repos/stars to integers; .Get from the shortcode yields strings,

@@ -34,10 +34,14 @@ def test_weekly_single_wires_cover_and_signal_noise() -> None:
 
 def test_generated_visuals_have_accessible_names() -> None:
     cover = _read(VIS / "cover-card.html")
-    # The cover exposes a real-data accessible name and hides the decorative motif.
-    assert 'role="img"' in cover
+    # The figure must NOT use role="img": that collapses the whole container into a
+    # single image node and hides its real text (kicker, brand, topics) from AT.
+    assert 'role="img"' not in cover
+    # It still exposes a real-data accessible name, keeps the topic text in the DOM
+    # (not aria-hidden), and hides only the decorative motif.
     assert "aria-label=" in cover
     assert 'aria-hidden="true"' in cover
+    assert 'class="article-cover__topics"' in cover  # real topic text stays exposed
     trend = _read(VIS / "repo-trend.html")
     assert "visually-hidden" in trend  # text summary for the chart data
     assert 'aria-hidden="true"' in trend

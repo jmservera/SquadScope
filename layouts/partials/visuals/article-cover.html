@@ -25,7 +25,10 @@
       {{- /* Only accept locally-hosted resources, matched EXACTLY (not as a
              substring glob) so selection is deterministic and policy-safe.
              External/hotlinked URLs never resolve to a resource and are ignored. */ -}}
-      {{- $bundle := $page.Resources.GetMatch . -}}
+      {{- /* Escape glob metacharacters (*?[]\) so a cover.image value containing
+             them is matched literally by GetMatch rather than as a glob pattern. */ -}}
+      {{- $pattern := replaceRE `([*?\[\]\\])` `\${1}` . -}}
+      {{- $bundle := $page.Resources.GetMatch $pattern -}}
       {{- $global := resources.Get . -}}
       {{- $candidate := or $bundle $global -}}
       {{- if and $candidate (eq $candidate.ResourceType "image") -}}
