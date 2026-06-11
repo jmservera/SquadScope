@@ -42,7 +42,10 @@
     <figure class="article-cover article-cover--image">
       {{- $sized := $img.Resize "1200x webp q82" -}}
       <img class="article-cover__img" src="{{ $sized.RelPermalink }}" width="{{ $sized.Width }}" height="{{ $sized.Height }}" loading="eager" decoding="async" alt="{{ $alt }}">
-      {{- with $attribution }}<figcaption class="article-cover__attribution">{{ . | markdownify }}</figcaption>{{ end }}
+      {{- /* Render attribution as a safe inline subset (#329): allow simple
+             emphasis/links from Markdown, but strip any <img> the markdown
+             image syntax would emit so hotlinked imagery cannot appear here. */ -}}
+      {{- with $attribution }}<figcaption class="article-cover__attribution">{{ . | markdownify | replaceRE `(?i)<img[^>]*>` "" | safeHTML }}</figcaption>{{ end }}
     </figure>
   {{- else -}}
     {{ partial "visuals/cover-card.html" (dict "page" $page) }}

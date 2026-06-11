@@ -14,8 +14,10 @@
 */ -}}
 {{- $values := .values | default slice -}}
 {{- $labels := .labels | default slice -}}
-{{- $repo := .repo -}}
-{{- $heading := .heading | default (cond (ne (printf "%v" $repo) "<nil>") (printf "%s — trend" $repo) "Trend") -}}
+{{- $repo := .repo | default "" -}}
+{{- /* An empty/omitted repo is treated as absent: fall back to the plain
+       heading rather than emitting a broken "<empty> — trend" string. */ -}}
+{{- $heading := .heading | default (cond (ne $repo "") (printf "%s — trend" $repo) "Trend") -}}
 {{- $level := .level | default "h3" | lower -}}
 {{- if not (in (slice "h2" "h3" "h4" "h5" "h6") $level) }}{{ $level = "h3" }}{{ end -}}
 {{- /* $level is strictly whitelisted above, so the tag name is safe to emit;
@@ -48,6 +50,9 @@
     {{- end -}}
   </svg>
   <p class="visually-hidden">{{ $heading }}. {{ delimit $summary "; " }}.</p>
-  {{- with $caption }}<figcaption class="repo-trend__caption">{{ . | markdownify }}</figcaption>{{ end }}
+  {{- /* Render the caption as a safe inline subset (#329): allow simple
+         emphasis/links from Markdown, but strip any <img> the markdown image
+         syntax would emit so no third-party/hotlinked imagery can slip in. */ -}}
+  {{- with $caption }}<figcaption class="repo-trend__caption">{{ . | markdownify | replaceRE `(?i)<img[^>]*>` "" | safeHTML }}</figcaption>{{ end }}
 </figure>
 {{- end -}}
