@@ -51,19 +51,15 @@
       <p class="article-cover__kicker">{{ $kicker }}</p>
       <p class="article-cover__brand">Claracle</p>
       {{- if gt $topicCount 0 }}
+      {{- /* Topic titles are descriptive caption metadata, NOT controls. Render them
+             as plain, non-interactive labels — no link, no button/pill affordance —
+             so they never look clickable (operator ask, #328). */ -}}
       <ul class="article-cover__topics" aria-label="Topics tracked this week">
         {{- range first 6 $topics }}
-        {{- /* Link to the matching tag term page when one exists; otherwise render
-               a plain, non-interactive label (never a button-styled non-link). */ -}}
-        {{- $term := site.GetPage (printf "/tags/%s" (. | urlize)) -}}
-        {{- if $term }}
-        <li class="article-cover__topic article-cover__topic--link"><a href="{{ $term.RelPermalink }}">{{ . }}</a></li>
-        {{- else }}
-        <li class="article-cover__topic article-cover__topic--static">{{ . }}</li>
-        {{- end }}
+        <li class="article-cover__topic">{{ . }}</li>
         {{- end }}
         {{- if gt $topicCount 6 }}
-        <li class="article-cover__topic article-cover__topic--static article-cover__topic--more">+{{ sub $topicCount 6 }} more</li>
+        <li class="article-cover__topic article-cover__topic--more">+{{ sub $topicCount 6 }} more</li>
         {{- end }}
       </ul>
       {{- end }}

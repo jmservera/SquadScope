@@ -89,6 +89,29 @@ def test_topic_constellation_coerces_numeric_figures() -> None:
     assert "lang.FormatNumber 0 (int" in text
 
 
+def test_topic_titles_are_non_interactive_labels() -> None:
+    # Operator ask (#328): topic titles must NOT look (or be) clickable. They are
+    # rendered as plain labels — no link, no button/pill affordance — while the
+    # chart itself stays intact.
+    cover = _read(VIS / "cover-card.html")
+    constellation = _read(VIS / "topic-constellation.html")
+    # No anchors around topic chips in either module.
+    assert "<a href=" not in cover, "cover topic chips must not be links"
+    assert "<a href=" not in constellation, "constellation chips must not be links"
+    # The topic list/text is still present (chart intact).
+    assert 'class="article-cover__topics"' in cover
+    assert 'class="article-cover__topic"' in cover
+    # CSS must not give the chips a button/pill affordance (background/border/hover).
+    css = _read(ROOT / "assets/css/extended/article-visuals.css")
+    for sel in (
+        ".article-cover__topic--link",
+        ".article-cover__topic--static",
+        ".topic-stars__chip--link",
+        ".topic-stars__chip--static",
+    ):
+        assert sel not in css, f"stale clickable-chip rule remains: {sel}"
+
+
 def test_unsafe_markdown_remains_disabled() -> None:
     cfg = _read(ROOT / "hugo.toml")
     assert "unsafe = false" in cfg
