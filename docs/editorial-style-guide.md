@@ -101,17 +101,17 @@ Show notes must include:
 
 ### 5.1 AI Voice Disclosure (MANDATORY)
 
-- The **first 60 seconds** of every episode must include explicit disclosure that this is an AI-generated podcast
-- Suggested phrasing: "This episode of Signal Check is AI-generated from SquadScope's weekly analysis. Our hosts are synthetic — the data is real."
-- The outro must repeat the AI disclosure
-- Show notes must state: "This podcast is AI-generated. Hosts are synthetic personas."
+- The **first 60 seconds** of every episode must include explicit disclosure that this podcast uses AI-generated voices
+- Suggested phrasing: "This episode of Signal Check uses AI-generated voices from SquadScope's weekly analysis. Our hosts are synthetic — the data is real."
+- The outro must repeat the AI voice disclosure
+- Show notes must state: "This podcast uses AI-generated voices. Hosts are synthetic personas."
 
 ### 5.2 Prohibited Content
 
 | Category | Rule |
 |----------|------|
 | **Real-person mimicry** | Never model host voices, mannerisms, or catchphrases on identifiable real people |
-| **Copied expression** | No verbatim quotes >15 words from any copyrighted podcast, article, or show |
+| **Copied expression** | No verbatim copying from other podcasts. Short excerpts (≤10 words) from written sources are permitted only with explicit quoting and attribution. |
 | **Unsupported facts** | No claims without claim-ledger backing (see §4) |
 | **Defamatory motive claims** | Never attribute malicious intent to project maintainers, companies, or individuals |
 | **Fake sponsorship** | Never include language that implies paid sponsorship, affiliate relationships, or endorsement unless explicitly disclosed and real |
@@ -122,7 +122,7 @@ Show notes must include:
 ### 5.3 Corrections Path
 
 Every episode must reference the corrections mechanism:
-- "If we got something wrong, file an issue at [repo URL] or email [corrections contact]"
+- "If we got something wrong, file an issue at https://github.com/jmservera/SquadScope/issues/new?labels=correction"
 - Corrections from previous episodes must be acknowledged at the top of the next episode's Cold Open if applicable
 
 ### 5.4 Sponsorship & Monetization Language
@@ -137,10 +137,10 @@ Every episode must reference the corrections mechanism:
 
 ### Word Count
 
-- Target: 1,200–1,700 words total script
-- Hard minimum: 1,000 words (below this, the episode is too thin)
-- Hard maximum: 2,000 words (above this, the episode exceeds 10-minute target)
-- Override: Only a manual operator flag can exceed these bounds
+- **Required range: 1,200–1,700 words** total script
+- Scripts outside this range MUST NOT be published unless a manual operator override is explicitly applied
+- Below 1,200 words the episode is too thin to cover all segments meaningfully
+- Above 1,700 words the episode exceeds the 10-minute target duration
 
 ### Script Structure
 
@@ -196,8 +196,8 @@ ai_generated: true
 - Source article: [URL]
 - Repos mentioned: [list with GitHub URLs]
 - Press references: [list with URLs]
-- Corrections: [link to corrections process]
-- AI Disclosure: This episode is AI-generated. Hosts are synthetic personas.
+- Corrections: https://github.com/jmservera/SquadScope/issues/new?labels=correction
+- AI Disclosure: This podcast uses AI-generated voices. Hosts are synthetic personas.
 ```
 
 ---
@@ -209,10 +209,10 @@ Before any script is approved for TTS or publication:
 - [ ] AI disclosure appears in first 60 seconds AND outro
 - [ ] All substantive claims trace to claim ledger
 - [ ] No prohibited content (§5.2) present
-- [ ] Word count within 1,000–2,000 range
+- [ ] Word count within 1,200–1,700 range (or manual override explicitly applied)
 - [ ] All 7 segments present in correct order
 - [ ] No real-person mimicry in host dialogue
 - [ ] Show notes include all required links
 - [ ] Corrections path referenced
-- [ ] No copied expression >15 words from external source
+- [ ] No copied expression from other podcasts; written-source excerpts ≤10 words with citation only
 - [ ] Humor targets ideas/trends, not individuals
