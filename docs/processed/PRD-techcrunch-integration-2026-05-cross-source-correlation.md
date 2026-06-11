@@ -10,7 +10,7 @@
 **Date:** 2026-05-19  
 **Status:** Superseded — see canonical `PRD-techcrunch-integration.md`  
 **Type:** Feature PRD  
-**Depends on:** .squad/decisions.md (Decision #7: Crawler Plugin Architecture), docs/PRD-topic-channels.md
+**Depends on:** .squad/decisions.md (Decision #7: Crawler Plugin Architecture), docs/processed/PRD-topic-channels.md
 
 ---
 
@@ -295,8 +295,8 @@ preceded the star surge. Label as "press-correlated" or "organic."
 
 - **PRD-topic-channels.md:** TechCrunch correlation enriches per-topic analysis. AI-focused TC articles correlate with `ai-ml` topic channel repos.
 - **PRD-cost-estimation.md:** Incremental cost is negligible (<$0.01/week). No tier change needed.
-- **decisions.md Decision #7:** This is the first concrete implementation of the crawler plugin architecture.
-- **decisions.md MCP Tools:** TechCrunch RSS fetch can be an MCP tool, registered in allowlist per Decision 5.
+- **.squad/decisions-archive.md Decision #7:** This is the first concrete implementation of the crawler plugin architecture.
+- **.squad/decisions-archive.md MCP Tools:** TechCrunch RSS fetch can be an MCP tool, registered in allowlist per Decision 5.
 
 ---
 
