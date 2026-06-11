@@ -34,6 +34,10 @@ rssLimit = 20
   ShowAllPagesInArchive = true
   mainSections = ['weekly', 'monthly', 'yearly']
 
+  # External podcast link (leave empty to hide)
+  # When set, a "Podcast" link appears in the site footer navigation.
+  podcast_url = ""
+
   [params.homeInfoParams]
     Title = 'Weekly tech signal from GitHub'
     Content = 'Claracle turns GitHub activity into readable weekly, monthly, and yearly trend reports for busy developers and tech leads.'
