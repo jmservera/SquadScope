@@ -9,7 +9,7 @@ tools: []
 
 ## Context
 
-Before approving any frontend PR that changes layouts, typography, components, or theme tokens, Calculon runs a Playwright screenshot pass against the live Hugo preview of the PR branch. Screenshots are diffed against a baseline saved on `main`. Mismatches are compared against the acceptance criteria in `docs/design/redesign-proposal-2026-05.md`.
+Before approving any frontend PR that changes layouts, typography, components, or theme tokens, Calculon runs a Playwright screenshot pass against the live Hugo preview of the PR branch. Screenshots are diffed against a baseline saved on `main`. Mismatches are compared against the acceptance criteria in `docs/processed/redesign-proposal-2026-05.md`.
 
 This skill was established 2026-05-25. Bump confidence to **medium** after it has been used successfully on 2+ PRs.
 
@@ -71,7 +71,7 @@ npx playwright test tests/visual/
 
 ### 4. Compare against acceptance criteria
 
-Open `docs/design/redesign-proposal-2026-05.md`. Each phase has an **Acceptance Criteria** section. For each viewport × theme screenshot, check:
+Open `docs/processed/redesign-proposal-2026-05.md`. Each phase has an **Acceptance Criteria** section. For each viewport × theme screenshot, check:
 
 - Heading typescale matches spec (`--heading-xl`, `--heading-lg`, etc.)
 - Accent color, bg, and text color match palette tokens
@@ -97,7 +97,7 @@ Post a PR comment containing:
 | `/yearly/2026/` | … | | | |
 
 ### Mismatches against spec
-- [ ] List any deviations from `docs/design/redesign-proposal-2026-05.md` acceptance criteria
+- [ ] List any deviations from `docs/processed/redesign-proposal-2026-05.md` acceptance criteria
 
 **Decision:** ✅ Approved / 🔄 Changes requested
 ```

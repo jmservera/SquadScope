@@ -49,7 +49,7 @@ Include in icon spec:
 
 ## Example
 
-See `docs/design/icon-spec.md` — Section 2 "Silhouette Safety Check" documents the robot-with-binoculars verification.
+See `docs/processed/icon-spec.md` — Section 2 "Silhouette Safety Check" documents the robot-with-binoculars verification.
 
 ## Promotion Criteria
 
@@ -60,4 +60,4 @@ Confidence → medium after:
 ## References
 
 - Branding-safety directive: `.squad/decisions/inbox/copilot-directive-icon-ss-association.md`
-- Icon spec with example: `docs/design/icon-spec.md`
+- Icon spec with example: `docs/processed/icon-spec.md`

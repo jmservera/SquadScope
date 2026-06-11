@@ -25,10 +25,10 @@
 
 **Severity:** info  
 **Principle:** Reliability & Safety, Accountability  
-**Artifact:** `docs/design/icon-spec.md` (current file documents the **radar sweep** replacement, which is safe; the rejected SS-rune design is documented in project history but not in any current spec file)
+**Artifact:** `docs/processed/icon-spec.md` (current file documents the **robot with binoculars** replacement, which is safe; the rejected SS-rune design is documented in project history but not in any current spec file)
 
 **Finding:**  
-The old double-S monogram design was caught by the human user (jmservera), not by any agent or checklist. The icon-safety-check skill now exists (`.squad/skills/icon-safety-check/SKILL.md`), and the current radar-sweep spec is clean: concentric circles + sweep line + signal blip. No hate-symbol resemblance at any tested size or transformation. The silhouette at 16px is unambiguous (circle with radial line).
+The old double-S monogram design was caught by the human user (jmservera), not by any agent or checklist. The icon-safety-check skill now exists (`.squad/skills/icon-safety-check/SKILL.md`), and the current robot-with-binoculars spec is clean: a rounded-square robot head with a single antenna and two circular binocular eyepieces. No hate-symbol resemblance at any tested size or transformation. The silhouette at 16px is unambiguous (robot face with antenna and prominent circular "eyes").
 
 **Why the catch was missed by existing process:**  
 No icon safety check existed in the team's workflow at the time Calculon proposed the original design. Calculon's design review skill (`design-visual-verification`) is focused on layout/contrast/typography matching — it does not include a hate-symbol silhouette screen. The failure mode is a classic **domain gap**: the aesthetic reviewer was optimizing for craft, not for adversarial misreading. A hostile viewer or bad-faith screenshotter can extract a thumbnail at 16px with ambiguous letterforms and the framing does the rest.
@@ -197,7 +197,7 @@ Neither W21 nor W22 explicitly discloses AI-assisted authorship anywhere in the 
 **Artifact:** `assets/css/tokens.css`, Phase 2 header (PR #185 merged)
 
 **Finding:**  
-Token contrast ratios as specified in `docs/design/redesign-proposal-2026-05.md` and confirmed in `assets/css/tokens.css`:
+Token contrast ratios as specified in `docs/processed/redesign-proposal-2026-05.md` and confirmed in `assets/css/tokens.css`:
 - `--text` on `--bg`: 15.3:1 (light), 14.5:1 (dark) — ✅ AAA
 - `--text-muted` on `--bg`: 6.1:1 (light), 7.3:1 (dark) — ✅ AA (≥4.5:1)
 - `--accent` on `--bg`: 4.9:1 (light), 7.8:1 (dark) — ✅ AA (borderline in light mode; passes, but only by 0.4 ratio points)
