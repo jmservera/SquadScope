@@ -172,6 +172,56 @@ Body content.
         self.assertIn('image: "covers/test.webp"', output)
         self.assertIn('alt: "Test alt text"', output)
 
+    def test_transform_summary_null_cover_attribution_does_not_emit_none(self) -> None:
+        """YAML null in cover_attribution/cover_license must not produce 'None' string."""
+        doc = """---
+title: "Week 20 Analysis"
+date: 2026-05-11
+week: "2026-W20"
+year: 2026
+tags: [ai]
+categories: [weekly]
+repos_featured: 5
+stars_tracked: 1000
+top_repo: "owner/repo"
+quality_score: 90
+summary: "Test summary."
+cover_image: "covers/test.webp"
+cover_attribution: null
+cover_license: null
+---
+
+Body.
+"""
+        frontmatter, body = generate_content.parse_frontmatter(doc)
+        output = generate_content.transform_summary(frontmatter, body)
+        self.assertNotIn("None", output)
+        self.assertIn('image: "covers/test.webp"', output)
+
+    def test_transform_summary_rejects_url_og_image(self) -> None:
+        """og_image values that are URLs must be silently dropped (no hotlinking)."""
+        doc = """---
+title: "Week 20 Analysis"
+date: 2026-05-11
+week: "2026-W20"
+year: 2026
+tags: [ai]
+categories: [weekly]
+repos_featured: 5
+stars_tracked: 1000
+top_repo: "owner/repo"
+quality_score: 90
+summary: "Test summary."
+og_image: "https://evil.com/image.png"
+---
+
+Body.
+"""
+        frontmatter, body = generate_content.parse_frontmatter(doc)
+        output = generate_content.transform_summary(frontmatter, body)
+        self.assertNotIn("og_image", output)
+        self.assertNotIn("evil.com", output)
+
 
 if __name__ == "__main__":
     unittest.main()
