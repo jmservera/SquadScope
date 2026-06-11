@@ -371,7 +371,7 @@ summary:focus-visible,
 
 @media (max-width: 768px) {
   .post-title {
-    font-size: clamp(var(--text-2xl), 8vw, var(--text-3xl));
+    font-size: clamp(var(--text-xl), 6vw, var(--text-2xl));
   }
 
   .post-meta {
@@ -380,15 +380,13 @@ summary:focus-visible,
     gap: var(--space-1) var(--space-2);
   }
 
-  .home-actions,
-  .report-shortcuts {
+  .home-actions {
     flex-direction: column;
     align-items: stretch;
   }
 
   .home-action-primary,
-  .home-action-secondary,
-  .report-shortcuts a {
+  .home-action-secondary {
     width: 100%;
   }
 
@@ -403,6 +401,122 @@ summary:focus-visible,
 
   .search-panel .pagefind-ui__search-input {
     font-size: var(--text-base);
+  }
+
+  /* #327: compress the pre-content stack so article text appears sooner on mobile. */
+  .squad-article {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Reading-first order on mobile: lead with nav + key metrics, then the article;
+     defer the featured-repo hero card and site shortcuts until after the prose. */
+  .squad-article > .article-header { order: 1; }
+  .squad-article > .article-jump-nav { order: 2; }
+  .squad-article > .report-metrics { order: 3; }
+  .squad-article > .article-content { order: 4; }
+  .squad-article > .article-featured-repos { order: 5; }
+  .squad-article > .report-shortcuts { order: 6; }
+  .squad-article > .share-block { order: 7; }
+  .squad-article > .article-footer { order: 8; }
+
+  .article-header {
+    gap: var(--space-2);
+    padding-block: var(--space-3) var(--space-3);
+  }
+
+  .article-subtitle {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+  }
+
+  .squad-article .report-metrics,
+  .article-jump-nav,
+  .article-featured-repos,
+  .squad-report .report-shortcuts {
+    margin-top: var(--space-3);
+  }
+
+  /* Dense metric grid: two compact cards per row instead of tall full-width stacks. */
+  .squad-article .report-metrics,
+  .home-latest .report-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+
+  .squad-article .metric-card,
+  .home-latest .metric-card {
+    min-width: 0;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .squad-article .metric-label,
+  .home-latest .metric-label {
+    font-size: var(--text-xs);
+  }
+
+  .squad-article .metric-value,
+  .home-latest .metric-value {
+    font-size: var(--text-base);
+    overflow-wrap: anywhere;
+  }
+
+  /* Report shortcuts as a dense wrapping pill row, not a full-width column stack. */
+  .squad-report .report-shortcuts {
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: var(--space-2);
+  }
+
+  .squad-report .report-shortcuts a {
+    flex: 0 1 auto;
+    min-height: var(--tap-target, 2.75rem);
+    padding-inline: var(--space-3);
+  }
+
+  /* 44px minimum tap targets for inline navigation controls. */
+  .squad-article .article-jump-nav a,
+  .squad-article .repo-card__button {
+    min-height: var(--tap-target, 2.75rem);
+  }
+
+  .home-actions .home-action-primary,
+  .home-actions .home-action-secondary {
+    min-height: var(--tap-target, 2.75rem);
+  }
+
+  /* Tighter featured-repo card on small screens. */
+  .repo-card {
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+
+  /* The top share block is redundant on mobile; the bottom one remains. */
+  .article-share--top {
+    display: none;
+  }
+
+  /* Scannability: shorten the section rhythm so long articles don't read as a wall. */
+  .article-content h2 {
+    margin-top: var(--space-5);
+    padding-top: var(--space-3);
+  }
+
+  .article-content h3 {
+    margin-top: var(--space-4);
+  }
+
+  .md-content h1 {
+    margin-block: var(--space-4) var(--space-3);
+  }
+
+  .md-content h2 {
+    margin-block: var(--space-4) var(--space-3);
+  }
+
+  .article-content blockquote,
+  .press-context-callout {
+    margin-block: var(--space-4);
   }
 }
 

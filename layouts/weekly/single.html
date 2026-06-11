@@ -19,7 +19,7 @@
   {{ partial "report-shortcuts.html" . }}
 
   {{- if (and site.Params.ShowShareButtons (ne .Params.disableShare true)) }}
-  {{- partial "share_icons.html" . -}}
+  <div class="article-share article-share--top">{{ partial "share_icons.html" . }}</div>
   {{- end }}
 
   <div class="post-content md-content article-content">
