@@ -2,13 +2,13 @@
 title = 'Methodology'
 date = '2026-05-25T00:00:00+02:00'
 draft = false
-summary = 'How SquadScope finds, ranks, and explains GitHub trend signals.'
-description = 'Plain-English methodology for SquadScope source selection, scoring, ranking, and known bias limits.'
+summary = 'How Claracle finds, ranks, and explains GitHub trend signals.'
+description = 'Plain-English methodology for Claracle source selection, scoring, ranking, and known bias limits.'
 +++
 
 ## What this page is for
 
-SquadScope is a weekly, AI-assisted read on developer and open-source momentum. We use automated crawls to find candidate projects, then generate editorial briefs from that evidence. This page explains where we look, how we rank what we find, and how readers should account for the gaps.
+Claracle is a weekly, AI-assisted read on developer and open-source momentum. We use automated crawls to find candidate projects, then generate editorial briefs from that evidence. This page explains where we look, how we rank what we find, and how readers should account for the gaps.
 
 ## Where we look
 
@@ -28,7 +28,7 @@ For topic channels, `scripts/score_repos.py` can compute a 0-100 relevance score
 
 ## Responsible-AI caveats and bias limits
 
-- **Source bias:** GitHub repositories and the current TechCrunch feed are only a slice of developer activity. Private work, enterprise pilots, package registries, community forums, regional press, and smaller newsletters are under-observed, so SquadScope should not be read as a neutral or complete map of technology.
+- **Source bias:** GitHub repositories and the current TechCrunch feed are only a slice of developer activity. Private work, enterprise pilots, package registries, community forums, regional press, and smaller newsletters are under-observed, so Claracle should not be read as a neutral or complete map of technology.
 - **English-language source bias:** GitHub metadata and the current TechCrunch feed favor English-language projects and coverage; treat non-English ecosystem absence as under-observation, not lack of activity.
 - **Platform bias:** GitHub-centric measurement over-represents open-source projects, public launch behavior, star-seeking promotion, and communities that already use GitHub. Work happening on GitLab, SourceHut, Bitbucket, self-hosted forges, package registries, Discord, Slack, or behind company firewalls may be invisible.
 - **High-star bias:** The default crawl requires more than 50 stars and sorts by stars, so important niche projects can be missed until they are already visible.

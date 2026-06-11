@@ -1,6 +1,6 @@
 baseURL = 'https://claracle.com/'
 locale = 'en-us'
-title = 'SquadScope — Weekly Tech Trends from GitHub'
+title = 'Claracle — Weekly Tech Trends from GitHub'
 theme = 'PaperMod'
 enableRobotsTXT = true
 rssLimit = 20
@@ -21,7 +21,7 @@ rssLimit = 20
 
 [params]
   ga_measurement_id = ""
-  description = 'SquadScope turns GitHub activity into readable weekly, monthly, and yearly trend reports for busy developers and tech leads.'
+  description = 'Claracle turns GitHub activity into readable weekly, monthly, and yearly trend reports for busy developers and tech leads.'
   default_social_image = '/images/squadscope-social-card.png'
   defaultTheme = 'auto'
   disableSpecial1stPost = true
@@ -36,7 +36,7 @@ rssLimit = 20
 
   [params.homeInfoParams]
     Title = 'Weekly tech signal from GitHub'
-    Content = 'SquadScope turns GitHub activity into readable weekly, monthly, and yearly trend reports for busy developers and tech leads.'
+    Content = 'Claracle turns GitHub activity into readable weekly, monthly, and yearly trend reports for busy developers and tech leads.'
 
   [params.fuseOpts]
     isCaseSensitive = false

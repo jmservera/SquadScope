@@ -25,7 +25,7 @@
       "en": {
         "consentModal": {
           "title": "We use cookies",
-          "description": "We use cookies to understand how you use SquadScope. Some are necessary for the site to work; others help us improve your experience. You're in control — you can choose which cookies to accept. Read more in our <a href=\"__PRIVACY_URL__\">privacy policy</a>.",
+          "description": "We use cookies to understand how you use Claracle. Some are necessary for the site to work; others help us improve your experience. You're in control — you can choose which cookies to accept. Read more in our <a href=\"__PRIVACY_URL__\">privacy policy</a>.",
           "acceptAllBtn": "Accept all",
           "acceptNecessaryBtn": "Reject all",
           "showPreferencesBtn": "Customize",
@@ -45,7 +45,7 @@
             },
             {
               "title": "Analytics",
-              "description": "Analytics cookies help us understand how you use SquadScope — which pages you visit, how long you stay, and where you come from. This helps us improve the site. We use Google Analytics 4. You can opt out at any time.",
+              "description": "Analytics cookies help us understand how you use Claracle — which pages you visit, how long you stay, and where you come from. This helps us improve the site. We use Google Analytics 4. You can opt out at any time.",
               "linkedCategory": "analytics"
             },
             {

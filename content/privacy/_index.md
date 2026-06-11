@@ -1,21 +1,21 @@
 ---
 title: "Privacy Policy"
-description: "What data SquadScope collects (almost none) and how third-party analytics work."
+description: "What data Claracle collects (almost none) and how third-party analytics work."
 date: 2026-05-25
 draft: false
 ---
 
 ## What we don't collect
 
-SquadScope is built to need almost no personal data. There are no accounts, no login, no signup, no comments, no contact form, and no newsletter.
+Claracle is built to need almost no personal data. There are no accounts, no login, no signup, no comments, no contact form, and no newsletter.
 
-SquadScope itself does **not** collect, store, or process personal data on its own servers. We do not keep first-party visitor profiles, we do not run first-party tracking, and we do not store names, email addresses, payment details, or other personally identifying information. We do **not** sell data or share data with advertisers. Period.
+Claracle itself does **not** collect, store, or process personal data on its own servers. We do not keep first-party visitor profiles, we do not run first-party tracking, and we do not store names, email addresses, payment details, or other personally identifying information. We do **not** sell data or share data with advertisers. Period.
 
-The editorial pipeline behind SquadScope analyzes public GitHub repository metadata and public press headlines to write weekly trend analysis. It does not ingest private user data.
+The editorial pipeline behind Claracle analyzes public GitHub repository metadata and public press headlines to write weekly trend analysis. It does not ingest private user data.
 
 ## Who we are
 
-SquadScope is an editorial trend-analysis site published from the [jmservera/SquadScope GitHub repository](https://github.com/jmservera/SquadScope). For privacy questions, use GitHub issues as the maintainer contact route: [open a SquadScope issue](https://github.com/jmservera/SquadScope/issues/new).
+Claracle is an editorial trend-analysis site published from the [jmservera/SquadScope GitHub repository](https://github.com/jmservera/SquadScope). For privacy questions, use GitHub issues as the maintainer contact route: [open a SquadScope issue](https://github.com/jmservera/SquadScope/issues/new).
 
 ## What is collected by third parties
 
@@ -25,19 +25,19 @@ This site is hosted on GitHub Pages. When your browser loads any page, your IP a
 
 ### Google Analytics 4
 
-SquadScope uses Google Analytics 4 (GA4) **only if you accept the analytics category** in the cookie banner. If you reject analytics, SquadScope does not send GA4 events.
+Claracle uses Google Analytics 4 (GA4) **only if you accept the analytics category** in the cookie banner. If you reject analytics, Claracle does not send GA4 events.
 
 After consent, GA4 helps us understand whether the site is useful: page views, referrers, session duration, device/browser information, and approximate location derived from network data. The GA4 measurement ID is configured per deployment through a repository secret, not hard-coded in this page. Google's processing is governed by [Google's Privacy Policy](https://policies.google.com/privacy). You can also use the [Google Analytics opt-out browser add-on](https://tools.google.com/dlpage/gaoptout).
 
 ### Google Fonts
 
-SquadScope loads Inter and JetBrains Mono from Google Fonts. When your browser requests those font files, Google may receive request metadata such as your IP address and user-agent under [Google's Privacy Policy](https://policies.google.com/privacy).
+Claracle loads Inter and JetBrains Mono from Google Fonts. When your browser requests those font files, Google may receive request metadata such as your IP address and user-agent under [Google's Privacy Policy](https://policies.google.com/privacy).
 
 ## Cookies we use
 
 | Cookie name | Provider | Category | Purpose | Retention |
 | --- | --- | --- | --- | --- |
-| `squadscope_cookie_consent` | SquadScope / Cookie Consent v3 | Essential | Stores your cookie choices so the site can remember whether analytics is allowed. This is the configured Cookie Consent v3 consent record for this site. | 182 days (about 6 months) |
+| `squadscope_cookie_consent` | Claracle / Cookie Consent v3 | Essential | Stores your cookie choices so the site can remember whether analytics is allowed. This is the configured Cookie Consent v3 consent record for this site. | 182 days (about 6 months) |
 | `_ga` | Google Analytics 4 | Analytics | Measures site usage by distinguishing browsers after you consent to analytics. | 13 months |
 | `_ga_<container_id>` | Google Analytics 4 | Analytics | Stores GA4 session and measurement state for this site's analytics container after you consent. | 13 months |
 
@@ -49,27 +49,27 @@ GA4 on this site uses Google Tag (`gtag.js`) with GA4 cookies (`_ga` and `_ga_<c
 
 For analytics, the legal basis is your consent under GDPR Article 6(1)(a). You can refuse analytics and still use the site.
 
-For the essential consent cookie, the legal basis is SquadScope's legitimate interest under GDPR Article 6(1)(f): remembering your cookie choice so we can respect it and avoid asking on every page.
+For the essential consent cookie, the legal basis is Claracle's legitimate interest under GDPR Article 6(1)(f): remembering your cookie choice so we can respect it and avoid asking on every page.
 
 ## Your rights
 
 Under GDPR Articles 15–22, you may have rights to access, rectify, erase, restrict, port, or object to processing of your personal data. You can also withdraw analytics consent at any time.
 
-Because SquadScope holds no first-party visitor data, most practical data-subject requests need to be exercised directly with the third party that controls the data: [GitHub privacy requests](https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement) for hosting logs, and [Google privacy controls](https://policies.google.com/privacy#infocontrols) or [Google's privacy request tools](https://support.google.com/policies/troubleshooter/7575787) for GA4 or Fonts data. You can still [open a SquadScope issue](https://github.com/jmservera/SquadScope/issues/new) if you need help identifying the right route.
+Because Claracle holds no first-party visitor data, most practical data-subject requests need to be exercised directly with the third party that controls the data: [GitHub privacy requests](https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement) for hosting logs, and [Google privacy controls](https://policies.google.com/privacy#infocontrols) or [Google's privacy request tools](https://support.google.com/policies/troubleshooter/7575787) for GA4 or Fonts data. You can still [open a SquadScope issue](https://github.com/jmservera/SquadScope/issues/new) if you need help identifying the right route.
 
 ## How to withdraw analytics consent
 
-Use the **Manage cookies** button in the footer to reopen cookie preferences, turn off Analytics, and save. You can also delete SquadScope cookies in your browser settings. Withdrawal stops future GA4 events from this browser; it does not automatically delete data already controlled by Google.
+Use the **Manage cookies** button in the footer to reopen cookie preferences, turn off Analytics, and save. You can also delete Claracle cookies in your browser settings. Withdrawal stops future GA4 events from this browser; it does not automatically delete data already controlled by Google.
 
 ## Data retention
 
-SquadScope retains no first-party visitor data because it does not collect any. The consent cookie lasts 182 days so your choice is remembered.
+Claracle retains no first-party visitor data because it does not collect any. The consent cookie lasts 182 days so your choice is remembered.
 
 GA4 data is retained by Google according to the deployment's Analytics settings and Google's defaults. See [Google Analytics data retention](https://support.google.com/analytics/answer/7667196) for details.
 
 ## Children's privacy
 
-SquadScope is not directed at children. The site has no accounts or first-party data collection, including for children.
+Claracle is not directed at children. The site has no accounts or first-party data collection, including for children.
 
 ## International transfers
 
