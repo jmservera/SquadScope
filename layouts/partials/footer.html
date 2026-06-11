@@ -10,7 +10,7 @@
             <a href="{{ "index.xml" | absLangURL }}">RSS</a>
             <a href="{{ "archive/" | absLangURL }}">Archive</a>
             {{- with site.Params.podcast_url }}
-            <a href="{{ . | safeURL }}" target="_blank" rel="noopener">Podcast</a>
+            <a href="{{ site.Params.podcast_url | trim | safeURL }}" target="_blank" rel="noopener noreferrer">Podcast</a>
             {{- end }}
         </nav>
         <p class="site-footer__meta">© 2026 jmservera · Generated 2026-05-25 · Powered by <a href="https://gohugo.io/?utm_source=squadscope" rel="noopener" target="_blank">Hugo</a></p>

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -20,12 +21,11 @@ def test_footer_conditionally_renders_podcast_link() -> None:
     assert "site.Params.podcast_url" in footer
     # Must pipe through safeURL to prevent unsafe schemes
     assert "safeURL" in footer
-    # Extract the Podcast link line and verify its attributes specifically
-    podcast_lines = [line for line in footer.splitlines() if ">Podcast<" in line]
-    assert podcast_lines, "Footer must contain a Podcast link"
-    podcast_link = podcast_lines[0]
+    podcast_link_match = re.search(r'<a\s+href="{{\s*site\.Params\.podcast_url\s*\|\s*trim\s*\|\s*safeURL\s*}}"\s+([^>]*)>Podcast</a>', footer)
+    assert podcast_link_match, "Footer must contain a Podcast link with a sanitized podcast_url href"
+    podcast_link = podcast_link_match.group(1)
     assert 'target="_blank"' in podcast_link
-    assert 'rel="noopener"' in podcast_link
+    assert 'rel="noopener noreferrer"' in podcast_link
 
 
 def test_podcast_url_defaults_to_empty() -> None:
