@@ -55,6 +55,17 @@ UNTRUSTED_VARIABLES = frozenset(
     }
 )
 
+# Single-brace format variables that carry trusted/template-controlled values.
+TRUSTED_FORMAT_VARIABLES = frozenset(
+    {
+        "article_count",
+        "correlation_count",
+        "date",
+        "level",
+        "topic_name",
+    }
+)
+
 # Single-brace format variables that carry untrusted external content and MUST
 # be inside <untrusted-content> blocks regardless of which template they appear in.
 UNTRUSTED_FORMAT_VARIABLES = frozenset(
@@ -67,6 +78,7 @@ UNTRUSTED_FORMAT_VARIABLES = frozenset(
 
 # All known variables for the unknown-variable check.
 ALL_KNOWN_VARIABLES = TRUSTED_VARIABLES | SEMI_TRUSTED_VARIABLES | UNTRUSTED_VARIABLES
+ALL_KNOWN_FORMAT_VARIABLES = TRUSTED_FORMAT_VARIABLES | UNTRUSTED_FORMAT_VARIABLES
 
 CLOSING_CONSTRAINT_PATTERN = re.compile(
     r"##\s+closing\s+security\s+constraint", re.IGNORECASE
@@ -76,20 +88,24 @@ UNTRUSTED_OPEN = "<untrusted-content>"
 UNTRUSTED_CLOSE = "</untrusted-content>"
 
 
-def _find_unfenced_variables(content: str) -> list[str]:
-    """Return untrusted variables that appear outside <untrusted-content> blocks."""
-    unfenced: list[str] = []
-
-    # Find all untrusted-content blocks
+def _find_fenced_ranges(content: str) -> list[tuple[int, int]]:
     fenced_ranges: list[tuple[int, int]] = []
     open_pattern = re.compile(re.escape(UNTRUSTED_OPEN))
     close_pattern = re.compile(re.escape(UNTRUSTED_CLOSE))
 
-    for m in open_pattern.finditer(content):
-        start = m.start()
-        close_match = close_pattern.search(content, m.end())
+    for match in open_pattern.finditer(content):
+        close_match = close_pattern.search(content, match.end())
         if close_match:
-            fenced_ranges.append((start, close_match.end()))
+            fenced_ranges.append((match.start(), close_match.end()))
+
+    return fenced_ranges
+
+
+def _find_unfenced_variables(content: str) -> list[str]:
+    """Return untrusted variables that appear outside <untrusted-content> blocks."""
+    unfenced: list[str] = []
+
+    fenced_ranges = _find_fenced_ranges(content)
 
     def _is_fenced(pos: int) -> bool:
         return any(start <= pos <= end for start, end in fenced_ranges)
@@ -123,6 +139,11 @@ def lint_prompt(path: Path) -> list[str]:
             f"trusted/semi-trusted/untrusted in lint_prompts.py"
         )
 
+    fenced_ranges = _find_fenced_ranges(content)
+
+    def _is_fenced(pos: int) -> bool:
+        return any(start <= pos <= end for start, end in fenced_ranges)
+
     # Check untrusted variables are inside fenced blocks
     unfenced = _find_unfenced_variables(content)
     for var in unfenced:
@@ -131,25 +152,21 @@ def lint_prompt(path: Path) -> list[str]:
             f"<untrusted-content> boundary tags"
         )
 
-    # Check that single-brace format variables carrying untrusted content are fenced
+    # Check for unknown single-brace format variables and ensure untrusted ones are fenced.
     for var_match in re.finditer(r"\{([a-z_]+)\}", content):
         var_name = var_match.group(1)
-        if var_name not in UNTRUSTED_FORMAT_VARIABLES:
-            continue
         pos = var_match.start()
-        fenced_ranges: list[tuple[int, int]] = []
-        for m in re.finditer(re.escape(UNTRUSTED_OPEN), content):
-            close_match = re.search(
-                re.escape(UNTRUSTED_CLOSE), content[m.end():]
+        if var_name not in ALL_KNOWN_FORMAT_VARIABLES:
+            errors.append(
+                f"{path}: unknown format variable {{{var_name}}} is not classified as "
+                f"trusted/untrusted in lint_prompts.py"
             )
-            if close_match:
-                fenced_ranges.append((m.start(), m.end() + close_match.end()))
-        if not any(start <= pos <= end for start, end in fenced_ranges):
+            continue
+        if var_name in UNTRUSTED_FORMAT_VARIABLES and not _is_fenced(pos):
             errors.append(
                 f"{path}: untrusted variable {{{var_name}}} "
                 f"is not inside <untrusted-content> boundary tags"
             )
-            break  # report once per file for each variable
 
     return errors
 

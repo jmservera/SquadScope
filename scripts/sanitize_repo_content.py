@@ -64,7 +64,7 @@ def _escape_untrusted_boundaries(value: str) -> str:
 
 
 def sanitize_text(
-    text: str,
+    text: Any,
     *,
     max_length: int = MAX_DESCRIPTION_LENGTH,
     label: str = "text",
