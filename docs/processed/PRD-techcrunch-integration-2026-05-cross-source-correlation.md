@@ -10,7 +10,7 @@
 **Date:** 2026-05-19  
 **Status:** Superseded — see canonical `PRD-techcrunch-integration.md`  
 **Type:** Feature PRD  
-**Depends on:** .squad/decisions.md (Decision #7: Crawler Plugin Architecture), docs/processed/PRD-topic-channels.md
+**Depends on:** .squad/decisions-archive.md (Decision #7: Crawler Plugin Architecture), docs/processed/PRD-topic-channels.md
 
 ---
 
