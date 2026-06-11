@@ -36,7 +36,7 @@ def test_untrusted_content_closing_tag_gets_escaped(caplog) -> None:
         sanitized = sanitize_description(description, repo={"full_name": "escape/repo"})
 
     assert BOUNDARY_CLOSE not in sanitized
-    assert "<\\/untrusted-content>" in sanitized
+    assert "[boundary-close-removed]" in sanitized
     assert "boundary marker" in caplog.text
 
 

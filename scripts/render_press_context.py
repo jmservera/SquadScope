@@ -75,10 +75,26 @@ def format_articles_list(articles: list[dict]) -> str:
             max_length=200,
             label="article_title",
         )
-        url = article.get("url", "")
-        categories = article.get("categories", [])
-        source = article.get("source", "unknown")
-        published_at = article.get("published_at", "")
+        url = sanitize_text(
+            article.get("url", ""),
+            max_length=300,
+            label="article_url",
+        )
+        categories = [
+            sanitize_text(c, max_length=50, label="article_category")
+            for c in article.get("categories", [])
+            if isinstance(c, str)
+        ]
+        source = sanitize_text(
+            article.get("source", "unknown"),
+            max_length=100,
+            label="article_source",
+        )
+        published_at = sanitize_text(
+            article.get("published_at", ""),
+            max_length=20,
+            label="article_published_at",
+        )
         cat_str = f" [{', '.join(categories)}]" if categories else ""
         source_str = f" — {source}"
         if published_at:

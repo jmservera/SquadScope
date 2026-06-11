@@ -15,7 +15,9 @@ LOGGER = logging.getLogger(__name__)
 MAX_DESCRIPTION_LENGTH = 500
 SUSPICIOUS_DESCRIPTION_LENGTH = 200
 BOUNDARY_CLOSE = "</untrusted-content>"
-BOUNDARY_CLOSE_ESCAPED = "<\\/untrusted-content>"
+BOUNDARY_OPEN = "<untrusted-content>"
+BOUNDARY_CLOSE_ESCAPED = "[boundary-close-removed]"
+BOUNDARY_OPEN_ESCAPED = "[boundary-open-removed]"
 INJECTION_PHRASES = (
     "ignore previous",
     "ignore all previous",
@@ -59,7 +61,7 @@ def _truncate(value: str, max_length: int) -> str:
 
 def _escape_untrusted_boundaries(value: str) -> str:
     result = value.replace(BOUNDARY_CLOSE, BOUNDARY_CLOSE_ESCAPED)
-    result = result.replace("<untrusted-content>", "<\\/untrusted-content>")
+    result = result.replace(BOUNDARY_OPEN, BOUNDARY_OPEN_ESCAPED)
     return result
 
 
