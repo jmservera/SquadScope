@@ -199,17 +199,23 @@ def transform_summary(frontmatter: dict[str, object], body: str) -> str:
     # Pass through cover image fields if present
     cover_image = frontmatter.get("cover_image") or frontmatter.get("cover", {}).get("image") if isinstance(frontmatter.get("cover"), dict) else frontmatter.get("cover_image")
     if cover_image:
+        cover_alt = frontmatter.get("cover_alt") or frontmatter.get("cover", {}).get("alt", "") if isinstance(frontmatter.get("cover"), dict) else frontmatter.get("cover_alt", "")
+        cover_attribution = frontmatter.get("cover_attribution")
+        cover_license = frontmatter.get("cover_license")
         page_frontmatter["cover"] = {
             "image": str(cover_image),
-            "alt": str(frontmatter.get("cover_alt") or frontmatter.get("cover", {}).get("alt", "") if isinstance(frontmatter.get("cover"), dict) else frontmatter.get("cover_alt", "")),
-            "attribution": str(frontmatter.get("cover_attribution", "")),
-            "license": str(frontmatter.get("cover_license", "")),
+            "alt": str(cover_alt) if cover_alt else "",
+            "attribution": str(cover_attribution) if cover_attribution else "",
+            "license": str(cover_license) if cover_license else "",
         }
 
-    # Pass through OG image override
+    # Pass through OG image override — reject URLs to enforce no-hotlinking policy
     og_image = frontmatter.get("og_image")
-    if og_image:
-        page_frontmatter["og_image"] = str(og_image)
+    if og_image and isinstance(og_image, str):
+        if og_image.startswith(("http://", "https://", "//")):
+            pass  # Reject URL-like og_image values (no hotlinking)
+        else:
+            page_frontmatter["og_image"] = og_image
 
     return render_frontmatter(page_frontmatter) + "\n" + body.lstrip()
 

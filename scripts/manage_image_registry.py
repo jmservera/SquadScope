@@ -40,12 +40,29 @@ def save_registry(registry: dict, path: Path = REGISTRY_PATH) -> None:
     path.write_text(json.dumps(registry, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
+def _is_safe_local_path(filename: str) -> tuple[bool, str]:
+    """Check that filename is a safe local relative path."""
+    if filename.startswith(("http://", "https://", "//")):
+        return False, "filename is a URL (no hotlinking allowed)"
+    if filename.startswith("/"):
+        return False, "filename is an absolute path (must be relative)"
+    if ".." in filename.split("/"):
+        return False, "filename contains path traversal (..)"
+    return True, ""
+
+
 def add_image(args: argparse.Namespace) -> int:
     registry = load_registry()
 
     # Validate license
     if args.license not in ALLOWED_LICENSES:
         print(f"ERROR: Invalid license '{args.license}'. Must be one of: {', '.join(ALLOWED_LICENSES)}", file=sys.stderr)
+        return 1
+
+    # Validate path safety
+    safe, reason = _is_safe_local_path(args.filename)
+    if not safe:
+        print(f"ERROR: {reason}: {args.filename}", file=sys.stderr)
         return 1
 
     # Check file exists locally
@@ -89,10 +106,11 @@ def validate_registry(args: argparse.Namespace) -> int:
         if not img.get("added_by"):
             errors.append(f"Entry {i}: missing added_by")
 
-        # Verify no hotlinking (filename should be a local path)
+        # Verify no hotlinking and path safety
         filename = img.get("filename", "")
-        if filename.startswith(("http://", "https://", "//")):
-            errors.append(f"Entry {i}: filename is a URL (no hotlinking allowed): {filename}")
+        safe, reason = _is_safe_local_path(filename)
+        if not safe:
+            errors.append(f"Entry {i}: {reason}: {filename}")
 
     if errors:
         for err in errors:
