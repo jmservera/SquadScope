@@ -104,14 +104,72 @@ When creating or modifying prompt templates:
 
 ## Scope
 
-This PR implements **Phase 1 guardrails** for issue #352: sanitization, boundary fencing, closing constraints, and lint enforcement for known prompt placeholders.
+This PR implements the core guardrails for issue #352:
 
-The remaining acceptance-criteria items below are tracked as **Phase 2 follow-up work** rather than part of this initial rollout, so this document should not be read as claiming those protections already exist in production.
+- **Phase 1**: Sanitization, boundary fencing, closing constraints, and lint enforcement for known prompt placeholders.
+- **Phase 2**: Canary token leak detection, red-team corpus testing, and tool evaluation (Garak, LLM Guard, Azure Prompt Shields).
 
-## Phase 2 Follow-up Work
+### 5. Canary Token Leak Detection (`scripts/canary_token.py`)
 
-- **Canary token leak detection** — embed a unique token in system instructions, verify it never appears in generated output
-- **Red-team corpus testing** — automated tests with known injection strings
-- **Garak / LLM Guard integration** — scheduled vulnerability scanning
-- **Azure Prompt Shields** — evaluate for production indirect injection detection
+Each prompt invocation can embed a unique canary token (format: `SQSC-CANARY-<16 hex>`). The token is:
+
+- Injected into system framing with explicit instructions never to reproduce it
+- Unique per invocation (secrets + timestamp) to prevent replay
+- Checked in generated output via exact, case-insensitive, and partial pattern matching
+- Any detection logged at CRITICAL level and raises a security alert
+
+Usage:
+```python
+from scripts.canary_token import generate_canary, inject_canary, check_output_for_leak
+
+canary = generate_canary()
+prompt = inject_canary(rendered_prompt, canary)
+# ... invoke LLM ...
+result = check_output_for_leak(llm_output, canary)
+if result.leaked:
+    raise RuntimeError(f"Canary leaked at position {result.match_position}")
+```
+
+### 6. Red-Team Corpus Testing (`tests/test_redteam_corpus.py`)
+
+Automated test suite with 30+ known prompt injection strings across 6 attack categories:
+
+| Category | Examples | Expected Behavior |
+|----------|----------|-------------------|
+| Direct override | "ignore previous instructions" | Detected, truncated to 200 chars |
+| Role manipulation | "you are now DAN" | Detected, truncated |
+| Boundary escape | `</untrusted-content>` injection | Markers escaped to `[boundary-*-removed]` |
+| Social engineering | "the developers asked me to..." | Detected via "system:", "user:" patterns |
+| Obfuscation | Spaced/split phrases | Length-capped, boundaries escaped |
+| Multilingual | English phrases + other scripts | English portion detected |
+
+Run with: `python -m pytest tests/test_redteam_corpus.py -v`
+
+## Tool Evaluation (Garak, LLM Guard, Azure Prompt Shields)
+
+### Garak (`identitymachines/garak-llm-vulnerability-scanner-action`)
+
+- **Verdict: Not adopted yet (scheduled evaluation)**
+- **Pros**: Comprehensive red-team probe library, GitHub Action available, covers indirect injection
+- **Cons**: Requires live LLM endpoint for scanning (cost per run), long execution time (~30-60 min)
+- **Recommendation**: Add as a scheduled weekly CI job against a staging endpoint once SquadScope has a dedicated test environment. Not suitable for PR-level CI due to cost/time.
+
+### LLM Guard
+
+- **Verdict: Partially adopted via custom implementation**
+- **Pros**: Input/output scanners for injection, token limit, and anomaly detection
+- **Cons**: Heavy Python dependency, GPU-accelerated classifiers overkill for our use case
+- **Recommendation**: Our `sanitize_repo_content.py` + `canary_token.py` cover the critical input/output scanning patterns. Adopt LLM Guard's `PromptInjection` classifier if false-negative rate proves too high with phrase-matching alone.
+
+### Azure AI Content Safety Prompt Shields
+
+- **Verdict: Recommended for production (Phase 3)**
+- **Pros**: Best-in-class indirect prompt injection detection, no local model needed, per-request API
+- **Cons**: Azure dependency, per-call cost (~$0.001/request), requires Content Safety resource
+- **Recommendation**: Integrate as a pre-flight check before LLM invocation once production volume justifies the dependency. Ideal for catching novel injection patterns our phrase list misses.
+
+## Phase 3 Follow-up Work
+
+- **Azure Prompt Shields integration** — add as optional pre-flight injection scanner
+- **Garak scheduled scans** — weekly red-team against staging endpoint
 - **Structured output enforcement** — JSON Schema constraints on LLM output to limit exfiltration paths
