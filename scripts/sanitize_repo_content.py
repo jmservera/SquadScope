@@ -14,8 +14,8 @@ LOGGER = logging.getLogger(__name__)
 
 MAX_DESCRIPTION_LENGTH = 500
 SUSPICIOUS_DESCRIPTION_LENGTH = 200
-BOUNDARY_CLOSE = "</untrusted-content>"
 BOUNDARY_OPEN = "<untrusted-content>"
+BOUNDARY_CLOSE = "</untrusted-content>"
 BOUNDARY_CLOSE_ESCAPED = "[boundary-close-removed]"
 BOUNDARY_OPEN_ESCAPED = "[boundary-open-removed]"
 INJECTION_PHRASES = (
