@@ -101,17 +101,17 @@ Show notes must include:
 
 ### 5.1 AI Voice Disclosure (MANDATORY)
 
-- The **first 60 seconds** of every episode must include explicit disclosure that this podcast uses AI-generated voices
-- Suggested phrasing: "This episode of Signal Check uses AI-generated voices from SquadScope's weekly analysis. Our hosts are synthetic — the data is real."
+- The **first 60 seconds** of every episode must include explicit disclosure that this episode uses AI-generated voice narration
+- Suggested phrasing: "This episode of Signal Check uses AI-generated voice narration from SquadScope's weekly analysis. Our hosts are synthetic — the data is real."
 - The outro must repeat the AI voice disclosure
-- Show notes must state: "This podcast uses AI-generated voices. Hosts are synthetic personas."
+- Show notes must state: "This episode uses AI-generated voice narration. Hosts are synthetic personas."
 
 ### 5.2 Prohibited Content
 
 | Category | Rule |
 |----------|------|
 | **Real-person mimicry** | Never model host voices, mannerisms, or catchphrases on identifiable real people |
-| **Copied expression** | No verbatim copying from other podcasts. Short excerpts (≤10 words) from written sources are permitted only with explicit quoting and attribution. |
+| **Copied expression** | Do not reproduce any recognizable expression, catchphrase, or verbatim quote from the source material, regardless of length. |
 | **Unsupported facts** | No claims without claim-ledger backing (see §4) |
 | **Defamatory motive claims** | Never attribute malicious intent to project maintainers, companies, or individuals |
 | **Fake sponsorship** | Never include language that implies paid sponsorship, affiliate relationships, or endorsement unless explicitly disclosed and real |
@@ -122,7 +122,7 @@ Show notes must include:
 ### 5.3 Corrections Path
 
 Every episode must reference the corrections mechanism:
-- "If we got something wrong, file an issue at https://github.com/jmservera/SquadScope/issues/new?labels=correction"
+- "If we got something wrong, file an issue at https://github.com/jmservera/SquadScope/issues"
 - Corrections from previous episodes must be acknowledged at the top of the next episode's Cold Open if applicable
 
 ### 5.4 Sponsorship & Monetization Language
@@ -137,8 +137,9 @@ Every episode must reference the corrections mechanism:
 
 ### Word Count
 
-- **Required range: 1,200–1,700 words** total script
-- Scripts outside this range MUST NOT be published unless a manual operator override is explicitly applied
+- **Target range: 1,200–1,700 words** total script
+- **Hard range: 1,100–1,800 words** total script
+- Scripts outside the hard range MUST NOT be published unless a manual operator override is explicitly applied
 - Below 1,200 words the episode is too thin to cover all segments meaningfully
 - Above 1,700 words the episode exceeds the 10-minute target duration
 
@@ -196,8 +197,8 @@ ai_generated: true
 - Source article: [URL]
 - Repos mentioned: [list with GitHub URLs]
 - Press references: [list with URLs]
-- Corrections: https://github.com/jmservera/SquadScope/issues/new?labels=correction
-- AI Disclosure: This podcast uses AI-generated voices. Hosts are synthetic personas.
+- Corrections: https://github.com/jmservera/SquadScope/issues
+- AI Disclosure: This episode uses AI-generated voice narration. Hosts are synthetic personas.
 ```
 
 ---
@@ -209,10 +210,10 @@ Before any script is approved for TTS or publication:
 - [ ] AI disclosure appears in first 60 seconds AND outro
 - [ ] All substantive claims trace to claim ledger
 - [ ] No prohibited content (§5.2) present
-- [ ] Word count within 1,200–1,700 range (or manual override explicitly applied)
+- [ ] Word count within the 1,100–1,800 hard range (targeting 1,200–1,700)
 - [ ] All 7 segments present in correct order
 - [ ] No real-person mimicry in host dialogue
 - [ ] Show notes include all required links
 - [ ] Corrections path referenced
-- [ ] No copied expression from other podcasts; written-source excerpts ≤10 words with citation only
+- [ ] No copied expressions, recognizable catchphrases, or verbatim quotes from source material
 - [ ] Humor targets ideas/trends, not individuals
