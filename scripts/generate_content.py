@@ -219,8 +219,8 @@ def transform_summary(frontmatter: dict[str, object], body: str) -> str:
     if cover_image:
         if is_local_asset_path(cover_image):
             cover_alt = frontmatter.get("cover_alt") or cover.get("alt")
-            cover_attribution = frontmatter.get("cover_attribution")
-            cover_license = frontmatter.get("cover_license")
+            cover_attribution = frontmatter.get("cover_attribution") or cover.get("attribution")
+            cover_license = frontmatter.get("cover_license") or cover.get("license")
             page_frontmatter["cover"] = {
                 "image": str(cover_image),
                 "alt": optional_string(cover_alt),

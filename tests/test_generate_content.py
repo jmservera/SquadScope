@@ -247,6 +247,34 @@ Body.
         self.assertNotIn("cover:", output)
         self.assertNotIn("evil.com", output)
 
+    def test_transform_summary_falls_back_to_cover_block_attribution_and_license(self) -> None:
+        doc = """---
+title: "Week 20 Analysis"
+date: 2026-05-11
+week: "2026-W20"
+year: 2026
+tags: [ai]
+categories: [weekly]
+repos_featured: 5
+stars_tracked: 1000
+top_repo: "owner/repo"
+quality_score: 90
+summary: "Test summary."
+cover:
+  image: "covers/test.webp"
+  alt: "Test alt text"
+  attribution: "Existing Author"
+  license: "Openverse"
+---
+
+Body.
+"""
+        frontmatter, body = generate_content.parse_frontmatter(doc)
+        output = generate_content.transform_summary(frontmatter, body)
+        self.assertIn('image: "covers/test.webp"', output)
+        self.assertIn('attribution: "Existing Author"', output)
+        self.assertIn('license: "Openverse"', output)
+
 
 if __name__ == "__main__":
     unittest.main()

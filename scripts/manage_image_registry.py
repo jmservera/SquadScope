@@ -29,10 +29,20 @@ REGISTRY_PATH = Path("data/image-registry.json")
 ALLOWED_LICENSES = ("CC0", "Openverse", "local-asset")
 
 
+class RegistryError(ValueError):
+    """Raised when the image registry cannot be loaded safely."""
+
+
 def load_registry(path: Path = REGISTRY_PATH) -> dict:
     if not path.exists():
         return {"images": []}
-    return json.loads(path.read_text(encoding="utf-8"))
+    try:
+        registry = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, ValueError) as exc:
+        raise RegistryError(f"Invalid image registry JSON in {path}: {exc}") from exc
+    if not isinstance(registry, dict) or not isinstance(registry.get("images"), list):
+        raise RegistryError(f"Invalid image registry format in {path}: expected an object with an 'images' list.")
+    return registry
 
 
 def save_registry(registry: dict, path: Path = REGISTRY_PATH) -> None:
@@ -147,14 +157,18 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("list", help="List registered images")
 
     args = parser.parse_args(argv)
-    if args.command == "add":
-        return add_image(args)
-    elif args.command == "validate":
-        return validate_registry(args)
-    elif args.command == "list":
-        return list_images(args)
-    else:
-        parser.print_help()
+    try:
+        if args.command == "add":
+            return add_image(args)
+        elif args.command == "validate":
+            return validate_registry(args)
+        elif args.command == "list":
+            return list_images(args)
+        else:
+            parser.print_help()
+            return 1
+    except RegistryError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
         return 1
 
 

@@ -96,6 +96,7 @@ class TestAddCommand:
                 "--filename", img_rel,
                 "--license", "CC0",
                 "--added-by", "test",
+                "--source-url", "https://example.com/source",
                 "--attribution", "Test Author",
             ])
         finally:
@@ -105,6 +106,7 @@ class TestAddCommand:
         data = json.loads(reg_path.read_text())
         assert len(data["images"]) == 1
         assert data["images"][0]["license"] == "CC0"
+        assert data["images"][0]["source_url"] == "https://example.com/source"
 
     def test_rejects_duplicate(self, tmp_path: Path) -> None:
         rc = _run_with_registry(
@@ -145,6 +147,45 @@ class TestValidateCommand:
             {"filename": "assets/x.webp", "added_by": "op"},
         ], ["validate"])
         assert rc == 1
+
+
+class TestRegistryLoading:
+    def test_load_registry_rejects_invalid_json(self, tmp_path: Path) -> None:
+        reg_path = tmp_path / "image-registry.json"
+        reg_path.write_text("{not-json", encoding="utf-8")
+
+        try:
+            registry_mod.load_registry(reg_path)
+        except registry_mod.RegistryError as exc:
+            assert "Invalid image registry JSON" in str(exc)
+        else:
+            raise AssertionError("Expected RegistryError for invalid JSON")
+
+    def test_load_registry_rejects_non_list_images_shape(self, tmp_path: Path) -> None:
+        reg_path = tmp_path / "image-registry.json"
+        reg_path.write_text(json.dumps({"images": {}}), encoding="utf-8")
+
+        try:
+            registry_mod.load_registry(reg_path)
+        except registry_mod.RegistryError as exc:
+            assert "expected an object with an 'images' list" in str(exc)
+        else:
+            raise AssertionError("Expected RegistryError for invalid registry shape")
+
+    def test_main_reports_registry_load_errors_cleanly(self, tmp_path: Path, capsys) -> None:
+        reg_path = tmp_path / "image-registry.json"
+        reg_path.write_text("{not-json", encoding="utf-8")
+        orig_load = registry_mod.load_registry
+
+        def patched_load(path: Path = reg_path) -> dict:
+            return orig_load(path)
+
+        with patch.object(registry_mod, "load_registry", patched_load):
+            rc = registry_mod.main(["list"])
+
+        captured = capsys.readouterr()
+        assert rc == 1
+        assert "ERROR: Invalid image registry JSON" in captured.err
 
 
 class TestListCommand:

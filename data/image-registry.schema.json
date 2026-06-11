@@ -14,12 +14,13 @@
         "properties": {
           "filename": {
             "type": "string",
-            "description": "Relative path from repo root (e.g., assets/covers/2026-W24.webp)"
+            "description": "Relative path from repo root (e.g., assets/covers/2026-W24.webp)",
+            "pattern": "^(?!https?://|//|/)(?!.*\\.\\.)[\\w./-]+$"
           },
           "source_url": {
             "type": "string",
             "format": "uri",
-            "description": "Original source URL where the image was obtained"
+            "description": "Recommended original source URL where the image was obtained for provenance and license compliance"
           },
           "license": {
             "type": "string",
