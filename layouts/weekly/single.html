@@ -12,9 +12,13 @@
     {{ partial "article-meta.html" . }}
   </header>
 
+  {{ partial "visuals/article-cover.html" . }}
+
   {{ partial "report-metrics.html" . }}
   {{ partial "article-jump-nav.html" . }}
   {{ partial "article-featured-repos.html" . }}
+
+  {{ partial "visuals/signal-noise.html" (dict "page" .) }}
 
   {{ partial "report-shortcuts.html" . }}
 

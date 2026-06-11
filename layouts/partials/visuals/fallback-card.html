@@ -1,0 +1,17 @@
+{{- /*
+  Intentional fallback card — shown when an article declares `visual = "none"`
+  or has no data to generate a visual from. This is a deliberate, on-brand
+  typographic card, NOT a broken or empty layout.
+
+  Params (dict):
+    page : the page context (required)
+*/ -}}
+{{- $page := .page -}}
+{{- $week := $page.Params.week | default "" -}}
+<aside class="article-cover article-cover--fallback" aria-label="No generated visual for this report">
+  <div class="article-cover__panel article-cover__panel--fallback">
+    <p class="article-cover__kicker">{{ cond (ne $week "") (printf "Weekly signal · %s" $week) "Weekly signal" }}</p>
+    <p class="article-cover__brand">Claracle</p>
+    <p class="article-cover__fallback-note">No standalone visual this week — the signal is in the writing below.</p>
+  </div>
+</aside>

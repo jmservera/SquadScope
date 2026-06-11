@@ -1,0 +1,18 @@
+{{- /*
+  Repo trend shortcode — inline bar chart for a numeric series.
+
+  Usage (percent-brace shortcode call) with pipe-separated values:
+    repo-trend repo="cpaczek/skylight" values="120|340|512|890|2332" labels="W20|W21|W22|W23|W24" caption="Weekly star count."
+*/ -}}
+{{- $values := slice -}}
+{{- with .Get "values" }}{{ range (split . "|") }}{{ $values = $values | append (. | float) }}{{ end }}{{ end -}}
+{{- $labels := slice -}}
+{{- with .Get "labels" }}{{ $labels = split . "|" }}{{ end -}}
+{{ partial "visuals/repo-trend.html" (dict
+    "values" $values
+    "labels" $labels
+    "repo" (.Get "repo")
+    "heading" (.Get "heading")
+    "level" (.Get "level")
+    "caption" (.Get "caption")
+) }}

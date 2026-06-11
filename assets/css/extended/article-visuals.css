@@ -1,0 +1,289 @@
+/* Article visual modules — generated covers, signal/noise, topic & repo trend.
+   Issue #328. Locally generated visuals only (no third-party/hotlinked assets).
+   Consistent with the Editorial Trend Report tokens + #327 mobile density. */
+
+/* ---------- Generated cover / fallback ---------- */
+.article-cover {
+  margin-top: var(--space-4);
+}
+
+.article-cover__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* Fixed aspect ratio reserves space up front -> no layout shift (CLS). */
+  aspect-ratio: 16 / 7;
+  min-height: calc(var(--space-12) + var(--space-3));
+  padding: var(--space-4);
+  overflow: hidden;
+  border: var(--size-border-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.article-cover__panel--fallback {
+  aspect-ratio: auto;
+  min-height: 0;
+  gap: var(--space-1);
+}
+
+/* Decorative generated motif — sits behind the meta, never interactive. */
+.article-cover__motif {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--color-accent);
+  opacity: 0.16;
+}
+
+.article-cover__motif rect {
+  fill: currentColor;
+}
+
+.article-cover__meta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.article-cover__kicker {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-nav);
+  text-transform: uppercase;
+}
+
+.article-cover__brand {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.article-cover__topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.article-cover__topic {
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--color-accent-muted);
+  color: var(--color-accent);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.article-cover__topic--more {
+  background: transparent;
+  border: var(--size-border-thin) solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.article-cover__fallback-note {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+}
+
+.article-cover--image {
+  margin-block: var(--space-4) 0;
+}
+
+.article-cover__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+}
+
+.article-cover__attribution {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+/* ---------- Signal & Noise summary ---------- */
+.signal-noise {
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  border: var(--size-border-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.signal-noise__heading {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+}
+
+.signal-noise__cols {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--space-15) + var(--space-3))), 1fr));
+}
+
+.signal-noise__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-nav);
+}
+
+.signal-noise__dot {
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--color-text-muted);
+}
+
+.signal-noise__col--signal .signal-noise__dot {
+  background: var(--color-success);
+}
+
+.signal-noise__col--noise .signal-noise__dot {
+  background: var(--color-danger);
+}
+
+.signal-noise__list {
+  margin: 0;
+  padding-left: var(--space-4);
+  color: var(--color-text);
+  line-height: var(--leading-relaxed);
+}
+
+.signal-noise__list li + li {
+  margin-top: var(--space-1);
+}
+
+.signal-noise__caveat,
+.signal-noise__source {
+  margin: var(--space-3) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+/* ---------- Topic / star visualization ---------- */
+.topic-stars {
+  margin-top: var(--space-4);
+}
+
+.topic-stars__heading {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+}
+
+.topic-stars__cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.topic-stars__chip {
+  padding: var(--space-1) var(--space-3);
+  border: var(--size-border-thin) solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-accent-muted);
+  color: var(--color-accent);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.topic-stars__figures {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.topic-stars__figures strong {
+  color: var(--color-text);
+}
+
+/* ---------- Repo trend chart ---------- */
+.repo-trend {
+  margin: var(--space-4) 0;
+}
+
+.repo-trend__heading {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-base);
+  line-height: var(--leading-tight);
+}
+
+.repo-trend__chart {
+  display: block;
+  width: 100%;
+  height: calc(var(--space-11) + var(--space-2));
+  color: var(--color-accent);
+}
+
+.repo-trend__chart rect {
+  fill: currentColor;
+  opacity: 0.85;
+}
+
+.repo-trend__caption {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+
+/* ---------- Responsive (matches #327 mobile density) ---------- */
+@media (max-width: 768px) {
+  .article-cover {
+    margin-top: var(--space-3);
+  }
+
+  .article-cover__panel {
+    aspect-ratio: 16 / 9;
+    padding: var(--space-3);
+  }
+
+  .article-cover__brand {
+    font-size: var(--text-xl);
+  }
+
+  .signal-noise {
+    margin-top: var(--space-3);
+    padding: var(--space-3);
+  }
+
+  /* Stack signal/noise columns to avoid cramped two-up at narrow widths. */
+  .signal-noise__cols {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .topic-stars {
+    margin-top: var(--space-3);
+  }
+}
+
+/* Honor reduced-data/transparency only; no motion is used, but keep motif calm. */
+@media (prefers-reduced-motion: reduce) {
+  .article-cover__motif {
+    opacity: 0.12;
+  }
+}

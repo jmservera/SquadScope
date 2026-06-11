@@ -1,0 +1,48 @@
+{{- /*
+  Repo trend visualization — a lightweight, locally-rendered bar chart for a
+  numeric series (e.g. star history or weekly momentum). Deterministic and
+  dependency-free. Accessible: bars are aria-hidden decoration; the real data is
+  exposed as a visually-hidden description and an optional caption.
+
+  Params (dict):
+    values  : slice of numbers (required)
+    labels  : optional slice of strings, aligned to values
+    repo     : optional repo slug for the heading/link
+    heading : optional heading text
+    level   : optional heading level (default "h3")
+    caption : optional caption / source text
+*/ -}}
+{{- $values := .values | default slice -}}
+{{- $labels := .labels | default slice -}}
+{{- $repo := .repo -}}
+{{- $heading := .heading | default (cond (ne (printf "%v" $repo) "<nil>") (printf "%s — trend" $repo) "Trend") -}}
+{{- $level := .level | default "h3" -}}
+{{- $caption := .caption -}}
+{{- if gt (len $values) 0 -}}
+  {{- $max := 0.0 -}}
+  {{- range $values }}{{ if gt (float .) $max }}{{ $max = (float .) }}{{ end }}{{ end -}}
+  {{- if le $max 0.0 }}{{ $max = 1.0 }}{{ end -}}
+  {{- $n := len $values -}}
+  {{- $summary := slice -}}
+  {{- range $i, $v := $values -}}
+    {{- $lab := cond (gt (len $labels) $i) (index $labels $i) (printf "Point %d" (add $i 1)) -}}
+    {{- $summary = $summary | append (printf "%s: %s" $lab (lang.FormatNumber 0 $v)) -}}
+  {{- end -}}
+<figure class="repo-trend" role="group" aria-label="{{ $heading }}">
+  <{{ $level }} class="repo-trend__heading">
+    {{- if $repo }}<a href="https://github.com/{{ $repo }}" aria-label="Open GitHub repository {{ $repo }}">{{ $heading }}</a>{{ else }}{{ $heading }}{{ end -}}
+  </{{ $level }}>
+  <svg class="repo-trend__chart" viewBox="0 0 {{ mul $n 100 }} 320" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    {{- $slot := 100 -}}
+    {{- range $i, $v := $values -}}
+      {{- $h := math.Round (mul (div (float $v) $max) 300.0) -}}
+      {{- if lt $h 3.0 }}{{ $h = 3.0 }}{{ end -}}
+      {{- $x := add (mul $i $slot) 22 -}}
+      {{- $y := sub 320 $h -}}
+      <rect x="{{ $x }}" y="{{ $y }}" width="56" height="{{ $h }}" rx="4" />
+    {{- end -}}
+  </svg>
+  <p class="visually-hidden">{{ $heading }}. {{ delimit $summary "; " }}.</p>
+  {{- with $caption }}<figcaption class="repo-trend__caption">{{ . | markdownify }}</figcaption>{{ end }}
+</figure>
+{{- end -}}

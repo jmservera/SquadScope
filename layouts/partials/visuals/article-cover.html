@@ -1,0 +1,42 @@
+{{- /*
+  Article visual orchestrator — guarantees every weekly article gets either a
+  meaningful generated visual or an intentional fallback. Lead approach is
+  locally-generated SVG; a safe local-image path is wired as a documented hook
+  for the image policy (#329).
+
+  Selection order:
+    1. visual = "none"               -> intentional fallback card
+    2. compliant LOCAL cover image   -> processed, locally-hosted <img> (#329 hook)
+    3. default                       -> generated SVG cover card
+
+  SAFE COVER POLICY (#329): an image is only rendered when `cover.image` resolves
+  to a Hugo resource (page bundle or global asset) — i.e. it is downloaded and
+  locally hosted. External/hotlinked URLs are intentionally ignored here; do NOT
+  rely on fair use or reuse og:image. Attribution + registry handling land in #329.
+*/ -}}
+{{- $page := . -}}
+{{- $visual := $page.Params.visual -}}
+{{- if eq (printf "%v" $visual) "none" -}}
+  {{ partial "visuals/fallback-card.html" (dict "page" $page) }}
+{{- else -}}
+  {{- $img := "" -}}
+  {{- with $page.Params.cover -}}
+    {{- with .image -}}
+      {{- /* Only accept locally-hosted resources; never external/hotlinked URLs. */ -}}
+      {{- $bundle := ($page.Resources.ByType "image").GetMatch (printf "*%s*" .) -}}
+      {{- $global := (resources.ByType "image").GetMatch (printf "*%s*" .) -}}
+      {{- $img = or $bundle $global -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $img -}}
+    {{- $alt := ($page.Params.cover.alt | default $page.Title | plainify) -}}
+    {{- $attribution := $page.Params.cover.attribution -}}
+    <figure class="article-cover article-cover--image">
+      {{- $sized := $img.Resize "1200x webp q82" -}}
+      <img class="article-cover__img" src="{{ $sized.RelPermalink }}" width="{{ $sized.Width }}" height="{{ $sized.Height }}" loading="eager" decoding="async" alt="{{ $alt }}">
+      {{- with $attribution }}<figcaption class="article-cover__attribution">{{ . | markdownify }}</figcaption>{{ end }}
+    </figure>
+  {{- else -}}
+    {{ partial "visuals/cover-card.html" (dict "page" $page) }}
+  {{- end -}}
+{{- end -}}

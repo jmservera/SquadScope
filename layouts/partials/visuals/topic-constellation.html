@@ -1,0 +1,35 @@
+{{- /*
+  Topic / star visualization — a reusable, data-driven chip cloud built from a
+  list of topics. Honest by construction: chips are equal-weight unless an
+  explicit per-topic weight is supplied. Optional star/repo figures are shown as
+  plain text. No third-party assets.
+
+  Params (dict):
+    topics  : slice of strings, OR slice of dicts {name, weight} (required)
+    stars   : optional total stars figure (number)
+    repos   : optional repos-featured figure (number)
+    heading : optional heading text
+    level   : optional heading level (default "h2")
+*/ -}}
+{{- $topics := .topics | default slice -}}
+{{- $heading := .heading | default "Topics tracked this week" -}}
+{{- $level := .level | default "h2" -}}
+{{- if gt (len $topics) 0 -}}
+<section class="topic-stars" aria-label="{{ $heading }}">
+  <{{ $level }} class="topic-stars__heading">{{ $heading }}</{{ $level }}>
+  <ul class="topic-stars__cloud">
+    {{- range $topics }}
+      {{- $name := . -}}
+      {{- if reflect.IsMap . }}{{ $name = .name }}{{ end }}
+      <li class="topic-stars__chip">{{ $name }}</li>
+    {{- end }}
+  </ul>
+  {{- if or .stars .repos }}
+  <p class="topic-stars__figures">
+    {{- with .repos }}<span><strong>{{ lang.FormatNumber 0 . }}</strong> repos featured</span>{{ end }}
+    {{- if and .stars .repos }}<span aria-hidden="true"> · </span>{{ end }}
+    {{- with .stars }}<span><strong>{{ lang.FormatNumber 0 . }}</strong> stars tracked</span>{{ end }}
+  </p>
+  {{- end }}
+</section>
+{{- end -}}
