@@ -25,7 +25,7 @@
 
 **Severity:** info  
 **Principle:** Reliability & Safety, Accountability  
-**Artifact:** `docs/design/icon-spec.md` (current file documents the **radar sweep** replacement, which is safe; the rejected SS-rune design is documented in project history but not in any current spec file)
+**Artifact:** `docs/processed/icon-spec.md` (current file documents the **radar sweep** replacement, which is safe; the rejected SS-rune design is documented in project history but not in any current spec file)
 
 **Finding:**  
 The old double-S monogram design was caught by the human user (jmservera), not by any agent or checklist. The icon-safety-check skill now exists (`.squad/skills/icon-safety-check/SKILL.md`), and the current radar-sweep spec is clean: concentric circles + sweep line + signal blip. No hate-symbol resemblance at any tested size or transformation. The silhouette at 16px is unambiguous (circle with radial line).
@@ -197,7 +197,7 @@ Neither W21 nor W22 explicitly discloses AI-assisted authorship anywhere in the 
 **Artifact:** `assets/css/tokens.css`, Phase 2 header (PR #185 merged)
 
 **Finding:**  
-Token contrast ratios as specified in `docs/design/redesign-proposal-2026-05.md` and confirmed in `assets/css/tokens.css`:
+Token contrast ratios as specified in `docs/processed/redesign-proposal-2026-05.md` and confirmed in `assets/css/tokens.css`:
 - `--text` on `--bg`: 15.3:1 (light), 14.5:1 (dark) — ✅ AAA
 - `--text-muted` on `--bg`: 6.1:1 (light), 7.3:1 (dark) — ✅ AA (≥4.5:1)
 - `--accent` on `--bg`: 4.9:1 (light), 7.8:1 (dark) — ✅ AA (borderline in light mode; passes, but only by 0.4 ratio points)

@@ -32,8 +32,8 @@ When redesigning an editorial or content-heavy website, the challenge is creatin
 
 ## Examples
 
-- `docs/design/redesign-proposal-2026-05.md` — full proposal with token tables, ASCII layouts, component specs
-- `docs/design/icon-spec.md` — icon narrative, SVG code, asset checklist
+- `docs/processed/redesign-proposal-2026-05.md` — full proposal with token tables, ASCII layouts, component specs
+- `docs/processed/icon-spec.md` — icon narrative, SVG code, asset checklist
 
 ## Anti-Patterns
 

@@ -1,6 +1,6 @@
 # Visual Verification for Design Review
 
-> **Why this exists:** SquadScope has a 6-phase editorial redesign underway (issues #170–#177, spec at `docs/design/redesign-proposal-2026-05.md`). Each phase changes layouts, tokens, or typography. This doc explains how Calculon (Designer) catches regressions before they ship.
+> **Why this exists:** SquadScope's 6-phase editorial redesign (issues #170–#177) has shipped; the original proposal is archived at `docs/processed/redesign-proposal-2026-05.md`. Ongoing look-and-feel work continues under the design epic #357 and its children. Layout, token, and typography changes still need regression evidence. This doc explains how Calculon (Designer) catches regressions before they ship.
 
 ---
 
@@ -13,7 +13,7 @@ The redesign proposal defines explicit acceptance criteria per phase — heading
 - Catch regressions automatically once a baseline exists
 - Attach evidence screenshots to PR comments
 
-Related: [`docs/design/redesign-proposal-2026-05.md`](redesign-proposal-2026-05.md)
+Related: [`docs/processed/redesign-proposal-2026-05.md`](../processed/redesign-proposal-2026-05.md)
 
 ---
 
@@ -104,7 +104,7 @@ Snapshot baselines are saved to `tests/visual/snapshots/`.
 
 1. **Checkout the PR branch**, start Hugo.
 2. Run `node scripts/design/verify-visual.mjs`.
-3. Open the screenshots. Compare to the acceptance criteria table for the relevant redesign phase in `docs/design/redesign-proposal-2026-05.md`.
+3. Open the screenshots. Compare to the acceptance criteria table for the relevant redesign phase in `docs/processed/redesign-proposal-2026-05.md`.
 4. Run `npx playwright test --config tests/visual/playwright.config.mjs` to get a diff count vs. baseline.
 5. Post a PR comment (template in `.squad/skills/design-visual-verification/SKILL.md`) with:
    - The summary table (✅ / ⚠️ per cell)
