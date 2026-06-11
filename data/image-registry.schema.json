@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SquadScope Image Registry",
+  "description": "Registry of locally-hosted cover images with license and attribution tracking.",
+  "type": "object",
+  "required": ["images"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["filename", "license", "added_by"],
+        "properties": {
+          "filename": {
+            "type": "string",
+            "description": "Relative path from repo root (e.g., assets/covers/2026-W24.webp)"
+          },
+          "source_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Original source URL where the image was obtained"
+          },
+          "license": {
+            "type": "string",
+            "enum": ["CC0", "CC-BY-4.0", "CC-BY-SA-4.0", "Openverse", "local-asset", "custom"],
+            "description": "License under which the image is used"
+          },
+          "attribution": {
+            "type": "string",
+            "description": "Attribution text (author, source site)"
+          },
+          "added_by": {
+            "type": "string",
+            "description": "Who added this image (person or automation identifier)"
+          },
+          "added_at": {
+            "type": "string",
+            "format": "date",
+            "description": "ISO date when the image was added"
+          },
+          "used_in": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "List of content paths using this image (e.g., content/weekly/2026/W24.md)"
+          },
+          "dimensions": {
+            "type": "object",
+            "properties": {
+              "width": { "type": "integer" },
+              "height": { "type": "integer" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

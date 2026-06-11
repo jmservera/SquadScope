@@ -152,9 +152,29 @@ def render_frontmatter(data: dict[str, object]) -> str:
         f'top_repo: {yaml_quote(str(data["top_repo"]))}',
         f'summary: {yaml_quote(str(data["summary"]))}',
         "draft: false",
-        "---",
-        "",
     ]
+
+    # Cover image frontmatter (PaperMod convention)
+    cover = data.get("cover")
+    if cover and isinstance(cover, dict):
+        lines.append("cover:")
+        if cover.get("image"):
+            lines.append(f'  image: {yaml_quote(str(cover["image"]))}')
+        if cover.get("alt"):
+            lines.append(f'  alt: {yaml_quote(str(cover["alt"]))}')
+        if cover.get("caption"):
+            lines.append(f'  caption: {yaml_quote(str(cover["caption"]))}')
+        if cover.get("attribution"):
+            lines.append(f'  attribution: {yaml_quote(str(cover["attribution"]))}')
+        if cover.get("license"):
+            lines.append(f'  license: {yaml_quote(str(cover["license"]))}')
+        lines.append("  relative: true")
+
+    # Explicit OG image override
+    if data.get("og_image"):
+        lines.append(f'og_image: {yaml_quote(str(data["og_image"]))}')
+
+    lines.extend(["---", ""])
     return "\n".join(lines)
 
 
@@ -164,7 +184,7 @@ def transform_summary(frontmatter: dict[str, object], body: str) -> str:
     if "weekly" not in categories:
         categories = [*categories, "weekly"]
 
-    page_frontmatter = {
+    page_frontmatter: dict[str, object] = {
         "title": normalize_title(str(frontmatter["title"])),
         "date": str(frontmatter["date"]),
         "week": str(frontmatter["week"]),
@@ -175,6 +195,22 @@ def transform_summary(frontmatter: dict[str, object], body: str) -> str:
         "top_repo": str(frontmatter["top_repo"]),
         "summary": str(frontmatter["summary"]),
     }
+
+    # Pass through cover image fields if present
+    cover_image = frontmatter.get("cover_image") or frontmatter.get("cover", {}).get("image") if isinstance(frontmatter.get("cover"), dict) else frontmatter.get("cover_image")
+    if cover_image:
+        page_frontmatter["cover"] = {
+            "image": str(cover_image),
+            "alt": str(frontmatter.get("cover_alt") or frontmatter.get("cover", {}).get("alt", "") if isinstance(frontmatter.get("cover"), dict) else frontmatter.get("cover_alt", "")),
+            "attribution": str(frontmatter.get("cover_attribution", "")),
+            "license": str(frontmatter.get("cover_license", "")),
+        }
+
+    # Pass through OG image override
+    og_image = frontmatter.get("og_image")
+    if og_image:
+        page_frontmatter["og_image"] = str(og_image)
+
     return render_frontmatter(page_frontmatter) + "\n" + body.lstrip()
 
 
