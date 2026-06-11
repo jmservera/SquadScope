@@ -26,7 +26,7 @@ from datetime import date
 from pathlib import Path
 
 REGISTRY_PATH = Path("data/image-registry.json")
-ALLOWED_LICENSES = ("CC0", "CC-BY-4.0", "CC-BY-SA-4.0", "Openverse", "local-asset", "custom")
+ALLOWED_LICENSES = ("CC0", "Openverse", "local-asset")
 
 
 def load_registry(path: Path = REGISTRY_PATH) -> dict:

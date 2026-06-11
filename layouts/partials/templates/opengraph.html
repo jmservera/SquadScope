@@ -35,11 +35,14 @@
   <meta property="og:type" content="website">
 {{- end }}
 
+{{- $ogImage := "" -}}
 {{- if and .Params.og_image (not (hasPrefix .Params.og_image "http://")) (not (hasPrefix .Params.og_image "https://")) (not (hasPrefix .Params.og_image "//")) -}}
-  {{- $ogImg := resources.Get .Params.og_image -}}
-  {{- if $ogImg -}}
-    <meta property="og:image" content="{{ $ogImg.Permalink }}">
+  {{- with resources.Get .Params.og_image -}}
+    {{- $ogImage = .Permalink -}}
   {{- end -}}
+{{- end -}}
+{{- if $ogImage -}}
+  <meta property="og:image" content="{{ $ogImage }}">
 {{- else if .Params.cover.image -}}
   {{- if (ne .Params.cover.relative true) }}
     <meta property="og:image" content="{{ .Params.cover.image | absURL }}">

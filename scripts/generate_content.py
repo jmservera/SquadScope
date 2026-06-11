@@ -186,7 +186,7 @@ def render_frontmatter(data: dict[str, object]) -> str:
             lines.append(f'  attribution: {yaml_quote(str(cover["attribution"]))}')
         if cover.get("license"):
             lines.append(f'  license: {yaml_quote(str(cover["license"]))}')
-        lines.append("  relative: true")
+        lines.append("  relative: false")
 
     # Explicit OG image override
     if data.get("og_image"):
@@ -214,18 +214,21 @@ def transform_summary(frontmatter: dict[str, object], body: str) -> str:
         "summary": str(frontmatter["summary"]),
     }
 
-    # Pass through cover image fields if present
-    cover_image = frontmatter.get("cover_image") or frontmatter.get("cover", {}).get("image") if isinstance(frontmatter.get("cover"), dict) else frontmatter.get("cover_image")
+    cover = frontmatter.get("cover") if isinstance(frontmatter.get("cover"), dict) else {}
+    cover_image = frontmatter.get("cover_image") or cover.get("image")
     if cover_image:
-        cover_alt = frontmatter.get("cover_alt") or frontmatter.get("cover", {}).get("alt", "") if isinstance(frontmatter.get("cover"), dict) else frontmatter.get("cover_alt", "")
-        cover_attribution = frontmatter.get("cover_attribution")
-        cover_license = frontmatter.get("cover_license")
-        page_frontmatter["cover"] = {
-            "image": str(cover_image),
-            "alt": str(cover_alt) if cover_alt else "",
-            "attribution": optional_string(cover_attribution),
-            "license": optional_string(cover_license),
-        }
+        if is_local_asset_path(cover_image):
+            cover_alt = frontmatter.get("cover_alt") or cover.get("alt")
+            cover_attribution = frontmatter.get("cover_attribution")
+            cover_license = frontmatter.get("cover_license")
+            page_frontmatter["cover"] = {
+                "image": str(cover_image),
+                "alt": optional_string(cover_alt),
+                "attribution": optional_string(cover_attribution),
+                "license": optional_string(cover_license),
+            }
+        else:
+            warnings.warn(f"Skipping non-local cover image value: {cover_image}", stacklevel=2)
 
     # Pass through OG image override — reject URLs to enforce no-hotlinking policy
     og_image = frontmatter.get("og_image")

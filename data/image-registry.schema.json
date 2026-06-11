@@ -23,7 +23,7 @@
           },
           "license": {
             "type": "string",
-            "enum": ["CC0", "CC-BY-4.0", "CC-BY-SA-4.0", "Openverse", "local-asset", "custom"],
+            "enum": ["CC0", "Openverse", "local-asset"],
             "description": "License under which the image is used"
           },
           "attribution": {

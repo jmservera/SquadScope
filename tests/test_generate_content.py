@@ -142,7 +142,7 @@ title: \"Week 21, 2026 Analysis\"
         self.assertIn('alt: "AI trends visualization"', output)
         self.assertIn('attribution: "Photo by Author on Openverse"', output)
         self.assertIn('license: "CC0"', output)
-        self.assertIn("relative: true", output)
+        self.assertIn("relative: false", output)
         self.assertIn('og_image: "covers/2026-W20-og.png"', output)
 
     def test_transform_summary_passes_cover_fields(self) -> None:
@@ -171,6 +171,7 @@ Body content.
         output = generate_content.transform_summary(frontmatter, body)
         self.assertIn('image: "covers/test.webp"', output)
         self.assertIn('alt: "Test alt text"', output)
+        self.assertIn("relative: false", output)
 
     def test_transform_summary_null_cover_attribution_does_not_emit_none(self) -> None:
         """YAML null in cover_attribution/cover_license must not produce 'None' string."""
@@ -220,6 +221,30 @@ Body.
         frontmatter, body = generate_content.parse_frontmatter(doc)
         output = generate_content.transform_summary(frontmatter, body)
         self.assertNotIn("og_image", output)
+        self.assertNotIn("evil.com", output)
+
+    def test_transform_summary_rejects_url_cover_image(self) -> None:
+        """cover_image values that are URLs must be dropped."""
+        doc = """---
+title: "Week 20 Analysis"
+date: 2026-05-11
+week: "2026-W20"
+year: 2026
+tags: [ai]
+categories: [weekly]
+repos_featured: 5
+stars_tracked: 1000
+top_repo: "owner/repo"
+quality_score: 90
+summary: "Test summary."
+cover_image: "https://evil.com/cover.png"
+---
+
+Body.
+"""
+        frontmatter, body = generate_content.parse_frontmatter(doc)
+        output = generate_content.transform_summary(frontmatter, body)
+        self.assertNotIn("cover:", output)
         self.assertNotIn("evil.com", output)
 
 
