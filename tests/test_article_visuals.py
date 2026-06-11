@@ -55,10 +55,21 @@ def test_visuals_are_locally_generated_not_hotlinked() -> None:
 
 def test_safe_cover_only_accepts_local_resources() -> None:
     orch = _read(VIS / "article-cover.html")
-    # Image path resolves Hugo resources (local hosting) before rendering an <img>.
-    assert "Resources.ByType" in orch
-    assert "resources.ByType" in orch
+    # Image path resolves Hugo resources (local hosting), matched exactly and
+    # guarded to image types, before rendering an <img>.
+    assert "Resources.GetMatch" in orch
+    assert "resources.Get" in orch
+    assert 'eq $candidate.ResourceType "image"' in orch
     assert "#329" in orch  # documented image-policy hook
+
+
+def test_heading_levels_are_whitelisted() -> None:
+    # Untrusted `level` (shortcode/frontmatter) must be normalized + whitelisted
+    # before being used as a raw HTML tag name.
+    for name in ("topic-constellation.html", "signal-noise.html", "repo-trend.html"):
+        text = _read(VIS / name)
+        assert '| lower' in text
+        assert 'in (slice "h2" "h3" "h4" "h5" "h6")' in text
 
 
 def test_unsafe_markdown_remains_disabled() -> None:

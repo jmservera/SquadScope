@@ -16,7 +16,8 @@
 {{- $labels := .labels | default slice -}}
 {{- $repo := .repo -}}
 {{- $heading := .heading | default (cond (ne (printf "%v" $repo) "<nil>") (printf "%s — trend" $repo) "Trend") -}}
-{{- $level := .level | default "h3" -}}
+{{- $level := .level | default "h3" | lower -}}
+{{- if not (in (slice "h2" "h3" "h4" "h5" "h6") $level) }}{{ $level = "h3" }}{{ end -}}
 {{- $caption := .caption -}}
 {{- if gt (len $values) 0 -}}
   {{- $max := 0.0 -}}

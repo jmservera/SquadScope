@@ -13,7 +13,8 @@
 */ -}}
 {{- $topics := .topics | default slice -}}
 {{- $heading := .heading | default "Topics tracked this week" -}}
-{{- $level := .level | default "h2" -}}
+{{- $level := .level | default "h2" | lower -}}
+{{- if not (in (slice "h2" "h3" "h4" "h5" "h6") $level) }}{{ $level = "h2" }}{{ end -}}
 {{- if gt (len $topics) 0 -}}
 <section class="topic-stars" aria-label="{{ $heading }}">
   <{{ $level }} class="topic-stars__heading">{{ $heading }}</{{ $level }}>
@@ -26,9 +27,9 @@
   </ul>
   {{- if or .stars .repos }}
   <p class="topic-stars__figures">
-    {{- with .repos }}<span><strong>{{ lang.FormatNumber 0 . }}</strong> repos featured</span>{{ end }}
+    {{- with .repos }}<span><strong>{{ lang.FormatNumber 0 (int .) }}</strong> repos featured</span>{{ end }}
     {{- if and .stars .repos }}<span aria-hidden="true"> · </span>{{ end }}
-    {{- with .stars }}<span><strong>{{ lang.FormatNumber 0 . }}</strong> stars tracked</span>{{ end }}
+    {{- with .stars }}<span><strong>{{ lang.FormatNumber 0 (int .) }}</strong> stars tracked</span>{{ end }}
   </p>
   {{- end }}
 </section>

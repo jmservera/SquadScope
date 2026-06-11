@@ -13,7 +13,8 @@
 {{- $page := .page -}}
 {{- $data := .data | default (and $page $page.Params.signal_noise) -}}
 {{- $heading := .heading | default "Signal & Noise at a glance" -}}
-{{- $level := .level | default "h2" -}}
+{{- $level := .level | default "h2" | lower -}}
+{{- if not (in (slice "h2" "h3" "h4" "h5" "h6") $level) }}{{ $level = "h2" }}{{ end -}}
 {{- with $data -}}
 {{- $signal := (index . "signal") | default slice -}}
 {{- $noise := (index . "noise") | default slice -}}

@@ -22,10 +22,15 @@
   {{- $img := "" -}}
   {{- with $page.Params.cover -}}
     {{- with .image -}}
-      {{- /* Only accept locally-hosted resources; never external/hotlinked URLs. */ -}}
-      {{- $bundle := ($page.Resources.ByType "image").GetMatch (printf "*%s*" .) -}}
-      {{- $global := (resources.ByType "image").GetMatch (printf "*%s*" .) -}}
-      {{- $img = or $bundle $global -}}
+      {{- /* Only accept locally-hosted resources, matched EXACTLY (not as a
+             substring glob) so selection is deterministic and policy-safe.
+             External/hotlinked URLs never resolve to a resource and are ignored. */ -}}
+      {{- $bundle := $page.Resources.GetMatch . -}}
+      {{- $global := resources.Get . -}}
+      {{- $candidate := or $bundle $global -}}
+      {{- if and $candidate (eq $candidate.ResourceType "image") -}}
+        {{- $img = $candidate -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
   {{- if $img -}}
