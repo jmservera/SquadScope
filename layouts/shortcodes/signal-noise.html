@@ -1,0 +1,13 @@
+{{- /*
+  Signal & Noise shortcode — lets an article body declare the Signal/Noise
+  summary module inline. Works with Goldmark unsafe=false.
+
+  Usage (percent-brace shortcode call) with pipe-separated items:
+    signal-noise signal="Agent skills|Local-first tooling" noise="Bot spam|Activator repos" caveat="Editorial judgments, not automated classifications."
+*/ -}}
+{{- $signal := slice -}}
+{{- with .Get "signal" }}{{ $signal = split . "|" }}{{ end -}}
+{{- $noise := slice -}}
+{{- with .Get "noise" }}{{ $noise = split . "|" }}{{ end -}}
+{{- $data := dict "signal" $signal "noise" $noise "caveat" (.Get "caveat") "source" (.Get "source") -}}
+{{ partial "visuals/signal-noise.html" (dict "data" $data "heading" (.Get "heading") "level" (.Get "level")) }}

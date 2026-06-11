@@ -1,0 +1,15 @@
+{{- /*
+  Topic / star visualization shortcode — inline topic chip cloud.
+
+  Usage (percent-brace shortcode call):
+    topic-stars topics="agent-skills|local-first|hardware" stars="16480000" repos="390"
+*/ -}}
+{{- $topics := slice -}}
+{{- with .Get "topics" }}{{ $topics = split . "|" }}{{ end -}}
+{{ partial "visuals/topic-constellation.html" (dict
+    "topics" $topics
+    "stars" (.Get "stars")
+    "repos" (.Get "repos")
+    "heading" (.Get "heading")
+    "level" (.Get "level")
+) }}

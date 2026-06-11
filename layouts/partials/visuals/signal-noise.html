@@ -1,0 +1,56 @@
+{{- /*
+  Signal & Noise summary module — a generated, scannable two-column card built
+  from structured frontmatter (or passed data). Surfaces the week's editorial
+  Signal/Noise framing without overstating: items are editorial judgments shown
+  as plain lists, with an explicit caveat slot. No automated ranking is implied.
+
+  Params (dict):
+    page    : page context (used to read .Params.signal_noise if data omitted)
+    data    : optional explicit dict {signal: [], noise: [], caveat: "", source: ""}
+    heading : optional heading text (default "Signal & Noise at a glance")
+    level   : optional heading level (default "h2")
+*/ -}}
+{{- $page := .page -}}
+{{- $data := .data | default (and $page $page.Params.signal_noise) -}}
+{{- $heading := .heading | default "Signal & Noise at a glance" -}}
+{{- $level := .level | default "h2" | lower -}}
+{{- if not (in (slice "h2" "h3" "h4" "h5" "h6") $level) }}{{ $level = "h2" }}{{ end -}}
+{{- /* $level is strictly whitelisted above, so the tag name is safe to emit;
+       the heading text itself remains contextually auto-escaped. */ -}}
+{{- $hOpen := printf `<%s class="signal-noise__heading">` $level | safeHTML -}}
+{{- $hClose := printf "</%s>" $level | safeHTML -}}
+{{- with $data -}}
+{{- $signal := (index . "signal") | default slice -}}
+{{- $noise := (index . "noise") | default slice -}}
+{{- $caveat := (index . "caveat") | default "" -}}
+{{- $source := (index . "source") | default "" -}}
+{{- if or (gt (len $signal) 0) (gt (len $noise) 0) -}}
+<section class="signal-noise" aria-label="{{ $heading }}">
+  {{ $hOpen }}{{ $heading }}{{ $hClose }}
+  <div class="signal-noise__cols">
+    {{- if gt (len $signal) 0 }}
+    <div class="signal-noise__col signal-noise__col--signal">
+      <p class="signal-noise__label">
+        <span class="signal-noise__dot" aria-hidden="true"></span>Durable signal
+      </p>
+      <ul class="signal-noise__list">
+        {{- range $signal }}<li>{{ . }}</li>{{ end }}
+      </ul>
+    </div>
+    {{- end }}
+    {{- if gt (len $noise) 0 }}
+    <div class="signal-noise__col signal-noise__col--noise">
+      <p class="signal-noise__label">
+        <span class="signal-noise__dot" aria-hidden="true"></span>Noise floor
+      </p>
+      <ul class="signal-noise__list">
+        {{- range $noise }}<li>{{ . }}</li>{{ end }}
+      </ul>
+    </div>
+    {{- end }}
+  </div>
+  {{- with $caveat }}<p class="signal-noise__caveat">{{ . }}</p>{{ end }}
+  {{- with $source }}<p class="signal-noise__source">{{ . }}</p>{{ end }}
+</section>
+{{- end -}}
+{{- end -}}

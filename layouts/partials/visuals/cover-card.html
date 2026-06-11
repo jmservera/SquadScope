@@ -1,0 +1,68 @@
+{{- /*
+  Generated cover card — a locally-rendered, deterministic inline-SVG header
+  visual for weekly articles. No third-party or hotlinked imagery.
+
+  Data-anchored: the bar field COUNT reflects the number of topic clusters
+  tracked this week (from .Params.tags); the accessible name reports the real
+  week, topic count, and repositories-featured figures. Per-bar height variation
+  is a deterministic decorative motif (disclosed via aria-hidden) and is NOT a
+  claim about per-topic magnitude — preserving the evidence-first editorial stance.
+
+  Params (dict):
+    page  : the page context (required)
+*/ -}}
+{{- $page := .page -}}
+{{- $week := $page.Params.week | default "" -}}
+{{- $topics := $page.Params.tags | default slice -}}
+{{- $topicCount := len $topics -}}
+{{- $repos := $page.Params.repos_featured -}}
+{{- $kicker := cond (ne $week "") (printf "Weekly signal · %s" $week) "Weekly signal" -}}
+
+{{- /* Deterministic seed from the week (or title) so each week renders a stable, distinct motif. */ -}}
+{{- $seedKey := cond (ne $week "") $week $page.Title -}}
+{{- $seed := (hash.FNV32a $seedKey) -}}
+
+{{- /* Number of bars = topic breadth this week, clamped to a sensible range for layout. */ -}}
+{{- $bars := $topicCount -}}
+{{- if lt $bars 6 }}{{ $bars = 6 }}{{ end -}}
+{{- if gt $bars 18 }}{{ $bars = 18 }}{{ end -}}
+
+{{- /* Build an accessible summary from REAL data only. */ -}}
+{{- $summaryParts := slice -}}
+{{- if ne $week "" }}{{ $summaryParts = $summaryParts | append (printf "%s weekly report" $week) }}{{ else }}{{ $summaryParts = $summaryParts | append "Weekly report" }}{{ end -}}
+{{- if gt $topicCount 0 }}{{ $summaryParts = $summaryParts | append (printf "tracking %d topic clusters" $topicCount) }}{{ end -}}
+{{- if $repos }}{{ $summaryParts = $summaryParts | append (printf "across %s featured repositories" (lang.FormatNumber 0 $repos)) }}{{ end -}}
+{{- $summary := printf "Generated cover: %s." (delimit $summaryParts ", ") -}}
+
+<figure class="article-cover article-cover--generated" aria-label="{{ $summary }}">
+  <div class="article-cover__panel">
+    <svg class="article-cover__motif" viewBox="0 0 1000 360" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      {{- $slot := div 1000.0 $bars -}}
+      {{- $barW := mul $slot 0.46 -}}
+      {{- range $i := seq $bars -}}
+        {{- $idx := sub $i 1 -}}
+        {{- $h := add 56 (mod (mul (add $idx 1) (add $seed 131)) 268) -}}
+        {{- $x := add (mul $idx $slot) (mul $slot 0.27) -}}
+        {{- $y := sub 360 $h -}}
+        <rect x="{{ $x }}" y="{{ $y }}" width="{{ $barW }}" height="{{ $h }}" rx="4" />
+      {{- end -}}
+    </svg>
+    <div class="article-cover__meta">
+      <p class="article-cover__kicker">{{ $kicker }}</p>
+      <p class="article-cover__brand">Claracle</p>
+      {{- if gt $topicCount 0 }}
+      {{- /* Topic titles are descriptive caption metadata, NOT controls. Render them
+             as plain, non-interactive labels — no link, no button/pill affordance —
+             so they never look clickable (operator ask, #328). */ -}}
+      <ul class="article-cover__topics" aria-label="Topics tracked this week">
+        {{- range first 6 $topics }}
+        <li class="article-cover__topic">{{ . }}</li>
+        {{- end }}
+        {{- if gt $topicCount 6 }}
+        <li class="article-cover__topic article-cover__topic--more">+{{ sub $topicCount 6 }} more</li>
+        {{- end }}
+      </ul>
+      {{- end }}
+    </div>
+  </div>
+</figure>

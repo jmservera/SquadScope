@@ -1,0 +1,47 @@
+{{- /*
+  Topic / star visualization — a reusable, data-driven chip cloud built from a
+  list of topics. Honest by construction: chips are equal-weight unless an
+  explicit per-topic weight is supplied. Optional star/repo figures are shown as
+  plain text. No third-party assets.
+
+  Params (dict):
+    topics  : slice of strings, OR slice of dicts {name, weight} (required)
+    stars   : optional total stars figure (number)
+    repos   : optional repos-featured figure (number)
+    heading : optional heading text
+    level   : optional heading level (default "h2")
+*/ -}}
+{{- $topics := .topics | default slice -}}
+{{- $heading := .heading | default "Topics tracked this week" -}}
+{{- $level := .level | default "h2" | lower -}}
+{{- if not (in (slice "h2" "h3" "h4" "h5" "h6") $level) }}{{ $level = "h2" }}{{ end -}}
+{{- /* $level is strictly whitelisted above, so the tag name is safe to emit;
+       the heading text itself remains contextually auto-escaped. */ -}}
+{{- $hOpen := printf `<%s class="topic-stars__heading">` $level | safeHTML -}}
+{{- $hClose := printf "</%s>" $level | safeHTML -}}
+{{- if gt (len $topics) 0 -}}
+<section class="topic-stars" aria-label="{{ $heading }}">
+  {{ $hOpen }}{{ $heading }}{{ $hClose }}
+  <ul class="topic-stars__cloud">
+    {{- range $topics }}
+      {{- $name := . -}}
+      {{- if reflect.IsMap . }}{{ $name = .name }}{{ end }}
+      {{- /* Topic names are plain, non-interactive labels — no link, no button/pill
+             affordance — so they never look clickable (operator ask, #328). */ -}}
+      <li class="topic-stars__chip">{{ $name }}</li>
+    {{- end }}
+  </ul>
+  {{- /* Coerce repos/stars to integers; .Get from the shortcode yields strings,
+         so accept only digit strings (commas/spaces stripped) and ignore any
+         non-numeric input rather than passing it to lang.FormatNumber. */ -}}
+  {{- $repos := "" -}}{{ with .repos }}{{ $v := printf "%v" . | replaceRE "[, ]" "" }}{{ if findRE "^[0-9]+$" $v }}{{ $repos = $v }}{{ end }}{{ end -}}
+  {{- $stars := "" -}}{{ with .stars }}{{ $v := printf "%v" . | replaceRE "[, ]" "" }}{{ if findRE "^[0-9]+$" $v }}{{ $stars = $v }}{{ end }}{{ end -}}
+  {{- if or $stars $repos }}
+  <p class="topic-stars__figures">
+    {{- with $repos }}<span><strong>{{ lang.FormatNumber 0 (int .) }}</strong> repos featured</span>{{ end }}
+    {{- if and $stars $repos }}<span aria-hidden="true"> · </span>{{ end }}
+    {{- with $stars }}<span><strong>{{ lang.FormatNumber 0 (int .) }}</strong> stars tracked</span>{{ end }}
+  </p>
+  {{- end }}
+</section>
+{{- end -}}
