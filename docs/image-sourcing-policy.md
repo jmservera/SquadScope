@@ -71,8 +71,9 @@ Hugo Goldmark must remain configured with `unsafe = false`. Image rendering reli
    b. Download to `assets/covers/`
    c. Resize to required dimensions
    d. Register via `scripts/manage_image_registry.py add`
-   e. Reference in frontmatter as local path
-3. CI validates on every PR
+   e. Reference in frontmatter using the Hugo asset-relative path (e.g., `covers/foo.webp`)
+      — Hugo resolves this via `resources.Get`; the on-disk file lives at `assets/covers/foo.webp`
+3. CI validates on every PR (registry must exist; path normalization handles both forms)
 
 ## Ownership
 

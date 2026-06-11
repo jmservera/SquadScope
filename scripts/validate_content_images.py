@@ -127,7 +127,17 @@ def validate_registry_references(
         violations.append(f"Cannot parse registry: {registry_path}")
         return violations
 
-    registered_files = {img["filename"] for img in registry.get("images", [])}
+    # Build a normalized set for matching. Hugo resolves covers via resources.Get
+    # using asset-relative paths (e.g., "covers/foo.webp"), while on-disk files
+    # live under "assets/covers/". Register both forms for consistent matching.
+    registered_files: set[str] = set()
+    for img in registry.get("images", []):
+        filename = img.get("filename", "")
+        registered_files.add(filename)
+        if filename.startswith("assets/"):
+            registered_files.add(filename[len("assets/"):])
+        else:
+            registered_files.add(f"assets/{filename}")
 
     if not content_dir.exists():
         return violations

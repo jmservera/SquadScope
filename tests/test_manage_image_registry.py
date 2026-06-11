@@ -24,8 +24,8 @@ def _run_with_registry(tmp_path: Path, images: list | None, argv: list[str]) -> 
     orig_load = registry_mod.load_registry
     orig_save = registry_mod.save_registry
 
-    def patched_load(path: Path = reg_path) -> dict:
-        return orig_load(path)
+    def patched_load(path: Path = reg_path, **kwargs) -> dict:
+        return orig_load(path, **kwargs)
 
     def patched_save(registry: dict, path: Path = reg_path) -> None:
         return orig_save(registry, path)

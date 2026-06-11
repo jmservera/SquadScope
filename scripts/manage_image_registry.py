@@ -33,8 +33,10 @@ class RegistryError(ValueError):
     """Raised when the image registry cannot be loaded safely."""
 
 
-def load_registry(path: Path = REGISTRY_PATH) -> dict:
+def load_registry(path: Path = REGISTRY_PATH, *, allow_missing: bool = True) -> dict:
     if not path.exists():
+        if not allow_missing:
+            raise RegistryError(f"Image registry not found: {path}")
         return {"images": []}
     try:
         registry = json.loads(path.read_text(encoding="utf-8"))
@@ -103,7 +105,7 @@ def add_image(args: argparse.Namespace) -> int:
 
 
 def validate_registry(args: argparse.Namespace) -> int:
-    registry = load_registry()
+    registry = load_registry(allow_missing=False)
     errors: list[str] = []
 
     for i, img in enumerate(registry["images"]):
