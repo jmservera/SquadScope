@@ -47,6 +47,35 @@ For topic channels, `scripts/score_repos.py` can compute a 0-100 relevance score
 
 These caveats are part of the analysis, not a disclaimer that makes the output neutral. The AI-assisted write-up can still over-weight vivid examples, repeat gaps in source coverage, or describe a project more confidently than the evidence supports. Reader reports are welcome when a claim, framing, source choice, or safety implication needs review.
 
+## Signal Check podcast
+
+Claracle publishes a companion podcast, **Signal Check**, derived from the weekly written article. Signal Check is an 8–10 minute two-host conversational episode that highlights the week's signal picks, noise calls, gaps, and predictions. It is distributed through an external podcast platform (currently Spotify); the Claracle website links to the external podcast page but does not host audio.
+
+### How Signal Check is produced
+
+1. **Source:** every podcast episode is generated from the corresponding published weekly article and its underlying claim ledger. No additional sources are introduced for the podcast that were not already cited in the article.
+2. **Script generation:** an AI-assisted pipeline converts the article into a structured script following a locked segment order (Cold Open, The Signal, The Noise Check, The Gap, Receipts Round, Week Ahead, Outro). The script is constrained to substantive claims that appear in the source article's claim ledger.
+3. **Claim ledger:** every factual claim in the script (star counts, growth rates, project characterizations) must trace back to a claim in the published article or the underlying data artifacts. Claims that cannot be traced are removed before synthesis.
+4. **Human review:** scripts and publishing packets are reviewed by a human operator before any non-dry-run audio synthesis or public distribution.
+5. **Synthesis:** after approval, the script is converted to audio using AI text-to-speech. The voices are synthetic; no human narration is used or implied.
+6. **Publishing:** episodes are published manually to the podcast platform with AI-generated-voice disclosure, source article link, corrections link, and show notes.
+
+### What the podcast does not change
+
+- The weekly written article remains the primary Claracle product and is published independently. Podcast generation cannot delay, gate, or modify the article publishing pipeline.
+- The podcast does not add new sources, new analysis, or new claims beyond what appears in the published article.
+- If the podcast generation fails for any reason, the written article is still published on its normal schedule.
+
+### Podcast-specific bias and limitations
+
+- **Performative framing:** conversational audio can make claims sound more authoritative or entertaining than their textual equivalents; listeners should consult the source article and claim ledger for precise evidence.
+- **Compression loss:** a 10-minute audio format cannot include every nuance from the written article; some caveats may be abbreviated.
+- **Synthetic voice limitations:** AI-generated voices may mispronounce names, flatten tone, or introduce cadence artifacts that affect comprehension.
+
+### Corrections for podcast content
+
+Podcast corrections follow the same process as article corrections (see below). If an error originates in the source article, it is corrected there and the podcast episode show notes are updated. If an error is introduced during script generation (for example, a claim that does not trace to the ledger), it is corrected in the script and, if feasible, the audio is regenerated or an errata note is added to the show notes.
+
 ## Corrections and reader reports
 
 Weekly articles include a footer link to report a correction, source concern, or safety concern through GitHub Issues. The link prefills the article URL and week so reports can be triaged against the exact published page.
