@@ -334,6 +334,8 @@ def format_correlations_list(
         display = correlations
         omitted = 0
 
+    from sanitize_repo_content import sanitize_text as _sanitize
+
     lines = []
     for corr in display:
         repo = corr.get("repo", "unknown")
@@ -350,8 +352,16 @@ def format_correlations_list(
         citation = ""
         if details:
             first = details[0]
-            title = first.get("title", "article")
-            url = first.get("url", "")
+            title = _sanitize(
+                first.get("title", "article"),
+                max_length=200,
+                label="correlation_article_title",
+            )
+            url = _sanitize(
+                first.get("url", ""),
+                max_length=300,
+                label="correlation_article_url",
+            )
             citation = f", cited: [{title}]({url})" if url else f", cited: {title}"
         lines.append(
             f"- {repo} — match: {match_type}, "
