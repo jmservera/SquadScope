@@ -634,7 +634,11 @@ def render_wisdom(wisdom_file: Path) -> str:
         return "_No learned wisdom has been recorded yet._"
 
     content = wisdom_file.read_text(encoding="utf-8").strip()
-    return content or "_No learned wisdom has been recorded yet._"
+    if not content:
+        return "_No learned wisdom has been recorded yet._"
+    # Sanitize boundary markers to prevent fence escape from prior LLM output
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+    return _escape_untrusted_boundaries(content)
 
 
 def iter_skill_files(skills_dir: Path) -> list[Path]:
@@ -648,12 +652,16 @@ def render_skills(skills_dir: Path) -> str:
     if not skill_files:
         return "_No learned skills have been extracted yet._"
 
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
     blocks = []
     for path in skill_files:
         relative_path = path.relative_to(ROOT) if path.is_relative_to(ROOT) else path
         content = path.read_text(encoding="utf-8").strip()
         if not content:
             continue
+        # Sanitize boundary markers to prevent fence escape from prior LLM output
+        content = _escape_untrusted_boundaries(content)
         blocks.append(f"--- Skill Source: {relative_path} ---\n{content}")
     return "\n\n".join(blocks) if blocks else "_No learned skills have been extracted yet._"
 

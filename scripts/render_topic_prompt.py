@@ -82,8 +82,13 @@ def load_wisdom(topic_id: str | None) -> str:
         wisdom_path.resolve().relative_to(topics_root)
     except ValueError:
         return ""
+    # Cap injected wisdom to 8 KiB to prevent prompt bloat from large/poisoned files.
+    _MAX_WISDOM_BYTES = 8192
     if wisdom_path.exists():
-        return wisdom_path.read_text(encoding="utf-8").strip()
+        content = wisdom_path.read_text(encoding="utf-8").strip()
+        if len(content.encode("utf-8")) > _MAX_WISDOM_BYTES:
+            content = content[: _MAX_WISDOM_BYTES] + "\n…[truncated]"
+        return content
 
     return ""
 
@@ -141,7 +146,13 @@ def render_template(template: str, topic_config: dict | None) -> str:
         rendered = rendered.replace("{{TOPIC_ID}}", topic_id)
         rendered = rendered.replace("{{TOPIC_NAME}}", topic_name)
         rendered = rendered.replace("{{TOPIC_DESCRIPTION}}", topic_description)
-        rendered = rendered.replace("{{WISDOM_CONTENT}}", wisdom_content if wisdom_content else "(No per-topic wisdom accumulated yet.)")
+        # Sanitize boundary markers in wisdom content to prevent fence escape
+        try:
+            from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+        except (ImportError, ModuleNotFoundError):
+            from sanitize_repo_content import _escape_untrusted_boundaries
+        safe_wisdom = _escape_untrusted_boundaries(wisdom_content) if wisdom_content else "(No per-topic wisdom accumulated yet.)"
+        rendered = rendered.replace("{{WISDOM_CONTENT}}", safe_wisdom)
     else:
         # Remove IF_TOPIC blocks
         rendered = _remove_blocks(template, "IF_TOPIC")
