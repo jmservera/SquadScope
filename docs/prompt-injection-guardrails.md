@@ -147,9 +147,9 @@ Post-generation validation checks for:
 
 This is automatically called after `call_github_models()` returns. Violations emit `::warning::` annotations in CI.
 
-### 7. Red-Team Corpus Testing (`tests/test_redteam_corpus.py`)
+### 7. Red-Team Corpus Testing (`tests/test_prompt_injection_redteam.py`)
 
-Automated test suite with 30+ known prompt injection strings across 6 attack categories:
+Automated test suite with 60+ known prompt injection strings across 6 attack categories:
 
 | Category | Examples | Expected Behavior |
 |----------|----------|-------------------|
@@ -160,7 +160,17 @@ Automated test suite with 30+ known prompt injection strings across 6 attack cat
 | Obfuscation | Spaced/split phrases | Length-capped, boundaries escaped |
 | Multilingual | English phrases + other scripts | English portion detected |
 
-Run with: `python -m pytest tests/test_redteam_corpus.py -v`
+Run with: `python -m pytest tests/test_prompt_injection_redteam.py -v`
+
+### 8. Defense-in-Depth Frontmatter Validation (`scripts/generate_content.py`)
+
+The content generation pipeline re-validates frontmatter fields as a last defense:
+
+- **Length caps** — title (300), summary (1000), top_repo (200) chars maximum
+- **Injection phrase detection** — rejects output containing known injection artifacts
+- **Boundary marker detection** — rejects content with `<untrusted-content>` tags that shouldn't appear in final output
+
+This catches cases where upstream sanitization failed or was bypassed.
 
 ## Tool Evaluation (Garak, LLM Guard, Azure Prompt Shields)
 
