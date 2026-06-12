@@ -30,9 +30,9 @@ TRUSTED_VARIABLES = frozenset(
     }
 )
 
-# Variables that are allowed without fencing because they come from local
-# squad-controlled files (wisdom, skills).  They still need the closing
-# security constraint to be present in the template.
+# Variables that carry locally-controlled short identifiers (e.g. topic name
+# from the config file).  No fencing required, but the closing security
+# constraint must still be present in the template.
 SEMI_TRUSTED_VARIABLES = frozenset(
     {
         "{{TOPIC_NAME}}",

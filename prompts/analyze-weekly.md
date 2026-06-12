@@ -37,7 +37,7 @@ Use this only if it is provided. If it is missing, unavailable, or empty, say so
 
 ## Learned context
 
-The analyze job must resolve both learned-state placeholders before invoking Copilot CLI. Weekly AI analysis is Copilot-only; there is no GitHub Models/OpenAI fallback configured for this repository.
+The analyze job must resolve both learned-state placeholders before invoking Copilot CLI. Weekly AI analysis may run via Copilot CLI or the GitHub Models fallback (see `scripts/analyze_fallback.py`).
 
 1. Inject only the analysis/topic-specific wisdom capsule into the `WISDOM` placeholder (for this topic, the `.squad/topics/<topic>/wisdom.md` learning state or configured equivalent).
 2. Inject only analysis/topic-specific skill markdown into the `SKILLS` placeholder, in stable sorted order. Do not include unrelated squad workflow, UI, PR-review, or release-process skills.
