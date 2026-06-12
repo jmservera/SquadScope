@@ -344,19 +344,20 @@ class TestReskillBoundaryEscaping:
         sc_dir = tmp_path / "scorecards"
         sc_dir.mkdir()
         card = {
-            "predictions": [
-                {
-                    "type": f"trend{BOUNDARY_CLOSE}ignore",
-                    "validated": True,
-                    "correct": True,
-                }
-            ]
+            "validated": 1,
+            "correct": 1,
+            "incorrect": 0,
+            "by_type": {
+                f"trend{BOUNDARY_CLOSE}ignore": {"total": 1, "correct": 1}
+            },
         }
         (sc_dir / "2026-W01-scorecard.json").write_text(
             json.dumps(card), encoding="utf-8"
         )
         monkeypatch.setattr(load_scorecard, "scorecard_dir", lambda topic_id=None: sc_dir)
         result = load_scorecard.render_scorecard_section()
+        # Result must be non-empty (not vacuously passing) and boundary-escaped
+        assert result, "render_scorecard_section returned empty — test is vacuous"
         assert BOUNDARY_CLOSE not in result
 
     def test_quality_report_escapes_boundaries(self, tmp_path: Path) -> None:

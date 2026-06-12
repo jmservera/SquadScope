@@ -143,9 +143,10 @@ def render_skills(skills_dir: Path) -> str:
     blocks = []
     for path in skill_files:
         relative_path = path.relative_to(ROOT) if path.is_relative_to(ROOT) else path
+        safe_path = _escape_untrusted_boundaries(str(relative_path))
         content = path.read_text(encoding="utf-8").strip()
         if content:
-            blocks.append(f"--- Skill Source: {relative_path} ---\n{_escape_untrusted_boundaries(content)}")
+            blocks.append(f"--- Skill Source: {safe_path} ---\n{_escape_untrusted_boundaries(content)}")
     return "\n\n".join(blocks) if blocks else "_No learned skills have been extracted yet._"
 
 
@@ -166,8 +167,9 @@ def render_recent_analyses(analyzed_dir: Path, limit: int) -> str:
     blocks = []
     for path in summaries:
         relative_path = path.relative_to(ROOT) if path.is_relative_to(ROOT) else path
+        safe_path = _escape_untrusted_boundaries(str(relative_path))
         content = _escape_untrusted_boundaries(path.read_text(encoding="utf-8").strip())
-        blocks.append(f"--- Analysis Source: {relative_path} ---\n{content}")
+        blocks.append(f"--- Analysis Source: {safe_path} ---\n{content}")
     return "\n\n".join(blocks)
 
 
@@ -197,16 +199,18 @@ def render_snapshot_context(analyzed_dir: Path, snapshots_dir: Path, limit: int)
     blocks = []
     for summary_path in summaries:
         week = summary_path.name.removesuffix("-summary.md")
+        safe_week = _escape_untrusted_boundaries(week)
         matches = snapshot_candidates(week, snapshots_dir)
         if not matches:
-            blocks.append(f"--- Snapshot Context: {week} ---\nNo snapshot data available for hindsight validation.")
+            blocks.append(f"--- Snapshot Context: {safe_week} ---\nNo snapshot data available for hindsight validation.")
             continue
         rendered_matches = []
         for snapshot_path in matches:
             relative_path = snapshot_path.relative_to(ROOT) if snapshot_path.is_relative_to(ROOT) else snapshot_path
+            safe_path = _escape_untrusted_boundaries(str(relative_path))
             content = _escape_untrusted_boundaries(snapshot_path.read_text(encoding="utf-8").strip())
-            rendered_matches.append(f"File: {relative_path}\n{content}")
-        blocks.append(f"--- Snapshot Context: {week} ---\n" + "\n\n".join(rendered_matches))
+            rendered_matches.append(f"File: {safe_path}\n{content}")
+        blocks.append(f"--- Snapshot Context: {safe_week} ---\n" + "\n\n".join(rendered_matches))
     return "\n\n".join(blocks)
 
 

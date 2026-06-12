@@ -150,7 +150,7 @@ This is automatically called after `call_github_models()` returns. Violations em
 
 ### 7. Red-Team Corpus Testing (`tests/test_prompt_injection_redteam.py`)
 
-Automated test suite with 17 known prompt injection strings across 7 attack categories, plus boundary-escape validation tests for all reskill render functions:
+Automated test suite with 18 known prompt injection strings across 7 attack categories, plus boundary-escape validation tests for all reskill render functions:
 
 | Category | Examples | Expected Behavior |
 |----------|----------|-------------------|
