@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 
+from scripts.analyze_fallback import validate_output_safety
 from scripts.canary_token import (
     CANARY_PREFIX,
     check_output_for_any_canary,
@@ -93,3 +94,42 @@ def test_check_empty_output() -> None:
     canary = generate_canary()
     result = check_output_for_leak("", canary)
     assert not result.leaked
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# validate_output_safety integration tests
+# ═══════════════════════════════════════════════════════════════════════════════
+
+
+def test_validate_output_safety_clean() -> None:
+    output = "## This Week's Trends\n\nRust and Go dominate this week.\n"
+    violations = validate_output_safety(output)
+    assert violations == []
+
+
+def test_validate_output_safety_canary_leak() -> None:
+    canary = generate_canary()
+    output = f"## Analysis\n\nThe internal token is {canary}.\n"
+    violations = validate_output_safety(output, canary)
+    assert len(violations) >= 1
+    assert "Canary token leaked" in violations[0]
+
+
+def test_validate_output_safety_boundary_marker_leak() -> None:
+    output = "## Analysis\n\n<untrusted-content>some data</untrusted-content>\n"
+    violations = validate_output_safety(output)
+    assert len(violations) >= 1
+    assert "boundary marker" in violations[0].lower() or "boundary marker" in violations[1].lower()
+
+
+def test_validate_output_safety_unknown_canary_pattern() -> None:
+    output = f"Found: {CANARY_PREFIX}-deadbeef12345678 in output\n"
+    violations = validate_output_safety(output)
+    assert len(violations) >= 1
+    assert "Unknown canary pattern" in violations[0]
+
+
+def test_validate_output_safety_no_false_positives_on_normal_hex() -> None:
+    output = "Commit hash: abcdef1234567890abcdef\nSHA: deadbeef12345678\n"
+    violations = validate_output_safety(output)
+    assert violations == []
