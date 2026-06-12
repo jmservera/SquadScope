@@ -9,6 +9,7 @@ _REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_REPO_ROOT / "scripts"))
 
 from render_press_context import (
+    _escape_markdown_url,
     _extract_readme_description,
     _fetch_readme_snippet,
     _format_correlations_narrative,
@@ -598,3 +599,28 @@ class TestExtractReadmeDescriptionSentenceBoundary:
         snippet = "# Header\n\nNo period here at all and the line is long enough to match normally"
         result = _extract_readme_description(snippet)
         assert result == ""
+
+
+class TestEscapeMarkdownUrl:
+    """Ensure URLs with parentheses are safely escaped in markdown links."""
+
+    def test_url_with_parentheses_escaped_in_articles_list(self):
+        articles = [
+            {
+                "title": "Wikipedia Article",
+                "url": "https://en.wikipedia.org/wiki/AI_(term)",
+                "categories": ["AI"],
+                "source": "Wikipedia",
+                "published_at": "2026-01-01T00:00:00Z",
+            }
+        ]
+        result = format_articles_list(articles)
+        # Parentheses in URLs must be percent-encoded
+        assert "%28" in result and "%29" in result
+        # The raw parenthesis should not appear inside the markdown link target
+        assert "](https://en.wikipedia.org/wiki/AI_(term))" not in result
+        assert "](https://en.wikipedia.org/wiki/AI_%28term%29)" in result
+
+    def test_url_without_parentheses_unchanged(self):
+        url = "https://example.com/path?q=1&r=2"
+        assert _escape_markdown_url(url) == url
