@@ -37,17 +37,20 @@
     },
     "music_mix": {
       "track": "Summer Sport",
+      "voice_guardrail": "Music must NEVER exceed 10% volume when any voice is playing. Only go above 10% during guaranteed silence: intro opening, post-intro musical break, and outro after all voices end.",
+      "speech_duck_gain": 0.10,
       "intro": {
-        "description": "Full volume for 10 seconds, fade down under Host A's opening line, fade up briefly after Host A finishes, fade out before Host B begins.",
-        "full_volume_seconds": 10,
-        "fade_down_under": "Host A opening",
-        "fade_up_after": "Host A opening",
-        "fade_out_before": "Host B first line"
+        "description": "Full volume 0-8s (no voice yet). Fade down to 10% from 8-10s so music is already ducked when voice starts. Stay at 10% under host introductions. After intros end, fade up to 100% for 2 seconds (musical break). Then fade to zero over 1 second. Main show starts in silence.",
+        "full_volume_seconds": 8,
+        "pre_voice_fade_seconds": 2,
+        "speech_segments_under_music": 2,
+        "post_intro_full_volume_seconds": 2,
+        "post_intro_fade_out_seconds": 1
       },
       "outro": {
-        "description": "Start at 1:15 of the song. Slow fade-up during the farewell exchange between hosts, then play to the end of the track.",
+        "description": "When farewell starts, music fades in from 0% to 10% over 3 seconds. Stays at 10% max while any voice is still talking. After the last voice ends, ramp to 100% and play to end of track.",
         "start_position": "1:15",
-        "fade_up_during": "farewell exchange",
+        "fade_in_from_zero_seconds": 3,
         "play_to_end": true
       }
     }
