@@ -141,7 +141,13 @@ def render_template(template: str, topic_config: dict | None) -> str:
         rendered = rendered.replace("{{TOPIC_ID}}", topic_id)
         rendered = rendered.replace("{{TOPIC_NAME}}", topic_name)
         rendered = rendered.replace("{{TOPIC_DESCRIPTION}}", topic_description)
-        rendered = rendered.replace("{{WISDOM_CONTENT}}", wisdom_content if wisdom_content else "(No per-topic wisdom accumulated yet.)")
+        # Sanitize boundary markers in wisdom content to prevent fence escape
+        try:
+            from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+        except (ImportError, ModuleNotFoundError):
+            from sanitize_repo_content import _escape_untrusted_boundaries
+        safe_wisdom = _escape_untrusted_boundaries(wisdom_content) if wisdom_content else "(No per-topic wisdom accumulated yet.)"
+        rendered = rendered.replace("{{WISDOM_CONTENT}}", safe_wisdom)
     else:
         # Remove IF_TOPIC blocks
         rendered = _remove_blocks(template, "IF_TOPIC")

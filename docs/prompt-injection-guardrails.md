@@ -92,22 +92,25 @@ When creating or modifying prompt templates:
 | `{{RECENT_ANALYSES}}` | UNTRUSTED | ✅ Yes |
 | `{{SNAPSHOT_CONTEXT}}` | UNTRUSTED | ✅ Yes |
 | `{{SCORECARD}}` | UNTRUSTED | ✅ Yes |
+| `{{QUALITY_TREND}}` | UNTRUSTED | ✅ Yes |
+| `{{WISDOM}}` | UNTRUSTED | ✅ Yes (prior LLM output) |
+| `{{SKILLS}}` | UNTRUSTED | ✅ Yes (prior LLM output) |
+| `{{WISDOM_CONTENT}}` | UNTRUSTED | ✅ Yes (prior LLM output) |
+| `{{TOPIC_DESCRIPTION}}` | UNTRUSTED | ✅ Yes (user-configured) |
 | `{articles_list}` | UNTRUSTED | ✅ Yes |
 | `{correlations_list}` | UNTRUSTED | ✅ Yes |
-| `{{WISDOM}}` | SEMI-TRUSTED | No (local file) |
-| `{{SKILLS}}` | SEMI-TRUSTED | No (local file) |
-| `{{TOPIC_NAME}}` | SEMI-TRUSTED | No (sanitized in code) |
-| `{{TOPIC_DESCRIPTION}}` | SEMI-TRUSTED | No (sanitized in code) |
+| `{scorecard_summary}` | UNTRUSTED | ✅ Yes |
+| `{{TOPIC_NAME}}` | SEMI-TRUSTED | No (sanitized, short) |
 | `{{CURRENT_DATETIME}}` | TRUSTED | No |
 | `{{OUTPUT_PATH}}` | TRUSTED | No |
 | `{{TOPIC_ID}}` | TRUSTED | No (regex-validated in `render_template()` before prompt insertion) |
 
 ## Scope
 
-This PR implements the core guardrails for issue #352:
+This document covers the complete Phase 1 and Phase 2 guardrails for issue #352:
 
-- **Phase 1**: Sanitization, boundary fencing, closing constraints, and lint enforcement for known prompt placeholders.
-- **Phase 2**: Canary token leak detection, red-team corpus testing, and tool evaluation (Garak, LLM Guard, Azure Prompt Shields).
+- **Phase 1** (complete): Sanitization, boundary fencing, closing constraints, and lint enforcement for all prompt placeholders — including previously semi-trusted variables (`{{WISDOM}}`, `{{SKILLS}}`, `{{WISDOM_CONTENT}}`, `{{TOPIC_DESCRIPTION}}`).
+- **Phase 2** (complete): Canary token leak detection, red-team corpus testing, and tool evaluation (Garak, LLM Guard, Azure Prompt Shields).
 
 ### 5. Canary Token Leak Detection (`scripts/canary_token.py`)
 

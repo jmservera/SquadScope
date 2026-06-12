@@ -35,11 +35,7 @@ TRUSTED_VARIABLES = frozenset(
 # security constraint to be present in the template.
 SEMI_TRUSTED_VARIABLES = frozenset(
     {
-        "{{WISDOM}}",
-        "{{SKILLS}}",
-        "{{WISDOM_CONTENT}}",
         "{{TOPIC_NAME}}",
-        "{{TOPIC_DESCRIPTION}}",
     }
 )
 
@@ -52,6 +48,10 @@ UNTRUSTED_VARIABLES = frozenset(
         "{{SNAPSHOT_CONTEXT}}",
         "{{SCORECARD}}",
         "{{QUALITY_TREND}}",
+        "{{WISDOM}}",
+        "{{SKILLS}}",
+        "{{WISDOM_CONTENT}}",
+        "{{TOPIC_DESCRIPTION}}",
     }
 )
 
