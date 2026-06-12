@@ -43,6 +43,7 @@ SEMI_TRUSTED_VARIABLES = frozenset(
 UNTRUSTED_VARIABLES = frozenset(
     {
         "{{RAW_JSON_CONTENT}}",
+        "{{HISTORICAL_CONTEXT}}",
         "{{PREVIOUS_SUMMARY_CONTENT_OR_EMPTY}}",
         "{{RECENT_ANALYSES}}",
         "{{SNAPSHOT_CONTEXT}}",
