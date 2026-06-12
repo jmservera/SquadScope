@@ -12,7 +12,7 @@
       },
       {
         "name": "Vera",
-        "voice": "alloy",
+        "voice": "coral",
         "style": "Calm, dry, and measured. Pressure-tests claims with specificity. Challenges hype with evidence, not dismissiveness. Lets pauses land."
       }
     ]
@@ -32,7 +32,7 @@
       "format": "Two-host conversational podcast, 8-10 minutes, 1200-1700 words.",
       "tone": "Conversational, not performative. Opinionated, not reckless. Concise, not rushed. Funny, not cruel. Accessible, not dumbed-down.",
       "segment_order": ["Cold Open", "The Signal", "The Noise Check", "The Gap", "Receipts Round", "Week Ahead", "Outro"],
-      "phrasing": "Active voice, concrete verbs. Lead with the insight, not the setup. Skeptic challenges must be specific and data-backed.",
+      "phrasing": "Active voice, concrete verbs. Lead with the insight, not the setup. Skeptic challenges must be specific and data-backed. Sometimes they ask questions between them.",
       "distinctiveness": "Must not replicate or closely resemble any named podcast's style, segment labels, or trademarked phrasing."
     },
     "music_mix": {
