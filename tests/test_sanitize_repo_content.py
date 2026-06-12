@@ -139,3 +139,12 @@ def test_sanitize_text_max_length_caps_suspicious_limit() -> None:
     # Caller wants a tight budget of 50 chars
     sanitized = sanitize_text(text, max_length=50, label="test")
     assert len(sanitized) <= 50
+
+
+def test_sanitize_text_non_positive_max_length_uses_default() -> None:
+    """max_length <= 0 should fall back to MAX_DESCRIPTION_LENGTH."""
+    text = "a" * 1000
+    for bad_length in (0, -1, -100):
+        sanitized = sanitize_text(text, max_length=bad_length, label="test")
+        assert len(sanitized) == MAX_DESCRIPTION_LENGTH
+        assert sanitized.endswith("…")

@@ -112,6 +112,9 @@ def render_template(template: str, topic_config: dict | None) -> str:
         import re as _re
 
         topic_id = topic_config.get("id", "")
+        # Coerce topic_id to string to avoid TypeError in re.fullmatch
+        if not isinstance(topic_id, str):
+            topic_id = str(topic_id) if topic_id is not None else ""
         topic_name = topic_config.get("name", "")
         topic_description = topic_config.get("description", "")
 
