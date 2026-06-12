@@ -49,6 +49,11 @@ class PodcasterHandoffTests(unittest.TestCase):
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             manifest = self._write_manifest(Path(tmpdir))
+            # Create article file so article_content is included
+            article_dir = Path(tmpdir) / "content" / "weekly" / "2026"
+            article_dir.mkdir(parents=True)
+            article_file = article_dir / "W23.md"
+            article_file.write_text("---\ntitle: Week 23 Report\n---\n# Heading\nBody content here.\n", encoding="utf-8")
 
             payload = podcaster_handoff.build_payload(
                 week="2026-W23",
@@ -57,6 +62,7 @@ class PodcasterHandoffTests(unittest.TestCase):
                 publish_run_id="123456789",
                 publish_mode="normal",
                 manifest_path=manifest,
+                repo_root=Path(tmpdir),
             )
 
         self.assertEqual(payload["week"], "2026-W23")
@@ -74,6 +80,10 @@ class PodcasterHandoffTests(unittest.TestCase):
         )
         self.assertNotIn("force", payload)
         self.assertNotIn("dry_run", payload)
+        # article_content and article_title from the article file
+        self.assertIn("article_content", payload)
+        self.assertIn("Week 23 Report", payload["article_title"])
+        self.assertIn("Body content here.", payload["article_content"])
 
     def test_podcaster_dry_run_sets_payload_flag(self) -> None:
         payload = podcaster_handoff.build_payload(
@@ -285,6 +295,87 @@ class PodcasterHandoffTests(unittest.TestCase):
             ),
             "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
         )
+
+
+    def test_build_payload_includes_article_content_from_file(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            base = Path(tmpdir)
+            article_dir = base / "content" / "weekly" / "2026"
+            article_dir.mkdir(parents=True)
+            article = article_dir / "W24.md"
+            article.write_text("---\ntitle: My Title\n---\n# Heading\nHello world.\n", encoding="utf-8")
+
+            payload = podcaster_handoff.build_payload(
+                week="2026-W24",
+                article_url="https://example.com/weekly/2026/w24/",
+                article_path="content/weekly/2026/W24.md",
+                publish_run_id="999",
+                publish_mode="normal",
+                podcaster_dry_run=True,
+                repo_root=base,
+            )
+
+        self.assertEqual(payload["article_title"], "My Title")
+        self.assertIn("Hello world.", payload["article_content"])
+        self.assertIn("---\ntitle: My Title\n---", payload["article_content"])
+
+    def test_build_payload_extracts_title_from_heading_when_no_frontmatter(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            base = Path(tmpdir)
+            article_dir = base / "content" / "weekly" / "2026"
+            article_dir.mkdir(parents=True)
+            article = article_dir / "W24.md"
+            article.write_text("# My Heading Title\nSome content.\n", encoding="utf-8")
+
+            payload = podcaster_handoff.build_payload(
+                week="2026-W24",
+                article_url="https://example.com/weekly/2026/w24/",
+                article_path="content/weekly/2026/W24.md",
+                publish_run_id="999",
+                publish_mode="normal",
+                podcaster_dry_run=True,
+                repo_root=base,
+            )
+
+        self.assertEqual(payload["article_title"], "My Heading Title")
+
+    def test_build_payload_truncates_large_article_content(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            base = Path(tmpdir)
+            article_dir = base / "content" / "weekly" / "2026"
+            article_dir.mkdir(parents=True)
+            article = article_dir / "W24.md"
+            large_content = "# Title\n" + "x" * 60_000
+            article.write_text(large_content, encoding="utf-8")
+
+            payload = podcaster_handoff.build_payload(
+                week="2026-W24",
+                article_url="https://example.com/weekly/2026/w24/",
+                article_path="content/weekly/2026/W24.md",
+                publish_run_id="999",
+                publish_mode="normal",
+                podcaster_dry_run=True,
+                repo_root=base,
+            )
+
+        self.assertEqual(len(payload["article_content"]), 50_000)
+        self.assertEqual(payload["article_title"], "Title")
+
+    def test_build_payload_missing_article_file_omits_content(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            base = Path(tmpdir)
+            payload = podcaster_handoff.build_payload(
+                week="2026-W24",
+                article_url="https://example.com/weekly/2026/w24/",
+                article_path="content/weekly/2026/W24.md",
+                publish_run_id="999",
+                publish_mode="normal",
+                podcaster_dry_run=True,
+                repo_root=base,
+            )
+
+        self.assertNotIn("article_content", payload)
+        self.assertNotIn("article_title", payload)
 
 
 if __name__ == "__main__":
