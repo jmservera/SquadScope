@@ -136,5 +136,8 @@ def format_scorecard_summary(cards: list[dict[str, Any]]) -> str:
 
 def render_scorecard_section(topic_id: str | None = None, count: int = DEFAULT_SCORECARD_COUNT) -> str:
     """Load scorecards and return formatted summary, or empty string if none exist."""
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
     cards = load_scorecards(topic_id, count)
-    return format_scorecard_summary(cards)
+    summary = format_scorecard_summary(cards)
+    return _escape_untrusted_boundaries(summary) if summary else summary

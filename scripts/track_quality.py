@@ -65,6 +65,8 @@ def classify_trend(entries: list[QualityEntry]) -> str:
 
 
 def build_quality_report(analyzed_dir: Path) -> str:
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
     entries = load_quality_entries(analyzed_dir)
     lines = ["# Quality Trend Report", ""]
 
@@ -112,7 +114,7 @@ def build_quality_report(analyzed_dir: Path) -> str:
             f"Quality is currently **{trend}** based on the available summaries. Use this trend as a calibration aid, not as a substitute for reviewing the underlying Signal/Noise/Gaps calls.",
         ]
     )
-    return "\n".join(lines) + "\n"
+    return _escape_untrusted_boundaries("\n".join(lines) + "\n")
 
 
 def main(argv: list[str] | None = None) -> int:
