@@ -57,6 +57,32 @@ Under GDPR Articles 15–22, you may have rights to access, rectify, erase, rest
 
 Because Claracle holds no first-party visitor data, most practical data-subject requests need to be exercised directly with the third party that controls the data: [GitHub privacy requests](https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement) for hosting logs, and [Google privacy controls](https://policies.google.com/privacy#infocontrols) or [Google's privacy request tools](https://support.google.com/policies/troubleshooter/7575787) for GA4 or Fonts data. You can still [open a SquadScope issue](https://github.com/jmservera/SquadScope/issues/new) if you need help identifying the right route.
 
+## Signal Check podcast
+
+Claracle publishes a companion podcast, **Signal Check**, on an external podcast platform (currently Spotify). The podcast is produced using AI text-to-speech; no human voice recordings are collected or stored.
+
+### What data the podcast pipeline processes
+
+- **Public article text and claim ledger:** the podcast script is generated from the published Claracle article and its structured claim data. These are public materials already available on the website.
+- **Text-to-speech provider:** the generated script is sent to a third-party TTS provider (currently Azure AI Speech) for audio synthesis. The provider receives the script text. No personal data about readers or listeners is included in TTS requests. Azure AI Speech processing is governed by the [Microsoft Privacy Statement](https://privacy.microsoft.com/privacystatement) and the service's data handling terms.
+- **Temporary staging storage:** generated audio files are temporarily stored in Azure Blob Storage for operator review before publishing. Access is restricted to project maintainers; files are retained only until publishing is complete and then deleted per a configured retention policy.
+- **Podcast platform:** published episodes are hosted on Spotify (or another platform if changed). When you listen through the platform, that platform's privacy policy applies — Claracle does not control or receive listener analytics or personal data from the podcast platform.
+
+### What we do not do
+
+- We do not collect listener email addresses, listening habits, or personal data through the podcast.
+- We do not use listener data for advertising or share it with third parties.
+- We do not embed tracking pixels, analytics beacons, or advertising identifiers in podcast audio.
+- We do not run dynamic ad insertion.
+
+### AI-generated voice disclosure
+
+All podcast audio is synthesized using artificial intelligence. The voices are not recordings of real people. This is disclosed in each episode's outro, show notes, and platform description.
+
+### Future changes
+
+If Claracle adds podcast analytics, listener support/donations, sponsorships, premium content, or changes the TTS provider or hosting platform, this privacy policy will be updated before those features launch.
+
 ## How to withdraw analytics consent
 
 Use the **Manage cookies** button in the footer to reopen cookie preferences, turn off Analytics, and save. You can also delete Claracle cookies in your browser settings. Withdrawal stops future GA4 events from this browser; it does not automatically delete data already controlled by Google.
@@ -77,7 +103,9 @@ GitHub and Google may process data in countries outside your own. GA4 data may b
 
 ## Changes to this policy
 
-Last updated: 2026-05-25. Changes are announced through the git history of this page in the public SquadScope repository, so you can review what changed and when.
+Last updated: 2026-06-12. Changes are announced through the git history of this page in the public SquadScope repository, so you can review what changed and when.
+
+**2026-06-12:** Added Signal Check podcast section covering TTS provider, staging storage, and platform disclosures.
 
 ## Contact
 
