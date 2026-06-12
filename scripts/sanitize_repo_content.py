@@ -77,6 +77,8 @@ def sanitize_text(
     function works on any free-form text (article titles, topic descriptions,
     scorecard summaries, etc.).
     """
+    if max_length <= 0:
+        max_length = MAX_DESCRIPTION_LENGTH
     if text is None:
         return ""
     if not isinstance(text, str):

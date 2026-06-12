@@ -109,9 +109,16 @@ def render_template(template: str, topic_config: dict | None) -> str:
     has_topic = topic_config is not None and bool(topic_config.get("id") or topic_config.get("name"))
 
     if has_topic:
+        import re as _re
+
         topic_id = topic_config.get("id", "")
         topic_name = topic_config.get("name", "")
         topic_description = topic_config.get("description", "")
+
+        # Validate topic_id before prompt injection (same regex as load_wisdom)
+        if not _re.fullmatch(r"[a-z0-9][a-z0-9\-_]{0,63}", topic_id):
+            topic_id = ""
+
         wisdom_content = load_wisdom(topic_id)
 
         # Sanitize user-controlled topic fields

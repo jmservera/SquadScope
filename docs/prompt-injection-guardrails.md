@@ -100,7 +100,7 @@ When creating or modifying prompt templates:
 | `{{TOPIC_DESCRIPTION}}` | SEMI-TRUSTED | No (sanitized in code) |
 | `{{CURRENT_DATETIME}}` | TRUSTED | No |
 | `{{OUTPUT_PATH}}` | TRUSTED | No |
-| `{{TOPIC_ID}}` | TRUSTED | No (regex-validated) |
+| `{{TOPIC_ID}}` | TRUSTED | No (regex-validated in `render_template()` before prompt insertion) |
 
 ## Scope
 
