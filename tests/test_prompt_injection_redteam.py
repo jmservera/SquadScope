@@ -58,16 +58,20 @@ class TestRedTeamSanitizeText:
 
     @pytest.mark.parametrize("injection", RED_TEAM_INJECTIONS)
     def test_injection_is_truncated(self, injection: str) -> None:
-        result = sanitize_text(injection, max_length=500, label="redteam")
-        # Should either be truncated (suspicious) or have boundary markers escaped
-        if BOUNDARY_CLOSE in injection or BOUNDARY_OPEN in injection:
-            assert BOUNDARY_CLOSE not in result
-            assert BOUNDARY_OPEN not in result
-        # Injections longer than the suspicious threshold must be truncated
-        if len(injection) > SUSPICIOUS_DESCRIPTION_LENGTH:
-            assert len(result) <= SUSPICIOUS_DESCRIPTION_LENGTH, (
-                f"Long suspicious input was not truncated: {len(result)} > {SUSPICIOUS_DESCRIPTION_LENGTH}"
-            )
+        # Pad input beyond SUSPICIOUS_DESCRIPTION_LENGTH to exercise truncation
+        long_input = injection + " " + "A" * SUSPICIOUS_DESCRIPTION_LENGTH
+        result = sanitize_text(long_input, max_length=500, label="redteam")
+        # Boundary markers must never appear in output
+        assert BOUNDARY_CLOSE not in result, (
+            f"Boundary close marker leaked through: {result!r}"
+        )
+        assert BOUNDARY_OPEN not in result, (
+            f"Boundary open marker leaked through: {result!r}"
+        )
+        # Suspicious long inputs must be capped to the suspicious threshold
+        assert len(result) <= SUSPICIOUS_DESCRIPTION_LENGTH, (
+            f"Suspicious input was not truncated: {len(result)} > {SUSPICIOUS_DESCRIPTION_LENGTH}"
+        )
 
     @pytest.mark.parametrize("injection", RED_TEAM_INJECTIONS)
     def test_injection_is_logged(self, injection: str, caplog) -> None:
@@ -75,11 +79,10 @@ class TestRedTeamSanitizeText:
 
         with caplog.at_level(logging.WARNING):
             sanitize_text(injection, max_length=500, label="redteam")
-        # All entries longer than the threshold should trigger a warning
-        if len(injection) > SUSPICIOUS_DESCRIPTION_LENGTH:
-            assert "Suspicious" in caplog.text or "[boundary" in caplog.text, (
-                f"Long suspicious input did not trigger a warning log"
-            )
+        # Every red-team injection must trigger a warning regardless of length
+        assert "Suspicious" in caplog.text or "[boundary" in caplog.text, (
+            f"Injection was not logged as suspicious: {injection!r}"
+        )
 
     @pytest.mark.parametrize("injection", RED_TEAM_INJECTIONS)
     def test_description_sanitizer_catches_injection(self, injection: str) -> None:
