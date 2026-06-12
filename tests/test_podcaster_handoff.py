@@ -377,6 +377,39 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertNotIn("article_content", payload)
         self.assertNotIn("article_title", payload)
 
+    def test_read_article_content_path_traversal_raises(self) -> None:
+       """Path traversal attempts must raise PodcasterHandoffError."""
+       with tempfile.TemporaryDirectory() as tmpdir:
+           base = Path(tmpdir)
+           # Create a file outside repo_root
+           outside = base.parent / "secret.txt"
+           outside.write_text("secret data", encoding="utf-8")
+           try:
+               with self.assertRaises(podcaster_handoff.PodcasterHandoffError) as ctx:
+                   podcaster_handoff._read_article_content("../secret.txt", repo_root=base)
+               self.assertIn("outside the repository root", str(ctx.exception))
+           finally:
+               outside.unlink(missing_ok=True)
+
+    def test_read_article_content_unreadable_file_raises(self) -> None:
+       """An existing but unreadable file must raise, not silently omit content."""
+       with tempfile.TemporaryDirectory() as tmpdir:
+           base = Path(tmpdir)
+           article_dir = base / "content" / "weekly"
+           article_dir.mkdir(parents=True)
+           article_file = article_dir / "W24.md"
+           article_file.write_text("# Test", encoding="utf-8")
+           # Make file unreadable
+           article_file.chmod(0o000)
+           try:
+               with self.assertRaises(podcaster_handoff.PodcasterHandoffError) as ctx:
+                   podcaster_handoff._read_article_content(
+                       "content/weekly/W24.md", repo_root=base
+                   )
+               self.assertIn("could not be read", str(ctx.exception))
+           finally:
+               article_file.chmod(0o644)
+
 
 if __name__ == "__main__":
     unittest.main()

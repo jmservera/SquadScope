@@ -149,15 +149,26 @@ def _read_article_content(article_path: str, repo_root: Path = REPO_ROOT) -> tup
     """Read article file content and extract title.
 
     Returns (content, title). Content is truncated to MAX_ARTICLE_CONTENT_CHARS.
-    Returns (None, None) if the file does not exist or is empty.
+    Returns (None, None) if the file does not exist.
+    Raises PodcasterHandoffError if the file exists but cannot be read, or if
+    the resolved path escapes the repo root (path traversal prevention).
     """
-    resolved = repo_root / article_path
+    resolved = (repo_root / article_path).resolve()
+    # Prevent path traversal — resolved path must stay within repo_root.
+    try:
+        resolved.relative_to(repo_root.resolve())
+    except ValueError:
+        raise PodcasterHandoffError(
+            f"article_path resolves outside the repository root: {article_path}"
+        )
     if not resolved.exists():
         return None, None
     try:
         content = resolved.read_text(encoding="utf-8")
-    except OSError:
-        return None, None
+    except OSError as exc:
+        raise PodcasterHandoffError(
+            f"Article file exists but could not be read: {resolved} ({exc})"
+        )
     if not content.strip():
         return None, None
     title = _extract_title(content)
