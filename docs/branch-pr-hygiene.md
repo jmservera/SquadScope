@@ -55,11 +55,11 @@ Before approving any hygiene-sensitive PR, verify:
 - [ ] No secrets, tokens, connection strings, SAS URLs, or private endpoint values are present.
 - [ ] Generated-data PRs do not include source code changes.
 - [ ] Stacked PRs document their base branch and merge order.
-- [ ] The author started from a clean worktree (no stray untracked files committed).
+- [ ] No accidentally added unrelated files are included in the commit.
 - [ ] CI is green and tests were not weakened to achieve green status.
 
 ## Workflow Permissions
 
-- Generated-data sync workflows use least-privilege `contents: write` only.
+- Apply least-privilege: each job declares only the permissions it needs (e.g., `contents: write` for pushes, `pull-requests: write` for PR creation, `actions: read` for status checks). Use job-level `permissions` blocks rather than broad workflow-level grants.
 - PRs opened by automation (bot/Actions) still require human review before merge.
 - No workflow should commit secrets or expand permissions beyond what the specific job needs.
