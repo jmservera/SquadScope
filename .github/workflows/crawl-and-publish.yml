@@ -1200,6 +1200,7 @@ jobs:
             --publish-run-id "$PUBLISH_RUN_ID"
             --publish-mode "$RUN_MODE"
             --manifest "$MANIFEST_FILE"
+            --podcast-config config/podcast.json
           )
           if ! python3 scripts/podcaster_handoff.py "${ARGS[@]}"; then
             echo "::warning::Podcaster handoff failed or was rejected; weekly article publication remains complete."

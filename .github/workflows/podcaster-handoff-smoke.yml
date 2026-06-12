@@ -87,5 +87,6 @@ jobs:
             --article-path "$ARTICLE_PATH" \
             --publish-run-id "$PUBLISH_RUN_ID" \
             --publish-mode normal \
+            --podcast-config config/podcast.json \
             --podcaster-dry-run \
             "${MANIFEST_ARGS[@]}"

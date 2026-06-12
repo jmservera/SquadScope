@@ -12,7 +12,7 @@ from urllib.parse import urljoin, urlparse
 
 
 AUTH_HEADER = "x-podcaster-api-key"
-DEFAULT_TIMEOUT_SECONDS = 30
+DEFAULT_TIMEOUT_SECONDS = 180
 DEFAULT_PODCAST_CONFIG_PATH = Path(__file__).resolve().parent.parent / "config" / "podcast.json"
 REPO_ROOT = Path(__file__).resolve().parent.parent
 MAX_ARTICLE_CONTENT_CHARS = 50_000
