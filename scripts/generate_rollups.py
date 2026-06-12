@@ -130,6 +130,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=PROJECT_ROOT / "content",
         help="Root content directory for generated rollups.",
     )
+    parser.add_argument(
+        "--rolling",
+        action="store_true",
+        default=False,
+        help="Generate the rolling 4-week context report after rollups.",
+    )
     return parser.parse_args(argv)
 
 
@@ -474,9 +480,236 @@ def generate_rollups(analyzed_dir: Path, content_root: Path) -> list[Path]:
     return written
 
 
+ROLLING_SECTIONS = [
+    "Active Trends",
+    "Trend Velocity",
+    "Open Predictions",
+    "Noise Patterns",
+]
+
+VELOCITY_LABELS = ("accelerating", "new", "decelerating", "dying")
+
+
+def _load_weekly_content(content_root: Path) -> list[WeeklySummary]:
+    """Load weekly summaries directly from content/weekly/ (published pages).
+
+    Falls back to data/analyzed/ format. Handles content/weekly files that
+    may lack 'year' frontmatter by extracting it from the 'week' field.
+    """
+    weekly_dir = content_root / "weekly"
+    if not weekly_dir.exists():
+        return []
+    paths = sorted(weekly_dir.rglob("W*.md"))
+    summaries: list[WeeklySummary] = []
+    for path in paths:
+        if path.name == "_index.md":
+            continue
+        try:
+            summaries.append(_load_weekly_summary(path))
+        except (RollupError, KeyError, ValueError):
+            continue
+    return sorted(summaries, key=lambda s: (s.year, s.week_number))
+
+
+def _load_weekly_summary(path: Path) -> WeeklySummary:
+    """Load a weekly summary from content/weekly/, tolerating missing 'year'."""
+    frontmatter, body = analysis_gate.extract_frontmatter(path.read_text(encoding="utf-8"))
+    week = str(frontmatter.get("week", ""))
+    match = WEEK_PATTERN.fullmatch(week)
+    if not match:
+        raise RollupError(f"Invalid week slug in {path.name}")
+
+    year = int(frontmatter.get("year", match.group("year")))
+    date = analysis_gate.parse_datetime(frontmatter["date"])
+
+    signal_noise_section = get_section_text(body, "Signal & Noise")
+    if signal_noise_section:
+        signal = normalize_text(signal_noise_section)
+        noise = ""
+    else:
+        trend_analysis = get_section_text(body, "Trend Analysis")
+        signal = get_subsection_text(trend_analysis, "Signal")
+        noise = get_subsection_text(trend_analysis, "Noise")
+
+    # Pull structured noise from frontmatter if available (newer format)
+    signal_noise_fm = frontmatter.get("signal_noise")
+    if signal_noise_fm and isinstance(signal_noise_fm, dict):
+        noise_items = signal_noise_fm.get("noise", [])
+        if noise_items and isinstance(noise_items, list):
+            noise = "; ".join(str(n) for n in noise_items)
+
+    blind_spots = get_section_text(body, "Blind Spots")
+    if blind_spots:
+        gaps = normalize_text(blind_spots)
+    else:
+        gaps = get_subsection_text(get_section_text(body, "What's Missing"), "Gaps")
+
+    week_ahead = get_section_text(body, "The Week Ahead")
+    if week_ahead:
+        conclusion = normalize_text(week_ahead)
+    else:
+        conclusion = normalize_text(get_section_text(body, "Conclusion"))
+
+    top_repo = str(frontmatter.get("top_repo", ""))
+
+    return WeeklySummary(
+        source_path=path,
+        title=str(frontmatter.get("title", "")),
+        date=date,
+        week=week,
+        year=year,
+        month=date.month,
+        tags=tuple(str(tag) for tag in frontmatter.get("tags", [])),
+        repos_featured=int(frontmatter.get("repos_featured", 0)),
+        top_repo=top_repo,
+        featured_repos=extract_featured_repos(body, top_repo) if top_repo else (),
+        summary=normalize_text(str(frontmatter.get("summary", ""))),
+        signal=signal,
+        noise=noise,
+        gaps=gaps,
+        conclusion=conclusion,
+    )
+
+
+def _classify_velocity(tags_by_week: list[tuple[str, set[str]]]) -> dict[str, str]:
+    """Classify trend velocity based on tag presence across weeks.
+
+    Returns a mapping of tag -> velocity label.
+    """
+    if len(tags_by_week) < 2:
+        all_tags = set()
+        for _, tags in tags_by_week:
+            all_tags.update(tags)
+        return {tag: "new" for tag in all_tags}
+
+    all_tags: set[str] = set()
+    for _, tags in tags_by_week:
+        all_tags.update(tags)
+
+    velocity: dict[str, str] = {}
+    for tag in sorted(all_tags):
+        presence = [tag in tags for _, tags in tags_by_week]
+        first_seen = next((i for i, p in enumerate(presence) if p), len(presence))
+        last_seen = next(
+            (len(presence) - 1 - i for i, p in enumerate(reversed(presence)) if p),
+            0,
+        )
+
+        if first_seen >= len(presence) - 1:
+            velocity[tag] = "new"
+        elif last_seen < len(presence) - 2:
+            velocity[tag] = "dying"
+        elif sum(presence[len(presence) // 2 :]) >= sum(presence[: len(presence) // 2]):
+            velocity[tag] = "accelerating"
+        else:
+            velocity[tag] = "decelerating"
+    return velocity
+
+
+def _synthesize_rolling_report(summaries: list[WeeklySummary]) -> str:
+    """Synthesize a compact rolling report from up to 4 weekly summaries."""
+    week_labels = [f"W{s.week_number}" for s in summaries]
+    current_week = summaries[-1].week
+
+    # Frontmatter
+    lines = [
+        "---",
+        "title: Rolling 4-Week Context",
+        f"updated: {current_week}",
+        f"weeks: [{', '.join(week_labels)}]",
+        "---",
+        "",
+    ]
+
+    # Active Trends: synthesize from signals across weeks
+    lines.append("## Active Trends")
+    lines.append("")
+    seen_signals: list[str] = []
+    for s in summaries:
+        if s.signal and s.signal not in seen_signals:
+            # Truncate long signals to keep report compact
+            signal_text = s.signal[:200] + "…" if len(s.signal) > 200 else s.signal
+            seen_signals.append(signal_text)
+    # Keep only most recent/relevant signals (last 4-5)
+    for signal in seen_signals[-5:]:
+        lines.append(f"- {signal}")
+    lines.append("")
+
+    # Trend Velocity: classify tags by presence pattern
+    lines.append("## Trend Velocity")
+    lines.append("")
+    tags_by_week = [(s.week, set(s.tags)) for s in summaries]
+    velocity = _classify_velocity(tags_by_week)
+    for label in VELOCITY_LABELS:
+        tags_for_label = [t for t, v in velocity.items() if v == label]
+        if tags_for_label:
+            lines.append(f"- **{label.capitalize()}:** {', '.join(tags_for_label)}")
+    lines.append("")
+
+    # Open Predictions: synthesize from conclusions/gaps
+    lines.append("## Open Predictions")
+    lines.append("")
+    for s in summaries[-3:]:
+        if s.gaps:
+            gap_text = s.gaps[:150] + "…" if len(s.gaps) > 150 else s.gaps
+            lines.append(f"- [W{s.week_number}] {gap_text}")
+    lines.append("")
+
+    # Noise Patterns: synthesize from noise fields
+    lines.append("## Noise Patterns")
+    lines.append("")
+    seen_noise: list[str] = []
+    for s in summaries:
+        if s.noise and s.noise not in seen_noise:
+            noise_text = s.noise[:200] + "…" if len(s.noise) > 200 else s.noise
+            seen_noise.append(noise_text)
+    for noise in seen_noise[-4:]:
+        lines.append(f"- {noise}")
+    if not seen_noise:
+        lines.append("- No distinct noise patterns isolated in structured data.")
+    lines.append("")
+
+    return "\n".join(lines)
+
+
+def generate_rolling_report(content_root: Path) -> Path | None:
+    """Generate a rolling last-4-weeks report from content/weekly/.
+
+    Reads the most recent 4 weekly summaries, synthesizes them into a compact
+    context report, and writes to content/rolling/last-month.md (overwritten
+    each week).
+
+    Returns the path written, or None if insufficient data.
+    """
+    summaries = _load_weekly_content(content_root)
+    if not summaries:
+        return None
+
+    # Take the last 4 weeks
+    recent = summaries[-4:]
+    if not recent:
+        return None
+
+    report = _synthesize_rolling_report(recent)
+
+    rolling_dir = content_root / "rolling"
+    rolling_dir.mkdir(parents=True, exist_ok=True)
+    output_path = rolling_dir / "last-month.md"
+    output_path.write_text(report, encoding="utf-8")
+    return output_path
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     written = generate_rollups(args.analyzed_dir, args.content_root)
+
+    if args.rolling:
+        rolling_path = generate_rolling_report(args.content_root)
+        if rolling_path:
+            written.append(rolling_path)
+        else:
+            print("No weekly content found for rolling report.", file=sys.stderr)
+
     if not written:
         print(f"No weekly summaries found in {args.analyzed_dir}; skipping rollup generation.", file=sys.stderr)
         return 0
