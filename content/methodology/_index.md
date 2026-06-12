@@ -49,7 +49,7 @@ These caveats are part of the analysis, not a disclaimer that makes the output n
 
 ## Signal Check podcast
 
-Claracle publishes a companion podcast, **Signal Check**, derived from the weekly written article. Signal Check is an 8–10 minute two-host conversational episode that highlights the week's signal picks, noise calls, gaps, and predictions. It is distributed through an external podcast platform (currently Spotify); the Claracle website links to the external podcast page but does not host audio.
+Claracle publishes a companion podcast, **Signal Check**, derived from the weekly written article. Signal Check is an approximately 5-minute two-host conversational episode that highlights the week's signal picks, noise calls, gaps, and predictions. It is distributed through Spotify; the Claracle website links to the external podcast page but does not host audio.
 
 ### How Signal Check is produced
 

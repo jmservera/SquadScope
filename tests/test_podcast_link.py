@@ -9,9 +9,10 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
 def test_podcast_url_param_exists_in_hugo_config() -> None:
-    """hugo.toml must define podcast_url param (can be empty)."""
+    """hugo.toml must define the live Spotify podcast URL."""
     config = (REPO_ROOT / "hugo.toml").read_text(encoding="utf-8")
     assert "podcast_url" in config
+    assert 'podcast_url = "https://open.spotify.com/show/033xdn5nDMoCWxB3bss2dB"' in config
 
 
 def test_footer_conditionally_renders_podcast_link() -> None:
@@ -29,8 +30,23 @@ def test_footer_conditionally_renders_podcast_link() -> None:
     ), "Footer podcast link must use dot context piped through safeURL with target=_blank and rel=noopener noreferrer"
 
 
-def test_podcast_url_defaults_to_empty() -> None:
-    """When podcast_url is empty, no link should render (Hugo `with` handles this)."""
-    config = (REPO_ROOT / "hugo.toml").read_text(encoding="utf-8")
-    # The default value must be empty string
-    assert 'podcast_url = ""' in config
+def test_report_shortcuts_link_weekly_reports_to_spotify() -> None:
+    """Weekly report shortcuts must expose the configured Spotify URL."""
+    shortcuts = (REPO_ROOT / "layouts" / "partials" / "report-shortcuts.html").read_text(encoding="utf-8")
+    assert 'site.Params.podcast_url | default "" | strings.TrimSpace' in shortcuts
+    assert "if and $isWeekly $podcastURL" in shortcuts
+    assert re.search(
+        r'<a\s+href="{{\s*\$podcastURL\s*\|\s*safeURL\s*}}"[^>]*target="_blank"[^>]*rel="noopener noreferrer"[^>]*>Spotify</a>',
+        shortcuts,
+    ), "Weekly shortcuts must link to Spotify with target=_blank and rel=noopener noreferrer"
+
+
+def test_header_exposes_spotify_button_when_podcast_url_is_configured() -> None:
+    """Header actions must expose the configured Spotify URL."""
+    header = (REPO_ROOT / "layouts" / "partials" / "header.html").read_text(encoding="utf-8")
+    assert 'site.Params.podcast_url | default "" | strings.TrimSpace' in header
+    assert 'class="icon-button spotify-button"' in header
+    assert re.search(
+        r'<a\s+class="icon-button spotify-button"\s+href="{{\s*\.\s*\|\s*safeURL\s*}}"[^>]*target="_blank"[^>]*rel="noopener noreferrer"[^>]*aria-label="Spotify"',
+        header,
+    ), "Header Spotify button must use configured URL with target=_blank and rel=noopener noreferrer"

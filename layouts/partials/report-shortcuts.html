@@ -7,6 +7,7 @@
 {{- $isWeekly := eq $page.Type "weekly" -}}
 {{- $monthlyURL := "monthly/" | absURL -}}
 {{- $yearlyURL := "yearly/" | absURL -}}
+{{- $podcastURL := site.Params.podcast_url | default "" | strings.TrimSpace -}}
 {{- if $isWeekly -}}
   {{- with site.GetPage (printf "/monthly/%s/%s" ($page.Date.Format "2006") ($page.Date.Format "01")) -}}
     {{- $monthlyURL = .RelPermalink -}}
@@ -25,4 +26,7 @@
   <a href="{{ $categoriesURL }}">Categories</a>
   <a href="{{ $searchURL }}">Search</a>
   <a href="{{ $rssURL }}">RSS</a>
+  {{- if and $isWeekly $podcastURL }}
+  <a href="{{ $podcastURL | safeURL }}" target="_blank" rel="noopener noreferrer">Spotify</a>
+  {{- end }}
 </nav>

@@ -8,6 +8,8 @@ description = 'Learn what Claracle publishes and how to follow its GitHub trend 
 
 ## About Claracle
 
+[![Claracle visual identity](/images/claracle.jpeg)](https://open.spotify.com/show/033xdn5nDMoCWxB3bss2dB)
+
 Claracle surfaces the strongest weekly signal from GitHub activity, then organizes that analysis into monthly and yearly views for long-term pattern spotting.
 
 Use the homepage to jump straight into the latest summary, scan the archive, or move up to broader rollups when you want a bigger-picture view.
