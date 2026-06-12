@@ -55,8 +55,11 @@ def _validate_frontmatter_safety(frontmatter: dict[str, object]) -> None:
     """Defense-in-depth check: reject frontmatter with injection artifacts."""
     for field, max_len in _FIELD_MAX_LENGTHS.items():
         value = frontmatter.get(field)
-        if not isinstance(value, str):
+        if value is None:
             continue
+        # Coerce to string for validation (mirrors transform_summary's str() calls)
+        if not isinstance(value, str):
+            value = str(value)
         if len(value) > max_len:
             raise GenerationError(
                 f"Frontmatter field '{field}' exceeds safe length "
