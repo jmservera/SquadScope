@@ -1,8 +1,10 @@
 # Signal Check: Editorial Prompt & Safety Style Guide
 
 **Status:** Active
+**Version:** 1.0
 **Applies to:** SquadScope: Signal Check podcast script generation
 **Owners:** Farnsworth (editorial), Hermes (safety)
+**Closes:** [#337](https://github.com/jmservera/SquadScope/issues/337)
 
 ---
 
