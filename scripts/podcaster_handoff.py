@@ -174,9 +174,15 @@ def build_payload(
 
     podcast_cfg = _load_podcast_config(podcast_config_path)
     if "podcast_config" in podcast_cfg:
-        payload["podcast_config"] = podcast_cfg["podcast_config"]
+        val = podcast_cfg["podcast_config"]
+        if not isinstance(val, dict):
+            raise PodcasterHandoffError("podcast_config must be a JSON object")
+        payload["podcast_config"] = val
     if "script_directions" in podcast_cfg:
-        payload["script_directions"] = podcast_cfg["script_directions"]
+        val = podcast_cfg["script_directions"]
+        if not isinstance(val, dict):
+            raise PodcasterHandoffError("script_directions must be a JSON object")
+        payload["script_directions"] = val
 
     if podcaster_dry_run:
         payload["dry_run"] = True
