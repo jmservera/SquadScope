@@ -256,6 +256,103 @@ class GenerateRollupsTests(unittest.TestCase):
         self.assertEqual(args.analyzed_dir, Path(generate_rollups.PROJECT_ROOT / "data" / "analyzed"))
         self.assertEqual(args.content_root, Path(generate_rollups.PROJECT_ROOT / "content"))
 
+    def test_generate_rolling_report_creates_last_month(self) -> None:
+        with temporary_workspace() as tmpdir:
+            base = Path(tmpdir)
+            content_root = base / "content"
+            weekly_dir = content_root / "weekly" / "2026"
+            weekly_dir.mkdir(parents=True)
+
+            for wnum, date in [
+                ("21", "2026-05-21T12:00:00+00:00"),
+                ("22", "2026-05-25T12:00:00+00:00"),
+                ("23", "2026-06-06T12:00:00+00:00"),
+                ("24", "2026-06-08T12:00:00+00:00"),
+            ]:
+                (weekly_dir / f"W{wnum}.md").write_text(
+                    make_summary(
+                        week=f"2026-W{wnum}",
+                        date=date,
+                        top_repo=f"octo/repo-{wnum}",
+                        summary=f"Summary for W{wnum}.",
+                        signal=f"Signal for W{wnum}.",
+                        noise=f"Noise for W{wnum}.",
+                        gaps=f"Gaps for W{wnum}.",
+                        conclusion=f"Conclusion for W{wnum}.",
+                        tags=("ai", "agents") if wnum in ("21", "22") else ("ai", "new-tag"),
+                    ),
+                    encoding="utf-8",
+                )
+
+            result = generate_rollups.generate_rolling_report(content_root)
+
+            self.assertIsNotNone(result)
+            self.assertEqual(result, content_root / "rolling" / "last-month.md")
+            self.assertTrue(result.exists())
+
+            report = result.read_text(encoding="utf-8")
+            self.assertIn("title: Rolling 4-Week Context", report)
+            self.assertIn("updated: 2026-W24", report)
+            self.assertIn("weeks: [W21, W22, W23, W24]", report)
+            self.assertIn("## Active Trends", report)
+            self.assertIn("## Trend Velocity", report)
+            self.assertIn("## Open Predictions", report)
+            self.assertIn("## Noise Patterns", report)
+            self.assertIn("Signal for W", report)
+            self.assertIn("Noise for W", report)
+            self.assertIn("[W24] Gaps for W24.", report)
+
+    def test_generate_rolling_report_returns_none_when_no_content(self) -> None:
+        with temporary_workspace() as tmpdir:
+            base = Path(tmpdir)
+            content_root = base / "content"
+            content_root.mkdir(parents=True)
+
+            result = generate_rollups.generate_rolling_report(content_root)
+            self.assertIsNone(result)
+
+    def test_rolling_flag_triggers_rolling_report(self) -> None:
+        with temporary_workspace() as tmpdir:
+            base = Path(tmpdir)
+            analyzed_dir = base / "data" / "analyzed"
+            content_root = base / "content"
+            analyzed_dir.mkdir(parents=True)
+            weekly_dir = content_root / "weekly" / "2026"
+            weekly_dir.mkdir(parents=True)
+
+            summary_text = make_summary(
+                week="2026-W21",
+                date="2026-05-21T12:00:00+00:00",
+                top_repo="octo/signal-kit",
+                summary="Test summary.",
+                signal="Test signal.",
+                noise="Test noise.",
+                gaps="Test gaps.",
+                conclusion="Test conclusion.",
+            )
+            (analyzed_dir / "2026-W21-summary.md").write_text(summary_text, encoding="utf-8")
+            (weekly_dir / "W21.md").write_text(summary_text, encoding="utf-8")
+
+            ret = generate_rollups.main([
+                "--analyzed-dir", str(analyzed_dir),
+                "--content-root", str(content_root),
+                "--rolling",
+            ])
+            self.assertEqual(ret, 0)
+            self.assertTrue((content_root / "rolling" / "last-month.md").exists())
+
+    def test_velocity_classification(self) -> None:
+        tags_by_week = [
+            ("2026-W21", {"ai", "agents", "old-tag"}),
+            ("2026-W22", {"ai", "agents"}),
+            ("2026-W23", {"ai", "new-thing"}),
+            ("2026-W24", {"ai", "new-thing"}),
+        ]
+        velocity = generate_rollups._classify_velocity(tags_by_week)
+        self.assertEqual(velocity["ai"], "accelerating")
+        self.assertEqual(velocity["old-tag"], "dying")
+        self.assertIn(velocity["new-thing"], ("accelerating", "new"))
+
 
 if __name__ == "__main__":
     unittest.main()
