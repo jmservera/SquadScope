@@ -47,6 +47,15 @@ def validate_https_url(url: str, *, label: str) -> None:
         raise ValueError(f"{label} must not use unexpected ports: {url}")
 
 
+def _escape_markdown_url(url: str) -> str:
+    """Escape parentheses in URLs used inside markdown link syntax [text](url).
+
+    A bare ')' in the URL would prematurely close the markdown link, potentially
+    allowing content injection in the rendered prompt.
+    """
+    return url.replace("(", "%28").replace(")", "%29")
+
+
 def current_week() -> str:
     """Return the current ISO week as YYYY-WNN."""
     now = datetime.now()
@@ -100,7 +109,7 @@ def format_articles_list(articles: list[dict]) -> str:
         if published_at:
             source_str += f", {published_at[:10]}"
         if url:
-            lines.append(f"- [{title}]({url}){cat_str}{source_str}")
+            lines.append(f"- [{title}]({_escape_markdown_url(url)}){cat_str}{source_str}")
         else:
             lines.append(f"- {title}{cat_str}{source_str}")
     omitted = len(articles) - MAX_RENDERED_ARTICLES
@@ -242,7 +251,7 @@ def _format_correlations_narrative(
                     seen_article_urls.add(url)
                     title = url_to_title.get(url, "")
                     if title:
-                        article_links.append(f"[{title}]({url})")
+                        article_links.append(f"[{title}]({_escape_markdown_url(url)})")
 
         # Collect up to 3 repo links with optional README description
         repo_parts: list[str] = []
@@ -464,7 +473,7 @@ def _format_uncovered_narrative(items: list[dict]) -> str:
             title = a.get("title", "article")
             url = a.get("url", "")
             if url:
-                article_links.append(f"[{title}]({url})")
+                article_links.append(f"[{title}]({_escape_markdown_url(url)})")
         if len(article_links) >= 2:
             break
 
