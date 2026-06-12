@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 import re
+from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -17,15 +17,16 @@ def test_podcast_url_param_exists_in_hugo_config() -> None:
 def test_footer_conditionally_renders_podcast_link() -> None:
     """Footer template must conditionally render podcast link from site param."""
     footer = (REPO_ROOT / "layouts" / "partials" / "footer.html").read_text(encoding="utf-8")
-    # Must use Hugo's `with` or `if` to conditionally render
-    assert "site.Params.podcast_url" in footer
-    # Must pipe through safeURL to prevent unsafe schemes
+    # Must trim before `with` so whitespace-only values are treated as falsy
+    assert "site.Params.podcast_url | trim" in footer
+    # safeURL marks the value as trusted (bypasses scheme filtering) — safe here
+    # because the value comes from controlled site config, not user input.
     assert "safeURL" in footer
-    podcast_link_match = re.search(r'<a\s+href="{{\s*site\.Params\.podcast_url\s*\|\s*trim\s*\|\s*safeURL\s*}}"\s+([^>]*)>Podcast</a>', footer)
-    assert podcast_link_match, "Footer must contain a Podcast link with a sanitized podcast_url href"
-    podcast_link = podcast_link_match.group(1)
-    assert 'target="_blank"' in podcast_link
-    assert 'rel="noopener noreferrer"' in podcast_link
+    # Verify the podcast link uses dot context with correct attrs
+    assert re.search(
+        r'<a\s+href="{{\s*\.\s*\|\s*safeURL\s*}}"[^>]*target="_blank"[^>]*rel="noopener noreferrer"[^>]*>Podcast</a>',
+        footer,
+    ), "Footer podcast link must use dot context piped through safeURL with target=_blank and rel=noopener noreferrer"
 
 
 def test_podcast_url_defaults_to_empty() -> None:
