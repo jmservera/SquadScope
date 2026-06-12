@@ -1052,7 +1052,7 @@ def validate_output_safety(output: str, canary: str | None = None) -> list[str]:
 
     # Check for any canary pattern (catches leaks from prior invocations)
     any_result = check_output_for_any_canary(output)
-    if any_result.leaked and (not canary or any_result.canary != canary):
+    if any_result.leaked and (not canary or any_result.canary.lower() != canary.lower()):
         violations.append(
             f"Unknown canary pattern '{any_result.canary}' found at position "
             f"{any_result.match_position}: possible cross-invocation leak"
@@ -1114,10 +1114,13 @@ def call_github_models(prompt: str) -> str:
             # Validate output for canary leak and injection artifacts
             violations = validate_output_safety(markdown, canary)
             if violations:
-                print(
-                    f"::warning::Output safety violations detected: {'; '.join(violations)}",
-                    file=sys.stderr,
-                )
+                msg = f"Output safety violations detected: {'; '.join(violations)}"
+                # Full canary leak = prompt injection confirmed; block publishing
+                canary_leaked = any("Canary token leaked" in v for v in violations)
+                if canary_leaked:
+                    raise RuntimeError(f"BLOCKED: {msg}")
+                # Partial/boundary leaks are warnings — log but allow
+                print(f"::warning::{msg}", file=sys.stderr)
             return markdown
         except error.HTTPError as exc:
             if exc.code not in RETRYABLE_STATUS_CODES or attempt == MAX_RETRIES:

@@ -111,16 +111,17 @@ This document covers the complete Phase 1, Phase 2, and pipeline integration gua
 
 - **Phase 1** (complete): Sanitization, boundary fencing, closing constraints, and lint enforcement for all prompt placeholders — including previously semi-trusted variables (`{{WISDOM}}`, `{{SKILLS}}`, `{{WISDOM_CONTENT}}`, `{{TOPIC_DESCRIPTION}}`).
 - **Phase 2** (complete): Canary token leak detection, red-team corpus testing, and tool evaluation (Garak, LLM Guard, Azure Prompt Shields).
-- **Pipeline Integration** (complete): Canary tokens automatically injected in `call_github_models()`, output validated via `validate_output_safety()` for canary leaks and boundary marker reproduction.
+- **Pipeline Integration** (complete): Canary tokens automatically injected in all `call_github_models()` callers (`analyze_fallback.py` and `reskill.py`), output validated via `validate_output_safety()` for canary leaks and boundary marker reproduction. Full canary leak blocks publishing; partial/boundary violations emit warnings.
 
 ### 5. Canary Token Leak Detection (`scripts/canary_token.py`)
 
 Each prompt invocation embeds a unique canary token (format: `SQSC-CANARY-<16 hex>`). The token is:
 
-- Automatically injected by `call_github_models()` before sending to the LLM
+- Automatically injected by `call_github_models()` in both `analyze_fallback.py` and `reskill.py` before sending to the LLM
 - Unique per invocation (secrets + timestamp) to prevent replay
 - Checked in generated output via exact, case-insensitive, and partial pattern matching
-- Any detection logged at CRITICAL level and emits a GitHub Actions warning
+- Full/case-variant leaks logged at CRITICAL level and block publishing
+- Partial prefix matches logged at WARNING level and emit a GitHub Actions warning
 
 Usage (standalone):
 ```python

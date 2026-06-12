@@ -259,6 +259,12 @@ def call_github_models(prompt: str) -> str:
     if not token:
         raise RuntimeError("GITHUB_TOKEN is required for GitHub Models fallback.")
 
+    # Inject canary token for output leak detection
+    from scripts.canary_token import generate_canary, inject_canary
+    from scripts.analyze_fallback import validate_output_safety
+    canary = generate_canary()
+    prompt = inject_canary(prompt, canary)
+
     endpoint = os.environ.get("GITHUB_MODELS_ENDPOINT", DEFAULT_MODELS_ENDPOINT)
     validate_https_url(endpoint, label="GitHub Models endpoint", allowed_hosts=ALLOWED_MODELS_HOSTS)
     model = os.environ.get("GITHUB_MODELS_MODEL", DEFAULT_MODELS_MODEL)
@@ -289,7 +295,16 @@ def call_github_models(prompt: str) -> str:
     except error.URLError as exc:  # pragma: no cover - network failures are environment-specific
         raise RuntimeError(f"GitHub Models API request failed: {exc.reason}") from exc
 
-    return extract_markdown(response_payload)
+    markdown = extract_markdown(response_payload)
+    # Validate output for canary leak and injection artifacts
+    violations = validate_output_safety(markdown, canary)
+    if violations:
+        msg = f"Output safety violations detected: {'; '.join(violations)}"
+        canary_leaked = any("Canary token leaked" in v for v in violations)
+        if canary_leaked:
+            raise RuntimeError(f"BLOCKED: {msg}")
+        print(f"::warning::{msg}", file=sys.stderr)
+    return markdown
 
 
 def main(argv: list[str] | None = None) -> int:

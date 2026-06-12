@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 
+from scripts.analyze_fallback import validate_output_safety
 from scripts.canary_token import (
     CANARY_PREFIX,
     check_output_for_any_canary,
@@ -98,8 +99,6 @@ def test_check_empty_output() -> None:
 # ═══════════════════════════════════════════════════════════════════════════════
 # validate_output_safety integration tests
 # ═══════════════════════════════════════════════════════════════════════════════
-
-from scripts.analyze_fallback import validate_output_safety
 
 
 def test_validate_output_safety_clean() -> None:
