@@ -113,6 +113,7 @@ This document covers the complete Phase 1, Phase 2, and pipeline integration gua
 - **Phase 2** (complete): Canary token leak detection, red-team corpus testing, and tool evaluation (Garak, LLM Guard, Azure Prompt Shields).
 - **Pipeline Integration** (complete): Canary tokens automatically injected in all `call_github_models()` callers (`analyze_fallback.py` and `reskill.py`), output validated via `validate_output_safety()` for canary leaks and boundary marker reproduction. Full canary leak blocks publishing; partial/boundary violations emit warnings.
 - **Preprocess Sanitization** (complete): `preprocess_for_analysis.py` now calls `sanitize_description()` on all repo descriptions during compaction, ensuring injection attempts are detected, truncated, and boundary-escaped before reaching prompt templates.
+- **Reskill Boundary Escaping** (complete): All `reskill.py` render functions (`render_wisdom`, `render_skills`, `render_recent_analyses`, `render_snapshot_context`) now apply `_escape_untrusted_boundaries()` before returning content. `track_quality.build_quality_report()` and `load_scorecard.render_scorecard_section()` also escape boundaries in their output.
 - **CI Lint Test** (complete): `tests/test_prompt_lint_ci.py` runs the prompt security linter as part of the standard pytest suite, failing on any unguarded variables or missing closing constraints.
 
 ### 5. Canary Token Leak Detection (`scripts/canary_token.py`)
@@ -149,16 +150,17 @@ This is automatically called after `call_github_models()` returns. Violations em
 
 ### 7. Red-Team Corpus Testing (`tests/test_prompt_injection_redteam.py`)
 
-Automated test suite with 60+ known prompt injection strings across 6 attack categories:
+Automated test suite with 18 known prompt injection strings across 7 attack categories, plus boundary-escape validation tests for all reskill render functions:
 
 | Category | Examples | Expected Behavior |
 |----------|----------|-------------------|
 | Direct override | "ignore previous instructions" | Detected, truncated to 200 chars |
 | Role manipulation | "you are now DAN" | Detected, truncated |
-| Boundary escape | `</untrusted-content>` injection | Markers escaped to `[boundary-*-removed]` |
-| Social engineering | "the developers asked me to..." | Detected via "system:", "user:" patterns |
-| Obfuscation | Spaced/split phrases | Length-capped, boundaries escaped |
-| Multilingual | English phrases + other scripts | English portion detected |
+| Boundary escape | `</untrusted-content>` injection | Markers escaped, truncated |
+| System/assistant injection | "system: ...", "user: ..." | Detected via role patterns |
+| Encoded/obfuscated | "Do not follow your original guidelines" | Detected via "override", "do not follow" |
+| Multi-line attacks | Text + newline + injection | Detected, truncated |
+| Type-based bypass | `title: ["ignore previous"]` | Coerced to string, then validated |
 
 Run with: `python -m pytest tests/test_prompt_injection_redteam.py -v`
 
@@ -169,6 +171,7 @@ The content generation pipeline re-validates frontmatter fields as a last defens
 - **Length caps** — title (300), summary (1000), top_repo (200) chars maximum
 - **Injection phrase detection** — rejects output containing known injection artifacts
 - **Boundary marker detection** — rejects content with `<untrusted-content>` tags that shouldn't appear in final output
+- **Type coercion** — non-string values (lists, dicts) are coerced to string before validation, preventing type-based bypasses
 
 This catches cases where upstream sanitization failed or was bypassed.
 

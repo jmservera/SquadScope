@@ -120,13 +120,19 @@ def default_output_path(current_datetime: str) -> Path:
 
 
 def render_wisdom(wisdom_file: Path) -> str:
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
     if not wisdom_file.exists():
         return "_No learned wisdom has been recorded yet._"
     content = wisdom_file.read_text(encoding="utf-8").strip()
-    return content or "_No learned wisdom has been recorded yet._"
+    if not content:
+        return "_No learned wisdom has been recorded yet._"
+    return _escape_untrusted_boundaries(content)
 
 
 def render_skills(skills_dir: Path) -> str:
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
     if not skills_dir.exists():
         return "_No learned skills have been extracted yet._"
 
@@ -137,9 +143,10 @@ def render_skills(skills_dir: Path) -> str:
     blocks = []
     for path in skill_files:
         relative_path = path.relative_to(ROOT) if path.is_relative_to(ROOT) else path
+        safe_path = _escape_untrusted_boundaries(str(relative_path))
         content = path.read_text(encoding="utf-8").strip()
         if content:
-            blocks.append(f"--- Skill Source: {relative_path} ---\n{content}")
+            blocks.append(f"--- Skill Source: {safe_path} ---\n{_escape_untrusted_boundaries(content)}")
     return "\n\n".join(blocks) if blocks else "_No learned skills have been extracted yet._"
 
 
@@ -151,6 +158,8 @@ def find_recent_summaries(analyzed_dir: Path, limit: int) -> list[Path]:
 
 
 def render_recent_analyses(analyzed_dir: Path, limit: int) -> str:
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
     summaries = find_recent_summaries(analyzed_dir, limit)
     if not summaries:
         return "_No analyzed summaries are available yet._"
@@ -158,7 +167,9 @@ def render_recent_analyses(analyzed_dir: Path, limit: int) -> str:
     blocks = []
     for path in summaries:
         relative_path = path.relative_to(ROOT) if path.is_relative_to(ROOT) else path
-        blocks.append(f"--- Analysis Source: {relative_path} ---\n{path.read_text(encoding='utf-8').strip()}")
+        safe_path = _escape_untrusted_boundaries(str(relative_path))
+        content = _escape_untrusted_boundaries(path.read_text(encoding="utf-8").strip())
+        blocks.append(f"--- Analysis Source: {safe_path} ---\n{content}")
     return "\n\n".join(blocks)
 
 
@@ -179,6 +190,8 @@ def snapshot_candidates(week: str, snapshots_dir: Path) -> list[Path]:
 
 
 def render_snapshot_context(analyzed_dir: Path, snapshots_dir: Path, limit: int) -> str:
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
     summaries = find_recent_summaries(analyzed_dir, limit)
     if not summaries:
         return "_No analyzed summaries are available, so no snapshot hindsight can be matched yet._"
@@ -186,15 +199,18 @@ def render_snapshot_context(analyzed_dir: Path, snapshots_dir: Path, limit: int)
     blocks = []
     for summary_path in summaries:
         week = summary_path.name.removesuffix("-summary.md")
+        safe_week = _escape_untrusted_boundaries(week)
         matches = snapshot_candidates(week, snapshots_dir)
         if not matches:
-            blocks.append(f"--- Snapshot Context: {week} ---\nNo snapshot data available for hindsight validation.")
+            blocks.append(f"--- Snapshot Context: {safe_week} ---\nNo snapshot data available for hindsight validation.")
             continue
         rendered_matches = []
         for snapshot_path in matches:
             relative_path = snapshot_path.relative_to(ROOT) if snapshot_path.is_relative_to(ROOT) else snapshot_path
-            rendered_matches.append(f"File: {relative_path}\n{snapshot_path.read_text(encoding='utf-8').strip()}")
-        blocks.append(f"--- Snapshot Context: {week} ---\n" + "\n\n".join(rendered_matches))
+            safe_path = _escape_untrusted_boundaries(str(relative_path))
+            content = _escape_untrusted_boundaries(snapshot_path.read_text(encoding="utf-8").strip())
+            rendered_matches.append(f"File: {safe_path}\n{content}")
+        blocks.append(f"--- Snapshot Context: {safe_week} ---\n" + "\n\n".join(rendered_matches))
     return "\n\n".join(blocks)
 
 
