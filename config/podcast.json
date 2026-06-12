@@ -19,9 +19,10 @@
   },
   "script_directions": {
     "opening_cues": {
+      "show_intro": "Start with a one-line show description: 'Claracle — where AI-powered GitHub trend analysis meets the biggest stories from TechCrunch, Wired, and the tech blogosphere.'",
       "cold_open": "One provocative stat or question from this week's data. Grab attention in under 30 seconds.",
       "ai_disclosure": "Must appear in the first 60 seconds: explicitly state this episode uses AI-generated voice narration.",
-      "suggested_phrasing": "This episode of Signal Check uses AI-generated voice narration from SquadScope's weekly analysis. Our hosts are synthetic — the data is real."
+      "suggested_phrasing": "This episode uses AI-generated voice narration from Claracle's weekly analysis. Our hosts are synthetic — the data is real."
     },
     "closing_cues": {
       "corrections_path": "If we got something wrong, file an issue at https://github.com/jmservera/SquadScope/issues",
