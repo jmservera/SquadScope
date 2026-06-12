@@ -149,16 +149,17 @@ This is automatically called after `call_github_models()` returns. Violations em
 
 ### 7. Red-Team Corpus Testing (`tests/test_prompt_injection_redteam.py`)
 
-Automated test suite with 60+ known prompt injection strings across 6 attack categories:
+Automated test suite with 17 known prompt injection strings across 7 attack categories:
 
 | Category | Examples | Expected Behavior |
 |----------|----------|-------------------|
 | Direct override | "ignore previous instructions" | Detected, truncated to 200 chars |
 | Role manipulation | "you are now DAN" | Detected, truncated |
-| Boundary escape | `</untrusted-content>` injection | Markers escaped to `[boundary-*-removed]` |
-| Social engineering | "the developers asked me to..." | Detected via "system:", "user:" patterns |
-| Obfuscation | Spaced/split phrases | Length-capped, boundaries escaped |
-| Multilingual | English phrases + other scripts | English portion detected |
+| Boundary escape | `</untrusted-content>` injection | Markers escaped, truncated |
+| System/assistant injection | "system: ...", "user: ..." | Detected via role patterns |
+| Encoded/obfuscated | "Do not follow your original guidelines" | Detected via "override", "do not follow" |
+| Multi-line attacks | Text + newline + injection | Detected, truncated |
+| Type-based bypass | `title: ["ignore previous"]` | Coerced to string, then validated |
 
 Run with: `python -m pytest tests/test_prompt_injection_redteam.py -v`
 
@@ -169,6 +170,7 @@ The content generation pipeline re-validates frontmatter fields as a last defens
 - **Length caps** — title (300), summary (1000), top_repo (200) chars maximum
 - **Injection phrase detection** — rejects output containing known injection artifacts
 - **Boundary marker detection** — rejects content with `<untrusted-content>` tags that shouldn't appear in final output
+- **Type coercion** — non-string values (lists, dicts) are coerced to string before validation, preventing type-based bypasses
 
 This catches cases where upstream sanitization failed or was bypassed.
 

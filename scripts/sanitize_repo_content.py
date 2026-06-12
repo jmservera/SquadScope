@@ -83,11 +83,14 @@ def sanitize_text(
         return ""
     if not isinstance(text, str):
         text = str(text)
-    sanitized = _escape_untrusted_boundaries(text.lstrip())
+    stripped = text.lstrip()
+    has_boundary = BOUNDARY_CLOSE in stripped or BOUNDARY_OPEN in stripped
+    sanitized = _escape_untrusted_boundaries(stripped)
     lowered = sanitized.lower()
     suspicious_matches = [phrase for phrase in INJECTION_PHRASES if phrase in lowered]
 
-    limit = min(SUSPICIOUS_DESCRIPTION_LENGTH, max_length) if suspicious_matches else max_length
+    is_suspicious = bool(suspicious_matches) or has_boundary
+    limit = min(SUSPICIOUS_DESCRIPTION_LENGTH, max_length) if is_suspicious else max_length
     truncated = _truncate(sanitized, limit)
 
     if suspicious_matches:
@@ -95,6 +98,11 @@ def sanitize_text(
             "Suspicious %s contained possible prompt-injection phrase(s): %s",
             label,
             ", ".join(suspicious_matches),
+        )
+    if has_boundary:
+        LOGGER.warning(
+            "Suspicious %s contained [boundary marker(s)] that were escaped",
+            label,
         )
     return truncated
 
