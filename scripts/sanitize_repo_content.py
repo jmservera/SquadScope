@@ -118,7 +118,7 @@ def sanitize_description(
     if original != sanitized:
         LOGGER.warning("Sanitized leading whitespace or boundary marker in description for %s", _repo_label(repo))
 
-    limit = suspicious_length if suspicious_matches else max_length
+    limit = min(suspicious_length, max_length) if suspicious_matches else max_length
     truncated = _truncate(sanitized, limit)
 
     if suspicious_matches:

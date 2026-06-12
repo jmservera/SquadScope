@@ -19,6 +19,8 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+from scripts.sanitize_repo_content import sanitize_description
+
 
 def estimate_tokens(text: str) -> int:
     """Rough token estimate: characters / 4."""
@@ -39,7 +41,10 @@ def compute_age_days(created_at: str | None, reference: datetime | None = None) 
 
 def compact_repo(repo: dict, max_desc: int, reference_date: datetime | None = None) -> dict:
     """Extract and compact a single repo entry."""
-    desc = (repo.get("description") or "")[:max_desc]
+    raw_desc = repo.get("description") or ""
+    desc = sanitize_description(raw_desc, repo=repo, max_length=max_desc)
+    if not isinstance(desc, str):
+        desc = ""
     return {
         "name": repo.get("name", ""),
         "desc": desc,
