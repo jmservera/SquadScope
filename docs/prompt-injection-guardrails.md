@@ -107,21 +107,22 @@ When creating or modifying prompt templates:
 
 ## Scope
 
-This document covers the complete Phase 1 and Phase 2 guardrails for issue #352:
+This document covers the complete Phase 1, Phase 2, and pipeline integration guardrails for issue #352:
 
 - **Phase 1** (complete): Sanitization, boundary fencing, closing constraints, and lint enforcement for all prompt placeholders — including previously semi-trusted variables (`{{WISDOM}}`, `{{SKILLS}}`, `{{WISDOM_CONTENT}}`, `{{TOPIC_DESCRIPTION}}`).
 - **Phase 2** (complete): Canary token leak detection, red-team corpus testing, and tool evaluation (Garak, LLM Guard, Azure Prompt Shields).
+- **Pipeline Integration** (complete): Canary tokens automatically injected in `call_github_models()`, output validated via `validate_output_safety()` for canary leaks and boundary marker reproduction.
 
 ### 5. Canary Token Leak Detection (`scripts/canary_token.py`)
 
-Each prompt invocation can embed a unique canary token (format: `SQSC-CANARY-<16 hex>`). The token is:
+Each prompt invocation embeds a unique canary token (format: `SQSC-CANARY-<16 hex>`). The token is:
 
-- Injected into system framing with explicit instructions never to reproduce it
+- Automatically injected by `call_github_models()` before sending to the LLM
 - Unique per invocation (secrets + timestamp) to prevent replay
 - Checked in generated output via exact, case-insensitive, and partial pattern matching
-- Any detection logged at CRITICAL level and raises a security alert
+- Any detection logged at CRITICAL level and emits a GitHub Actions warning
 
-Usage:
+Usage (standalone):
 ```python
 from scripts.canary_token import generate_canary, inject_canary, check_output_for_leak
 
@@ -133,7 +134,17 @@ if result.leaked:
     raise RuntimeError(f"Canary leaked at position {result.match_position}")
 ```
 
-### 6. Red-Team Corpus Testing (`tests/test_redteam_corpus.py`)
+### 6. Output Safety Validation (`scripts/analyze_fallback.validate_output_safety`)
+
+Post-generation validation checks for:
+
+- **Canary token leaks** — specific token from the current invocation
+- **Unknown canary patterns** — catches leaks from prior invocations or cross-contamination
+- **Boundary marker reproduction** — detects if the model leaked `<untrusted-content>` or `</untrusted-content>` tags from prompt framing
+
+This is automatically called after `call_github_models()` returns. Violations emit `::warning::` annotations in CI.
+
+### 7. Red-Team Corpus Testing (`tests/test_redteam_corpus.py`)
 
 Automated test suite with 30+ known prompt injection strings across 6 attack categories:
 

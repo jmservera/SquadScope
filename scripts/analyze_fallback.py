@@ -1032,10 +1032,57 @@ def validate_https_url(url: str, *, label: str, allowed_hosts: frozenset[str] | 
         raise ValueError(f"{label} host must be one of {sorted(allowed_hosts)}: {url}")
 
 
+def validate_output_safety(output: str, canary: str | None = None) -> list[str]:
+    """Check generated analysis output for canary leaks and injection artifacts.
+
+    Returns a list of security violation messages (empty = safe).
+    """
+    from scripts.canary_token import check_output_for_leak, check_output_for_any_canary
+
+    violations: list[str] = []
+
+    # Check for specific canary leak
+    if canary:
+        result = check_output_for_leak(output, canary)
+        if result.leaked:
+            violations.append(
+                f"Canary token leaked at position {result.match_position}: "
+                f"model may have been manipulated by injected instructions"
+            )
+
+    # Check for any canary pattern (catches leaks from prior invocations)
+    any_result = check_output_for_any_canary(output)
+    if any_result.leaked and (not canary or any_result.canary != canary):
+        violations.append(
+            f"Unknown canary pattern '{any_result.canary}' found at position "
+            f"{any_result.match_position}: possible cross-invocation leak"
+        )
+
+    # Check for boundary marker leaks (model reproduced internal framing)
+    from scripts.sanitize_repo_content import BOUNDARY_OPEN, BOUNDARY_CLOSE
+    if BOUNDARY_OPEN in output:
+        violations.append(
+            "Output contains <untrusted-content> boundary marker — "
+            "model may have leaked prompt structure"
+        )
+    if BOUNDARY_CLOSE in output:
+        violations.append(
+            "Output contains </untrusted-content> boundary marker — "
+            "model may have leaked prompt structure"
+        )
+
+    return violations
+
+
 def call_github_models(prompt: str) -> str:
     token = os.environ.get("GITHUB_TOKEN")
     if not token:
         raise RuntimeError("GITHUB_TOKEN is required for GitHub Models fallback.")
+
+    # Inject canary token for output leak detection
+    from scripts.canary_token import generate_canary, inject_canary
+    canary = generate_canary()
+    prompt = inject_canary(prompt, canary)
 
     endpoint = os.environ.get("GITHUB_MODELS_ENDPOINT", DEFAULT_MODELS_ENDPOINT)
     validate_https_url(endpoint, label="GitHub Models endpoint", allowed_hosts=ALLOWED_MODELS_HOSTS)
@@ -1063,7 +1110,15 @@ def call_github_models(prompt: str) -> str:
         try:
             with request.urlopen(req, timeout=timeout) as response:  # nosec B310
                 response_payload = json.load(response)
-            return extract_markdown(response_payload)
+            markdown = extract_markdown(response_payload)
+            # Validate output for canary leak and injection artifacts
+            violations = validate_output_safety(markdown, canary)
+            if violations:
+                print(
+                    f"::warning::Output safety violations detected: {'; '.join(violations)}",
+                    file=sys.stderr,
+                )
+            return markdown
         except error.HTTPError as exc:
             if exc.code not in RETRYABLE_STATUS_CODES or attempt == MAX_RETRIES:
                 detail = exc.read().decode("utf-8", errors="replace")
