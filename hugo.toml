@@ -35,8 +35,8 @@ rssLimit = 20
   mainSections = ['weekly', 'monthly', 'yearly']
 
   # External podcast link (leave empty to hide)
-  # When set, a "Podcast" link appears in the site footer navigation.
-  podcast_url = ""
+  # When set, a "Podcast" link appears in the site footer navigation and weekly report shortcuts.
+  podcast_url = "https://open.spotify.com/show/033xdn5nDMoCWxB3bss2dB"
 
   [params.homeInfoParams]
     Title = 'Weekly tech signal from GitHub'
