@@ -371,7 +371,7 @@ def format_correlations_list(
                 max_length=300,
                 label="correlation_article_url",
             )
-            citation = f", cited: [{title}]({url})" if url else f", cited: {title}"
+            citation = f", cited: [{title}]({_escape_markdown_url(url)})" if url else f", cited: {title}"
         lines.append(
             f"- {repo} — match: {match_type}, "
             f"strength: {strength}, confidence: {confidence:.1f}, "
@@ -542,7 +542,7 @@ def format_divergences(divergences: dict, *, reader_mode: bool = False) -> str:
                 topic = item.get("topic", "unknown")
                 articles = item.get("news_articles", item.get("techcrunch_articles", []))
                 article_refs = ", ".join(
-                    f"[{a.get('title', 'article')}]({a.get('url', '')})"
+                    f"[{a.get('title', 'article')}]({_escape_markdown_url(a.get('url', ''))})"
                     for a in articles[:3]
                 )
                 lines.append(f"- **{topic}**: {article_refs}")

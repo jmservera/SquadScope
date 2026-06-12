@@ -622,7 +622,5 @@ class TestEscapeMarkdownUrl:
         assert "](https://en.wikipedia.org/wiki/AI_%28term%29)" in result
 
     def test_url_without_parentheses_unchanged(self):
-        from render_press_context import _escape_markdown_url
-
         url = "https://example.com/path?q=1&r=2"
         assert _escape_markdown_url(url) == url
