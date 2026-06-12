@@ -18,7 +18,7 @@ def test_footer_conditionally_renders_podcast_link() -> None:
     """Footer template must conditionally render podcast link from site param."""
     footer = (REPO_ROOT / "layouts" / "partials" / "footer.html").read_text(encoding="utf-8")
     # Must trim before `with` so whitespace-only values are treated as falsy
-    assert "site.Params.podcast_url | trim" in footer
+    assert "site.Params.podcast_url | strings.TrimSpace" in footer
     # safeURL marks the value as trusted (bypasses scheme filtering) — safe here
     # because the value comes from controlled site config, not user input.
     assert "safeURL" in footer
