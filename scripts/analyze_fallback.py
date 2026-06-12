@@ -15,9 +15,11 @@ from typing import Any
 from urllib import error, parse, request
 
 try:
+    from scripts.assemble_historical_context import DEFAULT_CONTENT_ROOT, assemble_historical_context
     from scripts.sanitize_repo_content import sanitize_repo_payload
 except ModuleNotFoundError:  # pragma: no cover - script execution path
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from scripts.assemble_historical_context import DEFAULT_CONTENT_ROOT, assemble_historical_context
     from scripts.sanitize_repo_content import sanitize_repo_payload
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -38,6 +40,7 @@ COMPACTED_PREVIOUS_SUMMARY_CHARS = 8_000
 COMPACTED_WISDOM_CHARS = 8_000
 COMPACTED_SKILLS_CHARS = 10_000
 COMPACTED_PRESS_CONTEXT_CHARS = 14_000
+COMPACTED_HISTORICAL_CONTEXT_CHARS = 12_000
 
 
 @dataclass
@@ -160,6 +163,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=Path,
         default=DEFAULT_SKILLS_DIR,
         help="Directory containing learned skill markdown files.",
+    )
+    parser.add_argument(
+        "--content-root",
+        type=Path,
+        default=DEFAULT_CONTENT_ROOT,
+        help="Path to the content root used for historical context assembly.",
     )
     parser.add_argument(
         "--press-context",
@@ -709,6 +718,7 @@ def _build_prompt(
     output_path: Path,
     current_datetime: str,
     analyzed_dir: Path,
+    content_root: Path = DEFAULT_CONTENT_ROOT,
     wisdom_file: Path = DEFAULT_WISDOM_FILE,
     skills_dir: Path = DEFAULT_SKILLS_DIR,
     press_context_path: Path | None = None,
@@ -720,6 +730,15 @@ def _build_prompt(
     current_week = sanitized_payload["week"]
     previous_summary_path = find_previous_summary(current_week, analyzed_dir)
     previous_summary_content = previous_summary_path.read_text(encoding="utf-8") if previous_summary_path else ""
+    historical_context_content = assemble_historical_context(
+        current_datetime=current_datetime,
+        previous_summary_path=previous_summary_path,
+        content_root=content_root,
+        max_words=1_500,
+        prompt_token_budget=prompt_token_budget,
+    ).strip()
+    if not historical_context_content:
+        historical_context_content = "_No historical context was available beyond the current weekly payload._"
     wisdom_content = render_wisdom(wisdom_file)
     skills_content = render_skills(skills_dir)
     press_content = (
@@ -730,6 +749,7 @@ def _build_prompt(
     payload_for_prompt = sanitized_payload
     raw_decisions = {"new_repos": "included", "trending_repos": "included"}
     previous_decision = "included" if previous_summary_path else "not included: no previous summary"
+    historical_context_decision = "included"
     wisdom_decision = "included" if wisdom_file.exists() else "not included: no analysis-specific wisdom file"
     skills_decision = "included" if skills_dir.exists() and iter_skill_files(skills_dir) else "not included: no analysis-specific skills"
     press_decision = "included" if press_content else "not included: no press context"
@@ -753,6 +773,7 @@ def _build_prompt(
             "{{RAW_JSON_PATH}}": str(raw_json_path),
             "{{OUTPUT_PATH}}": str(output_path),
             "{{PREVIOUS_SUMMARY_PATH_OR_NONE}}": str(previous_summary_path) if previous_summary_path else "None",
+            "{{HISTORICAL_CONTEXT}}": historical_context_content,
             "{{RAW_JSON_CONTENT}}": raw_json_content,
             "{{PREVIOUS_SUMMARY_CONTENT_OR_EMPTY}}": previous_summary_content.strip(),
             "{{WISDOM}}": wisdom_content,
@@ -770,6 +791,11 @@ def _build_prompt(
         payload_for_prompt, raw_decisions = compact_payload(sanitized_payload)
         previous_summary_content, previous_decision = truncate_with_notice(
             previous_summary_content, COMPACTED_PREVIOUS_SUMMARY_CHARS, "prior continuity"
+        )
+        historical_context_content, historical_context_decision = truncate_with_notice(
+            historical_context_content,
+            COMPACTED_HISTORICAL_CONTEXT_CHARS,
+            "historical context",
         )
         wisdom_content, wisdom_decision = truncate_with_notice(wisdom_content, COMPACTED_WISDOM_CHARS, "analysis wisdom")
         skills_content, skills_decision = truncate_with_notice(skills_content, COMPACTED_SKILLS_CHARS, "analysis skills")
@@ -820,6 +846,14 @@ def _build_prompt(
             included=bool(previous_summary_path),
             inclusion_reason="Deterministic mapper slice: prior weekly continuity.",
             compaction_decision=previous_decision,
+        ),
+        _component(
+            name="historical_context",
+            content=historical_context_content,
+            path=content_root,
+            included=bool(historical_context_content),
+            inclusion_reason="Bounded historical context synthesized from rolling, previous-week, monthly, and yearly reports.",
+            compaction_decision=historical_context_decision,
         ),
         _component(
             name="analysis_wisdom",
@@ -918,6 +952,7 @@ def render_prompt(
     output_path: Path,
     current_datetime: str,
     analyzed_dir: Path,
+    content_root: Path = DEFAULT_CONTENT_ROOT,
     wisdom_file: Path = DEFAULT_WISDOM_FILE,
     skills_dir: Path = DEFAULT_SKILLS_DIR,
     press_context_path: Path | None = None,
@@ -928,6 +963,7 @@ def render_prompt(
         output_path=output_path,
         current_datetime=current_datetime,
         analyzed_dir=analyzed_dir,
+        content_root=content_root,
         wisdom_file=wisdom_file,
         skills_dir=skills_dir,
         press_context_path=press_context_path,
@@ -1413,6 +1449,7 @@ def main(argv: list[str] | None = None) -> int:
         output_path=args.output,
         current_datetime=args.current_datetime,
         analyzed_dir=args.analyzed_dir,
+        content_root=args.content_root,
         wisdom_file=wisdom_file,
         skills_dir=skills_dir,
         press_context_path=args.press_context,
