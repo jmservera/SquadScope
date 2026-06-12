@@ -28,9 +28,47 @@ REQUIRED_ANALYSIS_FIELDS = {
     "summary",
 }
 
+# Defense-in-depth: max lengths for frontmatter fields even though upstream
+# sanitization should already have applied limits.
+_FIELD_MAX_LENGTHS: dict[str, int] = {
+    "title": 300,
+    "summary": 1000,
+    "top_repo": 200,
+}
+
+_INJECTION_PHRASES = (
+    "ignore previous",
+    "ignore all previous",
+    "ignore the above",
+    "you are now",
+    "system:",
+    "<untrusted-content>",
+    "</untrusted-content>",
+)
+
 
 class GenerationError(ValueError):
     pass
+
+
+def _validate_frontmatter_safety(frontmatter: dict[str, object]) -> None:
+    """Defense-in-depth check: reject frontmatter with injection artifacts."""
+    for field, max_len in _FIELD_MAX_LENGTHS.items():
+        value = frontmatter.get(field)
+        if not isinstance(value, str):
+            continue
+        if len(value) > max_len:
+            raise GenerationError(
+                f"Frontmatter field '{field}' exceeds safe length "
+                f"({len(value)} > {max_len}). Possible injection artifact."
+            )
+        lowered = value.lower()
+        for phrase in _INJECTION_PHRASES:
+            if phrase in lowered:
+                raise GenerationError(
+                    f"Frontmatter field '{field}' contains suspicious phrase "
+                    f"'{phrase}'. Possible prompt injection artifact."
+                )
 
 
 def parse_args() -> argparse.Namespace:
@@ -197,6 +235,7 @@ def render_frontmatter(data: dict[str, object]) -> str:
 
 
 def transform_summary(frontmatter: dict[str, object], body: str) -> str:
+    _validate_frontmatter_safety(frontmatter)
     tags = ensure_list(frontmatter["tags"], field_name="tags")
     categories = ensure_list(frontmatter["categories"], field_name="categories")
     if "weekly" not in categories:
