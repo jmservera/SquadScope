@@ -1,6 +1,7 @@
 # Image Sourcing Policy
 
-This document defines the copyright-safe image sourcing policy for Claracle (SquadScope).
+This document defines the copyright-safe image sourcing policy for SquadScope.
+See also: [#358](https://github.com/jmservera/SquadScope/issues/358) for Hugo/PaperMod cover frontmatter support.
 
 ## Core Principle
 
