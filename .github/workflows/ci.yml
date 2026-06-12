@@ -43,3 +43,9 @@ jobs:
 
       - name: Run Python tests
         run: python -m pytest
+
+      - name: Validate image registry
+        run: python scripts/manage_image_registry.py validate
+
+      - name: Validate content images (no hotlinks/secrets)
+        run: python scripts/validate_content_images.py

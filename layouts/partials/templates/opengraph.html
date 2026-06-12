@@ -35,11 +35,21 @@
   <meta property="og:type" content="website">
 {{- end }}
 
-{{- if .Params.cover.image -}}
+{{- $ogImage := "" -}}
+{{- if and .Params.og_image (not (hasPrefix .Params.og_image "http://")) (not (hasPrefix .Params.og_image "https://")) (not (hasPrefix .Params.og_image "//")) -}}
+  {{- with resources.Get .Params.og_image -}}
+    {{- $ogImage = .Permalink -}}
+  {{- end -}}
+{{- end -}}
+{{- $coverImage := .Params.cover.image -}}
+{{- $coverImageIsLocal := and $coverImage (not (hasPrefix $coverImage "http://")) (not (hasPrefix $coverImage "https://")) (not (hasPrefix $coverImage "//")) -}}
+{{- if $ogImage -}}
+  <meta property="og:image" content="{{ $ogImage }}">
+{{- else if $coverImageIsLocal -}}
   {{- if (ne .Params.cover.relative true) }}
-    <meta property="og:image" content="{{ .Params.cover.image | absURL }}">
+    <meta property="og:image" content="{{ $coverImage | absURL }}">
   {{- else}}
-    <meta property="og:image" content="{{ (path.Join .RelPermalink .Params.cover.image ) | absURL }}">
+    <meta property="og:image" content="{{ (path.Join .RelPermalink $coverImage ) | absURL }}">
   {{- end}}
 {{- else }}
   {{- with partial "_funcs/get-page-images" . }}
