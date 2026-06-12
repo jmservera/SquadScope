@@ -737,6 +737,9 @@ def _build_prompt(
         max_words=1_500,
         prompt_token_budget=prompt_token_budget,
     ).strip()
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
+    historical_context_content = _escape_untrusted_boundaries(historical_context_content)
     if not historical_context_content:
         historical_context_content = "_No historical context was available beyond the current weekly payload._"
     wisdom_content = render_wisdom(wisdom_file)
@@ -749,7 +752,11 @@ def _build_prompt(
     payload_for_prompt = sanitized_payload
     raw_decisions = {"new_repos": "included", "trending_repos": "included"}
     previous_decision = "included" if previous_summary_path else "not included: no previous summary"
-    historical_context_decision = "included"
+    historical_context_decision = (
+        "included"
+        if historical_context_content != "_No historical context was available beyond the current weekly payload._"
+        else "not included: no historical sources available"
+    )
     wisdom_decision = "included" if wisdom_file.exists() else "not included: no analysis-specific wisdom file"
     skills_decision = "included" if skills_dir.exists() and iter_skill_files(skills_dir) else "not included: no analysis-specific skills"
     press_decision = "included" if press_content else "not included: no press context"
@@ -792,11 +799,12 @@ def _build_prompt(
         previous_summary_content, previous_decision = truncate_with_notice(
             previous_summary_content, COMPACTED_PREVIOUS_SUMMARY_CHARS, "prior continuity"
         )
-        historical_context_content, historical_context_decision = truncate_with_notice(
-            historical_context_content,
-            COMPACTED_HISTORICAL_CONTEXT_CHARS,
-            "historical context",
-        )
+        if historical_context_decision == "included":
+            historical_context_content, historical_context_decision = truncate_with_notice(
+                historical_context_content,
+                COMPACTED_HISTORICAL_CONTEXT_CHARS,
+                "historical context",
+            )
         wisdom_content, wisdom_decision = truncate_with_notice(wisdom_content, COMPACTED_WISDOM_CHARS, "analysis wisdom")
         skills_content, skills_decision = truncate_with_notice(skills_content, COMPACTED_SKILLS_CHARS, "analysis skills")
         press_content, press_decision = truncate_with_notice(

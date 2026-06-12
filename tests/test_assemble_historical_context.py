@@ -6,6 +6,7 @@ from scripts.assemble_historical_context import (
     DEFAULT_PROMPT_BUDGET_FRACTION,
     assemble_historical_context,
     build_historical_context,
+    compress_to_budget,
     estimate_tokens,
 )
 
@@ -77,3 +78,9 @@ def test_build_historical_context_respects_prompt_fraction_cap(tmp_path: Path) -
 
     assert result.token_estimate <= int(200 * DEFAULT_PROMPT_BUDGET_FRACTION)
     assert estimate_tokens(result.markdown) == result.token_estimate
+
+
+def test_compress_to_budget_preserves_line_structure() -> None:
+    text = "## Heading\n\nFirst bullet point here\nSecond bullet point\n\nThird paragraph with many words"
+    result = compress_to_budget(text, 8)
+    assert "\n" in result

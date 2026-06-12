@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Assemble bounded historical context for weekly analysis prompts."""
 
+# NOTE: This module coexists with scripts/context_budget.py (the older CLI-oriented
+# budget engine). This module is canonical for pipeline-integrated historical context
+# assembly used by analyze_fallback.py. The older module remains for standalone CLI use.
+
 from __future__ import annotations
 
 import argparse
@@ -73,7 +77,23 @@ def compress_to_budget(text: str, max_words: int) -> str:
     words = text.split()
     if len(words) <= max_words:
         return text.strip()
-    return " ".join(words[:max_words]).rstrip() + "…"
+
+    lines = text.strip().splitlines()
+    result_lines: list[str] = []
+    total_words = 0
+    for line in lines:
+        line_words = len(line.split())
+        if total_words + line_words > max_words:
+            remaining = max_words - total_words
+            if remaining > 0:
+                partial = " ".join(line.split()[:remaining])
+                result_lines.append(partial + "…")
+            elif not result_lines:
+                result_lines.append(" ".join(words[:max_words]) + "…")
+            break
+        result_lines.append(line)
+        total_words += line_words
+    return "\n".join(result_lines)
 
 
 def _read_text(path: Path | None) -> str:
