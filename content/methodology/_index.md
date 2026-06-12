@@ -54,7 +54,7 @@ Claracle publishes a companion podcast, **Signal Check**, derived from the weekl
 ### How Signal Check is produced
 
 1. **Source:** every podcast episode is generated from the corresponding published weekly article and its underlying claim ledger. No additional sources are introduced for the podcast that were not already cited in the article.
-2. **Script generation:** an AI-assisted pipeline converts the article into a structured script following a locked segment order (cold open, signal, noise check, gap, receipts round, week ahead, outro). The script is constrained to substantive claims that appear in the source article's claim ledger.
+2. **Script generation:** an AI-assisted pipeline converts the article into a structured script following a locked segment order (Cold Open, The Signal, The Noise Check, The Gap, Receipts Round, Week Ahead, Outro). The script is constrained to substantive claims that appear in the source article's claim ledger.
 3. **Claim ledger:** every factual claim in the script (star counts, growth rates, project characterizations) must trace back to a claim in the published article or the underlying data artifacts. Claims that cannot be traced are removed before synthesis.
 4. **Human review:** scripts and publishing packets are reviewed by a human operator before any non-dry-run audio synthesis or public distribution.
 5. **Synthesis:** after approval, the script is converted to audio using AI text-to-speech. The voices are synthetic; no human narration is used or implied.

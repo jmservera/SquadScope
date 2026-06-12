@@ -66,7 +66,7 @@ Claracle publishes a companion podcast, **Signal Check**, on an external podcast
 - **Public article text and claim ledger:** the podcast script is generated from the published Claracle article and its structured claim data. These are public materials already available on the website.
 - **Text-to-speech provider:** the generated script is sent to a third-party TTS provider (currently Azure AI Speech) for audio synthesis. The provider receives the script text. No personal data about readers or listeners is included in TTS requests. Azure AI Speech processing is governed by the [Microsoft Privacy Statement](https://privacy.microsoft.com/privacystatement) and the service's data handling terms.
 - **Temporary staging storage:** generated audio files are temporarily stored in Azure Blob Storage for operator review before publishing. Access is restricted to project maintainers; files are retained only until publishing is complete and then deleted per a configured retention policy.
-- **Podcast platform:** published episodes are hosted on Spotify (or another platform if changed). When you listen through the platform, that platform's privacy policy applies — Claracle does not control or receive listener analytics or personal data from the podcast platform.
+- **Podcast platform:** published episodes are hosted on Spotify (or another platform if changed). When you listen through the platform, that platform's privacy policy applies — Claracle does not control or access listener-identifying personal data from the podcast platform. The platform may provide aggregated, non-identifying listen statistics (such as total play counts); Claracle does not use these for tracking, profiling, or advertising.
 
 ### What we do not do
 
@@ -77,7 +77,7 @@ Claracle publishes a companion podcast, **Signal Check**, on an external podcast
 
 ### AI-generated voice disclosure
 
-All podcast audio is synthesized using artificial intelligence. The voices are not recordings of real people. This is disclosed in each episode's outro, show notes, and platform description.
+All podcast audio is synthesized using artificial intelligence. The voices are AI-generated synthetic speech produced by a text-to-speech model that may have been trained on licensed voice recordings; however, no voice recordings are collected or stored by Claracle, and the resulting voices do not represent or impersonate any real individual. This is disclosed in each episode's intro, outro, show notes, and platform description.
 
 ### Future changes
 
