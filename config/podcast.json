@@ -6,14 +6,14 @@
     "ai_voice_disclosure": "Both hosts on this show are AI-generated synthetic voices, not human presenters.",
     "hosts": [
       {
-        "name": "Theo",
-        "voice": "fable",
-        "style": "Bright and energetic. Leads with enthusiasm, connects themes with forward momentum. Presents signal picks with clarity and genuine curiosity."
+        "name": "Joracle",
+        "voice": "alloy",
+        "style": "Bright and energetic, british accent. Leads with enthusiasm, connects themes with forward momentum. Presents signal picks with clarity and genuine curiosity."
       },
       {
-        "name": "Vera",
-        "voice": "coral",
-        "style": "Calm, dry, and measured. Pressure-tests claims with specificity. Challenges hype with evidence, not dismissiveness. Lets pauses land."
+        "name": "Clarabel",
+        "voice": "nova",
+        "style": "Lovely and passionate. Pressure-tests claims with specificity. Challenges hype with evidence, not dismissiveness. Lets pauses land."
       }
     ]
   },
@@ -29,10 +29,10 @@
       "source_article_link": "Direct listeners to the full source article URL."
     },
     "episode_style": {
-      "format": "Two-host conversational podcast, 8-10 minutes, 1200-1700 words.",
+      "format": "Two-host conversational podcast, they interact between them, 8-10 minutes, 1200-1700 words.",
       "tone": "Conversational, not performative. Opinionated, not reckless. Concise, not rushed. Funny, not cruel. Accessible, not dumbed-down.",
       "segment_order": ["Cold Open", "The Signal", "The Noise Check", "The Gap", "Receipts Round", "Week Ahead", "Outro"],
-      "phrasing": "Active voice, concrete verbs. Lead with the insight, not the setup. Skeptic challenges must be specific and data-backed. Sometimes they ask questions between them.",
+      "phrasing": "Active voice, concrete verbs. Lead with the insight, not the setup. Skeptic challenges must be specific and data-backed. Sometimes they ask questions to each other to make it more conversational.",
       "distinctiveness": "Must not replicate or closely resemble any named podcast's style, segment labels, or trademarked phrasing."
     },
     "music_mix": {
