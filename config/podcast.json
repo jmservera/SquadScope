@@ -1,0 +1,55 @@
+{
+  "podcast_config": {
+    "name": "Claracle",
+    "url": "https://www.claracle.com",
+    "spoken_site": "www.claracle.com",
+    "ai_voice_disclosure": "Both hosts on this show are AI-generated synthetic voices, not human presenters.",
+    "hosts": [
+      {
+        "name": "Theo",
+        "voice": "fable",
+        "style": "Bright and energetic. Leads with enthusiasm, connects themes with forward momentum. Presents signal picks with clarity and genuine curiosity."
+      },
+      {
+        "name": "Vera",
+        "voice": "alloy",
+        "style": "Calm, dry, and measured. Pressure-tests claims with specificity. Challenges hype with evidence, not dismissiveness. Lets pauses land."
+      }
+    ]
+  },
+  "script_directions": {
+    "opening_cues": {
+      "cold_open": "One provocative stat or question from this week's data. Grab attention in under 30 seconds.",
+      "ai_disclosure": "Must appear in the first 60 seconds: explicitly state this episode uses AI-generated voice narration.",
+      "suggested_phrasing": "This episode of Signal Check uses AI-generated voice narration from SquadScope's weekly analysis. Our hosts are synthetic — the data is real."
+    },
+    "closing_cues": {
+      "corrections_path": "If we got something wrong, file an issue at https://github.com/jmservera/SquadScope/issues",
+      "ai_disclosure_repeat": "Repeat AI voice disclosure in the outro.",
+      "source_article_link": "Direct listeners to the full source article URL."
+    },
+    "episode_style": {
+      "format": "Two-host conversational podcast, 8-10 minutes, 1200-1700 words.",
+      "tone": "Conversational, not performative. Opinionated, not reckless. Concise, not rushed. Funny, not cruel. Accessible, not dumbed-down.",
+      "segment_order": ["Cold Open", "The Signal", "The Noise Check", "The Gap", "Receipts Round", "Week Ahead", "Outro"],
+      "phrasing": "Active voice, concrete verbs. Lead with the insight, not the setup. Skeptic challenges must be specific and data-backed.",
+      "distinctiveness": "Must not replicate or closely resemble any named podcast's style, segment labels, or trademarked phrasing."
+    },
+    "music_mix": {
+      "track": "Summer Sport",
+      "intro": {
+        "description": "Full volume for 10 seconds, fade down under Host A's opening line, fade up briefly after Host A finishes, fade out before Host B begins.",
+        "full_volume_seconds": 10,
+        "fade_down_under": "Host A opening",
+        "fade_up_after": "Host A opening",
+        "fade_out_before": "Host B first line"
+      },
+      "outro": {
+        "description": "Start at 1:15 of the song. Slow fade-up during the farewell exchange between hosts, then play to the end of the track.",
+        "start_position": "1:15",
+        "fade_up_during": "farewell exchange",
+        "play_to_end": true
+      }
+    }
+  }
+}

@@ -147,16 +147,15 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertEqual(req.get_header("X-podcaster-api-key"), "super-secret-value")
         self.assertEqual(req.get_header("Content-type"), "application/json")
         sent_payload = json.loads(req.data.decode("utf-8"))
-        self.assertEqual(
-            sent_payload,
-            {
-                "week": "2026-W23",
-                "article_url": "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
-                "article_path": "content/weekly/2026/W23.md",
-                "publish_run_id": "123456789",
-                "publish_mode": "normal",
-            },
-        )
+        self.assertEqual(sent_payload["week"], "2026-W23")
+        self.assertEqual(sent_payload["article_url"], "https://jmservera.github.io/SquadScope/weekly/2026/w23/")
+        self.assertEqual(sent_payload["article_path"], "content/weekly/2026/W23.md")
+        self.assertEqual(sent_payload["publish_run_id"], "123456789")
+        self.assertEqual(sent_payload["publish_mode"], "normal")
+        self.assertIn("podcast_config", sent_payload)
+        self.assertEqual(sent_payload["podcast_config"]["name"], "Claracle")
+        self.assertIn("script_directions", sent_payload)
+        self.assertIn("music_mix", sent_payload["script_directions"])
         self.assertNotIn("super-secret-value", stdout.getvalue())
 
     def test_non_normal_publish_mode_skips_without_calling_podcaster(self) -> None:

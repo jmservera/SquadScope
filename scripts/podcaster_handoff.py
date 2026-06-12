@@ -12,6 +12,7 @@ from urllib.parse import urljoin, urlparse
 
 AUTH_HEADER = "x-podcaster-api-key"
 DEFAULT_TIMEOUT_SECONDS = 30
+DEFAULT_PODCAST_CONFIG_PATH = Path(__file__).resolve().parent.parent / "config" / "podcast.json"
 
 
 class PodcasterHandoffError(RuntimeError):
@@ -27,6 +28,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--publish-mode", default="normal", help="Publish mode; only normal is eligible for Podcaster handoff.")
     parser.add_argument("--manifest", type=Path, help="Optional publish manifest used for article hash/source artifact metadata.")
     parser.add_argument("--podcaster-dry-run", action="store_true", help="Ask Podcaster to validate without generating an episode; intended only for the manual smoke workflow.")
+    parser.add_argument("--podcast-config", type=Path, default=None, help="Path to podcast config JSON (default: config/podcast.json relative to repo root).")
     parser.add_argument("--endpoint", default=os.environ.get("PODCASTER_ENDPOINT", ""))
     parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT_SECONDS)
     return parser.parse_args(argv)
@@ -85,6 +87,20 @@ def _load_manifest(path: Path | None) -> dict[str, Any]:
     return payload
 
 
+def _load_podcast_config(path: Path | None) -> dict[str, Any]:
+    """Load the podcast config file containing podcast_config and script_directions."""
+    config_path = path if path is not None else DEFAULT_PODCAST_CONFIG_PATH
+    if not config_path.exists():
+        return {}
+    try:
+        payload = json.loads(config_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PodcasterHandoffError(f"Podcast config could not be read: {config_path}") from exc
+    if not isinstance(payload, dict):
+        raise PodcasterHandoffError(f"Podcast config must be a JSON object: {config_path}")
+    return payload
+
+
 def _source_artifact_refs(manifest: dict[str, Any]) -> list[dict[str, str]]:
     refs: list[dict[str, str]] = []
     for artifact in manifest.get("source_artifacts", []):
@@ -132,6 +148,7 @@ def build_payload(
     publish_run_id: str,
     publish_mode: str = "normal",
     manifest_path: Path | None = None,
+    podcast_config_path: Path | None = None,
     podcaster_dry_run: bool = False,
 ) -> dict[str, Any]:
     manifest = _load_manifest(manifest_path)
@@ -154,6 +171,13 @@ def build_payload(
     source_refs = _source_artifact_refs(manifest)
     if source_refs:
         payload["source_artifacts"] = source_refs
+
+    podcast_cfg = _load_podcast_config(podcast_config_path)
+    if "podcast_config" in podcast_cfg:
+        payload["podcast_config"] = podcast_cfg["podcast_config"]
+    if "script_directions" in podcast_cfg:
+        payload["script_directions"] = podcast_cfg["script_directions"]
+
     if podcaster_dry_run:
         payload["dry_run"] = True
     return payload
@@ -232,6 +256,7 @@ def main(argv: list[str] | None = None) -> int:
             publish_run_id=args.publish_run_id,
             publish_mode=args.publish_mode,
             manifest_path=args.manifest,
+            podcast_config_path=args.podcast_config,
             podcaster_dry_run=args.podcaster_dry_run,
         )
         post_handoff(endpoint, api_key, payload, timeout=args.timeout)
