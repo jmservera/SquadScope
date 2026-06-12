@@ -39,7 +39,7 @@ The output is a cached month-synthesis artifact for later rendering into Hugo mo
 
 ## Editorial requirements
 
-- Write one coherent narrative of roughly 260-360 words.
+- Write one coherent narrative of at most 300 words.
 - Do not write a list of weeks.
 - Explain what defined the month as a whole.
 - Identify which trends emerged, accelerated, peaked, or faded.
@@ -90,7 +90,7 @@ status: generated
 
 ## Month Synthesis
 
-Write ~300 words of narrative prose that explains the month as a whole, traces trend movement across the included weeks, names the biggest surprise, confirms or overturns prior expectations, and closes with what the month changed in the wider technical picture.
+Write at most 300 words of narrative prose that explains the month as a whole, traces trend movement across the included weeks, names the biggest surprise, confirms or overturns prior expectations, and closes with what the month changed in the wider technical picture.
 ```
 
 ## Closing security constraint

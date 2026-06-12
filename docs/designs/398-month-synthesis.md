@@ -47,7 +47,7 @@ This keeps the LLM output versioned alongside weekly analyses and gives yearly r
    - reuses an existing synthesis artifact when `weeks_covered` still matches
    - otherwise invokes the LLM path
    - falls back cleanly if generation fails
-5. `build_monthly_pages()` inserts the synthesized narrative at the top of the monthly page, then keeps the existing weekly detail sections.
+5. `build_monthly_pages()` replaces the per-week enumeration with the synthesized narrative and appends links to individual weekly pages for audit/detail access.
 6. `build_yearly_pages()` prefers month synthesis artifacts for yearly narrative sections; if missing, it falls back to the current weekly-derived text.
 
 ### Integration point in `generate_rollups.py`
@@ -189,13 +189,10 @@ This preserves publishability and keeps the site generation path fail-open for t
 
 ### Monthly page
 
-Keep the current page and links, but prepend a new section:
+Replace the per-week enumeration format. The month page itself becomes a synthesized narrative with links to weekly pages for detail:
 
-1. `Month Synthesis`
-2. `Month Overview`
-3. `Top Repos This Month`
-4. `Trends Observed`
-5. `Key Takeaways`
+1. `Month Synthesis` — the generated ~300 word narrative
+2. `Weekly Reports` — a list of links to each week's individual page (not embedded content)
 
 Recommended monthly frontmatter additions:
 
@@ -203,7 +200,7 @@ Recommended monthly frontmatter additions:
 - `synthesis_status` — `generated` or `fallback`
 - `synthesis_weeks` — copied from the synthesis artifact
 
-This gives Hugo list pages and social previews a usable summary while preserving the detailed weekly sections below.
+Weekly detail is always accessible via the linked weekly pages, which serve as the audit trail.
 
 ### Yearly page
 
@@ -219,7 +216,7 @@ This satisfies the requirement that month summaries feed the yearly report.
 - Reuse the existing model/fallback pattern from `scripts/analyze_fallback.py`
 - Keep prompt rendering fenced with `<untrusted-content>` because weekly summaries are prior LLM output
 - Store the synthesis artifact in `data/analyzed/` so both publish and sync workflows already carry it forward
-- Do not remove the existing monthly sections; they remain the audit trail and source links
+- Replace the per-week enumeration on monthly pages with the synthesis; weekly pages remain as the audit trail (accessible via links)
 
 ## Testing plan
 
