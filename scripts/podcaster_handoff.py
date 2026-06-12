@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 from pathlib import Path
 from typing import Any
 from urllib import error, request
@@ -13,6 +14,8 @@ from urllib.parse import urljoin, urlparse
 AUTH_HEADER = "x-podcaster-api-key"
 DEFAULT_TIMEOUT_SECONDS = 30
 DEFAULT_PODCAST_CONFIG_PATH = Path(__file__).resolve().parent.parent / "config" / "podcast.json"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+MAX_ARTICLE_CONTENT_CHARS = 50_000
 
 
 class PodcasterHandoffError(RuntimeError):
@@ -123,6 +126,46 @@ def _source_artifact_refs(manifest: dict[str, Any]) -> list[dict[str, str]]:
     return refs
 
 
+def _extract_title(content: str) -> str | None:
+    """Extract article title from YAML front matter or first # heading."""
+    # Try YAML front matter first
+    if content.startswith("---"):
+        end = content.find("\n---", 3)
+        if end != -1:
+            frontmatter = content[3:end]
+            match = re.search(r"^title:\s*(.+)$", frontmatter, re.MULTILINE)
+            if match:
+                title = match.group(1).strip().strip("\"'")
+                if title:
+                    return title
+    # Fall back to first # heading
+    match = re.search(r"^#\s+(.+)$", content, re.MULTILINE)
+    if match:
+        return match.group(1).strip()
+    return None
+
+
+def _read_article_content(article_path: str, repo_root: Path = REPO_ROOT) -> tuple[str | None, str | None]:
+    """Read article file content and extract title.
+
+    Returns (content, title). Content is truncated to MAX_ARTICLE_CONTENT_CHARS.
+    Returns (None, None) if the file does not exist or is empty.
+    """
+    resolved = repo_root / article_path
+    if not resolved.exists():
+        return None, None
+    try:
+        content = resolved.read_text(encoding="utf-8")
+    except OSError:
+        return None, None
+    if not content.strip():
+        return None, None
+    title = _extract_title(content)
+    if len(content) > MAX_ARTICLE_CONTENT_CHARS:
+        content = content[:MAX_ARTICLE_CONTENT_CHARS]
+    return content, title
+
+
 def _manifest_allows_handoff(manifest: dict[str, Any], *, week: str, publish_mode: str) -> bool:
     if not manifest:
         return True
@@ -150,17 +193,27 @@ def build_payload(
     manifest_path: Path | None = None,
     podcast_config_path: Path | None = None,
     podcaster_dry_run: bool = False,
+    repo_root: Path | None = None,
 ) -> dict[str, Any]:
     manifest = _load_manifest(manifest_path)
     if not _manifest_allows_handoff(manifest, week=week, publish_mode=publish_mode):
         raise PodcasterHandoffError("Publish manifest is not eligible for Podcaster handoff.")
+    normalized_path = normalize_page_path(article_path)
     payload: dict[str, Any] = {
         "week": week,
         "article_url": article_url,
-        "article_path": normalize_page_path(article_path),
+        "article_path": normalized_path,
         "publish_run_id": publish_run_id,
         "publish_mode": publish_mode,
     }
+
+    # Read article content and extract title
+    root = repo_root if repo_root is not None else REPO_ROOT
+    content, title = _read_article_content(normalized_path, repo_root=root)
+    if content:
+        payload["article_content"] = content
+    if title:
+        payload["article_title"] = title
     article_sha = (
         manifest.get("candidate", {}).get("summary_sha256")
         if isinstance(manifest.get("candidate"), dict)
