@@ -34,3 +34,4 @@ squadscope-agent-result.json
 .squad/reskill/
 .squad/casting-*.json
 .ralph_tick.log
+.squad/ralph-circuit-breaker.json
