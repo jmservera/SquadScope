@@ -256,6 +256,12 @@ class PodcasterHandoffTests(unittest.TestCase):
         )
         self.assertEqual(result["status"], "accepted")
 
+    def test_validate_response_accepts_dry_run_status(self) -> None:
+        result = podcaster_handoff.validate_response(
+            {"job_id": "podcast-1", "status": "dry_run", "errors": []}
+        )
+        self.assertEqual(result["status"], "dry_run")
+
     def test_non_2xx_response_fails_handoff(self) -> None:
         http_err = error.HTTPError(
             url="http://localhost:7071/api/generate",
