@@ -253,7 +253,7 @@ def build_payload(
     return payload
 
 
-SUCCESS_RESPONSE_STATUSES = {"accepted"}
+SUCCESS_RESPONSE_STATUSES = {"accepted", "dry_run"}
 
 
 def validate_response(payload: Any) -> dict[str, Any]:
