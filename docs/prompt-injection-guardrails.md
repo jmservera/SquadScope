@@ -112,6 +112,8 @@ This document covers the complete Phase 1, Phase 2, and pipeline integration gua
 - **Phase 1** (complete): Sanitization, boundary fencing, closing constraints, and lint enforcement for all prompt placeholders — including previously semi-trusted variables (`{{WISDOM}}`, `{{SKILLS}}`, `{{WISDOM_CONTENT}}`, `{{TOPIC_DESCRIPTION}}`).
 - **Phase 2** (complete): Canary token leak detection, red-team corpus testing, and tool evaluation (Garak, LLM Guard, Azure Prompt Shields).
 - **Pipeline Integration** (complete): Canary tokens automatically injected in all `call_github_models()` callers (`analyze_fallback.py` and `reskill.py`), output validated via `validate_output_safety()` for canary leaks and boundary marker reproduction. Full canary leak blocks publishing; partial/boundary violations emit warnings.
+- **Preprocess Sanitization** (complete): `preprocess_for_analysis.py` now calls `sanitize_description()` on all repo descriptions during compaction, ensuring injection attempts are detected, truncated, and boundary-escaped before reaching prompt templates.
+- **CI Lint Test** (complete): `tests/test_prompt_lint_ci.py` runs the prompt security linter as part of the standard pytest suite, failing on any unguarded variables or missing closing constraints.
 
 ### 5. Canary Token Leak Detection (`scripts/canary_token.py`)
 
