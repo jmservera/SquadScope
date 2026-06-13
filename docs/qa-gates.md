@@ -81,10 +81,11 @@ When a gate fails in CI:
 
 1. The test name tells you which category failed (e.g., `TestCostTokenGuardrails::test_preflight_rejects_over_budget`)
 2. The assertion message identifies the specific contract violation
-3. The QA report JSON (`qa-comparison-report.json`) provides structured gate-by-gate results with error lists
+3. The QA report JSON (`qa-comparison-report.json`) provides structured gate-by-gate results
 
 If `test_full_pipeline_produces_passing_qa` fails, inspect the QA report's
-`checks` object carefully. The schema varies by gate:
+`checks` object carefully. **Not all gates share the same schema** — each gate
+reports results in its own structure:
 
 - `mapper_contracts` includes `passed` plus `errors_by_mapper`
 - `structural_analysis_gate` and `evidence_and_editorial_gates` include `passed`

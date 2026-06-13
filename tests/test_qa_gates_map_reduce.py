@@ -440,13 +440,14 @@ class TestCostTokenGuardrails:
         raw_path.write_text(json.dumps(RAW_PAYLOAD), encoding="utf-8")
         press_path.write_text(PRESS_CONTEXT, encoding="utf-8")
 
-        dry_run.main([
+        rc = dry_run.main([
             "--raw-json", raw_path.as_posix(),
             "--press-context", press_path.as_posix(),
             "--output-dir", output_dir.as_posix(),
             "--current-datetime", "2026-05-20T12:00:00Z",
             "--run-id", "cost-test",
         ])
+        assert rc == 0, f"dry_run.main failed with return code {rc}"
 
         manifest = json.loads((output_dir / "manifest.json").read_text(encoding="utf-8"))
         est = manifest["component_estimates"]["rendered_prompt_estimate"]
