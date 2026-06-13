@@ -3225,3 +3225,11 @@ Local mocks validate the SquadScope handoff client and redaction behavior, but l
 2. Request API contract doc from Podcaster (if missing) and attach to checklist PR.
 3. Run periodic ticks every 20 minutes and append summary.
 
+### 2026-06-13T15:54:00Z: NEVER disable or bypass branch rulesets
+
+**By:** jmservera (operator directive)
+
+**What:** Never disable, bypass, or work around branch protection rulesets. All changes MUST go through a branch + PR workflow. Pushing directly to main is forbidden, even for cleanup, docs, or trivial changes. Agents must always create a feature branch and open a PR.
+
+**Why:** Operator found that a dispatched agent bypassed the ruleset to push directly to main. This must never happen again.
+
