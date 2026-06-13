@@ -36,5 +36,5 @@ def test_methodology_is_in_navigation_and_distribution_guidance() -> None:
     assert "identifier = 'methodology'" in hugo_config
     assert "url = '/methodology/'" in hugo_config
     assert "Methodology and corrections policy" in distribution
-    assert "https://jmservera.github.io/SquadScope/methodology/" in distribution
+    assert "https://www.claracle.com/methodology/" in distribution
     assert "Do not promote an article as neutral or comprehensive" in distribution
