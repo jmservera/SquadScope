@@ -53,7 +53,10 @@ class PodcasterHandoffTests(unittest.TestCase):
             article_dir = Path(tmpdir) / "content" / "weekly" / "2026"
             article_dir.mkdir(parents=True)
             article_file = article_dir / "W23.md"
-            article_file.write_text("---\ntitle: Week 23 Report\n---\n# Heading\nBody content here.\n", encoding="utf-8")
+            article_file.write_text(
+                "---\ntitle: Week 23 Report\nsummary: Week 23 summary.\n---\n# Heading\nBody content here.\n",
+                encoding="utf-8",
+            )
 
             payload = podcaster_handoff.build_payload(
                 week="2026-W23",
@@ -83,6 +86,7 @@ class PodcasterHandoffTests(unittest.TestCase):
         # article_content and article_title from the article file
         self.assertIn("article_content", payload)
         self.assertIn("Week 23 Report", payload["article_title"])
+        self.assertEqual(payload["article_summary"], "Week 23 summary.")
         self.assertIn("Body content here.", payload["article_content"])
 
     def test_podcaster_dry_run_sets_payload_flag(self) -> None:
@@ -168,6 +172,8 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertIn("music_mix", sent_payload["script_directions"])
         self.assertIn("spotify_publish", sent_payload)
         self.assertEqual(sent_payload["spotify_publish"]["publish_mode"], "draft")
+        self.assertIsInstance(sent_payload["spotify_publish"]["season_number"], int)
+        self.assertIsInstance(sent_payload["spotify_publish"]["episode_number"], int)
         self.assertNotIn("super-secret-value", stdout.getvalue())
 
     def test_non_normal_publish_mode_skips_without_calling_podcaster(self) -> None:
@@ -311,7 +317,10 @@ class PodcasterHandoffTests(unittest.TestCase):
             article_dir = base / "content" / "weekly" / "2026"
             article_dir.mkdir(parents=True)
             article = article_dir / "W24.md"
-            article.write_text("---\ntitle: My Title\n---\n# Heading\nHello world.\n", encoding="utf-8")
+            article.write_text(
+                "---\ntitle: My Title\nsummary: My summary.\n---\n# Heading\nHello world.\n",
+                encoding="utf-8",
+            )
 
             payload = podcaster_handoff.build_payload(
                 week="2026-W24",
@@ -324,8 +333,38 @@ class PodcasterHandoffTests(unittest.TestCase):
             )
 
         self.assertEqual(payload["article_title"], "My Title")
+        self.assertEqual(payload["article_summary"], "My summary.")
         self.assertIn("Hello world.", payload["article_content"])
-        self.assertIn("---\ntitle: My Title\n---", payload["article_content"])
+        self.assertIn("---\ntitle: My Title\nsummary: My summary.\n---", payload["article_content"])
+
+    def test_build_payload_resolves_spotify_publish_templates(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            base = Path(tmpdir)
+            article_dir = base / "content" / "weekly" / "2026"
+            article_dir.mkdir(parents=True)
+            article = article_dir / "W24.md"
+            article.write_text(
+                "---\ntitle: Skills Go Vertical\nsummary: This week we explore agent skills.\n---\n# Heading\nHello world.\n",
+                encoding="utf-8",
+            )
+
+            payload = podcaster_handoff.build_payload(
+                week="2026-W24",
+                article_url="https://example.com/weekly/2026/w24/",
+                article_path="content/weekly/2026/W24.md",
+                publish_run_id="999",
+                publish_mode="normal",
+                podcaster_dry_run=True,
+                repo_root=base,
+            )
+
+        self.assertEqual(
+            payload["spotify_publish"]["title_template"],
+            "2026-W24: Skills Go Vertical",
+        )
+        self.assertIn("This week we explore agent skills.", payload["spotify_publish"]["description_template"])
+        self.assertEqual(payload["spotify_publish"]["season_number"], 2026)
+        self.assertEqual(payload["spotify_publish"]["episode_number"], 24)
 
     def test_build_payload_extracts_title_from_heading_when_no_frontmatter(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
