@@ -16,6 +16,8 @@ DEFAULT_TIMEOUT_SECONDS = 180
 DEFAULT_PODCAST_CONFIG_PATH = Path(__file__).resolve().parent.parent / "config" / "podcast.json"
 REPO_ROOT = Path(__file__).resolve().parent.parent
 MAX_ARTICLE_CONTENT_CHARS = 50_000
+MAX_SPOTIFY_TITLE_CHARS = 200
+MAX_SPOTIFY_DESCRIPTION_CHARS = 4_000
 
 
 class PodcasterHandoffError(RuntimeError):
@@ -178,6 +180,10 @@ def _render_template_value(value: Any, context: dict[str, Any]) -> Any:
         raise PodcasterHandoffError(f"spotify_publish template references unknown field: {missing}") from exc
 
 
+def _truncate_text(value: str, limit: int) -> str:
+    return value[:limit]
+
+
 def _resolve_spotify_publish(config: dict[str, Any], *, week: str, article_title: str | None, article_summary: str | None) -> dict[str, Any]:
     match = re.fullmatch(r"(?P<year>\d{4})-W(?P<week>\d{1,2})", week)
     if not match:
@@ -188,7 +194,18 @@ def _resolve_spotify_publish(config: dict[str, Any], *, week: str, article_title
         "article_title": article_title or "",
         "article_summary": article_summary or "",
     }
-    return _render_template_value(config, context)
+    resolved = _render_template_value(config, context)
+    title = resolved.pop("title_template", None)
+    if isinstance(title, str):
+        resolved["title"] = _truncate_text(title, MAX_SPOTIFY_TITLE_CHARS)
+    elif title is not None:
+        resolved["title"] = title
+    description = resolved.pop("description_template", None)
+    if isinstance(description, str):
+        resolved["description"] = _truncate_text(description, MAX_SPOTIFY_DESCRIPTION_CHARS)
+    elif description is not None:
+        resolved["description"] = description
+    return resolved
 
 
 def _read_article_content(article_path: str, repo_root: Path = REPO_ROOT) -> tuple[str | None, str | None, str | None]:

@@ -359,12 +359,38 @@ class PodcasterHandoffTests(unittest.TestCase):
             )
 
         self.assertEqual(
-            payload["spotify_publish"]["title_template"],
+            payload["spotify_publish"]["title"],
             "2026-W24: Skills Go Vertical",
         )
-        self.assertIn("This week we explore agent skills.", payload["spotify_publish"]["description_template"])
+        self.assertIn("This week we explore agent skills.", payload["spotify_publish"]["description"])
         self.assertEqual(payload["spotify_publish"]["season_number"], 2026)
         self.assertEqual(payload["spotify_publish"]["episode_number"], 24)
+
+    def test_build_payload_truncates_resolved_spotify_publish_fields(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            base = Path(tmpdir)
+            article_dir = base / "content" / "weekly" / "2026"
+            article_dir.mkdir(parents=True)
+            article = article_dir / "W24.md"
+            article.write_text(
+                f"---\ntitle: {'T' * 250}\nsummary: {'S' * 5000}\n---\n# Heading\nHello world.\n",
+                encoding="utf-8",
+            )
+
+            payload = podcaster_handoff.build_payload(
+                week="2026-W24",
+                article_url="https://example.com/weekly/2026/w24/",
+                article_path="content/weekly/2026/W24.md",
+                publish_run_id="999",
+                publish_mode="normal",
+                podcaster_dry_run=True,
+                repo_root=base,
+            )
+
+        self.assertEqual(len(payload["spotify_publish"]["title"]), 200)
+        self.assertTrue(payload["spotify_publish"]["title"].startswith("2026-W24: "))
+        self.assertEqual(len(payload["spotify_publish"]["description"]), 4000)
+        self.assertTrue(payload["spotify_publish"]["description"].startswith("<p>"))
 
     def test_build_payload_extracts_title_from_heading_when_no_frontmatter(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
