@@ -120,10 +120,11 @@ Use this checklist to verify your SquadScope instance is ready for production. C
   - [ ] Generate: `python3 scripts/generate_content.py data/analyzed/YYYY-WNN-summary.md`
   - [ ] Build search assets after Hugo: `npx pagefind --site public/`
 
-- [ ] **Fallback analysis path works (Copilot unavailable scenario)**
+- [ ] **Copilot auth failure handling (fail-closed verification)**
   - [ ] Comment out or rename `COPILOT_GH_TOKEN` secret temporarily
   - [ ] Manually trigger workflow
-  - [ ] Verify workflow fails cleanly (no GitHub Models/OpenAI fallback exists — pipeline is Copilot-only, fail-closed)
+  - [ ] Verify workflow fails cleanly with a clear error (no fallback — pipeline is Copilot-only, fail-closed)
+  - [ ] Confirm token-renewal issue automation triggers if configured
   - [ ] Restore secret after testing
 
 - [ ] **Reskill cycle verified (after 5 runs)**

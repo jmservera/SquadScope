@@ -43,7 +43,7 @@ JSON    Markdown   Hugo      Pages    Improvements
 
 **Stage 4: Deploy** (Hugo + GitHub Pages)
 - Builds static site from Hugo and publishes to GitHub Pages
-- Outputs: Live website + RSS feeds at `https://www.claracle.com/index.xml` and `https://www.claracle.com/feed/`
+- Outputs: Live website + RSS feed at `https://www.claracle.com/index.xml`
 
 **Stage 5: Reskill** (every 5th run)
 - Every 5th run, Copilot reviews squad history and recent analysis outputs
@@ -65,7 +65,7 @@ JSON    Markdown   Hugo      Pages    Improvements
 ### For end users
 
 1. **Visit the site:** [Claracle](https://www.claracle.com/): Browse weekly, monthly, yearly summaries
-2. **Subscribe to RSS:** Add `https://www.claracle.com/index.xml` or `https://www.claracle.com/feed/` to your reader
+2. **Subscribe to RSS:** Add `https://www.claracle.com/index.xml` to your reader
 3. **Check GitHub Releases:** New summaries also posted as releases
 
 ### For operators (see `docs/operator-guide.md` for full setup)

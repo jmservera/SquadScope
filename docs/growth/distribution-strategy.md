@@ -199,7 +199,7 @@ campaign the crawl has caught.
 [Full article link below]
 
 ---
-*Read the full analysis on SquadScope:* https://www.claracle.com/
+*Read the full analysis on Claracle:* https://www.claracle.com/
 ```
 
 **Expected outcome:** 200-800 impressions, 5-20 reactions, 30-100 click-throughs to canonical URL.
