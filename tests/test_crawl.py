@@ -170,6 +170,55 @@ class CrawlTests(unittest.TestCase):
             ],
         )
 
+    def test_main_emits_observability_ledger(self) -> None:
+        class FakeClient:
+            def __init__(self, token: str, **kwargs) -> None:
+                self.token = token
+                self.api_calls_used = 4
+                self.cache_hits = 3
+                self.cache_misses = 4
+                self.stale_cache_hits = 1
+                self.rate_limit_events = 2
+                self.secondary_rate_limit_hit = True
+                self.rate_limit_limit = 5000
+                self.rate_limit_remaining = 4988
+                self.rate_limit_reset = 1747562400
+                self.rate_limit_resource = "search"
+                self.errors = []
+
+            def search_repositories(self, query: str, *, max_results: int = 1000):
+                return []
+
+            def has_readme(self, full_name: str) -> bool:
+                return True
+
+        args = Namespace(
+            since="2026-05-11",
+            as_of="2026-05-18",
+            max_results=25,
+            output="data/raw/test-observability.json",
+            topic="general",
+            config=None,
+        )
+        with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
+            "os.environ", {"GITHUB_TOKEN": "token", "GITHUB_RUN_ID": "123"}, clear=False
+        ), mock.patch.object(crawl, "GitHubClient", FakeClient), mock.patch.object(
+            crawl, "load_previous_star_snapshot", return_value={}
+        ), mock.patch.object(crawl, "write_payload"), mock.patch.object(
+            crawl, "emit_ledger"
+        ) as emit_mock, mock.patch.object(crawl, "print"):
+            exit_code = crawl.main()
+
+        self.assertEqual(exit_code, 0)
+        ledger = emit_mock.call_args.args[0]
+        output_path = emit_mock.call_args.args[1]
+        self.assertEqual(ledger.schema_version, "observability_v1")
+        self.assertEqual(ledger.run_id, "123")
+        self.assertEqual(ledger.crawl_metrics[0].source_type, "github")
+        self.assertEqual(ledger.crawl_metrics[0].cache_misses, 4)
+        self.assertTrue(ledger.crawl_metrics[0].secondary_rate_limit_hit)
+        self.assertTrue(output_path.as_posix().endswith("-github-crawl.json"))
+
     def test_load_reusable_github_payload_accepts_same_day_matching_artifact(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:

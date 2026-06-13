@@ -13,6 +13,7 @@ import hashlib
 import json
 import re
 import sys
+import time
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -21,12 +22,30 @@ from typing import Any
 try:
     from scripts.analyze_fallback import find_previous_summary
     from scripts.analysis_gate import validate_analysis, validate_publish_quality
+    from scripts.model_pricing import estimate_cost_usd
+    from scripts.observability_metrics import (
+        DEFAULT_OBSERVABILITY_DIR,
+        AnalysisMetrics,
+        METRICS_SCHEMA_VERSION,
+        MapReduceMetrics,
+        ObservabilityLedger,
+        emit_ledger,
+    )
     from scripts.render_press_context import estimate_tokens
     from scripts.sanitize_repo_content import sanitize_repo_payload
 except ModuleNotFoundError:  # pragma: no cover - script execution path
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
     from scripts.analyze_fallback import find_previous_summary
     from scripts.analysis_gate import validate_analysis, validate_publish_quality
+    from scripts.model_pricing import estimate_cost_usd
+    from scripts.observability_metrics import (
+        DEFAULT_OBSERVABILITY_DIR,
+        AnalysisMetrics,
+        METRICS_SCHEMA_VERSION,
+        MapReduceMetrics,
+        ObservabilityLedger,
+        emit_ledger,
+    )
     from scripts.render_press_context import estimate_tokens
     from scripts.sanitize_repo_content import sanitize_repo_payload
 
@@ -88,11 +107,44 @@ def write_json(path: Path, payload: Any) -> None:
     path.write_text(stable_json(payload), encoding="utf-8")
 
 
+def metric_cost_usd(model: str, input_tokens: int, output_tokens: int) -> float:
+    return estimate_cost_usd(model, input_tokens, output_tokens) or 0.0
+
+
 def file_ref(path: Path | None) -> ArtifactRef | None:
     if path is None or not path.exists() or not path.is_file():
         return None
     data = path.read_bytes()
     return ArtifactRef(path=path.as_posix(), sha256=sha256_bytes(data), bytes=len(data))
+
+
+def collect_gate_failure_reasons(qa_report: dict[str, Any]) -> list[str]:
+    reasons: list[str] = []
+    checks = qa_report.get("checks", {}) if isinstance(qa_report.get("checks"), dict) else {}
+    mapper_contracts = checks.get("mapper_contracts", {})
+    if isinstance(mapper_contracts, dict):
+        errors_by_mapper = mapper_contracts.get("errors_by_mapper", {})
+        if isinstance(errors_by_mapper, dict):
+            for mapper, errors in sorted(errors_by_mapper.items()):
+                if isinstance(errors, list):
+                    reasons.extend(f"{mapper}: {error}" for error in errors)
+    for key in ("structural_analysis_gate", "evidence_and_editorial_gates", "publish_provenance_gate"):
+        check = checks.get(key, {})
+        if isinstance(check, dict) and check.get("expected_failure") is not True and isinstance(check.get("errors"), list):
+            reasons.extend(str(error) for error in check["errors"] if error)
+    if isinstance(qa_report.get("regressions"), list):
+        reasons.extend(str(error) for error in qa_report["regressions"] if error)
+    sidecars = checks.get("sidecars_present", {})
+    if isinstance(sidecars, dict) and sidecars.get("passed") is False:
+        reasons.append("sidecars_present failed")
+    seen: set[str] = set()
+    ordered: list[str] = []
+    for reason in reasons:
+        normalized = reason.strip()
+        if normalized and normalized not in seen:
+            seen.add(normalized)
+            ordered.append(normalized)
+    return ordered
 
 
 def normalize_repo_name(repo: dict[str, Any]) -> str:
@@ -713,6 +765,7 @@ def build_qa_report(
 
 
 def run(args: argparse.Namespace) -> dict[str, Path]:
+    analysis_started = time.monotonic()
     raw_payload = sanitize_repo_payload(load_json(args.raw_json))
     week = raw_payload["week"]
     raw_ref = file_ref(args.raw_json)
@@ -722,8 +775,10 @@ def run(args: argparse.Namespace) -> dict[str, Path]:
     previous_summary = find_previous_summary(week, args.analyzed_dir)
     previous_ref = file_ref(previous_summary)
 
-    maps = {
-        "new_repos": map_repositories(
+    map_stage_metrics: list[MapReduceMetrics] = []
+    maps: dict[str, dict[str, Any]] = {}
+    map_builders = {
+        "new_repos": lambda: map_repositories(
             run_id=args.run_id,
             week=week,
             raw_path=args.raw_json,
@@ -733,7 +788,7 @@ def run(args: argparse.Namespace) -> dict[str, Path]:
             mode="new",
             max_repos=args.max_repos_per_ledger,
         ),
-        "trending_repos": map_repositories(
+        "trending_repos": lambda: map_repositories(
             run_id=args.run_id,
             week=week,
             raw_path=args.raw_json,
@@ -743,15 +798,60 @@ def run(args: argparse.Namespace) -> dict[str, Path]:
             mode="trending",
             max_repos=args.max_repos_per_ledger,
         ),
-        "press_correlations": map_press(run_id=args.run_id, week=week, press_path=args.press_context, press_ref=press_ref, raw_ref=raw_ref),
-        "prior_continuity": map_prior(run_id=args.run_id, week=week, previous_summary=previous_summary, previous_ref=previous_ref, raw_ref=raw_ref),
+        "press_correlations": lambda: map_press(
+            run_id=args.run_id,
+            week=week,
+            press_path=args.press_context,
+            press_ref=press_ref,
+            raw_ref=raw_ref,
+        ),
+        "prior_continuity": lambda: map_prior(
+            run_id=args.run_id,
+            week=week,
+            previous_summary=previous_summary,
+            previous_ref=previous_ref,
+            raw_ref=raw_ref,
+        ),
     }
+    for name in MAPPER_IDS:
+        stage_started = time.monotonic()
+        payload = map_builders[name]()
+        maps[name] = payload
+        stage_duration = round(time.monotonic() - stage_started, 3)
+        input_tokens = int(payload.get("slice", {}).get("input_token_estimate") or 0)
+        output_tokens = int(payload.get("token_estimate") or 0)
+        map_stage_metrics.append(
+            MapReduceMetrics(
+                stage=name,
+                duration_seconds=stage_duration,
+                input_tokens=input_tokens,
+                output_tokens=output_tokens,
+                cost_usd=metric_cost_usd(args.analysis_model, input_tokens, output_tokens),
+                status="pass",
+                gate_failure_reasons=[],
+            )
+        )
     map_errors = {name: validate_map(payload) for name, payload in maps.items()}
     if any(map_errors.values()):
         for name, errors in map_errors.items():
             if errors:
                 maps[name]["status"] = "failed"
                 maps[name]["errors"] = errors
+    map_metrics_by_stage = {metric.stage: metric for metric in map_stage_metrics}
+    for name, errors in map_errors.items():
+        if errors:
+            metric = map_metrics_by_stage.get(name)
+            if metric is not None:
+                map_stage_metrics[map_stage_metrics.index(metric)] = MapReduceMetrics(
+                    stage=metric.stage,
+                    duration_seconds=metric.duration_seconds,
+                    input_tokens=metric.input_tokens,
+                    output_tokens=metric.output_tokens,
+                    cost_usd=metric.cost_usd,
+                    status="fail",
+                    gate_failure_reasons=list(errors),
+                )
+    reduce_started = time.monotonic()
     plan, rejected, contradictions = reduce_ledgers(list(maps.values()), raw_payload=raw_payload)
     candidate_text = render_candidate(plan, raw_payload, args.current_datetime)
 
@@ -784,6 +884,19 @@ def run(args: argparse.Namespace) -> dict[str, Path]:
         baseline_summary=args.baseline_summary,
         source=args.analysis_source,
         model=args.analysis_model,
+    )
+    reduce_duration = round(time.monotonic() - reduce_started, 3)
+    reduce_input_tokens = sum(metric.output_tokens for metric in map_stage_metrics)
+    reduce_output_tokens = estimate_tokens(candidate_text)
+    reduce_failure_reasons = collect_gate_failure_reasons(qa)
+    reduce_stage_metric = MapReduceMetrics(
+        stage="reduce",
+        duration_seconds=reduce_duration,
+        input_tokens=reduce_input_tokens,
+        output_tokens=reduce_output_tokens,
+        cost_usd=metric_cost_usd(args.analysis_model, reduce_input_tokens, reduce_output_tokens),
+        status="pass" if qa.get("status") == "passed" else "fail",
+        gate_failure_reasons=reduce_failure_reasons,
     )
     write_json(out / "qa-comparison-report.json", qa)
     raw_component = file_ref(args.raw_json)
@@ -842,10 +955,57 @@ def run(args: argparse.Namespace) -> dict[str, Path]:
         "promotion_policy": "blocked: dry-run/candidate-only map/reduce output must not write data/analyzed, content/weekly, deploy, notify, or satisfy publish eligibility.",
     }
     write_json(out / "manifest.json", manifest)
+    total_input_tokens = sum(metric.input_tokens for metric in map_stage_metrics) + reduce_stage_metric.input_tokens
+    total_output_tokens = sum(metric.output_tokens for metric in map_stage_metrics) + reduce_stage_metric.output_tokens
+    total_cost_usd = round(sum(metric.cost_usd for metric in map_stage_metrics) + reduce_stage_metric.cost_usd, 6)
+    analysis_duration = round(time.monotonic() - analysis_started, 3)
+    observability_path = DEFAULT_OBSERVABILITY_DIR / f"{week}-map-reduce.json"
+    emit_ledger(
+        ObservabilityLedger(
+            schema_version=METRICS_SCHEMA_VERSION,
+            run_id=args.run_id,
+            week=week,
+            timestamp=args.current_datetime,
+            crawl_metrics=[],
+            analysis_metrics=AnalysisMetrics(
+                duration_seconds=analysis_duration,
+                token_ledger={
+                    "input_tokens": total_input_tokens,
+                    "output_tokens": total_output_tokens,
+                    "total_tokens": total_input_tokens + total_output_tokens,
+                    "cost_usd": total_cost_usd,
+                },
+                map_stages=map_stage_metrics,
+                reduce_stage=reduce_stage_metric,
+            ),
+            environment={
+                "pipeline": "map-reduce-dry-run",
+                "analysis_source": args.analysis_source,
+                "analysis_model": args.analysis_model,
+                "output_dir": out.as_posix(),
+                "qa_status": qa.get("status"),
+                "publish_eligible": qa.get("publish_eligible"),
+                "pass_fail_counts": {
+                    "map_pass": sum(1 for metric in map_stage_metrics if metric.status == "pass"),
+                    "map_fail": sum(1 for metric in map_stage_metrics if metric.status == "fail"),
+                    "reduce_pass": 1 if reduce_stage_metric.status == "pass" else 0,
+                    "reduce_fail": 1 if reduce_stage_metric.status == "fail" else 0,
+                },
+                "gate_failure_reasons": reduce_failure_reasons,
+                "artifacts": {
+                    "manifest": (out / "manifest.json").as_posix(),
+                    "candidate": candidate_path.as_posix(),
+                    "qa_report": (out / "qa-comparison-report.json").as_posix(),
+                },
+            },
+        ),
+        observability_path,
+    )
     return {
         "manifest": out / "manifest.json",
         "qa_report": out / "qa-comparison-report.json",
         "candidate": candidate_path,
+        "observability": observability_path,
     }
 
 
