@@ -3,7 +3,7 @@ locale = 'en-us'
 title = 'Claracle — Weekly Tech Trends from GitHub'
 theme = 'PaperMod'
 enableRobotsTXT = true
-rssLimit = 20
+rssLimit = 52
 
 [pagination]
   pagerSize = 10
