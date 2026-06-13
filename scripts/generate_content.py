@@ -8,6 +8,7 @@ from pathlib import Path
 
 import yaml
 
+from scripts.sanitize_repo_content import INJECTION_PHRASES
 from scripts.topic_paths import analyzed_dir
 
 FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---\n(.*)\Z", re.DOTALL)
@@ -36,15 +37,7 @@ _FIELD_MAX_LENGTHS: dict[str, int] = {
     "top_repo": 200,
 }
 
-_INJECTION_PHRASES = (
-    "ignore previous",
-    "ignore all previous",
-    "ignore the above",
-    "you are now",
-    "system:",
-    "<untrusted-content>",
-    "</untrusted-content>",
-)
+_INJECTION_PHRASES = INJECTION_PHRASES
 
 
 class GenerationError(ValueError):

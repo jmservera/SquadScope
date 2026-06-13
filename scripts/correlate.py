@@ -21,6 +21,7 @@ from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Any
 
+from scripts.sanitize_repo_content import sanitize_text
 from scripts.topic_paths import analyzed_dir, raw_dir
 
 MAX_ARTICLES_FOR_CORRELATION = 80
@@ -28,6 +29,12 @@ MAX_CORRELATIONS = 50
 MAX_MATCHED_ARTICLES_PER_REPO = 5
 MAX_DIVERGENCE_ARTICLES = 30
 WEAK_MATCH_TYPES = {"category", "project_name"}
+
+# Length caps for sanitized correlation output fields
+_CITATION_TITLE_MAX = 200
+_CITATION_URL_MAX = 300
+_CITATION_SOURCE_MAX = 100
+_REPO_NAME_MAX = 200
 
 
 def log(message: str) -> None:
@@ -195,12 +202,27 @@ def dedupe_articles(articles: list[dict[str, Any]]) -> tuple[list[dict[str, Any]
 
 
 def _article_citation(article: dict[str, Any]) -> dict[str, Any]:
-    """Return the bounded citation fields downstream renderers are allowed to use."""
+    """Return bounded, sanitized citation fields for downstream renderers."""
     return {
-        "title": article.get("title", ""),
-        "url": article.get("url", ""),
-        "source": article.get("source", "unknown"),
-        "sources": article.get("sources", [article.get("source", "unknown")]),
+        "title": sanitize_text(
+            article.get("title", ""),
+            max_length=_CITATION_TITLE_MAX,
+            label="article title",
+        ),
+        "url": sanitize_text(
+            article.get("url", ""),
+            max_length=_CITATION_URL_MAX,
+            label="article url",
+        ),
+        "source": sanitize_text(
+            article.get("source", "unknown"),
+            max_length=_CITATION_SOURCE_MAX,
+            label="article source",
+        ),
+        "sources": [
+            sanitize_text(s, max_length=_CITATION_SOURCE_MAX, label="article source")
+            for s in article.get("sources", [article.get("source", "unknown")])
+        ],
         "published_at": article.get("published_at", ""),
         "relevance_score": article.get("relevance_score", 0),
     }
@@ -327,8 +349,16 @@ def correlate_repo(repo: dict[str, Any], articles: list[dict[str, Any]]) -> dict
         temporal_spike=temporal_spike,
     )
 
+    raw_repo_key = repo.get("full_name") or f"{repo.get('owner')}/{repo.get('name')}"
+    repo_name = sanitize_text(
+        raw_repo_key,
+        max_length=_REPO_NAME_MAX,
+        label="correlation repo name",
+    )
+
     return {
-        "repo": repo.get("full_name") or f"{repo.get('owner')}/{repo.get('name')}",
+        "repo": repo_name,
+        "repo_key": raw_repo_key,
         "press_correlated": press_correlated,
         "correlation_confidence": round(best_confidence, 2),
         "matched_articles": matched_articles,
@@ -412,7 +442,7 @@ def detect_divergences(
     ]
 
     # Find repos that had no correlation match
-    correlated_repo_names: set[str] = {c.get("repo", "") for c in correlations}
+    correlated_repo_names: set[str] = {c.get("repo_key", c.get("repo", "")) for c in correlations}
     unmatched_repos = [
         r for r in repos
         if (r.get("full_name") or f"{r.get('owner')}/{r.get('name')}") not in correlated_repo_names
