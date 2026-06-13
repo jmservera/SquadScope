@@ -36,18 +36,22 @@
 {{- end }}
 
 {{- $ogImage := "" -}}
+{{- $ogWidth := 0 -}}
+{{- $ogHeight := 0 -}}
 {{- if and .Params.og_image (not (hasPrefix .Params.og_image "http://")) (not (hasPrefix .Params.og_image "https://")) (not (hasPrefix .Params.og_image "//")) -}}
   {{- with resources.Get .Params.og_image -}}
-    {{- $resized := .Fill "1200x630 webp q82" -}}
+    {{- $resized := .Fill "1200x630 jpg q85" -}}
     {{- $ogImage = $resized.Permalink -}}
+    {{- $ogWidth = $resized.Width -}}
+    {{- $ogHeight = $resized.Height -}}
   {{- end -}}
 {{- end -}}
 {{- $coverImage := .Params.cover.image -}}
 {{- $coverImageIsLocal := and $coverImage (not (hasPrefix $coverImage "http://")) (not (hasPrefix $coverImage "https://")) (not (hasPrefix $coverImage "//")) -}}
 {{- if $ogImage -}}
   <meta property="og:image" content="{{ $ogImage }}">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="{{ $ogWidth }}">
+  <meta property="og:image:height" content="{{ $ogHeight }}">
 {{- else if $coverImageIsLocal -}}
   {{- if (ne .Params.cover.relative true) }}
     <meta property="og:image" content="{{ $coverImage | absURL }}">
