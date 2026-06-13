@@ -45,7 +45,7 @@ Claracle's audience spans three overlapping personas:
 - **Signal vs. noise:** credible distinction between hype and substance
 - **Editorial voice:** opinionated takes, not robotic summaries
 - **Actionable context:** Why this week matters; what to watch next
-- **No selling:** SquadScope is analysis, not promotion of any product or company
+- **No selling:** Claracle is analysis, not promotion of any product or company
 
 ---
 
@@ -123,13 +123,13 @@ P.S. This is my first launch here. Let me know if I should adjust anything.
 
 **Post 1:**
 ```
-🧵 New: SquadScope, a weekly digest of what's *actually* trending on GitHub.
+🧵 New: Claracle, a weekly digest of what's *actually* trending on GitHub.
 
 The problem: GitHub's trending list is 40% star-farm spam (game unlockers, ROM 
 emulators, NFT tools). TechCrunch covers AI funding; developers building actual 
 infrastructure are invisible.
 
-SquadScope is an automated crawler + AI analysis pipeline that publishes curated 
+Claracle is an automated crawler + AI analysis pipeline that publishes curated 
 trend reports every Monday.
 ```
 
@@ -178,14 +178,14 @@ Feedback welcome. Boosts + follows appreciated.
 
 **Setup:** In dev.to post editor:
 - **Canonical URL:** `https://www.claracle.com/`
-- **Series:** "SquadScope Weekly" (so all posts thread together)
+- **Series:** "Claracle Weekly" (so all posts thread together)
 - **Tags:** `github` `trends` `opensource` `analysis`
 
 **Draft post heading + intro:**
 ```markdown
-# SquadScope: Weekly Curated GitHub Trends (W22 – Supply-Chain Scanners & Agent Skills)
+# Claracle: Weekly Curated GitHub Trends (W22 – Supply-Chain Scanners & Agent Skills)
 
-Every Monday, SquadScope publishes an automated analysis of the week's most important 
+Every Monday, Claracle publishes an automated analysis of the week's most important 
 new GitHub repositories, separated into signal and noise, with correlation to industry press.
 
 This is the dev.to crosspost; the canonical article lives here: https://www.claracle.com/
@@ -229,7 +229,7 @@ GitHub is experiencing metric inflation via coordinated star farming"
 
 **Step 2: Draft HN post** (5 min)
 - Title: `Show HN: Claracle – [hook here]`
-- Text: ~200 words covering: problem, what SquadScope does, this week's themes, RSS link
+- Text: ~200 words covering: problem, what Claracle does, this week's themes, RSS link
 - Save as `.squad/posts/2026-W22-hn.txt`
 
 **Step 3: Thread for Mastodon** (5 min)
@@ -240,7 +240,7 @@ GitHub is experiencing metric inflation via coordinated star farming"
 - Save as `.squad/posts/2026-W22-mastodon.md`
 
 **Step 4: Quick Reddit/r/programming post** (5 min)
-- Title: Link to SquadScope headline
+- Title: Link to Claracle headline
 - Body: ~100 words, ask a question or flag a pattern
 - Example: "This week we saw coordinated star-farming at a new scale. How is your org filtering signal from noise on GitHub trending?"
 - Save as `.squad/posts/2026-W22-reddit.txt`
@@ -278,7 +278,7 @@ GitHub is experiencing metric inflation via coordinated star farming"
 1. **Missing `og:image` fallback for homepage**
    - Current: Only uses `cover.image` if present; no fallback for articles without cover images
    - Impact: Social shares show no image, reducing CTR by 40-60%
-   - **Fix:** Generate a default SquadScope OG image (e.g., SquadScope logo + week number) and reference it in `opengraph.html` as a fallback
+   - **Fix:** Generate a default Claracle OG image (e.g., Claracle logo + week number) and reference it in `opengraph.html` as a fallback
 
 2. **Missing `og:image:alt` tag**
    - Current: No alt text for OG images
@@ -303,7 +303,7 @@ GitHub is experiencing metric inflation via coordinated star farming"
 6. **No `article:author` tag**
    - Current: Schema.org has author; OpenGraph does not
    - Impact: Inconsistent social metadata
-   - **Fix:** Add `<meta property="article:author" content="SquadScope">` in `opengraph.html` (line 30-35 area)
+   - **Fix:** Add `<meta property="article:author" content="Claracle">` in `opengraph.html` (line 30-35 area)
 
 7. **Missing image width/height in OG tags**
    - Current: `og:image` has no dimensions
@@ -333,7 +333,7 @@ GitHub is experiencing metric inflation via coordinated star farming"
 
 {{- /* article:author tag */}}
 {{- if .IsPage }}
-  <meta property="article:author" content="{{ with .Params.author | default site.Params.author }}{{ . }}{{ else }}SquadScope{{ end }}">
+  <meta property="article:author" content="{{ with .Params.author | default site.Params.author }}{{ . }}{{ else }}Claracle{{ end }}">
 {{- end }}
 ```
 
@@ -363,7 +363,7 @@ params:
     twitter: "jmservera"
     twitter_creator: "jmservera"
   # Add a default OG image for homepage/fallback
-  og_image: "images/squadscope-og-default.png"  # 1200x630px
+  og_image: "images/claracle-og-default.png"  # 1200x630px
 ```
 
 ### Follow-up Issue: SEO Metadata Audit Fixes
@@ -430,7 +430,7 @@ Before GA4, log weekly:
 
 **Rationale:**
 - **Simple:** Free tier supports up to 1,000 subscribers with unlimited emails
-- **Markdown-first:** Write newsletters in Markdown, same workflow as SquadScope content
+- **Markdown-first:** Write newsletters in Markdown, same workflow as Claracle content
 - **GitHub integration:** Supports RSS-to-email (auto-send when new article publishes)
 - **Minimal friction:** No fancy template builder; focus on content
 - **Privacy-respecting:** No cross-platform ad tracking; user data stays minimal
@@ -441,8 +441,8 @@ Before GA4, log weekly:
 2. Configure RSS-to-email trigger pointing to `https://www.claracle.com/index.xml`
 3. Set delivery: Monday 9 AM UTC (1.5 hours after article publish)
 4. Template: Auto-generated from RSS feed (title + excerpt + link)
-5. Custom intro: "New SquadScope analysis just dropped. Here's this week's trends:" + RSS excerpt
-6. Subscribe CTA: Add signup link to SquadScope homepage footer
+5. Custom intro: "New Claracle analysis just dropped. Here's this week's trends:" + RSS excerpt
+6. Subscribe CTA: Add signup link to Claracle homepage footer
 
 **Alternative considered:** ConvertKit
 - Pros: More sophisticated automation, good for building audience long-term
@@ -481,7 +481,7 @@ Before GA4, log weekly:
 
 6. **Never include affiliate links or sponsorship plugs**
    - Breaks trust with audience; platform ToS violations
-   - SquadScope is pure editorial; no monetization angle
+   - Claracle is pure editorial; no monetization angle
 
 7. **Avoid vanity metrics**
    - Don't optimize for star-count or comment volume; optimize for *signal* (do comments show genuine interest?)
@@ -497,7 +497,7 @@ Before GA4, log weekly:
    - Trend report titles should be neutral + specific: "Supply-Chain Scanners, Skills Economies, and GitHub's Star-Farm Flood" ✓ "You Won't BELIEVE What GitHub Trends Show This Week" ✗
 
 10. **Avoid inconsistent voice**
-    - SquadScope's editorial voice is analytical, slightly opinionated, always evidence-based
+    - Claracle's editorial voice is analytical, slightly opinionated, always evidence-based
     - Social posts should reflect this tone; don't turn cheerful for Twitter or corporate for LinkedIn
     - Consistency > optimization
 
@@ -507,7 +507,7 @@ Before GA4, log weekly:
 
 - [ ] Distribution strategy document approved and merged (`squad/184-distribution-strategy`)
 - [ ] SEO metadata audit issues created (routes to squad:amy)
-- [ ] Default OG image created (1200×630, SquadScope branding)
+- [ ] Default OG image created (1200×630, Claracle branding)
 - [ ] Buttondown account set up + RSS configured
 - [ ] First launch posts drafted in `.squad/posts/2026-W22-*`
 - [ ] GA4 foundation in place (blocks on #182, #183)
@@ -554,4 +554,4 @@ Before GA4, log weekly:
 4. **Month 3+ (scale):**
    - Evaluate whether newsletter should move off Buttondown (if >1K subscribers)
    - Explore paid distribution options (if metrics justify)
-   - Build SquadScope brand presence on all key platforms
+   - Build Claracle brand presence on all key platforms

@@ -115,7 +115,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
 
 - [ ] **Manual stage execution (debug only)**
   - [ ] Crawl: `python3 scripts/crawl.py --as-of 2026-05-18`
-  - [ ] Analyze (fallback): `python3 scripts/analyze_fallback.py --raw-json data/raw/YYYY-WNN.json --output ./scratch-analysis.md --current-datetime 2026-05-18T16:00:00Z`
+  - [ ] Analyze (local debug only — not a production fallback): `python3 scripts/analyze_fallback.py --raw-json data/raw/YYYY-WNN.json --output ./scratch-analysis.md --current-datetime 2026-05-18T16:00:00Z`
   - [ ] Gate: `python3 scripts/analysis_gate.py --analysis-file data/analyzed/YYYY-WNN-summary.md --raw-json data/raw/YYYY-WNN.json --current-datetime 2026-05-18T16:00:00Z`
   - [ ] Generate: `python3 scripts/generate_content.py data/analyzed/YYYY-WNN-summary.md`
   - [ ] Build search assets after Hugo: `npx pagefind --site public/`
