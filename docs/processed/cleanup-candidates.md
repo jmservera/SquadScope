@@ -1,6 +1,9 @@
-# Cleanup Candidates
+# Cleanup Candidates (Archived 2026-06-13)
 
-This is a conservative cleanup pass focused on `scripts/`, `docs/`, `data/`, and tracked root-level files. I checked script references against workflows and repository docs; items below are candidates, not automatic deletions.
+> **Status:** All actionable items resolved. Archived to `docs/processed/`.
+> Scripts archived via PR #461; legacy data files removed; branding updated via PR #450/#374; `budget_alerts.py` wired into CI via PR #455; rollout-checklist corrected.
+
+This was a conservative cleanup pass focused on `scripts/`, `docs/`, `data/`, and tracked root-level files.
 
 ## Findings
 
