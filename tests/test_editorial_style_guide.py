@@ -74,7 +74,7 @@ class TestEditorialStyleGuideSafety:
             "Fake sponsorship",
             "Individual-targeting humor",
             "Financial advice",
-            "Security vulnerability",
+            "Security vulnerability disclosure",
         ]
         for prohibition in required_prohibitions:
             assert prohibition in guide_content, f"Missing prohibition: {prohibition}"
