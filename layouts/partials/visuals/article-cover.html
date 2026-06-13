@@ -40,8 +40,14 @@
     {{- $alt := ($page.Params.cover.alt | default $page.Title | plainify) -}}
     {{- $attribution := $page.Params.cover.attribution -}}
     <figure class="article-cover article-cover--image">
-      {{- $sized := $img.Resize "1200x webp q82" -}}
-      <img class="article-cover__img" src="{{ $sized.RelPermalink }}" width="{{ $sized.Width }}" height="{{ $sized.Height }}" loading="eager" decoding="async" alt="{{ $alt }}">
+      {{- $card := $img.Fill "800x400 webp q82" -}}
+      {{- $card2x := $img.Fill "1600x800 webp q82" -}}
+      <img class="article-cover__img"
+           src="{{ $card.RelPermalink }}"
+           srcset="{{ $card.RelPermalink }} 800w, {{ $card2x.RelPermalink }} 1600w"
+           sizes="(min-width: 768px) 800px, 100vw"
+           width="{{ $card.Width }}" height="{{ $card.Height }}"
+           loading="eager" decoding="async" alt="{{ $alt }}">
       {{- /* Render attribution as a safe inline subset (#329): allow simple
              emphasis/links from Markdown, but strip any <img> the markdown
              image syntax would emit so hotlinked imagery cannot appear here. */ -}}
