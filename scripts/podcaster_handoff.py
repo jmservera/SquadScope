@@ -16,6 +16,8 @@ DEFAULT_TIMEOUT_SECONDS = 180
 DEFAULT_PODCAST_CONFIG_PATH = Path(__file__).resolve().parent.parent / "config" / "podcast.json"
 REPO_ROOT = Path(__file__).resolve().parent.parent
 MAX_ARTICLE_CONTENT_CHARS = 50_000
+MAX_SPOTIFY_TITLE_CHARS = 200
+MAX_SPOTIFY_DESCRIPTION_CHARS = 4_000
 
 
 class PodcasterHandoffError(RuntimeError):
@@ -145,11 +147,80 @@ def _extract_title(content: str) -> str | None:
     return None
 
 
-def _read_article_content(article_path: str, repo_root: Path = REPO_ROOT) -> tuple[str | None, str | None]:
+def _extract_frontmatter_field(content: str, field_name: str) -> str | None:
+    if not content.startswith("---"):
+        return None
+    end = content.find("\n---", 3)
+    if end == -1:
+        return None
+    frontmatter = content[3:end]
+    match = re.search(rf"^{re.escape(field_name)}:\s*(.+)$", frontmatter, re.MULTILINE)
+    if not match:
+        return None
+    value = match.group(1).strip().strip("\"'")
+    return value or None
+
+
+def _render_template_value(value: Any, context: dict[str, Any]) -> Any:
+    if isinstance(value, dict):
+        return {key: _render_template_value(item, context) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_render_template_value(item, context) for item in value]
+    if not isinstance(value, str):
+        return value
+    exact_match = re.fullmatch(r"\{([a-zA-Z_][a-zA-Z0-9_]*)\}", value)
+    if exact_match:
+        key = exact_match.group(1)
+        if key in context:
+            return context[key]
+    try:
+        return value.format(**context)
+    except KeyError as exc:
+        missing = exc.args[0]
+        raise PodcasterHandoffError(f"spotify_publish template references unknown field: {missing}") from exc
+    except (ValueError, IndexError) as exc:
+        raise PodcasterHandoffError(f"spotify_publish template has invalid format syntax: {value!r}") from exc
+
+
+def _truncate_text(value: str, limit: int) -> str:
+    return value[:limit]
+
+
+def _resolve_spotify_publish(config: dict[str, Any], *, week: str, article_title: str | None, article_summary: str | None) -> dict[str, Any]:
+    """Render spotify_publish templates into concrete values for the Podcaster API.
+
+    Design: SquadScope resolves templates (title_template, description_template)
+    into final strings before sending. Podcaster receives ready-to-use metadata,
+    not raw templates — this keeps rendering logic in the source-of-truth repo.
+    """
+    match = re.fullmatch(r"(?P<year>\d{4})-W(?P<week>\d{1,2})", week)
+    if not match:
+        raise PodcasterHandoffError(f"Week must use YYYY-WNN format for spotify_publish templating: {week}")
+    context: dict[str, Any] = {
+        "year": int(match.group("year")),
+        "week": int(match.group("week")),
+        "article_title": article_title or "",
+        "article_summary": article_summary or "",
+    }
+    resolved = _render_template_value(config, context)
+    title = resolved.pop("title_template", None)
+    if isinstance(title, str):
+        resolved["title"] = _truncate_text(title, MAX_SPOTIFY_TITLE_CHARS)
+    elif title is not None:
+        resolved["title"] = title
+    description = resolved.pop("description_template", None)
+    if isinstance(description, str):
+        resolved["description"] = _truncate_text(description, MAX_SPOTIFY_DESCRIPTION_CHARS)
+    elif description is not None:
+        resolved["description"] = description
+    return resolved
+
+
+def _read_article_content(article_path: str, repo_root: Path = REPO_ROOT) -> tuple[str | None, str | None, str | None]:
     """Read article file content and extract title.
 
-    Returns (content, title). Content is truncated to MAX_ARTICLE_CONTENT_CHARS.
-    Returns (None, None) if the file does not exist.
+    Returns (content, title, summary). Content is truncated to MAX_ARTICLE_CONTENT_CHARS.
+    Returns (None, None, None) if the file does not exist.
     Raises PodcasterHandoffError if the file exists but cannot be read, or if
     the resolved path escapes the repo root (path traversal prevention).
     """
@@ -162,7 +233,7 @@ def _read_article_content(article_path: str, repo_root: Path = REPO_ROOT) -> tup
             f"article_path resolves outside the repository root: {article_path}"
         )
     if not resolved.exists():
-        return None, None
+        return None, None, None
     try:
         content = resolved.read_text(encoding="utf-8")
     except OSError as exc:
@@ -170,11 +241,12 @@ def _read_article_content(article_path: str, repo_root: Path = REPO_ROOT) -> tup
             f"Article file exists but could not be read: {resolved} ({exc})"
         )
     if not content.strip():
-        return None, None
-    title = _extract_title(content)
+        return None, None, None
+    title = _extract_frontmatter_field(content, "title") or _extract_title(content)
+    summary = _extract_frontmatter_field(content, "summary")
     if len(content) > MAX_ARTICLE_CONTENT_CHARS:
         content = content[:MAX_ARTICLE_CONTENT_CHARS]
-    return content, title
+    return content, title, summary
 
 
 def _manifest_allows_handoff(manifest: dict[str, Any], *, week: str, publish_mode: str) -> bool:
@@ -220,11 +292,13 @@ def build_payload(
 
     # Read article content and extract title
     root = repo_root if repo_root is not None else REPO_ROOT
-    content, title = _read_article_content(normalized_path, repo_root=root)
+    content, title, summary = _read_article_content(normalized_path, repo_root=root)
     if content:
         payload["article_content"] = content
     if title:
         payload["article_title"] = title
+    if summary:
+        payload["article_summary"] = summary
     article_sha = (
         manifest.get("candidate", {}).get("summary_sha256")
         if isinstance(manifest.get("candidate"), dict)
@@ -247,6 +321,16 @@ def build_payload(
         if not isinstance(val, dict):
             raise PodcasterHandoffError("script_directions must be a JSON object")
         payload["script_directions"] = val
+    if "spotify_publish" in podcast_cfg:
+        val = podcast_cfg["spotify_publish"]
+        if not isinstance(val, dict):
+            raise PodcasterHandoffError("spotify_publish must be a JSON object")
+        payload["spotify_publish"] = _resolve_spotify_publish(
+            val,
+            week=week,
+            article_title=title,
+            article_summary=summary,
+        )
 
     if podcaster_dry_run:
         payload["dry_run"] = True
