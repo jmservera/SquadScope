@@ -3196,3 +3196,32 @@ Do not use a normal `crawl-and-publish.yml` dispatch as the first Podcaster dry-
 
 Local mocks validate the SquadScope handoff client and redaction behavior, but local live validation is blocked because the Podcaster secret is only available in Actions. The existing `crawl-and-publish.yml` dry-run and candidate-only modes explicitly skip `podcaster-handoff`, while normal/force-replace modes can touch production content.
 
+### 2026-06-10T10:27:49.647+00:00: Tick / Checklist
+**By:** squadscope (automated)
+**What:**
+- Confirm and document the Podcaster HTTP API contract (request fields plus the response schema, e.g. the proposed Podcaster-side `job_id`, `status`, and `errors` fields) once Podcaster attaches it
+- Confirm the authentication header name and the canonical secret name used to store the Podcaster API key (Podcaster-side proposal: `PODCASTER_API_KEY`)
+- Document accepted status values and retry semantics for non-2xx responses
+- Confirm and document the canonical publish manifest field names (e.g. reconcile freshness status and artifact URL fields; proposed Podcaster-side names `freshness_status` vs `freshness`, `artifact_url` vs `url`)
+- Provide example request/response JSON and canonical endpoint URL(s)
+- Confirm dry-run semantics and non-blocking handoff behavior
+
+**Next steps:**
+1. Author or attach a concise API contract doc (e.g. `docs/integration-contract.md`) with request/response schemas and examples; treat the field names above as Podcaster-side proposals until the contract is attached.
+2. Update pipeline docs to reference the API contract and confirm/document the canonical Actions secret names (Podcaster-side proposal: `PODCASTER_ENDPOINT`, `PODCASTER_API_KEY`).
+3. Add integration smoke test instructions and an operator checklist for manual runs.
+
+### 2026-06-10T10:27:49.647+00:00: Tick / Checklist
+**By:** squadscope (automated)
+**What:**
+- Listed open PRs and inspected PR #314
+- Ran full test suite on main (696 passed)
+- Checked out PR #314 and ran its tests (9 passed)
+- Created Podcaster submission checklist and opened PR #363
+- Verified ralph loop activity via ralph_squadscope.log
+
+**Next steps:**
+1. Monitor PR #314 review threads and surface unresolved threads.
+2. Request API contract doc from Podcaster (if missing) and attach to checklist PR.
+3. Run periodic ticks every 20 minutes and append summary.
+
