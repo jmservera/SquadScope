@@ -178,6 +178,8 @@ def _render_template_value(value: Any, context: dict[str, Any]) -> Any:
     except KeyError as exc:
         missing = exc.args[0]
         raise PodcasterHandoffError(f"spotify_publish template references unknown field: {missing}") from exc
+    except (ValueError, IndexError) as exc:
+        raise PodcasterHandoffError(f"spotify_publish template has invalid format syntax: {value!r}") from exc
 
 
 def _truncate_text(value: str, limit: int) -> str:
@@ -185,6 +187,12 @@ def _truncate_text(value: str, limit: int) -> str:
 
 
 def _resolve_spotify_publish(config: dict[str, Any], *, week: str, article_title: str | None, article_summary: str | None) -> dict[str, Any]:
+    """Render spotify_publish templates into concrete values for the Podcaster API.
+
+    Design: SquadScope resolves templates (title_template, description_template)
+    into final strings before sending. Podcaster receives ready-to-use metadata,
+    not raw templates — this keeps rendering logic in the source-of-truth repo.
+    """
     match = re.fullmatch(r"(?P<year>\d{4})-W(?P<week>\d{1,2})", week)
     if not match:
         raise PodcasterHandoffError(f"Week must use YYYY-WNN format for spotify_publish templating: {week}")

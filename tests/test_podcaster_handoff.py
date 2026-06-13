@@ -392,6 +392,12 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertEqual(len(payload["spotify_publish"]["description"]), 4000)
         self.assertTrue(payload["spotify_publish"]["description"].startswith("<p>"))
 
+    def test_render_template_value_raises_on_malformed_format_string(self) -> None:
+        context = {"year": 2026, "week": 24}
+        with self.assertRaises(podcaster_handoff.PodcasterHandoffError) as cm:
+            podcaster_handoff._render_template_value("{year}-W{week}: {unclosed", context)
+        self.assertIn("invalid format syntax", str(cm.exception))
+
     def test_build_payload_extracts_title_from_heading_when_no_frontmatter(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             base = Path(tmpdir)
