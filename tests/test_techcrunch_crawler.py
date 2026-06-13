@@ -3,12 +3,15 @@
 from __future__ import annotations
 
 import json
+import tempfile
 from datetime import UTC, datetime, timedelta
+from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
 import pytest
 
+import scripts.techcrunch_crawler as techcrunch_crawler
 from scripts.techcrunch_crawler import (
     DEFAULT_SOURCES_PATH,
     DEFAULT_FETCH_TIMEOUT_SECONDS,
@@ -805,3 +808,89 @@ class TestSameDaySourceReuse:
         assert count_once == count_twice == 1
         assert deduped_once == deduped_twice
         assert deduped_once[0]["sources"] == ["alpha", "beta"]
+
+
+def test_main_emits_observability_ledger() -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        base = Path(tmpdir)
+        sources_path = base / "sources.json"
+        output_path = base / "2026-W21-external-news.json"
+        sources_path.write_text(
+            json.dumps(
+                [
+                    {"name": "alpha", "feed_url": "https://techcrunch.com/feed/"},
+                    {"name": "beta", "feed_url": "https://github.blog/feed/"}
+                ]
+            ),
+            encoding="utf-8",
+        )
+        statuses = [
+            {
+                "source": "alpha",
+                "host": "techcrunch.com",
+                "success": True,
+                "attempts": 1,
+                "timeout_seconds": 15,
+                "total_articles": 1,
+                "relevant_articles": 1,
+                "github_links_found": 1,
+                "started_at": "2026-05-19T08:00:00Z",
+                "ended_at": "2026-05-19T08:00:01Z",
+                "duration_seconds": 1.0,
+                "error_class": "",
+                "error_message": "",
+            },
+            {
+                "source": "beta",
+                "host": "github.blog",
+                "success": True,
+                "attempts": 2,
+                "timeout_seconds": 15,
+                "total_articles": 1,
+                "relevant_articles": 1,
+                "github_links_found": 0,
+                "started_at": "2026-05-19T08:00:00Z",
+                "ended_at": "2026-05-19T08:00:02Z",
+                "duration_seconds": 2.0,
+                "error_class": "",
+                "error_message": "",
+            },
+        ]
+        articles = [
+            {
+                "source": "alpha",
+                "title": "Alpha",
+                "url": "https://example.com/alpha",
+                "published_at": "2026-05-19T10:00:00Z",
+                "categories": ["AI"],
+                "summary": "alpha summary",
+                "github_links": ["https://github.com/octo/alpha"],
+                "entities": ["Alpha"],
+                "relevance_score": 0.8,
+            }
+        ]
+        with patch.object(
+            techcrunch_crawler, "crawl_sources_parallel", return_value=(articles, [], statuses)
+        ), patch.object(techcrunch_crawler, "emit_ledger") as emit_mock, patch.object(
+            techcrunch_crawler, "print"
+        ):
+            rc = techcrunch_crawler.main(
+                [
+                    "--sources",
+                    sources_path.as_posix(),
+                    "--output",
+                    output_path.as_posix(),
+                    "--since",
+                    "2026-05-12",
+                    "--until",
+                    "2026-05-19",
+                ]
+            )
+
+    assert rc == 0
+    ledger = emit_mock.call_args.args[0]
+    assert ledger.schema_version == "observability_v1"
+    assert ledger.crawl_metrics[0].source_type == "external-news"
+    assert ledger.crawl_metrics[0].api_calls == 3
+    assert ledger.crawl_metrics[0].duration_p95_seconds == 2.0

@@ -5,6 +5,7 @@ import tempfile
 from pathlib import Path
 
 from scripts import map_reduce_dry_run as dry_run
+from scripts.observability_metrics import validate_ledger
 
 
 def make_repo(owner: str, name: str, stars: int, gained: int = 0) -> dict[str, object]:
@@ -85,6 +86,11 @@ def test_dry_run_emits_valid_contract_artifacts() -> None:
         assert qa["checks"]["structural_analysis_gate"]["passed"] is True
         assert qa["checks"]["evidence_and_editorial_gates"]["passed"] is True
         assert qa["checks"]["publish_provenance_gate"]["expected_failure"] is True
+        observability_path = dry_run.DEFAULT_OBSERVABILITY_DIR / "2026-W21-map-reduce.json"
+        observability = json.loads(observability_path.read_text(encoding="utf-8"))
+        assert validate_ledger(observability) == []
+        assert observability["analysis_metrics"]["reduce_stage"]["status"] == "pass"
+        assert observability["environment"]["pass_fail_counts"]["map_pass"] == 4
 
 
 def test_validate_map_rejects_citationless_findings() -> None:

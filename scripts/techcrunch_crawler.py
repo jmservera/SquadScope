@@ -30,6 +30,14 @@ from urllib.request import Request, urlopen
 
 import feedparser
 
+from scripts.observability_metrics import (
+    DEFAULT_OBSERVABILITY_DIR,
+    CrawlMetrics,
+    METRICS_SCHEMA_VERSION,
+    ObservabilityLedger,
+    duration_p95,
+    emit_ledger,
+)
 from scripts.topic_paths import raw_dir
 
 FEED_URL = "https://techcrunch.com/feed/"
@@ -969,6 +977,7 @@ def validate_canonical_output(output: dict[str, Any]) -> None:
 
 
 def main(argv: list[str] | None = None) -> int:
+    crawl_started = time.monotonic()
     parser = argparse.ArgumentParser(
         description="Crawl external news RSS feeds for SquadScope"
     )
@@ -1132,13 +1141,58 @@ def main(argv: list[str] | None = None) -> int:
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
 
+    total_duration_seconds = round(time.monotonic() - crawl_started, 3)
+    sampled_durations = [
+        float(status["duration_seconds"])
+        for status in statuses
+        if isinstance(status.get("duration_seconds"), (int, float))
+    ]
+    sampled_p95 = duration_p95(sampled_durations) if sampled_durations else total_duration_seconds
+    observability_path = DEFAULT_OBSERVABILITY_DIR / f"{output['week']}-external-news-crawl.json"
+    emit_ledger(
+        ObservabilityLedger(
+            schema_version=METRICS_SCHEMA_VERSION,
+            run_id=os.environ.get("GITHUB_RUN_ID", "local"),
+            week=output["week"],
+            timestamp=output["crawled_at"],
+            crawl_metrics=[
+                CrawlMetrics(
+                    duration_seconds=sampled_p95,
+                    duration_p95_seconds=sampled_p95,
+                    duration_sample_count=len(sampled_durations),
+                    api_calls=sum(int(status.get("attempts") or 0) for status in statuses),
+                    cache_hits=0,
+                    cache_misses=sum(int(status.get("attempts") or 0) for status in statuses),
+                    stale_cache_hits=0,
+                    rate_limit_events=0,
+                    secondary_rate_limit_hit=False,
+                    source_type="external-news",
+                )
+            ],
+            analysis_metrics=None,
+            environment={
+                "pipeline": "external-news-crawl",
+                "output_path": out_path.as_posix(),
+                "source_refresh_policy": source_refresh_policy,
+                "same_day_reuse_status": output["metadata"]["same_day_reuse"],
+                "sources_requested": list(output["metadata"]["sources_requested"]),
+                "sources_succeeded": list(output["metadata"]["sources_succeeded"]),
+                "sources_failed": list(output["metadata"]["sources_failed"]),
+                "errors": list(errors),
+                "total_run_duration_seconds": total_duration_seconds,
+            },
+        ),
+        observability_path,
+    )
+
     reused_count = sum(1 for item in output["metadata"]["source_reuse_summary"] if item["action"] == "reused")
     refreshed_count = sum(1 for item in output["metadata"]["source_reuse_summary"] if item["action"] != "reused")
     print(f"Crawled {output['metadata']['total_articles']} articles "
           f"from {output['metadata']['source_count']} sources "
           f"({output['metadata']['relevant_articles']} relevant, "
           f"{output['metadata']['dedupe_count']} deduped, "
-          f"{reused_count} reused, {refreshed_count} refreshed) → {out_path}")
+          f"{reused_count} reused, {refreshed_count} refreshed, p95={sampled_p95:.3f}s) "
+          f"→ {out_path} [observability={observability_path}]")
     return 0
 
 

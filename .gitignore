@@ -25,6 +25,7 @@ resources/_gen/
 .ralph/
 ralph_squadscope.log
 squadscope-agent-result.json
+data/metrics/observability/
 
 # Local copilot skills (machine-specific)
 .copilot/

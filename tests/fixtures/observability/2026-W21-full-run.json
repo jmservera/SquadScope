@@ -1,0 +1,111 @@
+{
+  "schema_version": "observability_v1",
+  "run_id": "356-demo",
+  "week": "2026-W21",
+  "timestamp": "2026-05-20T12:00:00Z",
+  "crawl_metrics": [
+    {
+      "api_calls": 27,
+      "cache_hits": 14,
+      "cache_misses": 27,
+      "duration_p95_seconds": 12.417,
+      "duration_sample_count": 1,
+      "duration_seconds": 12.417,
+      "rate_limit_events": 2,
+      "secondary_rate_limit_hit": false,
+      "source_type": "github",
+      "stale_cache_hits": 1
+    },
+    {
+      "api_calls": 5,
+      "cache_hits": 0,
+      "cache_misses": 5,
+      "duration_p95_seconds": 1.842,
+      "duration_sample_count": 4,
+      "duration_seconds": 1.842,
+      "rate_limit_events": 0,
+      "secondary_rate_limit_hit": false,
+      "source_type": "external-news",
+      "stale_cache_hits": 0
+    }
+  ],
+  "analysis_metrics": {
+    "duration_seconds": 3.281,
+    "map_stages": [
+      {
+        "cost_usd": 0.0,
+        "duration_seconds": 0.421,
+        "gate_failure_reasons": [],
+        "input_tokens": 820,
+        "output_tokens": 260,
+        "stage": "new_repos",
+        "status": "pass"
+      },
+      {
+        "cost_usd": 0.0,
+        "duration_seconds": 0.397,
+        "gate_failure_reasons": [],
+        "input_tokens": 790,
+        "output_tokens": 248,
+        "stage": "trending_repos",
+        "status": "pass"
+      },
+      {
+        "cost_usd": 0.0,
+        "duration_seconds": 0.205,
+        "gate_failure_reasons": [],
+        "input_tokens": 180,
+        "output_tokens": 88,
+        "stage": "press_correlations",
+        "status": "pass"
+      },
+      {
+        "cost_usd": 0.0,
+        "duration_seconds": 0.188,
+        "gate_failure_reasons": [],
+        "input_tokens": 95,
+        "output_tokens": 61,
+        "stage": "prior_continuity",
+        "status": "pass"
+      }
+    ],
+    "reduce_stage": {
+      "cost_usd": 0.0,
+      "duration_seconds": 0.994,
+      "gate_failure_reasons": [
+        "AI provenance metadata missing"
+      ],
+      "input_tokens": 657,
+      "output_tokens": 512,
+      "stage": "reduce",
+      "status": "fail"
+    },
+    "token_ledger": {
+      "cost_usd": 0.0,
+      "input_tokens": 2542,
+      "output_tokens": 1169,
+      "total_tokens": 3711
+    }
+  },
+  "environment": {
+    "analysis_model": "local-deterministic",
+    "analysis_source": "map-reduce-dry-run",
+    "artifacts": {
+      "candidate": "data/candidates/2026-W21/local/2026-W21-map-reduce-candidate.md",
+      "manifest": "data/candidates/2026-W21/local/manifest.json",
+      "qa_report": "data/candidates/2026-W21/local/qa-comparison-report.json"
+    },
+    "gate_failure_reasons": [
+      "AI provenance metadata missing"
+    ],
+    "pass_fail_counts": {
+      "map_fail": 0,
+      "map_pass": 4,
+      "reduce_fail": 1,
+      "reduce_pass": 0
+    },
+    "pipeline": "full-run-demo",
+    "publish_eligible": false,
+    "qa_status": "failed"
+  }
+}

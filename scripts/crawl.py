@@ -18,6 +18,13 @@ from pathlib import Path
 from typing import Any, Iterable
 from urllib import error, parse, request
 
+from scripts.observability_metrics import (
+    DEFAULT_OBSERVABILITY_DIR,
+    CrawlMetrics,
+    METRICS_SCHEMA_VERSION,
+    ObservabilityLedger,
+    emit_ledger,
+)
 from scripts.topic_paths import cache_dir, raw_dir, snapshots_dir
 
 API_ROOT = "https://api.github.com"
@@ -156,7 +163,10 @@ class GitHubClient:
         self.max_retries = max_retries
         self.api_calls_used = 0
         self.cache_hits = 0
+        self.cache_misses = 0
         self.stale_cache_hits = 0
+        self.rate_limit_events = 0
+        self.secondary_rate_limit_hit = False
         self.rate_limit_limit: int | None = None
         self.rate_limit_remaining: int | None = None
         self.rate_limit_reset: int | None = None
@@ -213,6 +223,7 @@ class GitHubClient:
             self.cache_hits += 1
             return cached
 
+        self.cache_misses += 1
         stale_fallback = None
         if cached and allow_stale and (cached.status == 200 or cached.status in accepted):
             stale_fallback = CacheEntry(
@@ -251,6 +262,11 @@ class GitHubClient:
                 headers = {name: value for name, value in (exc.headers.items() if exc.headers else [])}
                 self._update_rate_limit(headers)
                 body = exc.read().decode("utf-8", errors="replace")
+                lowered_body = body.lower()
+                if exc.code in {403, 429} or "rate limit" in lowered_body or "abuse" in lowered_body:
+                    self.rate_limit_events += 1
+                if "secondary rate limit" in lowered_body or "abuse" in lowered_body:
+                    self.secondary_rate_limit_hit = True
                 self._last_request_at = time.monotonic()
                 payload = decode_json_body(body)
                 if exc.code in accepted:
@@ -394,6 +410,7 @@ class GitHubClient:
         if reset_delay is None:
             if self.rate_limit_remaining <= critical_threshold:
                 delay = 10.0 if self.rate_limit_remaining <= 0 else 3.0
+                self.rate_limit_events += 1
                 log(
                     f"Rate limit low ({self.rate_limit_remaining}/{self.rate_limit_limit} {self.rate_limit_resource or 'requests'}) "
                     f"without reset hint; cooling down {delay:.1f}s before {query}."
@@ -402,10 +419,12 @@ class GitHubClient:
             return
         if self.rate_limit_remaining <= critical_threshold:
             delay = min(reset_delay + _JITTER_RANDOM.uniform(0.3, 1.5), 300.0)
+            self.rate_limit_events += 1
             log(f"Rate limit nearly exhausted before {query}; pausing {delay:.1f}s until reset window.")
             time.sleep(delay)
             return
         delay = min(max(reset_delay / 10, 1.0), 30.0)
+        self.rate_limit_events += 1
         log(
             f"Rate limit low ({self.rate_limit_remaining}/{self.rate_limit_limit} {self.rate_limit_resource or 'requests'}); "
             f"cooling down {delay:.1f}s before {query}."
@@ -1001,6 +1020,7 @@ def write_payload(path: Path, payload: dict[str, Any]) -> None:
 
 def main() -> int:
     args = parse_args()
+    crawl_started = time.monotonic()
 
     topic_id = args.topic
     topic_raw = raw_dir(topic_id)
@@ -1042,7 +1062,51 @@ def main() -> int:
         if reusable is not None:
             write_payload(output_path, reusable)
             restore_reused_snapshot(reuse_path, reusable.get("metadata", {}), expected_snapshot_dir=topic_snapshots)
-            print(f"Reused same-day GitHub raw artifact {reuse_path} -> {output_path}; used 0 API calls.")
+            observability_path = DEFAULT_OBSERVABILITY_DIR / f"{week}-github-crawl.json"
+            duration_seconds = round(time.monotonic() - crawl_started, 3)
+            emit_ledger(
+                ObservabilityLedger(
+                    schema_version=METRICS_SCHEMA_VERSION,
+                    run_id=os.environ.get("GITHUB_RUN_ID", "local"),
+                    week=week,
+                    timestamp=iso_timestamp(crawled_at),
+                    crawl_metrics=[
+                        CrawlMetrics(
+                            duration_seconds=duration_seconds,
+                            duration_p95_seconds=duration_seconds,
+                            duration_sample_count=1,
+                            api_calls=0,
+                            cache_hits=0,
+                            cache_misses=0,
+                            stale_cache_hits=0,
+                            rate_limit_events=0,
+                            secondary_rate_limit_hit=False,
+                            source_type="github",
+                        )
+                    ],
+                    analysis_metrics=None,
+                    environment={
+                        "pipeline": "github-crawl",
+                        "topic": topic_id,
+                        "output_path": output_path.as_posix(),
+                        "snapshot_path": snapshot_path.as_posix(),
+                        "source_refresh_policy": source_refresh_policy,
+                        "same_day_reuse_status": "reused",
+                        "partial_failures": [],
+                        "rate_limit_snapshot": {
+                            "limit": None,
+                            "remaining": None,
+                            "reset": None,
+                            "resource": None,
+                        },
+                    },
+                ),
+                observability_path,
+            )
+            print(
+                f"Reused same-day GitHub raw artifact {reuse_path} -> {output_path}; "
+                f"used 0 API calls; observability={observability_path}."
+            )
             return 0
 
     github_token = os.environ.get("GITHUB_TOKEN")
@@ -1134,13 +1198,59 @@ def main() -> int:
     validate_payload(payload)
     write_payload(output_path, payload)
     write_payload(snapshot_path, snapshot_payload)
+    observability_path = DEFAULT_OBSERVABILITY_DIR / f"{week}-github-crawl.json"
+    duration_seconds = round(time.monotonic() - crawl_started, 3)
+    secondary_rate_limit_hit = bool(getattr(client, "secondary_rate_limit_hit", False)) or any(
+        "secondary rate limit" in str(message).lower() or "abuse" in str(message).lower()
+        for message in client.errors
+    )
+    emit_ledger(
+        ObservabilityLedger(
+            schema_version=METRICS_SCHEMA_VERSION,
+            run_id=os.environ.get("GITHUB_RUN_ID", "local"),
+            week=week,
+            timestamp=iso_timestamp(crawled_at),
+            crawl_metrics=[
+                CrawlMetrics(
+                    duration_seconds=duration_seconds,
+                    duration_p95_seconds=duration_seconds,
+                    duration_sample_count=1,
+                    api_calls=int(getattr(client, "api_calls_used", 0)),
+                    cache_hits=int(getattr(client, "cache_hits", 0)),
+                    cache_misses=int(getattr(client, "cache_misses", getattr(client, "api_calls_used", 0))),
+                    stale_cache_hits=int(getattr(client, "stale_cache_hits", 0)),
+                    rate_limit_events=int(getattr(client, "rate_limit_events", 0)),
+                    secondary_rate_limit_hit=secondary_rate_limit_hit,
+                    source_type="github",
+                )
+            ],
+            analysis_metrics=None,
+            environment={
+                "pipeline": "github-crawl",
+                "topic": topic_id,
+                "output_path": output_path.as_posix(),
+                "snapshot_path": snapshot_path.as_posix(),
+                "source_refresh_policy": source_refresh_policy,
+                "same_day_reuse_status": payload["metadata"]["same_day_reuse"]["status"],
+                "partial_failures": list(client.errors),
+                "rate_limit_snapshot": {
+                    "limit": client.rate_limit_limit,
+                    "remaining": client.rate_limit_remaining,
+                    "reset": client.rate_limit_reset,
+                    "resource": client.rate_limit_resource,
+                },
+            },
+        ),
+        observability_path,
+    )
 
     if client.errors:
         log(f"Completed with {len(client.errors)} partial failure(s).")
 
     print(
         f"Wrote {output_path} with {len(new_repos)} new repos and {len(trending_repos)} trending repos, "
-        f"saved {snapshot_path}, used {client.api_calls_used} API calls, and served {client.cache_hits} cache hits."
+        f"saved {snapshot_path}, used {client.api_calls_used} API calls, served {client.cache_hits} cache hits, "
+        f"and emitted observability metrics to {observability_path}."
     )
     return 1 if client.errors else 0
 
