@@ -93,7 +93,8 @@ def test_validate_ledger_rejects_schema_version_mismatch() -> None:
         "environment": {},
     }
 
-    assert "schema_version" in validate_ledger(payload)
+    errors = validate_ledger(payload)
+    assert any(e.startswith("schema_version") for e in errors), f"Expected schema_version error, got: {errors}"
 
 
 def test_emit_ledger_writes_valid_json() -> None:

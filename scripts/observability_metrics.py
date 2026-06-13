@@ -93,8 +93,11 @@ def validate_ledger(data: dict[str, Any]) -> list[str]:
     _require(data, "timestamp", errors)
     _require(data, "crawl_metrics", errors)
     _require(data, "environment", errors)
-    if data.get("schema_version") not in (None, METRICS_SCHEMA_VERSION):
-        errors.append("schema_version")
+    if "environment" in data and not isinstance(data["environment"], dict):
+        errors.append("environment: must be a dict")
+    sv = data.get("schema_version")
+    if sv is not None and sv != METRICS_SCHEMA_VERSION:
+        errors.append(f"schema_version: expected '{METRICS_SCHEMA_VERSION}', got '{sv}'")
 
     crawl_metrics = data.get("crawl_metrics")
     if crawl_metrics is not None and not isinstance(crawl_metrics, list):
