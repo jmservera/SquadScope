@@ -898,6 +898,49 @@ Content is immutable by design. If you need to restore:
 2. Revert if necessary: `git revert COMMIT_HASH`
 3. Regenerate and deploy
 
+## Manual Pipeline Tools
+
+These scripts are not part of the automated weekly pipeline but are available
+for manual operator use.
+
+### Hindsight Validation
+
+Validates predictions from N weeks ago against actual outcomes. Run periodically
+to track prediction accuracy:
+
+```bash
+python scripts/hindsight_validation.py --topic ai-ml --weeks-ago 4
+```
+
+Output: a scorecard summary comparing predicted outcomes with real data.
+
+### Topic Learning Initialization
+
+Bootstraps per-topic learning state directories with seeded wisdom. Use when
+adding a new topic channel or resetting learning state:
+
+```bash
+python scripts/init_topic_learning.py --topic my-new-topic
+```
+
+### Momentum Tracker
+
+Checks press-correlated repos at week +2/+4 and classifies growth as
+"sustained" or "faded". Already referenced in site methodology content:
+
+```bash
+python scripts/momentum_tracker.py --topic ai-ml --week 2026-W21 --lag 4
+```
+
+### Budget Alerts
+
+Evaluates run cost and monthly cumulative spend against thresholds. Wired into
+the `crawl-and-publish` workflow automatically, but can also be run manually:
+
+```bash
+python scripts/budget_alerts.py --metrics data/metrics/token-usage.jsonl
+```
+
 ## Getting Help
 
 - **Logs:** Check **Actions** tab in GitHub UI for detailed workflow logs
