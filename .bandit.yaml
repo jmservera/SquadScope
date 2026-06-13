@@ -9,3 +9,5 @@ exclude_dirs:
   - node_modules
   - __pycache__
   - tests
+  - scripts/archived
+  - .ralph
