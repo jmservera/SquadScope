@@ -12,7 +12,6 @@ These gates run as part of the existing pytest CI path (issue #438).
 from __future__ import annotations
 
 import json
-import tempfile
 from pathlib import Path
 
 import pytest
@@ -295,13 +294,14 @@ class TestEndToEndDryRun:
     def test_all_mapper_contracts_valid(self, workspace):
         """Each mapper ledger passes validate_map with zero errors."""
         raw_path, press_path, output_dir = workspace
-        dry_run.main([
+        rc = dry_run.main([
             "--raw-json", raw_path.as_posix(),
             "--press-context", press_path.as_posix(),
             "--output-dir", output_dir.as_posix(),
             "--current-datetime", "2026-05-20T12:00:00Z",
             "--run-id", "qa-gate-test",
         ])
+        assert rc == 0
 
         for mapper in dry_run.MAPPER_IDS:
             ledger = json.loads((output_dir / "maps" / f"{mapper}.json").read_text(encoding="utf-8"))
@@ -311,13 +311,14 @@ class TestEndToEndDryRun:
     def test_sidecars_always_present(self, workspace):
         """rejected-claims.json and contradictions.json are always emitted."""
         raw_path, press_path, output_dir = workspace
-        dry_run.main([
+        rc = dry_run.main([
             "--raw-json", raw_path.as_posix(),
             "--press-context", press_path.as_posix(),
             "--output-dir", output_dir.as_posix(),
             "--current-datetime", "2026-05-20T12:00:00Z",
             "--run-id", "qa-gate-test",
         ])
+        assert rc == 0
 
         rejected = json.loads((output_dir / "sidecars" / "rejected-claims.json").read_text(encoding="utf-8"))
         contras = json.loads((output_dir / "sidecars" / "contradictions.json").read_text(encoding="utf-8"))
@@ -329,13 +330,14 @@ class TestEndToEndDryRun:
     def test_manifest_is_never_publish_eligible(self, workspace):
         """Dry-run manifest always marks candidate_only=True, publish_eligible=False."""
         raw_path, press_path, output_dir = workspace
-        dry_run.main([
+        rc = dry_run.main([
             "--raw-json", raw_path.as_posix(),
             "--press-context", press_path.as_posix(),
             "--output-dir", output_dir.as_posix(),
             "--current-datetime", "2026-05-20T12:00:00Z",
             "--run-id", "qa-gate-test",
         ])
+        assert rc == 0
 
         manifest = json.loads((output_dir / "manifest.json").read_text(encoding="utf-8"))
         assert manifest["publish_eligible"] is False
@@ -344,13 +346,14 @@ class TestEndToEndDryRun:
     def test_qa_report_documents_expected_provenance_failure(self, workspace):
         """The provenance gate fails as expected (dry-run is not publishable AI)."""
         raw_path, press_path, output_dir = workspace
-        dry_run.main([
+        rc = dry_run.main([
             "--raw-json", raw_path.as_posix(),
             "--press-context", press_path.as_posix(),
             "--output-dir", output_dir.as_posix(),
             "--current-datetime", "2026-05-20T12:00:00Z",
             "--run-id", "qa-gate-test",
         ])
+        assert rc == 0
 
         qa = json.loads((output_dir / "qa-comparison-report.json").read_text(encoding="utf-8"))
         provenance = qa["checks"]["publish_provenance_gate"]
@@ -360,13 +363,14 @@ class TestEndToEndDryRun:
     def test_candidate_markdown_contains_repo_links(self, workspace):
         """Candidate markdown includes hyperlinks to featured repositories."""
         raw_path, press_path, output_dir = workspace
-        dry_run.main([
+        rc = dry_run.main([
             "--raw-json", raw_path.as_posix(),
             "--press-context", press_path.as_posix(),
             "--output-dir", output_dir.as_posix(),
             "--current-datetime", "2026-05-20T12:00:00Z",
             "--run-id", "qa-gate-test",
         ])
+        assert rc == 0
 
         candidate = (output_dir / "2026-W21-map-reduce-candidate.md").read_text(encoding="utf-8")
         assert "[tools/gamma](https://github.com/tools/gamma)" in candidate
@@ -573,13 +577,14 @@ class TestGateOutputClarity:
         raw_path.write_text(json.dumps(RAW_PAYLOAD), encoding="utf-8")
         press_path.write_text(PRESS_CONTEXT, encoding="utf-8")
 
-        dry_run.main([
+        rc = dry_run.main([
             "--raw-json", raw_path.as_posix(),
             "--press-context", press_path.as_posix(),
             "--output-dir", output_dir.as_posix(),
             "--current-datetime", "2026-05-20T12:00:00Z",
             "--run-id", "clarity-test",
         ])
+        assert rc == 0
 
         qa = json.loads((output_dir / "qa-comparison-report.json").read_text(encoding="utf-8"))
         # Each check section has "passed" bool and either "errors" or "expected_failure"

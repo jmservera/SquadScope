@@ -83,5 +83,13 @@ When a gate fails in CI:
 2. The assertion message identifies the specific contract violation
 3. The QA report JSON (`qa-comparison-report.json`) provides structured gate-by-gate results with error lists
 
-If `test_full_pipeline_produces_passing_qa` fails, check the QA report's
-`checks` object — each gate has a `passed` boolean and an `errors` list.
+If `test_full_pipeline_produces_passing_qa` fails, inspect the QA report's
+`checks` object carefully. The schema varies by gate:
+
+- `mapper_contracts` includes `passed` plus `errors_by_mapper`
+- `structural_analysis_gate` and `evidence_and_editorial_gates` include `passed`
+  plus `errors`
+- `publish_provenance_gate` includes `passed`, `expected_failure`, and `errors`
+- `sidecars_present` includes `passed` plus emitted object counts
+- `reference_count` is informational only and reports `selected`,
+  `notable_projects`, and `press_articles`
