@@ -29,7 +29,6 @@ from scripts.crawl import (
     iso_timestamp,
     load_previous_star_snapshot,
     load_topic_queries,
-    log,
     significance_skip_reason,
     to_repo_record,
     utc_now,
@@ -239,6 +238,7 @@ class SharedQuotaCoordinator:
             time.sleep(min(resume_at - now, 1.0))
             self._raise_if_aborted()
             self._raise_if_budget_exceeded(shard_name, deadline)
+        # Atomically reserve one API call slot to prevent concurrent over-cap
         with self._lock:
             if self.api_hard_cap is not None and self.total_api_calls >= self.api_hard_cap:
                 if self.abort_reason is None:
@@ -256,12 +256,16 @@ class SharedQuotaCoordinator:
                         )
                     )
                 raise ExperimentAbort(self.abort_reason)
+            # Reserve capacity for this request before releasing the lock
+            self.total_api_calls += 1
 
     def register_api_calls(self, delta: int, shard_name: str) -> None:
-        if delta <= 0:
+        # Subtract the 1 call already reserved in before_request()
+        additional = delta - 1
+        if additional <= 0:
             return
         with self._lock:
-            self.total_api_calls += delta
+            self.total_api_calls += additional
             if self.api_hard_cap is not None and self.total_api_calls > self.api_hard_cap and self.abort_reason is None:
                 self.abort_reason = (
                     f"API budget cap exceeded by {shard_name} "
@@ -1051,15 +1055,17 @@ def build_report(experiment_id: str, baseline: RunResult, shard: RunResult) -> d
     output_stable = canonicalize_payload(baseline.payload) == canonicalize_payload(shard.payload) and canonicalize_snapshot(
         baseline.snapshot_payload
     ) == canonicalize_snapshot(shard.snapshot_payload)
+    baseline_incomplete = bool(baseline.partial_failures) or not baseline.completed
+    shard_incomplete = bool(shard.partial_failures) or not shard.completed
     report_card = ExperimentReport.from_comparison(
         {
             "speedup_pct": speedup_pct,
             "api_growth_pct": api_growth_pct,
             "rate_limit_regression": shard.secondary_rate_limit_events > baseline.secondary_rate_limit_events,
             "output_stable": output_stable,
-            "partial_data": bool(baseline.partial_failures) or bool(shard.partial_failures),
-            "baseline_complete": not bool(baseline.partial_failures),
-            "shard_complete": not bool(shard.partial_failures),
+            "partial_data": baseline_incomplete or shard_incomplete,
+            "baseline_complete": not baseline_incomplete,
+            "shard_complete": not shard_incomplete,
         }
     )
     verdict = report_card.verdict
