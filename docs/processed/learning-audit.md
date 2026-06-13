@@ -1,5 +1,7 @@
 # SquadScope Learning System Audit
 
+> **⚠️ Archived / Partially Stale (as of 2026-06-13):** Some claims (e.g., no reskill job, no `.squad/skills/` directory, no run-counter support) no longer match the current repository. See the live workflows and `.squad/` directory for the current learning system state.
+
 **Author:** Leela (Lead/Architect)  
 **Date:** 2026-05-18T13:20:07.067+02:00  
 **Scope:** End-to-end audit of the learning system — can SquadScope actually learn in production?
