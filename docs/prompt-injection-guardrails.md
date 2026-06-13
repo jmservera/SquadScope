@@ -6,14 +6,20 @@ This document describes the security measures protecting SquadScope's AI analysi
 
 SquadScope ingests external text from multiple untrusted sources:
 
-| Source | Entry Point | Risk |
-|--------|-------------|------|
-| GitHub repo descriptions | `data/raw/*.json` → prompt templates | HIGH — attacker controls repo description |
-| TechCrunch article titles | crawl data → `render_press_context.py` | MEDIUM — unlikely but possible |
-| Previous analysis output | `data/analyzed/*.md` → prompt templates | HIGH — poisoned output persists |
-| README snippets | GitHub API → correlation narratives | MEDIUM — attacker controls README |
-| Correlation match data | `correlate.py` → `render_press_context.py` | MEDIUM — sanitized at source |
-| Topic config descriptions | `squadscope.topic.yml` → prompt templates | LOW — repo-local config |
+| Source | Entry Point | Risk | Sanitization Point |
+|--------|-------------|------|-------------------|
+| GitHub repo descriptions | `data/raw/*.json` → prompt templates | HIGH — attacker controls repo description | `preprocess_for_analysis.py` → `sanitize_description()` |
+| TechCrunch/RSS article titles | crawl data → `render_press_context.py` | MEDIUM — unlikely but possible | `render_press_context.format_articles_list()` → `sanitize_text()` |
+| Previous analysis output | `data/analyzed/*.md` → prompt templates | HIGH — poisoned output persists | `analyze_fallback.py` → `_escape_untrusted_boundaries()` |
+| Historical context (rolling/monthly/yearly) | `content/` → `assemble_historical_context.py` | HIGH — poisoned output persists | `analyze_fallback.py` line 742 → `_escape_untrusted_boundaries()` |
+| README snippets | GitHub API → correlation narratives | MEDIUM — attacker controls README | `render_press_context._extract_readme_description()` (structural filtering) |
+| Correlation match data | `correlate.py` → `render_press_context.py` | MEDIUM — sanitized at source | `correlate.py` → `sanitize_text()` at output time |
+| Wisdom files | `.squad/identity/wisdom.md` → prompt templates | MEDIUM — prior LLM output | `reskill.render_wisdom()` → `_escape_untrusted_boundaries()` |
+| Skills files | `.squad/skills/**/*.md` → prompt templates | MEDIUM — prior LLM output | `reskill.render_skills()` → `_escape_untrusted_boundaries()` |
+| Per-topic wisdom | `topics/<id>/wisdom.md` → prompt templates | MEDIUM — prior LLM output | `render_topic_prompt.py` → `_escape_untrusted_boundaries()` |
+| Prediction scorecards | `data/scorecards/*.json` → prompt templates | LOW — internal data | `load_scorecard.render_scorecard_section()` → `_escape_untrusted_boundaries()` |
+| Quality trend report | `data/analyzed/*.md` frontmatter → reskill | LOW — internal metrics | `track_quality.build_quality_report()` → `_escape_untrusted_boundaries()` |
+| Topic config descriptions | `squadscope.topic.yml` → prompt templates | LOW — repo-local config | `render_topic_prompt.py` → `sanitize_text()` |
 
 ## Defense Layers
 
@@ -199,6 +205,64 @@ This catches cases where upstream sanitization failed or was bypassed.
 - **Pros**: Best-in-class indirect prompt injection detection, no local model needed, per-request API
 - **Cons**: Azure dependency, per-call cost (~$0.001/request), requires Content Safety resource
 - **Recommendation**: Integrate as a pre-flight check before LLM invocation once production volume justifies the dependency. Ideal for catching novel injection patterns our phrase list misses.
+
+## Defense Chain (End-to-End)
+
+The following summarizes the complete defense chain from data ingestion to published output:
+
+```
+[External Data Sources]
+        │
+        ▼
+┌─────────────────────────────────────────────┐
+│  INPUT SANITIZATION                         │
+│  • sanitize_description() — repo descs     │
+│  • sanitize_text() — articles, titles      │
+│  • _escape_untrusted_boundaries() — all    │
+│    content entering <untrusted-content>     │
+│  • Length caps (200–500 chars)              │
+│  • Injection phrase detection & truncation  │
+└─────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────┐
+│  PROMPT ASSEMBLY                            │
+│  • <untrusted-content> boundary fencing     │
+│  • Instruction preamble per fence           │
+│  • Closing security constraint per prompt   │
+│  • Canary token injection                   │
+└─────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────┐
+│  LLM INVOCATION                             │
+│  (GitHub Models / Copilot CLI)              │
+└─────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────┐
+│  OUTPUT VALIDATION                          │
+│  • validate_output_safety()                 │
+│    - Canary token leak detection            │
+│    - Boundary marker reproduction check     │
+│    - Unknown canary pattern detection       │
+│  • Frontmatter safety validation            │
+│    - Length caps on output fields            │
+│    - Injection phrase detection              │
+│  • sanitize_agent_output() — meta-line      │
+│    stripping                                │
+└─────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────┐
+│  CI ENFORCEMENT                             │
+│  • lint_prompts.py — variable fencing       │
+│  • test_prompt_injection_redteam.py — 18    │
+│    attack strings + boundary escape tests   │
+│  • test_canary_token.py — leak detection    │
+│  • test_prompt_lint_ci.py — gate on PRs     │
+└─────────────────────────────────────────────┘
+```
 
 ## Phase 3 Follow-up Work
 
