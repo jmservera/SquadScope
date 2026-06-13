@@ -35,3 +35,4 @@ squadscope-agent-result.json
 .squad/casting-*.json
 .ralph_tick.log
 .squad/ralph-circuit-breaker.json
+.squad/.watch-pids
