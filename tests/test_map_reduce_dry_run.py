@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import tempfile
 from pathlib import Path
+from unittest.mock import patch
 
 from scripts import map_reduce_dry_run as dry_run
 from scripts.observability_metrics import validate_ledger
@@ -27,6 +28,8 @@ def test_dry_run_emits_valid_contract_artifacts() -> None:
     tests_root = Path(__file__).resolve().parent
     with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
         base = Path(tmpdir)
+        obs_dir = base / "observability"
+        obs_dir.mkdir(parents=True)
         raw_path = base / "data" / "raw" / "2026-W21.json"
         press_path = base / "data" / "analyzed" / "2026-W21-press-context.md"
         output_dir = base / "data" / "candidates" / "2026-W21" / "local" / "map-reduce"
@@ -45,20 +48,21 @@ def test_dry_run_emits_valid_contract_artifacts() -> None:
             encoding="utf-8",
         )
 
-        rc = dry_run.main(
-            [
-                "--raw-json",
-                raw_path.as_posix(),
-                "--press-context",
-                press_path.as_posix(),
-                "--output-dir",
-                output_dir.as_posix(),
-                "--current-datetime",
-                "2026-05-20T12:00:00Z",
-                "--run-id",
-                "local",
-            ]
-        )
+        with patch.object(dry_run, "DEFAULT_OBSERVABILITY_DIR", obs_dir):
+            rc = dry_run.main(
+                [
+                    "--raw-json",
+                    raw_path.as_posix(),
+                    "--press-context",
+                    press_path.as_posix(),
+                    "--output-dir",
+                    output_dir.as_posix(),
+                    "--current-datetime",
+                    "2026-05-20T12:00:00Z",
+                    "--run-id",
+                    "local",
+                ]
+            )
 
         assert rc == 0
         manifest = json.loads((output_dir / "manifest.json").read_text(encoding="utf-8"))
@@ -86,7 +90,7 @@ def test_dry_run_emits_valid_contract_artifacts() -> None:
         assert qa["checks"]["structural_analysis_gate"]["passed"] is True
         assert qa["checks"]["evidence_and_editorial_gates"]["passed"] is True
         assert qa["checks"]["publish_provenance_gate"]["expected_failure"] is True
-        observability_path = dry_run.DEFAULT_OBSERVABILITY_DIR / "2026-W21-map-reduce.json"
+        observability_path = obs_dir / "2026-W21-map-reduce.json"
         observability = json.loads(observability_path.read_text(encoding="utf-8"))
         assert validate_ledger(observability) == []
         assert observability["analysis_metrics"]["reduce_stage"]["status"] == "pass"

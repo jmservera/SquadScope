@@ -1147,7 +1147,13 @@ def main(argv: list[str] | None = None) -> int:
         for status in statuses
         if isinstance(status.get("duration_seconds"), (int, float))
     ]
-    sampled_p95 = duration_p95(sampled_durations) if sampled_durations else total_duration_seconds
+    if sampled_durations:
+        sampled_p95 = duration_p95(sampled_durations)
+        sample_count = len(sampled_durations)
+    else:
+        # Treat overall runtime as a single sample for consistency
+        sampled_p95 = total_duration_seconds
+        sample_count = 1
     observability_path = DEFAULT_OBSERVABILITY_DIR / f"{output['week']}-external-news-crawl.json"
     emit_ledger(
         ObservabilityLedger(
@@ -1159,7 +1165,7 @@ def main(argv: list[str] | None = None) -> int:
                 CrawlMetrics(
                     duration_seconds=sampled_p95,
                     duration_p95_seconds=sampled_p95,
-                    duration_sample_count=len(sampled_durations),
+                    duration_sample_count=sample_count,
                     api_calls=sum(int(status.get("attempts") or 0) for status in statuses),
                     cache_hits=0,
                     cache_misses=sum(int(status.get("attempts") or 0) for status in statuses),
