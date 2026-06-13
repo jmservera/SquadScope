@@ -1,5 +1,7 @@
 # SquadScope QA Report
 
+> **⚠️ Archived / Partially Stale (as of 2026-06-13):** Some claims in this report (e.g., deploy workflow not building Pagefind, reskill being a placeholder) no longer reflect the current implementation. Refer to the live workflows and `docs/pipeline-validation.md` for canonical operational truth.
+
 _Date:_ 2026-05-18  
 _Issue:_ #24 — Final QA readiness review and reskill-cycle simulation  
 _Agent:_ Fry

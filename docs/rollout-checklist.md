@@ -123,7 +123,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
 - [ ] **Fallback analysis path works (Copilot unavailable scenario)**
   - [ ] Comment out or rename `COPILOT_GH_TOKEN` secret temporarily
   - [ ] Manually trigger workflow
-  - [ ] Verify workflow still completes but uses GitHub Models API
+  - [ ] Verify workflow fails cleanly (no GitHub Models/OpenAI fallback exists — pipeline is Copilot-only, fail-closed)
   - [ ] Restore secret after testing
 
 - [ ] **Reskill cycle verified (after 5 runs)**

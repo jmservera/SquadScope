@@ -1,4 +1,4 @@
-# SquadScope Distribution Strategy
+# Claracle Distribution Strategy
 
 **Version:** 1.0  
 **Last updated:** 2026-05-25  
@@ -11,7 +11,7 @@
 
 ### Who Reads Weekly Trend Reports?
 
-SquadScope's audience spans three overlapping personas:
+Claracle's audience spans three overlapping personas:
 
 1. **Signal-seeking developers** (40-50%)
    - Want curated insights, not noise
@@ -55,16 +55,16 @@ SquadScope's audience spans three overlapping personas:
 |---------|--------|-----------------|---------|-------|
 | **Hacker News** | 5 min | 5K-15K impressions, 50-200 upvotes | Launch + selective weeklies (2-4/month) | Post 9:30-10 AM PST Wed/Thu. "Show HN" for launch only; regular posts must meet HN community standards (no self-promotion feel). Community votes up on genuine signal, downvotes noise. |
 | **Lobsters** | 5 min | 1K-3K impressions, 20-60 upvotes | Weekly (if editorial quality high) | Strong signal-seeking audience. Moderated well; low spam. Posts link to site with discussion on-platform. |
-| **r/programming** | 5 min | 2K-8K impressions, 30-100 upvotes | Bi-weekly (avoid over-posting) | Active, semi-moderated. Respect community rules: no low-effort posts, link to SquadScope site. Engagement via comments is key. |
+| **r/programming** | 5 min | 2K-8K impressions, 30-100 upvotes | Bi-weekly (avoid over-posting) | Active, semi-moderated. Respect community rules: no low-effort posts, link to Claracle site. Engagement via comments is key. |
 | **r/dataisbeautiful** | 3 min | 1K-4K impressions | Selective (when trends are viz-relevant) | High quality bar. Only post when article includes strong data visualization or trend data. |
 | **r/MachineLearning** | 3 min | 1K-3K impressions | Selective (AI/agent/model weeks only) | Narrow relevance; post only when ML is primary signal. Expect high-signal audience but low traffic if off-topic. |
 | **Mastodon** | 8 min | 300-1K impressions (federated) | Weekly (thread format) | Target @fosstodon, @techhub, @pixelfed instances. Thread format (5-7 toots). Audience skews FOSS+privacy. No direct link clickthrough expected; community building focus. |
 | **Bluesky** | 8 min | 500-2K impressions | Weekly (thread format) | Early-adopter tech crowd. Thread format (3-5 posts). Higher retweet/engagement than Mastodon but smaller absolute reach. |
 | **Twitter/X** | 8 min | 2K-10K impressions | Weekly (thread) | Broader reach; audience spans investors, founders, practitioners. Thread with call-to-action link. Expect 5-15% conversion to clicks. |
 | **LinkedIn** | 10 min | 1K-5K impressions | Weekly (1-2 posts) | Focus on "Where Industry Meets Code" angle and ecosystem implications for tech leads. Share link + short excerpt. Engagement: modest but high intent. |
-| **dev.to** | 15 min | 2K-8K impressions | Weekly (full crosspost with canonical link) | Crosspost full article with `canonical_url` pointing back to SquadScope. Drives SEO authority back to site. Community-friendly audience. |
+| **dev.to** | 15 min | 2K-8K impressions | Weekly (full crosspost with canonical link) | Crosspost full article with `canonical_url` pointing back to Claracle. Drives SEO authority back to site. Community-friendly audience. |
 | **Awesome-lists** | 10 min (one-time setup) | 100-500 impressions/month | Submit once per quarter | e.g., awesome-github-tools, awesome-open-source, awesome-ai-agents. One-time submission or annual update. Setup as a batch task. |
-| **GitHub Topics** | 5 min (one-time) | 50-200 impressions/month | Update as categories evolve | Add to SquadScope README: topics like `weekly-trends`, `github-insights`, `open-source-analysis`. One-time, minimal maintenance. |
+| **GitHub Topics** | 5 min (one-time) | 50-200 impressions/month | Update as categories evolve | Add to Claracle README: topics like `weekly-trends`, `github-insights`, `open-source-analysis`. One-time, minimal maintenance. |
 | **Newsletter** | 20 min/week | 500-2K subscribers (TBD) | Weekly digest | Recommendation: **Buttondown** (see below). Auto-send Monday 9 AM UTC with week's article link + 3-5 key insights. |
 
 ---
@@ -75,15 +75,15 @@ SquadScope's audience spans three overlapping personas:
 
 **Timing:** Wednesday 9:45 AM PST (post time drives visibility on HN)
 
-**URL:** `https://jmservera.github.io/SquadScope/`
+**URL:** `https://www.claracle.com/`
 
-**Title:** Show HN: SquadScope – Weekly curated GitHub trends (AI agents, supply-chain security, noise filtering)
+**Title:** Show HN: Claracle – Weekly curated GitHub trends (AI agents, supply-chain security, noise filtering)
 
 **Text:**
 ```
 Hi HN,
 
-I built SquadScope, an automated system that crawls GitHub's new and trending repos 
+I built Claracle, an automated system that crawls GitHub's new and trending repos 
 each week, applies AI analysis to separate signal from noise, and publishes curated 
 trend reports every Monday.
 
@@ -91,7 +91,7 @@ The problem I wanted to solve: GitHub's trending list is flooded with star-farm 
 (emulator kits, game unlockers, etc.), making it hard to spot genuine infrastructure 
 work. TechCrunch covers the funding layer; developers building tooling are invisible.
 
-SquadScope publishes:
+Claracle publishes:
 - Weekly summaries (Mondays 8:30 AM UTC)
 - Signal/noise breakdown (what's real, what's hype)
 - Blind spots analysis (what's missing)
@@ -101,8 +101,8 @@ SquadScope publishes:
 Stack: GitHub API crawl → Copilot CLI analysis → Hugo → GitHub Pages. 
 No closed model deps; OSS where possible.
 
-Two weeks of examples: https://jmservera.github.io/SquadScope/ 
-RSS: https://jmservera.github.io/SquadScope/index.xml
+Two weeks of examples: https://www.claracle.com/ 
+RSS: https://www.claracle.com/index.xml
 
 Looking for feedback: Is this signal/noise split useful? Any categories you'd 
 prioritize differently?
@@ -141,7 +141,7 @@ This week's themes:
 - Supply-chain security tooling becoming credible (Perplexity's bumblebee, Apple's corecrypto)
 - Coordinated star-farm campaigns are escalating
 
-https://jmservera.github.io/SquadScope/
+https://www.claracle.com/
 ```
 
 **Post 3:**
@@ -177,7 +177,7 @@ Feedback welcome. Boosts + follows appreciated.
 **Timing:** Monday 12 PM UTC (2 hours after launch)
 
 **Setup:** In dev.to post editor:
-- **Canonical URL:** `https://jmservera.github.io/SquadScope/`
+- **Canonical URL:** `https://www.claracle.com/`
 - **Series:** "SquadScope Weekly" (so all posts thread together)
 - **Tags:** `github` `trends` `opensource` `analysis`
 
@@ -188,7 +188,7 @@ Feedback welcome. Boosts + follows appreciated.
 Every Monday, SquadScope publishes an automated analysis of the week's most important 
 new GitHub repositories, separated into signal and noise, with correlation to industry press.
 
-This is the dev.to crosspost; the canonical article lives here: https://jmservera.github.io/SquadScope/
+This is the dev.to crosspost; the canonical article lives here: https://www.claracle.com/
 
 ## The Story This Week
 
@@ -199,7 +199,7 @@ campaign the crawl has caught.
 [Full article link below]
 
 ---
-*Read the full analysis on SquadScope:* https://jmservera.github.io/SquadScope/
+*Read the full analysis on SquadScope:* https://www.claracle.com/
 ```
 
 **Expected outcome:** 200-800 impressions, 5-20 reactions, 30-100 click-throughs to canonical URL.
@@ -212,7 +212,7 @@ campaign the crawl has caught.
 
 **Input:** `content/weekly/2026/W22.md` (published Monday 8:30 AM UTC)
 
-**Before promotion:** Read the public [Methodology and corrections policy](../../content/methodology/_index.md) and link the live methodology page (`https://jmservera.github.io/SquadScope/methodology/`) in launch/crosspost context when space allows. Do not promote an article as neutral or comprehensive; frame it as GitHub- and current-source-based analysis with known source, language, and platform limits.
+**Before promotion:** Read the public [Methodology and corrections policy](../../content/methodology/_index.md) and link the live methodology page (`https://www.claracle.com/methodology/`) in launch/crosspost context when space allows. Do not promote an article as neutral or comprehensive; frame it as GitHub- and current-source-based analysis with known source, language, and platform limits.
 
 **Step 1: Extract key angles** (5 min)
 - Skim article for 3-5 "most quotable" sections
@@ -228,7 +228,7 @@ GitHub is experiencing metric inflation via coordinated star farming"
 ```
 
 **Step 2: Draft HN post** (5 min)
-- Title: `Show HN: SquadScope – [hook here]`
+- Title: `Show HN: Claracle – [hook here]`
 - Text: ~200 words covering: problem, what SquadScope does, this week's themes, RSS link
 - Save as `.squad/posts/2026-W22-hn.txt`
 
@@ -385,7 +385,7 @@ Create issue `feat(seo): metadata audit fixes (#185)` with:
 ### Standard UTM Structure
 
 ```
-https://jmservera.github.io/SquadScope/?utm_source={channel}&utm_medium={medium}&utm_campaign={campaign}
+https://www.claracle.com/?utm_source={channel}&utm_medium={medium}&utm_campaign={campaign}
 ```
 
 ### Channel-Specific UTM Names
@@ -438,7 +438,7 @@ Before GA4, log weekly:
 
 **Setup workflow:**
 1. Create Buttondown account (https://buttondown.email)
-2. Configure RSS-to-email trigger pointing to `https://jmservera.github.io/SquadScope/index.xml`
+2. Configure RSS-to-email trigger pointing to `https://www.claracle.com/index.xml`
 3. Set delivery: Monday 9 AM UTC (1.5 hours after article publish)
 4. Template: Auto-generated from RSS feed (title + excerpt + link)
 5. Custom intro: "New SquadScope analysis just dropped. Here's this week's trends:" + RSS excerpt

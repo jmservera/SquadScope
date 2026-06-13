@@ -1,12 +1,12 @@
 [![Crawl and publish weekly data](https://github.com/jmservera/SquadScope/actions/workflows/crawl-and-publish.yml/badge.svg)](https://github.com/jmservera/SquadScope/actions/workflows/crawl-and-publish.yml)
 [![Deploy Hugo site](https://github.com/jmservera/SquadScope/actions/workflows/deploy-site.yml/badge.svg)](https://github.com/jmservera/SquadScope/actions/workflows/deploy-site.yml)
-# SquadScope
+# Claracle (SquadScope)
 
-SquadScope is an automated AI-powered GitHub Pages site that publishes weekly, monthly, and yearly summaries of tech trends sourced from GitHub. The system crawls trending and newly-created repositories, applies AI analysis to identify signal vs. noise, and publishes curated insights with zero manual intervention.
+Claracle is an automated AI-powered site that publishes weekly, monthly, and yearly summaries of tech trends sourced from GitHub. The system crawls trending and newly-created repositories, applies AI analysis to identify signal vs. noise, and publishes curated insights with zero manual intervention.
 
-## What is SquadScope?
+## What is Claracle?
 
-SquadScope solves the information overload problem in open-source development. Each week, millions of repositories are created or gain stars. SquadScope:
+Claracle solves the information overload problem in open-source development. Each week, millions of repositories are created or gain stars. Claracle:
 
 1. **Crawls** GitHub API for new and trending repositories in a given week
 2. **Analyzes** the data with Copilot to identify what's genuinely important vs. hype
@@ -18,7 +18,7 @@ Result: Curated tech trend insights delivered automatically every Monday.
 
 ## Architecture
 
-SquadScope uses a **5-stage pipeline** executed entirely in GitHub Actions:
+Claracle uses a **5-stage pipeline** executed entirely in GitHub Actions:
 
 ```
 Crawl → Analyze → Generate → Deploy → Reskill
@@ -43,7 +43,7 @@ JSON    Markdown   Hugo      Pages    Improvements
 
 **Stage 4: Deploy** (Hugo + GitHub Pages)
 - Builds static site from Hugo and publishes to GitHub Pages
-- Outputs: Live website + RSS feeds at `https://jmservera.github.io/SquadScope/index.xml` and `https://jmservera.github.io/SquadScope/feed/`
+- Outputs: Live website + RSS feeds at `https://www.claracle.com/index.xml` and `https://www.claracle.com/feed/`
 
 **Stage 5: Reskill** (every 5th run)
 - Every 5th run, Copilot reviews squad history and recent analysis outputs
@@ -64,8 +64,8 @@ JSON    Markdown   Hugo      Pages    Improvements
 
 ### For end users
 
-1. **Visit the site:** [SquadScope](https://jmservera.github.io/SquadScope/): Browse weekly, monthly, yearly summaries
-2. **Subscribe to RSS:** Add `https://jmservera.github.io/SquadScope/index.xml` or `https://jmservera.github.io/SquadScope/feed/` to your reader
+1. **Visit the site:** [Claracle](https://www.claracle.com/): Browse weekly, monthly, yearly summaries
+2. **Subscribe to RSS:** Add `https://www.claracle.com/index.xml` or `https://www.claracle.com/feed/` to your reader
 3. **Check GitHub Releases:** New summaries also posted as releases
 
 ### For operators (see `docs/operator-guide.md` for full setup)
