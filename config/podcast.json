@@ -6,14 +6,14 @@
     "ai_voice_disclosure": "Both hosts on this show are AI-generated synthetic voices, not human presenters.",
     "hosts": [
       {
-        "name": "Joracle",
-        "voice": "alloy",
-        "style": "Bright and energetic, british accent. Leads with enthusiasm, connects themes with forward momentum. Presents signal picks with clarity and genuine curiosity."
-      },
-      {
         "name": "Clarabel",
         "voice": "nova",
         "style": "Lovely and passionate. Pressure-tests claims with specificity. Challenges hype with evidence, not dismissiveness. Lets pauses land."
+      },
+      {
+        "name": "Joracle",
+        "voice": "alloy",
+        "style": "Bright and energetic, british accent. Leads with enthusiasm, connects themes with forward momentum. Presents signal picks with clarity and genuine curiosity."
       }
     ]
   },
