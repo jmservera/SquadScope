@@ -740,6 +740,7 @@ def _build_prompt(
     from scripts.sanitize_repo_content import _escape_untrusted_boundaries
 
     historical_context_content = _escape_untrusted_boundaries(historical_context_content)
+    previous_summary_content = _escape_untrusted_boundaries(previous_summary_content)
     if not historical_context_content:
         historical_context_content = "_No historical context was available beyond the current weekly payload._"
     wisdom_content = render_wisdom(wisdom_file)

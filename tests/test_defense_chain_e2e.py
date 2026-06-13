@@ -46,7 +46,7 @@ class TestInputSanitizationLayer:
             "topics": ["ai"],
         }
         result = compact_repo(repo, max_desc=500)
-        desc = result.get("description", "")
+        desc = result.get("desc", "")
         # Must be truncated due to injection detection
         assert len(desc) <= 200
         assert "ignore previous" not in desc.lower() or len(desc) <= 200
@@ -247,7 +247,7 @@ class TestFullPipelineDefense:
 
         # Layer 1: sanitization truncates and escapes
         compacted = compact_repo(malicious_repo, max_desc=500)
-        desc = compacted.get("description", "")
+        desc = compacted.get("desc", "")
         assert BOUNDARY_CLOSE not in desc
         assert BOUNDARY_OPEN not in desc
         assert len(desc) <= 200  # suspicious content truncated
