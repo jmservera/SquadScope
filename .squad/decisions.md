@@ -579,4 +579,12 @@ Added small deterministic promotion-guard helper and regression tests for publis
 - ✓ **#273 (model routing)** has zero blocking dependencies and can start today
 
 
+---
 
+## Operator Directive: NEVER bypass branch rulesets [2026-06-13]
+
+**By:** jmservera (via Copilot)
+
+**What:** All changes MUST go through branch + PR. No direct pushes to main. Agents must create a feature branch and open a PR, even for cleanup/docs/trivial changes. Never disable, bypass, or work around branch protection rulesets.
+
+**Why:** Operator directive — no exceptions.
