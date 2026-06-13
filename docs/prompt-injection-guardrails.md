@@ -12,6 +12,7 @@ SquadScope ingests external text from multiple untrusted sources:
 | TechCrunch article titles | crawl data → `render_press_context.py` | MEDIUM — unlikely but possible |
 | Previous analysis output | `data/analyzed/*.md` → prompt templates | HIGH — poisoned output persists |
 | README snippets | GitHub API → correlation narratives | MEDIUM — attacker controls README |
+| Correlation match data | `correlate.py` → `render_press_context.py` | MEDIUM — sanitized at source |
 | Topic config descriptions | `squadscope.topic.yml` → prompt templates | LOW — repo-local config |
 
 ## Defense Layers
@@ -113,6 +114,7 @@ This document covers the complete Phase 1, Phase 2, and pipeline integration gua
 - **Phase 2** (complete): Canary token leak detection, red-team corpus testing, and tool evaluation (Garak, LLM Guard, Azure Prompt Shields).
 - **Pipeline Integration** (complete): Canary tokens automatically injected in all `call_github_models()` callers (`analyze_fallback.py` and `reskill.py`), output validated via `validate_output_safety()` for canary leaks and boundary marker reproduction. Full canary leak blocks publishing; partial/boundary violations emit warnings.
 - **Preprocess Sanitization** (complete): `preprocess_for_analysis.py` now calls `sanitize_description()` on all repo descriptions during compaction, ensuring injection attempts are detected, truncated, and boundary-escaped before reaching prompt templates.
+- **Correlation Sanitization** (complete): `correlate.py` now applies `sanitize_text()` to article titles, URLs, source names, and repo names at correlation output time, providing defense-in-depth before content reaches `render_press_context.py`.
 - **Reskill Boundary Escaping** (complete): All `reskill.py` render functions (`render_wisdom`, `render_skills`, `render_recent_analyses`, `render_snapshot_context`) now apply `_escape_untrusted_boundaries()` before returning content. `track_quality.build_quality_report()` and `load_scorecard.render_scorecard_section()` also escape boundaries in their output.
 - **CI Lint Test** (complete): `tests/test_prompt_lint_ci.py` runs the prompt security linter as part of the standard pytest suite, failing on any unguarded variables or missing closing constraints.
 
