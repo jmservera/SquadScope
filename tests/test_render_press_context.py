@@ -223,8 +223,10 @@ class TestResolvePaths:
         assert "2026-W99-correlations.json" in str(corr)
 
     def test_legacy_techcrunch_fallback(self):
+        # Legacy techcrunch files archived; resolve_paths returns canonical
+        # external-news path when the legacy file is absent.
         tc, corr = resolve_paths(None, "2026-W21")
-        assert "2026-W21-techcrunch.json" in str(tc)
+        assert "2026-W21-external-news.json" in str(tc)
         assert "2026-W21-correlations.json" in str(corr)
 
 

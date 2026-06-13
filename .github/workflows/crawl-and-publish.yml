@@ -760,6 +760,11 @@ jobs:
           echo "analysis_source=$ANALYSIS_SOURCE" >> "$GITHUB_OUTPUT"
           echo "analysis_model=$ANALYSIS_MODEL" >> "$GITHUB_OUTPUT"
 
+      - name: budget-alerts
+        if: always()
+        run: |
+          python3 scripts/budget_alerts.py --metrics data/metrics/token-usage.jsonl
+
       - name: quality-check
         id: quality-check
         continue-on-error: true
