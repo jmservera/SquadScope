@@ -349,14 +349,16 @@ def correlate_repo(repo: dict[str, Any], articles: list[dict[str, Any]]) -> dict
         temporal_spike=temporal_spike,
     )
 
+    raw_repo_key = repo.get("full_name") or f"{repo.get('owner')}/{repo.get('name')}"
     repo_name = sanitize_text(
-        repo.get("full_name") or f"{repo.get('owner')}/{repo.get('name')}",
+        raw_repo_key,
         max_length=_REPO_NAME_MAX,
         label="correlation repo name",
     )
 
     return {
         "repo": repo_name,
+        "repo_key": raw_repo_key,
         "press_correlated": press_correlated,
         "correlation_confidence": round(best_confidence, 2),
         "matched_articles": matched_articles,
@@ -440,7 +442,7 @@ def detect_divergences(
     ]
 
     # Find repos that had no correlation match
-    correlated_repo_names: set[str] = {c.get("repo", "") for c in correlations}
+    correlated_repo_names: set[str] = {c.get("repo_key", c.get("repo", "")) for c in correlations}
     unmatched_repos = [
         r for r in repos
         if (r.get("full_name") or f"{r.get('owner')}/{r.get('name')}") not in correlated_repo_names
