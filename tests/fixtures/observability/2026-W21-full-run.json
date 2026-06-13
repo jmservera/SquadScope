@@ -73,7 +73,7 @@
       "cost_usd": 0.0,
       "duration_seconds": 0.994,
       "gate_failure_reasons": [
-        "AI provenance metadata missing"
+        "Structural analysis gate failed: candidate below minimum word count"
       ],
       "input_tokens": 657,
       "output_tokens": 512,
@@ -96,7 +96,7 @@
       "qa_report": "data/candidates/2026-W21/local/qa-comparison-report.json"
     },
     "gate_failure_reasons": [
-      "AI provenance metadata missing"
+      "Structural analysis gate failed: candidate below minimum word count"
     ],
     "pass_fail_counts": {
       "map_fail": 0,

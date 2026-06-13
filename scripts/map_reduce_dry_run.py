@@ -130,7 +130,7 @@ def collect_gate_failure_reasons(qa_report: dict[str, Any]) -> list[str]:
                     reasons.extend(f"{mapper}: {error}" for error in errors)
     for key in ("structural_analysis_gate", "evidence_and_editorial_gates", "publish_provenance_gate"):
         check = checks.get(key, {})
-        if isinstance(check, dict) and isinstance(check.get("errors"), list):
+        if isinstance(check, dict) and check.get("expected_failure") is not True and isinstance(check.get("errors"), list):
             reasons.extend(str(error) for error in check["errors"] if error)
     if isinstance(qa_report.get("regressions"), list):
         reasons.extend(str(error) for error in qa_report["regressions"] if error)

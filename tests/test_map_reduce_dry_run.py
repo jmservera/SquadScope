@@ -191,6 +191,30 @@ def test_validate_map_rejects_failed_or_low_coverage() -> None:
     assert "mapper status failed" in errors
 
 
+def test_collect_gate_failure_reasons_skips_expected_failures() -> None:
+    reasons = dry_run.collect_gate_failure_reasons(
+        {
+            "checks": {
+                "mapper_contracts": {"passed": False, "errors_by_mapper": {"new_repos": ["missing evidence refs"]}},
+                "structural_analysis_gate": {"passed": False, "errors": ["candidate below minimum word count"]},
+                "publish_provenance_gate": {
+                    "passed": False,
+                    "expected_failure": True,
+                    "errors": ["AI provenance metadata missing"],
+                },
+                "sidecars_present": {"passed": False},
+            },
+            "regressions": ["baseline summary not found"],
+        }
+    )
+
+    assert "new_repos: missing evidence refs" in reasons
+    assert "candidate below minimum word count" in reasons
+    assert "baseline summary not found" in reasons
+    assert "sidecars_present failed" in reasons
+    assert "AI provenance metadata missing" not in reasons
+
+
 def test_reduce_rejects_and_preserves_contradictory_claims() -> None:
     supported = valid_ledger()["findings"][0]
     contradictory = {

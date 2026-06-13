@@ -83,6 +83,19 @@ def test_duration_p95_uses_high_percentile_sample() -> None:
     assert duration_p95([0.2, 0.4, 0.6, 0.8, 1.0]) == 1.0
 
 
+def test_validate_ledger_rejects_schema_version_mismatch() -> None:
+    payload = {
+        "schema_version": "observability_v0",
+        "run_id": "local",
+        "week": "2026-W21",
+        "timestamp": "2026-05-20T12:00:00Z",
+        "crawl_metrics": [],
+        "environment": {},
+    }
+
+    assert "schema_version" in validate_ledger(payload)
+
+
 def test_emit_ledger_writes_valid_json() -> None:
     tests_root = Path(__file__).resolve().parent
     with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
