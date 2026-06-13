@@ -166,6 +166,8 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertEqual(sent_payload["podcast_config"]["name"], "Claracle")
         self.assertIn("script_directions", sent_payload)
         self.assertIn("music_mix", sent_payload["script_directions"])
+        self.assertIn("spotify_publish", sent_payload)
+        self.assertEqual(sent_payload["spotify_publish"]["publish_mode"], "draft")
         self.assertNotIn("super-secret-value", stdout.getvalue())
 
     def test_non_normal_publish_mode_skips_without_calling_podcaster(self) -> None:

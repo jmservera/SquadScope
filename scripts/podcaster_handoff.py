@@ -247,6 +247,11 @@ def build_payload(
         if not isinstance(val, dict):
             raise PodcasterHandoffError("script_directions must be a JSON object")
         payload["script_directions"] = val
+    if "spotify_publish" in podcast_cfg:
+        val = podcast_cfg["spotify_publish"]
+        if not isinstance(val, dict):
+            raise PodcasterHandoffError("spotify_publish must be a JSON object")
+        payload["spotify_publish"] = val
 
     if podcaster_dry_run:
         payload["dry_run"] = True
