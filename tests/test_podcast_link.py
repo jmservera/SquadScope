@@ -50,3 +50,28 @@ def test_header_exposes_spotify_button_when_podcast_url_is_configured() -> None:
         r'<a\s+class="icon-button spotify-button"\s+href="{{\s*\.\s*\|\s*safeURL\s*}}"[^>]*target="_blank"[^>]*rel="noopener noreferrer"[^>]*aria-label="Spotify"',
         header,
     ), "Header Spotify button must use configured URL with target=_blank and rel=noopener noreferrer"
+
+
+def test_podcast_link_disabled_when_empty() -> None:
+    """Templates must guard against empty/whitespace podcast_url (disabled state)."""
+    footer = (REPO_ROOT / "layouts" / "partials" / "footer.html").read_text(encoding="utf-8")
+    header = (REPO_ROOT / "layouts" / "partials" / "header.html").read_text(encoding="utf-8")
+    # Both must use TrimSpace so whitespace-only values are treated as falsy
+    assert "TrimSpace" in footer, "Footer must trim podcast_url before conditional"
+    assert "TrimSpace" in header, "Header must trim podcast_url before conditional"
+    # Both must use conditional (with/if) to avoid rendering empty links
+    assert "with" in footer.lower() or "if" in footer.lower()
+    assert "with" in header.lower() or "if" in header.lower()
+
+
+def test_no_audio_hosting_or_player_pages() -> None:
+    """SquadScope must not host audio, embed players, or serve podcast RSS."""
+    layouts_dir = REPO_ROOT / "layouts"
+    # No podcast RSS template
+    for f in layouts_dir.rglob("*.xml"):
+        content = f.read_text(encoding="utf-8")
+        assert "<enclosure" not in content, f"{f.name} must not contain podcast RSS enclosure tags"
+    # No audio player templates
+    for f in layouts_dir.rglob("*.html"):
+        content = f.read_text(encoding="utf-8")
+        assert "<audio" not in content, f"{f.name} must not contain audio player elements"
