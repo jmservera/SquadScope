@@ -360,7 +360,7 @@ class PodcasterHandoffTests(unittest.TestCase):
 
         self.assertEqual(
             payload["spotify_publish"]["title"],
-            "2026-W24: Skills Go Vertical",
+            "Why Skills Go Vertical Matters for AI, GitHub & Developer Trends | Week 24, 2026",
         )
         self.assertIn("This week we explore agent skills.", payload["spotify_publish"]["description"])
         self.assertEqual(payload["spotify_publish"]["season_number"], 2026)
@@ -388,7 +388,7 @@ class PodcasterHandoffTests(unittest.TestCase):
             )
 
         self.assertEqual(len(payload["spotify_publish"]["title"]), 200)
-        self.assertTrue(payload["spotify_publish"]["title"].startswith("2026-W24: "))
+        self.assertTrue(payload["spotify_publish"]["title"].startswith("Why "))
         self.assertEqual(len(payload["spotify_publish"]["description"]), 4000)
         self.assertTrue(payload["spotify_publish"]["description"].startswith("<p>"))
 
