@@ -27,9 +27,11 @@
     },
     "closing_cues": {
       "corrections_path": "If we got something wrong, file an issue at https://github.com/jmservera/SquadScope/issues",
-      "ai_disclosure_repeat": "Repeat AI voice disclosure in the outro.",
-      "source_article_link": "Direct listeners to the full source article URL."
+      "source_article_link": "Direct listeners to the full source article URL.",
+      "spotify_follow_cta": "Before the AI disclosure, include a natural call-to-action: 'If you want to stay ahead of tech trends, follow Claracle on Spotify so you never miss a signal.' Make it conversational, not salesy.",
+      "ai_disclosure_repeat": "Repeat AI voice disclosure as the final element of the outro."
     },
+    "episode_title": "Generate an SEO-friendly episode title that leads with the insight or listener benefit, not the date. Naturally include relevant keywords such as AI, GitHub, developer trends, software engineering trends, or tech weekly when they fit the story, and place any week/year reference at the end.",
     "episode_style": {
       "format": "Two-host conversational podcast, they interact between them, 8-10 minutes, 1200-1700 words.",
       "tone": "Conversational, not performative. Opinionated, not reckless. Concise, not rushed. Funny, not cruel. Accessible, not dumbed-down.",
@@ -58,8 +60,8 @@
     }
   },
   "spotify_publish": {
-    "title_template": "{year}-W{week}: {article_title}",
-    "description_template": "<p>{article_summary}</p><p>Read more at <a href=\"https://claracle.com\" target=\"_blank\" rel=\"ugc noopener noreferrer\">Claracle</a></p><p><br /></p><p>Intro and Outro: Summer Sport by AudioCoffee | https://www.audiocoffee.net/ Music promoted by https://www.chosic.com/free-music/all/ Creative Commons CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0/</p>",
+    "title_template": "Why {article_title} Matters for AI, GitHub & Developer Trends | W{week}",
+    "description_template": "<p>{article_summary}</p><p>Claracle is your tech weekly for developer trends, AI news, GitHub insights, and software engineering trends—helping you understand what matters and why.</p><p>Read more at <a href=\"https://claracle.com\" target=\"_blank\" rel=\"ugc noopener noreferrer\">Claracle</a></p><p><br /></p><p>Intro and Outro: Summer Sport by AudioCoffee | https://www.audiocoffee.net/ Music promoted by https://www.chosic.com/free-music/all/ Creative Commons CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0/</p>",
     "season_number": "{year}",
     "episode_number": "{week}",
     "publish_mode": "draft"
