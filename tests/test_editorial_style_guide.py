@@ -5,11 +5,13 @@ safety boundaries, disclosure requirements, and structural constraints that
 prevent unsafe content generation.
 """
 
+import re
 from pathlib import Path
 
 import pytest
 
 GUIDE_PATH = Path(__file__).resolve().parent.parent / "docs" / "editorial-style-guide.md"
+SEGMENT_TABLE_PATTERN = re.compile(r"^\|\s*\d+\s*\|\s*\*\*(?P<segment>[^*]+)\*\*\s*\|", re.MULTILINE)
 
 
 @pytest.fixture
@@ -119,8 +121,14 @@ class TestPodcastConfigAlignedWithGuide:
 
     def test_segment_order_matches_guide(self, podcast_config: dict, guide_content: str):
         config_segments = podcast_config["script_directions"]["episode_style"]["segment_order"]
-        for segment in config_segments:
-            assert segment in guide_content, f"Config segment '{segment}' not in style guide"
+        guide_segments = [match.strip() for match in SEGMENT_TABLE_PATTERN.findall(guide_content)]
+
+        assert guide_segments, "Could not extract locked segment order from style guide"
+        assert len(guide_segments) == len(set(guide_segments)), "Style guide contains duplicate segments"
+        assert config_segments == guide_segments, (
+            "Podcast config segment_order must exactly match the style guide's locked segment order "
+            f"(guide={guide_segments}, config={config_segments})"
+        )
 
     def test_ai_disclosure_in_config(self, podcast_config: dict):
         opening = podcast_config["script_directions"]["opening_cues"]
