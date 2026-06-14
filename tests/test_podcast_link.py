@@ -50,3 +50,38 @@ def test_header_exposes_spotify_button_when_podcast_url_is_configured() -> None:
         r'<a\s+class="icon-button spotify-button"\s+href="{{\s*\.\s*\|\s*safeURL\s*}}"[^>]*target="_blank"[^>]*rel="noopener noreferrer"[^>]*aria-label="Spotify"',
         header,
     ), "Header Spotify button must use configured URL with target=_blank and rel=noopener noreferrer"
+
+
+def test_podcast_link_disabled_when_empty() -> None:
+    """Templates must guard against empty/whitespace podcast_url (disabled state)."""
+    footer = (REPO_ROOT / "layouts" / "partials" / "footer.html").read_text(encoding="utf-8")
+    header = (REPO_ROOT / "layouts" / "partials" / "header.html").read_text(encoding="utf-8")
+    shortcuts = (REPO_ROOT / "layouts" / "partials" / "report-shortcuts.html").read_text(encoding="utf-8")
+    assert "{{- with site.Params.podcast_url | strings.TrimSpace }}" in footer, (
+        "Footer must render the podcast link only through a trimmed `with` guard"
+    )
+    assert '{{- $podcastURL := site.Params.podcast_url | default "" | strings.TrimSpace }}' in header, (
+        "Header must normalize podcast_url into $podcastURL before rendering"
+    )
+    assert "{{- with $podcastURL }}" in header, (
+        "Header must guard the Spotify button with `with $podcastURL`"
+    )
+    assert "{{- if and $isWeekly $podcastURL }}" in shortcuts, (
+        "Weekly shortcuts must require a non-empty $podcastURL before rendering Spotify"
+    )
+
+
+def test_no_audio_hosting_or_player_pages() -> None:
+    """SquadScope must not host audio, embed players, or serve podcast RSS."""
+    layouts_dir = REPO_ROOT / "layouts"
+    # No podcast RSS template
+    for f in layouts_dir.rglob("*.xml"):
+        content = f.read_text(encoding="utf-8").lower()
+        assert "<enclosure" not in content, f"{f.name} must not contain podcast RSS enclosure tags"
+        assert "open.spotify.com/embed" not in content, f"{f.name} must not embed Spotify players"
+    # No audio player templates
+    for f in layouts_dir.rglob("*.html"):
+        content = f.read_text(encoding="utf-8").lower()
+        assert "<audio" not in content, f"{f.name} must not contain audio player elements"
+        assert "open.spotify.com/embed" not in content, f"{f.name} must not embed Spotify players"
+        assert "spotify:embed:" not in content, f"{f.name} must not contain Spotify embed URIs"
