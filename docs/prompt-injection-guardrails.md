@@ -11,7 +11,7 @@ SquadScope ingests external text from multiple untrusted sources:
 | GitHub repo descriptions | `data/raw/*.json` → prompt templates | HIGH — attacker controls repo description | `preprocess_for_analysis.py` → `sanitize_description()` |
 | TechCrunch/RSS article titles | crawl data → `render_press_context.py` | MEDIUM — unlikely but possible | `render_press_context.format_articles_list()` → `sanitize_text()` |
 | Previous analysis output | `data/analyzed/*.md` → prompt templates | HIGH — poisoned output persists | `analyze_fallback.py` → `_escape_untrusted_boundaries()` |
-| Historical context (rolling/monthly/yearly) | `content/` → `assemble_historical_context.py` | HIGH — poisoned output persists | `analyze_fallback.py` line 742 → `_escape_untrusted_boundaries()` |
+| Historical context (rolling/monthly/yearly) | `content/` → `assemble_historical_context.py` | HIGH — poisoned output persists | `assemble_historical_context._escape_boundaries()` (defense-in-depth) + `analyze_fallback.py` line 742 → `_escape_untrusted_boundaries()` |
 | README snippets | GitHub API → correlation narratives | MEDIUM — attacker controls README | `render_press_context._extract_readme_description()` (structural filtering) |
 | Correlation match data | `correlate.py` → `render_press_context.py` | MEDIUM — sanitized at source | `correlate.py` → `sanitize_text()` at output time |
 | Wisdom files | `.squad/identity/wisdom.md` → prompt templates | MEDIUM — prior LLM output | `reskill.render_wisdom()` → `_escape_untrusted_boundaries()` |
@@ -263,6 +263,19 @@ The following summarizes the complete defense chain from data ingestion to publi
 │  • test_prompt_lint_ci.py — gate on PRs     │
 └─────────────────────────────────────────────┘
 ```
+
+## Acceptance Criteria Verification (Issue #352)
+
+| Criterion | Status | Evidence |
+|-----------|--------|----------|
+| Inventory every prompt and imported text source | ✅ | Threat model table above lists all 12 sources |
+| Untrusted-content fences on all external text | ✅ | All 6 prompt templates fenced; lint enforced |
+| Length caps and normalization | ✅ | `sanitize_text()` / `sanitize_description()` with 200/500 char limits |
+| Prompt lint/check that fails on unguarded variables | ✅ | `lint_prompts.py` + `test_prompt_lint_ci.py` in CI |
+| Canary-token output leak detection | ✅ | `canary_token.py` integrated in `analyze_fallback.py` and `reskill.py` |
+| Red-team corpus test with known injection strings | ✅ | `test_redteam_corpus.py` (7 categories) + `test_prompt_injection_redteam.py` (18 strings) |
+| Evaluate Garak, LLM Guard, Azure Prompt Shields | ✅ | Tool Evaluation section above with verdicts |
+| Validate generated output schema/frontmatter | ✅ | `generate_content._validate_frontmatter_safety()` + `validate_output_safety()` |
 
 ## Phase 3 Follow-up Work
 
