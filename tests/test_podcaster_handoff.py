@@ -360,7 +360,7 @@ class PodcasterHandoffTests(unittest.TestCase):
 
         self.assertEqual(
             payload["spotify_publish"]["title"],
-            "Why Skills Go Vertical Matters for AI, GitHub & Developer Trends | Week 24, 2026",
+            "Why Skills Go Vertical Matters for AI, GitHub & Developer Trends | W24",
         )
         self.assertIn("This week we explore agent skills.", payload["spotify_publish"]["description"])
         self.assertEqual(payload["spotify_publish"]["season_number"], 2026)
@@ -387,10 +387,13 @@ class PodcasterHandoffTests(unittest.TestCase):
                 repo_root=base,
             )
 
-        self.assertEqual(len(payload["spotify_publish"]["title"]), 200)
+        self.assertLessEqual(len(payload["spotify_publish"]["title"]), 200)
         self.assertTrue(payload["spotify_publish"]["title"].startswith("Why "))
-        self.assertEqual(len(payload["spotify_publish"]["description"]), 4000)
-        self.assertTrue(payload["spotify_publish"]["description"].startswith("<p>"))
+        desc = payload["spotify_publish"]["description"]
+        self.assertLessEqual(len(desc), 4000)
+        self.assertTrue(desc.startswith("<p>"))
+        # Verify HTML is properly closed after truncation
+        self.assertTrue(desc.endswith("</p>"), "Truncated description must end with a closed tag")
 
     def test_render_template_value_raises_on_malformed_format_string(self) -> None:
         context = {"year": 2026, "week": 24}

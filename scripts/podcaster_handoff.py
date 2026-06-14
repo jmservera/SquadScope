@@ -182,6 +182,32 @@ def _render_template_value(value: Any, context: dict[str, Any]) -> Any:
         raise PodcasterHandoffError(f"spotify_publish template has invalid format syntax: {value!r}") from exc
 
 
+def _truncate_html(value: str, limit: int) -> str:
+    """Truncate HTML to *limit* chars while keeping tags properly closed."""
+    if len(value) <= limit:
+        return value
+    # Reserve space for potential closing tags; iteratively find a safe cut point
+    truncated = value[:limit]
+    # Remove any partial tag at the end
+    truncated = re.sub(r"<[^>]*$", "", truncated)
+    # Compute needed closing tags
+    while True:
+        open_tags: list[str] = []
+        for m in re.finditer(r"<(/?)(\w+)[^>]*>", truncated):
+            if m.group(1):  # closing tag
+                if open_tags and open_tags[-1] == m.group(2):
+                    open_tags.pop()
+            else:
+                if m.group(2).lower() not in ("br", "hr", "img", "input", "meta", "link"):
+                    open_tags.append(m.group(2))
+        suffix = "".join(f"</{tag}>" for tag in reversed(open_tags))
+        if len(truncated) + len(suffix) <= limit:
+            return truncated + suffix
+        # Shrink content to make room for closing tags
+        truncated = truncated[: limit - len(suffix)]
+        truncated = re.sub(r"<[^>]*$", "", truncated)
+
+
 def _truncate_text(value: str, limit: int) -> str:
     return value[:limit]
 
@@ -210,7 +236,7 @@ def _resolve_spotify_publish(config: dict[str, Any], *, week: str, article_title
         resolved["title"] = title
     description = resolved.pop("description_template", None)
     if isinstance(description, str):
-        resolved["description"] = _truncate_text(description, MAX_SPOTIFY_DESCRIPTION_CHARS)
+        resolved["description"] = _truncate_html(description, MAX_SPOTIFY_DESCRIPTION_CHARS)
     elif description is not None:
         resolved["description"] = description
     return resolved
