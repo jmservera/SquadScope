@@ -279,6 +279,17 @@ def _build_plans(
     return plans
 
 
+def _escape_boundaries(text: str) -> str:
+    """Defense-in-depth: escape untrusted-content boundary markers in assembled text."""
+    try:
+        from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+    except ModuleNotFoundError:  # pragma: no cover - script execution path
+        sys.path.insert(0, str(ROOT))
+        from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
+    return _escape_untrusted_boundaries(text)
+
+
 def _render_sections(plans: Iterable[_SectionPlan]) -> tuple[str, tuple[HistoricalContextSection, ...]]:
     rendered_sections: list[str] = []
     metadata: list[HistoricalContextSection] = []
@@ -288,6 +299,9 @@ def _render_sections(plans: Iterable[_SectionPlan]) -> tuple[str, tuple[Historic
         content = compress_to_budget(plan.raw_content, plan.current_words)
         if not content:
             continue
+        # Defense-in-depth: escape boundary markers even though the caller
+        # (analyze_fallback.py) also escapes the final assembled string.
+        content = _escape_boundaries(content)
         rendered_sections.append(f"### {plan.label}\n\n{content}")
         metadata.append(
             HistoricalContextSection(
