@@ -148,25 +148,46 @@ def test_og_image_template_uses_1200x630() -> None:
     assert "1200x630" in og, "OG template must resize to 1200x630"
 
 
-def test_cover_card_uses_800x400_with_srcset() -> None:
-    """Cover card must use 800x400 base with responsive srcset per issue #358 criterion 3."""
-    cover = _read(VIS / "article-cover.html")
-    assert "800x400" in cover, "Cover card must produce 800x400 base size"
-    assert "1600x800" in cover, "Cover card must produce 1600x800 for 2x srcset"
-    assert "srcset" in cover, "Cover card must use responsive srcset"
+def test_cover_image_orchestrator_uses_800x400_with_srcset() -> None:
+    """Cover image orchestrator must emit responsive 800x400/1600x800 local cover variants."""
+    orchestrator = _read(VIS / "article-cover.html")
+    assert "800x400" in orchestrator, "Cover image flow must produce 800x400 base size"
+    assert "1600x800" in orchestrator, "Cover image flow must produce 1600x800 for 2x srcset"
+    assert "srcset" in orchestrator, "Cover image flow must use responsive srcset"
 
 
 def test_cover_only_renders_local_resources() -> None:
     """Cover template must only render locally-hosted images (no hotlinking)."""
     cover = _read(VIS / "article-cover.html")
-    assert "Resources.GetMatch" in cover or "resources.Get" in cover
-    assert "hotlink" in cover.lower() or "locally-hosted" in cover.lower()
+    assert "$page.Resources.GetMatch" in cover, "Cover lookup must resolve page-bundle resources"
+    assert "resources.Get" in cover, "Cover lookup must resolve global Hugo resources"
+    assert 'eq $candidate.ResourceType "image"' in cover, "Only Hugo image resources should render"
+    assert ".RelPermalink" in cover, "Rendered cover URLs must use local RelPermalink paths"
+    assert 'replaceRE `(?i)<img[^>]*>` ""' in cover, "Attribution must strip rendered img tags"
 
 
 def test_image_registry_exists_with_required_fields() -> None:
     """data/image-registry.json must exist with required schema fields."""
     import json
+
     registry_path = ROOT / "data" / "image-registry.json"
+    schema_path = ROOT / "data" / "image-registry.schema.json"
+
     assert registry_path.exists(), "Image registry must exist at data/image-registry.json"
+    assert schema_path.exists(), "Image registry schema must exist at data/image-registry.schema.json"
+
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    assert schema.get("type") == "object", "Image registry schema must define an object"
+    assert "images" in schema.get("required", []), "Image registry schema must require an images array"
+    images_schema = schema.get("properties", {}).get("images", {})
+    assert images_schema.get("type") == "array", "Image registry schema must define images as an array"
+    item_properties = images_schema.get("items", {}).get("properties", {})
+    required_fields = {"filename", "source_url", "license", "attribution", "added_by"}
+    assert required_fields.issubset(item_properties), (
+        f"Image registry schema missing required fields: {sorted(required_fields - set(item_properties))}"
+    )
+
     data = json.loads(registry_path.read_text(encoding="utf-8"))
-    assert isinstance(data, (dict, list)), "Image registry must be JSON object or array"
+    assert isinstance(data, dict), "Image registry must be a JSON object"
+    assert data.get("$schema") == "./image-registry.schema.json"
+    assert isinstance(data.get("images"), list), "Image registry must declare an images array"
