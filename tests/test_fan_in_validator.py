@@ -96,7 +96,7 @@ def _make_rss_artifact(
             "total_articles": len(arts),
             "relevant_articles": len(arts),
             "content_checksum": hashlib.sha256(
-                json.dumps(arts, sort_keys=True).encode()
+                json.dumps(arts, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
             ).hexdigest(),
         },
         "articles": arts,
