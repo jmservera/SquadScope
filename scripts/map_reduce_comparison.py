@@ -15,8 +15,8 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import sys
-import time
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -24,11 +24,9 @@ from typing import Any
 
 try:
     from scripts.analysis_gate import validate_analysis, validate_publish_quality
-    from scripts.model_pricing import estimate_cost_usd
 except ModuleNotFoundError:  # pragma: no cover
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
     from scripts.analysis_gate import validate_analysis, validate_publish_quality
-    from scripts.model_pricing import estimate_cost_usd
 
 COMPARISON_SCHEMA = "comparison_report_v1"
 PROMOTION_MIN_QUALITY = int(os.environ.get("MAPREDUCE_MIN_QUALITY_SCORE", "60"))
@@ -36,6 +34,14 @@ PROMOTION_MIN_COVERAGE = float(os.environ.get("MAPREDUCE_MIN_COVERAGE", "0.85"))
 PROMOTION_HARD_FLOOR_QUALITY = 55
 PROMOTION_HARD_FLOOR_COVERAGE = 0.70
 TIME_BUDGET_SECONDS = int(os.environ.get("MAPREDUCE_TIME_BUDGET_SECONDS", "300"))
+MARKDOWN_LINK_PATTERN = re.compile(r"\[[^\]]+\]\((https?://[^)]+)\)")
+WEEK_PATTERN = re.compile(r"^(?P<year>\d{4})-W(?P<week>\d{2})$")
+VALID_REJECTION_REASONS = {
+    "duplicate",
+    "malformed_finding",
+    "unresolved_contradiction",
+    "weak_citation",
+}
 
 
 @dataclass(frozen=True)
@@ -91,7 +97,7 @@ def compute_evidence_coverage_from_ledgers(
     """Compute evidence coverage from mapper ledger files."""
     total_input = 0
     total_mapped = 0
-    for ledger_path in sorted(candidate_dir.glob("map-*.json")):
+    for ledger_path in sorted((candidate_dir / "maps").glob("*.json")):
         try:
             ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError):
@@ -134,8 +140,16 @@ def analyze_map_reduce(
     candidate_dir: Path, raw_payload: dict[str, Any], current_datetime: str
 ) -> tuple[ArtifactInfo, dict[str, Any]]:
     """Analyze the map/reduce candidate artifact and QA report."""
-    candidate_path = candidate_dir / "candidate-summary.md"
-    qa_path = candidate_dir / "qa-report.json"
+    week = str(raw_payload.get("week") or "").strip()
+    candidate_path = resolve_candidate_path(candidate_dir, week)
+    qa_path = resolve_sidecar_path(
+        candidate_dir,
+        preferred_name="qa-comparison-report.json",
+        legacy_name="qa-report.json",
+    )
+    plan_path = candidate_dir / "editorial-plan.json"
+    contradictions_path = candidate_dir / "sidecars" / "contradictions.json"
+    rejected_claims_path = candidate_dir / "sidecars" / "rejected-claims.json"
 
     if not candidate_path.exists():
         raise FileNotFoundError(f"Candidate summary not found: {candidate_path}")
@@ -148,22 +162,56 @@ def analyze_map_reduce(
     non_provenance = [e for e in publish_errors if not e.startswith("AI provenance")]
     gate_passed = not structural_errors and not non_provenance
 
-    qa_report: dict[str, Any] = {}
-    if qa_path.exists():
-        qa_report = json.loads(qa_path.read_text(encoding="utf-8"))
+    artifact_errors: list[str] = []
+    qa_report = load_optional_json(
+        qa_path,
+        artifact_name="QA comparison report",
+        errors=artifact_errors,
+    )
+    editorial_plan = load_optional_json(
+        plan_path,
+        artifact_name="editorial plan",
+        errors=artifact_errors,
+    )
+    contradictions_sidecar = load_optional_json(
+        contradictions_path,
+        artifact_name="contradictions sidecar",
+        errors=artifact_errors,
+    )
+    rejected_claims_sidecar = load_optional_json(
+        rejected_claims_path,
+        artifact_name="rejected claims sidecar",
+        errors=artifact_errors,
+    )
 
     evidence_coverage = compute_evidence_coverage_from_ledgers(candidate_dir)
+    orphaned_citations = compute_orphaned_citations(
+        text=text,
+        editorial_plan=editorial_plan,
+    )
+    unresolved_contradictions = count_unresolved_contradictions(contradictions_sidecar)
+    invalid_rejected_claims = count_invalid_rejected_claims(
+        rejected_claims_sidecar,
+        contradictions_sidecar=contradictions_sidecar,
+    )
+    checks = qa_report.get("checks", {}) if isinstance(qa_report, dict) else {}
+    sidecars_present = checks.get("sidecars_present", {}) if isinstance(checks, dict) else {}
 
     extra = {
-        "mapper_errors": qa_report.get("checks", {})
+        "mapper_errors": checks
         .get("mapper_contracts", {})
         .get("errors_by_mapper", {}),
-        "contradictions_resolved": qa_report.get("checks", {})
-        .get("sidecars_present", {})
-        .get("contradiction_count", 0),
-        "claims_rejected": qa_report.get("checks", {})
-        .get("sidecars_present", {})
-        .get("rejected_count", 0),
+        "claims_rejected": sidecars_present.get(
+            "rejected_count",
+            len(rejected_claims_sidecar.get("rejected_claims", [])),
+        ),
+        "unresolved_contradictions": sidecars_present.get(
+            "contradiction_count",
+            unresolved_contradictions,
+        ),
+        "orphaned_citations": orphaned_citations,
+        "invalid_rejected_claims": invalid_rejected_claims,
+        "artifact_errors": artifact_errors,
     }
 
     info = ArtifactInfo(
@@ -187,7 +235,7 @@ def compute_verdict(
     blockers: list[str] = []
 
     # Gate regression check
-    if single_pass.gate_passed and not map_reduce.gate_passed:
+    if deltas.get("gate_regression"):
         blockers.append("Gate regression: single-pass passes but map/reduce fails.")
 
     # Quality floor
@@ -217,6 +265,30 @@ def compute_verdict(
             f"{PROMOTION_HARD_FLOOR_COVERAGE} (rollback trigger)."
         )
 
+    if deltas.get("orphaned_citations", 0) > 0:
+        blockers.append(
+            "Citation integrity failed: "
+            f"{deltas['orphaned_citations']} orphaned rendered citation(s) were not "
+            "bound in the editorial plan."
+        )
+
+    if deltas.get("unresolved_contradictions", 0) > 0:
+        blockers.append(
+            "Contradiction handling failed: "
+            f"{deltas['unresolved_contradictions']} unresolved contradiction(s) remain "
+            "in the map/reduce sidecars."
+        )
+
+    if deltas.get("invalid_rejected_claims", 0) > 0:
+        blockers.append(
+            "Claim rejection audit failed: "
+            f"{deltas['invalid_rejected_claims']} rejected claim(s) were missing a "
+            "supported audit reason."
+        )
+
+    for artifact_error in deltas.get("artifact_errors", []):
+        blockers.append(f"Comparison artifact unavailable: {artifact_error}")
+
     verdict = "pass" if not blockers else "fail"
     return verdict, blockers
 
@@ -238,6 +310,14 @@ def generate_comparison_report(
         "citation_count": map_reduce.citation_count - single_pass.citation_count,
         "word_count": map_reduce.word_count - single_pass.word_count,
         "gate_regression": single_pass.gate_passed and not map_reduce.gate_passed,
+        "orphaned_citations": int(map_reduce_extra.get("orphaned_citations", 0)),
+        "unresolved_contradictions": int(
+            map_reduce_extra.get("unresolved_contradictions", 0)
+        ),
+        "invalid_rejected_claims": int(
+            map_reduce_extra.get("invalid_rejected_claims", 0)
+        ),
+        "artifact_errors": list(map_reduce_extra.get("artifact_errors", [])),
     }
 
     verdict, blockers = compute_verdict(single_pass, map_reduce, deltas)
@@ -284,19 +364,24 @@ def check_promotion_eligibility(reports: list[dict[str, Any]]) -> dict[str, Any]
             "runs_total": len(reports),
         }
 
-    passing = [r for r in reports if r.get("verdict") == "pass"]
+    ordered_reports = sorted(reports, key=promotion_report_sort_key)
+    recent_reports = ordered_reports[-3:]
+    passing = [r for r in recent_reports if r.get("verdict") == "pass"]
     if len(passing) < 3:
         return {
             "eligible": False,
-            "reason": f"Only {len(passing)}/{len(reports)} runs passed; need ≥ 3 consecutive.",
+            "reason": (
+                f"Only {len(passing)}/{len(recent_reports)} most recent runs passed; "
+                "need ≥ 3 consecutive."
+            ),
             "runs_passing": len(passing),
             "runs_total": len(reports),
         }
 
-    # Check average quality across passing runs
+    # Check average quality across the required consecutive window.
     avg_quality = sum(
-        r["map_reduce"]["quality_score"] for r in passing
-    ) / len(passing)
+        r["map_reduce"]["quality_score"] for r in recent_reports
+    ) / len(recent_reports)
     if avg_quality < 65:
         return {
             "eligible": False,
@@ -306,10 +391,8 @@ def check_promotion_eligibility(reports: list[dict[str, Any]]) -> dict[str, Any]
         }
 
     # Check staleness (28 days)
-    from datetime import datetime, timedelta
-
     now = datetime.now(UTC)
-    for report in passing[-3:]:
+    for report in recent_reports:
         run_dt = report.get("run_datetime", "")
         try:
             report_time = datetime.fromisoformat(run_dt.replace("Z", "+00:00"))
@@ -485,7 +568,181 @@ def main(argv: list[str] | None = None) -> int:
         else:
             print(f"⏳ Not yet eligible: {status.get('reason')}", flush=True)
 
-    return 1 if rollback else 0
+    return 1 if rollback or verdict != "pass" else 0
+
+
+def resolve_candidate_path(candidate_dir: Path, week: str) -> Path:
+    preferred = candidate_dir / f"{week}-map-reduce-candidate.md"
+    if preferred.exists():
+        return preferred
+    legacy = candidate_dir / "candidate-summary.md"
+    if legacy.exists():
+        return legacy
+    return preferred
+
+
+def resolve_sidecar_path(
+    candidate_dir: Path,
+    *,
+    preferred_name: str,
+    legacy_name: str,
+) -> Path:
+    preferred = candidate_dir / preferred_name
+    if preferred.exists():
+        return preferred
+    legacy = candidate_dir / legacy_name
+    if legacy.exists():
+        return legacy
+    return preferred
+
+
+def load_optional_json(
+    path: Path,
+    *,
+    artifact_name: str,
+    errors: list[str],
+) -> dict[str, Any]:
+    if not path.exists():
+        errors.append(f"{artifact_name} missing: {path}")
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        errors.append(f"{artifact_name} unreadable: {path} ({exc})")
+        return {}
+    if not isinstance(payload, dict):
+        errors.append(f"{artifact_name} must be a JSON object: {path}")
+        return {}
+    return payload
+
+
+def normalize_repo_url(url: str) -> str | None:
+    prefix = "https://github.com/"
+    if not url.startswith(prefix):
+        return None
+    repo_path = url.removeprefix(prefix).split("?", 1)[0].split("#", 1)[0]
+    parts = [part for part in repo_path.split("/") if part]
+    if len(parts) < 2:
+        return None
+    return f"{parts[0]}/{parts[1]}"
+
+
+def compute_orphaned_citations(
+    *,
+    text: str,
+    editorial_plan: dict[str, Any],
+) -> int:
+    if not editorial_plan:
+        return len(MARKDOWN_LINK_PATTERN.findall(text))
+
+    selected_claims = (
+        editorial_plan.get("selected_claims", [])
+        if isinstance(editorial_plan.get("selected_claims"), list)
+        else []
+    )
+    key_references = (
+        editorial_plan.get("key_references", {})
+        if isinstance(editorial_plan.get("key_references"), dict)
+        else {}
+    )
+
+    allowed_repos = {
+        str(editorial_plan.get("top_repo", "")).strip(),
+        *(str(repo).strip() for repo in key_references.get("notable_projects", [])),
+    }
+    allowed_articles = {
+        str(url).strip() for url in key_references.get("press_articles", [])
+    }
+    for claim in selected_claims:
+        if not isinstance(claim, dict):
+            continue
+        bindings = (
+            claim.get("citation_bindings", {})
+            if isinstance(claim.get("citation_bindings"), dict)
+            else {}
+        )
+        allowed_repos.update(str(repo).strip() for repo in bindings.get("repos", []))
+        allowed_articles.update(
+            str(url).strip() for url in bindings.get("articles", [])
+        )
+
+    allowed_repos.discard("")
+    allowed_articles.discard("")
+
+    orphaned = 0
+    for url in MARKDOWN_LINK_PATTERN.findall(text):
+        repo_name = normalize_repo_url(url)
+        if repo_name is not None:
+            if repo_name not in allowed_repos:
+                orphaned += 1
+            continue
+        if url not in allowed_articles:
+            orphaned += 1
+    return orphaned
+
+
+def count_unresolved_contradictions(contradictions_sidecar: dict[str, Any]) -> int:
+    contradictions = (
+        contradictions_sidecar.get("contradictions", [])
+        if isinstance(contradictions_sidecar.get("contradictions"), list)
+        else []
+    )
+    return len(contradictions)
+
+
+def count_invalid_rejected_claims(
+    rejected_claims_sidecar: dict[str, Any],
+    *,
+    contradictions_sidecar: dict[str, Any],
+) -> int:
+    rejected_claims = (
+        rejected_claims_sidecar.get("rejected_claims", [])
+        if isinstance(rejected_claims_sidecar.get("rejected_claims"), list)
+        else []
+    )
+    contradiction_claim_ids = {
+        str(entry.get("claim_id"))
+        for entry in contradictions_sidecar.get("contradictions", [])
+        if isinstance(entry, dict) and entry.get("claim_id") is not None
+    }
+    invalid = 0
+    for entry in rejected_claims:
+        if not isinstance(entry, dict):
+            invalid += 1
+            continue
+        reason = str(entry.get("reason") or "").strip()
+        if reason not in VALID_REJECTION_REASONS:
+            invalid += 1
+            continue
+        if reason == "unresolved_contradiction":
+            claim_id = entry.get("claim_id")
+            if claim_id is None or str(claim_id) not in contradiction_claim_ids:
+                invalid += 1
+    return invalid
+
+
+def promotion_report_sort_key(report: dict[str, Any]) -> float:
+    run_datetime = report.get("run_datetime")
+    if isinstance(run_datetime, str):
+        try:
+            parsed = datetime.fromisoformat(run_datetime.replace("Z", "+00:00"))
+        except ValueError:
+            pass
+        else:
+            return parsed.astimezone(UTC).timestamp()
+
+    week = report.get("week")
+    if isinstance(week, str):
+        match = WEEK_PATTERN.fullmatch(week)
+        if match:
+            report_week = datetime.fromisocalendar(
+                int(match.group("year")),
+                int(match.group("week")),
+                1,
+            )
+            return report_week.replace(tzinfo=UTC).timestamp()
+
+    return float("-inf")
 
 
 if __name__ == "__main__":

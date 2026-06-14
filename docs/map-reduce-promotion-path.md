@@ -24,11 +24,11 @@ the current single-pass analyzer.
 
 | Metric | Source | Threshold |
 |--------|--------|-----------|
-| Evidence coverage | Coverage ledger `repo_count_mapped / repo_count_input` | ≥ 0.85 of single-pass |
+| Evidence coverage | Coverage ledger `repo_count_mapped / repo_count_input` | Track weekly delta vs. single-pass; every promotion-window run must still stay ≥ 0.85 absolute coverage |
 | Citation integrity | `citation_bindings` vs. rendered markdown links | Zero orphaned citations |
-| Contradiction handling | `contradictions` sidecar count + resolution | ≤ single-pass unresolved count |
-| Claim rejection | `rejected_claims` with reason audit | No valid claims incorrectly rejected |
-| Quality score | `analysis_gate.validate_analysis` word count + structure | ≥ single-pass quality_score |
+| Contradiction handling | `contradictions` sidecar count + resolution audit | Zero unresolved contradictions in the promotion window |
+| Claim rejection | `rejected_claims` with reason audit | Every rejected claim must carry an allowed audit reason; no valid claims incorrectly rejected |
+| Quality score | `analysis_gate.validate_analysis` word count + structure | Track weekly delta vs. single-pass; every promotion-window run must still stay ≥ 60 with ≥ 65 average |
 | Gate pass/fail | `analysis_gate.validate_publish_quality` | Must pass all non-provenance gates |
 
 ### Comparison Run Protocol
@@ -61,7 +61,7 @@ the current single-pass analyzer.
     "word_count": 1850
   },
   "map_reduce": {
-    "artifact_path": "data/map-reduce-candidates/2026-W24/candidate-summary.md",
+    "artifact_path": "data/map-reduce-candidates/2026-W24/2026-W24-map-reduce-candidate.md",
     "sha256": "...",
     "quality_score": 68,
     "gate_passed": true,
@@ -69,15 +69,20 @@ the current single-pass analyzer.
     "citation_count": 12,
     "word_count": 1720,
     "mapper_errors": {},
-    "contradictions_resolved": 2,
-    "claims_rejected": 5
+    "claims_rejected": 5,
+    "unresolved_contradictions": 0,
+    "orphaned_citations": 0,
+    "invalid_rejected_claims": 0
   },
   "deltas": {
     "quality_score": -4,
     "evidence_coverage": -0.04,
     "citation_count": -2,
     "word_count": -130,
-    "gate_regression": false
+    "gate_regression": false,
+    "orphaned_citations": 0,
+    "unresolved_contradictions": 0,
+    "invalid_rejected_claims": 0
   },
   "verdict": "pass",
   "blockers": []
@@ -96,34 +101,41 @@ publish-eligible:
 1. **Gate parity:** Map/reduce candidate passes `validate_analysis` and
    `validate_publish_quality` (excluding provenance gate) for all 3+
    comparison runs.
-2. **Quality score floor:** Map/reduce `quality_score` ≥ 60 for every run AND
-   average across runs ≥ 65.
-3. **Evidence coverage:** `evidence_coverage` ≥ 0.85 for every run (i.e.,
-   at least 85% of input repos appear in mapper output).
+2. **Quality score floor:** Map/reduce `quality_score` deltas are recorded
+   against the single-pass baseline for every run, and the candidate must still
+   stay ≥ 60 for every run AND average ≥ 65 across the promotion window.
+3. **Evidence coverage:** `evidence_coverage` deltas are recorded against the
+   single-pass baseline for every run, and the candidate must still stay ≥ 0.85
+   absolute coverage for every run (i.e., at least 85% of input repos appear in
+   mapper output).
 4. **Citation integrity:** Zero orphaned citations — every `[repo](url)` in
    rendered markdown must trace back to a `citation_bindings` entry in the
    editorial plan.
-5. **No gate regression:** If single-pass passes all gates, map/reduce must
+5. **Contradiction handling:** Promotion-window runs must have zero unresolved
+   contradictions preserved in the reducer sidecars.
+6. **Claim rejection audit:** Every rejected claim must carry an allowed audit
+   reason, and no valid claim may be incorrectly rejected.
+7. **No gate regression:** If single-pass passes all gates, map/reduce must
    also pass all gates. A map/reduce gate failure when single-pass succeeds
    is a blocking regression.
 
 ### Editorial Requirements
 
-6. **Section completeness:** All 5 required sections (`## This Week's Trends`,
+8. **Section completeness:** All 5 required sections (`## This Week's Trends`,
    `## Where Industry Meets Code`, `## Signal & Noise`, `## Blind Spots`,
    `## The Week Ahead`) meet minimum word counts per `analysis-spec.md`.
-7. **Contradiction transparency:** Unresolved contradictions are surfaced in
-   the QA sidecar, not silently dropped.
-8. **Claim provenance:** Every selected claim traces to at least one mapper
+9. **Contradiction transparency:** Any contradiction preserved for audit must
+   be surfaced in the QA sidecar, not silently dropped.
+10. **Claim provenance:** Every selected claim traces to at least one mapper
    finding with explicit `evidence_refs`.
 
 ### Approval Requirements
 
-9. **Operator opt-in:** The `MAPREDUCE_PUBLISH_ELIGIBLE` environment variable
+11. **Operator opt-in:** The `MAPREDUCE_PUBLISH_ELIGIBLE` environment variable
    or workflow input must be explicitly set to `true`. Default is `false`.
-10. **Human sign-off:** At least one human reviewer must approve the promotion
+12. **Human sign-off:** At least one human reviewer must approve the promotion
     PR that sets `publish_eligible: true` in the workflow configuration.
-11. **Team sign-off:** Leela (scope/risk), Farnsworth (editorial quality),
+13. **Team sign-off:** Leela (scope/risk), Farnsworth (editorial quality),
     Fry (gates), and Bender (artifact determinism) must each approve in the
     promotion PR.
 

@@ -3,22 +3,24 @@
 from __future__ import annotations
 
 import json
-import os
 from datetime import UTC, datetime
-from pathlib import Path
-from unittest.mock import patch
+from types import SimpleNamespace
 
 import pytest
 
+import scripts.map_reduce_comparison as comparison
 from scripts.map_reduce_comparison import (
     COMPARISON_SCHEMA,
     PROMOTION_HARD_FLOOR_COVERAGE,
     PROMOTION_HARD_FLOOR_QUALITY,
     PROMOTION_MIN_COVERAGE,
     PROMOTION_MIN_QUALITY,
+    analyze_map_reduce,
     check_promotion_eligibility,
+    compute_evidence_coverage_from_ledgers,
     compute_verdict,
     generate_comparison_report,
+    main,
     should_rollback,
     ArtifactInfo,
 )
@@ -105,7 +107,7 @@ class TestComputeVerdict:
     def test_fail_on_gate_regression(self):
         sp = _make_artifact_info(gate_passed=True)
         mr = _make_artifact_info(gate_passed=False)
-        deltas = {"gate_regression": False}
+        deltas = {"gate_regression": True}
         verdict, blockers = compute_verdict(sp, mr, deltas)
         assert verdict == "fail"
         assert any("Gate regression" in b for b in blockers)
@@ -141,6 +143,30 @@ class TestComputeVerdict:
         verdict, blockers = compute_verdict(sp, mr, deltas)
         assert verdict == "fail"
         assert any("hard floor" in b for b in blockers)
+
+    def test_fail_on_orphaned_citations(self):
+        sp = _make_artifact_info()
+        mr = _make_artifact_info()
+        deltas = {"gate_regression": False, "orphaned_citations": 1}
+        verdict, blockers = compute_verdict(sp, mr, deltas)
+        assert verdict == "fail"
+        assert any("Citation integrity failed" in b for b in blockers)
+
+    def test_fail_on_unresolved_contradictions(self):
+        sp = _make_artifact_info()
+        mr = _make_artifact_info()
+        deltas = {"gate_regression": False, "unresolved_contradictions": 1}
+        verdict, blockers = compute_verdict(sp, mr, deltas)
+        assert verdict == "fail"
+        assert any("Contradiction handling failed" in b for b in blockers)
+
+    def test_fail_on_invalid_rejected_claims(self):
+        sp = _make_artifact_info()
+        mr = _make_artifact_info()
+        deltas = {"gate_regression": False, "invalid_rejected_claims": 1}
+        verdict, blockers = compute_verdict(sp, mr, deltas)
+        assert verdict == "fail"
+        assert any("Claim rejection audit failed" in b for b in blockers)
 
 
 class TestShouldRollback:
@@ -236,6 +262,17 @@ class TestCheckPromotionEligibility:
         assert result["eligible"] is False
         assert "older than 28 days" in result["reason"]
 
+    def test_not_eligible_when_most_recent_run_failed(self):
+        reports = [
+            _make_comparison_report(week="2026-W21", verdict="pass"),
+            _make_comparison_report(week="2026-W22", verdict="pass"),
+            _make_comparison_report(week="2026-W23", verdict="pass"),
+            _make_comparison_report(week="2026-W24", verdict="fail"),
+        ]
+        result = check_promotion_eligibility(reports)
+        assert result["eligible"] is False
+        assert "most recent runs passed" in result["reason"]
+
 
 class TestGenerateComparisonReport:
     """Tests for report generation."""
@@ -289,3 +326,123 @@ class TestOperatorControls:
         assert PROMOTION_MIN_COVERAGE == 0.85
         assert PROMOTION_HARD_FLOOR_QUALITY == 55
         assert PROMOTION_HARD_FLOOR_COVERAGE == 0.70
+
+
+class TestArtifactLoading:
+    def test_reads_mapper_ledgers_from_maps_dir(self, tmp_path):
+        maps_dir = tmp_path / "maps"
+        maps_dir.mkdir()
+        (maps_dir / "new_repos.json").write_text(
+            json.dumps(
+                {
+                    "coverage": {
+                        "repo_count_input": 8,
+                        "repo_count_mapped": 6,
+                        "article_count_input": 2,
+                        "article_count_mapped": 1,
+                    }
+                }
+            ),
+            encoding="utf-8",
+        )
+        (maps_dir / "trending_repos.json").write_text(
+            json.dumps(
+                {
+                    "coverage": {
+                        "repo_count_input": 2,
+                        "repo_count_mapped": 2,
+                        "article_count_input": 0,
+                        "article_count_mapped": 0,
+                    }
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        assert compute_evidence_coverage_from_ledgers(tmp_path) == pytest.approx(0.75)
+
+    def test_analyze_map_reduce_uses_dry_run_artifacts_and_handles_bad_qa(
+        self,
+        tmp_path,
+        monkeypatch,
+    ):
+        week = "2026-W24"
+        (tmp_path / f"{week}-map-reduce-candidate.md").write_text(
+            "---\nquality_score: 68\n---\n\n[octo/repo](https://github.com/octo/repo)\n",
+            encoding="utf-8",
+        )
+        (tmp_path / "qa-comparison-report.json").write_text("{bad json", encoding="utf-8")
+        (tmp_path / "editorial-plan.json").write_text(
+            json.dumps(
+                {
+                    "top_repo": "octo/repo",
+                    "selected_claims": [
+                        {
+                            "citation_bindings": {
+                                "repos": ["octo/repo"],
+                                "articles": [],
+                            }
+                        }
+                    ],
+                    "key_references": {
+                        "notable_projects": ["octo/repo"],
+                        "press_articles": [],
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
+        sidecars_dir = tmp_path / "sidecars"
+        sidecars_dir.mkdir()
+        (sidecars_dir / "contradictions.json").write_text(
+            json.dumps({"contradictions": []}),
+            encoding="utf-8",
+        )
+        (sidecars_dir / "rejected-claims.json").write_text(
+            json.dumps({"rejected_claims": []}),
+            encoding="utf-8",
+        )
+        maps_dir = tmp_path / "maps"
+        maps_dir.mkdir()
+        (maps_dir / "new_repos.json").write_text(
+            json.dumps(
+                {
+                    "coverage": {
+                        "repo_count_input": 1,
+                        "repo_count_mapped": 1,
+                        "article_count_input": 0,
+                        "article_count_mapped": 0,
+                    }
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        monkeypatch.setattr(comparison, "validate_analysis", lambda *_args, **_kwargs: ([], 220))
+        monkeypatch.setattr(
+            comparison,
+            "validate_publish_quality",
+            lambda *_args, **_kwargs: ([], {}),
+        )
+
+        info, extra = analyze_map_reduce(
+            tmp_path,
+            {"week": week},
+            "2026-06-14T07:00:00+00:00",
+        )
+
+        assert info.path.endswith(f"{week}-map-reduce-candidate.md")
+        assert info.evidence_coverage == pytest.approx(1.0)
+        assert any("QA comparison report unreadable" in err for err in extra["artifact_errors"])
+
+
+class TestMain:
+    def test_returns_nonzero_on_failed_verdict(self, monkeypatch):
+        monkeypatch.setattr(comparison, "parse_args", lambda _argv=None: SimpleNamespace())
+        monkeypatch.setattr(
+            comparison,
+            "run",
+            lambda _args: {"week": "2026-W24", "verdict": "fail", "rollback": False},
+        )
+
+        assert main([]) == 1
