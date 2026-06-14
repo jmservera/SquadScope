@@ -13,6 +13,7 @@ if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import scripts.analysis_gate as analysis_gate
+from scripts.generate_yearly_narrative import build_yearly_narrative_pages
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SUMMARY_SUFFIX = "-summary.md"
@@ -26,11 +27,8 @@ MONTHLY_SECTIONS = [
     "Key Takeaways",
 ]
 YEARLY_SECTIONS = [
-    "Year in Review",
-    "Biggest Trends",
-    "Most Impactful Repos",
-    "What Changed",
-    "Predictions Review",
+    "Narrative",
+    "Arc",
 ]
 MONTH_NAMES = {
     1: "January",
@@ -112,6 +110,8 @@ class RollupPage:
     frontmatter: dict[str, Any]
     sections: dict[str, list[RollupEntry]]
     section_order: list[str]
+    replace_existing_sections: bool = False
+    preserve_unknown_sections: bool = True
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -314,55 +314,6 @@ def monthly_entries(weekly: WeeklySummary, tags_counter: Counter[str]) -> dict[s
     }
 
 
-def yearly_entries(weekly: WeeklySummary, tags_counter: Counter[str]) -> dict[str, RollupEntry]:
-    common_tags = ", ".join(tag for tag, _ in tags_counter.most_common(5)) or "none yet"
-    repo_link = repo_markdown(weekly.top_repo)
-    month_link = f"[{weekly.month_title}]({weekly.month_link})"
-    week_link = f"[{weekly.week_title}]({weekly.week_link})"
-    marker = f"### {weekly.month_title} update — {weekly.week}"
-    return {
-        "Year in Review": RollupEntry(
-            marker=marker,
-            text=(
-                f"{marker}\n"
-                f"- {month_link} gained a new weekly signal via {week_link}.\n"
-                f"- Snapshot: {weekly.summary}"
-            ),
-        ),
-        "Biggest Trends": RollupEntry(
-            marker=marker,
-            text=(
-                f"{marker}\n"
-                f"- Themes in rotation: {common_tags}.\n"
-                f"- Signal from {week_link}: {weekly.signal}"
-            ),
-        ),
-        "Most Impactful Repos": RollupEntry(
-            marker=marker,
-            text=(
-                f"{marker}\n"
-                f"- Featured repo: {repo_link}.\n"
-                f"- Month summary: {month_link}."
-            ),
-        ),
-        "What Changed": RollupEntry(
-            marker=marker,
-            text=(
-                f"{marker}"
-                + (f"\n- Friction noted in {week_link}: {weekly.noise}" if weekly.noise else "")
-            ),
-        ),
-        "Predictions Review": RollupEntry(
-            marker=marker,
-            text=(
-                f"{marker}\n"
-                f"- Open question carried forward from {month_link}: {weekly.gaps}\n"
-                f"- Working takeaway: {weekly.conclusion}"
-            ),
-        ),
-    }
-
-
 def build_monthly_pages(summaries: list[WeeklySummary], content_root: Path) -> list[RollupPage]:
     grouped: dict[tuple[int, int], list[WeeklySummary]] = defaultdict(list)
     for summary in summaries:
@@ -397,38 +348,33 @@ def build_monthly_pages(summaries: list[WeeklySummary], content_root: Path) -> l
 
 
 def build_yearly_pages(summaries: list[WeeklySummary], content_root: Path) -> list[RollupPage]:
-    grouped: dict[int, list[WeeklySummary]] = defaultdict(list)
-    for summary in summaries:
-        grouped[summary.year].append(summary)
-
     pages: list[RollupPage] = []
-    for year, items in sorted(grouped.items()):
-        items = sorted(items, key=lambda item: (item.date, item.week))
-        tags_counter: Counter[str] = Counter()
-        page_entries: dict[str, list[RollupEntry]] = {section: [] for section in YEARLY_SECTIONS}
-        for item in items:
-            tags_counter.update(item.tags)
-            for section, entry in yearly_entries(item, tags_counter).items():
-                page_entries[section].append(entry)
-        months_covered = sorted({item.month_slug for item in items})
+    target_years = sorted({summary.year for summary in summaries})
+    for page in build_yearly_narrative_pages(content_root, target_years):
         pages.append(
             RollupPage(
-                path=content_root / "yearly" / f"{year}.md",
-                frontmatter={
-                    "title": f"{year} Yearly Rollup",
-                    "date": items[-1].date.isoformat(),
-                    "year": year,
-                    "categories": ["yearly"],
-                    "months_covered": months_covered,
+                path=page.path,
+                frontmatter=page.frontmatter,
+                sections={
+                    "Narrative": [RollupEntry(marker=f"{page.year}-narrative", text=page.narrative)],
+                    "Arc": [RollupEntry(marker=f"{page.year}-arc", text="\n".join(f"- {line}" for line in page.arc_lines))],
                 },
-                sections=page_entries,
                 section_order=YEARLY_SECTIONS,
+                replace_existing_sections=True,
+                preserve_unknown_sections=False,
             )
         )
     return pages
 
 
-def merge_sections(path: Path, section_order: list[str], new_entries: dict[str, list[RollupEntry]]) -> str:
+def merge_sections(
+    path: Path,
+    section_order: list[str],
+    new_entries: dict[str, list[RollupEntry]],
+    *,
+    replace_existing_sections: bool = False,
+    preserve_unknown_sections: bool = True,
+) -> str:
     intro = ""
     existing_sections: dict[str, str] = {}
     if path.exists():
@@ -441,7 +387,7 @@ def merge_sections(path: Path, section_order: list[str], new_entries: dict[str, 
 
     rendered_sections: list[str] = []
     for section in section_order:
-        content = existing_sections.get(section, "")
+        content = "" if replace_existing_sections else existing_sections.get(section, "")
         if content.strip() == NO_UPDATES_PLACEHOLDER:
             content = ""
         for entry in new_entries[section]:
@@ -451,11 +397,12 @@ def merge_sections(path: Path, section_order: list[str], new_entries: dict[str, 
         section_body = content.strip() or NO_UPDATES_PLACEHOLDER
         rendered_sections.append(f"## {section}\n\n{section_body}")
 
-    for section, content in existing_sections.items():
-        if section in section_order:
-            continue
-        section_body = content.strip() or NO_UPDATES_PLACEHOLDER
-        rendered_sections.append(f"## {section}\n\n{section_body}")
+    if preserve_unknown_sections:
+        for section, content in existing_sections.items():
+            if section in section_order:
+                continue
+            section_body = content.strip() or NO_UPDATES_PLACEHOLDER
+            rendered_sections.append(f"## {section}\n\n{section_body}")
 
     if intro.strip():
         return intro.rstrip() + "\n\n" + "\n\n".join(rendered_sections) + "\n"
@@ -464,7 +411,13 @@ def merge_sections(path: Path, section_order: list[str], new_entries: dict[str, 
 
 def write_rollup(page: RollupPage) -> None:
     page.path.parent.mkdir(parents=True, exist_ok=True)
-    body = merge_sections(page.path, page.section_order, page.sections)
+    body = merge_sections(
+        page.path,
+        page.section_order,
+        page.sections,
+        replace_existing_sections=page.replace_existing_sections,
+        preserve_unknown_sections=page.preserve_unknown_sections,
+    )
     page.path.write_text(render_frontmatter(page.frontmatter) + body, encoding="utf-8")
 
 
@@ -474,7 +427,12 @@ def generate_rollups(analyzed_dir: Path, content_root: Path) -> list[Path]:
         return []
 
     written: list[Path] = []
-    for page in [*build_monthly_pages(summaries, content_root), *build_yearly_pages(summaries, content_root)]:
+    monthly_pages = build_monthly_pages(summaries, content_root)
+    for page in monthly_pages:
+        write_rollup(page)
+        written.append(page.path)
+
+    for page in build_yearly_pages(summaries, content_root):
         write_rollup(page)
         written.append(page.path)
     return written

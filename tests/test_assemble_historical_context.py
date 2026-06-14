@@ -31,9 +31,9 @@ def test_assemble_historical_context_reads_expected_sources(tmp_path: Path) -> N
         encoding="utf-8",
     )
     (content_root / "yearly" / "2026.md").write_text(
-        "## Year in Review\n\nYear review.\n\n"
-        "## Biggest Trends\n\nYear trends.\n\n"
-        "## Predictions Review\n\nYear predictions.\n",
+        "---\nformat: narrative\n---\n"
+        "## Narrative\n\nYear review.\n\n"
+        "## Arc\n\n- agent-skills: infrastructure > economy\n",
         encoding="utf-8",
     )
     previous_summary = analyzed_dir / "2026-W24-summary.md"
@@ -58,6 +58,28 @@ def test_assemble_historical_context_reads_expected_sources(tmp_path: Path) -> N
     assert "Prior weekly thesis: Prior thesis." in result
     assert "### Month In Progress" in result
     assert "### Yearly Narrative" in result
+
+
+def test_assemble_historical_context_yearly_falls_back_to_legacy_sections(tmp_path: Path) -> None:
+    content_root = tmp_path / "content"
+    (content_root / "yearly").mkdir(parents=True)
+    (content_root / "yearly" / "2026.md").write_text(
+        "## Year in Review\n\nLegacy review.\n\n"
+        "## Biggest Trends\n\nLegacy trends.\n\n"
+        "## Predictions Review\n\nLegacy predictions.\n",
+        encoding="utf-8",
+    )
+
+    result = assemble_historical_context(
+        current_datetime="2026-06-12T17:13:50+00:00",
+        previous_summary_path=None,
+        content_root=content_root,
+        max_words=1500,
+        prompt_token_budget=90_000,
+    )
+
+    assert "Legacy review." in result
+    assert "Legacy predictions." in result
 
 
 def test_build_historical_context_respects_prompt_fraction_cap(tmp_path: Path) -> None:
