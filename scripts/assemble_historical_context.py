@@ -281,7 +281,12 @@ def _build_plans(
 
 def _escape_boundaries(text: str) -> str:
     """Defense-in-depth: escape untrusted-content boundary markers in assembled text."""
-    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+    try:
+        from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+    except ModuleNotFoundError:  # pragma: no cover - script execution path
+        sys.path.insert(0, str(ROOT))
+        from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
     return _escape_untrusted_boundaries(text)
 
 

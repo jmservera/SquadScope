@@ -11,7 +11,7 @@ SquadScope ingests external text from multiple untrusted sources:
 | GitHub repo descriptions | `data/raw/*.json` → prompt templates | HIGH — attacker controls repo description | `preprocess_for_analysis.py` → `sanitize_description()` |
 | TechCrunch/RSS article titles | crawl data → `render_press_context.py` | MEDIUM — unlikely but possible | `render_press_context.format_articles_list()` → `sanitize_text()` |
 | Previous analysis output | `data/analyzed/*.md` → prompt templates | HIGH — poisoned output persists | `analyze_fallback.py` → `_escape_untrusted_boundaries()` |
-| Historical context (rolling/monthly/yearly) | `content/` → `assemble_historical_context.py` | HIGH — poisoned output persists | `assemble_historical_context._escape_boundaries()` (defense-in-depth) + `analyze_fallback.py` line 742 → `_escape_untrusted_boundaries()` |
+| Historical context (rolling/monthly/yearly) | `content/` → `assemble_historical_context.py` | HIGH — poisoned output persists | `assemble_historical_context._escape_boundaries()` (defense-in-depth) + final historical-context escaping in `analyze_fallback.py` prompt assembly → `_escape_untrusted_boundaries()` |
 | README snippets | GitHub API → correlation narratives | MEDIUM — attacker controls README | `render_press_context._extract_readme_description()` (structural filtering) |
 | Correlation match data | `correlate.py` → `render_press_context.py` | MEDIUM — sanitized at source | `correlate.py` → `sanitize_text()` at output time |
 | Wisdom files | `.squad/identity/wisdom.md` → prompt templates | MEDIUM — prior LLM output | `reskill.render_wisdom()` → `_escape_untrusted_boundaries()` |
