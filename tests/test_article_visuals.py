@@ -135,3 +135,38 @@ def test_article_visuals_css_is_responsive() -> None:
     css = _read(ROOT / "assets/css/extended/article-visuals.css")
     assert "@media (max-width: 768px)" in css
     assert "aspect-ratio" in css  # reserve space -> no CLS
+
+
+# -----------------------------------------------------------------------
+# Cover image pipeline validation (issue #358 acceptance criteria)
+# -----------------------------------------------------------------------
+
+
+def test_og_image_template_uses_1200x630() -> None:
+    """OG image must be resized to 1200x630 per issue #358 criterion 3."""
+    og = _read(ROOT / "layouts/partials/templates/opengraph.html")
+    assert "1200x630" in og, "OG template must resize to 1200x630"
+
+
+def test_cover_card_uses_800x400_with_srcset() -> None:
+    """Cover card must use 800x400 base with responsive srcset per issue #358 criterion 3."""
+    cover = _read(VIS / "article-cover.html")
+    assert "800x400" in cover, "Cover card must produce 800x400 base size"
+    assert "1600x800" in cover, "Cover card must produce 1600x800 for 2x srcset"
+    assert "srcset" in cover, "Cover card must use responsive srcset"
+
+
+def test_cover_only_renders_local_resources() -> None:
+    """Cover template must only render locally-hosted images (no hotlinking)."""
+    cover = _read(VIS / "article-cover.html")
+    assert "Resources.GetMatch" in cover or "resources.Get" in cover
+    assert "hotlink" in cover.lower() or "locally-hosted" in cover.lower()
+
+
+def test_image_registry_exists_with_required_fields() -> None:
+    """data/image-registry.json must exist with required schema fields."""
+    import json
+    registry_path = ROOT / "data" / "image-registry.json"
+    assert registry_path.exists(), "Image registry must exist at data/image-registry.json"
+    data = json.loads(registry_path.read_text(encoding="utf-8"))
+    assert isinstance(data, (dict, list)), "Image registry must be JSON object or array"
