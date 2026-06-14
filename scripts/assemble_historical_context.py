@@ -174,6 +174,10 @@ def _extract_month_notes(markdown: str) -> str:
 
 
 def _extract_yearly_narrative(markdown: str) -> str:
+    narrative = _extract_markdown_section(markdown, "Narrative")
+    if narrative:
+        arc = _extract_markdown_section(markdown, "Arc")
+        return _join_nonempty(section for section in (narrative, arc) if section)
     return _join_nonempty(
         section
         for section in (

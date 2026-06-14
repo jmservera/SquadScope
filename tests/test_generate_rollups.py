@@ -5,6 +5,7 @@ from unittest import mock
 from pathlib import Path
 
 import scripts.generate_rollups as generate_rollups
+import scripts.generate_yearly_narrative as generate_yearly_narrative
 
 
 WORKSPACE_ROOT = Path(".test-workspaces")
@@ -120,12 +121,13 @@ class GenerateRollupsTests(unittest.TestCase):
             self.assertIn('[octo/signal-kit](https://github.com/octo/signal-kit)', monthly)
 
             yearly = yearly_path.read_text(encoding="utf-8")
-            self.assertIn('title: "2026 Yearly Rollup"', yearly)
+            self.assertIn('title: "2026 Yearly Narrative"', yearly)
             self.assertIn('categories: ["yearly"]', yearly)
             self.assertIn('months_covered: ["2026-05"]', yearly)
-            self.assertIn('## Year in Review', yearly)
-            self.assertIn('### May 2026 update — 2026-W21', yearly)
-            self.assertIn('[May 2026](/monthly/2026/05/)', yearly)
+            self.assertIn('format: "narrative"', yearly)
+            self.assertIn('## Narrative', yearly)
+            self.assertIn('Practical agent tooling led the week.', yearly)
+            self.assertIn('## Arc', yearly)
 
     def test_generate_rollups_is_append_only_for_existing_pages(self) -> None:
         with temporary_workspace() as tmpdir:
@@ -184,24 +186,105 @@ class GenerateRollupsTests(unittest.TestCase):
                 '- Signal: Teams preferred operational automation over generic hype.',
                 '- Gap to watch: Reliable momentum data remained missing.',
                 '- Recurring themes so far: alpha.',
-                '- Themes in rotation: alpha.',
             ]:
-                self.assertIn(expected, second_monthly if 'Recurring themes' in expected else second_yearly if 'Themes in rotation' in expected else second_monthly)
+                self.assertIn(expected, second_monthly)
             self.assertIn('- Recurring themes so far: alpha, beta.', second_monthly)
-            self.assertIn('- Themes in rotation: alpha, beta.', second_yearly)
-            for expected in [
-                '### May 2026 update — 2026-W21',
-                '- [May 2026](/monthly/2026/05/) gained a new weekly signal via [Week 21, 2026](/weekly/2026/W21/).',
-                '- Featured repo: [octo/signal-kit](https://github.com/octo/signal-kit).',
-                '- Working takeaway: The strongest projects made automation safer to adopt.',
-            ]:
-                self.assertIn(expected, second_yearly)
+            self.assertIn('format: "narrative"', second_yearly)
+            self.assertIn('## Narrative', second_yearly)
+            self.assertIn('Observability and release safety gained more traction.', second_yearly)
+            self.assertIn('## Arc', second_yearly)
             self.assertEqual(second_monthly.count('### Week 2026-W21'), 4)
             self.assertEqual(second_monthly.count('### Week 2026-W22'), 4)
-            self.assertEqual(second_yearly.count('### May 2026 update — 2026-W21'), 5)
-            self.assertEqual(second_yearly.count('### May 2026 update — 2026-W22'), 5)
+            self.assertEqual(second_yearly.count('## Narrative'), 1)
+            self.assertEqual(second_yearly.count('## Arc'), 1)
             self.assertNotEqual(first_monthly, second_monthly)
             self.assertNotEqual(first_yearly, second_yearly)
+
+    def test_generate_yearly_narrative_standalone_writes_narrative_format(self) -> None:
+        with temporary_workspace() as tmpdir:
+            base = Path(tmpdir)
+            content_root = base / "content"
+            monthly_dir = content_root / "monthly" / "2026"
+            monthly_dir.mkdir(parents=True)
+
+            (monthly_dir / "05.md").write_text(
+                """---
+title: "May 2026 Rollup"
+date: "2026-05-25T11:56:08+00:00"
+month: 5
+year: 2026
+categories: ["monthly"]
+weeks_covered: ["2026-W21", "2026-W22"]
+total_repos_featured: 32
+---
+
+## Month Overview
+
+### Week 2026-W21 — [Week 21, 2026](/weekly/2026/W21/)
+- Summary: May defined the shift from maturing agent infrastructure toward a visible agent skills economy.
+- Repositories featured this week: 17
+- Recurring themes so far: agent-skills, mcp, small-models.
+
+## Trends Observed
+
+### Week 2026-W21 — [Week 21, 2026](/weekly/2026/W21/)
+- Signal: Agent skills kept widening as a distribution format.
+- Noise: Coordinated star-farming distorted discovery.
+
+## Key Takeaways
+
+### Week 2026-W21 — [Week 21, 2026](/weekly/2026/W21/)
+- Gap to watch: Agent execution security remained underbuilt.
+- Closing read: Skills were likely to spread into more teams.
+""",
+                encoding="utf-8",
+            )
+            (monthly_dir / "06.md").write_text(
+                """---
+title: "June 2026 Rollup"
+date: "2026-06-08T12:40:47+00:00"
+month: 6
+year: 2026
+categories: ["monthly"]
+weeks_covered: ["2026-W23", "2026-W24"]
+total_repos_featured: 36
+---
+
+## Month Overview
+
+### Week 2026-W23 — [Week 23, 2026](/weekly/2026/W23/)
+- Summary: June pushed agent skills into East Asian workflows, self-hosted AI workspaces, and role-specific verticalization.
+- Repositories featured this week: 36
+- Recurring themes so far: agent-skills, self-hosted-ai, coding-agents.
+
+## Trends Observed
+
+### Week 2026-W23 — [Week 23, 2026](/weekly/2026/W23/)
+- Signal: Agent skills globalized quickly while local-sovereignty tooling gained traction.
+- Noise: Fork inflation replaced the earlier star-farming wave.
+
+## Key Takeaways
+
+### Week 2026-W23 — [Week 23, 2026](/weekly/2026/W23/)
+- Gap to watch: Prompt-injection and skills supply-chain security still lacked a category winner.
+- Closing read: Expect more vertical skills packs and more local-first AI tooling.
+""",
+                encoding="utf-8",
+            )
+
+            written = generate_yearly_narrative.generate_yearly_narratives(content_root)
+            yearly_path = content_root / "yearly" / "2026.md"
+
+            self.assertEqual(written, [yearly_path])
+            yearly = yearly_path.read_text(encoding="utf-8")
+            self.assertIn('title: "2026 Yearly Narrative"', yearly)
+            self.assertIn('format: "narrative"', yearly)
+            self.assertIn('## Narrative', yearly)
+            self.assertIn('split-screen story', yearly)
+            self.assertIn('globalize', yearly)
+            self.assertIn('## Arc', yearly)
+            self.assertIn('agent-skills: infrastructure > economy > globalization > verticalization', yearly)
+            self.assertIn('platform-gaming: star-farming > fork-inflation', yearly)
 
     def test_generate_rollups_replaces_placeholder_and_preserves_unknown_sections(self) -> None:
         with temporary_workspace() as tmpdir:
