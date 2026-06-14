@@ -56,12 +56,19 @@ def test_podcast_link_disabled_when_empty() -> None:
     """Templates must guard against empty/whitespace podcast_url (disabled state)."""
     footer = (REPO_ROOT / "layouts" / "partials" / "footer.html").read_text(encoding="utf-8")
     header = (REPO_ROOT / "layouts" / "partials" / "header.html").read_text(encoding="utf-8")
-    # Both must use TrimSpace so whitespace-only values are treated as falsy
-    assert "TrimSpace" in footer, "Footer must trim podcast_url before conditional"
-    assert "TrimSpace" in header, "Header must trim podcast_url before conditional"
-    # Both must use conditional (with/if) to avoid rendering empty links
-    assert "with" in footer.lower() or "if" in footer.lower()
-    assert "with" in header.lower() or "if" in header.lower()
+    shortcuts = (REPO_ROOT / "layouts" / "partials" / "report-shortcuts.html").read_text(encoding="utf-8")
+    assert "{{- with site.Params.podcast_url | strings.TrimSpace }}" in footer, (
+        "Footer must render the podcast link only through a trimmed `with` guard"
+    )
+    assert '{{- $podcastURL := site.Params.podcast_url | default "" | strings.TrimSpace }}' in header, (
+        "Header must normalize podcast_url into $podcastURL before rendering"
+    )
+    assert "{{- with $podcastURL }}" in header, (
+        "Header must guard the Spotify button with `with $podcastURL`"
+    )
+    assert "{{- if and $isWeekly $podcastURL }}" in shortcuts, (
+        "Weekly shortcuts must require a non-empty $podcastURL before rendering Spotify"
+    )
 
 
 def test_no_audio_hosting_or_player_pages() -> None:
@@ -69,9 +76,12 @@ def test_no_audio_hosting_or_player_pages() -> None:
     layouts_dir = REPO_ROOT / "layouts"
     # No podcast RSS template
     for f in layouts_dir.rglob("*.xml"):
-        content = f.read_text(encoding="utf-8")
+        content = f.read_text(encoding="utf-8").lower()
         assert "<enclosure" not in content, f"{f.name} must not contain podcast RSS enclosure tags"
+        assert "open.spotify.com/embed" not in content, f"{f.name} must not embed Spotify players"
     # No audio player templates
     for f in layouts_dir.rglob("*.html"):
-        content = f.read_text(encoding="utf-8")
+        content = f.read_text(encoding="utf-8").lower()
         assert "<audio" not in content, f"{f.name} must not contain audio player elements"
+        assert "open.spotify.com/embed" not in content, f"{f.name} must not embed Spotify players"
+        assert "spotify:embed:" not in content, f"{f.name} must not contain Spotify embed URIs"
