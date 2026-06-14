@@ -1,4 +1,5 @@
 {
+  "editorial_style_guide": "docs/editorial-style-guide.md",
   "podcast_config": {
     "name": "Claracle",
     "url": "https://www.claracle.com",

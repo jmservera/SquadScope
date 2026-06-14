@@ -100,3 +100,34 @@ class TestEditorialStyleGuideSafety:
     def test_sponsorship_guardrails(self, guide_content: str):
         assert "FTC" in guide_content or "sponsorship" in guide_content.lower()
         assert "brought to you by" in guide_content.lower()
+
+
+class TestPodcastConfigAlignedWithGuide:
+    """Verify config/podcast.json aligns with the editorial style guide."""
+
+    @pytest.fixture
+    def podcast_config(self) -> dict:
+        import json
+        config_path = Path(__file__).resolve().parent.parent / "config" / "podcast.json"
+        assert config_path.exists(), "config/podcast.json not found"
+        return json.loads(config_path.read_text(encoding="utf-8"))
+
+    def test_config_references_style_guide(self, podcast_config: dict):
+        assert "editorial_style_guide" in podcast_config
+        guide_path = Path(__file__).resolve().parent.parent / podcast_config["editorial_style_guide"]
+        assert guide_path.exists(), f"Style guide path {podcast_config['editorial_style_guide']} does not exist"
+
+    def test_segment_order_matches_guide(self, podcast_config: dict, guide_content: str):
+        config_segments = podcast_config["script_directions"]["episode_style"]["segment_order"]
+        for segment in config_segments:
+            assert segment in guide_content, f"Config segment '{segment}' not in style guide"
+
+    def test_ai_disclosure_in_config(self, podcast_config: dict):
+        opening = podcast_config["script_directions"]["opening_cues"]
+        assert "ai_disclosure" in opening
+        assert "first 60 seconds" in opening["ai_disclosure"].lower()
+
+    def test_word_count_target_in_config(self, podcast_config: dict):
+        fmt = podcast_config["script_directions"]["episode_style"]["format"]
+        assert "1200" in fmt or "1,200" in fmt
+        assert "1700" in fmt or "1,700" in fmt
