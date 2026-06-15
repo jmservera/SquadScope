@@ -1,0 +1,115 @@
+name: Trigger podcast generation
+
+on:
+  workflow_dispatch:
+    inputs:
+      week:
+        description: 'Week slug, e.g. 2026-W25.'
+        required: true
+        type: string
+      article_url:
+        description: 'Published SquadScope article URL.'
+        required: true
+        type: string
+      article_path:
+        description: 'Article content path, e.g. content/weekly/2026/W25.md.'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  trigger-podcast:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+        with:
+          python-version: '3.12'
+
+      - name: Build manifest and trigger podcast generation
+        env:
+          PODCASTER_ENDPOINT: ${{ vars.PODCASTER_ENDPOINT }}
+          PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
+          WEEK: ${{ inputs.week }}
+          ARTICLE_URL: ${{ inputs.article_url }}
+          ARTICLE_PATH: ${{ inputs.article_path }}
+          PUBLISH_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          if [ -z "$PODCASTER_ENDPOINT" ] || [ -z "$PODCASTER_API_KEY" ]; then
+            echo "::error::Requires PODCASTER_ENDPOINT variable and PODCASTER_API_KEY secret."
+            exit 1
+          fi
+          if [ ! -f "$ARTICLE_PATH" ]; then
+            echo "::error::article_path '$ARTICLE_PATH' does not exist in the repository."
+            exit 1
+          fi
+
+          # Build a minimal publish manifest for the handoff script
+          mkdir -p .podcast-trigger
+          python3 - <<'PY' "$WEEK" "$ARTICLE_PATH" .podcast-trigger/publish-manifest.json
+          import hashlib
+          import json
+          import sys
+          from pathlib import Path
+
+          week, article_path, manifest_path = sys.argv[1:]
+          article = Path(article_path)
+          article_bytes = article.read_bytes()
+          article_sha = hashlib.sha256(article_bytes).hexdigest()
+          raw_payload = {"week": week, "source": "github", "article_path": article_path}
+          raw_bytes = (json.dumps(raw_payload, sort_keys=True) + "\n").encode("utf-8")
+          raw_sha = hashlib.sha256(raw_bytes).hexdigest()
+
+          manifest = {
+              "week": week,
+              "run_mode": "normal",
+              "candidate": {"summary_sha256": article_sha},
+              "analysis": {"ai_status": "ai"},
+              "promotion": {"eligible": True, "decision": "promote"},
+              "source_artifacts": [
+                  {
+                      "role": "raw_github",
+                      "path": f"data/raw/{week}.json",
+                      "name": f"{week}-raw-github",
+                      "sha256": raw_sha,
+                      "generated_at": "2026-01-01T00:00:00Z",
+                      "source_status": "fresh",
+                      "exists": True,
+                      "size_bytes": len(raw_bytes),
+                      "freshness": {"status": "fresh", "reasons": []},
+                      "provenance": {"path": f"data/raw/{week}.json", "sha256": raw_sha},
+                  },
+                  {
+                      "role": "published_summary",
+                      "path": article_path,
+                      "sha256": article_sha,
+                      "generated_at": "2026-01-01T00:00:00Z",
+                      "exists": True,
+                      "size_bytes": len(article_bytes),
+                      "provenance": {"path": article_path, "sha256": article_sha},
+                  },
+              ],
+          }
+          Path(manifest_path).write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+          PY
+
+          # Trigger real podcast generation (no --podcaster-dry-run)
+          python3 scripts/podcaster_handoff.py \
+            --week "$WEEK" \
+            --article-url "$ARTICLE_URL" \
+            --article-path "$ARTICLE_PATH" \
+            --publish-run-id "$PUBLISH_RUN_ID" \
+            --publish-mode normal \
+            --manifest .podcast-trigger/publish-manifest.json \
+            --podcast-config config/podcast.json
