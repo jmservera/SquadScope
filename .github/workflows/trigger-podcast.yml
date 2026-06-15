@@ -4,15 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       week:
-        description: 'Week slug, e.g. 2026-W25.'
-        required: true
-        type: string
-      article_url:
-        description: 'Published SquadScope article URL.'
-        required: true
-        type: string
-      article_path:
-        description: 'Article content path, e.g. content/weekly/2026/W25.md.'
+        description: 'Week slug, e.g. 2026-W25'
         required: true
         type: string
 
@@ -36,13 +28,24 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Derive paths from week slug
+        id: derive
+        run: |
+          set -euo pipefail
+          WEEK="${{ inputs.week }}"
+          # 2026-W25 → year=2026, short=W25
+          YEAR="${WEEK%%-*}"
+          SHORT="${WEEK##*-}"
+          echo "article_path=content/weekly/${YEAR}/${SHORT}.md" >> "$GITHUB_OUTPUT"
+          echo "article_url=https://claracle.com/weekly/${YEAR}/${SHORT}/" >> "$GITHUB_OUTPUT"
+
       - name: Build manifest and trigger podcast generation
         env:
           PODCASTER_ENDPOINT: ${{ vars.PODCASTER_ENDPOINT }}
           PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
           WEEK: ${{ inputs.week }}
-          ARTICLE_URL: ${{ inputs.article_url }}
-          ARTICLE_PATH: ${{ inputs.article_path }}
+          ARTICLE_URL: ${{ steps.derive.outputs.article_url }}
+          ARTICLE_PATH: ${{ steps.derive.outputs.article_path }}
           PUBLISH_RUN_ID: ${{ github.run_id }}
         run: |
           set -euo pipefail
@@ -51,7 +54,7 @@ jobs:
             exit 1
           fi
           if [ ! -f "$ARTICLE_PATH" ]; then
-            echo "::error::article_path '$ARTICLE_PATH' does not exist in the repository."
+            echo "::error::Article '$ARTICLE_PATH' does not exist in the repository."
             exit 1
           fi
 
