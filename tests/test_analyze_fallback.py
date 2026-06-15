@@ -186,6 +186,27 @@ class AnalyzeFallbackTests(unittest.TestCase):
             self.assertNotIn("{{SKILLS}}", prompt)
             self.assertNotIn("{{CONTINUITY}}", prompt)
 
+    def test_resolve_analysis_context_paths_prefers_squad_fallback_for_missing_relative_paths(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            (base / "squadscope.topic.yml").write_text(
+                "topic:\n"
+                "  id: ai-ml\n"
+                "learning:\n"
+                "  wisdom_file: topics/ai-ml/wisdom.md\n"
+                "  skills_dir: topics/ai-ml/skills/\n"
+                "  continuity_file: topics/ai-ml/continuity.md\n",
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(analyze_fallback, "ROOT", base):
+                wisdom_path, skills_path, continuity_path = analyze_fallback.resolve_analysis_context_paths()
+
+            self.assertEqual(wisdom_path, base / ".squad" / "topics" / "ai-ml" / "wisdom.md")
+            self.assertEqual(skills_path, base / ".squad" / "topics" / "ai-ml" / "skills")
+            self.assertEqual(continuity_path, base / ".squad" / "topics" / "ai-ml" / "continuity.md")
+
     def test_render_prompt_injects_historical_context(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:

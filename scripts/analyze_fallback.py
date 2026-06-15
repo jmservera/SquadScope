@@ -614,7 +614,7 @@ def _resolve_existing_path(configured: str | None, fallback: Path) -> Path:
     for candidate in candidates:
         if candidate.exists():
             return candidate
-    return candidates[0] if candidates else fallback
+    return fallback
 
 
 def resolve_analysis_context_paths() -> tuple[Path, Path, Path]:
