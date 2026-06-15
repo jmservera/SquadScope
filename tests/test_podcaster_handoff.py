@@ -122,7 +122,7 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertEqual(payload["article_summary"], "Week 23 summary.")
         self.assertIn("Body content here.", payload["article_content"])
 
-    def test_real_weekly_payload_matches_podcaster_validation_contract(self) -> None:
+    def test_smoke_payload_matches_real_weekly_handoff_shape(self) -> None:
         podcaster_root = Path(__file__).resolve().parents[2] / "SquadScope-Podcaster"
         if not podcaster_root.exists():
             self.skipTest("SquadScope-Podcaster checkout is not available for contract validation")
@@ -138,7 +138,10 @@ class PodcasterHandoffTests(unittest.TestCase):
             manifest = self._write_manifest(Path(tmpdir))
             article_dir = Path(tmpdir) / "content" / "weekly" / "2026"
             article_dir.mkdir(parents=True)
-            (article_dir / "W23.md").write_text("# Week 23 Report\nBody content here.\n", encoding="utf-8")
+            (article_dir / "W23.md").write_text(
+                "---\ntitle: Week 23 Report\nsummary: Week 23 summary.\n---\n# Week 23 Report\nBody content here.\n",
+                encoding="utf-8",
+            )
 
             payload = podcaster_handoff.build_payload(
                 week="2026-W23",
@@ -147,10 +150,20 @@ class PodcasterHandoffTests(unittest.TestCase):
                 publish_run_id="123456789",
                 publish_mode="normal",
                 manifest_path=manifest,
+                podcast_config_path=Path(__file__).resolve().parents[1] / "config" / "podcast.json",
+                podcaster_dry_run=True,
                 repo_root=Path(tmpdir),
             )
 
         self.assertEqual(validate_payload(payload), [])
+        self.assertTrue(payload["dry_run"])
+        self.assertIn("source_artifacts", payload)
+        self.assertTrue(payload["source_artifacts"])
+        self.assertIn("podcast_config", payload)
+        self.assertIn("script_directions", payload)
+        self.assertIn("spotify_publish", payload)
+        self.assertEqual(payload["article_title"], "Week 23 Report")
+        self.assertEqual(payload["article_summary"], "Week 23 summary.")
 
     def test_podcaster_dry_run_sets_payload_flag(self) -> None:
         payload = podcaster_handoff.build_payload(
