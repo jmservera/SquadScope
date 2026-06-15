@@ -631,14 +631,12 @@ jobs:
             # Intentionally rely on Copilot CLI's default model so CI follows the platform-supported default.
             set +e
             copilot \
-              --agent squad \
-              -p "Farnsworth, read the file at ${PROMPT_FILE} — it contains the weekly data and analysis instructions. Follow them exactly and write the analysis to ${OUTPUT_FILE}.${REPAIR_CONTEXT}" \
+              --agent weekly-analysis \
+              -p "Read the file at ${PROMPT_FILE}. Write the complete weekly analysis markdown to ${OUTPUT_FILE}. The first bytes must be --- and the run is incomplete until ${OUTPUT_FILE} exists and is non-empty. Do not delegate. Do not spawn sub-agents. Do not emit commentary.${REPAIR_CONTEXT}" \
               -s \
               --no-ask-user \
               --allow-tool=read \
               --allow-tool=write \
-              --allow-tool=glob \
-              --allow-tool=grep \
               --share="$TRANSCRIPT_FILE" \
               > "$COPILOT_LOG" 2>&1
             COPILOT_STATUS=$?
@@ -663,6 +661,13 @@ jobs:
                 echo "::warning::Non-retryable Copilot analysis failure (${FAILURE_CLASS}). Writing a non-publishable no-AI candidate so the current published article can be preserved. See ${COPILOT_FAILURE_REPORT}."
                 break
               fi
+              ATTEMPT=$((ATTEMPT + 1))
+              continue
+            fi
+
+            if ! test -s "$OUTPUT_FILE"; then
+              FINAL_FAILURE_CLASS="writer_contract_failure"
+              echo "::warning::Copilot analysis completed without writing ${OUTPUT_FILE}; class=${FINAL_FAILURE_CLASS}"
               ATTEMPT=$((ATTEMPT + 1))
               continue
             fi
@@ -1445,23 +1450,48 @@ jobs:
           python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME" --output "$RESKILL_OUTPUT" --prompt-output "$RESKILL_PROMPT" --print-prompt > "$RESKILL_PROMPT" || true
 
           # Intentionally rely on Copilot CLI's default model so CI follows the platform-supported default.
-          if command -v copilot >/dev/null 2>&1 && copilot \
-            --agent squad \
-            -p "Team, take a nap and reskill" \
-            -s \
-            --no-ask-user \
-            --allow-tool=read \
-            --allow-tool=write \
-            --allow-tool=glob \
-            --allow-tool=grep \
-            > /dev/null; then
-            echo "✅ Reskill via Copilot CLI with agent identity"
+          RESKILL_FAILURE_CLASS=""
+          if command -v copilot >/dev/null 2>&1; then
+            set +e
+            copilot \
+              --agent weekly-analysis \
+              -p "Read the file at ${RESKILL_PROMPT}. Write the complete reskill markdown to ${RESKILL_OUTPUT}. The run is incomplete until ${RESKILL_OUTPUT} exists and is non-empty. Do not delegate. Do not spawn sub-agents. Do not emit commentary." \
+              -s \
+              --no-ask-user \
+              --allow-tool=read \
+              --allow-tool=write \
+              > /dev/null
+            COPILOT_STATUS=$?
+            set -e
+            if [ "$COPILOT_STATUS" -eq 0 ] && test -s "$RESKILL_OUTPUT"; then
+              echo "✅ Reskill via focused analysis agent"
+            else
+              if [ "$COPILOT_STATUS" -eq 0 ]; then
+                RESKILL_FAILURE_CLASS="writer_contract_failure"
+                echo "::warning::Reskill writer contract failed: ${RESKILL_OUTPUT} missing or empty after Copilot completed."
+              else
+                RESKILL_FAILURE_CLASS="copilot_cli_failure"
+                echo "::warning::Reskill Copilot CLI invocation failed with exit code ${COPILOT_STATUS}."
+              fi
+              RESKILL_SOURCE="none"
+              RESKILL_MODEL="none"
+              rm -f "$RESKILL_PROMPT"
+              echo "Copilot CLI reskill failed; no GitHub Models/OpenAI reskill fallback is configured. Writing placeholder trigger log."
+              {
+                echo "Reskill triggered at run #$COUNTER ($CURRENT_DATETIME)"
+                echo "Failure class: ${RESKILL_FAILURE_CLASS}"
+              } >> .squad/reskill/trigger-log.txt
+            fi
           else
+            RESKILL_FAILURE_CLASS="copilot_inaccessible"
             RESKILL_SOURCE="none"
             RESKILL_MODEL="none"
             rm -f "$RESKILL_PROMPT"
             echo "Copilot CLI reskill failed; no GitHub Models/OpenAI reskill fallback is configured. Writing placeholder trigger log."
-            echo "Reskill triggered at run #$COUNTER ($CURRENT_DATETIME)" >> .squad/reskill/trigger-log.txt
+            {
+              echo "Reskill triggered at run #$COUNTER ($CURRENT_DATETIME)"
+              echo "Failure class: ${RESKILL_FAILURE_CLASS}"
+            } >> .squad/reskill/trigger-log.txt
           fi
 
           if [ "$RESKILL_SOURCE" != "none" ]; then

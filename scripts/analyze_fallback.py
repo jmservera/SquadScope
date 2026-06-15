@@ -27,6 +27,7 @@ DEFAULT_PROMPT_TEMPLATE = ROOT / "prompts" / "analyze-weekly.md"
 DEFAULT_ANALYZED_DIR = ROOT / "data" / "analyzed"
 DEFAULT_WISDOM_FILE = ROOT / ".squad" / "identity" / "wisdom.md"
 DEFAULT_SKILLS_DIR = ROOT / ".squad" / "skills"
+DEFAULT_CONTINUITY_FILE = ROOT / ".squad" / "identity" / "continuity.md"
 DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
 DEFAULT_MODELS_MODEL = "openai/gpt-4o"
 DEFAULT_MODELS_TIMEOUT = 30
@@ -39,6 +40,7 @@ COMPACTED_TRENDING_REPOS_LIMIT = 25
 COMPACTED_PREVIOUS_SUMMARY_CHARS = 8_000
 COMPACTED_WISDOM_CHARS = 8_000
 COMPACTED_SKILLS_CHARS = 10_000
+COMPACTED_CONTINUITY_CHARS = 8_000
 COMPACTED_PRESS_CONTEXT_CHARS = 14_000
 COMPACTED_HISTORICAL_CONTEXT_CHARS = 12_000
 
@@ -163,6 +165,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=Path,
         default=DEFAULT_SKILLS_DIR,
         help="Directory containing learned skill markdown files.",
+    )
+    parser.add_argument(
+        "--continuity-file",
+        type=Path,
+        default=DEFAULT_CONTINUITY_FILE,
+        help="Path to the learned continuity capsule markdown file.",
     )
     parser.add_argument(
         "--content-root",
@@ -609,7 +617,7 @@ def _resolve_existing_path(configured: str | None, fallback: Path) -> Path:
     return candidates[0] if candidates else fallback
 
 
-def resolve_analysis_context_paths() -> tuple[Path, Path]:
+def resolve_analysis_context_paths() -> tuple[Path, Path, Path]:
     """Resolve analysis-specific learned context, avoiding unrelated squad workflow context."""
     config = _load_yaml(ROOT / "squadscope.topic.yml")
     topic = config.get("topic") if isinstance(config.get("topic"), dict) else {}
@@ -623,7 +631,11 @@ def resolve_analysis_context_paths() -> tuple[Path, Path]:
         learning.get("skills_dir"),
         ROOT / ".squad" / "topics" / topic_id / "skills",
     )
-    return wisdom_path, skills_path
+    continuity_path = _resolve_existing_path(
+        learning.get("continuity_file"),
+        ROOT / ".squad" / "topics" / topic_id / "continuity.md",
+    )
+    return wisdom_path, skills_path, continuity_path
 
 
 def find_previous_summary(current_week: str, analyzed_dir: Path) -> Path | None:
@@ -675,6 +687,19 @@ def render_skills(skills_dir: Path) -> str:
     return "\n\n".join(blocks) if blocks else "_No learned skills have been extracted yet._"
 
 
+def render_continuity(continuity_file: Path) -> str:
+    if not continuity_file.exists():
+        return "_No learned continuity capsule has been recorded yet._"
+
+    content = continuity_file.read_text(encoding="utf-8").strip()
+    if not content:
+        return "_No learned continuity capsule has been recorded yet._"
+
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
+    return _escape_untrusted_boundaries(content)
+
+
 def _sort_repos_for_compaction(repos: list[dict[str, Any]], score_key: str) -> list[dict[str, Any]]:
     return sorted(
         repos,
@@ -721,6 +746,7 @@ def _build_prompt(
     content_root: Path = DEFAULT_CONTENT_ROOT,
     wisdom_file: Path = DEFAULT_WISDOM_FILE,
     skills_dir: Path = DEFAULT_SKILLS_DIR,
+    continuity_file: Path = DEFAULT_CONTINUITY_FILE,
     press_context_path: Path | None = None,
     prompt_token_budget: int = DEFAULT_PROMPT_TOKEN_BUDGET,
     allow_compaction: bool = True,
@@ -745,6 +771,7 @@ def _build_prompt(
         historical_context_content = "_No historical context was available beyond the current weekly payload._"
     wisdom_content = render_wisdom(wisdom_file)
     skills_content = render_skills(skills_dir)
+    continuity_content = render_continuity(continuity_file)
     press_content = (
         press_context_path.read_text(encoding="utf-8").strip()
         if press_context_path and press_context_path.exists() and press_context_path.stat().st_size > 0
@@ -760,6 +787,7 @@ def _build_prompt(
     )
     wisdom_decision = "included" if wisdom_file.exists() else "not included: no analysis-specific wisdom file"
     skills_decision = "included" if skills_dir.exists() and iter_skill_files(skills_dir) else "not included: no analysis-specific skills"
+    continuity_decision = "included" if continuity_file.exists() else "not included: no analysis-specific continuity capsule"
     press_decision = "included" if press_content else "not included: no press context"
     degraded = False
 
@@ -786,6 +814,7 @@ def _build_prompt(
             "{{PREVIOUS_SUMMARY_CONTENT_OR_EMPTY}}": previous_summary_content.strip(),
             "{{WISDOM}}": wisdom_content,
             "{{SKILLS}}": skills_content,
+            "{{CONTINUITY}}": continuity_content,
         }
         for needle, value in replacements.items():
             prompt = prompt.replace(needle, value)
@@ -808,6 +837,9 @@ def _build_prompt(
             )
         wisdom_content, wisdom_decision = truncate_with_notice(wisdom_content, COMPACTED_WISDOM_CHARS, "analysis wisdom")
         skills_content, skills_decision = truncate_with_notice(skills_content, COMPACTED_SKILLS_CHARS, "analysis skills")
+        continuity_content, continuity_decision = truncate_with_notice(
+            continuity_content, COMPACTED_CONTINUITY_CHARS, "analysis continuity"
+        )
         press_content, press_decision = truncate_with_notice(
             press_content, COMPACTED_PRESS_CONTEXT_CHARS, "press correlations"
         )
@@ -879,6 +911,14 @@ def _build_prompt(
             included=skills_dir.exists() and bool(iter_skill_files(skills_dir)),
             inclusion_reason="Analysis-specific learned skill capsule from topic learning state.",
             compaction_decision=skills_decision,
+        ),
+        _component(
+            name="analysis_continuity",
+            content=continuity_content,
+            path=continuity_file,
+            included=continuity_file.exists(),
+            inclusion_reason="Analysis continuity capsule distilled from recent multi-week learnings.",
+            compaction_decision=continuity_decision,
         ),
         _component(
             name="press_correlations",
@@ -964,8 +1004,15 @@ def render_prompt(
     content_root: Path = DEFAULT_CONTENT_ROOT,
     wisdom_file: Path = DEFAULT_WISDOM_FILE,
     skills_dir: Path = DEFAULT_SKILLS_DIR,
+    continuity_file: Path = DEFAULT_CONTINUITY_FILE,
     press_context_path: Path | None = None,
 ) -> str:
+    if (
+        wisdom_file == DEFAULT_WISDOM_FILE
+        and skills_dir == DEFAULT_SKILLS_DIR
+        and continuity_file == DEFAULT_CONTINUITY_FILE
+    ):
+        wisdom_file, skills_dir, continuity_file = resolve_analysis_context_paths()
     prompt, _ = _build_prompt(
         prompt_template_path=prompt_template_path,
         raw_json_path=raw_json_path,
@@ -975,6 +1022,7 @@ def render_prompt(
         content_root=content_root,
         wisdom_file=wisdom_file,
         skills_dir=skills_dir,
+        continuity_file=continuity_file,
         press_context_path=press_context_path,
         allow_compaction=False,
     )
@@ -1449,8 +1497,13 @@ def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     wisdom_file = args.wisdom_file
     skills_dir = args.skills_dir
-    if wisdom_file == DEFAULT_WISDOM_FILE and skills_dir == DEFAULT_SKILLS_DIR:
-        wisdom_file, skills_dir = resolve_analysis_context_paths()
+    continuity_file = args.continuity_file
+    if (
+        wisdom_file == DEFAULT_WISDOM_FILE
+        and skills_dir == DEFAULT_SKILLS_DIR
+        and continuity_file == DEFAULT_CONTINUITY_FILE
+    ):
+        wisdom_file, skills_dir, continuity_file = resolve_analysis_context_paths()
 
     prompt, preflight = _build_prompt(
         prompt_template_path=args.prompt_template,
@@ -1461,6 +1514,7 @@ def main(argv: list[str] | None = None) -> int:
         content_root=args.content_root,
         wisdom_file=wisdom_file,
         skills_dir=skills_dir,
+        continuity_file=continuity_file,
         press_context_path=args.press_context,
         prompt_token_budget=args.prompt_token_budget,
         allow_compaction=True,

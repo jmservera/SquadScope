@@ -15,6 +15,14 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts import track_quality
+from scripts.analyze_fallback import DEFAULT_CONTINUITY_FILE, resolve_analysis_context_paths
+from scripts.assemble_historical_context import (
+    DEFAULT_CONTENT_ROOT,
+    extract_month_notes,
+    extract_yearly_narrative,
+    resolve_latest_monthly_path,
+    resolve_latest_yearly_path,
+)
 from scripts.load_scorecard import render_scorecard_section
 
 DEFAULT_PROMPT_TEMPLATE = ROOT / "prompts" / "reskill.md"
@@ -79,6 +87,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=Path,
         default=DEFAULT_SKILLS_DIR,
         help="Directory containing learned skill markdown files.",
+    )
+    parser.add_argument(
+        "--continuity-file",
+        type=Path,
+        default=DEFAULT_CONTINUITY_FILE,
+        help="Path to the learned continuity capsule markdown file.",
+    )
+    parser.add_argument(
+        "--content-root",
+        type=Path,
+        default=DEFAULT_CONTENT_ROOT,
+        help="Path to the content root used for monthly/yearly continuity inputs.",
     )
     parser.add_argument(
         "--output",
@@ -150,6 +170,18 @@ def render_skills(skills_dir: Path) -> str:
     return "\n\n".join(blocks) if blocks else "_No learned skills have been extracted yet._"
 
 
+def render_continuity(continuity_file: Path) -> str:
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
+    if not continuity_file.exists():
+        return "_No learned continuity capsule has been recorded yet._"
+
+    content = continuity_file.read_text(encoding="utf-8").strip()
+    if not content:
+        return "_No learned continuity capsule has been recorded yet._"
+    return _escape_untrusted_boundaries(content)
+
+
 def find_recent_summaries(analyzed_dir: Path, limit: int) -> list[Path]:
     summaries = sorted(analyzed_dir.glob("*-summary.md")) if analyzed_dir.exists() else []
     if limit <= 0:
@@ -214,6 +246,37 @@ def render_snapshot_context(analyzed_dir: Path, snapshots_dir: Path, limit: int)
     return "\n\n".join(blocks)
 
 
+def render_archive_context(current_datetime: str, content_root: Path) -> str:
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
+    blocks: list[str] = []
+    monthly_path = resolve_latest_monthly_path(content_root, current_datetime)
+    if monthly_path and monthly_path.exists():
+        relative_path = monthly_path.relative_to(ROOT) if monthly_path.is_relative_to(ROOT) else monthly_path
+        monthly_raw = monthly_path.read_text(encoding="utf-8").strip()
+        monthly_content = extract_month_notes(monthly_raw) or monthly_raw
+        blocks.append(
+            f"--- Monthly Rollup: {_escape_untrusted_boundaries(str(relative_path))} ---\n"
+            f"{_escape_untrusted_boundaries(monthly_content)}"
+        )
+    else:
+        blocks.append("_No monthly rollup was available yet._")
+
+    yearly_path = resolve_latest_yearly_path(content_root, current_datetime)
+    if yearly_path and yearly_path.exists():
+        relative_path = yearly_path.relative_to(ROOT) if yearly_path.is_relative_to(ROOT) else yearly_path
+        yearly_raw = yearly_path.read_text(encoding="utf-8").strip()
+        yearly_content = extract_yearly_narrative(yearly_raw) or yearly_raw
+        blocks.append(
+            f"--- Yearly Narrative: {_escape_untrusted_boundaries(str(relative_path))} ---\n"
+            f"{_escape_untrusted_boundaries(yearly_content)}"
+        )
+    else:
+        blocks.append("_No yearly narrative was available yet._")
+
+    return "\n\n".join(blocks)
+
+
 def render_prompt(
     *,
     prompt_template_path: Path,
@@ -223,7 +286,9 @@ def render_prompt(
     snapshots_dir: Path,
     wisdom_file: Path,
     skills_dir: Path,
-    limit: int,
+    limit: int = 5,
+    continuity_file: Path = DEFAULT_CONTINUITY_FILE,
+    content_root: Path = DEFAULT_CONTENT_ROOT,
     scorecard_section: str = "",
 ) -> str:
     prompt = prompt_template_path.read_text(encoding="utf-8")
@@ -232,6 +297,8 @@ def render_prompt(
         "{{OUTPUT_PATH}}": str(output_path),
         "{{WISDOM}}": render_wisdom(wisdom_file),
         "{{SKILLS}}": render_skills(skills_dir),
+        "{{CONTINUITY}}": render_continuity(continuity_file),
+        "{{ARCHIVE_CONTEXT}}": render_archive_context(current_datetime, content_root),
         "{{QUALITY_TREND}}": track_quality.build_quality_report(analyzed_dir).strip(),
         "{{RECENT_ANALYSES}}": render_recent_analyses(analyzed_dir, limit),
         "{{SNAPSHOT_CONTEXT}}": render_snapshot_context(analyzed_dir, snapshots_dir, limit),
@@ -331,14 +398,26 @@ def main(argv: list[str] | None = None) -> int:
     if args.scorecard:
         scorecard_section = render_scorecard_section(args.topic, args.scorecard_count)
 
+    wisdom_file = args.wisdom_file
+    skills_dir = args.skills_dir
+    continuity_file = args.continuity_file
+    if (
+        wisdom_file == DEFAULT_WISDOM_FILE
+        and skills_dir == DEFAULT_SKILLS_DIR
+        and continuity_file == DEFAULT_CONTINUITY_FILE
+    ):
+        wisdom_file, skills_dir, continuity_file = resolve_analysis_context_paths()
+
     prompt = render_prompt(
         prompt_template_path=args.prompt_template,
         current_datetime=args.current_datetime,
         output_path=output_path,
         analyzed_dir=args.analyzed_dir,
         snapshots_dir=args.snapshots_dir,
-        wisdom_file=args.wisdom_file,
-        skills_dir=args.skills_dir,
+        wisdom_file=wisdom_file,
+        skills_dir=skills_dir,
+        continuity_file=continuity_file,
+        content_root=args.content_root,
         limit=args.limit,
         scorecard_section=scorecard_section,
     )

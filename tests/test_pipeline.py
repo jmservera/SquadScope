@@ -274,9 +274,12 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertNotIn("${GITHUB_MODELS_MODEL}", reskill_run)
         self.assertNotIn('RESKILL_SOURCE="github-models"', reskill_run)
         self.assertNotIn("used GitHub Models API fallback", reskill_run)
-        # Reskill prompt addresses the team, not an individual agent
-        self.assertIn('"Team, take a nap and reskill"', reskill_run)
-        self.assertNotIn("Farnsworth, read the file", reskill_run)
+        self.assertIn("--agent weekly-analysis", reskill_run)
+        self.assertIn('Read the file at ${RESKILL_PROMPT}. Write the complete reskill markdown to ${RESKILL_OUTPUT}.', reskill_run)
+        self.assertIn('test -s "$RESKILL_OUTPUT"', reskill_run)
+        self.assertIn('RESKILL_FAILURE_CLASS="writer_contract_failure"', reskill_run)
+        self.assertNotIn("--allow-tool=glob", reskill_run)
+        self.assertNotIn("--allow-tool=grep", reskill_run)
         # Prompt is written to a well-known path, not a temp file
         self.assertIn('RESKILL_PROMPT=".squad/reskill/current-prompt.md"', reskill_run)
 
@@ -303,6 +306,12 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("python3 scripts/copilot_failure.py", run_analysis)
         self.assertIn("--create-token-issue", run_analysis)
         self.assertIn('FINAL_FAILURE_CLASS=""', run_analysis)
+        self.assertIn("--agent weekly-analysis", run_analysis)
+        self.assertIn('Read the file at ${PROMPT_FILE}. Write the complete weekly analysis markdown to ${OUTPUT_FILE}.', run_analysis)
+        self.assertIn('if ! test -s "$OUTPUT_FILE"; then', run_analysis)
+        self.assertIn('FINAL_FAILURE_CLASS="writer_contract_failure"', run_analysis)
+        self.assertNotIn("--allow-tool=glob", run_analysis)
+        self.assertNotIn("--allow-tool=grep", run_analysis)
         self.assertIn('if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "copilot_inaccessible" ]; then', run_analysis)
         self.assertIn("failing without no-AI fallback", run_analysis)
         self.assertIn('echo "copilot is not available: command not found" > "$COPILOT_LOG"', run_analysis)

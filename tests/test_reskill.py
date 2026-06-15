@@ -24,14 +24,19 @@ class ReskillTests(unittest.TestCase):
             base = Path(tmpdir)
             analyzed_dir = base / "data" / "analyzed"
             snapshots_dir = base / "data" / "snapshots"
+            content_root = base / "content"
             wisdom_path = base / ".squad" / "identity" / "wisdom.md"
             skills_dir = base / ".squad" / "skills" / "trend-detection"
+            continuity_path = base / ".squad" / "topics" / "ai-ml" / "continuity.md"
             prompt_template = base / "reskill.md"
             output_path = base / ".squad" / "reskill" / "2026-W21.md"
             analyzed_dir.mkdir(parents=True)
             snapshots_dir.mkdir(parents=True)
             wisdom_path.parent.mkdir(parents=True)
             skills_dir.mkdir(parents=True)
+            continuity_path.parent.mkdir(parents=True)
+            (content_root / "monthly" / "2026").mkdir(parents=True)
+            (content_root / "yearly").mkdir(parents=True)
             output_path.parent.mkdir(parents=True)
 
             for week, score in [("2026-W17", 61), ("2026-W18", 66), ("2026-W19", 70), ("2026-W20", 74), ("2026-W21", 79), ("2026-W22", 84)]:
@@ -42,8 +47,11 @@ class ReskillTests(unittest.TestCase):
             (snapshots_dir / "2026-W21-stars.json").write_text(json.dumps({"octo/signal-kit": 120}), encoding="utf-8")
             wisdom_path.write_text("# Wisdom\n\nPrefer durable signals.", encoding="utf-8")
             (skills_dir / "SKILL.md").write_text("# Skill\n\nWatch for wrapper churn.", encoding="utf-8")
+            continuity_path.write_text("# Continuity\n\nMonthly theses that held up.", encoding="utf-8")
+            (content_root / "monthly" / "2026" / "05.md").write_text("## Month Overview\n\nMonthly context.\n", encoding="utf-8")
+            (content_root / "yearly" / "2026.md").write_text("## Narrative\n\nYearly context.\n", encoding="utf-8")
             prompt_template.write_text(
-                "out={{OUTPUT_PATH}}\nwisdom={{WISDOM}}\nskills={{SKILLS}}\nquality={{QUALITY_TREND}}\nanalyses={{RECENT_ANALYSES}}\nsnapshots={{SNAPSHOT_CONTEXT}}\n",
+                "out={{OUTPUT_PATH}}\nwisdom={{WISDOM}}\nskills={{SKILLS}}\ncontinuity={{CONTINUITY}}\narchive={{ARCHIVE_CONTEXT}}\nquality={{QUALITY_TREND}}\nanalyses={{RECENT_ANALYSES}}\nsnapshots={{SNAPSHOT_CONTEXT}}\n",
                 encoding="utf-8",
             )
 
@@ -55,12 +63,17 @@ class ReskillTests(unittest.TestCase):
                 snapshots_dir=snapshots_dir,
                 wisdom_file=wisdom_path,
                 skills_dir=base / ".squad" / "skills",
+                continuity_file=continuity_path,
+                content_root=content_root,
                 limit=5,
             )
 
             self.assertIn(f"out={output_path}", prompt)
             self.assertIn("Prefer durable signals.", prompt)
             self.assertIn("Watch for wrapper churn.", prompt)
+            self.assertIn("Monthly theses that held up.", prompt)
+            self.assertIn("Monthly context.", prompt)
+            self.assertIn("Yearly context.", prompt)
             self.assertIn("Average quality score", prompt)
             self.assertNotIn("2026-W17-summary.md", prompt)
             self.assertIn("2026-W18-summary.md", prompt)
