@@ -403,7 +403,13 @@ def post_handoff(endpoint: str, api_key: str, payload: dict[str, Any], *, timeou
             status_code = getattr(response, "status", response.getcode())
             response_body = response.read().decode("utf-8")
     except error.HTTPError as exc:
-        raise PodcasterHandoffError(f"Podcaster handoff failed with HTTP {exc.code}.") from exc
+        try:
+            error_body = exc.read().decode("utf-8", errors="replace")[:500]
+        except Exception:
+            error_body = "<unreadable>"
+        raise PodcasterHandoffError(
+            f"Podcaster handoff failed with HTTP {exc.code}. Response body: {error_body}"
+        ) from exc
     except error.URLError as exc:
         raise PodcasterHandoffError(f"Podcaster handoff failed: {exc.reason}") from exc
 
