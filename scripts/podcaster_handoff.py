@@ -404,7 +404,10 @@ def post_handoff(endpoint: str, api_key: str, payload: dict[str, Any], *, timeou
             response_body = response.read().decode("utf-8")
     except error.HTTPError as exc:
         try:
-            error_body = exc.read().decode("utf-8", errors="replace")[:500]
+            raw = exc.read(1024)
+            error_body = raw.decode("utf-8", errors="replace")
+            # Sanitize for GitHub Actions: strip workflow-command sequences and newlines
+            error_body = error_body.replace("::", "").replace("\r", " ").replace("\n", " ")
         except Exception:
             error_body = "<unreadable>"
         raise PodcasterHandoffError(

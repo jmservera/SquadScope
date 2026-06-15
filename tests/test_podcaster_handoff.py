@@ -292,6 +292,42 @@ class PodcasterHandoffTests(unittest.TestCase):
                     },
                 )
 
+    def test_error_body_included_and_sanitized_in_exception(self) -> None:
+        """Error body is truncated to 1024 bytes and sanitized (no newlines, no ::)."""
+        # Body with newlines, workflow-command injection, and > 1024 bytes
+        dangerous_body = b"line1\n::warning::injected\r\n" + b"A" * 1100
+        http_err = error.HTTPError(
+            url="http://localhost:7071/api/generate",
+            code=502,
+            msg="Bad Gateway",
+            hdrs={},
+            fp=io.BytesIO(dangerous_body),
+        )
+        with mock.patch.object(podcaster_handoff.request, "urlopen", side_effect=http_err):
+            with self.assertRaises(podcaster_handoff.PodcasterHandoffError) as ctx:
+                podcaster_handoff.post_handoff(
+                    "http://localhost:7071/api/generate",
+                    "super-secret-value",
+                    {
+                        "week": "2026-W23",
+                        "article_url": "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                        "article_path": "content/weekly/2026/W23.md",
+                        "publish_run_id": "123456789",
+                        "publish_mode": "normal",
+                    },
+                )
+        msg = str(ctx.exception)
+        # Body IS included
+        self.assertIn("Response body:", msg)
+        self.assertIn("line1", msg)
+        # Truncated: 1024 bytes read max, so not all 1100 'A's appear
+        self.assertLessEqual(len(msg), 1200)
+        # Sanitized: no newlines or :: sequences
+        body_part = msg.split("Response body: ", 1)[1]
+        self.assertNotIn("\n", body_part)
+        self.assertNotIn("\r", body_part)
+        self.assertNotIn("::", body_part)
+
     def test_article_url_from_page_path_matches_hugo_weekly_permalink(self) -> None:
         self.assertEqual(
             podcaster_handoff.article_url_from_page_path(
