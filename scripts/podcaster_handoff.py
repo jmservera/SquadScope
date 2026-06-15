@@ -106,22 +106,58 @@ def _load_podcast_config(path: Path | None) -> dict[str, Any]:
     return payload
 
 
-def _source_artifact_refs(manifest: dict[str, Any]) -> list[dict[str, str]]:
-    refs: list[dict[str, str]] = []
+def _source_artifact_refs(manifest: dict[str, Any]) -> list[dict[str, Any]]:
+    refs: list[dict[str, Any]] = []
     for artifact in manifest.get("source_artifacts", []):
         if not isinstance(artifact, dict):
             continue
-        ref: dict[str, str] = {}
-        for key in ("role", "path", "sha256", "generated_at"):
+        ref: dict[str, Any] = {}
+        for key in (
+            "role",
+            "path",
+            "name",
+            "sha256",
+            "artifact_checksum",
+            "week",
+            "crawled_at",
+            "generated_at",
+            "source_status",
+            "source_config_checksum",
+            "schema_checksum",
+        ):
             value = artifact.get(key)
             if isinstance(value, str) and value:
                 ref[key] = value
-        freshness = artifact.get("freshness")
-        if isinstance(freshness, dict) and isinstance(freshness.get("status"), str):
-            ref["freshness_status"] = freshness["status"]
-        for key in ("url", "artifact_url"):
+        exists = artifact.get("exists")
+        if isinstance(exists, bool):
+            ref["exists"] = exists
+        size_bytes = artifact.get("size_bytes")
+        if isinstance(size_bytes, int) and not isinstance(size_bytes, bool) and size_bytes >= 0:
+            ref["size_bytes"] = size_bytes
+        for key in ("url", "href", "uri"):
             value = artifact.get(key)
             if isinstance(value, str) and value.startswith(("https://", "http://localhost:", "http://127.0.0.1:")):
+                ref[key] = value
+        artifact_url = artifact.get("artifact_url")
+        if (
+            "url" not in ref
+            and isinstance(artifact_url, str)
+            and artifact_url.startswith(("https://", "http://localhost:", "http://127.0.0.1:"))
+        ):
+            ref["url"] = artifact_url
+        for key in (
+            "freshness",
+            "provenance",
+            "same_day_reuse",
+            "source_artifact_provenance",
+            "source_reuse_summary",
+        ):
+            value = artifact.get(key)
+            if isinstance(value, dict):
+                ref[key] = value
+        for key in ("sources_requested", "sources_succeeded", "sources_failed"):
+            value = artifact.get(key)
+            if isinstance(value, list):
                 ref[key] = value
         if ref:
             refs.append(ref)
