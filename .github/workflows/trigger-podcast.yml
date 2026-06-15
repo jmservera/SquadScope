@@ -1,0 +1,69 @@
+name: Trigger podcast episode
+
+on:
+  workflow_dispatch:
+    inputs:
+      week:
+        description: 'Week slug to validate, e.g. 2026-W23.'
+        required: true
+        type: string
+      article_url:
+        description: 'Published SquadScope article URL to send to Podcaster.'
+        required: true
+        type: string
+      article_path:
+        description: 'Published article path, e.g. content/weekly/2026/W23.md.'
+        required: true
+        type: string
+      breaking_news:
+        description: 'Optional last-moment news or important information to include in this podcast episode.'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+        with:
+          python-version: '3.12'
+
+      - name: Trigger Podcaster handoff
+        env:
+          PODCASTER_ENDPOINT: ${{ vars.PODCASTER_ENDPOINT }}
+          PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
+          WEEK: ${{ inputs.week }}
+          ARTICLE_URL: ${{ inputs.article_url }}
+          ARTICLE_PATH: ${{ inputs.article_path }}
+          BREAKING_NEWS: ${{ inputs.breaking_news || '' }}
+          PUBLISH_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          if [ -z "$PODCASTER_ENDPOINT" ] || [ -z "$PODCASTER_API_KEY" ]; then
+            echo "::error::Podcast trigger requires PODCASTER_ENDPOINT variable and PODCASTER_API_KEY secret."
+            exit 1
+          fi
+          BREAKING_ARGS=()
+          if [ -n "$BREAKING_NEWS" ]; then
+            BREAKING_ARGS=(--breaking-news "$BREAKING_NEWS")
+          fi
+          python3 scripts/podcaster_handoff.py \
+            --week "$WEEK" \
+            --article-url "$ARTICLE_URL" \
+            --article-path "$ARTICLE_PATH" \
+            --publish-run-id "$PUBLISH_RUN_ID" \
+            --publish-mode normal \
+            --podcast-config config/podcast.json \
+            "${BREAKING_ARGS[@]}"

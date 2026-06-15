@@ -34,6 +34,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--manifest", type=Path, help="Optional publish manifest used for article hash/source artifact metadata.")
     parser.add_argument("--podcaster-dry-run", action="store_true", help="Ask Podcaster to validate without generating an episode; intended only for the manual smoke workflow.")
     parser.add_argument("--podcast-config", type=Path, default=None, help="Path to podcast config JSON (default: config/podcast.json relative to repo root).")
+    parser.add_argument("--breaking-news", default=None, help="Optional last-moment news or important information to include in this podcast episode.")
     parser.add_argument("--endpoint", default=os.environ.get("PODCASTER_ENDPOINT", ""))
     parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT_SECONDS)
     return parser.parse_args(argv)
@@ -303,6 +304,7 @@ def build_payload(
     podcast_config_path: Path | None = None,
     podcaster_dry_run: bool = False,
     repo_root: Path | None = None,
+    breaking_news: str | None = None,
 ) -> dict[str, Any]:
     manifest = _load_manifest(manifest_path)
     if not _manifest_allows_handoff(manifest, week=week, publish_mode=publish_mode):
@@ -357,6 +359,9 @@ def build_payload(
             article_title=title,
             article_summary=summary,
         )
+
+    if breaking_news:
+        payload["breaking_news"] = breaking_news
 
     if podcaster_dry_run:
         payload["dry_run"] = True
@@ -438,6 +443,7 @@ def main(argv: list[str] | None = None) -> int:
             manifest_path=args.manifest,
             podcast_config_path=args.podcast_config,
             podcaster_dry_run=args.podcaster_dry_run,
+            breaking_news=args.breaking_news,
         )
         post_handoff(endpoint, api_key, payload, timeout=args.timeout)
     except PodcasterHandoffError as exc:
