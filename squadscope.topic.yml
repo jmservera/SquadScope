@@ -35,5 +35,6 @@ quality:
 learning:
   wisdom_file: "topics/ai-ml/wisdom.md"
   skills_dir: "topics/ai-ml/skills/"
+  continuity_file: "topics/ai-ml/continuity.md"
   prediction_file: "topics/ai-ml/predictions.jsonl"
   scorecard_dir: "topics/ai-ml/scorecards/"
