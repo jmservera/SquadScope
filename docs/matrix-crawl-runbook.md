@@ -16,7 +16,7 @@ This runbook covers how to trigger, monitor, and troubleshoot the SquadScope mat
 
 ### Scheduled (default)
 
-The `crawl-and-publish.yml` workflow runs automatically every Monday at 06:53 UTC via cron schedule.
+The `crawl-and-publish.yml` workflow runs automatically on Sundays at 11:53 UTC (`53 11 * * 0`). Treat this as a best-effort GitHub-hosted schedule, not an exact start minute; scheduled runs can start hours late on shared runners. For the supported mitigation ladder (manual trigger, external scheduler -> `workflow_dispatch`, optional self-hosted runners), see [`docs/operator-guide.md#schedule-latency-and-mitigation-ladder`](operator-guide.md#schedule-latency-and-mitigation-ladder).
 
 ### Manual dispatch
 

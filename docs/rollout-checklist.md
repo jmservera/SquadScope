@@ -68,9 +68,11 @@ Use this checklist to verify your SquadScope instance is ready for production. C
   - [ ] Verify workflow file: `.github/workflows/crawl-and-publish.yml` has schedule trigger:
     ```yaml
     schedule:
-      - cron: '53 6 * * 1'  # Monday 06:53 UTC
+      - cron: '53 11 * * 0'  # Sunday 11:53 UTC
     ```
   - [ ] Confirm schedule is correct for your timezone
+  - [ ] Confirm operators understand GitHub-hosted `schedule` is best-effort and may start hours late on shared runners
+  - [ ] If punctual launches matter, document who owns the external scheduler or manual `gh workflow run crawl-and-publish.yml -R OWNER/REPO` fallback
 
 - [ ] **Run counter initialized**
   - [ ] File exists: `.squad/run-counter.txt`
@@ -79,8 +81,8 @@ Use this checklist to verify your SquadScope instance is ready for production. C
 
 ## First Automated Run
 
-- [ ] **Automated run completed (wait until next Monday 06:53 UTC or manual trigger)**
-  - [ ] Check Actions tab at scheduled time
+- [ ] **Automated run completed (wait until the next Sunday schedule window or use a manual trigger)**
+  - [ ] Check the Actions tab after the schedule window; do not assume the run starts exactly at 11:53 UTC
   - [ ] Verify workflow completed with green checkmark
   - [ ] Monitor logs for any warnings or errors
 
@@ -100,8 +102,8 @@ Use this checklist to verify your SquadScope instance is ready for production. C
 ## Post-Launch Monitoring
 
 - [ ] **Weekly runs continue automatically**
-  - [ ] Check Actions every Monday morning to confirm workflow ran
-  - [ ] (Optional) Set a calendar reminder to check on Mondays
+  - [ ] Check Actions every Sunday/Monday window to confirm the workflow eventually ran
+  - [ ] (Optional) Set a calendar reminder to check after the scheduled window rather than at an exact minute
 
 - [ ] **Quality remains consistent**
   - [ ] Review a few published analyses for quality
@@ -128,7 +130,7 @@ Use this checklist to verify your SquadScope instance is ready for production. C
   - [ ] Restore secret after testing
 
 - [ ] **Reskill cycle verified (after 5 runs)**
-  - [ ] Count automated runs (every Monday = 1 run)
+  - [ ] Count automated runs (every scheduled weekly publish = 1 run)
   - [ ] After 5 weeks, check for `.squad/reskill/YYYY-WNN.md` file
   - [ ] Verify the workflow invokes the real reskill path (`scripts/reskill.py`) and outputs analysis + recommendations
 
