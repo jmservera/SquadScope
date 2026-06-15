@@ -114,20 +114,11 @@ class GenerateRollupsTests(unittest.TestCase):
             self.assertIn('categories: ["monthly"]', monthly)
             self.assertIn('weeks_covered: ["2026-W21"]', monthly)
             self.assertIn('total_repos_featured: 1', monthly)
-            self.assertIn('synthesis_status: "generated"', monthly)
-            self.assertIn('## Month Synthesis', monthly)
-            self.assertIn('## Trend Arc', monthly)
-            self.assertIn('## Prediction Review', monthly)
-            self.assertIn('## Weekly Reports', monthly)
-            self.assertNotIn('### Week 2026-W21', monthly)
-            self.assertIn('[Week 21, 2026](/weekly/2026/W21/) — Practical agent tooling led the week.', monthly)
-
-            synthesis_artifact = analyzed_dir / "2026-05-month-synthesis.md"
-            self.assertTrue(synthesis_artifact.exists())
-            artifact = synthesis_artifact.read_text(encoding="utf-8")
-            self.assertIn('title: "May 2026 Month Synthesis"', artifact)
-            self.assertIn('source_checksum: "sha256:', artifact)
-            self.assertIn('## Month Synthesis', artifact)
+            self.assertIn('---\n\n## Month Overview', monthly)
+            self.assertIn('## Month Overview', monthly)
+            self.assertIn('### Week 2026-W21', monthly)
+            self.assertIn('[Week 21, 2026](/weekly/2026/W21/)', monthly)
+            self.assertIn('[octo/signal-kit](https://github.com/octo/signal-kit)', monthly)
 
             yearly = yearly_path.read_text(encoding="utf-8")
             self.assertIn('title: "2026 Yearly Narrative"', yearly)
@@ -190,22 +181,20 @@ class GenerateRollupsTests(unittest.TestCase):
             self.assertIn('total_repos_featured: 4', second_monthly)
             self.assertIn('months_covered: ["2026-05"]', second_yearly)
             for expected in [
-                '## Month Synthesis',
-                '## Trend Arc',
-                '## Weekly Reports',
-                '- [Week 21, 2026](/weekly/2026/W21/) — Practical agent tooling led the week.',
-                '- [Week 22, 2026](/weekly/2026/W22/) — Observability and release safety gained more traction.',
-                'accelerating_themes: ["beta"]',
-                'weakening_themes: ["alpha"]',
+                '### Week 2026-W21 — [Week 21, 2026](/weekly/2026/W21/)',
+                '- [octo/signal-kit](https://github.com/octo/signal-kit) led the published weekly analysis for 2026-W21.',
+                '- Signal: Teams preferred operational automation over generic hype.',
+                '- Gap to watch: Reliable momentum data remained missing.',
+                '- Recurring themes so far: alpha.',
             ]:
                 self.assertIn(expected, second_monthly)
-            self.assertIn('top_repos: ["octo/signal-kit", "octo/steady-watch"]', second_monthly)
+            self.assertIn('- Recurring themes so far: alpha, beta.', second_monthly)
             self.assertIn('format: "narrative"', second_yearly)
             self.assertIn('## Year in Review', second_yearly)
             self.assertIn('Observability and release safety gained more traction.', second_yearly)
             self.assertNotIn('## Arc', second_yearly)
-            self.assertEqual(second_monthly.count('[Week 21, 2026](/weekly/2026/W21/)'), 1)
-            self.assertEqual(second_monthly.count('[Week 22, 2026](/weekly/2026/W22/)'), 1)
+            self.assertEqual(second_monthly.count('### Week 2026-W21'), 4)
+            self.assertEqual(second_monthly.count('### Week 2026-W22'), 4)
             self.assertEqual(second_yearly.count('## Year in Review'), 1)
             self.assertNotEqual(first_monthly, second_monthly)
             self.assertNotEqual(first_yearly, second_yearly)
@@ -381,10 +370,8 @@ The strongest thread was a shift from raw capability talk toward packaging, trus
             generate_rollups.generate_rollups(analyzed_dir, content_root)
             monthly = monthly_path.read_text(encoding="utf-8")
 
-            self.assertNotIn("_No updates yet._\n\n## Month Synthesis", monthly)
-            self.assertNotIn("## Month Overview", monthly)
-            self.assertIn("## Weekly Reports", monthly)
-            self.assertIn("[Week 21, 2026](/weekly/2026/W21/) — Practical agent tooling led the week.", monthly)
+            self.assertNotIn("_No updates yet._\n\n### Week 2026-W21", monthly)
+            self.assertIn("### Week 2026-W21", monthly)
             self.assertIn("## Legacy Notes\n\nKeep this section.", monthly)
 
     def test_generate_rollups_returns_empty_when_no_summaries_exist(self) -> None:

@@ -489,7 +489,11 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIsNotNone(smoke_step)
         run_script = smoke_step["run"]
         self.assertIn('if [ ! -f "$ARTICLE_PATH" ]', run_script)
-        self.assertIn("hashlib.sha256(article.read_bytes()).hexdigest()", run_script)
+        self.assertIn("hashlib.sha256(article_bytes).hexdigest()", run_script)
+        self.assertIn("article_sha256 must match ARTICLE_PATH contents when provided.", run_script)
+        self.assertIn('raw_payload = {"week": week, "source": "github", "article_path": article_path}', run_script)
+        self.assertIn('"size_bytes": len(raw_bytes)', run_script)
+        self.assertIn('"sha256": article_sha', run_script)
         self.assertIn('"source_artifacts": [', run_script)
         self.assertIn('"same_day_reuse"', run_script)
         self.assertIn("build_payload(", run_script)

@@ -16,10 +16,12 @@ from urllib import error, parse, request
 
 try:
     from scripts.assemble_historical_context import DEFAULT_CONTENT_ROOT, assemble_historical_context
+    from scripts.learned_context import render_continuity
     from scripts.sanitize_repo_content import sanitize_repo_payload
 except ModuleNotFoundError:  # pragma: no cover - script execution path
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
     from scripts.assemble_historical_context import DEFAULT_CONTENT_ROOT, assemble_historical_context
+    from scripts.learned_context import render_continuity
     from scripts.sanitize_repo_content import sanitize_repo_payload
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -685,19 +687,6 @@ def render_skills(skills_dir: Path) -> str:
         content = _escape_untrusted_boundaries(content)
         blocks.append(f"--- Skill Source: {relative_path} ---\n{content}")
     return "\n\n".join(blocks) if blocks else "_No learned skills have been extracted yet._"
-
-
-def render_continuity(continuity_file: Path) -> str:
-    if not continuity_file.exists():
-        return "_No learned continuity capsule has been recorded yet._"
-
-    content = continuity_file.read_text(encoding="utf-8").strip()
-    if not content:
-        return "_No learned continuity capsule has been recorded yet._"
-
-    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
-
-    return _escape_untrusted_boundaries(content)
 
 
 def _sort_repos_for_compaction(repos: list[dict[str, Any]], score_key: str) -> list[dict[str, Any]]:

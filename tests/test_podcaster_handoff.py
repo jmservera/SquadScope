@@ -165,6 +165,32 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertEqual(payload["article_title"], "Week 23 Report")
         self.assertEqual(payload["article_summary"], "Week 23 summary.")
 
+    def test_build_payload_filters_non_string_source_artifact_lists(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            manifest = self._write_manifest(Path(tmpdir))
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            payload["source_artifacts"][0]["sources_requested"] = ["github", "", None, 3]
+            payload["source_artifacts"][0]["sources_succeeded"] = ["github", False]
+            payload["source_artifacts"][0]["sources_failed"] = ["rss", "", {"bad": "entry"}]
+            payload["source_artifacts"][1]["sources_requested"] = [None, 0, ""]
+            manifest.write_text(json.dumps(payload), encoding="utf-8")
+
+            built = podcaster_handoff.build_payload(
+                week="2026-W23",
+                article_url="https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                article_path="content/weekly/2026/W23.md",
+                publish_run_id="123456789",
+                publish_mode="normal",
+                manifest_path=manifest,
+                repo_root=Path(tmpdir),
+            )
+
+        self.assertEqual(built["source_artifacts"][0]["sources_requested"], ["github"])
+        self.assertEqual(built["source_artifacts"][0]["sources_succeeded"], ["github"])
+        self.assertEqual(built["source_artifacts"][0]["sources_failed"], ["rss"])
+        self.assertNotIn("sources_requested", built["source_artifacts"][1])
+
     def test_podcaster_dry_run_sets_payload_flag(self) -> None:
         payload = podcaster_handoff.build_payload(
             week="2026-W23",

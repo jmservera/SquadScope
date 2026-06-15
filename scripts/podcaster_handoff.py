@@ -107,6 +107,12 @@ def _load_podcast_config(path: Path | None) -> dict[str, Any]:
 
 
 def _source_artifact_refs(manifest: dict[str, Any]) -> list[dict[str, Any]]:
+    def _string_list(value: Any) -> list[str] | None:
+        if not isinstance(value, list):
+            return None
+        filtered = [item for item in value if isinstance(item, str) and item]
+        return filtered or None
+
     refs: list[dict[str, Any]] = []
     for artifact in manifest.get("source_artifacts", []):
         if not isinstance(artifact, dict):
@@ -156,9 +162,9 @@ def _source_artifact_refs(manifest: dict[str, Any]) -> list[dict[str, Any]]:
             if isinstance(value, dict):
                 ref[key] = value
         for key in ("sources_requested", "sources_succeeded", "sources_failed"):
-            value = artifact.get(key)
-            if isinstance(value, list):
-                ref[key] = value
+            filtered = _string_list(artifact.get(key))
+            if filtered is not None:
+                ref[key] = filtered
         if ref:
             refs.append(ref)
     return refs

@@ -18,11 +18,13 @@ from scripts import track_quality
 from scripts.analyze_fallback import DEFAULT_CONTINUITY_FILE, resolve_analysis_context_paths
 from scripts.assemble_historical_context import (
     DEFAULT_CONTENT_ROOT,
+    compress_to_budget,
     extract_month_notes,
     extract_yearly_narrative,
     resolve_latest_monthly_path,
     resolve_latest_yearly_path,
 )
+from scripts.learned_context import render_continuity
 from scripts.load_scorecard import render_scorecard_section
 
 DEFAULT_PROMPT_TEMPLATE = ROOT / "prompts" / "reskill.md"
@@ -35,6 +37,8 @@ DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
 DEFAULT_MODELS_MODEL = "openai/gpt-4o"
 DEFAULT_MODELS_TIMEOUT = 30
 ALLOWED_MODELS_HOSTS: frozenset[str] = frozenset({"models.github.ai"})
+ARCHIVE_MONTHLY_MAX_WORDS = 200
+ARCHIVE_YEARLY_MAX_WORDS = 500
 
 
 def validate_https_url(url: str, *, label: str, allowed_hosts: frozenset[str] | None = None) -> None:
@@ -170,18 +174,6 @@ def render_skills(skills_dir: Path) -> str:
     return "\n\n".join(blocks) if blocks else "_No learned skills have been extracted yet._"
 
 
-def render_continuity(continuity_file: Path) -> str:
-    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
-
-    if not continuity_file.exists():
-        return "_No learned continuity capsule has been recorded yet._"
-
-    content = continuity_file.read_text(encoding="utf-8").strip()
-    if not content:
-        return "_No learned continuity capsule has been recorded yet._"
-    return _escape_untrusted_boundaries(content)
-
-
 def find_recent_summaries(analyzed_dir: Path, limit: int) -> list[Path]:
     summaries = sorted(analyzed_dir.glob("*-summary.md")) if analyzed_dir.exists() else []
     if limit <= 0:
@@ -254,7 +246,10 @@ def render_archive_context(current_datetime: str, content_root: Path) -> str:
     if monthly_path and monthly_path.exists():
         relative_path = monthly_path.relative_to(ROOT) if monthly_path.is_relative_to(ROOT) else monthly_path
         monthly_raw = monthly_path.read_text(encoding="utf-8").strip()
-        monthly_content = extract_month_notes(monthly_raw) or monthly_raw
+        monthly_content = compress_to_budget(
+            extract_month_notes(monthly_raw) or monthly_raw,
+            ARCHIVE_MONTHLY_MAX_WORDS,
+        )
         blocks.append(
             f"--- Monthly Rollup: {_escape_untrusted_boundaries(str(relative_path))} ---\n"
             f"{_escape_untrusted_boundaries(monthly_content)}"
@@ -266,7 +261,10 @@ def render_archive_context(current_datetime: str, content_root: Path) -> str:
     if yearly_path and yearly_path.exists():
         relative_path = yearly_path.relative_to(ROOT) if yearly_path.is_relative_to(ROOT) else yearly_path
         yearly_raw = yearly_path.read_text(encoding="utf-8").strip()
-        yearly_content = extract_yearly_narrative(yearly_raw) or yearly_raw
+        yearly_content = compress_to_budget(
+            extract_yearly_narrative(yearly_raw) or yearly_raw,
+            ARCHIVE_YEARLY_MAX_WORDS,
+        )
         blocks.append(
             f"--- Yearly Narrative: {_escape_untrusted_boundaries(str(relative_path))} ---\n"
             f"{_escape_untrusted_boundaries(yearly_content)}"
@@ -291,6 +289,13 @@ def render_prompt(
     content_root: Path = DEFAULT_CONTENT_ROOT,
     scorecard_section: str = "",
 ) -> str:
+    if (
+        wisdom_file == DEFAULT_WISDOM_FILE
+        and skills_dir == DEFAULT_SKILLS_DIR
+        and continuity_file == DEFAULT_CONTINUITY_FILE
+    ):
+        wisdom_file, skills_dir, continuity_file = resolve_analysis_context_paths()
+
     prompt = prompt_template_path.read_text(encoding="utf-8")
     replacements = {
         "{{CURRENT_DATETIME}}": current_datetime,
@@ -398,25 +403,15 @@ def main(argv: list[str] | None = None) -> int:
     if args.scorecard:
         scorecard_section = render_scorecard_section(args.topic, args.scorecard_count)
 
-    wisdom_file = args.wisdom_file
-    skills_dir = args.skills_dir
-    continuity_file = args.continuity_file
-    if (
-        wisdom_file == DEFAULT_WISDOM_FILE
-        and skills_dir == DEFAULT_SKILLS_DIR
-        and continuity_file == DEFAULT_CONTINUITY_FILE
-    ):
-        wisdom_file, skills_dir, continuity_file = resolve_analysis_context_paths()
-
     prompt = render_prompt(
         prompt_template_path=args.prompt_template,
         current_datetime=args.current_datetime,
         output_path=output_path,
         analyzed_dir=args.analyzed_dir,
         snapshots_dir=args.snapshots_dir,
-        wisdom_file=wisdom_file,
-        skills_dir=skills_dir,
-        continuity_file=continuity_file,
+        wisdom_file=args.wisdom_file,
+        skills_dir=args.skills_dir,
+        continuity_file=args.continuity_file,
         content_root=args.content_root,
         limit=args.limit,
         scorecard_section=scorecard_section,
