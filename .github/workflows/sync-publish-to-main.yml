@@ -84,9 +84,9 @@ jobs:
           git push -f origin "$SYNC_BRANCH"
 
           # Create or update PR
-          EXISTING_PR=$(gh pr list --head "$SYNC_BRANCH" --base main --json number --jq '.[0].number // empty')
-          if [ -n "$EXISTING_PR" ]; then
-            echo "Updated existing PR #${EXISTING_PR}"
+          PR_NUMBER=$(gh pr list --head "$SYNC_BRANCH" --base main --json number --jq '.[0].number // empty')
+          if [ -n "$PR_NUMBER" ]; then
+            echo "Updated existing PR #${PR_NUMBER}"
           else
             gh pr create \
               --base main \
@@ -111,4 +111,24 @@ jobs:
 
           Safe to merge — contains only generated data, no code changes." \
               --label "squad"
+            PR_NUMBER=$(gh pr list --head "$SYNC_BRANCH" --base main --json number --jq '.[0].number')
           fi
+
+          HEAD_SHA=$(git rev-parse HEAD)
+          CHECK_COUNT=0
+          for _ in $(seq 1 30); do
+            CHECK_COUNT=$(gh pr checks "$PR_NUMBER" --json name --jq 'length')
+            if [ "$CHECK_COUNT" -gt 0 ]; then
+              break
+            fi
+            echo "Waiting for PR #${PR_NUMBER} checks to register..."
+            sleep 10
+          done
+
+          if [ "$CHECK_COUNT" -eq 0 ]; then
+            echo "::error::No status checks registered for PR #${PR_NUMBER}; refusing to merge without validation."
+            exit 1
+          fi
+
+          gh pr checks "$PR_NUMBER" --watch --fail-fast
+          gh pr merge "$PR_NUMBER" --squash --match-head-commit "$HEAD_SHA"
