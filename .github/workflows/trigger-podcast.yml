@@ -34,10 +34,10 @@ jobs:
 
       - name: Derive paths from week slug
         id: derive
+        env:
+          WEEK: ${{ inputs.week }}
         run: |
           set -euo pipefail
-          WEEK="${{ inputs.week }}"
-
           if [[ ! "$WEEK" =~ ^[0-9]{4}-W[0-9]{2}$ ]]; then
             echo "::error::week must match YYYY-WNN (two-digit week), e.g. 2026-W25 (got: $WEEK)"
             exit 1
