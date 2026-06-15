@@ -80,6 +80,7 @@ class MonthSnapshot:
     noise: tuple[str, ...]
     gaps: tuple[str, ...]
     closing_reads: tuple[str, ...]
+    synthesis_narrative: str = ""
 
     @property
     def month_name(self) -> str:
@@ -104,6 +105,7 @@ class MonthSnapshot:
                 *self.noise,
                 *self.gaps,
                 *self.closing_reads,
+                self.synthesis_narrative,
             ]
         )
 
@@ -259,16 +261,30 @@ def dedupe_preserving_order(values: Iterable[str]) -> list[str]:
     return result
 
 
-def load_month_snapshot(path: Path) -> MonthSnapshot:
+def month_synthesis_path(content_root: Path, year: int, month: int) -> Path:
+    return content_root.parent / "data" / "analyzed" / f"{year}-{month:02d}-month-synthesis.md"
+
+
+def extract_month_synthesis_narrative(content_root: Path, year: int, month: int) -> str:
+    synthesis_path = month_synthesis_path(content_root, year, month)
+    if not synthesis_path.is_file():
+        return ""
+    _, body = analysis_gate.extract_frontmatter(synthesis_path.read_text(encoding="utf-8"))
+    return split_sections(body).get("Month Synthesis", "").strip()
+
+
+def load_month_snapshot(path: Path, content_root: Path) -> MonthSnapshot:
     frontmatter, body = analysis_gate.extract_frontmatter(path.read_text(encoding="utf-8"))
     sections = split_sections(body)
     themes: list[str] = []
     for raw in extract_labeled_values(sections.get("Month Overview", ""), "Recurring themes so far"):
         themes.extend(part.strip() for part in raw.rstrip(".").split(",") if part.strip())
+    year = int(frontmatter["year"])
+    month = int(frontmatter["month"])
     return MonthSnapshot(
         path=path,
-        year=int(frontmatter["year"]),
-        month=int(frontmatter["month"]),
+        year=year,
+        month=month,
         title=str(frontmatter.get("title", path.stem)),
         date=str(frontmatter["date"]),
         summaries=tuple(extract_labeled_values(sections.get("Month Overview", ""), "Summary")),
@@ -277,6 +293,7 @@ def load_month_snapshot(path: Path) -> MonthSnapshot:
         noise=tuple(extract_labeled_values(sections.get("Trends Observed", ""), "Noise")),
         gaps=tuple(extract_labeled_values(sections.get("Key Takeaways", ""), "Gap to watch")),
         closing_reads=tuple(extract_labeled_values(sections.get("Key Takeaways", ""), "Closing read")),
+        synthesis_narrative=extract_month_synthesis_narrative(content_root, year, month),
     )
 
 
@@ -287,7 +304,7 @@ def load_month_snapshots(content_root: Path, years: Iterable[int] | None = None)
             paths.extend(sorted((content_root / "monthly" / str(year)).glob("*.md")))
     else:
         paths = sorted((content_root / "monthly").glob("*/*.md"))
-    snapshots = [load_month_snapshot(path) for path in paths if path.is_file()]
+    snapshots = [load_month_snapshot(path, content_root) for path in paths if path.is_file()]
     return sorted(snapshots, key=lambda item: (item.year, item.month))
 
 
@@ -386,14 +403,35 @@ def summarize_month(month: MonthSnapshot) -> str:
     return trim_words(strip_markdown(month.summaries[-1] if month.summaries else month.text_blob), 32)
 
 
+def month_yearly_excerpt(month: MonthSnapshot, limit: int = 48) -> str:
+    if month.synthesis_narrative:
+        return trim_words(strip_markdown(month.synthesis_narrative), limit).rstrip(".")
+    fallback = month.summaries[-1] if month.summaries else month.text_blob
+    return trim_words(strip_markdown(fallback), limit).rstrip(".")
+
+
 def build_month_story(months: list[MonthSnapshot]) -> str:
-    sentences: list[str] = []
-    for month in months:
-        summary = summarize_month(month)
-        sentences.append(f"In {month.month_name}, {summary}")
-    if not sentences:
+    if not months:
         return ""
-    return " ".join(sentence.rstrip(".") + "." for sentence in sentences)
+    if len(months) == 1:
+        return f"The monthly progression is already visible in {months[0].month_name}: {month_yearly_excerpt(months[0])}."
+
+    clauses: list[str] = []
+    for index, month in enumerate(months):
+        excerpt = month_yearly_excerpt(month)
+        if index == 0:
+            lead = "set the initial tone"
+        elif index == len(months) - 1:
+            lead = "pushed the story further"
+        else:
+            lead = "carried the story forward"
+        clauses.append(f"{month.month_name} {lead} when {excerpt}")
+    return (
+        "The monthly progression is clear: "
+        + "; ".join(clauses)
+        + ". Taken together, those shifts show a market moving from experimentation toward packaging, distribution, and operating discipline. "
+        + "Even when the surface story changes from one month to the next, the deeper motion is cumulative rather than episodic."
+    )
 
 
 def build_arc_commentary(arcs: dict[str, list[str]]) -> list[str]:
@@ -416,7 +454,7 @@ def build_arc_commentary(arcs: dict[str, list[str]]) -> list[str]:
 def build_prediction_review(arcs: dict[str, list[str]]) -> str:
     confirmations: list[str] = []
     if "globalization" in arcs.get("agent-skills", []):
-        confirmations.append("skills did globalize")
+        confirmations.append("skills globalized")
     if "verticalization" in arcs.get("agent-skills", []):
         confirmations.append("skills also verticalized quickly")
     if len(arcs.get("platform-gaming", [])) >= 2:
@@ -426,9 +464,21 @@ def build_prediction_review(arcs: dict[str, list[str]]) -> str:
     if arcs.get("security-gap"):
         confirmations.append("the trust and security gap remained open")
     if not confirmations:
-        return "The running predictions stayed directionally useful: the biggest structural questions still look unresolved."
+        return "What was confirmed: the biggest structural questions still look unresolved."
     joined = "; ".join(confirmations[:-1]) + ("" if len(confirmations) < 2 else "; ") + confirmations[-1] if len(confirmations) > 1 else confirmations[0]
-    return f"The running predictions were mostly right: {joined}."
+    return f"What was confirmed: {joined}."
+
+
+def build_weakened_review(arcs: dict[str, list[str]]) -> str:
+    weakened: list[str] = []
+    if arcs.get("security-gap"):
+        weakened.append("the idea that trust tooling would catch up on its own")
+    if len(arcs.get("agent-skills", [])) >= 2:
+        weakened.append("the simpler thesis that one general-purpose agent workflow would dominate everything")
+    if not weakened:
+        weakened.append("the hope that one short-term spike would settle the year's story")
+    joined = ", ".join(weakened[:-1]) + ("" if len(weakened) < 2 else ", and ") + weakened[-1] if len(weakened) > 1 else weakened[0]
+    return f"What weakened: {joined}."
 
 
 def compress_narrative(paragraphs: list[str], max_words: int = 500) -> str:
@@ -459,7 +509,13 @@ def synthesize_year(months: list[MonthSnapshot]) -> tuple[str, tuple[str, ...]]:
         build_theme_sentence(months[0].year, arcs),
         build_month_story(months),
         " ".join(build_arc_commentary(arcs)),
-        build_prediction_review(arcs),
+        " ".join(
+            [
+                build_prediction_review(arcs),
+                build_weakened_review(arcs),
+                "That leaves the main story of the year intact: builders are getting more serious about packaging and operating agents, while the trust, filtering, and governance layers remain conspicuously behind.",
+            ]
+        ),
     ]
     return compress_narrative(paragraphs), build_arc_lines(months)
 
@@ -493,8 +549,7 @@ def build_yearly_narrative_pages(content_root: Path, years: Iterable[int] | None
 
 
 def render_yearly_page(page: YearlyNarrativePage) -> str:
-    arc_body = "\n".join(f"- {line}" for line in page.arc_lines) if page.arc_lines else "_No updates yet._"
-    body = f"## Narrative\n\n{page.narrative}\n\n## Arc\n\n{arc_body}\n"
+    body = f"## Year in Review\n\n{page.narrative}\n"
     return render_frontmatter(page.frontmatter) + body
 
 
