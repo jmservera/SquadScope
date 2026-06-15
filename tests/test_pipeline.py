@@ -274,9 +274,12 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertNotIn("${GITHUB_MODELS_MODEL}", reskill_run)
         self.assertNotIn('RESKILL_SOURCE="github-models"', reskill_run)
         self.assertNotIn("used GitHub Models API fallback", reskill_run)
-        # Reskill prompt addresses the team, not an individual agent
-        self.assertIn('"Team, take a nap and reskill"', reskill_run)
-        self.assertNotIn("Farnsworth, read the file", reskill_run)
+        self.assertIn("--agent weekly-analysis", reskill_run)
+        self.assertIn('Read the file at ${RESKILL_PROMPT}. Write the complete reskill markdown to ${RESKILL_OUTPUT}.', reskill_run)
+        self.assertIn('test -s "$RESKILL_OUTPUT"', reskill_run)
+        self.assertIn('RESKILL_FAILURE_CLASS="writer_contract_failure"', reskill_run)
+        self.assertNotIn("--allow-tool=glob", reskill_run)
+        self.assertNotIn("--allow-tool=grep", reskill_run)
         # Prompt is written to a well-known path, not a temp file
         self.assertIn('RESKILL_PROMPT=".squad/reskill/current-prompt.md"', reskill_run)
 
@@ -303,6 +306,12 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("python3 scripts/copilot_failure.py", run_analysis)
         self.assertIn("--create-token-issue", run_analysis)
         self.assertIn('FINAL_FAILURE_CLASS=""', run_analysis)
+        self.assertIn("--agent weekly-analysis", run_analysis)
+        self.assertIn('Read the file at ${PROMPT_FILE}. Write the complete weekly analysis markdown to ${OUTPUT_FILE}.', run_analysis)
+        self.assertIn('if ! test -s "$OUTPUT_FILE"; then', run_analysis)
+        self.assertIn('FINAL_FAILURE_CLASS="writer_contract_failure"', run_analysis)
+        self.assertNotIn("--allow-tool=glob", run_analysis)
+        self.assertNotIn("--allow-tool=grep", run_analysis)
         self.assertIn('if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "copilot_inaccessible" ]; then', run_analysis)
         self.assertIn("failing without no-AI fallback", run_analysis)
         self.assertIn('echo "copilot is not available: command not found" > "$COPILOT_LOG"', run_analysis)
@@ -437,7 +446,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIsNotNone(download_step)
         self.assertTrue(_uses_action(download_step, "actions/download-artifact"))
         self.assertEqual(podcaster_job["if"], "${{ needs.analyze.outputs.run_mode == 'normal' }}")
-        self.assertTrue(podcaster_job["continue-on-error"])
+        self.assertNotIn("continue-on-error", podcaster_job)
         self.assertNotIn("force-replace", podcaster_job["if"])
         self.assertNotIn("restore", podcaster_job["if"])
 
@@ -458,11 +467,43 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn('--publish-run-id "$PUBLISH_RUN_ID"', run_script)
         self.assertIn('--publish-mode "$RUN_MODE"', run_script)
         self.assertIn('--manifest "$MANIFEST_FILE"', run_script)
-        self.assertIn("weekly article publication remains complete", run_script)
+        self.assertNotIn("weekly article publication remains complete", run_script)
         self.assertNotIn("--force", run_script)
         self.assertNotIn("--dry-run", run_script)
         self.assertNotIn("echo $PODCASTER_API_KEY", run_script)
         self.assertNotIn("curl", run_script)
+
+    def test_podcaster_smoke_workflow_exercises_real_weekly_payload_shape(self) -> None:
+        workflow_path = Path(".github/workflows/podcaster-handoff-smoke.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+
+        inputs = workflow[True]["workflow_dispatch"]["inputs"]
+        self.assertIn("week", inputs)
+        self.assertIn("article_url", inputs)
+        self.assertIn("article_path", inputs)
+        self.assertIn("article_sha256", inputs)
+        self.assertEqual(inputs["article_sha256"]["default"], "")
+
+        smoke_job = workflow["jobs"]["smoke"]
+        smoke_step = next((s for s in smoke_job["steps"] if s.get("name") == "Smoke test Podcaster dry run"), None)
+        self.assertIsNotNone(smoke_step)
+        run_script = smoke_step["run"]
+        self.assertIn('if [ ! -f "$ARTICLE_PATH" ]', run_script)
+        self.assertIn("hashlib.sha256(article_bytes).hexdigest()", run_script)
+        self.assertIn("article_sha256 must match ARTICLE_PATH contents when provided.", run_script)
+        self.assertIn('raw_payload = {"week": week, "source": "github", "article_path": article_path}', run_script)
+        self.assertIn('"size_bytes": len(raw_bytes)', run_script)
+        self.assertIn('"sha256": article_sha', run_script)
+        self.assertIn('"source_artifacts": [', run_script)
+        self.assertIn('"same_day_reuse"', run_script)
+        self.assertIn("build_payload(", run_script)
+        self.assertIn('"podcast_config"', run_script)
+        self.assertIn('"script_directions"', run_script)
+        self.assertIn('"spotify_publish"', run_script)
+        self.assertIn('"article_content"', run_script)
+        self.assertIn("--manifest .podcaster-smoke/publish-manifest.json", run_script)
+        self.assertIn("--podcast-config config/podcast.json", run_script)
+        self.assertIn("--podcaster-dry-run", run_script)
 
     def test_publish_workflow_uses_candidate_manifest_before_promotion(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")

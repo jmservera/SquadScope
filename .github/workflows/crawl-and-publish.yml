@@ -2,8 +2,11 @@ name: Crawl and publish weekly data
 
 on:
   schedule:
-    # Mondays at 06:53 UTC (GitHub can delay scheduled workflows during peak load)
-    - cron: '53 6 * * 1'
+    # Sundays at 11:53 UTC as the low-effort default. On GitHub-hosted
+    # runners this schedule is best-effort and can start hours late; see
+    # docs/operator-guide.md#schedule-latency-and-mitigation-ladder and use
+    # workflow_dispatch from an external scheduler if punctuality matters.
+    - cron: '53 11 * * 0'
   workflow_dispatch:
     inputs:
       run_mode:
@@ -64,7 +67,7 @@ jobs:
 
     steps:
       - name: Check out repository # zizmor: ignore[artipacked] crawl job pushes to the publish branch; checkout token is reused by a later git push
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
@@ -88,7 +91,7 @@ jobs:
 
       - name: Find latest successful crawl cache
         id: previous-cache-run
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const workflowId = 'crawl-and-publish.yml';
@@ -128,7 +131,7 @@ jobs:
       - name: Restore previous crawl cache
         if: steps.previous-cache-run.outputs.run_id != ''
         continue-on-error: true
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ steps.previous-cache-run.outputs.run_id }}
@@ -138,7 +141,7 @@ jobs:
       - name: Download previous raw artifacts for same-day reuse
         if: ${{ steps.previous-cache-run.outputs.run_id != '' && !inputs.rebuild_week }}
         continue-on-error: true
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ steps.previous-cache-run.outputs.run_id }}
@@ -148,7 +151,7 @@ jobs:
       - name: Download previous snapshots for same-day reuse
         if: ${{ steps.previous-cache-run.outputs.run_id != '' && !inputs.rebuild_week }}
         continue-on-error: true
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ steps.previous-cache-run.outputs.run_id }}
@@ -156,7 +159,7 @@ jobs:
           path: .artifact-reuse/snapshots/
 
       - name: Set up Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: '3.12'
 
@@ -218,7 +221,7 @@ jobs:
 
       - name: Upload raw crawl artifact
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: raw-data
           path: data/raw/
@@ -226,7 +229,7 @@ jobs:
 
       - name: Upload snapshot artifact
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: crawl-snapshots
           path: data/snapshots/
@@ -234,7 +237,7 @@ jobs:
 
       - name: Upload cache artifact
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: crawl-cache
           path: data/cache/
@@ -302,7 +305,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
@@ -310,7 +313,7 @@ jobs:
 
       - name: Download raw crawl artifact
         if: ${{ !inputs.rebuild_week }}
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: raw-data
           path: data/raw/
@@ -347,12 +350,12 @@ jobs:
           fi
 
       - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
-          node-version: '22'
+          node-version: '24'
 
       - name: Set up Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: '3.12'
 
@@ -631,14 +634,12 @@ jobs:
             # Intentionally rely on Copilot CLI's default model so CI follows the platform-supported default.
             set +e
             copilot \
-              --agent squad \
-              -p "Farnsworth, read the file at ${PROMPT_FILE} — it contains the weekly data and analysis instructions. Follow them exactly and write the analysis to ${OUTPUT_FILE}.${REPAIR_CONTEXT}" \
+              --agent weekly-analysis \
+              -p "Read the file at ${PROMPT_FILE}. Write the complete weekly analysis markdown to ${OUTPUT_FILE}. The first bytes must be --- and the run is incomplete until ${OUTPUT_FILE} exists and is non-empty. Do not delegate. Do not spawn sub-agents. Do not emit commentary.${REPAIR_CONTEXT}" \
               -s \
               --no-ask-user \
               --allow-tool=read \
               --allow-tool=write \
-              --allow-tool=glob \
-              --allow-tool=grep \
               --share="$TRANSCRIPT_FILE" \
               > "$COPILOT_LOG" 2>&1
             COPILOT_STATUS=$?
@@ -663,6 +664,13 @@ jobs:
                 echo "::warning::Non-retryable Copilot analysis failure (${FAILURE_CLASS}). Writing a non-publishable no-AI candidate so the current published article can be preserved. See ${COPILOT_FAILURE_REPORT}."
                 break
               fi
+              ATTEMPT=$((ATTEMPT + 1))
+              continue
+            fi
+
+            if ! test -s "$OUTPUT_FILE"; then
+              FINAL_FAILURE_CLASS="writer_contract_failure"
+              echo "::warning::Copilot analysis completed without writing ${OUTPUT_FILE}; class=${FINAL_FAILURE_CLASS}"
               ATTEMPT=$((ATTEMPT + 1))
               continue
             fi
@@ -840,7 +848,7 @@ jobs:
 
       - name: Upload analyzed data
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: analyzed-data
           path: data/analyzed/
@@ -848,7 +856,7 @@ jobs:
 
       - name: Upload analysis candidate
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: analysis-candidate
           path: data/candidates/
@@ -866,31 +874,31 @@ jobs:
 
     steps:
       - name: Check out repository # zizmor: ignore[artipacked] generate job pushes to the publish branch; checkout token is reused by a later git push
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
 
       - name: Download analyzed data artifact
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: analyzed-data
           path: data/analyzed/
 
       - name: Download analysis candidate artifact
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: analysis-candidate
           path: data/candidates/
 
       - name: Download raw crawl artifact
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: raw-data
           path: data/raw/
 
       - name: Set up Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: '3.12'
 
@@ -1049,7 +1057,7 @@ jobs:
           fi
 
       - name: Upload generated content artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: generated-content
           path: |
@@ -1059,7 +1067,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Upload promoted analyzed artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: promoted-analyzed-data
           path: data/analyzed/
@@ -1085,7 +1093,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           submodules: recursive
           fetch-depth: 0
@@ -1093,19 +1101,19 @@ jobs:
           persist-credentials: false
 
       - name: Download raw crawl artifact
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: raw-data
           path: data/raw/
 
       - name: Download analyzed data artifact
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: promoted-analyzed-data
           path: data/analyzed/
 
       - name: Download generated content artifact
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: generated-content
           path: content/
@@ -1160,18 +1168,17 @@ jobs:
     needs: [analyze, generate, deploy]
     if: ${{ needs.analyze.outputs.run_mode == 'normal' }}
     runs-on: ubuntu-latest
-    continue-on-error: true
     permissions:
       contents: read
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
         with:
           persist-credentials: false
 
       - name: Download analysis candidate
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c  # v8.0.1
         with:
           name: analysis-candidate
           path: data/candidates/
@@ -1195,21 +1202,17 @@ jobs:
           PY
           )
           if ! python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"; then
-            echo "::warning::Podcaster handoff skipped because the publish manifest is not eligible."
+            echo "::notice::Podcaster handoff skipped — publish manifest is not eligible."
             exit 0
           fi
-          ARGS=(
-            --week "$WEEK"
-            --article-url "$ARTICLE_URL"
-            --article-path "$PAGE_PATH"
-            --publish-run-id "$PUBLISH_RUN_ID"
-            --publish-mode "$RUN_MODE"
-            --manifest "$MANIFEST_FILE"
+          python3 scripts/podcaster_handoff.py \
+            --week "$WEEK" \
+            --article-url "$ARTICLE_URL" \
+            --article-path "$PAGE_PATH" \
+            --publish-run-id "$PUBLISH_RUN_ID" \
+            --publish-mode "$RUN_MODE" \
+            --manifest "$MANIFEST_FILE" \
             --podcast-config config/podcast.json
-          )
-          if ! python3 scripts/podcaster_handoff.py "${ARGS[@]}"; then
-            echo "::warning::Podcaster handoff failed or was rejected; weekly article publication remains complete."
-          fi
 
   notify:
     if: ${{ (github.event_name == 'schedule' || github.event.inputs.publish_release == 'true') && needs.analyze.outputs.run_mode != 'dry-run' && needs.analyze.outputs.run_mode != 'candidate-only' }}
@@ -1220,16 +1223,16 @@ jobs:
       discussions: write
 
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false
 
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: promoted-analyzed-data
           path: data/analyzed/
 
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: analysis-candidate
           path: data/candidates/
@@ -1354,7 +1357,7 @@ jobs:
       should_reskill: ${{ steps.check.outputs.reskill }}
 
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 0
           ref: publish
@@ -1390,7 +1393,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1 # zizmor: ignore[artipacked] reskill job pushes to the publish branch; checkout token is reused by a later git push
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3 # zizmor: ignore[artipacked] reskill job pushes to the publish branch; checkout token is reused by a later git push
         with:
           fetch-depth: 0
           ref: publish
@@ -1406,12 +1409,12 @@ jobs:
           fi
 
       - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
-          node-version: '22'
+          node-version: '24'
 
       - name: Set up Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: '3.12'
 
@@ -1445,23 +1448,48 @@ jobs:
           python3 scripts/reskill.py --current-datetime "$CURRENT_DATETIME" --output "$RESKILL_OUTPUT" --prompt-output "$RESKILL_PROMPT" --print-prompt > "$RESKILL_PROMPT" || true
 
           # Intentionally rely on Copilot CLI's default model so CI follows the platform-supported default.
-          if command -v copilot >/dev/null 2>&1 && copilot \
-            --agent squad \
-            -p "Team, take a nap and reskill" \
-            -s \
-            --no-ask-user \
-            --allow-tool=read \
-            --allow-tool=write \
-            --allow-tool=glob \
-            --allow-tool=grep \
-            > /dev/null; then
-            echo "✅ Reskill via Copilot CLI with agent identity"
+          RESKILL_FAILURE_CLASS=""
+          if command -v copilot >/dev/null 2>&1; then
+            set +e
+            copilot \
+              --agent weekly-analysis \
+              -p "Read the file at ${RESKILL_PROMPT}. Write the complete reskill markdown to ${RESKILL_OUTPUT}. The run is incomplete until ${RESKILL_OUTPUT} exists and is non-empty. Do not delegate. Do not spawn sub-agents. Do not emit commentary." \
+              -s \
+              --no-ask-user \
+              --allow-tool=read \
+              --allow-tool=write \
+              > /dev/null
+            COPILOT_STATUS=$?
+            set -e
+            if [ "$COPILOT_STATUS" -eq 0 ] && test -s "$RESKILL_OUTPUT"; then
+              echo "✅ Reskill via focused analysis agent"
+            else
+              if [ "$COPILOT_STATUS" -eq 0 ]; then
+                RESKILL_FAILURE_CLASS="writer_contract_failure"
+                echo "::warning::Reskill writer contract failed: ${RESKILL_OUTPUT} missing or empty after Copilot completed."
+              else
+                RESKILL_FAILURE_CLASS="copilot_cli_failure"
+                echo "::warning::Reskill Copilot CLI invocation failed with exit code ${COPILOT_STATUS}."
+              fi
+              RESKILL_SOURCE="none"
+              RESKILL_MODEL="none"
+              rm -f "$RESKILL_PROMPT"
+              echo "Copilot CLI reskill failed; no GitHub Models/OpenAI reskill fallback is configured. Writing placeholder trigger log."
+              {
+                echo "Reskill triggered at run #$COUNTER ($CURRENT_DATETIME)"
+                echo "Failure class: ${RESKILL_FAILURE_CLASS}"
+              } >> .squad/reskill/trigger-log.txt
+            fi
           else
+            RESKILL_FAILURE_CLASS="copilot_inaccessible"
             RESKILL_SOURCE="none"
             RESKILL_MODEL="none"
             rm -f "$RESKILL_PROMPT"
             echo "Copilot CLI reskill failed; no GitHub Models/OpenAI reskill fallback is configured. Writing placeholder trigger log."
-            echo "Reskill triggered at run #$COUNTER ($CURRENT_DATETIME)" >> .squad/reskill/trigger-log.txt
+            {
+              echo "Reskill triggered at run #$COUNTER ($CURRENT_DATETIME)"
+              echo "Failure class: ${RESKILL_FAILURE_CLASS}"
+            } >> .squad/reskill/trigger-log.txt
           fi
 
           if [ "$RESKILL_SOURCE" != "none" ]; then

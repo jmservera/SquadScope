@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_REPO_ROOT / "scripts"))
 
+import render_press_context as render_press_context_module
 from render_press_context import (
     _escape_markdown_url,
     _extract_readme_description,
@@ -222,9 +223,15 @@ class TestResolvePaths:
         assert "2026-W99-external-news.json" in str(tc)
         assert "2026-W99-correlations.json" in str(corr)
 
-    def test_legacy_techcrunch_fallback(self):
+    def test_legacy_techcrunch_fallback(self, tmp_path, monkeypatch):
         # Legacy techcrunch files archived; resolve_paths returns canonical
         # external-news path when the legacy file is absent.
+        raw_path = tmp_path / "raw"
+        analyzed_path = tmp_path / "analyzed"
+        raw_path.mkdir()
+        analyzed_path.mkdir()
+        monkeypatch.setattr(render_press_context_module, "raw_dir", lambda _topic: raw_path)
+        monkeypatch.setattr(render_press_context_module, "analyzed_dir", lambda _topic: analyzed_path)
         tc, corr = resolve_paths(None, "2026-W21")
         assert "2026-W21-external-news.json" in str(tc)
         assert "2026-W21-correlations.json" in str(corr)

@@ -27,8 +27,7 @@ MONTHLY_SECTIONS = [
     "Key Takeaways",
 ]
 YEARLY_SECTIONS = [
-    "Narrative",
-    "Arc",
+    "Year in Review",
 ]
 MONTH_NAMES = {
     1: "January",
@@ -356,8 +355,7 @@ def build_yearly_pages(summaries: list[WeeklySummary], content_root: Path) -> li
                 path=page.path,
                 frontmatter=page.frontmatter,
                 sections={
-                    "Narrative": [RollupEntry(marker=f"{page.year}-narrative", text=page.narrative)],
-                    "Arc": [RollupEntry(marker=f"{page.year}-arc", text="\n".join(f"- {line}" for line in page.arc_lines))],
+                    "Year in Review": [RollupEntry(marker=f"{page.year}-year-in-review", text=page.narrative)],
                 },
                 section_order=YEARLY_SECTIONS,
                 replace_existing_sections=True,

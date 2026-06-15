@@ -1,21 +1,18 @@
 ---
-title: "May 2026 Rollup"
+title: "May 2026 Month Synthesis"
 date: "2026-05-25T11:56:08+00:00"
-month: 5
-year: 2026
-categories: ["monthly"]
+month: "2026-05"
 weeks_covered: ["2026-W21", "2026-W22"]
-total_repos_featured: 32
+categories: ["monthly-synthesis"]
 summary: "May 2026 was defined by open source, developer tooling, and agents. Later in the month, agent skills, ai memory, and coding agents gathered pace."
-synthesis_status: "generated"
-synthesis_weeks: ["2026-W21", "2026-W22"]
+status: "generated"
+source_checksum: "sha256:278b87d63401b196c9bd343a6c81f6d707e956dfdd11a598f57af4369f8cf555"
 themes: ["open-source", "developer-tooling", "agents", "ai", "security"]
 persistent_themes: ["developer-tooling", "open-source"]
 accelerating_themes: ["agent-skills", "ai-memory", "coding-agents", "noise-amplification", "supply-chain-security", "developer-tooling", "open-source"]
 weakening_themes: ["agents", "ai", "security"]
 key_gaps: ["The biggest missing piece is trustworthy momentum data. Without historical star snapshots, the analyzer cannot distinguish what is…", "The most consequential gap is agent execution security. nkzw-tech/cloudsail (90 ⭐) is the week's sole attempt at self-hosted…"]
 top_repos: ["vercel-labs/zero", "perplexityai/bumblebee"]
-source_checksum: "sha256:278b87d63401b196c9bd343a6c81f6d707e956dfdd11a598f57af4369f8cf555"
 ---
 
 ## Month Synthesis

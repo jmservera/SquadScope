@@ -5,7 +5,8 @@ This checklist validates the automated weekly workflow in `.github/workflows/cra
 ## Trigger and scheduling
 
 - [x] `schedule` is enabled in the workflow.
-- [x] Cron is `53 6 * * 1`, which runs every Monday at 06:53 UTC.
+- [x] Cron is `53 11 * * 0`, which targets Sundays at 11:53 UTC.
+- [x] The documented expectation is **best effort**: GitHub-hosted scheduled workflows can start late on shared runners, so validation checks the configured cron plus the mitigation path instead of assuming an exact start minute.
 - [x] `workflow_dispatch` is enabled for manual runs from the Actions tab or `gh workflow run crawl-and-publish.yml`.
 - [x] `concurrency.group` is `weekly-crawl` with `cancel-in-progress: false`, so a second run waits instead of overlapping the active run.
 
@@ -126,6 +127,7 @@ Required secrets/tokens:
 
 - Actions tab → **Crawl and publish weekly data** → **Run workflow**
 - CLI: `gh workflow run crawl-and-publish.yml`
+- External scheduler / automation host: call the same `workflow_dispatch` endpoint or CLI command if punctual timing matters more than GitHub-hosted `schedule` latency
 
 ### Trigger locally
 
@@ -144,3 +146,4 @@ Required secrets/tokens:
 - Weekly momentum quality is only as good as the historical star snapshots; first runs and sparse history can make `stars_gained` incomplete.
 - Hugo must be `0.146.0+`; the workflow pins `0.161.1` because older runner binaries fail with the current theme.
 - The scheduled workflow now deploys Pages directly. `deploy-site.yml` skips bot-authored pushes so the scheduled run does not trigger a duplicate Pages deployment.
+- GitHub-hosted `schedule` is best-effort. This repo has observed multi-hour delays on scheduled starts, so the supported mitigation path is manual `gh workflow run`, then external scheduler -> `workflow_dispatch`, with self-hosted runners reserved as optional future work.

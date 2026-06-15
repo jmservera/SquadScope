@@ -14,7 +14,7 @@ Claracle solves the information overload problem in open-source development. Eac
 4. **Publishes** to GitHub Pages with RSS feeds for consumption
 5. **Reskills** every 5 runs to improve its own analysis quality
 
-Result: Curated tech trend insights delivered automatically every Monday.
+Result: Curated tech trend insights delivered automatically every week.
 
 ## Architecture
 
@@ -101,7 +101,7 @@ JSON    Markdown   Hugo      Pages    Improvements
 
 ## Automated weekly pipeline
 
-`.github/workflows/crawl-and-publish.yml` runs the full weekly automation every Monday at 06:53 UTC:
+`.github/workflows/crawl-and-publish.yml` runs the full weekly automation on a best-effort Sunday schedule at 11:53 UTC:
 
 1. **Crawl:** GitHub API → `data/raw/YYYY-WNN.json`; external RSS feeds → `data/raw/YYYY-WNN-external-news.json`
 2. **Analyze:** Copilot → `data/analyzed/YYYY-WNN-summary.md`
@@ -112,8 +112,10 @@ JSON    Markdown   Hugo      Pages    Improvements
 
 ### Schedule and manual runs
 
-- **Automated schedule:** Monday 06:53 UTC (`53 6 * * 1`)
+- **Automated schedule:** Sunday 11:53 UTC (`53 11 * * 0`) on GitHub-hosted runners
+- **Timing expectation:** GitHub Actions `schedule` is best-effort on shared runners; this repo has observed multi-hour delays on scheduled starts
 - **Manual trigger:** `gh workflow run crawl-and-publish.yml` or GitHub Actions UI
+- **If punctuality matters:** trigger the existing `workflow_dispatch` from an external scheduler; see [`docs/operator-guide.md#schedule-latency-and-mitigation-ladder`](docs/operator-guide.md#schedule-latency-and-mitigation-ladder)
 
 ### Required secrets
 

@@ -240,6 +240,22 @@ def _resolve_year_path(content_root: Path, current_datetime: str) -> Path | None
     return candidates[-1] if candidates else None
 
 
+def extract_month_notes(markdown: str) -> str:
+    return _extract_month_notes(markdown)
+
+
+def extract_yearly_narrative(markdown: str) -> str:
+    return _extract_yearly_narrative(markdown)
+
+
+def resolve_latest_monthly_path(content_root: Path, current_datetime: str) -> Path | None:
+    return _resolve_month_path(content_root, current_datetime)
+
+
+def resolve_latest_yearly_path(content_root: Path, current_datetime: str) -> Path | None:
+    return _resolve_year_path(content_root, current_datetime)
+
+
 def _build_plans(
     *,
     current_datetime: str,

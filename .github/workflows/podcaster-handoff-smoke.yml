@@ -16,7 +16,7 @@ on:
         required: true
         type: string
       article_sha256:
-        description: 'Optional 64-character article SHA-256 to include in the dry-run payload.'
+        description: 'Optional 64-character article SHA-256 override; when omitted the checked-out article file is hashed.'
         required: false
         default: ''
         type: string
@@ -32,7 +32,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
         with:
           persist-credentials: false
 
@@ -56,37 +56,131 @@ jobs:
             echo "::error::Podcaster smoke test requires PODCASTER_ENDPOINT variable and PODCASTER_API_KEY secret."
             exit 1
           fi
-          MANIFEST_ARGS=()
-          if [ -n "$ARTICLE_SHA256" ]; then
-            if ! [[ "$ARTICLE_SHA256" =~ ^[0-9a-f]{64}$ ]]; then
-              echo "::error::article_sha256 must be lowercase 64-character hex when provided."
-              exit 1
-            fi
-            mkdir -p .podcaster-smoke
-            python3 - <<'PY' "$WEEK" "$ARTICLE_SHA256" .podcaster-smoke/publish-manifest.json
+          if [ ! -f "$ARTICLE_PATH" ]; then
+            echo "::error::article_path must exist in the checked-out repository so the smoke test exercises the real article-content handoff path."
+            exit 1
+          fi
+          mkdir -p .podcaster-smoke
+          python3 - <<'PY' "$WEEK" "$ARTICLE_PATH" "$ARTICLE_SHA256" .podcaster-smoke/publish-manifest.json
+          import hashlib
           import json
           import sys
           from pathlib import Path
 
-          week, article_sha, manifest_path = sys.argv[1:]
+          week, article_path, article_sha, manifest_path = sys.argv[1:]
+          article = Path(article_path)
+          if not article.is_file():
+              raise SystemExit(f"article_path does not exist: {article_path}")
+          article_bytes = article.read_bytes()
+          actual_article_sha = hashlib.sha256(article_bytes).hexdigest()
+          if article_sha:
+              if len(article_sha) != 64 or article_sha.lower() != article_sha or any(ch not in "0123456789abcdef" for ch in article_sha):
+                  raise SystemExit("article_sha256 must be lowercase 64-character hex when provided.")
+              if article_sha != actual_article_sha:
+                  raise SystemExit("article_sha256 must match ARTICLE_PATH contents when provided.")
+          else:
+              article_sha = actual_article_sha
+          raw_payload = {"week": week, "source": "github", "article_path": article_path}
+          raw_bytes = (json.dumps(raw_payload, sort_keys=True) + "\n").encode("utf-8")
+          raw_sha = hashlib.sha256(raw_bytes).hexdigest()
+          article_size = len(article_bytes)
+
+          def digest(label: str) -> str:
+              return hashlib.sha256(f"{week}:{label}".encode("utf-8")).hexdigest()
+
           manifest = {
               "week": week,
               "run_mode": "normal",
               "candidate": {"summary_sha256": article_sha},
               "analysis": {"ai_status": "ai"},
               "promotion": {"eligible": True, "decision": "promote"},
-              "source_artifacts": [],
+              "source_artifacts": [
+                  {
+                      "role": "raw_github",
+                      "path": f"data/raw/{week}.json",
+                      "name": f"{week}-raw-github",
+                      "sha256": raw_sha,
+                      "generated_at": "2026-06-08T10:15:00Z",
+                      "crawled_at": "2026-06-08T10:12:00Z",
+                      "source_status": "fresh",
+                      "exists": True,
+                      "size_bytes": len(raw_bytes),
+                      "freshness": {"status": "fresh", "reasons": []},
+                      "provenance": {
+                          "path": f"data/raw/{week}.json",
+                          "sha256": raw_sha,
+                      },
+                      "same_day_reuse": {"status": "reused", "source": "smoke"},
+                      "sources_requested": ["github"],
+                      "sources_succeeded": ["github"],
+                      "sources_failed": [],
+                  },
+                  {
+                      "role": "published_summary",
+                      "path": article_path,
+                      "href": f"https://example.com/{week}/source-index.json",
+                      "sha256": article_sha,
+                      "generated_at": "2026-06-08T11:20:00Z",
+                      "exists": True,
+                      "size_bytes": article_size,
+                      "provenance": {
+                          "path": article_path,
+                          "sha256": article_sha,
+                      },
+                      "source_reuse_summary": {"reused": False},
+                  },
+                  {
+                      "role": "operator_packet",
+                      "name": "weekly-publishing-packet",
+                      "uri": f"https://example.com/{week}/publishing-packet.json",
+                      "artifact_checksum": digest("publishing-packet"),
+                      "schema_checksum": digest("publishing-packet-schema"),
+                      "source_config_checksum": digest("publishing-packet-config"),
+                      "source_artifact_provenance": {"source": "smoke-manifest"},
+                      "week": week,
+                  },
+              ],
           }
           Path(manifest_path).write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
           PY
-            MANIFEST_ARGS=(--manifest .podcaster-smoke/publish-manifest.json)
-          fi
+          python3 - <<'PY' "$WEEK" "$ARTICLE_URL" "$ARTICLE_PATH" "$PUBLISH_RUN_ID" .podcaster-smoke/publish-manifest.json
+          import sys
+          from pathlib import Path
+
+          from scripts.podcaster_handoff import build_payload
+
+          week, article_url, article_path, publish_run_id, manifest_path = sys.argv[1:]
+          payload = build_payload(
+              week=week,
+              article_url=article_url,
+              article_path=article_path,
+              publish_run_id=publish_run_id,
+              publish_mode="normal",
+              manifest_path=Path(manifest_path),
+              podcast_config_path=Path("config/podcast.json"),
+              podcaster_dry_run=True,
+          )
+          required_fields = (
+              "source_artifacts",
+              "podcast_config",
+              "script_directions",
+              "spotify_publish",
+              "article_content",
+              "article_title",
+              "dry_run",
+          )
+          missing = [field for field in required_fields if field not in payload]
+          if missing:
+              raise SystemExit(f"smoke payload is missing expected real-handoff fields: {', '.join(missing)}")
+          if not payload["source_artifacts"]:
+              raise SystemExit("smoke payload must include representative source_artifacts")
+          PY
           python3 scripts/podcaster_handoff.py \
             --week "$WEEK" \
             --article-url "$ARTICLE_URL" \
             --article-path "$ARTICLE_PATH" \
             --publish-run-id "$PUBLISH_RUN_ID" \
             --publish-mode normal \
+            --manifest .podcaster-smoke/publish-manifest.json \
             --podcast-config config/podcast.json \
-            --podcaster-dry-run \
-            "${MANIFEST_ARGS[@]}"
+            --podcaster-dry-run

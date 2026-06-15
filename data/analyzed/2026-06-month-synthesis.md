@@ -1,21 +1,18 @@
 ---
-title: "June 2026 Rollup"
+title: "June 2026 Month Synthesis"
 date: "2026-06-15T11:02:43+00:00"
-month: 6
-year: 2026
-categories: ["monthly"]
+month: "2026-06"
 weeks_covered: ["2026-W23", "2026-W24", "2026-W25"]
-total_repos_featured: 69
+categories: ["monthly-synthesis"]
 summary: "June 2026 was defined by agent skills, coding agents, and censorship bypass. Later in the month, ai security, apple intelligence, and chinese developer ecosystem gathered pace."
-synthesis_status: "generated"
-synthesis_weeks: ["2026-W23", "2026-W24", "2026-W25"]
+status: "generated"
+source_checksum: "sha256:13e7799230873b14cf18e0289926d43e0c8ef43f45817164b5265fc9ed567c68"
 themes: ["agent-skills", "coding-agents", "censorship-bypass", "offensive-security", "self-hosted"]
 persistent_themes: ["agent-skills", "coding-agents"]
 accelerating_themes: ["ai-security", "apple-intelligence", "chinese-developer-ecosystem", "fable-ecosystem", "hardware-adjacent", "local-first", "model-cost-arbitrage", "noise-floor", "signal-vs-noise", "supply-chain-security", "agent-skills", "coding-agents"]
 weakening_themes: ["ai-memory", "censorship-bypass", "exploit-churn", "offensive-security", "self-hosted"]
 key_gaps: ["Neither press nor developers are addressing agent behavior testing with any seriousness. The skills economy, memory layer, and…", "Neither press nor developers are addressing agent skills supply chain security. Skills packs are now a genuine distribution…", "The biggest blind spot is skills supply-chain security. W25 proves that skills are now a serious software distribution…"]
 top_repos: ["pewdiepie-archdaemon/odysseus", "cpaczek/skylight", "DietrichGebert/ponytail"]
-source_checksum: "sha256:13e7799230873b14cf18e0289926d43e0c8ef43f45817164b5265fc9ed567c68"
 ---
 
 ## Month Synthesis

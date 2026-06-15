@@ -155,15 +155,18 @@ class AnalyzeFallbackTests(unittest.TestCase):
             output_path = analyzed_dir / "2026-W21-summary.md"
             wisdom_path = base / ".squad" / "identity" / "wisdom.md"
             skills_dir = base / ".squad" / "skills" / "signal-detection"
+            continuity_path = base / ".squad" / "topics" / "ai-ml" / "continuity.md"
             raw_path.parent.mkdir(parents=True)
             analyzed_dir.mkdir(parents=True)
             wisdom_path.parent.mkdir(parents=True)
             skills_dir.mkdir(parents=True)
+            continuity_path.parent.mkdir(parents=True)
 
             raw_path.write_text(json.dumps({"week": "2026-W21", "new_repos": [], "trending_repos": []}), encoding="utf-8")
             wisdom_path.write_text("# Wisdom\n\nPrefer durable signals.", encoding="utf-8")
             (skills_dir / "SKILL.md").write_text("# Skill\n\nReject wrapper churn.", encoding="utf-8")
-            prompt_template.write_text("wisdom={{WISDOM}}\nskills={{SKILLS}}\n", encoding="utf-8")
+            continuity_path.write_text("# Continuity\n\nTrack what held up across monthlies.", encoding="utf-8")
+            prompt_template.write_text("wisdom={{WISDOM}}\nskills={{SKILLS}}\ncontinuity={{CONTINUITY}}\n", encoding="utf-8")
 
             prompt = analyze_fallback.render_prompt(
                 prompt_template_path=prompt_template,
@@ -173,12 +176,36 @@ class AnalyzeFallbackTests(unittest.TestCase):
                 analyzed_dir=analyzed_dir,
                 wisdom_file=wisdom_path,
                 skills_dir=base / ".squad" / "skills",
+                continuity_file=continuity_path,
             )
 
             self.assertIn("Prefer durable signals.", prompt)
             self.assertIn("Reject wrapper churn.", prompt)
+            self.assertIn("Track what held up across monthlies.", prompt)
             self.assertNotIn("{{WISDOM}}", prompt)
             self.assertNotIn("{{SKILLS}}", prompt)
+            self.assertNotIn("{{CONTINUITY}}", prompt)
+
+    def test_resolve_analysis_context_paths_prefers_squad_fallback_for_missing_relative_paths(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            (base / "squadscope.topic.yml").write_text(
+                "topic:\n"
+                "  id: ai-ml\n"
+                "learning:\n"
+                "  wisdom_file: topics/ai-ml/wisdom.md\n"
+                "  skills_dir: topics/ai-ml/skills/\n"
+                "  continuity_file: topics/ai-ml/continuity.md\n",
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(analyze_fallback, "ROOT", base):
+                wisdom_path, skills_path, continuity_path = analyze_fallback.resolve_analysis_context_paths()
+
+            self.assertEqual(wisdom_path, base / ".squad" / "topics" / "ai-ml" / "wisdom.md")
+            self.assertEqual(skills_path, base / ".squad" / "topics" / "ai-ml" / "skills")
+            self.assertEqual(continuity_path, base / ".squad" / "topics" / "ai-ml" / "continuity.md")
 
     def test_render_prompt_injects_historical_context(self) -> None:
         tests_root = Path(__file__).resolve().parent

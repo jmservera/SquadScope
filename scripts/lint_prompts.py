@@ -51,6 +51,8 @@ UNTRUSTED_VARIABLES = frozenset(
         "{{QUALITY_TREND}}",
         "{{WISDOM}}",
         "{{SKILLS}}",
+        "{{CONTINUITY}}",
+        "{{ARCHIVE_CONTEXT}}",
         "{{WISDOM_CONTENT}}",
         "{{TOPIC_DESCRIPTION}}",
     }
