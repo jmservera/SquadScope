@@ -11,6 +11,10 @@ on:
         description: 'Optional: crawl-and-publish workflow run ID that produced the manifest. If omitted, uses the most recent.'
         required: false
         type: string
+      breaking_news:
+        description: 'Optional last-moment news or important information to include in this podcast episode.'
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -100,6 +104,7 @@ jobs:
           MANIFEST_FILE: ${{ steps.manifest-locate.outputs.manifest_path }}
           PUBLISH_RUN_ID: ${{ steps.manifest-locate.outputs.publish_run_id }}
           TRIGGER_RUN_ID: ${{ github.run_id }}
+          BREAKING_NEWS: ${{ inputs.breaking_news || '' }}
         run: |
           set -euo pipefail
           if [ -z "$PODCASTER_ENDPOINT" ] || [ -z "$PODCASTER_API_KEY" ]; then
@@ -116,6 +121,11 @@ jobs:
           fi
           echo "::notice::Using manifest from crawl-and-publish run $PUBLISH_RUN_ID ($(date -r "$MANIFEST_FILE" '+%Y-%m-%d %H:%M:%S' 2>/dev/null || echo 'date unknown'))"
 
+          BREAKING_ARGS=()
+          if [ -n "$BREAKING_NEWS" ]; then
+            BREAKING_ARGS=(--breaking-news "$BREAKING_NEWS")
+          fi
+
           # Trigger real podcast generation using the existing validated manifest
           python3 scripts/podcaster_handoff.py \
             --week "$WEEK" \
@@ -124,4 +134,5 @@ jobs:
             --publish-run-id "$PUBLISH_RUN_ID" \
             --publish-mode normal \
             --manifest "$MANIFEST_FILE" \
-            --podcast-config config/podcast.json
+            --podcast-config config/podcast.json \
+            "${BREAKING_ARGS[@]}"

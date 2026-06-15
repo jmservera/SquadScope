@@ -631,5 +631,29 @@ class PodcasterHandoffTests(unittest.TestCase):
                article_file.chmod(0o644)
 
 
+    def test_build_payload_omits_breaking_news_by_default(self) -> None:
+        """breaking_news must not appear in the payload when not provided."""
+        payload = podcaster_handoff.build_payload(
+            week="2026-W23",
+            article_url="https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+            article_path="content/weekly/2026/W23.md",
+            publish_run_id="123456789",
+            publish_mode="normal",
+        )
+        self.assertNotIn("breaking_news", payload)
+
+    def test_build_payload_includes_breaking_news_when_provided(self) -> None:
+        """breaking_news must be included in the payload when a value is given."""
+        payload = podcaster_handoff.build_payload(
+            week="2026-W23",
+            article_url="https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+            article_path="content/weekly/2026/W23.md",
+            publish_run_id="123456789",
+            publish_mode="normal",
+            breaking_news="Major outage at GitHub Actions today",
+        )
+        self.assertEqual(payload["breaking_news"], "Major outage at GitHub Actions today")
+
+
 if __name__ == "__main__":
     unittest.main()
