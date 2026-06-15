@@ -114,20 +114,29 @@ class GenerateRollupsTests(unittest.TestCase):
             self.assertIn('categories: ["monthly"]', monthly)
             self.assertIn('weeks_covered: ["2026-W21"]', monthly)
             self.assertIn('total_repos_featured: 1', monthly)
-            self.assertIn('---\n\n## Month Overview', monthly)
-            self.assertIn('## Month Overview', monthly)
-            self.assertIn('### Week 2026-W21', monthly)
-            self.assertIn('[Week 21, 2026](/weekly/2026/W21/)', monthly)
-            self.assertIn('[octo/signal-kit](https://github.com/octo/signal-kit)', monthly)
+            self.assertIn('synthesis_status: "generated"', monthly)
+            self.assertIn('## Month Synthesis', monthly)
+            self.assertIn('## Trend Arc', monthly)
+            self.assertIn('## Prediction Review', monthly)
+            self.assertIn('## Weekly Reports', monthly)
+            self.assertNotIn('### Week 2026-W21', monthly)
+            self.assertIn('[Week 21, 2026](/weekly/2026/W21/) — Practical agent tooling led the week.', monthly)
+
+            synthesis_artifact = analyzed_dir / "2026-05-month-synthesis.md"
+            self.assertTrue(synthesis_artifact.exists())
+            artifact = synthesis_artifact.read_text(encoding="utf-8")
+            self.assertIn('title: "May 2026 Month Synthesis"', artifact)
+            self.assertIn('source_checksum: "sha256:', artifact)
+            self.assertIn('## Month Synthesis', artifact)
 
             yearly = yearly_path.read_text(encoding="utf-8")
             self.assertIn('title: "2026 Yearly Narrative"', yearly)
             self.assertIn('categories: ["yearly"]', yearly)
             self.assertIn('months_covered: ["2026-05"]', yearly)
             self.assertIn('format: "narrative"', yearly)
-            self.assertIn('## Narrative', yearly)
+            self.assertIn('## Year in Review', yearly)
             self.assertIn('Practical agent tooling led the week.', yearly)
-            self.assertIn('## Arc', yearly)
+            self.assertNotIn('## Arc', yearly)
 
     def test_generate_rollups_is_append_only_for_existing_pages(self) -> None:
         with temporary_workspace() as tmpdir:
@@ -181,22 +190,23 @@ class GenerateRollupsTests(unittest.TestCase):
             self.assertIn('total_repos_featured: 4', second_monthly)
             self.assertIn('months_covered: ["2026-05"]', second_yearly)
             for expected in [
-                '### Week 2026-W21 — [Week 21, 2026](/weekly/2026/W21/)',
-                '- [octo/signal-kit](https://github.com/octo/signal-kit) led the published weekly analysis for 2026-W21.',
-                '- Signal: Teams preferred operational automation over generic hype.',
-                '- Gap to watch: Reliable momentum data remained missing.',
-                '- Recurring themes so far: alpha.',
+                '## Month Synthesis',
+                '## Trend Arc',
+                '## Weekly Reports',
+                '- [Week 21, 2026](/weekly/2026/W21/) — Practical agent tooling led the week.',
+                '- [Week 22, 2026](/weekly/2026/W22/) — Observability and release safety gained more traction.',
+                'accelerating_themes: ["beta"]',
+                'weakening_themes: ["alpha"]',
             ]:
                 self.assertIn(expected, second_monthly)
-            self.assertIn('- Recurring themes so far: alpha, beta.', second_monthly)
+            self.assertIn('top_repos: ["octo/signal-kit", "octo/steady-watch"]', second_monthly)
             self.assertIn('format: "narrative"', second_yearly)
-            self.assertIn('## Narrative', second_yearly)
+            self.assertIn('## Year in Review', second_yearly)
             self.assertIn('Observability and release safety gained more traction.', second_yearly)
-            self.assertIn('## Arc', second_yearly)
-            self.assertEqual(second_monthly.count('### Week 2026-W21'), 4)
-            self.assertEqual(second_monthly.count('### Week 2026-W22'), 4)
-            self.assertEqual(second_yearly.count('## Narrative'), 1)
-            self.assertEqual(second_yearly.count('## Arc'), 1)
+            self.assertNotIn('## Arc', second_yearly)
+            self.assertEqual(second_monthly.count('[Week 21, 2026](/weekly/2026/W21/)'), 1)
+            self.assertEqual(second_monthly.count('[Week 22, 2026](/weekly/2026/W22/)'), 1)
+            self.assertEqual(second_yearly.count('## Year in Review'), 1)
             self.assertNotEqual(first_monthly, second_monthly)
             self.assertNotEqual(first_yearly, second_yearly)
 
@@ -279,12 +289,67 @@ total_repos_featured: 36
             yearly = yearly_path.read_text(encoding="utf-8")
             self.assertIn('title: "2026 Yearly Narrative"', yearly)
             self.assertIn('format: "narrative"', yearly)
-            self.assertIn('## Narrative', yearly)
+            self.assertIn('## Year in Review', yearly)
             self.assertIn('split-screen story', yearly)
-            self.assertIn('globalize', yearly)
-            self.assertIn('## Arc', yearly)
-            self.assertIn('agent-skills: infrastructure > economy > globalization > verticalization', yearly)
-            self.assertIn('platform-gaming: star-farming > fork-inflation', yearly)
+            self.assertIn('globalized', yearly)
+            self.assertIn('What was confirmed:', yearly)
+            self.assertIn('What weakened:', yearly)
+            self.assertNotIn('## Arc', yearly)
+            self.assertNotIn('agent-skills: infrastructure > economy > globalization > verticalization', yearly)
+
+    def test_generate_yearly_narrative_prefers_month_synthesis_artifacts(self) -> None:
+        with temporary_workspace() as tmpdir:
+            base = Path(tmpdir)
+            content_root = base / "content"
+            monthly_dir = content_root / "monthly" / "2026"
+            analyzed_dir = base / "data" / "analyzed"
+            monthly_dir.mkdir(parents=True)
+            analyzed_dir.mkdir(parents=True)
+
+            (monthly_dir / "05.md").write_text(
+                """---
+title: "May 2026 Rollup"
+date: "2026-05-25T11:56:08+00:00"
+month: 5
+year: 2026
+categories: ["monthly"]
+weeks_covered: ["2026-W21", "2026-W22"]
+total_repos_featured: 32
+---
+
+## Month Overview
+
+### Week 2026-W21 — [Week 21, 2026](/weekly/2026/W21/)
+- Summary: Fallback monthly summary that should not drive the yearly opening.
+- Repositories featured this week: 17
+- Recurring themes so far: agent-skills, mcp.
+""",
+                encoding="utf-8",
+            )
+            (analyzed_dir / "2026-05-month-synthesis.md").write_text(
+                """---
+title: "May 2026 Monthly Synthesis"
+date: "2026-05-25T11:56:08+00:00"
+month: 5
+year: 2026
+---
+
+## Month Synthesis
+
+May made it clear that teams were no longer evaluating agent skills as demos; they were treating them as operating infrastructure with distribution consequences.
+
+The strongest thread was a shift from raw capability talk toward packaging, trust, and fit inside real workflows.
+""",
+                encoding="utf-8",
+            )
+
+            written = generate_yearly_narrative.generate_yearly_narratives(content_root)
+            yearly_path = content_root / "yearly" / "2026.md"
+
+            self.assertEqual(written, [yearly_path])
+            yearly = yearly_path.read_text(encoding="utf-8")
+            self.assertIn("operating infrastructure with distribution consequences", yearly)
+            self.assertNotIn("Fallback monthly summary that should not drive the yearly opening", yearly)
 
     def test_generate_rollups_replaces_placeholder_and_preserves_unknown_sections(self) -> None:
         with temporary_workspace() as tmpdir:
@@ -316,8 +381,10 @@ total_repos_featured: 36
             generate_rollups.generate_rollups(analyzed_dir, content_root)
             monthly = monthly_path.read_text(encoding="utf-8")
 
-            self.assertNotIn("_No updates yet._\n\n### Week 2026-W21", monthly)
-            self.assertIn("### Week 2026-W21", monthly)
+            self.assertNotIn("_No updates yet._\n\n## Month Synthesis", monthly)
+            self.assertNotIn("## Month Overview", monthly)
+            self.assertIn("## Weekly Reports", monthly)
+            self.assertIn("[Week 21, 2026](/weekly/2026/W21/) — Practical agent tooling led the week.", monthly)
             self.assertIn("## Legacy Notes\n\nKeep this section.", monthly)
 
     def test_generate_rollups_returns_empty_when_no_summaries_exist(self) -> None:
@@ -329,7 +396,7 @@ total_repos_featured: 36
 
             self.assertEqual(generate_rollups.generate_rollups(analyzed_dir, content_root), [])
             stderr = io.StringIO()
-            with unittest.mock.patch("sys.stderr", stderr):
+            with mock.patch("sys.stderr", stderr):
                 self.assertEqual(generate_rollups.main(["--analyzed-dir", str(analyzed_dir), "--content-root", str(content_root)]), 0)
             self.assertIn("No weekly summaries found", stderr.getvalue())
 

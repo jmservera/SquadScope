@@ -13,6 +13,7 @@ if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import scripts.analysis_gate as analysis_gate
+import scripts.month_synthesis as month_synthesis
 from scripts.generate_yearly_narrative import build_yearly_narrative_pages
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -20,12 +21,19 @@ SUMMARY_SUFFIX = "-summary.md"
 WEEK_PATTERN = re.compile(r"^(?P<year>\d{4})-W(?P<week>\d{2})$")
 REPO_LINK_PATTERN = re.compile(r"https://github\.com/(?P<repo>[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)")
 NO_UPDATES_PLACEHOLDER = "_No updates yet._"
-MONTHLY_SECTIONS = [
+LEGACY_MONTHLY_SECTIONS = [
     "Month Overview",
     "Top Repos This Month",
     "Trends Observed",
     "Key Takeaways",
 ]
+MONTHLY_SYNTHESIS_SECTIONS = [
+    "Month Synthesis",
+    "Trend Arc",
+    "Prediction Review",
+    "Weekly Reports",
+]
+MONTHLY_SECTIONS = LEGACY_MONTHLY_SECTIONS
 YEARLY_SECTIONS = [
     "Narrative",
     "Arc",
@@ -112,6 +120,7 @@ class RollupPage:
     section_order: list[str]
     replace_existing_sections: bool = False
     preserve_unknown_sections: bool = True
+    ignored_existing_sections: tuple[str, ...] = ()
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -314,7 +323,27 @@ def monthly_entries(weekly: WeeklySummary, tags_counter: Counter[str]) -> dict[s
     }
 
 
-def build_monthly_pages(summaries: list[WeeklySummary], content_root: Path) -> list[RollupPage]:
+def build_legacy_monthly_sections(items: list[WeeklySummary]) -> dict[str, list[RollupEntry]]:
+    tags_counter: Counter[str] = Counter()
+    page_entries: dict[str, list[RollupEntry]] = {section: [] for section in LEGACY_MONTHLY_SECTIONS}
+    for item in items:
+        tags_counter.update(item.tags)
+        for section, entry in monthly_entries(item, tags_counter).items():
+            page_entries[section].append(entry)
+    return page_entries
+
+
+def build_synthesized_monthly_sections(synthesis: month_synthesis.MonthSynthesis) -> dict[str, list[RollupEntry]]:
+    marker = f"{synthesis.month_slug}-month-synthesis"
+    return {
+        "Month Synthesis": [RollupEntry(marker=marker, text=synthesis.narrative)],
+        "Trend Arc": [RollupEntry(marker=f"{marker}-arc", text=synthesis.trend_arc)],
+        "Prediction Review": [RollupEntry(marker=f"{marker}-prediction", text=synthesis.prediction_review)],
+        "Weekly Reports": [RollupEntry(marker=f"{marker}-weekly", text="\n".join(synthesis.weekly_reports))],
+    }
+
+
+def build_monthly_pages(summaries: list[WeeklySummary], analyzed_dir: Path, content_root: Path) -> list[RollupPage]:
     grouped: dict[tuple[int, int], list[WeeklySummary]] = defaultdict(list)
     for summary in summaries:
         grouped[(summary.year, summary.month)].append(summary)
@@ -322,26 +351,47 @@ def build_monthly_pages(summaries: list[WeeklySummary], content_root: Path) -> l
     pages: list[RollupPage] = []
     for (year, month), items in sorted(grouped.items()):
         items = sorted(items, key=lambda item: (item.date, item.week))
-        tags_counter: Counter[str] = Counter()
-        page_entries: dict[str, list[RollupEntry]] = {section: [] for section in MONTHLY_SECTIONS}
-        for item in items:
-            tags_counter.update(item.tags)
-            for section, entry in monthly_entries(item, tags_counter).items():
-                page_entries[section].append(entry)
+        frontmatter = {
+            "title": f"{MONTH_NAMES[month]} {year} Rollup",
+            "date": items[-1].date.isoformat(),
+            "month": month,
+            "year": year,
+            "categories": ["monthly"],
+            "weeks_covered": [item.week for item in items],
+            "total_repos_featured": len({repo for item in items for repo in item.featured_repos}),
+        }
+        try:
+            synthesis = month_synthesis.ensure_month_synthesis(items, analyzed_dir)
+            frontmatter.update(
+                {
+                    "summary": synthesis.summary,
+                    "synthesis_status": synthesis.status,
+                    "synthesis_weeks": list(synthesis.weeks_covered),
+                    "themes": list(synthesis.themes),
+                    "persistent_themes": list(synthesis.persistent_themes),
+                    "accelerating_themes": list(synthesis.accelerating_themes),
+                    "weakening_themes": list(synthesis.weakening_themes),
+                    "key_gaps": list(synthesis.key_gaps),
+                    "top_repos": list(synthesis.top_repos),
+                    "source_checksum": synthesis.source_checksum,
+                }
+            )
+            sections = build_synthesized_monthly_sections(synthesis)
+            section_order = MONTHLY_SYNTHESIS_SECTIONS
+            ignored_existing_sections = tuple(LEGACY_MONTHLY_SECTIONS)
+        except Exception:
+            frontmatter["synthesis_status"] = "fallback"
+            sections = build_legacy_monthly_sections(items)
+            section_order = LEGACY_MONTHLY_SECTIONS
+            ignored_existing_sections = tuple(MONTHLY_SYNTHESIS_SECTIONS)
         pages.append(
             RollupPage(
                 path=content_root / "monthly" / str(year) / f"{month:02d}.md",
-                frontmatter={
-                    "title": f"{MONTH_NAMES[month]} {year} Rollup",
-                    "date": items[-1].date.isoformat(),
-                    "month": month,
-                    "year": year,
-                    "categories": ["monthly"],
-                    "weeks_covered": [item.week for item in items],
-                    "total_repos_featured": len({repo for item in items for repo in item.featured_repos}),
-                },
-                sections=page_entries,
-                section_order=MONTHLY_SECTIONS,
+                frontmatter=frontmatter,
+                sections=sections,
+                section_order=section_order,
+                replace_existing_sections=True,
+                ignored_existing_sections=ignored_existing_sections,
             )
         )
     return pages
@@ -374,6 +424,7 @@ def merge_sections(
     *,
     replace_existing_sections: bool = False,
     preserve_unknown_sections: bool = True,
+    ignored_existing_sections: tuple[str, ...] = (),
 ) -> str:
     intro = ""
     existing_sections: dict[str, str] = {}
@@ -399,7 +450,7 @@ def merge_sections(
 
     if preserve_unknown_sections:
         for section, content in existing_sections.items():
-            if section in section_order:
+            if section in section_order or section in ignored_existing_sections:
                 continue
             section_body = content.strip() or NO_UPDATES_PLACEHOLDER
             rendered_sections.append(f"## {section}\n\n{section_body}")
@@ -417,6 +468,7 @@ def write_rollup(page: RollupPage) -> None:
         page.sections,
         replace_existing_sections=page.replace_existing_sections,
         preserve_unknown_sections=page.preserve_unknown_sections,
+        ignored_existing_sections=page.ignored_existing_sections,
     )
     page.path.write_text(render_frontmatter(page.frontmatter) + body, encoding="utf-8")
 
@@ -427,7 +479,7 @@ def generate_rollups(analyzed_dir: Path, content_root: Path) -> list[Path]:
         return []
 
     written: list[Path] = []
-    monthly_pages = build_monthly_pages(summaries, content_root)
+    monthly_pages = build_monthly_pages(summaries, analyzed_dir, content_root)
     for page in monthly_pages:
         write_rollup(page)
         written.append(page.path)
