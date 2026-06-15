@@ -4,16 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       week:
-        description: 'Week slug, e.g. 2026-W25.'
+        description: 'Week slug, e.g. 2026-W25'
         required: true
         type: string
-      article_url:
-        description: 'Published SquadScope article URL.'
-        required: true
-        type: string
-      article_path:
-        description: 'Article content path, e.g. content/weekly/2026/W25.md.'
-        required: true
+      publish_run_id:
+        description: 'Optional: crawl-and-publish workflow run ID that produced the manifest. If omitted, uses the most recent.'
+        required: false
         type: string
 
 permissions:
@@ -36,14 +32,74 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Build manifest and trigger podcast generation
+      - name: Derive paths from week slug
+        id: derive
+        env:
+          WEEK: ${{ inputs.week }}
+        run: |
+          set -euo pipefail
+          if [[ ! "$WEEK" =~ ^[0-9]{4}-W[0-9]{2}$ ]]; then
+            echo "::error::week must match YYYY-WNN (two-digit week), e.g. 2026-W25 (got: $WEEK)"
+            exit 1
+          fi
+
+          # 2026-W25 → year=2026, short=W25
+          YEAR="${WEEK%%-*}"
+          SHORT="${WEEK##*-}"
+          echo "article_path=content/weekly/${YEAR}/${SHORT}.md" >> "$GITHUB_OUTPUT"
+          echo "article_url=https://claracle.com/weekly/${YEAR}/${SHORT}/" >> "$GITHUB_OUTPUT"
+
+      - name: Locate publish manifest from crawl-and-publish
+        id: manifest-locate
+        env:
+          WEEK: ${{ inputs.week }}
+          PUBLISH_RUN_ID_INPUT: ${{ inputs.publish_run_id }}
+        run: |
+          set -euo pipefail
+          if ! git fetch origin publish 2>/dev/null; then
+            echo "::error::Could not fetch publish branch. Has crawl-and-publish run yet?"
+            exit 1
+          fi
+          git checkout origin/publish -- data/candidates/ 2>/dev/null || true
+          
+          if [ -n "$PUBLISH_RUN_ID_INPUT" ]; then
+            # Use specified run ID
+            if ! [[ "$PUBLISH_RUN_ID_INPUT" =~ ^[0-9]+$ ]]; then
+              echo "::error::publish_run_id must be a numeric workflow run ID (got: $PUBLISH_RUN_ID_INPUT)"
+              exit 1
+            fi
+            MANIFEST="data/candidates/${WEEK}/${PUBLISH_RUN_ID_INPUT}/publish-manifest.json"
+            if [ ! -f "$MANIFEST" ]; then
+              echo "::error::Manifest not found at $MANIFEST for specified run $PUBLISH_RUN_ID_INPUT"
+              exit 1
+            fi
+            echo "manifest_path=$MANIFEST" >> "$GITHUB_OUTPUT"
+            echo "publish_run_id=$PUBLISH_RUN_ID_INPUT" >> "$GITHUB_OUTPUT"
+            echo "::notice::Using manifest from specified run: $PUBLISH_RUN_ID_INPUT"
+          else
+            # Find the most recent manifest for this week
+            MANIFEST=$(find "data/candidates/${WEEK}" -name 'publish-manifest.json' -type f 2>/dev/null | sort -V | tail -1)
+            if [ -z "$MANIFEST" ]; then
+              echo "::error::No manifest found for week $WEEK in data/candidates/. Has crawl-and-publish completed for this week?"
+              exit 1
+            fi
+            # Extract run ID from path: data/candidates/WEEK/RUN_ID/publish-manifest.json
+            RUN_ID="$(basename "$(dirname "$MANIFEST")")"
+            echo "manifest_path=$MANIFEST" >> "$GITHUB_OUTPUT"
+            echo "publish_run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
+            echo "::notice::Using manifest from most recent run: $RUN_ID"
+          fi
+
+      - name: Trigger podcast generation with existing manifest
         env:
           PODCASTER_ENDPOINT: ${{ vars.PODCASTER_ENDPOINT }}
           PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
           WEEK: ${{ inputs.week }}
-          ARTICLE_URL: ${{ inputs.article_url }}
-          ARTICLE_PATH: ${{ inputs.article_path }}
-          PUBLISH_RUN_ID: ${{ github.run_id }}
+          ARTICLE_URL: ${{ steps.derive.outputs.article_url }}
+          ARTICLE_PATH: ${{ steps.derive.outputs.article_path }}
+          MANIFEST_FILE: ${{ steps.manifest-locate.outputs.manifest_path }}
+          PUBLISH_RUN_ID: ${{ steps.manifest-locate.outputs.publish_run_id }}
+          TRIGGER_RUN_ID: ${{ github.run_id }}
         run: |
           set -euo pipefail
           if [ -z "$PODCASTER_ENDPOINT" ] || [ -z "$PODCASTER_API_KEY" ]; then
@@ -51,65 +107,21 @@ jobs:
             exit 1
           fi
           if [ ! -f "$ARTICLE_PATH" ]; then
-            echo "::error::article_path '$ARTICLE_PATH' does not exist in the repository."
+            echo "::error::Article '$ARTICLE_PATH' does not exist in the repository."
             exit 1
           fi
+          if [ ! -f "$MANIFEST_FILE" ]; then
+            echo "::error::Manifest file not found: $MANIFEST_FILE"
+            exit 1
+          fi
+          echo "::notice::Using manifest from crawl-and-publish run $PUBLISH_RUN_ID ($(date -r "$MANIFEST_FILE" '+%Y-%m-%d %H:%M:%S' 2>/dev/null || echo 'date unknown'))"
 
-          # Build a minimal publish manifest for the handoff script
-          mkdir -p .podcast-trigger
-          python3 - <<'PY' "$WEEK" "$ARTICLE_PATH" .podcast-trigger/publish-manifest.json
-          import hashlib
-          import json
-          import sys
-          from pathlib import Path
-
-          week, article_path, manifest_path = sys.argv[1:]
-          article = Path(article_path)
-          article_bytes = article.read_bytes()
-          article_sha = hashlib.sha256(article_bytes).hexdigest()
-          raw_payload = {"week": week, "source": "github", "article_path": article_path}
-          raw_bytes = (json.dumps(raw_payload, sort_keys=True) + "\n").encode("utf-8")
-          raw_sha = hashlib.sha256(raw_bytes).hexdigest()
-
-          manifest = {
-              "week": week,
-              "run_mode": "normal",
-              "candidate": {"summary_sha256": article_sha},
-              "analysis": {"ai_status": "ai"},
-              "promotion": {"eligible": True, "decision": "promote"},
-              "source_artifacts": [
-                  {
-                      "role": "raw_github",
-                      "path": f"data/raw/{week}.json",
-                      "name": f"{week}-raw-github",
-                      "sha256": raw_sha,
-                      "generated_at": "2026-01-01T00:00:00Z",
-                      "source_status": "fresh",
-                      "exists": True,
-                      "size_bytes": len(raw_bytes),
-                      "freshness": {"status": "fresh", "reasons": []},
-                      "provenance": {"path": f"data/raw/{week}.json", "sha256": raw_sha},
-                  },
-                  {
-                      "role": "published_summary",
-                      "path": article_path,
-                      "sha256": article_sha,
-                      "generated_at": "2026-01-01T00:00:00Z",
-                      "exists": True,
-                      "size_bytes": len(article_bytes),
-                      "provenance": {"path": article_path, "sha256": article_sha},
-                  },
-              ],
-          }
-          Path(manifest_path).write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-          PY
-
-          # Trigger real podcast generation (no --podcaster-dry-run)
+          # Trigger real podcast generation using the existing validated manifest
           python3 scripts/podcaster_handoff.py \
             --week "$WEEK" \
             --article-url "$ARTICLE_URL" \
             --article-path "$ARTICLE_PATH" \
             --publish-run-id "$PUBLISH_RUN_ID" \
             --publish-mode normal \
-            --manifest .podcast-trigger/publish-manifest.json \
+            --manifest "$MANIFEST_FILE" \
             --podcast-config config/podcast.json
