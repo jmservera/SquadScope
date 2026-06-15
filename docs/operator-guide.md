@@ -132,9 +132,40 @@ This generates the `public/` directory with optimized static assets.
 
 ### Option A: Automatic scheduling (default)
 
-The pipeline runs automatically every **Monday at 06:53 UTC** via `.github/workflows/crawl-and-publish.yml`.
+The pipeline runs automatically on Sundays at **11:53 UTC** (`53 11 * * 0`) via `.github/workflows/crawl-and-publish.yml`.
 
-You don't need to do anything. Go to your repo's **Actions** tab to monitor runs.
+GitHub-hosted scheduled workflows are **best effort**, not an exact-time SLA, so a cron match does not guarantee the job will start at 11:53. Go to your repo's **Actions** tab to monitor runs.
+
+#### Schedule latency and mitigation ladder
+
+SquadScope treats GitHub Actions `schedule` on shared runners as a convenience default, not as a punctual trigger. This repository has already observed multi-hour delays on the previous Monday `06:53 UTC` slot:
+
+- 2026-05-25: started at **11:55 UTC**
+- 2026-06-01: started at **14:37 UTC**
+- 2026-06-08: started at **12:17 UTC**
+
+Supported operating model, in order:
+
+1. **Default:** keep the current Sunday `53 11 * * 0` cron as the low-effort baseline.
+2. **Manual fallback:** run `gh workflow run crawl-and-publish.yml -R YOUR_USERNAME/SquadScope` (or use the Actions UI) when an operator needs to start the pipeline immediately.
+3. **Recommended mitigation for punctual launches:** keep the workflow as-is and have an external scheduler call the existing `workflow_dispatch` trigger. Example CLI target for a cron job or scheduler host:
+
+   ```bash
+   gh workflow run crawl-and-publish.yml -R YOUR_USERNAME/SquadScope
+   ```
+
+   Example GitHub API dispatch:
+
+   ```bash
+   curl -L \
+     -X POST \
+     -H "Accept: application/vnd.github+json" \
+     -H "Authorization: Bearer $GITHUB_TOKEN" \
+     https://api.github.com/repos/YOUR_USERNAME/SquadScope/actions/workflows/crawl-and-publish.yml/dispatches \
+     -d '{"ref":"main","inputs":{"run_mode":"normal","source_refresh_policy":"reuse-same-day"}}'
+   ```
+
+4. **Optional future escalation:** move to self-hosted runners only if you need tighter operational control; that is not required for the default setup.
 
 ### Option B: Manual trigger
 
@@ -806,10 +837,10 @@ Edit `.github/workflows/crawl-and-publish.yml`:
 ```yaml
 on:
   schedule:
-    - cron: '53 6 * * 1'  # Change to your desired time (UTC)
+    - cron: '53 11 * * 0'  # Sunday 11:53 UTC; still best-effort on GitHub-hosted runners
 ```
 
-Times are in UTC. Use crontab.guru to generate your schedule.
+Times are in UTC. Use crontab.guru to generate your schedule, but assume GitHub-hosted `schedule` can start late and use the `workflow_dispatch` mitigation ladder above if exact timing matters.
 
 ### Change the reskill interval
 
