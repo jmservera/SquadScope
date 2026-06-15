@@ -56,6 +56,7 @@ SquadScope, publicly branded as **Claracle**, is an AI-powered GitHub trend obse
   - `source_artifacts`
   - `podcast_config`
   - `script_directions`
+  - `breaking_news` — optional last-moment news text to include in the episode (omitted when not provided)
 - Transport: HTTP `POST` with `x-podcaster-api-key` header
 - Handoff implementation: `scripts/podcaster_handoff.py`
 
