@@ -464,6 +464,34 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertNotIn("echo $PODCASTER_API_KEY", run_script)
         self.assertNotIn("curl", run_script)
 
+    def test_podcaster_smoke_workflow_exercises_real_weekly_payload_shape(self) -> None:
+        workflow_path = Path(".github/workflows/podcaster-handoff-smoke.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+
+        inputs = workflow[True]["workflow_dispatch"]["inputs"]
+        self.assertIn("week", inputs)
+        self.assertIn("article_url", inputs)
+        self.assertIn("article_path", inputs)
+        self.assertIn("article_sha256", inputs)
+        self.assertEqual(inputs["article_sha256"]["default"], "")
+
+        smoke_job = workflow["jobs"]["smoke"]
+        smoke_step = next((s for s in smoke_job["steps"] if s.get("name") == "Smoke test Podcaster dry run"), None)
+        self.assertIsNotNone(smoke_step)
+        run_script = smoke_step["run"]
+        self.assertIn('if [ ! -f "$ARTICLE_PATH" ]', run_script)
+        self.assertIn("hashlib.sha256(article.read_bytes()).hexdigest()", run_script)
+        self.assertIn('"source_artifacts": [', run_script)
+        self.assertIn('"same_day_reuse"', run_script)
+        self.assertIn("build_payload(", run_script)
+        self.assertIn('"podcast_config"', run_script)
+        self.assertIn('"script_directions"', run_script)
+        self.assertIn('"spotify_publish"', run_script)
+        self.assertIn('"article_content"', run_script)
+        self.assertIn("--manifest .podcaster-smoke/publish-manifest.json", run_script)
+        self.assertIn("--podcast-config config/podcast.json", run_script)
+        self.assertIn("--podcaster-dry-run", run_script)
+
     def test_publish_workflow_uses_candidate_manifest_before_promotion(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))

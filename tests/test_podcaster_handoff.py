@@ -1,5 +1,6 @@
 import io
 import json
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -36,8 +37,23 @@ class PodcasterHandoffTests(unittest.TestCase):
                     "analysis": {"ai_status": ai_status},
                     "promotion": {"eligible": True, "decision": "promote"},
                     "source_artifacts": [
-                        {"role": "raw", "path": "data/raw/2026-W23.json", "sha256": "b" * 64},
-                        {"role": "blob", "url": "https://example.blob.core.windows.net/artifacts/source.json"},
+                        {
+                            "role": "raw",
+                            "path": "data/raw/2026-W23.json",
+                            "sha256": "b" * 64,
+                            "generated_at": "2026-06-08T10:15:00Z",
+                            "freshness": {"status": "fresh", "reasons": []},
+                            "provenance": {
+                                "path": "data/raw/2026-W23.json",
+                                "sha256": "b" * 64,
+                            },
+                        },
+                        {
+                            "role": "blob",
+                            "artifact_url": "https://example.blob.core.windows.net/artifacts/source.json",
+                            "exists": True,
+                            "size_bytes": 1024,
+                        },
                     ],
                 }
             ),
@@ -77,10 +93,27 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertEqual(
             payload["source_artifacts"],
             [
-                {"role": "raw", "path": "data/raw/2026-W23.json", "sha256": "b" * 64},
-                {"role": "blob", "url": "https://example.blob.core.windows.net/artifacts/source.json"},
+                {
+                    "role": "raw",
+                    "path": "data/raw/2026-W23.json",
+                    "sha256": "b" * 64,
+                    "generated_at": "2026-06-08T10:15:00Z",
+                    "freshness": {"status": "fresh", "reasons": []},
+                    "provenance": {
+                        "path": "data/raw/2026-W23.json",
+                        "sha256": "b" * 64,
+                    },
+                },
+                {
+                    "role": "blob",
+                    "url": "https://example.blob.core.windows.net/artifacts/source.json",
+                    "exists": True,
+                    "size_bytes": 1024,
+                },
             ],
         )
+        self.assertNotIn("artifact_url", payload["source_artifacts"][1])
+        self.assertNotIn("freshness_status", payload["source_artifacts"][0])
         self.assertNotIn("force", payload)
         self.assertNotIn("dry_run", payload)
         # article_content and article_title from the article file
@@ -88,6 +121,49 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertIn("Week 23 Report", payload["article_title"])
         self.assertEqual(payload["article_summary"], "Week 23 summary.")
         self.assertIn("Body content here.", payload["article_content"])
+
+    def test_smoke_payload_matches_real_weekly_handoff_shape(self) -> None:
+        podcaster_root = Path(__file__).resolve().parents[2] / "SquadScope-Podcaster"
+        if not podcaster_root.exists():
+            self.skipTest("SquadScope-Podcaster checkout is not available for contract validation")
+
+        sys.path.insert(0, str(podcaster_root))
+        try:
+            from podcaster.validation import validate_payload
+        finally:
+            sys.path.pop(0)
+
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            manifest = self._write_manifest(Path(tmpdir))
+            article_dir = Path(tmpdir) / "content" / "weekly" / "2026"
+            article_dir.mkdir(parents=True)
+            (article_dir / "W23.md").write_text(
+                "---\ntitle: Week 23 Report\nsummary: Week 23 summary.\n---\n# Week 23 Report\nBody content here.\n",
+                encoding="utf-8",
+            )
+
+            payload = podcaster_handoff.build_payload(
+                week="2026-W23",
+                article_url="https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                article_path="content/weekly/2026/W23.md",
+                publish_run_id="123456789",
+                publish_mode="normal",
+                manifest_path=manifest,
+                podcast_config_path=Path(__file__).resolve().parents[1] / "config" / "podcast.json",
+                podcaster_dry_run=True,
+                repo_root=Path(tmpdir),
+            )
+
+        self.assertEqual(validate_payload(payload), [])
+        self.assertTrue(payload["dry_run"])
+        self.assertIn("source_artifacts", payload)
+        self.assertTrue(payload["source_artifacts"])
+        self.assertIn("podcast_config", payload)
+        self.assertIn("script_directions", payload)
+        self.assertIn("spotify_publish", payload)
+        self.assertEqual(payload["article_title"], "Week 23 Report")
+        self.assertEqual(payload["article_summary"], "Week 23 summary.")
 
     def test_podcaster_dry_run_sets_payload_flag(self) -> None:
         payload = podcaster_handoff.build_payload(
