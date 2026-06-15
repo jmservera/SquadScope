@@ -64,6 +64,10 @@ jobs:
           
           if [ -n "$PUBLISH_RUN_ID_INPUT" ]; then
             # Use specified run ID
+            if ! [[ "$PUBLISH_RUN_ID_INPUT" =~ ^[0-9]+$ ]]; then
+              echo "::error::publish_run_id must be a numeric workflow run ID (got: $PUBLISH_RUN_ID_INPUT)"
+              exit 1
+            fi
             MANIFEST="data/candidates/${WEEK}/${PUBLISH_RUN_ID_INPUT}/publish-manifest.json"
             if [ ! -f "$MANIFEST" ]; then
               echo "::error::Manifest not found at $MANIFEST for specified run $PUBLISH_RUN_ID_INPUT"
@@ -80,7 +84,7 @@ jobs:
               exit 1
             fi
             # Extract run ID from path: data/candidates/WEEK/RUN_ID/publish-manifest.json
-            RUN_ID=$(echo "$MANIFEST" | cut -d'/' -f3)
+            RUN_ID="$(basename "$(dirname "$MANIFEST")")"
             echo "manifest_path=$MANIFEST" >> "$GITHUB_OUTPUT"
             echo "publish_run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
             echo "::notice::Using manifest from most recent run: $RUN_ID"
