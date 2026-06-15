@@ -446,7 +446,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIsNotNone(download_step)
         self.assertTrue(_uses_action(download_step, "actions/download-artifact"))
         self.assertEqual(podcaster_job["if"], "${{ needs.analyze.outputs.run_mode == 'normal' }}")
-        self.assertTrue(podcaster_job["continue-on-error"])
+        self.assertNotIn("continue-on-error", podcaster_job)
         self.assertNotIn("force-replace", podcaster_job["if"])
         self.assertNotIn("restore", podcaster_job["if"])
 
@@ -467,7 +467,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn('--publish-run-id "$PUBLISH_RUN_ID"', run_script)
         self.assertIn('--publish-mode "$RUN_MODE"', run_script)
         self.assertIn('--manifest "$MANIFEST_FILE"', run_script)
-        self.assertIn("weekly article publication remains complete", run_script)
+        self.assertNotIn("weekly article publication remains complete", run_script)
         self.assertNotIn("--force", run_script)
         self.assertNotIn("--dry-run", run_script)
         self.assertNotIn("echo $PODCASTER_API_KEY", run_script)

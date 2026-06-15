@@ -477,7 +477,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         post_handoff(endpoint, api_key, payload, timeout=args.timeout)
     except PodcasterHandoffError as exc:
-        print(f"::warning::{exc}")
+        print(f"::error::Podcaster handoff failed: {exc}")
         return 1
     print("::notice::Podcaster handoff accepted.")
     return 0
