@@ -327,10 +327,10 @@ def _read_historical_context(week: str, repo_root: Path) -> dict[str, str] | Non
             raise PodcasterHandoffError(
                 f"Yearly narrative file exists but could not be read: {yearly_narrative_path} ({exc})"
             ) from exc
-        narrative_body = _strip_frontmatter(yearly_narrative)
-        if narrative_body:
+        extracted_yearly = _extract_markdown_sections(yearly_narrative, ("Year in Review",))
+        if extracted_yearly:
             historical_context["yearly_narrative"] = _truncate_words(
-                narrative_body,
+                extracted_yearly,
                 MAX_YEARLY_NARRATIVE_WORDS,
             )
 

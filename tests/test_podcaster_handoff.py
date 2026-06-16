@@ -326,6 +326,34 @@ class PodcasterHandoffTests(unittest.TestCase):
             podcaster_handoff.MAX_MONTH_SYNTHESIS_WORDS + podcaster_handoff.MAX_YEARLY_NARRATIVE_WORDS,
         )
 
+    def test_read_historical_context_extracts_only_year_in_review_section(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            self._write_historical_context(
+                base,
+                yearly_narrative=(
+                    "---\n"
+                    "title: 2026 Yearly Narrative\n"
+                    "---\n\n"
+                    "## Year in Review\n\n"
+                    "The year kept compounding around agent packaging.\n\n"
+                    "## Methodology\n\n"
+                    "This section should NOT appear in the handoff.\n\n"
+                    "## Contributors\n\n"
+                    "Also should NOT appear.\n"
+                ),
+            )
+
+            context = podcaster_handoff._read_historical_context("2026-W23", base)
+
+        self.assertIsNotNone(context)
+        assert context is not None
+        self.assertIn("yearly_narrative", context)
+        self.assertIn("agent packaging", context["yearly_narrative"])
+        self.assertNotIn("Methodology", context["yearly_narrative"])
+        self.assertNotIn("Contributors", context["yearly_narrative"])
+
     def test_podcaster_dry_run_sets_payload_flag(self) -> None:
         payload = podcaster_handoff.build_payload(
             week="2026-W23",
