@@ -45,6 +45,13 @@ COMPACTED_SKILLS_CHARS = 10_000
 COMPACTED_CONTINUITY_CHARS = 8_000
 COMPACTED_PRESS_CONTEXT_CHARS = 14_000
 COMPACTED_HISTORICAL_CONTEXT_CHARS = 12_000
+SYNTHESIS_MAX_TOKENS = 2_000
+SYNTHESIS_PROMPT_TOKEN_BUDGET = 20_000
+DEFAULT_SYNTHESIS_MODEL = "openai/gpt-4o-mini"
+RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
+NON_RETRYABLE_STATUS_CLASSES = {400, 401, 403, 404}
+MAX_RETRIES = 3
+BASE_DELAY = 2  # seconds
 
 
 @dataclass
@@ -211,6 +218,29 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--preflight-report-md",
         type=Path,
         help="Write deterministic rendered-prompt preflight details as Markdown.",
+    )
+    parser.add_argument(
+        "--run-synthesis",
+        action="store_true",
+        help="Run Step 1 synthesis (press/historical context → compact narrative) and exit.",
+    )
+    parser.add_argument(
+        "--synthesis-output",
+        type=Path,
+        default=None,
+        help="Path to write the synthesis narrative output (used with --run-synthesis).",
+    )
+    parser.add_argument(
+        "--synthesis-input",
+        type=Path,
+        default=None,
+        help="Path to a pre-computed synthesis narrative to inject into the analysis prompt (Step 2).",
+    )
+    parser.add_argument(
+        "--synthesis-model",
+        type=str,
+        default=None,
+        help=f"Model to use for synthesis step (default: {DEFAULT_SYNTHESIS_MODEL}).",
     )
     return parser.parse_args(argv)
 
@@ -725,6 +755,230 @@ def compact_payload(payload: dict[str, Any]) -> tuple[dict[str, Any], dict[str, 
     return compacted, decisions
 
 
+def _strip_ai_instruction_blocks(text: str) -> str:
+    """Remove AI-only instruction sections (### Instructions, directives) from press context.
+
+    These blocks are intended for the main analysis prompt and should not be
+    forwarded into synthesis to reduce prompt-injection surface area.
+    """
+    # Remove markdown sections starting with ### Instructions (case-insensitive)
+    # up to the next same-or-higher-level heading or end of text
+    text = re.sub(
+        r"(?m)^###\s+Instructions?\b.*?(?=^#{1,3}\s|\Z)",
+        "",
+        text,
+        flags=re.DOTALL | re.IGNORECASE,
+    )
+    # Remove divergence directive blocks (commonly marked with special tags)
+    text = re.sub(
+        r"(?m)^<!--\s*(?:ai-only|divergence|directive)\b.*?-->.*?(?:<!--\s*/(?:ai-only|divergence|directive)\s*-->|\Z)",
+        "",
+        text,
+        flags=re.DOTALL | re.IGNORECASE,
+    )
+    return text.strip()
+
+
+def _build_synthesis_prompt(
+    *,
+    press_content: str,
+    historical_context_content: str,
+    continuity_content: str,
+    current_week: str,
+    current_datetime: str,
+) -> str:
+    """Build a compact prompt for Step 1: Industry & Press Synthesis.
+
+    Input: press context + historical context + continuity capsule.
+    Output instruction: max 2K token narrative of the tech industry landscape this week.
+    """
+    sections = []
+    sections.append(
+        "You are an expert technology industry analyst. Your task is to synthesize "
+        "the provided press context, historical context, and continuity notes into a "
+        "compact industry narrative (maximum 2000 tokens / ~1500 words).\n\n"
+        "Focus on:\n"
+        "- Key technology trends and shifts happening this week\n"
+        "- Notable industry movements (acquisitions, launches, pivots)\n"
+        "- Developer ecosystem changes\n"
+        "- Connections to longer-term patterns from historical context\n\n"
+        "Output ONLY the narrative — no headers, no metadata, no instructions. "
+        "Write in a dense, information-rich style suitable for feeding into a downstream "
+        "analysis step that will correlate this with GitHub repository data.\n\n"
+        f"Current week: {current_week}\n"
+        f"Current datetime: {current_datetime}\n"
+    )
+    if press_content:
+        sections.append(f"## Press Context\n\n{press_content}")
+    if historical_context_content:
+        sections.append(f"## Historical Context\n\n{historical_context_content}")
+    if continuity_content and continuity_content != "_No continuity capsule has been recorded yet._":
+        sections.append(f"## Continuity Notes\n\n{continuity_content}")
+
+    return "\n\n---\n\n".join(sections)
+
+
+def run_synthesis_step(
+    *,
+    press_context_path: Path | None = None,
+    content_root: Path = DEFAULT_CONTENT_ROOT,
+    continuity_file: Path = DEFAULT_CONTINUITY_FILE,
+    current_datetime: str,
+    current_week: str,
+    previous_summary_path: Path | None = None,
+    prompt_token_budget: int = SYNTHESIS_PROMPT_TOKEN_BUDGET,
+    model: str | None = None,
+) -> str:
+    """Execute Step 1: synthesize press/historical context into a compact narrative.
+
+    Returns the narrative string (max ~2K tokens). Raises RuntimeError on API failure.
+    """
+    historical_context_content = assemble_historical_context(
+        current_datetime=current_datetime,
+        previous_summary_path=previous_summary_path,
+        content_root=content_root,
+        max_words=1_500,
+        prompt_token_budget=prompt_token_budget,
+    ).strip()
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
+    historical_context_content = _escape_untrusted_boundaries(historical_context_content)
+    if not historical_context_content:
+        historical_context_content = "_No historical context was available beyond the current weekly payload._"
+
+    continuity_content = render_continuity(continuity_file)
+
+    press_content = (
+        press_context_path.read_text(encoding="utf-8").strip()
+        if press_context_path and press_context_path.exists() and press_context_path.stat().st_size > 0
+        else ""
+    )
+
+    # Strip AI-only instruction blocks from press context before synthesis
+    if press_content:
+        press_content = _strip_ai_instruction_blocks(press_content)
+    # Escape boundary markers in untrusted press content
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+    if press_content:
+        press_content = _escape_untrusted_boundaries(press_content)
+
+    # If there's no meaningful content to synthesize, return empty
+    if not press_content and historical_context_content.startswith("_No historical context"):
+        return ""
+
+    prompt = _build_synthesis_prompt(
+        press_content=press_content,
+        historical_context_content=historical_context_content,
+        continuity_content=continuity_content,
+        current_week=current_week,
+        current_datetime=current_datetime,
+    )
+
+    # Check that synthesis prompt is within its own budget
+    prompt_tokens = estimate_tokens(prompt)
+    if prompt_tokens > SYNTHESIS_PROMPT_TOKEN_BUDGET:
+        # Truncate press content to fit (clamp to avoid negative index)
+        excess_chars = (prompt_tokens - SYNTHESIS_PROMPT_TOKEN_BUDGET) * 4
+        end_index = max(0, len(press_content) - excess_chars)
+        press_content = press_content[:end_index]
+        prompt = _build_synthesis_prompt(
+            press_content=press_content,
+            historical_context_content=historical_context_content,
+            continuity_content=continuity_content,
+            current_week=current_week,
+            current_datetime=current_datetime,
+        )
+
+    return _call_synthesis_api(prompt, model=model or DEFAULT_SYNTHESIS_MODEL)
+
+
+def _call_synthesis_api(prompt: str, *, model: str) -> str:
+    """Call GitHub Models API for the synthesis step."""
+    token = os.environ.get("GITHUB_TOKEN")
+    if not token:
+        raise RuntimeError("GITHUB_TOKEN is required for synthesis step.")
+
+    # Inject canary token for output leak detection
+    from scripts.canary_token import generate_canary, inject_canary
+    canary = generate_canary()
+    prompt = inject_canary(prompt, canary)
+
+    endpoint = os.environ.get("GITHUB_MODELS_ENDPOINT", DEFAULT_MODELS_ENDPOINT)
+    validate_https_url(endpoint, label="GitHub Models endpoint", allowed_hosts=ALLOWED_MODELS_HOSTS)
+    timeout = int(os.environ.get("GITHUB_MODELS_TIMEOUT", str(DEFAULT_MODELS_TIMEOUT)))
+    payload = {
+        "model": model,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.2,
+        "max_tokens": SYNTHESIS_MAX_TOKENS,  # Cap at documented 2K
+    }
+    body = json.dumps(payload).encode("utf-8")
+
+    last_exc: Exception | None = None
+    for attempt in range(MAX_RETRIES + 1):
+        req = request.Request(
+            endpoint,
+            data=body,
+            headers={
+                "Authorization": f"Bearer {token}",
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+            method="POST",
+        )
+        try:
+            with request.urlopen(req, timeout=timeout) as response:  # nosec B310
+                response_payload = json.load(response)
+            markdown = extract_markdown(response_payload)
+            # Validate output for canary leak and injection artifacts
+            violations = validate_output_safety(markdown, canary)
+            if violations:
+                msg = f"Output safety violations detected: {'; '.join(violations)}"
+                canary_leaked = any("Canary token leaked" in v for v in violations)
+                if canary_leaked:
+                    raise RuntimeError(f"BLOCKED: {msg}")
+                print(f"::warning::{msg}", file=sys.stderr)
+            return markdown
+        except error.HTTPError as exc:
+            if exc.code not in RETRYABLE_STATUS_CODES or attempt == MAX_RETRIES:
+                detail = exc.read().decode("utf-8", errors="replace")
+                raise RuntimeError(
+                    f"Synthesis API request failed ({exc.code}): {detail}"
+                ) from exc
+            # Respect Retry-After header on 429
+            retry_after = None
+            if exc.code == 429:
+                retry_after_header = exc.headers.get("Retry-After") if exc.headers else None
+                if retry_after_header:
+                    try:
+                        retry_after = float(retry_after_header)
+                    except (ValueError, TypeError):
+                        pass
+            delay = retry_after if retry_after else BASE_DELAY ** (attempt + 1) + _JITTER_RANDOM.uniform(0, 1)
+            print(
+                f"[retry] Synthesis API returned {exc.code}, "
+                f"retrying in {delay:.1f}s (attempt {attempt + 1}/{MAX_RETRIES})",
+                file=sys.stderr,
+            )
+            last_exc = exc
+            time.sleep(delay)
+        except error.URLError as exc:
+            if attempt == MAX_RETRIES:
+                raise RuntimeError(
+                    f"Synthesis API network error: {exc.reason}"
+                ) from exc
+            delay = BASE_DELAY ** (attempt + 1) + _JITTER_RANDOM.uniform(0, 1)
+            print(
+                f"[retry] Synthesis API network error: {exc.reason}, "
+                f"retrying in {delay:.1f}s (attempt {attempt + 1}/{MAX_RETRIES})",
+                file=sys.stderr,
+            )
+            last_exc = exc
+            time.sleep(delay)
+
+    raise RuntimeError("Synthesis API request failed after retries") from last_exc
+
+
 def _build_prompt(
     *,
     prompt_template_path: Path,
@@ -739,6 +993,7 @@ def _build_prompt(
     press_context_path: Path | None = None,
     prompt_token_budget: int = DEFAULT_PROMPT_TOKEN_BUDGET,
     allow_compaction: bool = True,
+    synthesis_narrative: str | None = None,
 ) -> tuple[str, PromptPreflight]:
     payload = load_json(raw_json_path)
     sanitized_payload = sanitize_repo_payload(payload)
@@ -766,6 +1021,14 @@ def _build_prompt(
         if press_context_path and press_context_path.exists() and press_context_path.stat().st_size > 0
         else ""
     )
+    # When a synthesis narrative is available (Step 1 output), it replaces
+    # the raw press context and historical context — those were already
+    # distilled into the narrative.  This dramatically reduces token count.
+    if synthesis_narrative:
+        historical_context_content = (
+            f"[Industry narrative synthesized from press & historical context]\n\n{synthesis_narrative}"
+        )
+        press_content = ""
     payload_for_prompt = sanitized_payload
     raw_decisions = {"new_repos": "included", "trending_repos": "included"}
     previous_decision = "included" if previous_summary_path else "not included: no previous summary"
@@ -1088,12 +1351,6 @@ def extract_markdown(response_payload: dict[str, Any]) -> str:
         return text.strip() + "\n"
 
     raise ValueError("GitHub Models response did not contain markdown output.")
-
-
-RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
-NON_RETRYABLE_STATUS_CLASSES = {400, 401, 403, 404}
-MAX_RETRIES = 3
-BASE_DELAY = 2  # seconds
 
 
 def validate_https_url(url: str, *, label: str, allowed_hosts: frozenset[str] | None = None) -> None:
@@ -1494,6 +1751,48 @@ def main(argv: list[str] | None = None) -> int:
     ):
         wisdom_file, skills_dir, continuity_file = resolve_analysis_context_paths()
 
+    # Step 1: Run synthesis if requested
+    if args.run_synthesis:
+        payload = load_json(args.raw_json)
+        sanitized_payload = sanitize_repo_payload(payload)
+        current_week = sanitized_payload["week"]
+        previous_summary_path = find_previous_summary(current_week, args.analyzed_dir)
+        try:
+            narrative = run_synthesis_step(
+                press_context_path=args.press_context,
+                content_root=args.content_root,
+                continuity_file=continuity_file,
+                current_datetime=args.current_datetime,
+                current_week=current_week,
+                previous_summary_path=previous_summary_path,
+                prompt_token_budget=args.prompt_token_budget,
+                model=args.synthesis_model,
+            )
+        except RuntimeError as exc:
+            print(f"::warning::Synthesis step failed: {exc}", file=sys.stderr)
+            return 1
+        output_path = args.synthesis_output or args.output
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(narrative, encoding="utf-8")
+        print(
+            f"::notice::Synthesis step complete: {estimate_tokens(narrative)} tokens written to {output_path}",
+            file=sys.stderr,
+        )
+        return 0
+
+    # Load synthesis narrative from Step 1 output if provided
+    synthesis_narrative: str | None = None
+    if args.synthesis_input and args.synthesis_input.exists() and args.synthesis_input.stat().st_size > 0:
+        synthesis_narrative = args.synthesis_input.read_text(encoding="utf-8").strip()
+        if synthesis_narrative:
+            # Escape boundary markers — synthesis output is untrusted LLM content
+            from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+            synthesis_narrative = _escape_untrusted_boundaries(synthesis_narrative)
+            print(
+                f"::notice::Using synthesis narrative ({estimate_tokens(synthesis_narrative)} tokens) from {args.synthesis_input}",
+                file=sys.stderr,
+            )
+
     prompt, preflight = _build_prompt(
         prompt_template_path=args.prompt_template,
         raw_json_path=args.raw_json,
@@ -1507,6 +1806,7 @@ def main(argv: list[str] | None = None) -> int:
         press_context_path=args.press_context,
         prompt_token_budget=args.prompt_token_budget,
         allow_compaction=True,
+        synthesis_narrative=synthesis_narrative,
     )
     write_preflight_reports(preflight, args.preflight_report_json, args.preflight_report_md)
 
