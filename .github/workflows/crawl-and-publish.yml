@@ -451,6 +451,39 @@ jobs:
           PY
           echo "press_file=$PRESS_FILE" >> "$GITHUB_OUTPUT"
 
+      - name: Run synthesis step (Step 1)
+        id: synthesis
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IN_WEEK_FILE: ${{ steps.analysis-context.outputs.week_file }}
+          IN_OUTPUT_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
+          IN_CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
+          IN_PRESS_FILE: ${{ steps.press-context.outputs.press_file }}
+        run: |
+          set -euo pipefail
+          WEEK_FILE="$IN_WEEK_FILE"
+          OUTPUT_FILE="$IN_OUTPUT_FILE"
+          CURRENT_DATETIME="$IN_CURRENT_DATETIME"
+          PRESS_FILE="$IN_PRESS_FILE"
+          DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
+          SYNTHESIS_FILE="$DIAGNOSTICS_DIR/synthesis-narrative.md"
+          mkdir -p "$DIAGNOSTICS_DIR"
+          # Step 1: synthesize press/historical context into compact narrative.
+          # If this fails, we fall back to the single-prompt approach (no synthesis_input).
+          if python3 scripts/analyze_fallback.py \
+            --raw-json "$WEEK_FILE" \
+            --output "$OUTPUT_FILE" \
+            --current-datetime "$CURRENT_DATETIME" \
+            --press-context "$PRESS_FILE" \
+            --run-synthesis \
+            --synthesis-output "$SYNTHESIS_FILE"; then
+            echo "synthesis_file=$SYNTHESIS_FILE" >> "$GITHUB_OUTPUT"
+            echo "synthesis_available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::Synthesis step failed; falling back to single-prompt approach."
+            echo "synthesis_available=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Render and preflight analysis prompt
         id: prompt-preflight
         env:
@@ -459,6 +492,8 @@ jobs:
           IN_OUTPUT_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
           IN_CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
           IN_PRESS_FILE: ${{ steps.press-context.outputs.press_file }}
+          IN_SYNTHESIS_AVAILABLE: ${{ steps.synthesis.outputs.synthesis_available }}
+          IN_SYNTHESIS_FILE: ${{ steps.synthesis.outputs.synthesis_file }}
         run: |
           set -euo pipefail
           WEEK_FILE="$IN_WEEK_FILE"
@@ -475,6 +510,10 @@ jobs:
           # Hydrate metrics ledger from publish before writing this run's prompt/preflight artifacts.
           git fetch origin publish 2>/dev/null && \
             git checkout origin/publish -- data/metrics/ 2>/dev/null || true
+          SYNTHESIS_ARG=""
+          if [ "${IN_SYNTHESIS_AVAILABLE:-false}" = "true" ] && [ -f "${IN_SYNTHESIS_FILE:-}" ]; then
+            SYNTHESIS_ARG="--synthesis-input $IN_SYNTHESIS_FILE"
+          fi
           python3 scripts/analyze_fallback.py \
             --raw-json "$WEEK_FILE" \
             --output "$OUTPUT_FILE" \
@@ -483,6 +522,7 @@ jobs:
             --prompt-token-budget "${ANALYSIS_PROMPT_TOKEN_BUDGET:-90000}" \
             --preflight-report-json "$PREFLIGHT_JSON" \
             --preflight-report-md "$PREFLIGHT_MD" \
+            $SYNTHESIS_ARG \
             --print-prompt > "$PROMPT_FILE"
           cp "$PREFLIGHT_JSON" "$LEGACY_PREFLIGHT_JSON"
           python3 scripts/preflight_cost_check.py \
