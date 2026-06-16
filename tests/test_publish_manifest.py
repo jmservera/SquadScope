@@ -317,6 +317,33 @@ class PublishManifestTests(unittest.TestCase):
             with self.assertRaises(SystemExit):
                 assert_eligible_from_root(base, manifest)
 
+    def test_degraded_but_publish_eligible_candidate_is_promotable(self) -> None:
+        """Post-compaction within budget: degraded=True + publish_eligible=True is promotable."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            preflight = base / "data/candidates/2026-W21/123456/diagnostics/analysis-preflight.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report)
+            write_preflight(preflight, degraded=True, publish_eligible=True)
+
+            publish_manifest.main(
+                create_args(base, raw, summary, manifest, gate_report=gate_report, preflight=preflight)
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertTrue(payload["promotion"]["eligible"])
+            self.assertEqual(payload["promotion"]["decision"], "promote")
+            self.assertTrue(payload["analysis"]["preflight"]["degraded"])
+            self.assertTrue(payload["analysis"]["preflight"]["publish_eligible"])
+            # Should not raise — degraded but eligible means promotable
+            assert_eligible_from_root(base, manifest)
+
     def test_copilot_candidate_without_explicit_model_uses_publishable_default(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
