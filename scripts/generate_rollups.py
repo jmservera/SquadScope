@@ -14,6 +14,7 @@ if __package__ in {None, ""}:
 
 import scripts.analysis_gate as analysis_gate
 from scripts.generate_yearly_narrative import build_yearly_narrative_pages
+from scripts.month_synthesis import ensure_month_synthesis
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SUMMARY_SUFFIX = "-summary.md"
@@ -21,6 +22,7 @@ WEEK_PATTERN = re.compile(r"^(?P<year>\d{4})-W(?P<week>\d{2})$")
 REPO_LINK_PATTERN = re.compile(r"https://github\.com/(?P<repo>[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)")
 NO_UPDATES_PLACEHOLDER = "_No updates yet._"
 MONTHLY_SECTIONS = [
+    "Month Synthesis",
     "Month Overview",
     "Top Repos This Month",
     "Trends Observed",
@@ -111,6 +113,46 @@ class RollupPage:
     section_order: list[str]
     replace_existing_sections: bool = False
     preserve_unknown_sections: bool = True
+    replace_sections: frozenset[str] = frozenset()
+
+
+ACRONYMS = {"ai", "mcp", "ci", "cd", "api", "sdk", "llm", "rag", "ml"}
+
+
+def _titlecase_tag(tag: str) -> str:
+    words = tag.replace("-", " ").split()
+    return " ".join(w.upper() if w.lower() in ACRONYMS else w.title() for w in words)
+
+
+def generate_monthly_title(synthesis: Any, month: int, year: int) -> str:
+    """Generate an SEO-friendly editorial title (max 70 chars) from synthesis data."""
+    month_year = f"{MONTH_NAMES[month]} {year}"
+    accel = [_titlecase_tag(t) for t in synthesis.accelerating_themes[:2]]
+    weak = [_titlecase_tag(t) for t in synthesis.weakening_themes[:1]]
+    themes = [_titlecase_tag(t) for t in synthesis.themes[:2]]
+
+    if len(accel) >= 2:
+        title = f"{accel[0]} and {accel[1]} Surge — {month_year}"
+    elif accel and weak:
+        title = f"{accel[0]} Surges While {weak[0]} Fades — {month_year}"
+    elif accel:
+        title = f"{accel[0]} Takes Center Stage — {month_year}"
+    elif len(themes) >= 2:
+        title = f"{themes[0]} and {themes[1]} Define the Month — {month_year}"
+    elif themes:
+        title = f"{themes[0]} Leads the Month — {month_year}"
+    else:
+        title = f"Trends Shift and Settle — {month_year}"
+
+    if len(title) > 70:
+        if accel:
+            title = f"{accel[0]} Surges — {month_year}"
+        elif themes:
+            title = f"{themes[0]} Leads — {month_year}"
+        if len(title) > 70:
+            title = title[:67] + "…"
+
+    return title
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -313,7 +355,7 @@ def monthly_entries(weekly: WeeklySummary, tags_counter: Counter[str]) -> dict[s
     }
 
 
-def build_monthly_pages(summaries: list[WeeklySummary], content_root: Path) -> list[RollupPage]:
+def build_monthly_pages(summaries: list[WeeklySummary], content_root: Path, analyzed_dir: Path) -> list[RollupPage]:
     grouped: dict[tuple[int, int], list[WeeklySummary]] = defaultdict(list)
     for summary in summaries:
         grouped[(summary.year, summary.month)].append(summary)
@@ -323,24 +365,45 @@ def build_monthly_pages(summaries: list[WeeklySummary], content_root: Path) -> l
         items = sorted(items, key=lambda item: (item.date, item.week))
         tags_counter: Counter[str] = Counter()
         page_entries: dict[str, list[RollupEntry]] = {section: [] for section in MONTHLY_SECTIONS}
+
+        synthesis = ensure_month_synthesis(items, analyzed_dir)
+
+        synthesis_text = synthesis.narrative
+        if synthesis.trend_arc:
+            synthesis_text += f"\n\n### Trend Arc\n\n{synthesis.trend_arc}"
+        page_entries["Month Synthesis"].append(
+            RollupEntry(marker="month-synthesis", text=synthesis_text)
+        )
+
         for item in items:
             tags_counter.update(item.tags)
             for section, entry in monthly_entries(item, tags_counter).items():
                 page_entries[section].append(entry)
+
+        title = generate_monthly_title(synthesis, month, year)
+
         pages.append(
             RollupPage(
                 path=content_root / "monthly" / str(year) / f"{month:02d}.md",
                 frontmatter={
-                    "title": f"{MONTH_NAMES[month]} {year} Rollup",
+                    "title": title,
                     "date": items[-1].date.isoformat(),
                     "month": month,
                     "year": year,
                     "categories": ["monthly"],
                     "weeks_covered": [item.week for item in items],
                     "total_repos_featured": len({repo for item in items for repo in item.featured_repos}),
+                    "summary": synthesis.summary,
+                    "themes": list(synthesis.themes),
+                    "persistent_themes": list(synthesis.persistent_themes),
+                    "accelerating_themes": list(synthesis.accelerating_themes),
+                    "weakening_themes": list(synthesis.weakening_themes),
+                    "key_gaps": list(synthesis.key_gaps),
+                    "top_repos": list(synthesis.top_repos),
                 },
                 sections=page_entries,
                 section_order=MONTHLY_SECTIONS,
+                replace_sections=frozenset({"Month Synthesis"}),
             )
         )
     return pages
@@ -372,6 +435,7 @@ def merge_sections(
     *,
     replace_existing_sections: bool = False,
     preserve_unknown_sections: bool = True,
+    replace_sections: frozenset[str] = frozenset(),
 ) -> str:
     intro = ""
     existing_sections: dict[str, str] = {}
@@ -385,7 +449,10 @@ def merge_sections(
 
     rendered_sections: list[str] = []
     for section in section_order:
-        content = "" if replace_existing_sections else existing_sections.get(section, "")
+        if replace_existing_sections or section in replace_sections:
+            content = ""
+        else:
+            content = existing_sections.get(section, "")
         if content.strip() == NO_UPDATES_PLACEHOLDER:
             content = ""
         for entry in new_entries[section]:
@@ -415,6 +482,7 @@ def write_rollup(page: RollupPage) -> None:
         page.sections,
         replace_existing_sections=page.replace_existing_sections,
         preserve_unknown_sections=page.preserve_unknown_sections,
+        replace_sections=page.replace_sections,
     )
     page.path.write_text(render_frontmatter(page.frontmatter) + body, encoding="utf-8")
 
@@ -425,7 +493,7 @@ def generate_rollups(analyzed_dir: Path, content_root: Path) -> list[Path]:
         return []
 
     written: list[Path] = []
-    monthly_pages = build_monthly_pages(summaries, content_root)
+    monthly_pages = build_monthly_pages(summaries, content_root, analyzed_dir)
     for page in monthly_pages:
         write_rollup(page)
         written.append(page.path)
