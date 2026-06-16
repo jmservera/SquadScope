@@ -635,13 +635,13 @@ class AnalyzeFallbackTests(unittest.TestCase):
             markdown = analyze_fallback.call_github_models("prompt")
         self.assertEqual(markdown, "# Summary\n")
 
-    def test_run_synthesis_exits_zero_and_writes_output(self) -> None:
-        """--run-synthesis should call synthesis API and write output file."""
+    def test_run_synthesis_exits_zero_and_writes_prompt(self) -> None:
+        """--run-synthesis should render synthesis prompt to output file."""
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             base = Path(tmpdir)
             raw_path = base / "data" / "raw" / "2026-W21.json"
-            output_path = base / "synthesis-output.md"
+            output_path = base / "synthesis-prompt.md"
             press_path = base / "press.md"
             raw_path.parent.mkdir(parents=True)
             raw_path.write_text(
@@ -650,63 +650,48 @@ class AnalyzeFallbackTests(unittest.TestCase):
             )
             press_path.write_text("Some press context about AI.", encoding="utf-8")
 
-            fake_response = _FakeHTTPResponse(
-                json.dumps({"choices": [{"message": {"content": "Synthesized narrative."}}]}).encode()
+            exit_code = analyze_fallback.main(
+                [
+                    "--raw-json", str(raw_path),
+                    "--output", str(base / "unused.md"),
+                    "--current-datetime", "2026-05-18T13:05:53.678+02:00",
+                    "--press-context", str(press_path),
+                    "--run-synthesis",
+                    "--synthesis-output", str(output_path),
+                ]
             )
-            fake_response.status = 200
-
-            with mock.patch.dict(
-                "os.environ",
-                {"GITHUB_TOKEN": "token", "GITHUB_MODELS_ENDPOINT": analyze_fallback.DEFAULT_MODELS_ENDPOINT},
-                clear=False,
-            ), mock.patch.object(analyze_fallback.request, "urlopen", return_value=fake_response):
-                exit_code = analyze_fallback.main(
-                    [
-                        "--raw-json", str(raw_path),
-                        "--output", str(base / "unused.md"),
-                        "--current-datetime", "2026-05-18T13:05:53.678+02:00",
-                        "--press-context", str(press_path),
-                        "--run-synthesis",
-                        "--synthesis-output", str(output_path),
-                    ]
-                )
 
             self.assertEqual(exit_code, 0)
             self.assertTrue(output_path.exists())
-            self.assertIn("Synthesized narrative", output_path.read_text(encoding="utf-8"))
+            content = output_path.read_text(encoding="utf-8")
+            self.assertIn("press context", content.lower())
+            self.assertIn("2026-W21", content)
 
-    def test_run_synthesis_returns_one_on_api_failure(self) -> None:
-        """--run-synthesis should return exit code 1 when API fails."""
+    def test_run_synthesis_returns_one_when_no_content(self) -> None:
+        """--run-synthesis should return exit code 1 when no meaningful content exists."""
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             base = Path(tmpdir)
             raw_path = base / "data" / "raw" / "2026-W21.json"
-            press_path = base / "press.md"
             raw_path.parent.mkdir(parents=True)
             raw_path.write_text(
                 json.dumps({"week": "2026-W21", "new_repos": [], "trending_repos": []}),
                 encoding="utf-8",
             )
-            press_path.write_text("Press content.", encoding="utf-8")
+            # Use an empty content root so no historical context is found
+            empty_content_root = base / "empty_content"
+            empty_content_root.mkdir()
 
-            with mock.patch.dict(
-                "os.environ",
-                {"GITHUB_TOKEN": "token", "GITHUB_MODELS_ENDPOINT": analyze_fallback.DEFAULT_MODELS_ENDPOINT},
-                clear=False,
-            ), mock.patch.object(
-                analyze_fallback.request, "urlopen",
-                side_effect=error.URLError("Connection refused"),
-            ):
-                exit_code = analyze_fallback.main(
-                    [
-                        "--raw-json", str(raw_path),
-                        "--output", str(base / "unused.md"),
-                        "--current-datetime", "2026-05-18T13:05:53.678+02:00",
-                        "--press-context", str(press_path),
-                        "--run-synthesis",
-                        "--synthesis-output", str(base / "out.md"),
-                    ]
-                )
+            exit_code = analyze_fallback.main(
+                [
+                    "--raw-json", str(raw_path),
+                    "--output", str(base / "unused.md"),
+                    "--current-datetime", "2026-05-18T13:05:53.678+02:00",
+                    "--content-root", str(empty_content_root),
+                    "--run-synthesis",
+                    "--synthesis-output", str(base / "out.md"),
+                ]
+            )
 
             self.assertEqual(exit_code, 1)
 
