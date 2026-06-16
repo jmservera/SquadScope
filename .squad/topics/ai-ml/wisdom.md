@@ -14,7 +14,7 @@
 - Wrapper libraries around APIs tend to be ephemeral
 - Repos that only add a README without substantial code are often hype-driven
 - Coordinated star-farming: tight clusters landing at near-identical star counts with zero forks in minutes
-- Fork-inflation: repos with fork/star ratio >10x and keyword-stuffed descriptions are manipulation
+- Fork-inflation: repos with fork/star ratio >10x and keyword-stuffed descriptions indicate manipulation
 - Creation-timestamp clustering (many repos appearing within minutes) signals coordinated campaigns
 
 ## Scoring Adjustments

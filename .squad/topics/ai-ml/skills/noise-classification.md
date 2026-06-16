@@ -30,5 +30,5 @@ gaming, discussion-count manipulation.
 
 ## Integration
 - Pre-filter step before editorial scoring
-- Flagged repos logged to `data/noise/` for retrospective audit
+- Flagged repos should be noted in analysis frontmatter for retrospective audit
 - Noise counts feed the weekly brief's Signal/Noise section

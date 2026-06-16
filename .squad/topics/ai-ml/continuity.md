@@ -36,8 +36,8 @@ spikes.
 - **Multi-source press strategy**: Compact correlation artifact (≤8k tokens) with ranked
   items, strong/weak correlation tiers, divergences, and full citations. Raw dumps are
   prohibited.
-- **Prediction tracking**: `predictions` frontmatter (`{repo, direction, confidence}`)
-  feeds hindsight scorecards for reskill loops.
+- **Prediction tracking**: `predictions` frontmatter (`{repo, direction, confidence, claim_type}`)
+  feeds hindsight scorecards for reskill loops. `claim_type` is one of `signal|noise|gap`.
 
 ## Forward Indicators to Watch
 
