@@ -231,57 +231,13 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("UNTIL=$(date -u +%Y-%m-%d)", run_script)
         self.assertIn('--until "$UNTIL"', run_script)
 
-    def test_crawl_workflow_defines_reskill_jobs(self) -> None:
+    def test_crawl_workflow_defines_analyze_job(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
-        
-        self.assertIn("reskill-check", workflow["jobs"])
-        reskill_check = workflow["jobs"]["reskill-check"]
-        self.assertEqual(reskill_check["needs"], ["crawl"])
-        
-        self.assertIn("reskill", workflow["jobs"])
-        reskill = workflow["jobs"]["reskill"]
-        self.assertEqual(reskill["needs"], ["reskill-check"])
-        self.assertIn("needs.reskill-check.outputs.should_reskill", reskill["if"])
-        
-        check_step = next((s for s in reskill_check["steps"] if s.get("name") == "Check reskill trigger"), None)
-        self.assertIsNotNone(check_step)
-        check_run = check_step["run"]
-        self.assertIn("reskill=true", check_run)
-        self.assertIn("$GITHUB_OUTPUT", check_run)
-        
-        install_step = next((s for s in reskill["steps"] if s.get("name") == "Install Copilot CLI"), None)
-        self.assertIsNotNone(install_step)
-        self.assertEqual(install_step["run"], "npm install -g @github/copilot")
-        self.assertNotIn("continue-on-error", install_step)
 
-        reskill_step = next((s for s in reskill["steps"] if s.get("name") == "Run reskill"), None)
-        self.assertIsNotNone(reskill_step)
-        self.assertNotIn("GITHUB_MODELS_MODEL", workflow["env"])
-        self.assertEqual(reskill_step["env"]["COPILOT_GITHUB_TOKEN"], "${{ secrets.COPILOT_GH_TOKEN }}")
-        reskill_run = reskill_step["run"]
-        self.assertIn("python3 scripts/reskill.py --current-datetime", reskill_run)
-        self.assertIn("--prompt-output", reskill_run)
-        self.assertIn("python3 scripts/track_token_usage.py", reskill_run)
-        self.assertIn('RESKILL_MODEL="copilot-default"', reskill_run)
-        self.assertNotIn("--model claude-sonnet-4", reskill_run)
-        self.assertIn("mkdir -p .squad/skills .squad/reskill", reskill_run)
-        self.assertIn("data/metrics", reskill_run)
-        self.assertIn("trigger-log.txt", reskill_run)
-        self.assertIn("git add .squad/", reskill_run)
-        self.assertIn("data/metrics/", reskill_run)
-        self.assertIn("no GitHub Models/OpenAI reskill fallback", reskill_run)
-        self.assertNotIn("${GITHUB_MODELS_MODEL}", reskill_run)
-        self.assertNotIn('RESKILL_SOURCE="github-models"', reskill_run)
-        self.assertNotIn("used GitHub Models API fallback", reskill_run)
-        self.assertIn("--agent weekly-analysis", reskill_run)
-        self.assertIn('Read the file at ${RESKILL_PROMPT}. Write the complete reskill markdown to ${RESKILL_OUTPUT}.', reskill_run)
-        self.assertIn('test -s "$RESKILL_OUTPUT"', reskill_run)
-        self.assertIn('RESKILL_FAILURE_CLASS="writer_contract_failure"', reskill_run)
-        self.assertNotIn("--allow-tool=glob", reskill_run)
-        self.assertNotIn("--allow-tool=grep", reskill_run)
-        # Prompt is written to a well-known path, not a temp file
-        self.assertIn('RESKILL_PROMPT=".squad/reskill/current-prompt.md"', reskill_run)
+        # Reskill jobs have been removed (analysis uses plain copilot-cli)
+        self.assertNotIn("reskill-check", workflow["jobs"])
+        self.assertNotIn("reskill", workflow["jobs"])
 
         analyze = workflow["jobs"]["analyze"]
         preflight_step = next((s for s in analyze["steps"] if s.get("name") == "Render and preflight analysis prompt"), None)

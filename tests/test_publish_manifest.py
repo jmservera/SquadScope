@@ -313,7 +313,7 @@ class PublishManifestTests(unittest.TestCase):
             self.assertTrue(payload["analysis"]["preflight"]["degraded"])
             self.assertFalse(payload["analysis"]["preflight"]["publish_eligible"])
             self.assertIn("staged/candidate-only", payload["analysis"]["preflight"]["promotion_policy"])
-            self.assertTrue(any("preflight degraded/compacted" in reason for reason in payload["promotion"]["reasons"]))
+            self.assertTrue(any("publish-ineligible" in reason for reason in payload["promotion"]["reasons"]))
             with self.assertRaises(SystemExit):
                 assert_eligible_from_root(base, manifest)
 
