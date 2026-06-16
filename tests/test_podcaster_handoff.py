@@ -61,6 +61,22 @@ class PodcasterHandoffTests(unittest.TestCase):
         )
         return manifest
 
+    def _write_historical_context(
+        self,
+        base: Path,
+        *,
+        month_synthesis: str | None = None,
+        yearly_narrative: str | None = None,
+    ) -> None:
+        if month_synthesis is not None:
+            month_path = base / "data" / "analyzed"
+            month_path.mkdir(parents=True, exist_ok=True)
+            (month_path / "2026-06-month-synthesis.md").write_text(month_synthesis, encoding="utf-8")
+        if yearly_narrative is not None:
+            yearly_path = base / "content" / "yearly"
+            yearly_path.mkdir(parents=True, exist_ok=True)
+            (yearly_path / "2026.md").write_text(yearly_narrative, encoding="utf-8")
+
     def test_build_payload_uses_required_fields_and_real_optional_values(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
@@ -72,6 +88,27 @@ class PodcasterHandoffTests(unittest.TestCase):
             article_file.write_text(
                 "---\ntitle: Week 23 Report\nsummary: Week 23 summary.\n---\n# Heading\nBody content here.\n",
                 encoding="utf-8",
+            )
+            self._write_historical_context(
+                Path(tmpdir),
+                month_synthesis=(
+                    "---\n"
+                    "title: June 2026 Month Synthesis\n"
+                    "---\n\n"
+                    "## Month Synthesis\n\n"
+                    "June continued the agent-skills story.\n\n"
+                    "## Trend Arc\n\n"
+                    "- Agent skills kept accelerating.\n\n"
+                    "## Prediction Review\n\n"
+                    "Ignored.\n"
+                ),
+                yearly_narrative=(
+                    "---\n"
+                    "title: 2026 Yearly Narrative\n"
+                    "---\n\n"
+                    "## Year in Review\n\n"
+                    "The year kept compounding around agent packaging and trust gaps.\n"
+                ),
             )
 
             payload = podcaster_handoff.build_payload(
@@ -121,6 +158,15 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertIn("Week 23 Report", payload["article_title"])
         self.assertEqual(payload["article_summary"], "Week 23 summary.")
         self.assertIn("Body content here.", payload["article_content"])
+        self.assertEqual(
+            payload["script_directions"]["historical_context"]["month_synthesis"],
+            "## Month Synthesis June continued the agent-skills story. ## Trend Arc - Agent skills kept accelerating.",
+        )
+        self.assertEqual(
+            payload["script_directions"]["historical_context"]["yearly_narrative"],
+            "## Year in Review The year kept compounding around agent packaging and trust gaps.",
+        )
+        self.assertLess(len(json.dumps(payload)), 100_000)
 
     def test_smoke_payload_matches_real_weekly_handoff_shape(self) -> None:
         podcaster_root = Path(__file__).resolve().parents[2] / "SquadScope-Podcaster"
@@ -190,6 +236,123 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertEqual(built["source_artifacts"][0]["sources_succeeded"], ["github"])
         self.assertEqual(built["source_artifacts"][0]["sources_failed"], ["rss"])
         self.assertNotIn("sources_requested", built["source_artifacts"][1])
+
+    def test_build_payload_omits_historical_context_when_both_files_are_missing(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            manifest = self._write_manifest(Path(tmpdir))
+            article_dir = Path(tmpdir) / "content" / "weekly" / "2026"
+            article_dir.mkdir(parents=True)
+            (article_dir / "W23.md").write_text(
+                "---\ntitle: Week 23 Report\nsummary: Week 23 summary.\n---\n# Heading\nBody content here.\n",
+                encoding="utf-8",
+            )
+
+            payload = podcaster_handoff.build_payload(
+                week="2026-W23",
+                article_url="https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                article_path="content/weekly/2026/W23.md",
+                publish_run_id="123456789",
+                publish_mode="normal",
+                manifest_path=manifest,
+                repo_root=Path(tmpdir),
+            )
+
+        self.assertNotIn("historical_context", payload.get("script_directions", {}))
+
+    def test_read_historical_context_includes_available_file_when_other_is_missing(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            self._write_historical_context(
+                base,
+                yearly_narrative=(
+                    "---\n"
+                    "title: 2026 Yearly Narrative\n"
+                    "---\n\n"
+                    "## Year in Review\n\n"
+                    "Only the yearly narrative is available.\n"
+                ),
+            )
+
+            context = podcaster_handoff._read_historical_context("2026-W23", base)
+
+        self.assertEqual(
+            context,
+            {"yearly_narrative": "## Year in Review Only the yearly narrative is available."},
+        )
+
+    def test_read_historical_context_truncates_to_word_budget(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            month_words = " ".join(f"month{i}" for i in range(1, 351))
+            trend_words = " ".join(f"trend{i}" for i in range(1, 101))
+            yearly_words = " ".join(f"year{i}" for i in range(1, 651))
+            self._write_historical_context(
+                base,
+                month_synthesis=(
+                    "---\n"
+                    "title: June 2026 Month Synthesis\n"
+                    "---\n\n"
+                    "## Month Synthesis\n\n"
+                    f"{month_words}\n\n"
+                    "## Trend Arc\n\n"
+                    f"{trend_words}\n"
+                ),
+                yearly_narrative=(
+                    "---\n"
+                    "title: 2026 Yearly Narrative\n"
+                    "---\n\n"
+                    "## Year in Review\n\n"
+                    f"{yearly_words}\n"
+                ),
+            )
+
+            context = podcaster_handoff._read_historical_context("2026-W23", base)
+
+        self.assertIsNotNone(context)
+        assert context is not None
+        self.assertLessEqual(
+            len(context["month_synthesis"].split()),
+            podcaster_handoff.MAX_MONTH_SYNTHESIS_WORDS,
+        )
+        self.assertLessEqual(
+            len(context["yearly_narrative"].split()),
+            podcaster_handoff.MAX_YEARLY_NARRATIVE_WORDS,
+        )
+        self.assertLessEqual(
+            len(context["month_synthesis"].split()) + len(context["yearly_narrative"].split()),
+            podcaster_handoff.MAX_MONTH_SYNTHESIS_WORDS + podcaster_handoff.MAX_YEARLY_NARRATIVE_WORDS,
+        )
+
+    def test_read_historical_context_extracts_only_year_in_review_section(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            self._write_historical_context(
+                base,
+                yearly_narrative=(
+                    "---\n"
+                    "title: 2026 Yearly Narrative\n"
+                    "---\n\n"
+                    "## Year in Review\n\n"
+                    "The year kept compounding around agent packaging.\n\n"
+                    "## Methodology\n\n"
+                    "This section should NOT appear in the handoff.\n\n"
+                    "## Contributors\n\n"
+                    "Also should NOT appear.\n"
+                ),
+            )
+
+            context = podcaster_handoff._read_historical_context("2026-W23", base)
+
+        self.assertIsNotNone(context)
+        assert context is not None
+        self.assertIn("yearly_narrative", context)
+        self.assertIn("agent packaging", context["yearly_narrative"])
+        self.assertNotIn("Methodology", context["yearly_narrative"])
+        self.assertNotIn("Contributors", context["yearly_narrative"])
 
     def test_podcaster_dry_run_sets_payload_flag(self) -> None:
         payload = podcaster_handoff.build_payload(
