@@ -1,9 +1,9 @@
 {
   "candidate": {
-    "content_path": "data/candidates/2026-W25/27637885716/2026-W25-content.md",
-    "content_sha256": "3888b939e2eb64260ca3cc3ff7ed436f7a6738c58651399bbdf6d283edba19f0",
-    "summary_path": "data/candidates/2026-W25/27637885716/2026-W25-summary.md",
-    "summary_sha256": "0f993b1b0782edb2f994d003d43753af55d19f9a768be58d7710174488748661"
+    "content_path": "data/candidates/2026-W25/27636959989/2026-W25-content.md",
+    "content_sha256": "4e2ed42f7da77230752b02896c8ed4b747da6adbb8ea65db78dbd4560ae825ee",
+    "summary_path": "data/candidates/2026-W25/27636959989/2026-W25-summary.md",
+    "summary_sha256": "ee8848597242a13e49c398ed7c9825d59a5e1d0ee28add4bd6ead9315af32326"
   },
   "provenance": {
     "analysis": {
@@ -13,22 +13,22 @@
       "preflight": {
         "degradation_reason": null,
         "degraded": false,
-        "path": "data/candidates/2026-W25/27637885716/diagnostics/analysis-input-manifest.json",
+        "path": "data/candidates/2026-W25/27636959989/diagnostics/analysis-input-manifest.json",
         "promotion_policy": "normal-promotion",
-        "prompt_checksum_sha256": "63caf0b7c6100ce008da5896243bab77ab7153aca95de3663e48ae53f7fb0468",
+        "prompt_checksum_sha256": "4b4a6ee165976ac5adafc051ee5ff50d9130face252ad3703cfd0c600c06c80e",
         "prompt_token_budget": 90000,
-        "prompt_tokens": 85136,
+        "prompt_tokens": 76954,
         "publish_eligible": true
       },
       "provenance": {
         "attempted_ai_paths": [],
         "authorship": "ai-authored",
-        "current_datetime": "2026-06-16T18:06:08Z",
+        "current_datetime": "2026-06-16T17:49:42Z",
         "degraded": false,
         "fallback_reason": null,
         "model": "copilot-default",
         "provider": "copilot-cli",
-        "run_id": "27637885716"
+        "run_id": "27636959989"
       },
       "provider": "copilot-cli",
       "source": "copilot-cli"
@@ -65,14 +65,14 @@
             },
             "original_crawled_at": "2026-06-16T09:42:52Z",
             "original_run_id": "27608724098",
-            "reused_at": "2026-06-16T18:05:38Z",
+            "reused_at": "2026-06-16T17:49:17Z",
             "schema_checksum": "9e9b20fa60d33c1b7d2eaf3e70a05961b95b297469e73613f6b448be7464028c",
             "source": "github",
             "source_id": "github-search",
             "status": "reused",
             "week": "2026-W25"
           },
-          "sha256": "0d2eea25b482ab2e0185f326c4ff285c59429f58a6f3bdaa372014a9d665f827"
+          "sha256": "6711eda46f3f7c58e501aee36acd803de89ebd3aae80c65ef4b7a7220c354c50"
         },
         "role": "raw_github",
         "same_day_reuse": {
@@ -84,7 +84,7 @@
           },
           "original_crawled_at": "2026-06-16T09:42:52Z",
           "original_run_id": "27608724098",
-          "reused_at": "2026-06-16T18:05:38Z",
+          "reused_at": "2026-06-16T17:49:17Z",
           "schema_checksum": "9e9b20fa60d33c1b7d2eaf3e70a05961b95b297469e73613f6b448be7464028c",
           "source": "github",
           "source_id": "github-search",
@@ -92,29 +92,29 @@
           "week": "2026-W25"
         },
         "schema_checksum": "9e9b20fa60d33c1b7d2eaf3e70a05961b95b297469e73613f6b448be7464028c",
-        "sha256": "0d2eea25b482ab2e0185f326c4ff285c59429f58a6f3bdaa372014a9d665f827",
+        "sha256": "6711eda46f3f7c58e501aee36acd803de89ebd3aae80c65ef4b7a7220c354c50",
         "size_bytes": 262150,
         "week": "2026-W25"
       },
       {
         "artifact_checksum": "146e4fe1d10ec4da143a1e13382aa4a77456957222b1b326d618df957a649079",
-        "crawled_at": "2026-06-16T18:05:42.923215Z",
+        "crawled_at": "2026-06-16T17:49:21.826905Z",
         "exists": true,
         "freshness": {
           "reasons": [],
           "status": "fresh"
         },
-        "generated_at": "2026-06-16T18:05:42.923215Z",
+        "generated_at": "2026-06-16T17:49:21.826905Z",
         "path": "data/raw/2026-W25-external-news.json",
         "provenance": {
           "artifact_checksum": "146e4fe1d10ec4da143a1e13382aa4a77456957222b1b326d618df957a649079",
-          "generated_at": "2026-06-16T18:05:42.923215Z",
+          "generated_at": "2026-06-16T17:49:21.826905Z",
           "path": "data/raw/2026-W25-external-news.json",
           "same_day_reuse": {
             "source": "artifact-metadata",
             "status": "reused"
           },
-          "sha256": "2827a44d7d4212897a888a25d17bb9118192ece99cfb94586fd933977d1971b2"
+          "sha256": "a8eabfebf1215679d49ed303540efd514d0bbc37cb288c2cc1107ed30ca5d82d"
         },
         "role": "external_news",
         "same_day_reuse": {
@@ -122,12 +122,12 @@
           "status": "reused"
         },
         "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
-        "sha256": "2827a44d7d4212897a888a25d17bb9118192ece99cfb94586fd933977d1971b2",
+        "sha256": "a8eabfebf1215679d49ed303540efd514d0bbc37cb288c2cc1107ed30ca5d82d",
         "size_bytes": 48500,
         "source_artifact_provenance": [
           {
             "action": "reused",
-            "artifact_checksum": "146e4fe1d10ec4da143a1e13382aa4a77456957222b1b326d618df957a649079",
+            "artifact_checksum": "7e31c872c25ba28e4c57a1abf5a13cd29309e6b04663a89efc3dc175b7a933cd",
             "artifact_path": ".artifact-reuse/raw-data/2026-W25-external-news.json",
             "content_checksum": "0171b08f10b96860f358348c6bcb13880af734dc860848caf3b55ddac9153a81",
             "crawl_window": {
@@ -135,9 +135,9 @@
               "until": "2026-06-16T00:00:00Z"
             },
             "date": "2026-06-16",
-            "evaluated_at": "2026-06-16T18:05:42.923215Z",
-            "original_crawled_at": "2026-06-16T17:49:21.826905Z",
-            "original_run_id": "27636959989",
+            "evaluated_at": "2026-06-16T17:49:21.826905Z",
+            "original_crawled_at": "2026-06-16T09:43:42.817675Z",
+            "original_run_id": "27608724098",
             "reasons": [],
             "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
             "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
@@ -146,7 +146,7 @@
           },
           {
             "action": "reused",
-            "artifact_checksum": "146e4fe1d10ec4da143a1e13382aa4a77456957222b1b326d618df957a649079",
+            "artifact_checksum": "7e31c872c25ba28e4c57a1abf5a13cd29309e6b04663a89efc3dc175b7a933cd",
             "artifact_path": ".artifact-reuse/raw-data/2026-W25-external-news.json",
             "content_checksum": "84193c04509606bc7660b5c9c0615aef8d994c60760cba99928c4529eef9a1cd",
             "crawl_window": {
@@ -154,9 +154,9 @@
               "until": "2026-06-16T00:00:00Z"
             },
             "date": "2026-06-16",
-            "evaluated_at": "2026-06-16T18:05:42.923215Z",
-            "original_crawled_at": "2026-06-16T17:49:21.826905Z",
-            "original_run_id": "27636959989",
+            "evaluated_at": "2026-06-16T17:49:21.826905Z",
+            "original_crawled_at": "2026-06-16T09:43:42.817675Z",
+            "original_run_id": "27608724098",
             "reasons": [],
             "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
             "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
@@ -165,7 +165,7 @@
           },
           {
             "action": "reused",
-            "artifact_checksum": "146e4fe1d10ec4da143a1e13382aa4a77456957222b1b326d618df957a649079",
+            "artifact_checksum": "7e31c872c25ba28e4c57a1abf5a13cd29309e6b04663a89efc3dc175b7a933cd",
             "artifact_path": ".artifact-reuse/raw-data/2026-W25-external-news.json",
             "content_checksum": "4368b84f5da4961d93c3a040629891a72472b616c2053e3efa833b79a117a90b",
             "crawl_window": {
@@ -173,9 +173,9 @@
               "until": "2026-06-16T00:00:00Z"
             },
             "date": "2026-06-16",
-            "evaluated_at": "2026-06-16T18:05:42.923215Z",
-            "original_crawled_at": "2026-06-16T17:49:21.826905Z",
-            "original_run_id": "27636959989",
+            "evaluated_at": "2026-06-16T17:49:21.826905Z",
+            "original_crawled_at": "2026-06-16T09:43:42.817675Z",
+            "original_run_id": "27608724098",
             "reasons": [],
             "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
             "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
@@ -184,7 +184,7 @@
           },
           {
             "action": "reused",
-            "artifact_checksum": "146e4fe1d10ec4da143a1e13382aa4a77456957222b1b326d618df957a649079",
+            "artifact_checksum": "7e31c872c25ba28e4c57a1abf5a13cd29309e6b04663a89efc3dc175b7a933cd",
             "artifact_path": ".artifact-reuse/raw-data/2026-W25-external-news.json",
             "content_checksum": "b0a4d9695d2e742982cd83fdbfb87b704539d5636941d8cf3750603494fdebd1",
             "crawl_window": {
@@ -192,9 +192,9 @@
               "until": "2026-06-16T00:00:00Z"
             },
             "date": "2026-06-16",
-            "evaluated_at": "2026-06-16T18:05:42.923215Z",
-            "original_crawled_at": "2026-06-16T17:49:21.826905Z",
-            "original_run_id": "27636959989",
+            "evaluated_at": "2026-06-16T17:49:21.826905Z",
+            "original_crawled_at": "2026-06-16T09:43:42.817675Z",
+            "original_run_id": "27608724098",
             "reasons": [],
             "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
             "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
@@ -203,7 +203,7 @@
           },
           {
             "action": "reused",
-            "artifact_checksum": "146e4fe1d10ec4da143a1e13382aa4a77456957222b1b326d618df957a649079",
+            "artifact_checksum": "7e31c872c25ba28e4c57a1abf5a13cd29309e6b04663a89efc3dc175b7a933cd",
             "artifact_path": ".artifact-reuse/raw-data/2026-W25-external-news.json",
             "content_checksum": "ae6f21dd2dcdad97f5b38b4fbc1b4bf67db468371dd150a0ff732642e12b4139",
             "crawl_window": {
@@ -211,9 +211,9 @@
               "until": "2026-06-16T00:00:00Z"
             },
             "date": "2026-06-16",
-            "evaluated_at": "2026-06-16T18:05:42.923215Z",
-            "original_crawled_at": "2026-06-16T17:49:21.826905Z",
-            "original_run_id": "27636959989",
+            "evaluated_at": "2026-06-16T17:49:21.826905Z",
+            "original_crawled_at": "2026-06-16T09:43:42.817675Z",
+            "original_run_id": "27608724098",
             "reasons": [],
             "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
             "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
@@ -366,11 +366,11 @@
           "reasons": [],
           "status": "fresh"
         },
-        "generated_at": "2026-06-16T18:06:08Z",
+        "generated_at": "2026-06-16T17:49:42Z",
         "path": "data/analyzed/2026-W25-correlations.json",
         "provenance": {
           "artifact_checksum": null,
-          "generated_at": "2026-06-16T18:06:08Z",
+          "generated_at": "2026-06-16T17:49:42Z",
           "path": "data/analyzed/2026-W25-correlations.json",
           "same_day_reuse": {
             "details": "No same-day reuse marker was present on this artifact.",
@@ -397,11 +397,11 @@
           "reasons": [],
           "status": "not_applicable"
         },
-        "generated_at": "2026-06-16T18:06:08Z",
+        "generated_at": "2026-06-16T17:49:42Z",
         "path": "data/analyzed/2026-W25-press-context.md",
         "provenance": {
           "artifact_checksum": null,
-          "generated_at": "2026-06-16T18:06:08Z",
+          "generated_at": "2026-06-16T17:49:42Z",
           "path": "data/analyzed/2026-W25-press-context.md",
           "same_day_reuse": {
             "details": "No same-day reuse marker was present on this artifact.",
@@ -445,16 +445,16 @@
         },
         "model": "copilot-default",
         "passed": true,
-        "path": "data/candidates/2026-W25/27637885716/analysis-gate-report.json",
+        "path": "data/candidates/2026-W25/27636959989/analysis-gate-report.json",
         "present": true,
         "repair_actions": [],
-        "sha256": "fb6a9bd11f8e834eb1327f3495a82922cd6da9461739e46c1d92ab31efadf8cb",
+        "sha256": "64d58ee239304eed972ad188dd01ffcf47fa1d7fe5aae750ba66015ff00d9a61",
         "source": "copilot-cli"
       },
       "quality_gates": [
         {
           "name": "analysis_gate",
-          "report": "data/candidates/2026-W25/27637885716/analysis-gate-report.json",
+          "report": "data/candidates/2026-W25/27636959989/analysis-gate-report.json",
           "source": "copilot-cli",
           "status": "passed"
         }
@@ -466,22 +466,22 @@
     {
       "path": "data/analyzed/2026-W25-summary.md",
       "role": "analysis_summary",
-      "sha256": "0f993b1b0782edb2f994d003d43753af55d19f9a768be58d7710174488748661",
-      "source_path": "data/candidates/2026-W25/27637885716/2026-W25-summary.md"
+      "sha256": "ee8848597242a13e49c398ed7c9825d59a5e1d0ee28add4bd6ead9315af32326",
+      "source_path": "data/candidates/2026-W25/27636959989/2026-W25-summary.md"
     },
     {
       "path": "content/weekly/2026/W25.md",
       "role": "hugo_content",
-      "sha256": "3888b939e2eb64260ca3cc3ff7ed436f7a6738c58651399bbdf6d283edba19f0",
-      "source_path": "data/candidates/2026-W25/27637885716/2026-W25-content.md"
+      "sha256": "4e2ed42f7da77230752b02896c8ed4b747da6adbb8ea65db78dbd4560ae825ee",
+      "source_path": "data/candidates/2026-W25/27636959989/2026-W25-content.md"
     }
   ],
-  "run_id": "27637885716",
+  "run_id": "27636959989",
   "schema_version": "promotion_transaction_v1",
   "source_manifest": {
-    "path": "data/candidates/2026-W25/27637885716/publish-manifest.json",
-    "sha256": "416093d999c954333200a949b8dd4e63b1f72576988177233e52bb1c3305ee40"
+    "path": "data/candidates/2026-W25/27636959989/publish-manifest.json",
+    "sha256": "57e292575cd01d86e479db0c4cb8105bc6e31e99dce086c467607ef1134edf0a"
   },
-  "transaction_id": "724a34d50e3e7448f5c88a66ca8473f44bb24fd8aeb60ad422b8ea08f66f6597",
+  "transaction_id": "f19b77f9dba7f2ca24abd2c9ad56ee0ad78d7130a36f2e244d7f9af8b89a10af",
   "week": "2026-W25"
 }
