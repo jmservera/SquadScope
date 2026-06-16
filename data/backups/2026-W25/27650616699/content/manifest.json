@@ -1,11 +1,50 @@
 {
-  "candidate": {
-    "content_path": "data/candidates/2026-W25/27650616699/2026-W25-content.md",
-    "content_sha256": "2247ec629b12ed0aff56f8f0cd9d1c0b7cf9f9ed0dedcc09bc217e0813765776",
-    "summary_path": "data/candidates/2026-W25/27650616699/2026-W25-summary.md",
-    "summary_sha256": "701e49c0c973a0bdd07dc25f5fc050e1e071dd7db8de8a8cb2dd654b9cfd9881"
+  "created_at": "2026-06-16T21:56:57.214438Z",
+  "files": [
+    {
+      "backup_path": "data/backups/2026-W25/27650616699/content/files/data/analyzed/2026-W25-summary.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W25-summary.md",
+      "sha256": "0f993b1b0782edb2f994d003d43753af55d19f9a768be58d7710174488748661",
+      "size_bytes": 12787
+    },
+    {
+      "backup_path": "data/backups/2026-W25/27650616699/content/files/data/analyzed/2026-W25-correlations.json",
+      "existed": true,
+      "path": "data/analyzed/2026-W25-correlations.json",
+      "sha256": "7068935e955b1bb99c887f18efb85df513d03e00a2128eace0ec81c29ed269a0",
+      "size_bytes": 187932
+    },
+    {
+      "backup_path": "data/backups/2026-W25/27650616699/content/files/data/analyzed/2026-W25-press-context.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W25-press-context.md",
+      "sha256": "1e13a562aa35fdf26e236aaf122a50eb7b0b97f364d0693d1e7e5d7e54a1d5f7",
+      "size_bytes": 32815
+    },
+    {
+      "backup_path": "data/backups/2026-W25/27650616699/content/files/data/published/2026-W25/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W25/promotion-manifest.json",
+      "sha256": "87e753cea196dc3d255aea1bbf28faa7460def002c7d9367ad1488535bbc4a2d",
+      "size_bytes": 18691
+    },
+    {
+      "backup_path": "data/backups/2026-W25/27650616699/content/files/content/weekly/2026/W25.md",
+      "existed": true,
+      "path": "content/weekly/2026/W25.md",
+      "sha256": "3888b939e2eb64260ca3cc3ff7ed436f7a6738c58651399bbdf6d283edba19f0",
+      "size_bytes": 12220
+    }
+  ],
+  "kind": "content",
+  "publish_ref": {
+    "actual": "25000f8fbe6994c4304766ee6991e9e0a623726a",
+    "expected": "25000f8fbe6994c4304766ee6991e9e0a623726a"
   },
-  "provenance": {
+  "run_id": "27650616699",
+  "schema_version": "publish_backup_v1",
+  "source_manifest": {
     "analysis": {
       "ai_status": "ai",
       "model": "copilot-default",
@@ -33,14 +72,17 @@
       "provider": "copilot-cli",
       "source": "copilot-cli"
     },
-    "promotion": {
-      "decision": "promote",
-      "eligible": true,
-      "mode": "normal",
-      "policy": "default",
-      "reasons": [],
-      "source_refresh_policy": "reuse-same-day"
+    "candidate": {
+      "ai_status": "ai",
+      "content_path": "data/candidates/2026-W25/27650616699/2026-W25-content.md",
+      "content_sha256": "2247ec629b12ed0aff56f8f0cd9d1c0b7cf9f9ed0dedcc09bc217e0813765776",
+      "published_summary_path": "data/analyzed/2026-W25-summary.md",
+      "quality_score": 82,
+      "summary_path": "data/candidates/2026-W25/27650616699/2026-W25-summary.md",
+      "summary_sha256": "701e49c0c973a0bdd07dc25f5fc050e1e071dd7db8de8a8cb2dd654b9cfd9881"
     },
+    "path": "data/candidates/2026-W25/27650616699/publish-manifest.json",
+    "sha256": "9e544f3d16663f05a0d1b4a9ca151ae544e7f56a0bb692f0e8bfbfcbd7714377",
     "source_artifacts": [
       {
         "artifact_checksum": "671ea1b73af7fd168d4baf89a23d2d322cc8c2d4ec6fa25a7dcc48b605f22e55",
@@ -420,68 +462,7 @@
         "size_bytes": 32815,
         "week": null
       }
-    ],
-    "validation": {
-      "gate_report": {
-        "errors": [],
-        "failure_class": "passed",
-        "gates": {
-          "ai_provenance": {
-            "errors": [],
-            "passed": true
-          },
-          "editorial_quality": {
-            "errors": [],
-            "passed": true
-          },
-          "evidence_citation": {
-            "errors": [],
-            "passed": true
-          },
-          "structural_schema": {
-            "errors": [],
-            "passed": true
-          }
-        },
-        "model": "copilot-default",
-        "passed": true,
-        "path": "data/candidates/2026-W25/27650616699/analysis-gate-report.json",
-        "present": true,
-        "repair_actions": [],
-        "sha256": "3999b7e793b30b78731f8824c2f9d3a895ec9327b24c915bcbedd73fd4f9ffc0",
-        "source": "copilot-cli"
-      },
-      "quality_gates": [
-        {
-          "name": "analysis_gate",
-          "report": "data/candidates/2026-W25/27650616699/analysis-gate-report.json",
-          "source": "copilot-cli",
-          "status": "passed"
-        }
-      ],
-      "status": "passed"
-    }
+    ]
   },
-  "published_artifacts": [
-    {
-      "path": "data/analyzed/2026-W25-summary.md",
-      "role": "analysis_summary",
-      "sha256": "701e49c0c973a0bdd07dc25f5fc050e1e071dd7db8de8a8cb2dd654b9cfd9881",
-      "source_path": "data/candidates/2026-W25/27650616699/2026-W25-summary.md"
-    },
-    {
-      "path": "content/weekly/2026/W25.md",
-      "role": "hugo_content",
-      "sha256": "2247ec629b12ed0aff56f8f0cd9d1c0b7cf9f9ed0dedcc09bc217e0813765776",
-      "source_path": "data/candidates/2026-W25/27650616699/2026-W25-content.md"
-    }
-  ],
-  "run_id": "27650616699",
-  "schema_version": "promotion_transaction_v1",
-  "source_manifest": {
-    "path": "data/candidates/2026-W25/27650616699/publish-manifest.json",
-    "sha256": "9e544f3d16663f05a0d1b4a9ca151ae544e7f56a0bb692f0e8bfbfcbd7714377"
-  },
-  "transaction_id": "fe306652cdf8b79d94afe5a31d61a8d5f77c391d368ec3799825759ac8c7cac0",
   "week": "2026-W25"
 }
