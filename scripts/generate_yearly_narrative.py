@@ -680,6 +680,24 @@ def generate_yearly_title(year: int, arcs: dict[str, list[str]]) -> str:
     return title[:70]
 
 
+def _extract_summary(narrative: str, max_length: int = 155) -> str:
+    """Extract a ≤155-character summary from the narrative's first sentence."""
+    # Take first sentence (up to first period followed by space or end)
+    first_sentence_match = re.match(r"([^.]+\.)", narrative)
+    if first_sentence_match:
+        sentence = first_sentence_match.group(1).strip()
+        if len(sentence) <= max_length:
+            return sentence
+        # Truncate at last word boundary within limit
+        truncated = sentence[:max_length - 1].rsplit(" ", 1)[0]
+        return truncated.rstrip(".,;:") + "…"
+    # Fallback: truncate narrative at word boundary
+    if len(narrative) <= max_length:
+        return narrative.strip()
+    truncated = narrative[:max_length - 1].rsplit(" ", 1)[0]
+    return truncated.rstrip(".,;:") + "…"
+
+
 def build_yearly_narrative_pages(content_root: Path, years: Iterable[int] | None = None) -> list[YearlyNarrativePage]:
     grouped: dict[int, list[MonthSnapshot]] = {}
     for snapshot in load_month_snapshots(content_root, years):
@@ -691,6 +709,7 @@ def build_yearly_narrative_pages(content_root: Path, years: Iterable[int] | None
         narrative = synthesize_year(ordered)
         arcs = {family.key: detect_family_arc(ordered, family) for family in TREND_FAMILIES}
         title = generate_yearly_title(year, arcs)
+        summary = _extract_summary(narrative)
         pages.append(
             YearlyNarrativePage(
                 year=year,
@@ -702,6 +721,7 @@ def build_yearly_narrative_pages(content_root: Path, years: Iterable[int] | None
                     "categories": ["yearly"],
                     "months_covered": [month.month_slug for month in ordered],
                     "format": "narrative",
+                    "summary": summary,
                 },
                 narrative=narrative,
             )
@@ -710,7 +730,20 @@ def build_yearly_narrative_pages(content_root: Path, years: Iterable[int] | None
 
 
 def render_yearly_page(page: YearlyNarrativePage) -> str:
-    body = f"## Year in Review\n\n{page.narrative}\n"
+    months_covered = page.frontmatter.get("months_covered", [])
+    nav_links = []
+    for slug in months_covered:
+        # slug format: "2026-05"
+        parts = slug.split("-")
+        if len(parts) == 2:
+            year_str, month_str = parts
+            month_num = int(month_str)
+            month_name = MONTH_NAMES.get(month_num, month_str)
+            nav_links.append(f"[{month_name}](/monthly/{year_str}/{month_str}/)")
+    nav_line = ""
+    if nav_links:
+        nav_line = f"**Monthly reports:** {' · '.join(nav_links)}\n\n"
+    body = f"## Year in Review\n\n{nav_line}{page.narrative}\n"
     return render_frontmatter(page.frontmatter) + body
 
 
