@@ -1,91 +1,91 @@
 ---
-title: "Fable Fever Meets Cost Discipline"
-date: 2026-06-16T18:06:08Z
+title: "Fable Fever Meets Cost Discipline and Supply-Chain Reality"
+date: 2026-06-16T21:54:15Z
 week: "2026-W25"
 year: 2026
-tags: [fable, agent-skills, ai-costs, supply-chain-security, local-ai, apple-intelligence, noise-floor]
+tags: [fable, agent-skills, ai-costs, supply-chain-security, apple-intelligence, local-ai, noise-floor]
 categories: [weekly]
 repos_featured: 168
-stars_tracked: 53706
-top_repo: "shadcn/improve"
+stars_tracked: 16560000
+top_repo: "DietrichGebert/ponytail"
 quality_score: 82
-summary: "Week 25 marks the first real Fable ecosystem eruption on GitHub, but the stronger signal is practitioners turning model hype into operating discipline: cost routing, agent harnesses, supply-chain response tooling, and local sovereignty."
+summary: "Week 25 marks the first real Fable ecosystem eruption on GitHub — a clustered developer response to Anthropic's Fable tier — while the deeper story is practitioners pairing model hype with cost discipline, a live AUR supply-chain attack driving genuine defensive tooling, and Apple Intelligence generating real access-circumvention repos for mainland China."
 predictions:
-  - repo: shadcn/improve
-    claim_type: signal
-    direction: up
-    confidence: 0.76
   - repo: DietrichGebert/ponytail
     claim_type: signal
     direction: flat
-    confidence: 0.68
+    confidence: 0.66
+  - repo: shadcn/improve
+    claim_type: signal
+    direction: up
+    confidence: 0.74
   - repo: lenucksi/aur-malware-check
     claim_type: signal
     direction: up
-    confidence: 0.72
+    confidence: 0.71
   - repo: Open-Builders/pumpfun-bundler-pump.fun-bundler-solana-token-bundler-bot
     claim_type: noise
-    direction: flat
-    confidence: 0.88
-  - repo: claude-code-ai-anthropic/free-claude-code-ai-desktop-app
-    claim_type: noise
     direction: down
-    confidence: 0.81
+    confidence: 0.78
+  - repo: SkyBlue997/enableMacosAI
+    claim_type: signal
+    direction: flat
+    confidence: 0.65
 ---
 
 ## This Week's Trends
 
-**Fable becomes an ecosystem event, not just a model release.** A tight cluster of repos translated Anthropic's new Fable tier into reusable workflows: [DanMcInerney/architect-loop](https://github.com/DanMcInerney/architect-loop), [mrtooher/fable-mode](https://github.com/mrtooher/fable-mode), [duolahypercho/fusion-fable](https://github.com/duolahypercho/fusion-fable), [fivetaku/fablize](https://github.com/fivetaku/fablize), [baskduf/FableCodex](https://github.com/baskduf/FableCodex), and [vitaliikapliuk/modelharness](https://github.com/vitaliikapliuk/modelharness) all try to bottle higher-end agent behavior as procedure. The important part is not the Fable branding; it is the emerging belief that planning, verification, and model arbitration can be packaged independently of the model itself.
+**Fable turned from announcement into folk infrastructure.** The strongest new pattern is not one high-star repo but a swarm: [DanMcInerney/architect-loop](https://github.com/DanMcInerney/architect-loop), [mrtooher/fable-mode](https://github.com/mrtooher/fable-mode), [duolahypercho/fusion-fable](https://github.com/duolahypercho/fusion-fable), [fivetaku/fablize](https://github.com/fivetaku/fablize), [itsinseong/value-for-fable](https://github.com/itsinseong/value-for-fable), and [baskduf/FableCodex](https://github.com/baskduf/FableCodex) all attempt to package Fable-like planning, verification, or model-comparison behavior into Claude Code and Codex workflows. That is a stronger signal than generic model enthusiasm because practitioners are translating a premium model tier into repeatable operating procedure.
 
-**Cost-aware agent orchestration is becoming practical engineering.** [shadcn/improve](https://github.com/shadcn/improve) is the clearest signal: use the strongest model for audit and planning, then hand execution to cheaper models. [blader/arbitrage](https://github.com/blader/arbitrage), [itsinseong/value-for-fable](https://github.com/itsinseong/value-for-fable), and [Nanako0129/TokenBar](https://github.com/Nanako0129/TokenBar) point in the same direction: teams are no longer optimizing only for capability, but for capability per token, per workflow, and per operator.
+**The second-order reaction is cost governance.** [shadcn/improve](https://github.com/shadcn/improve) is the cleanest expression: use the expensive model to audit and plan, then hand execution to cheaper models. [vitaliikapliuk/modelharness](https://github.com/vitaliikapliuk/modelharness) and [001TMF/harness-forge](https://github.com/001TMF/harness-forge) push the same idea into benchmarking and harness optimization. The market is no longer just asking "which model is best"; it is asking how to spend frontier-model tokens only where judgment matters.
 
-**Agent skills continue to verticalize into creative and professional work.** [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) is the week's biggest new repo by stars, but the broader cluster matters more: [orange2ai/renwei-writing](https://github.com/orange2ai/renwei-writing), [nolangz/pixel2motion](https://github.com/nolangz/pixel2motion), [joeseesun/qiaomu-goal-meta-skill](https://github.com/joeseesun/qiaomu-goal-meta-skill), [tmchow/illo-skill](https://github.com/tmchow/illo-skill), and [zexuanw958-svg/travel-plan-viz](https://github.com/zexuanw958-svg/travel-plan-viz) are not generic prompt dumps. They turn writing, visual design, product research, diagramming, and travel planning into bounded agent capabilities.
+**Skills keep verticalizing into creative and product work.** [orange2ai/renwei-writing](https://github.com/orange2ai/renwei-writing), [nolangz/pixel2motion](https://github.com/nolangz/pixel2motion), [joeseesun/qiaomu-goal-meta-skill](https://github.com/joeseesun/qiaomu-goal-meta-skill), [joeseesun/qiaomu-ai-prd](https://github.com/joeseesun/qiaomu-ai-prd), and [tmchow/illo-skill](https://github.com/tmchow/illo-skill) extend the W24 pattern from developer quality gates into writing, design, product research, and visual production.
 
-**Security finally appears as incident response, not abstraction.** [lenucksi/aur-malware-check](https://github.com/lenucksi/aur-malware-check) and [nightdevil00/AUR-Malware](https://github.com/nightdevil00/AUR-Malware) responded to the June 2026 atomic-lockfile AUR supply-chain attack, while [jestasecurity/thumper](https://github.com/jestasecurity/thumper) targeted the Shai-Hulud npm worm with honeytoken-style detection. Compared with prior weeks' theoretical agent-security gaps, this week shows developers building around actual compromise.
+**Security was real this week, not just branded.** [lenucksi/aur-malware-check](https://github.com/lenucksi/aur-malware-check) and [nightdevil00/AUR-Malware](https://github.com/nightdevil00/AUR-Malware) are direct responses to the June 2026 atomic-lockfile AUR supply-chain attack, while [jestasecurity/thumper](https://github.com/jestasecurity/thumper) responds to npm worm behavior with honeytoken tripwires. That is a healthier security pattern than exploit-chasing: detection, containment, and incident response tooling.
 
 ## Where Industry Meets Code
 
-Press coverage aligned with the GitHub data around agents, but only at the theme level. GitHub Blog's Copilot CLI articles about custom agents, slash commands, language servers, and selective delegation map cleanly onto the new crop of agent workflow repos: [shadcn/improve](https://github.com/shadcn/improve), [amElnagdy/delegate-skills](https://github.com/amElnagdy/delegate-skills), [craftzdog/tmux-claude-session-manager](https://github.com/craftzdog/tmux-claude-session-manager), and [modem-dev/sideshow](https://github.com/modem-dev/sideshow). TechCrunch's coverage of government concern over Anthropic's Fable and Mythos models also matches the developer-side Fable spike, though the repos are less about policy and more about extracting Fable-like operating patterns for everyday coding agents.
+Press coverage aligned most clearly with the Fable story. TechCrunch's Anthropic-government-ban coverage and the security-veteran protest around Claude Fable 5 and Mythos arrived in the same week that developers produced Fable imitation, orchestration, and cost-reduction repos. The correlation is not that the articles created the repos; it is that a premium-model narrative gave practitioners a target behavior to reproduce in [fivetaku/fablize](https://github.com/fivetaku/fablize), [duolahypercho/fusion-fable](https://github.com/duolahypercho/fusion-fable), and [itsinseong/value-for-fable](https://github.com/itsinseong/value-for-fable).
 
-The stronger convergence is on agent identity and delegation. TechCrunch's NewCore story framed agents as employees needing identities; developers are building the adjacent control plane in [omnigent-ai/omnigent](https://github.com/omnigent-ai/omnigent), [ruvnet/agent-harness-generator](https://github.com/ruvnet/agent-harness-generator), and [001TMF/harness-forge](https://github.com/001TMF/harness-forge). NVIDIA's local AI and confidential computing coverage overlaps with [john-rocky/coreai-model-zoo](https://github.com/john-rocky/coreai-model-zoo), [six-ddc/livecaption](https://github.com/six-ddc/livecaption), and [chen150450/local-multimodal-rag](https://github.com/chen150450/local-multimodal-rag), but the developer story is smaller, cheaper, and more personal than the vendor framing.
+GitHub's own Copilot CLI coverage also matches developer behavior. Articles on slash commands, language servers, custom agents, and selective delegation map directly to repos such as [shadcn/improve](https://github.com/shadcn/improve), [craftzdog/tmux-claude-session-manager](https://github.com/craftzdog/tmux-claude-session-manager), [alchaincyf/fanbox](https://github.com/alchaincyf/fanbox), and [omnigent-ai/omnigent](https://github.com/omnigent-ai/omnigent). NVIDIA's local AI and Private Cloud Compute coverage partially aligns with [SkyBlue997/enableMacosAI](https://github.com/SkyBlue997/enableMacosAI), [john-rocky/coreai-model-zoo](https://github.com/john-rocky/coreai-model-zoo), and [six-ddc/livecaption](https://github.com/six-ddc/livecaption), but the developer activity is more about access, conversion, and on-device practicality than enterprise infrastructure.
 
-The divergences are just as important. Press spent meaningful attention on AI IPOs, social media policy, biotech, and space finance; the crawl shows little same-week developer response. Conversely, Apple Intelligence access circumvention via [SkyBlue997/enableMacosAI](https://github.com/SkyBlue997/enableMacosAI), AUR attack response tooling, and the Chinese-language skills boom received no comparable press narrative.
+The major divergence is agent identity and governance. TechCrunch covered NewCore's agent identity funding and MIT Technology Review covered multi-agent interaction risk, but the week's GitHub work focused on skills, harnesses, and bypasses rather than identity, authorization, or accountability. Also, trending-repo momentum is caveated this week because `stars_gained` is not present in the crawl, so older high-star repos are useful as context rather than measurable fresh surges.
 
 ## Signal & Noise
 
-The durable signal sits in clusters, not in isolated star counts. [shadcn/improve](https://github.com/shadcn/improve) is more meaningful than many higher-level agent wrappers because it encodes a real operating model: spend expensive intelligence on judgment, then route implementation to cheaper capacity. [omnigent-ai/omnigent](https://github.com/omnigent-ai/omnigent), [alchaincyf/fanbox](https://github.com/alchaincyf/fanbox), [coder/boo](https://github.com/coder/boo), and [craftzdog/tmux-claude-session-manager](https://github.com/craftzdog/tmux-claude-session-manager) show the same practitioner need from different angles: agents now require session management, visibility, multiplexing, policy, and collaboration surfaces. The creative skills cluster is also credible because it is specific; [nolangz/pixel2motion](https://github.com/nolangz/pixel2motion), [orange2ai/renwei-writing](https://github.com/orange2ai/renwei-writing), and [tmchow/illo-skill](https://github.com/tmchow/illo-skill) are job-shaped tools rather than model wrappers.
+The durable signal clusters around three things: Fable procedure, model-spend discipline, and live security response. [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) is enormous for a new skills repo and its YAGNI-flavored framing is unusually specific, though its velocity should be watched rather than blindly trusted. [shadcn/improve](https://github.com/shadcn/improve) is more strategically important because it encodes a workflow many teams will copy: reserve frontier models for planning and review, then route implementation to cheaper agents. [lenucksi/aur-malware-check](https://github.com/lenucksi/aur-malware-check), [nightdevil00/AUR-Malware](https://github.com/nightdevil00/AUR-Malware), and [jestasecurity/thumper](https://github.com/jestasecurity/thumper) also pass the usefulness test because they are keyed to concrete incidents rather than abstract security branding.
 
-The noise floor rotated but did not shrink. [Open-Builders/pumpfun-bundler-pump.fun-bundler-solana-token-bundler-bot](https://github.com/Open-Builders/pumpfun-bundler-pump.fun-bundler-solana-token-bundler-bot) has a keyword-stuffed description and a 320-fork count against 170 stars, matching the fork-inflation pattern from prior crypto bot waves. [claude-code-ai-anthropic/free-claude-code-ai-desktop-app](https://github.com/claude-code-ai-anthropic/free-claude-code-ai-desktop-app) and [darricke/claude-fable-5-desktop-free](https://github.com/darricke/claude-fable-5-desktop-free) ride Fable keywords without comparable technical signal. The coordinated adult-image and activator cluster — including [most9/NS-FW-AI-Adult-Gen](https://github.com/most9/NS-FW-AI-Adult-Gen), [YannGotti/NS-FW-AI-Adult-Gen](https://github.com/YannGotti/NS-FW-AI-Adult-Gen), [ZettaChann/Hent-AI-Generator-2026](https://github.com/ZettaChann/Hent-AI-Generator-2026), and [YD55555/KMS-pico-M4-Latest](https://github.com/YD55555/KMS-pico-M4-Latest) — shows the same templated naming and uniform low-fork pattern that should be filtered out of trend judgment.
+The noise is equally explicit. [Open-Builders/pumpfun-bundler-pump.fun-bundler-solana-token-bundler-bot](https://github.com/Open-Builders/pumpfun-bundler-pump.fun-bundler-solana-token-bundler-bot) is keyword-stuffed crypto automation with a 170-star/320-fork ratio that fits the rotating manipulation patterns from W23 and W24. [ninaantonov/Flash-USDT-Sender](https://github.com/ninaantonov/Flash-USDT-Sender) and [kaor333/Exodus-Fake-Balance](https://github.com/kaor333/Exodus-Fake-Balance) advertise fake-balance and wallet-spoofing topics directly. [MSNightmare/GreatXML](https://github.com/MSNightmare/GreatXML) may be security-relevant, but the sparse "BitLocker bypass" framing and high fork count make it exploit-churn rather than a clean defensive signal. Several high-star access and emulator-adjacent repos also need filtering before they are mistaken for ecosystem momentum.
 
 ## Blind Spots
 
-The biggest missing layer is still skills supply-chain security. This week has more skills, more Fable emulation, and more delegated execution, but almost no tooling to inspect whether a downloaded skill is safe, whether its instructions are hostile, or whether its upstream changes should be trusted. The AUR and npm incident-response repos prove developers react fast to known supply-chain compromise; they are not yet applying that mindset to agent skills themselves.
+The missing category is **agent authorization infrastructure**. Developers are building better skills and more elaborate harnesses, but almost nothing in the new-repo set defines who an agent is allowed to act as, what it can spend, which files or services it can touch, or how those decisions are audited. That absence is stark given the press focus on agent identity.
 
-Second, agent identity is discussed in press and hinted at in harness repos, but practical authorization remains thin: few repos address scoped permissions, auditable agent credentials, or revocation across model vendors. Third, there is surprisingly little evaluation infrastructure for the Fable wave; many repos claim better behavior, but few ship comparable benchmarks, regression tests, or reproducible harness evidence.
+The second gap is **skills supply-chain verification**. The ecosystem now treats SKILL.md-style packages as executable operational guidance, yet there is little visible tooling for linting, provenance, signing, revocation, or malicious-instruction detection. Finally, Apple Intelligence access work is energetic, but there is almost no compliance or safety layer around regional enablement, model routing, or Private Cloud Compute trust assumptions.
 
 ## The Week Ahead
 
-Watch whether Fable-inspired repos survive first-week branding and become reusable agent operating patterns. The strongest near-term continuation is cost routing: [shadcn/improve](https://github.com/shadcn/improve), [blader/arbitrage](https://github.com/blader/arbitrage), and [Nanako0129/TokenBar](https://github.com/Nanako0129/TokenBar) point toward an agent stack where budget control is part of architecture. Security response tooling should also keep rising, but the important question is whether it crosses from package ecosystems into the agent skills layer.
+Expect the Fable imitation wave to split into two tracks: serious harness optimization and disposable prompt cosplay. The serious side will look like [shadcn/improve](https://github.com/shadcn/improve) and [vitaliikapliuk/modelharness](https://github.com/vitaliikapliuk/modelharness): measurable, cost-aware, and model-agnostic. Watch for AUR and npm incident tooling to broaden into general supply-chain tripwires, and for Apple Intelligence enablement repos to attract both legitimate regional-access work and risky bypass clones.
 
 ## Key References
 
 ### Notable Projects
 
-- [shadcn/improve](https://github.com/shadcn/improve) — The week's clearest operating-model repo: premium models plan and audit, cheaper models execute.
-- [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) — A massive agent-skills breakout that captures the anti-overengineering mood around AI coding agents.
-- [omnigent-ai/omnigent](https://github.com/omnigent-ai/omnigent) — A meta-harness for coordinating multiple agent runtimes with policy, sandboxing, and shared sessions.
-- [lenucksi/aur-malware-check](https://github.com/lenucksi/aur-malware-check) — Concrete detection tooling for the June 2026 AUR supply-chain attack.
-- [SkyBlue997/enableMacosAI](https://github.com/SkyBlue997/enableMacosAI) — A high-traction Apple Intelligence access-circumvention repo for mainland China hardware.
-- [DanMcInerney/architect-loop](https://github.com/DanMcInerney/architect-loop) — One of the clearest Fable-era attempts to split architect and builder roles across frontier coding agents.
-- [fivetaku/fablize](https://github.com/fivetaku/fablize) — A procedural attempt to transfer Fable-style completion, evidence, and verification habits into Claude Code.
-- [nolangz/pixel2motion](https://github.com/nolangz/pixel2motion) — A strong example of agent skills verticalizing into concrete creative production.
-- [john-rocky/coreai-model-zoo](https://github.com/john-rocky/coreai-model-zoo) — Evidence that Apple's local AI stack is becoming a serious playground for converted open models.
-- [jestasecurity/thumper](https://github.com/jestasecurity/thumper) — A supply-chain tripwire that shows defenders building around real malware behavior rather than abstract agent-risk talk.
+- [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) — The week's dominant new skills repo by stars, notable for encoding a specific YAGNI-oriented agent behavior rather than generic prompt polish.
+- [shadcn/improve](https://github.com/shadcn/improve) — The clearest cost-governance repo: expensive models plan and audit, cheaper models execute.
+- [omnigent-ai/omnigent](https://github.com/omnigent-ai/omnigent) — A cross-agent harness layer for Claude Code, Codex, Pi, and custom agents, reflecting demand for common control planes.
+- [lenucksi/aur-malware-check](https://github.com/lenucksi/aur-malware-check) — A direct defensive response to the June 2026 atomic-lockfile AUR supply-chain attack.
+- [SkyBlue997/enableMacosAI](https://github.com/SkyBlue997/enableMacosAI) — A high-traction Apple Intelligence enablement repo for mainland China Macs, showing access friction turning into developer activity.
+- [DanMcInerney/architect-loop](https://github.com/DanMcInerney/architect-loop) — A representative Fable-style architect/builder workflow that frames the repo itself as durable agent memory.
+- [fivetaku/fablize](https://github.com/fivetaku/fablize) — A concrete attempt to transfer Fable-like completion, evidence, and verification procedures into Claude Code.
+- [vitaliikapliuk/modelharness](https://github.com/vitaliikapliuk/modelharness) — A benchmark-backed behavioral harness for making Claude Code cheaper or better, important because it measures rather than merely claims.
+- [jestasecurity/thumper](https://github.com/jestasecurity/thumper) — A supply-chain tripwire for npm worm behavior, pointing toward practical incident-detection tooling.
+- [john-rocky/coreai-model-zoo](https://github.com/john-rocky/coreai-model-zoo) — A local Apple Core AI model-conversion and verification effort that grounds the week's Apple Intelligence interest in on-device execution.
 
 ### Press & Industry
 
-- [The US government's Anthropic models ban was never about an AI jailbreak](https://techcrunch.com/2026/06/15/the-us-governments-anthropic-models-ban-was-never-about-an-ai-jailbreak/) — Useful context for why Fable and Mythos were visible outside developer circles this week.
-- [Cybersecurity vets protest 'dangerous' US government ban on Anthropic's most powerful models](https://techcrunch.com/2026/06/15/cybersecurity-vets-protest-dangerous-us-government-ban-on-anthropics-most-powerful-models/) — Shows the policy-security framing around the same models developers are turning into workflow repos.
-- [How we made GitHub Copilot CLI more selective about delegation](https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/) — Strong industry-side match for the week's delegation, routing, and harness work.
-- [As AI agents become employees, NewCore emerges with $66M to give them identities](https://techcrunch.com/2026/06/15/ai-agents-are-becoming-employees-newcore-emerges-with-66m-to-give-them-identities/) — Press framing for a control-plane problem developers are approaching through harnesses and session tools.
-- [NVIDIA Accelerates Google DeepMind's DiffusionGemma for Local AI](https://blogs.nvidia.com/blog/rtx-ai-garage-local-gemma-diffusion/) — Vendor-side local AI narrative that parallels the week's on-device and Apple Silicon repos.
+- [The US government's Anthropic models ban was never about an AI jailbreak](https://techcrunch.com/2026/06/15/the-us-governments-anthropic-models-ban-was-never-about-an-ai-jailbreak/) — Useful context for why Fable and Mythos became governance and security symbols, not just model launches.
+- [Cybersecurity vets protest dangerous US government ban on Anthropic's most powerful models](https://techcrunch.com/2026/06/15/cybersecurity-vets-protest-dangerous-us-government-ban-on-anthropics-most-powerful-models/) — Press-side evidence that Fable 5 became a high-stakes institutional topic during the same week developers started cloning its workflow patterns.
+- [How we made GitHub Copilot CLI more selective about delegation](https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/) — Directly relevant to the week's cost-aware delegation and model-routing repos.
+- [Google DeepMind is worried about what happens when millions of agents start to interact](https://www.technologyreview.com/2026/06/11/1138794/google-deepmind-is-worried-about-what-happens-when-millions-of-agents-start-to-interact/) — Highlights the governance and interaction-risk gap that developer repos mostly did not address.
+- [NVIDIA Confidential Computing to Help Expand Apple's Private Cloud Compute](https://blogs.nvidia.com/blog/nvidia-confidential-computing-apple-private-cloud-compute/) — Industry context for the Apple Intelligence and Private Cloud Compute activity visible in new repos.
