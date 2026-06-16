@@ -1,0 +1,47 @@
+{
+  "analysis_file": "data/candidates/2026-W25/27636959989/2026-W25-summary.md",
+  "errors_after_repair": [
+    "predictions[5].repo must use owner/repo format."
+  ],
+  "errors_before_repair": [
+    "predictions[5].repo must use owner/repo format."
+  ],
+  "failure_class": "structural_schema",
+  "failure_summary": {
+    "error_count": 1,
+    "failure_categories": [
+      "structural_schema"
+    ],
+    "failure_class": "structural_schema",
+    "retryable": true
+  },
+  "gates": {
+    "ai_provenance": {
+      "errors": [],
+      "passed": true
+    },
+    "editorial_quality": {
+      "errors": [],
+      "passed": true
+    },
+    "evidence_citation": {
+      "errors": [],
+      "passed": true
+    },
+    "structural_schema": {
+      "errors": [
+        "predictions[5].repo must use owner/repo format."
+      ],
+      "passed": false
+    }
+  },
+  "model": "copilot-default",
+  "passed": false,
+  "repair_actions": [
+    "set date from current run timestamp",
+    "set repos_featured from raw repo counts (406)",
+    "set stars_tracked from raw repo stars (23440183)"
+  ],
+  "source": "copilot-cli",
+  "word_count": 2144
+}
