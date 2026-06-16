@@ -462,10 +462,6 @@ def build_payload(
     if source_refs:
         payload["source_artifacts"] = source_refs
 
-    historical_context = _read_historical_context(week, root)
-    if historical_context:
-        payload["historical_context"] = historical_context
-
     podcast_cfg = _load_podcast_config(podcast_config_path)
     if "podcast_config" in podcast_cfg:
         val = podcast_cfg["podcast_config"]
@@ -477,6 +473,11 @@ def build_payload(
         if not isinstance(val, dict):
             raise PodcasterHandoffError("script_directions must be a JSON object")
         payload["script_directions"] = val
+    historical_context = _read_historical_context(week, root)
+    if historical_context:
+        if "script_directions" not in payload:
+            payload["script_directions"] = {}
+        payload["script_directions"]["historical_context"] = historical_context
     if "spotify_publish" in podcast_cfg:
         val = podcast_cfg["spotify_publish"]
         if not isinstance(val, dict):

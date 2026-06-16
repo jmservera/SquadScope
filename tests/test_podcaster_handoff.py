@@ -159,11 +159,11 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertEqual(payload["article_summary"], "Week 23 summary.")
         self.assertIn("Body content here.", payload["article_content"])
         self.assertEqual(
-            payload["historical_context"]["month_synthesis"],
+            payload["script_directions"]["historical_context"]["month_synthesis"],
             "## Month Synthesis June continued the agent-skills story. ## Trend Arc - Agent skills kept accelerating.",
         )
         self.assertEqual(
-            payload["historical_context"]["yearly_narrative"],
+            payload["script_directions"]["historical_context"]["yearly_narrative"],
             "## Year in Review The year kept compounding around agent packaging and trust gaps.",
         )
         self.assertLess(len(json.dumps(payload)), 100_000)
@@ -258,7 +258,7 @@ class PodcasterHandoffTests(unittest.TestCase):
                 repo_root=Path(tmpdir),
             )
 
-        self.assertNotIn("historical_context", payload)
+        self.assertNotIn("historical_context", payload.get("script_directions", {}))
 
     def test_read_historical_context_includes_available_file_when_other_is_missing(self) -> None:
         tests_root = Path(__file__).resolve().parent
