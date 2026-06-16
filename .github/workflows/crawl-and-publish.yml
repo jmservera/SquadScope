@@ -468,20 +468,38 @@ jobs:
           PRESS_FILE="$IN_PRESS_FILE"
           DIAGNOSTICS_DIR="$(dirname "$OUTPUT_FILE")/diagnostics"
           SYNTHESIS_FILE="$DIAGNOSTICS_DIR/synthesis-narrative.md"
+          SYNTHESIS_PROMPT="$DIAGNOSTICS_DIR/synthesis-prompt.md"
           mkdir -p "$DIAGNOSTICS_DIR"
-          # Step 1: synthesize press/historical context into compact narrative.
+          # Step 1: render synthesis prompt, then run via Copilot CLI.
           # If this fails, we fall back to the single-prompt approach (no synthesis_input).
-          if python3 scripts/analyze_fallback.py \
+          python3 scripts/analyze_fallback.py \
             --raw-json "$WEEK_FILE" \
             --output "$OUTPUT_FILE" \
             --current-datetime "$CURRENT_DATETIME" \
             --press-context "$PRESS_FILE" \
             --run-synthesis \
-            --synthesis-output "$SYNTHESIS_FILE"; then
-            echo "synthesis_file=$SYNTHESIS_FILE" >> "$GITHUB_OUTPUT"
-            echo "synthesis_available=true" >> "$GITHUB_OUTPUT"
+            --synthesis-output "$SYNTHESIS_PROMPT"
+          if command -v copilot >/dev/null 2>&1 && [ -f "$SYNTHESIS_PROMPT" ]; then
+            set +e
+            copilot \
+              --agent weekly-synthesis \
+              -p "Read the synthesis prompt at ${SYNTHESIS_PROMPT}. Write the compact industry narrative to ${SYNTHESIS_FILE}. Max 2000 tokens. Do not delegate." \
+              -s \
+              --no-ask-user \
+              --allow-tool=read \
+              --allow-tool=write \
+              > "$DIAGNOSTICS_DIR/synthesis-copilot.log" 2>&1
+            SYNTH_STATUS=$?
+            set -e
+            if [ "$SYNTH_STATUS" -eq 0 ] && [ -f "$SYNTHESIS_FILE" ] && [ -s "$SYNTHESIS_FILE" ]; then
+              echo "synthesis_file=$SYNTHESIS_FILE" >> "$GITHUB_OUTPUT"
+              echo "synthesis_available=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "::warning::Synthesis Copilot CLI failed (exit=$SYNTH_STATUS); falling back to single-prompt approach."
+              echo "synthesis_available=false" >> "$GITHUB_OUTPUT"
+            fi
           else
-            echo "::warning::Synthesis step failed; falling back to single-prompt approach."
+            echo "::warning::Synthesis step skipped (copilot not available or prompt missing); falling back to single-prompt."
             echo "synthesis_available=false" >> "$GITHUB_OUTPUT"
           fi
 
@@ -672,7 +690,7 @@ jobs:
               fi
             fi
 
-            # Intentionally rely on Copilot CLI's default model so CI follows the platform-supported default.
+            # Model is configured in .github/agents/weekly-analysis.agent.md (gpt-5.5)
             set +e
             copilot \
               --agent weekly-analysis \

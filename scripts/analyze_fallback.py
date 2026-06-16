@@ -47,7 +47,6 @@ COMPACTED_PRESS_CONTEXT_CHARS = 14_000
 COMPACTED_HISTORICAL_CONTEXT_CHARS = 12_000
 SYNTHESIS_MAX_TOKENS = 2_000
 SYNTHESIS_PROMPT_TOKEN_BUDGET = 20_000
-DEFAULT_SYNTHESIS_MODEL = "openai/gpt-4o"
 RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
 NON_RETRYABLE_STATUS_CLASSES = {400, 401, 403, 404}
 MAX_RETRIES = 3
@@ -235,12 +234,6 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=Path,
         default=None,
         help="Path to a pre-computed synthesis narrative to inject into the analysis prompt (Step 2).",
-    )
-    parser.add_argument(
-        "--synthesis-model",
-        type=str,
-        default=None,
-        help=f"Model to use for synthesis step (default: {DEFAULT_SYNTHESIS_MODEL}).",
     )
     return parser.parse_args(argv)
 
@@ -816,6 +809,75 @@ def _build_synthesis_prompt(
         sections.append(f"## Continuity Notes\n\n{continuity_content}")
 
     return "\n\n---\n\n".join(sections)
+
+
+def render_synthesis_prompt(
+    *,
+    press_context_path: Path | None = None,
+    content_root: Path = DEFAULT_CONTENT_ROOT,
+    continuity_file: Path = DEFAULT_CONTINUITY_FILE,
+    current_datetime: str,
+    current_week: str,
+    previous_summary_path: Path | None = None,
+    prompt_token_budget: int = SYNTHESIS_PROMPT_TOKEN_BUDGET,
+) -> str:
+    """Render the synthesis prompt to a string (for Copilot CLI to process).
+
+    Returns the prompt string, or empty string if no meaningful content exists.
+    """
+    historical_context_content = assemble_historical_context(
+        current_datetime=current_datetime,
+        previous_summary_path=previous_summary_path,
+        content_root=content_root,
+        max_words=1_500,
+        prompt_token_budget=prompt_token_budget,
+    ).strip()
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
+    historical_context_content = _escape_untrusted_boundaries(historical_context_content)
+    if not historical_context_content:
+        historical_context_content = "_No historical context was available beyond the current weekly payload._"
+
+    continuity_content = render_continuity(continuity_file)
+
+    press_content = (
+        press_context_path.read_text(encoding="utf-8").strip()
+        if press_context_path and press_context_path.exists() and press_context_path.stat().st_size > 0
+        else ""
+    )
+
+    if press_content:
+        press_content = _strip_ai_instruction_blocks(press_content)
+    if press_content:
+        press_content = _escape_untrusted_boundaries(press_content)
+
+    # If there's no meaningful content to synthesize, return empty
+    if not press_content and historical_context_content.startswith("_No historical context"):
+        return ""
+
+    prompt = _build_synthesis_prompt(
+        press_content=press_content,
+        historical_context_content=historical_context_content,
+        continuity_content=continuity_content,
+        current_week=current_week,
+        current_datetime=current_datetime,
+    )
+
+    # Truncate press content if prompt exceeds budget
+    prompt_tokens = estimate_tokens(prompt)
+    if prompt_tokens > prompt_token_budget:
+        excess_chars = (prompt_tokens - prompt_token_budget) * 4
+        end_index = max(0, len(press_content) - excess_chars)
+        press_content = press_content[:end_index]
+        prompt = _build_synthesis_prompt(
+            press_content=press_content,
+            historical_context_content=historical_context_content,
+            continuity_content=continuity_content,
+            current_week=current_week,
+            current_datetime=current_datetime,
+        )
+
+    return prompt
 
 
 def run_synthesis_step(
@@ -1757,25 +1819,24 @@ def main(argv: list[str] | None = None) -> int:
         sanitized_payload = sanitize_repo_payload(payload)
         current_week = sanitized_payload["week"]
         previous_summary_path = find_previous_summary(current_week, args.analyzed_dir)
-        try:
-            narrative = run_synthesis_step(
-                press_context_path=args.press_context,
-                content_root=args.content_root,
-                continuity_file=continuity_file,
-                current_datetime=args.current_datetime,
-                current_week=current_week,
-                previous_summary_path=previous_summary_path,
-                prompt_token_budget=args.prompt_token_budget,
-                model=args.synthesis_model,
-            )
-        except RuntimeError as exc:
-            print(f"::warning::Synthesis step failed: {exc}", file=sys.stderr)
+        # Render synthesis prompt to file (Copilot CLI will process it)
+        narrative_or_prompt = render_synthesis_prompt(
+            press_context_path=args.press_context,
+            content_root=args.content_root,
+            continuity_file=continuity_file,
+            current_datetime=args.current_datetime,
+            current_week=current_week,
+            previous_summary_path=previous_summary_path,
+            prompt_token_budget=args.prompt_token_budget,
+        )
+        if not narrative_or_prompt:
+            print("::warning::No meaningful content for synthesis (no press or historical context).", file=sys.stderr)
             return 1
         output_path = args.synthesis_output or args.output
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        output_path.write_text(narrative, encoding="utf-8")
+        output_path.write_text(narrative_or_prompt, encoding="utf-8")
         print(
-            f"::notice::Synthesis step complete: {estimate_tokens(narrative)} tokens written to {output_path}",
+            f"::notice::Synthesis prompt rendered: {estimate_tokens(narrative_or_prompt)} tokens written to {output_path}",
             file=sys.stderr,
         )
         return 0
