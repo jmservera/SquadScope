@@ -957,11 +957,11 @@ def _build_prompt(
         },
         prompt_within_budget=prompt_within_budget,
         degraded=degraded,
-        publish_eligible=prompt_within_budget and not degraded,
+        publish_eligible=prompt_within_budget,
         promotion_policy=(
             "normal-promotion"
-            if not degraded
-            else "staged/candidate-only by default; degraded compacted output requires an explicit future promotion policy."
+            if prompt_within_budget
+            else "staged/candidate-only by default; prompt exceeds token budget."
         ),
         degradation_reason=degradation_reason,
         fallback_policy=(

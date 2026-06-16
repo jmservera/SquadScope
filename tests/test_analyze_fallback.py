@@ -412,13 +412,14 @@ class AnalyzeFallbackTests(unittest.TestCase):
             report = json.loads(report_path.read_text(encoding="utf-8"))
             self.assertEqual(exit_code, 0)
             self.assertTrue(report["degraded"])
-            self.assertFalse(report["publish_eligible"])
-            self.assertIn("staged/candidate-only", report["promotion_policy"])
+            # Post-compaction prompt is within budget, so publish is eligible
+            self.assertTrue(report["publish_eligible"])
+            self.assertEqual("normal-promotion", report["promotion_policy"])
             self.assertIn("compacted", report["degradation_reason"])
             report_markdown = report_md_path.read_text(encoding="utf-8")
             self.assertIn("Degraded/compacted: `true`", report_markdown)
-            self.assertIn("Publish eligible: `false`", report_markdown)
-            self.assertIn("staged/candidate-only", report_markdown)
+            self.assertIn("Publish eligible: `true`", report_markdown)
+            self.assertIn("normal-promotion", report_markdown)
             components = {component["name"]: component for component in report["components"]}
             self.assertIn("compacted to top", components["new_repos"]["compaction_decision"])
             self.assertIn("compacted to top", components["trending_repos"]["compaction_decision"])

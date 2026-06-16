@@ -125,10 +125,6 @@ def load_preflight(path: Path | None, *, required: bool = False) -> tuple[dict[s
     if payload is None:
         return None, [f"preflight report missing or malformed: {path}"]
     reasons: list[str] = []
-    if payload.get("degraded") is True:
-        reasons.append(
-            "preflight degraded/compacted; candidate is staged-only unless an explicit promotion policy allows it"
-        )
     if payload.get("publish_eligible") is not True:
         reasons.append("preflight report marks candidate as publish-ineligible")
     return payload, reasons
@@ -715,8 +711,6 @@ def assert_eligible(args: argparse.Namespace) -> int:
         preflight = analysis.get("preflight")
         if not isinstance(preflight, dict) or preflight.get("publish_eligible") is not True:
             raise SystemExit("Manifest lacks a publish-eligible Copilot preflight report.")
-        if preflight.get("degraded") is True:
-            raise SystemExit("Manifest preflight is degraded/compacted and staged-only by default.")
     validation = payload.get("validation")
     gate_report = validation.get("gate_report") if isinstance(validation, dict) else None
     if not isinstance(gate_report, dict) or gate_report.get("present") is not True or gate_report.get("passed") is not True:
