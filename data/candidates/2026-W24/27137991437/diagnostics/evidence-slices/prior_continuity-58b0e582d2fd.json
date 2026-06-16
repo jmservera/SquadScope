@@ -1,0 +1,28 @@
+{
+  "checksum_sha256": "58b0e582d2fdfc4ee9a891f75405555d045a966d4a1d6d7b79cf6475e1816289",
+  "component": "prior_continuity",
+  "provenance": {
+    "sources": {
+      "prior_summary": {
+        "bytes": 16398,
+        "path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W23-summary.md",
+        "sha256": "eadff75a4e3041a6a4094072321e45621d882eaeafcad4fb00a0b0714eebeb60"
+      },
+      "raw_json": {
+        "bytes": 248375,
+        "path": "data/raw/2026-W24.json",
+        "sha256": "f506c3382163a28c0504bb7cf098648c5d36830952a770a0c50c94a81e40d448"
+      }
+    },
+    "week": "2026-W24"
+  },
+  "records": [
+    {
+      "excerpt": "---\ntitle: \"Sovereignty Streak, Agent Skills Go Vertical, and GitHub's DPI-Bypass Flood\"\ndate: 2026-06-06T07:49:43Z\nweek: \"2026-W23\"\nyear: 2026\ntags: [self-hosted, agent-skills, ai-memory, coding-agents, censorship-bypass, offensive-security, exploit-churn]\ncategories: [weekly]\nrepos_featured: 443\nstars_tracked: 17200000\ntop_repo: \"pewdiepie-archdaemon/odysseus\"\nquality_score: 76\nsummary: \"Week 23 amplifies two W22 trends — agent memory infrastructure and skills verticalization — while a suspicious 56k-star self-hosted AI workspace, a coordinated Russian censorship-bypass wave, and the heaviest offensive-security agent activity of the year reshape what noise looks like at scale.\"\npredictions:\n  - repo: duncatzat/vigils\n    claim_type: signal\n    direction: up\n    confidence: 0.78\n  - repo: tastyeffectco/sandboxes\n    claim_type: signal\n    direction: up\n    confidence: 0.72\n  - repo: openai/role-specific-plugins\n    claim_type: signal\n    direction: up\n    confidence: 0.75\n  - repo: Pe",
+      "present": true,
+      "source_path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W23-summary.md"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "prior_continuity"
+}
