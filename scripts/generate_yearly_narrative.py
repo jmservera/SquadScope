@@ -657,6 +657,29 @@ def synthesize_year(months: list[MonthSnapshot]) -> str:
     return compress_narrative(paragraphs)
 
 
+def generate_yearly_title(year: int, arcs: dict[str, list[str]]) -> str:
+    """Generate an SEO-friendly editorial title (max 70 chars) for yearly narrative."""
+    has_skills = bool(arcs.get("agent-skills"))
+    has_security = bool(arcs.get("security-gap"))
+    has_noise = bool(arcs.get("platform-gaming"))
+    has_local = bool(arcs.get("self-hosted-ai"))
+
+    if has_skills and has_security:
+        title = f"When Agents Became Infrastructure — {year} So Far"
+    elif has_skills and has_noise:
+        title = f"Agents Rise While Discovery Noise Mutates — {year}"
+    elif has_skills:
+        title = f"Agent Tooling Grows Up — {year} So Far"
+    elif has_security:
+        title = f"Capability Outpaces Trust — {year} So Far"
+    elif has_local:
+        title = f"Local AI Takes Hold — {year} So Far"
+    else:
+        title = f"The Ecosystem Reorganizes — {year} So Far"
+
+    return title[:70]
+
+
 def build_yearly_narrative_pages(content_root: Path, years: Iterable[int] | None = None) -> list[YearlyNarrativePage]:
     grouped: dict[int, list[MonthSnapshot]] = {}
     for snapshot in load_month_snapshots(content_root, years):
@@ -666,12 +689,14 @@ def build_yearly_narrative_pages(content_root: Path, years: Iterable[int] | None
     for year, months in sorted(grouped.items()):
         ordered = sorted(months, key=lambda item: item.month)
         narrative = synthesize_year(ordered)
+        arcs = {family.key: detect_family_arc(ordered, family) for family in TREND_FAMILIES}
+        title = generate_yearly_title(year, arcs)
         pages.append(
             YearlyNarrativePage(
                 year=year,
                 path=content_root / "yearly" / f"{year}.md",
                 frontmatter={
-                    "title": f"{year} Yearly Narrative",
+                    "title": title,
                     "date": ordered[-1].date,
                     "year": year,
                     "categories": ["yearly"],

@@ -22,6 +22,7 @@
 | Calculon | Designer | .squad/agents/calculon/charter.md | 🎨 Active |
 | Scribe | Session Logger | .squad/agents/scribe/charter.md | 📋 Active |
 | Ralph | Work Monitor | .squad/agents/ralph/charter.md | 🔄 Active |
+| Zapp | SEO Specialist | .squad/agents/zapp/charter.md | 📈 Active |
 
 ## Project Context
 

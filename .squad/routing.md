@@ -14,6 +14,7 @@ How to decide who handles what.
 | Code review | Leela | Review PRs, check quality, approve/reject |
 | Security review, threat analysis, vulnerability triage | Hermes | Review PRs for security, triage Dependabot/CodeQL alerts, threat modeling |
 | Prompt injection, AI safety, harmful content, dark-pattern review | Nibbler | Prompt/input-output guardrails, untrusted-content fencing, canary checks, RAI review, accessibility/dark-pattern sweeps |
+| SEO, titles, meta tags, structured data, search optimization | Zapp | Page title quality, meta descriptions, OpenGraph/JSON-LD, heading hierarchy, content discoverability |
 | Testing, QA, validation | Fry | Write tests, validate pipeline, find edge cases |
 | Scope & priorities | Leela | What to build next, trade-offs, decisions |
 | Session logging | Scribe | Automatic — never needs routing |
