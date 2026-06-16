@@ -372,9 +372,9 @@ def render_month_synthesis(synthesis: MonthSynthesis) -> str:
     }
     body = (
         f"## Month Synthesis\n\n{synthesis.narrative}\n\n"
+        f"## Weekly Reports\n\n" + "\n".join(synthesis.weekly_reports) + "\n\n"
         f"## Trend Arc\n\n{synthesis.trend_arc}\n\n"
-        f"## Prediction Review\n\n{synthesis.prediction_review}\n\n"
-        f"## Weekly Reports\n\n" + "\n".join(synthesis.weekly_reports) + "\n"
+        f"## Prediction Review\n\n{synthesis.prediction_review}\n"
     )
     return render_frontmatter(frontmatter) + body
 
