@@ -355,6 +355,15 @@ def monthly_entries(weekly: WeeklySummary, tags_counter: Counter[str]) -> dict[s
     }
 
 
+def _build_monthly_crosslinks(year: int, _month: int, items: list[WeeklySummary]) -> str:
+    """Build navigation cross-links for a monthly page."""
+    links = []
+    links.append(f"[{year} Year in Review](/yearly/{year}/)")
+    for item in items:
+        links.append(f"[{item.week_title}]({item.week_link})")
+    return f"*Part of {links[0]}* · Weekly: {' · '.join(links[1:])}\n"
+
+
 def build_monthly_pages(summaries: list[WeeklySummary], content_root: Path, analyzed_dir: Path) -> list[RollupPage]:
     grouped: dict[tuple[int, int], list[WeeklySummary]] = defaultdict(list)
     for summary in summaries:
@@ -368,7 +377,8 @@ def build_monthly_pages(summaries: list[WeeklySummary], content_root: Path, anal
 
         synthesis = ensure_month_synthesis(items, analyzed_dir)
 
-        synthesis_text = synthesis.narrative
+        crosslinks = _build_monthly_crosslinks(year, month, items)
+        synthesis_text = crosslinks + "\n" + synthesis.narrative
         if synthesis.trend_arc:
             synthesis_text += f"\n\n### Trend Arc\n\n{synthesis.trend_arc}"
         page_entries["Month Synthesis"].append(
