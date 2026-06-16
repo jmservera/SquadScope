@@ -293,6 +293,7 @@ jobs:
       actions: read
       contents: write
       issues: write
+      models: read
     outputs:
       week: ${{ steps.analysis-context.outputs.week }}
       summary_file: ${{ steps.analysis-context.outputs.published_output_file }}
@@ -510,9 +511,9 @@ jobs:
           # Hydrate metrics ledger from publish before writing this run's prompt/preflight artifacts.
           git fetch origin publish 2>/dev/null && \
             git checkout origin/publish -- data/metrics/ 2>/dev/null || true
-          SYNTHESIS_ARG=""
+          SYNTHESIS_ARGS=()
           if [ "${IN_SYNTHESIS_AVAILABLE:-false}" = "true" ] && [ -f "${IN_SYNTHESIS_FILE:-}" ]; then
-            SYNTHESIS_ARG="--synthesis-input $IN_SYNTHESIS_FILE"
+            SYNTHESIS_ARGS=(--synthesis-input "$IN_SYNTHESIS_FILE")
           fi
           python3 scripts/analyze_fallback.py \
             --raw-json "$WEEK_FILE" \
@@ -522,7 +523,7 @@ jobs:
             --prompt-token-budget "${ANALYSIS_PROMPT_TOKEN_BUDGET:-90000}" \
             --preflight-report-json "$PREFLIGHT_JSON" \
             --preflight-report-md "$PREFLIGHT_MD" \
-            $SYNTHESIS_ARG \
+            "${SYNTHESIS_ARGS[@]}" \
             --print-prompt > "$PROMPT_FILE"
           cp "$PREFLIGHT_JSON" "$LEGACY_PREFLIGHT_JSON"
           python3 scripts/preflight_cost_check.py \

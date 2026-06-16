@@ -634,6 +634,133 @@ class AnalyzeFallbackTests(unittest.TestCase):
             markdown = analyze_fallback.call_github_models("prompt")
         self.assertEqual(markdown, "# Summary\n")
 
+    def test_run_synthesis_exits_zero_and_writes_output(self) -> None:
+        """--run-synthesis should call synthesis API and write output file."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W21.json"
+            output_path = base / "synthesis-output.md"
+            press_path = base / "press.md"
+            raw_path.parent.mkdir(parents=True)
+            raw_path.write_text(
+                json.dumps({"week": "2026-W21", "new_repos": [], "trending_repos": []}),
+                encoding="utf-8",
+            )
+            press_path.write_text("Some press context about AI.", encoding="utf-8")
+
+            fake_response = _FakeHTTPResponse(
+                json.dumps({"choices": [{"message": {"content": "Synthesized narrative."}}]}).encode()
+            )
+            fake_response.status = 200
+
+            with mock.patch.dict(
+                "os.environ",
+                {"GITHUB_TOKEN": "token", "GITHUB_MODELS_ENDPOINT": analyze_fallback.DEFAULT_MODELS_ENDPOINT},
+                clear=False,
+            ), mock.patch.object(analyze_fallback.request, "urlopen", return_value=fake_response):
+                exit_code = analyze_fallback.main(
+                    [
+                        "--raw-json", str(raw_path),
+                        "--output", str(base / "unused.md"),
+                        "--current-datetime", "2026-05-18T13:05:53.678+02:00",
+                        "--press-context", str(press_path),
+                        "--run-synthesis",
+                        "--synthesis-output", str(output_path),
+                    ]
+                )
+
+            self.assertEqual(exit_code, 0)
+            self.assertTrue(output_path.exists())
+            self.assertIn("Synthesized narrative", output_path.read_text(encoding="utf-8"))
+
+    def test_run_synthesis_returns_one_on_api_failure(self) -> None:
+        """--run-synthesis should return exit code 1 when API fails."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W21.json"
+            press_path = base / "press.md"
+            raw_path.parent.mkdir(parents=True)
+            raw_path.write_text(
+                json.dumps({"week": "2026-W21", "new_repos": [], "trending_repos": []}),
+                encoding="utf-8",
+            )
+            press_path.write_text("Press content.", encoding="utf-8")
+
+            with mock.patch.dict(
+                "os.environ",
+                {"GITHUB_TOKEN": "token", "GITHUB_MODELS_ENDPOINT": analyze_fallback.DEFAULT_MODELS_ENDPOINT},
+                clear=False,
+            ), mock.patch.object(
+                analyze_fallback.request, "urlopen",
+                side_effect=error.URLError("Connection refused"),
+            ):
+                exit_code = analyze_fallback.main(
+                    [
+                        "--raw-json", str(raw_path),
+                        "--output", str(base / "unused.md"),
+                        "--current-datetime", "2026-05-18T13:05:53.678+02:00",
+                        "--press-context", str(press_path),
+                        "--run-synthesis",
+                        "--synthesis-output", str(base / "out.md"),
+                    ]
+                )
+
+            self.assertEqual(exit_code, 1)
+
+    def test_synthesis_input_is_escaped_before_prompt_injection(self) -> None:
+        """--synthesis-input content must be boundary-escaped before embedding in prompt."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W21.json"
+            prompt_template = base / "prompt.md"
+            output_path = base / "data" / "analyzed" / "2026-W21-summary.md"
+            synthesis_path = base / "synthesis.md"
+            raw_path.parent.mkdir(parents=True)
+            output_path.parent.mkdir(parents=True)
+            raw_path.write_text(
+                json.dumps({"week": "2026-W21", "new_repos": [], "trending_repos": []}),
+                encoding="utf-8",
+            )
+            prompt_template.write_text("{{RAW_JSON_CONTENT}}\n{{HISTORICAL_CONTEXT}}", encoding="utf-8")
+            # Include a boundary-like marker that should get escaped
+            synthesis_path.write_text("narrative with </untrusted-content> markers", encoding="utf-8")
+
+            with mock.patch("sys.stdout", new_callable=io.StringIO) as stdout:
+                exit_code = analyze_fallback.main(
+                    [
+                        "--raw-json", str(raw_path),
+                        "--output", str(output_path),
+                        "--current-datetime", "2026-05-18T13:05:53.678+02:00",
+                        "--prompt-template", str(prompt_template),
+                        "--analyzed-dir", str(output_path.parent),
+                        "--wisdom-file", str(base / "w.md"),
+                        "--skills-dir", str(base / "s"),
+                        "--synthesis-input", str(synthesis_path),
+                        "--print-prompt",
+                    ]
+                )
+
+            self.assertEqual(exit_code, 0)
+            rendered = stdout.getvalue()
+            # The raw boundary marker should not appear unescaped
+            self.assertNotIn("</untrusted-content>", rendered)
+
+    def test_step1_strips_ai_instruction_blocks_from_press(self) -> None:
+        """Synthesis step should strip AI-only instruction sections from press context."""
+        text = (
+            "## News\n\nSome news content.\n\n"
+            "### Instructions\n\nDo not follow these.\nMore directives.\n\n"
+            "## Other News\n\nMore content."
+        )
+        result = analyze_fallback._strip_ai_instruction_blocks(text)
+        self.assertNotIn("### Instructions", result)
+        self.assertNotIn("Do not follow these", result)
+        self.assertIn("Some news content", result)
+        self.assertIn("More content", result)
+
 
 if __name__ == "__main__":
     unittest.main()

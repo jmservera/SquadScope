@@ -755,6 +755,30 @@ def compact_payload(payload: dict[str, Any]) -> tuple[dict[str, Any], dict[str, 
     return compacted, decisions
 
 
+def _strip_ai_instruction_blocks(text: str) -> str:
+    """Remove AI-only instruction sections (### Instructions, directives) from press context.
+
+    These blocks are intended for the main analysis prompt and should not be
+    forwarded into synthesis to reduce prompt-injection surface area.
+    """
+    # Remove markdown sections starting with ### Instructions (case-insensitive)
+    # up to the next same-or-higher-level heading or end of text
+    text = re.sub(
+        r"(?m)^###\s+Instructions?\b.*?(?=^#{1,3}\s|\Z)",
+        "",
+        text,
+        flags=re.DOTALL | re.IGNORECASE,
+    )
+    # Remove divergence directive blocks (commonly marked with special tags)
+    text = re.sub(
+        r"(?m)^<!--\s*(?:ai-only|divergence|directive)\b.*?-->.*?(?:<!--\s*/(?:ai-only|divergence|directive)\s*-->|\Z)",
+        "",
+        text,
+        flags=re.DOTALL | re.IGNORECASE,
+    )
+    return text.strip()
+
+
 def _build_synthesis_prompt(
     *,
     press_content: str,
@@ -802,7 +826,7 @@ def run_synthesis_step(
     current_datetime: str,
     current_week: str,
     previous_summary_path: Path | None = None,
-    prompt_token_budget: int = DEFAULT_PROMPT_TOKEN_BUDGET,
+    prompt_token_budget: int = SYNTHESIS_PROMPT_TOKEN_BUDGET,
     model: str | None = None,
 ) -> str:
     """Execute Step 1: synthesize press/historical context into a compact narrative.
@@ -830,6 +854,14 @@ def run_synthesis_step(
         else ""
     )
 
+    # Strip AI-only instruction blocks from press context before synthesis
+    if press_content:
+        press_content = _strip_ai_instruction_blocks(press_content)
+    # Escape boundary markers in untrusted press content
+    from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+    if press_content:
+        press_content = _escape_untrusted_boundaries(press_content)
+
     # If there's no meaningful content to synthesize, return empty
     if not press_content and historical_context_content.startswith("_No historical context"):
         return ""
@@ -845,9 +877,10 @@ def run_synthesis_step(
     # Check that synthesis prompt is within its own budget
     prompt_tokens = estimate_tokens(prompt)
     if prompt_tokens > SYNTHESIS_PROMPT_TOKEN_BUDGET:
-        # Truncate press content to fit
+        # Truncate press content to fit (clamp to avoid negative index)
         excess_chars = (prompt_tokens - SYNTHESIS_PROMPT_TOKEN_BUDGET) * 4
-        press_content = press_content[: len(press_content) - excess_chars]
+        end_index = max(0, len(press_content) - excess_chars)
+        press_content = press_content[:end_index]
         prompt = _build_synthesis_prompt(
             press_content=press_content,
             historical_context_content=historical_context_content,
@@ -865,6 +898,11 @@ def _call_synthesis_api(prompt: str, *, model: str) -> str:
     if not token:
         raise RuntimeError("GITHUB_TOKEN is required for synthesis step.")
 
+    # Inject canary token for output leak detection
+    from scripts.canary_token import generate_canary, inject_canary
+    canary = generate_canary()
+    prompt = inject_canary(prompt, canary)
+
     endpoint = os.environ.get("GITHUB_MODELS_ENDPOINT", DEFAULT_MODELS_ENDPOINT)
     validate_https_url(endpoint, label="GitHub Models endpoint", allowed_hosts=ALLOWED_MODELS_HOSTS)
     timeout = int(os.environ.get("GITHUB_MODELS_TIMEOUT", str(DEFAULT_MODELS_TIMEOUT)))
@@ -872,7 +910,7 @@ def _call_synthesis_api(prompt: str, *, model: str) -> str:
         "model": model,
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.2,
-        "max_tokens": SYNTHESIS_MAX_TOKENS * 2,  # Allow some headroom
+        "max_tokens": SYNTHESIS_MAX_TOKENS,  # Cap at documented 2K
     }
     body = json.dumps(payload).encode("utf-8")
 
@@ -891,14 +929,32 @@ def _call_synthesis_api(prompt: str, *, model: str) -> str:
         try:
             with request.urlopen(req, timeout=timeout) as response:  # nosec B310
                 response_payload = json.load(response)
-            return extract_markdown(response_payload)
+            markdown = extract_markdown(response_payload)
+            # Validate output for canary leak and injection artifacts
+            violations = validate_output_safety(markdown, canary)
+            if violations:
+                msg = f"Output safety violations detected: {'; '.join(violations)}"
+                canary_leaked = any("Canary token leaked" in v for v in violations)
+                if canary_leaked:
+                    raise RuntimeError(f"BLOCKED: {msg}")
+                print(f"::warning::{msg}", file=sys.stderr)
+            return markdown
         except error.HTTPError as exc:
             if exc.code not in RETRYABLE_STATUS_CODES or attempt == MAX_RETRIES:
                 detail = exc.read().decode("utf-8", errors="replace")
                 raise RuntimeError(
                     f"Synthesis API request failed ({exc.code}): {detail}"
                 ) from exc
-            delay = BASE_DELAY ** (attempt + 1) + _JITTER_RANDOM.uniform(0, 1)
+            # Respect Retry-After header on 429
+            retry_after = None
+            if exc.code == 429:
+                retry_after_header = exc.headers.get("Retry-After") if exc.headers else None
+                if retry_after_header:
+                    try:
+                        retry_after = float(retry_after_header)
+                    except (ValueError, TypeError):
+                        pass
+            delay = retry_after if retry_after else BASE_DELAY ** (attempt + 1) + _JITTER_RANDOM.uniform(0, 1)
             print(
                 f"[retry] Synthesis API returned {exc.code}, "
                 f"retrying in {delay:.1f}s (attempt {attempt + 1}/{MAX_RETRIES})",
@@ -1729,6 +1785,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.synthesis_input and args.synthesis_input.exists() and args.synthesis_input.stat().st_size > 0:
         synthesis_narrative = args.synthesis_input.read_text(encoding="utf-8").strip()
         if synthesis_narrative:
+            # Escape boundary markers — synthesis output is untrusted LLM content
+            from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+            synthesis_narrative = _escape_untrusted_boundaries(synthesis_narrative)
             print(
                 f"::notice::Using synthesis narrative ({estimate_tokens(synthesis_narrative)} tokens) from {args.synthesis_input}",
                 file=sys.stderr,
