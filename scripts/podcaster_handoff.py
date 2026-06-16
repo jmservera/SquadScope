@@ -5,6 +5,7 @@ import argparse
 import json
 import os
 import re
+from datetime import date
 from pathlib import Path
 from typing import Any
 from urllib import error, request
@@ -18,6 +19,8 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 MAX_ARTICLE_CONTENT_CHARS = 50_000
 MAX_SPOTIFY_TITLE_CHARS = 200
 MAX_SPOTIFY_DESCRIPTION_CHARS = 4_000
+MAX_MONTH_SYNTHESIS_WORDS = 300
+MAX_YEARLY_NARRATIVE_WORDS = 500
 
 
 class PodcasterHandoffError(RuntimeError):
@@ -255,6 +258,85 @@ def _truncate_text(value: str, limit: int) -> str:
     return value[:limit]
 
 
+def _truncate_words(value: str, limit: int) -> str:
+    words = value.split()
+    return " ".join(words[:limit])
+
+
+def _strip_frontmatter(content: str) -> str:
+    if not content.startswith("---"):
+        return content.strip()
+    end = content.find("\n---", 3)
+    if end == -1:
+        return content.strip()
+    return content[end + 4 :].strip()
+
+
+def _extract_markdown_sections(content: str, headings: tuple[str, ...]) -> str | None:
+    body = _strip_frontmatter(content)
+    sections: list[str] = []
+    for heading in headings:
+        match = re.search(
+            rf"^##\s+{re.escape(heading)}\s*$\n?(.*?)(?=^##\s+|\Z)",
+            body,
+            re.MULTILINE | re.DOTALL,
+        )
+        if not match:
+            continue
+        section_body = match.group(1).strip()
+        section = f"## {heading}"
+        if section_body:
+            section += f"\n\n{section_body}"
+        sections.append(section)
+    combined = "\n\n".join(sections).strip()
+    return combined or None
+
+
+def _read_historical_context(week: str, repo_root: Path) -> dict[str, str] | None:
+    match = re.fullmatch(r"(?P<year>\d{4})-W(?P<week>\d{1,2})", week)
+    if not match:
+        raise PodcasterHandoffError(f"Week must use YYYY-WNN format for historical context lookup: {week}")
+
+    year = int(match.group("year"))
+    week_number = int(match.group("week"))
+    monday = date.fromisocalendar(year, week_number, 1)
+
+    month_synthesis_path = repo_root / "data" / "analyzed" / f"{year}-{monday.month:02d}-month-synthesis.md"
+    yearly_narrative_path = repo_root / "content" / "yearly" / f"{year}.md"
+
+    historical_context: dict[str, str] = {}
+
+    if month_synthesis_path.exists():
+        try:
+            month_synthesis = month_synthesis_path.read_text(encoding="utf-8")
+        except OSError as exc:
+            raise PodcasterHandoffError(
+                f"Month synthesis file exists but could not be read: {month_synthesis_path} ({exc})"
+            ) from exc
+        extracted_sections = _extract_markdown_sections(month_synthesis, ("Month Synthesis", "Trend Arc"))
+        if extracted_sections:
+            historical_context["month_synthesis"] = _truncate_words(
+                extracted_sections,
+                MAX_MONTH_SYNTHESIS_WORDS,
+            )
+
+    if yearly_narrative_path.exists():
+        try:
+            yearly_narrative = yearly_narrative_path.read_text(encoding="utf-8")
+        except OSError as exc:
+            raise PodcasterHandoffError(
+                f"Yearly narrative file exists but could not be read: {yearly_narrative_path} ({exc})"
+            ) from exc
+        extracted_yearly = _extract_markdown_sections(yearly_narrative, ("Year in Review",))
+        if extracted_yearly:
+            historical_context["yearly_narrative"] = _truncate_words(
+                extracted_yearly,
+                MAX_YEARLY_NARRATIVE_WORDS,
+            )
+
+    return historical_context or None
+
+
 def _resolve_spotify_publish(config: dict[str, Any], *, week: str, article_title: str | None, article_summary: str | None) -> dict[str, Any]:
     """Render spotify_publish templates into concrete values for the Podcaster API.
 
@@ -391,6 +473,11 @@ def build_payload(
         if not isinstance(val, dict):
             raise PodcasterHandoffError("script_directions must be a JSON object")
         payload["script_directions"] = val
+    historical_context = _read_historical_context(week, root)
+    if historical_context:
+        if "script_directions" not in payload:
+            payload["script_directions"] = {}
+        payload["script_directions"]["historical_context"] = historical_context
     if "spotify_publish" in podcast_cfg:
         val = podcast_cfg["spotify_publish"]
         if not isinstance(val, dict):
