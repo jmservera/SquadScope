@@ -490,6 +490,82 @@ The strongest thread was a shift from raw capability talk toward packaging, trus
         self.assertEqual(velocity["old-tag"], "dying")
         self.assertIn(velocity["new-thing"], ("accelerating", "new"))
 
+    def test_extract_summary_in_yearly_frontmatter(self) -> None:
+        """Yearly pages must include a summary field in frontmatter."""
+        with temporary_workspace() as tmpdir:
+            base = Path(tmpdir)
+            analyzed_dir = base / "data" / "analyzed"
+            content_root = base / "content"
+            analyzed_dir.mkdir(parents=True)
+
+            (analyzed_dir / "2026-W21-summary.md").write_text(
+                make_summary(
+                    week="2026-W21",
+                    date="2026-05-18T12:07:20+00:00",
+                    top_repo="octo/signal-kit",
+                    summary="Practical agent tooling led the week.",
+                    signal="Teams preferred operational automation over generic hype.",
+                    noise="Exploit-heavy projects still added editorial noise.",
+                    gaps="Reliable momentum data remained missing.",
+                    conclusion="The strongest projects made automation safer to adopt.",
+                ),
+                encoding="utf-8",
+            )
+
+            generate_rollups.generate_rollups(analyzed_dir, content_root)
+            yearly_path = content_root / "yearly" / "2026.md"
+            yearly = yearly_path.read_text(encoding="utf-8")
+            self.assertIn("summary:", yearly)
+            # Extract summary value and verify length constraint
+            for line in yearly.splitlines():
+                if line.strip().startswith("summary:"):
+                    summary_value = line.split(":", 1)[1].strip().strip('"')
+                    self.assertLessEqual(len(summary_value), 155)
+                    break
+            else:
+                self.fail("summary field not found in yearly frontmatter")
+
+
+class ExtractSummaryTests(unittest.TestCase):
+    def test_short_sentence_returned_as_is(self) -> None:
+        result = generate_yearly_narrative._extract_summary("Short sentence.")
+        self.assertEqual(result, "Short sentence.")
+
+    def test_exclamation_mark_terminates_sentence(self) -> None:
+        result = generate_yearly_narrative._extract_summary("Wow! More text follows here.")
+        self.assertEqual(result, "Wow!")
+
+    def test_question_mark_terminates_sentence(self) -> None:
+        result = generate_yearly_narrative._extract_summary("Why not? The rest is irrelevant.")
+        self.assertEqual(result, "Why not?")
+
+    def test_truncation_respects_max_length(self) -> None:
+        long = "A" * 200 + "."
+        result = generate_yearly_narrative._extract_summary(long, max_length=50)
+        self.assertLessEqual(len(result), 50)
+        self.assertTrue(result.endswith("…"))
+
+    def test_truncation_at_word_boundary(self) -> None:
+        sentence = "This is a moderately long sentence that should be truncated at a word boundary when it exceeds the maximum allowed length for meta descriptions."
+        result = generate_yearly_narrative._extract_summary(sentence, max_length=60)
+        self.assertLessEqual(len(result), 60)
+        self.assertTrue(result.endswith("…"))
+        self.assertFalse(result[-2].isspace())
+
+    def test_leading_whitespace_stripped(self) -> None:
+        result = generate_yearly_narrative._extract_summary("  Leading spaces. More text.")
+        self.assertEqual(result, "Leading spaces.")
+
+    def test_fallback_when_no_sentence_terminator(self) -> None:
+        result = generate_yearly_narrative._extract_summary("No punctuation at all")
+        self.assertEqual(result, "No punctuation at all")
+
+    def test_fallback_truncation_for_long_text_without_terminator(self) -> None:
+        long = "word " * 50
+        result = generate_yearly_narrative._extract_summary(long, max_length=30)
+        self.assertLessEqual(len(result), 30)
+        self.assertTrue(result.endswith("…"))
+
 
 if __name__ == "__main__":
     unittest.main()

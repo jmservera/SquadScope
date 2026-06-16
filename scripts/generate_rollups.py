@@ -355,7 +355,7 @@ def monthly_entries(weekly: WeeklySummary, tags_counter: Counter[str]) -> dict[s
     }
 
 
-def _build_monthly_crosslinks(year: int, month: int, items: list[WeeklySummary]) -> str:
+def _build_monthly_crosslinks(year: int, _month: int, items: list[WeeklySummary]) -> str:
     """Build navigation cross-links for a monthly page."""
     links = []
     links.append(f"[{year} Year in Review](/yearly/{year}/)")
