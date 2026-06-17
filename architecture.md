@@ -34,7 +34,7 @@ SquadScope, publicly branded as **Claracle**, is an AI-powered GitHub trend obse
    Two-step Copilot CLI analysis using dedicated agents (both gpt-5.5):
    - *Weekly Synthesis* agent produces a compact industry narrative from press/historical context
    - *Weekly Analysis* agent consumes the synthesis plus raw data to generate `data/analyzed/YYYY-WNN-summary.md`
-   - Additional outputs: `YYYY-WNN-correlations.json`, `YYYY-WNN-press-context.md`
+   - Additional outputs: `data/analyzed/YYYY-WNN-correlations.json`, `data/analyzed/YYYY-WNN-press-context.md`
 3. **Generate**  
    The analyzed summary is transformed into Hugo content at `content/weekly/YYYY/WNN.md`.
 4. **Deploy**  
