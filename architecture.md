@@ -11,7 +11,7 @@ SquadScope, publicly branded as **Claracle**, is an AI-powered GitHub trend obse
 - **Python** scripts for crawl, analysis prep, content generation, publishing, and handoff automation
 - **GitHub Actions** for orchestration
 - **GitHub Pages** for hosting
-- **GitHub Copilot CLI** for AI analysis and reskill work
+- **GitHub Copilot CLI** for AI analysis (two-step: `weekly-synthesis` → `weekly-analysis`, both gpt-5.5) and reskill work
 - **No OpenAI / GitHub Models fallback** for weekly analysis
 
 ## Directory Structure
@@ -31,7 +31,10 @@ SquadScope, publicly branded as **Claracle**, is an AI-powered GitHub trend obse
 1. **Crawl**  
    GitHub API data is written to `data/raw/YYYY-WNN.json`, and external RSS/news enrichment is written to `data/raw/YYYY-WNN-external-news.json`.
 2. **Analyze**  
-   Copilot CLI consumes raw artifacts and produces `data/analyzed/YYYY-WNN-summary.md`.
+   Two-step Copilot CLI analysis using dedicated agents (both gpt-5.5):
+   - *Weekly Synthesis* agent produces a compact industry narrative from press/historical context
+   - *Weekly Analysis* agent consumes the synthesis plus raw data to generate `data/analyzed/YYYY-WNN-summary.md`
+   - Additional outputs: `data/analyzed/YYYY-WNN-correlations.json`, `data/analyzed/YYYY-WNN-press-context.md`
 3. **Generate**  
    The analyzed summary is transformed into Hugo content at `content/weekly/YYYY/WNN.md`.
 4. **Deploy**  

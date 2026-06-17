@@ -1,4 +1,14 @@
 #!/usr/bin/env python3
+"""Generate yearly narrative pages from monthly rollup content.
+
+Reads monthly pages (content/monthly/YYYY/MM.md), detects trend-family arcs
+across months, and synthesizes a cohesive year-in-review narrative. Output
+includes:
+- SEO-friendly editorial titles (max 70 chars) driven by detected arcs
+- Meta description summaries (≤155 chars) extracted from narrative opening
+- Cross-links to each contributing monthly report
+- Structured frontmatter: months_covered, format, summary, categories
+"""
 from __future__ import annotations
 
 import argparse

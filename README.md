@@ -32,9 +32,12 @@ JSON    Markdown   Hugo      Pages    Improvements
 - Applies heuristic filtering (language, topic, description quality)
 - Outputs: `data/raw/YYYY-WNN.json`, `data/raw/YYYY-WNN-external-news.json`, `data/snapshots/YYYY-WNN-stars.json`
 
-**Stage 2: Analyze** (Copilot CLI only)
-- Reads raw JSON; applies AI analysis to classify repos as signal/noise/gaps
-- Outputs: `data/analyzed/YYYY-WNN-summary.md` with quality score and summary sections
+**Stage 2: Analyze** (Copilot CLI agents, gpt-5.5)
+- Two-step AI analysis using dedicated Copilot CLI agents configured in `.github/agents/`:
+  1. **Weekly Synthesis** (`weekly-synthesis`) — generates a compact industry narrative (~2 000 tokens) from press context and historical signals
+  2. **Weekly Analysis** (`weekly-analysis`) — consumes the synthesis plus raw crawl data to produce the full editorial with signal/noise/gaps classification
+- Both agents use gpt-5.5 (configured in agent frontmatter) with only `read`/`write` tools
+- Outputs: `data/analyzed/YYYY-WNN-summary.md` with quality score, `data/analyzed/YYYY-WNN-correlations.json`, `data/analyzed/YYYY-WNN-press-context.md`
 - Quality gate: Blocks publish if quality_score < 60 or missing required sections
 
 **Stage 3: Generate** (`scripts/generate_content.py`)
@@ -58,7 +61,7 @@ JSON    Markdown   Hugo      Pages    Improvements
 - **Notifications:** RSS feeds + GitHub Releases
 - **Automation:** GitHub Actions
 - **Deployment:** GitHub Pages
-- **Analysis engine:** Copilot CLI only; no GitHub Models/OpenAI analysis fallback
+- **Analysis engine:** Copilot CLI agents (`weekly-synthesis`, `weekly-analysis`) using gpt-5.5; no GitHub Models/OpenAI fallback
 
 ## Quick start
 
@@ -92,8 +95,8 @@ JSON    Markdown   Hugo      Pages    Improvements
 ## Content structure
 
 - `content/weekly/YYYY/WNN.md` — immutable weekly summaries (published once, never modified)
-- `content/monthly/YYYY/MM.md` — monthly rollups (append-only)
-- `content/yearly/YYYY.md` — yearly summaries (append-only)
+- `content/monthly/YYYY/MM.md` — monthly rollups with synthesis narrative, SEO editorial titles (max 70 chars), cross-links to weekly/yearly pages, trend-arc sections, and structured frontmatter (themes, gaps, repos)
+- `content/yearly/YYYY.md` — yearly narrative summaries with SEO titles, ≤155-char meta descriptions, and cross-links to monthly pages
 - `data/raw/YYYY-WNN.json` — GitHub crawler output (JSON object with keys: `week`, `new_repos`, `trending_repos`, `signals`, `metadata`)
 - `data/raw/YYYY-WNN-external-news.json` — external RSS enrichment output from sources configured in `config/external_news_sources.json`
 - `data/analyzed/YYYY-WNN-summary.md` — AI analysis with quality score

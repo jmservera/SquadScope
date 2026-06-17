@@ -1,4 +1,16 @@
 #!/usr/bin/env python3
+"""Generate append-only monthly and yearly rollup pages from weekly analyses.
+
+Monthly pages include:
+- Month Synthesis section with cross-links to weekly and yearly pages
+- SEO-friendly editorial titles (max 70 chars) derived from theme trajectories
+- Structured frontmatter: summary, themes, persistent/accelerating/weakening themes,
+  key_gaps, top_repos, weeks_covered
+- Per-week entries for overview, top repos, trends, and key takeaways
+
+Yearly pages are delegated to generate_yearly_narrative.build_yearly_narrative_pages().
+A rolling 4-week context report can also be generated with --rolling.
+"""
 from __future__ import annotations
 
 import argparse
