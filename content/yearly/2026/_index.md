@@ -1,0 +1,21 @@
+---
+title: "When Agents Became Infrastructure — 2026 So Far"
+date: "2026-06-16T21:54:15+00:00"
+year: 2026
+categories: ["yearly"]
+months_covered: ["2026-05", "2026-06"]
+format: "narrative"
+summary: "2026 has mainly been the year agent tooling stopped looking experimental and started behaving like infrastructure."
+---
+
+## Year in Review
+
+**Monthly reports:** [May](/monthly/2026/05/) · [June](/monthly/2026/06/)
+
+2026 has mainly been the year agent tooling stopped looking experimental and started behaving like infrastructure. The ecosystem moved faster on capability than on trust. From May through June, the important change was not a parade of isolated repositories but the way a few categories kept hardening: agent skills as a real distribution layer, local and self-hosted execution as a durable buyer priority, and agent security as the main unresolved infrastructure gap. The year so far reads less like a sequence of weekly surprises and more like an ecosystem choosing its operating model.
+
+The monthly progression is clear: May set the initial tone when May 2026 reads less like three isolated weekly spikes and more like one continuous adjustment in priorities. The month opened with Week 21 shows real demand for agent infrastructure, but the trend data still lacks the baseline needed to separate…; June pushed the story further when June 2026 reads less like three isolated weekly spikes and more like one continuous adjustment in priorities. The month opened with Week 23 amplifies two W22 trends — agent memory infrastructure and skills verticalization — while a suspicious 56k-star self-hosted…. Taken together, those shifts show a market moving from experimentation toward packaging, distribution, and operating discipline. Even when the surface story changes from one month to the next, the deeper motion is cumulative rather than episodic.
+
+The category that hardened fastest was agent skills: what began as infrastructure and workflow plumbing started behaving like a market, then spread into more specific geographies, languages, and job-shaped use cases. Self-hosted and local-first tooling also matured from a cost or billing workaround into a control story about sovereignty, reliability, and execution on hardware teams already own. The prediction that capability would outrun trust was confirmed every month, because nothing in the visible tooling stack closed the gaps around agent isolation, prompt injection defense, or skills supply-chain auditing.
+
+What was confirmed: skills did globalize, skills also verticalized quickly, local and self-hosted AI kept becoming a category rather than a workaround, and the trust and security gap remained open. What weakened: the idea that trust tooling would catch up on its own and the simpler thesis that one general-purpose agent workflow would dominate everything. That leaves the main story of the year intact: builders are getting more serious about packaging and operating agents, while the trust, filtering, and governance layers remain conspicuously behind.
