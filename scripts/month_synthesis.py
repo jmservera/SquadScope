@@ -5,7 +5,7 @@ artifact with:
 - Structured frontmatter: title, summary, themes, persistent/accelerating/weakening
   themes, key_gaps, top_repos, source_checksum, weeks_covered
 - Body sections: Month Synthesis (narrative), Weekly Reports (cross-linked list),
-  Trend Arc (persistent/accelerating/weakened theme bullets), Prediction Review
+  Trend Arc (persistent/accelerating/weakening theme bullets), Prediction Review
 - Summary field (≤28 words) suitable for SEO meta descriptions
 - Source checksum for idempotent regeneration (skips if input unchanged)
 """
