@@ -37,7 +37,7 @@ JSON    Markdown   Hugo      Pages    Improvements
   1. **Weekly Synthesis** (`weekly-synthesis`) — generates a compact industry narrative (~2 000 tokens) from press context and historical signals
   2. **Weekly Analysis** (`weekly-analysis`) — consumes the synthesis plus raw crawl data to produce the full editorial with signal/noise/gaps classification
 - Both agents use gpt-5.5 (configured in agent frontmatter) with only `read`/`write` tools
-- Outputs: `data/analyzed/YYYY-WNN-summary.md` with quality score, `data/analyzed/YYYY-WNN-correlations.json`, `data/analyzed/YYYY-WNN-press-context.md`
+- Outputs: `data/analyzed/YYYY-WNN-summary.md` with quality score, `YYYY-WNN-correlations.json`, `YYYY-WNN-press-context.md`
 - Quality gate: Blocks publish if quality_score < 60 or missing required sections
 
 **Stage 3: Generate** (`scripts/generate_content.py`)
