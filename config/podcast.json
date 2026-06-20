@@ -64,6 +64,7 @@
     "description_template": "<p>{article_summary}</p><p>Claracle is your tech weekly for developer trends, AI news, GitHub insights, and software engineering trends—helping you understand what matters and why.</p><p>Read more at <a href=\"https://claracle.com\" target=\"_blank\" rel=\"ugc noopener noreferrer\">Claracle</a></p><p><br /></p><p>Intro and Outro: Summer Sport by AudioCoffee | https://www.audiocoffee.net/ Music promoted by https://www.chosic.com/free-music/all/ Creative Commons CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0/</p>",
     "season_number": "{year}",
     "episode_number": "{week}",
-    "publish_mode": "draft"
+    "publish_mode": "draft",
+    "upload_format": "wav"
   }
 }

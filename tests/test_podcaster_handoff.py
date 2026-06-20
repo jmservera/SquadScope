@@ -3,6 +3,7 @@ import json
 import sys
 import tempfile
 import unittest
+from html.parser import HTMLParser
 from pathlib import Path
 from unittest import mock
 from urllib import error
@@ -22,6 +23,40 @@ class _FakeHTTPResponse(io.BytesIO):
 
     def getcode(self):
         return self.status
+
+
+class _BalancedHtmlParser(HTMLParser):
+    _void_tags = {
+        "area",
+        "base",
+        "br",
+        "col",
+        "embed",
+        "hr",
+        "img",
+        "input",
+        "link",
+        "meta",
+        "param",
+        "source",
+        "track",
+        "wbr",
+    }
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=False)
+        self.stack: list[str] = []
+        self.errors: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs) -> None:  # type: ignore[override]
+        if tag not in self._void_tags:
+            self.stack.append(tag)
+
+    def handle_endtag(self, tag: str) -> None:  # type: ignore[override]
+        if not self.stack or self.stack[-1] != tag:
+            self.errors.append(tag)
+            return
+        self.stack.pop()
 
 
 class PodcasterHandoffTests(unittest.TestCase):
@@ -437,6 +472,7 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertIn("music_mix", sent_payload["script_directions"])
         self.assertIn("spotify_publish", sent_payload)
         self.assertEqual(sent_payload["spotify_publish"]["publish_mode"], "draft")
+        self.assertEqual(sent_payload["spotify_publish"]["upload_format"], "wav")
         self.assertIsInstance(sent_payload["spotify_publish"]["season_number"], int)
         self.assertIsInstance(sent_payload["spotify_publish"]["episode_number"], int)
         self.assertNotIn("super-secret-value", stdout.getvalue())
@@ -693,8 +729,37 @@ class PodcasterHandoffTests(unittest.TestCase):
         desc = payload["spotify_publish"]["description"]
         self.assertLessEqual(len(desc), 4000)
         self.assertTrue(desc.startswith("<p>"))
-        # Verify HTML is properly closed after truncation
-        self.assertTrue(desc.endswith("</p>"), "Truncated description must end with a closed tag")
+        parser = _BalancedHtmlParser()
+        parser.feed(desc)
+        parser.close()
+        self.assertEqual(parser.errors, [])
+        self.assertEqual(parser.stack, [])
+
+    def test_truncate_html_drops_partial_trailing_tag(self) -> None:
+        html = "<p>" + ("x" * 3988) + '<a href="https://example.com/really/long/link">link</a></p>'
+        truncated = podcaster_handoff.truncate_html(html, podcaster_handoff.MAX_SPOTIFY_DESCRIPTION_CHARS)
+
+        parser = _BalancedHtmlParser()
+        parser.feed(truncated)
+        parser.close()
+
+        self.assertLessEqual(len(truncated), podcaster_handoff.MAX_SPOTIFY_DESCRIPTION_CHARS)
+        self.assertTrue(truncated.endswith("</p>"))
+        self.assertNotIn("<a href", truncated)
+        self.assertEqual(parser.errors, [])
+        self.assertEqual(parser.stack, [])
+
+    def test_truncate_html_entity_ref_atomic(self) -> None:
+        self.assertEqual(podcaster_handoff.truncate_html("<p>&amp;z</p>", 11), "<p></p>")
+        self.assertEqual(podcaster_handoff.truncate_html("<p>&amp;z</p>", 12), "<p>&amp;</p>")
+
+    def test_truncate_html_charref_atomic(self) -> None:
+        self.assertEqual(podcaster_handoff.truncate_html("<p>&#169;z</p>", 12), "<p></p>")
+        self.assertEqual(podcaster_handoff.truncate_html("<p>&#169;z</p>", 13), "<p>&#169;</p>")
+
+    def test_truncate_html_comment_atomic(self) -> None:
+        self.assertEqual(podcaster_handoff.truncate_html("<p><!--ok-->z</p>", 15), "<p></p>")
+        self.assertEqual(podcaster_handoff.truncate_html("<p><!--ok-->z</p>", 16), "<p><!--ok--></p>")
 
     def test_render_template_value_raises_on_malformed_format_string(self) -> None:
         context = {"year": 2026, "week": 24}

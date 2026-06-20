@@ -6,6 +6,7 @@ import json
 import os
 import re
 from datetime import date
+from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
 from urllib import error, request
@@ -21,6 +22,9 @@ MAX_SPOTIFY_TITLE_CHARS = 200
 MAX_SPOTIFY_DESCRIPTION_CHARS = 4_000
 MAX_MONTH_SYNTHESIS_WORDS = 300
 MAX_YEARLY_NARRATIVE_WORDS = 500
+_VOID_HTML_TAGS = frozenset(
+    {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}
+)
 
 
 class PodcasterHandoffError(RuntimeError):
@@ -228,30 +232,110 @@ def _render_template_value(value: Any, context: dict[str, Any]) -> Any:
         raise PodcasterHandoffError(f"spotify_publish template has invalid format syntax: {value!r}") from exc
 
 
-def _truncate_html(value: str, limit: int) -> str:
-    """Truncate HTML to *limit* chars while keeping tags properly closed."""
+class _HTMLTruncator(HTMLParser):
+    def __init__(self, max_length: int) -> None:
+        super().__init__(convert_charrefs=False)
+        self.max_length = max_length
+        self.parts: list[str] = []
+        self.open_tags: list[str] = []
+        self.current_length = 0
+        self.truncated = False
+
+    def handle_starttag(self, tag: str, attrs) -> None:  # type: ignore[override]
+        self._append_tag(self.get_starttag_text(), tag, push=True)
+
+    def handle_startendtag(self, tag: str, attrs) -> None:  # type: ignore[override]
+        self._append_tag(self.get_starttag_text(), tag, push=False)
+
+    def handle_endtag(self, tag: str) -> None:  # type: ignore[override]
+        normalized = tag.lower()
+        if self.truncated or normalized not in self.open_tags:
+            return
+
+        closings: list[str] = []
+        while self.open_tags:
+            open_tag = self.open_tags.pop()
+            closings.append(f"</{open_tag}>")
+            if open_tag == normalized:
+                break
+
+        for closing in closings:
+            self._append(closing)
+
+    def handle_data(self, data: str) -> None:
+        self._append_text(data)
+
+    def handle_entityref(self, name: str) -> None:
+        self._append_atomic(f"&{name};")
+
+    def handle_charref(self, name: str) -> None:
+        self._append_atomic(f"&#{name};")
+
+    def handle_comment(self, data: str) -> None:
+        self._append_atomic(f"<!--{data}-->")
+
+    def _append_tag(self, raw_tag: str | None, tag: str, *, push: bool) -> None:
+        if self.truncated or not raw_tag:
+            return
+
+        normalized = tag.lower()
+        budget = self._closing_budget(extra_tag=normalized if push else None)
+        if self.current_length + len(raw_tag) + budget > self.max_length:
+            self.truncated = True
+            return
+
+        self._append(raw_tag)
+        if push and normalized not in _VOID_HTML_TAGS:
+            self.open_tags.append(normalized)
+
+    def _append_atomic(self, token: str) -> None:
+        if self.truncated or not token:
+            return
+        available = self.max_length - self.current_length - self._closing_budget()
+        if len(token) > available:
+            self.truncated = True
+            return
+        self._append(token)
+
+    def _append_text(self, text: str) -> None:
+        if self.truncated or not text:
+            return
+
+        available = self.max_length - self.current_length - self._closing_budget()
+        if available <= 0:
+            self.truncated = True
+            return
+
+        piece = text[:available]
+        if piece:
+            self._append(piece)
+        if len(piece) < len(text):
+            self.truncated = True
+
+    def _closing_budget(self, *, extra_tag: str | None = None) -> int:
+        budget = sum(len(f"</{tag}>") for tag in self.open_tags)
+        if extra_tag and extra_tag not in _VOID_HTML_TAGS:
+            budget += len(f"</{extra_tag}>")
+        return budget
+
+    def _append(self, text: str) -> None:
+        self.parts.append(text)
+        self.current_length += len(text)
+
+    def finish(self) -> str:
+        for tag in reversed(self.open_tags):
+            self._append(f"</{tag}>")
+        return "".join(self.parts)
+
+
+def truncate_html(value: str, limit: int) -> str:
     if len(value) <= limit:
         return value
-    # Reserve space for potential closing tags; iteratively find a safe cut point
-    truncated = value[:limit]
-    # Remove any partial tag at the end
-    truncated = re.sub(r"<[^>]*$", "", truncated)
-    # Compute needed closing tags
-    while True:
-        open_tags: list[str] = []
-        for m in re.finditer(r"<(/?)(\w+)[^>]*>", truncated):
-            if m.group(1):  # closing tag
-                if open_tags and open_tags[-1] == m.group(2):
-                    open_tags.pop()
-            else:
-                if m.group(2).lower() not in ("br", "hr", "img", "input", "meta", "link"):
-                    open_tags.append(m.group(2))
-        suffix = "".join(f"</{tag}>" for tag in reversed(open_tags))
-        if len(truncated) + len(suffix) <= limit:
-            return truncated + suffix
-        # Shrink content to make room for closing tags
-        truncated = truncated[: limit - len(suffix)]
-        truncated = re.sub(r"<[^>]*$", "", truncated)
+
+    truncator = _HTMLTruncator(limit)
+    truncator.feed(value)
+    truncator.close()
+    return truncator.finish()
 
 
 def _truncate_text(value: str, limit: int) -> str:
@@ -361,7 +445,7 @@ def _resolve_spotify_publish(config: dict[str, Any], *, week: str, article_title
         resolved["title"] = title
     description = resolved.pop("description_template", None)
     if isinstance(description, str):
-        resolved["description"] = _truncate_html(description, MAX_SPOTIFY_DESCRIPTION_CHARS)
+        resolved["description"] = truncate_html(description, MAX_SPOTIFY_DESCRIPTION_CHARS)
     elif description is not None:
         resolved["description"] = description
     return resolved
