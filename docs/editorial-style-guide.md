@@ -32,13 +32,14 @@ Every episode follows this structure exactly:
 
 | # | Segment | Duration | Purpose |
 |---|---------|----------|---------|
-| 1 | **Cold Open** | ~30s | One provocative stat or question from this week's data |
-| 2 | **The Signal** | 2–3 min | Top 2–3 signal picks from the article: what's real and why |
-| 3 | **The Noise Check** | 2–3 min | 2–3 noise calls: what's overhyped and why the data disagrees |
-| 4 | **The Gap** | 1–2 min | 1–2 missing themes the article flagged — what's underserved |
-| 5 | **Receipts Round** | 1–2 min | Check last week's predictions against this week's reality |
-| 6 | **Week Ahead** | ~1 min | 2–3 things to watch next week based on current trajectories |
-| 7 | **Outro** | ~30s | Corrections link, source article link, AI disclosure reminder |
+| 1 | **Show Intro** | ~10s | One-line show description, spoken before the cold open |
+| 2 | **Cold Open** | ~30s | One provocative stat or question from this week's data |
+| 3 | **The Signal** | 2–3 min | Top 2–3 signal picks from the article: what's real and why |
+| 4 | **The Noise Check** | 2–3 min | 2–3 noise calls: what's overhyped and why the data disagrees |
+| 5 | **The Gap** | 1–2 min | 1–2 missing themes the article flagged — what's underserved |
+| 6 | **Receipts Round** | 1–2 min | Check last week's predictions against this week's reality |
+| 7 | **Week Ahead** | ~1 min | 2–3 things to watch next week based on current trajectories |
+| 8 | **Outro** | ~30s | Corrections link, source article link, AI disclosure reminder |
 
 Segments must not be reordered, merged, or skipped. If a segment has nothing to report (e.g., first episode has no receipts), say so explicitly and move on.
 
@@ -157,6 +158,10 @@ word_count: [actual count]
 ai_generated: true
 ---
 
+## Show Intro
+
+[HOST A]: ...
+
 ## Cold Open
 
 [HOST A]: ...
@@ -213,7 +218,7 @@ Before any script is approved for TTS or publication:
 - [ ] All substantive claims trace to claim ledger
 - [ ] No prohibited content (§5.2) present
 - [ ] Word count within the 1,100–1,800 hard range (targeting 1,200–1,700)
-- [ ] All 7 segments present in correct order
+- [ ] All 8 segments present in correct order
 - [ ] No real-person mimicry in host dialogue
 - [ ] Show notes include all required links
 - [ ] Corrections path referenced
