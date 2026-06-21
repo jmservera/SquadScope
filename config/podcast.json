@@ -16,7 +16,13 @@
         "voice": "alloy",
         "style": "Bright and energetic, british accent. Leads with enthusiasm, connects themes with forward momentum. Presents signal picks with clarity and genuine curiosity."
       }
-    ]
+    ],
+    "dog_logo": {
+      "url": "https://raw.githubusercontent.com/jmservera/SquadScope/main/assets/images/claracle.jpeg",
+      "position": "top-right",
+      "size": 80,
+      "opacity": 0.3
+    }
   },
   "script_directions": {
     "opening_cues": {
