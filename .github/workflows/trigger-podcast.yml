@@ -112,8 +112,12 @@ jobs:
             exit 1
           fi
           if [ ! -f "$ARTICLE_PATH" ]; then
-            echo "::error::Article '$ARTICLE_PATH' does not exist in the repository."
-            exit 1
+            # Article may already be published on the publish branch but not yet
+            # merged into main via the sync PR. Fall back to the publish branch.
+            git checkout origin/publish -- "$ARTICLE_PATH" 2>/dev/null || {
+              echo "::error::Article '$ARTICLE_PATH' does not exist on main or the publish branch."
+              exit 1
+            }
           fi
           if [ ! -f "$MANIFEST_FILE" ]; then
             echo "::error::Manifest file not found: $MANIFEST_FILE"
