@@ -6034,8 +6034,7 @@
           "error_class": "",
           "error_message": "",
           "ended_at": "2026-06-22T05:45:43.431681Z",
-          "duration_seconds": 0.19,
-          "reused": true
+          "duration_seconds": 0.19
         },
         {
           "source": "hugging_face_blog",
@@ -6050,8 +6049,7 @@
           "error_class": "",
           "error_message": "",
           "ended_at": "2026-06-22T05:45:43.615904Z",
-          "duration_seconds": 0.379,
-          "reused": true
+          "duration_seconds": 0.379
         },
         {
           "source": "mit_technology_review",
@@ -6066,8 +6064,7 @@
           "error_class": "",
           "error_message": "",
           "ended_at": "2026-06-22T05:45:43.489578Z",
-          "duration_seconds": 0.252,
-          "reused": true
+          "duration_seconds": 0.252
         },
         {
           "source": "nvidia_blog",
@@ -6082,8 +6079,7 @@
           "error_class": "",
           "error_message": "",
           "ended_at": "2026-06-22T05:45:43.885659Z",
-          "duration_seconds": 0.649,
-          "reused": true
+          "duration_seconds": 0.649
         },
         {
           "source": "techcrunch",
@@ -6098,12 +6094,11 @@
           "error_class": "",
           "error_message": "",
           "ended_at": "2026-06-22T05:45:43.399372Z",
-          "duration_seconds": 0.164,
-          "reused": true
+          "duration_seconds": 0.164
         }
       ],
       "errors": [],
-      "artifact_checksum": "6bce4d57080315de9628c9950eb18a21a43b17a747289dd4916c055c0f402ee8"
+      "artifact_checksum": "6f6efa1415a7867f04031db8764019f97646f8a378aee5ad9d6fce0007817ca7"
     }
   }
 }
