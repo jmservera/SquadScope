@@ -114,9 +114,14 @@ jobs:
             PR_NUMBER=$(gh pr list --head "$SYNC_BRANCH" --base main --json number --jq '.[0].number')
           fi
 
+          if [ -z "$PR_NUMBER" ]; then
+            echo "::error::Could not determine PR number for sync branch $SYNC_BRANCH"
+            exit 1
+          fi
+
           # Enable auto-merge so the sync PR squashes into main as soon as its
           # required checks pass, without waiting for manual intervention.
-          gh pr merge "$PR_NUMBER" --auto --squash || true
+          gh pr merge "$PR_NUMBER" --auto --squash || echo "::notice::Auto-merge request failed for PR #${PR_NUMBER} — will attempt explicit merge later"
 
           HEAD_SHA=$(git rev-parse HEAD)
           CHECK_COUNT=0
