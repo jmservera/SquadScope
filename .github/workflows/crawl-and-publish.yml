@@ -2,11 +2,11 @@ name: Crawl and publish weekly data
 
 on:
   schedule:
-    # Sundays at 11:53 UTC as the low-effort default. On GitHub-hosted
+    # Mondays at 00:07 as the low-effort default. On GitHub-hosted
     # runners this schedule is best-effort and can start hours late; see
     # docs/operator-guide.md#schedule-latency-and-mitigation-ladder and use
     # workflow_dispatch from an external scheduler if punctuality matters.
-    - cron: '53 11 * * 0'
+    - cron: '07 0 * * 1'
   workflow_dispatch:
     inputs:
       run_mode:
