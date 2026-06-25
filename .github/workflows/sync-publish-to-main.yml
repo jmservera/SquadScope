@@ -119,9 +119,11 @@ jobs:
             exit 1
           fi
 
-          # Enable auto-merge so the sync PR squashes into main as soon as its
-          # required checks pass, without waiting for manual intervention.
-          gh pr merge "$PR_NUMBER" --auto --squash || echo "::notice::Auto-merge request failed for PR #${PR_NUMBER} — will attempt explicit merge later"
+          # Short-circuit if the PR has already been merged (e.g. by a prior run).
+          if [ "$(gh pr view "$PR_NUMBER" --json state --jq '.state')" = "MERGED" ]; then
+            echo "::notice::PR #${PR_NUMBER} is already merged; nothing to do."
+            exit 0
+          fi
 
           HEAD_SHA=$(git rev-parse HEAD)
           CHECK_COUNT=0
@@ -138,6 +140,12 @@ jobs:
             echo "::error::No status checks registered for PR #${PR_NUMBER}; refusing to merge without validation."
             exit 1
           fi
+
+          # Only now that we have confirmed required checks are configured do we
+          # enable auto-merge, so the PR cannot merge immediately by bypassing the
+          # "refusing to merge without validation" guard above. Emit a warning (not
+          # a silent `|| true`) if auto-merge cannot be enabled.
+          gh pr merge "$PR_NUMBER" --auto --squash || echo "::warning::Could not enable auto-merge for PR #${PR_NUMBER} — will attempt explicit merge after checks pass."
 
           gh pr checks "$PR_NUMBER" --watch --fail-fast
           # Auto-merge may have already squashed the PR once checks passed; if the
