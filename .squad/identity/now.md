@@ -1,28 +1,23 @@
 ---
-updated_at: 2026-05-18T10:26:47Z
-phase: Phase 1 COMPLETE → Phase 2 STARTING
-focus_area: Automation & Schema Finalization
-active_issues: []
-closed_phase1_issues: [1, 2, 3, 4, 5, 6, 7]
+updated_at: 2026-06-26T20:59:59Z
+phase: Production — Pipeline mature, hardening DevSecOps
+focus_area: Security Guardrails & CI Enforcement
+active_issues: [540, 541, 542, 543, 544, 545, 546]
 ---
 
 # What We're Focused On
 
-**Phase 1 complete.** All 7 foundational issues closed. PRs #25 and #26 merged.
+**Pipeline is in production.** Weekly/monthly/yearly trend analysis ships with SEO, month/year synthesis, and Podcaster handoff all live.
 
-**Phase 2 (Automation) starting** — GitHub Actions workflows, Copilot integration, cron scheduling.
+**Current thrust: DevSecOps guardrails** — staged rollout of linting and security gates without breaking the publish pipeline.
 
-## Phase 1 Achievements
-✅ Hugo frontend with PaperMod theme
-✅ Stdlib-only Python crawler with hardening
-✅ Weekly validation pipeline
-✅ Copilot review integration
-✅ Manual dry-run validation complete
+## Active Workstream — Security Guardrails (#540–#546)
+- **Phase A (baselines, warning-only):** Ruff Python lint (#540), Checkov IaC/container (#541), Zizmor Actions security (#542)
+- **Phase B:** Fix existing ruff/checkov/zizmor violations (#543)
+- **Phase C (enforcement):** CI gates in blocking mode (#545), pre-commit/pre-push hooks (#544)
+- **DevSecOps agent:** New specialist + copilot-instructions guardrail rules (#546)
 
-## Phase 2 Priorities
-1. Schema finalization: `Signal`/`Noise`/`Gaps` contract alignment
-2. GitHub Actions: Weekly crawl scheduling
-3. Hugo version pinning across CI/CD
-4. Trending algorithm: Momentum-based computation
-5. Content quality gates: Auto-publish readiness
-6. Analyze/Generate contract: Explicit markdown → Hugo mapping
+## Standing Constraints
+- ⛔ Never bypass branch rulesets — all changes via feature branch + PR (operator directive, 2026-06-13)
+- 🤝 `config/podcast.json` and `scripts/podcaster_handoff.py` changes must coordinate with SquadScope-Podcaster
+- ✅ CI must be correct, not just green — never weaken tests/gates to pass
