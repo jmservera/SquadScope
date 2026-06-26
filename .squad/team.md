@@ -18,6 +18,7 @@
 | Amy | Frontend Dev | .squad/agents/amy/charter.md | ⚛️ Active |
 | Fry | Tester | .squad/agents/fry/charter.md | 🧪 Active |
 | Hermes | Security & Threat Analyst | .squad/agents/hermes/charter.md | 🔒 Active |
+| URL | DevSecOps Specialist | .squad/agents/url/charter.md | 🚓 Active |
 | Nibbler | Responsible AI / Prompt-Injection Reviewer | .squad/agents/nibbler/charter.md | 🛡️ Active |
 | Calculon | Designer | .squad/agents/calculon/charter.md | 🎨 Active |
 | Scribe | Session Logger | .squad/agents/scribe/charter.md | 📋 Active |
