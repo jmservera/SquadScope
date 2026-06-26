@@ -1,10 +1,11 @@
-# Checkov lint — Phase A (warning-only / non-blocking)
+# Checkov lint — Phase C (blocking / enforced)
 #
-# DevSecOps Guardrails epic (jmservera/SquadScope-Coordinator#33), issue #541.
-# Scans IaC, containers and GitHub Actions workflows for misconfigurations.
-# Phase A is NON-BLOCKING: the job uses --soft-fail and continue-on-error, and
-# uploads SARIF to Code Scanning for visibility. Findings are not fixed
-# (Phase B) nor enforced (Phase C) here.
+# DevSecOps Guardrails epic (jmservera/SquadScope-Coordinator#33), issues #541
+# (baseline), #543 (Phase B fixes), #545 (Phase C enforcement). The Phase B
+# baseline is clean (0 failed; 4 justified inline skips), so this job is now
+# BLOCKING: it fails the build on any new IaC/container/Actions misconfiguration.
+# Accepted findings must carry a justified inline `# checkov:skip=<id>:<reason>`.
+# Mark "Checkov / Checkov IaC/container scan" as a required check.
 
 name: Checkov
 
@@ -25,10 +26,8 @@ concurrency:
 
 jobs:
   checkov:
-    name: Checkov IaC/container scan (warning-only)
+    name: Checkov IaC/container scan
     runs-on: ubuntu-latest
-    # Phase A: non-blocking. Report only — never fail the build.
-    continue-on-error: true
     permissions:
       contents: read
       security-events: write
@@ -46,7 +45,9 @@ jobs:
       - name: Install Checkov (pinned)
         run: python -m pip install checkov==3.2.533
 
-      - name: Run Checkov (soft-fail, SARIF)
+      - name: Run Checkov (blocking, SARIF)
+        # Phase C: blocking. No --soft-fail — a failed check fails the build.
+        # Accepted findings must use a justified inline `# checkov:skip`.
         run: |
           checkov \
             --directory . \
@@ -57,18 +58,19 @@ jobs:
             --skip-path resources \
             --skip-path themes \
             --compact \
-            --soft-fail \
             --output cli \
             --output sarif \
             --output-file-path console,checkov-results.sarif
 
-      - name: Checkov baseline summary
+      - name: Checkov summary
         if: always()
         run: |
           {
-            echo "### Checkov baseline (warning-only)"
+            echo "### Checkov scan"
             echo ""
-            echo "See the job log for the full report. Findings are non-blocking in Phase A."
+            echo "See the job log for the full report. This check is blocking (Phase C):"
+            echo "new misconfigurations fail the build; accepted findings carry a"
+            echo "justified inline \`# checkov:skip=<id>:<reason>\`."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload SARIF to GitHub Code Scanning

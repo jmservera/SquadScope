@@ -88,11 +88,11 @@ jobs:
       contents: read
       security-events: write
       actions: read
-    # Phase A (DevSecOps Guardrails epic, issue #542): warning-only.
-    # continue-on-error keeps zizmor NON-BLOCKING; findings surface as Code
-    # Scanning alerts/annotations only. Enforcement is deferred to Phase C.
-    # See docs/devsecops/zizmor-baseline.md for the current baseline.
-    continue-on-error: true
+    # Phase C (DevSecOps Guardrails epic, issue #545): BLOCKING.
+    # continue-on-error has been dropped so zizmor findings (default persona)
+    # fail the build. The Phase B baseline (#543) is clean on the default
+    # persona, so this gate is green today and catches new findings going
+    # forward. See docs/devsecops/zizmor-baseline.md.
     steps:
       - name: Checkout repository
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3

@@ -1,9 +1,9 @@
-# Ruff lint — Phase A (warning-only / non-blocking)
+# Ruff lint — Phase C (blocking / enforced)
 #
-# DevSecOps Guardrails epic (jmservera/SquadScope-Coordinator#33), issue #540.
-# This job reports Python lint violations as GitHub annotations only. It is
-# intentionally NON-BLOCKING (continue-on-error) for Phase A — it must never
-# fail a build. Enforcement is deferred to Phase C.
+# DevSecOps Guardrails epic (jmservera/SquadScope-Coordinator#33), issues #540
+# (baseline), #543 (Phase B fixes), #545 (Phase C enforcement). The Phase B
+# baseline is clean, so this job is now BLOCKING: it fails the build on any new
+# lint violation or unformatted code. Mark "Lint / Ruff" as a required check.
 
 name: Lint
 
@@ -24,10 +24,8 @@ concurrency:
 
 jobs:
   ruff:
-    name: Ruff (warning-only)
+    name: Ruff
     runs-on: ubuntu-latest
-    # Phase A: non-blocking. Annotations only — do not fail the build.
-    continue-on-error: true
     steps:
       - name: Checkout code
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
@@ -43,16 +41,18 @@ jobs:
         run: python -m pip install ruff==0.15.7
 
       - name: Ruff check (GitHub annotations)
-        # Phase A: warning-only. Tolerate violations so the check stays green
-        # while still emitting annotations + the statistics summary below.
-        continue-on-error: true
+        # Phase C: blocking. Fails the build on any lint violation.
         run: ruff check . --output-format=github
 
-      - name: Ruff baseline statistics (summary)
+      - name: Ruff format check
+        # Line length is owned by the formatter; enforce it here (blocking).
+        run: ruff format --check .
+
+      - name: Ruff statistics (summary)
         if: always()
         run: |
           {
-            echo "### Ruff baseline (warning-only)"
+            echo "### Ruff statistics"
             echo ""
             echo '```'
             ruff check . --statistics || true

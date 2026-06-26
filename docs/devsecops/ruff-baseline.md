@@ -66,4 +66,5 @@ ruff format .
 
 - **Phase A:** baseline + non-blocking CI annotations. ✅
 - **Phase B:** fix violations — ✅ all categories resolved; `ruff check`/`ruff format --check` clean.
-- **Phase C:** pre-push hooks (#544) + blocking required status check (#545).
+- **Phase C:** pre-push hooks (#544) + blocking CI gate (#545). ✅ `Lint / Ruff`
+  runs `ruff check` and `ruff format --check` in blocking mode; mark it required.
