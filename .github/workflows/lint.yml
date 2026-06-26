@@ -1,0 +1,60 @@
+# Ruff lint — Phase A (warning-only / non-blocking)
+#
+# DevSecOps Guardrails epic (jmservera/SquadScope-Coordinator#33), issue #540.
+# This job reports Python lint violations as GitHub annotations only. It is
+# intentionally NON-BLOCKING (continue-on-error) for Phase A — it must never
+# fail a build. Enforcement is deferred to Phase C.
+
+name: Lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ruff:
+    name: Ruff (warning-only)
+    runs-on: ubuntu-latest
+    # Phase A: non-blocking. Annotations only — do not fail the build.
+    continue-on-error: true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+        with:
+          python-version: "3.12"
+
+      - name: Install Ruff (pinned)
+        run: python -m pip install ruff==0.15.7
+
+      - name: Ruff check (GitHub annotations)
+        # Phase A: warning-only. Tolerate violations so the check stays green
+        # while still emitting annotations + the statistics summary below.
+        continue-on-error: true
+        run: ruff check . --output-format=github
+
+      - name: Ruff baseline statistics (summary)
+        if: always()
+        run: |
+          {
+            echo "### Ruff baseline (warning-only)"
+            echo ""
+            echo '```'
+            ruff check . --statistics || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
