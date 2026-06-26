@@ -13,7 +13,33 @@ public/
 resources/_gen/
 .hugo_build.lock
 
+# Node.js dependencies
+node_modules/
+
+# Python virtual environments and caches
 .venv
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Secrets / environment files
+.env
+.env.*
+!.env.example
+
+# Build / distribution output
+dist/
+build/
+
+# OS files
+.DS_Store
+
+# IDE / editor settings
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 
 # Git worktrees
 .worktrees/
