@@ -1,0 +1,93 @@
+# Local DevSecOps guardrail enforcement (pre-commit / pre-push).
+#
+# DevSecOps Guardrails epic (jmservera/SquadScope-Coordinator#33), issue #544.
+# Mirrors the CI gates so violations are caught before they reach a PR:
+#   - ruff (lint + format)  -> matches the Lint workflow
+#   - checkov (IaC/Actions) -> matches the Checkov workflow
+#   - pytest (unit tests)   -> matches the CI test job
+#   - docker build          -> verifies a Containerfile/Dockerfile if present
+#
+# Fast checks (ruff) run on every commit. Slower checks (checkov, pytest,
+# docker build) run on push to keep the commit loop quick.
+#
+# Install (one-time):
+#   pip install pre-commit
+#   pre-commit install --hook-type pre-commit --hook-type pre-push
+#
+# Run on demand:
+#   pre-commit run --all-files
+#
+# Tool versions are pinned to match CI (ruff 0.15.7, checkov 3.2.533). When you
+# bump a version in CI, bump the matching `rev`/dependency here too.
+#
+# Emergency bypass (hotfixes only):
+#   git commit --no-verify
+#   git push   --no-verify
+# Bypassing skips LOCAL hooks only — the CI gates still run. Follow up by fixing
+# any skipped findings; never weaken a CI gate to land a change.
+
+default_install_hook_types: [pre-commit, pre-push]
+default_stages: [pre-commit]
+
+repos:
+  # ── Ruff: Python lint + format (matches CI `ruff check` / `ruff format --check`)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.7
+    hooks:
+      - id: ruff
+        name: ruff (lint, autofix)
+        args: [--fix]
+      - id: ruff-format
+        name: ruff (format)
+
+  # ── Checkov: IaC / container / GitHub Actions misconfiguration scan (pre-push)
+  - repo: https://github.com/bridgecrewio/checkov
+    rev: "3.2.533"
+    hooks:
+      - id: checkov
+        name: checkov (IaC / Actions scan)
+        stages: [pre-push]
+        # Trigger on workflow / container changes; the hook always scans the
+        # whole repo (`checkov -d .`) to mirror CI rather than per-file.
+        files: ^(\.github/workflows/.*\.ya?ml|.*Dockerfile.*|.*Containerfile.*)$
+        pass_filenames: false
+        args:
+          - --framework
+          - github_actions
+          - dockerfile
+          - secrets
+          - --skip-path
+          - node_modules
+          - --skip-path
+          - .venv
+          - --skip-path
+          - public
+          - --skip-path
+          - resources
+          - --skip-path
+          - themes
+          - --compact
+          - --quiet
+
+  # ── Local hooks (use repo-installed tooling)
+  - repo: local
+    hooks:
+      # pytest: run the unit suite before pushing (matches the CI test job).
+      - id: pytest
+        name: pytest (unit tests)
+        entry: python3 -m pytest tests/ -q
+        language: system
+        stages: [pre-push]
+        pass_filenames: false
+        always_run: true
+
+      # docker build: verify a Containerfile/Dockerfile builds, when one exists.
+      # No-op today (the repo ships no container file); activates automatically
+      # once a Containerfile/Dockerfile is added.
+      - id: docker-build
+        name: docker build (Containerfile, if present)
+        entry: scripts/hooks/docker_build_check.sh
+        language: script
+        stages: [pre-push]
+        pass_filenames: false
+        always_run: true

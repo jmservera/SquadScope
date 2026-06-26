@@ -71,11 +71,18 @@ zizmor .github/workflows/
 
 ### Git hooks
 
-When pre-push/pre-commit hooks are added (Phase C), install them with the
-documented setup command and keep tool versions in sync with CI. **Emergency
-skip:** `git commit --no-verify` / `git push --no-verify` bypasses local hooks —
-use only for genuine emergencies and follow up by fixing the skipped findings.
-Never disable the CI gates themselves to land a change.
+Local pre-commit/pre-push hooks live in `.pre-commit-config.yaml` (ruff,
+checkov, pytest, docker build). Install them once and keep tool versions in
+sync with CI — see `docs/devsecops/pre-commit.md`:
+
+```bash
+pip install pre-commit
+pre-commit install --hook-type pre-commit --hook-type pre-push
+```
+
+**Emergency skip:** `git commit --no-verify` / `git push --no-verify` bypasses
+local hooks — use only for genuine emergencies and follow up by fixing the
+skipped findings. Never disable the CI gates themselves to land a change.
 
 ### Ownership
 
