@@ -13,6 +13,7 @@ How to decide who handles what.
 | Architecture, scope, priorities, editorial direction | Leela | Decide tech stack, review architecture, set priorities |
 | Code review | Leela | Review PRs, check quality, approve/reject |
 | Security review, threat analysis, vulnerability triage | Hermes | Review PRs for security, triage Dependabot/CodeQL alerts, threat modeling |
+| DevSecOps pipeline, guardrail tooling, hooks, dependency/secret scanning | URL | Set up ruff/checkov/zizmor CI gates, install git hooks, wire SARIF, pin actions, phased rollout |
 | Prompt injection, AI safety, harmful content, dark-pattern review | Nibbler | Prompt/input-output guardrails, untrusted-content fencing, canary checks, RAI review, accessibility/dark-pattern sweeps |
 | SEO, titles, meta tags, structured data, search optimization | Zapp | Page title quality, meta descriptions, OpenGraph/JSON-LD, heading hierarchy, content discoverability |
 | Testing, QA, validation | Fry | Write tests, validate pipeline, find edge cases |
@@ -49,3 +50,4 @@ How to decide who handles what.
 6. **Anticipate downstream work.** If a feature is being built, spawn the tester to write test cases from requirements simultaneously.
 7. **Issue-labeled work** — when a `squad:{member}` label is applied to an issue, route to that member. The Lead handles all `squad` (base label) triage.
 8. **AI-safety review** — work that changes prompts, imported external text, generated content, or user-facing AI output routes through Nibbler before merge.
+9. **DevSecOps pipeline & guardrails** — changes to CI security/lint tooling (ruff, checkov, zizmor, Bandit, pip-audit), git hooks, or dependency/secret scanning route to URL. Infra, `Dockerfile`/`Containerfile`, and `.github/workflows/` changes get a URL (pipeline) review alongside Hermes (security).
