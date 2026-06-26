@@ -88,6 +88,10 @@ jobs:
       contents: read
       security-events: write
       actions: read
+    # Phase A (DevSecOps Guardrails epic, issue #542): warning-only.
+    # continue-on-error keeps zizmor NON-BLOCKING; findings surface as Code
+    # Scanning alerts/annotations only. Enforcement is deferred to Phase C.
+    # See docs/devsecops/zizmor-baseline.md for the current baseline.
     continue-on-error: true
     steps:
       - name: Checkout repository
