@@ -78,4 +78,5 @@ zizmor $(find .github/workflows -maxdepth 1 -type f \
 
 - **Phase A:** confirm non-blocking + SARIF wiring; record baseline. ✅
 - **Phase B:** fix High-severity excessive-permissions + concurrency-limits. ✅ (info/low nits deferred above)
-- **Phase C:** blocking enforcement — drop `continue-on-error` (#545).
+- **Phase C:** blocking enforcement (#545). ✅ Dropped `continue-on-error` on the
+  `zizmor-scan` job; default-persona findings now fail the build. Mark it required.

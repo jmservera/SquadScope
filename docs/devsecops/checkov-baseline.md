@@ -65,4 +65,5 @@ checkov --file .github/workflows/ci.yml
 
 - **Phase A:** baseline + non-blocking CI + SARIF upload. ✅
 - **Phase B:** triage findings; justified suppressions or fixes. ✅ 0 failed (4 justified skips).
-- **Phase C:** blocking required status check (#545) for new misconfigurations.
+- **Phase C:** blocking CI gate (#545). ✅ The Checkov job dropped `--soft-fail`
+  + `continue-on-error`; new misconfigurations fail the build. Mark it required.
