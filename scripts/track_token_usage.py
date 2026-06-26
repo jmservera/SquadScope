@@ -17,24 +17,48 @@ CHARS_PER_TOKEN = 4
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Track token usage and estimated cost per pipeline run.")
-    parser.add_argument("--stage", required=True, help="Pipeline stage (for example: analysis, reskill).")
-    parser.add_argument("--source", required=True, help="Execution source (for example: copilot-cli, github-models).")
+    parser = argparse.ArgumentParser(
+        description="Track token usage and estimated cost per pipeline run."
+    )
+    parser.add_argument(
+        "--stage", required=True, help="Pipeline stage (for example: analysis, reskill)."
+    )
+    parser.add_argument(
+        "--source",
+        required=True,
+        help="Execution source (for example: copilot-cli, github-models).",
+    )
     parser.add_argument("--model", required=True, help="Model name used for cost rates.")
     parser.add_argument("--current-datetime", required=True, help="ISO-8601 timestamp for the run.")
-    parser.add_argument("--week", help="Week slug (YYYY-WNN). If omitted, inferred from current datetime.")
-    parser.add_argument("--prompt-file", type=Path, help="Prompt file used to estimate input tokens.")
-    parser.add_argument("--output-file", type=Path, help="Output file used to estimate output tokens.")
+    parser.add_argument(
+        "--week", help="Week slug (YYYY-WNN). If omitted, inferred from current datetime."
+    )
+    parser.add_argument(
+        "--prompt-file", type=Path, help="Prompt file used to estimate input tokens."
+    )
+    parser.add_argument(
+        "--output-file", type=Path, help="Output file used to estimate output tokens."
+    )
     parser.add_argument("--input-tokens", type=int, help="Explicit input token count.")
     parser.add_argument("--output-tokens", type=int, help="Explicit output token count.")
-    parser.add_argument("--transcript", type=Path, help="Copilot CLI --share transcript file for parsing token usage.")
-    parser.add_argument("--api-response", type=Path, help="GitHub Models API response JSON for extracting usage data.")
+    parser.add_argument(
+        "--transcript",
+        type=Path,
+        help="Copilot CLI --share transcript file for parsing token usage.",
+    )
+    parser.add_argument(
+        "--api-response",
+        type=Path,
+        help="GitHub Models API response JSON for extracting usage data.",
+    )
     parser.add_argument(
         "--input-manifest",
         type=Path,
         help="analysis-input-manifest JSON used to validate final prompt input tokens within 10%.",
     )
-    parser.add_argument("--usage-file", type=Path, default=DEFAULT_USAGE_FILE, help="JSONL path for usage ledger.")
+    parser.add_argument(
+        "--usage-file", type=Path, default=DEFAULT_USAGE_FILE, help="JSONL path for usage ledger."
+    )
     return parser.parse_args(argv)
 
 
@@ -79,9 +103,6 @@ def parse_copilot_transcript(path: Path) -> tuple[int, int] | None:
         text = path.read_text(encoding="utf-8")
     except (OSError, UnicodeDecodeError):
         return None
-
-    input_tokens: int | None = None
-    output_tokens: int | None = None
 
     # Pattern: "Input tokens: N" and "Output tokens: N"
     m_input = re.search(r"[Ii]nput[\s_]tokens[\s:]+(\d+)", text)
@@ -208,7 +229,9 @@ def validate_input_manifest(path: Path | None, input_tokens: int) -> dict[str, o
         raise ValueError(f"Input manifest missing rendered prompt token estimate: {path}")
     delta = abs(input_tokens - estimated_tokens)
     ratio = delta / max(input_tokens, 1)
-    degraded = bool(manifest.get("degraded")) or not bool(manifest.get("prompt_within_budget", True))
+    degraded = bool(manifest.get("degraded")) or not bool(
+        manifest.get("prompt_within_budget", True)
+    )
     passed = ratio <= 0.10
     reason = None
     if not passed:
@@ -217,7 +240,9 @@ def validate_input_manifest(path: Path | None, input_tokens: int) -> dict[str, o
             f"({input_tokens} actual vs {estimated_tokens} estimated)."
         )
         if degraded:
-            reason += " Manifest is degraded/compacted, so the run is already marked candidate-only."
+            reason += (
+                " Manifest is degraded/compacted, so the run is already marked candidate-only."
+            )
     return {
         "manifest_path": path.as_posix(),
         "estimated_input_tokens": estimated_tokens,
@@ -245,7 +270,11 @@ def main(argv: list[str] | None = None) -> int:
         print(f"::error::Token usage manifest validation failed: {exc}", file=sys.stderr)
         return 1
     validation = record.get("input_manifest_validation")
-    if isinstance(validation, dict) and not validation.get("within_10_percent") and not validation.get("degraded_or_compacted"):
+    if (
+        isinstance(validation, dict)
+        and not validation.get("within_10_percent")
+        and not validation.get("degraded_or_compacted")
+    ):
         print(f"::error::{validation.get('reason')}", file=sys.stderr)
         return 1
     append_record(args.usage_file, record)

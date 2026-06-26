@@ -24,7 +24,9 @@ PROMOTION_TRANSACTION_SCHEMA_VERSION = "promotion_transaction_v1"
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Promote an eligible weekly analysis candidate.")
-    parser.add_argument("--manifest", required=True, type=Path, help="Publish eligibility manifest path.")
+    parser.add_argument(
+        "--manifest", required=True, type=Path, help="Publish eligibility manifest path."
+    )
     parser.add_argument("--root", default=".", type=Path, help="Repository/workspace root.")
     return parser.parse_args(argv)
 
@@ -102,7 +104,9 @@ def _manifest_ai_provenance(manifest: dict[str, Any]) -> dict[str, Any] | None:
         return ai_provenance
     analysis = manifest.get("analysis")
     if isinstance(analysis, dict):
-        provenance = analysis.get("provenance") if isinstance(analysis.get("provenance"), dict) else {}
+        provenance = (
+            analysis.get("provenance") if isinstance(analysis.get("provenance"), dict) else {}
+        )
         return {
             "source": analysis.get("source"),
             "model": analysis.get("model"),
@@ -123,7 +127,10 @@ def _manifest_gate_results(manifest: dict[str, Any]) -> dict[str, bool] | None:
     gate_report = validation.get("gate_report") if isinstance(validation, dict) else None
     gates = gate_report.get("gates") if isinstance(gate_report, dict) else None
     if isinstance(gates, dict):
-        return {str(key): isinstance(value, dict) and value.get("passed") is True for key, value in gates.items()}
+        return {
+            str(key): isinstance(value, dict) and value.get("passed") is True
+            for key, value in gates.items()
+        }
     return None
 
 
@@ -161,7 +168,11 @@ def _artifact_reused_same_day(artifact: dict[str, Any]) -> bool:
         return True
     same_day_reuse = artifact.get("same_day_reuse")
     if isinstance(same_day_reuse, dict):
-        return str(same_day_reuse.get("status", "")).lower() in {"reused", "same_day_reuse", "same-day-reuse"}
+        return str(same_day_reuse.get("status", "")).lower() in {
+            "reused",
+            "same_day_reuse",
+            "same-day-reuse",
+        }
     return str(same_day_reuse or "").lower() in {"reused", "same_day_reuse", "same-day-reuse"}
 
 
@@ -218,7 +229,9 @@ def _promotion_policy(manifest: dict[str, Any]) -> dict[str, Any]:
     return {"mode": "default"}
 
 
-def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path) -> tuple[str, Path, Path, list[str]]:
+def _validate_manifest(
+    manifest: dict[str, Any], root: Path, manifest_path: Path
+) -> tuple[str, Path, Path, list[str]]:
     reasons: list[str] = []
 
     if manifest.get("schema_version") != "publish_eligibility_v1":
@@ -234,8 +247,15 @@ def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path
     if not _manifest_promotion_eligible(manifest):
         reasons.append("promotion_eligible must be true.")
 
-    candidate_summary = _resolve_under_root(root, _manifest_candidate_path(manifest, "candidate_summary_path", "summary_path"), "candidate_summary_path", reasons)
-    candidate_content = _resolve_under_root(root, _manifest_candidate_content_path(manifest), "candidate_content_path", reasons)
+    candidate_summary = _resolve_under_root(
+        root,
+        _manifest_candidate_path(manifest, "candidate_summary_path", "summary_path"),
+        "candidate_summary_path",
+        reasons,
+    )
+    candidate_content = _resolve_under_root(
+        root, _manifest_candidate_content_path(manifest), "candidate_content_path", reasons
+    )
 
     policy = _promotion_policy(manifest)
     policy_mode = str(policy.get("mode") or "default")
@@ -254,15 +274,21 @@ def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path
                     reasons.append("force-replace requires an actor.")
             elif policy_mode == "allow-no-ai-first-publish":
                 if existing_good_ai:
-                    reasons.append("no-AI fallback cannot first-publish over an existing good AI-authored article.")
+                    reasons.append(
+                        "no-AI fallback cannot first-publish over an existing good AI-authored article."
+                    )
             else:
                 reasons.append("no-AI fallback is ineligible for default promotion.")
                 if existing_good_ai:
-                    reasons.append("no-AI fallback is ineligible to replace an existing good AI-authored article by default.")
+                    reasons.append(
+                        "no-AI fallback is ineligible to replace an existing good AI-authored article by default."
+                    )
             if candidate_summary is not None:
                 quality_score = _frontmatter(candidate_summary).get("quality_score")
                 if not isinstance(quality_score, int) or quality_score < FALLBACK_MIN_QUALITY_SCORE:
-                    reasons.append(f"no-AI fallback quality_score must be at least {FALLBACK_MIN_QUALITY_SCORE}.")
+                    reasons.append(
+                        f"no-AI fallback quality_score must be at least {FALLBACK_MIN_QUALITY_SCORE}."
+                    )
             if not ai_provenance.get("fallback_reason"):
                 reasons.append("no-AI fallback provenance requires fallback_reason.")
             if not ai_provenance.get("attempted_ai_paths"):
@@ -280,7 +306,12 @@ def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path
     if not isinstance(gate_results, dict):
         reasons.append("gate_results is required.")
     else:
-        for gate in ("structural_schema", "ai_provenance", "evidence_citation", "editorial_quality"):
+        for gate in (
+            "structural_schema",
+            "ai_provenance",
+            "evidence_citation",
+            "editorial_quality",
+        ):
             if gate not in gate_results:
                 reasons.append(f"gate_results must include passing {gate}.")
             elif gate_results.get(gate) is not True:
@@ -305,21 +336,35 @@ def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path
                 reasons.append(f"{prefix} must be an object.")
                 continue
             freshness = artifact.get("freshness")
-            if artifact.get("stale") is True or (isinstance(freshness, dict) and freshness.get("status") == "stale"):
+            if artifact.get("stale") is True or (
+                isinstance(freshness, dict) and freshness.get("status") == "stale"
+            ):
                 reasons.append(f"{prefix} is stale.")
             generated_date = _parse_date(artifact.get("generated_at") or artifact.get("crawled_at"))
             if generated_date is None:
                 reasons.append(f"{prefix}.generated_at must be an ISO date or timestamp.")
-            elif run_date is not None and generated_date != run_date and not _artifact_reused_same_day(artifact):
-                reasons.append(f"{prefix} is not from the current run date or marked as same-day reuse.")
-            artifact_path = _resolve_under_root(root, artifact.get("path"), f"{prefix}.path", reasons)
+            elif (
+                run_date is not None
+                and generated_date != run_date
+                and not _artifact_reused_same_day(artifact)
+            ):
+                reasons.append(
+                    f"{prefix} is not from the current run date or marked as same-day reuse."
+                )
+            artifact_path = _resolve_under_root(
+                root, artifact.get("path"), f"{prefix}.path", reasons
+            )
             if artifact_path is not None and not artifact_path.exists():
                 reasons.append(f"{prefix}.path does not exist: {artifact.get('path')}")
 
     if candidate_summary is not None and not candidate_summary.exists():
-        reasons.append(f"candidate_summary_path does not exist: {manifest.get('candidate_summary_path')}")
+        reasons.append(
+            f"candidate_summary_path does not exist: {manifest.get('candidate_summary_path')}"
+        )
     if candidate_content is not None and not candidate_content.exists():
-        reasons.append(f"candidate_content_path does not exist: {manifest.get('candidate_content_path')}")
+        reasons.append(
+            f"candidate_content_path does not exist: {manifest.get('candidate_content_path')}"
+        )
 
     try:
         manifest_relative = manifest_path.resolve().relative_to(root.resolve())
@@ -332,12 +377,18 @@ def _validate_manifest(manifest: dict[str, Any], root: Path, manifest_path: Path
     return str(week), candidate_summary or root, candidate_content or root, reasons
 
 
-def _write_diagnostic(root: Path, week: str, manifest: dict[str, Any] | None, reasons: list[str]) -> Path:
+def _write_diagnostic(
+    root: Path, week: str, manifest: dict[str, Any] | None, reasons: list[str]
+) -> Path:
     diagnostic_dir = root / "data" / "diagnostics" / "promotion"
     diagnostic_dir.mkdir(parents=True, exist_ok=True)
     diagnostic_path = diagnostic_dir / f"{week}-blocked.json"
     diagnostic_path.write_text(
-        json.dumps({"week": week, "promotion": "blocked", "reasons": reasons, "manifest": manifest}, indent=2, sort_keys=True)
+        json.dumps(
+            {"week": week, "promotion": "blocked", "reasons": reasons, "manifest": manifest},
+            indent=2,
+            sort_keys=True,
+        )
         + "\n",
         encoding="utf-8",
     )
@@ -415,11 +466,15 @@ def _promotion_transaction_record(
         "provenance": {
             "source_artifacts": manifest.get("source_artifacts", []),
             "analysis": manifest.get("analysis") or manifest.get("ai_provenance"),
-            "validation": manifest.get("validation") or {"gate_results": manifest.get("gate_results")},
-            "promotion": manifest.get("promotion") or {"eligible": manifest.get("promotion_eligible")},
+            "validation": manifest.get("validation")
+            or {"gate_results": manifest.get("gate_results")},
+            "promotion": manifest.get("promotion")
+            or {"eligible": manifest.get("promotion_eligible")},
         },
     }
-    transaction_payload = json.dumps(stable_record, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    transaction_payload = json.dumps(stable_record, sort_keys=True, separators=(",", ":")).encode(
+        "utf-8"
+    )
     stable_record["transaction_id"] = hashlib.sha256(transaction_payload).hexdigest()
     return stable_record
 
@@ -429,7 +484,9 @@ def _write_transactionally(targets: list[tuple[Path, bytes]]) -> None:
     written: list[Path] = []
     temp_paths: list[Path] = []
     for target, _ in targets:
-        originals.append((target, target.exists(), target.read_bytes() if target.exists() else None))
+        originals.append(
+            (target, target.exists(), target.read_bytes() if target.exists() else None)
+        )
         target.parent.mkdir(parents=True, exist_ok=True)
 
     try:
@@ -453,13 +510,17 @@ def _write_transactionally(targets: list[tuple[Path, bytes]]) -> None:
 
 def promote_candidate(manifest_path: Path, *, root: Path | None = None) -> tuple[Path, Path]:
     workspace = (root or Path.cwd()).resolve()
-    resolved_manifest_path = manifest_path if manifest_path.is_absolute() else workspace / manifest_path
+    resolved_manifest_path = (
+        manifest_path if manifest_path.is_absolute() else workspace / manifest_path
+    )
     manifest: dict[str, Any] | None = None
     week = "unknown-week"
 
     try:
         manifest = _load_manifest(resolved_manifest_path)
-        week, candidate_summary, candidate_content, reasons = _validate_manifest(manifest, workspace, resolved_manifest_path)
+        week, candidate_summary, candidate_content, reasons = _validate_manifest(
+            manifest, workspace, resolved_manifest_path
+        )
         if reasons:
             raise PromotionBlocked(reasons)
     except PromotionBlocked as exc:

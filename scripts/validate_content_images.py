@@ -32,7 +32,9 @@ IMAGE_FRONTMATTER_FIELDS = ("cover_image", "og_image", "image", "thumbnail")
 SECRET_PATTERNS = [
     re.compile(r"[?&](?:sig|sv|se|sp|spr|srt|ss)=", re.IGNORECASE),  # Azure SAS
     re.compile(r"[?&](?:token|api_key|apikey|secret|password)=", re.IGNORECASE),
-    re.compile(r"[?&](?:utm_source|utm_medium|utm_campaign|fbclid|gclid)=", re.IGNORECASE),  # Tracking
+    re.compile(
+        r"[?&](?:utm_source|utm_medium|utm_campaign|fbclid|gclid)=", re.IGNORECASE
+    ),  # Tracking
 ]
 
 
@@ -80,10 +82,11 @@ def validate_file(filepath: Path) -> list[str]:
     fm_fields = _extract_frontmatter(text)
     for field, value in fm_fields.items():
         if _is_remote_url(value):
-            violations.append(f"{filepath}: frontmatter '{field}' hotlinks external URL: {value[:100]}")
+            violations.append(
+                f"{filepath}: frontmatter '{field}' hotlinks external URL: {value[:100]}"
+            )
         violations.extend(
-            f"{filepath}: frontmatter '{field}' {issue}"
-            for issue in _check_secrets_in_url(value)
+            f"{filepath}: frontmatter '{field}' {issue}" for issue in _check_secrets_in_url(value)
         )
 
     # Check Markdown image syntax ![alt](url)
@@ -136,7 +139,7 @@ def validate_registry_references(
         filename = img.get("filename", "")
         registered_files.add(filename)
         if filename.startswith("assets/"):
-            registered_files.add(filename[len("assets/"):])
+            registered_files.add(filename[len("assets/") :])
         else:
             registered_files.add(f"assets/{filename}")
 

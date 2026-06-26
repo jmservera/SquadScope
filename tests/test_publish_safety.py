@@ -32,11 +32,14 @@ class PublishSafetyTests(unittest.TestCase):
             target.write_text("known good article\n", encoding="utf-8")
             transaction_manifest = root / "data/published/2026-W23/promotion-manifest.json"
             transaction_manifest.parent.mkdir(parents=True, exist_ok=True)
-            transaction_manifest.write_text('{"schema_version":"promotion_transaction_v1","transaction_id":"old"}\n', encoding="utf-8")
+            transaction_manifest.write_text(
+                '{"schema_version":"promotion_transaction_v1","transaction_id":"old"}\n',
+                encoding="utf-8",
+            )
             source = root / "data/raw/2026-W23.json"
             source.parent.mkdir(parents=True, exist_ok=True)
             source.write_text('{"week":"2026-W23"}\n', encoding="utf-8")
-            manifest = self.write_manifest(root)
+            self.write_manifest(root)
 
             exit_code = publish_safety.main(
                 [
@@ -98,7 +101,15 @@ class PublishSafetyTests(unittest.TestCase):
                 encoding="utf-8",
             )
             self.assertEqual(
-                publish_safety.main(["restore-backup", "--root", str(root), "--backup-manifest", str(backup_manifest)]),
+                publish_safety.main(
+                    [
+                        "restore-backup",
+                        "--root",
+                        str(root),
+                        "--backup-manifest",
+                        str(backup_manifest),
+                    ]
+                ),
                 0,
             )
             self.assertEqual(target.read_text(encoding="utf-8"), "known good article\n")
@@ -190,7 +201,9 @@ class PublishSafetyTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             root = Path(tmpdir)
             outside_manifest = root.parent / f"{root.name}-outside-manifest.json"
-            outside_manifest.write_text('{"schema_version":"publish_backup_v1","files":[]}\n', encoding="utf-8")
+            outside_manifest.write_text(
+                '{"schema_version":"publish_backup_v1","files":[]}\n', encoding="utf-8"
+            )
             try:
                 with self.assertRaises(SystemExit):
                     publish_safety.main(

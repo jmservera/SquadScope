@@ -21,7 +21,7 @@ from urllib.parse import urlparse
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_REPO_ROOT / "scripts"))
 
-from topic_paths import raw_dir, analyzed_dir  # noqa: E402
+from topic_paths import analyzed_dir, raw_dir  # noqa: E402
 
 PRESS_CONTEXT_TOKEN_BUDGET = 8000
 PRESS_CONTEXT_CHAR_BUDGET = PRESS_CONTEXT_TOKEN_BUDGET * 4
@@ -178,9 +178,7 @@ def _extract_readme_description(snippet: str) -> str:
     return ""
 
 
-def _format_correlations_narrative(
-    correlations: list[dict], articles: list[dict]
-) -> str:
+def _format_correlations_narrative(correlations: list[dict], articles: list[dict]) -> str:
     """Generate narrative paragraphs explaining press-to-code correlations.
 
     Groups correlations by GitHub org, fetches README snippets for top repos,
@@ -192,9 +190,7 @@ def _format_correlations_narrative(
 
     # URL → title lookup for inline article links
     url_to_title: dict[str, str] = {
-        a["url"]: a["title"]
-        for a in articles
-        if a.get("url") and a.get("title")
+        a["url"]: a["title"] for a in articles if a.get("url") and a.get("title")
     }
 
     # Sort correlations by confidence desc, hype_risk severity desc
@@ -297,9 +293,7 @@ def _format_correlations_narrative(
         paragraphs.append(para)
 
     return (
-        "\n\n".join(paragraphs)
-        if paragraphs
-        else "(No significant press correlations this week.)"
+        "\n\n".join(paragraphs) if paragraphs else "(No significant press correlations this week.)"
     )
 
 
@@ -353,11 +347,13 @@ def format_correlations_list(
         strength = corr.get("correlation_strength", corr.get("confidence_label", "unknown"))
         hype_risk = corr.get("hype_risk", "none")
         details = corr.get("matched_article_details", [])
-        sources = sorted({
-            source
-            for detail in details
-            for source in detail.get("sources", [detail.get("source", "unknown")])
-        })
+        sources = sorted(
+            {
+                source
+                for detail in details
+                for source in detail.get("sources", [detail.get("source", "unknown")])
+            }
+        )
         citation = ""
         if details:
             first = details[0]
@@ -371,7 +367,9 @@ def format_correlations_list(
                 max_length=300,
                 label="correlation_article_url",
             )
-            citation = f", cited: [{title}]({_escape_markdown_url(url)})" if url else f", cited: {title}"
+            citation = (
+                f", cited: [{title}]({_escape_markdown_url(url)})" if url else f", cited: {title}"
+            )
         lines.append(
             f"- {repo} — match: {match_type}, "
             f"strength: {strength}, confidence: {confidence:.1f}, "
@@ -429,10 +427,7 @@ def _format_unpublicized_narrative(items: list[dict]) -> str:
 
     # First paragraph: intro + first three topics
     first_batch = topic_parts[:3]
-    fragments = [
-        f"{topic} saw activity with {_join_links(links)}"
-        for topic, links in first_batch
-    ]
+    fragments = [f"{topic} saw activity with {_join_links(links)}" for topic, links in first_batch]
     para1 = (
         "Developer activity this week shows momentum in areas the tech press isn't covering. "
         + "; ".join(fragments)
@@ -444,9 +439,7 @@ def _format_unpublicized_narrative(items: list[dict]) -> str:
     # Second paragraph for remaining topics
     if len(topic_parts) > 3:
         second_batch = topic_parts[3:]
-        fragments2 = [
-            f"{topic} with {_join_links(links)}" for topic, links in second_batch
-        ]
+        fragments2 = [f"{topic} with {_join_links(links)}" for topic, links in second_batch]
         paragraphs.append("Additional activity surfaced in " + ", ".join(fragments2) + ".")
 
     paragraphs.append(
@@ -488,9 +481,7 @@ def _format_uncovered_narrative(items: list[dict]) -> str:
         if len(article_links) == 1:
             article_str = f"Articles like {article_links[0]} generated buzz"
         else:
-            article_str = (
-                f"Articles like {article_links[0]} and {article_links[1]} generated buzz"
-            )
+            article_str = f"Articles like {article_links[0]} and {article_links[1]} generated buzz"
     else:
         article_str = "Press articles generated buzz"
 
@@ -537,7 +528,9 @@ def format_divergences(divergences: dict, *, reader_mode: bool = False) -> str:
         # AI prompt mode: full raw data for model consumption — keep unchanged
         if uncovered:
             lines.append("#### 🔍 Tech Trends Without Dev Activity")
-            lines.append("Topics heavily covered by external press with no matching GitHub repos:\n")
+            lines.append(
+                "Topics heavily covered by external press with no matching GitHub repos:\n"
+            )
             for item in uncovered:
                 topic = item.get("topic", "unknown")
                 articles = item.get("news_articles", item.get("techcrunch_articles", []))
@@ -555,8 +548,7 @@ def format_divergences(divergences: dict, *, reader_mode: bool = False) -> str:
                 topic = item.get("topic", "unknown")
                 repos = item.get("github_repos", [])
                 repo_refs = ", ".join(
-                    f"{r.get('full_name', '?')} (⭐{r.get('stars', 0)})"
-                    for r in repos[:3]
+                    f"{r.get('full_name', '?')} (⭐{r.get('stars', 0)})" for r in repos[:3]
                 )
                 lines.append(f"- **{topic}**: {repo_refs}")
             lines.append("")
@@ -600,9 +592,13 @@ def _source_caveats(techcrunch_data: dict | None, correlation_data: dict | None)
     return "\n".join(lines)
 
 
-def _source_coverage(techcrunch_data: dict | None, correlation_data: dict | None) -> dict[str, list[str]]:
+def _source_coverage(
+    techcrunch_data: dict | None, correlation_data: dict | None
+) -> dict[str, list[str]]:
     metadata = techcrunch_data.get("metadata", {}) if techcrunch_data else {}
-    corr_sources = correlation_data.get("metadata", {}).get("news_sources", {}) if correlation_data else {}
+    corr_sources = (
+        correlation_data.get("metadata", {}).get("news_sources", {}) if correlation_data else {}
+    )
     requested = metadata.get("sources_requested") or corr_sources.get("sources_requested") or []
     succeeded = metadata.get("sources_succeeded") or corr_sources.get("sources_succeeded") or []
     failed = metadata.get("sources_failed") or corr_sources.get("sources_failed") or []
@@ -653,10 +649,7 @@ def render_press_context(
         Rendered markdown prompt section.
     """
     if techcrunch_data is None and correlation_data is None:
-        return (
-            "No press data available for this week. "
-            "Analyze repos based on GitHub signals only."
-        )
+        return "No press data available for this week. Analyze repos based on GitHub signals only."
 
     template_path = _REPO_ROOT / "prompts" / "analyze-press-context.md"
     template = template_path.read_text(encoding="utf-8")
@@ -665,9 +658,7 @@ def render_press_context(
     articles = []
     if techcrunch_data:
         all_articles = techcrunch_data.get("articles", [])
-        articles = [
-            a for a in all_articles if a.get("relevance_score", 0) >= 0.4
-        ]
+        articles = [a for a in all_articles if a.get("relevance_score", 0) >= 0.4]
 
     # Extract correlations
     correlations = []
@@ -761,15 +752,9 @@ def resolve_paths(topic: str | None, week: str) -> tuple[Path, Path]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Render press context prompt section"
-    )
-    parser.add_argument(
-        "--topic", default=None, help="Topic ID (e.g., ai-ml)"
-    )
-    parser.add_argument(
-        "--week", default=None, help="Week in YYYY-WNN format (default: current)"
-    )
+    parser = argparse.ArgumentParser(description="Render press context prompt section")
+    parser.add_argument("--topic", default=None, help="Topic ID (e.g., ai-ml)")
+    parser.add_argument("--week", default=None, help="Week in YYYY-WNN format (default: current)")
     args = parser.parse_args()
 
     week = args.week or current_week()

@@ -39,7 +39,10 @@ def test_dry_run_emits_valid_contract_artifacts() -> None:
             "week": "2026-W21",
             "crawled_at": "2026-05-20T12:00:00Z",
             "new_repos": [make_repo("octo", "alpha", 1200), make_repo("octo", "beta", 900)],
-            "trending_repos": [make_repo("tools", "gamma", 5000, 450), make_repo("tools", "delta", 3000, 250)],
+            "trending_repos": [
+                make_repo("tools", "gamma", 5000, 450),
+                make_repo("tools", "delta", 3000, 250),
+            ],
             "signals": {"top_topics": ["ai", "developer-tools", "testing"]},
         }
         raw_path.write_text(json.dumps(raw_payload), encoding="utf-8")
@@ -73,7 +76,9 @@ def test_dry_run_emits_valid_contract_artifacts() -> None:
         assert rendered_estimate["tokens"] > 0
         assert rendered_estimate["checksum_sha256"]
         for mapper in dry_run.MAPPER_IDS:
-            ledger = json.loads((output_dir / "maps" / f"{mapper}.json").read_text(encoding="utf-8"))
+            ledger = json.loads(
+                (output_dir / "maps" / f"{mapper}.json").read_text(encoding="utf-8")
+            )
             assert ledger["schema_version"] == "analysis_map_v1"
             assert ledger["coverage"]["excluded_reason_counts"] == {}
             assert dry_run.validate_map(ledger) == []
@@ -149,7 +154,9 @@ def valid_ledger(findings: list[dict[str, object]] | None = None) -> dict[str, o
                 "claim": "octo/alpha is supported by direct repository evidence.",
                 "category": "trend",
                 "source_type": "github",
-                "evidence_refs": [{"type": "repo", "ref": "octo/alpha", "url": "https://github.com/octo/alpha"}],
+                "evidence_refs": [
+                    {"type": "repo", "ref": "octo/alpha", "url": "https://github.com/octo/alpha"}
+                ],
                 "repo_full_name": "octo/alpha",
                 "news_url": None,
                 "confidence": 0.8,
@@ -199,8 +206,14 @@ def test_collect_gate_failure_reasons_skips_expected_failures() -> None:
     reasons = dry_run.collect_gate_failure_reasons(
         {
             "checks": {
-                "mapper_contracts": {"passed": False, "errors_by_mapper": {"new_repos": ["missing evidence refs"]}},
-                "structural_analysis_gate": {"passed": False, "errors": ["candidate below minimum word count"]},
+                "mapper_contracts": {
+                    "passed": False,
+                    "errors_by_mapper": {"new_repos": ["missing evidence refs"]},
+                },
+                "structural_analysis_gate": {
+                    "passed": False,
+                    "errors": ["candidate below minimum word count"],
+                },
                 "publish_provenance_gate": {
                     "passed": False,
                     "expected_failure": True,
@@ -230,9 +243,18 @@ def test_reduce_rejects_and_preserves_contradictory_claims() -> None:
     }
     ledger = valid_ledger([supported, contradictory])
 
-    plan, rejected, contradictions = dry_run.reduce_ledgers([ledger], raw_payload={"week": "2026-W21", "new_repos": [make_repo("octo", "alpha", 1200)], "trending_repos": []})
+    plan, rejected, contradictions = dry_run.reduce_ledgers(
+        [ledger],
+        raw_payload={
+            "week": "2026-W21",
+            "new_repos": [make_repo("octo", "alpha", 1200)],
+            "trending_repos": [],
+        },
+    )
 
     assert plan["selected_claims"] == []
     assert [item["claim_id"] for item in contradictions] == ["claim-a", "claim-b"]
-    assert {item["claim_id"] for item in rejected if item["reason"] == "unresolved_contradiction"} == {"claim-a", "claim-b"}
+    assert {
+        item["claim_id"] for item in rejected if item["reason"] == "unresolved_contradiction"
+    } == {"claim-a", "claim-b"}
     assert plan["contradictions"] == contradictions

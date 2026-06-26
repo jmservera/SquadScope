@@ -26,10 +26,9 @@ import argparse
 import json
 import math
 import sys
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
-
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_METRICS_DIR = ROOT / "data" / "metrics" / "observability"
@@ -216,18 +215,24 @@ def main() -> int:
 
     report_cmd = sub.add_parser("report", help="Generate baseline telemetry report")
     report_cmd.add_argument(
-        "--metrics-dir", type=Path, default=DEFAULT_METRICS_DIR,
+        "--metrics-dir",
+        type=Path,
+        default=DEFAULT_METRICS_DIR,
         help="Path to observability metrics directory",
     )
     report_cmd.add_argument("--output", type=Path, help="Write report JSON to file")
 
     check_cmd = sub.add_parser("check", help="Check baseline readiness")
     check_cmd.add_argument(
-        "--metrics-dir", type=Path, default=DEFAULT_METRICS_DIR,
+        "--metrics-dir",
+        type=Path,
+        default=DEFAULT_METRICS_DIR,
         help="Path to observability metrics directory",
     )
     check_cmd.add_argument(
-        "--min-runs", type=int, default=MINIMUM_BASELINE_RUNS,
+        "--min-runs",
+        type=int,
+        default=MINIMUM_BASELINE_RUNS,
         help="Minimum number of runs required",
     )
 
@@ -265,7 +270,7 @@ def main() -> int:
         # Check triggers
         rss_triggered = thresholds["rss_matrix_triggers"]["triggered"]
         print(f"\n   RSS matrix trigger: {'🔴 TRIGGERED' if rss_triggered else '🟢 not triggered'}")
-        print(f"   GitHub shard trigger: 🟢 requires experiment comparison")
+        print("   GitHub shard trigger: 🟢 requires experiment comparison")
         return 0
 
     else:

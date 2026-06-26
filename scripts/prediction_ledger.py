@@ -21,9 +21,7 @@ from scripts.topic_paths import analyzed_dir, metrics_dir, raw_dir
 
 FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---\n(.*)\Z", re.DOTALL)
 WEEK_PATTERN = re.compile(r"\d{4}-W\d{2}")
-REPO_LINK_PATTERN = re.compile(
-    r"\[(?P<full_name>[^\]]+/[^\]]+)\]\(https://github\.com/[^\)]+\)"
-)
+REPO_LINK_PATTERN = re.compile(r"\[(?P<full_name>[^\]]+/[^\]]+)\]\(https://github\.com/[^\)]+\)")
 
 PREDICTION_TYPES = [
     "rising_star",
@@ -185,9 +183,7 @@ def classify_prediction(repo: dict[str, Any]) -> tuple[str, float, str]:
             f"High fork ratio ({repo.get('forks', 0)} forks / "
             f"{repo.get('stars', 0)} stars) suggests community adoption"
         ),
-        "momentum_shift": (
-            f"Established repo ({repo.get('stars', 0)} stars) trending this week"
-        ),
+        "momentum_shift": (f"Established repo ({repo.get('stars', 0)} stars) trending this week"),
     }
 
     return best_type, round(confidence, 2), reasons[best_type]

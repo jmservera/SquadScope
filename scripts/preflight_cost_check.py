@@ -4,6 +4,7 @@
 Estimates total input tokens from assembled context files, calculates
 expected cost, and aborts (exit 1) if the estimate exceeds the hard cap.
 """
+
 from __future__ import annotations
 
 import argparse

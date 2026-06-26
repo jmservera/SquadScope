@@ -39,7 +39,7 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts import analysis_gate, track_quality
+from scripts import analysis_gate, track_quality  # noqa: E402
 
 DEFAULT_ANALYZED_DIR = ROOT / "data" / "analyzed"
 DEFAULT_RAW_DIR = ROOT / "data" / "raw"
@@ -47,13 +47,21 @@ DEFAULT_METRICS_DIR = ROOT / "data" / "metrics"
 DEFAULT_SCORECARD_DIR = ROOT / ".squad" / "reskill" / "scorecards"
 DEFAULT_SNAPSHOTS_DIR = ROOT / "data" / "snapshots"
 
-REPO_LINK_PATTERN = re.compile(r"\[(?P<repo>[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)\]\(https://github\.com/[^)]+\)")
+REPO_LINK_PATTERN = re.compile(
+    r"\[(?P<repo>[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)\]\(https://github\.com/[^)]+\)"
+)
 WEEK_PATTERN = re.compile(r"^(\d{4}-W\d{2})$")
 RAW_WEEK_PATTERN = re.compile(r"^(\d{4}-W\d{2})\.json$")
 SNAPSHOT_WEEK_PATTERN = re.compile(r"^(\d{4}-W\d{2})-stars\.json$")
 HEADING_PATTERN = re.compile(r"(?m)^(#{2,3})\s+(.+?)\s*$")
 SIGNAL_HINTS = ("durable signal", "strongest signal", "credible signal", "signal this week")
-NOISE_HINTS = ("noise this week", "the noise", "coordination", "spam cluster", "manipulation campaign")
+NOISE_HINTS = (
+    "noise this week",
+    "the noise",
+    "coordination",
+    "spam cluster",
+    "manipulation campaign",
+)
 TOP_REPO_PATTERN = re.compile(r"^[^/\s]+/[^/\s]+$")
 
 
@@ -110,15 +118,53 @@ class ValidationError(ValueError):
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Validate weekly Signal/Noise/Gaps calls against later raw star data.")
-    parser.add_argument("--analyzed-dir", type=Path, default=DEFAULT_ANALYZED_DIR, help="Directory containing analyzed summaries.")
-    parser.add_argument("--raw-dir", type=Path, default=DEFAULT_RAW_DIR, help="Directory containing raw weekly JSON payloads.")
-    parser.add_argument("--snapshots-dir", type=Path, default=DEFAULT_SNAPSHOTS_DIR, help="Optional legacy snapshots directory; used when raw weekly JSON is unavailable.")
-    parser.add_argument("--metrics-dir", type=Path, default=DEFAULT_METRICS_DIR, help="Directory for machine-readable scorecards.")
-    parser.add_argument("--scorecard-dir", "--scorecards-dir", dest="scorecard_dir", type=Path, default=DEFAULT_SCORECARD_DIR, help="Directory for markdown scorecards.")
-    parser.add_argument("--weeks-ahead", type=int, default=4, help="Maximum lookahead window in ISO weeks (default: 4).")
-    parser.add_argument("--report-week", help="Override the scorecard week slug. Defaults to the current ISO week.")
-    parser.add_argument("--current-datetime", help="Optional ISO timestamp used to derive the default report week.")
+    parser = argparse.ArgumentParser(
+        description="Validate weekly Signal/Noise/Gaps calls against later raw star data."
+    )
+    parser.add_argument(
+        "--analyzed-dir",
+        type=Path,
+        default=DEFAULT_ANALYZED_DIR,
+        help="Directory containing analyzed summaries.",
+    )
+    parser.add_argument(
+        "--raw-dir",
+        type=Path,
+        default=DEFAULT_RAW_DIR,
+        help="Directory containing raw weekly JSON payloads.",
+    )
+    parser.add_argument(
+        "--snapshots-dir",
+        type=Path,
+        default=DEFAULT_SNAPSHOTS_DIR,
+        help="Optional legacy snapshots directory; used when raw weekly JSON is unavailable.",
+    )
+    parser.add_argument(
+        "--metrics-dir",
+        type=Path,
+        default=DEFAULT_METRICS_DIR,
+        help="Directory for machine-readable scorecards.",
+    )
+    parser.add_argument(
+        "--scorecard-dir",
+        "--scorecards-dir",
+        dest="scorecard_dir",
+        type=Path,
+        default=DEFAULT_SCORECARD_DIR,
+        help="Directory for markdown scorecards.",
+    )
+    parser.add_argument(
+        "--weeks-ahead",
+        type=int,
+        default=4,
+        help="Maximum lookahead window in ISO weeks (default: 4).",
+    )
+    parser.add_argument(
+        "--report-week", help="Override the scorecard week slug. Defaults to the current ISO week."
+    )
+    parser.add_argument(
+        "--current-datetime", help="Optional ISO timestamp used to derive the default report week."
+    )
     return parser.parse_args(argv)
 
 
@@ -169,7 +215,9 @@ def load_snapshot_week(snapshot_directory: Path | None, week_str: str) -> dict[s
     return {"new_repos": repos, "trending_repos": []}
 
 
-def list_available_raw_weeks(raw_directory: Path, snapshot_directory: Path | None = None) -> list[str]:
+def list_available_raw_weeks(
+    raw_directory: Path, snapshot_directory: Path | None = None
+) -> list[str]:
     weeks: set[str] = set()
     if raw_directory.exists():
         for path in raw_directory.glob("*.json"):
@@ -250,7 +298,9 @@ def normalize_claim_type(value: str) -> str:
     return claim_type
 
 
-def normalize_frontmatter_predictions(frontmatter: dict[str, Any], week: str, source_path: str) -> list[Prediction]:
+def normalize_frontmatter_predictions(
+    frontmatter: dict[str, Any], week: str, source_path: str
+) -> list[Prediction]:
     raw_predictions = frontmatter.get("predictions")
     if raw_predictions is None:
         return []
@@ -340,7 +390,11 @@ def load_summary_predictions(summary_path: Path) -> list[Prediction]:
     if not isinstance(week, str) or not WEEK_PATTERN.fullmatch(week):
         return []
 
-    source_path = str(summary_path.relative_to(ROOT)) if summary_path.is_relative_to(ROOT) else str(summary_path)
+    source_path = (
+        str(summary_path.relative_to(ROOT))
+        if summary_path.is_relative_to(ROOT)
+        else str(summary_path)
+    )
     frontmatter_predictions = normalize_frontmatter_predictions(frontmatter, week, source_path)
     if frontmatter_predictions:
         return frontmatter_predictions
@@ -356,18 +410,31 @@ def expected_growth(direction: str, confidence: float, weeks_observed: int) -> f
     return max(0.01, (0.05 - (confidence * 0.03)) * scale)
 
 
-def locate_observed_week(raw_directory: Path, prediction_week: str, weeks_ahead: int, snapshot_directory: Path | None = None) -> str | None:
+def locate_observed_week(
+    raw_directory: Path,
+    prediction_week: str,
+    weeks_ahead: int,
+    snapshot_directory: Path | None = None,
+) -> str | None:
     available = list_available_raw_weeks(raw_directory, snapshot_directory)
     candidates = [
         week
         for week in available
-        if week_distance(prediction_week, week) > 0 and week_distance(prediction_week, week) <= weeks_ahead
+        if week_distance(prediction_week, week) > 0
+        and week_distance(prediction_week, week) <= weeks_ahead
     ]
     return candidates[-1] if candidates else None
 
 
-def evaluate_prediction(prediction: Prediction, raw_directory: Path, weeks_ahead: int, snapshot_directory: Path | None = None) -> ValidationResult:
-    baseline_raw = load_raw_week(raw_directory, prediction.week) or load_snapshot_week(snapshot_directory, prediction.week)
+def evaluate_prediction(
+    prediction: Prediction,
+    raw_directory: Path,
+    weeks_ahead: int,
+    snapshot_directory: Path | None = None,
+) -> ValidationResult:
+    baseline_raw = load_raw_week(raw_directory, prediction.week) or load_snapshot_week(
+        snapshot_directory, prediction.week
+    )
     if baseline_raw is None:
         return ValidationResult(
             week=prediction.week,
@@ -412,7 +479,9 @@ def evaluate_prediction(prediction: Prediction, raw_directory: Path, weeks_ahead
         )
 
     baseline_stars = baseline_stars_map[prediction.repo]
-    observed_week = locate_observed_week(raw_directory, prediction.week, weeks_ahead, snapshot_directory)
+    observed_week = locate_observed_week(
+        raw_directory, prediction.week, weeks_ahead, snapshot_directory
+    )
     if observed_week is None:
         return ValidationResult(
             week=prediction.week,
@@ -434,7 +503,9 @@ def evaluate_prediction(prediction: Prediction, raw_directory: Path, weeks_ahead
             note="No later raw week is available inside the validation window.",
         )
 
-    observed_raw = load_raw_week(raw_directory, observed_week) or load_snapshot_week(snapshot_directory, observed_week)
+    observed_raw = load_raw_week(raw_directory, observed_week) or load_snapshot_week(
+        snapshot_directory, observed_week
+    )
     if observed_raw is None:
         return ValidationResult(
             week=prediction.week,
@@ -483,7 +554,11 @@ def evaluate_prediction(prediction: Prediction, raw_directory: Path, weeks_ahead
 
     observed_stars = observed_stars_map[prediction.repo]
     delta_stars = observed_stars - baseline_stars
-    delta_pct = (delta_stars / baseline_stars) if baseline_stars > 0 else (1.0 if observed_stars > 0 else 0.0)
+    delta_pct = (
+        (delta_stars / baseline_stars)
+        if baseline_stars > 0
+        else (1.0 if observed_stars > 0 else 0.0)
+    )
     threshold = expected_growth(prediction.direction, prediction.confidence, weeks_observed)
 
     if prediction.direction == "up":
@@ -519,11 +594,15 @@ def evaluate_prediction(prediction: Prediction, raw_directory: Path, weeks_ahead
     )
 
 
-def summarize_bucket(results: list[ValidationResult], key: str) -> dict[str, dict[str, float | int]]:
+def summarize_bucket(
+    results: list[ValidationResult], key: str
+) -> dict[str, dict[str, float | int]]:
     summary: dict[str, dict[str, float | int]] = {}
     for result in results:
         bucket = getattr(result, key)
-        entry = summary.setdefault(bucket, {"total": 0, "correct": 0, "incorrect": 0, "accuracy": 0.0})
+        entry = summary.setdefault(
+            bucket, {"total": 0, "correct": 0, "incorrect": 0, "accuracy": 0.0}
+        )
         entry["total"] += 1
         if result.verdict == "correct":
             entry["correct"] += 1
@@ -567,7 +646,9 @@ def quality_trend_summary(analyzed_dir: Path) -> dict[str, Any]:
     }
 
 
-def build_scorecard(results: list[ValidationResult], analyzed_dir: Path, report_week: str) -> ScorecardSummary:
+def build_scorecard(
+    results: list[ValidationResult], analyzed_dir: Path, report_week: str
+) -> ScorecardSummary:
     validated = [result for result in results if result.verdict in {"correct", "incorrect"}]
     insufficient = [result for result in results if result.verdict == "insufficient_evidence"]
     correct = sum(1 for result in validated if result.verdict == "correct")
@@ -609,7 +690,10 @@ def render_quality_block(quality: dict[str, Any]) -> list[str]:
 def render_accuracy_table(summary: dict[str, dict[str, float | int]], label: str) -> list[str]:
     if not summary:
         return [f"No validated {label.lower()} calls yet."]
-    lines = [f"| {label} | Correct | Incorrect | Total | Accuracy |", "| --- | ---: | ---: | ---: | ---: |"]
+    lines = [
+        f"| {label} | Correct | Incorrect | Total | Accuracy |",
+        "| --- | ---: | ---: | ---: | ---: |",
+    ]
     for bucket, stats in sorted(summary.items()):
         lines.append(
             f"| {bucket} | {int(stats['correct'])} | {int(stats['incorrect'])} | {int(stats['total'])} | {render_percentage(float(stats['accuracy']))} |"
@@ -718,16 +802,25 @@ def run_validation(
     for summary_path in sorted(analyzed_dir.glob("*-summary.md")):
         predictions.extend(load_summary_predictions(summary_path))
 
-    results = [evaluate_prediction(prediction, raw_dir, weeks_ahead, snapshot_dir) for prediction in predictions]
+    results = [
+        evaluate_prediction(prediction, raw_dir, weeks_ahead, snapshot_dir)
+        for prediction in predictions
+    ]
     summary = build_scorecard(results, analyzed_dir, report_week or current_iso_week())
     save_json_scorecard(summary, metrics_dir)
-    save_markdown_scorecard(render_markdown_scorecard(summary, weeks_ahead), scorecard_dir, summary.week)
+    save_markdown_scorecard(
+        render_markdown_scorecard(summary, weeks_ahead), scorecard_dir, summary.week
+    )
     return summary
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
-    now = datetime.fromisoformat(args.current_datetime.replace("Z", "+00:00")) if args.current_datetime else None
+    now = (
+        datetime.fromisoformat(args.current_datetime.replace("Z", "+00:00"))
+        if args.current_datetime
+        else None
+    )
     summary = run_validation(
         analyzed_dir=args.analyzed_dir,
         raw_dir=args.raw_dir,
@@ -737,8 +830,12 @@ def main(argv: list[str] | None = None) -> int:
         report_week=args.report_week or current_iso_week(now),
         snapshot_dir=args.snapshots_dir,
     )
-    print(f"Validated {summary.validated} of {summary.total_predictions} predictions for {summary.week}.")
-    print(f"Accuracy: {render_percentage(summary.accuracy)} ({summary.correct}/{summary.validated if summary.validated else 0}).")
+    print(
+        f"Validated {summary.validated} of {summary.total_predictions} predictions for {summary.week}."
+    )
+    print(
+        f"Accuracy: {render_percentage(summary.accuracy)} ({summary.correct}/{summary.validated if summary.validated else 0})."
+    )
     return 0
 
 

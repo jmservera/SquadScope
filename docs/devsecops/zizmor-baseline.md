@@ -1,7 +1,9 @@
-# Zizmor Baseline (Phase A — warning-only)
+# Zizmor Baseline
 
-> Issue: jmservera/SquadScope#542 · Epic: jmservera/SquadScope-Coordinator#33
-> Mode: **warning-only / non-blocking**. Do not fix (Phase B) or enforce (Phase C) yet.
+> Issue: jmservera/SquadScope#542 (Phase A) · jmservera/SquadScope#543 (Phase B fixes)
+> Epic: jmservera/SquadScope-Coordinator#33
+> Status: **Phase B complete** for High-severity — 0 high/medium findings; CI
+> (default persona) is clean. Remaining pedantic info/low items are documented below.
 
 [zizmor](https://github.com/zizmorcore/zizmor) audits GitHub Actions workflows
 for supply-chain risks (template injection, dangerous triggers, unpinned actions,
@@ -32,21 +34,27 @@ normalizes it to the Phase-A contract — it does **not** recreate the job.
 on the default persona; the action focuses on P0 findings (template-injection,
 dangerous-triggers), of which there are none.
 
-### Deep (`pedantic`) persona — full backlog for Phase B
+### Deep (`pedantic`) persona — Phase B progress
 
-Total: **36** findings.
+| Rule | Severity | Phase A | Now | Phase B resolution |
+|------|----------|--------:|----:|--------------------|
+| excessive-permissions | High | 4 | **0** | Moved workflow-level write `permissions:` to job level (`copilot-pricing-review`, `restore-publish-backup`, `sync-publish-to-main`) |
+| concurrency-limits | Low | 3 | **0** | Added workflow `concurrency:` groups (`copilot-pricing-review`, `podcaster-handoff-smoke`, `trigger-podcast`) |
+| undocumented-permissions | Low | 14 | 12 | Documented the scoped write perms that were fixed; remainder are explanatory-comment nits in `crawl-and-publish.yml`, `deploy-site.yml`, `security-scanning.yml`, `checkov.yml` |
+| anonymous-definition | Informational | 15 | 15 | Deferred — naming jobs in large generated/complex workflows; no security impact |
 
-| Count | Rule | Severity |
-|------:|------|----------|
-| 15 | anonymous-definition | Informational |
-| 14 | undocumented-permissions | Low |
-| 4 | excessive-permissions | High |
-| 3 | concurrency-limits | Low |
+All **High** findings are resolved. The default (`regular`) persona that CI
+enforces reports **no findings**, so the Phase-C blocking flip is safe.
 
-By severity: High 4 · Low 17 · Informational 15.
+### Deferred (pedantic info/low, no CI impact)
 
-> The 4 `excessive-permissions` (High) findings are the priority items for
-> Phase B. The remainder are documentation/informational hardening.
+- `undocumented-permissions` (Low ×12) — add explanatory comments next to
+  remaining `permissions:` blocks.
+- `anonymous-definition` (Informational ×15) — add `name:` to jobs in
+  `crawl-and-publish.yml` and peers.
+
+These are documentation/hardening nits surfaced only by `--persona pedantic`;
+they do not affect the default-persona CI gate.
 
 ## Running locally
 
@@ -66,15 +74,8 @@ zizmor $(find .github/workflows -maxdepth 1 -type f \
   ! -name "squad-*.yml" ! -name "sync-squad-labels.yml" | sort)
 ```
 
-## Findings deferred to Phase B
-
-- `excessive-permissions` (High ×4) — tighten job/workflow `permissions:` blocks.
-- `undocumented-permissions` (Low ×14) — add explicit minimal permissions.
-- `concurrency-limits` (Low ×3) — add `concurrency:` groups where missing.
-- `anonymous-definition` (Informational ×15) — name unnamed steps/definitions.
-
 ## Phase plan
 
-- **Phase A (now):** confirm non-blocking + SARIF wiring; record baseline. ← this PR
-- **Phase B:** fix High-severity excessive-permissions, then Low/Informational.
-- **Phase C:** blocking enforcement (drop `continue-on-error`).
+- **Phase A:** confirm non-blocking + SARIF wiring; record baseline. ✅
+- **Phase B:** fix High-severity excessive-permissions + concurrency-limits. ✅ (info/low nits deferred above)
+- **Phase C:** blocking enforcement — drop `continue-on-error` (#545).

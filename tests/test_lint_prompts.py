@@ -24,10 +24,7 @@ def test_lint_passes_on_well_formed_prompt(tmp_path: Path) -> None:
 def test_lint_fails_on_missing_closing_constraint(tmp_path: Path) -> None:
     prompt = tmp_path / "bad.md"
     prompt.write_text(
-        "# Prompt\n\n"
-        "<untrusted-content>\n\n"
-        "{{RAW_JSON_CONTENT}}\n\n"
-        "</untrusted-content>\n\n"
+        "# Prompt\n\n<untrusted-content>\n\n{{RAW_JSON_CONTENT}}\n\n</untrusted-content>\n\n"
     )
     errors = lint_prompt(prompt)
     assert any("Closing security constraint" in e for e in errors)

@@ -15,12 +15,18 @@ from typing import Any
 from urllib import error, parse, request
 
 try:
-    from scripts.assemble_historical_context import DEFAULT_CONTENT_ROOT, assemble_historical_context
+    from scripts.assemble_historical_context import (
+        DEFAULT_CONTENT_ROOT,
+        assemble_historical_context,
+    )
     from scripts.learned_context import render_continuity
     from scripts.sanitize_repo_content import sanitize_repo_payload
 except ModuleNotFoundError:  # pragma: no cover - script execution path
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from scripts.assemble_historical_context import DEFAULT_CONTENT_ROOT, assemble_historical_context
+    from scripts.assemble_historical_context import (
+        DEFAULT_CONTENT_ROOT,
+        assemble_historical_context,
+    )
     from scripts.learned_context import render_continuity
     from scripts.sanitize_repo_content import sanitize_repo_payload
 
@@ -32,6 +38,8 @@ DEFAULT_SKILLS_DIR = ROOT / ".squad" / "skills"
 DEFAULT_CONTINUITY_FILE = ROOT / ".squad" / "identity" / "continuity.md"
 DEFAULT_MODELS_ENDPOINT = "https://models.github.ai/inference/chat/completions"
 DEFAULT_MODELS_MODEL = "openai/gpt-4o"
+# Synthesis step defaults to the same GitHub Models model unless overridden.
+DEFAULT_SYNTHESIS_MODEL = DEFAULT_MODELS_MODEL
 DEFAULT_MODELS_TIMEOUT = 30
 ALLOWED_MODELS_HOSTS: frozenset[str] = frozenset({"models.github.ai"})
 _JITTER_RANDOM = secrets.SystemRandom()
@@ -146,10 +154,18 @@ class PromptPreflight:
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Render/preflight weekly analysis prompts or generate diagnostic no-AI output.")
-    parser.add_argument("--raw-json", required=True, type=Path, help="Path to the weekly raw JSON payload.")
-    parser.add_argument("--output", required=True, type=Path, help="Path to write the analyzed markdown output.")
-    parser.add_argument("--current-datetime", required=True, help="ISO-8601 timestamp for the analysis run.")
+    parser = argparse.ArgumentParser(
+        description="Render/preflight weekly analysis prompts or generate diagnostic no-AI output."
+    )
+    parser.add_argument(
+        "--raw-json", required=True, type=Path, help="Path to the weekly raw JSON payload."
+    )
+    parser.add_argument(
+        "--output", required=True, type=Path, help="Path to write the analyzed markdown output."
+    )
+    parser.add_argument(
+        "--current-datetime", required=True, help="ISO-8601 timestamp for the analysis run."
+    )
     parser.add_argument(
         "--prompt-template",
         type=Path,
@@ -287,7 +303,9 @@ def _repo_int(value: Any) -> int | None:
 def _repo_topics(value: Any) -> list[str]:
     if not isinstance(value, list):
         return []
-    return [str(topic) for topic in value if isinstance(topic, (str, int, float)) and str(topic).strip()]
+    return [
+        str(topic) for topic in value if isinstance(topic, (str, int, float)) and str(topic).strip()
+    ]
 
 
 REQUIRED_REPO_SLICE_FIELDS = (
@@ -307,8 +325,12 @@ def compact_repo_record(repo: dict[str, Any], *, source: str) -> dict[str, Any]:
     url = repo.get("url")
     return {
         "full_name": full_name,
-        "url": url if isinstance(url, str) and url.strip() else (f"https://github.com/{full_name}" if full_name else None),
-        "description": repo.get("description") if isinstance(repo.get("description"), str) else None,
+        "url": url
+        if isinstance(url, str) and url.strip()
+        else (f"https://github.com/{full_name}" if full_name else None),
+        "description": repo.get("description")
+        if isinstance(repo.get("description"), str)
+        else None,
         "language": repo.get("language") if isinstance(repo.get("language"), str) else None,
         "topics": _repo_topics(repo.get("topics")),
         "stars": _repo_int(repo.get("stars")),
@@ -334,19 +356,25 @@ def _inventory_repo_refs(payload: dict[str, Any], field: str) -> list[EvidenceRe
             EvidenceRepoRef(
                 full_name=full_name.strip(),
                 url=url if isinstance(url, str) and url.strip() else None,
-                description=repo.get("description") if isinstance(repo.get("description"), str) else None,
+                description=repo.get("description")
+                if isinstance(repo.get("description"), str)
+                else None,
                 language=repo.get("language") if isinstance(repo.get("language"), str) else None,
                 topics=_repo_topics(repo.get("topics")),
                 source=field,
                 stars=_repo_int(repo.get("stars")),
                 stars_gained=_repo_int(repo.get("stars_gained")),
-                created_at=repo.get("created_at") if isinstance(repo.get("created_at"), str) else None,
+                created_at=repo.get("created_at")
+                if isinstance(repo.get("created_at"), str)
+                else None,
             )
         )
     return refs
 
 
-def _evidence_inventory(name: str, payload: dict[str, Any], field: str, path: Path) -> EvidenceInventory:
+def _evidence_inventory(
+    name: str, payload: dict[str, Any], field: str, path: Path
+) -> EvidenceInventory:
     content = json.dumps(payload.get(field, []), indent=2, ensure_ascii=False)
     repos = _inventory_repo_refs(payload, field)
     return EvidenceInventory(
@@ -360,14 +388,18 @@ def _evidence_inventory(name: str, payload: dict[str, Any], field: str, path: Pa
     )
 
 
-def _press_paths_for_context(press_context_path: Path | None, week: str) -> tuple[Path | None, Path | None]:
+def _press_paths_for_context(
+    press_context_path: Path | None, week: str
+) -> tuple[Path | None, Path | None]:
     if press_context_path is None:
         return None, None
     data_dir = press_context_path.parent.parent
     external_path = data_dir / "raw" / f"{week}-external-news.json"
     legacy_path = data_dir / "raw" / f"{week}-techcrunch.json"
     corr_path = data_dir / "analyzed" / f"{week}-correlations.json"
-    news_path = external_path if external_path.exists() else legacy_path if legacy_path.exists() else None
+    news_path = (
+        external_path if external_path.exists() else legacy_path if legacy_path.exists() else None
+    )
     return news_path, corr_path if corr_path.exists() else None
 
 
@@ -381,7 +413,11 @@ def _safe_load_json(path: Path | None) -> dict[str, Any] | None:
     return payload if isinstance(payload, dict) else None
 
 
-def _article_inventory(news_payload: dict[str, Any] | None, correlation_payload: dict[str, Any] | None, path: Path | None) -> PressInventory:
+def _article_inventory(
+    news_payload: dict[str, Any] | None,
+    correlation_payload: dict[str, Any] | None,
+    path: Path | None,
+) -> PressInventory:
     articles = news_payload.get("articles", []) if news_payload else []
     correlations = correlation_payload.get("correlations", []) if correlation_payload else []
     repo_by_url: dict[str, set[str]] = {}
@@ -389,26 +425,48 @@ def _article_inventory(news_payload: dict[str, Any] | None, correlation_payload:
         if not isinstance(corr, dict):
             continue
         repo = corr.get("repo")
-        for url in corr.get("matched_articles", []) if isinstance(corr.get("matched_articles"), list) else []:
+        for url in (
+            corr.get("matched_articles", [])
+            if isinstance(corr.get("matched_articles"), list)
+            else []
+        ):
             if isinstance(url, str) and isinstance(repo, str):
                 repo_by_url.setdefault(url, set()).add(repo)
-        for detail in corr.get("matched_article_details", []) if isinstance(corr.get("matched_article_details"), list) else []:
-            if isinstance(detail, dict) and isinstance(detail.get("url"), str) and isinstance(repo, str):
+        for detail in (
+            corr.get("matched_article_details", [])
+            if isinstance(corr.get("matched_article_details"), list)
+            else []
+        ):
+            if (
+                isinstance(detail, dict)
+                and isinstance(detail.get("url"), str)
+                and isinstance(repo, str)
+            ):
                 repo_by_url.setdefault(detail["url"], set()).add(repo)
     refs: list[EvidencePressRef] = []
     for article in articles if isinstance(articles, list) else []:
-        if not isinstance(article, dict) or not isinstance(article.get("url"), str) or not article["url"].strip():
+        if (
+            not isinstance(article, dict)
+            or not isinstance(article.get("url"), str)
+            or not article["url"].strip()
+        ):
             continue
-        categories = article.get("categories") if isinstance(article.get("categories"), list) else []
+        categories = (
+            article.get("categories") if isinstance(article.get("categories"), list) else []
+        )
         relevance = article.get("relevance_score")
         refs.append(
             EvidencePressRef(
                 title=article.get("title") if isinstance(article.get("title"), str) else None,
                 url=article["url"],
                 source=article.get("source") if isinstance(article.get("source"), str) else None,
-                published_at=article.get("published_at") if isinstance(article.get("published_at"), str) else None,
+                published_at=article.get("published_at")
+                if isinstance(article.get("published_at"), str)
+                else None,
                 categories=[str(category) for category in categories],
-                relevance_score=float(relevance) if isinstance(relevance, (int, float)) and not isinstance(relevance, bool) else None,
+                relevance_score=float(relevance)
+                if isinstance(relevance, (int, float)) and not isinstance(relevance, bool)
+                else None,
                 correlation_repos=sorted(repo_by_url.get(article["url"], set())),
             )
         )
@@ -431,7 +489,11 @@ def _source_ref(path: Path | None, content: str | None = None) -> dict[str, Any]
         if path is None or not path.exists():
             return None
         data = path.read_bytes()
-        return {"path": path.as_posix(), "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()}
+        return {
+            "path": path.as_posix(),
+            "bytes": len(data),
+            "sha256": hashlib.sha256(data).hexdigest(),
+        }
     encoded = content.encode("utf-8")
     return {
         "path": path.as_posix() if path else None,
@@ -446,9 +508,18 @@ def _slice_checksum_payload(payload: dict[str, Any]) -> dict[str, Any]:
     return stripped
 
 
-def validate_evidence_slice(payload: dict[str, Any], *, expected_checksum: str | None = None) -> list[str]:
+def validate_evidence_slice(
+    payload: dict[str, Any], *, expected_checksum: str | None = None
+) -> list[str]:
     errors: list[str] = []
-    for field in ("schema_version", "slice_name", "component", "records", "provenance", "checksum_sha256"):
+    for field in (
+        "schema_version",
+        "slice_name",
+        "component",
+        "records",
+        "provenance",
+        "checksum_sha256",
+    ):
         if field not in payload:
             errors.append(f"slice missing {field}")
     checksum = payload.get("checksum_sha256")
@@ -473,7 +544,11 @@ def validate_evidence_slice(payload: dict[str, Any], *, expected_checksum: str |
             errors.append("slice provenance sources missing")
         else:
             for name, source in sources.items():
-                if not isinstance(source, dict) or not source.get("sha256") or not isinstance(source.get("bytes"), int):
+                if (
+                    not isinstance(source, dict)
+                    or not source.get("sha256")
+                    or not isinstance(source.get("bytes"), int)
+                ):
                     errors.append(f"slice provenance source {name} missing checksum/bytes")
     if payload.get("component") in {"new_repos", "trending_repos"}:
         for index, record in enumerate(records):
@@ -486,7 +561,9 @@ def validate_evidence_slice(payload: dict[str, Any], *, expected_checksum: str |
     return errors
 
 
-def _build_slice(name: str, records: list[dict[str, Any]], provenance: dict[str, Any]) -> dict[str, Any]:
+def _build_slice(
+    name: str, records: list[dict[str, Any]], provenance: dict[str, Any]
+) -> dict[str, Any]:
     payload = {
         "schema_version": "analysis_evidence_slice_v1",
         "slice_name": name,
@@ -511,9 +588,12 @@ def build_evidence_slices(
 ) -> dict[str, dict[str, Any]]:
     raw_source = _source_ref(raw_path)
     press_source = _source_ref(press_context_path, press_content) if press_content else None
-    previous_source = _source_ref(previous_summary_path, previous_summary_content) if previous_summary_content else None
+    previous_source = (
+        _source_ref(previous_summary_path, previous_summary_content)
+        if previous_summary_content
+        else None
+    )
     news_path, corr_path = _press_paths_for_context(press_context_path, week)
-    news_payload = _safe_load_json(news_path)
     corr_payload = _safe_load_json(corr_path)
     news_source = _source_ref(news_path)
     corr_source = _source_ref(corr_path)
@@ -521,7 +601,11 @@ def build_evidence_slices(
     slices = {
         "new_repos": _build_slice(
             "new_repos",
-            [compact_repo_record(repo, source="new_repos") for repo in payload_for_prompt.get("new_repos", []) if isinstance(repo, dict)],
+            [
+                compact_repo_record(repo, source="new_repos")
+                for repo in payload_for_prompt.get("new_repos", [])
+                if isinstance(repo, dict)
+            ],
             base_provenance,
         ),
         "trending_repos": _build_slice(
@@ -535,7 +619,12 @@ def build_evidence_slices(
         ),
     }
     press_sources = {}
-    for key, source in (("raw_json", raw_source), ("press_context", press_source), ("external_news", news_source), ("correlations", corr_source)):
+    for key, source in (
+        ("raw_json", raw_source),
+        ("press_context", press_source),
+        ("external_news", news_source),
+        ("correlations", corr_source),
+    ):
         if source:
             press_sources[key] = source
     press_records: list[dict[str, Any]] = []
@@ -555,7 +644,9 @@ def build_evidence_slices(
             )
     if not press_records and press_content:
         urls = sorted(set(re.findall(r"https?://[^\s)\]]+", press_content)))
-        press_records = [{"url": url.rstrip(".,"), "source": "rendered_press_context"} for url in urls]
+        press_records = [
+            {"url": url.rstrip(".,"), "source": "rendered_press_context"} for url in urls
+        ]
     slices["press_correlations"] = _build_slice(
         "press_correlations",
         press_records,
@@ -578,7 +669,9 @@ def build_evidence_slices(
     return slices
 
 
-def write_evidence_slices(slices: dict[str, dict[str, Any]], manifest_path: Path | None) -> list[EvidenceSliceRef]:
+def write_evidence_slices(
+    slices: dict[str, dict[str, Any]], manifest_path: Path | None
+) -> list[EvidenceSliceRef]:
     refs: list[EvidenceSliceRef] = []
     output_dir = manifest_path.parent / "evidence-slices" if manifest_path else None
     if output_dir:
@@ -594,11 +687,15 @@ def write_evidence_slices(slices: dict[str, dict[str, Any]], manifest_path: Path
             EvidenceSliceRef(
                 name=name,
                 path=path.as_posix() if path else None,
-                item_count=len(payload.get("records", [])) if isinstance(payload.get("records"), list) else 0,
+                item_count=len(payload.get("records", []))
+                if isinstance(payload.get("records"), list)
+                else 0,
                 bytes=len(text.encode("utf-8")),
                 token_estimate=estimate_tokens(text),
                 checksum_sha256=checksum,
-                provenance=payload.get("provenance", {}) if isinstance(payload.get("provenance"), dict) else {},
+                provenance=payload.get("provenance", {})
+                if isinstance(payload.get("provenance"), dict)
+                else {},
                 validation_errors=validate_evidence_slice(payload),
             )
         )
@@ -632,7 +729,9 @@ def _resolve_existing_path(configured: str | None, fallback: Path) -> Path:
     candidates: list[Path] = []
     if configured:
         configured_path = Path(configured)
-        candidates.append(configured_path if configured_path.is_absolute() else ROOT / configured_path)
+        candidates.append(
+            configured_path if configured_path.is_absolute() else ROOT / configured_path
+        )
         if not configured_path.is_absolute():
             candidates.append(ROOT / ".squad" / configured_path)
     candidates.append(fallback)
@@ -684,6 +783,7 @@ def render_wisdom(wisdom_file: Path) -> str:
         return "_No learned wisdom has been recorded yet._"
     # Sanitize boundary markers to prevent fence escape from prior LLM output
     from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
     return _escape_untrusted_boundaries(content)
 
 
@@ -729,19 +829,25 @@ def compact_payload(payload: dict[str, Any]) -> tuple[dict[str, Any], dict[str, 
     decisions = {"new_repos": "included", "trending_repos": "included"}
     new_repos = payload.get("new_repos")
     if isinstance(new_repos, list) and len(new_repos) > COMPACTED_NEW_REPOS_LIMIT:
-        compacted["new_repos"] = _sort_repos_for_compaction(new_repos, "stars")[:COMPACTED_NEW_REPOS_LIMIT]
+        compacted["new_repos"] = _sort_repos_for_compaction(new_repos, "stars")[
+            :COMPACTED_NEW_REPOS_LIMIT
+        ]
         decisions["new_repos"] = f"compacted to top {COMPACTED_NEW_REPOS_LIMIT} repos by stars"
     trending_repos = payload.get("trending_repos")
     if isinstance(trending_repos, list) and len(trending_repos) > COMPACTED_TRENDING_REPOS_LIMIT:
         compacted["trending_repos"] = _sort_repos_for_compaction(trending_repos, "stars_gained")[
             :COMPACTED_TRENDING_REPOS_LIMIT
         ]
-        decisions["trending_repos"] = f"compacted to top {COMPACTED_TRENDING_REPOS_LIMIT} repos by stars_gained/stars"
+        decisions["trending_repos"] = (
+            f"compacted to top {COMPACTED_TRENDING_REPOS_LIMIT} repos by stars_gained/stars"
+        )
     if decisions["new_repos"] != "included" or decisions["trending_repos"] != "included":
         compacted["_preflight_compaction"] = {
             "reason": "Rendered prompt exceeded explicit token budget before model invocation.",
             "new_repos_original_count": len(new_repos) if isinstance(new_repos, list) else 0,
-            "trending_repos_original_count": len(trending_repos) if isinstance(trending_repos, list) else 0,
+            "trending_repos_original_count": len(trending_repos)
+            if isinstance(trending_repos, list)
+            else 0,
             "new_repos_decision": decisions["new_repos"],
             "trending_repos_decision": decisions["trending_repos"],
         }
@@ -805,7 +911,10 @@ def _build_synthesis_prompt(
         sections.append(f"## Press Context\n\n{press_content}")
     if historical_context_content:
         sections.append(f"## Historical Context\n\n{historical_context_content}")
-    if continuity_content and continuity_content != "_No continuity capsule has been recorded yet._":
+    if (
+        continuity_content
+        and continuity_content != "_No continuity capsule has been recorded yet._"
+    ):
         sections.append(f"## Continuity Notes\n\n{continuity_content}")
 
     return "\n\n---\n\n".join(sections)
@@ -836,13 +945,17 @@ def render_synthesis_prompt(
 
     historical_context_content = _escape_untrusted_boundaries(historical_context_content)
     if not historical_context_content:
-        historical_context_content = "_No historical context was available beyond the current weekly payload._"
+        historical_context_content = (
+            "_No historical context was available beyond the current weekly payload._"
+        )
 
     continuity_content = render_continuity(continuity_file)
 
     press_content = (
         press_context_path.read_text(encoding="utf-8").strip()
-        if press_context_path and press_context_path.exists() and press_context_path.stat().st_size > 0
+        if press_context_path
+        and press_context_path.exists()
+        and press_context_path.stat().st_size > 0
         else ""
     )
 
@@ -906,13 +1019,17 @@ def run_synthesis_step(
 
     historical_context_content = _escape_untrusted_boundaries(historical_context_content)
     if not historical_context_content:
-        historical_context_content = "_No historical context was available beyond the current weekly payload._"
+        historical_context_content = (
+            "_No historical context was available beyond the current weekly payload._"
+        )
 
     continuity_content = render_continuity(continuity_file)
 
     press_content = (
         press_context_path.read_text(encoding="utf-8").strip()
-        if press_context_path and press_context_path.exists() and press_context_path.stat().st_size > 0
+        if press_context_path
+        and press_context_path.exists()
+        and press_context_path.stat().st_size > 0
         else ""
     )
 
@@ -921,6 +1038,7 @@ def run_synthesis_step(
         press_content = _strip_ai_instruction_blocks(press_content)
     # Escape boundary markers in untrusted press content
     from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
     if press_content:
         press_content = _escape_untrusted_boundaries(press_content)
 
@@ -962,6 +1080,7 @@ def _call_synthesis_api(prompt: str, *, model: str) -> str:
 
     # Inject canary token for output leak detection
     from scripts.canary_token import generate_canary, inject_canary
+
     canary = generate_canary()
     prompt = inject_canary(prompt, canary)
 
@@ -1004,9 +1123,7 @@ def _call_synthesis_api(prompt: str, *, model: str) -> str:
         except error.HTTPError as exc:
             if exc.code not in RETRYABLE_STATUS_CODES or attempt == MAX_RETRIES:
                 detail = exc.read().decode("utf-8", errors="replace")
-                raise RuntimeError(
-                    f"Synthesis API request failed ({exc.code}): {detail}"
-                ) from exc
+                raise RuntimeError(f"Synthesis API request failed ({exc.code}): {detail}") from exc
             # Respect Retry-After header on 429
             retry_after = None
             if exc.code == 429:
@@ -1016,7 +1133,11 @@ def _call_synthesis_api(prompt: str, *, model: str) -> str:
                         retry_after = float(retry_after_header)
                     except (ValueError, TypeError):
                         pass
-            delay = retry_after if retry_after else BASE_DELAY ** (attempt + 1) + _JITTER_RANDOM.uniform(0, 1)
+            delay = (
+                retry_after
+                if retry_after
+                else BASE_DELAY ** (attempt + 1) + _JITTER_RANDOM.uniform(0, 1)
+            )
             print(
                 f"[retry] Synthesis API returned {exc.code}, "
                 f"retrying in {delay:.1f}s (attempt {attempt + 1}/{MAX_RETRIES})",
@@ -1026,9 +1147,7 @@ def _call_synthesis_api(prompt: str, *, model: str) -> str:
             time.sleep(delay)
         except error.URLError as exc:
             if attempt == MAX_RETRIES:
-                raise RuntimeError(
-                    f"Synthesis API network error: {exc.reason}"
-                ) from exc
+                raise RuntimeError(f"Synthesis API network error: {exc.reason}") from exc
             delay = BASE_DELAY ** (attempt + 1) + _JITTER_RANDOM.uniform(0, 1)
             print(
                 f"[retry] Synthesis API network error: {exc.reason}, "
@@ -1061,7 +1180,9 @@ def _build_prompt(
     sanitized_payload = sanitize_repo_payload(payload)
     current_week = sanitized_payload["week"]
     previous_summary_path = find_previous_summary(current_week, analyzed_dir)
-    previous_summary_content = previous_summary_path.read_text(encoding="utf-8") if previous_summary_path else ""
+    previous_summary_content = (
+        previous_summary_path.read_text(encoding="utf-8") if previous_summary_path else ""
+    )
     historical_context_content = assemble_historical_context(
         current_datetime=current_datetime,
         previous_summary_path=previous_summary_path,
@@ -1074,34 +1195,47 @@ def _build_prompt(
     historical_context_content = _escape_untrusted_boundaries(historical_context_content)
     previous_summary_content = _escape_untrusted_boundaries(previous_summary_content)
     if not historical_context_content:
-        historical_context_content = "_No historical context was available beyond the current weekly payload._"
+        historical_context_content = (
+            "_No historical context was available beyond the current weekly payload._"
+        )
     wisdom_content = render_wisdom(wisdom_file)
     skills_content = render_skills(skills_dir)
     continuity_content = render_continuity(continuity_file)
     press_content = (
         press_context_path.read_text(encoding="utf-8").strip()
-        if press_context_path and press_context_path.exists() and press_context_path.stat().st_size > 0
+        if press_context_path
+        and press_context_path.exists()
+        and press_context_path.stat().st_size > 0
         else ""
     )
     # When a synthesis narrative is available (Step 1 output), it replaces
     # the raw press context and historical context — those were already
     # distilled into the narrative.  This dramatically reduces token count.
     if synthesis_narrative:
-        historical_context_content = (
-            f"[Industry narrative synthesized from press & historical context]\n\n{synthesis_narrative}"
-        )
+        historical_context_content = f"[Industry narrative synthesized from press & historical context]\n\n{synthesis_narrative}"
         press_content = ""
     payload_for_prompt = sanitized_payload
     raw_decisions = {"new_repos": "included", "trending_repos": "included"}
     previous_decision = "included" if previous_summary_path else "not included: no previous summary"
     historical_context_decision = (
         "included"
-        if historical_context_content != "_No historical context was available beyond the current weekly payload._"
+        if historical_context_content
+        != "_No historical context was available beyond the current weekly payload._"
         else "not included: no historical sources available"
     )
-    wisdom_decision = "included" if wisdom_file.exists() else "not included: no analysis-specific wisdom file"
-    skills_decision = "included" if skills_dir.exists() and iter_skill_files(skills_dir) else "not included: no analysis-specific skills"
-    continuity_decision = "included" if continuity_file.exists() else "not included: no analysis-specific continuity capsule"
+    wisdom_decision = (
+        "included" if wisdom_file.exists() else "not included: no analysis-specific wisdom file"
+    )
+    skills_decision = (
+        "included"
+        if skills_dir.exists() and iter_skill_files(skills_dir)
+        else "not included: no analysis-specific skills"
+    )
+    continuity_decision = (
+        "included"
+        if continuity_file.exists()
+        else "not included: no analysis-specific continuity capsule"
+    )
     press_decision = "included" if press_content else "not included: no press context"
     degraded = False
 
@@ -1109,7 +1243,9 @@ def _build_prompt(
         raw_json_content = json.dumps(payload_for_prompt, indent=2, ensure_ascii=False)
         current_year, _, week_number = current_week.partition("-W")
         generic_title_example = (
-            f"Week {int(week_number)}, {current_year} Analysis" if week_number.isdigit() else "Week NN, YYYY Analysis"
+            f"Week {int(week_number)}, {current_year} Analysis"
+            if week_number.isdigit()
+            else "Week NN, YYYY Analysis"
         )
         prompt = prompt_template_path.read_text(encoding="utf-8")
         replacements = {
@@ -1118,11 +1254,13 @@ def _build_prompt(
             "{{CURRENT_YEAR}}": current_year,
             "{{TITLE_TEMPLATE_HINT}}": (
                 f"Specific editorial headline about {current_week}'s dominant themes "
-                f"(not \"{generic_title_example}\")"
+                f'(not "{generic_title_example}")'
             ),
             "{{RAW_JSON_PATH}}": str(raw_json_path),
             "{{OUTPUT_PATH}}": str(output_path),
-            "{{PREVIOUS_SUMMARY_PATH_OR_NONE}}": str(previous_summary_path) if previous_summary_path else "None",
+            "{{PREVIOUS_SUMMARY_PATH_OR_NONE}}": str(previous_summary_path)
+            if previous_summary_path
+            else "None",
             "{{HISTORICAL_CONTEXT}}": historical_context_content,
             "{{RAW_JSON_CONTENT}}": raw_json_content,
             "{{PREVIOUS_SUMMARY_CONTENT_OR_EMPTY}}": previous_summary_content.strip(),
@@ -1149,8 +1287,12 @@ def _build_prompt(
                 COMPACTED_HISTORICAL_CONTEXT_CHARS,
                 "historical context",
             )
-        wisdom_content, wisdom_decision = truncate_with_notice(wisdom_content, COMPACTED_WISDOM_CHARS, "analysis wisdom")
-        skills_content, skills_decision = truncate_with_notice(skills_content, COMPACTED_SKILLS_CHARS, "analysis skills")
+        wisdom_content, wisdom_decision = truncate_with_notice(
+            wisdom_content, COMPACTED_WISDOM_CHARS, "analysis wisdom"
+        )
+        skills_content, skills_decision = truncate_with_notice(
+            skills_content, COMPACTED_SKILLS_CHARS, "analysis skills"
+        )
         continuity_content, continuity_decision = truncate_with_notice(
             continuity_content, COMPACTED_CONTINUITY_CHARS, "analysis continuity"
         )
@@ -1172,7 +1314,9 @@ def _build_prompt(
         ),
         _component(
             name="new_repos",
-            content=json.dumps(payload_for_prompt.get("new_repos", []), indent=2, ensure_ascii=False),
+            content=json.dumps(
+                payload_for_prompt.get("new_repos", []), indent=2, ensure_ascii=False
+            ),
             path=raw_json_path,
             included=True,
             inclusion_reason="Deterministic mapper slice: newly discovered repositories.",
@@ -1180,7 +1324,9 @@ def _build_prompt(
         ),
         _component(
             name="trending_repos",
-            content=json.dumps(payload_for_prompt.get("trending_repos", []), indent=2, ensure_ascii=False),
+            content=json.dumps(
+                payload_for_prompt.get("trending_repos", []), indent=2, ensure_ascii=False
+            ),
             path=raw_json_path,
             included=True,
             inclusion_reason="Deterministic mapper slice: continuing/trending repositories.",
@@ -1192,7 +1338,9 @@ def _build_prompt(
             path=raw_json_path,
             included=True,
             inclusion_reason=f"Sanitized current weekly payload for {current_year}-W{week_number}.",
-            compaction_decision="included" if not degraded else "included with compacted repo slices",
+            compaction_decision="included"
+            if not degraded
+            else "included with compacted repo slices",
         ),
         _component(
             name="prior_continuity",
@@ -1248,13 +1396,17 @@ def _build_prompt(
             path=None,
             included=True,
             inclusion_reason="Exact prompt that will be passed to Copilot CLI.",
-            compaction_decision="included" if not degraded else "included after deterministic compaction",
+            compaction_decision="included"
+            if not degraded
+            else "included after deterministic compaction",
         ),
     ]
     prompt_tokens = estimate_tokens(prompt)
     prompt_within_budget = prompt_tokens <= prompt_token_budget
     degradation_reason = (
-        "Prompt was deterministically compacted to fit the configured token budget." if degraded else None
+        "Prompt was deterministically compacted to fit the configured token budget."
+        if degraded
+        else None
     )
     evidence_slices = build_evidence_slices(
         week=current_week,
@@ -1267,7 +1419,9 @@ def _build_prompt(
         previous_summary_content=previous_summary_content,
     )
     news_path, corr_path = _press_paths_for_context(press_context_path, current_week)
-    press_inventory = _article_inventory(_safe_load_json(news_path), _safe_load_json(corr_path), news_path)
+    press_inventory = _article_inventory(
+        _safe_load_json(news_path), _safe_load_json(corr_path), news_path
+    )
     slice_refs = write_evidence_slices(evidence_slices, None)
     preflight = PromptPreflight(
         schema_version="analysis_input_manifest_v1",
@@ -1294,14 +1448,23 @@ def _build_prompt(
             "degraded/compacted prompts are staged/candidate-only by default."
         ),
         components=components,
-        deterministic_slices=["new_repos", "trending_repos", "press_correlations", "prior_continuity"],
+        deterministic_slices=[
+            "new_repos",
+            "trending_repos",
+            "press_correlations",
+            "prior_continuity",
+        ],
         generated_evidence_slices=slice_refs,
         evidence_slice_payloads=evidence_slices,
         evidence_inventories=[
             _evidence_inventory("raw_new_repos", sanitized_payload, "new_repos", raw_json_path),
-            _evidence_inventory("raw_trending_repos", sanitized_payload, "trending_repos", raw_json_path),
+            _evidence_inventory(
+                "raw_trending_repos", sanitized_payload, "trending_repos", raw_json_path
+            ),
             _evidence_inventory("prompt_new_repos", payload_for_prompt, "new_repos", raw_json_path),
-            _evidence_inventory("prompt_trending_repos", payload_for_prompt, "trending_repos", raw_json_path),
+            _evidence_inventory(
+                "prompt_trending_repos", payload_for_prompt, "trending_repos", raw_json_path
+            ),
         ],
         press_inventories=[press_inventory],
     )
@@ -1343,12 +1506,18 @@ def render_prompt(
     return prompt
 
 
-def write_preflight_reports(preflight: PromptPreflight, json_path: Path | None, md_path: Path | None) -> None:
+def write_preflight_reports(
+    preflight: PromptPreflight, json_path: Path | None, md_path: Path | None
+) -> None:
     if json_path and preflight.evidence_slice_payloads:
-        preflight.generated_evidence_slices = write_evidence_slices(preflight.evidence_slice_payloads, json_path)
+        preflight.generated_evidence_slices = write_evidence_slices(
+            preflight.evidence_slice_payloads, json_path
+        )
     if json_path:
         json_path.parent.mkdir(parents=True, exist_ok=True)
-        json_path.write_text(json.dumps(asdict(preflight), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        json_path.write_text(
+            json.dumps(asdict(preflight), indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
     if md_path:
         md_path.parent.mkdir(parents=True, exist_ok=True)
         rows = [
@@ -1415,7 +1584,9 @@ def extract_markdown(response_payload: dict[str, Any]) -> str:
     raise ValueError("GitHub Models response did not contain markdown output.")
 
 
-def validate_https_url(url: str, *, label: str, allowed_hosts: frozenset[str] | None = None) -> None:
+def validate_https_url(
+    url: str, *, label: str, allowed_hosts: frozenset[str] | None = None
+) -> None:
     parsed = parse.urlparse(url)
     if parsed.scheme.lower() != "https":
         raise ValueError(f"{label} must use HTTPS: {url}")
@@ -1438,7 +1609,7 @@ def validate_output_safety(output: str, canary: str | None = None) -> list[str]:
 
     Returns a list of security violation messages (empty = safe).
     """
-    from scripts.canary_token import check_output_for_leak, check_output_for_any_canary
+    from scripts.canary_token import check_output_for_any_canary, check_output_for_leak
 
     violations: list[str] = []
 
@@ -1460,7 +1631,8 @@ def validate_output_safety(output: str, canary: str | None = None) -> list[str]:
         )
 
     # Check for boundary marker leaks (model reproduced internal framing)
-    from scripts.sanitize_repo_content import BOUNDARY_OPEN, BOUNDARY_CLOSE
+    from scripts.sanitize_repo_content import BOUNDARY_CLOSE, BOUNDARY_OPEN
+
     if BOUNDARY_OPEN in output:
         violations.append(
             "Output contains <untrusted-content> boundary marker — "
@@ -1482,6 +1654,7 @@ def call_github_models(prompt: str) -> str:
 
     # Inject canary token for output leak detection
     from scripts.canary_token import generate_canary, inject_canary
+
     canary = generate_canary()
     prompt = inject_canary(prompt, canary)
 
@@ -1528,15 +1701,24 @@ def call_github_models(prompt: str) -> str:
                 detail = exc.read().decode("utf-8", errors="replace")
                 retry_class = (
                     "non-retryable"
-                    if exc.code in NON_RETRYABLE_STATUS_CLASSES or exc.code not in RETRYABLE_STATUS_CODES
+                    if exc.code in NON_RETRYABLE_STATUS_CLASSES
+                    or exc.code not in RETRYABLE_STATUS_CODES
                     else "retry-exhausted"
                 )
-                access_hint = " GitHub Models access is unavailable for this model." if exc.code == 403 else ""
+                access_hint = (
+                    " GitHub Models access is unavailable for this model."
+                    if exc.code == 403
+                    else ""
+                )
                 raise RuntimeError(
                     f"GitHub Models API request failed ({exc.code}, {retry_class}): {detail}{access_hint}"
                 ) from exc
             # Determine delay: respect Retry-After header on 429
-            retry_after = exc.headers.get("Retry-After") if exc.code == 429 and exc.headers is not None else None
+            retry_after = (
+                exc.headers.get("Retry-After")
+                if exc.code == 429 and exc.headers is not None
+                else None
+            )
             if retry_after is not None:
                 try:
                     delay = float(retry_after)
@@ -1555,9 +1737,7 @@ def call_github_models(prompt: str) -> str:
             time.sleep(total_delay)
         except error.URLError as exc:
             if attempt == MAX_RETRIES:
-                raise RuntimeError(
-                    f"GitHub Models API request failed: {exc.reason}"
-                ) from exc
+                raise RuntimeError(f"GitHub Models API request failed: {exc.reason}") from exc
             delay = BASE_DELAY ** (attempt + 1) + _JITTER_RANDOM.uniform(0, 1)
             print(
                 f"[retry] GitHub Models API network error: {exc.reason}, "
@@ -1613,10 +1793,7 @@ def _strip_ai_instructions(content: str) -> str:
             truncated = "\n".join(list_lines[:10])
             truncated += f"\n…and {omitted} more repos with press correlation\n"
             content = (
-                content[: corr_match.start()]
-                + header
-                + truncated
-                + content[corr_match.end() :]
+                content[: corr_match.start()] + header + truncated + content[corr_match.end() :]
             )
 
     # Truncate divergence lists to top 10 items each
@@ -1638,10 +1815,7 @@ def _strip_ai_instructions(content: str) -> str:
                 truncated = "\n".join(list_lines[:10])
                 truncated += f"\n- …and {omitted} more topics\n"
                 content = (
-                    content[: div_match.start()]
-                    + header
-                    + truncated
-                    + content[div_match.end() :]
+                    content[: div_match.start()] + header + truncated + content[div_match.end() :]
                 )
 
     # Add reader-friendly conclusion if divergences exist but instructions were stripped
@@ -1658,7 +1832,11 @@ def _strip_ai_instructions(content: str) -> str:
 
 def _render_press_section_no_ai(press_context_path: Path | None) -> str:
     """Render press context data for the no-AI summary (reader-facing)."""
-    if not press_context_path or not press_context_path.exists() or press_context_path.stat().st_size == 0:
+    if (
+        not press_context_path
+        or not press_context_path.exists()
+        or press_context_path.stat().st_size == 0
+    ):
         return (
             "No industry press data was available for this week's analysis. "
             "Future runs with TechCrunch integration enabled will provide "
@@ -1677,7 +1855,9 @@ def _render_press_section_no_ai(press_context_path: Path | None) -> str:
     corr_path = data_dir / "analyzed" / f"{week}-correlations.json"
 
     if tc_path.exists():
-        from scripts.render_press_context import render_press_context, load_json as rpc_load_json
+        from scripts.render_press_context import load_json as rpc_load_json
+        from scripts.render_press_context import render_press_context
+
         tc_data = rpc_load_json(tc_path)
         corr_data = rpc_load_json(corr_path) if corr_path.exists() else {}
         if tc_data is not None:
@@ -1688,7 +1868,9 @@ def _render_press_section_no_ai(press_context_path: Path | None) -> str:
     return _strip_ai_instructions(content)
 
 
-def generate_no_ai_summary(raw_json_path: Path, current_datetime: str, press_context_path: Path | None = None) -> str:
+def generate_no_ai_summary(
+    raw_json_path: Path, current_datetime: str, press_context_path: Path | None = None
+) -> str:
     """Generate a valid summary from raw JSON without any AI API calls."""
     payload = sanitize_repo_payload(load_json(raw_json_path))
     week = payload["week"]
@@ -1704,7 +1886,9 @@ def generate_no_ai_summary(raw_json_path: Path, current_datetime: str, press_con
     all_repos = sorted(new_repos + trending_repos, key=lambda r: r.get("stars", 0), reverse=True)
     top_repo = all_repos[0]["full_name"] if all_repos else "unknown/unknown"
 
-    tags = top_topics[:5] if len(top_topics) >= 3 else ["open-source", "developer-tools", "automation"]
+    tags = (
+        top_topics[:5] if len(top_topics) >= 3 else ["open-source", "developer-tools", "automation"]
+    )
 
     # Notable new repos
     notable_new = sorted(new_repos, key=lambda r: r.get("stars", 0), reverse=True)[:10]
@@ -1716,19 +1900,11 @@ def generate_no_ai_summary(raw_json_path: Path, current_datetime: str, press_con
             f"- [{repo['full_name']}]({repo.get('url', '#')}) ({lang}, "
             f"{repo.get('stars', 0):,} stars): {desc}"
         )
-    notable_section = "\n".join(notable_lines) if notable_lines else "No new repositories were captured this week."
-
-    # Trending repos
-    top_trending = sorted(trending_repos, key=lambda r: r.get("stars", 0), reverse=True)[:10]
-    trending_lines = []
-    for repo in top_trending:
-        desc = repo.get("description") or "No description provided"
-        lang = repo.get("language") or "Unknown"
-        trending_lines.append(
-            f"- [{repo['full_name']}]({repo.get('url', '#')}) ({lang}, "
-            f"{repo.get('stars', 0):,} stars): {desc}"
-        )
-    trending_section = "\n".join(trending_lines) if trending_lines else "No trending repositories were captured this week."
+    notable_section = (
+        "\n".join(notable_lines)
+        if notable_lines
+        else "No new repositories were captured this week."
+    )
 
     # Language breakdown
     lang_counts: dict[str, int] = {}
@@ -1737,7 +1913,11 @@ def generate_no_ai_summary(raw_json_path: Path, current_datetime: str, press_con
         if lang:
             lang_counts[lang] = lang_counts.get(lang, 0) + 1
     top_langs = sorted(lang_counts.items(), key=lambda x: x[1], reverse=True)[:5]
-    lang_summary = ", ".join(f"{lang} ({count})" for lang, count in top_langs) if top_langs else "diverse mix of languages"
+    lang_summary = (
+        ", ".join(f"{lang} ({count})" for lang, count in top_langs)
+        if top_langs
+        else "diverse mix of languages"
+    )
 
     year_str = week.split("-W")[0]
     week_num = week.split("-W")[1]
@@ -1830,7 +2010,10 @@ def main(argv: list[str] | None = None) -> int:
             prompt_token_budget=args.prompt_token_budget,
         )
         if not narrative_or_prompt:
-            print("::warning::No meaningful content for synthesis (no press or historical context).", file=sys.stderr)
+            print(
+                "::warning::No meaningful content for synthesis (no press or historical context).",
+                file=sys.stderr,
+            )
             return 1
         output_path = args.synthesis_output or args.output
         output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -1843,11 +2026,16 @@ def main(argv: list[str] | None = None) -> int:
 
     # Load synthesis narrative from Step 1 output if provided
     synthesis_narrative: str | None = None
-    if args.synthesis_input and args.synthesis_input.exists() and args.synthesis_input.stat().st_size > 0:
+    if (
+        args.synthesis_input
+        and args.synthesis_input.exists()
+        and args.synthesis_input.stat().st_size > 0
+    ):
         synthesis_narrative = args.synthesis_input.read_text(encoding="utf-8").strip()
         if synthesis_narrative:
             # Escape boundary markers — synthesis output is untrusted LLM content
             from scripts.sanitize_repo_content import _escape_untrusted_boundaries
+
             synthesis_narrative = _escape_untrusted_boundaries(synthesis_narrative)
             print(
                 f"::notice::Using synthesis narrative ({estimate_tokens(synthesis_narrative)} tokens) from {args.synthesis_input}",

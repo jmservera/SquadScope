@@ -13,7 +13,6 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import topic_paths  # noqa: E402
 
 
 # Risk level definitions
@@ -263,7 +262,6 @@ def main(argv: list[str] | None = None) -> None:
     args = parser.parse_args(argv)
 
     # Resolve paths
-    topic = args.topic
     corr_path = Path(args.correlations) if args.correlations else None
     raw_path = Path(args.raw) if args.raw else None
     prev_path = Path(args.previous) if args.previous else None

@@ -107,7 +107,11 @@ def find_latest_summary(root: Path, topic_id: str | None = None) -> Path:
         candidates = list(search_dir.glob(f"*{SUMMARY_SUFFIX}"))
     if not candidates:
         # Fallback: try the other approach
-        candidates = list(search_dir.glob(f"*{SUMMARY_SUFFIX}")) if topic_id is None else list(root.glob(f"data/analyzed/*{SUMMARY_SUFFIX}"))
+        candidates = (
+            list(search_dir.glob(f"*{SUMMARY_SUFFIX}"))
+            if topic_id is None
+            else list(root.glob(f"data/analyzed/*{SUMMARY_SUFFIX}"))
+        )
     if not candidates:
         raise GenerationError("No analyzed summaries found under data/analyzed/.")
     return max(candidates, key=week_from_summary_path)
@@ -121,7 +125,10 @@ def parse_scalar(value: str):
         inner = value[1:-1].strip()
         if not inner:
             return []
-        return [item.strip().strip('"').strip("'") for item in csv.reader([inner], skipinitialspace=True).__next__()]
+        return [
+            item.strip().strip('"').strip("'")
+            for item in csv.reader([inner], skipinitialspace=True).__next__()
+        ]
     if value.startswith(('"', "'")) and value.endswith(('"', "'")):
         return value[1:-1]
     if re.fullmatch(r"-?\d+", value):
@@ -171,7 +178,7 @@ def infer_output_path(week: str, root: Path) -> Path:
 
 
 def yaml_quote(value: str) -> str:
-    return '"' + value.replace('\\', '\\\\').replace('"', '\\"') + '"'
+    return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
 
 
 def optional_string(value: object) -> str:
@@ -194,15 +201,15 @@ def is_local_asset_path(value: object) -> bool:
 def render_frontmatter(data: dict[str, object]) -> str:
     lines = [
         "---",
-        f'title: {yaml_quote(str(data["title"]))}',
-        f'date: {data["date"]}',
-        f'week: {yaml_quote(str(data["week"]))}',
-        f'tags: [{", ".join(yaml_quote(t) for t in data["tags"])}]',
-        f'categories: [{", ".join(yaml_quote(c) for c in data["categories"])}]',
-        f'repos_featured: {data["repos_featured"]}',
-        f'stars_tracked: {data["stars_tracked"]}',
-        f'top_repo: {yaml_quote(str(data["top_repo"]))}',
-        f'summary: {yaml_quote(str(data["summary"]))}',
+        f"title: {yaml_quote(str(data['title']))}",
+        f"date: {data['date']}",
+        f"week: {yaml_quote(str(data['week']))}",
+        f"tags: [{', '.join(yaml_quote(t) for t in data['tags'])}]",
+        f"categories: [{', '.join(yaml_quote(c) for c in data['categories'])}]",
+        f"repos_featured: {data['repos_featured']}",
+        f"stars_tracked: {data['stars_tracked']}",
+        f"top_repo: {yaml_quote(str(data['top_repo']))}",
+        f"summary: {yaml_quote(str(data['summary']))}",
         "draft: false",
     ]
 
@@ -211,20 +218,20 @@ def render_frontmatter(data: dict[str, object]) -> str:
     if cover and isinstance(cover, dict):
         lines.append("cover:")
         if cover.get("image"):
-            lines.append(f'  image: {yaml_quote(str(cover["image"]))}')
+            lines.append(f"  image: {yaml_quote(str(cover['image']))}")
         if cover.get("alt"):
-            lines.append(f'  alt: {yaml_quote(str(cover["alt"]))}')
+            lines.append(f"  alt: {yaml_quote(str(cover['alt']))}")
         if cover.get("caption"):
-            lines.append(f'  caption: {yaml_quote(str(cover["caption"]))}')
+            lines.append(f"  caption: {yaml_quote(str(cover['caption']))}")
         if cover.get("attribution"):
-            lines.append(f'  attribution: {yaml_quote(str(cover["attribution"]))}')
+            lines.append(f"  attribution: {yaml_quote(str(cover['attribution']))}")
         if cover.get("license"):
-            lines.append(f'  license: {yaml_quote(str(cover["license"]))}')
+            lines.append(f"  license: {yaml_quote(str(cover['license']))}")
         lines.append("  relative: false")
 
     # Explicit OG image override
     if data.get("og_image"):
-        lines.append(f'og_image: {yaml_quote(str(data["og_image"]))}')
+        lines.append(f"og_image: {yaml_quote(str(data['og_image']))}")
 
     lines.extend(["---", ""])
     return "\n".join(lines)

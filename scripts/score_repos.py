@@ -132,7 +132,9 @@ def compute_relevance_score(repo: dict[str, Any], scoring_config: dict[str, Any]
     return round(min(100.0, max(0.0, raw_score)), 1)
 
 
-def score_repos(repos: list[dict[str, Any]], scoring_config: dict[str, Any]) -> list[dict[str, Any]]:
+def score_repos(
+    repos: list[dict[str, Any]], scoring_config: dict[str, Any]
+) -> list[dict[str, Any]]:
     """Score and filter a list of repos. Returns sorted list with relevance_score."""
     min_score = scoring_config.get("min_relevance_score", 40)
     scored = []
@@ -146,7 +148,9 @@ def score_repos(repos: list[dict[str, Any]], scoring_config: dict[str, Any]) -> 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Score repos on topic relevance")
-    parser.add_argument("--config", default="squadscope.topic.yml", help="Path to topic config YAML")
+    parser.add_argument(
+        "--config", default="squadscope.topic.yml", help="Path to topic config YAML"
+    )
     parser.add_argument("--input", default=None, help="Path to raw crawl JSON file")
     parser.add_argument("--output", default=None, help="Output file path (default: stdout)")
     parser.add_argument("--topic", default=None, help="Topic ID override")

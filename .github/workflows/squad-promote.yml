@@ -2,6 +2,7 @@ name: Squad Promote
 
 on:
   workflow_dispatch:
+    # checkov:skip=CKV_GHA_7:Operational promotion workflow (not a release build). The single dry_run toggle only switches between simulate/apply; it does not change the content being promoted. Input is required for safe manual operation.
     inputs:
       dry_run:
         description: 'Dry run — show what would happen without pushing'

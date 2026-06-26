@@ -4,6 +4,7 @@
 Evaluates current run cost and monthly cumulative spend against thresholds,
 emitting GitHub Actions annotations (::warning:: / ::error::) as appropriate.
 """
+
 from __future__ import annotations
 
 import argparse

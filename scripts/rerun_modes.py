@@ -41,7 +41,9 @@ def validate_modes(
     if run_mode in {"dry-run", "candidate-only"} and publish_release:
         reasons.append(f"publish_release is not allowed with run_mode={run_mode}")
     if run_mode == "restore" and source_refresh_policy == "force-refresh":
-        reasons.append("run_mode=restore hydrates publish artifacts and cannot force-refresh sources")
+        reasons.append(
+            "run_mode=restore hydrates publish artifacts and cannot force-refresh sources"
+        )
 
     publish_allowed = run_mode not in {"dry-run", "candidate-only"}
     crawl_allowed = not rebuild_week
@@ -56,7 +58,9 @@ def validate_modes(
     else:
         action = "normal guarded crawl, analysis, publish, and deploy"
 
-    return ModeDecision(run_mode, source_refresh_policy, action, publish_allowed, crawl_allowed, reasons)
+    return ModeDecision(
+        run_mode, source_refresh_policy, action, publish_allowed, crawl_allowed, reasons
+    )
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -88,7 +92,9 @@ def main(argv: list[str] | None = None) -> int:
     }
     if args.summary_json:
         args.summary_json.parent.mkdir(parents=True, exist_ok=True)
-        args.summary_json.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        args.summary_json.write_text(
+            json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
     print(json.dumps(payload, sort_keys=True))
     if decision.reasons:
         for reason in decision.reasons:

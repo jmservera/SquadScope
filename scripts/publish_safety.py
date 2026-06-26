@@ -9,7 +9,6 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-
 BACKUP_SCHEMA_VERSION = "publish_backup_v1"
 PUBLISH_MANIFEST_SCHEMA_VERSION = "publish_eligibility_v1"
 
@@ -58,18 +57,29 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Publish-branch backup and restore safeguards.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    backup = subparsers.add_parser("backup-existing", help="Create an immutable backup manifest for target paths.")
+    backup = subparsers.add_parser(
+        "backup-existing", help="Create an immutable backup manifest for target paths."
+    )
     backup.add_argument("--root", default=".", type=Path)
     backup.add_argument("--week", required=True)
     backup.add_argument("--run-id", required=True)
     backup.add_argument("--kind", required=True, choices=["analysis", "content"])
-    backup.add_argument("--manifest", required=True, type=Path, help="Publish eligibility manifest.")
+    backup.add_argument(
+        "--manifest", required=True, type=Path, help="Publish eligibility manifest."
+    )
     backup.add_argument("--expected-publish-ref", default="")
     backup.add_argument("--actual-publish-ref", default="")
     backup.add_argument("--backup-root", default=Path("data/backups"), type=Path)
-    backup.add_argument("--path", action="append", required=True, help="Published path to snapshot before replacement.")
+    backup.add_argument(
+        "--path",
+        action="append",
+        required=True,
+        help="Published path to snapshot before replacement.",
+    )
 
-    restore = subparsers.add_parser("restore-backup", help="Restore files from an immutable publish backup manifest.")
+    restore = subparsers.add_parser(
+        "restore-backup", help="Restore files from an immutable publish backup manifest."
+    )
     restore.add_argument("--root", default=".", type=Path)
     restore.add_argument("--backup-manifest", required=True, type=Path)
 
@@ -82,9 +92,13 @@ def backup_existing(args: argparse.Namespace) -> int:
     source_manifest = root / source_manifest_relative
     source_manifest_payload = load_json(source_manifest)
     if source_manifest_payload is None:
-        raise SystemExit(f"Publish manifest is missing or malformed: {source_manifest_relative.as_posix()}")
+        raise SystemExit(
+            f"Publish manifest is missing or malformed: {source_manifest_relative.as_posix()}"
+        )
     if source_manifest_payload.get("schema_version") != PUBLISH_MANIFEST_SCHEMA_VERSION:
-        raise SystemExit(f"Unsupported publish manifest schema: {source_manifest_payload.get('schema_version')!r}")
+        raise SystemExit(
+            f"Unsupported publish manifest schema: {source_manifest_payload.get('schema_version')!r}"
+        )
     if not isinstance(source_manifest_payload.get("candidate"), dict):
         raise SystemExit("Publish manifest lacks candidate block.")
     if not isinstance(source_manifest_payload.get("source_artifacts"), list):
@@ -137,13 +151,21 @@ def backup_existing(args: argparse.Namespace) -> int:
         "source_manifest": {
             "path": source_manifest_relative.as_posix(),
             "sha256": sha256_file(source_manifest),
-            "candidate": source_manifest_payload.get("candidate") if source_manifest_payload else None,
-            "source_artifacts": source_manifest_payload.get("source_artifacts") if source_manifest_payload else None,
-            "analysis": source_manifest_payload.get("analysis") if source_manifest_payload else None,
+            "candidate": source_manifest_payload.get("candidate")
+            if source_manifest_payload
+            else None,
+            "source_artifacts": source_manifest_payload.get("source_artifacts")
+            if source_manifest_payload
+            else None,
+            "analysis": source_manifest_payload.get("analysis")
+            if source_manifest_payload
+            else None,
         },
         "files": entries,
     }
-    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     print(f"Created immutable publish backup: {manifest_path.relative_to(root).as_posix()}")
     return 0
 

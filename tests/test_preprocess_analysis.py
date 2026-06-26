@@ -1,22 +1,19 @@
 """Tests for scripts/preprocess_for_analysis.py."""
 
 import json
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-import pytest
-
-sys_path_fix = True  # noqa: E402
-import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from scripts.preprocess_for_analysis import (
+from scripts.preprocess_for_analysis import (  # noqa: E402
     compact_repo,
     compute_age_days,
     compute_signals,
     estimate_tokens,
-    preprocess,
     main,
+    preprocess,
 )
 
 
@@ -98,19 +95,21 @@ class TestPreprocess:
         # Build a realistic raw JSON
         repos = []
         for i in range(50):
-            repos.append({
-                "name": f"repo-{i}",
-                "owner": f"owner-{i}",
-                "full_name": f"owner-{i}/repo-{i}",
-                "description": f"Description for repo {i} with extra detail " * 5,
-                "language": "Python",
-                "stars": 100 + i * 10,
-                "forks": 50 + i,
-                "created_at": "2026-05-01T00:00:00Z",
-                "topics": ["ml", "deep-learning"],
-                "license": "MIT",
-                "url": f"https://github.com/owner-{i}/repo-{i}",
-            })
+            repos.append(
+                {
+                    "name": f"repo-{i}",
+                    "owner": f"owner-{i}",
+                    "full_name": f"owner-{i}/repo-{i}",
+                    "description": f"Description for repo {i} with extra detail " * 5,
+                    "language": "Python",
+                    "stars": 100 + i * 10,
+                    "forks": 50 + i,
+                    "created_at": "2026-05-01T00:00:00Z",
+                    "topics": ["ml", "deep-learning"],
+                    "license": "MIT",
+                    "url": f"https://github.com/owner-{i}/repo-{i}",
+                }
+            )
         data = {
             "week": "2026-W21",
             "crawled_at": "2026-05-18T08:54:09Z",
@@ -129,8 +128,16 @@ class TestPreprocess:
     def test_output_structure(self):
         data = {
             "week": "2026-W21",
-            "new_repos": [{"name": "x", "description": "hello", "stars": 10,
-                           "topics": [], "language": "Go", "created_at": "2026-05-01T00:00:00Z"}],
+            "new_repos": [
+                {
+                    "name": "x",
+                    "description": "hello",
+                    "stars": 10,
+                    "topics": [],
+                    "language": "Go",
+                    "created_at": "2026-05-01T00:00:00Z",
+                }
+            ],
             "trending_repos": [],
         }
         result = preprocess(data)
@@ -140,8 +147,14 @@ class TestPreprocess:
         assert "stats" in result
 
     def test_deduplicates_repos(self):
-        repo = {"name": "dup", "description": "x", "stars": 1, "topics": [],
-                "language": "Rust", "created_at": "2026-05-01T00:00:00Z"}
+        repo = {
+            "name": "dup",
+            "description": "x",
+            "stars": 1,
+            "topics": [],
+            "language": "Rust",
+            "created_at": "2026-05-01T00:00:00Z",
+        }
         data = {"week": "2026-W21", "new_repos": [repo], "trending_repos": [repo]}
         result = preprocess(data)
         assert len(result["repos"]) == 1
@@ -153,10 +166,19 @@ class TestMainCLI:
             "week": "2026-W21",
             "crawled_at": "2026-05-18T00:00:00Z",
             "new_repos": [
-                {"name": "r", "owner": "o", "full_name": "o/r",
-                 "description": "d" * 300, "language": "Python",
-                 "stars": 100, "forks": 10, "created_at": "2026-05-01T00:00:00Z",
-                 "topics": ["ai"], "license": "MIT", "url": "https://github.com/o/r"}
+                {
+                    "name": "r",
+                    "owner": "o",
+                    "full_name": "o/r",
+                    "description": "d" * 300,
+                    "language": "Python",
+                    "stars": 100,
+                    "forks": 10,
+                    "created_at": "2026-05-01T00:00:00Z",
+                    "topics": ["ai"],
+                    "license": "MIT",
+                    "url": "https://github.com/o/r",
+                }
             ],
             "trending_repos": [],
             "signals": {"top_topics": ["ai"]},
@@ -196,6 +218,7 @@ class TestSanitizationIntegration:
             "created_at": "2026-05-01T00:00:00Z",
         }
         from scripts.sanitize_repo_content import SUSPICIOUS_DESCRIPTION_LENGTH
+
         assert len(long_injection) > SUSPICIOUS_DESCRIPTION_LENGTH
         result = compact_repo(repo, max_desc=500)
         assert len(result["desc"]) <= SUSPICIOUS_DESCRIPTION_LENGTH
@@ -232,6 +255,7 @@ class TestSanitizationIntegration:
             "trending_repos": [],
         }
         from scripts.sanitize_repo_content import SUSPICIOUS_DESCRIPTION_LENGTH
+
         assert len(long_injection) > SUSPICIOUS_DESCRIPTION_LENGTH
         result = preprocess(data, max_desc=500)
         assert len(result["repos"][0]["desc"]) <= SUSPICIOUS_DESCRIPTION_LENGTH

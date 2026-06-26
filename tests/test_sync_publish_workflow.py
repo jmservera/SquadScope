@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 WORKFLOW = Path(".github/workflows/sync-publish-to-main.yml")
 RESTORE_WORKFLOW = Path(".github/workflows/restore-publish-backup.yml")
 

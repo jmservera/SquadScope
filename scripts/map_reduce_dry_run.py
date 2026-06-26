@@ -15,18 +15,17 @@ import re
 import sys
 import time
 from dataclasses import asdict, dataclass
-from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 try:
-    from scripts.analyze_fallback import find_previous_summary
     from scripts.analysis_gate import validate_analysis, validate_publish_quality
+    from scripts.analyze_fallback import find_previous_summary
     from scripts.model_pricing import estimate_cost_usd
     from scripts.observability_metrics import (
         DEFAULT_OBSERVABILITY_DIR,
-        AnalysisMetrics,
         METRICS_SCHEMA_VERSION,
+        AnalysisMetrics,
         MapReduceMetrics,
         ObservabilityLedger,
         emit_ledger,
@@ -35,13 +34,13 @@ try:
     from scripts.sanitize_repo_content import sanitize_repo_payload
 except ModuleNotFoundError:  # pragma: no cover - script execution path
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from scripts.analyze_fallback import find_previous_summary
     from scripts.analysis_gate import validate_analysis, validate_publish_quality
+    from scripts.analyze_fallback import find_previous_summary
     from scripts.model_pricing import estimate_cost_usd
     from scripts.observability_metrics import (
         DEFAULT_OBSERVABILITY_DIR,
-        AnalysisMetrics,
         METRICS_SCHEMA_VERSION,
+        AnalysisMetrics,
         MapReduceMetrics,
         ObservabilityLedger,
         emit_ledger,
@@ -73,14 +72,28 @@ class ArtifactRef:
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Create deterministic candidate-only map/reduce analysis artifacts.")
-    parser.add_argument("--raw-json", required=True, type=Path, help="Canonical weekly raw GitHub crawl payload.")
-    parser.add_argument("--output-dir", required=True, type=Path, help="Candidate artifact output directory.")
-    parser.add_argument("--current-datetime", required=True, help="ISO-8601 timestamp for the dry run.")
+    parser = argparse.ArgumentParser(
+        description="Create deterministic candidate-only map/reduce analysis artifacts."
+    )
+    parser.add_argument(
+        "--raw-json", required=True, type=Path, help="Canonical weekly raw GitHub crawl payload."
+    )
+    parser.add_argument(
+        "--output-dir", required=True, type=Path, help="Candidate artifact output directory."
+    )
+    parser.add_argument(
+        "--current-datetime", required=True, help="ISO-8601 timestamp for the dry run."
+    )
     parser.add_argument("--run-id", default="local", help="Stable run id to include in contracts.")
-    parser.add_argument("--press-context", type=Path, help="Rendered press context markdown, if available.")
+    parser.add_argument(
+        "--press-context", type=Path, help="Rendered press context markdown, if available."
+    )
     parser.add_argument("--analyzed-dir", type=Path, default=ROOT / "data" / "analyzed")
-    parser.add_argument("--baseline-summary", type=Path, help="Optional current single-pass summary for QA comparison.")
+    parser.add_argument(
+        "--baseline-summary",
+        type=Path,
+        help="Optional current single-pass summary for QA comparison.",
+    )
     parser.add_argument("--max-repos-per-ledger", type=int, default=10)
     parser.add_argument("--analysis-source", default="map-reduce-dry-run")
     parser.add_argument("--analysis-model", default="local-deterministic")
@@ -128,9 +141,17 @@ def collect_gate_failure_reasons(qa_report: dict[str, Any]) -> list[str]:
             for mapper, errors in sorted(errors_by_mapper.items()):
                 if isinstance(errors, list):
                     reasons.extend(f"{mapper}: {error}" for error in errors)
-    for key in ("structural_analysis_gate", "evidence_and_editorial_gates", "publish_provenance_gate"):
+    for key in (
+        "structural_analysis_gate",
+        "evidence_and_editorial_gates",
+        "publish_provenance_gate",
+    ):
         check = checks.get(key, {})
-        if isinstance(check, dict) and check.get("expected_failure") is not True and isinstance(check.get("errors"), list):
+        if (
+            isinstance(check, dict)
+            and check.get("expected_failure") is not True
+            and isinstance(check.get("errors"), list)
+        ):
             reasons.extend(str(error) for error in check["errors"] if error)
     if isinstance(qa_report.get("regressions"), list):
         reasons.extend(str(error) for error in qa_report["regressions"] if error)
@@ -175,13 +196,21 @@ def sorted_repos(repos: list[dict[str, Any]], *, mode: str) -> list[dict[str, An
     if mode == "trending":
         return sorted(
             repos,
-            key=lambda r: (int(r.get("stars_gained") or r.get("gained") or 0), int(r.get("stars") or 0), normalize_repo_name(r)),
+            key=lambda r: (
+                int(r.get("stars_gained") or r.get("gained") or 0),
+                int(r.get("stars") or 0),
+                normalize_repo_name(r),
+            ),
             reverse=True,
         )
-    return sorted(repos, key=lambda r: (int(r.get("stars") or 0), normalize_repo_name(r)), reverse=True)
+    return sorted(
+        repos, key=lambda r: (int(r.get("stars") or 0), normalize_repo_name(r)), reverse=True
+    )
 
 
-def coverage_for_repos(repos: list[dict[str, Any]], input_count: int, *, omitted_reason: str) -> dict[str, Any]:
+def coverage_for_repos(
+    repos: list[dict[str, Any]], input_count: int, *, omitted_reason: str
+) -> dict[str, Any]:
     seen = [normalize_repo_name(repo) for repo in repos if normalize_repo_name(repo)]
     omitted = max(0, input_count - len(seen))
     return {
@@ -195,7 +224,9 @@ def coverage_for_repos(repos: list[dict[str, Any]], input_count: int, *, omitted
     }
 
 
-def make_repo_finding(repo: dict[str, Any], *, mapper: str, category: str, role: str) -> dict[str, Any]:
+def make_repo_finding(
+    repo: dict[str, Any], *, mapper: str, category: str, role: str
+) -> dict[str, Any]:
     full_name = normalize_repo_name(repo)
     stars = int(repo.get("stars") or 0)
     gained = int(repo.get("stars_gained") or repo.get("gained") or 0)
@@ -235,7 +266,16 @@ def make_repo_finding(repo: dict[str, Any], *, mapper: str, category: str, role:
     }
 
 
-def base_map_payload(*, run_id: str, week: str, shard_id: str, input_refs: list[str], repo_count: int, article_count: int, token_estimate: int) -> dict[str, Any]:
+def base_map_payload(
+    *,
+    run_id: str,
+    week: str,
+    shard_id: str,
+    input_refs: list[str],
+    repo_count: int,
+    article_count: int,
+    token_estimate: int,
+) -> dict[str, Any]:
     return {
         "schema_version": MAP_SCHEMA,
         "run_id": run_id,
@@ -283,11 +323,16 @@ def map_repositories(
     )
     category = "trend" if shard_id == "new_repos" else "signal"
     role = "new-repository" if shard_id == "new_repos" else "momentum"
-    findings = [make_repo_finding(repo, mapper=shard_id, category=category, role=role) for repo in selected]
+    findings = [
+        make_repo_finding(repo, mapper=shard_id, category=category, role=role) for repo in selected
+    ]
     payload["findings"] = findings
-    payload["coverage"] = coverage_for_repos(selected, len(repos), omitted_reason="outside_dry_run_top_repo_limit")
+    payload["coverage"] = coverage_for_repos(
+        selected, len(repos), omitted_reason="outside_dry_run_top_repo_limit"
+    )
     payload["citations"] = [
-        {"type": "repo", "url": item["evidence_refs"][0]["url"], "title": item["repo_full_name"]} for item in findings
+        {"type": "repo", "url": item["evidence_refs"][0]["url"], "title": item["repo_full_name"]}
+        for item in findings
     ]
     payload["reference_candidates"] = {
         "notable_projects": [item["repo_full_name"] for item in findings],
@@ -313,7 +358,12 @@ def extract_press_articles(press_context: str) -> list[dict[str, str]]:
 
 
 def map_press(
-    *, run_id: str, week: str, press_path: Path | None, press_ref: ArtifactRef | None, raw_ref: ArtifactRef
+    *,
+    run_id: str,
+    week: str,
+    press_path: Path | None,
+    press_ref: ArtifactRef | None,
+    raw_ref: ArtifactRef,
 ) -> dict[str, Any]:
     content = press_path.read_text(encoding="utf-8") if press_path and press_path.exists() else ""
     articles = extract_press_articles(content)
@@ -363,19 +413,40 @@ def map_press(
         "repo_count_mapped": 0,
         "article_count_input": len(articles),
         "article_count_mapped": len(articles[:5]),
-        "excluded_reason_counts": {"outside_dry_run_article_limit": max(0, len(articles) - 5)} if len(articles) > 5 else {},
+        "excluded_reason_counts": {"outside_dry_run_article_limit": max(0, len(articles) - 5)}
+        if len(articles) > 5
+        else {},
     }
-    payload["citations"] = [{"type": "article", "url": item["news_url"], "title": item["claim"][:80]} for item in findings]
-    payload["reference_candidates"] = {"notable_projects": [], "press_articles": [item["news_url"] for item in findings]}
+    payload["citations"] = [
+        {"type": "article", "url": item["news_url"], "title": item["claim"][:80]}
+        for item in findings
+    ]
+    payload["reference_candidates"] = {
+        "notable_projects": [],
+        "press_articles": [item["news_url"] for item in findings],
+    }
     payload["token_estimate"] = estimate_tokens(stable_json(payload))
-    payload["provenance"] = {"raw_json": asdict(raw_ref), "press_context": asdict(press_ref) if press_ref else None, "deterministic_mapper": True}
+    payload["provenance"] = {
+        "raw_json": asdict(raw_ref),
+        "press_context": asdict(press_ref) if press_ref else None,
+        "deterministic_mapper": True,
+    }
     return payload
 
 
 def map_prior(
-    *, run_id: str, week: str, previous_summary: Path | None, previous_ref: ArtifactRef | None, raw_ref: ArtifactRef
+    *,
+    run_id: str,
+    week: str,
+    previous_summary: Path | None,
+    previous_ref: ArtifactRef | None,
+    raw_ref: ArtifactRef,
 ) -> dict[str, Any]:
-    content = previous_summary.read_text(encoding="utf-8") if previous_summary and previous_summary.exists() else ""
+    content = (
+        previous_summary.read_text(encoding="utf-8")
+        if previous_summary and previous_summary.exists()
+        else ""
+    )
     payload = base_map_payload(
         run_id=run_id,
         week=week,
@@ -421,10 +492,20 @@ def map_prior(
         "excluded_reason_counts": {},
         "prior_summary_present": bool(content),
     }
-    payload["citations"] = [{"type": "prior_summary", "url": finding["evidence_refs"][0]["url"], "title": "prior weekly summary"}]
+    payload["citations"] = [
+        {
+            "type": "prior_summary",
+            "url": finding["evidence_refs"][0]["url"],
+            "title": "prior weekly summary",
+        }
+    ]
     payload["reference_candidates"] = {"notable_projects": [], "press_articles": []}
     payload["token_estimate"] = estimate_tokens(stable_json(payload))
-    payload["provenance"] = {"raw_json": asdict(raw_ref), "prior_summary": asdict(previous_ref) if previous_ref else None, "deterministic_mapper": True}
+    payload["provenance"] = {
+        "raw_json": asdict(raw_ref),
+        "prior_summary": asdict(previous_ref) if previous_ref else None,
+        "deterministic_mapper": True,
+    }
     return payload
 
 
@@ -432,7 +513,17 @@ def validate_map(payload: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     if payload.get("schema_version") != MAP_SCHEMA:
         errors.append("mapper schema_version mismatch")
-    for field in ("run_id", "week", "shard_id", "slice", "coverage", "findings", "citations", "reference_candidates", "provenance"):
+    for field in (
+        "run_id",
+        "week",
+        "shard_id",
+        "slice",
+        "coverage",
+        "findings",
+        "citations",
+        "reference_candidates",
+        "provenance",
+    ):
         if field not in payload:
             errors.append(f"mapper missing {field}")
     if "findings" in payload and not isinstance(payload.get("findings"), list):
@@ -442,7 +533,16 @@ def validate_map(payload: dict[str, Any]) -> list[str]:
         if not isinstance(finding, dict):
             errors.append(f"finding {index} must be an object")
             continue
-        for field in ("claim_id", "claim", "category", "source_type", "evidence_refs", "confidence", "contra_refs", "uncertainties"):
+        for field in (
+            "claim_id",
+            "claim",
+            "category",
+            "source_type",
+            "evidence_refs",
+            "confidence",
+            "contra_refs",
+            "uncertainties",
+        ):
             if field not in finding:
                 errors.append(f"finding {index} missing {field}")
         refs = finding.get("evidence_refs")
@@ -450,7 +550,12 @@ def validate_map(payload: dict[str, Any]) -> list[str]:
             errors.append(f"finding {index} has no evidence refs")
         else:
             for ref in refs:
-                if not isinstance(ref, dict) or not ref.get("type") or not ref.get("ref") or not ref.get("url"):
+                if (
+                    not isinstance(ref, dict)
+                    or not ref.get("type")
+                    or not ref.get("ref")
+                    or not ref.get("url")
+                ):
                     errors.append(f"finding {index} has malformed evidence ref")
         confidence = finding.get("confidence")
         if not isinstance(confidence, (int, float)) or not (0 <= float(confidence) <= 1):
@@ -466,7 +571,9 @@ def validate_map(payload: dict[str, Any]) -> list[str]:
                 errors.append(f"coverage missing {key}")
         if "repo_ids_seen" in coverage and not isinstance(coverage.get("repo_ids_seen"), list):
             errors.append("coverage repo_ids_seen must be a list")
-        if "article_urls_seen" in coverage and not isinstance(coverage.get("article_urls_seen"), list):
+        if "article_urls_seen" in coverage and not isinstance(
+            coverage.get("article_urls_seen"), list
+        ):
             errors.append("coverage article_urls_seen must be a list")
         excluded = coverage.get("excluded_reason_counts")
         if "excluded_reason_counts" in coverage and not isinstance(excluded, dict):
@@ -474,7 +581,9 @@ def validate_map(payload: dict[str, Any]) -> list[str]:
         elif isinstance(excluded, dict):
             for reason, count in excluded.items():
                 if not reason or not isinstance(count, int) or count < 0:
-                    errors.append("coverage excluded_reason_counts must contain non-negative integer counts")
+                    errors.append(
+                        "coverage excluded_reason_counts must contain non-negative integer counts"
+                    )
                     break
         for prefix in ("repo", "article"):
             input_key = f"{prefix}_count_input"
@@ -482,13 +591,20 @@ def validate_map(payload: dict[str, Any]) -> list[str]:
             if input_key in coverage or mapped_key in coverage:
                 input_count = coverage.get(input_key)
                 mapped_count = coverage.get(mapped_key)
-                if not isinstance(input_count, int) or not isinstance(mapped_count, int) or input_count < 0 or mapped_count < 0:
+                if (
+                    not isinstance(input_count, int)
+                    or not isinstance(mapped_count, int)
+                    or input_count < 0
+                    or mapped_count < 0
+                ):
                     errors.append(f"coverage {prefix} counts must be non-negative integers")
                     continue
                 if mapped_count > input_count:
                     errors.append(f"coverage {mapped_key} exceeds {input_key}")
                 if mapped_count < input_count and not coverage.get("excluded_reason_counts"):
-                    errors.append(f"coverage {mapped_key} below {input_key} without excluded reasons")
+                    errors.append(
+                        f"coverage {mapped_key} below {input_key} without excluded reasons"
+                    )
         status = payload.get("status")
         if status == "failed":
             errors.append("mapper status failed")
@@ -530,7 +646,9 @@ def contradiction_record(
         "claim": finding.get("claim"),
         "source_shard": ledger.get("shard_id"),
         "normalized_claim_key": normalized_claim_key(finding),
-        "evidence_refs": finding.get("evidence_refs") if isinstance(finding.get("evidence_refs"), list) else [],
+        "evidence_refs": finding.get("evidence_refs")
+        if isinstance(finding.get("evidence_refs"), list)
+        else [],
         "contra_refs": contra_refs,
         "contradicted_by": sorted(set(contradicted_by)),
         "resolution": "rejected_unresolved",
@@ -538,7 +656,9 @@ def contradiction_record(
     }
 
 
-def reduce_ledgers(ledgers: list[dict[str, Any]], *, raw_payload: dict[str, Any]) -> tuple[dict[str, Any], list[dict[str, Any]], list[dict[str, Any]]]:
+def reduce_ledgers(
+    ledgers: list[dict[str, Any]], *, raw_payload: dict[str, Any]
+) -> tuple[dict[str, Any], list[dict[str, Any]], list[dict[str, Any]]]:
     selected: list[dict[str, Any]] = []
     rejected: list[dict[str, Any]] = []
     contradictions: list[dict[str, Any]] = []
@@ -554,35 +674,75 @@ def reduce_ledgers(ledgers: list[dict[str, Any]], *, raw_payload: dict[str, Any]
     }
     inbound_contradictions: dict[str, list[str]] = {}
     for ledger in ledgers:
-        for finding in ledger.get("findings", []) if isinstance(ledger.get("findings"), list) else []:
+        for finding in (
+            ledger.get("findings", []) if isinstance(ledger.get("findings"), list) else []
+        ):
             if not isinstance(finding, dict):
                 continue
             source_claim_id = finding.get("claim_id")
             for target in contra_ref_targets(finding.get("contra_refs")):
                 inbound_contradictions.setdefault(target, []).append(str(source_claim_id))
     for ledger in ledgers:
-        ledger_findings = ledger.get("findings", []) if isinstance(ledger.get("findings"), list) else []
+        ledger_findings = (
+            ledger.get("findings", []) if isinstance(ledger.get("findings"), list) else []
+        )
         for finding in ledger_findings:
             if not isinstance(finding, dict):
-                rejected.append({"claim_id": None, "reason": "malformed_finding", "source_shard": ledger.get("shard_id")})
+                rejected.append(
+                    {
+                        "claim_id": None,
+                        "reason": "malformed_finding",
+                        "source_shard": ledger.get("shard_id"),
+                    }
+                )
                 continue
-            refs = finding.get("evidence_refs") if isinstance(finding.get("evidence_refs"), list) else []
-            contra_refs = finding.get("contra_refs") if isinstance(finding.get("contra_refs"), list) else []
+            refs = (
+                finding.get("evidence_refs")
+                if isinstance(finding.get("evidence_refs"), list)
+                else []
+            )
+            contra_refs = (
+                finding.get("contra_refs") if isinstance(finding.get("contra_refs"), list) else []
+            )
             contradicted_by = inbound_contradictions.get(str(finding.get("claim_id")), [])
             if contra_refs or contradicted_by:
-                contradictions.append(contradiction_record(finding, ledger, contradicted_by=contradicted_by))
-                rejected.append({"claim_id": finding.get("claim_id"), "reason": "unresolved_contradiction", "source_shard": ledger.get("shard_id")})
+                contradictions.append(
+                    contradiction_record(finding, ledger, contradicted_by=contradicted_by)
+                )
+                rejected.append(
+                    {
+                        "claim_id": finding.get("claim_id"),
+                        "reason": "unresolved_contradiction",
+                        "source_shard": ledger.get("shard_id"),
+                    }
+                )
                 continue
             if not refs:
-                rejected.append({"claim_id": finding.get("claim_id"), "reason": "weak_citation", "source_shard": ledger.get("shard_id")})
+                rejected.append(
+                    {
+                        "claim_id": finding.get("claim_id"),
+                        "reason": "weak_citation",
+                        "source_shard": ledger.get("shard_id"),
+                    }
+                )
                 continue
             key = normalized_claim_key(finding)
             if key in seen_keys:
                 existing = seen_keys[key]
                 existing["merged_from"].append(finding["claim_id"])
-                existing["citation_bindings"]["repos"].extend([r.get("ref") for r in refs if r.get("type") == "repo"])
-                existing["citation_bindings"]["articles"].extend([r.get("url") for r in refs if r.get("type") == "article"])
-                rejected.append({"claim_id": finding.get("claim_id"), "reason": "duplicate", "source_shard": ledger.get("shard_id")})
+                existing["citation_bindings"]["repos"].extend(
+                    [r.get("ref") for r in refs if r.get("type") == "repo"]
+                )
+                existing["citation_bindings"]["articles"].extend(
+                    [r.get("url") for r in refs if r.get("type") == "article"]
+                )
+                rejected.append(
+                    {
+                        "claim_id": finding.get("claim_id"),
+                        "reason": "duplicate",
+                        "source_shard": ledger.get("shard_id"),
+                    }
+                )
                 continue
             reduced = {
                 "claim_id": f"reduce-{hashlib.sha256(key.encode('utf-8')).hexdigest()[:12]}",
@@ -600,13 +760,34 @@ def reduce_ledgers(ledgers: list[dict[str, Any]], *, raw_payload: dict[str, Any]
             seen_keys[key] = reduced
             selected.append(reduced)
     for claim in selected:
-        claim["citation_bindings"]["repos"] = sorted(set(filter(None, claim["citation_bindings"]["repos"])))
-        claim["citation_bindings"]["articles"] = sorted(set(filter(None, claim["citation_bindings"]["articles"])))
-    contradictions = sorted(contradictions, key=lambda c: (str(c.get("source_shard")), str(c.get("claim_id"))))
-    selected = sorted(selected, key=lambda c: (SECTION_ORDER.index(c["section"]) if c["section"] in SECTION_ORDER else 99, -float(c["confidence"]), c["claim_id"]))[:16]
+        claim["citation_bindings"]["repos"] = sorted(
+            set(filter(None, claim["citation_bindings"]["repos"]))
+        )
+        claim["citation_bindings"]["articles"] = sorted(
+            set(filter(None, claim["citation_bindings"]["articles"]))
+        )
+    contradictions = sorted(
+        contradictions, key=lambda c: (str(c.get("source_shard")), str(c.get("claim_id")))
+    )
+    selected = sorted(
+        selected,
+        key=lambda c: (
+            SECTION_ORDER.index(c["section"]) if c["section"] in SECTION_ORDER else 99,
+            -float(c["confidence"]),
+            c["claim_id"],
+        ),
+    )[:16]
     all_repos = raw_payload.get("new_repos", []) + raw_payload.get("trending_repos", [])
-    top_repo = normalize_repo_name(sorted_repos(all_repos, mode="new")[:1][0]) if all_repos else "unknown/unknown"
-    topics = raw_payload.get("signals", {}).get("top_topics", []) if isinstance(raw_payload.get("signals"), dict) else []
+    top_repo = (
+        normalize_repo_name(sorted_repos(all_repos, mode="new")[:1][0])
+        if all_repos
+        else "unknown/unknown"
+    )
+    topics = (
+        raw_payload.get("signals", {}).get("top_topics", [])
+        if isinstance(raw_payload.get("signals"), dict)
+        else []
+    )
     tags = []
     for topic in topics:
         value = topic.get("topic") if isinstance(topic, dict) else topic
@@ -625,7 +806,10 @@ def reduce_ledgers(ledgers: list[dict[str, Any]], *, raw_payload: dict[str, Any]
         "key_references": {"notable_projects": notable[:10], "press_articles": articles[:10]},
         "rejected_claims": rejected,
         "contradictions": contradictions,
-        "quality_notes": [CANDIDATE_DISCLAIMER, "Reducer consumed only validated analysis_map_v1 ledgers."],
+        "quality_notes": [
+            CANDIDATE_DISCLAIMER,
+            "Reducer consumed only validated analysis_map_v1 ledgers.",
+        ],
     }
     return plan, rejected, contradictions
 
@@ -669,14 +853,21 @@ def render_section(plan: dict[str, Any], section: str, fallback: str) -> str:
     return "\n\n".join(sentences + [context])
 
 
-def render_candidate(plan: dict[str, Any], raw_payload: dict[str, Any], current_datetime: str) -> str:
+def render_candidate(
+    plan: dict[str, Any], raw_payload: dict[str, Any], current_datetime: str
+) -> str:
     week = raw_payload["week"]
     year = int(week.split("-W", 1)[0])
-    repos_featured = len(raw_payload.get("new_repos", [])) + len(raw_payload.get("trending_repos", []))
-    stars_tracked = sum(int(repo.get("stars") or 0) for repo in raw_payload.get("new_repos", []) + raw_payload.get("trending_repos", []))
+    repos_featured = len(raw_payload.get("new_repos", [])) + len(
+        raw_payload.get("trending_repos", [])
+    )
+    stars_tracked = sum(
+        int(repo.get("stars") or 0)
+        for repo in raw_payload.get("new_repos", []) + raw_payload.get("trending_repos", [])
+    )
     tags = ", ".join(yaml_quote(str(tag)) for tag in plan["tags"])
     frontmatter = f'''---
-title: {yaml_quote(str(plan['title']))}
+title: {yaml_quote(str(plan["title"]))}
 date: {current_datetime}
 week: "{week}"
 year: {year}
@@ -684,27 +875,51 @@ tags: [{tags}]
 categories: [weekly]
 repos_featured: {repos_featured}
 stars_tracked: {stars_tracked}
-top_repo: {yaml_quote(str(plan['top_repo']))}
+top_repo: {yaml_quote(str(plan["top_repo"]))}
 quality_score: 60
-summary: {yaml_quote(str(plan['summary']))}
+summary: {yaml_quote(str(plan["summary"]))}
 ---'''
     notable = plan.get("key_references", {}).get("notable_projects", []) or [plan["top_repo"]]
     notable_lines = "\n".join(f"- {repo_link(repo)}" for repo in notable[:10])
     articles = plan.get("key_references", {}).get("press_articles", [])
-    press_lines = "\n".join(f"- {url}" for url in articles[:10]) if articles else "- No retained press URLs were selected by the dry-run reducer."
+    press_lines = (
+        "\n".join(f"- {url}" for url in articles[:10])
+        if articles
+        else "- No retained press URLs were selected by the dry-run reducer."
+    )
     return (
         frontmatter
         + f"\n\n> {CANDIDATE_DISCLAIMER}\n\n"
         + "## This Week's Trends\n\n"
-        + render_section(plan, "This Week's Trends", f"The leading dry-run trend is anchored by {repo_link(plan['top_repo'])}, but the reducer requires future human/model QA before publication.")
+        + render_section(
+            plan,
+            "This Week's Trends",
+            f"The leading dry-run trend is anchored by {repo_link(plan['top_repo'])}, but the reducer requires future human/model QA before publication.",
+        )
         + "\n\n## Where Industry Meets Code\n\n"
-        + render_section(plan, "Where Industry Meets Code", "No strong press correlation survived this deterministic dry run; the absence is surfaced as uncertainty rather than converted into a publishable claim.")
+        + render_section(
+            plan,
+            "Where Industry Meets Code",
+            "No strong press correlation survived this deterministic dry run; the absence is surfaced as uncertainty rather than converted into a publishable claim.",
+        )
         + "\n\n## Signal & Noise\n\n"
-        + render_section(plan, "Signal & Noise", f"The clearest candidate signal is repository-backed momentum around {repo_link(plan['top_repo'])}, while uncited or duplicate findings stay in rejected sidecars.")
+        + render_section(
+            plan,
+            "Signal & Noise",
+            f"The clearest candidate signal is repository-backed momentum around {repo_link(plan['top_repo'])}, while uncited or duplicate findings stay in rejected sidecars.",
+        )
         + "\n\n## Blind Spots\n\n"
-        + render_section(plan, "Blind Spots", "The reducer exposes blind spots instead of filling them with prose: omitted repos, missing press URLs, and absent prior continuity remain QA findings.")
+        + render_section(
+            plan,
+            "Blind Spots",
+            "The reducer exposes blind spots instead of filling them with prose: omitted repos, missing press URLs, and absent prior continuity remain QA findings.",
+        )
         + "\n\n## The Week Ahead\n\n"
-        + render_section(plan, "The Week Ahead", "Before any promotion, QA must show no regression against the current single-pass path and the candidate must remain blocked from publish workflows.")
+        + render_section(
+            plan,
+            "The Week Ahead",
+            "Before any promotion, QA must show no regression against the current single-pass path and the candidate must remain blocked from publish workflows.",
+        )
         + "\n\n## Key References\n\n### Notable Projects\n\n"
         + notable_lines
         + "\n\n### Press & Industry\n\n"
@@ -726,15 +941,23 @@ def build_qa_report(
     model: str,
 ) -> dict[str, Any]:
     structural_errors, word_count = validate_analysis(candidate_text, raw_payload, current_datetime)
-    publish_errors, gates = validate_publish_quality(candidate_text, raw_payload, source=source, model=model)
-    non_provenance_errors = [error for error in publish_errors if not error.startswith("AI provenance")]
+    publish_errors, gates = validate_publish_quality(
+        candidate_text, raw_payload, source=source, model=model
+    )
+    non_provenance_errors = [
+        error for error in publish_errors if not error.startswith("AI provenance")
+    ]
     baseline_ref = file_ref(baseline_summary)
-    selected_refs = set(plan.get("key_references", {}).get("notable_projects", [])) | set(plan.get("key_references", {}).get("press_articles", []))
+    selected_refs = set(plan.get("key_references", {}).get("notable_projects", [])) | set(
+        plan.get("key_references", {}).get("press_articles", [])
+    )
     report = {
         "schema_version": QA_SCHEMA,
         "candidate": asdict(file_ref(candidate_path)) if file_ref(candidate_path) else None,
         "baseline_summary": asdict(baseline_ref) if baseline_ref else None,
-        "status": "passed" if not structural_errors and not non_provenance_errors and not any(map_errors.values()) else "failed",
+        "status": "passed"
+        if not structural_errors and not non_provenance_errors and not any(map_errors.values())
+        else "failed",
         "publish_eligible": False,
         "promotion_blockers": [
             CANDIDATE_DISCLAIMER,
@@ -743,20 +966,36 @@ def build_qa_report(
         ],
         "regressions": [],
         "checks": {
-            "mapper_contracts": {"passed": not any(map_errors.values()), "errors_by_mapper": map_errors},
-            "structural_analysis_gate": {"passed": not structural_errors, "errors": structural_errors, "word_count": word_count},
-            "evidence_and_editorial_gates": {"passed": not non_provenance_errors, "errors": non_provenance_errors, "gate_details": gates},
+            "mapper_contracts": {
+                "passed": not any(map_errors.values()),
+                "errors_by_mapper": map_errors,
+            },
+            "structural_analysis_gate": {
+                "passed": not structural_errors,
+                "errors": structural_errors,
+                "word_count": word_count,
+            },
+            "evidence_and_editorial_gates": {
+                "passed": not non_provenance_errors,
+                "errors": non_provenance_errors,
+                "gate_details": gates,
+            },
             "publish_provenance_gate": {
                 "passed": False,
                 "expected_failure": True,
                 "errors": [error for error in publish_errors if error.startswith("AI provenance")],
             },
             "sidecars_present": {
-                "passed": isinstance(plan.get("rejected_claims"), list) and isinstance(plan.get("contradictions"), list),
+                "passed": isinstance(plan.get("rejected_claims"), list)
+                and isinstance(plan.get("contradictions"), list),
                 "rejected_count": len(plan.get("rejected_claims", [])),
                 "contradiction_count": len(plan.get("contradictions", [])),
             },
-            "reference_count": {"selected": len(selected_refs), "notable_projects": len(plan.get("key_references", {}).get("notable_projects", [])), "press_articles": len(plan.get("key_references", {}).get("press_articles", []))},
+            "reference_count": {
+                "selected": len(selected_refs),
+                "notable_projects": len(plan.get("key_references", {}).get("notable_projects", [])),
+                "press_articles": len(plan.get("key_references", {}).get("press_articles", [])),
+            },
         },
     }
     if baseline_summary and not baseline_summary.exists():
@@ -870,8 +1109,22 @@ def run(args: argparse.Namespace) -> dict[str, Path]:
             addressed_ref = file_ref(addressed_path)
             evidence_slice_refs[name] = asdict(addressed_ref) if addressed_ref else {}
     write_json(out / "editorial-plan.json", plan)
-    write_json(sidecars_dir / "rejected-claims.json", {"schema_version": "analysis_rejected_claims_v1", "week": week, "rejected_claims": rejected})
-    write_json(sidecars_dir / "contradictions.json", {"schema_version": "analysis_contradictions_v1", "week": week, "contradictions": contradictions})
+    write_json(
+        sidecars_dir / "rejected-claims.json",
+        {
+            "schema_version": "analysis_rejected_claims_v1",
+            "week": week,
+            "rejected_claims": rejected,
+        },
+    )
+    write_json(
+        sidecars_dir / "contradictions.json",
+        {
+            "schema_version": "analysis_contradictions_v1",
+            "week": week,
+            "contradictions": contradictions,
+        },
+    )
     candidate_path = out / f"{week}-map-reduce-candidate.md"
     candidate_path.write_text(candidate_text, encoding="utf-8")
     qa = build_qa_report(
@@ -955,9 +1208,16 @@ def run(args: argparse.Namespace) -> dict[str, Path]:
         "promotion_policy": "blocked: dry-run/candidate-only map/reduce output must not write data/analyzed, content/weekly, deploy, notify, or satisfy publish eligibility.",
     }
     write_json(out / "manifest.json", manifest)
-    total_input_tokens = sum(metric.input_tokens for metric in map_stage_metrics) + reduce_stage_metric.input_tokens
-    total_output_tokens = sum(metric.output_tokens for metric in map_stage_metrics) + reduce_stage_metric.output_tokens
-    total_cost_usd = round(sum(metric.cost_usd for metric in map_stage_metrics) + reduce_stage_metric.cost_usd, 6)
+    total_input_tokens = (
+        sum(metric.input_tokens for metric in map_stage_metrics) + reduce_stage_metric.input_tokens
+    )
+    total_output_tokens = (
+        sum(metric.output_tokens for metric in map_stage_metrics)
+        + reduce_stage_metric.output_tokens
+    )
+    total_cost_usd = round(
+        sum(metric.cost_usd for metric in map_stage_metrics) + reduce_stage_metric.cost_usd, 6
+    )
     analysis_duration = round(time.monotonic() - analysis_started, 3)
     observability_path = DEFAULT_OBSERVABILITY_DIR / f"{week}-map-reduce.json"
     emit_ledger(

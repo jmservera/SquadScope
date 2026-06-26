@@ -6,7 +6,6 @@ from pathlib import Path
 
 from scripts import validate_predictions
 
-
 WORKSPACE_ROOT = Path(__file__).resolve().parent / "_workspace_validate_predictions"
 
 
@@ -158,7 +157,6 @@ def test_missing_baseline_repo_becomes_insufficient_evidence() -> None:
     assert "prediction-week crawl" in result.note
 
 
-
 def test_missing_observed_repo_becomes_insufficient_evidence() -> None:
     workspace = prepare_workspace("missing-observed")
     raw_dir = workspace / "raw"
@@ -182,7 +180,6 @@ def test_missing_observed_repo_becomes_insufficient_evidence() -> None:
     assert result.baseline_stars == 100
     assert result.observed_stars is None
     assert "later crawl payload" in result.note
-
 
 
 def test_run_validation_writes_markdown_and_json_scorecards() -> None:

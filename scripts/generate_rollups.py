@@ -11,6 +11,7 @@ Monthly pages include:
 Yearly pages are delegated to generate_yearly_narrative.build_yearly_narrative_pages().
 A rolling 4-week context report can also be generated with --rolling.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -193,7 +194,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 
 def yaml_quote(value: str) -> str:
-    return '"' + value.replace('\\', '\\\\').replace('"', '\\"') + '"'
+    return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
 
 
 def yaml_value(value: Any) -> str:
@@ -376,7 +377,9 @@ def _build_monthly_crosslinks(year: int, _month: int, items: list[WeeklySummary]
     return f"*Part of {links[0]}* · Weekly: {' · '.join(links[1:])}\n"
 
 
-def build_monthly_pages(summaries: list[WeeklySummary], content_root: Path, analyzed_dir: Path) -> list[RollupPage]:
+def build_monthly_pages(
+    summaries: list[WeeklySummary], content_root: Path, analyzed_dir: Path
+) -> list[RollupPage]:
     grouped: dict[tuple[int, int], list[WeeklySummary]] = defaultdict(list)
     for summary in summaries:
         grouped[(summary.year, summary.month)].append(summary)
@@ -414,7 +417,9 @@ def build_monthly_pages(summaries: list[WeeklySummary], content_root: Path, anal
                     "year": year,
                     "categories": ["monthly"],
                     "weeks_covered": [item.week for item in items],
-                    "total_repos_featured": len({repo for item in items for repo in item.featured_repos}),
+                    "total_repos_featured": len(
+                        {repo for item in items for repo in item.featured_repos}
+                    ),
                     "summary": synthesis.summary,
                     "themes": list(synthesis.themes),
                     "persistent_themes": list(synthesis.persistent_themes),
@@ -440,7 +445,9 @@ def build_yearly_pages(summaries: list[WeeklySummary], content_root: Path) -> li
                 path=page.path,
                 frontmatter=page.frontmatter,
                 sections={
-                    "Year in Review": [RollupEntry(marker=f"{page.year}-year-in-review", text=page.narrative)],
+                    "Year in Review": [
+                        RollupEntry(marker=f"{page.year}-year-in-review", text=page.narrative)
+                    ],
                 },
                 section_order=YEARLY_SECTIONS,
                 replace_existing_sections=True,
@@ -757,7 +764,10 @@ def main(argv: list[str] | None = None) -> int:
             print("No weekly content found for rolling report.", file=sys.stderr)
 
     if not written:
-        print(f"No weekly summaries found in {args.analyzed_dir}; skipping rollup generation.", file=sys.stderr)
+        print(
+            f"No weekly summaries found in {args.analyzed_dir}; skipping rollup generation.",
+            file=sys.stderr,
+        )
         return 0
     for path in written:
         print(f"Generated {path}")

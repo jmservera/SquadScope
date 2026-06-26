@@ -150,7 +150,9 @@ def issue_url(repo: str, number: str) -> str:
     return f"https://github.com/{repo}/issues/{number}"
 
 
-def create_or_update_token_issue(report: CopilotFailure, *, repo: str, assignee: str, week: str, run_id: str) -> str:
+def create_or_update_token_issue(
+    report: CopilotFailure, *, repo: str, assignee: str, week: str, run_id: str
+) -> str:
     title = issue_title()
     body = issue_body(report, week=week, run_id=run_id)
     search = run_gh(
@@ -179,7 +181,9 @@ def create_or_update_token_issue(report: CopilotFailure, *, repo: str, assignee:
                 number = str(issue["number"])
                 comment = run_gh(["issue", "comment", number, "--repo", repo, "--body", body])
                 if comment.returncode != 0:
-                    raise RuntimeError(comment.stderr.strip() or "failed to update Copilot token issue")
+                    raise RuntimeError(
+                        comment.stderr.strip() or "failed to update Copilot token issue"
+                    )
                 return issue_url(repo, number)
 
     created = run_gh(
@@ -226,7 +230,10 @@ def main(argv: list[str] | None = None) -> int:
     payload = asdict(report)
     payload["log_path"] = args.log.as_posix()
 
-    if args.create_token_issue and report.failure_class in {"copilot_token_failure", "copilot_inaccessible"}:
+    if args.create_token_issue and report.failure_class in {
+        "copilot_token_failure",
+        "copilot_inaccessible",
+    }:
         payload["issue"] = create_or_update_token_issue(
             report,
             repo=args.repo,
@@ -237,7 +244,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.report_json:
         args.report_json.parent.mkdir(parents=True, exist_ok=True)
-        args.report_json.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        args.report_json.write_text(
+            json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
 
     print(report.failure_class)
     return 0

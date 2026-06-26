@@ -9,13 +9,14 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-
 SCHEMA_VERSION = "publish_eligibility_v1"
 AI_SOURCES = {"copilot-cli"}
 RUN_MODES = {"normal", "dry-run", "restore", "force-replace", "candidate-only"}
 SOURCE_REFRESH_POLICIES = {"reuse-same-day", "refresh-missing-stale", "force-refresh"}
 ALLOWED_PROMOTION_MANIFEST_ROOTS = {("data", "staging"), ("data", "candidates")}
-PROMOTION_MANIFEST_ROOT_ERROR = "Publish manifest must live under data/staging/ or data/candidates/."
+PROMOTION_MANIFEST_ROOT_ERROR = (
+    "Publish manifest must live under data/staging/ or data/candidates/."
+)
 NO_AI_SOURCE = "no-ai"
 MIN_PUBLISH_QUALITY_SCORE = 60
 FALLBACK_MIN_QUALITY_SCORE = 70
@@ -29,7 +30,9 @@ FRONTMATTER_PATTERN = re.compile(r"^---\n(?P<frontmatter>.*?)\n---\n(?P<body>.*)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Create or validate a weekly publish eligibility manifest.")
+    parser = argparse.ArgumentParser(
+        description="Create or validate a weekly publish eligibility manifest."
+    )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     create = subparsers.add_parser("create", help="Create a publish eligibility manifest.")
@@ -37,7 +40,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     create.add_argument("--run-id", required=True)
     create.add_argument("--current-datetime", required=True)
     create.add_argument("--summary", required=True, type=Path)
-    create.add_argument("--content", type=Path, help="Rendered candidate content path. Defaults to --summary for legacy summary-only manifests.")
+    create.add_argument(
+        "--content",
+        type=Path,
+        help="Rendered candidate content path. Defaults to --summary for legacy summary-only manifests.",
+    )
     create.add_argument("--published-summary", required=True, type=Path)
     create.add_argument("--raw-json", required=True, type=Path)
     create.add_argument("--analysis-source", required=True)
@@ -49,10 +56,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     create.add_argument("--validation-status", choices=["passed", "failed"], required=True)
     create.add_argument("--run-mode", choices=sorted(RUN_MODES), default="normal")
-    create.add_argument("--source-refresh-policy", choices=sorted(SOURCE_REFRESH_POLICIES), default="reuse-same-day")
-    create.add_argument("--gate-report", type=Path, help="Structured analysis gate report emitted by analysis_gate.py.")
+    create.add_argument(
+        "--source-refresh-policy", choices=sorted(SOURCE_REFRESH_POLICIES), default="reuse-same-day"
+    )
+    create.add_argument(
+        "--gate-report",
+        type=Path,
+        help="Structured analysis gate report emitted by analysis_gate.py.",
+    )
     create.add_argument("--output", required=True, type=Path)
-    create.add_argument("--artifact", action="append", default=[], help="Additional source artifact as role=path.")
+    create.add_argument(
+        "--artifact", action="append", default=[], help="Additional source artifact as role=path."
+    )
     create.add_argument(
         "--fallback-reason",
         default="",
@@ -70,10 +85,18 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default="default",
         help="Explicit operator policy for no-AI fallback publication.",
     )
-    create.add_argument("--force-reason", default="", help="Operator reason required for force-replace.")
-    create.add_argument("--actor", default="", help="Operator or automation actor requesting explicit fallback policy.")
+    create.add_argument(
+        "--force-reason", default="", help="Operator reason required for force-replace."
+    )
+    create.add_argument(
+        "--actor",
+        default="",
+        help="Operator or automation actor requesting explicit fallback policy.",
+    )
 
-    check = subparsers.add_parser("assert-eligible", help="Fail unless the manifest permits promotion.")
+    check = subparsers.add_parser(
+        "assert-eligible", help="Fail unless the manifest permits promotion."
+    )
     check.add_argument("--manifest", required=True, type=Path)
     return parser.parse_args(argv)
 
@@ -116,7 +139,9 @@ def load_json(path: Path) -> dict[str, Any] | None:
     return payload if isinstance(payload, dict) else None
 
 
-def load_preflight(path: Path | None, *, required: bool = False) -> tuple[dict[str, Any] | None, list[str]]:
+def load_preflight(
+    path: Path | None, *, required: bool = False
+) -> tuple[dict[str, Any] | None, list[str]]:
     if path is None:
         if required:
             return None, ["preflight report is required for Copilot CLI promotion"]
@@ -130,7 +155,9 @@ def load_preflight(path: Path | None, *, required: bool = False) -> tuple[dict[s
     return payload, reasons
 
 
-def manifest_lives_under_allowed_promotion_root(manifest_path: Path, root: Path | None = None) -> bool:
+def manifest_lives_under_allowed_promotion_root(
+    manifest_path: Path, root: Path | None = None
+) -> bool:
     workspace = (root or Path.cwd()).resolve()
     resolved_manifest = manifest_path if manifest_path.is_absolute() else workspace / manifest_path
     try:
@@ -141,7 +168,7 @@ def manifest_lives_under_allowed_promotion_root(manifest_path: Path, root: Path 
 
 
 def _parse_scalar(value: str) -> Any:
-    stripped = value.strip().strip('"\'')
+    stripped = value.strip().strip("\"'")
     if re.fullmatch(r"-?\d+", stripped):
         return int(stripped)
     if re.fullmatch(r"-?\d+\.\d+", stripped):
@@ -253,12 +280,16 @@ def published_summary_status(path: Path, week: str) -> dict[str, Any]:
 
     reasons = list(status.get("reasons", []))
     if status.get("week") != week:
-        reasons.append(f"published summary week mismatch: expected {week}, found {status.get('week')!r}")
+        reasons.append(
+            f"published summary week mismatch: expected {week}, found {status.get('week')!r}"
+        )
     quality = status.get("quality_score")
     if quality is None:
         reasons.append("published summary lacks quality_score")
     elif quality < MIN_PUBLISH_QUALITY_SCORE:
-        reasons.append(f"published summary quality_score below {MIN_PUBLISH_QUALITY_SCORE}: {quality}")
+        reasons.append(
+            f"published summary quality_score below {MIN_PUBLISH_QUALITY_SCORE}: {quality}"
+        )
     if status.get("ai_status") == "no-ai":
         reasons.append("published summary is no-AI fallback")
 
@@ -295,9 +326,19 @@ def same_day_reuse_status(payload: dict[str, Any] | None) -> dict[str, Any]:
     }
 
 
-def freshness_for_json_artifact(role: str, week: str, payload: dict[str, Any] | None, *, run_date: datetime | None = None, run_mode: str = "normal") -> dict[str, Any]:
+def freshness_for_json_artifact(
+    role: str,
+    week: str,
+    payload: dict[str, Any] | None,
+    *,
+    run_date: datetime | None = None,
+    run_mode: str = "normal",
+) -> dict[str, Any]:
     if payload is None:
-        return {"status": "missing" if role == "raw_github" else "not_applicable", "reasons": ["artifact missing"]}
+        return {
+            "status": "missing" if role == "raw_github" else "not_applicable",
+            "reasons": ["artifact missing"],
+        }
 
     reasons: list[str] = []
     artifact_week = payload.get("week")
@@ -311,14 +352,20 @@ def freshness_for_json_artifact(role: str, week: str, payload: dict[str, Any] | 
             reasons.append("missing or invalid crawled_at/generated_at timestamp")
         elif week_slug(parsed) != week:
             reasons.append(f"timestamp week mismatch: expected {week}, found {week_slug(parsed)}")
-        elif run_date is not None and run_mode not in {"restore", "force-replace"} and parsed.astimezone(UTC).date() != run_date.astimezone(UTC).date():
+        elif (
+            run_date is not None
+            and run_mode not in {"restore", "force-replace"}
+            and parsed.astimezone(UTC).date() != run_date.astimezone(UTC).date()
+        ):
             reasons.append("timestamp date is not the current UTC run date")
 
     crawl_window = payload.get("crawl_window")
     if role in {"external_news", "techcrunch_news"} and isinstance(crawl_window, dict):
         until = parse_datetime(crawl_window.get("until"))
         if until is not None and week_slug(until) != week:
-            reasons.append(f"crawl_window.until week mismatch: expected {week}, found {week_slug(until)}")
+            reasons.append(
+                f"crawl_window.until week mismatch: expected {week}, found {week_slug(until)}"
+            )
 
     return {"status": "fresh" if not reasons else "stale", "reasons": reasons}
 
@@ -333,9 +380,15 @@ def artifact_entry(
     run_mode: str = "normal",
 ) -> dict[str, Any]:
     payload = load_json(path) if path.suffix == ".json" else None
-    metadata = payload.get("metadata", {}) if isinstance(payload, dict) and isinstance(payload.get("metadata"), dict) else {}
+    metadata = (
+        payload.get("metadata", {})
+        if isinstance(payload, dict) and isinstance(payload.get("metadata"), dict)
+        else {}
+    )
     if isinstance(payload, dict):
-        artifact_generated_at = payload.get("generated_at") or payload.get("crawled_at") or generated_at
+        artifact_generated_at = (
+            payload.get("generated_at") or payload.get("crawled_at") or generated_at
+        )
     else:
         artifact_generated_at = generated_at
     reuse_status = same_day_reuse_status(payload)
@@ -358,7 +411,11 @@ def artifact_entry(
             "generated_at": artifact_generated_at,
             "same_day_reuse": reuse_status,
         },
-        "freshness": freshness_for_json_artifact(role, week, payload, run_date=run_date, run_mode=run_mode) if path.suffix == ".json" else {"status": "not_applicable", "reasons": []},
+        "freshness": freshness_for_json_artifact(
+            role, week, payload, run_date=run_date, run_mode=run_mode
+        )
+        if path.suffix == ".json"
+        else {"status": "not_applicable", "reasons": []},
     }
     if "source_status" in metadata:
         entry["source_status"] = metadata["source_status"]
@@ -421,12 +478,19 @@ def load_gate_report(path: Path | None) -> dict[str, Any]:
         "failure_class": payload.get("failure_class"),
         "source": payload.get("source"),
         "model": payload.get("model"),
-        "repair_actions": payload.get("repair_actions") if isinstance(payload.get("repair_actions"), list) else [],
+        "repair_actions": payload.get("repair_actions")
+        if isinstance(payload.get("repair_actions"), list)
+        else [],
         "errors": [str(error) for error in errors],
         "gates": gates,
         "sha256": sha256_file(path),
     }
-    for gate_name in ("structural_schema", "ai_provenance", "evidence_citation", "editorial_quality"):
+    for gate_name in (
+        "structural_schema",
+        "ai_provenance",
+        "evidence_citation",
+        "editorial_quality",
+    ):
         gate = gates.get(gate_name)
         if not isinstance(gate, dict) or gate.get("passed") is not True:
             report["passed"] = False
@@ -436,11 +500,19 @@ def load_gate_report(path: Path | None) -> dict[str, Any]:
 def gate_reasons(report: dict[str, Any]) -> list[str]:
     reasons: list[str] = []
     if not report.get("present"):
-        return [str(error) for error in report.get("errors", ["structured analysis gate report missing"])]
+        return [
+            str(error)
+            for error in report.get("errors", ["structured analysis gate report missing"])
+        ]
     gates = report.get("gates", {})
     if not isinstance(gates, dict):
         gates = {}
-    for required_gate in ("structural_schema", "ai_provenance", "evidence_citation", "editorial_quality"):
+    for required_gate in (
+        "structural_schema",
+        "ai_provenance",
+        "evidence_citation",
+        "editorial_quality",
+    ):
         if required_gate not in gates:
             reasons.append(f"{required_gate} gate missing from structured analysis gate report")
     for name, gate in gates.items():
@@ -469,7 +541,9 @@ def create_manifest(args: argparse.Namespace) -> int:
     if run_date is None:
         raise SystemExit(f"Invalid --current-datetime value: {args.current_datetime!r}")
     source_artifacts = [
-        artifact_entry(role, path, args.week, args.current_datetime, run_date=run_date, run_mode=args.run_mode)
+        artifact_entry(
+            role, path, args.week, args.current_datetime, run_date=run_date, run_mode=args.run_mode
+        )
         for role, path in artifacts
         if path.exists() or role == "raw_github"
     ]
@@ -480,7 +554,13 @@ def create_manifest(args: argparse.Namespace) -> int:
     ]
 
     analysis_source = args.analysis_source.strip()
-    ai_status = "ai" if analysis_source in AI_SOURCES else "no-ai" if analysis_source == NO_AI_SOURCE else "unknown"
+    ai_status = (
+        "ai"
+        if analysis_source in AI_SOURCES
+        else "no-ai"
+        if analysis_source == NO_AI_SOURCE
+        else "unknown"
+    )
     model_status = publishable_model_status(args.analysis_model)
     preflight, preflight_reasons = load_preflight(args.preflight_report, required=ai_status == "ai")
     gate_report = load_gate_report(args.gate_report)
@@ -504,10 +584,19 @@ def create_manifest(args: argparse.Namespace) -> int:
         if candidate_quality is None:
             comparison_reasons.append("candidate summary lacks quality_score")
         elif candidate_quality < MIN_PUBLISH_QUALITY_SCORE:
-            comparison_reasons.append(f"candidate quality_score below {MIN_PUBLISH_QUALITY_SCORE}: {candidate_quality}")
-        if published_status.get("good") and isinstance(candidate_quality, (int, float)) and not force_replacing_no_ai:
+            comparison_reasons.append(
+                f"candidate quality_score below {MIN_PUBLISH_QUALITY_SCORE}: {candidate_quality}"
+            )
+        if (
+            published_status.get("good")
+            and isinstance(candidate_quality, (int, float))
+            and not force_replacing_no_ai
+        ):
             published_quality = published_status.get("quality_score")
-            if isinstance(published_quality, (int, float)) and candidate_quality < published_quality:
+            if (
+                isinstance(published_quality, (int, float))
+                and candidate_quality < published_quality
+            ):
                 comparison_reasons.append(
                     f"candidate quality_score {candidate_quality} is lower than published good quality_score {published_quality}"
                 )
@@ -518,15 +607,23 @@ def create_manifest(args: argparse.Namespace) -> int:
         if not args.fallback_reason.strip():
             reasons.append("fallback_reason is required for no-AI fallback candidates")
         if not attempted_ai_paths:
-            reasons.append("attempted_ai_paths must record attempted AI paths for no-AI fallback candidates")
+            reasons.append(
+                "attempted_ai_paths must record attempted AI paths for no-AI fallback candidates"
+            )
         if args.publish_policy == "default":
             if published_status.get("good"):
-                reasons.append("no-AI fallback is ineligible to replace an existing good AI-authored article by default")
+                reasons.append(
+                    "no-AI fallback is ineligible to replace an existing good AI-authored article by default"
+                )
             else:
-                reasons.append("no-AI fallback requires explicit allow-no-ai-first-publish or force-replace policy")
+                reasons.append(
+                    "no-AI fallback requires explicit allow-no-ai-first-publish or force-replace policy"
+                )
         elif args.publish_policy == "allow-no-ai-first-publish":
             if published_status.get("good"):
-                reasons.append("allow-no-ai-first-publish cannot replace an existing good AI-authored article")
+                reasons.append(
+                    "allow-no-ai-first-publish cannot replace an existing good AI-authored article"
+                )
             fallback_errors = fallback_quality_errors(args.summary, validation_passed)
         elif args.publish_policy == "force-replace":
             if not args.force_reason.strip():
@@ -566,7 +663,10 @@ def create_manifest(args: argparse.Namespace) -> int:
         and not reasons
         and (
             (ai_status == "ai" and model_status == "available")
-            or (ai_status == "no-ai" and args.publish_policy in {"allow-no-ai-first-publish", "force-replace"})
+            or (
+                ai_status == "no-ai"
+                and args.publish_policy in {"allow-no-ai-first-publish", "force-replace"}
+            )
         )
     )
     preserve_existing = bool(published_status.get("good") and not eligible)
@@ -605,14 +705,20 @@ def create_manifest(args: argparse.Namespace) -> int:
                 "publish_eligible": preflight.get("publish_eligible") if preflight else None,
                 "prompt_tokens": preflight.get("prompt_tokens") if preflight else None,
                 "prompt_token_budget": preflight.get("prompt_token_budget") if preflight else None,
-                "prompt_checksum_sha256": preflight.get("prompt_checksum_sha256") if preflight else None,
+                "prompt_checksum_sha256": preflight.get("prompt_checksum_sha256")
+                if preflight
+                else None,
                 "promotion_policy": preflight.get("promotion_policy") if preflight else None,
                 "degradation_reason": preflight.get("degradation_reason") if preflight else None,
             },
             "provenance": {
                 "run_id": args.run_id,
                 "current_datetime": args.current_datetime,
-                "authorship": "ai-authored" if ai_status == "ai" else "no-ai-fallback" if ai_status == "no-ai" else "unknown",
+                "authorship": "ai-authored"
+                if ai_status == "ai"
+                else "no-ai-fallback"
+                if ai_status == "no-ai"
+                else "unknown",
                 "provider": analysis_source,
                 "model": args.analysis_model,
                 "degraded": preflight.get("degraded") if preflight else None,
@@ -624,13 +730,19 @@ def create_manifest(args: argparse.Namespace) -> int:
             "source": analysis_source,
             "model": args.analysis_model,
             "degraded": ai_status != "ai" or model_status != "available",
-            "authorship": "ai-authored" if ai_status == "ai" else "no-ai-fallback" if ai_status == "no-ai" else "unknown",
+            "authorship": "ai-authored"
+            if ai_status == "ai"
+            else "no-ai-fallback"
+            if ai_status == "no-ai"
+            else "unknown",
             "fallback_reason": args.fallback_reason.strip() or None,
             "attempted_ai_paths": attempted_ai_paths,
         },
         "gate_results": {
             name: isinstance(gate, dict) and gate.get("passed") is True
-            for name, gate in (gate_report.get("gates") if isinstance(gate_report.get("gates"), dict) else {}).items()
+            for name, gate in (
+                gate_report.get("gates") if isinstance(gate_report.get("gates"), dict) else {}
+            ).items()
         },
         "existing_article": {
             "exists": published_status["exists"],
@@ -674,8 +786,12 @@ def create_manifest(args: argparse.Namespace) -> int:
         },
         "preservation": {
             "preserve_existing": preserve_existing,
-            "preserved_summary_path": args.published_summary.as_posix() if preserve_existing else None,
-            "rejected_candidate_path": args.summary.as_posix() if not eligible and candidate_exists else None,
+            "preserved_summary_path": args.published_summary.as_posix()
+            if preserve_existing
+            else None,
+            "rejected_candidate_path": args.summary.as_posix()
+            if not eligible and candidate_exists
+            else None,
             "reasons": reasons if preserve_existing else [],
         },
     }
@@ -713,13 +829,30 @@ def assert_eligible(args: argparse.Namespace) -> int:
             raise SystemExit("Manifest lacks a publish-eligible Copilot preflight report.")
     validation = payload.get("validation")
     gate_report = validation.get("gate_report") if isinstance(validation, dict) else None
-    if not isinstance(gate_report, dict) or gate_report.get("present") is not True or gate_report.get("passed") is not True:
+    if (
+        not isinstance(gate_report, dict)
+        or gate_report.get("present") is not True
+        or gate_report.get("passed") is not True
+    ):
         raise SystemExit("Manifest lacks a passing structured analysis gate report.")
-    for gate_name in ("structural_schema", "ai_provenance", "evidence_citation", "editorial_quality"):
-        gate = gate_report.get("gates", {}).get(gate_name) if isinstance(gate_report.get("gates"), dict) else None
+    for gate_name in (
+        "structural_schema",
+        "ai_provenance",
+        "evidence_citation",
+        "editorial_quality",
+    ):
+        gate = (
+            gate_report.get("gates", {}).get(gate_name)
+            if isinstance(gate_report.get("gates"), dict)
+            else None
+        )
         if not isinstance(gate, dict) or gate.get("passed") is not True:
             raise SystemExit(f"Manifest analysis gate did not pass: {gate_name}")
-    promotion_policy = (payload.get("promotion") or {}).get("policy") if isinstance(payload.get("promotion"), dict) else None
+    promotion_policy = (
+        (payload.get("promotion") or {}).get("policy")
+        if isinstance(payload.get("promotion"), dict)
+        else None
+    )
     if ai_status == "no-ai":
         provenance = analysis.get("provenance") if isinstance(analysis, dict) else {}
         if not isinstance(provenance, dict) or provenance.get("authorship") != "no-ai-fallback":
@@ -735,9 +868,17 @@ def assert_eligible(args: argparse.Namespace) -> int:
     elif ai_status != "ai":
         raise SystemExit("Manifest lacks publishable AI provenance.")
     promotion = payload.get("promotion")
-    if not isinstance(promotion, dict) or promotion.get("eligible") is not True or promotion.get("decision") != "promote":
-        reasons = promotion.get("reasons") if isinstance(promotion, dict) else ["missing promotion block"]
-        raise SystemExit(f"Manifest blocks promotion: {', '.join(str(reason) for reason in reasons)}")
+    if (
+        not isinstance(promotion, dict)
+        or promotion.get("eligible") is not True
+        or promotion.get("decision") != "promote"
+    ):
+        reasons = (
+            promotion.get("reasons") if isinstance(promotion, dict) else ["missing promotion block"]
+        )
+        raise SystemExit(
+            f"Manifest blocks promotion: {', '.join(str(reason) for reason in reasons)}"
+        )
     candidate = payload.get("candidate")
     if not isinstance(candidate, dict) or not candidate.get("summary_sha256"):
         raise SystemExit("Manifest lacks candidate summary checksum.")

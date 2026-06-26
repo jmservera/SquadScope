@@ -1,4 +1,5 @@
 """Tests for scripts/budget_alerts.py."""
+
 from __future__ import annotations
 
 import json
@@ -8,10 +9,6 @@ from pathlib import Path
 import pytest
 
 from scripts.budget_alerts import (
-    MONTHLY_RECOMMEND_SWITCH,
-    MONTHLY_WARNING,
-    SINGLE_RUN_FAIL,
-    SINGLE_RUN_WARNING,
     evaluate,
     load_monthly_spend,
     main,
@@ -43,7 +40,9 @@ class TestLoadMonthlySpend:
 
     def test_handles_malformed_lines(self, metrics_file: Path):
         now = datetime(2026, 5, 19, tzinfo=UTC)
-        metrics_file.write_text("not json\n" + json.dumps({"timestamp": "2026-05-01T10:00:00Z", "estimated_cost": 0.25}))
+        metrics_file.write_text(
+            "not json\n" + json.dumps({"timestamp": "2026-05-01T10:00:00Z", "estimated_cost": 0.25})
+        )
         assert load_monthly_spend(metrics_file, now=now) == pytest.approx(0.25)
 
 

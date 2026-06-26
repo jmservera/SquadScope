@@ -8,11 +8,17 @@ on:
 
 permissions:
   contents: read
-  issues: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   review-pricing:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # checkout the pricing-review script
+      issues: write # create/update the pricing-review tracking issue
     steps:
       # Pinned to a full commit SHA so zizmor can verify the checkout action.
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3

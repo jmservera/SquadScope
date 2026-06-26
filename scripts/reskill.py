@@ -14,9 +14,12 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts import track_quality
-from scripts.analyze_fallback import DEFAULT_CONTINUITY_FILE, resolve_analysis_context_paths
-from scripts.assemble_historical_context import (
+from scripts import track_quality  # noqa: E402
+from scripts.analyze_fallback import (  # noqa: E402
+    DEFAULT_CONTINUITY_FILE,
+    resolve_analysis_context_paths,
+)
+from scripts.assemble_historical_context import (  # noqa: E402
     DEFAULT_CONTENT_ROOT,
     compress_to_budget,
     extract_month_notes,
@@ -24,8 +27,8 @@ from scripts.assemble_historical_context import (
     resolve_latest_monthly_path,
     resolve_latest_yearly_path,
 )
-from scripts.learned_context import render_continuity
-from scripts.load_scorecard import render_scorecard_section
+from scripts.learned_context import render_continuity  # noqa: E402
+from scripts.load_scorecard import render_scorecard_section  # noqa: E402
 
 DEFAULT_PROMPT_TEMPLATE = ROOT / "prompts" / "reskill.md"
 DEFAULT_ANALYZED_DIR = ROOT / "data" / "analyzed"
@@ -41,7 +44,9 @@ ARCHIVE_MONTHLY_MAX_WORDS = 200
 ARCHIVE_YEARLY_MAX_WORDS = 500
 
 
-def validate_https_url(url: str, *, label: str, allowed_hosts: frozenset[str] | None = None) -> None:
+def validate_https_url(
+    url: str, *, label: str, allowed_hosts: frozenset[str] | None = None
+) -> None:
     parsed = parse.urlparse(url)
     if parsed.scheme.lower() != "https":
         raise ValueError(f"{label} must use HTTPS: {url}")
@@ -61,7 +66,9 @@ def validate_https_url(url: str, *, label: str, allowed_hosts: frozenset[str] | 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the SquadScope reskill retrospective.")
-    parser.add_argument("--current-datetime", required=True, help="ISO-8601 timestamp for the reskill run.")
+    parser.add_argument(
+        "--current-datetime", required=True, help="ISO-8601 timestamp for the reskill run."
+    )
     parser.add_argument(
         "--prompt-template",
         type=Path,
@@ -109,9 +116,20 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=Path,
         help="Path to write the reskill report. Defaults to .squad/reskill/YYYY-WNN.md.",
     )
-    parser.add_argument("--limit", type=int, default=5, help="Maximum number of analyzed summaries to include.")
-    parser.add_argument("--scorecard", action="store_true", help="Include prediction scorecard data in the reskill prompt.")
-    parser.add_argument("--scorecard-count", type=int, default=4, help="Number of recent scorecards to include (default: 4).")
+    parser.add_argument(
+        "--limit", type=int, default=5, help="Maximum number of analyzed summaries to include."
+    )
+    parser.add_argument(
+        "--scorecard",
+        action="store_true",
+        help="Include prediction scorecard data in the reskill prompt.",
+    )
+    parser.add_argument(
+        "--scorecard-count",
+        type=int,
+        default=4,
+        help="Number of recent scorecards to include (default: 4).",
+    )
     parser.add_argument("--topic", default=None, help="Topic ID for scorecard resolution.")
     parser.add_argument(
         "--print-prompt",
@@ -170,7 +188,9 @@ def render_skills(skills_dir: Path) -> str:
         safe_path = _escape_untrusted_boundaries(str(relative_path))
         content = path.read_text(encoding="utf-8").strip()
         if content:
-            blocks.append(f"--- Skill Source: {safe_path} ---\n{_escape_untrusted_boundaries(content)}")
+            blocks.append(
+                f"--- Skill Source: {safe_path} ---\n{_escape_untrusted_boundaries(content)}"
+            )
     return "\n\n".join(blocks) if blocks else "_No learned skills have been extracted yet._"
 
 
@@ -226,13 +246,21 @@ def render_snapshot_context(analyzed_dir: Path, snapshots_dir: Path, limit: int)
         safe_week = _escape_untrusted_boundaries(week)
         matches = snapshot_candidates(week, snapshots_dir)
         if not matches:
-            blocks.append(f"--- Snapshot Context: {safe_week} ---\nNo snapshot data available for hindsight validation.")
+            blocks.append(
+                f"--- Snapshot Context: {safe_week} ---\nNo snapshot data available for hindsight validation."
+            )
             continue
         rendered_matches = []
         for snapshot_path in matches:
-            relative_path = snapshot_path.relative_to(ROOT) if snapshot_path.is_relative_to(ROOT) else snapshot_path
+            relative_path = (
+                snapshot_path.relative_to(ROOT)
+                if snapshot_path.is_relative_to(ROOT)
+                else snapshot_path
+            )
             safe_path = _escape_untrusted_boundaries(str(relative_path))
-            content = _escape_untrusted_boundaries(snapshot_path.read_text(encoding="utf-8").strip())
+            content = _escape_untrusted_boundaries(
+                snapshot_path.read_text(encoding="utf-8").strip()
+            )
             rendered_matches.append(f"File: {safe_path}\n{content}")
         blocks.append(f"--- Snapshot Context: {safe_week} ---\n" + "\n\n".join(rendered_matches))
     return "\n\n".join(blocks)
@@ -244,7 +272,9 @@ def render_archive_context(current_datetime: str, content_root: Path) -> str:
     blocks: list[str] = []
     monthly_path = resolve_latest_monthly_path(content_root, current_datetime)
     if monthly_path and monthly_path.exists():
-        relative_path = monthly_path.relative_to(ROOT) if monthly_path.is_relative_to(ROOT) else monthly_path
+        relative_path = (
+            monthly_path.relative_to(ROOT) if monthly_path.is_relative_to(ROOT) else monthly_path
+        )
         monthly_raw = monthly_path.read_text(encoding="utf-8").strip()
         monthly_content = compress_to_budget(
             extract_month_notes(monthly_raw) or monthly_raw,
@@ -259,7 +289,9 @@ def render_archive_context(current_datetime: str, content_root: Path) -> str:
 
     yearly_path = resolve_latest_yearly_path(content_root, current_datetime)
     if yearly_path and yearly_path.exists():
-        relative_path = yearly_path.relative_to(ROOT) if yearly_path.is_relative_to(ROOT) else yearly_path
+        relative_path = (
+            yearly_path.relative_to(ROOT) if yearly_path.is_relative_to(ROOT) else yearly_path
+        )
         yearly_raw = yearly_path.read_text(encoding="utf-8").strip()
         yearly_content = compress_to_budget(
             extract_yearly_narrative(yearly_raw) or yearly_raw,
@@ -348,8 +380,9 @@ def call_github_models(prompt: str) -> str:
         raise RuntimeError("GITHUB_TOKEN is required for GitHub Models fallback.")
 
     # Inject canary token for output leak detection
-    from scripts.canary_token import generate_canary, inject_canary
     from scripts.analyze_fallback import validate_output_safety
+    from scripts.canary_token import generate_canary, inject_canary
+
     canary = generate_canary()
     prompt = inject_canary(prompt, canary)
 

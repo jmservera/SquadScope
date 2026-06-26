@@ -1,9 +1,8 @@
 """Tests for scripts/tier_selector.py."""
+
 from __future__ import annotations
 
 import json
-
-import pytest
 
 from scripts.tier_selector import build_config, main, select_tier
 
@@ -37,11 +36,21 @@ class TestSelectTier:
 class TestBuildConfig:
     def test_normal_config(self):
         cfg = build_config("normal")
-        assert cfg == {"tier": "normal", "model": "claude-sonnet-4", "max_repos": None, "skip_ai": False}
+        assert cfg == {
+            "tier": "normal",
+            "model": "claude-sonnet-4",
+            "max_repos": None,
+            "skip_ai": False,
+        }
 
     def test_budget_config(self):
         cfg = build_config("budget")
-        assert cfg == {"tier": "budget", "model": "gpt-5.4-mini", "max_repos": 100, "skip_ai": False}
+        assert cfg == {
+            "tier": "budget",
+            "model": "gpt-5.4-mini",
+            "max_repos": 100,
+            "skip_ai": False,
+        }
 
     def test_minimal_config(self):
         cfg = build_config("minimal")

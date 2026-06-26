@@ -20,8 +20,8 @@ from urllib import error, parse, request
 
 from scripts.observability_metrics import (
     DEFAULT_OBSERVABILITY_DIR,
-    CrawlMetrics,
     METRICS_SCHEMA_VERSION,
+    CrawlMetrics,
     ObservabilityLedger,
     emit_ledger,
 )
@@ -147,7 +147,10 @@ class ResponseCache:
             "headers": headers,
             "payload": payload,
         }
-        path.write_text(json.dumps(cache_payload, separators=(",", ":"), ensure_ascii=False) + "\n", encoding="utf-8")
+        path.write_text(
+            json.dumps(cache_payload, separators=(",", ":"), ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
 
     def _path_for(self, key: str) -> Path:
         parsed = parse.urlparse(key)
@@ -157,7 +160,9 @@ class ResponseCache:
 
 
 class GitHubClient:
-    def __init__(self, token: str, *, cache_dir: Path = CACHE_ROOT, timeout: int = 30, max_retries: int = 6) -> None:
+    def __init__(
+        self, token: str, *, cache_dir: Path = CACHE_ROOT, timeout: int = 30, max_retries: int = 6
+    ) -> None:
         self.token = token
         self.timeout = timeout
         self.max_retries = max_retries
@@ -251,26 +256,46 @@ class GitHubClient:
                     except json.JSONDecodeError as exc:
                         if stale_fallback is not None:
                             self.stale_cache_hits += 1
-                            log(f"Using stale cache for {query} after malformed JSON response: {exc}")
+                            log(
+                                f"Using stale cache for {query} after malformed JSON response: {exc}"
+                            )
                             return stale_fallback
-                        raise RuntimeError(f"GitHub API returned malformed JSON for {query}: {exc}") from exc
-                    self._cache.store(query, status=response.status, payload=payload, headers=self._cache_headers(headers))
+                        raise RuntimeError(
+                            f"GitHub API returned malformed JSON for {query}: {exc}"
+                        ) from exc
+                    self._cache.store(
+                        query,
+                        status=response.status,
+                        payload=payload,
+                        headers=self._cache_headers(headers),
+                    )
                     self._log_rate_limit(query)
                     return CacheEntry(response.status, payload, headers, utc_now())
             except error.HTTPError as exc:
                 self.api_calls_used += 1
-                headers = {name: value for name, value in (exc.headers.items() if exc.headers else [])}
+                headers = {
+                    name: value for name, value in (exc.headers.items() if exc.headers else [])
+                }
                 self._update_rate_limit(headers)
                 body = exc.read().decode("utf-8", errors="replace")
                 lowered_body = body.lower()
-                if exc.code in {403, 429} or "rate limit" in lowered_body or "abuse" in lowered_body:
+                if (
+                    exc.code in {403, 429}
+                    or "rate limit" in lowered_body
+                    or "abuse" in lowered_body
+                ):
                     self.rate_limit_events += 1
                 if "secondary rate limit" in lowered_body or "abuse" in lowered_body:
                     self.secondary_rate_limit_hit = True
                 self._last_request_at = time.monotonic()
                 payload = decode_json_body(body)
                 if exc.code in accepted:
-                    self._cache.store(query, status=exc.code, payload=payload, headers=self._cache_headers(headers))
+                    self._cache.store(
+                        query,
+                        status=exc.code,
+                        payload=payload,
+                        headers=self._cache_headers(headers),
+                    )
                     self._log_rate_limit(query)
                     return CacheEntry(exc.code, payload, headers, utc_now())
                 if attempt >= retry_limit or not self._should_retry(exc.code, body):
@@ -281,7 +306,9 @@ class GitHubClient:
                     raise RuntimeError(
                         f"GitHub API request failed with status {exc.code}: {body.strip() or exc.reason}"
                     ) from exc
-                self._sleep_before_retry(attempt, headers, body, query, retry_limit, max_delay_seconds)
+                self._sleep_before_retry(
+                    attempt, headers, body, query, retry_limit, max_delay_seconds
+                )
                 attempt += 1
             except (error.URLError, TimeoutError) as exc:
                 if attempt >= retry_limit:
@@ -290,7 +317,9 @@ class GitHubClient:
                         log(f"Using stale cache for {query} after network error: {exc}")
                         return stale_fallback
                     raise RuntimeError(f"GitHub API request failed: {exc}") from exc
-                self._sleep_before_retry(attempt, None, str(exc), query, retry_limit, max_delay_seconds)
+                self._sleep_before_retry(
+                    attempt, None, str(exc), query, retry_limit, max_delay_seconds
+                )
                 attempt += 1
 
     def search_repositories(self, query: str, *, max_results: int = 1000) -> list[dict[str, Any]]:
@@ -316,13 +345,19 @@ class GitHubClient:
             payload = response.payload if isinstance(response.payload, dict) else {}
             items = payload.get("items")
             if not isinstance(items, list):
-                self.record_error(f"Malformed search payload for '{query}' page {page}: missing items list")
+                self.record_error(
+                    f"Malformed search payload for '{query}' page {page}: missing items list"
+                )
                 break
             if payload.get("incomplete_results"):
-                self.record_error(f"GitHub marked search results incomplete for '{query}' page {page}")
+                self.record_error(
+                    f"GitHub marked search results incomplete for '{query}' page {page}"
+                )
             results.extend(item for item in items if isinstance(item, dict))
             total_count = payload.get("total_count")
-            if len(items) < per_page or len(results) >= min(int(total_count or 0), max_results, 1000):
+            if len(items) < per_page or len(results) >= min(
+                int(total_count or 0), max_results, 1000
+            ):
                 break
         return results[:max_results]
 
@@ -379,7 +414,9 @@ class GitHubClient:
                 retry_after = max(float(headers["Retry-After"]), 1.0)
             except ValueError:
                 retry_after = None
-        if retry_after is not None and (self.rate_limit_reset is None or (self.rate_limit_remaining or 0) <= 0):
+        if retry_after is not None and (
+            self.rate_limit_reset is None or (self.rate_limit_remaining or 0) <= 0
+        ):
             self.rate_limit_reset = max(self.rate_limit_reset or 0, int(time.time() + retry_after))
         base_delay = min(2**attempt, 60)
         jitter = _JITTER_RANDOM.uniform(0.3, 1.7)
@@ -405,7 +442,11 @@ class GitHubClient:
         critical_threshold = max(3, min(10, int(self.rate_limit_limit * 0.03)))
         if self.rate_limit_remaining > low_threshold:
             return
-        reset_headers = {"X-RateLimit-Reset": str(self.rate_limit_reset)} if self.rate_limit_reset is not None else None
+        reset_headers = (
+            {"X-RateLimit-Reset": str(self.rate_limit_reset)}
+            if self.rate_limit_reset is not None
+            else None
+        )
         reset_delay = self._reset_delay(reset_headers)
         if reset_delay is None:
             if self.rate_limit_remaining <= critical_threshold:
@@ -420,7 +461,9 @@ class GitHubClient:
         if self.rate_limit_remaining <= critical_threshold:
             delay = min(reset_delay + _JITTER_RANDOM.uniform(0.3, 1.5), 300.0)
             self.rate_limit_events += 1
-            log(f"Rate limit nearly exhausted before {query}; pausing {delay:.1f}s until reset window.")
+            log(
+                f"Rate limit nearly exhausted before {query}; pausing {delay:.1f}s until reset window."
+            )
             time.sleep(delay)
             return
         delay = min(max(reset_delay / 10, 1.0), 30.0)
@@ -493,7 +536,13 @@ class GitHubClient:
         )
 
     def _cache_headers(self, headers: dict[str, str]) -> dict[str, str]:
-        names = {"Date", "Retry-After", "X-RateLimit-Limit", "X-RateLimit-Remaining", "X-RateLimit-Reset"}
+        names = {
+            "Date",
+            "Retry-After",
+            "X-RateLimit-Limit",
+            "X-RateLimit-Remaining",
+            "X-RateLimit-Reset",
+        }
         return {name: value for name, value in headers.items() if name in names}
 
 
@@ -634,12 +683,20 @@ def github_schema_checksum() -> str:
     contract = {
         "schema": "github_raw_v1",
         "top_level": ["week", "crawled_at", "new_repos", "trending_repos", "signals", "metadata"],
-        "metadata": ["crawl_window", "crawl_config_checksum", "schema_checksum", "artifact_checksum", "same_day_reuse"],
+        "metadata": [
+            "crawl_window",
+            "crawl_config_checksum",
+            "schema_checksum",
+            "artifact_checksum",
+            "same_day_reuse",
+        ],
     }
     return sha256_text(json.dumps(contract, sort_keys=True, separators=(",", ":")))
 
 
-def github_crawl_config_checksum(args: argparse.Namespace, since: datetime, window_end: datetime, max_results: int) -> str:
+def github_crawl_config_checksum(
+    args: argparse.Namespace, since: datetime, window_end: datetime, max_results: int
+) -> str:
     config_digest = sha256_file(Path(args.config)) if args.config else None
     payload = {
         "since": since.date().isoformat(),
@@ -660,7 +717,9 @@ def github_artifact_checksum(payload: dict[str, Any]) -> str:
     metadata.pop("artifact_checksum", None)
     metadata.pop("same_day_reuse", None)
     candidate["metadata"] = metadata
-    return sha256_text(json.dumps(candidate, sort_keys=True, separators=(",", ":"), ensure_ascii=False))
+    return sha256_text(
+        json.dumps(candidate, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    )
 
 
 def parse_datetime(value: Any) -> datetime | None:
@@ -753,7 +812,9 @@ def load_reusable_github_payload(
     return payload
 
 
-def _safe_snapshot_destination(snapshot_path: str, expected_snapshot_dir: Path = SNAPSHOT_ROOT) -> Path | None:
+def _safe_snapshot_destination(
+    snapshot_path: str, expected_snapshot_dir: Path = SNAPSHOT_ROOT
+) -> Path | None:
     destination = Path(snapshot_path)
     expected_root = Path("data") / "snapshots"
     if destination.is_absolute() or ".." in destination.parts:
@@ -762,7 +823,10 @@ def _safe_snapshot_destination(snapshot_path: str, expected_snapshot_dir: Path =
         return None
     expected_dir = expected_snapshot_dir.resolve()
     resolved_destination = destination.resolve()
-    if expected_dir != resolved_destination.parent and expected_dir not in resolved_destination.parents:
+    if (
+        expected_dir != resolved_destination.parent
+        and expected_dir not in resolved_destination.parents
+    ):
         return None
     return destination
 
@@ -787,7 +851,9 @@ def restore_reused_snapshot(
         write_payload(destination, snapshot_payload)
 
 
-def load_previous_star_snapshot(snapshot_dir: Path, current_week: str, *raw_dirs: Path) -> dict[str, int]:
+def load_previous_star_snapshot(
+    snapshot_dir: Path, current_week: str, *raw_dirs: Path
+) -> dict[str, int]:
     for snapshot in sorted(snapshot_dir.glob("*-stars.json"), reverse=True):
         stars, reason = load_star_mapping_details(snapshot, current_week)
         if stars:
@@ -795,11 +861,11 @@ def load_previous_star_snapshot(snapshot_dir: Path, current_week: str, *raw_dirs
         if reason and reason != "same-week snapshot":
             log(f"Skipping star snapshot {snapshot}: {reason}.")
     seen_dirs: set[Path] = set()
-    for raw_dir in raw_dirs:
-        if raw_dir in seen_dirs:
+    for raw_dir_path in raw_dirs:
+        if raw_dir_path in seen_dirs:
             continue
-        seen_dirs.add(raw_dir)
-        for snapshot in sorted(raw_dir.glob("*.json"), reverse=True):
+        seen_dirs.add(raw_dir_path)
+        for snapshot in sorted(raw_dir_path.glob("*.json"), reverse=True):
             stars, reason = load_star_mapping_details(snapshot, current_week)
             if stars:
                 return stars
@@ -949,7 +1015,9 @@ def build_signals(*repo_groups: list[dict[str, Any]]) -> dict[str, list[dict[str
                 merged[full_name] = repo
     for repo in merged.values():
         topic_counter.update(topic.lower() for topic in repo.get("topics") or [])
-    top_topics = [{"topic": topic, "count": count} for topic, count in topic_counter.most_common(15)]
+    top_topics = [
+        {"topic": topic, "count": count} for topic, count in topic_counter.most_common(15)
+    ]
     return {"top_topics": top_topics}
 
 
@@ -965,11 +1033,20 @@ def build_star_snapshot(*repo_groups: Iterable[dict[str, Any]]) -> dict[str, int
 
 
 def validate_payload(payload: dict[str, Any]) -> None:
-    required_top_level = {"week", "crawled_at", "new_repos", "trending_repos", "signals", "metadata"}
+    required_top_level = {
+        "week",
+        "crawled_at",
+        "new_repos",
+        "trending_repos",
+        "signals",
+        "metadata",
+    }
     missing = required_top_level - payload.keys()
     if missing:
         raise ValueError(f"Missing top-level keys: {sorted(missing)}")
-    if not isinstance(payload["new_repos"], list) or not isinstance(payload["trending_repos"], list):
+    if not isinstance(payload["new_repos"], list) or not isinstance(
+        payload["trending_repos"], list
+    ):
         raise ValueError("new_repos and trending_repos must be lists")
     if not isinstance(payload["signals"], dict) or not isinstance(payload["metadata"], dict):
         raise ValueError("signals and metadata must be objects")
@@ -990,7 +1067,9 @@ def validate_payload(payload: dict[str, Any]) -> None:
         for repo in payload[section]:
             missing_fields = repo_fields - repo.keys()
             if missing_fields:
-                raise ValueError(f"Repository in {section} missing fields: {sorted(missing_fields)}")
+                raise ValueError(
+                    f"Repository in {section} missing fields: {sorted(missing_fields)}"
+                )
     metadata = payload["metadata"]
     if not isinstance(metadata.get("api_calls_used"), int):
         raise ValueError("metadata.api_calls_used must be an integer")
@@ -998,13 +1077,21 @@ def validate_payload(payload: dict[str, Any]) -> None:
         raise ValueError("metadata.cache_hits must be an integer")
     if not isinstance(metadata.get("stale_cache_hits"), int):
         raise ValueError("metadata.stale_cache_hits must be an integer")
-    if metadata.get("rate_limit_remaining") is not None and not isinstance(metadata.get("rate_limit_remaining"), int):
+    if metadata.get("rate_limit_remaining") is not None and not isinstance(
+        metadata.get("rate_limit_remaining"), int
+    ):
         raise ValueError("metadata.rate_limit_remaining must be an integer or null")
-    if metadata.get("rate_limit_limit") is not None and not isinstance(metadata.get("rate_limit_limit"), int):
+    if metadata.get("rate_limit_limit") is not None and not isinstance(
+        metadata.get("rate_limit_limit"), int
+    ):
         raise ValueError("metadata.rate_limit_limit must be an integer or null")
-    if metadata.get("rate_limit_reset") is not None and not isinstance(metadata.get("rate_limit_reset"), int):
+    if metadata.get("rate_limit_reset") is not None and not isinstance(
+        metadata.get("rate_limit_reset"), int
+    ):
         raise ValueError("metadata.rate_limit_reset must be an integer or null")
-    if metadata.get("rate_limit_resource") is not None and not isinstance(metadata.get("rate_limit_resource"), str):
+    if metadata.get("rate_limit_resource") is not None and not isinstance(
+        metadata.get("rate_limit_resource"), str
+    ):
         raise ValueError("metadata.rate_limit_resource must be a string or null")
     if not isinstance(metadata.get("snapshot_path"), str):
         raise ValueError("metadata.snapshot_path must be a string")
@@ -1033,8 +1120,14 @@ def main() -> int:
     if run_started_at is None:
         print("--run-started-at must be an ISO 8601 timestamp", file=sys.stderr)
         return 1
-    window_end = datetime.strptime(args.as_of, "%Y-%m-%d").replace(tzinfo=UTC) if args.as_of else crawled_at
-    since = datetime.strptime(args.since, "%Y-%m-%d").replace(tzinfo=UTC) if args.since else window_end - timedelta(days=7)
+    window_end = (
+        datetime.strptime(args.as_of, "%Y-%m-%d").replace(tzinfo=UTC) if args.as_of else crawled_at
+    )
+    since = (
+        datetime.strptime(args.since, "%Y-%m-%d").replace(tzinfo=UTC)
+        if args.since
+        else window_end - timedelta(days=7)
+    )
     week = week_slug(window_end)
     output_path = Path(args.output) if args.output else topic_raw / f"{week}.json"
     snapshot_path = topic_snapshots / f"{week}-stars.json"
@@ -1048,7 +1141,11 @@ def main() -> int:
     current_code_sha = getattr(args, "current_code_sha", None) or os.environ.get("CRAWLER_CODE_SHA")
 
     if source_refresh_policy != "force-refresh":
-        reuse_path = Path(getattr(args, "reuse_artifact", "")) if getattr(args, "reuse_artifact", None) else output_path
+        reuse_path = (
+            Path(getattr(args, "reuse_artifact", ""))
+            if getattr(args, "reuse_artifact", None)
+            else output_path
+        )
         reusable = load_reusable_github_payload(
             reuse_path,
             week=week,
@@ -1061,7 +1158,9 @@ def main() -> int:
         )
         if reusable is not None:
             write_payload(output_path, reusable)
-            restore_reused_snapshot(reuse_path, reusable.get("metadata", {}), expected_snapshot_dir=topic_snapshots)
+            restore_reused_snapshot(
+                reuse_path, reusable.get("metadata", {}), expected_snapshot_dir=topic_snapshots
+            )
             observability_path = DEFAULT_OBSERVABILITY_DIR / f"{week}-github-crawl.json"
             duration_seconds = round(time.monotonic() - crawl_started, 3)
             emit_ledger(
@@ -1128,7 +1227,9 @@ def main() -> int:
             for q in topic_queries["secondary"]:
                 all_candidates.extend(client.search_repositories(q, max_results=max_results))
         new_candidates = all_candidates
-        previous_stars = load_previous_star_snapshot(SNAPSHOT_ROOT, week, output_path.parent, RAW_ROOT)
+        previous_stars = load_previous_star_snapshot(
+            SNAPSHOT_ROOT, week, output_path.parent, RAW_ROOT
+        )
         trending_candidates: list[Any] = []
     else:
         if args.as_of:
@@ -1141,7 +1242,9 @@ def main() -> int:
         trending_query = f"{pushed_filter} stars:>50"
 
         new_candidates = client.search_repositories(new_query, max_results=max_results)
-        previous_stars = load_previous_star_snapshot(SNAPSHOT_ROOT, week, output_path.parent, RAW_ROOT)
+        previous_stars = load_previous_star_snapshot(
+            SNAPSHOT_ROOT, week, output_path.parent, RAW_ROOT
+        )
         trending_candidates = client.search_repositories(trending_query, max_results=max_results)
 
     new_repos, new_filters = collect_repositories(client, new_candidates)
@@ -1184,7 +1287,11 @@ def main() -> int:
             },
             "crawl_config_checksum": config_checksum,
             "schema_checksum": github_schema_checksum(),
-            "same_day_reuse": {"status": "not_reused", "source": "github", "source_id": GITHUB_SOURCE_ID},
+            "same_day_reuse": {
+                "status": "not_reused",
+                "source": "github",
+                "source_id": GITHUB_SOURCE_ID,
+            },
             "filter_summary": {
                 "new_repos": new_filters,
                 "trending_repos": trending_filters,
@@ -1217,7 +1324,9 @@ def main() -> int:
                     duration_sample_count=1,
                     api_calls=int(getattr(client, "api_calls_used", 0)),
                     cache_hits=int(getattr(client, "cache_hits", 0)),
-                    cache_misses=int(getattr(client, "cache_misses", getattr(client, "api_calls_used", 0))),
+                    cache_misses=int(
+                        getattr(client, "cache_misses", getattr(client, "api_calls_used", 0))
+                    ),
                     stale_cache_hits=int(getattr(client, "stale_cache_hits", 0)),
                     rate_limit_events=int(getattr(client, "rate_limit_events", 0)),
                     secondary_rate_limit_hit=secondary_rate_limit_hit,

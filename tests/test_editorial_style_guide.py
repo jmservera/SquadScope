@@ -11,7 +11,9 @@ from pathlib import Path
 import pytest
 
 GUIDE_PATH = Path(__file__).resolve().parent.parent / "docs" / "editorial-style-guide.md"
-SEGMENT_TABLE_PATTERN = re.compile(r"^\|\s*\d+\s*\|\s*\*\*(?P<segment>[^*]+)\*\*\s*\|", re.MULTILINE)
+SEGMENT_TABLE_PATTERN = re.compile(
+    r"^\|\s*\d+\s*\|\s*\*\*(?P<segment>[^*]+)\*\*\s*\|", re.MULTILINE
+)
 
 
 @pytest.fixture
@@ -46,9 +48,7 @@ class TestEditorialStyleGuideStructure:
             assert segment in guide_content, f"Missing segment: {segment}"
         # Verify locked order (segments must not be reordered)
         positions = [guide_content.index(s) for s in required_segments]
-        assert positions == sorted(positions), (
-            "Segments are not in the required locked order"
-        )
+        assert positions == sorted(positions), "Segments are not in the required locked order"
 
     def test_has_word_count_target(self, guide_content: str):
         assert "1,200" in guide_content
@@ -110,21 +110,28 @@ class TestPodcastConfigAlignedWithGuide:
     @pytest.fixture
     def podcast_config(self) -> dict:
         import json
+
         config_path = Path(__file__).resolve().parent.parent / "config" / "podcast.json"
         assert config_path.exists(), "config/podcast.json not found"
         return json.loads(config_path.read_text(encoding="utf-8"))
 
     def test_config_references_style_guide(self, podcast_config: dict):
         assert "editorial_style_guide" in podcast_config
-        guide_path = Path(__file__).resolve().parent.parent / podcast_config["editorial_style_guide"]
-        assert guide_path.exists(), f"Style guide path {podcast_config['editorial_style_guide']} does not exist"
+        guide_path = (
+            Path(__file__).resolve().parent.parent / podcast_config["editorial_style_guide"]
+        )
+        assert guide_path.exists(), (
+            f"Style guide path {podcast_config['editorial_style_guide']} does not exist"
+        )
 
     def test_segment_order_matches_guide(self, podcast_config: dict, guide_content: str):
         config_segments = podcast_config["script_directions"]["episode_style"]["segment_order"]
         guide_segments = [match.strip() for match in SEGMENT_TABLE_PATTERN.findall(guide_content)]
 
         assert guide_segments, "Could not extract locked segment order from style guide"
-        assert len(guide_segments) == len(set(guide_segments)), "Style guide contains duplicate segments"
+        assert len(guide_segments) == len(set(guide_segments)), (
+            "Style guide contains duplicate segments"
+        )
         assert config_segments == guide_segments, (
             "Podcast config segment_order must exactly match the style guide's locked segment order "
             f"(guide={guide_segments}, config={config_segments})"

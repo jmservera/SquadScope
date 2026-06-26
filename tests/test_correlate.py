@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from scripts.correlate import (
+    _token_overlap_ratio,
     assess_hype_risk,
     correlate_all,
     correlate_repo,
@@ -20,9 +21,7 @@ from scripts.correlate import (
     match_direct_link,
     match_org_name,
     match_project_name,
-    _token_overlap_ratio,
 )
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -93,7 +92,9 @@ class TestDirectLinkMatch:
         assert match_direct_link(repo, [article]) == [article]
 
     def test_no_match(self):
-        repo = _repo(name="other-project", owner="acme", url="https://github.com/acme/other-project")
+        repo = _repo(
+            name="other-project", owner="acme", url="https://github.com/acme/other-project"
+        )
         article = _article(github_links=["https://github.com/acme/cool-project"])
         assert match_direct_link(repo, [article]) == []
 
@@ -365,10 +366,12 @@ class TestUtilities:
         assert fuzzy_name_score("", "something") == 0.0
 
     def test_dedupe_articles_preserves_provenance(self):
-        articles, count = dedupe_articles([
-            _article(url="https://example.com/a/", source="alpha"),
-            _article(url="https://example.com/a", source="beta"),
-        ])
+        articles, count = dedupe_articles(
+            [
+                _article(url="https://example.com/a/", source="alpha"),
+                _article(url="https://example.com/a", source="beta"),
+            ]
+        )
         assert count == 1
         assert articles[0]["sources"] == ["alpha", "beta"]
 
@@ -405,11 +408,16 @@ class TestMainRepoLoading:
         raw_file.write_text(json.dumps(raw_data))
         tc_file.write_text(json.dumps(tc_data))
 
-        ret = main([
-            "--raw", str(raw_file),
-            "--techcrunch", str(tc_file),
-            "--output", str(output_file),
-        ])
+        ret = main(
+            [
+                "--raw",
+                str(raw_file),
+                "--techcrunch",
+                str(tc_file),
+                "--output",
+                str(output_file),
+            ]
+        )
         assert ret == 0
 
         result = json.loads(output_file.read_text())
@@ -431,10 +439,14 @@ class TestMainRepoLoading:
         }
         raw_file.write_text(json.dumps(raw_data))
 
-        ret = main([
-            "--raw", str(raw_file),
-            "--output", str(output_file),
-        ])
+        ret = main(
+            [
+                "--raw",
+                str(raw_file),
+                "--output",
+                str(output_file),
+            ]
+        )
         assert ret == 0
 
         result = json.loads(output_file.read_text())

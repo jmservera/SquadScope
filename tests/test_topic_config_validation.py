@@ -10,9 +10,13 @@ from datetime import UTC, datetime, timedelta
 
 import pytest
 
-from scripts.score_repos import compute_relevance_score, get_scoring_config, load_config, score_repos
+from scripts.score_repos import (
+    compute_relevance_score,
+    get_scoring_config,
+    load_config,
+    score_repos,
+)
 from scripts.validate_topic_config import validate_file
-
 
 # --- Helpers ---
 
@@ -76,11 +80,28 @@ def rust_scoring_config():
 def aiml_repos():
     """Sample repos matching AI/ML profile."""
     return [
-        _make_repo("transformer-lib", "Python", 500, 120, ["machine-learning", "transformers", "deep-learning"]),
-        _make_repo("llm-toolkit", "Python", 1200, 300, ["llm", "artificial-intelligence", "python"]),
-        _make_repo("ml-starter", "Jupyter Notebook", 150, 40, ["machine-learning", "neural-network"]),
+        _make_repo(
+            "transformer-lib",
+            "Python",
+            500,
+            120,
+            ["machine-learning", "transformers", "deep-learning"],
+        ),
+        _make_repo(
+            "llm-toolkit", "Python", 1200, 300, ["llm", "artificial-intelligence", "python"]
+        ),
+        _make_repo(
+            "ml-starter", "Jupyter Notebook", 150, 40, ["machine-learning", "neural-network"]
+        ),
         _make_repo("data-pipeline", "Python", 80, 20, ["machine-learning"], age_days=60),
-        _make_repo("ai-research", "Python", 3000, 500, ["deep-learning", "llm", "transformers"], age_days=10),
+        _make_repo(
+            "ai-research",
+            "Python",
+            3000,
+            500,
+            ["deep-learning", "llm", "transformers"],
+            age_days=10,
+        ),
         _make_repo("small-ml", "Python", 50, 15, ["machine-learning"], age_days=90),
         _make_repo("mid-ml", "Python", 200, 50, ["deep-learning", "neural-network"], age_days=45),
     ]
@@ -142,7 +163,9 @@ class TestAimlScoringPipeline:
         assert len(scored) >= 5
 
     def test_high_quality_repo_scores_above_40(self, aiml_scoring_config):
-        repo = _make_repo("top-ml", "Python", 500, 100, ["machine-learning", "deep-learning", "llm"])
+        repo = _make_repo(
+            "top-ml", "Python", 500, 100, ["machine-learning", "deep-learning", "llm"]
+        )
         score = compute_relevance_score(repo, aiml_scoring_config)
         assert score >= 40
 
@@ -161,7 +184,9 @@ class TestAimlScoringPipeline:
         assert py_score > go_score
 
     def test_topic_relevance_boosts_score(self, aiml_scoring_config):
-        relevant = _make_repo("relevant", "Python", 200, 50, ["machine-learning", "deep-learning", "llm"])
+        relevant = _make_repo(
+            "relevant", "Python", 200, 50, ["machine-learning", "deep-learning", "llm"]
+        )
         irrelevant = _make_repo("irrelevant", "Python", 200, 50, ["cooking", "recipes"])
 
         rel_score = compute_relevance_score(relevant, aiml_scoring_config)
@@ -247,27 +272,41 @@ class TestCrossTopicIsolation:
             # No Rust repo should score as high as a good AI/ML repo would
             assert repo["relevance_score"] < 70
 
-    def test_rust_config_does_not_score_python_ml_repos_highly(self, rust_scoring_config, aiml_repos):
+    def test_rust_config_does_not_score_python_ml_repos_highly(
+        self, rust_scoring_config, aiml_repos
+    ):
         """Python ML repos should score lower under rust config due to topic/lang mismatch."""
         scored = score_repos(aiml_repos, rust_scoring_config)
         # Python repos don't get Rust language boost and lack rust topics
         for repo in scored:
             assert repo["relevance_score"] < 75
 
-    def test_aiml_repos_score_higher_with_own_config(self, aiml_scoring_config, rust_scoring_config, aiml_repos):
+    def test_aiml_repos_score_higher_with_own_config(
+        self, aiml_scoring_config, rust_scoring_config, aiml_repos
+    ):
         """AI/ML repos should score higher with ai-ml config than rust config."""
         aiml_scored = score_repos(aiml_repos, aiml_scoring_config)
         rust_scored = score_repos(aiml_repos, rust_scoring_config)
 
         avg_aiml = sum(r["relevance_score"] for r in aiml_scored) / max(len(aiml_scored), 1)
-        avg_rust = sum(r["relevance_score"] for r in rust_scored) / max(len(rust_scored), 1) if rust_scored else 0
+        avg_rust = (
+            sum(r["relevance_score"] for r in rust_scored) / max(len(rust_scored), 1)
+            if rust_scored
+            else 0
+        )
         assert avg_aiml > avg_rust
 
-    def test_rust_repos_score_higher_with_own_config(self, aiml_scoring_config, rust_scoring_config, rust_repos):
+    def test_rust_repos_score_higher_with_own_config(
+        self, aiml_scoring_config, rust_scoring_config, rust_repos
+    ):
         """Rust repos should score higher with rust config than ai-ml config."""
         rust_scored = score_repos(rust_repos, rust_scoring_config)
         aiml_scored = score_repos(rust_repos, aiml_scoring_config)
 
         avg_rust = sum(r["relevance_score"] for r in rust_scored) / max(len(rust_scored), 1)
-        avg_aiml = sum(r["relevance_score"] for r in aiml_scored) / max(len(aiml_scored), 1) if aiml_scored else 0
+        avg_aiml = (
+            sum(r["relevance_score"] for r in aiml_scored) / max(len(aiml_scored), 1)
+            if aiml_scored
+            else 0
+        )
         assert avg_rust > avg_aiml

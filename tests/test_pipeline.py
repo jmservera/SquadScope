@@ -116,7 +116,7 @@ def make_raw_payload() -> dict:
 
 
 def make_analysis_markdown() -> str:
-    return f'''---
+    return f"""---
 title: "Reliable Automation Gains Ground"
 date: {FIXED_RUN_DATETIME}
 week: "2026-W21"
@@ -164,7 +164,7 @@ Practical automation won attention on merit this week. If this pattern holds, th
 ### Press & Industry
 
 No press data was provided this week.
-'''
+"""
 
 
 class WorkflowConfigTests(unittest.TestCase):
@@ -189,7 +189,10 @@ class WorkflowConfigTests(unittest.TestCase):
             )
             self.assertIsNotNone(install_step, f"Install Hugo step not found in {workflow_file}")
             install_run = install_step["run"]
-            self.assertIn('RELEASE_URL="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}"', install_run)
+            self.assertIn(
+                'RELEASE_URL="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}"',
+                install_run,
+            )
             self.assertIn('TARBALL="hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"', install_run)
             self.assertIn('CHECKSUM_FILE="hugo_${HUGO_VERSION}_checksums.txt"', install_run)
             self.assertEqual(install_run.count(expected_retry_flags), 2)
@@ -197,14 +200,14 @@ class WorkflowConfigTests(unittest.TestCase):
     def test_crawl_workflow_persists_run_counter(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
-        
+
         crawl_job = workflow["jobs"]["crawl"]
         commit_step = None
         for step in crawl_job["steps"]:
             if step.get("name") == "Commit crawl data to data branch":
                 commit_step = step
                 break
-        
+
         self.assertIsNotNone(commit_step, "Commit crawl data to data branch step not found")
         run_script = commit_step["run"]
         self.assertIn("COUNTER=$(cat .squad/run-counter.txt", run_script)
@@ -219,7 +222,8 @@ class WorkflowConfigTests(unittest.TestCase):
         crawl_job = workflow["jobs"]["crawl"]
         external_news_step = next(
             (
-                step for step in crawl_job["steps"]
+                step
+                for step in crawl_job["steps"]
                 if step.get("name") == "Crawl external news RSS feeds"
             ),
             None,
@@ -240,18 +244,27 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertNotIn("reskill", workflow["jobs"])
 
         analyze = workflow["jobs"]["analyze"]
-        preflight_step = next((s for s in analyze["steps"] if s.get("name") == "Render and preflight analysis prompt"), None)
+        preflight_step = next(
+            (
+                s
+                for s in analyze["steps"]
+                if s.get("name") == "Render and preflight analysis prompt"
+            ),
+            None,
+        )
         self.assertIsNotNone(preflight_step)
         preflight_run = preflight_step["run"]
         self.assertIn("--prompt-token-budget", preflight_run)
         self.assertIn("--preflight-report-json", preflight_run)
         self.assertIn("--preflight-report-md", preflight_run)
-        self.assertIn("--print-prompt > \"$PROMPT_FILE\"", preflight_run)
-        self.assertIn("--context-files \"$PROMPT_FILE\"", preflight_run)
+        self.assertIn('--print-prompt > "$PROMPT_FILE"', preflight_run)
+        self.assertIn('--context-files "$PROMPT_FILE"', preflight_run)
         self.assertIn("promotion_policy=", preflight_run)
         self.assertIn("staged/candidate-only", preflight_run)
 
-        run_analysis_step = next((s for s in analyze["steps"] if s.get("name") == "Run analysis"), None)
+        run_analysis_step = next(
+            (s for s in analyze["steps"] if s.get("name") == "Run analysis"), None
+        )
         self.assertIsNotNone(run_analysis_step)
         run_analysis = run_analysis_step["run"]
         self.assertIn("python3 scripts/track_token_usage.py", run_analysis)
@@ -263,14 +276,22 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("--create-token-issue", run_analysis)
         self.assertIn('FINAL_FAILURE_CLASS=""', run_analysis)
         self.assertIn("--agent weekly-analysis", run_analysis)
-        self.assertIn('Read the file at ${PROMPT_FILE}. Write the complete weekly analysis markdown to ${OUTPUT_FILE}.', run_analysis)
+        self.assertIn(
+            "Read the file at ${PROMPT_FILE}. Write the complete weekly analysis markdown to ${OUTPUT_FILE}.",
+            run_analysis,
+        )
         self.assertIn('if ! test -s "$OUTPUT_FILE"; then', run_analysis)
         self.assertIn('FINAL_FAILURE_CLASS="writer_contract_failure"', run_analysis)
         self.assertNotIn("--allow-tool=glob", run_analysis)
         self.assertNotIn("--allow-tool=grep", run_analysis)
-        self.assertIn('if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "copilot_inaccessible" ]; then', run_analysis)
+        self.assertIn(
+            'if [ "$FAILURE_CLASS" = "copilot_token_failure" ] || [ "$FAILURE_CLASS" = "copilot_inaccessible" ]; then',
+            run_analysis,
+        )
         self.assertIn("failing without no-AI fallback", run_analysis)
-        self.assertIn('echo "copilot is not available: command not found" > "$COPILOT_LOG"', run_analysis)
+        self.assertIn(
+            'echo "copilot is not available: command not found" > "$COPILOT_LOG"', run_analysis
+        )
         self.assertIn("--exit-code 127", run_analysis)
         self.assertIn("No publishable Copilot summary was produced", run_analysis)
         self.assertIn("current published article can be preserved", run_analysis)
@@ -281,10 +302,16 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertNotIn('ANALYSIS_SOURCE="github-models"', run_analysis)
         self.assertNotIn("falling back to GitHub Models API", run_analysis)
 
-        manifest_step = next((s for s in analyze["steps"] if s.get("name") == "Emit publish eligibility manifest"), None)
+        manifest_step = next(
+            (s for s in analyze["steps"] if s.get("name") == "Emit publish eligibility manifest"),
+            None,
+        )
         self.assertIsNotNone(manifest_step)
         manifest_run = manifest_step["run"]
-        self.assertEqual(manifest_step["env"]["PREFLIGHT_REPORT"], "${{ steps.prompt-preflight.outputs.preflight_report_json }}")
+        self.assertEqual(
+            manifest_step["env"]["PREFLIGHT_REPORT"],
+            "${{ steps.prompt-preflight.outputs.preflight_report_json }}",
+        )
         self.assertIn('--preflight-report "$PREFLIGHT_REPORT"', manifest_run)
 
     def test_generate_workflow_runs_rollups_and_commits_all_content(self) -> None:
@@ -292,20 +319,33 @@ class WorkflowConfigTests(unittest.TestCase):
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
 
         deploy_job = workflow["jobs"]["deploy"]
-        build_site_step = next((s for s in deploy_job["steps"] if s.get("name") == "Build site"), None)
+        build_site_step = next(
+            (s for s in deploy_job["steps"] if s.get("name") == "Build site"), None
+        )
         self.assertIsNotNone(build_site_step)
         self.assertEqual(build_site_step["run"], "hugo --minify")
 
-        pagefind_step = next((s for s in deploy_job["steps"] if s.get("name") == "Build search index"), None)
+        pagefind_step = next(
+            (s for s in deploy_job["steps"] if s.get("name") == "Build search index"), None
+        )
         self.assertIsNotNone(pagefind_step)
         self.assertEqual(pagefind_step["run"], "npx pagefind --site public/")
 
         generate_job = workflow["jobs"]["generate"]
-        generate_rollups_step = next((s for s in generate_job["steps"] if s.get("name") == "Generate rollups"), None)
+        generate_rollups_step = next(
+            (s for s in generate_job["steps"] if s.get("name") == "Generate rollups"), None
+        )
         self.assertIsNotNone(generate_rollups_step)
         self.assertEqual(generate_rollups_step["run"], "python3 scripts/generate_rollups.py")
 
-        commit_step = next((s for s in generate_job["steps"] if s.get("name") == "Commit generated content to data branch"), None)
+        commit_step = next(
+            (
+                s
+                for s in generate_job["steps"]
+                if s.get("name") == "Commit generated content to data branch"
+            ),
+            None,
+        )
         self.assertIsNotNone(commit_step)
         commit_run = commit_step["run"]
         self.assertIn("content/weekly", commit_run)
@@ -318,11 +358,25 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn('case "$PAGE_PATH" in', commit_run)
         self.assertIn("Expected PAGE_PATH under content/weekly/", commit_run)
 
-        upload_step = next((s for s in generate_job["steps"] if s.get("name") == "Upload generated content artifact"), None)
+        upload_step = next(
+            (
+                s
+                for s in generate_job["steps"]
+                if s.get("name") == "Upload generated content artifact"
+            ),
+            None,
+        )
         self.assertIsNotNone(upload_step)
         self.assertIn("content/monthly/", upload_step["with"]["path"])
         self.assertIn("content/yearly/", upload_step["with"]["path"])
-        promoted_upload = next((s for s in generate_job["steps"] if s.get("name") == "Upload promoted analyzed artifact"), None)
+        promoted_upload = next(
+            (
+                s
+                for s in generate_job["steps"]
+                if s.get("name") == "Upload promoted analyzed artifact"
+            ),
+            None,
+        )
         self.assertIsNotNone(promoted_upload)
         self.assertEqual(promoted_upload["with"]["name"], "promoted-analyzed-data")
 
@@ -331,7 +385,9 @@ class WorkflowConfigTests(unittest.TestCase):
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
 
         sync_job = workflow["jobs"]["sync"]
-        sync_step = next((s for s in sync_job["steps"] if s.get("name") == "Sync data from publish"), None)
+        sync_step = next(
+            (s for s in sync_job["steps"] if s.get("name") == "Sync data from publish"), None
+        )
         self.assertIsNotNone(sync_step)
 
         sync_run = sync_step["run"]
@@ -346,7 +402,9 @@ class WorkflowConfigTests(unittest.TestCase):
             self.assertIn(generated_path, sync_run)
 
         self.assertIn("python3 scripts/generate_rollups.py", sync_run)
-        self.assertLess(sync_run.index("python3 scripts/generate_rollups.py"), sync_run.index("git add -A"))
+        self.assertLess(
+            sync_run.index("python3 scripts/generate_rollups.py"), sync_run.index("git add -A")
+        )
         self.assertIn("Refusing to sync .squad state from publish to main.", sync_run)
         self.assertLess(sync_run.index("Refusing to sync .squad"), sync_run.index("git commit -m"))
         self.assertIn("**Explicitly NOT synced:**", sync_run)
@@ -363,25 +421,39 @@ class WorkflowConfigTests(unittest.TestCase):
 
         notify_job = workflow["jobs"]["notify"]
         self.assertEqual(notify_job["needs"], ["analyze", "generate", "deploy"])
-        analyzed_download = next((s for s in notify_job["steps"] if _uses_action(s, "actions/download-artifact") and s.get("with", {}).get("path") == "data/analyzed/"), None)
+        analyzed_download = next(
+            (
+                s
+                for s in notify_job["steps"]
+                if _uses_action(s, "actions/download-artifact")
+                and s.get("with", {}).get("path") == "data/analyzed/"
+            ),
+            None,
+        )
         self.assertIsNotNone(analyzed_download)
         self.assertEqual(analyzed_download["with"]["name"], "promoted-analyzed-data")
 
-        webhook_step = next((s for s in notify_job["steps"] if s.get("name") == "Post to webhook"), None)
+        webhook_step = next(
+            (s for s in notify_job["steps"] if s.get("name") == "Post to webhook"), None
+        )
         self.assertIsNotNone(webhook_step)
         self.assertEqual(webhook_step["if"], "env.WEBHOOK_URL != ''")
         self.assertEqual(webhook_step["env"]["WEBHOOK_URL"], "${{ secrets.WEBHOOK_URL }}")
 
-        release_step = next((s for s in notify_job["steps"] if s.get("name") == "Create GitHub Release"), None)
+        release_step = next(
+            (s for s in notify_job["steps"] if s.get("name") == "Create GitHub Release"), None
+        )
         self.assertIsNotNone(release_step)
-        self.assertEqual(release_step["env"]["SUMMARY_FILE"], "${{ needs.analyze.outputs.summary_file }}")
+        self.assertEqual(
+            release_step["env"]["SUMMARY_FILE"], "${{ needs.analyze.outputs.summary_file }}"
+        )
         release_run = release_step["run"]
         self.assertIn('gh release view "$TAG"', release_run)
         self.assertIn('gh release edit "$TAG"', release_run)
         self.assertIn('gh release create "$TAG"', release_run)
 
         webhook_run = webhook_step["run"]
-        self.assertIn("curl -s -X POST \"$WEBHOOK_URL\"", webhook_run)
+        self.assertIn('curl -s -X POST "$WEBHOOK_URL"', webhook_run)
         self.assertIn("https://jmservera.github.io/SquadScope/weekly/", webhook_run)
         # JSON is now built with jq to prevent injection — check for jq invocation
         self.assertIn("jq -n", webhook_run)
@@ -394,11 +466,16 @@ class WorkflowConfigTests(unittest.TestCase):
 
         podcaster_job = workflow["jobs"]["podcaster-handoff"]
         self.assertEqual(podcaster_job["needs"], ["analyze", "generate", "deploy"])
-        checkout_step = next((s for s in podcaster_job["steps"] if s.get("name") == "Check out repository"), None)
+        checkout_step = next(
+            (s for s in podcaster_job["steps"] if s.get("name") == "Check out repository"), None
+        )
         self.assertIsNotNone(checkout_step)
         self.assertTrue(_uses_action(checkout_step, "actions/checkout"))
         self.assertFalse(checkout_step["with"]["persist-credentials"])
-        download_step = next((s for s in podcaster_job["steps"] if s.get("name") == "Download analysis candidate"), None)
+        download_step = next(
+            (s for s in podcaster_job["steps"] if s.get("name") == "Download analysis candidate"),
+            None,
+        )
         self.assertIsNotNone(download_step)
         self.assertTrue(_uses_action(download_step, "actions/download-artifact"))
         self.assertEqual(podcaster_job["if"], "${{ needs.analyze.outputs.run_mode == 'normal' }}")
@@ -410,10 +487,14 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertEqual(deploy_job["needs"], ["crawl", "analyze", "generate"])
         self.assertNotIn("podcaster-handoff", deploy_job["needs"])
 
-        notify_step = next((s for s in podcaster_job["steps"] if s.get("name") == "Notify Podcaster"), None)
+        notify_step = next(
+            (s for s in podcaster_job["steps"] if s.get("name") == "Notify Podcaster"), None
+        )
         self.assertIsNotNone(notify_step)
         self.assertEqual(notify_step["env"]["PODCASTER_ENDPOINT"], "${{ vars.PODCASTER_ENDPOINT }}")
-        self.assertEqual(notify_step["env"]["PODCASTER_API_KEY"], "${{ secrets.PODCASTER_API_KEY }}")
+        self.assertEqual(
+            notify_step["env"]["PODCASTER_API_KEY"], "${{ secrets.PODCASTER_API_KEY }}"
+        )
         run_script = notify_step["run"]
         self.assertIn("article_url_from_page_path", run_script)
         self.assertIn("scripts/publish_manifest.py assert-eligible", run_script)
@@ -441,13 +522,18 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertEqual(inputs["article_sha256"]["default"], "")
 
         smoke_job = workflow["jobs"]["smoke"]
-        smoke_step = next((s for s in smoke_job["steps"] if s.get("name") == "Smoke test Podcaster dry run"), None)
+        smoke_step = next(
+            (s for s in smoke_job["steps"] if s.get("name") == "Smoke test Podcaster dry run"), None
+        )
         self.assertIsNotNone(smoke_step)
         run_script = smoke_step["run"]
         self.assertIn('if [ ! -f "$ARTICLE_PATH" ]', run_script)
         self.assertIn("hashlib.sha256(article_bytes).hexdigest()", run_script)
         self.assertIn("article_sha256 must match ARTICLE_PATH contents when provided.", run_script)
-        self.assertIn('raw_payload = {"week": week, "source": "github", "article_path": article_path}', run_script)
+        self.assertIn(
+            'raw_payload = {"week": week, "source": "github", "article_path": article_path}',
+            run_script,
+        )
         self.assertIn('"size_bytes": len(raw_bytes)', run_script)
         self.assertIn('"sha256": article_sha', run_script)
         self.assertIn('"source_artifacts": [', run_script)
@@ -466,7 +552,10 @@ class WorkflowConfigTests(unittest.TestCase):
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
 
         analyze = workflow["jobs"]["analyze"]
-        self.assertEqual(analyze["outputs"]["summary_file"], "${{ steps.analysis-context.outputs.published_output_file }}")
+        self.assertEqual(
+            analyze["outputs"]["summary_file"],
+            "${{ steps.analysis-context.outputs.published_output_file }}",
+        )
         self.assertEqual(
             analyze["outputs"]["candidate_summary_file"],
             "${{ steps.analysis-context.outputs.candidate_output_file }}",
@@ -476,7 +565,9 @@ class WorkflowConfigTests(unittest.TestCase):
             "${{ steps.analysis-context.outputs.publish_manifest_file }}",
         )
 
-        prepare_step = next((s for s in analyze["steps"] if s.get("name") == "Prepare analysis context"), None)
+        prepare_step = next(
+            (s for s in analyze["steps"] if s.get("name") == "Prepare analysis context"), None
+        )
         self.assertIsNotNone(prepare_step)
         prepare_run = prepare_step["run"]
         self.assertIn("data/candidates", prepare_run)
@@ -484,7 +575,10 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("publish_manifest_file", prepare_run)
         self.assertIn("published_output_file=data/analyzed", prepare_run)
 
-        manifest_step = next((s for s in analyze["steps"] if s.get("name") == "Emit publish eligibility manifest"), None)
+        manifest_step = next(
+            (s for s in analyze["steps"] if s.get("name") == "Emit publish eligibility manifest"),
+            None,
+        )
         self.assertIsNotNone(manifest_step)
         manifest_run = manifest_step["run"]
         self.assertIn("scripts/publish_manifest.py create", manifest_run)
@@ -495,15 +589,33 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("--source-refresh-policy", manifest_run)
         self.assertIn('git checkout origin/publish -- "$PUBLISHED_SUMMARY"', manifest_run)
 
-        assert_step = next((s for s in analyze["steps"] if s.get("name") == "Assert candidate is eligible for promotion"), None)
+        assert_step = next(
+            (
+                s
+                for s in analyze["steps"]
+                if s.get("name") == "Assert candidate is eligible for promotion"
+            ),
+            None,
+        )
         self.assertIsNotNone(assert_step)
         self.assertIn("scripts/publish_manifest.py assert-eligible", assert_step["run"])
 
-        self.assertEqual(analyze["outputs"]["publish_head_sha"], "${{ steps.publish-base.outputs.sha }}")
-        commit_step = next((s for s in analyze["steps"] if s.get("name") == "Commit analysis and learnings to data branch"), None)
+        self.assertEqual(
+            analyze["outputs"]["publish_head_sha"], "${{ steps.publish-base.outputs.sha }}"
+        )
+        commit_step = next(
+            (
+                s
+                for s in analyze["steps"]
+                if s.get("name") == "Commit analysis and learnings to data branch"
+            ),
+            None,
+        )
         self.assertIsNone(commit_step)
 
-        upload_candidate = next((s for s in analyze["steps"] if s.get("name") == "Upload analysis candidate"), None)
+        upload_candidate = next(
+            (s for s in analyze["steps"] if s.get("name") == "Upload analysis candidate"), None
+        )
         self.assertIsNotNone(upload_candidate)
         self.assertEqual(upload_candidate["if"], "always()")
 
@@ -521,16 +633,27 @@ class WorkflowConfigTests(unittest.TestCase):
         )
         self.assertIsNotNone(generate_raw_download)
 
-        generate_step = next((s for s in generate["steps"] if s.get("name") == "Generate weekly content"), None)
+        generate_step = next(
+            (s for s in generate["steps"] if s.get("name") == "Generate weekly content"), None
+        )
         self.assertIsNotNone(generate_step)
         self.assertIn('assert-eligible --manifest "$MANIFEST_FILE"', generate_step["run"])
         self.assertIn("candidate_content_path", generate_step["run"])
         self.assertIn("scripts/promotion_guard.py --manifest", generate_step["run"])
 
-        content_commit_step = next((s for s in generate["steps"] if s.get("name") == "Commit generated content to data branch"), None)
+        content_commit_step = next(
+            (
+                s
+                for s in generate["steps"]
+                if s.get("name") == "Commit generated content to data branch"
+            ),
+            None,
+        )
         self.assertIsNotNone(content_commit_step)
         content_commit_run = content_commit_step["run"]
-        self.assertIn("Publish branch drifted between analyze and content promotion", content_commit_run)
+        self.assertIn(
+            "Publish branch drifted between analyze and content promotion", content_commit_run
+        )
         self.assertIn("backup-existing", content_commit_run)
         self.assertIn('--path "data/published/${WEEK}/promotion-manifest.json"', content_commit_run)
         self.assertIn("promotion-guard-tool.py --manifest", content_commit_run)
@@ -548,7 +671,9 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("force-refresh", inputs["source_refresh_policy"]["options"])
 
         crawl_steps = workflow["jobs"]["crawl"]["steps"]
-        validate_step = next((s for s in crawl_steps if s.get("name") == "Validate rerun mode"), None)
+        validate_step = next(
+            (s for s in crawl_steps if s.get("name") == "Validate rerun mode"), None
+        )
         self.assertIsNotNone(validate_step)
         self.assertIn("scripts/rerun_modes.py", validate_step["run"])
 
@@ -556,26 +681,36 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("--reuse-artifact", run_crawler["run"])
         self.assertIn("--source-refresh-policy", run_crawler["run"])
 
-
     def test_notify_failure_job_creates_or_updates_issue(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
 
         notify_failure_job = workflow["jobs"]["notify-failure"]
-        self.assertEqual(notify_failure_job["needs"], ["crawl", "analyze", "generate", "deploy", "notify"])
-        self.assertEqual(notify_failure_job["if"], "${{ always() && contains(needs.*.result, 'failure') }}")
+        self.assertEqual(
+            notify_failure_job["needs"], ["crawl", "analyze", "generate", "deploy", "notify"]
+        )
+        self.assertEqual(
+            notify_failure_job["if"], "${{ always() && contains(needs.*.result, 'failure') }}"
+        )
         self.assertEqual(notify_failure_job["permissions"], {"actions": "read", "issues": "write"})
 
-        create_issue_step = next((s for s in notify_failure_job["steps"] if s.get("name") == "Create or update failure issue"), None)
+        create_issue_step = next(
+            (
+                s
+                for s in notify_failure_job["steps"]
+                if s.get("name") == "Create or update failure issue"
+            ),
+            None,
+        )
         self.assertIsNotNone(create_issue_step)
         self.assertEqual(create_issue_step["env"]["GITHUB_TOKEN"], "${{ secrets.GITHUB_TOKEN }}")
         create_issue_run = create_issue_step["run"]
         self.assertIn('gh run view "$RUN_ID" --json jobs', create_issue_run)
         self.assertEqual(create_issue_step["env"]["RUN_ID"], "${{ github.run_id }}")
-        self.assertIn('gh issue list --state open --search', create_issue_run)
+        self.assertIn("gh issue list --state open --search", create_issue_run)
         self.assertIn('gh issue comment "$ISSUE_NUM"', create_issue_run)
-        self.assertIn('gh issue create', create_issue_run)
-        self.assertIn('Crawl and publish pipeline failed', create_issue_run)
+        self.assertIn("gh issue create", create_issue_run)
+        self.assertIn("Crawl and publish pipeline failed", create_issue_run)
 
 
 class PipelineIntegrationTests(unittest.TestCase):
@@ -631,12 +766,15 @@ class PipelineIntegrationTests(unittest.TestCase):
                 config=None,
             )
 
-            with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
-                "os.environ", {"GITHUB_TOKEN": "token"}, clear=False
-            ), mock.patch.object(crawl, "GitHubClient", FakeClient), mock.patch.object(
-                crawl, "load_previous_star_snapshot", return_value={"octo/momentum-watch": 145}
-            ), mock.patch.object(crawl, "utc_now", return_value=FIXED_RUN_TIME), mock.patch.object(
-                crawl, "snapshots_dir", return_value=snapshot_dir
+            with (
+                mock.patch.object(crawl, "parse_args", return_value=args),
+                mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False),
+                mock.patch.object(crawl, "GitHubClient", FakeClient),
+                mock.patch.object(
+                    crawl, "load_previous_star_snapshot", return_value={"octo/momentum-watch": 145}
+                ),
+                mock.patch.object(crawl, "utc_now", return_value=FIXED_RUN_TIME),
+                mock.patch.object(crawl, "snapshots_dir", return_value=snapshot_dir),
             ):
                 exit_code = crawl.main()
 
@@ -732,7 +870,10 @@ class PipelineIntegrationTests(unittest.TestCase):
             )
 
             invalid_path = base / "data" / "analyzed" / "invalid-summary.md"
-            invalid_path.write_text(make_analysis_markdown().replace("quality_score: 86", "quality_score: 40"), encoding="utf-8")
+            invalid_path.write_text(
+                make_analysis_markdown().replace("quality_score: 86", "quality_score: 40"),
+                encoding="utf-8",
+            )
 
             with self.assertRaises(SystemExit) as exc:
                 analysis_gate.main(

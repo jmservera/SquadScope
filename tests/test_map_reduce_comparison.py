@@ -15,6 +15,7 @@ from scripts.map_reduce_comparison import (
     PROMOTION_HARD_FLOOR_QUALITY,
     PROMOTION_MIN_COVERAGE,
     PROMOTION_MIN_QUALITY,
+    ArtifactInfo,
     analyze_map_reduce,
     check_promotion_eligibility,
     compute_evidence_coverage_from_ledgers,
@@ -22,7 +23,6 @@ from scripts.map_reduce_comparison import (
     generate_comparison_report,
     main,
     should_rollback,
-    ArtifactInfo,
 )
 
 
@@ -199,9 +199,7 @@ class TestShouldRollback:
 
     def test_rollback_on_mapper_failure(self):
         report = _make_comparison_report()
-        report["map_reduce"]["mapper_errors"] = {
-            "new_repos": ["schema_version mismatch"]
-        }
+        report["map_reduce"]["mapper_errors"] = {"new_repos": ["schema_version mismatch"]}
         rollback, reason = should_rollback(report)
         assert rollback is True
         assert "Mapper failures" in reason
@@ -234,8 +232,7 @@ class TestCheckPromotionEligibility:
 
     def test_eligible_with_3_passing_runs(self):
         reports = [
-            _make_comparison_report(week=f"2026-W{21+i}", quality_score=70)
-            for i in range(3)
+            _make_comparison_report(week=f"2026-W{21 + i}", quality_score=70) for i in range(3)
         ]
         result = check_promotion_eligibility(reports)
         assert result["eligible"] is True
@@ -243,8 +240,7 @@ class TestCheckPromotionEligibility:
 
     def test_not_eligible_with_low_average_quality(self):
         reports = [
-            _make_comparison_report(week=f"2026-W{21+i}", quality_score=62)
-            for i in range(3)
+            _make_comparison_report(week=f"2026-W{21 + i}", quality_score=62) for i in range(3)
         ]
         result = check_promotion_eligibility(reports)
         assert result["eligible"] is False
@@ -253,9 +249,7 @@ class TestCheckPromotionEligibility:
     def test_not_eligible_with_stale_runs(self):
         old_dt = "2026-04-01T00:00:00+00:00"
         reports = [
-            _make_comparison_report(
-                week=f"2026-W{13+i}", run_datetime=old_dt, quality_score=70
-            )
+            _make_comparison_report(week=f"2026-W{13 + i}", run_datetime=old_dt, quality_score=70)
             for i in range(3)
         ]
         result = check_promotion_eligibility(reports)

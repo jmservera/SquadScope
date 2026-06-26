@@ -5,6 +5,7 @@ Checks whether scored repos meet minimum coverage thresholds defined in
 the topic config. Emits GitHub Actions warning annotations but never
 blocks the pipeline (always exits 0).
 """
+
 from __future__ import annotations
 
 import argparse
@@ -19,7 +20,7 @@ try:  # pragma: no cover
 except ImportError:  # pragma: no cover
     yaml = None
 
-from scripts.topic_paths import metrics_dir, load_topic_id
+from scripts.topic_paths import load_topic_id, metrics_dir
 
 DEFAULT_QUALITY = {
     "min_repos_per_week": 5,
@@ -31,7 +32,9 @@ DEFAULT_QUALITY = {
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Quality threshold gate (warn-only).")
     parser.add_argument("--input", default=None, type=Path, help="Path to scored repos JSON file.")
-    parser.add_argument("--config", default="squadscope.topic.yml", type=Path, help="Path to topic config YAML.")
+    parser.add_argument(
+        "--config", default="squadscope.topic.yml", type=Path, help="Path to topic config YAML."
+    )
     parser.add_argument("--topic", default=None, help="Topic ID override.")
     return parser.parse_args(argv)
 
@@ -92,10 +95,7 @@ def check_quality(
     min_score = scoring_config.get("min_relevance_score", 40)
 
     # Count repos passing the relevance score threshold
-    repos_passing = sum(
-        1 for r in scored_repos
-        if r.get("relevance_score", 0) >= min_score
-    )
+    repos_passing = sum(1 for r in scored_repos if r.get("relevance_score", 0) >= min_score)
     repos_scored = len(scored_repos)
 
     warnings: list[str] = []
@@ -136,7 +136,11 @@ def write_metric(topic_id: str, metric: dict[str, Any], week: str) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     filename = f"quality-{week}.json"
     out_path = out_dir / filename
-    payload = {"week": week, "topic": topic_id, **{k: v for k, v in metric.items() if k != "warnings"}}
+    payload = {
+        "week": week,
+        "topic": topic_id,
+        **{k: v for k, v in metric.items() if k != "warnings"},
+    }
     out_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     return out_path
 
@@ -163,9 +167,13 @@ def main(argv: list[str] | None = None) -> int:
     write_metric(topic_id, metric, week)
 
     if metric["status"] == "ok":
-        print(f"✅ Quality gate passed: {metric['repos_passing']}/{metric['repos_scored']} repos meet threshold.")
+        print(
+            f"✅ Quality gate passed: {metric['repos_passing']}/{metric['repos_scored']} repos meet threshold."
+        )
     else:
-        print(f"⚠️  Quality gate warning: {metric['status']} ({metric['repos_passing']}/{metric['repos_scored']} repos).")
+        print(
+            f"⚠️  Quality gate warning: {metric['status']} ({metric['repos_passing']}/{metric['repos_scored']} repos)."
+        )
 
     return 0
 

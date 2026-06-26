@@ -2,6 +2,7 @@ name: Restore publish backup
 
 on:
   workflow_dispatch:
+    # checkov:skip=CKV_GHA_7:Operational restore workflow (not a release build). The single input names an immutable backup manifest to restore; it does not influence a build's output artifacts. Input is required for manual recovery.
     inputs:
       backup_manifest:
         description: 'Immutable backup manifest on publish (for example data/backups/2026-W23/123/content/manifest.json).'
@@ -9,7 +10,7 @@ on:
         type: string
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: restore-publish-backup
@@ -18,6 +19,8 @@ concurrency:
 jobs:
   restore:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # force-push the restored backup to the publish branch
     steps:
       - name: Check out workflow source
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3

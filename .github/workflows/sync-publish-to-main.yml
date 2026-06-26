@@ -13,12 +13,14 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # force-push the sync/publish-to-main branch
+      pull-requests: write # open/update the sync PR into main
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Check out main # zizmor: ignore[artipacked] sync job force-pushes the sync branch; checkout token is reused by git push

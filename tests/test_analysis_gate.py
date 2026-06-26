@@ -6,7 +6,6 @@ from unittest import mock
 
 import scripts.analysis_gate as analysis_gate
 
-
 RAW_PAYLOAD = {"week": "2026-W23"}
 RAW_PAYLOAD_WITH_REPOS = {
     "week": "2026-W23",
@@ -20,7 +19,9 @@ RAW_PAYLOAD_WITH_REPOS = {
 CURRENT_DATETIME = "2026-06-01T00:00:00Z"
 
 
-def make_body(*, alternate_heading: str = "## Where Industry Meets Code", include_todo_app: bool = False) -> str:
+def make_body(
+    *, alternate_heading: str = "## Where Industry Meets Code", include_todo_app: bool = False
+) -> str:
     trends = " ".join(
         [
             "This section names the macro trends of the week, explaining what is driving each pattern and why it matters to practitioners tracking real engineering movement."
@@ -174,7 +175,9 @@ summary: "A grounded week focused on practical tools."'''.strip()
             CURRENT_DATETIME,
         )
 
-        self.assertIn("Analysis body contains prohibited placeholder marker: TODO placeholder marker", errors)
+        self.assertIn(
+            "Analysis body contains prohibited placeholder marker: TODO placeholder marker", errors
+        )
 
     def test_validate_analysis_rejects_generic_week_analysis_title(self) -> None:
         frontmatter = VALID_FRONTMATTER.replace(
@@ -203,7 +206,10 @@ summary: "A grounded week focused on practical tools."'''.strip()
         self.assertIn("title must not use a generic week/year placeholder format.", errors)
 
     def test_validate_analysis_accepts_prediction_registry(self) -> None:
-        frontmatter = VALID_FRONTMATTER + "\npredictions:\n  - repo: owner/repo\n    claim_type: signal\n    direction: up\n    confidence: 0.7"
+        frontmatter = (
+            VALID_FRONTMATTER
+            + "\npredictions:\n  - repo: owner/repo\n    claim_type: signal\n    direction: up\n    confidence: 0.7"
+        )
 
         errors, _ = analysis_gate.validate_analysis(
             make_analysis(frontmatter, make_body()),
@@ -214,17 +220,22 @@ summary: "A grounded week focused on practical tools."'''.strip()
         self.assertEqual(errors, [])
 
     def test_repair_analysis_refuses_to_guess_legacy_prediction_claim_type(self) -> None:
-        frontmatter = VALID_FRONTMATTER.replace(
-            "date: 2026-06-01T00:00:00Z",
-            "date: 2026-06-01T12:00:00Z",
-        ) + "\npredictions:\n  - repo: owner/repo\n    direction: up\n    confidence: 0.7"
+        frontmatter = (
+            VALID_FRONTMATTER.replace(
+                "date: 2026-06-01T00:00:00Z",
+                "date: 2026-06-01T12:00:00Z",
+            )
+            + "\npredictions:\n  - repo: owner/repo\n    direction: up\n    confidence: 0.7"
+        )
 
         repaired_text, actions = analysis_gate.repair_analysis(
             make_analysis(frontmatter, make_body()),
             RAW_PAYLOAD_WITH_REPOS,
             CURRENT_DATETIME,
         )
-        errors, _ = analysis_gate.validate_analysis(repaired_text, RAW_PAYLOAD_WITH_REPOS, CURRENT_DATETIME)
+        errors, _ = analysis_gate.validate_analysis(
+            repaired_text, RAW_PAYLOAD_WITH_REPOS, CURRENT_DATETIME
+        )
         frontmatter_after, _ = analysis_gate.extract_frontmatter(repaired_text)
 
         self.assertEqual(errors, ["predictions[1].claim_type must be one of signal, noise, gap."])
@@ -234,7 +245,10 @@ summary: "A grounded week focused on practical tools."'''.strip()
         self.assertEqual(frontmatter_after["stars_tracked"], 1500)
 
     def test_repair_analysis_normalizes_safe_prediction_claim_alias(self) -> None:
-        frontmatter = VALID_FRONTMATTER + "\npredictions:\n  - repo: owner/repo\n    claim: Signal\n    direction: UP\n    confidence: 0.7"
+        frontmatter = (
+            VALID_FRONTMATTER
+            + "\npredictions:\n  - repo: owner/repo\n    claim: Signal\n    direction: UP\n    confidence: 0.7"
+        )
 
         repaired_text, actions = analysis_gate.repair_analysis(
             make_analysis(frontmatter, make_body()),
@@ -250,7 +264,10 @@ summary: "A grounded week focused on practical tools."'''.strip()
         self.assertNotIn("claim", frontmatter_after["predictions"][0])
 
     def test_validate_analysis_rejects_invalid_prediction_registry(self) -> None:
-        frontmatter = VALID_FRONTMATTER + "\npredictions:\n  - repo: bad repo\n    claim_type: maybe\n    direction: sideways\n    confidence: 1.3\n    note: nope"
+        frontmatter = (
+            VALID_FRONTMATTER
+            + "\npredictions:\n  - repo: bad repo\n    claim_type: maybe\n    direction: sideways\n    confidence: 1.3\n    note: nope"
+        )
 
         errors, _ = analysis_gate.validate_analysis(
             make_analysis(frontmatter, make_body()),
@@ -314,7 +331,9 @@ summary: "A grounded week focused on practical tools."'''.strip()
             )
             raw_path.write_text('{"week": "2026-W23"}', encoding="utf-8")
 
-            with mock.patch.object(analysis_gate, "repair_analysis", side_effect=RuntimeError("boom")):
+            with mock.patch.object(
+                analysis_gate, "repair_analysis", side_effect=RuntimeError("boom")
+            ):
                 with self.assertRaises(SystemExit) as raised:
                     analysis_gate.main(
                         [
@@ -333,7 +352,9 @@ summary: "A grounded week focused on practical tools."'''.strip()
             self.assertEqual(raised.exception.code, 1)
             report = analysis_gate.load_json(report_path)
             self.assertEqual(report["repair_actions"], ["repair skipped: boom"])
-            self.assertIn("predictions[1].repo must use owner/repo format.", report["errors_after_repair"])
+            self.assertIn(
+                "predictions[1].repo must use owner/repo format.", report["errors_after_repair"]
+            )
 
     def test_gate_report_captures_pre_repair_publish_errors_from_original_text(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -343,20 +364,26 @@ summary: "A grounded week focused on practical tools."'''.strip()
             raw_path = workspace / "raw.json"
             report_path = workspace / "report.json"
             original_text = make_analysis(
-                VALID_FRONTMATTER.replace("date: 2026-06-01T00:00:00Z", "date: 2026-06-01T12:00:00Z"),
+                VALID_FRONTMATTER.replace(
+                    "date: 2026-06-01T00:00:00Z", "date: 2026-06-01T12:00:00Z"
+                ),
                 make_body(),
             )
             analysis_path.write_text(original_text, encoding="utf-8")
             raw_path.write_text(json.dumps(RAW_PAYLOAD_WITH_REPOS), encoding="utf-8")
 
-            def publish_quality_for(text: str, raw_payload: dict, *, source: str, model: str) -> tuple[list[str], dict]:
+            def publish_quality_for(
+                text: str, raw_payload: dict, *, source: str, model: str
+            ) -> tuple[list[str], dict]:
                 if text == original_text:
                     return ["pre-repair publish-quality failure"], analysis_gate.build_gate_results(
                         ["pre-repair publish-quality failure"]
                     )
                 return [], analysis_gate.build_gate_results([])
 
-            with mock.patch.object(analysis_gate, "validate_publish_quality", side_effect=publish_quality_for):
+            with mock.patch.object(
+                analysis_gate, "validate_publish_quality", side_effect=publish_quality_for
+            ):
                 self.assertEqual(
                     analysis_gate.main(
                         [
@@ -379,7 +406,9 @@ summary: "A grounded week focused on practical tools."'''.strip()
             self.assertNotIn("pre-repair publish-quality failure", report["errors_after_repair"])
 
     def test_publish_quality_gate_rejects_structurally_valid_low_quality_summary(self) -> None:
-        generic = " ".join(["Projects were active this week and many updates appeared across the list."] * 12)
+        generic = " ".join(
+            ["Projects were active this week and many updates appeared across the list."] * 12
+        )
         low_quality = f"""
 ## This Week's Trends
 
@@ -450,12 +479,12 @@ No press data was provided this week.
                 text = summary_path.read_text(encoding="utf-8")
                 linked_repos = sorted(analysis_gate.REPO_LINK_PATTERN.findall(text))
                 raw_payload["new_repos"].extend(
-                    {"full_name": name, "stars": 100}
-                    for name in linked_repos
-                    if name != repo_name
+                    {"full_name": name, "stars": 100} for name in linked_repos if name != repo_name
                 )
 
-                structure_errors, word_count = analysis_gate.validate_analysis(text, raw_payload, crawled_at)
+                structure_errors, word_count = analysis_gate.validate_analysis(
+                    text, raw_payload, crawled_at
+                )
                 publish_errors, gates = analysis_gate.validate_publish_quality(
                     text,
                     raw_payload,
@@ -491,9 +520,13 @@ No press data was provided this week.
         self.assertTrue(gates["ai_provenance"]["passed"])
 
     def test_publish_quality_gate_rejects_missing_evidence_citations(self) -> None:
-        body = make_body().replace("[owner/repo-a](https://github.com/owner/repo-a)", "owner/repo-a").replace(
-            "[owner/repo-b](https://github.com/owner/repo-b)",
-            "owner/repo-b",
+        body = (
+            make_body()
+            .replace("[owner/repo-a](https://github.com/owner/repo-a)", "owner/repo-a")
+            .replace(
+                "[owner/repo-b](https://github.com/owner/repo-b)",
+                "owner/repo-b",
+            )
         )
         errors, gates = analysis_gate.validate_publish_quality(
             make_analysis(VALID_FRONTMATTER, body),
@@ -502,11 +535,17 @@ No press data was provided this week.
             model="copilot-default",
         )
 
-        self.assertIn("evidence citations must include at least one repository link from the raw payload.", errors)
+        self.assertIn(
+            "evidence citations must include at least one repository link from the raw payload.",
+            errors,
+        )
         self.assertFalse(gates["evidence_citation"]["passed"])
 
     def test_publish_quality_gate_rejects_repo_links_outside_current_inventory(self) -> None:
-        body = make_body().replace("[owner/repo-a](https://github.com/owner/repo-a)", "[other/repo](https://github.com/other/repo)")
+        body = make_body().replace(
+            "[owner/repo-a](https://github.com/owner/repo-a)",
+            "[other/repo](https://github.com/other/repo)",
+        )
         errors, gates = analysis_gate.validate_publish_quality(
             make_analysis(VALID_FRONTMATTER, body),
             RAW_PAYLOAD_WITH_REPOS,
@@ -514,7 +553,10 @@ No press data was provided this week.
             model="copilot-default",
         )
 
-        self.assertIn("repository links must resolve to the current raw evidence inventory: other/repo.", errors)
+        self.assertIn(
+            "repository links must resolve to the current raw evidence inventory: other/repo.",
+            errors,
+        )
         self.assertFalse(gates["evidence_citation"]["passed"])
 
     def test_publish_quality_gate_rejects_stale_evidence(self) -> None:
@@ -569,7 +611,9 @@ No press data was provided this week.
         self.assertFalse(gates["ai_provenance"]["passed"])
 
     def test_gate_report_includes_structured_failure_summary(self) -> None:
-        errors = ["repository links must resolve to the current raw evidence inventory: other/repo."]
+        errors = [
+            "repository links must resolve to the current raw evidence inventory: other/repo."
+        ]
         gates = analysis_gate.build_gate_results(errors)
         summary = analysis_gate.build_failure_summary(errors, gates)
 
@@ -578,7 +622,10 @@ No press data was provided this week.
         self.assertEqual(summary["error_count"], 1)
 
     def test_publish_quality_gate_rejects_contradictory_press_claims(self) -> None:
-        body = make_body() + "\n\nNo press data was provided this week, but TechCrunch reported a major launch."
+        body = (
+            make_body()
+            + "\n\nNo press data was provided this week, but TechCrunch reported a major launch."
+        )
         errors, gates = analysis_gate.validate_publish_quality(
             make_analysis(VALID_FRONTMATTER, body),
             RAW_PAYLOAD,

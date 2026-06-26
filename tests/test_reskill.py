@@ -39,17 +39,34 @@ class ReskillTests(unittest.TestCase):
             (content_root / "yearly").mkdir(parents=True)
             output_path.parent.mkdir(parents=True)
 
-            for week, score in [("2026-W17", 61), ("2026-W18", 66), ("2026-W19", 70), ("2026-W20", 74), ("2026-W21", 79), ("2026-W22", 84)]:
+            for week, score in [
+                ("2026-W17", 61),
+                ("2026-W18", 66),
+                ("2026-W19", 70),
+                ("2026-W20", 74),
+                ("2026-W21", 79),
+                ("2026-W22", 84),
+            ]:
                 (analyzed_dir / f"{week}-summary.md").write_text(
                     f"---\nweek: {week}\nquality_score: {score}\n---\n\n## Trend Analysis\n\n### Signal\n\nSignal {week}.\n",
                     encoding="utf-8",
                 )
-            (snapshots_dir / "2026-W21-stars.json").write_text(json.dumps({"octo/signal-kit": 120}), encoding="utf-8")
+            (snapshots_dir / "2026-W21-stars.json").write_text(
+                json.dumps({"octo/signal-kit": 120}), encoding="utf-8"
+            )
             wisdom_path.write_text("# Wisdom\n\nPrefer durable signals.", encoding="utf-8")
-            (skills_dir / "SKILL.md").write_text("# Skill\n\nWatch for wrapper churn.", encoding="utf-8")
-            continuity_path.write_text("# Continuity\n\nMonthly theses that held up.", encoding="utf-8")
-            (content_root / "monthly" / "2026" / "05.md").write_text("## Month Overview\n\nMonthly context.\n", encoding="utf-8")
-            (content_root / "yearly" / "2026.md").write_text("## Narrative\n\nYearly context.\n", encoding="utf-8")
+            (skills_dir / "SKILL.md").write_text(
+                "# Skill\n\nWatch for wrapper churn.", encoding="utf-8"
+            )
+            continuity_path.write_text(
+                "# Continuity\n\nMonthly theses that held up.", encoding="utf-8"
+            )
+            (content_root / "monthly" / "2026" / "05.md").write_text(
+                "## Month Overview\n\nMonthly context.\n", encoding="utf-8"
+            )
+            (content_root / "yearly" / "2026.md").write_text(
+                "## Narrative\n\nYearly context.\n", encoding="utf-8"
+            )
             prompt_template.write_text(
                 "out={{OUTPUT_PATH}}\nwisdom={{WISDOM}}\nskills={{SKILLS}}\ncontinuity={{CONTINUITY}}\narchive={{ARCHIVE_CONTEXT}}\nquality={{QUALITY_TREND}}\nanalyses={{RECENT_ANALYSES}}\nsnapshots={{SNAPSHOT_CONTEXT}}\n",
                 encoding="utf-8",
@@ -96,7 +113,9 @@ class ReskillTests(unittest.TestCase):
             snapshots_dir.mkdir(parents=True)
             topic_wisdom.parent.mkdir(parents=True)
             topic_skills.mkdir(parents=True)
-            prompt_template.write_text("w={{WISDOM}}\ns={{SKILLS}}\nc={{CONTINUITY}}", encoding="utf-8")
+            prompt_template.write_text(
+                "w={{WISDOM}}\ns={{SKILLS}}\nc={{CONTINUITY}}", encoding="utf-8"
+            )
             topic_wisdom.write_text("Topic wisdom", encoding="utf-8")
             (topic_skills / "SKILL.md").write_text("Topic skill", encoding="utf-8")
             topic_continuity.write_text("Topic continuity", encoding="utf-8")
@@ -166,12 +185,16 @@ class ReskillTests(unittest.TestCase):
             prompt_template.write_text("{{WISDOM}}\n{{QUALITY_TREND}}", encoding="utf-8")
 
             response = _FakeHTTPResponse(
-                json.dumps({"choices": [{"message": {"content": "# Reskill Report\n"}}]}).encode("utf-8")
+                json.dumps({"choices": [{"message": {"content": "# Reskill Report\n"}}]}).encode(
+                    "utf-8"
+                )
             )
 
-            with mock.patch.object(reskill, "DEFAULT_REPORT_DIR", base / ".squad" / "reskill"), mock.patch.dict(
-                "os.environ", {"GITHUB_TOKEN": "token"}, clear=False
-            ), mock.patch.object(reskill.request, "urlopen", return_value=response):
+            with (
+                mock.patch.object(reskill, "DEFAULT_REPORT_DIR", base / ".squad" / "reskill"),
+                mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False),
+                mock.patch.object(reskill.request, "urlopen", return_value=response),
+            ):
                 exit_code = reskill.main(
                     [
                         "--current-datetime",
@@ -217,11 +240,14 @@ class ReskillTests(unittest.TestCase):
             prompt_template.write_text("{{WISDOM}}\n{{QUALITY_TREND}}", encoding="utf-8")
 
             response = _FakeHTTPResponse(
-                json.dumps({"choices": [{"message": {"content": "# Reskill Report\n"}}]}).encode("utf-8")
+                json.dumps({"choices": [{"message": {"content": "# Reskill Report\n"}}]}).encode(
+                    "utf-8"
+                )
             )
 
-            with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
-                reskill.request, "urlopen", return_value=response
+            with (
+                mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False),
+                mock.patch.object(reskill.request, "urlopen", return_value=response),
             ):
                 exit_code = reskill.main(
                     [
@@ -267,8 +293,8 @@ class ReskillTests(unittest.TestCase):
             wisdom_path.write_text("# Wisdom\n\nPrefer durable signals.", encoding="utf-8")
             prompt_template.write_text("{{WISDOM}}\n{{QUALITY_TREND}}", encoding="utf-8")
 
-            from urllib import error as urlerror
             import io as _io
+            from urllib import error as urlerror
 
             fake_body = _io.BytesIO(
                 b'{"error":{"code":"no_access","message":"No access to model: openai/gpt-4.1"}}'
@@ -281,8 +307,9 @@ class ReskillTests(unittest.TestCase):
                 fp=fake_body,
             )
 
-            with mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), mock.patch.object(
-                reskill.request, "urlopen", side_effect=http_err
+            with (
+                mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False),
+                mock.patch.object(reskill.request, "urlopen", side_effect=http_err),
             ):
                 exit_code = reskill.main(
                     [
@@ -326,12 +353,20 @@ class ReskillTests(unittest.TestCase):
                 self.close()
                 return False
 
-        response = _FakeResponse(json.dumps({"choices": [{"message": {"content": "# Reskill\n"}}]}).encode("utf-8"))
-        with mock.patch.dict(
-            "os.environ",
-            {"GITHUB_TOKEN": "token", "GITHUB_MODELS_ENDPOINT": reskill.DEFAULT_MODELS_ENDPOINT},
-            clear=False,
-        ), mock.patch.object(reskill.request, "urlopen", return_value=response):
+        response = _FakeResponse(
+            json.dumps({"choices": [{"message": {"content": "# Reskill\n"}}]}).encode("utf-8")
+        )
+        with (
+            mock.patch.dict(
+                "os.environ",
+                {
+                    "GITHUB_TOKEN": "token",
+                    "GITHUB_MODELS_ENDPOINT": reskill.DEFAULT_MODELS_ENDPOINT,
+                },
+                clear=False,
+            ),
+            mock.patch.object(reskill.request, "urlopen", return_value=response),
+        ):
             markdown = reskill.call_github_models("prompt")
         self.assertEqual(markdown, "# Reskill\n")
 

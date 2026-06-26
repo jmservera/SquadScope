@@ -15,7 +15,6 @@ import json
 import re
 from collections import Counter
 from dataclasses import dataclass, replace
-from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -199,7 +198,9 @@ def synthesis_path(analyzed_dir: Path, year: int, month: int) -> Path:
     return analyzed_dir / f"{year}-{month:02d}-month-synthesis.md"
 
 
-def _theme_trajectory(items: list[Any]) -> tuple[list[str], list[str], list[str], list[str], list[str]]:
+def _theme_trajectory(
+    items: list[Any],
+) -> tuple[list[str], list[str], list[str], list[str], list[str]]:
     tag_counts = Counter(tag for item in items for tag in set(item.tags))
     weeks_per_tag: dict[str, list[int]] = {}
     if len(items) == 1:
@@ -223,7 +224,12 @@ def _theme_trajectory(items: list[Any]) -> tuple[list[str], list[str], list[str]
             emerging.append(tag)
         elif in_first_half and not in_second_half:
             weakening.append(tag)
-        elif positions and positions[-1] >= midpoint and positions[0] < midpoint and len(positions) >= 2:
+        elif (
+            positions
+            and positions[-1] >= midpoint
+            and positions[0] < midpoint
+            and len(positions) >= 2
+        ):
             accelerating.append(tag)
 
     ordered_themes = [tag for tag, _ in tag_counts.most_common(5)]
@@ -250,7 +256,9 @@ def _trim_to_range(text: str, *, minimum: int = 200, maximum: int = 350) -> str:
     return cleaned
 
 
-def synthesize_month(items: list[Any], analyzed_dir: Path, checksum: str | None = None) -> MonthSynthesis:
+def synthesize_month(
+    items: list[Any], analyzed_dir: Path, checksum: str | None = None
+) -> MonthSynthesis:
     if not items:
         raise ValueError("Cannot synthesize an empty month")
 
@@ -270,7 +278,9 @@ def synthesize_month(items: list[Any], analyzed_dir: Path, checksum: str | None 
     signals = top_sentences([item.signal for item in items if item.signal], limit=2, words=22)
     noise = top_sentences([item.noise for item in items if item.noise], limit=2, words=18)
     gaps = top_sentences([item.gaps for item in items if item.gaps], limit=3, words=18)
-    conclusions = top_sentences([item.conclusion for item in items if item.conclusion], limit=2, words=20)
+    conclusions = top_sentences(
+        [item.conclusion for item in items if item.conclusion], limit=2, words=20
+    )
     top_repos = dedupe([item.top_repo for item in items if item.top_repo])[:4]
 
     summary = f"{MONTH_NAMES[month]} {year} was defined by {join_terms(theme_labels) if theme_labels else 'cross-week trend consolidation'}."
@@ -288,11 +298,17 @@ def synthesize_month(items: list[Any], analyzed_dir: Path, checksum: str | None 
 
     theme_sentence_parts: list[str] = []
     if persistent_labels:
-        theme_sentence_parts.append(f"Persistent themes such as {join_terms(persistent_labels)} stayed present across multiple weeks")
+        theme_sentence_parts.append(
+            f"Persistent themes such as {join_terms(persistent_labels)} stayed present across multiple weeks"
+        )
     if accelerating_labels:
-        theme_sentence_parts.append(f"Later reports pushed {join_terms(accelerating_labels)} from interesting side threads into defining narratives")
+        theme_sentence_parts.append(
+            f"Later reports pushed {join_terms(accelerating_labels)} from interesting side threads into defining narratives"
+        )
     if weakening_labels:
-        theme_sentence_parts.append(f"Early-month concerns around {join_terms(weakening_labels)} faded relative to the stronger follow-on trends")
+        theme_sentence_parts.append(
+            f"Early-month concerns around {join_terms(weakening_labels)} faded relative to the stronger follow-on trends"
+        )
     if len(top_repos) > 1:
         theme_sentence_parts.append(
             f"The month's anchor repos moved from {join_terms(top_repos[:2])} toward "
@@ -316,7 +332,9 @@ def synthesize_month(items: list[Any], analyzed_dir: Path, checksum: str | None 
     elif accelerating_labels or persistent_labels:
         prediction_sentence += f": later weeks reinforced {join_terms(accelerating_labels or persistent_labels)} instead of reversing them"
     else:
-        prediction_sentence += ": the later reports mostly confirmed the earlier direction of travel"
+        prediction_sentence += (
+            ": the later reports mostly confirmed the earlier direction of travel"
+        )
     if conclusions:
         prediction_sentence += f". In retrospect, the clearest forward-looking reads were that {'; '.join(conclusions)}."
     else:
@@ -325,7 +343,9 @@ def synthesize_month(items: list[Any], analyzed_dir: Path, checksum: str | None 
     if noise:
         prediction_sentence += f" The main counter-signal was noise that evolved from {' to '.join(noise[:2]) if len(noise) > 1 else noise[0]}."
 
-    narrative = _trim_to_range("\n\n".join([opening, theme_paragraph, signal_paragraph, prediction_sentence]))
+    narrative = _trim_to_range(
+        "\n\n".join([opening, theme_paragraph, signal_paragraph, prediction_sentence])
+    )
 
     trend_arc_lines = [
         f"- Persistent themes: {join_terms(persistent_labels) if persistent_labels else 'none yet'}.",
@@ -407,7 +427,9 @@ def load_month_synthesis(path: Path) -> MonthSynthesis:
     year_text, month_text = month_slug.split("-", 1)
     sections = split_sections(body)
     weekly_reports = tuple(
-        line for line in sections.get("Weekly Reports", "").splitlines() if line.strip().startswith("- ")
+        line
+        for line in sections.get("Weekly Reports", "").splitlines()
+        if line.strip().startswith("- ")
     )
     return MonthSynthesis(
         path=path,
@@ -439,7 +461,10 @@ def ensure_month_synthesis(items: list[Any], analyzed_dir: Path) -> MonthSynthes
     path = synthesis_path(analyzed_dir, items[0].year, items[0].month)
     if path.exists():
         cached = load_month_synthesis(path)
-        if cached.weeks_covered == tuple(item.week for item in items) and cached.source_checksum == checksum:
+        if (
+            cached.weeks_covered == tuple(item.week for item in items)
+            and cached.source_checksum == checksum
+        ):
             return replace(cached, weekly_reports=build_weekly_reports(items))
     synthesis = synthesize_month(items, analyzed_dir, checksum)
     write_month_synthesis(synthesis)

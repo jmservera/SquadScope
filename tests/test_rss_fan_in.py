@@ -22,8 +22,6 @@ import pytest
 from scripts.rss_fan_in import (
     SOURCE_ARTIFACT_SCHEMA_VERSION,
     FanInValidationError,
-    FanInWarning,
-    build_canonical_merged_output,
     build_run_context,
     build_source_artifact,
     merge_source_artifacts,
@@ -35,10 +33,7 @@ from scripts.techcrunch_crawler import (
     CANONICAL_SCHEMA_VERSION,
     iso_timestamp,
     schema_checksum,
-    source_config_checksum,
-    week_slug,
 )
-
 
 # --- Fixtures ---
 
@@ -109,9 +104,11 @@ def _make_source_artifact(
     success: bool = True,
 ) -> dict[str, Any]:
     ctx = run_context or _make_run_context()
-    arts = articles if articles is not None else [
-        _make_article(source_id, f"Article {i}") for i in range(3)
-    ]
+    arts = (
+        articles
+        if articles is not None
+        else [_make_article(source_id, f"Article {i}") for i in range(3)]
+    )
     status = _make_status(source_id, success=success)
     return build_source_artifact(
         source_id=source_id,
@@ -200,12 +197,18 @@ class TestSourceArtifact:
         status = _make_status("techcrunch")
 
         a1 = build_source_artifact(
-            source_id="techcrunch", articles=articles,
-            status=status, run_context=ctx, crawled_at=NOW,
+            source_id="techcrunch",
+            articles=articles,
+            status=status,
+            run_context=ctx,
+            crawled_at=NOW,
         )
         a2 = build_source_artifact(
-            source_id="techcrunch", articles=articles,
-            status=status, run_context=ctx, crawled_at=NOW,
+            source_id="techcrunch",
+            articles=articles,
+            status=status,
+            run_context=ctx,
+            crawled_at=NOW,
         )
         assert a1["artifact_checksum"] == a2["artifact_checksum"]
         assert a1["articles"] == a2["articles"]
@@ -217,12 +220,18 @@ class TestSourceArtifact:
         status = _make_status("techcrunch")
 
         a1 = build_source_artifact(
-            source_id="techcrunch", articles=articles,
-            status=status, run_context=ctx, crawled_at=NOW,
+            source_id="techcrunch",
+            articles=articles,
+            status=status,
+            run_context=ctx,
+            crawled_at=NOW,
         )
         a2 = build_source_artifact(
-            source_id="techcrunch", articles=list(reversed(articles)),
-            status=status, run_context=ctx, crawled_at=NOW,
+            source_id="techcrunch",
+            articles=list(reversed(articles)),
+            status=status,
+            run_context=ctx,
+            crawled_at=NOW,
         )
         assert a1["artifact_checksum"] == a2["artifact_checksum"]
 
@@ -266,7 +275,11 @@ class TestMerge:
         assert output["source"] == "external_news"
         assert output["week"] == WEEK
         assert output["crawl_window"] == ctx["crawl_window"]
-        assert output["metadata"]["sources_requested"] == ["github_blog", "nvidia_blog", "techcrunch"]
+        assert output["metadata"]["sources_requested"] == [
+            "github_blog",
+            "nvidia_blog",
+            "techcrunch",
+        ]
         assert "techcrunch" in output["metadata"]["sources_succeeded"]
         assert "github_blog" in output["metadata"]["sources_succeeded"]
         assert output["metadata"]["fan_in_mode"] == "matrix"
@@ -288,7 +301,10 @@ class TestMerge:
 
         assert out1["metadata"]["artifact_checksum"] == out2["metadata"]["artifact_checksum"]
         assert out1["articles"] == out2["articles"]
-        assert out1["metadata"]["source_artifact_provenance"] == out2["metadata"]["source_artifact_provenance"]
+        assert (
+            out1["metadata"]["source_artifact_provenance"]
+            == out2["metadata"]["source_artifact_provenance"]
+        )
 
     def test_merge_different_artifact_order_same_result(self) -> None:
         """Order of input artifacts doesn't affect output."""
@@ -342,7 +358,9 @@ class TestMerge:
         output, warnings = merge_source_artifacts([a1, a2], ctx, merged_at=NOW)
 
         assert "github_blog" in output["metadata"]["sources_failed"]
-        assert any(w.category == "source_failure" and w.source_id == "github_blog" for w in warnings)
+        assert any(
+            w.category == "source_failure" and w.source_id == "github_blog" for w in warnings
+        )
         # Output is still valid
         assert output["metadata"]["artifact_checksum"]
 
@@ -362,6 +380,7 @@ class TestValidation:
         artifact["run_context"]["schema_checksum"] = "wrong"
         # Recompute checksum after tampering
         from scripts.rss_fan_in import _source_artifact_checksum
+
         artifact["artifact_checksum"] = _source_artifact_checksum(artifact)
 
         with pytest.raises(FanInValidationError, match="Schema checksum mismatch"):
@@ -372,6 +391,7 @@ class TestValidation:
         artifact = _make_source_artifact("techcrunch", ctx)
         artifact["run_context"]["crawl_window"] = {"since": "wrong", "until": "wrong"}
         from scripts.rss_fan_in import _source_artifact_checksum
+
         artifact["artifact_checksum"] = _source_artifact_checksum(artifact)
 
         with pytest.raises(FanInValidationError, match="Crawl window mismatch"):
@@ -382,6 +402,7 @@ class TestValidation:
         artifact = _make_source_artifact("techcrunch", ctx)
         artifact["run_context"]["source_config_checksum"] = "wrong"
         from scripts.rss_fan_in import _source_artifact_checksum
+
         artifact["artifact_checksum"] = _source_artifact_checksum(artifact)
 
         with pytest.raises(FanInValidationError, match="Source config checksum mismatch"):
@@ -392,6 +413,7 @@ class TestValidation:
         artifact = _make_source_artifact("techcrunch", ctx)
         artifact["run_context"]["run_id"] = "different-run"
         from scripts.rss_fan_in import _source_artifact_checksum
+
         artifact["artifact_checksum"] = _source_artifact_checksum(artifact)
 
         with pytest.raises(FanInValidationError, match="Run ID mismatch"):
@@ -454,14 +476,21 @@ class TestCLI:
             status_path = tmp_path / f"{source_id}-status.json"
             status_path.write_text(json.dumps(status), encoding="utf-8")
 
-            result = fan_in_main([
-                "emit",
-                "--source", source_id,
-                "--articles", str(articles_path),
-                "--status", str(status_path),
-                "--run-context", str(ctx_path),
-                "--output", str(artifacts_dir / f"{source_id}.json"),
-            ])
+            result = fan_in_main(
+                [
+                    "emit",
+                    "--source",
+                    source_id,
+                    "--articles",
+                    str(articles_path),
+                    "--status",
+                    str(status_path),
+                    "--run-context",
+                    str(ctx_path),
+                    "--output",
+                    str(artifacts_dir / f"{source_id}.json"),
+                ]
+            )
             assert result == 0
 
         # Verify artifacts were created
@@ -470,12 +499,17 @@ class TestCLI:
 
         # Merge
         merged_path = tmp_path / "merged.json"
-        result = fan_in_main([
-            "merge",
-            "--artifacts-dir", str(artifacts_dir),
-            "--run-context", str(ctx_path),
-            "--output", str(merged_path),
-        ])
+        result = fan_in_main(
+            [
+                "merge",
+                "--artifacts-dir",
+                str(artifacts_dir),
+                "--run-context",
+                str(ctx_path),
+                "--output",
+                str(merged_path),
+            ]
+        )
         assert result == 0
         assert merged_path.exists()
 
@@ -500,15 +534,17 @@ class TestCLI:
         artifacts_dir.mkdir()
 
         artifact = _make_source_artifact("techcrunch", ctx)
-        (artifacts_dir / "techcrunch.json").write_text(
-            json.dumps(artifact), encoding="utf-8"
-        )
+        (artifacts_dir / "techcrunch.json").write_text(json.dumps(artifact), encoding="utf-8")
 
-        result = fan_in_main([
-            "validate",
-            "--artifacts-dir", str(artifacts_dir),
-            "--run-context", str(ctx_path),
-        ])
+        result = fan_in_main(
+            [
+                "validate",
+                "--artifacts-dir",
+                str(artifacts_dir),
+                "--run-context",
+                str(ctx_path),
+            ]
+        )
         assert result == 0
 
     def test_merge_fails_on_missing_required(self, tmp_path: Path) -> None:
@@ -527,16 +563,19 @@ class TestCLI:
 
         # Only provide techcrunch
         artifact = _make_source_artifact("techcrunch", ctx)
-        (artifacts_dir / "techcrunch.json").write_text(
-            json.dumps(artifact), encoding="utf-8"
-        )
+        (artifacts_dir / "techcrunch.json").write_text(json.dumps(artifact), encoding="utf-8")
 
-        result = fan_in_main([
-            "merge",
-            "--artifacts-dir", str(artifacts_dir),
-            "--run-context", str(ctx_path),
-            "--output", str(tmp_path / "merged.json"),
-        ])
+        result = fan_in_main(
+            [
+                "merge",
+                "--artifacts-dir",
+                str(artifacts_dir),
+                "--run-context",
+                str(ctx_path),
+                "--output",
+                str(tmp_path / "merged.json"),
+            ]
+        )
         assert result == 1  # Fails due to missing required source
 
 
@@ -588,4 +627,6 @@ class TestDeterminism:
             output, _ = merge_source_artifacts(artifacts, ctx, merged_at=NOW)
             checksums.add(output["metadata"]["artifact_checksum"])
 
-        assert len(checksums) == 1, f"Non-deterministic merge: got {len(checksums)} distinct checksums"
+        assert len(checksums) == 1, (
+            f"Non-deterministic merge: got {len(checksums)} distinct checksums"
+        )

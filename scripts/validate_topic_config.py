@@ -35,11 +35,10 @@ from __future__ import annotations
 import re
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 import yaml
 from pydantic import BaseModel, Field, field_validator, model_validator
-
 
 # --- Pydantic Models ---
 
@@ -73,7 +72,9 @@ class TopicInfo(BaseModel):
 class Queries(BaseModel):
     """Search queries for GitHub API. At least one primary query is required."""
 
-    primary: List[str] = Field(..., min_length=1, description="Primary search queries (at least one)")
+    primary: List[str] = Field(
+        ..., min_length=1, description="Primary search queries (at least one)"
+    )
     secondary: List[str] = Field(default_factory=list, description="Optional secondary queries")
 
     @field_validator("primary")
@@ -91,7 +92,9 @@ class Scoring(BaseModel):
     min_stars: int = Field(default=20, ge=0, description="Minimum star count")
     min_stars_gained: int = Field(default=10, ge=0, description="Minimum stars gained in period")
     max_age_days: int = Field(default=365, ge=1, le=3650, description="Max repo age in days")
-    min_relevance_score: int = Field(default=40, ge=0, le=100, description="Minimum relevance score (0-100)")
+    min_relevance_score: int = Field(
+        default=40, ge=0, le=100, description="Minimum relevance score (0-100)"
+    )
     language_boost: Dict[str, float] = Field(
         default_factory=dict, description="Language → score multiplier"
     )
@@ -113,9 +116,15 @@ class Scoring(BaseModel):
 class Quality(BaseModel):
     """Quality gates for output. All fields have sensible defaults."""
 
-    min_repos_per_week: int = Field(default=5, ge=1, description="Minimum repos to include per week")
-    max_repos_per_week: int = Field(default=30, ge=1, description="Maximum repos to include per week")
-    min_quality_score: int = Field(default=60, ge=0, le=100, description="Minimum quality score (0-100)")
+    min_repos_per_week: int = Field(
+        default=5, ge=1, description="Minimum repos to include per week"
+    )
+    max_repos_per_week: int = Field(
+        default=30, ge=1, description="Maximum repos to include per week"
+    )
+    min_quality_score: int = Field(
+        default=60, ge=0, le=100, description="Minimum quality score (0-100)"
+    )
 
     @model_validator(mode="after")
     def min_less_than_max(self) -> "Quality":

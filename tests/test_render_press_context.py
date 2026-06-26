@@ -8,11 +8,10 @@ from urllib.parse import urlparse
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_REPO_ROOT / "scripts"))
 
-import render_press_context as render_press_context_module
-from render_press_context import (
+import render_press_context as render_press_context_module  # noqa: E402
+from render_press_context import (  # noqa: E402
     _escape_markdown_url,
     _extract_readme_description,
-    _fetch_readme_snippet,
     _format_correlations_narrative,
     format_articles_list,
     format_correlations_list,
@@ -20,7 +19,6 @@ from render_press_context import (
     render_press_context,
     resolve_paths,
 )
-
 
 # --- Fixtures ---
 
@@ -177,9 +175,7 @@ class TestRenderPressContext:
         assert "1 repos have press correlation" in result
 
     def test_with_both(self):
-        result = render_press_context(
-            _techcrunch_data(), _correlation_data(), "2026-W21"
-        )
+        result = render_press_context(_techcrunch_data(), _correlation_data(), "2026-W21")
         assert "1 articles published" in result
         assert "1 repos have press correlation" in result
         assert "AI Startup Raises $10M" in result
@@ -206,9 +202,7 @@ class TestRenderPressContext:
 
     def test_hype_risk_labels(self):
         corr = _correlation(hype_risk="high")
-        result = render_press_context(
-            _techcrunch_data(), _correlation_data([corr]), "2026-W21"
-        )
+        result = render_press_context(_techcrunch_data(), _correlation_data([corr]), "2026-W21")
         assert "high" in result
 
 
@@ -231,7 +225,9 @@ class TestResolvePaths:
         raw_path.mkdir()
         analyzed_path.mkdir()
         monkeypatch.setattr(render_press_context_module, "raw_dir", lambda _topic: raw_path)
-        monkeypatch.setattr(render_press_context_module, "analyzed_dir", lambda _topic: analyzed_path)
+        monkeypatch.setattr(
+            render_press_context_module, "analyzed_dir", lambda _topic: analyzed_path
+        )
         tc, corr = resolve_paths(None, "2026-W21")
         assert "2026-W21-external-news.json" in str(tc)
         assert "2026-W21-correlations.json" in str(corr)
@@ -265,12 +261,27 @@ class TestFormatCorrelationsListTopN:
 
     def test_sorted_by_confidence_desc(self):
         corrs = [
-            {"repo": "low/conf", "match_type": "k", "correlation_confidence": 0.2, "hype_risk": "none"},
-            {"repo": "high/conf", "match_type": "k", "correlation_confidence": 0.9, "hype_risk": "none"},
-            {"repo": "mid/conf", "match_type": "k", "correlation_confidence": 0.5, "hype_risk": "none"},
+            {
+                "repo": "low/conf",
+                "match_type": "k",
+                "correlation_confidence": 0.2,
+                "hype_risk": "none",
+            },
+            {
+                "repo": "high/conf",
+                "match_type": "k",
+                "correlation_confidence": 0.9,
+                "hype_risk": "none",
+            },
+            {
+                "repo": "mid/conf",
+                "match_type": "k",
+                "correlation_confidence": 0.5,
+                "hype_risk": "none",
+            },
         ]
         result = format_correlations_list(corrs, top_n=2)
-        lines = [l for l in result.splitlines() if l.startswith("- ")]
+        lines = [ln for ln in result.splitlines() if ln.startswith("- ")]
         assert lines[0].startswith("- high/conf")
         assert lines[1].startswith("- mid/conf")
         assert "…and 1 more repos with press correlation" in result
@@ -357,7 +368,9 @@ class TestRenderPressContextReaderMode:
             }
             for i in range(20)
         ]
-        tc = _techcrunch_data([_article(title="OpenAI Launch", url="https://techcrunch.com/article")])
+        tc = _techcrunch_data(
+            [_article(title="OpenAI Launch", url="https://techcrunch.com/article")]
+        )
         result = render_press_context(tc, _correlation_data(many), "2026-W21", reader_mode=True)
         # Narrative mode: no raw confidence/match_type bullets
         assert "confidence:" not in result
@@ -392,8 +405,10 @@ class TestStripAiInstructions:
 
     def setup_method(self):
         import sys
+
         sys.path.insert(0, str(_REPO_ROOT))
         import scripts.analyze_fallback as af
+
         self.af = af
 
     def _full_press_context(self) -> str:
@@ -462,7 +477,10 @@ class TestStripAiInstructions:
 class TestExtractReadmeDescription:
     def test_returns_first_readable_line(self):
         snippet = "# My Project\n\nA fast, zero-dependency library for data processing.\n"
-        assert _extract_readme_description(snippet) == "A fast, zero-dependency library for data processing"
+        assert (
+            _extract_readme_description(snippet)
+            == "A fast, zero-dependency library for data processing"
+        )
 
     def test_skips_heading_lines(self):
         snippet = "# Heading\n## Subheading\nActual description here.\n"
@@ -470,7 +488,10 @@ class TestExtractReadmeDescription:
 
     def test_skips_image_badge_lines(self):
         snippet = "[![badge](img)](url)\nA concise description of what this library does.\n"
-        assert _extract_readme_description(snippet) == "A concise description of what this library does"
+        assert (
+            _extract_readme_description(snippet)
+            == "A concise description of what this library does"
+        )
 
     def test_returns_empty_on_no_match(self):
         assert _extract_readme_description("# Only a heading\n") == ""
@@ -502,7 +523,9 @@ class TestFormatCorrelationsNarrative:
 
     def test_produces_repo_links(self):
         corr = self._corr(repo="openai/codex", articles=["https://techcrunch.com/a1"])
-        result = _format_correlations_narrative([corr], [self._art(url="https://techcrunch.com/a1")])
+        result = _format_correlations_narrative(
+            [corr], [self._art(url="https://techcrunch.com/a1")]
+        )
         assert "[codex](https://github.com/openai/codex)" in result
 
     def test_produces_article_links_when_title_available(self):
@@ -534,7 +557,7 @@ class TestFormatCorrelationsNarrative:
         result = _format_correlations_narrative([corr], [])
         # URL is in the corr but not in the articles list, so no link text
         # Any links present must point to github.com (repo links), not article URLs
-        link_urls = re.findall(r'\]\((https?://[^)]+)\)', result)
+        link_urls = re.findall(r"\]\((https?://[^)]+)\)", result)
         assert all(urlparse(url).netloc == "github.com" for url in link_urls)
 
     def test_reader_mode_true_uses_narrative(self):
@@ -591,14 +614,15 @@ class TestExtractReadmeDescriptionSentenceBoundary:
 
     def test_drops_line_without_sentence_boundary(self):
         # Simulates a 500-char truncation mid-sentence
-        snippet = "# Guava\n\nGuava is a set of core Java libraries from Google that includes new collect"
+        snippet = (
+            "# Guava\n\nGuava is a set of core Java libraries from Google that includes new collect"
+        )
         result = _extract_readme_description(snippet)
         assert result == ""
 
     def test_trims_to_last_sentence_in_long_line(self):
         snippet = (
-            "# Lib\n\n"
-            "This library does X. It also does Y. And even more beyond that without end"
+            "# Lib\n\nThis library does X. It also does Y. And even more beyond that without end"
         )
         result = _extract_readme_description(snippet)
         # Should trim to the last complete sentence boundary

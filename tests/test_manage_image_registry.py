@@ -30,8 +30,10 @@ def _run_with_registry(tmp_path: Path, images: list | None, argv: list[str]) -> 
     def patched_save(registry: dict, path: Path = reg_path) -> None:
         return orig_save(registry, path)
 
-    with patch.object(registry_mod, "load_registry", patched_load), \
-         patch.object(registry_mod, "save_registry", patched_save):
+    with (
+        patch.object(registry_mod, "load_registry", patched_load),
+        patch.object(registry_mod, "save_registry", patched_save),
+    ):
         return registry_mod.main(argv)
 
 
@@ -64,21 +66,35 @@ class TestPathSafety:
 
 class TestAddCommand:
     def test_rejects_url_filename(self, tmp_path: Path) -> None:
-        rc = _run_with_registry(tmp_path, [], [
-            "add",
-            "--filename", "https://example.com/image.png",
-            "--license", "CC0",
-            "--added-by", "test",
-        ])
+        rc = _run_with_registry(
+            tmp_path,
+            [],
+            [
+                "add",
+                "--filename",
+                "https://example.com/image.png",
+                "--license",
+                "CC0",
+                "--added-by",
+                "test",
+            ],
+        )
         assert rc == 1
 
     def test_rejects_traversal_filename(self, tmp_path: Path) -> None:
-        rc = _run_with_registry(tmp_path, [], [
-            "add",
-            "--filename", "assets/../../etc/shadow",
-            "--license", "CC0",
-            "--added-by", "test",
-        ])
+        rc = _run_with_registry(
+            tmp_path,
+            [],
+            [
+                "add",
+                "--filename",
+                "assets/../../etc/shadow",
+                "--license",
+                "CC0",
+                "--added-by",
+                "test",
+            ],
+        )
         assert rc == 1
 
     def test_adds_valid_image(self, tmp_path: Path) -> None:
@@ -91,14 +107,23 @@ class TestAddCommand:
         old_cwd = os.getcwd()
         os.chdir(tmp_path)
         try:
-            rc = _run_with_registry(tmp_path, [], [
-                "add",
-                "--filename", img_rel,
-                "--license", "CC0",
-                "--added-by", "test",
-                "--source-url", "https://example.com/source",
-                "--attribution", "Test Author",
-            ])
+            rc = _run_with_registry(
+                tmp_path,
+                [],
+                [
+                    "add",
+                    "--filename",
+                    img_rel,
+                    "--license",
+                    "CC0",
+                    "--added-by",
+                    "test",
+                    "--source-url",
+                    "https://example.com/source",
+                    "--attribution",
+                    "Test Author",
+                ],
+            )
         finally:
             os.chdir(old_cwd)
         assert rc == 0
@@ -119,33 +144,53 @@ class TestAddCommand:
 
 class TestValidateCommand:
     def test_valid_registry_passes(self, tmp_path: Path) -> None:
-        rc = _run_with_registry(tmp_path, [
-            {"filename": "assets/covers/img.webp", "license": "CC0", "added_by": "op"},
-        ], ["validate"])
+        rc = _run_with_registry(
+            tmp_path,
+            [
+                {"filename": "assets/covers/img.webp", "license": "CC0", "added_by": "op"},
+            ],
+            ["validate"],
+        )
         assert rc == 0
 
     def test_detects_url_filename(self, tmp_path: Path) -> None:
-        rc = _run_with_registry(tmp_path, [
-            {"filename": "https://evil.com/x.png", "license": "CC0", "added_by": "op"},
-        ], ["validate"])
+        rc = _run_with_registry(
+            tmp_path,
+            [
+                {"filename": "https://evil.com/x.png", "license": "CC0", "added_by": "op"},
+            ],
+            ["validate"],
+        )
         assert rc == 1
 
     def test_detects_absolute_path(self, tmp_path: Path) -> None:
-        rc = _run_with_registry(tmp_path, [
-            {"filename": "/etc/passwd", "license": "CC0", "added_by": "op"},
-        ], ["validate"])
+        rc = _run_with_registry(
+            tmp_path,
+            [
+                {"filename": "/etc/passwd", "license": "CC0", "added_by": "op"},
+            ],
+            ["validate"],
+        )
         assert rc == 1
 
     def test_detects_traversal_path(self, tmp_path: Path) -> None:
-        rc = _run_with_registry(tmp_path, [
-            {"filename": "assets/../../../etc/shadow", "license": "CC0", "added_by": "op"},
-        ], ["validate"])
+        rc = _run_with_registry(
+            tmp_path,
+            [
+                {"filename": "assets/../../../etc/shadow", "license": "CC0", "added_by": "op"},
+            ],
+            ["validate"],
+        )
         assert rc == 1
 
     def test_detects_missing_license(self, tmp_path: Path) -> None:
-        rc = _run_with_registry(tmp_path, [
-            {"filename": "assets/x.webp", "added_by": "op"},
-        ], ["validate"])
+        rc = _run_with_registry(
+            tmp_path,
+            [
+                {"filename": "assets/x.webp", "added_by": "op"},
+            ],
+            ["validate"],
+        )
         assert rc == 1
 
 
@@ -190,9 +235,13 @@ class TestRegistryLoading:
 
 class TestListCommand:
     def test_lists_registered_images(self, tmp_path: Path, capsys) -> None:
-        rc = _run_with_registry(tmp_path, [
-            {"filename": "assets/covers/img.webp", "license": "CC0", "added_by": "op"},
-        ], ["list"])
+        rc = _run_with_registry(
+            tmp_path,
+            [
+                {"filename": "assets/covers/img.webp", "license": "CC0", "added_by": "op"},
+            ],
+            ["list"],
+        )
         captured = capsys.readouterr()
         assert rc == 0
         assert "assets/covers/img.webp" in captured.out

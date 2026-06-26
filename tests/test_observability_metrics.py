@@ -5,9 +5,9 @@ import tempfile
 from pathlib import Path
 
 from scripts.observability_metrics import (
+    METRICS_SCHEMA_VERSION,
     AnalysisMetrics,
     CrawlMetrics,
-    METRICS_SCHEMA_VERSION,
     MapReduceMetrics,
     ObservabilityLedger,
     duration_p95,
@@ -94,7 +94,9 @@ def test_validate_ledger_rejects_schema_version_mismatch() -> None:
     }
 
     errors = validate_ledger(payload)
-    assert any(e.startswith("schema_version") for e in errors), f"Expected schema_version error, got: {errors}"
+    assert any(e.startswith("schema_version") for e in errors), (
+        f"Expected schema_version error, got: {errors}"
+    )
 
 
 def test_emit_ledger_writes_valid_json() -> None:
@@ -111,7 +113,9 @@ def test_emit_ledger_writes_valid_json() -> None:
 
 
 def test_representative_fixture_is_valid() -> None:
-    fixture_path = Path(__file__).resolve().parent / "fixtures" / "observability" / "2026-W21-full-run.json"
+    fixture_path = (
+        Path(__file__).resolve().parent / "fixtures" / "observability" / "2026-W21-full-run.json"
+    )
     payload = json.loads(fixture_path.read_text(encoding="utf-8"))
 
     assert validate_ledger(payload) == []

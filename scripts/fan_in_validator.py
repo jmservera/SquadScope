@@ -26,10 +26,9 @@ import hashlib
 import json
 from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
-from pathlib import Path
 from typing import Any
 
-from scripts.run_context import RunContext, validate_run_context
+from scripts.run_context import RunContext
 
 
 class FanInContractError(Exception):
@@ -89,9 +88,7 @@ def validate_artifact_schema(
     if sv is None:
         errors.append("missing schema_version field")
     elif str(sv) != str(expected_schema_version):
-        errors.append(
-            f"schema_version mismatch: expected '{expected_schema_version}', got '{sv}'"
-        )
+        errors.append(f"schema_version mismatch: expected '{expected_schema_version}', got '{sv}'")
 
     return errors
 
@@ -124,9 +121,7 @@ def validate_checksum_integrity(artifact: dict[str, Any]) -> list[str]:
             )
             computed = hashlib.sha256(content.encode("utf-8")).hexdigest()
             if artifact["checksum"] != computed:
-                errors.append(
-                    f"checksum mismatch for shard '{artifact.get('shard_id', '?')}'"
-                )
+                errors.append(f"checksum mismatch for shard '{artifact.get('shard_id', '?')}'")
 
     return errors
 
@@ -143,8 +138,12 @@ def validate_window_consistency(
         expected_until = run_context.until
         expected_week = run_context.week
     else:
-        expected_since = run_context.get("since") or run_context.get("crawl_window", {}).get("since")
-        expected_until = run_context.get("until") or run_context.get("crawl_window", {}).get("until")
+        expected_since = run_context.get("since") or run_context.get("crawl_window", {}).get(
+            "since"
+        )
+        expected_until = run_context.get("until") or run_context.get("crawl_window", {}).get(
+            "until"
+        )
         expected_week = run_context.get("week", "")
 
     for i, artifact in enumerate(artifacts):
@@ -174,10 +173,7 @@ def validate_deterministic_ordering(articles: list[dict[str, Any]]) -> list[str]
         key_a = (articles[i].get("source", ""), articles[i].get("url", ""))
         key_b = (articles[i + 1].get("source", ""), articles[i + 1].get("url", ""))
         if key_a > key_b:
-            errors.append(
-                f"non-deterministic ordering at index {i}: "
-                f"{key_a} > {key_b}"
-            )
+            errors.append(f"non-deterministic ordering at index {i}: {key_a} > {key_b}")
             break  # One violation is enough to flag
 
     return errors
@@ -278,8 +274,7 @@ def validate_source_status(
             status = present_sources[source].get("status", {})
             if isinstance(status, dict) and not status.get("success", True):
                 warnings.append(
-                    f"optional source '{source}' degraded: "
-                    f"{status.get('error_message', 'unknown')}"
+                    f"optional source '{source}' degraded: {status.get('error_message', 'unknown')}"
                 )
 
     return errors, warnings
@@ -360,9 +355,7 @@ def run_full_validation(
     # 5. Source status metadata
     req_sources = required_sources or []
     opt_sources = optional_sources or []
-    source_errors, source_warnings = validate_source_status(
-        artifacts, req_sources, opt_sources
-    )
+    source_errors, source_warnings = validate_source_status(artifacts, req_sources, opt_sources)
     result.errors.extend(source_errors)
     result.warnings.extend(source_warnings)
 
@@ -370,12 +363,8 @@ def run_full_validation(
     result.sources_present = [
         a.get("source_id") or a.get("shard_id") or "unknown" for a in artifacts
     ]
-    result.sources_missing_required = [
-        s for s in req_sources if s not in result.sources_present
-    ]
-    result.sources_missing_optional = [
-        s for s in opt_sources if s not in result.sources_present
-    ]
+    result.sources_missing_required = [s for s in req_sources if s not in result.sources_present]
+    result.sources_missing_optional = [s for s in opt_sources if s not in result.sources_present]
 
     # 7. Duplicate detection
     all_articles = []
@@ -388,8 +377,7 @@ def run_full_validation(
         result.duplicate_urls = detect_duplicate_urls(all_articles)
         if result.duplicate_urls:
             result.warnings.append(
-                f"duplicate URLs detected ({len(result.duplicate_urls)}): "
-                f"deduplication will apply"
+                f"duplicate URLs detected ({len(result.duplicate_urls)}): deduplication will apply"
             )
 
     if all_repos:

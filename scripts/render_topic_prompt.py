@@ -11,7 +11,6 @@ If --output is not provided, prints to stdout.
 from __future__ import annotations
 
 import argparse
-import os
 import sys
 from pathlib import Path
 
@@ -71,6 +70,7 @@ def load_wisdom(topic_id: str | None) -> str:
 
     # Reject topic IDs that could escape the topics/ directory.
     import re
+
     if not re.fullmatch(r"[a-z0-9][a-z0-9\-_]{0,63}", topic_id):
         return ""
 
@@ -87,7 +87,7 @@ def load_wisdom(topic_id: str | None) -> str:
     if wisdom_path.exists():
         content = wisdom_path.read_text(encoding="utf-8").strip()
         if len(content.encode("utf-8")) > _MAX_WISDOM_BYTES:
-            content = content[: _MAX_WISDOM_BYTES] + "\n…[truncated]"
+            content = content[:_MAX_WISDOM_BYTES] + "\n…[truncated]"
         return content
 
     return ""
@@ -111,7 +111,9 @@ def render_template(template: str, topic_config: dict | None) -> str:
       {{#IF_TOPIC}}...{{/IF_TOPIC}} — included only when topic config is present
       {{#IF_NO_TOPIC}}...{{/IF_NO_TOPIC}} — included only when topic config is absent
     """
-    has_topic = topic_config is not None and bool(topic_config.get("id") or topic_config.get("name"))
+    has_topic = topic_config is not None and bool(
+        topic_config.get("id") or topic_config.get("name")
+    )
 
     if has_topic:
         import re as _re
@@ -151,7 +153,11 @@ def render_template(template: str, topic_config: dict | None) -> str:
             from scripts.sanitize_repo_content import _escape_untrusted_boundaries
         except (ImportError, ModuleNotFoundError):
             from sanitize_repo_content import _escape_untrusted_boundaries
-        safe_wisdom = _escape_untrusted_boundaries(wisdom_content) if wisdom_content else "(No per-topic wisdom accumulated yet.)"
+        safe_wisdom = (
+            _escape_untrusted_boundaries(wisdom_content)
+            if wisdom_content
+            else "(No per-topic wisdom accumulated yet.)"
+        )
         rendered = rendered.replace("{{WISDOM_CONTENT}}", safe_wisdom)
     else:
         # Remove IF_TOPIC blocks
@@ -199,7 +205,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Render topic-aware analysis prompt template")
     parser.add_argument("--config", type=Path, help="Path to squadscope.topic.yml")
     parser.add_argument("--output", type=Path, help="Output file path (default: stdout)")
-    parser.add_argument("--template", type=Path, help="Template file (default: prompts/analyze-topic.md)")
+    parser.add_argument(
+        "--template", type=Path, help="Template file (default: prompts/analyze-topic.md)"
+    )
     args = parser.parse_args()
 
     root = find_repo_root()

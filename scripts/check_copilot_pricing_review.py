@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Check whether the Copilot model pricing table is due for manual review."""
+
 from __future__ import annotations
 
 import argparse
@@ -43,7 +44,20 @@ def add_months(value: date, months: int) -> date:
     month_index = value.month - 1 + months
     year = value.year + month_index // 12
     month = month_index % 12 + 1
-    month_lengths = [31, 29 if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0) else 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    month_lengths = [
+        31,
+        29 if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0) else 28,
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        30,
+        31,
+        30,
+        31,
+    ]
     return date(year, month, min(value.day, month_lengths[month - 1]))
 
 
@@ -56,7 +70,9 @@ def pricing_status(
     due_date = add_months(fetched_date, PRICING_REVIEW_INTERVAL_MONTHS)
     source_url_matches = source_url == PRICING_SOURCE_URL
     due = current_date >= due_date
-    tiered_models = sorted(model for model, pricing in MODEL_PRICING.items() if isinstance(pricing, TieredModelRate))
+    tiered_models = sorted(
+        model for model, pricing in MODEL_PRICING.items() if isinstance(pricing, TieredModelRate)
+    )
     return {
         "needs_review": due or not source_url_matches,
         "review_due": due,
@@ -75,28 +91,31 @@ def pricing_status(
 
 def render_report(status: dict[str, object]) -> str:
     result = "required" if status["needs_review"] else "not due"
-    return "\n".join(
-        [
-            "# Copilot model pricing review",
-            "",
-            f"**Status:** Review {result}.",
-            f"**Source:** {status['source_url']}",
-            f"**Repository pricing fetched:** {status['fetched_date']}",
-            f"**Review interval:** every {status['review_interval_months']} months",
-            f"**Next/due review date:** {status['due_date']}",
-            f"**Workflow check date:** {status['current_date']}",
-            f"**Tracked pricing entries:** {status['model_count']}",
-            f"**Long-context pricing entries:** {', '.join(status['tiered_models'])}",
-            f"**Observed source metadata:** {json.dumps(status['source_headers'], sort_keys=True) if status['source_headers'] else 'not captured'}",
-            "",
-            "This workflow does not change pricing automatically. Please compare the repository pricing table against the GitHub docs, update code/docs/tests if needed, and open a PR.",
-            "",
-            "Checklist:",
-            "- Review `scripts/model_pricing.py` against the source URL.",
-            "- Update cost documentation and tests if rates, model names, or thresholds changed.",
-            "- Keep the source URL and fetched date in sync with the reviewed table.",
-        ]
-    ) + "\n"
+    return (
+        "\n".join(
+            [
+                "# Copilot model pricing review",
+                "",
+                f"**Status:** Review {result}.",
+                f"**Source:** {status['source_url']}",
+                f"**Repository pricing fetched:** {status['fetched_date']}",
+                f"**Review interval:** every {status['review_interval_months']} months",
+                f"**Next/due review date:** {status['due_date']}",
+                f"**Workflow check date:** {status['current_date']}",
+                f"**Tracked pricing entries:** {status['model_count']}",
+                f"**Long-context pricing entries:** {', '.join(status['tiered_models'])}",
+                f"**Observed source metadata:** {json.dumps(status['source_headers'], sort_keys=True) if status['source_headers'] else 'not captured'}",
+                "",
+                "This workflow does not change pricing automatically. Please compare the repository pricing table against the GitHub docs, update code/docs/tests if needed, and open a PR.",
+                "",
+                "Checklist:",
+                "- Review `scripts/model_pricing.py` against the source URL.",
+                "- Update cost documentation and tests if rates, model names, or thresholds changed.",
+                "- Keep the source URL and fetched date in sync with the reviewed table.",
+            ]
+        )
+        + "\n"
+    )
 
 
 def write_github_output(path: Path, status: dict[str, object]) -> None:
@@ -107,19 +126,37 @@ def write_github_output(path: Path, status: dict[str, object]) -> None:
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Check whether Copilot model pricing needs manual review.")
-    parser.add_argument("--current-date", default=datetime.now(UTC).date().isoformat(), help="Current UTC date.")
-    parser.add_argument("--source-url", default=PRICING_SOURCE_URL, help="Expected GitHub Copilot pricing source URL.")
+    parser = argparse.ArgumentParser(
+        description="Check whether Copilot model pricing needs manual review."
+    )
+    parser.add_argument(
+        "--current-date", default=datetime.now(UTC).date().isoformat(), help="Current UTC date."
+    )
+    parser.add_argument(
+        "--source-url",
+        default=PRICING_SOURCE_URL,
+        help="Expected GitHub Copilot pricing source URL.",
+    )
     parser.add_argument("--output", type=Path, help="Write a Markdown review report to this path.")
-    parser.add_argument("--json-output", type=Path, help="Write machine-readable status JSON to this path.")
-    parser.add_argument("--github-output", type=Path, help="Append step outputs for GitHub Actions.")
-    parser.add_argument("--source-headers", type=Path, help="Optional HTTP response headers captured from the source URL.")
+    parser.add_argument(
+        "--json-output", type=Path, help="Write machine-readable status JSON to this path."
+    )
+    parser.add_argument(
+        "--github-output", type=Path, help="Append step outputs for GitHub Actions."
+    )
+    parser.add_argument(
+        "--source-headers",
+        type=Path,
+        help="Optional HTTP response headers captured from the source URL.",
+    )
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
-    status = pricing_status(parse_date(args.current_date), args.source_url, parse_source_headers(args.source_headers))
+    status = pricing_status(
+        parse_date(args.current_date), args.source_url, parse_source_headers(args.source_headers)
+    )
     report = render_report(status)
 
     if args.output:
@@ -128,7 +165,9 @@ def main(argv: list[str] | None = None) -> int:
         print(report, end="")
 
     if args.json_output:
-        args.json_output.write_text(json.dumps(status, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        args.json_output.write_text(
+            json.dumps(status, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
     if args.github_output:
         write_github_output(args.github_output, status)
 

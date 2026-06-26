@@ -27,12 +27,16 @@ def test_footer_conditionally_renders_podcast_link() -> None:
     assert re.search(
         r'<a\s+href="{{\s*\.\s*\|\s*safeURL\s*}}"[^>]*target="_blank"[^>]*rel="noopener noreferrer"[^>]*>Podcast</a>',
         footer,
-    ), "Footer podcast link must use dot context piped through safeURL with target=_blank and rel=noopener noreferrer"
+    ), (
+        "Footer podcast link must use dot context piped through safeURL with target=_blank and rel=noopener noreferrer"
+    )
 
 
 def test_report_shortcuts_link_weekly_reports_to_spotify() -> None:
     """Weekly report shortcuts must expose the configured Spotify URL."""
-    shortcuts = (REPO_ROOT / "layouts" / "partials" / "report-shortcuts.html").read_text(encoding="utf-8")
+    shortcuts = (REPO_ROOT / "layouts" / "partials" / "report-shortcuts.html").read_text(
+        encoding="utf-8"
+    )
     assert 'site.Params.podcast_url | default "" | strings.TrimSpace' in shortcuts
     assert "if and $isWeekly $podcastURL" in shortcuts
     assert re.search(
@@ -49,20 +53,24 @@ def test_header_exposes_spotify_button_when_podcast_url_is_configured() -> None:
     assert re.search(
         r'<a\s+class="icon-button spotify-button"\s+href="{{\s*\.\s*\|\s*safeURL\s*}}"[^>]*target="_blank"[^>]*rel="noopener noreferrer"[^>]*aria-label="Spotify"',
         header,
-    ), "Header Spotify button must use configured URL with target=_blank and rel=noopener noreferrer"
+    ), (
+        "Header Spotify button must use configured URL with target=_blank and rel=noopener noreferrer"
+    )
 
 
 def test_podcast_link_disabled_when_empty() -> None:
     """Templates must guard against empty/whitespace podcast_url (disabled state)."""
     footer = (REPO_ROOT / "layouts" / "partials" / "footer.html").read_text(encoding="utf-8")
     header = (REPO_ROOT / "layouts" / "partials" / "header.html").read_text(encoding="utf-8")
-    shortcuts = (REPO_ROOT / "layouts" / "partials" / "report-shortcuts.html").read_text(encoding="utf-8")
+    shortcuts = (REPO_ROOT / "layouts" / "partials" / "report-shortcuts.html").read_text(
+        encoding="utf-8"
+    )
     assert "{{- with site.Params.podcast_url | strings.TrimSpace }}" in footer, (
         "Footer must render the podcast link only through a trimmed `with` guard"
     )
-    assert '{{- $podcastURL := site.Params.podcast_url | default "" | strings.TrimSpace }}' in header, (
-        "Header must normalize podcast_url into $podcastURL before rendering"
-    )
+    assert (
+        '{{- $podcastURL := site.Params.podcast_url | default "" | strings.TrimSpace }}' in header
+    ), "Header must normalize podcast_url into $podcastURL before rendering"
     assert "{{- with $podcastURL }}" in header, (
         "Header must guard the Spotify button with `with $podcastURL`"
     )

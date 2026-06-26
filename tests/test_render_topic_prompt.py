@@ -6,17 +6,14 @@ import sys
 from pathlib import Path
 from unittest.mock import patch
 
-import pytest
-
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from scripts.render_topic_prompt import (
+    _keep_blocks,
+    _remove_blocks,
     load_wisdom,
     render_template,
-    _remove_blocks,
-    _keep_blocks,
 )
-
 
 SAMPLE_TEMPLATE = """\
 # Analysis
@@ -40,7 +37,11 @@ class TestRenderTemplateWithTopic:
     """Template renders correctly when topic config is provided."""
 
     def test_topic_placeholders_replaced(self):
-        config = {"id": "ai-ml", "name": "AI/ML", "description": "Artificial intelligence and machine learning"}
+        config = {
+            "id": "ai-ml",
+            "name": "AI/ML",
+            "description": "Artificial intelligence and machine learning",
+        }
         rendered = render_template(SAMPLE_TEMPLATE, config)
 
         assert "AI/ML" in rendered

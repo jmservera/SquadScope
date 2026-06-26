@@ -9,7 +9,6 @@ from unittest import mock
 
 import scripts.crawl as crawl
 
-
 SAMPLE_CONFIG = """\
 topic:
   id: ai-ml
@@ -80,8 +79,10 @@ class MainWithConfigTests(unittest.TestCase):
 
             def search_repositories(self, query: str, *, max_results: int = 1000):
                 queries.append(query)
-                return [{"full_name": f"org/repo-{i}", "stargazers_count": 100}
-                        for i in range(results_per_query)]
+                return [
+                    {"full_name": f"org/repo-{i}", "stargazers_count": 100}
+                    for i in range(results_per_query)
+                ]
 
             def has_readme(self, full_name: str) -> bool:
                 return True
@@ -100,15 +101,21 @@ class MainWithConfigTests(unittest.TestCase):
         try:
             FakeClient = self._make_fake_client_class(queries, results_per_query=5)
             args = Namespace(
-                since="2026-05-11", as_of=None, max_results=25,
-                output="data/raw/test-config.json", topic=None, config=config_path,
+                since="2026-05-11",
+                as_of=None,
+                max_results=25,
+                output="data/raw/test-config.json",
+                topic=None,
+                config=config_path,
             )
-            with mock.patch.object(crawl, "parse_args", return_value=args), \
-                 mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), \
-                 mock.patch.object(crawl, "GitHubClient", FakeClient), \
-                 mock.patch.object(crawl, "load_previous_star_snapshot", return_value={}), \
-                 mock.patch.object(crawl, "write_payload"), \
-                 mock.patch.object(crawl, "print"):
+            with (
+                mock.patch.object(crawl, "parse_args", return_value=args),
+                mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False),
+                mock.patch.object(crawl, "GitHubClient", FakeClient),
+                mock.patch.object(crawl, "load_previous_star_snapshot", return_value={}),
+                mock.patch.object(crawl, "write_payload"),
+                mock.patch.object(crawl, "print"),
+            ):
                 exit_code = crawl.main()
 
             self.assertEqual(exit_code, 0)
@@ -133,15 +140,21 @@ class MainWithConfigTests(unittest.TestCase):
             # Return only 1 repo per query → 2 total from primaries < min_repos_per_week=5
             FakeClient = self._make_fake_client_class(queries, results_per_query=1)
             args = Namespace(
-                since="2026-05-11", as_of=None, max_results=25,
-                output="data/raw/test-config-secondary.json", topic=None, config=config_path,
+                since="2026-05-11",
+                as_of=None,
+                max_results=25,
+                output="data/raw/test-config-secondary.json",
+                topic=None,
+                config=config_path,
             )
-            with mock.patch.object(crawl, "parse_args", return_value=args), \
-                 mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), \
-                 mock.patch.object(crawl, "GitHubClient", FakeClient), \
-                 mock.patch.object(crawl, "load_previous_star_snapshot", return_value={}), \
-                 mock.patch.object(crawl, "write_payload"), \
-                 mock.patch.object(crawl, "print"):
+            with (
+                mock.patch.object(crawl, "parse_args", return_value=args),
+                mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False),
+                mock.patch.object(crawl, "GitHubClient", FakeClient),
+                mock.patch.object(crawl, "load_previous_star_snapshot", return_value={}),
+                mock.patch.object(crawl, "write_payload"),
+                mock.patch.object(crawl, "print"),
+            ):
                 exit_code = crawl.main()
 
             self.assertEqual(exit_code, 0)
@@ -156,15 +169,21 @@ class MainWithConfigTests(unittest.TestCase):
         queries: list[str] = []
         FakeClient = self._make_fake_client_class(queries, results_per_query=0)
         args = Namespace(
-            since="2026-05-11", as_of=None, max_results=25,
-            output="data/raw/test-noconfig.json", topic=None, config=None,
+            since="2026-05-11",
+            as_of=None,
+            max_results=25,
+            output="data/raw/test-noconfig.json",
+            topic=None,
+            config=None,
         )
-        with mock.patch.object(crawl, "parse_args", return_value=args), \
-             mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False), \
-             mock.patch.object(crawl, "GitHubClient", FakeClient), \
-             mock.patch.object(crawl, "load_previous_star_snapshot", return_value={}), \
-             mock.patch.object(crawl, "write_payload"), \
-             mock.patch.object(crawl, "print"):
+        with (
+            mock.patch.object(crawl, "parse_args", return_value=args),
+            mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False),
+            mock.patch.object(crawl, "GitHubClient", FakeClient),
+            mock.patch.object(crawl, "load_previous_star_snapshot", return_value={}),
+            mock.patch.object(crawl, "write_payload"),
+            mock.patch.object(crawl, "print"),
+        ):
             exit_code = crawl.main()
 
         self.assertEqual(exit_code, 0)

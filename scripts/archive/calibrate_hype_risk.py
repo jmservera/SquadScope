@@ -22,9 +22,7 @@ from scripts import topic_paths
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Calibrate hype risk scoring model"
-    )
+    parser = argparse.ArgumentParser(description="Calibrate hype risk scoring model")
     parser.add_argument(
         "--topic",
         default=None,
@@ -150,53 +148,61 @@ def generate_recommendations(
     if high_stats.get("predicted", 0) > 0:
         high_acc = high_stats.get("accuracy", 0)
         if high_acc < 0.7:
-            recommendations.append({
-                "parameter": "high_risk_decay_threshold",
-                "current": 0.5,
-                "recommended": 0.6,
-                "reason": (
-                    f"High-risk accuracy is {high_acc:.0%}, below 70% target. "
-                    "Raise decay threshold to reduce false positives."
-                ),
-            })
+            recommendations.append(
+                {
+                    "parameter": "high_risk_decay_threshold",
+                    "current": 0.5,
+                    "recommended": 0.6,
+                    "reason": (
+                        f"High-risk accuracy is {high_acc:.0%}, below 70% target. "
+                        "Raise decay threshold to reduce false positives."
+                    ),
+                }
+            )
 
     low_stats = accuracy_by_cat.get("low", {})
     if low_stats.get("predicted", 0) > 0:
         low_acc = low_stats.get("accuracy", 0)
         if low_acc < 0.7:
-            recommendations.append({
-                "parameter": "sustained_threshold_weeks",
-                "current": 2,
-                "recommended": 3,
-                "reason": (
-                    f"Low-risk (sustained) accuracy is {low_acc:.0%}. "
-                    "Extend observation window to improve confidence."
-                ),
-            })
+            recommendations.append(
+                {
+                    "parameter": "sustained_threshold_weeks",
+                    "current": 2,
+                    "recommended": 3,
+                    "reason": (
+                        f"Low-risk (sustained) accuracy is {low_acc:.0%}. "
+                        "Extend observation window to improve confidence."
+                    ),
+                }
+            )
 
     total_sustained = sum(1 for v in actuals.values() if v == "sustained")
     total_faded = sum(1 for v in actuals.values() if v == "faded")
     if total_sustained + total_faded > 0:
         sustained_ratio = total_sustained / (total_sustained + total_faded)
         if sustained_ratio > 0.7:
-            recommendations.append({
-                "parameter": "press_correlation_confidence_floor",
-                "current": 0.4,
-                "recommended": 0.5,
-                "reason": (
-                    f"Sustained ratio is {sustained_ratio:.0%}, suggesting most "
-                    "press-correlated repos maintain growth. Raise confidence "
-                    "floor to only flag truly risky repos."
-                ),
-            })
+            recommendations.append(
+                {
+                    "parameter": "press_correlation_confidence_floor",
+                    "current": 0.4,
+                    "recommended": 0.5,
+                    "reason": (
+                        f"Sustained ratio is {sustained_ratio:.0%}, suggesting most "
+                        "press-correlated repos maintain growth. Raise confidence "
+                        "floor to only flag truly risky repos."
+                    ),
+                }
+            )
 
     if not recommendations:
-        recommendations.append({
-            "parameter": "no_changes",
-            "current": None,
-            "recommended": None,
-            "reason": "Calibration shows acceptable accuracy. No adjustments needed.",
-        })
+        recommendations.append(
+            {
+                "parameter": "no_changes",
+                "current": None,
+                "recommended": None,
+                "reason": "Calibration shows acceptable accuracy. No adjustments needed.",
+            }
+        )
 
     return recommendations
 

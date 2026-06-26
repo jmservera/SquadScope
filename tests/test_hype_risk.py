@@ -4,8 +4,6 @@ import json
 import sys
 from pathlib import Path
 
-import pytest
-
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 from hype_risk import classify_repo, extract_week, score_hype_risk  # noqa: E402
 
@@ -174,18 +172,23 @@ class TestCLI:
         raw_file = tmp_path / "2026-W21.json"
         out_file = tmp_path / "output.json"
 
-        corr_file.write_text(json.dumps({
-            "correlations": [{"repo": "org/repo", "press_correlated": True}]
-        }))
-        raw_file.write_text(json.dumps([
-            {"full_name": "org/repo", "stars": 500, "stars_gained": 100}
-        ]))
+        corr_file.write_text(
+            json.dumps({"correlations": [{"repo": "org/repo", "press_correlated": True}]})
+        )
+        raw_file.write_text(
+            json.dumps([{"full_name": "org/repo", "stars": 500, "stars_gained": 100}])
+        )
 
-        main([
-            "--correlations", str(corr_file),
-            "--raw", str(raw_file),
-            "--output", str(out_file),
-        ])
+        main(
+            [
+                "--correlations",
+                str(corr_file),
+                "--raw",
+                str(raw_file),
+                "--output",
+                str(out_file),
+            ]
+        )
 
         output = json.loads(out_file.read_text())
         assert output["week"] == "2026-W21"
