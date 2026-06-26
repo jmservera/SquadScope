@@ -1,0 +1,27 @@
+# Python tooling configuration for SquadScope.
+#
+# Ruff is introduced in warning-only (Phase A) mode — see issue #540 and the
+# DevSecOps Guardrails epic (jmservera/SquadScope-Coordinator#33). The CI job is
+# non-blocking for now; violations are reported as annotations only and are not
+# fixed yet (Phase B) nor enforced (Phase C).
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+# Keep generated, vendored and archived code out of the baseline.
+extend-exclude = [
+    ".venv",
+    "venv",
+    "node_modules",
+    "public",
+    "resources",
+    "themes",
+    "scripts/archived",
+    ".worktrees",
+]
+
+[tool.ruff.lint]
+# Conservative Phase-A rule subset: pycodestyle errors (E), Pyflakes (F),
+# and import sorting (I). Broaden in later phases.
+select = ["E", "F", "I"]
