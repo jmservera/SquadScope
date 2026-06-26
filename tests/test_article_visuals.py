@@ -53,7 +53,7 @@ def test_visuals_are_locally_generated_not_hotlinked() -> None:
         text = _read(p)
         assert "http://" not in text, f"{p.name} must not hotlink http assets"
         # GitHub repo deep-links are allowed as anchors, but never as <img src>.
-        for marker in ("img src=\"http", "src='http"):
+        for marker in ('img src="http', "src='http"):
             assert marker not in text.replace(" ", ""), f"{p.name} hotlinks an image"
 
 
@@ -72,7 +72,7 @@ def test_heading_levels_are_whitelisted() -> None:
     # before being used as a raw HTML tag name.
     for name in ("topic-constellation.html", "signal-noise.html", "repo-trend.html"):
         text = _read(VIS / name)
-        assert '| lower' in text
+        assert "| lower" in text
         assert 'in (slice "h2" "h3" "h4" "h5" "h6")' in text
         # The tag name is emitted only from the whitelisted value via safeHTML,
         # never by interpolating the raw input as a tag name (`<{{ $level }}>`).
@@ -174,13 +174,19 @@ def test_image_registry_exists_with_required_fields() -> None:
     schema_path = ROOT / "data" / "image-registry.schema.json"
 
     assert registry_path.exists(), "Image registry must exist at data/image-registry.json"
-    assert schema_path.exists(), "Image registry schema must exist at data/image-registry.schema.json"
+    assert schema_path.exists(), (
+        "Image registry schema must exist at data/image-registry.schema.json"
+    )
 
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
     assert schema.get("type") == "object", "Image registry schema must define an object"
-    assert "images" in schema.get("required", []), "Image registry schema must require an images array"
+    assert "images" in schema.get("required", []), (
+        "Image registry schema must require an images array"
+    )
     images_schema = schema.get("properties", {}).get("images", {})
-    assert images_schema.get("type") == "array", "Image registry schema must define images as an array"
+    assert images_schema.get("type") == "array", (
+        "Image registry schema must define images as an array"
+    )
     item_properties = images_schema.get("items", {}).get("properties", {})
     required_fields = {"filename", "source_url", "license", "attribution", "added_by"}
     assert required_fields.issubset(item_properties), (

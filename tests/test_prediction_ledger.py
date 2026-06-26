@@ -132,9 +132,7 @@ class TestExtractRepos:
         assert "bigcorp/established" in repos
 
     def test_deduplicates(self):
-        text = (
-            "[a/b](https://github.com/a/b) and [a/b](https://github.com/a/b)"
-        )
+        text = "[a/b](https://github.com/a/b) and [a/b](https://github.com/a/b)"
         repos = extract_repos_from_summary(text)
         assert repos == ["a/b"]
 
@@ -293,10 +291,14 @@ class TestMain:
         metrics_path = tmp_path / "metrics"
 
         with patch("scripts.prediction_ledger.metrics_dir", return_value=metrics_path):
-            preds = main([
-                "--input", str(summary_path),
-                "--raw", str(raw_path),
-            ])
+            preds = main(
+                [
+                    "--input",
+                    str(summary_path),
+                    "--raw",
+                    str(raw_path),
+                ]
+            )
 
         assert len(preds) >= MIN_PREDICTIONS
         output_file = metrics_path / "predictions.jsonl"

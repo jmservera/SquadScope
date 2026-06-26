@@ -1,7 +1,8 @@
-# Checkov Baseline (Phase A — warning-only)
+# Checkov Baseline
 
-> Issue: jmservera/SquadScope#541 · Epic: jmservera/SquadScope-Coordinator#33
-> Mode: **warning-only / non-blocking** (`--soft-fail`). Do not fix (Phase B) or enforce (Phase C) yet.
+> Issue: jmservera/SquadScope#541 (Phase A) · jmservera/SquadScope#543 (Phase B fixes)
+> Epic: jmservera/SquadScope-Coordinator#33
+> Status: **Phase B complete** — 0 failed checks (4 justified `checkov:skip`).
 
 Checkov scans IaC, container, and GitHub Actions configuration for
 misconfigurations. SquadScope currently has **no Dockerfiles, Terraform/Bicep,
@@ -21,24 +22,27 @@ and attaches the SARIF as a build artifact.
 - **Tool:** checkov 3.2.533
 - **Date:** 2026-06-26
 - **Frameworks:** github_actions, dockerfile, secrets
-- **github_actions:** 540 passed, **4 failed**, 0 skipped
-- **CRITICAL/HIGH:** 0 (the failing GHA checks carry no CRITICAL/HIGH severity tag)
+- **github_actions (current):** 604 passed, **0 failed**, 4 skipped
+- **CRITICAL/HIGH:** 0
 
-### Failing checks (counts by check ID)
+### Phase A findings (resolved in Phase B)
 
-| Count | Check ID | Description |
-|------:|----------|-------------|
-| 4 | CKV_GHA_7 | `workflow_dispatch` inputs should be empty (build output must not be affected by user parameters) |
+| Count | Check ID | Description | Phase B resolution |
+|------:|----------|-------------|--------------------|
+| 4 | CKV_GHA_7 | `workflow_dispatch` inputs should be empty (SLSA build-integrity) | Justified `# checkov:skip=CKV_GHA_7:...` inline comments |
 
-Affected workflows (deferred to Phase B):
+The four affected workflows are operational/dispatch workflows (not release
+builds); their inputs select an operational target (week, run-id, manifest,
+dry-run toggle) and do not alter published build artifacts, so a justified skip
+is the correct disposition:
 
 - `.github/workflows/restore-publish-backup.yml`
 - `.github/workflows/squad-promote.yml`
 - `.github/workflows/trigger-podcast.yml`
 - `.github/workflows/podcaster-handoff-smoke.yml`
 
-> Note: CKV_GHA_7 flags any `workflow_dispatch` with inputs. These workflows use
-> inputs intentionally; triage and any suppressions belong to Phase B.
+> Each skip carries an inline justification next to the `workflow_dispatch`
+> block. Re-run `checkov` after any workflow change to confirm 0 failures.
 
 ## Running locally
 
@@ -59,6 +63,6 @@ checkov --file .github/workflows/ci.yml
 
 ## Phase plan
 
-- **Phase A (now):** baseline + non-blocking CI + SARIF upload. ← this PR
-- **Phase B:** triage findings; add justified suppressions or fixes.
-- **Phase C:** blocking required status check for new misconfigurations.
+- **Phase A:** baseline + non-blocking CI + SARIF upload. ✅
+- **Phase B:** triage findings; justified suppressions or fixes. ✅ 0 failed (4 justified skips).
+- **Phase C:** blocking required status check (#545) for new misconfigurations.

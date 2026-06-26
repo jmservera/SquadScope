@@ -9,6 +9,7 @@ includes:
 - Cross-links to each contributing monthly report
 - Structured frontmatter: months_covered, format, summary, categories
 """
+
 from __future__ import annotations
 
 import argparse
@@ -163,53 +164,159 @@ TREND_FAMILIES = (
         keywords=("agent skill", "agent-skills", "skills pack", "skill package", "skill"),
         stages=(
             ("infrastructure", ("maturing", "infrastructure", "mcp", "small model", "small-model")),
-            ("economy", ("economy", "distribution format", "marketplace", "skills layer", "skills packs")),
+            (
+                "economy",
+                ("economy", "distribution format", "marketplace", "skills layer", "skills packs"),
+            ),
             (
                 "globalization",
-                ("east asian", "chinese", "global", "globalization", "xiaohongshu", "wechat", "cultural", "linguistic"),
+                (
+                    "east asian",
+                    "chinese",
+                    "global",
+                    "globalization",
+                    "xiaohongshu",
+                    "wechat",
+                    "cultural",
+                    "linguistic",
+                ),
             ),
             (
                 "verticalization",
-                ("verticalization", "vertical", "domain-specific", "role-specific", "legal", "medical", "finance", "education"),
+                (
+                    "verticalization",
+                    "vertical",
+                    "domain-specific",
+                    "role-specific",
+                    "legal",
+                    "medical",
+                    "finance",
+                    "education",
+                ),
             ),
         ),
     ),
     TrendFamily(
         key="platform-gaming",
         label="platform-gaming",
-        keywords=("star-farming", "fork inflation", "spam", "activator", "cheat", "prediction-market bot", "seo-farming"),
+        keywords=(
+            "star-farming",
+            "fork inflation",
+            "spam",
+            "activator",
+            "cheat",
+            "prediction-market bot",
+            "seo-farming",
+        ),
         stages=(
             ("star-farming", ("star-farming", "star farming", "seo-farming")),
-            ("fork-inflation", ("fork inflation", "fork-inflation", "inflated fork", "implausibly inflated")),
-            ("activator-spam", ("activator", "activated", "kms", "copy-trading", "keyword-repetition", "bot cluster")),
-            ("fraud-cheat noise", ("fraud", "wallet-spoofer", "game cheat", "crypto fraud", "software unlock", "prediction-market bot")),
+            (
+                "fork-inflation",
+                ("fork inflation", "fork-inflation", "inflated fork", "implausibly inflated"),
+            ),
+            (
+                "activator-spam",
+                (
+                    "activator",
+                    "activated",
+                    "kms",
+                    "copy-trading",
+                    "keyword-repetition",
+                    "bot cluster",
+                ),
+            ),
+            (
+                "fraud-cheat noise",
+                (
+                    "fraud",
+                    "wallet-spoofer",
+                    "game cheat",
+                    "crypto fraud",
+                    "software unlock",
+                    "prediction-market bot",
+                ),
+            ),
         ),
     ),
     TrendFamily(
         key="security-gap",
         label="security-gap",
-        keywords=("security gap", "prompt injection", "supply-chain", "supply chain", "agent execution security", "agent isolation", "permission-scoping"),
+        keywords=(
+            "security gap",
+            "prompt injection",
+            "supply-chain",
+            "supply chain",
+            "agent execution security",
+            "agent isolation",
+            "permission-scoping",
+        ),
         stages=(
-            ("identified", ("security signal", "security gap", "agent execution security", "permission-scoping", "agent isolation")),
-            ("widening", ("still holds", "remains", "widening", "become exploitable", "not attracting commensurate attention")),
-            ("unresolved", ("no tooling exists", "gap that will become exploitable", "does not exist", "stayed missing")),
+            (
+                "identified",
+                (
+                    "security signal",
+                    "security gap",
+                    "agent execution security",
+                    "permission-scoping",
+                    "agent isolation",
+                ),
+            ),
+            (
+                "widening",
+                (
+                    "still holds",
+                    "remains",
+                    "widening",
+                    "become exploitable",
+                    "not attracting commensurate attention",
+                ),
+            ),
+            (
+                "unresolved",
+                (
+                    "no tooling exists",
+                    "gap that will become exploitable",
+                    "does not exist",
+                    "stayed missing",
+                ),
+            ),
         ),
     ),
     TrendFamily(
         key="self-hosted-ai",
         label="self-hosted-ai",
-        keywords=("self-hosted", "local-sovereignty", "local sovereignty", "local-sovereignty", "billing friction", "workspace", "local-first"),
+        keywords=(
+            "self-hosted",
+            "local-sovereignty",
+            "local sovereignty",
+            "local-sovereignty",
+            "billing friction",
+            "workspace",
+            "local-first",
+        ),
         stages=(
             ("friction", ("billing friction", "cost", "copilot billing")),
             ("self-hosted workspaces", ("self-hosted", "workspace launch", "workspace")),
-            ("local sovereignty", ("local-sovereignty", "local sovereignty", "local-first", "sandboxd", "memory", "control")),
+            (
+                "local sovereignty",
+                (
+                    "local-sovereignty",
+                    "local sovereignty",
+                    "local-first",
+                    "sandboxd",
+                    "memory",
+                    "control",
+                ),
+            ),
         ),
     ),
 )
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Generate yearly narrative pages from monthly rollups.")
+    parser = argparse.ArgumentParser(
+        description="Generate yearly narrative pages from monthly rollups."
+    )
     parser.add_argument(
         "--content-root",
         type=Path,
@@ -336,10 +443,18 @@ def load_month_snapshot(path: Path) -> MonthSnapshot:
         )
         signals = dedupe_preserving_order(
             [strip_markdown(sections.get("Trend Arc", ""))]
-            + [theme.replace("-", " ") for theme in frontmatter_list(frontmatter, "accelerating_themes")]
-            + [theme.replace("-", " ") for theme in frontmatter_list(frontmatter, "persistent_themes")]
+            + [
+                theme.replace("-", " ")
+                for theme in frontmatter_list(frontmatter, "accelerating_themes")
+            ]
+            + [
+                theme.replace("-", " ")
+                for theme in frontmatter_list(frontmatter, "persistent_themes")
+            ]
         )
-        noise = tuple(theme.replace("-", " ") for theme in frontmatter_list(frontmatter, "weakening_themes"))
+        noise = tuple(
+            theme.replace("-", " ") for theme in frontmatter_list(frontmatter, "weakening_themes")
+        )
         gaps = tuple(frontmatter_list(frontmatter, "key_gaps"))
         closing_reads = tuple(
             value
@@ -364,7 +479,9 @@ def load_month_snapshot(path: Path) -> MonthSnapshot:
         )
 
     themes: list[str] = []
-    for raw in extract_labeled_values(sections.get("Month Overview", ""), "Recurring themes so far"):
+    for raw in extract_labeled_values(
+        sections.get("Month Overview", ""), "Recurring themes so far"
+    ):
         themes.extend(part.strip() for part in raw.rstrip(".").split(",") if part.strip())
     return MonthSnapshot(
         path=path,
@@ -377,7 +494,9 @@ def load_month_snapshot(path: Path) -> MonthSnapshot:
         signals=tuple(extract_labeled_values(sections.get("Trends Observed", ""), "Signal")),
         noise=tuple(extract_labeled_values(sections.get("Trends Observed", ""), "Noise")),
         gaps=tuple(extract_labeled_values(sections.get("Key Takeaways", ""), "Gap to watch")),
-        closing_reads=tuple(extract_labeled_values(sections.get("Key Takeaways", ""), "Closing read")),
+        closing_reads=tuple(
+            extract_labeled_values(sections.get("Key Takeaways", ""), "Closing read")
+        ),
     )
 
 
@@ -396,7 +515,9 @@ def load_month_synthesis_paragraphs(path: Path) -> tuple[str, ...]:
 
 def load_month_snapshot_with_preference(path: Path, content_root: Path) -> MonthSnapshot:
     snapshot = load_month_snapshot(path)
-    synthesis_path = analyzed_dir_for(content_root) / f"{snapshot.year}-{snapshot.month:02d}-month-synthesis.md"
+    synthesis_path = (
+        analyzed_dir_for(content_root) / f"{snapshot.year}-{snapshot.month:02d}-month-synthesis.md"
+    )
     if not synthesis_path.is_file():
         return snapshot
     synthesis_paragraphs = load_month_synthesis_paragraphs(synthesis_path)
@@ -418,14 +539,18 @@ def load_month_snapshot_with_preference(path: Path, content_root: Path) -> Month
     )
 
 
-def load_month_snapshots(content_root: Path, years: Iterable[int] | None = None) -> list[MonthSnapshot]:
+def load_month_snapshots(
+    content_root: Path, years: Iterable[int] | None = None
+) -> list[MonthSnapshot]:
     if years:
         paths = []
         for year in sorted(set(years)):
             paths.extend(sorted((content_root / "monthly" / str(year)).glob("*.md")))
     else:
         paths = sorted((content_root / "monthly").glob("*/*.md"))
-    snapshots = [load_month_snapshot_with_preference(path, content_root) for path in paths if path.is_file()]
+    snapshots = [
+        load_month_snapshot_with_preference(path, content_root) for path in paths if path.is_file()
+    ]
     return sorted(snapshots, key=lambda item: (item.year, item.month))
 
 
@@ -443,7 +568,12 @@ def trim_words(text: str, limit: int) -> str:
 def compress_phrase(text: str, limit: int = 24) -> str:
     cleaned = strip_markdown(text)
     cleaned = re.sub(r"^(Week \d+\s+|W\d+\s+)", "", cleaned)
-    cleaned = re.sub(r"^(The durable signal this week |This week |Week \d+ |W\d+ )", "", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(
+        r"^(The durable signal this week |This week |Week \d+ |W\d+ )",
+        "",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
     cleaned = re.sub(r"\s+", " ", cleaned).strip().rstrip(".")
     return trim_words(cleaned, limit)
 
@@ -532,9 +662,15 @@ def summarize_month(month: MonthSnapshot) -> str:
         parts.append("coordinated star-farming made discovery harder to trust")
 
     if parts:
-        return "; ".join(parts[:-1]) + ("" if len(parts) < 2 else "; ") + parts[-1] if len(parts) > 1 else parts[0]
+        return (
+            "; ".join(parts[:-1]) + ("" if len(parts) < 2 else "; ") + parts[-1]
+            if len(parts) > 1
+            else parts[0]
+        )
 
-    source = month.yearly_source_paragraphs[0] if month.yearly_source_paragraphs else month.text_blob
+    source = (
+        month.yearly_source_paragraphs[0] if month.yearly_source_paragraphs else month.text_blob
+    )
     return trim_words(strip_markdown(source), 32)
 
 
@@ -550,7 +686,11 @@ def build_month_bridge(month: MonthSnapshot, position: int, total: int) -> str:
 
 def build_opening_paragraph(months: list[MonthSnapshot], arcs: dict[str, list[str]]) -> str:
     opening = build_theme_sentence(months[0].year, arcs)
-    span = months[0].month_name if len(months) == 1 else f"From {months[0].month_name} through {months[-1].month_name}"
+    span = (
+        months[0].month_name
+        if len(months) == 1
+        else f"From {months[0].month_name} through {months[-1].month_name}"
+    )
     durable_categories: list[str] = []
     if arcs.get("agent-skills"):
         durable_categories.append("agent skills as a real distribution layer")
@@ -622,7 +762,9 @@ def build_prediction_review(arcs: dict[str, list[str]]) -> str:
     if len(arcs.get("platform-gaming", [])) >= 2:
         confirmations.append("discovery-layer abuse mutated instead of self-correcting")
     if arcs.get("self-hosted-ai"):
-        confirmations.append("local and self-hosted AI kept becoming a category rather than a workaround")
+        confirmations.append(
+            "local and self-hosted AI kept becoming a category rather than a workaround"
+        )
     if arcs.get("security-gap"):
         confirmations.append("the trust and security gap remained open")
     weakened: list[str] = []
@@ -631,7 +773,9 @@ def build_prediction_review(arcs: dict[str, list[str]]) -> str:
     if arcs.get("security-gap"):
         weakened.append("the idea that trust tooling would catch up on its own")
     if "verticalization" in arcs.get("agent-skills", []):
-        weakened.append("the simpler thesis that one general-purpose agent workflow would dominate everything")
+        weakened.append(
+            "the simpler thesis that one general-purpose agent workflow would dominate everything"
+        )
     if not confirmations and not weakened:
         return "The running predictions stayed directionally useful: the biggest structural questions still look unresolved."
     sentences: list[str] = []
@@ -639,7 +783,9 @@ def build_prediction_review(arcs: dict[str, list[str]]) -> str:
         sentences.append(f"What was confirmed: {join_phrases(confirmations)}.")
     if weakened:
         sentences.append(f"What weakened: {join_phrases(weakened)}.")
-    sentences.append("That leaves the main story of the year intact: builders are getting more serious about packaging and operating agents, while the trust, filtering, and governance layers remain conspicuously behind.")
+    sentences.append(
+        "That leaves the main story of the year intact: builders are getting more serious about packaging and operating agents, while the trust, filtering, and governance layers remain conspicuously behind."
+    )
     return " ".join(sentences)
 
 
@@ -700,16 +846,18 @@ def _extract_summary(narrative: str, max_length: int = 155) -> str:
         if len(sentence) <= max_length:
             return sentence
         # Truncate at last word boundary within limit
-        truncated = sentence[:max_length - 1].rsplit(" ", 1)[0]
+        truncated = sentence[: max_length - 1].rsplit(" ", 1)[0]
         return truncated.rstrip(".,;:") + "…"
     # Fallback: truncate narrative at word boundary
     if len(narrative) <= max_length:
         return narrative.strip()
-    truncated = narrative[:max_length - 1].rsplit(" ", 1)[0]
+    truncated = narrative[: max_length - 1].rsplit(" ", 1)[0]
     return truncated.rstrip(".,;:") + "…"
 
 
-def build_yearly_narrative_pages(content_root: Path, years: Iterable[int] | None = None) -> list[YearlyNarrativePage]:
+def build_yearly_narrative_pages(
+    content_root: Path, years: Iterable[int] | None = None
+) -> list[YearlyNarrativePage]:
     grouped: dict[int, list[MonthSnapshot]] = {}
     for snapshot in load_month_snapshots(content_root, years):
         grouped.setdefault(snapshot.year, []).append(snapshot)
@@ -757,7 +905,9 @@ def render_yearly_page(page: YearlyNarrativePage) -> str:
     return render_frontmatter(page.frontmatter) + body
 
 
-def generate_yearly_narratives(content_root: Path, years: Iterable[int] | None = None) -> list[Path]:
+def generate_yearly_narratives(
+    content_root: Path, years: Iterable[int] | None = None
+) -> list[Path]:
     written: list[Path] = []
     for page in build_yearly_narrative_pages(content_root, years):
         page.path.parent.mkdir(parents=True, exist_ok=True)

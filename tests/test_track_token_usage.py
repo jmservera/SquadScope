@@ -39,7 +39,11 @@ class TrackTokenUsageTests(unittest.TestCase):
             )
 
             self.assertEqual(exit_code, 0)
-            records = [json.loads(line) for line in usage_file.read_text(encoding="utf-8").splitlines() if line.strip()]
+            records = [
+                json.loads(line)
+                for line in usage_file.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
             self.assertEqual(len(records), 1)
             record = records[0]
             self.assertEqual(record["stage"], "analysis")
@@ -86,7 +90,9 @@ class TrackTokenUsageTests(unittest.TestCase):
             self.assertEqual(record["cost_usd"], 0.001875)
             self.assertFalse(record["estimated"])
 
-    def test_input_manifest_validation_fails_when_final_usage_differs_by_more_than_10_percent(self) -> None:
+    def test_input_manifest_validation_fails_when_final_usage_differs_by_more_than_10_percent(
+        self,
+    ) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             base = Path(tmpdir)
@@ -96,7 +102,11 @@ class TrackTokenUsageTests(unittest.TestCase):
                 json.dumps(
                     {
                         "schema_version": "analysis_input_manifest_v1",
-                        "rendered_prompt_estimate": {"tokens": 1000, "bytes": 4000, "checksum_sha256": "abc"},
+                        "rendered_prompt_estimate": {
+                            "tokens": 1000,
+                            "bytes": 4000,
+                            "checksum_sha256": "abc",
+                        },
                         "prompt_within_budget": True,
                         "degraded": False,
                     }
@@ -128,7 +138,9 @@ class TrackTokenUsageTests(unittest.TestCase):
             self.assertEqual(exit_code, 1)
             self.assertFalse(usage_file.exists())
 
-    def test_input_manifest_validation_accepts_exact_10_percent_low_estimate_against_final_usage(self) -> None:
+    def test_input_manifest_validation_accepts_exact_10_percent_low_estimate_against_final_usage(
+        self,
+    ) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             base = Path(tmpdir)
@@ -138,7 +150,11 @@ class TrackTokenUsageTests(unittest.TestCase):
                 json.dumps(
                     {
                         "schema_version": "analysis_input_manifest_v1",
-                        "rendered_prompt_estimate": {"tokens": 900, "bytes": 3600, "checksum_sha256": "abc"},
+                        "rendered_prompt_estimate": {
+                            "tokens": 900,
+                            "bytes": 3600,
+                            "checksum_sha256": "abc",
+                        },
                         "prompt_within_budget": True,
                         "degraded": False,
                     }
@@ -239,7 +255,7 @@ class ParseCopilotTranscriptTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             transcript = Path(tmpdir) / "transcript.md"
             transcript.write_text(
-                "```json\n{\"prompt_tokens\": 2000, \"completion_tokens\": 950}\n```\n",
+                '```json\n{"prompt_tokens": 2000, "completion_tokens": 950}\n```\n',
                 encoding="utf-8",
             )
             result = track_token_usage.parse_copilot_transcript(transcript)
@@ -271,7 +287,9 @@ class ParseCopilotTranscriptTests(unittest.TestCase):
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             transcript = Path(tmpdir) / "transcript.md"
-            transcript.write_text("# Just a normal transcript\nNo usage info here.\n", encoding="utf-8")
+            transcript.write_text(
+                "# Just a normal transcript\nNo usage info here.\n", encoding="utf-8"
+            )
             result = track_token_usage.parse_copilot_transcript(transcript)
             self.assertIsNone(result)
 
@@ -286,11 +304,17 @@ class ParseApiResponseTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             response_file = Path(tmpdir) / "response.json"
             response_file.write_text(
-                json.dumps({
-                    "id": "chatcmpl-abc123",
-                    "choices": [{"message": {"content": "Hello"}}],
-                    "usage": {"prompt_tokens": 450, "completion_tokens": 120, "total_tokens": 570},
-                }),
+                json.dumps(
+                    {
+                        "id": "chatcmpl-abc123",
+                        "choices": [{"message": {"content": "Hello"}}],
+                        "usage": {
+                            "prompt_tokens": 450,
+                            "completion_tokens": 120,
+                            "total_tokens": 570,
+                        },
+                    }
+                ),
                 encoding="utf-8",
             )
             result = track_token_usage.parse_api_response(response_file)
@@ -334,14 +358,22 @@ class TokenSourcePriorityTests(unittest.TestCase):
 
             exit_code = track_token_usage.main(
                 [
-                    "--stage", "analysis",
-                    "--source", "copilot-cli",
-                    "--model", "claude-sonnet-4",
-                    "--current-datetime", "2026-05-19T08:00:00Z",
-                    "--prompt-file", str(prompt_path),
-                    "--output-file", str(output_path),
-                    "--transcript", str(transcript),
-                    "--usage-file", str(usage_file),
+                    "--stage",
+                    "analysis",
+                    "--source",
+                    "copilot-cli",
+                    "--model",
+                    "claude-sonnet-4",
+                    "--current-datetime",
+                    "2026-05-19T08:00:00Z",
+                    "--prompt-file",
+                    str(prompt_path),
+                    "--output-file",
+                    str(output_path),
+                    "--transcript",
+                    str(transcript),
+                    "--usage-file",
+                    str(usage_file),
                 ]
             )
 
@@ -360,19 +392,34 @@ class TokenSourcePriorityTests(unittest.TestCase):
             api_response = base / "response.json"
             prompt_path.write_text("x" * 400, encoding="utf-8")
             api_response.write_text(
-                json.dumps({"usage": {"prompt_tokens": 800, "completion_tokens": 300, "total_tokens": 1100}}),
+                json.dumps(
+                    {
+                        "usage": {
+                            "prompt_tokens": 800,
+                            "completion_tokens": 300,
+                            "total_tokens": 1100,
+                        }
+                    }
+                ),
                 encoding="utf-8",
             )
 
             exit_code = track_token_usage.main(
                 [
-                    "--stage", "reskill",
-                    "--source", "github-models",
-                    "--model", "gpt-5.4-mini",
-                    "--current-datetime", "2026-05-19T08:00:00Z",
-                    "--prompt-file", str(prompt_path),
-                    "--api-response", str(api_response),
-                    "--usage-file", str(usage_file),
+                    "--stage",
+                    "reskill",
+                    "--source",
+                    "github-models",
+                    "--model",
+                    "gpt-5.4-mini",
+                    "--current-datetime",
+                    "2026-05-19T08:00:00Z",
+                    "--prompt-file",
+                    str(prompt_path),
+                    "--api-response",
+                    str(api_response),
+                    "--usage-file",
+                    str(usage_file),
                 ]
             )
 
@@ -392,14 +439,22 @@ class TokenSourcePriorityTests(unittest.TestCase):
 
             exit_code = track_token_usage.main(
                 [
-                    "--stage", "analysis",
-                    "--source", "copilot-cli",
-                    "--model", "claude-sonnet-4",
-                    "--current-datetime", "2026-05-19T08:00:00Z",
-                    "--input-tokens", "9999",
-                    "--output-tokens", "4444",
-                    "--transcript", str(transcript),
-                    "--usage-file", str(usage_file),
+                    "--stage",
+                    "analysis",
+                    "--source",
+                    "copilot-cli",
+                    "--model",
+                    "claude-sonnet-4",
+                    "--current-datetime",
+                    "2026-05-19T08:00:00Z",
+                    "--input-tokens",
+                    "9999",
+                    "--output-tokens",
+                    "4444",
+                    "--transcript",
+                    str(transcript),
+                    "--usage-file",
+                    str(usage_file),
                 ]
             )
 
@@ -423,14 +478,22 @@ class TokenSourcePriorityTests(unittest.TestCase):
 
             exit_code = track_token_usage.main(
                 [
-                    "--stage", "analysis",
-                    "--source", "copilot-cli",
-                    "--model", "claude-sonnet-4",
-                    "--current-datetime", "2026-05-19T08:00:00Z",
-                    "--prompt-file", str(prompt_path),
-                    "--output-file", str(output_path),
-                    "--transcript", str(transcript),
-                    "--usage-file", str(usage_file),
+                    "--stage",
+                    "analysis",
+                    "--source",
+                    "copilot-cli",
+                    "--model",
+                    "claude-sonnet-4",
+                    "--current-datetime",
+                    "2026-05-19T08:00:00Z",
+                    "--prompt-file",
+                    str(prompt_path),
+                    "--output-file",
+                    str(output_path),
+                    "--transcript",
+                    str(transcript),
+                    "--usage-file",
+                    str(usage_file),
                 ]
             )
 
@@ -443,15 +506,25 @@ class TokenSourcePriorityTests(unittest.TestCase):
 
 class ModelPricingTests(unittest.TestCase):
     def test_prices_representative_current_models(self) -> None:
-        self.assertEqual(track_token_usage.estimate_cost_usd("gpt-5-mini", 1_000_000, 1_000_000), 2.25)
-        self.assertEqual(track_token_usage.estimate_cost_usd("claude-haiku-4.5", 1_000_000, 1_000_000), 6.0)
-        self.assertEqual(track_token_usage.estimate_cost_usd("gemini-3-flash", 1_000_000, 1_000_000), 3.5)
-        self.assertEqual(track_token_usage.estimate_cost_usd("mai-code-1-flash", 1_000_000, 1_000_000), 5.25)
+        self.assertEqual(
+            track_token_usage.estimate_cost_usd("gpt-5-mini", 1_000_000, 1_000_000), 2.25
+        )
+        self.assertEqual(
+            track_token_usage.estimate_cost_usd("claude-haiku-4.5", 1_000_000, 1_000_000), 6.0
+        )
+        self.assertEqual(
+            track_token_usage.estimate_cost_usd("gemini-3-flash", 1_000_000, 1_000_000), 3.5
+        )
+        self.assertEqual(
+            track_token_usage.estimate_cost_usd("mai-code-1-flash", 1_000_000, 1_000_000), 5.25
+        )
 
     def test_long_context_threshold_rates_apply(self) -> None:
         self.assertEqual(track_token_usage.estimate_cost_usd("gpt-5.4", 272_000, 1_000), 0.695)
         self.assertEqual(track_token_usage.estimate_cost_usd("gpt-5.4", 272_001, 1_000), 1.382505)
-        self.assertEqual(track_token_usage.estimate_cost_usd("gemini-3.1-pro", 200_001, 1_000), 0.818004)
+        self.assertEqual(
+            track_token_usage.estimate_cost_usd("gemini-3.1-pro", 200_001, 1_000), 0.818004
+        )
 
     def test_cached_and_cache_write_tokens_are_supported(self) -> None:
         cost = track_token_usage.estimate_cost_usd(

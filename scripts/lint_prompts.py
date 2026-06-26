@@ -83,9 +83,7 @@ UNTRUSTED_FORMAT_VARIABLES = frozenset(
 ALL_KNOWN_VARIABLES = TRUSTED_VARIABLES | SEMI_TRUSTED_VARIABLES | UNTRUSTED_VARIABLES
 ALL_KNOWN_FORMAT_VARIABLES = TRUSTED_FORMAT_VARIABLES | UNTRUSTED_FORMAT_VARIABLES
 
-CLOSING_CONSTRAINT_PATTERN = re.compile(
-    r"##\s+closing\s+security\s+constraint", re.IGNORECASE
-)
+CLOSING_CONSTRAINT_PATTERN = re.compile(r"##\s+closing\s+security\s+constraint", re.IGNORECASE)
 
 UNTRUSTED_OPEN = "<untrusted-content>"
 UNTRUSTED_CLOSE = "</untrusted-content>"
@@ -151,8 +149,7 @@ def lint_prompt(path: Path) -> list[str]:
     unfenced = _find_unfenced_variables(content)
     for var in unfenced:
         errors.append(
-            f"{path}: untrusted variable {var} is not inside "
-            f"<untrusted-content> boundary tags"
+            f"{path}: untrusted variable {var} is not inside <untrusted-content> boundary tags"
         )
 
     # Check for unknown single-brace format variables and ensure untrusted ones are fenced.

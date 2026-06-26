@@ -5,7 +5,6 @@ from pydantic import ValidationError
 
 from scripts.validate_topic_config import TopicConfig, validate_file
 
-
 # --- Valid configs pass ---
 
 

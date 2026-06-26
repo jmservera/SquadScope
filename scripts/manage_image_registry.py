@@ -43,7 +43,9 @@ def load_registry(path: Path = REGISTRY_PATH, *, allow_missing: bool = True) -> 
     except (json.JSONDecodeError, ValueError) as exc:
         raise RegistryError(f"Invalid image registry JSON in {path}: {exc}") from exc
     if not isinstance(registry, dict) or not isinstance(registry.get("images"), list):
-        raise RegistryError(f"Invalid image registry format in {path}: expected an object with an 'images' list.")
+        raise RegistryError(
+            f"Invalid image registry format in {path}: expected an object with an 'images' list."
+        )
     return registry
 
 
@@ -68,7 +70,10 @@ def add_image(args: argparse.Namespace) -> int:
 
     # Validate license
     if args.license not in ALLOWED_LICENSES:
-        print(f"ERROR: Invalid license '{args.license}'. Must be one of: {', '.join(ALLOWED_LICENSES)}", file=sys.stderr)
+        print(
+            f"ERROR: Invalid license '{args.license}'. Must be one of: {', '.join(ALLOWED_LICENSES)}",
+            file=sys.stderr,
+        )
         return 1
 
     # Validate path safety

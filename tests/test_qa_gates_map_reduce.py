@@ -12,19 +12,19 @@ These gates run as part of the existing pytest CI path (issue #438).
 from __future__ import annotations
 
 import json
-import tempfile
 from pathlib import Path
 
 import pytest
 
 from scripts import map_reduce_dry_run as dry_run
-from scripts.preflight_cost_check import estimate_input_tokens, main as preflight_main
 from scripts.model_pricing import MODEL_RATES, estimate_cost_usd
-
+from scripts.preflight_cost_check import estimate_input_tokens
+from scripts.preflight_cost_check import main as preflight_main
 
 # ---------------------------------------------------------------------------
 # Fixtures
 # ---------------------------------------------------------------------------
+
 
 def make_repo(owner: str, name: str, stars: int, gained: int = 0, **extra) -> dict:
     base = {
@@ -89,7 +89,10 @@ RAW_PAYLOAD = {
     "week": "2026-W21",
     "crawled_at": "2026-05-20T12:00:00Z",
     "new_repos": [make_repo("octo", "alpha", 1200, 50), make_repo("octo", "beta", 900, 30)],
-    "trending_repos": [make_repo("tools", "gamma", 5000, 450), make_repo("tools", "delta", 3000, 250)],
+    "trending_repos": [
+        make_repo("tools", "gamma", 5000, 450),
+        make_repo("tools", "delta", 3000, 250),
+    ],
     "signals": {"top_topics": ["ai", "developer-tools", "testing"]},
 }
 
@@ -158,7 +161,11 @@ class TestReducerCitationPreservation:
         """Selected claims keep repo and article citation bindings through reduce."""
         finding = valid_finding("cit-1", "org/cited")
         finding["evidence_refs"].append(
-            {"type": "article", "ref": "https://news.example.com/1", "url": "https://news.example.com/1"}
+            {
+                "type": "article",
+                "ref": "https://news.example.com/1",
+                "url": "https://news.example.com/1",
+            }
         )
         ledger = valid_ledger([finding])
 
@@ -172,13 +179,19 @@ class TestReducerCitationPreservation:
     def test_merged_claims_combine_citations(self):
         """When claims merge, citation bindings from both are combined."""
         f1 = valid_finding("merge-1", "org/repo")
-        f1["evidence_refs"] = [{"type": "repo", "ref": "org/repo", "url": "https://github.com/org/repo"}]
+        f1["evidence_refs"] = [
+            {"type": "repo", "ref": "org/repo", "url": "https://github.com/org/repo"}
+        ]
 
         # Second ledger with same normalized key but different citation
         f2 = valid_finding("merge-2", "org/repo")
         f2["evidence_refs"] = [
             {"type": "repo", "ref": "org/repo", "url": "https://github.com/org/repo"},
-            {"type": "article", "ref": "https://news.example.com/x", "url": "https://news.example.com/x"},
+            {
+                "type": "article",
+                "ref": "https://news.example.com/x",
+                "url": "https://news.example.com/x",
+            },
         ]
         ledger1 = valid_ledger([f1], shard_id="signal-type:shard1")
         ledger2 = valid_ledger([f2], shard_id="signal-type:shard2")
@@ -279,13 +292,20 @@ class TestEndToEndDryRun:
         """End-to-end run produces qa-comparison-report with status=passed."""
         raw_path, press_path, output_dir = workspace
 
-        rc = dry_run.main([
-            "--raw-json", raw_path.as_posix(),
-            "--press-context", press_path.as_posix(),
-            "--output-dir", output_dir.as_posix(),
-            "--current-datetime", "2026-05-20T12:00:00Z",
-            "--run-id", "qa-gate-test",
-        ])
+        rc = dry_run.main(
+            [
+                "--raw-json",
+                raw_path.as_posix(),
+                "--press-context",
+                press_path.as_posix(),
+                "--output-dir",
+                output_dir.as_posix(),
+                "--current-datetime",
+                "2026-05-20T12:00:00Z",
+                "--run-id",
+                "qa-gate-test",
+            ]
+        )
 
         assert rc == 0
         qa = json.loads((output_dir / "qa-comparison-report.json").read_text(encoding="utf-8"))
@@ -295,32 +315,52 @@ class TestEndToEndDryRun:
     def test_all_mapper_contracts_valid(self, workspace):
         """Each mapper ledger passes validate_map with zero errors."""
         raw_path, press_path, output_dir = workspace
-        dry_run.main([
-            "--raw-json", raw_path.as_posix(),
-            "--press-context", press_path.as_posix(),
-            "--output-dir", output_dir.as_posix(),
-            "--current-datetime", "2026-05-20T12:00:00Z",
-            "--run-id", "qa-gate-test",
-        ])
+        dry_run.main(
+            [
+                "--raw-json",
+                raw_path.as_posix(),
+                "--press-context",
+                press_path.as_posix(),
+                "--output-dir",
+                output_dir.as_posix(),
+                "--current-datetime",
+                "2026-05-20T12:00:00Z",
+                "--run-id",
+                "qa-gate-test",
+            ]
+        )
 
         for mapper in dry_run.MAPPER_IDS:
-            ledger = json.loads((output_dir / "maps" / f"{mapper}.json").read_text(encoding="utf-8"))
+            ledger = json.loads(
+                (output_dir / "maps" / f"{mapper}.json").read_text(encoding="utf-8")
+            )
             errors = dry_run.validate_map(ledger)
             assert errors == [], f"Mapper {mapper} contract errors: {errors}"
 
     def test_sidecars_always_present(self, workspace):
         """rejected-claims.json and contradictions.json are always emitted."""
         raw_path, press_path, output_dir = workspace
-        dry_run.main([
-            "--raw-json", raw_path.as_posix(),
-            "--press-context", press_path.as_posix(),
-            "--output-dir", output_dir.as_posix(),
-            "--current-datetime", "2026-05-20T12:00:00Z",
-            "--run-id", "qa-gate-test",
-        ])
+        dry_run.main(
+            [
+                "--raw-json",
+                raw_path.as_posix(),
+                "--press-context",
+                press_path.as_posix(),
+                "--output-dir",
+                output_dir.as_posix(),
+                "--current-datetime",
+                "2026-05-20T12:00:00Z",
+                "--run-id",
+                "qa-gate-test",
+            ]
+        )
 
-        rejected = json.loads((output_dir / "sidecars" / "rejected-claims.json").read_text(encoding="utf-8"))
-        contras = json.loads((output_dir / "sidecars" / "contradictions.json").read_text(encoding="utf-8"))
+        rejected = json.loads(
+            (output_dir / "sidecars" / "rejected-claims.json").read_text(encoding="utf-8")
+        )
+        contras = json.loads(
+            (output_dir / "sidecars" / "contradictions.json").read_text(encoding="utf-8")
+        )
         assert rejected["schema_version"] == "analysis_rejected_claims_v1"
         assert contras["schema_version"] == "analysis_contradictions_v1"
         assert isinstance(rejected["rejected_claims"], list)
@@ -329,13 +369,20 @@ class TestEndToEndDryRun:
     def test_manifest_is_never_publish_eligible(self, workspace):
         """Dry-run manifest always marks candidate_only=True, publish_eligible=False."""
         raw_path, press_path, output_dir = workspace
-        dry_run.main([
-            "--raw-json", raw_path.as_posix(),
-            "--press-context", press_path.as_posix(),
-            "--output-dir", output_dir.as_posix(),
-            "--current-datetime", "2026-05-20T12:00:00Z",
-            "--run-id", "qa-gate-test",
-        ])
+        dry_run.main(
+            [
+                "--raw-json",
+                raw_path.as_posix(),
+                "--press-context",
+                press_path.as_posix(),
+                "--output-dir",
+                output_dir.as_posix(),
+                "--current-datetime",
+                "2026-05-20T12:00:00Z",
+                "--run-id",
+                "qa-gate-test",
+            ]
+        )
 
         manifest = json.loads((output_dir / "manifest.json").read_text(encoding="utf-8"))
         assert manifest["publish_eligible"] is False
@@ -344,13 +391,20 @@ class TestEndToEndDryRun:
     def test_qa_report_documents_expected_provenance_failure(self, workspace):
         """The provenance gate fails as expected (dry-run is not publishable AI)."""
         raw_path, press_path, output_dir = workspace
-        dry_run.main([
-            "--raw-json", raw_path.as_posix(),
-            "--press-context", press_path.as_posix(),
-            "--output-dir", output_dir.as_posix(),
-            "--current-datetime", "2026-05-20T12:00:00Z",
-            "--run-id", "qa-gate-test",
-        ])
+        dry_run.main(
+            [
+                "--raw-json",
+                raw_path.as_posix(),
+                "--press-context",
+                press_path.as_posix(),
+                "--output-dir",
+                output_dir.as_posix(),
+                "--current-datetime",
+                "2026-05-20T12:00:00Z",
+                "--run-id",
+                "qa-gate-test",
+            ]
+        )
 
         qa = json.loads((output_dir / "qa-comparison-report.json").read_text(encoding="utf-8"))
         provenance = qa["checks"]["publish_provenance_gate"]
@@ -360,13 +414,20 @@ class TestEndToEndDryRun:
     def test_candidate_markdown_contains_repo_links(self, workspace):
         """Candidate markdown includes hyperlinks to featured repositories."""
         raw_path, press_path, output_dir = workspace
-        dry_run.main([
-            "--raw-json", raw_path.as_posix(),
-            "--press-context", press_path.as_posix(),
-            "--output-dir", output_dir.as_posix(),
-            "--current-datetime", "2026-05-20T12:00:00Z",
-            "--run-id", "qa-gate-test",
-        ])
+        dry_run.main(
+            [
+                "--raw-json",
+                raw_path.as_posix(),
+                "--press-context",
+                press_path.as_posix(),
+                "--output-dir",
+                output_dir.as_posix(),
+                "--current-datetime",
+                "2026-05-20T12:00:00Z",
+                "--run-id",
+                "qa-gate-test",
+            ]
+        )
 
         candidate = (output_dir / "2026-W21-map-reduce-candidate.md").read_text(encoding="utf-8")
         assert "[tools/gamma](https://github.com/tools/gamma)" in candidate
@@ -436,13 +497,20 @@ class TestCostTokenGuardrails:
         raw_path.write_text(json.dumps(RAW_PAYLOAD), encoding="utf-8")
         press_path.write_text(PRESS_CONTEXT, encoding="utf-8")
 
-        dry_run.main([
-            "--raw-json", raw_path.as_posix(),
-            "--press-context", press_path.as_posix(),
-            "--output-dir", output_dir.as_posix(),
-            "--current-datetime", "2026-05-20T12:00:00Z",
-            "--run-id", "cost-test",
-        ])
+        dry_run.main(
+            [
+                "--raw-json",
+                raw_path.as_posix(),
+                "--press-context",
+                press_path.as_posix(),
+                "--output-dir",
+                output_dir.as_posix(),
+                "--current-datetime",
+                "2026-05-20T12:00:00Z",
+                "--run-id",
+                "cost-test",
+            ]
+        )
 
         manifest = json.loads((output_dir / "manifest.json").read_text(encoding="utf-8"))
         est = manifest["component_estimates"]["rendered_prompt_estimate"]
@@ -470,8 +538,17 @@ class TestMapperFailureHandling:
         """validate_map returns errors for missing required mapper fields."""
         payload = {"schema_version": "analysis_map_v1"}
         errors = dry_run.validate_map(payload)
-        missing_fields = {"run_id", "week", "shard_id", "slice", "coverage", "findings",
-                          "citations", "reference_candidates", "provenance"}
+        missing_fields = {
+            "run_id",
+            "week",
+            "shard_id",
+            "slice",
+            "coverage",
+            "findings",
+            "citations",
+            "reference_candidates",
+            "provenance",
+        }
         for field in missing_fields:
             assert any(field in e for e in errors), f"Missing error for {field}"
 
@@ -515,7 +592,8 @@ class TestMapperFailureHandling:
         raw_ref = dry_run.file_ref(raw_path)
 
         result = dry_run.map_press(
-            run_id="test", week="2026-W21",
+            run_id="test",
+            week="2026-W21",
             press_path=press_path,
             press_ref=dry_run.file_ref(press_path),
             raw_ref=raw_ref,
@@ -531,12 +609,18 @@ class TestMapperFailureHandling:
         output_dir = tmp_path / "out"
         raw_path.write_text(json.dumps(RAW_PAYLOAD), encoding="utf-8")
 
-        rc = dry_run.main([
-            "--raw-json", raw_path.as_posix(),
-            "--output-dir", output_dir.as_posix(),
-            "--current-datetime", "2026-05-20T12:00:00Z",
-            "--run-id", "no-press",
-        ])
+        rc = dry_run.main(
+            [
+                "--raw-json",
+                raw_path.as_posix(),
+                "--output-dir",
+                output_dir.as_posix(),
+                "--current-datetime",
+                "2026-05-20T12:00:00Z",
+                "--run-id",
+                "no-press",
+            ]
+        )
 
         assert rc == 0
         qa = json.loads((output_dir / "qa-comparison-report.json").read_text(encoding="utf-8"))
@@ -573,13 +657,20 @@ class TestGateOutputClarity:
         raw_path.write_text(json.dumps(RAW_PAYLOAD), encoding="utf-8")
         press_path.write_text(PRESS_CONTEXT, encoding="utf-8")
 
-        dry_run.main([
-            "--raw-json", raw_path.as_posix(),
-            "--press-context", press_path.as_posix(),
-            "--output-dir", output_dir.as_posix(),
-            "--current-datetime", "2026-05-20T12:00:00Z",
-            "--run-id", "clarity-test",
-        ])
+        dry_run.main(
+            [
+                "--raw-json",
+                raw_path.as_posix(),
+                "--press-context",
+                press_path.as_posix(),
+                "--output-dir",
+                output_dir.as_posix(),
+                "--current-datetime",
+                "2026-05-20T12:00:00Z",
+                "--run-id",
+                "clarity-test",
+            ]
+        )
 
         qa = json.loads((output_dir / "qa-comparison-report.json").read_text(encoding="utf-8"))
         # Each check section has "passed" bool and either "errors" or "expected_failure"
@@ -601,5 +692,8 @@ class TestGateOutputClarity:
         for item in rejected:
             assert "reason" in item, f"Rejected claim missing reason: {item}"
             assert item["reason"] in {
-                "weak_citation", "unresolved_contradiction", "duplicate", "malformed_finding"
+                "weak_citation",
+                "unresolved_contradiction",
+                "duplicate",
+                "malformed_finding",
             }, f"Unknown rejection reason: {item['reason']}"

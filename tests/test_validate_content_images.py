@@ -42,7 +42,8 @@ class TestFrontmatterExtraction:
 class TestHotlinkDetection:
     def test_detects_frontmatter_hotlink(self, tmp_path: Path) -> None:
         content_dir = _write_md(
-            tmp_path, "test.md",
+            tmp_path,
+            "test.md",
             '---\ncover_image: "https://evil.com/img.png"\n---\nBody',
         )
         violations = validator.validate_content(content_dir)
@@ -50,7 +51,8 @@ class TestHotlinkDetection:
 
     def test_detects_markdown_image_hotlink(self, tmp_path: Path) -> None:
         content_dir = _write_md(
-            tmp_path, "test.md",
+            tmp_path,
+            "test.md",
             "---\ntitle: test\n---\n![alt](https://example.com/photo.jpg)\n",
         )
         violations = validator.validate_content(content_dir)
@@ -58,7 +60,8 @@ class TestHotlinkDetection:
 
     def test_detects_html_img_hotlink(self, tmp_path: Path) -> None:
         content_dir = _write_md(
-            tmp_path, "test.md",
+            tmp_path,
+            "test.md",
             '---\ntitle: test\n---\n<img src="http://evil.com/x.png" alt="bad">\n',
         )
         violations = validator.validate_content(content_dir)
@@ -66,7 +69,8 @@ class TestHotlinkDetection:
 
     def test_detects_protocol_relative_url(self, tmp_path: Path) -> None:
         content_dir = _write_md(
-            tmp_path, "test.md",
+            tmp_path,
+            "test.md",
             '---\nog_image: "//cdn.example.com/image.png"\n---\n',
         )
         violations = validator.validate_content(content_dir)
@@ -74,7 +78,8 @@ class TestHotlinkDetection:
 
     def test_allows_local_paths(self, tmp_path: Path) -> None:
         content_dir = _write_md(
-            tmp_path, "test.md",
+            tmp_path,
+            "test.md",
             '---\ncover_image: "covers/local.webp"\n---\n![alt](/images/chart.svg)\n',
         )
         violations = validator.validate_content(content_dir)
@@ -84,7 +89,8 @@ class TestHotlinkDetection:
 class TestSecretDetection:
     def test_detects_sas_token(self, tmp_path: Path) -> None:
         content_dir = _write_md(
-            tmp_path, "test.md",
+            tmp_path,
+            "test.md",
             "---\ntitle: test\n---\n![x](https://store.blob.core.windows.net/c/img.png?sv=2021&sig=abc)\n",
         )
         violations = validator.validate_content(content_dir)
@@ -92,7 +98,8 @@ class TestSecretDetection:
 
     def test_detects_tracking_params(self, tmp_path: Path) -> None:
         content_dir = _write_md(
-            tmp_path, "test.md",
+            tmp_path,
+            "test.md",
             "---\ntitle: test\n---\n![x](https://example.com/img.png?utm_source=twitter&utm_medium=social)\n",
         )
         violations = validator.validate_content(content_dir)
@@ -100,7 +107,8 @@ class TestSecretDetection:
 
     def test_detects_api_key_param(self, tmp_path: Path) -> None:
         content_dir = _write_md(
-            tmp_path, "test.md",
+            tmp_path,
+            "test.md",
             '---\ncover_image: "covers/x.webp?api_key=secret123"\n---\n',
         )
         violations = validator.validate_content(content_dir)
@@ -110,7 +118,8 @@ class TestSecretDetection:
 class TestRegistryValidation:
     def test_flags_unregistered_cover(self, tmp_path: Path) -> None:
         content_dir = _write_md(
-            tmp_path, "test.md",
+            tmp_path,
+            "test.md",
             '---\ncover_image: "covers/unregistered.webp"\n---\nBody',
         )
         reg_path = tmp_path / "registry.json"
@@ -120,12 +129,19 @@ class TestRegistryValidation:
 
     def test_passes_registered_cover(self, tmp_path: Path) -> None:
         content_dir = _write_md(
-            tmp_path, "test.md",
+            tmp_path,
+            "test.md",
             '---\ncover_image: "covers/registered.webp"\n---\nBody',
         )
         reg_path = tmp_path / "registry.json"
         reg_path.write_text(
-            json.dumps({"images": [{"filename": "covers/registered.webp", "license": "CC0", "added_by": "test"}]}),
+            json.dumps(
+                {
+                    "images": [
+                        {"filename": "covers/registered.webp", "license": "CC0", "added_by": "test"}
+                    ]
+                }
+            ),
             encoding="utf-8",
         )
         violations = validator.validate_registry_references(content_dir, reg_path)
@@ -133,7 +149,8 @@ class TestRegistryValidation:
 
     def test_ignores_non_cover_local_paths(self, tmp_path: Path) -> None:
         content_dir = _write_md(
-            tmp_path, "test.md",
+            tmp_path,
+            "test.md",
             '---\ncover_image: "images/generated-chart.svg"\n---\nBody',
         )
         reg_path = tmp_path / "registry.json"
@@ -144,10 +161,13 @@ class TestRegistryValidation:
 
     def test_handles_missing_registry(self, tmp_path: Path) -> None:
         content_dir = _write_md(
-            tmp_path, "test.md",
+            tmp_path,
+            "test.md",
             '---\ncover_image: "covers/x.webp"\n---\n',
         )
-        violations = validator.validate_registry_references(content_dir, tmp_path / "nonexistent.json")
+        violations = validator.validate_registry_references(
+            content_dir, tmp_path / "nonexistent.json"
+        )
         assert len(violations) == 1
         assert "not found" in violations[0]
 

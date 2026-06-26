@@ -34,7 +34,9 @@ class CrawlTests(unittest.TestCase):
 
     def test_get_json_preserves_payload_contract(self) -> None:
         client = crawl.GitHubClient("token")
-        entry = crawl.CacheEntry(status=200, payload={"ok": True}, headers={}, fetched_at=crawl.utc_now())
+        entry = crawl.CacheEntry(
+            status=200, payload={"ok": True}, headers={}, fetched_at=crawl.utc_now()
+        )
 
         with mock.patch.object(client, "get_json_entry", return_value=entry):
             self.assertEqual(client.get_json("https://example.com"), {"ok": True})
@@ -59,7 +61,9 @@ class CrawlTests(unittest.TestCase):
             )
 
             with mock.patch.object(crawl, "log") as log_mock:
-                stars = crawl.load_previous_star_snapshot(snapshot_dir, "2026-W21", custom_output_dir, raw_default_dir)
+                stars = crawl.load_previous_star_snapshot(
+                    snapshot_dir, "2026-W21", custom_output_dir, raw_default_dir
+                )
 
             self.assertEqual(stars, {"owner/older": 42})
             logged = "\n".join(call.args[0] for call in log_mock.call_args_list)
@@ -120,12 +124,22 @@ class CrawlTests(unittest.TestCase):
             def has_readme(self, full_name: str) -> bool:
                 return True
 
-        args = Namespace(since="2026-05-11", as_of=None, max_results=25, output="data/raw/test-live.json", topic=None, config=None)
-        with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
-            "os.environ", {"GITHUB_TOKEN": "token"}, clear=False
-        ), mock.patch.object(crawl, "GitHubClient", FakeClient), mock.patch.object(
-            crawl, "load_previous_star_snapshot", return_value={}
-        ), mock.patch.object(crawl, "write_payload"), mock.patch.object(crawl, "print"):
+        args = Namespace(
+            since="2026-05-11",
+            as_of=None,
+            max_results=25,
+            output="data/raw/test-live.json",
+            topic=None,
+            config=None,
+        )
+        with (
+            mock.patch.object(crawl, "parse_args", return_value=args),
+            mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False),
+            mock.patch.object(crawl, "GitHubClient", FakeClient),
+            mock.patch.object(crawl, "load_previous_star_snapshot", return_value={}),
+            mock.patch.object(crawl, "write_payload"),
+            mock.patch.object(crawl, "print"),
+        ):
             exit_code = crawl.main()
 
         self.assertEqual(exit_code, 0)
@@ -153,12 +167,22 @@ class CrawlTests(unittest.TestCase):
             def has_readme(self, full_name: str) -> bool:
                 return True
 
-        args = Namespace(since="2026-05-11", as_of="2026-05-18", max_results=25, output="data/raw/test-backfill.json", topic=None, config=None)
-        with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
-            "os.environ", {"GITHUB_TOKEN": "token"}, clear=False
-        ), mock.patch.object(crawl, "GitHubClient", FakeClient), mock.patch.object(
-            crawl, "load_previous_star_snapshot", return_value={}
-        ), mock.patch.object(crawl, "write_payload"), mock.patch.object(crawl, "print"):
+        args = Namespace(
+            since="2026-05-11",
+            as_of="2026-05-18",
+            max_results=25,
+            output="data/raw/test-backfill.json",
+            topic=None,
+            config=None,
+        )
+        with (
+            mock.patch.object(crawl, "parse_args", return_value=args),
+            mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False),
+            mock.patch.object(crawl, "GitHubClient", FakeClient),
+            mock.patch.object(crawl, "load_previous_star_snapshot", return_value={}),
+            mock.patch.object(crawl, "write_payload"),
+            mock.patch.object(crawl, "print"),
+        ):
             exit_code = crawl.main()
 
         self.assertEqual(exit_code, 1)
@@ -200,13 +224,17 @@ class CrawlTests(unittest.TestCase):
             topic="general",
             config=None,
         )
-        with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
-            "os.environ", {"GITHUB_TOKEN": "token", "GITHUB_RUN_ID": "123"}, clear=False
-        ), mock.patch.object(crawl, "GitHubClient", FakeClient), mock.patch.object(
-            crawl, "load_previous_star_snapshot", return_value={}
-        ), mock.patch.object(crawl, "write_payload"), mock.patch.object(
-            crawl, "emit_ledger"
-        ) as emit_mock, mock.patch.object(crawl, "print"):
+        with (
+            mock.patch.object(crawl, "parse_args", return_value=args),
+            mock.patch.dict(
+                "os.environ", {"GITHUB_TOKEN": "token", "GITHUB_RUN_ID": "123"}, clear=False
+            ),
+            mock.patch.object(crawl, "GitHubClient", FakeClient),
+            mock.patch.object(crawl, "load_previous_star_snapshot", return_value={}),
+            mock.patch.object(crawl, "write_payload"),
+            mock.patch.object(crawl, "emit_ledger") as emit_mock,
+            mock.patch.object(crawl, "print"),
+        ):
             exit_code = crawl.main()
 
         self.assertEqual(exit_code, 0)
@@ -224,7 +252,14 @@ class CrawlTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             base = Path(tmpdir)
             output = base / "data/raw/2026-W21.json"
-            args = Namespace(since="2026-05-12", as_of="2026-05-19", max_results=25, output=str(output), topic=None, config=None)
+            args = Namespace(
+                since="2026-05-12",
+                as_of="2026-05-19",
+                max_results=25,
+                output=str(output),
+                topic=None,
+                config=None,
+            )
             since = datetime(2026, 5, 12, tzinfo=crawl.UTC)
             window_end = datetime(2026, 5, 19, tzinfo=crawl.UTC)
             crawled_at = datetime(2026, 5, 19, 8, 0, tzinfo=crawl.UTC)
@@ -308,16 +343,24 @@ class CrawlTests(unittest.TestCase):
                     "crawl_window": {"since": "2026-05-12", "until": "2026-05-19"},
                     "crawl_config_checksum": checksum,
                     "schema_checksum": crawl.github_schema_checksum(),
-                    "same_day_reuse": {"status": "not_reused", "source": "github", "source_id": crawl.GITHUB_SOURCE_ID},
+                    "same_day_reuse": {
+                        "status": "not_reused",
+                        "source": "github",
+                        "source_id": crawl.GITHUB_SOURCE_ID,
+                    },
                     "crawler_code_sha": "sha",
                 },
             }
             payload["metadata"]["artifact_checksum"] = crawl.github_artifact_checksum(payload)
             crawl.write_payload(existing, payload)
 
-            with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
-                "os.environ", {}, clear=True
-            ), mock.patch.object(crawl, "utc_now", return_value=datetime(2026, 5, 19, 10, 0, tzinfo=crawl.UTC)):
+            with (
+                mock.patch.object(crawl, "parse_args", return_value=args),
+                mock.patch.dict("os.environ", {}, clear=True),
+                mock.patch.object(
+                    crawl, "utc_now", return_value=datetime(2026, 5, 19, 10, 0, tzinfo=crawl.UTC)
+                ),
+            ):
                 exit_code = crawl.main()
 
             self.assertEqual(exit_code, 0)
@@ -357,14 +400,17 @@ class CrawlTests(unittest.TestCase):
                 force_refresh=True,
             )
 
-            with mock.patch.object(crawl, "parse_args", return_value=args), mock.patch.dict(
-                "os.environ", {"GITHUB_TOKEN": "token"}, clear=False
-            ), mock.patch.object(crawl, "GitHubClient", FakeClient), mock.patch.object(
-                crawl, "load_previous_star_snapshot", return_value={}
-            ), mock.patch.object(
-                crawl, "snapshots_dir", return_value=Path(tmpdir) / "data/snapshots"
-            ), mock.patch.object(
-                crawl, "utc_now", return_value=datetime(2026, 5, 19, 10, 0, tzinfo=crawl.UTC)
+            with (
+                mock.patch.object(crawl, "parse_args", return_value=args),
+                mock.patch.dict("os.environ", {"GITHUB_TOKEN": "token"}, clear=False),
+                mock.patch.object(crawl, "GitHubClient", FakeClient),
+                mock.patch.object(crawl, "load_previous_star_snapshot", return_value={}),
+                mock.patch.object(
+                    crawl, "snapshots_dir", return_value=Path(tmpdir) / "data/snapshots"
+                ),
+                mock.patch.object(
+                    crawl, "utc_now", return_value=datetime(2026, 5, 19, 10, 0, tzinfo=crawl.UTC)
+                ),
             ):
                 exit_code = crawl.main()
 
@@ -415,12 +461,21 @@ class CrawlTests(unittest.TestCase):
 
             self.assertIsNone(reused)
 
-    def test_load_reusable_github_payload_rejects_missing_code_fingerprint_when_required(self) -> None:
+    def test_load_reusable_github_payload_rejects_missing_code_fingerprint_when_required(
+        self,
+    ) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             base = Path(tmpdir)
             output = base / "data/raw/2026-W21.json"
-            args = Namespace(since="2026-05-12", as_of="2026-05-19", max_results=25, output=str(output), topic=None, config=None)
+            args = Namespace(
+                since="2026-05-12",
+                as_of="2026-05-19",
+                max_results=25,
+                output=str(output),
+                topic=None,
+                config=None,
+            )
             since = datetime(2026, 5, 12, tzinfo=crawl.UTC)
             window_end = datetime(2026, 5, 19, tzinfo=crawl.UTC)
             checksum = crawl.github_crawl_config_checksum(args, since, window_end, 25)
@@ -470,7 +525,10 @@ class CrawlTests(unittest.TestCase):
             source_snapshot.parent.mkdir(parents=True)
             source_snapshot.write_text('{"stars": {"owner/repo": 1}}\n', encoding="utf-8")
 
-            for unsafe_path in ("/home/azureuser/source/SquadScope/data/snapshots/2026-W21-stars.json", "data/snapshots/../raw/evil.json"):
+            for unsafe_path in (
+                "/home/azureuser/source/SquadScope/data/snapshots/2026-W21-stars.json",
+                "data/snapshots/../raw/evil.json",
+            ):
                 with mock.patch.object(crawl, "write_payload") as write_mock:
                     crawl.restore_reused_snapshot(reuse_path, {"snapshot_path": unsafe_path})
 

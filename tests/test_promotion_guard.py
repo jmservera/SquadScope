@@ -7,7 +7,6 @@ from pathlib import Path
 import scripts.publish_manifest as publish_manifest
 from scripts import promotion_guard
 
-
 WEEK = "2026-W23"
 RUN_STARTED_AT = "2026-06-05T21:16:49Z"
 
@@ -75,7 +74,14 @@ def write_publish_raw(root: Path) -> Path:
     return write_file(
         root,
         f"data/raw/{WEEK}.json",
-        json.dumps({"week": WEEK, "crawled_at": RUN_STARTED_AT, "metadata": {"same_day_reuse": "not_reused"}}) + "\n",
+        json.dumps(
+            {
+                "week": WEEK,
+                "crawled_at": RUN_STARTED_AT,
+                "metadata": {"same_day_reuse": "not_reused"},
+            }
+        )
+        + "\n",
     )
 
 
@@ -104,7 +110,9 @@ def write_gate_report(root: Path, path: Path, *, passed: bool = True) -> None:
     )
 
 
-def write_preflight(root: Path, path: Path, *, degraded: bool = False, publish_eligible: bool = True) -> None:
+def write_preflight(
+    root: Path, path: Path, *, degraded: bool = False, publish_eligible: bool = True
+) -> None:
     write_file(
         root,
         path.as_posix(),
@@ -117,8 +125,12 @@ def write_preflight(root: Path, path: Path, *, degraded: bool = False, publish_e
                 "prompt_within_budget": True,
                 "degraded": degraded,
                 "publish_eligible": publish_eligible,
-                "promotion_policy": "normal-promotion" if publish_eligible else "staged/candidate-only by default",
-                "degradation_reason": "Prompt was deterministically compacted." if degraded else None,
+                "promotion_policy": "normal-promotion"
+                if publish_eligible
+                else "staged/candidate-only by default",
+                "degradation_reason": "Prompt was deterministically compacted."
+                if degraded
+                else None,
                 "fallback_policy": "copilot-only",
                 "components": [],
                 "deterministic_slices": [],
@@ -128,7 +140,14 @@ def write_preflight(root: Path, path: Path, *, degraded: bool = False, publish_e
     )
 
 
-def create_publish_manifest(root: Path, name: str, *, source: str = "copilot-cli", model: str = "copilot-default", gate_passed: bool = True) -> Path:
+def create_publish_manifest(
+    root: Path,
+    name: str,
+    *,
+    source: str = "copilot-cli",
+    model: str = "copilot-default",
+    gate_passed: bool = True,
+) -> Path:
     candidate_dir = Path("data/candidates") / WEEK / name
     summary_path = candidate_dir / f"{WEEK}-summary.md"
     manifest_path = candidate_dir / "publish-manifest.json"
@@ -225,7 +244,9 @@ def manifest_for(root: Path, name: str, **overrides) -> Path:
     for key, value in overrides.items():
         manifest[key] = value
     manifest_path = root / "data" / "staging" / WEEK / name / "publish-manifest.json"
-    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     return manifest_path
 
 
@@ -278,12 +299,18 @@ def nested_manifest_for(root: Path, name: str, **overrides) -> Path:
     for key, value in overrides.items():
         manifest[key] = value
     manifest_path = root / "data" / "staging" / WEEK / name / "publish-manifest.json"
-    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
     return manifest_path
 
 
-def no_ai_manifest_for(root: Path, name: str, *, policy: dict | None = None, quality_score: int = 70) -> Path:
-    summary = VALID_REPLACEMENT_SUMMARY.replace("quality_score: 90", f"quality_score: {quality_score}").replace(
+def no_ai_manifest_for(
+    root: Path, name: str, *, policy: dict | None = None, quality_score: int = 70
+) -> Path:
+    summary = VALID_REPLACEMENT_SUMMARY.replace(
+        "quality_score: 90", f"quality_score: {quality_score}"
+    ).replace(
         "Better candidate analysis.", "Automated data-only summary generated without AI assistance."
     )
     policy = policy or {"mode": "default"}
@@ -303,7 +330,9 @@ def no_ai_manifest_for(root: Path, name: str, *, policy: dict | None = None, qua
 
 
 class PromotionGuardTests(unittest.TestCase):
-    def test_failed_degraded_and_no_ai_candidates_do_not_replace_existing_good_article(self) -> None:
+    def test_failed_degraded_and_no_ai_candidates_do_not_replace_existing_good_article(
+        self,
+    ) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             root = Path(tmpdir)
@@ -313,8 +342,20 @@ class PromotionGuardTests(unittest.TestCase):
 
             blocked_manifests = [
                 manifest_for(root, "failed", promotion_eligible=False),
-                manifest_for(root, "degraded", ai_provenance={"source": "copilot-cli", "model": "copilot-default", "degraded": True}),
-                manifest_for(root, "no-ai", ai_provenance={"source": "no-ai", "model": "none", "degraded": False}),
+                manifest_for(
+                    root,
+                    "degraded",
+                    ai_provenance={
+                        "source": "copilot-cli",
+                        "model": "copilot-default",
+                        "degraded": True,
+                    },
+                ),
+                manifest_for(
+                    root,
+                    "no-ai",
+                    ai_provenance={"source": "no-ai", "model": "none", "degraded": False},
+                ),
             ]
 
             for manifest_path in blocked_manifests:
@@ -335,7 +376,9 @@ class PromotionGuardTests(unittest.TestCase):
             original_summary = canonical_summary.read_text(encoding="utf-8")
 
             with self.assertRaises(promotion_guard.PromotionBlocked) as missing:
-                promotion_guard.promote_candidate(root / "data/staging/2026-W23/missing/publish-manifest.json", root=root)
+                promotion_guard.promote_candidate(
+                    root / "data/staging/2026-W23/missing/publish-manifest.json", root=root
+                )
             self.assertIn("Missing publish eligibility manifest", missing.exception.reasons[0])
 
             malformed = root / "data/staging/2026-W23/malformed/publish-manifest.json"
@@ -370,28 +413,52 @@ class PromotionGuardTests(unittest.TestCase):
             install_existing_good_article(root)
             manifest_path = manifest_for(root, "valid")
 
-            first_summary, first_content = promotion_guard.promote_candidate(manifest_path, root=root)
+            first_summary, first_content = promotion_guard.promote_candidate(
+                manifest_path, root=root
+            )
             first_summary_text = first_summary.read_text(encoding="utf-8")
             first_content_text = first_content.read_text(encoding="utf-8")
 
-            second_summary, second_content = promotion_guard.promote_candidate(manifest_path, root=root)
+            second_summary, second_content = promotion_guard.promote_candidate(
+                manifest_path, root=root
+            )
 
             self.assertEqual(second_summary.read_text(encoding="utf-8"), first_summary_text)
             self.assertEqual(second_content.read_text(encoding="utf-8"), first_content_text)
-            self.assertEqual(second_summary.read_text(encoding="utf-8").count("Better candidate analysis."), 1)
-            self.assertEqual(second_content.read_text(encoding="utf-8").count("Better candidate rendered content."), 1)
+            self.assertEqual(
+                second_summary.read_text(encoding="utf-8").count("Better candidate analysis."), 1
+            )
+            self.assertEqual(
+                second_content.read_text(encoding="utf-8").count(
+                    "Better candidate rendered content."
+                ),
+                1,
+            )
             transaction_path = root / "data/published/2026-W23/promotion-manifest.json"
             first_transaction = json.loads(transaction_path.read_text(encoding="utf-8"))
             promotion_guard.promote_candidate(manifest_path, root=root)
             second_transaction = json.loads(transaction_path.read_text(encoding="utf-8"))
             self.assertEqual(second_transaction, first_transaction)
             self.assertEqual(first_transaction["schema_version"], "promotion_transaction_v1")
-            self.assertEqual(first_transaction["source_manifest"]["path"], "data/staging/2026-W23/valid/publish-manifest.json")
-            self.assertEqual(first_transaction["provenance"]["source_artifacts"][0]["path"], "data/raw/2026-W23-valid.json")
-            self.assertEqual(first_transaction["published_artifacts"][0]["path"], "data/analyzed/2026-W23-summary.md")
-            self.assertEqual(first_transaction["published_artifacts"][1]["path"], "content/weekly/2026/W23.md")
+            self.assertEqual(
+                first_transaction["source_manifest"]["path"],
+                "data/staging/2026-W23/valid/publish-manifest.json",
+            )
+            self.assertEqual(
+                first_transaction["provenance"]["source_artifacts"][0]["path"],
+                "data/raw/2026-W23-valid.json",
+            )
+            self.assertEqual(
+                first_transaction["published_artifacts"][0]["path"],
+                "data/analyzed/2026-W23-summary.md",
+            )
+            self.assertEqual(
+                first_transaction["published_artifacts"][1]["path"], "content/weekly/2026/W23.md"
+            )
 
-    def test_no_ai_first_publish_requires_explicit_policy_and_no_existing_good_article(self) -> None:
+    def test_no_ai_first_publish_requires_explicit_policy_and_no_existing_good_article(
+        self,
+    ) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             root = Path(tmpdir)
@@ -399,9 +466,14 @@ class PromotionGuardTests(unittest.TestCase):
 
             with self.assertRaises(promotion_guard.PromotionBlocked) as default_block:
                 promotion_guard.promote_candidate(default_manifest, root=root)
-            self.assertIn("no-AI fallback is ineligible for default promotion.", default_block.exception.reasons)
+            self.assertIn(
+                "no-AI fallback is ineligible for default promotion.",
+                default_block.exception.reasons,
+            )
 
-            allow_manifest = no_ai_manifest_for(root, "no-ai-first", policy={"mode": "allow-no-ai-first-publish"})
+            allow_manifest = no_ai_manifest_for(
+                root, "no-ai-first", policy={"mode": "allow-no-ai-first-publish"}
+            )
             summary_path, _ = promotion_guard.promote_candidate(allow_manifest, root=root)
 
             self.assertIn("Automated data-only summary", summary_path.read_text(encoding="utf-8"))
@@ -412,7 +484,9 @@ class PromotionGuardTests(unittest.TestCase):
             root = Path(tmpdir)
             canonical_summary, _ = install_existing_good_article(root)
             original_summary = canonical_summary.read_text(encoding="utf-8")
-            missing_audit = no_ai_manifest_for(root, "force-missing", policy={"mode": "force-replace"})
+            missing_audit = no_ai_manifest_for(
+                root, "force-missing", policy={"mode": "force-replace"}
+            )
 
             with self.assertRaises(promotion_guard.PromotionBlocked) as blocked:
                 promotion_guard.promote_candidate(missing_audit, root=root)
@@ -422,7 +496,11 @@ class PromotionGuardTests(unittest.TestCase):
             force_manifest = no_ai_manifest_for(
                 root,
                 "force-ok",
-                policy={"mode": "force-replace", "reason": "operator approved emergency replace", "actor": "jmservera"},
+                policy={
+                    "mode": "force-replace",
+                    "reason": "operator approved emergency replace",
+                    "actor": "jmservera",
+                },
             )
             summary_path, _ = promotion_guard.promote_candidate(force_manifest, root=root)
 
@@ -480,8 +558,14 @@ class PromotionGuardTests(unittest.TestCase):
                 with self.assertRaises(promotion_guard.PromotionBlocked) as blocked:
                     promotion_guard.promote_candidate(manifest_path, root=root)
 
-                self.assertIn("candidate_summary_path must stay under the repository root.", blocked.exception.reasons)
-                self.assertIn("candidate_content_path must stay under the repository root.", blocked.exception.reasons)
+                self.assertIn(
+                    "candidate_summary_path must stay under the repository root.",
+                    blocked.exception.reasons,
+                )
+                self.assertIn(
+                    "candidate_content_path must stay under the repository root.",
+                    blocked.exception.reasons,
+                )
                 self.assertEqual(canonical_summary.read_text(encoding="utf-8"), original_summary)
                 self.assertEqual(canonical_content.read_text(encoding="utf-8"), original_content)
             finally:
@@ -496,12 +580,17 @@ class PromotionGuardTests(unittest.TestCase):
             valid_manifest = manifest_for(root, "misplaced")
             misplaced_manifest = root / "other" / "data" / "staging" / "publish-manifest.json"
             misplaced_manifest.parent.mkdir(parents=True, exist_ok=True)
-            misplaced_manifest.write_text(valid_manifest.read_text(encoding="utf-8"), encoding="utf-8")
+            misplaced_manifest.write_text(
+                valid_manifest.read_text(encoding="utf-8"), encoding="utf-8"
+            )
 
             with self.assertRaises(promotion_guard.PromotionBlocked) as blocked:
                 promotion_guard.promote_candidate(misplaced_manifest, root=root)
 
-            self.assertIn("Publish manifest must live under data/staging/ or data/candidates/.", blocked.exception.reasons)
+            self.assertIn(
+                "Publish manifest must live under data/staging/ or data/candidates/.",
+                blocked.exception.reasons,
+            )
 
     def test_publish_manifest_outside_allowed_roots_is_rejected_by_both_gates(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -509,17 +598,33 @@ class PromotionGuardTests(unittest.TestCase):
             root = Path(tmpdir)
             install_existing_good_article(root)
             valid_manifest = create_publish_manifest(root, "outside-root")
-            misplaced_manifest = root / "other" / "data" / "candidates" / WEEK / "outside-root" / "publish-manifest.json"
+            misplaced_manifest = (
+                root
+                / "other"
+                / "data"
+                / "candidates"
+                / WEEK
+                / "outside-root"
+                / "publish-manifest.json"
+            )
             misplaced_manifest.parent.mkdir(parents=True, exist_ok=True)
-            misplaced_manifest.write_text(valid_manifest.read_text(encoding="utf-8"), encoding="utf-8")
+            misplaced_manifest.write_text(
+                valid_manifest.read_text(encoding="utf-8"), encoding="utf-8"
+            )
 
             with self.assertRaises(SystemExit) as assert_blocked:
                 assert_eligible_from_root(root, misplaced_manifest)
             with self.assertRaises(promotion_guard.PromotionBlocked) as promote_blocked:
                 promotion_guard.promote_candidate(misplaced_manifest, root=root)
 
-            self.assertEqual(str(assert_blocked.exception), "Publish manifest must live under data/staging/ or data/candidates/.")
-            self.assertIn("Publish manifest must live under data/staging/ or data/candidates/.", promote_blocked.exception.reasons)
+            self.assertEqual(
+                str(assert_blocked.exception),
+                "Publish manifest must live under data/staging/ or data/candidates/.",
+            )
+            self.assertIn(
+                "Publish manifest must live under data/staging/ or data/candidates/.",
+                promote_blocked.exception.reasons,
+            )
 
     def test_publish_manifest_created_candidate_is_accepted_by_promotion_guard(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -541,7 +646,9 @@ class PromotionGuardTests(unittest.TestCase):
             canonical_summary, canonical_content = install_existing_good_article(root)
             original_summary = canonical_summary.read_text(encoding="utf-8")
             original_content = canonical_content.read_text(encoding="utf-8")
-            manifest_path = create_publish_manifest(root, "publish-rejected", source="no-ai", model="none")
+            manifest_path = create_publish_manifest(
+                root, "publish-rejected", source="no-ai", model="none"
+            )
 
             with self.assertRaises(SystemExit):
                 assert_eligible_from_root(root, manifest_path)
@@ -605,7 +712,9 @@ class PromotionGuardTests(unittest.TestCase):
             with self.assertRaises(promotion_guard.PromotionBlocked) as raised:
                 promotion_guard.promote_candidate(manifest_path, root=root)
 
-            self.assertIn("gate_results must include passing evidence_citation.", raised.exception.reasons)
+            self.assertIn(
+                "gate_results must include passing evidence_citation.", raised.exception.reasons
+            )
 
 
 if __name__ == "__main__":

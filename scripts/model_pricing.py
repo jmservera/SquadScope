@@ -3,11 +3,14 @@
 Source: https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing
 Fetched: 2026-06-06. Prices are USD per 1M tokens and must be reviewed every two months.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
 
-PRICING_SOURCE_URL = "https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing"
+PRICING_SOURCE_URL = (
+    "https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing"
+)
 PRICING_FETCHED_DATE = "2026-06-06"
 PRICING_REVIEW_INTERVAL_MONTHS = 2
 

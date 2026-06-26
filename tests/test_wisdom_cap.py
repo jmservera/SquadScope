@@ -3,19 +3,14 @@
 import sys
 from pathlib import Path
 
-import pytest
-
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from scripts.wisdom_cap import (
-    get_wisdom_path,
-    get_archive_path,
-    parse_heuristics,
-    select_for_retirement,
-    retire_heuristics,
     main,
+    parse_heuristics,
+    retire_heuristics,
+    select_for_retirement,
 )
-
 
 SAMPLE_WISDOM = """\
 # Topic Wisdom

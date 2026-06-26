@@ -15,7 +15,9 @@ META_LINE_PATTERNS = [
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Strip leaked Copilot/Farnsworth meta lines from markdown outputs.")
+    parser = argparse.ArgumentParser(
+        description="Strip leaked Copilot/Farnsworth meta lines from markdown outputs."
+    )
     parser.add_argument("--path", required=True, type=Path, help="File to sanitize in place.")
     return parser.parse_args(argv)
 

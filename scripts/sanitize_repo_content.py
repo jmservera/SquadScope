@@ -124,7 +124,10 @@ def sanitize_description(
     suspicious_matches = [phrase for phrase in INJECTION_PHRASES if phrase in lowered]
 
     if original != sanitized:
-        LOGGER.warning("Sanitized leading whitespace or boundary marker in description for %s", _repo_label(repo))
+        LOGGER.warning(
+            "Sanitized leading whitespace or boundary marker in description for %s",
+            _repo_label(repo),
+        )
 
     limit = min(suspicious_length, max_length) if suspicious_matches else max_length
     truncated = _truncate(sanitized, limit)
@@ -136,7 +139,9 @@ def sanitize_description(
             ", ".join(suspicious_matches),
         )
     if truncated != sanitized:
-        LOGGER.warning("Truncated repo description for %s to %d characters", _repo_label(repo), limit)
+        LOGGER.warning(
+            "Truncated repo description for %s to %d characters", _repo_label(repo), limit
+        )
 
     return truncated
 
@@ -163,14 +168,20 @@ def sanitize_json_file(input_path: Path, output_path: Path | None = None) -> Pat
     sanitized = sanitize_repo_payload(payload)
     destination = output_path or input_path
     destination.parent.mkdir(parents=True, exist_ok=True)
-    destination.write_text(json.dumps(sanitized, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    destination.write_text(
+        json.dumps(sanitized, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
     return destination
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Sanitize repo descriptions in a raw crawl JSON payload.")
+    parser = argparse.ArgumentParser(
+        description="Sanitize repo descriptions in a raw crawl JSON payload."
+    )
     parser.add_argument("--input", required=True, type=Path, help="Raw JSON payload to sanitize")
-    parser.add_argument("--output", type=Path, help="Destination path; defaults to modifying input in place")
+    parser.add_argument(
+        "--output", type=Path, help="Destination path; defaults to modifying input in place"
+    )
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.WARNING, format="%(levelname)s:%(name)s:%(message)s")
     sanitize_json_file(args.input, args.output)

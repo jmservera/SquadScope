@@ -68,7 +68,9 @@ def _tracker_count(tracker: Any) -> int:
 
 
 def _consume_quota(tracker: Any) -> bool:
-    method = _resolve_method(tracker, "increment", "try_acquire", "acquire", "consume", "record_call")
+    method = _resolve_method(
+        tracker, "increment", "try_acquire", "acquire", "consume", "record_call"
+    )
     try:
         result = method()
     except Exception as exc:  # pragma: no cover
@@ -98,7 +100,9 @@ def _make_budget(seconds: float):
 
 
 def _budget_exceeded(budget: Any) -> bool:
-    status = _resolve_method(budget, "is_exceeded", "expired", "timed_out", "should_stop", "exhausted")
+    status = _resolve_method(
+        budget, "is_exceeded", "expired", "timed_out", "should_stop", "exhausted"
+    )
     return bool(status())
 
 
@@ -110,7 +114,9 @@ def _elapsed_seconds(budget: Any) -> float:
     raise AssertionError(f"could not resolve elapsed time on {budget!r}")
 
 
-def _make_shard_result(*, repos_found: list[dict[str, Any]], api_calls: int, errors: list[str], wall_clock_s: float):
+def _make_shard_result(
+    *, repos_found: list[dict[str, Any]], api_calls: int, errors: list[str], wall_clock_s: float
+):
     return _build_instance(
         experiment.ShardResult,
         shard_id="github:new-repos:q1",
@@ -158,14 +164,22 @@ def _make_report(comparison: dict[str, Any]):
             signature = inspect.signature(factory)
             if "comparison" in signature.parameters:
                 return factory(comparison=comparison)
-            if any(parameter.kind == inspect.Parameter.VAR_KEYWORD for parameter in signature.parameters.values()):
+            if any(
+                parameter.kind == inspect.Parameter.VAR_KEYWORD
+                for parameter in signature.parameters.values()
+            ):
                 return factory(**comparison)
-            allowed = {name: value for name, value in comparison.items() if name in signature.parameters}
+            allowed = {
+                name: value for name, value in comparison.items() if name in signature.parameters
+            }
             return factory(**allowed)
     signature = inspect.signature(report_cls)
     if "comparison" in signature.parameters:
         return report_cls(comparison=comparison)
-    if any(parameter.kind == inspect.Parameter.VAR_KEYWORD for parameter in signature.parameters.values()):
+    if any(
+        parameter.kind == inspect.Parameter.VAR_KEYWORD
+        for parameter in signature.parameters.values()
+    ):
         return report_cls(**comparison)
     allowed = {name: value for name, value in comparison.items() if name in signature.parameters}
     return report_cls(**allowed)
@@ -269,34 +283,62 @@ class TestDeterministicMerge:
     def test_deduplicates_by_full_name_and_preserves_star_gain(
         self, repo_alpha: dict[str, Any], repo_beta: dict[str, Any], repo_gamma: dict[str, Any]
     ) -> None:
-        first = _make_shard_result(repos_found=[repo_alpha, repo_beta], api_calls=3, errors=[], wall_clock_s=1.1)
+        first = _make_shard_result(
+            repos_found=[repo_alpha, repo_beta], api_calls=3, errors=[], wall_clock_s=1.1
+        )
         duplicate_alpha = {**repo_alpha, "stars": 999, "stars_gained": 42}
-        second = _make_shard_result(repos_found=[duplicate_alpha, repo_gamma], api_calls=2, errors=[], wall_clock_s=1.2)
+        second = _make_shard_result(
+            repos_found=[duplicate_alpha, repo_gamma], api_calls=2, errors=[], wall_clock_s=1.2
+        )
         merged = experiment.deterministic_merge([first, second])
         merged_repos = _extract_repos(merged)
         assert [repo["full_name"] for repo in merged_repos].count("octo/alpha") == 1
-        assert {repo["full_name"] for repo in merged_repos} == {"octo/alpha", "octo/beta", "tools/gamma"}
+        assert {repo["full_name"] for repo in merged_repos} == {
+            "octo/alpha",
+            "octo/beta",
+            "tools/gamma",
+        }
         alpha = next(repo for repo in merged_repos if repo["full_name"] == "octo/alpha")
         assert alpha["stars_gained"] == 42
 
     def test_same_inputs_produce_byte_identical_output_regardless_of_shard_order(
         self, repo_alpha: dict[str, Any], repo_beta: dict[str, Any], repo_gamma: dict[str, Any]
     ) -> None:
-        shard_a = _make_shard_result(repos_found=[repo_alpha, repo_gamma], api_calls=3, errors=[], wall_clock_s=1.0)
-        shard_b = _make_shard_result(repos_found=[repo_beta], api_calls=2, errors=[], wall_clock_s=1.0)
+        shard_a = _make_shard_result(
+            repos_found=[repo_alpha, repo_gamma], api_calls=3, errors=[], wall_clock_s=1.0
+        )
+        shard_b = _make_shard_result(
+            repos_found=[repo_beta], api_calls=2, errors=[], wall_clock_s=1.0
+        )
         merged_ab = experiment.deterministic_merge([shard_a, shard_b])
         merged_ba = experiment.deterministic_merge([shard_b, shard_a])
         assert _canonical_json(merged_ab) == _canonical_json(merged_ba)
 
 
 class TestCompareResults:
-    def test_calculates_speedup_and_api_growth(self, repo_alpha: dict[str, Any], repo_beta: dict[str, Any]) -> None:
+    def test_calculates_speedup_and_api_growth(
+        self, repo_alpha: dict[str, Any], repo_beta: dict[str, Any]
+    ) -> None:
         canonical = {"repos": [repo_alpha, repo_beta], "metadata": {"note": "stable"}}
-        baseline = {"wall_clock_s": 100.0, "api_calls": 100, "output": canonical, "canonical_output": canonical}
-        shard = {"wall_clock_s": 70.0, "api_calls": 108, "output": canonical, "canonical_output": canonical}
+        baseline = {
+            "wall_clock_s": 100.0,
+            "api_calls": 100,
+            "output": canonical,
+            "canonical_output": canonical,
+        }
+        shard = {
+            "wall_clock_s": 70.0,
+            "api_calls": 108,
+            "output": canonical,
+            "canonical_output": canonical,
+        }
         comparison = experiment.compare_results(baseline, shard)
-        assert _percent(_metric(comparison, "speedup_pct", "speedup_percent", "speedup")) == pytest.approx(30.0)
-        assert _percent(_metric(comparison, "api_growth_pct", "api_growth_percent", "api_growth")) == pytest.approx(8.0)
+        assert _percent(
+            _metric(comparison, "speedup_pct", "speedup_percent", "speedup")
+        ) == pytest.approx(30.0)
+        assert _percent(
+            _metric(comparison, "api_growth_pct", "api_growth_percent", "api_growth")
+        ) == pytest.approx(8.0)
 
     def test_output_stability_ignores_timestamp_fields(
         self, repo_alpha: dict[str, Any], repo_beta: dict[str, Any]
@@ -322,7 +364,9 @@ class TestCompareResults:
             },
         }
         comparison = experiment.compare_results(baseline, shard)
-        assert bool(_metric(comparison, "output_stable", "stable_output", "is_output_stable")) is True
+        assert (
+            bool(_metric(comparison, "output_stable", "stable_output", "is_output_stable")) is True
+        )
 
 
 class TestExperimentReport:

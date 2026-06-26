@@ -17,7 +17,7 @@ import json
 import os
 import re
 import sys
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -77,8 +77,6 @@ def extract_quality_score(text: str) -> int:
 def compute_evidence_coverage(qa_report: dict[str, Any]) -> float:
     """Compute evidence coverage from QA report checks."""
     checks = qa_report.get("checks", {})
-    ref_count = checks.get("reference_count", {})
-    selected = ref_count.get("selected", 0)
     # Use mapper contracts to estimate input count
     mapper_contracts = checks.get("mapper_contracts", {})
     errors_by_mapper = mapper_contracts.get("errors_by_mapper", {})
@@ -198,9 +196,7 @@ def analyze_map_reduce(
     sidecars_present = checks.get("sidecars_present", {}) if isinstance(checks, dict) else {}
 
     extra = {
-        "mapper_errors": checks
-        .get("mapper_contracts", {})
-        .get("errors_by_mapper", {}),
+        "mapper_errors": checks.get("mapper_contracts", {}).get("errors_by_mapper", {}),
         "claims_rejected": sidecars_present.get(
             "rejected_count",
             len(rejected_claims_sidecar.get("rejected_claims", [])),
@@ -304,19 +300,13 @@ def generate_comparison_report(
     """Generate the full comparison report."""
     deltas = {
         "quality_score": map_reduce.quality_score - single_pass.quality_score,
-        "evidence_coverage": round(
-            map_reduce.evidence_coverage - single_pass.evidence_coverage, 4
-        ),
+        "evidence_coverage": round(map_reduce.evidence_coverage - single_pass.evidence_coverage, 4),
         "citation_count": map_reduce.citation_count - single_pass.citation_count,
         "word_count": map_reduce.word_count - single_pass.word_count,
         "gate_regression": single_pass.gate_passed and not map_reduce.gate_passed,
         "orphaned_citations": int(map_reduce_extra.get("orphaned_citations", 0)),
-        "unresolved_contradictions": int(
-            map_reduce_extra.get("unresolved_contradictions", 0)
-        ),
-        "invalid_rejected_claims": int(
-            map_reduce_extra.get("invalid_rejected_claims", 0)
-        ),
+        "unresolved_contradictions": int(map_reduce_extra.get("unresolved_contradictions", 0)),
+        "invalid_rejected_claims": int(map_reduce_extra.get("invalid_rejected_claims", 0)),
         "artifact_errors": list(map_reduce_extra.get("artifact_errors", [])),
     }
 
@@ -379,9 +369,9 @@ def check_promotion_eligibility(reports: list[dict[str, Any]]) -> dict[str, Any]
         }
 
     # Check average quality across the required consecutive window.
-    avg_quality = sum(
-        r["map_reduce"]["quality_score"] for r in recent_reports
-    ) / len(recent_reports)
+    avg_quality = sum(r["map_reduce"]["quality_score"] for r in recent_reports) / len(
+        recent_reports
+    )
     if avg_quality < 65:
         return {
             "eligible": False,
@@ -434,15 +424,14 @@ def should_rollback(report: dict[str, Any]) -> tuple[bool, str]:
     # Hard coverage floor
     coverage = mr.get("evidence_coverage", 0.0)
     if coverage < PROMOTION_HARD_FLOOR_COVERAGE:
-        return True, f"Evidence coverage {coverage:.2f} below hard floor {PROMOTION_HARD_FLOOR_COVERAGE}."
+        return (
+            True,
+            f"Evidence coverage {coverage:.2f} below hard floor {PROMOTION_HARD_FLOOR_COVERAGE}.",
+        )
 
     # Mapper failure
     mapper_errors = mr.get("mapper_errors", {})
-    if any(
-        errs
-        for errs in mapper_errors.values()
-        if isinstance(errs, list) and errs
-    ):
+    if any(errs for errs in mapper_errors.values() if isinstance(errs, list) and errs):
         failed = [k for k, v in mapper_errors.items() if v]
         return True, f"Mapper failures in: {', '.join(failed)}."
 
@@ -494,9 +483,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     raw_payload = json.loads(args.raw_json.read_text(encoding="utf-8"))
     week = raw_payload.get("week", "unknown")
 
-    single_pass = analyze_single_pass(
-        args.single_pass_summary, raw_payload, args.current_datetime
-    )
+    single_pass = analyze_single_pass(args.single_pass_summary, raw_payload, args.current_datetime)
     map_reduce, mr_extra = analyze_map_reduce(
         args.candidate_dir, raw_payload, args.current_datetime
     )
@@ -531,9 +518,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             rpath = rdir / "comparison-report.json"
             if rpath.exists():
                 try:
-                    all_reports.append(
-                        json.loads(rpath.read_text(encoding="utf-8"))
-                    )
+                    all_reports.append(json.loads(rpath.read_text(encoding="utf-8")))
                 except (json.JSONDecodeError, OSError):
                     pass
         promotion = check_promotion_eligibility(all_reports)
@@ -650,9 +635,7 @@ def compute_orphaned_citations(
         str(editorial_plan.get("top_repo", "")).strip(),
         *(str(repo).strip() for repo in key_references.get("notable_projects", [])),
     }
-    allowed_articles = {
-        str(url).strip() for url in key_references.get("press_articles", [])
-    }
+    allowed_articles = {str(url).strip() for url in key_references.get("press_articles", [])}
     for claim in selected_claims:
         if not isinstance(claim, dict):
             continue
@@ -662,9 +645,7 @@ def compute_orphaned_citations(
             else {}
         )
         allowed_repos.update(str(repo).strip() for repo in bindings.get("repos", []))
-        allowed_articles.update(
-            str(url).strip() for url in bindings.get("articles", [])
-        )
+        allowed_articles.update(str(url).strip() for url in bindings.get("articles", []))
 
     allowed_repos.discard("")
     allowed_articles.discard("")

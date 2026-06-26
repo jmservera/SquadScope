@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import tempfile
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, datetime
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -13,9 +13,9 @@ import pytest
 
 import scripts.techcrunch_crawler as techcrunch_crawler
 from scripts.techcrunch_crawler import (
-    DEFAULT_SOURCES_PATH,
-    DEFAULT_FETCH_TIMEOUT_SECONDS,
     DEFAULT_FETCH_RETRIES,
+    DEFAULT_FETCH_TIMEOUT_SECONDS,
+    DEFAULT_SOURCES_PATH,
     NewsFeedSource,
     NewsSourceConfig,
     TechCrunchSource,
@@ -35,8 +35,8 @@ from scripts.techcrunch_crawler import (
     week_slug,
 )
 
-
 # --- Fixtures ---
+
 
 def _make_entry(
     title="Test Article",
@@ -63,6 +63,7 @@ def _make_feed(entries=None, bozo=False):
 
 # --- Unit tests: utility functions ---
 
+
 class TestIsoTimestamp:
     def test_basic(self):
         dt = datetime(2026, 5, 15, 10, 0, 0, tzinfo=UTC)
@@ -78,6 +79,7 @@ class TestWeekSlug:
 
 
 # --- Unit tests: extraction ---
+
 
 class TestExtractGithubUrls:
     def test_finds_urls(self):
@@ -185,11 +187,10 @@ class TestParsePublishedDate:
 
 # --- Integration tests: TechCrunchSource.crawl ---
 
+
 class TestTechCrunchSourceCrawl:
     def test_crawl_filters_by_date(self):
-        entry_in_range = _make_entry(
-            published_parsed=(2026, 5, 15, 10, 0, 0, 3, 135, 0)
-        )
+        entry_in_range = _make_entry(published_parsed=(2026, 5, 15, 10, 0, 0, 3, 135, 0))
         entry_out_of_range = _make_entry(
             title="Old Article",
             published_parsed=(2026, 4, 1, 10, 0, 0, 1, 91, 0),
@@ -254,6 +255,7 @@ class TestTechCrunchSourceCrawl:
 
 # --- Output structure tests ---
 
+
 class TestBuildOutput:
     def test_structure(self):
         articles = [
@@ -294,6 +296,7 @@ class TestBuildOutput:
 
 # --- DataSource protocol tests ---
 
+
 class TestDataSourceProtocol:
     def test_get_name(self):
         source = TechCrunchSource()
@@ -308,6 +311,7 @@ class TestDataSourceProtocol:
 
 # --- Config and parallel crawl tests ---
 
+
 class TestExternalNewsSources:
     def test_load_default_source_configs(self):
         sources = load_source_configs(DEFAULT_SOURCES_PATH)
@@ -318,7 +322,6 @@ class TestExternalNewsSources:
         assert "hugging_face_blog" in names
         assert "mit_technology_review" in names
         assert "github_blog" in names
-
 
     def test_source_reuse_decisions_reuses_successful_same_day_sources_and_refreshes_failed(self):
         sources = [
@@ -331,7 +334,9 @@ class TestExternalNewsSources:
             "week": "2026-W21",
             "crawled_at": "2026-05-18T08:00:00Z",
             "crawl_window": {"since": iso_timestamp(since), "until": iso_timestamp(until)},
-            "articles": [{"source": "techcrunch", "title": "Reused", "published_at": "2026-05-17T00:00:00Z"}],
+            "articles": [
+                {"source": "techcrunch", "title": "Reused", "published_at": "2026-05-17T00:00:00Z"}
+            ],
             "metadata": {
                 "source_config_checksum": source_config_checksum(sources),
                 "source_status": [
@@ -392,7 +397,11 @@ class TestExternalNewsSources:
         assert [source.name for source in to_crawl] == ["techcrunch"]
         assert reused_statuses == []
         assert decisions == [
-            {"source": "techcrunch", "decision": "refresh", "reasons": ["artifact articles malformed"]}
+            {
+                "source": "techcrunch",
+                "decision": "refresh",
+                "reasons": ["artifact articles malformed"],
+            }
         ]
 
     def test_source_reuse_decisions_refreshes_missing_code_fingerprint_when_required(self):
@@ -403,7 +412,9 @@ class TestExternalNewsSources:
             "week": "2026-W21",
             "crawled_at": "2026-05-18T08:00:00Z",
             "crawl_window": {"since": iso_timestamp(since), "until": iso_timestamp(until)},
-            "articles": [{"source": "techcrunch", "title": "Reused", "published_at": "2026-05-17T00:00:00Z"}],
+            "articles": [
+                {"source": "techcrunch", "title": "Reused", "published_at": "2026-05-17T00:00:00Z"}
+            ],
             "metadata": {
                 "source_config_checksum": source_config_checksum(sources),
                 "source_status": [{"source": "techcrunch", "success": True}],
@@ -426,7 +437,11 @@ class TestExternalNewsSources:
         assert [source.name for source in to_crawl] == ["techcrunch"]
         assert reused_statuses == []
         assert decisions == [
-            {"source": "techcrunch", "decision": "refresh", "reasons": ["crawler/config fingerprint mismatch"]}
+            {
+                "source": "techcrunch",
+                "decision": "refresh",
+                "reasons": ["crawler/config fingerprint mismatch"],
+            }
         ]
 
     @pytest.mark.parametrize(
@@ -446,13 +461,15 @@ class TestExternalNewsSources:
             validate_feed_url(feed_url)
 
     def test_load_source_configs_rejects_unapproved_hosts(self):
-        payload = json.dumps([
-            {
-                "name": "evil",
-                "feed_url": "https://example.com/feed.xml",
-                "requests_per_minute": 10,
-            }
-        ])
+        payload = json.dumps(
+            [
+                {
+                    "name": "evil",
+                    "feed_url": "https://example.com/feed.xml",
+                    "requests_per_minute": 10,
+                }
+            ]
+        )
 
         with patch("pathlib.Path.read_text", return_value=payload):
             with pytest.raises(ValueError, match="not approved"):
@@ -614,24 +631,26 @@ class TestExternalNewsSources:
         assert output["metadata"]["errors"] == [{"source": "gamma", "error": "timeout"}]
 
     def test_dedupe_articles_preserves_sources(self):
-        articles, deduped = dedupe_articles([
-            {
-                "source": "alpha",
-                "title": "Same story",
-                "url": "https://example.com/story/",
-                "published_at": "2026-05-15T10:00:00Z",
-                "github_links": ["https://github.com/a/b"],
-                "relevance_score": 0.4,
-            },
-            {
-                "source": "beta",
-                "title": "Same story mirror",
-                "url": "https://example.com/story",
-                "published_at": "2026-05-15T10:00:00Z",
-                "github_links": ["https://github.com/c/d"],
-                "relevance_score": 0.8,
-            },
-        ])
+        articles, deduped = dedupe_articles(
+            [
+                {
+                    "source": "alpha",
+                    "title": "Same story",
+                    "url": "https://example.com/story/",
+                    "published_at": "2026-05-15T10:00:00Z",
+                    "github_links": ["https://github.com/a/b"],
+                    "relevance_score": 0.4,
+                },
+                {
+                    "source": "beta",
+                    "title": "Same story mirror",
+                    "url": "https://example.com/story",
+                    "published_at": "2026-05-15T10:00:00Z",
+                    "github_links": ["https://github.com/c/d"],
+                    "relevance_score": 0.8,
+                },
+            ]
+        )
 
         assert deduped == 1
         assert len(articles) == 1
@@ -666,6 +685,7 @@ class TestExternalNewsSources:
         assert source.last_attempts == DEFAULT_FETCH_RETRIES + 1
         assert source.last_timeout_seconds == DEFAULT_FETCH_TIMEOUT_SECONDS
 
+
 class TestSameDaySourceReuse:
     def _sources(self):
         return [
@@ -688,6 +708,7 @@ class TestSameDaySourceReuse:
 
     def _write_previous(self, path, *, crawled_at, statuses=None, articles=None, sources=None):
         from scripts.techcrunch_crawler import source_config_checksum
+
         sources = sources or self._sources()
         output = build_output(
             articles or [self._article("alpha", "Alpha", "https://example.com/alpha")],
@@ -700,9 +721,38 @@ class TestSameDaySourceReuse:
             },
             source_config_checksum_value=source_config_checksum(sources),
             requested_sources=[source.name for source in sources],
-            source_statuses=statuses or [
-                {"source": "alpha", "host": "techcrunch.com", "success": True, "attempts": 1, "timeout_seconds": 15, "total_articles": 1, "relevant_articles": 1, "github_links_found": 0, "started_at": "2026-05-19T08:00:00Z", "ended_at": "2026-05-19T08:00:01Z", "duration_seconds": 1.0, "error_class": "", "error_message": ""},
-                {"source": "beta", "host": "github.blog", "success": True, "attempts": 1, "timeout_seconds": 15, "total_articles": 0, "relevant_articles": 0, "github_links_found": 0, "started_at": "2026-05-19T08:00:00Z", "ended_at": "2026-05-19T08:00:01Z", "duration_seconds": 1.0, "error_class": "", "error_message": ""},
+            source_statuses=statuses
+            or [
+                {
+                    "source": "alpha",
+                    "host": "techcrunch.com",
+                    "success": True,
+                    "attempts": 1,
+                    "timeout_seconds": 15,
+                    "total_articles": 1,
+                    "relevant_articles": 1,
+                    "github_links_found": 0,
+                    "started_at": "2026-05-19T08:00:00Z",
+                    "ended_at": "2026-05-19T08:00:01Z",
+                    "duration_seconds": 1.0,
+                    "error_class": "",
+                    "error_message": "",
+                },
+                {
+                    "source": "beta",
+                    "host": "github.blog",
+                    "success": True,
+                    "attempts": 1,
+                    "timeout_seconds": 15,
+                    "total_articles": 0,
+                    "relevant_articles": 0,
+                    "github_links_found": 0,
+                    "started_at": "2026-05-19T08:00:00Z",
+                    "ended_at": "2026-05-19T08:00:01Z",
+                    "duration_seconds": 1.0,
+                    "error_class": "",
+                    "error_message": "",
+                },
             ],
             source_reuse_summary=[],
             source_artifact_provenance=[],
@@ -712,6 +762,7 @@ class TestSameDaySourceReuse:
 
     def test_reuses_successful_same_day_sources(self, tmp_path):
         from scripts.techcrunch_crawler import plan_source_reuse, source_config_checksum
+
         sources = self._sources()
         path = tmp_path / "external.json"
         now = datetime(2026, 5, 19, 9, 0, tzinfo=UTC)
@@ -734,6 +785,7 @@ class TestSameDaySourceReuse:
 
     def test_rejects_yesterday_artifact_as_stale(self, tmp_path):
         from scripts.techcrunch_crawler import plan_source_reuse, source_config_checksum
+
         sources = self._sources()
         path = tmp_path / "external.json"
         self._write_previous(path, crawled_at=datetime(2026, 5, 18, 9, 0, tzinfo=UTC))
@@ -753,6 +805,7 @@ class TestSameDaySourceReuse:
 
     def test_rejects_missing_code_fingerprint_when_required(self, tmp_path):
         from scripts.techcrunch_crawler import plan_source_reuse, source_config_checksum
+
         sources = self._sources()
         path = tmp_path / "external.json"
         now = datetime(2026, 5, 19, 9, 0, tzinfo=UTC)
@@ -775,14 +828,43 @@ class TestSameDaySourceReuse:
 
     def test_partial_rerun_reuses_success_and_fetches_failed(self, tmp_path):
         from scripts.techcrunch_crawler import plan_source_reuse, source_config_checksum
+
         sources = self._sources()
         path = tmp_path / "external.json"
         self._write_previous(
             path,
             crawled_at=datetime(2026, 5, 19, 9, 0, tzinfo=UTC),
             statuses=[
-                {"source": "alpha", "host": "techcrunch.com", "success": True, "attempts": 1, "timeout_seconds": 15, "total_articles": 1, "relevant_articles": 1, "github_links_found": 0, "started_at": "2026-05-19T08:00:00Z", "ended_at": "2026-05-19T08:00:01Z", "duration_seconds": 1.0, "error_class": "", "error_message": ""},
-                {"source": "beta", "host": "github.blog", "success": False, "attempts": 2, "timeout_seconds": 15, "total_articles": 0, "relevant_articles": 0, "github_links_found": 0, "started_at": "2026-05-19T08:00:00Z", "ended_at": "2026-05-19T08:00:01Z", "duration_seconds": 1.0, "error_class": "TimeoutError", "error_message": "timeout"},
+                {
+                    "source": "alpha",
+                    "host": "techcrunch.com",
+                    "success": True,
+                    "attempts": 1,
+                    "timeout_seconds": 15,
+                    "total_articles": 1,
+                    "relevant_articles": 1,
+                    "github_links_found": 0,
+                    "started_at": "2026-05-19T08:00:00Z",
+                    "ended_at": "2026-05-19T08:00:01Z",
+                    "duration_seconds": 1.0,
+                    "error_class": "",
+                    "error_message": "",
+                },
+                {
+                    "source": "beta",
+                    "host": "github.blog",
+                    "success": False,
+                    "attempts": 2,
+                    "timeout_seconds": 15,
+                    "total_articles": 0,
+                    "relevant_articles": 0,
+                    "github_links_found": 0,
+                    "started_at": "2026-05-19T08:00:00Z",
+                    "ended_at": "2026-05-19T08:00:01Z",
+                    "duration_seconds": 1.0,
+                    "error_class": "TimeoutError",
+                    "error_message": "timeout",
+                },
             ],
         )
 
@@ -797,7 +879,10 @@ class TestSameDaySourceReuse:
 
         assert [article["source"] for article in reused] == ["alpha"]
         assert [source.name for source in pending] == ["beta"]
-        assert {item["source"]: item["action"] for item in summary} == {"alpha": "reused", "beta": "failed"}
+        assert {item["source"]: item["action"] for item in summary} == {
+            "alpha": "reused",
+            "beta": "failed",
+        }
 
     def test_deterministic_fan_in_dedupes_reused_and_refreshed_articles(self):
         first = self._article("alpha", "Same", "https://example.com/story/")
@@ -820,7 +905,7 @@ def test_main_emits_observability_ledger() -> None:
             json.dumps(
                 [
                     {"name": "alpha", "feed_url": "https://techcrunch.com/feed/"},
-                    {"name": "beta", "feed_url": "https://github.blog/feed/"}
+                    {"name": "beta", "feed_url": "https://github.blog/feed/"},
                 ]
             ),
             encoding="utf-8",
@@ -870,10 +955,12 @@ def test_main_emits_observability_ledger() -> None:
                 "relevance_score": 0.8,
             }
         ]
-        with patch.object(
-            techcrunch_crawler, "crawl_sources_parallel", return_value=(articles, [], statuses)
-        ), patch.object(techcrunch_crawler, "emit_ledger") as emit_mock, patch.object(
-            techcrunch_crawler, "print"
+        with (
+            patch.object(
+                techcrunch_crawler, "crawl_sources_parallel", return_value=(articles, [], statuses)
+            ),
+            patch.object(techcrunch_crawler, "emit_ledger") as emit_mock,
+            patch.object(techcrunch_crawler, "print"),
         ):
             rc = techcrunch_crawler.main(
                 [

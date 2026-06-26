@@ -14,9 +14,6 @@ import tempfile
 import unittest
 from pathlib import Path
 
-import yaml
-
-
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 MOCK_REPOS = [
@@ -189,12 +186,13 @@ class TestEndToEndTopicPipeline(unittest.TestCase):
     def test_full_pipeline_ai_ml(self):
         """Run the full pipeline: validate → score → quality gate → predictions."""
         import sys
+
         sys.path.insert(0, str(REPO_ROOT))
 
+        from scripts.prediction_ledger import append_predictions, generate_predictions
+        from scripts.quality_gate import check_quality, get_quality_config, write_metric
+        from scripts.score_repos import get_scoring_config, load_config, score_repos
         from scripts.validate_topic_config import validate_file
-        from scripts.score_repos import score_repos, load_config, get_scoring_config
-        from scripts.quality_gate import check_quality, get_quality_config, write_metric, week_slug
-        from scripts.prediction_ledger import generate_predictions, append_predictions
 
         # --- Stage 1: Validate config ---
         config_model = validate_file(str(self.config_path))
@@ -227,17 +225,20 @@ class TestEndToEndTopicPipeline(unittest.TestCase):
         self.assertEqual(scores, sorted(scores, reverse=True))
 
         # AI/ML repos should score higher than non-AI repos
-        ai_repos = [r for r in scored if r["full_name"] in (
-            "org/pytorch-trainer", "org/llm-finetune", "org/ai-image-gen"
-        )]
-        non_ai_repos = [r for r in scored if r["full_name"] in (
-            "org/rust-cli-tool", "org/web-dashboard", "org/data-viz"
-        )]
+        ai_repos = [
+            r
+            for r in scored
+            if r["full_name"] in ("org/pytorch-trainer", "org/llm-finetune", "org/ai-image-gen")
+        ]
+        non_ai_repos = [
+            r
+            for r in scored
+            if r["full_name"] in ("org/rust-cli-tool", "org/web-dashboard", "org/data-viz")
+        ]
         if ai_repos and non_ai_repos:
             max_non_ai = max(r["relevance_score"] for r in non_ai_repos)
             min_ai = min(r["relevance_score"] for r in ai_repos)
-            self.assertGreater(min_ai, max_non_ai,
-                               "AI/ML repos should outscore non-AI repos")
+            self.assertGreater(min_ai, max_non_ai, "AI/ML repos should outscore non-AI repos")
 
         # Write scored output for quality gate
         scored_path = self.work_dir / "scored.json"
@@ -278,10 +279,16 @@ class TestEndToEndTopicPipeline(unittest.TestCase):
             self.assertIn("reason", pred)
             self.assertEqual(pred["week"], week)
             self.assertGreater(pred["confidence"], 0)
-            self.assertIn(pred["prediction"], [
-                "rising_star", "emerging_topic", "momentum_shift",
-                "breakout_candidate", "declining_signal",
-            ])
+            self.assertIn(
+                pred["prediction"],
+                [
+                    "rising_star",
+                    "emerging_topic",
+                    "momentum_shift",
+                    "breakout_candidate",
+                    "declining_signal",
+                ],
+            )
 
         # Write predictions to ledger
         predictions_path = self.metrics_path / "predictions.jsonl"
@@ -305,15 +312,21 @@ class TestEndToEndTopicPipeline(unittest.TestCase):
             self.assertIn("relevance_score", repo)
             # Verify topic-specific content (not generic)
             topics = repo.get("topics", [])
-            ai_topics = {"machine-learning", "deep-learning", "artificial-intelligence",
-                         "neural-network", "llm", "transformers"}
+            ai_topics = {
+                "machine-learning",
+                "deep-learning",
+                "artificial-intelligence",
+                "neural-network",
+                "llm",
+                "transformers",
+            }
             has_ai_topic = bool(set(t.lower() for t in topics) & ai_topics)
-            self.assertTrue(has_ai_topic,
-                            f"Top repo {repo['full_name']} should have AI/ML topics")
+            self.assertTrue(has_ai_topic, f"Top repo {repo['full_name']} should have AI/ML topics")
 
     def test_config_validation_rejects_invalid(self):
         """Ensure validate rejects malformed configs."""
         import sys
+
         sys.path.insert(0, str(REPO_ROOT))
         from scripts.validate_topic_config import validate_file
 
@@ -327,8 +340,9 @@ class TestEndToEndTopicPipeline(unittest.TestCase):
     def test_scoring_respects_language_boost(self):
         """Verify Python repos get a language boost over unlisted languages."""
         import sys
+
         sys.path.insert(0, str(REPO_ROOT))
-        from scripts.score_repos import compute_relevance_score, load_config, get_scoring_config
+        from scripts.score_repos import compute_relevance_score, get_scoring_config, load_config
 
         config = load_config(self.config_path)
         scoring_config = get_scoring_config(config)
@@ -347,8 +361,9 @@ class TestEndToEndTopicPipeline(unittest.TestCase):
         python_score = compute_relevance_score(python_repo, scoring_config)
         rust_score = compute_relevance_score(rust_repo, scoring_config)
 
-        self.assertGreater(python_score, rust_score,
-                           "Python should score higher with language_boost configured")
+        self.assertGreater(
+            python_score, rust_score, "Python should score higher with language_boost configured"
+        )
 
 
 if __name__ == "__main__":

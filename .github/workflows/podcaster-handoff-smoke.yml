@@ -2,6 +2,7 @@ name: Podcaster handoff smoke test
 
 on:
   workflow_dispatch:
+    # checkov:skip=CKV_GHA_7:Manual smoke-test workflow (not a release build). Inputs identify the article/week to validate the handoff payload; they do not produce or alter published build artifacts. Inputs are required to target a specific article.
     inputs:
       week:
         description: 'Week slug to validate, e.g. 2026-W23.'
@@ -23,6 +24,10 @@ on:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   smoke:

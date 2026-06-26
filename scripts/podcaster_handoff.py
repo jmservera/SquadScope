@@ -12,7 +12,6 @@ from typing import Any
 from urllib import error, request
 from urllib.parse import urljoin, urlparse
 
-
 AUTH_HEADER = "x-podcaster-api-key"
 DEFAULT_TIMEOUT_SECONDS = 180
 DEFAULT_PODCAST_CONFIG_PATH = Path(__file__).resolve().parent.parent / "config" / "podcast.json"
@@ -23,7 +22,22 @@ MAX_SPOTIFY_DESCRIPTION_CHARS = 4_000
 MAX_MONTH_SYNTHESIS_WORDS = 300
 MAX_YEARLY_NARRATIVE_WORDS = 500
 _VOID_HTML_TAGS = frozenset(
-    {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}
+    {
+        "area",
+        "base",
+        "br",
+        "col",
+        "embed",
+        "hr",
+        "img",
+        "input",
+        "link",
+        "meta",
+        "param",
+        "source",
+        "track",
+        "wbr",
+    }
 )
 
 
@@ -32,16 +46,43 @@ class PodcasterHandoffError(RuntimeError):
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Notify Podcaster after a SquadScope weekly article is published.")
+    parser = argparse.ArgumentParser(
+        description="Notify Podcaster after a SquadScope weekly article is published."
+    )
     parser.add_argument("--week", required=True, help="ISO week slug, e.g. 2026-W23.")
     parser.add_argument("--article-url", required=True, help="Published SquadScope article URL.")
-    parser.add_argument("--article-path", required=True, help="Published SquadScope article content path.")
-    parser.add_argument("--publish-run-id", required=True, help="GitHub Actions run ID that published the article.")
-    parser.add_argument("--publish-mode", default="normal", help="Publish mode; only normal is eligible for Podcaster handoff.")
-    parser.add_argument("--manifest", type=Path, help="Optional publish manifest used for article hash/source artifact metadata.")
-    parser.add_argument("--podcaster-dry-run", action="store_true", help="Ask Podcaster to validate without generating an episode; intended only for the manual smoke workflow.")
-    parser.add_argument("--podcast-config", type=Path, default=None, help="Path to podcast config JSON (default: config/podcast.json relative to repo root).")
-    parser.add_argument("--breaking-news", default=None, help="Optional last-moment news or important information to include in this podcast episode.")
+    parser.add_argument(
+        "--article-path", required=True, help="Published SquadScope article content path."
+    )
+    parser.add_argument(
+        "--publish-run-id", required=True, help="GitHub Actions run ID that published the article."
+    )
+    parser.add_argument(
+        "--publish-mode",
+        default="normal",
+        help="Publish mode; only normal is eligible for Podcaster handoff.",
+    )
+    parser.add_argument(
+        "--manifest",
+        type=Path,
+        help="Optional publish manifest used for article hash/source artifact metadata.",
+    )
+    parser.add_argument(
+        "--podcaster-dry-run",
+        action="store_true",
+        help="Ask Podcaster to validate without generating an episode; intended only for the manual smoke workflow.",
+    )
+    parser.add_argument(
+        "--podcast-config",
+        type=Path,
+        default=None,
+        help="Path to podcast config JSON (default: config/podcast.json relative to repo root).",
+    )
+    parser.add_argument(
+        "--breaking-news",
+        default=None,
+        help="Optional last-moment news or important information to include in this podcast episode.",
+    )
     parser.add_argument("--endpoint", default=os.environ.get("PODCASTER_ENDPOINT", ""))
     parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT_SECONDS)
     return parser.parse_args(argv)
@@ -150,7 +191,9 @@ def _source_artifact_refs(manifest: dict[str, Any]) -> list[dict[str, Any]]:
             ref["size_bytes"] = size_bytes
         for key in ("url", "href", "uri"):
             value = artifact.get(key)
-            if isinstance(value, str) and value.startswith(("https://", "http://localhost:", "http://127.0.0.1:")):
+            if isinstance(value, str) and value.startswith(
+                ("https://", "http://localhost:", "http://127.0.0.1:")
+            ):
                 ref[key] = value
         artifact_url = artifact.get("artifact_url")
         if (
@@ -227,9 +270,13 @@ def _render_template_value(value: Any, context: dict[str, Any]) -> Any:
         return value.format(**context)
     except KeyError as exc:
         missing = exc.args[0]
-        raise PodcasterHandoffError(f"spotify_publish template references unknown field: {missing}") from exc
+        raise PodcasterHandoffError(
+            f"spotify_publish template references unknown field: {missing}"
+        ) from exc
     except (ValueError, IndexError) as exc:
-        raise PodcasterHandoffError(f"spotify_publish template has invalid format syntax: {value!r}") from exc
+        raise PodcasterHandoffError(
+            f"spotify_publish template has invalid format syntax: {value!r}"
+        ) from exc
 
 
 class _HTMLTruncator(HTMLParser):
@@ -379,13 +426,17 @@ def _extract_markdown_sections(content: str, headings: tuple[str, ...]) -> str |
 def _read_historical_context(week: str, repo_root: Path) -> dict[str, str] | None:
     match = re.fullmatch(r"(?P<year>\d{4})-W(?P<week>\d{1,2})", week)
     if not match:
-        raise PodcasterHandoffError(f"Week must use YYYY-WNN format for historical context lookup: {week}")
+        raise PodcasterHandoffError(
+            f"Week must use YYYY-WNN format for historical context lookup: {week}"
+        )
 
     year = int(match.group("year"))
     week_number = int(match.group("week"))
     monday = date.fromisocalendar(year, week_number, 1)
 
-    month_synthesis_path = repo_root / "data" / "analyzed" / f"{year}-{monday.month:02d}-month-synthesis.md"
+    month_synthesis_path = (
+        repo_root / "data" / "analyzed" / f"{year}-{monday.month:02d}-month-synthesis.md"
+    )
     yearly_narrative_path = repo_root / "content" / "yearly" / f"{year}.md"
 
     historical_context: dict[str, str] = {}
@@ -397,7 +448,9 @@ def _read_historical_context(week: str, repo_root: Path) -> dict[str, str] | Non
             raise PodcasterHandoffError(
                 f"Month synthesis file exists but could not be read: {month_synthesis_path} ({exc})"
             ) from exc
-        extracted_sections = _extract_markdown_sections(month_synthesis, ("Month Synthesis", "Trend Arc"))
+        extracted_sections = _extract_markdown_sections(
+            month_synthesis, ("Month Synthesis", "Trend Arc")
+        )
         if extracted_sections:
             historical_context["month_synthesis"] = _truncate_words(
                 extracted_sections,
@@ -421,7 +474,9 @@ def _read_historical_context(week: str, repo_root: Path) -> dict[str, str] | Non
     return historical_context or None
 
 
-def _resolve_spotify_publish(config: dict[str, Any], *, week: str, article_title: str | None, article_summary: str | None) -> dict[str, Any]:
+def _resolve_spotify_publish(
+    config: dict[str, Any], *, week: str, article_title: str | None, article_summary: str | None
+) -> dict[str, Any]:
     """Render spotify_publish templates into concrete values for the Podcaster API.
 
     Design: SquadScope resolves templates (title_template, description_template)
@@ -430,7 +485,9 @@ def _resolve_spotify_publish(config: dict[str, Any], *, week: str, article_title
     """
     match = re.fullmatch(r"(?P<year>\d{4})-W(?P<week>\d{1,2})", week)
     if not match:
-        raise PodcasterHandoffError(f"Week must use YYYY-WNN format for spotify_publish templating: {week}")
+        raise PodcasterHandoffError(
+            f"Week must use YYYY-WNN format for spotify_publish templating: {week}"
+        )
     context: dict[str, Any] = {
         "year": int(match.group("year")),
         "week": int(match.group("week")),
@@ -451,7 +508,9 @@ def _resolve_spotify_publish(config: dict[str, Any], *, week: str, article_title
     return resolved
 
 
-def _read_article_content(article_path: str, repo_root: Path = REPO_ROOT) -> tuple[str | None, str | None, str | None]:
+def _read_article_content(
+    article_path: str, repo_root: Path = REPO_ROOT
+) -> tuple[str | None, str | None, str | None]:
     """Read article file content and extract title.
 
     Returns (content, title, summary). Content is truncated to MAX_ARTICLE_CONTENT_CHARS.
@@ -540,7 +599,11 @@ def build_payload(
         if isinstance(manifest.get("candidate"), dict)
         else None
     )
-    if isinstance(article_sha, str) and len(article_sha) == 64 and article_sha.lower() == article_sha:
+    if (
+        isinstance(article_sha, str)
+        and len(article_sha) == 64
+        and article_sha.lower() == article_sha
+    ):
         payload["article_sha256"] = article_sha
     source_refs = _source_artifact_refs(manifest)
     if source_refs:
@@ -603,7 +666,9 @@ def validate_response(payload: Any) -> dict[str, Any]:
     return payload
 
 
-def post_handoff(endpoint: str, api_key: str, payload: dict[str, Any], *, timeout: int = DEFAULT_TIMEOUT_SECONDS) -> dict[str, Any]:
+def post_handoff(
+    endpoint: str, api_key: str, payload: dict[str, Any], *, timeout: int = DEFAULT_TIMEOUT_SECONDS
+) -> dict[str, Any]:
     validate_endpoint(endpoint)
     body = json.dumps(payload, separators=(",", ":")).encode("utf-8")
     req = request.Request(
@@ -648,7 +713,9 @@ def main(argv: list[str] | None = None) -> int:
     endpoint = args.endpoint.strip()
     api_key = os.environ.get("PODCASTER_API_KEY", "").strip()
     if not endpoint or not api_key:
-        print("::notice::Podcaster handoff skipped because PODCASTER_ENDPOINT and PODCASTER_API_KEY are not both configured.")
+        print(
+            "::notice::Podcaster handoff skipped because PODCASTER_ENDPOINT and PODCASTER_API_KEY are not both configured."
+        )
         return 0
 
     if args.publish_mode != "normal":

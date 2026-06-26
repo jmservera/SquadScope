@@ -32,8 +32,8 @@ import feedparser
 
 from scripts.observability_metrics import (
     DEFAULT_OBSERVABILITY_DIR,
-    CrawlMetrics,
     METRICS_SCHEMA_VERSION,
+    CrawlMetrics,
     ObservabilityLedger,
     duration_p95,
     emit_ledger,
@@ -46,41 +46,160 @@ DEFAULT_FETCH_TIMEOUT_SECONDS = 15
 DEFAULT_FETCH_RETRIES = 1
 DEFAULT_MAX_WORKERS = 8
 CANONICAL_SCHEMA_VERSION = 2
-APPROVED_FEED_HOSTS = frozenset({
-    "techcrunch.com",
-    "blogs.nvidia.com",
-    "huggingface.co",
-    "www.technologyreview.com",
-    "github.blog",
-})
-
-GITHUB_URL_RE = re.compile(
-    r"https?://github\.com/[a-zA-Z0-9_.\-]+/[a-zA-Z0-9_.\-]+"
+APPROVED_FEED_HOSTS = frozenset(
+    {
+        "techcrunch.com",
+        "blogs.nvidia.com",
+        "huggingface.co",
+        "www.technologyreview.com",
+        "github.blog",
+    }
 )
 
+GITHUB_URL_RE = re.compile(r"https?://github\.com/[a-zA-Z0-9_.\-]+/[a-zA-Z0-9_.\-]+")
+
 TECH_KEYWORDS = {
-    "ai", "ml", "machine learning", "deep learning", "open-source",
-    "open source", "github", "developer", "api", "framework", "sdk",
-    "llm", "gpt", "model", "neural", "transformer", "cloud", "devops",
-    "kubernetes", "docker", "rust", "python", "javascript", "typescript",
-    "golang", "database", "vector", "embedding", "agent", "rag",
-    "fine-tuning", "inference", "startup", "oss",
+    "ai",
+    "ml",
+    "machine learning",
+    "deep learning",
+    "open-source",
+    "open source",
+    "github",
+    "developer",
+    "api",
+    "framework",
+    "sdk",
+    "llm",
+    "gpt",
+    "model",
+    "neural",
+    "transformer",
+    "cloud",
+    "devops",
+    "kubernetes",
+    "docker",
+    "rust",
+    "python",
+    "javascript",
+    "typescript",
+    "golang",
+    "database",
+    "vector",
+    "embedding",
+    "agent",
+    "rag",
+    "fine-tuning",
+    "inference",
+    "startup",
+    "oss",
 }
 
 # Common lowercase words that should not be treated as entities
 STOP_WORDS = {
-    "a", "an", "the", "and", "or", "but", "in", "on", "at", "to", "for",
-    "of", "with", "by", "from", "is", "are", "was", "were", "be", "been",
-    "has", "have", "had", "do", "does", "did", "will", "would", "could",
-    "should", "may", "might", "can", "this", "that", "these", "those",
-    "it", "its", "new", "how", "why", "what", "when", "where", "who",
-    "all", "just", "more", "most", "some", "any", "no", "not", "than",
-    "too", "very", "also", "about", "up", "out", "into", "over", "after",
-    "before", "between", "under", "again", "here", "there", "now", "then",
-    "once", "well", "back", "still", "even", "big", "first", "last",
-    "next", "says", "said", "gets", "got", "makes", "made", "takes",
-    "took", "goes", "went", "comes", "came", "wants", "launches",
-    "raises", "builds", "looks", "like", "use", "using", "used",
+    "a",
+    "an",
+    "the",
+    "and",
+    "or",
+    "but",
+    "in",
+    "on",
+    "at",
+    "to",
+    "for",
+    "of",
+    "with",
+    "by",
+    "from",
+    "is",
+    "are",
+    "was",
+    "were",
+    "be",
+    "been",
+    "has",
+    "have",
+    "had",
+    "do",
+    "does",
+    "did",
+    "will",
+    "would",
+    "could",
+    "should",
+    "may",
+    "might",
+    "can",
+    "this",
+    "that",
+    "these",
+    "those",
+    "it",
+    "its",
+    "new",
+    "how",
+    "why",
+    "what",
+    "when",
+    "where",
+    "who",
+    "all",
+    "just",
+    "more",
+    "most",
+    "some",
+    "any",
+    "no",
+    "not",
+    "than",
+    "too",
+    "very",
+    "also",
+    "about",
+    "up",
+    "out",
+    "into",
+    "over",
+    "after",
+    "before",
+    "between",
+    "under",
+    "again",
+    "here",
+    "there",
+    "now",
+    "then",
+    "once",
+    "well",
+    "back",
+    "still",
+    "even",
+    "big",
+    "first",
+    "last",
+    "next",
+    "says",
+    "said",
+    "gets",
+    "got",
+    "makes",
+    "made",
+    "takes",
+    "took",
+    "goes",
+    "went",
+    "comes",
+    "came",
+    "wants",
+    "launches",
+    "raises",
+    "builds",
+    "looks",
+    "like",
+    "use",
+    "using",
+    "used",
 }
 
 
@@ -125,14 +244,10 @@ def validate_feed_url(url: str) -> None:
         pass
     else:
         if ip_addr.is_private or ip_addr.is_loopback or ip_addr.is_link_local:
-            raise ValueError(
-                f"External RSS feed URL must not target private/local IPs: {url}"
-            )
+            raise ValueError(f"External RSS feed URL must not target private/local IPs: {url}")
     if host not in APPROVED_FEED_HOSTS:
         approved = ", ".join(sorted(APPROVED_FEED_HOSTS))
-        raise ValueError(
-            f"External RSS feed host is not approved: {host} (approved: {approved})"
-        )
+        raise ValueError(f"External RSS feed host is not approved: {host} (approved: {approved})")
 
 
 def load_source_configs(path: Path = DEFAULT_SOURCES_PATH) -> list[NewsSourceConfig]:
@@ -153,11 +268,13 @@ def load_source_configs(path: Path = DEFAULT_SOURCES_PATH) -> list[NewsSourceCon
         if name in seen_names:
             raise ValueError(f"Duplicate external news source name: {name}")
         seen_names.add(name)
-        sources.append(NewsSourceConfig(
-            name=name,
-            feed_url=feed_url,
-            requests_per_minute=int(raw.get("requests_per_minute", 10)),
-        ))
+        sources.append(
+            NewsSourceConfig(
+                name=name,
+                feed_url=feed_url,
+                requests_per_minute=int(raw.get("requests_per_minute", 10)),
+            )
+        )
     return sources
 
 
@@ -179,7 +296,15 @@ def schema_checksum() -> str:
     """Return a stable checksum for the external-news artifact contract."""
     schema_contract = {
         "schema_version": CANONICAL_SCHEMA_VERSION,
-        "top_level": ["schema_version", "week", "source", "crawled_at", "crawl_window", "articles", "metadata"],
+        "top_level": [
+            "schema_version",
+            "week",
+            "source",
+            "crawled_at",
+            "crawl_window",
+            "articles",
+            "metadata",
+        ],
         "metadata": [
             "source_config_checksum",
             "schema_checksum",
@@ -203,7 +328,8 @@ def schema_checksum() -> str:
 def source_content_checksum(source_id: str, articles: list[dict[str, Any]]) -> str:
     """Return a stable checksum for one source's article payload."""
     source_articles = [
-        article for article in articles
+        article
+        for article in articles
         if article.get("source") == source_id or source_id in article.get("sources", [])
     ]
     payload = json.dumps(source_articles, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
@@ -233,7 +359,11 @@ def _load_json_object(path: Path) -> dict[str, Any] | None:
 
 def _same_window(payload: dict[str, Any], since: datetime, until: datetime) -> bool:
     window = payload.get("crawl_window")
-    return isinstance(window, dict) and window.get("since") == iso_timestamp(since) and window.get("until") == iso_timestamp(until)
+    return (
+        isinstance(window, dict)
+        and window.get("since") == iso_timestamp(since)
+        and window.get("until") == iso_timestamp(until)
+    )
 
 
 def same_utc_day(value: str | None, expected: date) -> bool:
@@ -252,7 +382,9 @@ def source_reuse_decisions(
     policy: str,
     current_config_checksum: str,
     current_code_sha: str | None,
-) -> tuple[list[dict[str, Any]], list[NewsSourceConfig], list[dict[str, Any]], list[dict[str, Any]]]:
+) -> tuple[
+    list[dict[str, Any]], list[NewsSourceConfig], list[dict[str, Any]], list[dict[str, Any]]
+]:
     """Compatibility planner for callers that pass a loaded artifact."""
     decisions: list[dict[str, Any]] = []
     reused_articles: list[dict[str, Any]] = []
@@ -262,7 +394,9 @@ def source_reuse_decisions(
     statuses = metadata.get("source_status", []) if isinstance(metadata, dict) else []
     if not isinstance(statuses, list):
         statuses = []
-    status_by_source = {str(status.get("source")): status for status in statuses if isinstance(status, dict)}
+    status_by_source = {
+        str(status.get("source")): status for status in statuses if isinstance(status, dict)
+    }
     raw_articles = payload.get("articles", []) if isinstance(payload, dict) else []
     articles: list[dict[str, Any]] = []
     articles_malformed = False
@@ -285,8 +419,12 @@ def source_reuse_decisions(
             global_reasons.append(f"week mismatch: expected {week}, found {payload.get('week')!r}")
         if not same_utc_day(payload.get("crawled_at"), run_date):
             global_reasons.append("artifact is not from the current UTC run date")
-        window = payload.get("crawl_window") if isinstance(payload.get("crawl_window"), dict) else {}
-        if window.get("since") != iso_timestamp(since) or window.get("until") != iso_timestamp(until):
+        window = (
+            payload.get("crawl_window") if isinstance(payload.get("crawl_window"), dict) else {}
+        )
+        if window.get("since") != iso_timestamp(since) or window.get("until") != iso_timestamp(
+            until
+        ):
             global_reasons.append("crawl window mismatch")
         if isinstance(metadata, dict):
             if metadata.get("source_config_checksum") != current_config_checksum:
@@ -302,12 +440,16 @@ def source_reuse_decisions(
         if not status or status.get("success") is not True:
             source_reasons.append("source missing or previously failed")
         if source_reasons:
-            decisions.append({"source": source.name, "decision": "refresh", "reasons": source_reasons})
+            decisions.append(
+                {"source": source.name, "decision": "refresh", "reasons": source_reasons}
+            )
             to_crawl.append(source)
             continue
         source_articles = [
-            article for article in articles
-            if source.name in {str(article.get("source", "")), *[str(item) for item in article.get("sources", [])]}
+            article
+            for article in articles
+            if source.name
+            in {str(article.get("source", "")), *[str(item) for item in article.get("sources", [])]}
         ]
         reused_articles.extend(source_articles)
         reused_status = dict(status)
@@ -330,7 +472,13 @@ def plan_source_reuse(
     source_refresh_policy: str = "reuse-same-day",
     run_started_at: datetime | None = None,
     current_code_sha: str | None = None,
-) -> tuple[list[dict[str, Any]], list[NewsSourceConfig], list[dict[str, Any]], list[dict[str, Any]], list[dict[str, str]]]:
+) -> tuple[
+    list[dict[str, Any]],
+    list[NewsSourceConfig],
+    list[dict[str, Any]],
+    list[dict[str, Any]],
+    list[dict[str, str]],
+]:
     """Load eligible same-day source artifacts and return reused articles plus sources to crawl."""
     forced = forced_sources or set()
     run_time = run_started_at or now
@@ -346,7 +494,11 @@ def plan_source_reuse(
     if source_refresh_policy == "force-refresh":
         stale_reasons = ["source_refresh_policy=force-refresh"]
     elif previous is None:
-        stale_reasons = ["missing previous artifact" if not previous_path.exists() else "previous artifact is not valid JSON"]
+        stale_reasons = [
+            "missing previous artifact"
+            if not previous_path.exists()
+            else "previous artifact is not valid JSON"
+        ]
     else:
         crawled_at = parse_iso_datetime(previous.get("crawled_at"))
         metadata = previous.get("metadata") if isinstance(previous.get("metadata"), dict) else {}
@@ -355,8 +507,13 @@ def plan_source_reuse(
         except ValueError as exc:
             stale_reasons.append(str(exc))
         if previous.get("week") != week_slug(now):
-            stale_reasons.append(f"week mismatch: expected {week_slug(now)}, found {previous.get('week')!r}")
-        if crawled_at is None or crawled_at.astimezone(UTC).date() != run_time.astimezone(UTC).date():
+            stale_reasons.append(
+                f"week mismatch: expected {week_slug(now)}, found {previous.get('week')!r}"
+            )
+        if (
+            crawled_at is None
+            or crawled_at.astimezone(UTC).date() != run_time.astimezone(UTC).date()
+        ):
             stale_reasons.append("crawled_at is not from the current UTC day")
         if not _same_window(previous, since, until):
             stale_reasons.append("crawl_window mismatch")
@@ -368,14 +525,19 @@ def plan_source_reuse(
         if current_code_sha and artifact_code_sha != current_code_sha:
             stale_reasons.append("crawler/config fingerprint mismatch")
 
-    previous_metadata = previous.get("metadata", {}) if isinstance(previous, dict) and isinstance(previous.get("metadata"), dict) else {}
+    previous_metadata = (
+        previous.get("metadata", {})
+        if isinstance(previous, dict) and isinstance(previous.get("metadata"), dict)
+        else {}
+    )
     previous_statuses = {
         str(status.get("source")): status
         for status in previous_metadata.get("source_status", [])
         if isinstance(status, dict) and status.get("source") in requested
     }
     previous_articles = [
-        article for article in (previous.get("articles", []) if isinstance(previous, dict) else [])
+        article
+        for article in (previous.get("articles", []) if isinstance(previous, dict) else [])
         if isinstance(article, dict)
     ]
     previous_run_id = str(previous_metadata.get("run_id") or "")
@@ -400,30 +562,38 @@ def plan_source_reuse(
         else:
             action = "reused"
 
-        matching_articles = [article for article in previous_articles if article.get("source") == source_id]
-        summary.append({
-            "source": source_id,
-            "action": action,
-            "reused": action == "reused",
-            "refreshed": action != "reused",
-            "reasons": reasons,
-        })
-        provenance.append({
-            "source_id": source_id,
-            "action": action,
-            "artifact_path": previous_path.as_posix(),
-            "original_run_id": previous_run_id,
-            "original_crawled_at": previous.get("crawled_at") if isinstance(previous, dict) else None,
-            "evaluated_at": iso_timestamp(now),
-            "date": now.astimezone(UTC).date().isoformat(),
-            "week": week_slug(now),
-            "crawl_window": {"since": iso_timestamp(since), "until": iso_timestamp(until)},
-            "source_config_checksum": config_checksum,
-            "schema_checksum": expected_schema_checksum,
-            "artifact_checksum": previous_checksum,
-            "content_checksum": source_content_checksum(source_id, matching_articles),
-            "reasons": reasons,
-        })
+        matching_articles = [
+            article for article in previous_articles if article.get("source") == source_id
+        ]
+        summary.append(
+            {
+                "source": source_id,
+                "action": action,
+                "reused": action == "reused",
+                "refreshed": action != "reused",
+                "reasons": reasons,
+            }
+        )
+        provenance.append(
+            {
+                "source_id": source_id,
+                "action": action,
+                "artifact_path": previous_path.as_posix(),
+                "original_run_id": previous_run_id,
+                "original_crawled_at": previous.get("crawled_at")
+                if isinstance(previous, dict)
+                else None,
+                "evaluated_at": iso_timestamp(now),
+                "date": now.astimezone(UTC).date().isoformat(),
+                "week": week_slug(now),
+                "crawl_window": {"since": iso_timestamp(since), "until": iso_timestamp(until)},
+                "source_config_checksum": config_checksum,
+                "schema_checksum": expected_schema_checksum,
+                "artifact_checksum": previous_checksum,
+                "content_checksum": source_content_checksum(source_id, matching_articles),
+                "reasons": reasons,
+            }
+        )
         if action == "reused":
             reused_articles.extend(matching_articles)
         else:
@@ -453,7 +623,9 @@ def merge_reuse_results(
         if not source_id:
             continue
         action = "refreshed" if status.get("success") else "failed"
-        reasons = [] if status.get("success") else [status.get("error_message") or "source crawl failed"]
+        reasons = (
+            [] if status.get("success") else [status.get("error_message") or "source crawl failed"]
+        )
         summary_by_source[source_id] = {
             "source": source_id,
             "action": action,
@@ -535,11 +707,13 @@ def extract_entities(title: str) -> list[str]:
 
 def compute_relevance_score(article: dict[str, Any]) -> float:
     """Compute a 0-1 relevance score based on tech/OSS keyword density."""
-    text = " ".join([
-        article.get("title", ""),
-        article.get("summary", ""),
-        " ".join(article.get("categories", [])),
-    ]).lower()
+    text = " ".join(
+        [
+            article.get("title", ""),
+            article.get("summary", ""),
+            " ".join(article.get("categories", [])),
+        ]
+    ).lower()
 
     if not text.strip():
         return 0.0
@@ -647,10 +821,7 @@ class NewsFeedSource:
             elif hasattr(entry, "summary"):
                 content_text = entry.summary or ""
 
-            categories = [
-                tag.term for tag in getattr(entry, "tags", [])
-                if hasattr(tag, "term")
-            ]
+            categories = [tag.term for tag in getattr(entry, "tags", []) if hasattr(tag, "term")]
 
             summary = getattr(entry, "summary", "") or ""
             # Strip HTML tags from summary
@@ -698,7 +869,9 @@ def crawl_sources_parallel(
     errors: list[dict[str, str]] = []
     statuses: list[dict[str, Any]] = []
 
-    def crawl_one(source: NewsSourceConfig) -> tuple[list[dict[str, Any]], dict[str, Any], dict[str, str] | None]:
+    def crawl_one(
+        source: NewsSourceConfig,
+    ) -> tuple[list[dict[str, Any]], dict[str, Any], dict[str, str] | None]:
         started = datetime.now(UTC)
         source_client = NewsFeedSource(source)
         status: dict[str, Any] = {
@@ -720,8 +893,7 @@ def crawl_sources_parallel(
             status["timeout_seconds"] = source_client.last_timeout_seconds
             status["total_articles"] = len(source_articles)
             status["relevant_articles"] = sum(
-                1 for article in source_articles
-                if article.get("relevance_score", 0) >= 0.4
+                1 for article in source_articles if article.get("relevance_score", 0) >= 0.4
             )
             github_links: set[str] = set()
             for article in source_articles:
@@ -745,10 +917,7 @@ def crawl_sources_parallel(
             status["duration_seconds"] = round((ended - started).total_seconds(), 3)
 
     with ThreadPoolExecutor(max_workers=workers) as executor:
-        futures = {
-            executor.submit(crawl_one, source): source
-            for source in sources
-        }
+        futures = {executor.submit(crawl_one, source): source for source in sources}
         for future in as_completed(futures):
             source_articles, status, error = future.result()
             articles.extend(source_articles)
@@ -806,17 +975,21 @@ def dedupe_articles(articles: list[dict[str, Any]]) -> tuple[list[dict[str, Any]
     ):
         key = _normalized_article_url(str(article.get("url", "")))
         if not key:
-            key = "|".join([
-                str(article.get("source", "")),
-                str(article.get("published_at", "")),
-                str(article.get("title", "")).lower(),
-            ])
+            key = "|".join(
+                [
+                    str(article.get("source", "")),
+                    str(article.get("published_at", "")),
+                    str(article.get("title", "")).lower(),
+                ]
+            )
         if key not in grouped:
             current = dict(article)
-            current["sources"] = sorted({
-                str(article.get("source", "")) or "unknown",
-                *[str(s) for s in article.get("sources", [])],
-            })
+            current["sources"] = sorted(
+                {
+                    str(article.get("source", "")) or "unknown",
+                    *[str(s) for s in article.get("sources", [])],
+                }
+            )
             grouped[key] = current
             continue
         duplicates += 1
@@ -894,19 +1067,13 @@ def build_output(
         all_github_links.update(a.get("github_links", []))
 
     statuses = source_statuses or []
-    succeeded = [
-        str(status.get("source"))
-        for status in statuses
-        if status.get("success")
-    ]
-    failed = [
-        str(status.get("source"))
-        for status in statuses
-        if not status.get("success")
-    ]
-    requested = requested_sources or sorted({
-        str(article.get("source", source)) for article in articles
-    }) or [source]
+    succeeded = [str(status.get("source")) for status in statuses if status.get("success")]
+    failed = [str(status.get("source")) for status in statuses if not status.get("success")]
+    requested = (
+        requested_sources
+        or sorted({str(article.get("source", source)) for article in articles})
+        or [source]
+    )
     by_source = Counter(str(article.get("source", source)) for article in articles)
     output = {
         "schema_version": CANONICAL_SCHEMA_VERSION,
@@ -924,8 +1091,12 @@ def build_output(
             "sources_succeeded": sorted(succeeded or requested),
             "sources_failed": sorted(failed),
             "source_status": sorted(statuses, key=lambda status: status["source"]),
-            "source_reuse_summary": sorted(source_reuse_summary or [], key=lambda item: item["source"]),
-            "source_artifact_provenance": sorted(source_artifact_provenance or [], key=lambda item: item["source_id"]),
+            "source_reuse_summary": sorted(
+                source_reuse_summary or [], key=lambda item: item["source"]
+            ),
+            "source_artifact_provenance": sorted(
+                source_artifact_provenance or [], key=lambda item: item["source_id"]
+            ),
             "sources_with_articles": dict(sorted(by_source.items())),
             "total_articles": len(articles),
             "relevant_articles": len(relevant),
@@ -978,23 +1149,25 @@ def validate_canonical_output(output: dict[str, Any]) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     crawl_started = time.monotonic()
-    parser = argparse.ArgumentParser(
-        description="Crawl external news RSS feeds for SquadScope"
-    )
+    parser = argparse.ArgumentParser(description="Crawl external news RSS feeds for SquadScope")
     parser.add_argument(
-        "--topic", default="general",
+        "--topic",
+        default="general",
         help="Topic ID for output path (default: general)",
     )
     parser.add_argument(
-        "--output", default=None,
+        "--output",
+        default=None,
         help="Override output file path",
     )
     parser.add_argument(
-        "--since", default=None,
+        "--since",
+        default=None,
         help="Start date filter (YYYY-MM-DD, default: 7 days ago)",
     )
     parser.add_argument(
-        "--until", default=None,
+        "--until",
+        default=None,
         help="End date filter (YYYY-MM-DD, default: now)",
     )
     parser.add_argument(
@@ -1052,11 +1225,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.since
         else now - timedelta(days=7)
     )
-    until = (
-        datetime.strptime(args.until, "%Y-%m-%d").replace(tzinfo=UTC)
-        if args.until
-        else now
-    )
+    until = datetime.strptime(args.until, "%Y-%m-%d").replace(tzinfo=UTC) if args.until else now
 
     source_configs = load_source_configs(Path(args.sources))
     if args.output:
@@ -1069,7 +1238,11 @@ def main(argv: list[str] | None = None) -> int:
     config_checksum = source_config_checksum(source_configs)
     source_refresh_policy = "force-refresh" if args.force_refresh else args.source_refresh_policy
     current_code_sha = args.current_code_sha or ""
-    force_sources = {source.name for source in source_configs} if source_refresh_policy == "force-refresh" else set(args.force_refresh_source or [])
+    force_sources = (
+        {source.name for source in source_configs}
+        if source_refresh_policy == "force-refresh"
+        else set(args.force_refresh_source or [])
+    )
     reuse_path = Path(args.reuse_artifact) if args.reuse_artifact else out_path
     reused_articles, sources_to_crawl, reuse_summary, provenance, _ = plan_source_reuse(
         reuse_path,
@@ -1101,7 +1274,11 @@ def main(argv: list[str] | None = None) -> int:
     )
     reused_sources = {entry["source_id"] for entry in provenance if entry.get("action") == "reused"}
     previous = _load_json_object(reuse_path) if reuse_path.exists() else None
-    previous_metadata = previous.get("metadata", {}) if isinstance(previous, dict) and isinstance(previous.get("metadata"), dict) else {}
+    previous_metadata = (
+        previous.get("metadata", {})
+        if isinstance(previous, dict) and isinstance(previous.get("metadata"), dict)
+        else {}
+    )
     previous_statuses = [
         {**status, "reused": True}
         for status in previous_metadata.get("source_status", [])
@@ -1126,11 +1303,19 @@ def main(argv: list[str] | None = None) -> int:
         run_id=os.environ.get("GITHUB_RUN_ID", "local"),
     )
     output["metadata"]["same_day_reuse"] = (
-        "mixed" if reused_articles and refreshed_articles else "reused" if reused_articles else "not_reused"
+        "mixed"
+        if reused_articles and refreshed_articles
+        else "reused"
+        if reused_articles
+        else "not_reused"
     )
     output["metadata"]["source_refresh_policy"] = source_refresh_policy
     output["metadata"]["source_reuse_decisions"] = [
-        {"source": item["source"], "decision": "reuse" if item["action"] == "reused" else "refresh", "reasons": item["reasons"]}
+        {
+            "source": item["source"],
+            "decision": "reuse" if item["action"] == "reused" else "refresh",
+            "reasons": item["reasons"],
+        }
         for item in output["metadata"]["source_reuse_summary"]
     ]
     output["metadata"]["crawler_code_sha"] = current_code_sha
@@ -1191,14 +1376,20 @@ def main(argv: list[str] | None = None) -> int:
         observability_path,
     )
 
-    reused_count = sum(1 for item in output["metadata"]["source_reuse_summary"] if item["action"] == "reused")
-    refreshed_count = sum(1 for item in output["metadata"]["source_reuse_summary"] if item["action"] != "reused")
-    print(f"Crawled {output['metadata']['total_articles']} articles "
-          f"from {output['metadata']['source_count']} sources "
-          f"({output['metadata']['relevant_articles']} relevant, "
-          f"{output['metadata']['dedupe_count']} deduped, "
-          f"{reused_count} reused, {refreshed_count} refreshed, p95={sampled_p95:.3f}s) "
-          f"→ {out_path} [observability={observability_path}]")
+    reused_count = sum(
+        1 for item in output["metadata"]["source_reuse_summary"] if item["action"] == "reused"
+    )
+    refreshed_count = sum(
+        1 for item in output["metadata"]["source_reuse_summary"] if item["action"] != "reused"
+    )
+    print(
+        f"Crawled {output['metadata']['total_articles']} articles "
+        f"from {output['metadata']['source_count']} sources "
+        f"({output['metadata']['relevant_articles']} relevant, "
+        f"{output['metadata']['dedupe_count']} deduped, "
+        f"{reused_count} reused, {refreshed_count} refreshed, p95={sampled_p95:.3f}s) "
+        f"→ {out_path} [observability={observability_path}]"
+    )
     return 0
 
 

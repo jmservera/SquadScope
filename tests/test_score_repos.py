@@ -3,10 +3,7 @@
 from __future__ import annotations
 
 import json
-import math
 from datetime import UTC, datetime, timedelta
-from pathlib import Path
-from unittest.mock import patch
 
 import pytest
 
@@ -23,7 +20,6 @@ from scripts.score_repos import (
     score_stars_gained,
     score_topics,
 )
-
 
 # --- Fixtures ---
 
@@ -269,10 +265,22 @@ class TestComputeRelevanceScore:
 class TestScoreRepos:
     def test_filters_below_threshold(self, scoring_config):
         repos = [
-            {"name": "good", "stars": 500, "stars_gained": 100, "language": "Python",
-             "topics": ["machine-learning", "deep-learning"], "created_at": datetime.now(UTC).isoformat()},
-            {"name": "bad", "stars": 2, "stars_gained": 0, "language": "Shell",
-             "topics": [], "created_at": (datetime.now(UTC) - timedelta(days=800)).isoformat()},
+            {
+                "name": "good",
+                "stars": 500,
+                "stars_gained": 100,
+                "language": "Python",
+                "topics": ["machine-learning", "deep-learning"],
+                "created_at": datetime.now(UTC).isoformat(),
+            },
+            {
+                "name": "bad",
+                "stars": 2,
+                "stars_gained": 0,
+                "language": "Shell",
+                "topics": [],
+                "created_at": (datetime.now(UTC) - timedelta(days=800)).isoformat(),
+            },
         ]
         scored = score_repos(repos, scoring_config)
         names = [r["name"] for r in scored]
@@ -281,10 +289,22 @@ class TestScoreRepos:
 
     def test_sorted_descending(self, scoring_config):
         repos = [
-            {"name": "medium", "stars": 100, "stars_gained": 20, "language": "Python",
-             "topics": ["machine-learning"], "created_at": datetime.now(UTC).isoformat()},
-            {"name": "high", "stars": 5000, "stars_gained": 500, "language": "Python",
-             "topics": ["machine-learning", "deep-learning", "llm"], "created_at": datetime.now(UTC).isoformat()},
+            {
+                "name": "medium",
+                "stars": 100,
+                "stars_gained": 20,
+                "language": "Python",
+                "topics": ["machine-learning"],
+                "created_at": datetime.now(UTC).isoformat(),
+            },
+            {
+                "name": "high",
+                "stars": 5000,
+                "stars_gained": 500,
+                "language": "Python",
+                "topics": ["machine-learning", "deep-learning", "llm"],
+                "created_at": datetime.now(UTC).isoformat(),
+            },
         ]
         scored = score_repos(repos, scoring_config)
         assert len(scored) >= 1
@@ -293,8 +313,14 @@ class TestScoreRepos:
 
     def test_adds_relevance_score_field(self, scoring_config):
         repos = [
-            {"name": "test", "stars": 500, "stars_gained": 50, "language": "Python",
-             "topics": ["machine-learning"], "created_at": datetime.now(UTC).isoformat()},
+            {
+                "name": "test",
+                "stars": 500,
+                "stars_gained": 50,
+                "language": "Python",
+                "topics": ["machine-learning"],
+                "created_at": datetime.now(UTC).isoformat(),
+            },
         ]
         scored = score_repos(repos, scoring_config)
         assert len(scored) > 0
@@ -360,15 +386,22 @@ class TestFindLatestRawJson:
 class TestMain:
     def test_with_input_file(self, tmp_path, config_file):
         repos = [
-            {"name": "repo1", "stars": 500, "stars_gained": 100, "language": "Python",
-             "topics": ["machine-learning", "deep-learning"], "created_at": datetime.now(UTC).isoformat()},
+            {
+                "name": "repo1",
+                "stars": 500,
+                "stars_gained": 100,
+                "language": "Python",
+                "topics": ["machine-learning", "deep-learning"],
+                "created_at": datetime.now(UTC).isoformat(),
+            },
         ]
         input_file = tmp_path / "input.json"
         input_file.write_text(json.dumps(repos))
         output_file = tmp_path / "output.json"
 
-        result = main(["--config", str(config_file), "--input", str(input_file),
-                       "--output", str(output_file)])
+        result = main(
+            ["--config", str(config_file), "--input", str(input_file), "--output", str(output_file)]
+        )
         assert result == 0
         scored = json.loads(output_file.read_text())
         assert len(scored) == 1
@@ -386,8 +419,14 @@ class TestMain:
 
     def test_stdout_output(self, tmp_path, config_file, capsys):
         repos = [
-            {"name": "repo1", "stars": 1000, "stars_gained": 200, "language": "Python",
-             "topics": ["machine-learning", "llm"], "created_at": datetime.now(UTC).isoformat()},
+            {
+                "name": "repo1",
+                "stars": 1000,
+                "stars_gained": 200,
+                "language": "Python",
+                "topics": ["machine-learning", "llm"],
+                "created_at": datetime.now(UTC).isoformat(),
+            },
         ]
         input_file = tmp_path / "input.json"
         input_file.write_text(json.dumps(repos))

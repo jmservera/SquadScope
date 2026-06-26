@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts import analysis_gate
+from scripts import analysis_gate  # noqa: E402
 
 DEFAULT_ANALYZED_DIR = ROOT / "data" / "analyzed"
 
@@ -23,7 +23,9 @@ class QualityEntry:
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Build a quality trend report from analyzed summaries.")
+    parser = argparse.ArgumentParser(
+        description="Build a quality trend report from analyzed summaries."
+    )
     parser.add_argument(
         "--analyzed-dir",
         type=Path,

@@ -10,15 +10,10 @@ Verifies that the baseline telemetry module correctly:
 from __future__ import annotations
 
 import json
-import tempfile
 from pathlib import Path
 from typing import Any
 
-import pytest
-
 from scripts.baseline_telemetry import (
-    MINIMUM_BASELINE_RUNS,
-    BaselineReport,
     build_baseline_report,
     check_trigger_thresholds,
     compute_stage_baseline,
@@ -118,7 +113,7 @@ class TestLoadLedgerEntries:
 
 class TestBuildBaselineReport:
     def test_sufficient_runs(self):
-        entries = [_sample_ledger(timestamp=f"2026-06-{10+i}T12:00:00Z") for i in range(5)]
+        entries = [_sample_ledger(timestamp=f"2026-06-{10 + i}T12:00:00Z") for i in range(5)]
         report = build_baseline_report(entries, min_runs=5)
         assert report.sufficient
         assert report.total_runs == 5

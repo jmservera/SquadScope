@@ -221,7 +221,9 @@ def _resolve_month_path(content_root: Path, current_datetime: str) -> Path | Non
         return None
 
     if target_year is not None and target_month is not None:
-        eligible = [item for item in candidates if (item[0], item[1]) <= (target_year, target_month)]
+        eligible = [
+            item for item in candidates if (item[0], item[1]) <= (target_year, target_month)
+        ]
         if eligible:
             return eligible[-1][2]
     return candidates[-1][2]
@@ -274,7 +276,9 @@ def _build_plans(
     }
     source_paths = {
         "rolling": rolling_path if rolling_path.exists() else None,
-        "previous_week": previous_summary_path if previous_summary_path and previous_summary_path.exists() else None,
+        "previous_week": previous_summary_path
+        if previous_summary_path and previous_summary_path.exists()
+        else None,
         "monthly": monthly_path if monthly_path and monthly_path.exists() else None,
         "yearly": yearly_path if yearly_path and yearly_path.exists() else None,
     }
@@ -310,7 +314,9 @@ def _escape_boundaries(text: str) -> str:
     return _escape_untrusted_boundaries(text)
 
 
-def _render_sections(plans: Iterable[_SectionPlan]) -> tuple[str, tuple[HistoricalContextSection, ...]]:
+def _render_sections(
+    plans: Iterable[_SectionPlan],
+) -> tuple[str, tuple[HistoricalContextSection, ...]]:
     rendered_sections: list[str] = []
     metadata: list[HistoricalContextSection] = []
     for plan in plans:
@@ -423,11 +429,27 @@ def assemble_historical_context(
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Assemble bounded historical context for weekly analysis prompts.")
-    parser.add_argument("--current-datetime", required=True, help="ISO-8601 timestamp for the current analysis run.")
-    parser.add_argument("--previous-summary", type=Path, default=None, help="Path to the previous week's markdown summary.")
-    parser.add_argument("--content-root", type=Path, default=DEFAULT_CONTENT_ROOT, help="Path to the content/ root.")
-    parser.add_argument("--max-words", type=int, default=DEFAULT_MAX_WORDS, help="Maximum total historical-context words.")
+    parser = argparse.ArgumentParser(
+        description="Assemble bounded historical context for weekly analysis prompts."
+    )
+    parser.add_argument(
+        "--current-datetime", required=True, help="ISO-8601 timestamp for the current analysis run."
+    )
+    parser.add_argument(
+        "--previous-summary",
+        type=Path,
+        default=None,
+        help="Path to the previous week's markdown summary.",
+    )
+    parser.add_argument(
+        "--content-root", type=Path, default=DEFAULT_CONTENT_ROOT, help="Path to the content/ root."
+    )
+    parser.add_argument(
+        "--max-words",
+        type=int,
+        default=DEFAULT_MAX_WORDS,
+        help="Maximum total historical-context words.",
+    )
     parser.add_argument(
         "--prompt-token-budget",
         type=int,

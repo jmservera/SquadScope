@@ -18,8 +18,8 @@ from queue import Empty, Queue
 from typing import Any
 
 from scripts.crawl import (
-    GitHubClient,
     RAW_ROOT,
+    GitHubClient,
     build_signals,
     build_star_snapshot,
     collect_repositories,
@@ -155,7 +155,9 @@ class ExperimentReport:
         speedup_pct = comparison.get("speedup_pct")
         api_growth_pct = comparison.get("api_growth_pct")
         rate_limit_regression = bool(
-            comparison.get("rate_limit_regression", comparison.get("secondary_rate_limit_regression", False))
+            comparison.get(
+                "rate_limit_regression", comparison.get("secondary_rate_limit_regression", False)
+            )
         )
         output_stable = bool(comparison.get("output_stable", False))
         partial_data = bool(comparison.get("partial_data", False))
@@ -252,7 +254,10 @@ class SharedQuotaCoordinator:
                             shard=shard_name,
                             message=self.abort_reason,
                             at=iso_timestamp(utc_now()),
-                            details={"api_calls_used": self.total_api_calls, "api_hard_cap": self.api_hard_cap},
+                            details={
+                                "api_calls_used": self.total_api_calls,
+                                "api_hard_cap": self.api_hard_cap,
+                            },
                         )
                     )
                 raise ExperimentAbort(self.abort_reason)
@@ -266,7 +271,11 @@ class SharedQuotaCoordinator:
             return
         with self._lock:
             self.total_api_calls += additional
-            if self.api_hard_cap is not None and self.total_api_calls > self.api_hard_cap and self.abort_reason is None:
+            if (
+                self.api_hard_cap is not None
+                and self.total_api_calls > self.api_hard_cap
+                and self.abort_reason is None
+            ):
                 self.abort_reason = (
                     f"API budget cap exceeded by {shard_name} "
                     f"({self.total_api_calls}/{self.api_hard_cap})."
@@ -277,11 +286,16 @@ class SharedQuotaCoordinator:
                         shard=shard_name,
                         message=self.abort_reason,
                         at=iso_timestamp(utc_now()),
-                        details={"api_calls_used": self.total_api_calls, "api_hard_cap": self.api_hard_cap},
+                        details={
+                            "api_calls_used": self.total_api_calls,
+                            "api_hard_cap": self.api_hard_cap,
+                        },
                     )
                 )
 
-    def register_backoff(self, shard_name: str, delay: float, reason: str, *, secondary: bool = False) -> None:
+    def register_backoff(
+        self, shard_name: str, delay: float, reason: str, *, secondary: bool = False
+    ) -> None:
         delay = max(delay, 1.0)
         with self._lock:
             self.global_backoff_until = max(self.global_backoff_until, time.monotonic() + delay)
@@ -405,7 +419,9 @@ class InstrumentedGitHubClient(GitHubClient):
             self.secondary_rate_limit_events += 1
             reason = f"{self.shard_name} hit a secondary rate limit while requesting {query}."
             if self.coordinator is not None:
-                self.coordinator.register_backoff(self.shard_name, max(delay, 8.0), reason, secondary=True)
+                self.coordinator.register_backoff(
+                    self.shard_name, max(delay, 8.0), reason, secondary=True
+                )
             raise ExperimentAbort(reason)
         if headers and (
             headers.get("Retry-After") is not None
@@ -426,12 +442,18 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--since", required=True, help="UTC crawl window start date (YYYY-MM-DD).")
     parser.add_argument("--as-of", required=True, help="UTC crawl window end date (YYYY-MM-DD).")
-    parser.add_argument("--max-results", type=int, default=250, help="Maximum repositories per query.")
+    parser.add_argument(
+        "--max-results", type=int, default=250, help="Maximum repositories per query."
+    )
     parser.add_argument("--topic", default=None, help="Optional topic id.")
     parser.add_argument("--config", default=None, help="Optional crawl topic config file.")
-    parser.add_argument("--shards", type=int, default=3, help="Total shards including search shards.")
+    parser.add_argument(
+        "--shards", type=int, default=3, help="Total shards including search shards."
+    )
     parser.add_argument("--wall-clock-budget", type=int, default=DEFAULT_WALL_CLOCK_BUDGET)
-    parser.add_argument("--api-budget-multiplier", type=float, default=DEFAULT_API_BUDGET_MULTIPLIER)
+    parser.add_argument(
+        "--api-budget-multiplier", type=float, default=DEFAULT_API_BUDGET_MULTIPLIER
+    )
     parser.add_argument("--output-dir", default=str(EXPERIMENT_ROOT))
     parser.add_argument("--experiment-id", default=None)
     return parser.parse_args()
@@ -486,7 +508,10 @@ def build_search_plans(context: CrawlContext) -> list[SearchPlan]:
     if context.args.config:
         queries = load_topic_queries(
             context.args.config,
-            {"last_week": context.since.date().isoformat(), "today": context.window_end.date().isoformat()},
+            {
+                "last_week": context.since.date().isoformat(),
+                "today": context.window_end.date().isoformat(),
+            },
         )
         return [
             SearchPlan(
@@ -501,12 +526,16 @@ def build_search_plans(context: CrawlContext) -> list[SearchPlan]:
         SearchPlan(
             shard_name="new-search",
             repo_group="new",
-            primary_queries=[f"created:{context.since.date().isoformat()}..{context.window_end.date().isoformat()} stars:>50"],
+            primary_queries=[
+                f"created:{context.since.date().isoformat()}..{context.window_end.date().isoformat()} stars:>50"
+            ],
         ),
         SearchPlan(
             shard_name="trending-search",
             repo_group="trending",
-            primary_queries=[f"pushed:{context.since.date().isoformat()}..{context.window_end.date().isoformat()} stars:>50"],
+            primary_queries=[
+                f"pushed:{context.since.date().isoformat()}..{context.window_end.date().isoformat()} stars:>50"
+            ],
         ),
     ]
 
@@ -546,7 +575,9 @@ def run_search_plan(
     }
 
 
-def chunk_validation_items(items: list[ValidationItem], worker_count: int) -> list[list[ValidationItem]]:
+def chunk_validation_items(
+    items: list[ValidationItem], worker_count: int
+) -> list[list[ValidationItem]]:
     if not items:
         return []
     chunk_size = max(1, math.ceil(len(items) / max(worker_count * 2, 1)))
@@ -565,13 +596,17 @@ def prepare_validation_items(
         for sequence, repo in enumerate(candidates):
             full_name = repo.get("full_name")
             if not full_name:
-                grouped_unique_items.append(ValidationItem(repo_group=repo_group, sequence=sequence, repo=repo))
+                grouped_unique_items.append(
+                    ValidationItem(repo_group=repo_group, sequence=sequence, repo=repo)
+                )
                 continue
             if full_name in seen:
                 duplicate_counts[repo_group] += 1
                 continue
             seen.add(full_name)
-            grouped_unique_items.append(ValidationItem(repo_group=repo_group, sequence=sequence, repo=repo))
+            grouped_unique_items.append(
+                ValidationItem(repo_group=repo_group, sequence=sequence, repo=repo)
+            )
     queue: Queue[list[ValidationItem]] = Queue()
     for chunk in chunk_validation_items(grouped_unique_items, worker_count):
         queue.put(chunk)
@@ -623,7 +658,9 @@ def validate_item(
             previous_stars=previous_stars,
             trending_cutoff=trending_cutoff,
         )
-    return ValidatedRecord(item.repo_group, item.sequence, to_repo_record(item.repo, stars_gained=stars_gained)), None
+    return ValidatedRecord(
+        item.repo_group, item.sequence, to_repo_record(item.repo, stars_gained=stars_gained)
+    ), None
 
 
 def sort_validated_records(
@@ -635,13 +672,19 @@ def sort_validated_records(
         ordered = sorted(
             records,
             key=lambda item: (
-                -int(item.record.get("stars_gained", -1) if item.record.get("stars_gained") is not None else -1),
+                -int(
+                    item.record.get("stars_gained", -1)
+                    if item.record.get("stars_gained") is not None
+                    else -1
+                ),
                 -int(item.record.get("stars") or 0),
                 item.sequence,
             ),
         )
     else:
-        ordered = sorted(records, key=lambda item: (-int(item.record.get("stars") or 0), item.sequence))
+        ordered = sorted(
+            records, key=lambda item: (-int(item.record.get("stars") or 0), item.sequence)
+        )
     return [item.record for item in ordered]
 
 
@@ -749,7 +792,11 @@ def build_payload(
             },
             "crawl_config_checksum": context.config_checksum,
             "schema_checksum": github_schema_checksum(),
-            "same_day_reuse": {"status": "not_reused", "source": "github", "source_id": "github-search"},
+            "same_day_reuse": {
+                "status": "not_reused",
+                "source": "github",
+                "source_id": "github-search",
+            },
             "filter_summary": filter_summary,
             "snapshot_path": snapshot_path.as_posix(),
             "source_refresh_policy": context.source_refresh_policy,
@@ -846,7 +893,9 @@ def run_sharded(context: CrawlContext, token: str, baseline_api_calls: int) -> R
     started_at = time.monotonic()
     search_plans = build_search_plans(context)
     validation_workers = max(1, int(context.args.shards) - len(search_plans))
-    api_hard_cap = max(1, math.floor(baseline_api_calls * float(context.args.api_budget_multiplier)))
+    api_hard_cap = max(
+        1, math.floor(baseline_api_calls * float(context.args.api_budget_multiplier))
+    )
     coordinator = SharedQuotaCoordinator(api_hard_cap)
     previous_stars = load_previous_star_snapshot(
         context.topic_snapshots,
@@ -941,7 +990,9 @@ def run_sharded(context: CrawlContext, token: str, baseline_api_calls: int) -> R
             aggregated_errors.append(str(exc))
 
     new_repos = sort_validated_records(validated_records["new"], previous_stars=None)
-    trending_repos = sort_validated_records(validated_records["trending"], previous_stars=previous_stars)
+    trending_repos = sort_validated_records(
+        validated_records["trending"], previous_stars=previous_stars
+    )
     payload, snapshot_payload = build_payload(
         context=context,
         output_path=context.shard_output_path,
@@ -975,7 +1026,9 @@ def run_sharded(context: CrawlContext, token: str, baseline_api_calls: int) -> R
         partial_failures=aggregated_errors,
         wall_clock_s=round(time.monotonic() - started_at, 3),
         shards_used=len(search_plans) + validation_workers,
-        completed=not aggregated_errors and validation_queue.empty() and not coordinator.secondary_rate_limit_hit,
+        completed=not aggregated_errors
+        and validation_queue.empty()
+        and not coordinator.secondary_rate_limit_hit,
         guardrail_events=coordinator.guardrail_events(),
     )
 
@@ -987,7 +1040,9 @@ def canonicalize_payload(payload: dict[str, Any]) -> bytes:
         "trending_repos": payload.get("trending_repos", []),
         "signals": payload.get("signals", {}),
     }
-    return json.dumps(canonical, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    return json.dumps(canonical, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode(
+        "utf-8"
+    )
 
 
 def canonicalize_snapshot(snapshot_payload: dict[str, Any]) -> bytes:
@@ -996,7 +1051,9 @@ def canonicalize_snapshot(snapshot_payload: dict[str, Any]) -> bytes:
         "repository_count": snapshot_payload.get("repository_count"),
         "stars": snapshot_payload.get("stars", {}),
     }
-    return json.dumps(canonical, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    return json.dumps(canonical, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode(
+        "utf-8"
+    )
 
 
 def _normalize_for_comparison(value: Any) -> Any:
@@ -1034,7 +1091,9 @@ def compare_results(baseline: dict[str, Any], shard: dict[str, Any]) -> dict[str
     shard_wall = float(shard.get("wall_clock_s", shard.get("elapsed_s", 0.0)) or 0.0)
     baseline_api = int(baseline.get("api_calls", baseline.get("api_calls_used", 0)) or 0)
     shard_api = int(shard.get("api_calls", shard.get("api_calls_used", 0)) or 0)
-    baseline_output = _normalize_for_comparison(baseline.get("canonical_output", baseline.get("output", {})))
+    baseline_output = _normalize_for_comparison(
+        baseline.get("canonical_output", baseline.get("output", {}))
+    )
     shard_output = _normalize_for_comparison(shard.get("canonical_output", shard.get("output", {})))
     return {
         "speedup_pct": round(((baseline_wall - shard_wall) / baseline_wall) * 100, 2),
@@ -1042,7 +1101,9 @@ def compare_results(baseline: dict[str, Any], shard: dict[str, Any]) -> dict[str
         "output_stable": baseline_output == shard_output,
         "rate_limit_regression": int(shard.get("rate_limit_events", 0) or 0)
         > int(baseline.get("rate_limit_events", 0) or 0),
-        "partial_data": bool(shard.get("partial_data", False) or baseline.get("partial_data", False)),
+        "partial_data": bool(
+            shard.get("partial_data", False) or baseline.get("partial_data", False)
+        ),
         "baseline_complete": not bool(baseline.get("partial_data", False)),
         "shard_complete": not bool(shard.get("partial_data", False)),
     }
@@ -1051,17 +1112,22 @@ def compare_results(baseline: dict[str, Any], shard: dict[str, Any]) -> dict[str
 def build_report(experiment_id: str, baseline: RunResult, shard: RunResult) -> dict[str, Any]:
     baseline_wall = baseline.wall_clock_s or 0.0001
     speedup_pct = round(((baseline_wall - shard.wall_clock_s) / baseline_wall) * 100, 2)
-    api_growth_pct = round(((shard.api_calls - baseline.api_calls) / max(baseline.api_calls, 1)) * 100, 2)
-    output_stable = canonicalize_payload(baseline.payload) == canonicalize_payload(shard.payload) and canonicalize_snapshot(
-        baseline.snapshot_payload
-    ) == canonicalize_snapshot(shard.snapshot_payload)
+    api_growth_pct = round(
+        ((shard.api_calls - baseline.api_calls) / max(baseline.api_calls, 1)) * 100, 2
+    )
+    output_stable = canonicalize_payload(baseline.payload) == canonicalize_payload(
+        shard.payload
+    ) and canonicalize_snapshot(baseline.snapshot_payload) == canonicalize_snapshot(
+        shard.snapshot_payload
+    )
     baseline_incomplete = bool(baseline.partial_failures) or not baseline.completed
     shard_incomplete = bool(shard.partial_failures) or not shard.completed
     report_card = ExperimentReport.from_comparison(
         {
             "speedup_pct": speedup_pct,
             "api_growth_pct": api_growth_pct,
-            "rate_limit_regression": shard.secondary_rate_limit_events > baseline.secondary_rate_limit_events,
+            "rate_limit_regression": shard.secondary_rate_limit_events
+            > baseline.secondary_rate_limit_events,
             "output_stable": output_stable,
             "partial_data": baseline_incomplete or shard_incomplete,
             "baseline_complete": not baseline_incomplete,
@@ -1069,7 +1135,9 @@ def build_report(experiment_id: str, baseline: RunResult, shard: RunResult) -> d
         }
     )
     verdict = report_card.verdict
-    if report_card.partial_data and any(event["kind"] == "secondary_rate_limit" for event in shard.guardrail_events):
+    if report_card.partial_data and any(
+        event["kind"] == "secondary_rate_limit" for event in shard.guardrail_events
+    ):
         verdict = "fail"
     return {
         "experiment_id": experiment_id,
@@ -1092,7 +1160,8 @@ def build_report(experiment_id: str, baseline: RunResult, shard: RunResult) -> d
             "speedup_pct": speedup_pct,
             "api_growth_pct": api_growth_pct,
             "output_stable": output_stable,
-            "secondary_rate_limit_regression": shard.secondary_rate_limit_events > baseline.secondary_rate_limit_events,
+            "secondary_rate_limit_regression": shard.secondary_rate_limit_events
+            > baseline.secondary_rate_limit_events,
         },
         "verdict": verdict,
         "guardrail_events": shard.guardrail_events,

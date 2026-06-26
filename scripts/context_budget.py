@@ -19,10 +19,9 @@ from __future__ import annotations
 import argparse
 import re
 import sys
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
-
 
 # Default budget allocations (words)
 BUDGET_ROLLING = 500
@@ -82,9 +81,7 @@ def _parse_date_from_line(line: str) -> Optional[datetime]:
     match = re.search(r"\[(\d{4}-\d{2}-\d{2})\]", line)
     if match:
         try:
-            return datetime.strptime(match.group(1), "%Y-%m-%d").replace(
-                tzinfo=timezone.utc
-            )
+            return datetime.strptime(match.group(1), "%Y-%m-%d").replace(tzinfo=timezone.utc)
         except ValueError:
             return None
     return None
@@ -132,7 +129,6 @@ def compress_stale_trends(text: str, now: Optional[datetime] = None) -> str:
         # Detect trend blocks: "### Trend: <name>" or "## Trend: <name>"
         trend_match = re.match(r"(#{2,3})\s+[Tt]rend:\s*(.+)", line)
         if trend_match:
-            heading_level = trend_match.group(1)
             trend_name = trend_match.group(2).strip()
             # Collect the trend block
             block_lines = [line]
@@ -253,9 +249,7 @@ def assemble_historical_context(
     )
     yearly_pruned = prune_stale_predictions(yearly_raw, now=now)
     prev_week_pruned = prev_week_raw
-    month_pruned = compress_stale_trends(
-        prune_stale_predictions(month_raw, now=now), now=now
-    )
+    month_pruned = compress_stale_trends(prune_stale_predictions(month_raw, now=now), now=now)
 
     # Compress each section to its budget
     rolling_compressed = compress_to_budget(rolling_pruned, budget_rolling)

@@ -2,14 +2,11 @@
 
 from __future__ import annotations
 
-import tempfile
-from pathlib import Path
-
 import pytest
 
 from scripts.topic_paths import (
-    DEFAULT_TOPIC,
     DATA_ROOT,
+    DEFAULT_TOPIC,
     analyzed_dir,
     cache_dir,
     ensure_dirs,
@@ -109,36 +106,43 @@ class TestTopicIdValidation:
     """_resolve must reject topic IDs that could cause path traversal."""
 
     def test_dotdot_raises(self):
-        from scripts.topic_paths import _resolve, DATA_ROOT
+        from scripts.topic_paths import DATA_ROOT, _resolve
+
         with pytest.raises(ValueError, match="Invalid topic ID"):
             _resolve(DATA_ROOT / "raw", "../../../etc")
 
     def test_absolute_path_raises(self):
-        from scripts.topic_paths import _resolve, DATA_ROOT
+        from scripts.topic_paths import DATA_ROOT, _resolve
+
         with pytest.raises(ValueError, match="Invalid topic ID"):
             _resolve(DATA_ROOT / "raw", "/etc/passwd")
 
     def test_slash_in_id_raises(self):
-        from scripts.topic_paths import _resolve, DATA_ROOT
+        from scripts.topic_paths import DATA_ROOT, _resolve
+
         with pytest.raises(ValueError, match="Invalid topic ID"):
             _resolve(DATA_ROOT / "raw", "valid/subdir")
 
     def test_null_byte_raises(self):
-        from scripts.topic_paths import _resolve, DATA_ROOT
+        from scripts.topic_paths import DATA_ROOT, _resolve
+
         with pytest.raises(ValueError, match="Invalid topic ID"):
             _resolve(DATA_ROOT / "raw", "evil\x00byte")
 
     def test_leading_hyphen_raises(self):
-        from scripts.topic_paths import _resolve, DATA_ROOT
+        from scripts.topic_paths import DATA_ROOT, _resolve
+
         with pytest.raises(ValueError, match="Invalid topic ID"):
             _resolve(DATA_ROOT / "raw", "-bad")
 
     def test_valid_hyphenated_id_passes(self):
-        from scripts.topic_paths import _resolve, DATA_ROOT
+        from scripts.topic_paths import DATA_ROOT, _resolve
+
         result = _resolve(DATA_ROOT / "raw", "ai-ml")
         assert result == DATA_ROOT / "raw" / "ai-ml"
 
     def test_valid_underscore_id_passes(self):
-        from scripts.topic_paths import _resolve, DATA_ROOT
+        from scripts.topic_paths import DATA_ROOT, _resolve
+
         result = _resolve(DATA_ROOT / "raw", "rust_2026")
         assert result == DATA_ROOT / "raw" / "rust_2026"

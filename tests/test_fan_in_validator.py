@@ -12,35 +12,28 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import UTC, datetime, timedelta
-from pathlib import Path
+from datetime import UTC, datetime
 from typing import Any
 
-import pytest
-
-from scripts.run_context import (
-    SCHEMA_VERSION,
-    RunContext,
-    build_run_context,
-    compute_code_sha,
-    contexts_compatible,
-    validate_run_context,
-)
 from scripts.fan_in_validator import (
-    DEFAULT_MAX_ARTIFACT_AGE,
-    ValidationResult,
     detect_duplicate_repos,
     detect_duplicate_urls,
     run_full_validation,
     validate_artifact_schema,
     validate_checksum_integrity,
     validate_deterministic_ordering,
-    validate_stale_artifacts,
     validate_source_status,
+    validate_stale_artifacts,
     validate_window_consistency,
     verify_byte_stability,
 )
-
+from scripts.run_context import (
+    SCHEMA_VERSION,
+    RunContext,
+    build_run_context,
+    contexts_compatible,
+    validate_run_context,
+)
 
 # --- Fixtures ---
 
@@ -96,7 +89,9 @@ def _make_rss_artifact(
             "total_articles": len(arts),
             "relevant_articles": len(arts),
             "content_checksum": hashlib.sha256(
-                json.dumps(arts, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+                json.dumps(arts, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode(
+                    "utf-8"
+                )
             ).hexdigest(),
         },
         "articles": arts,
@@ -288,9 +283,7 @@ class TestFanInValidation:
         assert len(stale) > 0
 
     def test_fresh_artifact_accepted(self):
-        artifact = _make_rss_artifact(
-            crawled_at=NOW.strftime("%Y-%m-%dT%H:%M:%SZ")
-        )
+        artifact = _make_rss_artifact(crawled_at=NOW.strftime("%Y-%m-%dT%H:%M:%SZ"))
         stale = validate_stale_artifacts([artifact], reference_time=NOW)
         assert stale == []
 
@@ -303,9 +296,7 @@ class TestFanInValidation:
 
     def test_source_status_required_failed(self):
         artifact = _make_rss_artifact(source_id="techcrunch", status_success=False)
-        errors, warnings = validate_source_status(
-            [artifact], required_sources=["techcrunch"]
-        )
+        errors, warnings = validate_source_status([artifact], required_sources=["techcrunch"])
         assert any("techcrunch" in e for e in errors)
 
     def test_source_status_optional_missing_is_warning(self):
@@ -406,9 +397,7 @@ class TestFullValidation:
     def test_schema_mismatch_fails(self):
         ctx = _make_run_context()
         artifact = _make_rss_artifact(run_context=ctx)
-        result = run_full_validation(
-            [artifact], ctx, expected_schema_version="99"
-        )
+        result = run_full_validation([artifact], ctx, expected_schema_version="99")
         assert not result.valid
 
     def test_missing_required_source_fails(self):

@@ -25,3 +25,11 @@ extend-exclude = [
 # Conservative Phase-A rule subset: pycodestyle errors (E), Pyflakes (F),
 # and import sorting (I). Broaden in later phases.
 select = ["E", "F", "I"]
+
+# Line length is owned by the formatter (`ruff format`), enforced in CI via
+# `ruff format --check`. E501 only fires on content the formatter intentionally
+# leaves untouched — long URLs and prose inside triple-quoted string templates
+# and test fixtures, which cannot be wrapped without changing program output.
+# Following the standard Black/Ruff convention, we disable the lint-side E501
+# check while keeping formatter-enforced wrapping for code.
+ignore = ["E501"]

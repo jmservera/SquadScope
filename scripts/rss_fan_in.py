@@ -43,12 +43,8 @@ from scripts.techcrunch_crawler import (
     artifact_checksum,
     dedupe_articles,
     iso_timestamp,
-    load_source_configs,
-    schema_checksum,
-    source_config_checksum,
     source_content_checksum,
     validate_canonical_output,
-    week_slug,
 )
 
 # Per-source artifact schema version (tracks independently of canonical)
@@ -222,7 +218,15 @@ def validate_source_artifact(artifact: dict[str, Any]) -> None:
             f"Source artifact schema version mismatch: expected {SOURCE_ARTIFACT_SCHEMA_VERSION}, "
             f"got {artifact.get('source_artifact_schema_version')}"
         )
-    required = {"source_id", "crawled_at", "run_context", "status", "metrics", "articles", "artifact_checksum"}
+    required = {
+        "source_id",
+        "crawled_at",
+        "run_context",
+        "status",
+        "metrics",
+        "articles",
+        "artifact_checksum",
+    }
     missing = sorted(required - set(artifact))
     if missing:
         raise FanInValidationError(f"Source artifact missing keys: {missing}")
@@ -298,19 +302,19 @@ def validate_fan_in_compatibility(
     required_sources = set(run_context.get("required_sources", []))
     missing_required = sorted(required_sources - provided_sources)
     if missing_required:
-        raise FanInValidationError(
-            f"Missing required source artifacts: {missing_required}"
-        )
+        raise FanInValidationError(f"Missing required source artifacts: {missing_required}")
 
     # Check for optional missing sources (warning, not error)
     optional_sources = set(run_context.get("optional_sources", []))
     missing_optional = sorted(optional_sources - provided_sources)
     for source_id in missing_optional:
-        warnings.append(FanInWarning(
-            source_id=source_id,
-            category="missing_optional_source",
-            message=f"Optional source '{source_id}' artifact not found",
-        ))
+        warnings.append(
+            FanInWarning(
+                source_id=source_id,
+                category="missing_optional_source",
+                message=f"Optional source '{source_id}' artifact not found",
+            )
+        )
 
     # Duplicate source check
     source_ids = [a["source_id"] for a in artifacts]
@@ -357,17 +361,21 @@ def merge_source_artifacts(
         source_statuses.append(status)
 
         if not status.get("success", False):
-            warnings.append(FanInWarning(
-                source_id=source_id,
-                category="source_failure",
-                message=f"Source '{source_id}' reported failure: {status.get('error_message', 'unknown')}",
-            ))
+            warnings.append(
+                FanInWarning(
+                    source_id=source_id,
+                    category="source_failure",
+                    message=f"Source '{source_id}' reported failure: {status.get('error_message', 'unknown')}",
+                )
+            )
             if status.get("error_class") or status.get("error_message"):
-                errors.append({
-                    "source": source_id,
-                    "error_class": status.get("error_class", "Unknown"),
-                    "error": status.get("error_message", "unknown error"),
-                })
+                errors.append(
+                    {
+                        "source": source_id,
+                        "error_class": status.get("error_class", "Unknown"),
+                        "error": status.get("error_message", "unknown error"),
+                    }
+                )
 
         provenance_entry = {
             "source_id": source_id,
@@ -462,10 +470,12 @@ def build_canonical_merged_output(
             "sources_failed": sorted(failed_sources),
             "source_status": sorted(source_statuses, key=lambda s: s.get("source", "")),
             "source_reuse_summary": sorted(reuse_summary, key=lambda s: s.get("source", "")),
-            "source_artifact_provenance": sorted(source_provenance, key=lambda s: s.get("source_id", "")),
-            "sources_with_articles": dict(sorted(
-                {str(a.get("source", "unknown")): 0 for a in deduped_articles}.items()
-            )),
+            "source_artifact_provenance": sorted(
+                source_provenance, key=lambda s: s.get("source_id", "")
+            ),
+            "sources_with_articles": dict(
+                sorted({str(a.get("source", "unknown")): 0 for a in deduped_articles}.items())
+            ),
             "total_articles": len(deduped_articles),
             "relevant_articles": len(relevant),
             "github_links_found": len(all_github_links),
@@ -509,10 +519,14 @@ def cmd_emit(args: argparse.Namespace) -> int:
         print("ERROR: articles file must contain a JSON array", file=sys.stderr)
         return 1
 
-    status = json.loads(Path(args.status).read_text(encoding="utf-8")) if args.status else {
-        "source": args.source,
-        "success": True,
-    }
+    status = (
+        json.loads(Path(args.status).read_text(encoding="utf-8"))
+        if args.status
+        else {
+            "source": args.source,
+            "success": True,
+        }
+    )
 
     artifact = build_source_artifact(
         source_id=args.source,
@@ -638,14 +652,24 @@ def main(argv: list[str] | None = None) -> int:
 
     # merge subcommand
     merge_parser = subparsers.add_parser("merge", help="Merge per-source artifacts")
-    merge_parser.add_argument("--artifacts-dir", required=True, help="Directory containing per-source artifacts")
-    merge_parser.add_argument("--run-context", required=True, help="Path to shared run context JSON")
-    merge_parser.add_argument("--output", required=True, help="Output path for merged canonical artifact")
+    merge_parser.add_argument(
+        "--artifacts-dir", required=True, help="Directory containing per-source artifacts"
+    )
+    merge_parser.add_argument(
+        "--run-context", required=True, help="Path to shared run context JSON"
+    )
+    merge_parser.add_argument(
+        "--output", required=True, help="Output path for merged canonical artifact"
+    )
 
     # validate subcommand
     validate_parser = subparsers.add_parser("validate", help="Validate artifacts without merging")
-    validate_parser.add_argument("--artifacts-dir", required=True, help="Directory containing per-source artifacts")
-    validate_parser.add_argument("--run-context", required=True, help="Path to shared run context JSON")
+    validate_parser.add_argument(
+        "--artifacts-dir", required=True, help="Directory containing per-source artifacts"
+    )
+    validate_parser.add_argument(
+        "--run-context", required=True, help="Path to shared run context JSON"
+    )
 
     args = parser.parse_args(argv)
     if not args.command:

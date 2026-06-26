@@ -15,7 +15,14 @@ from scripts.load_scorecard import (
 )
 
 
-def _make_scorecard(week: str, topic: str = "ai-ml", validated: int = 5, correct: int = 3, incorrect: int = 2, by_type: dict | None = None) -> dict:
+def _make_scorecard(
+    week: str,
+    topic: str = "ai-ml",
+    validated: int = 5,
+    correct: int = 3,
+    incorrect: int = 2,
+    by_type: dict | None = None,
+) -> dict:
     return {
         "week": week,
         "topic": topic,
@@ -24,7 +31,11 @@ def _make_scorecard(week: str, topic: str = "ai-ml", validated: int = 5, correct
         "correct": correct,
         "incorrect": incorrect,
         "accuracy": correct / validated if validated else 0,
-        "by_type": by_type or {"rising_star": {"total": 3, "correct": 2}, "declining_signal": {"total": 2, "correct": 1}},
+        "by_type": by_type
+        or {
+            "rising_star": {"total": 3, "correct": 2},
+            "declining_signal": {"total": 2, "correct": 1},
+        },
         "details": [],
     }
 
@@ -36,7 +47,10 @@ def scorecards_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     sc_dir = tmp_path / "data" / "metrics" / topic / "scorecards"
     sc_dir.mkdir(parents=True)
 
-    monkeypatch.setattr("scripts.load_scorecard.metrics_dir", lambda topic_id=None: tmp_path / "data" / "metrics" / (topic_id or "general"))
+    monkeypatch.setattr(
+        "scripts.load_scorecard.metrics_dir",
+        lambda topic_id=None: tmp_path / "data" / "metrics" / (topic_id or "general"),
+    )
 
     return sc_dir
 
@@ -54,7 +68,9 @@ class TestScorecardDir:
 
 class TestLoadScorecards:
     def test_empty_when_no_dir(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
-        monkeypatch.setattr("scripts.load_scorecard.metrics_dir", lambda topic_id=None: tmp_path / "nonexistent")
+        monkeypatch.setattr(
+            "scripts.load_scorecard.metrics_dir", lambda topic_id=None: tmp_path / "nonexistent"
+        )
         result = load_scorecards("ai-ml")
         assert result == []
 
@@ -104,40 +120,70 @@ class TestFormatScorecardSummary:
 
     def test_multiple_cards_aggregate(self):
         cards = [
-            _make_scorecard("2026-W20", validated=5, correct=4, incorrect=1,
-                           by_type={"rising_star": {"total": 3, "correct": 2}, "breakout": {"total": 2, "correct": 2}}),
-            _make_scorecard("2026-W21", validated=5, correct=3, incorrect=2,
-                           by_type={"rising_star": {"total": 3, "correct": 1}, "breakout": {"total": 2, "correct": 2}}),
+            _make_scorecard(
+                "2026-W20",
+                validated=5,
+                correct=4,
+                incorrect=1,
+                by_type={
+                    "rising_star": {"total": 3, "correct": 2},
+                    "breakout": {"total": 2, "correct": 2},
+                },
+            ),
+            _make_scorecard(
+                "2026-W21",
+                validated=5,
+                correct=3,
+                incorrect=2,
+                by_type={
+                    "rising_star": {"total": 3, "correct": 1},
+                    "breakout": {"total": 2, "correct": 2},
+                },
+            ),
         ]
         result = format_scorecard_summary(cards)
 
         assert "last 2 weeks" in result
         assert "70% (7/10 correct)" in result
         # rising_star: 3/6 = 50%
-        assert "\"rising_star\" predictions: 50%" in result
+        assert '"rising_star" predictions: 50%' in result
         # breakout: 4/4 = 100%
-        assert "\"breakout\" predictions: 100%" in result
+        assert '"breakout" predictions: 100%' in result
 
     def test_recommendations_for_low_accuracy(self):
         cards = [
-            _make_scorecard("2026-W21", validated=10, correct=3, incorrect=7,
-                           by_type={"rising_star": {"total": 10, "correct": 3}}),
+            _make_scorecard(
+                "2026-W21",
+                validated=10,
+                correct=3,
+                incorrect=7,
+                by_type={"rising_star": {"total": 10, "correct": 3}},
+            ),
         ]
         result = format_scorecard_summary(cards)
         assert "raise confidence threshold" in result
 
     def test_recommendations_for_high_accuracy(self):
         cards = [
-            _make_scorecard("2026-W21", validated=10, correct=9, incorrect=1,
-                           by_type={"declining_signal": {"total": 10, "correct": 9}}),
+            _make_scorecard(
+                "2026-W21",
+                validated=10,
+                correct=9,
+                incorrect=1,
+                by_type={"declining_signal": {"total": 10, "correct": 9}},
+            ),
         ]
         result = format_scorecard_summary(cards)
         assert "reliable" in result
 
 
 class TestRenderScorecardSection:
-    def test_returns_empty_when_no_scorecards(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
-        monkeypatch.setattr("scripts.load_scorecard.metrics_dir", lambda topic_id=None: tmp_path / "nonexistent")
+    def test_returns_empty_when_no_scorecards(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ):
+        monkeypatch.setattr(
+            "scripts.load_scorecard.metrics_dir", lambda topic_id=None: tmp_path / "nonexistent"
+        )
         result = render_scorecard_section("ai-ml")
         assert result == ""
 

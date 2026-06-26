@@ -113,12 +113,22 @@ CONTRADICTION_PATTERNS = [
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Validate weekly analysis output against the analysis spec.")
-    parser.add_argument("--analysis-file", required=True, type=Path, help="Path to the rendered markdown summary.")
-    parser.add_argument("--raw-json", required=True, type=Path, help="Path to the raw weekly payload.")
-    parser.add_argument("--current-datetime", required=True, help="Current run timestamp in ISO 8601 format.")
+    parser = argparse.ArgumentParser(
+        description="Validate weekly analysis output against the analysis spec."
+    )
+    parser.add_argument(
+        "--analysis-file", required=True, type=Path, help="Path to the rendered markdown summary."
+    )
+    parser.add_argument(
+        "--raw-json", required=True, type=Path, help="Path to the raw weekly payload."
+    )
+    parser.add_argument(
+        "--current-datetime", required=True, help="Current run timestamp in ISO 8601 format."
+    )
     parser.add_argument("--source", default="unknown", help="Analysis source label for summaries.")
-    parser.add_argument("--model", default="copilot-default", help="AI model label for provenance validation.")
+    parser.add_argument(
+        "--model", default="copilot-default", help="AI model label for provenance validation."
+    )
     parser.add_argument(
         "--repair-safe",
         action="store_true",
@@ -213,7 +223,9 @@ def parse_frontmatter_fallback(text: str) -> dict[str, Any]:
                     break
                 stripped = candidate.strip()
                 if not stripped.startswith("- "):
-                    raise ValueError(f"Unsupported multiline frontmatter value for {key}: {candidate}")
+                    raise ValueError(
+                        f"Unsupported multiline frontmatter value for {key}: {candidate}"
+                    )
                 item_value = stripped[2:].strip()
                 if ":" in item_value:
                     item: dict[str, Any] = {}
@@ -229,7 +241,9 @@ def parse_frontmatter_fallback(text: str) -> dict[str, Any]:
                         if nested_indent <= candidate_indent:
                             break
                         if ":" not in nested:
-                            raise ValueError(f"Unsupported multiline frontmatter value for {key}: {nested}")
+                            raise ValueError(
+                                f"Unsupported multiline frontmatter value for {key}: {nested}"
+                            )
                         nested_key, nested_raw_value = nested.strip().split(":", 1)
                         item[nested_key.strip()] = parse_scalar(nested_raw_value.strip())
                         index += 1
@@ -314,7 +328,11 @@ def expected_repo_counts(raw_payload: dict[str, Any]) -> tuple[int, int]:
         value = raw_payload.get(field)
         if isinstance(value, list):
             repos.extend(item for item in value if isinstance(item, dict))
-    stars = sum(star for repo in repos if isinstance((star := repo.get("stars")), int) and not isinstance(star, bool))
+    stars = sum(
+        star
+        for repo in repos
+        if isinstance((star := repo.get("stars")), int) and not isinstance(star, bool)
+    )
     return len(repos), stars
 
 
@@ -361,19 +379,30 @@ def repair_analysis(
             if "claim_type" not in repaired_prediction:
                 for alias in ("claim", "claimType", "type", "kind"):
                     alias_value = repaired_prediction.get(alias)
-                    if isinstance(alias_value, str) and alias_value.strip().lower() in PREDICTION_CLAIM_TYPES:
+                    if (
+                        isinstance(alias_value, str)
+                        and alias_value.strip().lower() in PREDICTION_CLAIM_TYPES
+                    ):
                         repaired_prediction["claim_type"] = alias_value.strip().lower()
                         del repaired_prediction[alias]
                         changed_predictions = True
                         actions.append(f"set predictions[{index}].claim_type from {alias}")
                         break
             claim_type = repaired_prediction.get("claim_type")
-            if isinstance(claim_type, str) and claim_type.strip().lower() in PREDICTION_CLAIM_TYPES and claim_type != claim_type.strip().lower():
+            if (
+                isinstance(claim_type, str)
+                and claim_type.strip().lower() in PREDICTION_CLAIM_TYPES
+                and claim_type != claim_type.strip().lower()
+            ):
                 repaired_prediction["claim_type"] = claim_type.strip().lower()
                 changed_predictions = True
                 actions.append(f"normalized predictions[{index}].claim_type")
             direction = repaired_prediction.get("direction")
-            if isinstance(direction, str) and direction.strip().lower() in PREDICTION_DIRECTIONS and direction != direction.strip().lower():
+            if (
+                isinstance(direction, str)
+                and direction.strip().lower() in PREDICTION_DIRECTIONS
+                and direction != direction.strip().lower()
+            ):
                 repaired_prediction["direction"] = direction.strip().lower()
                 changed_predictions = True
                 actions.append(f"normalized predictions[{index}].direction")
@@ -394,7 +423,9 @@ def validate_string_field(frontmatter: dict[str, Any], field: str, errors: list[
         errors.append(f"{field} must be a non-empty string.")
 
 
-def validate_integer_field(frontmatter: dict[str, Any], field: str, errors: list[str], *, minimum: int = 0) -> None:
+def validate_integer_field(
+    frontmatter: dict[str, Any], field: str, errors: list[str], *, minimum: int = 0
+) -> None:
     value = frontmatter.get(field)
     if value is None:
         return
@@ -417,7 +448,9 @@ def validate_string_list(
     value = frontmatter.get(field)
     if value is None:
         return
-    if not isinstance(value, list) or any(not isinstance(item, str) or not item.strip() for item in value):
+    if not isinstance(value, list) or any(
+        not isinstance(item, str) or not item.strip() for item in value
+    ):
         errors.append(f"{field} must be an array of strings.")
         return
     if minimum is not None and len(value) < minimum:
@@ -445,7 +478,10 @@ def validate_predictions(frontmatter: dict[str, Any], errors: list[str]) -> None
         confidence = prediction.get("confidence")
         if not isinstance(repo, str) or not TOP_REPO_PATTERN.fullmatch(repo.strip()):
             errors.append(f"predictions[{index}].repo must use owner/repo format.")
-        if not isinstance(claim_type, str) or claim_type.strip().lower() not in PREDICTION_CLAIM_TYPES:
+        if (
+            not isinstance(claim_type, str)
+            or claim_type.strip().lower() not in PREDICTION_CLAIM_TYPES
+        ):
             errors.append(f"predictions[{index}].claim_type must be one of signal, noise, gap.")
         if not isinstance(direction, str) or direction.strip().lower() not in PREDICTION_DIRECTIONS:
             errors.append(f"predictions[{index}].direction must be one of up, flat, down.")
@@ -503,7 +539,9 @@ def raw_artifact_week_errors(raw_payload: dict[str, Any], expected_week: Any) ->
         return [f"raw evidence timestamp is invalid: {exc}"]
     artifact_week = week_slug(parsed)
     if artifact_week != expected_week:
-        return [f"raw evidence timestamp week mismatch: expected {expected_week}, found {artifact_week}."]
+        return [
+            f"raw evidence timestamp week mismatch: expected {expected_week}, found {artifact_week}."
+        ]
     return []
 
 
@@ -512,12 +550,16 @@ def evidence_citation_errors(body: str, raw_payload: dict[str, Any]) -> list[str
     repos = raw_repo_names(raw_payload)
     linked_repos = set(REPO_LINK_PATTERN.findall(body))
     if repos and not linked_repos.intersection(repos):
-        errors.append("evidence citations must include at least one repository link from the raw payload.")
+        errors.append(
+            "evidence citations must include at least one repository link from the raw payload."
+        )
     unresolved_links = sorted(linked_repos - repos) if repos else []
     if unresolved_links:
         preview = ", ".join(unresolved_links[:10])
         suffix = f" (+{len(unresolved_links) - 10} more)" if len(unresolved_links) > 10 else ""
-        errors.append(f"repository links must resolve to the current raw evidence inventory: {preview}{suffix}.")
+        errors.append(
+            f"repository links must resolve to the current raw evidence inventory: {preview}{suffix}."
+        )
     if repos and "## Key References" in body:
         notable = section_text(body, "## Key References")
         notable_links = set(REPO_LINK_PATTERN.findall(notable))
@@ -531,21 +573,31 @@ def editorial_quality_errors(body: str) -> list[str]:
     errors: list[str] = []
     prose = "\n".join(line for line in body.splitlines() if not line.lstrip().startswith("#"))
     lower_body = prose.lower()
-    terms_found = {term for term in EDITORIAL_TERMS if re.search(rf"\b{re.escape(term)}\b", lower_body)}
+    terms_found = {
+        term for term in EDITORIAL_TERMS if re.search(rf"\b{re.escape(term)}\b", lower_body)
+    }
     if len(terms_found) < 3:
-        errors.append("editorial analysis must use trend/evidence judgment language, not generic summary prose.")
+        errors.append(
+            "editorial analysis must use trend/evidence judgment language, not generic summary prose."
+        )
     for heading, minimum in SECTION_MIN_WORDS.items():
         text = section_text(body, heading)
         if not text:
             continue
         count = len(WORD_PATTERN.findall(text))
         if count < minimum:
-            errors.append(f"{heading} section is too thin for publish-quality analysis; found {count} words, expected at least {minimum}.")
+            errors.append(
+                f"{heading} section is too thin for publish-quality analysis; found {count} words, expected at least {minimum}."
+            )
     for heading in ("## This Week's Trends", "## Signal & Noise", "## Blind Spots"):
         text = section_text(body, heading)
         linked_repos = REPO_LINK_PATTERN.findall(text)
-        section_terms = {term for term in EDITORIAL_TERMS if re.search(rf"\b{re.escape(term)}\b", text.lower())}
-        has_reasoning_or_evidence = EXPLANATORY_PATTERN.search(text) or linked_repos or len(section_terms) >= 2
+        section_terms = {
+            term for term in EDITORIAL_TERMS if re.search(rf"\b{re.escape(term)}\b", text.lower())
+        }
+        has_reasoning_or_evidence = (
+            EXPLANATORY_PATTERN.search(text) or linked_repos or len(section_terms) >= 2
+        )
         if text and not has_reasoning_or_evidence:
             errors.append(f"{heading} must explain why the pattern matters, not only name it.")
     return errors
@@ -578,9 +630,15 @@ def ai_provenance_errors(source: str, model: str) -> list[str]:
 def categorize_gate_error(error: str) -> str:
     if error.startswith("AI provenance"):
         return "ai_provenance"
-    if error.startswith(("evidence citations", "Key References", "raw evidence", "repository links")):
+    if error.startswith(
+        ("evidence citations", "Key References", "raw evidence", "repository links")
+    ):
         return "evidence_citation"
-    if error.startswith(("editorial analysis", "contradictory claim")) or "section is too thin" in error or "must explain why" in error:
+    if (
+        error.startswith(("editorial analysis", "contradictory claim"))
+        or "section is too thin" in error
+        or "must explain why" in error
+    ):
         return "editorial_quality"
     if "quality_score" in error or "generic week/year" in error or "placeholder" in error:
         return "editorial_quality"
@@ -621,7 +679,9 @@ def validate_publish_quality(
     return errors, build_gate_results(errors)
 
 
-def validate_analysis(text: str, raw_payload: dict[str, Any], current_datetime: str) -> tuple[list[str], int]:
+def validate_analysis(
+    text: str, raw_payload: dict[str, Any], current_datetime: str
+) -> tuple[list[str], int]:
     errors: list[str] = []
     try:
         frontmatter, body = extract_frontmatter(text)
@@ -756,13 +816,18 @@ def write_gate_report(
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def build_failure_summary(errors: list[str], gate_results: dict[str, dict[str, Any]]) -> dict[str, Any]:
-    categories = sorted(category for category, result in gate_results.items() if not result.get("passed"))
+def build_failure_summary(
+    errors: list[str], gate_results: dict[str, dict[str, Any]]
+) -> dict[str, Any]:
+    categories = sorted(
+        category for category, result in gate_results.items() if not result.get("passed")
+    )
     return {
         "failure_class": classify_gate_errors(errors),
         "failure_categories": categories,
         "error_count": len(errors),
-        "retryable": bool(errors) and not any(category == "ai_provenance" for category in categories),
+        "retryable": bool(errors)
+        and not any(category == "ai_provenance" for category in categories),
     }
 
 
@@ -773,12 +838,16 @@ def classify_gate_errors(errors: list[str]) -> str:
     if len(categories) == 1:
         return next(iter(categories))
     if all(
-        error.startswith(("date must", "week must", "year must", "repos_featured must", "stars_tracked must"))
+        error.startswith(
+            ("date must", "week must", "year must", "repos_featured must", "stars_tracked must")
+        )
         or ".claim_type must" in error
         for error in errors
     ):
         return "metadata_schema"
-    if any(error.startswith("Missing required section heading") or "body" in error for error in errors):
+    if any(
+        error.startswith("Missing required section heading") or "body" in error for error in errors
+    ):
         return "content_structure"
     return "quality_gate"
 
@@ -806,13 +875,19 @@ def main(argv: list[str] | None = None) -> int:
     text = args.analysis_file.read_text(encoding="utf-8")
     raw_payload = load_json(args.raw_json)
     errors_before, word_count = validate_analysis(text, raw_payload, args.current_datetime)
-    publish_errors_before, _ = validate_publish_quality(text, raw_payload, source=args.source, model=args.model)
-    combined_errors_before = errors_before + [error for error in publish_errors_before if error not in errors_before]
+    publish_errors_before, _ = validate_publish_quality(
+        text, raw_payload, source=args.source, model=args.model
+    )
+    combined_errors_before = errors_before + [
+        error for error in publish_errors_before if error not in errors_before
+    ]
     errors = errors_before
     repair_actions: list[str] = []
     if errors and args.repair_safe:
         try:
-            repaired_text, repair_actions = repair_analysis(text, raw_payload, args.current_datetime)
+            repaired_text, repair_actions = repair_analysis(
+                text, raw_payload, args.current_datetime
+            )
         except Exception as exc:  # noqa: BLE001 - repair is best-effort; validation/reporting must continue.
             repair_actions = [f"repair skipped: {exc}"]
         else:
@@ -824,7 +899,9 @@ def main(argv: list[str] | None = None) -> int:
                     f"::notice::Analysis gate applied safe repairs: {', '.join(repair_actions)}",
                     file=sys.stderr,
                 )
-    publish_errors, _ = validate_publish_quality(text, raw_payload, source=args.source, model=args.model)
+    publish_errors, _ = validate_publish_quality(
+        text, raw_payload, source=args.source, model=args.model
+    )
     errors = errors + [error for error in publish_errors if error not in errors]
     gate_results = build_gate_results(errors)
     write_gate_report(

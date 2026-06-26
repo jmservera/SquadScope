@@ -11,11 +11,9 @@ CLI:
 from __future__ import annotations
 
 import argparse
-import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-
 
 SQUAD_DIR = Path(".squad/topics")
 DEFAULT_LIMIT = 5120  # 5KB soft limit
@@ -40,11 +38,13 @@ def parse_heuristics(content: str) -> list[dict]:
         if line.startswith("## "):
             current_section = line.strip("# ").strip()
         elif line.startswith("- "):
-            heuristics.append({
-                "section": current_section,
-                "line": i,
-                "text": line,
-            })
+            heuristics.append(
+                {
+                    "section": current_section,
+                    "line": i,
+                    "text": line,
+                }
+            )
     return heuristics
 
 
@@ -108,7 +108,9 @@ def retire_heuristics(
 
     # Build archive entry
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    archive_entry = f"\n## Retired {timestamp}\n\nReason: wisdom.md exceeded {limit} byte soft limit\n\n"
+    archive_entry = (
+        f"\n## Retired {timestamp}\n\nReason: wisdom.md exceeded {limit} byte soft limit\n\n"
+    )
     archive_entry += "\n".join(h["text"] for h in to_retire) + "\n"
 
     # Write archive
@@ -123,7 +125,7 @@ def retire_heuristics(
     # Remove retired lines from wisdom content
     lines = content.splitlines()
     retired_lines = {h["line"] for h in to_retire}
-    new_lines = [l for i, l in enumerate(lines) if i not in retired_lines]
+    new_lines = [ln for i, ln in enumerate(lines) if i not in retired_lines]
     # Clean up any trailing empty lines in sections
     new_content = "\n".join(new_lines).rstrip() + "\n"
     wisdom_path.write_text(new_content, encoding="utf-8")

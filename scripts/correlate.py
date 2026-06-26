@@ -100,7 +100,9 @@ def fuzzy_name_score(repo_name: str, text: str) -> float:
     return max(seq_score, token_score)
 
 
-def match_project_name(repo: dict[str, Any], articles: list[dict[str, Any]], threshold: float = 0.6) -> list[dict[str, Any]]:
+def match_project_name(
+    repo: dict[str, Any], articles: list[dict[str, Any]], threshold: float = 0.6
+) -> list[dict[str, Any]]:
     """Match articles by fuzzy matching repo name against title/entities."""
     repo_name = repo.get("name") or ""
     if not repo_name or len(repo_name) < 3:
@@ -167,10 +169,12 @@ def dedupe_articles(articles: list[dict[str, Any]]) -> tuple[list[dict[str, Any]
             key = str(article.get("title", "")).strip().lower()
         if key not in grouped:
             current = dict(article)
-            current["sources"] = sorted({
-                str(current.get("source", "")) or "unknown",
-                *[str(source) for source in current.get("sources", [])],
-            })
+            current["sources"] = sorted(
+                {
+                    str(current.get("source", "")) or "unknown",
+                    *[str(source) for source in current.get("sources", [])],
+                }
+            )
             grouped[key] = current
             continue
         duplicates += 1
@@ -362,9 +366,7 @@ def correlate_repo(repo: dict[str, Any], articles: list[dict[str, Any]]) -> dict
         "press_correlated": press_correlated,
         "correlation_confidence": round(best_confidence, 2),
         "matched_articles": matched_articles,
-        "matched_article_details": [
-            _article_citation(article) for article in matched_article_objs
-        ],
+        "matched_article_details": [_article_citation(article) for article in matched_article_objs],
         "match_type": best_type,
         "correlation_strength": strength,
         "confidence_label": strength,
@@ -414,10 +416,9 @@ def detect_divergences(
         matched_article_urls.update(corr.get("matched_articles", []))
 
     # Unmatched articles → uncovered tech trends
-    unmatched_articles = [
-        a for a in articles
-        if a.get("url") not in matched_article_urls
-    ][:MAX_DIVERGENCE_ARTICLES]
+    unmatched_articles = [a for a in articles if a.get("url") not in matched_article_urls][
+        :MAX_DIVERGENCE_ARTICLES
+    ]
 
     # Group unmatched articles by topic
     topic_articles: dict[str, list[dict[str, Any]]] = {}
@@ -428,13 +429,9 @@ def detect_divergences(
     uncovered_tech_trends = [
         {
             "topic": topic,
-            "news_articles": [
-                {"title": a.get("title", ""), "url": a.get("url", "")}
-                for a in arts
-            ],
+            "news_articles": [{"title": a.get("title", ""), "url": a.get("url", "")} for a in arts],
             "techcrunch_articles": [
-                {"title": a.get("title", ""), "url": a.get("url", "")}
-                for a in arts
+                {"title": a.get("title", ""), "url": a.get("url", "")} for a in arts
             ],
             "signal": "No matching GitHub activity",
         }
@@ -444,7 +441,8 @@ def detect_divergences(
     # Find repos that had no correlation match
     correlated_repo_names: set[str] = {c.get("repo_key", c.get("repo", "")) for c in correlations}
     unmatched_repos = [
-        r for r in repos
+        r
+        for r in repos
         if (r.get("full_name") or f"{r.get('owner')}/{r.get('name')}") not in correlated_repo_names
     ]
 
@@ -476,7 +474,9 @@ def detect_divergences(
     }
 
 
-def correlate_all(repos: list[dict[str, Any]], articles: list[dict[str, Any]], week: str) -> dict[str, Any]:
+def correlate_all(
+    repos: list[dict[str, Any]], articles: list[dict[str, Any]], week: str
+) -> dict[str, Any]:
     """Run correlation engine across all repos and articles."""
     articles, dedupe_count = dedupe_articles(articles)
     articles = articles[:MAX_ARTICLES_FOR_CORRELATION]
@@ -516,12 +516,10 @@ def correlate_all(repos: list[dict[str, Any]], articles: list[dict[str, Any]], w
             "articles_analyzed": len(articles),
             "correlations_found": len(correlations),
             "strong_correlations": sum(
-                1 for corr in correlations
-                if corr.get("correlation_strength") == "strong"
+                1 for corr in correlations if corr.get("correlation_strength") == "strong"
             ),
             "weak_correlations": sum(
-                1 for corr in correlations
-                if corr.get("correlation_strength") == "weak"
+                1 for corr in correlations if corr.get("correlation_strength") == "weak"
             ),
             "articles_matched": articles_matched,
             "dedupe_count": dedupe_count,
@@ -570,7 +568,9 @@ def extract_news_metadata(news_data: dict[str, Any] | list[dict[str, Any]]) -> d
     return {
         "schema_version": news_data.get("schema_version", 1),
         "source_config_checksum": metadata.get("source_config_checksum", ""),
-        "sources_requested": metadata.get("sources_requested", [news_data.get("source", "techcrunch")]),
+        "sources_requested": metadata.get(
+            "sources_requested", [news_data.get("source", "techcrunch")]
+        ),
         "sources_succeeded": metadata.get("sources_succeeded", []),
         "sources_failed": metadata.get("sources_failed", []),
         "source_status": metadata.get("source_status", []),
@@ -591,23 +591,25 @@ def extract_week_from_filename(path: Path) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(
-        description="Cross-source correlation engine for SquadScope"
-    )
+    parser = argparse.ArgumentParser(description="Cross-source correlation engine for SquadScope")
     parser.add_argument(
-        "--raw", default=None,
+        "--raw",
+        default=None,
         help="Path to raw GitHub repos JSON file",
     )
     parser.add_argument(
-        "--techcrunch", default=None,
+        "--techcrunch",
+        default=None,
         help="Path to external news articles JSON file",
     )
     parser.add_argument(
-        "--output", default=None,
+        "--output",
+        default=None,
         help="Output file path for correlations",
     )
     parser.add_argument(
-        "--topic", default="general",
+        "--topic",
+        default="general",
         help="Topic ID for path resolution (default: general)",
     )
 
@@ -678,7 +680,9 @@ def main(argv: list[str] | None = None) -> int:
         json.dump(result, f, indent=2, ensure_ascii=False)
         f.write("\n")
 
-    log(f"Wrote {output_path}: {result['metadata']['correlations_found']} correlations from {result['metadata']['repos_analyzed']} repos")
+    log(
+        f"Wrote {output_path}: {result['metadata']['correlations_found']} correlations from {result['metadata']['repos_analyzed']} repos"
+    )
     return 0
 
 

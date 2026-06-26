@@ -60,7 +60,9 @@ class _BalancedHtmlParser(HTMLParser):
 
 
 class PodcasterHandoffTests(unittest.TestCase):
-    def _write_manifest(self, base: Path, *, run_mode: str = "normal", ai_status: str = "ai") -> Path:
+    def _write_manifest(
+        self, base: Path, *, run_mode: str = "normal", ai_status: str = "ai"
+    ) -> Path:
         manifest = base / "publish-manifest.json"
         manifest.write_text(
             json.dumps(
@@ -106,7 +108,9 @@ class PodcasterHandoffTests(unittest.TestCase):
         if month_synthesis is not None:
             month_path = base / "data" / "analyzed"
             month_path.mkdir(parents=True, exist_ok=True)
-            (month_path / "2026-06-month-synthesis.md").write_text(month_synthesis, encoding="utf-8")
+            (month_path / "2026-06-month-synthesis.md").write_text(
+                month_synthesis, encoding="utf-8"
+            )
         if yearly_narrative is not None:
             yearly_path = base / "content" / "yearly"
             yearly_path.mkdir(parents=True, exist_ok=True)
@@ -157,7 +161,9 @@ class PodcasterHandoffTests(unittest.TestCase):
             )
 
         self.assertEqual(payload["week"], "2026-W23")
-        self.assertEqual(payload["article_url"], "https://jmservera.github.io/SquadScope/weekly/2026/w23/")
+        self.assertEqual(
+            payload["article_url"], "https://jmservera.github.io/SquadScope/weekly/2026/w23/"
+        )
         self.assertEqual(payload["article_path"], "content/weekly/2026/W23.md")
         self.assertEqual(payload["publish_run_id"], "123456789")
         self.assertEqual(payload["publish_mode"], "normal")
@@ -358,7 +364,8 @@ class PodcasterHandoffTests(unittest.TestCase):
         )
         self.assertLessEqual(
             len(context["month_synthesis"].split()) + len(context["yearly_narrative"].split()),
-            podcaster_handoff.MAX_MONTH_SYNTHESIS_WORDS + podcaster_handoff.MAX_YEARLY_NARRATIVE_WORDS,
+            podcaster_handoff.MAX_MONTH_SYNTHESIS_WORDS
+            + podcaster_handoff.MAX_YEARLY_NARRATIVE_WORDS,
         )
 
     def test_read_historical_context_extracts_only_year_in_review_section(self) -> None:
@@ -414,9 +421,11 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertEqual(payload["article_path"], "content/weekly/2026/W23.md")
 
     def test_missing_config_skips_without_calling_podcaster(self) -> None:
-        with mock.patch.object(podcaster_handoff.request, "urlopen") as urlopen_mock, mock.patch.dict(
-            podcaster_handoff.os.environ, {"PODCASTER_API_KEY": ""}
-        ), mock.patch("sys.stdout", new_callable=io.StringIO) as stdout:
+        with (
+            mock.patch.object(podcaster_handoff.request, "urlopen") as urlopen_mock,
+            mock.patch.dict(podcaster_handoff.os.environ, {"PODCASTER_API_KEY": ""}),
+            mock.patch("sys.stdout", new_callable=io.StringIO) as stdout,
+        ):
             exit_code = podcaster_handoff.main(
                 [
                     "--week",
@@ -437,10 +446,20 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertIn("Podcaster handoff skipped", stdout.getvalue())
 
     def test_post_handoff_sends_auth_header_without_logging_value(self) -> None:
-        response = _FakeHTTPResponse(json.dumps({"job_id": "podcast-2026-W23-abc12345", "status": "accepted", "errors": []}).encode())
-        with mock.patch.object(podcaster_handoff.request, "urlopen", return_value=response) as urlopen_mock, mock.patch.dict(
-            podcaster_handoff.os.environ, {"PODCASTER_API_KEY": "super-secret-value"}
-        ), mock.patch("sys.stdout", new_callable=io.StringIO) as stdout:
+        response = _FakeHTTPResponse(
+            json.dumps(
+                {"job_id": "podcast-2026-W23-abc12345", "status": "accepted", "errors": []}
+            ).encode()
+        )
+        with (
+            mock.patch.object(
+                podcaster_handoff.request, "urlopen", return_value=response
+            ) as urlopen_mock,
+            mock.patch.dict(
+                podcaster_handoff.os.environ, {"PODCASTER_API_KEY": "super-secret-value"}
+            ),
+            mock.patch("sys.stdout", new_callable=io.StringIO) as stdout,
+        ):
             exit_code = podcaster_handoff.main(
                 [
                     "--week",
@@ -462,7 +481,9 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertEqual(req.get_header("Content-type"), "application/json")
         sent_payload = json.loads(req.data.decode("utf-8"))
         self.assertEqual(sent_payload["week"], "2026-W23")
-        self.assertEqual(sent_payload["article_url"], "https://jmservera.github.io/SquadScope/weekly/2026/w23/")
+        self.assertEqual(
+            sent_payload["article_url"], "https://jmservera.github.io/SquadScope/weekly/2026/w23/"
+        )
         self.assertEqual(sent_payload["article_path"], "content/weekly/2026/W23.md")
         self.assertEqual(sent_payload["publish_run_id"], "123456789")
         self.assertEqual(sent_payload["publish_mode"], "normal")
@@ -478,9 +499,13 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertNotIn("super-secret-value", stdout.getvalue())
 
     def test_non_normal_publish_mode_skips_without_calling_podcaster(self) -> None:
-        with mock.patch.object(podcaster_handoff.request, "urlopen") as urlopen_mock, mock.patch.dict(
-            podcaster_handoff.os.environ, {"PODCASTER_API_KEY": "super-secret-value"}
-        ), mock.patch("sys.stdout", new_callable=io.StringIO) as stdout:
+        with (
+            mock.patch.object(podcaster_handoff.request, "urlopen") as urlopen_mock,
+            mock.patch.dict(
+                podcaster_handoff.os.environ, {"PODCASTER_API_KEY": "super-secret-value"}
+            ),
+            mock.patch("sys.stdout", new_callable=io.StringIO) as stdout,
+        ):
             exit_code = podcaster_handoff.main(
                 [
                     "--week",
@@ -544,16 +569,22 @@ class PodcasterHandoffTests(unittest.TestCase):
 
     def test_validate_response_rejects_failed_status_or_errors(self) -> None:
         with self.assertRaises(podcaster_handoff.PodcasterHandoffError):
-            podcaster_handoff.validate_response({"job_id": "podcast-1", "status": "failed", "errors": []})
+            podcaster_handoff.validate_response(
+                {"job_id": "podcast-1", "status": "failed", "errors": []}
+            )
         with self.assertRaises(podcaster_handoff.PodcasterHandoffError):
-            podcaster_handoff.validate_response({"job_id": "podcast-1", "status": "accepted", "errors": ["bad"]})
+            podcaster_handoff.validate_response(
+                {"job_id": "podcast-1", "status": "accepted", "errors": ["bad"]}
+            )
 
     def test_validate_response_rejects_unexpected_or_missing_status(self) -> None:
         for status in ("rejected", "queued", "pending", None):
             with self.assertRaisesRegex(
                 podcaster_handoff.PodcasterHandoffError, "known success status"
             ):
-                podcaster_handoff.validate_response({"job_id": "podcast-1", "status": status, "errors": []})
+                podcaster_handoff.validate_response(
+                    {"job_id": "podcast-1", "status": status, "errors": []}
+                )
         with self.assertRaisesRegex(
             podcaster_handoff.PodcasterHandoffError, "known success status"
         ):
@@ -647,7 +678,6 @@ class PodcasterHandoffTests(unittest.TestCase):
             "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
         )
 
-
     def test_build_payload_includes_article_content_from_file(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             base = Path(tmpdir)
@@ -699,7 +729,9 @@ class PodcasterHandoffTests(unittest.TestCase):
             payload["spotify_publish"]["title"],
             "Why Skills Go Vertical Matters for AI, GitHub & Developer Trends | W24",
         )
-        self.assertIn("This week we explore agent skills.", payload["spotify_publish"]["description"])
+        self.assertIn(
+            "This week we explore agent skills.", payload["spotify_publish"]["description"]
+        )
         self.assertEqual(payload["spotify_publish"]["season_number"], 2026)
         self.assertEqual(payload["spotify_publish"]["episode_number"], 24)
 
@@ -737,7 +769,9 @@ class PodcasterHandoffTests(unittest.TestCase):
 
     def test_truncate_html_drops_partial_trailing_tag(self) -> None:
         html = "<p>" + ("x" * 3988) + '<a href="https://example.com/really/long/link">link</a></p>'
-        truncated = podcaster_handoff.truncate_html(html, podcaster_handoff.MAX_SPOTIFY_DESCRIPTION_CHARS)
+        truncated = podcaster_handoff.truncate_html(
+            html, podcaster_handoff.MAX_SPOTIFY_DESCRIPTION_CHARS
+        )
 
         parser = _BalancedHtmlParser()
         parser.feed(truncated)
@@ -759,7 +793,9 @@ class PodcasterHandoffTests(unittest.TestCase):
 
     def test_truncate_html_comment_atomic(self) -> None:
         self.assertEqual(podcaster_handoff.truncate_html("<p><!--ok-->z</p>", 15), "<p></p>")
-        self.assertEqual(podcaster_handoff.truncate_html("<p><!--ok-->z</p>", 16), "<p><!--ok--></p>")
+        self.assertEqual(
+            podcaster_handoff.truncate_html("<p><!--ok-->z</p>", 16), "<p><!--ok--></p>"
+        )
 
     def test_render_template_value_raises_on_malformed_format_string(self) -> None:
         context = {"year": 2026, "week": 24}
@@ -826,38 +862,35 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertNotIn("article_title", payload)
 
     def test_read_article_content_path_traversal_raises(self) -> None:
-       """Path traversal attempts must raise PodcasterHandoffError."""
-       with tempfile.TemporaryDirectory() as tmpdir:
-           base = Path(tmpdir)
-           # Create a file outside repo_root
-           outside = base.parent / "secret.txt"
-           outside.write_text("secret data", encoding="utf-8")
-           try:
-               with self.assertRaises(podcaster_handoff.PodcasterHandoffError) as ctx:
-                   podcaster_handoff._read_article_content("../secret.txt", repo_root=base)
-               self.assertIn("outside the repository root", str(ctx.exception))
-           finally:
-               outside.unlink(missing_ok=True)
+        """Path traversal attempts must raise PodcasterHandoffError."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            base = Path(tmpdir)
+            # Create a file outside repo_root
+            outside = base.parent / "secret.txt"
+            outside.write_text("secret data", encoding="utf-8")
+            try:
+                with self.assertRaises(podcaster_handoff.PodcasterHandoffError) as ctx:
+                    podcaster_handoff._read_article_content("../secret.txt", repo_root=base)
+                self.assertIn("outside the repository root", str(ctx.exception))
+            finally:
+                outside.unlink(missing_ok=True)
 
     def test_read_article_content_unreadable_file_raises(self) -> None:
-       """An existing but unreadable file must raise, not silently omit content."""
-       with tempfile.TemporaryDirectory() as tmpdir:
-           base = Path(tmpdir)
-           article_dir = base / "content" / "weekly"
-           article_dir.mkdir(parents=True)
-           article_file = article_dir / "W24.md"
-           article_file.write_text("# Test", encoding="utf-8")
-           # Make file unreadable
-           article_file.chmod(0o000)
-           try:
-               with self.assertRaises(podcaster_handoff.PodcasterHandoffError) as ctx:
-                   podcaster_handoff._read_article_content(
-                       "content/weekly/W24.md", repo_root=base
-                   )
-               self.assertIn("could not be read", str(ctx.exception))
-           finally:
-               article_file.chmod(0o644)
-
+        """An existing but unreadable file must raise, not silently omit content."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            base = Path(tmpdir)
+            article_dir = base / "content" / "weekly"
+            article_dir.mkdir(parents=True)
+            article_file = article_dir / "W24.md"
+            article_file.write_text("# Test", encoding="utf-8")
+            # Make file unreadable
+            article_file.chmod(0o000)
+            try:
+                with self.assertRaises(podcaster_handoff.PodcasterHandoffError) as ctx:
+                    podcaster_handoff._read_article_content("content/weekly/W24.md", repo_root=base)
+                self.assertIn("could not be read", str(ctx.exception))
+            finally:
+                article_file.chmod(0o644)
 
     def test_build_payload_omits_breaking_news_by_default(self) -> None:
         """breaking_news must not appear in the payload when not provided."""

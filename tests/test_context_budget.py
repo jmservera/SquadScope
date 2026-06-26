@@ -1,28 +1,19 @@
 """Tests for scripts/context_budget.py."""
 
 import sys
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-
-import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from scripts.context_budget import (
-    word_count,
-    compress_to_budget,
     assemble_historical_context,
-    prune_stale_predictions,
     compress_stale_trends,
+    compress_to_budget,
     keep_top_noise_patterns,
-    BUDGET_ROLLING,
-    BUDGET_PREV_WEEK,
-    BUDGET_YEARLY,
-    BUDGET_MONTH,
-    STALE_PREDICTION_WEEKS,
-    MAX_NOISE_PATTERNS,
+    prune_stale_predictions,
+    word_count,
 )
-
 
 # --- word_count tests ---
 

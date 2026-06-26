@@ -21,7 +21,9 @@ def scorecard_dir(topic_id: str | None = None) -> Path:
     return metrics_dir(topic_id) / "scorecards"
 
 
-def load_scorecards(topic_id: str | None = None, count: int = DEFAULT_SCORECARD_COUNT) -> list[dict[str, Any]]:
+def load_scorecards(
+    topic_id: str | None = None, count: int = DEFAULT_SCORECARD_COUNT
+) -> list[dict[str, Any]]:
     """Load the most recent N scorecards for a topic, sorted oldest-first."""
     directory = scorecard_dir(topic_id)
     if not directory.exists():
@@ -39,7 +41,9 @@ def load_scorecards(topic_id: str | None = None, count: int = DEFAULT_SCORECARD_
     return cards
 
 
-def _aggregate_stats(cards: list[dict[str, Any]]) -> tuple[int, int, int, dict[str, dict[str, int]]]:
+def _aggregate_stats(
+    cards: list[dict[str, Any]],
+) -> tuple[int, int, int, dict[str, dict[str, int]]]:
     """Aggregate totals across multiple scorecards.
 
     Returns (total_validated, total_correct, total_incorrect, by_type).
@@ -72,11 +76,13 @@ def _format_by_type_analysis(by_type: dict[str, dict[str, int]]) -> list[str]:
             continue
         accuracy = correct / total
         pct = int(round(accuracy * 100))
-        lines.append(f"- \"{pred_type}\" predictions: {pct}% accurate ({correct}/{total})")
+        lines.append(f'- "{pred_type}" predictions: {pct}% accurate ({correct}/{total})')
     return lines
 
 
-def _format_recommendations(by_type: dict[str, dict[str, int]], overall_accuracy: float) -> list[str]:
+def _format_recommendations(
+    by_type: dict[str, dict[str, int]], overall_accuracy: float
+) -> list[str]:
     """Generate adjustment recommendations based on type performance."""
     recs: list[str] = []
     for pred_type, stats in sorted(by_type.items()):
@@ -87,17 +93,19 @@ def _format_recommendations(by_type: dict[str, dict[str, int]], overall_accuracy
         accuracy = correct / total
         if accuracy < 0.5:
             recs.append(
-                f"- \"{pred_type}\" predictions are underperforming ({int(round(accuracy * 100))}%) "
+                f'- "{pred_type}" predictions are underperforming ({int(round(accuracy * 100))}%) '
                 f"— raise confidence threshold or require additional signals"
             )
         elif accuracy >= 0.8:
             recs.append(
-                f"- \"{pred_type}\" predictions are strong ({int(round(accuracy * 100))}%) "
+                f'- "{pred_type}" predictions are strong ({int(round(accuracy * 100))}%) '
                 f"— current heuristics are reliable"
             )
     if not recs:
         if overall_accuracy < 0.6:
-            recs.append("- Overall accuracy is low — review signal weighting across all prediction types")
+            recs.append(
+                "- Overall accuracy is low — review signal weighting across all prediction types"
+            )
         else:
             recs.append("- No specific type-level adjustments needed at this time")
     return recs
@@ -134,7 +142,9 @@ def format_scorecard_summary(cards: list[dict[str, Any]]) -> str:
     return "\n".join(lines)
 
 
-def render_scorecard_section(topic_id: str | None = None, count: int = DEFAULT_SCORECARD_COUNT) -> str:
+def render_scorecard_section(
+    topic_id: str | None = None, count: int = DEFAULT_SCORECARD_COUNT
+) -> str:
     """Load scorecards and return formatted summary, or empty string if none exist."""
     from scripts.sanitize_repo_content import _escape_untrusted_boundaries
 

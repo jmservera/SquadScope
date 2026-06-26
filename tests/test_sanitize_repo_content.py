@@ -3,12 +3,13 @@ from __future__ import annotations
 import logging
 
 from scripts.sanitize_repo_content import (
-    BOUNDARY_OPEN,
     BOUNDARY_CLOSE,
+    BOUNDARY_OPEN,
     MAX_DESCRIPTION_LENGTH,
     SUSPICIOUS_DESCRIPTION_LENGTH,
     sanitize_description,
     sanitize_repo_payload,
+    sanitize_text,
 )
 
 
@@ -83,8 +84,6 @@ def test_payload_sanitizes_nested_repo_descriptions() -> None:
 
 
 # --- Tests for sanitize_text ---
-
-from scripts.sanitize_repo_content import sanitize_text
 
 
 def test_sanitize_text_passes_normal_text() -> None:

@@ -94,7 +94,9 @@ def preprocess(data: dict, max_desc: int = 200, reference_date: datetime | None 
 
     compact_text = json.dumps(result)
     compact_tokens = estimate_tokens(compact_text)
-    reduction_pct = round((1 - compact_tokens / original_tokens) * 100) if original_tokens > 0 else 0
+    reduction_pct = (
+        round((1 - compact_tokens / original_tokens) * 100) if original_tokens > 0 else 0
+    )
 
     result["stats"] = {
         "original_tokens_est": original_tokens,
@@ -117,7 +119,9 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Error: input file not found: {input_path}", file=sys.stderr)
         return 1
 
-    output_path = Path(args.output) if args.output else input_path.with_stem(input_path.stem + "-compact")
+    output_path = (
+        Path(args.output) if args.output else input_path.with_stem(input_path.stem + "-compact")
+    )
 
     with open(input_path, encoding="utf-8") as f:
         data = json.load(f)
@@ -130,7 +134,9 @@ def main(argv: list[str] | None = None) -> int:
 
     stats = result["stats"]
     print(f"Preprocessed: {input_path} -> {output_path}")
-    print(f"  Tokens: {stats['original_tokens_est']} -> {stats['compact_tokens_est']} ({stats['reduction_pct']}% reduction)")
+    print(
+        f"  Tokens: {stats['original_tokens_est']} -> {stats['compact_tokens_est']} ({stats['reduction_pct']}% reduction)"
+    )
     return 0
 
 

@@ -4,6 +4,7 @@
 Determines the appropriate service tier based on estimated cost and
 monthly budget consumption, outputting a JSON configuration.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -44,7 +45,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def select_tier(estimated_cost: float, monthly_spent: float, monthly_budget: float = DEFAULT_MONTHLY_BUDGET) -> str:
+def select_tier(
+    estimated_cost: float, monthly_spent: float, monthly_budget: float = DEFAULT_MONTHLY_BUDGET
+) -> str:
     """Determine tier based on thresholds."""
     if monthly_spent >= monthly_budget:
         return "emergency"
@@ -59,7 +62,12 @@ def build_config(tier: str) -> dict:
     """Build output config dict for the given tier."""
     cfg = TIERS[tier].copy()
     cfg["tier"] = tier
-    return {"tier": cfg["tier"], "model": cfg["model"], "max_repos": cfg["max_repos"], "skip_ai": cfg["skip_ai"]}
+    return {
+        "tier": cfg["tier"],
+        "model": cfg["model"],
+        "max_repos": cfg["max_repos"],
+        "skip_ai": cfg["skip_ai"],
+    }
 
 
 def main(argv: list[str] | None = None) -> int:

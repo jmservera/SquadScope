@@ -2,6 +2,7 @@ name: Trigger podcast generation
 
 on:
   workflow_dispatch:
+    # checkov:skip=CKV_GHA_7:Operational dispatch workflow (not a release build). Inputs select the target week/run-id and optional breaking-news context; they do not alter published build artifacts. Inputs are required for manual operation.
     inputs:
       week:
         description: 'Week slug, e.g. 2026-W25'
@@ -18,6 +19,10 @@ on:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   trigger-podcast:

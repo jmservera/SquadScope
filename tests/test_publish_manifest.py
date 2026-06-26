@@ -9,7 +9,6 @@ from pathlib import Path
 import scripts.crawl as crawl
 import scripts.publish_manifest as publish_manifest
 
-
 RUN_ID = "123456"
 CURRENT_DATETIME = "2026-05-18T08:00:00Z"
 WEEK = "2026-W21"
@@ -118,7 +117,9 @@ def write_preflight(path: Path, *, degraded: bool = False, publish_eligible: boo
                     if not degraded
                     else "staged/candidate-only by default; degraded compacted output requires an explicit future promotion policy."
                 ),
-                "degradation_reason": "Prompt was deterministically compacted." if degraded else None,
+                "degradation_reason": "Prompt was deterministically compacted."
+                if degraded
+                else None,
                 "fallback_policy": "copilot-only",
                 "components": [],
                 "deterministic_slices": [],
@@ -206,13 +207,21 @@ class PublishManifestTests(unittest.TestCase):
             self.assertEqual(payload["analysis"]["ai_status"], "ai")
             self.assertEqual(payload["analysis"]["preflight"]["degraded"], False)
             self.assertEqual(payload["analysis"]["preflight"]["publish_eligible"], True)
-            self.assertEqual(payload["analysis"]["preflight"]["promotion_policy"], "normal-promotion")
+            self.assertEqual(
+                payload["analysis"]["preflight"]["promotion_policy"], "normal-promotion"
+            )
             self.assertTrue(payload["promotion"]["eligible"])
             self.assertEqual(payload["promotion"]["decision"], "promote")
             self.assertRegex(payload["candidate"]["summary_sha256"], r"^[0-9a-f]{64}$")
             self.assertRegex(payload["source_artifacts"][0]["sha256"], r"^[0-9a-f]{64}$")
-            self.assertEqual(payload["source_artifacts"][0]["provenance"]["sha256"], payload["source_artifacts"][0]["sha256"])
-            self.assertEqual(payload["source_artifacts"][0]["provenance"]["same_day_reuse"]["status"], "not_reused")
+            self.assertEqual(
+                payload["source_artifacts"][0]["provenance"]["sha256"],
+                payload["source_artifacts"][0]["sha256"],
+            )
+            self.assertEqual(
+                payload["source_artifacts"][0]["provenance"]["same_day_reuse"]["status"],
+                "not_reused",
+            )
             self.assertEqual(assert_eligible_from_root(base, manifest), 0)
 
     def test_no_ai_candidate_is_not_eligible(self) -> None:
@@ -228,7 +237,15 @@ class PublishManifestTests(unittest.TestCase):
             write_gate_report(gate_report)
 
             publish_manifest.main(
-                create_args(base, raw, summary, manifest, source="no-ai", model="none", gate_report=gate_report)
+                create_args(
+                    base,
+                    raw,
+                    summary,
+                    manifest,
+                    source="no-ai",
+                    model="none",
+                    gate_report=gate_report,
+                )
             )
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
@@ -258,7 +275,12 @@ class PublishManifestTests(unittest.TestCase):
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertEqual(payload["analysis"]["ai_status"], "ai")
             self.assertFalse(payload["promotion"]["eligible"])
-            self.assertTrue(any("preflight report is required" in reason for reason in payload["promotion"]["reasons"]))
+            self.assertTrue(
+                any(
+                    "preflight report is required" in reason
+                    for reason in payload["promotion"]["reasons"]
+                )
+            )
 
     def test_github_models_source_is_not_ai_publishable(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -287,7 +309,12 @@ class PublishManifestTests(unittest.TestCase):
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertEqual(payload["analysis"]["ai_status"], "unknown")
             self.assertFalse(payload["promotion"]["eligible"])
-            self.assertTrue(any("analysis source is not AI-publishable" in reason for reason in payload["promotion"]["reasons"]))
+            self.assertTrue(
+                any(
+                    "analysis source is not AI-publishable" in reason
+                    for reason in payload["promotion"]["reasons"]
+                )
+            )
 
     def test_degraded_preflight_candidate_is_staged_only_by_default(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -304,7 +331,9 @@ class PublishManifestTests(unittest.TestCase):
             write_preflight(preflight, degraded=True, publish_eligible=False)
 
             publish_manifest.main(
-                create_args(base, raw, summary, manifest, gate_report=gate_report, preflight=preflight)
+                create_args(
+                    base, raw, summary, manifest, gate_report=gate_report, preflight=preflight
+                )
             )
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
@@ -312,8 +341,12 @@ class PublishManifestTests(unittest.TestCase):
             self.assertEqual(payload["promotion"]["decision"], "block")
             self.assertTrue(payload["analysis"]["preflight"]["degraded"])
             self.assertFalse(payload["analysis"]["preflight"]["publish_eligible"])
-            self.assertIn("staged/candidate-only", payload["analysis"]["preflight"]["promotion_policy"])
-            self.assertTrue(any("publish-ineligible" in reason for reason in payload["promotion"]["reasons"]))
+            self.assertIn(
+                "staged/candidate-only", payload["analysis"]["preflight"]["promotion_policy"]
+            )
+            self.assertTrue(
+                any("publish-ineligible" in reason for reason in payload["promotion"]["reasons"])
+            )
             with self.assertRaises(SystemExit):
                 assert_eligible_from_root(base, manifest)
 
@@ -333,7 +366,9 @@ class PublishManifestTests(unittest.TestCase):
             write_preflight(preflight, degraded=True, publish_eligible=True)
 
             publish_manifest.main(
-                create_args(base, raw, summary, manifest, gate_report=gate_report, preflight=preflight)
+                create_args(
+                    base, raw, summary, manifest, gate_report=gate_report, preflight=preflight
+                )
             )
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
@@ -356,7 +391,9 @@ class PublishManifestTests(unittest.TestCase):
             write_summary(summary)
             write_gate_report(gate_report)
 
-            publish_manifest.main(create_args(base, raw, summary, manifest, model=None, gate_report=gate_report))
+            publish_manifest.main(
+                create_args(base, raw, summary, manifest, model=None, gate_report=gate_report)
+            )
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertEqual(payload["analysis"]["model"], "copilot-default")
@@ -378,18 +415,30 @@ class PublishManifestTests(unittest.TestCase):
             publish_manifest.main(
                 [
                     "create",
-                    "--week", WEEK,
-                    "--run-id", RUN_ID,
-                    "--current-datetime", CURRENT_DATETIME,
-                    "--summary", str(summary),
-                    "--published-summary", str(published),
-                    "--raw-json", str(raw),
-                    "--analysis-source", "no-ai",
-                    "--analysis-model", "none",
-                    "--validation-status", "passed",
-                    "--fallback-reason", "copilot quality gate failed",
-                    "--attempted-ai-path", "provider=copilot-cli,model=copilot-default,status=failed",
-                    "--output", str(manifest),
+                    "--week",
+                    WEEK,
+                    "--run-id",
+                    RUN_ID,
+                    "--current-datetime",
+                    CURRENT_DATETIME,
+                    "--summary",
+                    str(summary),
+                    "--published-summary",
+                    str(published),
+                    "--raw-json",
+                    str(raw),
+                    "--analysis-source",
+                    "no-ai",
+                    "--analysis-model",
+                    "none",
+                    "--validation-status",
+                    "passed",
+                    "--fallback-reason",
+                    "copilot quality gate failed",
+                    "--attempted-ai-path",
+                    "provider=copilot-cli,model=copilot-default,status=failed",
+                    "--output",
+                    str(manifest),
                 ]
             )
 
@@ -397,7 +446,9 @@ class PublishManifestTests(unittest.TestCase):
             self.assertFalse(payload["promotion"]["eligible"])
             self.assertEqual(payload["promotion"]["decision"], "preserve")
             self.assertTrue(payload["existing_article"]["good_ai_authored"])
-            self.assertIn("no-AI fallback is ineligible to replace", " ".join(payload["promotion"]["reasons"]))
+            self.assertIn(
+                "no-AI fallback is ineligible to replace", " ".join(payload["promotion"]["reasons"])
+            )
 
     def test_no_ai_first_publish_requires_explicit_policy_and_quality_gate(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -414,21 +465,36 @@ class PublishManifestTests(unittest.TestCase):
             publish_manifest.main(
                 [
                     "create",
-                    "--week", WEEK,
-                    "--run-id", RUN_ID,
-                    "--current-datetime", CURRENT_DATETIME,
-                    "--summary", str(summary),
-                    "--published-summary", str(base / "data/analyzed/2026-W21-summary.md"),
-                    "--raw-json", str(raw),
-                    "--analysis-source", "no-ai",
-                    "--analysis-model", "none",
-                    "--validation-status", "passed",
-                    "--gate-report", str(gate_report),
-                    "--fallback-reason", "copilot unavailable",
-                    "--attempted-ai-path", "provider=copilot-cli,model=copilot-default,status=failed",
-                    "--publish-policy", "allow-no-ai-first-publish",
-                    "--actor", "jmservera",
-                    "--output", str(manifest),
+                    "--week",
+                    WEEK,
+                    "--run-id",
+                    RUN_ID,
+                    "--current-datetime",
+                    CURRENT_DATETIME,
+                    "--summary",
+                    str(summary),
+                    "--published-summary",
+                    str(base / "data/analyzed/2026-W21-summary.md"),
+                    "--raw-json",
+                    str(raw),
+                    "--analysis-source",
+                    "no-ai",
+                    "--analysis-model",
+                    "none",
+                    "--validation-status",
+                    "passed",
+                    "--gate-report",
+                    str(gate_report),
+                    "--fallback-reason",
+                    "copilot unavailable",
+                    "--attempted-ai-path",
+                    "provider=copilot-cli,model=copilot-default,status=failed",
+                    "--publish-policy",
+                    "allow-no-ai-first-publish",
+                    "--actor",
+                    "jmservera",
+                    "--output",
+                    str(manifest),
                 ]
             )
 
@@ -452,26 +518,42 @@ class PublishManifestTests(unittest.TestCase):
             publish_manifest.main(
                 [
                     "create",
-                    "--week", WEEK,
-                    "--run-id", RUN_ID,
-                    "--current-datetime", CURRENT_DATETIME,
-                    "--summary", str(summary),
-                    "--published-summary", str(base / "data/analyzed/2026-W21-summary.md"),
-                    "--raw-json", str(raw),
-                    "--analysis-source", "no-ai",
-                    "--analysis-model", "none",
-                    "--validation-status", "passed",
-                    "--gate-report", str(gate_report),
-                    "--fallback-reason", "copilot unavailable",
-                    "--attempted-ai-path", "provider=copilot-cli,model=copilot-default,status=failed",
-                    "--publish-policy", "allow-no-ai-first-publish",
-                    "--output", str(manifest),
+                    "--week",
+                    WEEK,
+                    "--run-id",
+                    RUN_ID,
+                    "--current-datetime",
+                    CURRENT_DATETIME,
+                    "--summary",
+                    str(summary),
+                    "--published-summary",
+                    str(base / "data/analyzed/2026-W21-summary.md"),
+                    "--raw-json",
+                    str(raw),
+                    "--analysis-source",
+                    "no-ai",
+                    "--analysis-model",
+                    "none",
+                    "--validation-status",
+                    "passed",
+                    "--gate-report",
+                    str(gate_report),
+                    "--fallback-reason",
+                    "copilot unavailable",
+                    "--attempted-ai-path",
+                    "provider=copilot-cli,model=copilot-default,status=failed",
+                    "--publish-policy",
+                    "allow-no-ai-first-publish",
+                    "--output",
+                    str(manifest),
                 ]
             )
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertFalse(payload["promotion"]["eligible"])
-            self.assertIn("quality_score must be at least 70", " ".join(payload["promotion"]["reasons"]))
+            self.assertIn(
+                "quality_score must be at least 70", " ".join(payload["promotion"]["reasons"])
+            )
 
     def test_force_replace_requires_audit_and_allows_no_ai_over_existing_good_article(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -490,22 +572,38 @@ class PublishManifestTests(unittest.TestCase):
             publish_manifest.main(
                 [
                     "create",
-                    "--week", WEEK,
-                    "--run-id", RUN_ID,
-                    "--current-datetime", CURRENT_DATETIME,
-                    "--summary", str(summary),
-                    "--published-summary", str(published),
-                    "--raw-json", str(raw),
-                    "--analysis-source", "no-ai",
-                    "--analysis-model", "none",
-                    "--validation-status", "passed",
-                    "--gate-report", str(gate_report),
-                    "--fallback-reason", "copilot unavailable",
-                    "--attempted-ai-path", "provider=copilot-cli,model=copilot-default,status=failed",
-                    "--publish-policy", "force-replace",
-                    "--force-reason", "operator approved emergency publish",
-                    "--actor", "jmservera",
-                    "--output", str(manifest),
+                    "--week",
+                    WEEK,
+                    "--run-id",
+                    RUN_ID,
+                    "--current-datetime",
+                    CURRENT_DATETIME,
+                    "--summary",
+                    str(summary),
+                    "--published-summary",
+                    str(published),
+                    "--raw-json",
+                    str(raw),
+                    "--analysis-source",
+                    "no-ai",
+                    "--analysis-model",
+                    "none",
+                    "--validation-status",
+                    "passed",
+                    "--gate-report",
+                    str(gate_report),
+                    "--fallback-reason",
+                    "copilot unavailable",
+                    "--attempted-ai-path",
+                    "provider=copilot-cli,model=copilot-default,status=failed",
+                    "--publish-policy",
+                    "force-replace",
+                    "--force-reason",
+                    "operator approved emergency publish",
+                    "--actor",
+                    "jmservera",
+                    "--output",
+                    str(manifest),
                 ]
             )
 
@@ -526,13 +624,19 @@ class PublishManifestTests(unittest.TestCase):
             write_raw(raw)
             write_gate_report(gate_report)
 
-            publish_manifest.main(create_args(base, raw, summary, manifest, gate_report=gate_report))
+            publish_manifest.main(
+                create_args(base, raw, summary, manifest, gate_report=gate_report)
+            )
 
             reasons = json.loads(manifest.read_text(encoding="utf-8"))["promotion"]["reasons"]
-            self.assertTrue(any(reason.startswith("candidate summary missing:") for reason in reasons))
+            self.assertTrue(
+                any(reason.startswith("candidate summary missing:") for reason in reasons)
+            )
             self.assertFalse(any("quality_score" in reason for reason in reasons))
 
-    def test_stale_source_artifact_blocks_promotion_and_preserves_existing_good_summary(self) -> None:
+    def test_stale_source_artifact_blocks_promotion_and_preserves_existing_good_summary(
+        self,
+    ) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
             base = Path(tmpdir)
@@ -547,7 +651,15 @@ class PublishManifestTests(unittest.TestCase):
             write_gate_report(gate_report)
 
             publish_manifest.main(
-                create_args(base, raw, summary, manifest, source="github-models", model="openai/gpt-4o", gate_report=gate_report)
+                create_args(
+                    base,
+                    raw,
+                    summary,
+                    manifest,
+                    source="github-models",
+                    model="openai/gpt-4o",
+                    gate_report=gate_report,
+                )
             )
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
@@ -556,7 +668,12 @@ class PublishManifestTests(unittest.TestCase):
             self.assertTrue(payload["preservation"]["preserve_existing"])
             self.assertEqual(payload["source_artifacts"][0]["generated_at"], "2026-05-11T08:00:00Z")
             self.assertEqual(payload["source_artifacts"][0]["freshness"]["status"], "stale")
-            self.assertTrue(any("timestamp week mismatch" in reason for reason in payload["promotion"]["reasons"]))
+            self.assertTrue(
+                any(
+                    "timestamp week mismatch" in reason
+                    for reason in payload["promotion"]["reasons"]
+                )
+            )
 
     def test_payload_generated_at_takes_precedence_over_crawled_at(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -573,10 +690,14 @@ class PublishManifestTests(unittest.TestCase):
             write_summary(summary)
             write_gate_report(gate_report)
 
-            publish_manifest.main(create_args(base, raw, summary, manifest, gate_report=gate_report))
+            publish_manifest.main(
+                create_args(base, raw, summary, manifest, gate_report=gate_report)
+            )
 
             manifest_payload = json.loads(manifest.read_text(encoding="utf-8"))
-            self.assertEqual(manifest_payload["source_artifacts"][0]["generated_at"], "2026-05-18T08:00:00Z")
+            self.assertEqual(
+                manifest_payload["source_artifacts"][0]["generated_at"], "2026-05-18T08:00:00Z"
+            )
 
     def test_artifact_entry_handles_missing_or_malformed_json(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -587,8 +708,12 @@ class PublishManifestTests(unittest.TestCase):
             malformed.parent.mkdir(parents=True, exist_ok=True)
             malformed.write_text("{not json", encoding="utf-8")
 
-            missing_entry = publish_manifest.artifact_entry("raw_github", missing, WEEK, CURRENT_DATETIME)
-            malformed_entry = publish_manifest.artifact_entry("raw_github", malformed, WEEK, CURRENT_DATETIME)
+            missing_entry = publish_manifest.artifact_entry(
+                "raw_github", missing, WEEK, CURRENT_DATETIME
+            )
+            malformed_entry = publish_manifest.artifact_entry(
+                "raw_github", malformed, WEEK, CURRENT_DATETIME
+            )
 
             self.assertEqual(missing_entry["generated_at"], CURRENT_DATETIME)
             self.assertEqual(malformed_entry["generated_at"], CURRENT_DATETIME)
@@ -612,17 +737,28 @@ class PublishManifestTests(unittest.TestCase):
             publish_manifest.main(
                 [
                     "create",
-                    "--week", WEEK,
-                    "--run-id", RUN_ID,
-                    "--current-datetime", CURRENT_DATETIME,
-                    "--summary", str(summary),
-                    "--published-summary", str(published),
-                    "--raw-json", str(raw),
-                    "--analysis-source", "no-ai",
-                    "--analysis-model", "none",
-                    "--validation-status", "passed",
-                    "--gate-report", str(gate_report),
-                    "--output", str(manifest),
+                    "--week",
+                    WEEK,
+                    "--run-id",
+                    RUN_ID,
+                    "--current-datetime",
+                    CURRENT_DATETIME,
+                    "--summary",
+                    str(summary),
+                    "--published-summary",
+                    str(published),
+                    "--raw-json",
+                    str(raw),
+                    "--analysis-source",
+                    "no-ai",
+                    "--analysis-model",
+                    "none",
+                    "--validation-status",
+                    "passed",
+                    "--gate-report",
+                    str(gate_report),
+                    "--output",
+                    str(manifest),
                 ]
             )
 
@@ -631,7 +767,9 @@ class PublishManifestTests(unittest.TestCase):
             self.assertEqual(payload["promotion"]["decision"], "preserve")
             self.assertTrue(payload["published"]["good"])
             self.assertTrue(payload["preservation"]["preserve_existing"])
-            self.assertEqual(payload["preservation"]["preserved_summary_path"], published.as_posix())
+            self.assertEqual(
+                payload["preservation"]["preserved_summary_path"], published.as_posix()
+            )
             self.assertEqual(payload["preservation"]["rejected_candidate_path"], summary.as_posix())
 
     def test_lower_quality_candidate_preserves_existing_good_summary(self) -> None:
@@ -648,12 +786,17 @@ class PublishManifestTests(unittest.TestCase):
             write_good_summary(published, quality_score=90)
             write_gate_report(gate_report)
 
-            publish_manifest.main(create_args(base, raw, summary, manifest, gate_report=gate_report))
+            publish_manifest.main(
+                create_args(base, raw, summary, manifest, gate_report=gate_report)
+            )
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertEqual(payload["promotion"]["decision"], "preserve")
             self.assertTrue(
-                any("lower than published good quality_score" in reason for reason in payload["promotion"]["reasons"])
+                any(
+                    "lower than published good quality_score" in reason
+                    for reason in payload["promotion"]["reasons"]
+                )
             )
 
     def test_structured_same_day_reuse_metadata_remains_machine_readable(self) -> None:
@@ -708,7 +851,9 @@ class PublishManifestTests(unittest.TestCase):
                 ]
             )
 
-            reuse = json.loads(manifest.read_text(encoding="utf-8"))["source_artifacts"][0]["same_day_reuse"]
+            reuse = json.loads(manifest.read_text(encoding="utf-8"))["source_artifacts"][0][
+                "same_day_reuse"
+            ]
             self.assertIsInstance(reuse, dict)
             self.assertEqual(reuse["status"], "reused")
             self.assertEqual(reuse["source"], "github")
@@ -733,7 +878,14 @@ class PublishManifestTests(unittest.TestCase):
             window_end = datetime(2026, 5, 19, tzinfo=crawl.UTC)
             original_crawled_at = datetime(2026, 5, 19, 8, 0, tzinfo=crawl.UTC)
             reused_at = datetime(2026, 5, 19, 10, 0, tzinfo=crawl.UTC)
-            args = Namespace(since="2026-05-12", as_of="2026-05-19", max_results=25, output=str(raw), topic=None, config=None)
+            args = Namespace(
+                since="2026-05-12",
+                as_of="2026-05-19",
+                max_results=25,
+                output=str(raw),
+                topic=None,
+                config=None,
+            )
             checksum = crawl.github_crawl_config_checksum(args, since, window_end, 25)
             payload = {
                 "week": WEEK,
@@ -755,7 +907,11 @@ class PublishManifestTests(unittest.TestCase):
                     "crawl_window": {"since": "2026-05-12", "until": "2026-05-19"},
                     "crawl_config_checksum": checksum,
                     "schema_checksum": crawl.github_schema_checksum(),
-                    "same_day_reuse": {"status": "not_reused", "source": "github", "source_id": crawl.GITHUB_SOURCE_ID},
+                    "same_day_reuse": {
+                        "status": "not_reused",
+                        "source": "github",
+                        "source_id": crawl.GITHUB_SOURCE_ID,
+                    },
                 },
             }
             payload["metadata"]["artifact_checksum"] = crawl.github_artifact_checksum(payload)
@@ -798,7 +954,9 @@ class PublishManifestTests(unittest.TestCase):
                 ]
             )
 
-            reuse = json.loads(manifest.read_text(encoding="utf-8"))["source_artifacts"][0]["same_day_reuse"]
+            reuse = json.loads(manifest.read_text(encoding="utf-8"))["source_artifacts"][0][
+                "same_day_reuse"
+            ]
             self.assertEqual(reuse["status"], "reused")
             self.assertEqual(reuse["source_id"], "github-search")
 
@@ -840,7 +998,9 @@ class PublishManifestTests(unittest.TestCase):
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertFalse(payload["promotion"]["eligible"])
-            self.assertTrue(any("current UTC run date" in reason for reason in payload["promotion"]["reasons"]))
+            self.assertTrue(
+                any("current UTC run date" in reason for reason in payload["promotion"]["reasons"])
+            )
 
     def test_invalid_current_datetime_fails_manifest_creation(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -921,7 +1081,9 @@ class PublishManifestTests(unittest.TestCase):
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertFalse(payload["promotion"]["eligible"])
             self.assertEqual(payload["run_mode"], "candidate-only")
-            self.assertTrue(any("non-publishing" in reason for reason in payload["promotion"]["reasons"]))
+            self.assertTrue(
+                any("non-publishing" in reason for reason in payload["promotion"]["reasons"])
+            )
 
     def test_failed_gate_report_blocks_promotion(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -933,14 +1095,20 @@ class PublishManifestTests(unittest.TestCase):
             gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
             write_raw(raw)
             write_summary(summary)
-            write_gate_report(gate_report, passed=False, errors=["editorial_quality: low-quality summary"])
+            write_gate_report(
+                gate_report, passed=False, errors=["editorial_quality: low-quality summary"]
+            )
 
-            publish_manifest.main(create_args(base, raw, summary, manifest, gate_report=gate_report))
+            publish_manifest.main(
+                create_args(base, raw, summary, manifest, gate_report=gate_report)
+            )
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertFalse(payload["promotion"]["eligible"])
             self.assertEqual(payload["validation"]["quality_gates"][0]["status"], "failed")
-            self.assertTrue(any("low-quality summary" in reason for reason in payload["promotion"]["reasons"]))
+            self.assertTrue(
+                any("low-quality summary" in reason for reason in payload["promotion"]["reasons"])
+            )
 
     def test_missing_required_gate_family_blocks_promotion(self) -> None:
         tests_root = Path(__file__).resolve().parent
@@ -957,11 +1125,18 @@ class PublishManifestTests(unittest.TestCase):
             del payload["gates"]["evidence_citation"]
             gate_report.write_text(json.dumps(payload), encoding="utf-8")
 
-            publish_manifest.main(create_args(base, raw, summary, manifest, gate_report=gate_report))
+            publish_manifest.main(
+                create_args(base, raw, summary, manifest, gate_report=gate_report)
+            )
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertFalse(payload["promotion"]["eligible"])
-            self.assertTrue(any("evidence_citation gate missing" in reason for reason in payload["promotion"]["reasons"]))
+            self.assertTrue(
+                any(
+                    "evidence_citation gate missing" in reason
+                    for reason in payload["promotion"]["reasons"]
+                )
+            )
 
 
 if __name__ == "__main__":

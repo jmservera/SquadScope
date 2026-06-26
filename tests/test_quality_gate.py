@@ -1,12 +1,8 @@
 """Tests for scripts/quality_gate.py"""
+
 from __future__ import annotations
 
 import json
-import os
-from pathlib import Path
-from unittest.mock import patch
-
-import pytest
 
 import scripts.quality_gate as quality_gate
 
@@ -103,7 +99,13 @@ class TestEmitWarnings:
 class TestWriteMetric:
     def test_writes_json(self, tmp_path, monkeypatch):
         monkeypatch.setattr(quality_gate, "metrics_dir", lambda t: tmp_path / "metrics" / t)
-        metric = {"repos_scored": 10, "repos_passing": 8, "threshold": 5, "status": "ok", "warnings": []}
+        metric = {
+            "repos_scored": 10,
+            "repos_passing": 8,
+            "threshold": 5,
+            "status": "ok",
+            "warnings": [],
+        }
         path = quality_gate.write_metric("ai-ml", metric, "2026-W21")
         assert path.exists()
         data = json.loads(path.read_text())
@@ -159,7 +161,9 @@ class TestMain:
         config_path = tmp_path / "config.yml"
         config_path.write_text("topic:\n  id: test\n")
 
-        result = quality_gate.main(["--input", str(tmp_path / "nope.json"), "--config", str(config_path)])
+        result = quality_gate.main(
+            ["--input", str(tmp_path / "nope.json"), "--config", str(config_path)]
+        )
         assert result == 0
 
     def test_always_exits_zero(self, tmp_path, monkeypatch):
@@ -184,11 +188,16 @@ class TestMain:
         config_path = tmp_path / "config.yml"
         config_path.write_text("topic:\n  id: ai-ml\nscoring:\n  min_relevance_score: 40\n")
 
-        result = quality_gate.main([
-            "--input", str(scored_path),
-            "--config", str(config_path),
-            "--topic", "custom-topic",
-        ])
+        result = quality_gate.main(
+            [
+                "--input",
+                str(scored_path),
+                "--config",
+                str(config_path),
+                "--topic",
+                "custom-topic",
+            ]
+        )
         assert result == 0
         # Verify metric written with correct topic
         files = list((tmp_path / "metrics" / "custom-topic").glob("quality-*.json"))
@@ -200,6 +209,7 @@ class TestMain:
 class TestWeekSlug:
     def test_format(self):
         from datetime import datetime, timezone
+
         dt = datetime(2026, 5, 18, tzinfo=timezone.utc)
         result = quality_gate.week_slug(dt)
         assert result == "2026-W21"
