@@ -23,6 +23,11 @@ venv/
 __pycache__/
 *.py[cod]
 
+# Tooling caches (ruff / pytest — created by local pre-commit hooks)
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+
 # Secrets / environment files
 .env
 .env.*
