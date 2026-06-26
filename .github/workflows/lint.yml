@@ -43,6 +43,9 @@ jobs:
         run: python -m pip install ruff==0.15.7
 
       - name: Ruff check (GitHub annotations)
+        # Phase A: warning-only. Tolerate violations so the check stays green
+        # while still emitting annotations + the statistics summary below.
+        continue-on-error: true
         run: ruff check . --output-format=github
 
       - name: Ruff baseline statistics (summary)
