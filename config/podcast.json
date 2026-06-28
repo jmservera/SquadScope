@@ -63,6 +63,9 @@
         "fade_in_from_zero_seconds": 3,
         "play_to_end": true
       }
+    },
+    "backchannels": {
+      "enabled": true
     }
   },
   "spotify_publish": {

@@ -248,6 +248,9 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertTrue(payload["source_artifacts"])
         self.assertIn("podcast_config", payload)
         self.assertIn("script_directions", payload)
+        # Production config enables backchannels for every render (operator directive,
+        # SquadScope-Podcaster#555). It rides through under script_directions.
+        self.assertTrue(payload["script_directions"]["backchannels"]["enabled"])
         self.assertIn("spotify_publish", payload)
         self.assertEqual(payload["article_title"], "Week 23 Report")
         self.assertEqual(payload["article_summary"], "Week 23 summary.")
