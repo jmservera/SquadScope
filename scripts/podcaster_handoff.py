@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -82,6 +83,13 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--breaking-news",
         default=None,
         help="Optional last-moment news or important information to include in this podcast episode.",
+    )
+    parser.add_argument(
+        "--require-merged",
+        action="store_true",
+        help="Fail closed unless the article file exists locally and its sha256 matches the "
+        "manifest candidate.content_sha256. Use after the weekly article is merged to main so "
+        "the podcaster is never triggered for an unpublished/stub article.",
     )
     parser.add_argument("--endpoint", default=os.environ.get("PODCASTER_ENDPOINT", ""))
     parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT_SECONDS)
@@ -543,6 +551,49 @@ def _read_article_content(
     return content, title, summary
 
 
+def verify_article_merged(
+    article_path: str,
+    manifest: dict[str, Any],
+    *,
+    repo_root: Path = REPO_ROOT,
+) -> str:
+    """Fail closed unless the merged article matches the manifest checksum.
+
+    Verifies the article file exists locally (i.e. the weekly article has been
+    merged to main) and that its sha256 matches the manifest
+    candidate.content_sha256. Returns the verified sha256. Raises
+    PodcasterHandoffError otherwise so the podcaster is never triggered for a
+    missing/stub article before the article merge is complete.
+    """
+    candidate = manifest.get("candidate") if isinstance(manifest, dict) else None
+    expected = candidate.get("content_sha256") if isinstance(candidate, dict) else None
+    if not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected):
+        raise PodcasterHandoffError(
+            "Manifest lacks a valid candidate.content_sha256; cannot verify the merged article."
+        )
+    resolved = (repo_root / article_path).resolve()
+    try:
+        resolved.relative_to(repo_root.resolve())
+    except ValueError:
+        raise PodcasterHandoffError(
+            f"article_path resolves outside the repository root: {article_path}"
+        )
+    if not resolved.is_file():
+        raise PodcasterHandoffError(
+            f"Article not merged yet: {article_path} is not present. "
+            "Trigger the handoff only after the weekly article is merged to main."
+        )
+    try:
+        actual = hashlib.sha256(resolved.read_bytes()).hexdigest()
+    except OSError as exc:
+        raise PodcasterHandoffError(f"Could not read merged article {article_path}: {exc}") from exc
+    if actual != expected:
+        raise PodcasterHandoffError(
+            f"Merged article sha256 mismatch for {article_path}: expected {expected}, got {actual}."
+        )
+    return actual
+
+
 def _manifest_allows_handoff(manifest: dict[str, Any], *, week: str, publish_mode: str) -> bool:
     if not manifest:
         return True
@@ -572,11 +623,15 @@ def build_payload(
     podcaster_dry_run: bool = False,
     repo_root: Path | None = None,
     breaking_news: str | None = None,
+    require_merged: bool = False,
 ) -> dict[str, Any]:
     manifest = _load_manifest(manifest_path)
     if not _manifest_allows_handoff(manifest, week=week, publish_mode=publish_mode):
         raise PodcasterHandoffError("Publish manifest is not eligible for Podcaster handoff.")
     normalized_path = normalize_page_path(article_path)
+    root = repo_root if repo_root is not None else REPO_ROOT
+    if require_merged:
+        verify_article_merged(normalized_path, manifest, repo_root=root)
     payload: dict[str, Any] = {
         "week": week,
         "article_url": article_url,
@@ -586,7 +641,6 @@ def build_payload(
     }
 
     # Read article content and extract title
-    root = repo_root if repo_root is not None else REPO_ROOT
     content, title, summary = _read_article_content(normalized_path, repo_root=root)
     if content:
         payload["article_content"] = content
@@ -733,6 +787,7 @@ def main(argv: list[str] | None = None) -> int:
             podcast_config_path=args.podcast_config,
             podcaster_dry_run=args.podcaster_dry_run,
             breaking_news=args.breaking_news,
+            require_merged=args.require_merged,
         )
         post_handoff(endpoint, api_key, payload, timeout=args.timeout)
     except PodcasterHandoffError as exc:
