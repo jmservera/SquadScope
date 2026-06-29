@@ -586,9 +586,7 @@ def verify_article_merged(
     try:
         actual = hashlib.sha256(resolved.read_bytes()).hexdigest()
     except OSError as exc:
-        raise PodcasterHandoffError(
-            f"Could not read merged article {article_path}: {exc}"
-        ) from exc
+        raise PodcasterHandoffError(f"Could not read merged article {article_path}: {exc}") from exc
     if actual != expected:
         raise PodcasterHandoffError(
             f"Merged article sha256 mismatch for {article_path}: expected {expected}, got {actual}."
