@@ -1,12 +1,15 @@
 {{- /*
-  Generated cover card — a locally-rendered, deterministic inline-SVG header
-  visual for weekly articles. No third-party or hotlinked imagery.
+  Generated cover card — a locally-rendered, deterministic header visual for
+  weekly articles. No third-party or hotlinked imagery.
 
-  Data-anchored: the bar field COUNT reflects the number of topic clusters
-  tracked this week (from .Params.tags); the accessible name reports the real
-  week, topic count, and repositories-featured figures. Per-bar height variation
-  is a deterministic decorative motif (disclosed via aria-hidden) and is NOT a
-  claim about per-topic magnitude — preserving the evidence-first editorial stance.
+  Data-anchored topic chart (issue #560): every bar IS a topic. Bars and topic
+  labels share one element, in the same order, so each topic maps 1:1 to its bar
+  (no more decorative bars that outnumber/misalign the topics). Bar height and the
+  printed number encode the topic's EDITORIAL-PROMINENCE RANK — the order the
+  weekly analysis emits its `tags`, lead topic first (1 = lead topic). This is a
+  real, disclosed ordering signal, not a fabricated per-topic magnitude, so it
+  preserves the evidence-first editorial stance. A caption legend states exactly
+  what the bars measure, and bars carry distinct tonal shading.
 
   Params (dict):
     page  : the page context (required)
@@ -18,51 +21,46 @@
 {{- $repos := $page.Params.repos_featured -}}
 {{- $kicker := cond (ne $week "") (printf "Weekly signal · %s" $week) "Weekly signal" -}}
 
-{{- /* Deterministic seed from the week (or title) so each week renders a stable, distinct motif. */ -}}
-{{- $seedKey := cond (ne $week "") $week $page.Title -}}
-{{- $seed := (hash.FNV32a $seedKey) -}}
-
-{{- /* Number of bars = topic breadth this week, clamped to a sensible range for layout. */ -}}
-{{- $bars := $topicCount -}}
-{{- if lt $bars 6 }}{{ $bars = 6 }}{{ end -}}
-{{- if gt $bars 18 }}{{ $bars = 18 }}{{ end -}}
+{{- /* Show at most 12 topics as bars so labels stay legible; any remainder is
+       disclosed as a "+N more" note rather than silently dropped. */ -}}
+{{- $shown := $topics -}}
+{{- if gt $topicCount 12 }}{{ $shown = first 12 $topics }}{{ end -}}
+{{- $n := len $shown -}}
 
 {{- /* Build an accessible summary from REAL data only. */ -}}
 {{- $summaryParts := slice -}}
 {{- if ne $week "" }}{{ $summaryParts = $summaryParts | append (printf "%s weekly report" $week) }}{{ else }}{{ $summaryParts = $summaryParts | append "Weekly report" }}{{ end -}}
-{{- if gt $topicCount 0 }}{{ $summaryParts = $summaryParts | append (printf "tracking %d topic clusters" $topicCount) }}{{ end -}}
+{{- if gt $topicCount 0 }}{{ $summaryParts = $summaryParts | append (printf "tracking %d topic clusters, ordered by editorial prominence" $topicCount) }}{{ end -}}
 {{- if $repos }}{{ $summaryParts = $summaryParts | append (printf "across %s featured repositories" (lang.FormatNumber 0 $repos)) }}{{ end -}}
 {{- $summary := printf "Generated cover: %s." (delimit $summaryParts ", ") -}}
 
 <figure class="article-cover article-cover--generated" aria-label="{{ $summary }}">
   <div class="article-cover__panel">
-    <svg class="article-cover__motif" viewBox="0 0 1000 360" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-      {{- $slot := div 1000.0 $bars -}}
-      {{- $barW := mul $slot 0.46 -}}
-      {{- range $i := seq $bars -}}
-        {{- $idx := sub $i 1 -}}
-        {{- $h := add 56 (mod (mul (add $idx 1) (add $seed 131)) 268) -}}
-        {{- $x := add (mul $idx $slot) (mul $slot 0.27) -}}
-        {{- $y := sub 360 $h -}}
-        <rect x="{{ $x }}" y="{{ $y }}" width="{{ $barW }}" height="{{ $h }}" rx="4" />
-      {{- end -}}
-    </svg>
     <div class="article-cover__meta">
       <p class="article-cover__kicker">{{ $kicker }}</p>
       <p class="article-cover__brand">Claracle</p>
-      {{- if gt $topicCount 0 }}
-      {{- /* Topic titles are descriptive caption metadata, NOT controls. Render them
-             as plain, non-interactive labels — no link, no button/pill affordance —
-             so they never look clickable (operator ask, #328). */ -}}
-      <ul class="article-cover__topics" aria-label="Topics tracked this week">
-        {{- range first 6 $topics }}
-        <li class="article-cover__topic">{{ . }}</li>
-        {{- end }}
-        {{- if gt $topicCount 6 }}
-        <li class="article-cover__topic article-cover__topic--more">+{{ sub $topicCount 6 }} more</li>
-        {{- end }}
-      </ul>
-      {{- end }}
     </div>
+    {{- if gt $topicCount 0 }}
+    {{- /* Topic titles are descriptive caption metadata, NOT controls. Render them
+           as plain, non-interactive labels — no link, no button/pill affordance —
+           so they never look clickable (operator ask, #328). The ordered list
+           conveys rank to assistive tech; the printed number is the visible echo. */ -}}
+    <ol class="article-cover__topics" aria-label="Topic clusters tracked this week, ordered by editorial prominence (1 = lead topic)">
+      {{- range $i, $t := $shown }}
+      {{- $rank := add $i 1 -}}
+      {{- /* Height = rank: lead topic full height, descending to the last topic. */ -}}
+      {{- $hpct := printf "%.0f" (math.Round (div (mul (sub $n $i) 100.0) $n)) -}}
+      <li class="article-cover__topic" style="--bar-h:{{ $hpct }}%;--bar-i:{{ $i }};">
+        <span class="article-cover__bar-num" aria-hidden="true">{{ $rank }}</span>
+        <span class="article-cover__bar" aria-hidden="true"></span>
+        <span class="article-cover__topic-label" title="{{ $t }}">{{ $t }}</span>
+      </li>
+      {{- end }}
+    </ol>
+    <p class="article-cover__legend">
+      Each bar is one of this week's {{ $topicCount }} topic clusters, ordered by editorial prominence (1&nbsp;=&nbsp;lead topic).
+      {{- if gt $topicCount $n }} Showing the top {{ $n }}; +{{ sub $topicCount $n }} more not charted.{{ end }}
+    </p>
+    {{- end }}
   </div>
 </figure>
