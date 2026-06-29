@@ -134,7 +134,7 @@ jobs:
             # `gh pr checks` exits non-zero ("no checks reported") until checks
             # register; tolerate that under `set -e` so we keep polling instead of
             # killing the whole sync job (the bug that left the sync PR unmerged).
-            CHECK_COUNT=$(gh pr checks "$PR_NUMBER" --json name --jq 'length' 2>/dev/null || echo 0)
+            CHECK_COUNT=$(gh pr checks "$PR_NUMBER" --json name --jq 'length' || echo 0)
             if [ "$CHECK_COUNT" -gt 0 ]; then
               break
             fi
@@ -206,8 +206,13 @@ jobs:
           # Surface publish access problems as warnings instead of swallowing them —
           # a broken publish branch should be visible in the Actions log, not silent.
           git fetch origin publish
-          git checkout origin/publish -- data/candidates/ || \
-            echo "::warning::Could not check out data/candidates/ from publish; manifest lookup may fail."
+          # Clear any stale candidates and fail closed: if the publish checkout
+          # fails we skip the handoff rather than risk using an incorrect manifest.
+          rm -rf data/candidates/
+          if ! git checkout origin/publish -- data/candidates/; then
+            echo "::warning::Could not check out data/candidates/ from publish; skipping Podcaster handoff."
+            exit 0
+          fi
           MANIFEST=$(find "data/candidates/${WEEK}" -name 'publish-manifest.json' -type f 2>/dev/null | sort -V | tail -1)
           if [ -z "$MANIFEST" ]; then
             echo "::warning::No manifest for ${WEEK}; skipping Podcaster handoff."
