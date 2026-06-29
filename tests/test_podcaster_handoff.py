@@ -918,6 +918,60 @@ class PodcasterHandoffTests(unittest.TestCase):
         )
         self.assertEqual(payload["breaking_news"], "Major outage at GitHub Actions today")
 
+    def test_verify_article_merged_passes_on_match(self) -> None:
+        import hashlib
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            article = root / "content" / "weekly" / "2026" / "W27.md"
+            article.parent.mkdir(parents=True, exist_ok=True)
+            article.write_text("# W27\nbody", encoding="utf-8")
+            sha = hashlib.sha256(article.read_bytes()).hexdigest()
+            manifest = {"candidate": {"content_sha256": sha}}
+            self.assertEqual(
+                podcaster_handoff.verify_article_merged(
+                    "content/weekly/2026/W27.md", manifest, repo_root=root
+                ),
+                sha,
+            )
+
+    def test_verify_article_merged_raises_when_missing(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            manifest = {"candidate": {"content_sha256": "a" * 64}}
+            with self.assertRaises(podcaster_handoff.PodcasterHandoffError):
+                podcaster_handoff.verify_article_merged(
+                    "content/weekly/2026/W27.md", manifest, repo_root=Path(tmp)
+                )
+
+    def test_verify_article_merged_raises_on_sha_mismatch(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            article = root / "content" / "weekly" / "2026" / "W27.md"
+            article.parent.mkdir(parents=True, exist_ok=True)
+            article.write_text("# W27\nbody", encoding="utf-8")
+            manifest = {"candidate": {"content_sha256": "f" * 64}}
+            with self.assertRaises(podcaster_handoff.PodcasterHandoffError):
+                podcaster_handoff.verify_article_merged(
+                    "content/weekly/2026/W27.md", manifest, repo_root=root
+                )
+
+    def test_require_merged_fails_closed_for_unmerged_article(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            self._write_manifest(base)
+            manifest = base / "publish-manifest.json"
+            with self.assertRaises(podcaster_handoff.PodcasterHandoffError):
+                podcaster_handoff.build_payload(
+                    week="2026-W23",
+                    article_url="https://claracle.com/weekly/2026/w23/",
+                    article_path="content/weekly/2026/W23.md",
+                    publish_run_id="123456789",
+                    publish_mode="normal",
+                    manifest_path=manifest,
+                    repo_root=base,
+                    require_merged=True,
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -118,7 +118,7 @@ Required secrets/tokens:
 - `crawl` → later runs: `crawl-cache`
 - `analyze` → `generate`: `analyzed-data`
 - `generate` → `deploy`: `generated-content`
-- `generate` + `deploy` → `podcaster-handoff`: normal-mode generated page path plus candidate publish manifest after a successful Pages deploy; Podcaster failures are reported as warnings and do not block or roll back weekly article publication.
+- Podcaster handoff: triggered from `sync-publish-to-main` only **after** the weekly article is merged into `main`. The handoff runs `scripts/podcaster_handoff.py --require-merged`, which fails closed unless the merged article exists and its sha256 matches the manifest `candidate.content_sha256`. This prevents the prior race where `deploy` (built from artifacts, pre-merge) could trigger the podcaster before the article was merged, producing stub episodes (e.g. W27).
 - `crawl` and `analyze` also feed `deploy` so the final build uses the same run's data artifacts
 
 ## Manual validation flow

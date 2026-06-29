@@ -30,6 +30,7 @@ jobs:
           fetch-depth: 0
 
       - name: Sync data from publish
+        id: sync
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SYNC_BRANCH: sync/publish-to-main
@@ -154,3 +155,64 @@ jobs:
           # explicit merge fails, confirm the PR did in fact merge before succeeding.
           gh pr merge "$PR_NUMBER" --squash --match-head-commit "$HEAD_SHA" || \
             gh pr view "$PR_NUMBER" --json state --jq '.state' | grep -qx MERGED
+
+          # Signal that the weekly content is now merged to main so the Podcaster
+          # handoff (next step) can fire — and only now, never before the merge.
+          echo "merged=true" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Python
+        if: ${{ steps.sync.outputs.merged == 'true' }}
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: '3.12'
+
+      - name: Trigger Podcaster after merge
+        if: ${{ steps.sync.outputs.merged == 'true' }}
+        env:
+          PODCASTER_ENDPOINT: ${{ vars.PODCASTER_ENDPOINT }}
+          PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "$PODCASTER_ENDPOINT" ] || [ -z "$PODCASTER_API_KEY" ]; then
+            echo "::notice::Podcaster handoff skipped — PODCASTER_ENDPOINT/PODCASTER_API_KEY not configured."
+            exit 0
+          fi
+
+          # main now contains the merged weekly content. Identify the latest week.
+          git fetch origin main
+          git checkout -B main origin/main
+          LATEST=$(git ls-files 'content/weekly/*/W*.md' | sort -V | tail -1)
+          if [ -z "$LATEST" ]; then
+            echo "::notice::No weekly article on main; skipping Podcaster handoff."
+            exit 0
+          fi
+          YEAR=$(basename "$(dirname "$LATEST")")
+          SHORT=$(basename "$LATEST" .md)
+          WEEK="${YEAR}-${SHORT}"
+          ARTICLE_URL="https://claracle.com/weekly/${YEAR}/${SHORT}/"
+
+          # Locate the publish manifest produced by crawl-and-publish for this week.
+          git fetch origin publish
+          git checkout origin/publish -- data/candidates/ 2>/dev/null || true
+          MANIFEST=$(find "data/candidates/${WEEK}" -name 'publish-manifest.json' -type f 2>/dev/null | sort -V | tail -1)
+          if [ -z "$MANIFEST" ]; then
+            echo "::notice::No manifest for ${WEEK}; skipping Podcaster handoff."
+            exit 0
+          fi
+          if ! python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST"; then
+            echo "::notice::Manifest not eligible; skipping Podcaster handoff."
+            exit 0
+          fi
+
+          # --require-merged fails closed unless the merged article exists and its
+          # sha256 matches the manifest, so the Podcaster is never triggered for a stub.
+          python3 scripts/podcaster_handoff.py \
+            --week "$WEEK" \
+            --article-url "$ARTICLE_URL" \
+            --article-path "$LATEST" \
+            --publish-run-id "$(basename "$(dirname "$MANIFEST")")" \
+            --publish-mode normal \
+            --manifest "$MANIFEST" \
+            --podcast-config config/podcast.json \
+            --require-merged
