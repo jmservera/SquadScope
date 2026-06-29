@@ -50,8 +50,9 @@
       {{- $rank := add $i 1 -}}
       {{- /* Height = rank: lead topic full height, descending to the last topic. */ -}}
       {{- $hpct := printf "%.0f" (math.Round (div (mul (sub $n $i) 100.0) $n)) -}}
-      <li class="article-cover__topic" style="--bar-h:{{ $hpct }}%;--bar-i:{{ $i }};--bar-n:{{ $n }};">
-        <span class="article-cover__bar" aria-hidden="true"><span class="article-cover__bar-num">{{ $rank }}</span></span>
+      <li class="article-cover__topic" style="--bar-h:{{ $hpct }}%;--bar-i:{{ $i }};">
+        <span class="article-cover__bar-num" aria-hidden="true">{{ $rank }}</span>
+        <span class="article-cover__bar" aria-hidden="true"></span>
         <span class="article-cover__topic-label" title="{{ $t }}">{{ $t }}</span>
       </li>
       {{- end }}

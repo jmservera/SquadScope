@@ -85,13 +85,9 @@
 /* The bar itself — height encodes rank (set inline via --bar-h); tonal shading
    from --bar-i gives distinct, theme-aware tonalities (not one flat shade). */
 .article-cover__bar {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
   width: 100%;
   height: var(--bar-h, 100%);
   min-height: var(--space-3);
-  padding-top: 2px;
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
   background: color-mix(
     in srgb,
@@ -100,11 +96,14 @@
   );
 }
 
+/* Rank number sits just above its bar, against the panel surface, so contrast
+   is independent of each bar's tonal fill (review: low-contrast on light bars). */
 .article-cover__bar-num {
+  margin-bottom: 2px;
   font-size: var(--text-xs);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
-  color: var(--color-surface);
+  color: var(--color-text);
 }
 
 .article-cover__topic-label {
