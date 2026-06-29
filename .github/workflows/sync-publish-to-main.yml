@@ -131,7 +131,10 @@ jobs:
           HEAD_SHA=$(git rev-parse HEAD)
           CHECK_COUNT=0
           for _ in $(seq 1 30); do
-            CHECK_COUNT=$(gh pr checks "$PR_NUMBER" --json name --jq 'length')
+            # `gh pr checks` exits non-zero ("no checks reported") until checks
+            # register; tolerate that under `set -e` so we keep polling instead of
+            # killing the whole sync job (the bug that left the sync PR unmerged).
+            CHECK_COUNT=$(gh pr checks "$PR_NUMBER" --json name --jq 'length' 2>/dev/null || echo 0)
             if [ "$CHECK_COUNT" -gt 0 ]; then
               break
             fi
@@ -200,11 +203,14 @@ jobs:
           )
 
           # Locate the publish manifest produced by crawl-and-publish for this week.
+          # Surface publish access problems as warnings instead of swallowing them —
+          # a broken publish branch should be visible in the Actions log, not silent.
           git fetch origin publish
-          git checkout origin/publish -- data/candidates/ 2>/dev/null || true
+          git checkout origin/publish -- data/candidates/ || \
+            echo "::warning::Could not check out data/candidates/ from publish; manifest lookup may fail."
           MANIFEST=$(find "data/candidates/${WEEK}" -name 'publish-manifest.json' -type f 2>/dev/null | sort -V | tail -1)
           if [ -z "$MANIFEST" ]; then
-            echo "::notice::No manifest for ${WEEK}; skipping Podcaster handoff."
+            echo "::warning::No manifest for ${WEEK}; skipping Podcaster handoff."
             exit 0
           fi
           if ! python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST"; then

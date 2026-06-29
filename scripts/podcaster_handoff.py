@@ -583,7 +583,12 @@ def verify_article_merged(
             f"Article not merged yet: {article_path} is not present. "
             "Trigger the handoff only after the weekly article is merged to main."
         )
-    actual = hashlib.sha256(resolved.read_bytes()).hexdigest()
+    try:
+        actual = hashlib.sha256(resolved.read_bytes()).hexdigest()
+    except OSError as exc:
+        raise PodcasterHandoffError(
+            f"Could not read merged article {article_path}: {exc}"
+        ) from exc
     if actual != expected:
         raise PodcasterHandoffError(
             f"Merged article sha256 mismatch for {article_path}: expected {expected}, got {actual}."
