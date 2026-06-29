@@ -567,7 +567,7 @@ def verify_article_merged(
     """
     candidate = manifest.get("candidate") if isinstance(manifest, dict) else None
     expected = candidate.get("content_sha256") if isinstance(candidate, dict) else None
-    if not isinstance(expected, str) or len(expected) != 64 or expected.lower() != expected:
+    if not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected):
         raise PodcasterHandoffError(
             "Manifest lacks a valid candidate.content_sha256; cannot verify the merged article."
         )

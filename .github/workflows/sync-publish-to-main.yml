@@ -190,7 +190,14 @@ jobs:
           YEAR=$(basename "$(dirname "$LATEST")")
           SHORT=$(basename "$LATEST" .md)
           WEEK="${YEAR}-${SHORT}"
-          ARTICLE_URL="https://claracle.com/weekly/${YEAR}/${SHORT}/"
+          # Derive the canonical URL via the shared helper to avoid slug drift.
+          ARTICLE_URL=$(python3 - "$LATEST" <<'PY'
+          import sys
+          from scripts.podcaster_handoff import article_url_from_page_path
+
+          print(article_url_from_page_path("https://claracle.com/", sys.argv[1]))
+          PY
+          )
 
           # Locate the publish manifest produced by crawl-and-publish for this week.
           git fetch origin publish

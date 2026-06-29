@@ -955,6 +955,18 @@ class PodcasterHandoffTests(unittest.TestCase):
                     "content/weekly/2026/W27.md", manifest, repo_root=root
                 )
 
+    def test_verify_article_merged_rejects_non_hex_sha256(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            article = root / "content" / "weekly" / "2026" / "W27.md"
+            article.parent.mkdir(parents=True, exist_ok=True)
+            article.write_text("# W27\nbody", encoding="utf-8")
+            manifest = {"candidate": {"content_sha256": "g" * 64}}
+            with self.assertRaises(podcaster_handoff.PodcasterHandoffError):
+                podcaster_handoff.verify_article_merged(
+                    "content/weekly/2026/W27.md", manifest, repo_root=root
+                )
+
     def test_require_merged_fails_closed_for_unmerged_article(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             base = Path(tmp)

@@ -460,7 +460,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("📊 **SquadScope Week", webhook_run)
         self.assertIn("Webhook post failed (non-critical)", webhook_run)
 
-    def test_podcaster_handoff_runs_only_after_normal_deploy_without_blocking_deploy(self) -> None:
+    def test_podcaster_handoff_triggers_post_merge_from_sync_not_crawl(self) -> None:
         # Handoff must fire only AFTER the weekly article is merged to main, so it
         # lives in sync-publish-to-main (post-merge), not in crawl-and-publish
         # (which deploys from artifacts before the merge — the W27 stub race).
