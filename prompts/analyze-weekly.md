@@ -113,6 +113,12 @@ is the story of the period, not a list.
   what theme is building, what shifted, what it means for where the ecosystem is heading.
   Treat the week as one beat in the larger `{{CURRENT_MONTH}}` story, not an isolated dump.
 - Synthesize across repos and press into a coherent throughline — name the throughline.
+- When a previous weekly summary is provided, anchor the arc in continuity: name explicitly
+  what carried over, accelerated, reversed, or broke from last week. This week-over-week
+  through-line is what turns a list into a story and is a required quality signal.
+- The lede is an **addition on top of** full-depth analysis, never a substitute for it. Do
+  not thin out or generalize the sections below to make room for the lede; the sections must
+  remain as specific, evidence-dense, and rigorous as a no-lede article would be.
 - Keep it grounded: every claim must trace to the crawled raw JSON or provided press data.
   Do **not** invent facts, numbers, momentum, or events that are not in the sources. If the
   evidence is thin, tell that story honestly (a quiet week is still a story).
@@ -159,7 +165,7 @@ is the story of the period, not a list.
 10. `repos_featured` should equal the total number of repos considered in the weekly editorial pass.
 11. `stars_tracked` should equal the total stars across those repos.
 12. `top_repo` should be the repo that best anchors the editorial narrative, not automatically the most-starred repo.
-13. `quality_score` must be an honest 0-100 self-assessment; publishable work is `>= 60`. The `summary` field must be ≤155 characters, a complete sentence crafted as the meta description for search engines and social sharing. Do not let it exceed 155 characters.
+13. `quality_score` must be an honest 0-100 self-assessment; publishable work is `>= 60`, and a narrative-led, continuity-aware, evidence-dense weekly analysis that fully satisfies this contract should land at the top of the band (high 80s or above). Score honestly — do not inflate — but do not under-rate work that genuinely meets every requirement here. The `summary` field must be ≤155 characters, a complete sentence crafted as the meta description for search engines and social sharing. Do not let it exceed 155 characters.
 14. If you include `predictions`, each entry must be `{repo, claim_type, direction, confidence}` with `claim_type` in `signal|noise|gap`, `direction` in `up|flat|down`, and `confidence` from `0` to `1`.
 15. Open with a narrative lede (2-4 paragraphs, ~120-220 words, no heading) as described in
     "Lead with the story", then include all required sections in this exact order:
@@ -205,7 +211,7 @@ is the story of the period, not a list.
 3. If press data is available, cross-reference: what did TechCrunch cover and what does developer activity actually show? Surface the gap.
 4. Write Signal & Noise as a unified editorial judgment — what to trust, what to dismiss.
 5. Identify concrete gaps or absences that neither press nor developers are addressing.
-6. Compare with the previous week if a previous summary was provided.
+6. Compare with the previous week if a previous summary was provided — explicitly name what continued, accelerated, reversed, or broke, and carry that continuity into both the lede and the sections. Do not settle for a generic "momentum unclear" when the thematic clustering supports a sharper call.
 7. Apply relevant wisdom and skills where they clarify the call, but overrule them when the raw evidence says they do not fit this week.
 8. Select 5-10 most important repos for Key References; select 3-5 most important press items.
 9. Produce a brief, forward-looking close that reads like the last paragraph of a Gartner insight brief.
