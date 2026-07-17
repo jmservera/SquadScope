@@ -17,6 +17,7 @@ except ModuleNotFoundError:  # pragma: no cover - direct script execution path
 SCHEMA_VERSION = "publish_eligibility_v1"
 AI_SOURCES = {"copilot-cli"}
 RUN_MODES = {"normal", "dry-run", "restore", "force-replace", "candidate-only"}
+SYNTHESIS_STATUSES = {"available", "missing", "empty", "failed"}
 SOURCE_REFRESH_POLICIES = {"reuse-same-day", "refresh-missing-stale", "force-refresh"}
 ALLOWED_PROMOTION_MANIFEST_ROOTS = {("data", "staging"), ("data", "candidates")}
 PROMOTION_MANIFEST_ROOT_ERROR = (
@@ -75,6 +76,22 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--gate-report",
         type=Path,
         help="Structured analysis gate report emitted by analysis_gate.py.",
+    )
+    create.add_argument(
+        "--synthesis-status",
+        choices=sorted(SYNTHESIS_STATUSES),
+        default="missing",
+        help=(
+            "Status of the required weekly synthesis narrative that feeds the Copilot "
+            "analysis prompt. Defaults to 'missing' (fail closed) when not explicitly "
+            "provided by the workflow. Only 'available' is publishable for normal-mode "
+            "AI-authored publication."
+        ),
+    )
+    create.add_argument(
+        "--synthesis-file",
+        type=Path,
+        help="Path to the synthesis narrative file, when --synthesis-status is 'available'.",
     )
     create.add_argument("--output", required=True, type=Path)
     create.add_argument(
@@ -655,6 +672,40 @@ def create_manifest(args: argparse.Namespace) -> int:
     candidate_content_exists = candidate_content.exists()
     validation_passed = args.validation_status == "passed"
     mode_allows_promotion = args.run_mode not in {"dry-run", "candidate-only"}
+    # Required synthesis only gates normal-mode AI-authored publication. Explicitly
+    # documented non-normal/debug modes (dry-run, candidate-only, restore,
+    # force-replace) are unaffected, matching their existing escape-hatch gates.
+    synthesis_status = args.synthesis_status
+    synthesis_required = args.run_mode == "normal" and ai_status == "ai"
+    synthesis_reasons: list[str] = []
+    # Fail closed: a claim of "available" is only trustworthy when it is backed by a
+    # readable, non-empty synthesis file. If the provenance is absent or invalid we
+    # downgrade the status to "missing" and drop the (unusable) file reference so the
+    # manifest never advertises unbacked synthesis provenance.
+    synthesis_file = args.synthesis_file
+    synthesis_sha256 = sha256_file(synthesis_file) if synthesis_file else None
+    synthesis_downgrade_note: str | None = None
+    if synthesis_status == "available":
+        file_ok = (
+            synthesis_file is not None
+            and synthesis_file.is_file()
+            and synthesis_file.stat().st_size > 0
+            and synthesis_sha256 is not None
+        )
+        if not file_ok:
+            synthesis_status = "missing"
+            synthesis_file = None
+            synthesis_sha256 = None
+            synthesis_downgrade_note = (
+                "required synthesis claimed 'available' but no readable, non-empty "
+                "synthesis file was provided (downgraded to missing)"
+            )
+    if synthesis_required and synthesis_status != "available":
+        # Always emit the canonical, mode-naming reason for every non-available
+        # required status, then add any downgrade context as a secondary reason.
+        synthesis_reasons.append(f"required synthesis is {synthesis_status} for normal publication")
+        if synthesis_downgrade_note:
+            synthesis_reasons.append(synthesis_downgrade_note)
     gates_passed = gate_report.get("present") is True and gate_report.get("passed") is True
     candidate_quality = candidate_metadata.get("quality_score")
     attempted_ai_paths = [path for path in args.attempted_ai_path if path.strip()]
@@ -735,6 +786,7 @@ def create_manifest(args: argparse.Namespace) -> int:
     reasons.extend(artifact_reasons)
     reasons.extend(restore_reasons)
     reasons.extend(comparison_reasons)
+    reasons.extend(synthesis_reasons)
 
     eligible = (
         candidate_exists
@@ -745,6 +797,7 @@ def create_manifest(args: argparse.Namespace) -> int:
         and not restore_reasons
         and not comparison_reasons
         and not preflight_reasons
+        and not synthesis_reasons
         and mode_allows_promotion
         and not reasons
         and (
@@ -780,6 +833,14 @@ def create_manifest(args: argparse.Namespace) -> int:
         },
         "published": published_status,
         "source_artifacts": source_artifacts,
+        "synthesis": {
+            "required": synthesis_required,
+            "status": synthesis_status,
+            "available": synthesis_status == "available",
+            "path": synthesis_file.as_posix() if synthesis_file else None,
+            "sha256": synthesis_sha256,
+            "reasons": synthesis_reasons,
+        },
         "analysis": {
             "ai_status": ai_status,
             "source": analysis_source,
@@ -934,6 +995,26 @@ def assert_eligible(args: argparse.Namespace) -> int:
         preflight = analysis.get("preflight")
         if not isinstance(preflight, dict) or preflight.get("publish_eligible") is not True:
             raise SystemExit("Manifest lacks a publish-eligible Copilot preflight report.")
+    synthesis = payload.get("synthesis")
+    if ai_status == "ai" and payload.get("run_mode") == "normal":
+        if not isinstance(synthesis, dict) or synthesis.get("required") is not True:
+            raise SystemExit(
+                "Manifest lacks required synthesis provenance for normal-mode publication."
+            )
+        if synthesis.get("status") != "available":
+            raise SystemExit(
+                "Manifest blocks promotion: required synthesis is "
+                f"{synthesis.get('status')!r} (missing/empty/failed), not available."
+            )
+        synthesis_path = synthesis.get("path")
+        synthesis_sha256 = synthesis.get("sha256")
+        if not (isinstance(synthesis_path, str) and synthesis_path.strip()) or not (
+            isinstance(synthesis_sha256, str) and synthesis_sha256.strip()
+        ):
+            raise SystemExit(
+                "Manifest claims synthesis is available but lacks authoritative "
+                "provenance (path and sha256)."
+            )
     validation = payload.get("validation")
     gate_report = validation.get("gate_report") if isinstance(validation, dict) else None
     if (

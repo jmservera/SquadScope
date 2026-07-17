@@ -153,11 +153,13 @@ def create_publish_manifest(
     manifest_path = candidate_dir / "publish-manifest.json"
     gate_report = candidate_dir / "analysis-gate-report.json"
     preflight_report = candidate_dir / "diagnostics" / "analysis-preflight.json"
+    synthesis_file = candidate_dir / "diagnostics" / "synthesis-narrative.md"
     write_file(root, summary_path.as_posix(), VALID_REPLACEMENT_SUMMARY)
     write_publish_raw(root)
     write_gate_report(root, gate_report, passed=gate_passed)
     if source == "copilot-cli":
         write_preflight(root, preflight_report)
+        write_file(root, synthesis_file.as_posix(), "Weekly synthesis narrative.\n")
 
     previous_cwd = Path.cwd()
     try:
@@ -189,6 +191,11 @@ def create_publish_manifest(
         ]
         if source == "copilot-cli":
             args.extend(["--preflight-report", preflight_report.as_posix()])
+            # Simulate a successful upstream synthesis step; fail-closed
+            # behavior for missing/empty/failed synthesis is covered by
+            # dedicated tests in tests/test_publish_manifest.py.
+            args.extend(["--synthesis-status", "available"])
+            args.extend(["--synthesis-file", synthesis_file.as_posix()])
         publish_manifest.main(args)
     finally:
         os.chdir(previous_cwd)

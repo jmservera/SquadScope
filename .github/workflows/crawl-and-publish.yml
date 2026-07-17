@@ -494,14 +494,26 @@ jobs:
           PY
           echo "press_file=$PRESS_FILE" >> "$GITHUB_OUTPUT"
 
+      - name: Install Copilot CLI
+        if: ${{ inputs.analysis_path != 'map-reduce-dry-run' }}
+        id: install-copilot
+        run: |
+          set -euo pipefail
+          npm install -g @github/copilot
+          # Verify the CLI actually installed and is runnable before any step
+          # (including synthesis) is allowed to depend on it.
+          copilot --version
+
       - name: Run synthesis step (Step 1)
         id: synthesis
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GH_TOKEN }}
           IN_WEEK_FILE: ${{ steps.analysis-context.outputs.week_file }}
           IN_OUTPUT_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
           IN_CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
           IN_PRESS_FILE: ${{ steps.press-context.outputs.press_file }}
+          IN_ANALYSIS_PATH: ${{ inputs.analysis_path }}
         run: |
           set -euo pipefail
           WEEK_FILE="$IN_WEEK_FILE"
@@ -513,7 +525,11 @@ jobs:
           SYNTHESIS_PROMPT="$DIAGNOSTICS_DIR/synthesis-prompt.md"
           mkdir -p "$DIAGNOSTICS_DIR"
           # Step 1: render synthesis prompt, then run via Copilot CLI.
-          # If this fails, we fall back to the single-prompt approach (no synthesis_input).
+          # Copilot CLI installation/verification (previous step) must have
+          # already succeeded before this step runs. synthesis_status is a
+          # precise, fail-closed signal (available/empty/failed/missing)
+          # recorded on the publish manifest; only "available" is publishable
+          # for normal-mode publication (see scripts/publish_manifest.py).
           python3 scripts/analyze_fallback.py \
             --raw-json "$WEEK_FILE" \
             --output "$OUTPUT_FILE" \
@@ -521,7 +537,16 @@ jobs:
             --press-context "$PRESS_FILE" \
             --run-synthesis \
             --synthesis-output "$SYNTHESIS_PROMPT"
-          if command -v copilot >/dev/null 2>&1 && [ -f "$SYNTHESIS_PROMPT" ]; then
+          SYNTHESIS_STATUS="missing"
+          if [ ! -f "$SYNTHESIS_PROMPT" ]; then
+            echo "::warning::Synthesis prompt was not generated; required synthesis is missing."
+          elif ! command -v copilot >/dev/null 2>&1; then
+            if [ "$IN_ANALYSIS_PATH" = "map-reduce-dry-run" ]; then
+              echo "::notice::Copilot CLI intentionally not installed for map-reduce dry run; synthesis skipped (required synthesis is missing)."
+            else
+              echo "::error::Copilot CLI is unavailable after installation step; required synthesis is missing."
+            fi
+          else
             set +e
             copilot \
               --agent weekly-synthesis \
@@ -533,15 +558,21 @@ jobs:
               > "$DIAGNOSTICS_DIR/synthesis-copilot.log" 2>&1
             SYNTH_STATUS=$?
             set -e
-            if [ "$SYNTH_STATUS" -eq 0 ] && [ -f "$SYNTHESIS_FILE" ] && [ -s "$SYNTHESIS_FILE" ]; then
-              echo "synthesis_file=$SYNTHESIS_FILE" >> "$GITHUB_OUTPUT"
-              echo "synthesis_available=true" >> "$GITHUB_OUTPUT"
+            if [ "$SYNTH_STATUS" -ne 0 ]; then
+              SYNTHESIS_STATUS="failed"
+              echo "::warning::Synthesis Copilot CLI failed (exit=$SYNTH_STATUS); required synthesis is failed."
+            elif [ ! -s "$SYNTHESIS_FILE" ]; then
+              SYNTHESIS_STATUS="empty"
+              echo "::warning::Synthesis Copilot CLI produced no narrative content; required synthesis is empty."
             else
-              echo "::warning::Synthesis Copilot CLI failed (exit=$SYNTH_STATUS); falling back to single-prompt approach."
-              echo "synthesis_available=false" >> "$GITHUB_OUTPUT"
+              SYNTHESIS_STATUS="available"
             fi
+          fi
+          echo "synthesis_status=$SYNTHESIS_STATUS" >> "$GITHUB_OUTPUT"
+          if [ "$SYNTHESIS_STATUS" = "available" ]; then
+            echo "synthesis_file=$SYNTHESIS_FILE" >> "$GITHUB_OUTPUT"
+            echo "synthesis_available=true" >> "$GITHUB_OUTPUT"
           else
-            echo "::warning::Synthesis step skipped (copilot not available or prompt missing); falling back to single-prompt."
             echo "synthesis_available=false" >> "$GITHUB_OUTPUT"
           fi
 
@@ -612,11 +643,6 @@ jobs:
           echo "prompt_file=$PROMPT_FILE" >> "$GITHUB_OUTPUT"
           echo "preflight_report_json=$PREFLIGHT_JSON" >> "$GITHUB_OUTPUT"
           echo "preflight_report_md=$PREFLIGHT_MD" >> "$GITHUB_OUTPUT"
-
-      - name: Install Copilot CLI
-        if: ${{ inputs.analysis_path != 'map-reduce-dry-run' }}
-        id: install-copilot
-        run: npm install -g @github/copilot
 
       - name: Run analysis
         if: steps.prompt-preflight.outcome == 'success'
@@ -910,6 +936,8 @@ jobs:
           SOURCE_RUN_ID: ${{ inputs.source_run_id || '' }}
           GATE_REPORT: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
           PREFLIGHT_REPORT: ${{ steps.prompt-preflight.outputs.preflight_report_json }}
+          SYNTHESIS_STATUS: ${{ steps.synthesis.outputs.synthesis_status }}
+          SYNTHESIS_FILE: ${{ steps.synthesis.outputs.synthesis_file }}
         run: |
           set -euo pipefail
           git fetch origin publish 2>/dev/null && git checkout origin/publish -- "$PUBLISHED_SUMMARY" 2>/dev/null || true
@@ -932,6 +960,8 @@ jobs:
             path="${candidate#*=}"
             [ -f "$path" ] && ARTIFACT_ARGS+=(--artifact "$candidate")
           done
+          SYNTHESIS_ARGS=(--synthesis-status "${SYNTHESIS_STATUS:-missing}")
+          [ -n "${SYNTHESIS_FILE:-}" ] && [ -f "${SYNTHESIS_FILE:-}" ] && SYNTHESIS_ARGS+=(--synthesis-file "$SYNTHESIS_FILE")
           python3 scripts/publish_manifest.py create \
             --week "$WEEK" \
             --run-id "$RUN_ID" \
@@ -946,6 +976,7 @@ jobs:
             --run-mode "$RUN_MODE" \
             --source-refresh-policy "$SOURCE_REFRESH_POLICY" \
             --gate-report "$GATE_REPORT" \
+            "${SYNTHESIS_ARGS[@]}" \
             --output "$MANIFEST_FILE" \
             "${RESTORE_ARGS[@]}" \
             "${ARTIFACT_ARGS[@]}"
