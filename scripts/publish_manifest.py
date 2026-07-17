@@ -594,8 +594,33 @@ def create_manifest(args: argparse.Namespace) -> int:
     synthesis_status = args.synthesis_status
     synthesis_required = args.run_mode == "normal" and ai_status == "ai"
     synthesis_reasons: list[str] = []
+    # Fail closed: a claim of "available" is only trustworthy when it is backed by a
+    # readable, non-empty synthesis file. If the provenance is absent or invalid we
+    # downgrade the status to "missing" and drop the (unusable) file reference so the
+    # manifest never advertises unbacked synthesis provenance.
+    synthesis_file = args.synthesis_file
+    synthesis_sha256 = sha256_file(synthesis_file) if synthesis_file else None
+    if synthesis_status == "available":
+        file_ok = (
+            synthesis_file is not None
+            and synthesis_file.is_file()
+            and synthesis_file.stat().st_size > 0
+            and synthesis_sha256 is not None
+        )
+        if not file_ok:
+            synthesis_status = "missing"
+            synthesis_file = None
+            synthesis_sha256 = None
+            if synthesis_required:
+                synthesis_reasons.append(
+                    "required synthesis claimed 'available' but no readable, non-empty "
+                    "synthesis file was provided (downgraded to missing)"
+                )
     if synthesis_required and synthesis_status != "available":
-        synthesis_reasons.append(f"required synthesis is {synthesis_status} for normal publication")
+        if not synthesis_reasons:
+            synthesis_reasons.append(
+                f"required synthesis is {synthesis_status} for normal publication"
+            )
     gates_passed = gate_report.get("present") is True and gate_report.get("passed") is True
     candidate_quality = candidate_metadata.get("quality_score")
     attempted_ai_paths = [path for path in args.attempted_ai_path if path.strip()]
@@ -724,8 +749,8 @@ def create_manifest(args: argparse.Namespace) -> int:
             "required": synthesis_required,
             "status": synthesis_status,
             "available": synthesis_status == "available",
-            "path": args.synthesis_file.as_posix() if args.synthesis_file else None,
-            "sha256": sha256_file(args.synthesis_file) if args.synthesis_file else None,
+            "path": synthesis_file.as_posix() if synthesis_file else None,
+            "sha256": synthesis_sha256,
             "reasons": synthesis_reasons,
         },
         "analysis": {
@@ -872,6 +897,15 @@ def assert_eligible(args: argparse.Namespace) -> int:
             raise SystemExit(
                 "Manifest blocks promotion: required synthesis is "
                 f"{synthesis.get('status')!r} (missing/empty/failed), not available."
+            )
+        synthesis_path = synthesis.get("path")
+        synthesis_sha256 = synthesis.get("sha256")
+        if not (isinstance(synthesis_path, str) and synthesis_path.strip()) or not (
+            isinstance(synthesis_sha256, str) and synthesis_sha256.strip()
+        ):
+            raise SystemExit(
+                "Manifest claims synthesis is available but lacks authoritative "
+                "provenance (path and sha256)."
             )
     validation = payload.get("validation")
     gate_report = validation.get("gate_report") if isinstance(validation, dict) else None

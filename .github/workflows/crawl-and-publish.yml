@@ -470,6 +470,7 @@ jobs:
           IN_OUTPUT_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
           IN_CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
           IN_PRESS_FILE: ${{ steps.press-context.outputs.press_file }}
+          IN_ANALYSIS_PATH: ${{ inputs.analysis_path }}
         run: |
           set -euo pipefail
           WEEK_FILE="$IN_WEEK_FILE"
@@ -497,7 +498,11 @@ jobs:
           if [ ! -f "$SYNTHESIS_PROMPT" ]; then
             echo "::warning::Synthesis prompt was not generated; required synthesis is missing."
           elif ! command -v copilot >/dev/null 2>&1; then
-            echo "::error::Copilot CLI is unavailable after installation step; required synthesis is missing."
+            if [ "$IN_ANALYSIS_PATH" = "map-reduce-dry-run" ]; then
+              echo "::notice::Copilot CLI intentionally not installed for map-reduce dry run; synthesis skipped (required synthesis is missing)."
+            else
+              echo "::error::Copilot CLI is unavailable after installation step; required synthesis is missing."
+            fi
           else
             set +e
             copilot \

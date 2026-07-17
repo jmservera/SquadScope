@@ -141,6 +141,7 @@ def create_args(
     validation_status: str = "passed",
     preflight: Path | None | bool = True,
     synthesis_status: str | None = "available",
+    synthesis_file: Path | None = None,
     run_mode: str | None = None,
 ) -> list[str]:
     args = [
@@ -176,6 +177,14 @@ def create_args(
         args.extend(["--preflight-report", str(preflight)])
     if synthesis_status is not None:
         args.extend(["--synthesis-status", synthesis_status])
+        # When we claim synthesis is available we must back it with real provenance
+        # (a readable, non-empty file), matching how the workflow signals "available".
+        if synthesis_status == "available" and synthesis_file is None:
+            synthesis_file = manifest.parent / "diagnostics" / "synthesis-narrative.md"
+            synthesis_file.parent.mkdir(parents=True, exist_ok=True)
+            synthesis_file.write_text("Weekly synthesis narrative.\n", encoding="utf-8")
+    if synthesis_file is not None:
+        args.extend(["--synthesis-file", str(synthesis_file)])
     if run_mode is not None:
         args.extend(["--run-mode", run_mode])
     return args
@@ -1217,8 +1226,8 @@ class FailClosedSynthesisTests(unittest.TestCase):
                 manifest,
                 gate_report=gate_report,
                 synthesis_status="available",
+                synthesis_file=synthesis_file,
             )
-            args.extend(["--synthesis-file", str(synthesis_file)])
             self.assertEqual(publish_manifest.main(args), 0)
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
@@ -1228,7 +1237,7 @@ class FailClosedSynthesisTests(unittest.TestCase):
             self.assertTrue(payload["synthesis"]["available"])
             self.assertEqual(
                 payload["synthesis"]["path"],
-                synthesis_file.relative_to(base).as_posix() if False else synthesis_file.as_posix(),
+                synthesis_file.as_posix(),
             )
             self.assertRegex(payload["synthesis"]["sha256"], r"^[0-9a-f]{64}$")
             self.assertEqual(assert_eligible_from_root(base, manifest), 0)
@@ -1285,6 +1294,88 @@ class FailClosedSynthesisTests(unittest.TestCase):
                 any("required synthesis" in reason for reason in payload["promotion"]["reasons"]),
                 f"no-ai mode must not emit synthesis reasons: {payload['promotion']['reasons']}",
             )
+
+    def test_available_without_file_is_downgraded_and_fails_closed(self) -> None:
+        """Claiming 'available' without provenance downgrades to missing and blocks promotion."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw, summary, manifest, gate_report = self._prepare(base)
+
+            # Pass status "available" but no synthesis file / provenance.
+            args = create_args(
+                base,
+                raw,
+                summary,
+                manifest,
+                gate_report=gate_report,
+                synthesis_status=None,
+            )
+            args.extend(["--synthesis-status", "available"])
+            self.assertEqual(publish_manifest.main(args), 0)
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertTrue(payload["synthesis"]["required"])
+            self.assertEqual(payload["synthesis"]["status"], "missing")
+            self.assertFalse(payload["synthesis"]["available"])
+            self.assertIsNone(payload["synthesis"]["path"])
+            self.assertIsNone(payload["synthesis"]["sha256"])
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertTrue(
+                any(
+                    "no readable, non-empty" in reason for reason in payload["synthesis"]["reasons"]
+                ),
+                payload["synthesis"]["reasons"],
+            )
+
+    def test_available_with_empty_file_is_downgraded(self) -> None:
+        """An empty synthesis file cannot back an 'available' claim."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw, summary, manifest, gate_report = self._prepare(base)
+            empty = base / "diagnostics" / "synthesis-narrative.md"
+            empty.parent.mkdir(parents=True, exist_ok=True)
+            empty.write_text("", encoding="utf-8")
+
+            args = create_args(
+                base,
+                raw,
+                summary,
+                manifest,
+                gate_report=gate_report,
+                synthesis_status="available",
+                synthesis_file=empty,
+            )
+            self.assertEqual(publish_manifest.main(args), 0)
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertEqual(payload["synthesis"]["status"], "missing")
+            self.assertIsNone(payload["synthesis"]["path"])
+            self.assertFalse(payload["promotion"]["eligible"])
+
+    def test_assert_eligible_requires_synthesis_provenance(self) -> None:
+        """assert-eligible rejects a manifest that claims available without path/sha256."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw, summary, manifest, gate_report = self._prepare(base)
+
+            self.assertEqual(
+                publish_manifest.main(
+                    create_args(base, raw, summary, manifest, gate_report=gate_report)
+                ),
+                0,
+            )
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            # Tamper: strip provenance while leaving status "available".
+            payload["synthesis"]["path"] = None
+            payload["synthesis"]["sha256"] = None
+            manifest.write_text(json.dumps(payload), encoding="utf-8")
+
+            with self.assertRaises(SystemExit) as ctx:
+                assert_eligible_from_root(base, manifest)
+            self.assertIn("provenance", str(ctx.exception))
 
 
 if __name__ == "__main__":
