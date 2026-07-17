@@ -595,9 +595,7 @@ def create_manifest(args: argparse.Namespace) -> int:
     synthesis_required = args.run_mode == "normal" and ai_status == "ai"
     synthesis_reasons: list[str] = []
     if synthesis_required and synthesis_status != "available":
-        synthesis_reasons.append(
-            f"required synthesis is {synthesis_status} for normal publication"
-        )
+        synthesis_reasons.append(f"required synthesis is {synthesis_status} for normal publication")
     gates_passed = gate_report.get("present") is True and gate_report.get("passed") is True
     candidate_quality = candidate_metadata.get("quality_score")
     attempted_ai_paths = [path for path in args.attempted_ai_path if path.strip()]

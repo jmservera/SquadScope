@@ -1228,9 +1228,7 @@ class FailClosedSynthesisTests(unittest.TestCase):
             self.assertTrue(payload["synthesis"]["available"])
             self.assertEqual(
                 payload["synthesis"]["path"],
-                synthesis_file.relative_to(base).as_posix()
-                if False
-                else synthesis_file.as_posix(),
+                synthesis_file.relative_to(base).as_posix() if False else synthesis_file.as_posix(),
             )
             self.assertRegex(payload["synthesis"]["sha256"], r"^[0-9a-f]{64}$")
             self.assertEqual(assert_eligible_from_root(base, manifest), 0)
@@ -1257,10 +1255,7 @@ class FailClosedSynthesisTests(unittest.TestCase):
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertFalse(payload["synthesis"]["required"])
             self.assertFalse(
-                any(
-                    "required synthesis" in reason
-                    for reason in payload["promotion"]["reasons"]
-                ),
+                any("required synthesis" in reason for reason in payload["promotion"]["reasons"]),
                 f"dry-run must not emit synthesis reasons: {payload['promotion']['reasons']}",
             )
 
@@ -1287,10 +1282,7 @@ class FailClosedSynthesisTests(unittest.TestCase):
             payload = json.loads(manifest.read_text(encoding="utf-8"))
             self.assertFalse(payload["synthesis"]["required"])
             self.assertFalse(
-                any(
-                    "required synthesis" in reason
-                    for reason in payload["promotion"]["reasons"]
-                ),
+                any("required synthesis" in reason for reason in payload["promotion"]["reasons"]),
                 f"no-ai mode must not emit synthesis reasons: {payload['promotion']['reasons']}",
             )
 
