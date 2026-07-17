@@ -42,7 +42,8 @@ gh workflow run crawl-and-publish.yml \
 # Restore a specific past week
 gh workflow run crawl-and-publish.yml \
   -f run_mode=restore \
-  -f rebuild_week=2026-W23
+  -f rebuild_week=2026-W23 \
+  -f source_run_id=26753498571
 ```
 
 ### Run modes
@@ -71,7 +72,8 @@ gh workflow run crawl-and-publish.yml \
 | Artifact | Location | Purpose |
 |----------|----------|---------|
 | `crawl-cache` | Actions artifact | GitHub API response cache |
-| `raw-data` | Actions artifact | Canonical crawl payloads |
+| `raw-data` | Actions artifact (90 days) | Job transport, same-day reuse, and emergency recovery; not durable storage |
+| Immutable raw store | `publish:data/raw-store/<week>/<source_run_id>/` | Durable source-bound payloads, hashes, and artifact provenance |
 | `crawl-snapshots` | Actions artifact | Star/trending snapshots |
 | Rerun mode summary | `data/diagnostics/rerun-mode.json` | Mode validation output |
 | External news | `data/raw/{week}-external-news.json` | RSS crawl result |

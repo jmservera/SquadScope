@@ -2,6 +2,7 @@ from pathlib import Path
 
 WORKFLOW = Path(".github/workflows/sync-publish-to-main.yml")
 RESTORE_WORKFLOW = Path(".github/workflows/restore-publish-backup.yml")
+CRAWL_WORKFLOW = Path(".github/workflows/crawl-and-publish.yml")
 
 
 def test_publish_sync_only_checks_out_generated_content_paths() -> None:
@@ -21,6 +22,7 @@ def test_publish_sync_only_checks_out_generated_content_paths() -> None:
     assert "git ls-tree -r --name-only origin/publish -- .squad" not in workflow
     assert "squad learnings" not in workflow.lower()
     assert "python3 scripts/generate_rollups.py" in workflow
+    assert "data/raw-store/" not in workflow
 
 
 def test_publish_sync_refuses_staged_squad_changes() -> None:
@@ -50,3 +52,32 @@ def test_restore_publish_backup_workflow_keeps_helper_available_after_publish_ch
     assert "cd publish" in workflow
     assert "python3 scripts/publish_safety.py restore-backup" not in workflow
     assert "python3 ../workflow-source/scripts/publish_safety.py restore-backup" in workflow
+
+
+def test_publish_sync_stages_before_cached_diff_evaluation() -> None:
+    workflow = WORKFLOW.read_text(encoding="utf-8")
+
+    assert workflow.index("git add -A") < workflow.index("if git diff --cached --quiet; then")
+
+
+def test_crawl_workflow_stores_and_restores_source_bound_raw_evidence() -> None:
+    workflow = CRAWL_WORKFLOW.read_text(encoding="utf-8")
+
+    assert "source_run_id:" in workflow
+    assert "run_mode=restore and source_run_id" in workflow
+    assert "python3 scripts/publish_safety.py restore-raw" in workflow
+    assert "python3 publish-safety-tool.py store-raw" in workflow
+    assert 'RAW_STORE_DIR="data/raw-store/${REBUILD_WEEK}/${SOURCE_RUN_ID}"' in workflow
+    assert (
+        '--raw-store-manifest "data/raw-store/${WEEK}/${SOURCE_RUN_ID}/manifest.json"' in workflow
+    )
+    assert 'source-artifact-id "$RAW_ARTIFACT_ID"' in workflow
+    assert "retention-days: 90" in workflow
+
+
+def test_crawl_workflow_stages_raw_store_before_cached_diff_evaluation() -> None:
+    workflow = CRAWL_WORKFLOW.read_text(encoding="utf-8")
+
+    stage = workflow.index("git add data/raw/ data/snapshots/ data/raw-store/")
+    cached_diff = workflow.index("if git diff --cached --quiet; then", stage)
+    assert stage < cached_diff
