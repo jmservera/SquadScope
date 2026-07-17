@@ -1,0 +1,388 @@
+{
+  "week": "2026-W23",
+  "source": "techcrunch",
+  "crawled_at": "2026-06-01T12:05:06.218769Z",
+  "articles": [
+    {
+      "title": "Strava declares war on scrapers ahead of IPO",
+      "url": "https://techcrunch.com/2026/06/01/strava-declares-war-on-scrapers-ahead-of-ipo/",
+      "published_at": "2026-06-01T12:00:00Z",
+      "categories": [
+        "Apps",
+        "IPO",
+        "Strava",
+        "data scraping"
+      ],
+      "summary": "Strava will charge a flat monthly fee from developers to access its API",
+      "github_links": [],
+      "entities": [
+        "Strava",
+        "IPO"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Unastella, a South Korean rocket startup that launched from home, raises $24M",
+      "url": "https://techcrunch.com/2026/06/01/unastella-a-south-korean-rocket-startup-that-launched-from-home-raises-24m/",
+      "published_at": "2026-06-01T10:00:00Z",
+      "categories": [
+        "Space",
+        "Hanwha aerospace",
+        "launch vehicle",
+        "south korea",
+        "Unastella"
+      ],
+      "summary": "The Seoul-based rocket startup is developing its own launch vehicles and engines.",
+      "github_links": [],
+      "entities": [
+        "Unastella",
+        "South",
+        "Korean"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Erin Brockovich takes aim at data center secrecy",
+      "url": "https://techcrunch.com/2026/05/31/erin-brockovich-takes-aim-at-data-center-secrecy/",
+      "published_at": "2026-05-31T21:05:14Z",
+      "categories": [
+        "AI",
+        "Government & Policy",
+        "data centers",
+        "erin brockovich"
+      ],
+      "summary": "Environmental activist Erin Brockovich has a new mission.",
+      "github_links": [],
+      "entities": [
+        "Erin",
+        "Brockovich"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "This weekend’s two biggest movies were both directed by YouTubers",
+      "url": "https://techcrunch.com/2026/05/31/this-weekends-two-biggest-movies-were-both-directed-by-youtubers/",
+      "published_at": "2026-05-31T18:34:58Z",
+      "categories": [
+        "Media & Entertainment",
+        "backrooms",
+        "Curry Barker",
+        "Kane parsons",
+        "obsession",
+        "YouTube"
+      ],
+      "summary": "The YouTube-to-prestige-horror pipeline is looking very strong.",
+      "github_links": [],
+      "entities": [
+        "YouTubers"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "‘This is fine’ artist KC Green reaches agreement with AI startup Artisan",
+      "url": "https://techcrunch.com/2026/05/31/this-is-fine-artist-kc-green-reaches-agreement-with-ai-startup-artisan/",
+      "published_at": "2026-05-31T18:28:17Z",
+      "categories": [
+        "Media & Entertainment",
+        "Startups",
+        "artisan",
+        "kc green"
+      ],
+      "summary": "The startup has apparently taken down the ads using KC Green's \"This is fine\" meme.",
+      "github_links": [],
+      "entities": [
+        "KC",
+        "Green",
+        "AI",
+        "Artisan"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "TechCrunch Mobility: It doesn’t matter that people hate the Ferrari Luce",
+      "url": "https://techcrunch.com/2026/05/31/techcrunch-mobility-it-doesnt-matter-that-people-hate-the-ferrari-luce/",
+      "published_at": "2026-05-31T16:05:00Z",
+      "categories": [
+        "Transportation",
+        "Ferrari",
+        "jony ive",
+        "Waymo",
+        "Rivian",
+        "robotaxis",
+        "techcrunch mobility",
+        "slate auto"
+      ],
+      "summary": "Welcome back to TechCrunch Mobility, your hub for the future of transportation and now, more than ever, how AI is playing a part.",
+      "github_links": [],
+      "entities": [
+        "TechCrunch",
+        "Mobility",
+        "Ferrari",
+        "Luce"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "Making sense of the debate over AI psychosis",
+      "url": "https://techcrunch.com/2026/05/31/making-sense-of-the-debate-over-ai-psychosis/",
+      "published_at": "2026-05-31T15:30:00Z",
+      "categories": [
+        "Startups",
+        "AI",
+        "Google",
+        "Aaron Levie",
+        "DuckDuckGo",
+        "Equity podcast",
+        "ai psychosis"
+      ],
+      "summary": "On the latest episode of Equity, we debate whether tech CEOs are \"uniquely prone to AI psychosis.\"",
+      "github_links": [],
+      "entities": [
+        "Making",
+        "AI"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Black founders raise highest amount of quarterly funding since 2022, but there’s a catch",
+      "url": "https://techcrunch.com/2026/05/31/black-founders-raise-highest-amount-of-quarterly-funding-since-2022-but-theres-a-catch/",
+      "published_at": "2026-05-31T15:00:00Z",
+      "categories": [
+        "Startups",
+        "Venture",
+        "black founders",
+        "DEI"
+      ],
+      "summary": "Speaking to TechCrunch, Crunchbase’s head of research Gené Teare, said the factors holding back Black founders include “access to networks, relationships, and early introductions.\"",
+      "github_links": [],
+      "entities": [
+        "Black"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "What happens in Vega$: steroids, swimmers, and a billion-dollar hustle",
+      "url": "https://techcrunch.com/2026/05/31/i-went-to-the-so-called-steroid-olympics-to-understand-why-silicon-valley-is-obsessed-with-peptides/",
+      "published_at": "2026-05-31T13:00:00Z",
+      "categories": [
+        "Biotech & Health",
+        "biotech",
+        "Enhanced Games",
+        "peptides",
+        "health industry"
+      ],
+      "summary": "The Enhanced Games — a singular sporting competition where a majority of the athletes were on performance enhancing drugs — may herald a new business model that the tech industry is ready to embrace.",
+      "github_links": [],
+      "entities": [
+        "Vega"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "SoftBank says it will invest up to €75 billion to build French data centers",
+      "url": "https://techcrunch.com/2026/05/30/softbank-says-it-will-invest-up-to-e75-billion-to-build-french-data-centers/",
+      "published_at": "2026-05-30T21:45:00Z",
+      "categories": [
+        "Venture",
+        "AI",
+        "Government & Policy",
+        "Softbank"
+      ],
+      "summary": "The goal, the firm said, is to develop and operate up to 5 gigawatts of additional data center capacity.",
+      "github_links": [],
+      "entities": [
+        "SoftBank",
+        "French"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "Snap alums unveil Ghost Angels fund",
+      "url": "https://techcrunch.com/2026/05/30/snap-alums-unveil-ghost-angels-fund/",
+      "published_at": "2026-05-30T17:00:00Z",
+      "categories": [
+        "Startups",
+        "Venture",
+        "Ghost Angels",
+        "Max Rivera"
+      ],
+      "summary": "A group of 20 Snap alumni has come together to launch a fund called Ghost Angels to back the next generation of social media.",
+      "github_links": [],
+      "entities": [
+        "Snap",
+        "Ghost",
+        "Angels"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "‘What a joke’: Github Copilot’s new token-based billing spurs consternation among devs",
+      "url": "https://techcrunch.com/2026/05/30/what-a-joke-github-copilots-new-token-based-billing-spurs-consternation-among-devs/",
+      "published_at": "2026-05-30T16:30:00Z",
+      "categories": [
+        "AI",
+        "Microsoft"
+      ],
+      "summary": "The golden age of Microsoft's Github Copilot appears to be at an end.",
+      "github_links": [],
+      "entities": [
+        "Github",
+        "Copilot"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "Meta is reportedly developing an AI pendant",
+      "url": "https://techcrunch.com/2026/05/30/meta-is-reportedly-developing-an-ai-pendant/",
+      "published_at": "2026-05-30T15:59:58Z",
+      "categories": [
+        "AI",
+        "Gadgets",
+        "Hardware",
+        "Meta"
+      ],
+      "summary": "Meta seems to be making big bets on AI-powered hardware.",
+      "github_links": [],
+      "entities": [
+        "Meta",
+        "AI"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "I put Google’s 24/7 AI assistant Gemini Spark to work, and it’s actually pretty useful",
+      "url": "https://techcrunch.com/2026/05/30/i-put-googles-24-7-ai-assistant-gemini-spark-to-work-and-its-actually-pretty-useful/",
+      "published_at": "2026-05-30T15:30:00Z",
+      "categories": [
+        "TC",
+        "AI",
+        "Apps",
+        "Google",
+        "gemini",
+        "AI assistant",
+        "gemini ai",
+        "Gemini Spark"
+      ],
+      "summary": "Gemini Spark helps automate everyday tasks, from inbox summaries to local event planning, but it’s unclear why Google made it a separate product.",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "AI",
+        "Gemini",
+        "Spark"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "The groupthink boom: what three top VCs really think about the AI frenzy",
+      "url": "https://techcrunch.com/2026/05/30/the-groupthink-boom-what-three-top-vcs-really-think-about-the-ai-frenzy/",
+      "published_at": "2026-05-30T14:49:27Z",
+      "categories": [
+        "Venture"
+      ],
+      "summary": "\"If you're 22 years old in San Francisco and building something in AI, there may be a seed term sheet in your inbox — but if you're 19, oh my God, this means you're really good; you might already have a Series A [offer],\" said one, half-kiddingly.",
+      "github_links": [],
+      "entities": [
+        "VCs",
+        "AI"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "As the browser wars heat up, here are the hottest alternatives to Chrome and Safari in 2026",
+      "url": "https://techcrunch.com/2026/05/30/as-the-browser-wars-heat-up-here-are-the-hottest-alternatives-to-chrome-and-safari-in-2026/",
+      "published_at": "2026-05-30T13:00:00Z",
+      "categories": [
+        "Startups",
+        "AI",
+        "Apps",
+        "Browser",
+        "search engines",
+        "web browser",
+        "evergreens"
+      ],
+      "summary": "We’ve compiled an overview of some of the top alternative browsers available today aiming to challenge Chrome and Safari.",
+      "github_links": [],
+      "entities": [
+        "As",
+        "Chrome",
+        "Safari"
+      ],
+      "relevance_score": 0.4
+    },
+    {
+      "title": "This $300 pizza oven can easily help elevate your summer pizza nights",
+      "url": "https://techcrunch.com/2026/05/30/this-300-pizza-oven-can-easily-help-elevate-your-summer-pizza-nights/",
+      "published_at": "2026-05-30T13:00:00Z",
+      "categories": [
+        "Hardware",
+        "Gadgets",
+        "ninja artisan pizza oven"
+      ],
+      "summary": "The Ninja Artisan Outdoor Pizza Oven is aimed at people who want delicious pizza nights without having to deal with things like propane or wood pellets, unlike many other pizza ovens.",
+      "github_links": [],
+      "entities": [],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "TikTok’s road to becoming a super app",
+      "url": "https://techcrunch.com/2026/05/30/tiktoks-road-to-becoming-a-super-app/",
+      "published_at": "2026-05-30T13:00:00Z",
+      "categories": [
+        "Apps",
+        "Social",
+        "super app",
+        "TikTok"
+      ],
+      "summary": "TikTok may be working to become the app that people use for most of their digital activities.",
+      "github_links": [],
+      "entities": [
+        "TikTok"
+      ],
+      "relevance_score": 0.0
+    },
+    {
+      "title": "Founders seize on Indian court ruling to revive criticism of Google’s ad business",
+      "url": "https://techcrunch.com/2026/05/29/founders-seize-on-indian-court-ruling-to-revive-criticism-of-googles-ad-business/",
+      "published_at": "2026-05-30T02:00:00Z",
+      "categories": [
+        "Government & Policy",
+        "Google",
+        "google adwords"
+      ],
+      "summary": "The ruling drew support from founders, while lawyers said it could force platforms to revisit how they handle trademarked keywords.",
+      "github_links": [],
+      "entities": [
+        "Founders",
+        "Indian",
+        "Google"
+      ],
+      "relevance_score": 0.2
+    },
+    {
+      "title": "SpaceX awarded $6.45B in Space Force contracts ahead of IPO",
+      "url": "https://techcrunch.com/2026/05/29/spacex-awarded-6-45b-in-space-force-contracts-ahead-of-ipo/",
+      "published_at": "2026-05-29T22:21:38Z",
+      "categories": [
+        "Space",
+        "Elon Musk",
+        "In Brief",
+        "SpaceX"
+      ],
+      "summary": "SpaceX already generated one-fifth of its 2025 revenue from government contracts, the company revealed in its IPO filing.",
+      "github_links": [],
+      "entities": [
+        "SpaceX",
+        "Space",
+        "Force",
+        "IPO"
+      ],
+      "relevance_score": 0.0
+    }
+  ],
+  "metadata": {
+    "total_articles": 20,
+    "relevant_articles": 7,
+    "github_links_found": 0
+  }
+}

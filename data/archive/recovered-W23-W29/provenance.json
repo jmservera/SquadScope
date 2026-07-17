@@ -1,0 +1,198 @@
+{
+  "description": "Provenance inventory for recovered raw weekly evidence W23-W29 (issue #569). Each file was extracted unchanged from an unexpired GitHub Actions 'raw-data' artifact; sha256 values were verified against a fresh download of the source artifact.",
+  "repository": "jmservera/SquadScope",
+  "artifact_source": "actions/upload-artifact 'raw-data' from data/raw/ in crawl-and-publish.yml",
+  "generated_at": "2026-07-17T13:34:11+02:00",
+  "verification": "sha256sum -c recovered-raw.sha256 (all entries OK); source-bound re-download verified.",
+  "weeks": [
+    {
+      "week": "2026-W23",
+      "artifact_id": 7330965888,
+      "artifact_name": "raw-data",
+      "source_run_id": 26753498571,
+      "head_sha": "59b45137fc3ad674276b1ff8c0aa743d8e43d1bb",
+      "artifact_created_at": "2026-06-01T12:05:07Z",
+      "artifact_expires_at": "2026-08-30T11:58:49Z",
+      "artifact_expired": false,
+      "artifact_size_bytes": 199434,
+      "files": [
+        {
+          "recovered_path": "data/archive/recovered-W23-W29/2026-W23/2026-W23-techcrunch.json",
+          "original_path": "data/raw/2026-W23-techcrunch.json",
+          "path_in_artifact": "2026-W23-techcrunch.json",
+          "size_bytes": 13249,
+          "sha256": "8f7402d235962ab275fa05889ab6dbb8ad2c3bb0fe75e89eeaf784135edde114"
+        },
+        {
+          "recovered_path": "data/archive/recovered-W23-W29/2026-W23/2026-W23.json",
+          "original_path": "data/raw/2026-W23.json",
+          "path_in_artifact": "2026-W23.json",
+          "size_bytes": 283617,
+          "sha256": "72a8ac9782f7ec91ede88454396cc5944ca378929640f9ce96e5b4fb3d3e3bb5"
+        }
+      ]
+    },
+    {
+      "week": "2026-W24",
+      "artifact_id": 7480423082,
+      "artifact_name": "raw-data",
+      "source_run_id": 27137991437,
+      "head_sha": "80be6b4ac96f2fbb1ed5035e8a92ea42803872b3",
+      "artifact_created_at": "2026-06-08T12:40:30Z",
+      "artifact_expires_at": "2026-09-06T12:35:12Z",
+      "artifact_expired": false,
+      "artifact_size_bytes": 203315,
+      "files": [
+        {
+          "recovered_path": "data/archive/recovered-W23-W29/2026-W24/2026-W24-external-news.json",
+          "original_path": "data/raw/2026-W24-external-news.json",
+          "path_in_artifact": "2026-W24-external-news.json",
+          "size_bytes": 56188,
+          "sha256": "466caf4d326c23e2d414bcb6e9739311511fefb8b16577b02d7282779cb7bfee"
+        },
+        {
+          "recovered_path": "data/archive/recovered-W23-W29/2026-W24/2026-W24.json",
+          "original_path": "data/raw/2026-W24.json",
+          "path_in_artifact": "2026-W24.json",
+          "size_bytes": 248375,
+          "sha256": "f506c3382163a28c0504bb7cf098648c5d36830952a770a0c50c94a81e40d448"
+        }
+      ]
+    },
+    {
+      "week": "2026-W25",
+      "artifact_id": 7680608990,
+      "artifact_name": "raw-data",
+      "source_run_id": 27650616699,
+      "head_sha": "56e23eda083bd951b7a94d9c83b4976a58010f4c",
+      "artifact_created_at": "2026-06-16T21:53:52Z",
+      "artifact_expires_at": "2026-09-14T21:53:24Z",
+      "artifact_expired": false,
+      "artifact_size_bytes": 204803,
+      "files": [
+        {
+          "recovered_path": "data/archive/recovered-W23-W29/2026-W25/2026-W25-external-news.json",
+          "original_path": "data/raw/2026-W25-external-news.json",
+          "path_in_artifact": "2026-W25-external-news.json",
+          "size_bytes": 48500,
+          "sha256": "638cbc5fdc13cc4549f1c4c48a450360b426f644f4cb6dadb86d906cc731c1eb"
+        },
+        {
+          "recovered_path": "data/archive/recovered-W23-W29/2026-W25/2026-W25.json",
+          "original_path": "data/raw/2026-W25.json",
+          "path_in_artifact": "2026-W25.json",
+          "size_bytes": 262150,
+          "sha256": "6a3f6dcd05d847c8ce4f11df786477620c6cdc7385a6b63bbdc0c298cac09fb6"
+        }
+      ]
+    },
+    {
+      "week": "2026-W26",
+      "artifact_id": 7786268089,
+      "artifact_name": "raw-data",
+      "source_run_id": 27937940184,
+      "head_sha": "efb90d2700080c34f23b6a3515376c97cd45093c",
+      "artifact_created_at": "2026-06-22T07:55:49Z",
+      "artifact_expires_at": "2026-09-20T07:55:28Z",
+      "artifact_expired": false,
+      "artifact_size_bytes": 210371,
+      "files": [
+        {
+          "recovered_path": "data/archive/recovered-W23-W29/2026-W26/2026-W26-external-news.json",
+          "original_path": "data/raw/2026-W26-external-news.json",
+          "path_in_artifact": "2026-W26-external-news.json",
+          "size_bytes": 51542,
+          "sha256": "58dbea9b83e9edaf790799e273ca45111eee08b23c5c9ec55f06395af78474b3"
+        },
+        {
+          "recovered_path": "data/archive/recovered-W23-W29/2026-W26/2026-W26.json",
+          "original_path": "data/raw/2026-W26.json",
+          "path_in_artifact": "2026-W26.json",
+          "size_bytes": 311141,
+          "sha256": "7a6d3b2f6aeac419c7f92ae7a8efa70751265d517b442a8d1bf1709ae2dd5528"
+        }
+      ]
+    },
+    {
+      "week": "2026-W27",
+      "artifact_id": 7942942491,
+      "artifact_name": "raw-data",
+      "source_run_id": 28349393843,
+      "head_sha": "9210e191038076662a536a1690eebc846c5dc5e3",
+      "artifact_created_at": "2026-06-29T04:56:46Z",
+      "artifact_expires_at": "2026-09-27T04:50:56Z",
+      "artifact_expired": false,
+      "artifact_size_bytes": 192212,
+      "files": [
+        {
+          "recovered_path": "data/archive/recovered-W23-W29/2026-W27/2026-W27-external-news.json",
+          "original_path": "data/raw/2026-W27-external-news.json",
+          "path_in_artifact": "2026-W27-external-news.json",
+          "size_bytes": 58477,
+          "sha256": "5729b78d79ce25a9df8f71e7602c19e33eba4b1aac57666091c841ae147bf359"
+        },
+        {
+          "recovered_path": "data/archive/recovered-W23-W29/2026-W27/2026-W27.json",
+          "original_path": "data/raw/2026-W27.json",
+          "path_in_artifact": "2026-W27.json",
+          "size_bytes": 296902,
+          "sha256": "a1694754079801ee8b67630cf3f5128729c6003f25f2b7ce640e66806293d02f"
+        }
+      ]
+    },
+    {
+      "week": "2026-W28",
+      "artifact_id": 8099693880,
+      "artifact_name": "raw-data",
+      "source_run_id": 28767491281,
+      "head_sha": "6ac0b4aa487b3643961efc6e69be62bb6b8e9451",
+      "artifact_created_at": "2026-07-06T04:23:45Z",
+      "artifact_expires_at": "2026-10-04T04:19:13Z",
+      "artifact_expired": false,
+      "artifact_size_bytes": 200761,
+      "files": [
+        {
+          "recovered_path": "data/archive/recovered-W23-W29/2026-W28/2026-W28-external-news.json",
+          "original_path": "data/raw/2026-W28-external-news.json",
+          "path_in_artifact": "2026-W28-external-news.json",
+          "size_bytes": 53710,
+          "sha256": "31827facfd74e451b87dff7b76c83b6d1c71725147c57a4d53f55c0e913a8680"
+        },
+        {
+          "recovered_path": "data/archive/recovered-W23-W29/2026-W28/2026-W28.json",
+          "original_path": "data/raw/2026-W28.json",
+          "path_in_artifact": "2026-W28.json",
+          "size_bytes": 235576,
+          "sha256": "adf3624eaee5262e9601212685857db12e984c1d4fc84d35f93f2a30e4f82594"
+        }
+      ]
+    },
+    {
+      "week": "2026-W29",
+      "artifact_id": 8268630097,
+      "artifact_name": "raw-data",
+      "source_run_id": 29222289174,
+      "head_sha": "f5f52d36ee1b1aab4798148586ceb8d544f57b48",
+      "artifact_created_at": "2026-07-13T03:47:58Z",
+      "artifact_expires_at": "2026-10-11T03:43:12Z",
+      "artifact_expired": false,
+      "artifact_size_bytes": 200960,
+      "files": [
+        {
+          "recovered_path": "data/archive/recovered-W23-W29/2026-W29/2026-W29-external-news.json",
+          "original_path": "data/raw/2026-W29-external-news.json",
+          "path_in_artifact": "2026-W29-external-news.json",
+          "size_bytes": 52121,
+          "sha256": "ea7b3de7d44d90e8c4f2219985aa5b90c9f2eb06b2f28eab49e2dfcf7a967921"
+        },
+        {
+          "recovered_path": "data/archive/recovered-W23-W29/2026-W29/2026-W29.json",
+          "original_path": "data/raw/2026-W29.json",
+          "path_in_artifact": "2026-W29.json",
+          "size_bytes": 242782,
+          "sha256": "afd8180690e932492c09c57cd68989fa310af62674a50cc2c26e296e9f8597a2"
+        }
+      ]
+    }
+  ]
+}
