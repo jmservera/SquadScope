@@ -140,6 +140,8 @@ def create_args(
     gate_report: Path | None = None,
     validation_status: str = "passed",
     preflight: Path | None | bool = True,
+    synthesis_status: str | None = "available",
+    run_mode: str | None = None,
 ) -> list[str]:
     args = [
         "create",
@@ -172,6 +174,10 @@ def create_args(
         args.extend(["--preflight-report", str(preflight_path)])
     elif isinstance(preflight, Path):
         args.extend(["--preflight-report", str(preflight)])
+    if synthesis_status is not None:
+        args.extend(["--synthesis-status", synthesis_status])
+    if run_mode is not None:
+        args.extend(["--run-mode", run_mode])
     return args
 
 
@@ -1136,6 +1142,156 @@ class PublishManifestTests(unittest.TestCase):
                     "evidence_citation gate missing" in reason
                     for reason in payload["promotion"]["reasons"]
                 )
+            )
+
+
+class FailClosedSynthesisTests(unittest.TestCase):
+    """Cover issue #571: required synthesis must fail closed for normal AI publication."""
+
+    def _prepare(self, base: Path) -> tuple[Path, Path, Path, Path]:
+        raw = base / "data/raw/2026-W21.json"
+        summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+        manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+        gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+        write_raw(raw)
+        write_summary(summary)
+        write_gate_report(gate_report)
+        return raw, summary, manifest, gate_report
+
+    def _assert_synthesis_blocks(self, status: str) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw, summary, manifest, gate_report = self._prepare(base)
+
+            publish_manifest.main(
+                create_args(
+                    base,
+                    raw,
+                    summary,
+                    manifest,
+                    gate_report=gate_report,
+                    synthesis_status=status,
+                )
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertTrue(payload["synthesis"]["required"])
+            self.assertEqual(payload["synthesis"]["status"], status)
+            self.assertFalse(payload["synthesis"]["available"])
+            self.assertTrue(
+                any(
+                    f"required synthesis is {status}" in reason
+                    for reason in payload["promotion"]["reasons"]
+                ),
+                f"expected synthesis reason for status={status!r} in {payload['promotion']['reasons']}",
+            )
+            with self.assertRaises(SystemExit) as ctx:
+                assert_eligible_from_root(base, manifest)
+            self.assertIn("synthesis", str(ctx.exception).lower())
+            self.assertIn(status, str(ctx.exception))
+
+    def test_missing_synthesis_blocks_normal_ai_publication(self) -> None:
+        self._assert_synthesis_blocks("missing")
+
+    def test_empty_synthesis_blocks_normal_ai_publication(self) -> None:
+        self._assert_synthesis_blocks("empty")
+
+    def test_failed_synthesis_blocks_normal_ai_publication(self) -> None:
+        self._assert_synthesis_blocks("failed")
+
+    def test_available_synthesis_records_provenance_on_manifest(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw, summary, manifest, gate_report = self._prepare(base)
+            synthesis_file = base / "data/diagnostics/2026-W21/synthesis.md"
+            synthesis_file.parent.mkdir(parents=True, exist_ok=True)
+            synthesis_file.write_text("# Weekly synthesis narrative\n", encoding="utf-8")
+
+            args = create_args(
+                base,
+                raw,
+                summary,
+                manifest,
+                gate_report=gate_report,
+                synthesis_status="available",
+            )
+            args.extend(["--synthesis-file", str(synthesis_file)])
+            self.assertEqual(publish_manifest.main(args), 0)
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertTrue(payload["promotion"]["eligible"])
+            self.assertTrue(payload["synthesis"]["required"])
+            self.assertEqual(payload["synthesis"]["status"], "available")
+            self.assertTrue(payload["synthesis"]["available"])
+            self.assertEqual(
+                payload["synthesis"]["path"],
+                synthesis_file.relative_to(base).as_posix()
+                if False
+                else synthesis_file.as_posix(),
+            )
+            self.assertRegex(payload["synthesis"]["sha256"], r"^[0-9a-f]{64}$")
+            self.assertEqual(assert_eligible_from_root(base, manifest), 0)
+
+    def test_dry_run_mode_is_not_gated_by_synthesis(self) -> None:
+        """Non-normal/debug modes remain isolated from the fail-closed gate."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw, summary, manifest, gate_report = self._prepare(base)
+
+            publish_manifest.main(
+                create_args(
+                    base,
+                    raw,
+                    summary,
+                    manifest,
+                    gate_report=gate_report,
+                    synthesis_status="missing",
+                    run_mode="dry-run",
+                )
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["synthesis"]["required"])
+            self.assertFalse(
+                any(
+                    "required synthesis" in reason
+                    for reason in payload["promotion"]["reasons"]
+                ),
+                f"dry-run must not emit synthesis reasons: {payload['promotion']['reasons']}",
+            )
+
+    def test_no_ai_normal_mode_is_not_gated_by_synthesis(self) -> None:
+        """no-ai fallback publication is governed by its own force-replace path, not synthesis."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw, summary, manifest, gate_report = self._prepare(base)
+
+            publish_manifest.main(
+                create_args(
+                    base,
+                    raw,
+                    summary,
+                    manifest,
+                    source="no-ai",
+                    model="none",
+                    gate_report=gate_report,
+                    synthesis_status="missing",
+                )
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["synthesis"]["required"])
+            self.assertFalse(
+                any(
+                    "required synthesis" in reason
+                    for reason in payload["promotion"]["reasons"]
+                ),
+                f"no-ai mode must not emit synthesis reasons: {payload['promotion']['reasons']}",
             )
 
 

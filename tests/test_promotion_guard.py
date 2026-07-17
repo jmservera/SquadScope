@@ -189,6 +189,10 @@ def create_publish_manifest(
         ]
         if source == "copilot-cli":
             args.extend(["--preflight-report", preflight_report.as_posix()])
+            # Simulate a successful upstream synthesis step; fail-closed
+            # behavior for missing/empty/failed synthesis is covered by
+            # dedicated tests in tests/test_publish_manifest.py.
+            args.extend(["--synthesis-status", "available"])
         publish_manifest.main(args)
     finally:
         os.chdir(previous_cwd)
