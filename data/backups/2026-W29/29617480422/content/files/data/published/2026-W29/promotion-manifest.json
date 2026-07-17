@@ -1,9 +1,9 @@
 {
   "candidate": {
-    "content_path": "data/candidates/2026-W29/29617480422/2026-W29-content.md",
-    "content_sha256": "321881999b8cc17176b871992f7911dd1a24673290623917c9b979db2d40d4f7",
-    "summary_path": "data/candidates/2026-W29/29617480422/2026-W29-summary.md",
-    "summary_sha256": "dcac7a09d4a96a32ca7cd63f1fa60f66f7db26496dc2b427ac75bf8d29232025"
+    "content_path": "data/candidates/2026-W29/29222289174/2026-W29-content.md",
+    "content_sha256": "8cc03e77298c000b3bdae8806685781dd68d87715655a7f62bc5110be57b827c",
+    "summary_path": "data/candidates/2026-W29/29222289174/2026-W29-summary.md",
+    "summary_sha256": "b926e8c11c1b53838da7da2726707ba13e6df4f081189abab15cac981254c176"
   },
   "provenance": {
     "analysis": {
@@ -13,22 +13,22 @@
       "preflight": {
         "degradation_reason": null,
         "degraded": false,
-        "path": "data/candidates/2026-W29/29617480422/diagnostics/analysis-input-manifest.json",
+        "path": "data/candidates/2026-W29/29222289174/diagnostics/analysis-input-manifest.json",
         "promotion_policy": "normal-promotion",
-        "prompt_checksum_sha256": "bdd5e871ad6fd9846fa95e5b98e68c93d75d9a69b63602cac5a6dee38f6a94e9",
+        "prompt_checksum_sha256": "0b44f66f5c6ca212638bfc32a53ba64221d9a05fa4238ad498f948f17f9e46ce",
         "prompt_token_budget": 90000,
-        "prompt_tokens": 81548,
+        "prompt_tokens": 79528,
         "publish_eligible": true
       },
       "provenance": {
         "attempted_ai_paths": [],
         "authorship": "ai-authored",
-        "current_datetime": "2026-07-17T22:23:39Z",
+        "current_datetime": "2026-07-13T03:48:18Z",
         "degraded": false,
         "fallback_reason": null,
         "model": "copilot-default",
         "provider": "copilot-cli",
-        "run_id": "29617480422"
+        "run_id": "29222289174"
       },
       "provider": "copilot-cli",
       "source": "copilot-cli"
@@ -43,25 +43,25 @@
     },
     "source_artifacts": [
       {
-        "artifact_checksum": "1feeddc2f7e84d961d5cb31a1af4101aea43e1c095e2ae22c9b723ed7c3b63b3",
-        "crawled_at": "2026-07-17T22:18:42Z",
+        "artifact_checksum": "1a6a4c39aa1d65538aba1b55aefcc7beddb39ea6849e8dc9c30cf499baf4f0f5",
+        "crawled_at": "2026-07-13T03:43:30Z",
         "exists": true,
         "freshness": {
           "reasons": [],
           "status": "fresh"
         },
-        "generated_at": "2026-07-17T22:18:42Z",
+        "generated_at": "2026-07-13T03:43:30Z",
         "path": "data/raw/2026-W29.json",
         "provenance": {
-          "artifact_checksum": "1feeddc2f7e84d961d5cb31a1af4101aea43e1c095e2ae22c9b723ed7c3b63b3",
-          "generated_at": "2026-07-17T22:18:42Z",
+          "artifact_checksum": "1a6a4c39aa1d65538aba1b55aefcc7beddb39ea6849e8dc9c30cf499baf4f0f5",
+          "generated_at": "2026-07-13T03:43:30Z",
           "path": "data/raw/2026-W29.json",
           "same_day_reuse": {
             "source": "github",
             "source_id": "github-search",
             "status": "not_reused"
           },
-          "sha256": "02cc029136e100563250ce3fa3b2d3bb1cb2242cd5fb77e7d77898a0e4402452"
+          "sha256": "afd8180690e932492c09c57cd68989fa310af62674a50cc2c26e296e9f8597a2"
         },
         "role": "raw_github",
         "same_day_reuse": {
@@ -70,29 +70,29 @@
           "status": "not_reused"
         },
         "schema_checksum": "9e9b20fa60d33c1b7d2eaf3e70a05961b95b297469e73613f6b448be7464028c",
-        "sha256": "02cc029136e100563250ce3fa3b2d3bb1cb2242cd5fb77e7d77898a0e4402452",
-        "size_bytes": 282849,
+        "sha256": "afd8180690e932492c09c57cd68989fa310af62674a50cc2c26e296e9f8597a2",
+        "size_bytes": 242782,
         "week": "2026-W29"
       },
       {
-        "artifact_checksum": "fd1c11b6194731e89ad331d9db3cf4fc07098a6f8b233831e0c255d3142146cf",
-        "crawled_at": "2026-07-17T22:23:17.393497Z",
+        "artifact_checksum": "bce5ff8db24e7d5d07f18684ea83457083dd367ceb512ad1154badb4df7e3a71",
+        "crawled_at": "2026-07-13T03:47:56.389929Z",
         "exists": true,
         "freshness": {
           "reasons": [],
           "status": "fresh"
         },
-        "generated_at": "2026-07-17T22:23:17.393497Z",
+        "generated_at": "2026-07-13T03:47:56.389929Z",
         "path": "data/raw/2026-W29-external-news.json",
         "provenance": {
-          "artifact_checksum": "fd1c11b6194731e89ad331d9db3cf4fc07098a6f8b233831e0c255d3142146cf",
-          "generated_at": "2026-07-17T22:23:17.393497Z",
+          "artifact_checksum": "bce5ff8db24e7d5d07f18684ea83457083dd367ceb512ad1154badb4df7e3a71",
+          "generated_at": "2026-07-13T03:47:56.389929Z",
           "path": "data/raw/2026-W29-external-news.json",
           "same_day_reuse": {
             "source": "artifact-metadata",
             "status": "not_reused"
           },
-          "sha256": "92e339a4a83e79d1cd14bc33d9c1edfe5d16308c5e3519cd0aa35df1a6dd2b56"
+          "sha256": "ea7b3de7d44d90e8c4f2219985aa5b90c9f2eb06b2f28eab49e2dfcf7a967921"
         },
         "role": "external_news",
         "same_day_reuse": {
@@ -100,22 +100,22 @@
           "status": "not_reused"
         },
         "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
-        "sha256": "92e339a4a83e79d1cd14bc33d9c1edfe5d16308c5e3519cd0aa35df1a6dd2b56",
-        "size_bytes": 30574,
+        "sha256": "ea7b3de7d44d90e8c4f2219985aa5b90c9f2eb06b2f28eab49e2dfcf7a967921",
+        "size_bytes": 52121,
         "source_artifact_provenance": [
           {
             "action": "refreshed",
-            "artifact_checksum": "afd5e05aea5cd75e27ed551410082ee1ce9a223f5d7e57c5bca83baf6470898d",
+            "artifact_checksum": "e810067042e7df3f87336e21fff137025bb7da8add67d78f118a5d28e9f6c14f",
             "artifact_path": "data/raw/2026-W29-external-news.json",
-            "content_checksum": "4035188c7ea4ae1b378aee09ec403429765264e2d611083d9508e1e6cbbc6b65",
+            "content_checksum": "519f7595ffa2e90debb8e6960eea7c75edecda97c7a35d61b7e6e88d94af8f1c",
             "crawl_window": {
-              "since": "2026-07-10T00:00:00Z",
-              "until": "2026-07-17T00:00:00Z"
+              "since": "2026-07-06T00:00:00Z",
+              "until": "2026-07-13T00:00:00Z"
             },
-            "date": "2026-07-17",
-            "evaluated_at": "2026-07-17T22:23:17.393497Z",
-            "original_crawled_at": "2026-07-17T22:23:17.393497Z",
-            "original_run_id": "29617480422",
+            "date": "2026-07-13",
+            "evaluated_at": "2026-07-13T03:47:56.389929Z",
+            "original_crawled_at": "2026-07-13T03:47:56.389929Z",
+            "original_run_id": "29222289174",
             "reasons": [],
             "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
             "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
@@ -124,17 +124,17 @@
           },
           {
             "action": "refreshed",
-            "artifact_checksum": "afd5e05aea5cd75e27ed551410082ee1ce9a223f5d7e57c5bca83baf6470898d",
+            "artifact_checksum": "e810067042e7df3f87336e21fff137025bb7da8add67d78f118a5d28e9f6c14f",
             "artifact_path": "data/raw/2026-W29-external-news.json",
-            "content_checksum": "6e0f4ae87c5d56946939e62302300d5ac3a029c01964bc364af34aaf0fa4a5d4",
+            "content_checksum": "cd64bdbd6013ea7d8b8f3a28e69e8059af56eecb294eda3b20290d87dd837cf7",
             "crawl_window": {
-              "since": "2026-07-10T00:00:00Z",
-              "until": "2026-07-17T00:00:00Z"
+              "since": "2026-07-06T00:00:00Z",
+              "until": "2026-07-13T00:00:00Z"
             },
-            "date": "2026-07-17",
-            "evaluated_at": "2026-07-17T22:23:17.393497Z",
-            "original_crawled_at": "2026-07-17T22:23:17.393497Z",
-            "original_run_id": "29617480422",
+            "date": "2026-07-13",
+            "evaluated_at": "2026-07-13T03:47:56.389929Z",
+            "original_crawled_at": "2026-07-13T03:47:56.389929Z",
+            "original_run_id": "29222289174",
             "reasons": [],
             "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
             "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
@@ -143,17 +143,17 @@
           },
           {
             "action": "refreshed",
-            "artifact_checksum": "afd5e05aea5cd75e27ed551410082ee1ce9a223f5d7e57c5bca83baf6470898d",
+            "artifact_checksum": "e810067042e7df3f87336e21fff137025bb7da8add67d78f118a5d28e9f6c14f",
             "artifact_path": "data/raw/2026-W29-external-news.json",
-            "content_checksum": "4306eac7d5363bd8a920b2bf115f6896df18e9fc9074e06212a8a709f27da0ac",
+            "content_checksum": "ed6b12320b1b8c83e332014355beb79b7d7a7b85729e598a04d9011b1b51e8a0",
             "crawl_window": {
-              "since": "2026-07-10T00:00:00Z",
-              "until": "2026-07-17T00:00:00Z"
+              "since": "2026-07-06T00:00:00Z",
+              "until": "2026-07-13T00:00:00Z"
             },
-            "date": "2026-07-17",
-            "evaluated_at": "2026-07-17T22:23:17.393497Z",
-            "original_crawled_at": "2026-07-17T22:23:17.393497Z",
-            "original_run_id": "29617480422",
+            "date": "2026-07-13",
+            "evaluated_at": "2026-07-13T03:47:56.389929Z",
+            "original_crawled_at": "2026-07-13T03:47:56.389929Z",
+            "original_run_id": "29222289174",
             "reasons": [],
             "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
             "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
@@ -162,17 +162,17 @@
           },
           {
             "action": "refreshed",
-            "artifact_checksum": "afd5e05aea5cd75e27ed551410082ee1ce9a223f5d7e57c5bca83baf6470898d",
+            "artifact_checksum": "e810067042e7df3f87336e21fff137025bb7da8add67d78f118a5d28e9f6c14f",
             "artifact_path": "data/raw/2026-W29-external-news.json",
-            "content_checksum": "ea1fe374b33ed87069d918f9b2cbb7eb78146953d9800e4173ed72f063671b6c",
+            "content_checksum": "5dcdf6cc02622619af6b60078d992fba43992e7fcd8a8a76d635a8a13def8b02",
             "crawl_window": {
-              "since": "2026-07-10T00:00:00Z",
-              "until": "2026-07-17T00:00:00Z"
+              "since": "2026-07-06T00:00:00Z",
+              "until": "2026-07-13T00:00:00Z"
             },
-            "date": "2026-07-17",
-            "evaluated_at": "2026-07-17T22:23:17.393497Z",
-            "original_crawled_at": "2026-07-17T22:23:17.393497Z",
-            "original_run_id": "29617480422",
+            "date": "2026-07-13",
+            "evaluated_at": "2026-07-13T03:47:56.389929Z",
+            "original_crawled_at": "2026-07-13T03:47:56.389929Z",
+            "original_run_id": "29222289174",
             "reasons": [],
             "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
             "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
@@ -181,17 +181,17 @@
           },
           {
             "action": "refreshed",
-            "artifact_checksum": "afd5e05aea5cd75e27ed551410082ee1ce9a223f5d7e57c5bca83baf6470898d",
+            "artifact_checksum": "e810067042e7df3f87336e21fff137025bb7da8add67d78f118a5d28e9f6c14f",
             "artifact_path": "data/raw/2026-W29-external-news.json",
-            "content_checksum": "00120f539cb6efacb99c5600f7149881d045a45b01af2a8d8b1476b6a445a0e8",
+            "content_checksum": "ac4d63fb51e684871559d278e5a3ce0283760ce6b63d20f0d5898cc627b77ca5",
             "crawl_window": {
-              "since": "2026-07-10T00:00:00Z",
-              "until": "2026-07-17T00:00:00Z"
+              "since": "2026-07-06T00:00:00Z",
+              "until": "2026-07-13T00:00:00Z"
             },
-            "date": "2026-07-17",
-            "evaluated_at": "2026-07-17T22:23:17.393497Z",
-            "original_crawled_at": "2026-07-17T22:23:17.393497Z",
-            "original_run_id": "29617480422",
+            "date": "2026-07-13",
+            "evaluated_at": "2026-07-13T03:47:56.389929Z",
+            "original_crawled_at": "2026-07-13T03:47:56.389929Z",
+            "original_run_id": "29222289174",
             "reasons": [],
             "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
             "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
@@ -240,78 +240,78 @@
         "source_status": [
           {
             "attempts": 1,
-            "duration_seconds": 0.202,
-            "ended_at": "2026-07-17T22:23:17.610761Z",
+            "duration_seconds": 0.35,
+            "ended_at": "2026-07-13T03:47:56.784928Z",
             "error_class": "",
             "error_message": "",
-            "github_links_found": 1,
+            "github_links_found": 6,
             "host": "github.blog",
-            "relevant_articles": 2,
+            "relevant_articles": 6,
             "source": "github_blog",
-            "started_at": "2026-07-17T22:23:17.408284Z",
+            "started_at": "2026-07-13T03:47:56.435100Z",
             "success": true,
             "timeout_seconds": 15,
-            "total_articles": 2
+            "total_articles": 6
           },
           {
             "attempts": 1,
-            "duration_seconds": 0.453,
-            "ended_at": "2026-07-17T22:23:17.857370Z",
+            "duration_seconds": 0.58,
+            "ended_at": "2026-07-13T03:47:57.011236Z",
             "error_class": "",
             "error_message": "",
             "github_links_found": 0,
             "host": "huggingface.co",
-            "relevant_articles": 0,
+            "relevant_articles": 2,
             "source": "hugging_face_blog",
-            "started_at": "2026-07-17T22:23:17.404132Z",
+            "started_at": "2026-07-13T03:47:56.431359Z",
             "success": true,
             "timeout_seconds": 15,
-            "total_articles": 7
+            "total_articles": 9
           },
           {
             "attempts": 1,
-            "duration_seconds": 0.272,
-            "ended_at": "2026-07-17T22:23:17.676928Z",
+            "duration_seconds": 0.308,
+            "ended_at": "2026-07-13T03:47:56.740466Z",
             "error_class": "",
             "error_message": "",
             "github_links_found": 0,
             "host": "www.technologyreview.com",
-            "relevant_articles": 5,
+            "relevant_articles": 3,
             "source": "mit_technology_review",
-            "started_at": "2026-07-17T22:23:17.405142Z",
+            "started_at": "2026-07-13T03:47:56.432014Z",
             "success": true,
             "timeout_seconds": 15,
-            "total_articles": 7
+            "total_articles": 10
           },
           {
             "attempts": 1,
-            "duration_seconds": 0.616,
-            "ended_at": "2026-07-17T22:23:18.019920Z",
+            "duration_seconds": 0.404,
+            "ended_at": "2026-07-13T03:47:56.834766Z",
             "error_class": "",
             "error_message": "",
-            "github_links_found": 4,
+            "github_links_found": 1,
             "host": "blogs.nvidia.com",
-            "relevant_articles": 5,
+            "relevant_articles": 6,
             "source": "nvidia_blog",
-            "started_at": "2026-07-17T22:23:17.403545Z",
+            "started_at": "2026-07-13T03:47:56.430706Z",
             "success": true,
             "timeout_seconds": 15,
-            "total_articles": 5
+            "total_articles": 6
           },
           {
             "attempts": 1,
-            "duration_seconds": 0.127,
-            "ended_at": "2026-07-17T22:23:17.530050Z",
+            "duration_seconds": 0.138,
+            "ended_at": "2026-07-13T03:47:56.567976Z",
             "error_class": "",
             "error_message": "",
             "github_links_found": 0,
             "host": "techcrunch.com",
-            "relevant_articles": 0,
+            "relevant_articles": 3,
             "source": "techcrunch",
-            "started_at": "2026-07-17T22:23:17.402554Z",
+            "started_at": "2026-07-13T03:47:56.429777Z",
             "success": true,
             "timeout_seconds": 15,
-            "total_articles": 4
+            "total_articles": 20
           }
         ],
         "sources_failed": [],
@@ -339,18 +339,18 @@
           "reasons": [],
           "status": "fresh"
         },
-        "generated_at": "2026-07-17T22:23:39Z",
+        "generated_at": "2026-07-13T03:48:18Z",
         "path": "data/analyzed/2026-W29-correlations.json",
         "provenance": {
           "artifact_checksum": null,
-          "generated_at": "2026-07-17T22:23:39Z",
+          "generated_at": "2026-07-13T03:48:18Z",
           "path": "data/analyzed/2026-W29-correlations.json",
           "same_day_reuse": {
             "details": "No same-day reuse marker was present on this artifact.",
             "source": "default",
             "status": "not_reused"
           },
-          "sha256": "719a629256cc66fdedc250331d7c11ec56a19902626ab4baa69e02276a62b0ba"
+          "sha256": "28ddd84269f613ceebc0ccec3e00804cee1824f6c722849cd02302f7d7dc12df"
         },
         "role": "correlations",
         "same_day_reuse": {
@@ -358,8 +358,8 @@
           "source": "default",
           "status": "not_reused"
         },
-        "sha256": "719a629256cc66fdedc250331d7c11ec56a19902626ab4baa69e02276a62b0ba",
-        "size_bytes": 173538,
+        "sha256": "28ddd84269f613ceebc0ccec3e00804cee1824f6c722849cd02302f7d7dc12df",
+        "size_bytes": 180865,
         "week": "2026-W29"
       },
       {
@@ -370,18 +370,18 @@
           "reasons": [],
           "status": "not_applicable"
         },
-        "generated_at": "2026-07-17T22:23:39Z",
+        "generated_at": "2026-07-13T03:48:18Z",
         "path": "data/analyzed/2026-W29-press-context.md",
         "provenance": {
           "artifact_checksum": null,
-          "generated_at": "2026-07-17T22:23:39Z",
+          "generated_at": "2026-07-13T03:48:18Z",
           "path": "data/analyzed/2026-W29-press-context.md",
           "same_day_reuse": {
             "details": "No same-day reuse marker was present on this artifact.",
             "source": "default",
             "status": "not_reused"
           },
-          "sha256": "d589ddadc691c4108f0ebf940d43fc416532c359b1fb64a848fe14a452373ec3"
+          "sha256": "52b95d462f7aedf1e62ea6929b9f38ac9429e563752c5470ba10eb712c0bb1a8"
         },
         "role": "press_context",
         "same_day_reuse": {
@@ -389,8 +389,8 @@
           "source": "default",
           "status": "not_reused"
         },
-        "sha256": "d589ddadc691c4108f0ebf940d43fc416532c359b1fb64a848fe14a452373ec3",
-        "size_bytes": 33014,
+        "sha256": "52b95d462f7aedf1e62ea6929b9f38ac9429e563752c5470ba10eb712c0bb1a8",
+        "size_bytes": 32567,
         "week": null
       }
     ],
@@ -418,16 +418,16 @@
         },
         "model": "copilot-default",
         "passed": true,
-        "path": "data/candidates/2026-W29/29617480422/analysis-gate-report.json",
+        "path": "data/candidates/2026-W29/29222289174/analysis-gate-report.json",
         "present": true,
         "repair_actions": [],
-        "sha256": "3124adbbe405424048b77c0cd9c21b22d49736b6ce25b33542f0c39a4ee76922",
+        "sha256": "b7ee873717b00595ec49394fc346e4ae7ca201c1ee056ec49b28f0b5b5e2162d",
         "source": "copilot-cli"
       },
       "quality_gates": [
         {
           "name": "analysis_gate",
-          "report": "data/candidates/2026-W29/29617480422/analysis-gate-report.json",
+          "report": "data/candidates/2026-W29/29222289174/analysis-gate-report.json",
           "source": "copilot-cli",
           "status": "passed"
         }
@@ -439,22 +439,22 @@
     {
       "path": "data/analyzed/2026-W29-summary.md",
       "role": "analysis_summary",
-      "sha256": "dcac7a09d4a96a32ca7cd63f1fa60f66f7db26496dc2b427ac75bf8d29232025",
-      "source_path": "data/candidates/2026-W29/29617480422/2026-W29-summary.md"
+      "sha256": "b926e8c11c1b53838da7da2726707ba13e6df4f081189abab15cac981254c176",
+      "source_path": "data/candidates/2026-W29/29222289174/2026-W29-summary.md"
     },
     {
       "path": "content/weekly/2026/W29.md",
       "role": "hugo_content",
-      "sha256": "321881999b8cc17176b871992f7911dd1a24673290623917c9b979db2d40d4f7",
-      "source_path": "data/candidates/2026-W29/29617480422/2026-W29-content.md"
+      "sha256": "8cc03e77298c000b3bdae8806685781dd68d87715655a7f62bc5110be57b827c",
+      "source_path": "data/candidates/2026-W29/29222289174/2026-W29-content.md"
     }
   ],
-  "run_id": "29617480422",
+  "run_id": "29222289174",
   "schema_version": "promotion_transaction_v1",
   "source_manifest": {
-    "path": "data/candidates/2026-W29/29617480422/publish-manifest.json",
-    "sha256": "13386d75c036991f7b3654aac5611d62d681029e76cb51263b87510581e6d3fb"
+    "path": "data/candidates/2026-W29/29222289174/publish-manifest.json",
+    "sha256": "ffae555ad7be2661f1893b2f5041cc4f1874bcff86ebe4a83c4fe9ccac5abc64"
   },
-  "transaction_id": "be5fa4bd5ed3abe88f0010bc4e3df1b7d5f2f4b6034c989ec7ba788cf9e0d7bf",
+  "transaction_id": "7197a07402560eb5801c892cdb3c4d4887158fb6c1b2d96fdeb5c5e692a03180",
   "week": "2026-W29"
 }
