@@ -373,6 +373,9 @@ jobs:
           git fetch origin publish
           mkdir -p data/analyzed data/snapshots
           git checkout origin/publish -- "data/raw-store/${REBUILD_WEEK}/${SOURCE_RUN_ID}"
+          python3 scripts/publish_safety.py restore-raw \
+            --week "$REBUILD_WEEK" \
+            --source-run-id "$SOURCE_RUN_ID"
           git checkout origin/publish -- "data/snapshots/${REBUILD_WEEK}-stars.json" 2>/dev/null || true
           # Also hydrate ALL prior analyzed files so rollups have correct historical context
           git ls-tree -r --name-only origin/publish -- data/analyzed/ | while read -r f; do

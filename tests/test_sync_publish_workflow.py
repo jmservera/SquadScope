@@ -65,7 +65,7 @@ def test_crawl_workflow_stores_and_restores_source_bound_raw_evidence() -> None:
 
     assert "source_run_id:" in workflow
     assert "run_mode=restore and source_run_id" in workflow
-    assert "python3 scripts/publish_safety.py restore-raw" in workflow
+    assert workflow.count("python3 scripts/publish_safety.py restore-raw") == 2
     assert "python3 publish-safety-tool.py store-raw" in workflow
     assert 'RAW_STORE_DIR="data/raw-store/${REBUILD_WEEK}/${SOURCE_RUN_ID}"' in workflow
     assert (

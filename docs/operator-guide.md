@@ -244,9 +244,11 @@ gh workflow run crawl-and-publish.yml \
 ```
 
 The workflow verifies the immutable manifest identity and every stored hash before
-copying any file into `data/raw/`. The publish eligibility manifest records the
-verified source run/artifact provenance and rechecks restored input hashes before
-promotion.
+copying any file into `data/raw/`. The selected manifest is authoritative for the
+week, so same-week raw files left by the checkout or artifact overlay but absent
+from that source run are removed before analysis. The publish eligibility manifest
+records the verified source run/artifact provenance and rechecks restored input
+hashes before promotion.
 
 The GitHub Actions `raw-data` artifact has **90-day retention** and remains a
 transport mechanism for jobs, same-day reuse, and emergency recovery only. It is not

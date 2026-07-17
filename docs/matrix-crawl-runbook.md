@@ -183,7 +183,8 @@ gh workflow run crawl-and-publish.yml \
 # 3. If a specific week needs rebuilding
 gh workflow run crawl-and-publish.yml \
   -f run_mode=restore \
-  -f rebuild_week=2026-W23
+  -f rebuild_week=2026-W23 \
+  -f source_run_id=26753498571
 
 # 4. If analysis failed but crawl succeeded, re-run from artifacts
 gh run rerun <run-id> --failed

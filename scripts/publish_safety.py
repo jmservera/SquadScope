@@ -78,6 +78,12 @@ def require_raw_path(root: Path, value: str) -> tuple[Path, Path]:
     return relative, root / relative
 
 
+def is_week_raw_json(path: Path, week: str) -> bool:
+    return path.suffix == ".json" and (
+        path.name == f"{week}.json" or path.name.startswith(f"{week}-")
+    )
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Publish-branch backup and restore safeguards.")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -428,6 +434,17 @@ def restore_raw(args: argparse.Namespace) -> int:
         expected_week=week,
         expected_source_run_id=source_run_id,
     )
+
+    expected_targets = {target for _, target, _ in verified}
+    raw_root = root / "data" / "raw"
+    if raw_root.exists():
+        for existing in sorted(raw_root.rglob("*.json")):
+            if (
+                existing.is_file()
+                and is_week_raw_json(existing, week)
+                and existing not in expected_targets
+            ):
+                existing.unlink()
 
     for stored, target, _ in verified:
         target.parent.mkdir(parents=True, exist_ok=True)

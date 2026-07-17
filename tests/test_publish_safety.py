@@ -298,6 +298,8 @@ class PublishSafetyTests(unittest.TestCase):
                 },
             )
 
+            stale_optional = raw.parent / "2026-W23-external-news.json"
+            stale_optional.write_bytes(b"stale evidence from a different source run\n")
             self.assertEqual(
                 publish_safety.main(
                     [
@@ -313,10 +315,13 @@ class PublishSafetyTests(unittest.TestCase):
                 0,
             )
             self.assertEqual(raw.read_bytes(), original_raw)
+            self.assertFalse(stale_optional.exists())
 
             stored_raw = store / "files/data/raw/2026-W23.json"
             stored_raw.write_bytes(b"X" * len(original_raw))
             raw.write_bytes(b"accepted input must remain unchanged\n")
+            stale_on_failure = raw.parent / "2026-W23-techcrunch.json"
+            stale_on_failure.write_bytes(b"also unchanged when stored verification fails\n")
             with self.assertRaisesRegex(SystemExit, "checksum mismatch"):
                 publish_safety.main(
                     [
@@ -330,6 +335,7 @@ class PublishSafetyTests(unittest.TestCase):
                     ]
                 )
             self.assertEqual(raw.read_bytes(), b"accepted input must remain unchanged\n")
+            self.assertTrue(stale_on_failure.exists())
 
 
 if __name__ == "__main__":
