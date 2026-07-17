@@ -10,6 +10,7 @@ import secrets
 import sys
 import time
 from dataclasses import asdict, dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 from urllib import error, parse, request
@@ -1248,10 +1249,17 @@ def _build_prompt(
             else "Week NN, YYYY Analysis"
         )
         prompt = prompt_template_path.read_text(encoding="utf-8")
+        try:
+            current_month = datetime.fromisoformat(
+                current_datetime.strip().replace("Z", "+00:00")
+            ).strftime("%B")
+        except (ValueError, TypeError):
+            current_month = ""
         replacements = {
             "{{CURRENT_DATETIME}}": current_datetime,
             "{{CURRENT_WEEK}}": current_week,
             "{{CURRENT_YEAR}}": current_year,
+            "{{CURRENT_MONTH}}": current_month,
             "{{TITLE_TEMPLATE_HINT}}": (
                 f"Specific editorial headline about {current_week}'s dominant themes "
                 f'(not "{generic_title_example}")'

@@ -7,6 +7,7 @@ Your job is to turn one weekly crawler artifact into a structured editorial summ
 ## Inputs
 
 - Current datetime: `{{CURRENT_DATETIME}}`
+- Current month and year: `{{CURRENT_MONTH}} {{CURRENT_YEAR}}`
 - Raw weekly JSON path: `{{RAW_JSON_PATH}}`
 - Output path: `{{OUTPUT_PATH}}`
 - Previous summary path: `{{PREVIOUS_SUMMARY_PATH_OR_NONE}}`
@@ -100,6 +101,27 @@ Be critical, selective, and opinionated.
 - Do **call out** noise, weak substance, exploit-heavy churn, and missing categories.
 - Do **explain why** the week matters.
 
+## Lead with the story (narrative-first)
+
+The article must **open with a compelling narrative lede** — 2-4 short paragraphs of
+editorial prose that appear **before** the first `## This Week's Trends` heading. This lede
+is the story of the period, not a list.
+
+- Open with the single most important thing that happened this period and the tension or
+  momentum behind it. Hook the reader in the first sentence.
+- Frame the arc using the current month and year (`{{CURRENT_MONTH}} {{CURRENT_YEAR}}`):
+  what theme is building, what shifted, what it means for where the ecosystem is heading.
+  Treat the week as one beat in the larger `{{CURRENT_MONTH}}` story, not an isolated dump.
+- Synthesize across repos and press into a coherent throughline — name the throughline.
+- Keep it grounded: every claim must trace to the crawled raw JSON or provided press data.
+  Do **not** invent facts, numbers, momentum, or events that are not in the sources. If the
+  evidence is thin, tell that story honestly (a quiet week is still a story).
+- Any repository named in the lede must use the link format `[owner/repo](https://github.com/owner/repo)`.
+- The **item-by-item enumeration comes AFTER** the lede, inside the sections below. Do not
+  open the article with a list of trends or repos.
+- Keep the lede tight (~120-220 words). Do not add an `##` heading for the lede — it is the
+  standfirst that precedes `## This Week's Trends`.
+
 ## Analysis dimensions to apply
 
 1. **Importance Assessment** — identify what solves real problems or signals durable technical movement.
@@ -139,9 +161,12 @@ Be critical, selective, and opinionated.
 12. `top_repo` should be the repo that best anchors the editorial narrative, not automatically the most-starred repo.
 13. `quality_score` must be an honest 0-100 self-assessment; publishable work is `>= 60`. The `summary` field must be ≤155 characters, a complete sentence crafted as the meta description for search engines and social sharing. Do not let it exceed 155 characters.
 14. If you include `predictions`, each entry must be `{repo, claim_type, direction, confidence}` with `claim_type` in `signal|noise|gap`, `direction` in `up|flat|down`, and `confidence` from `0` to `1`.
-15. Include all required sections in this exact order:
+15. Open with a narrative lede (2-4 paragraphs, ~120-220 words, no heading) as described in
+    "Lead with the story", then include all required sections in this exact order:
 
 ```md
+[narrative lede paragraphs — no heading, before the first H2]
+
 ## This Week's Trends
 
 ## Where Industry Meets Code
@@ -184,6 +209,7 @@ Be critical, selective, and opinionated.
 7. Apply relevant wisdom and skills where they clarify the call, but overrule them when the raw evidence says they do not fit this week.
 8. Select 5-10 most important repos for Key References; select 3-5 most important press items.
 9. Produce a brief, forward-looking close that reads like the last paragraph of a Gartner insight brief.
+10. Only after the analysis above is settled, write the narrative lede last: distill the whole week into a story arc framed by {{CURRENT_MONTH}} {{CURRENT_YEAR}} and place it at the very top, before `## This Week's Trends`. The lede must summarize — never introduce claims the sections below do not support.
 
 ## Output template
 
@@ -206,6 +232,13 @@ predictions:
     direction: up
     confidence: 0.72
 ---
+
+Open here with the narrative lede: 2-4 short paragraphs (~120-220 words) that tell the story
+of this period. Lead with the most important development and the momentum behind it, frame it
+within the {{CURRENT_MONTH}} {{CURRENT_YEAR}} arc (what is building, what shifted, what it
+means), and name the throughline that connects the week's activity. Keep every claim grounded
+in the crawled sources — do not invent facts. Use `[owner/repo](https://github.com/owner/repo)`
+for any repo you name. Do not put a heading on this lede; the enumeration begins below.
 
 ## This Week's Trends
 

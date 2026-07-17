@@ -22,6 +22,7 @@ TRUSTED_VARIABLES = frozenset(
         "{{CURRENT_DATETIME}}",
         "{{CURRENT_WEEK}}",
         "{{CURRENT_YEAR}}",
+        "{{CURRENT_MONTH}}",
         "{{OUTPUT_PATH}}",
         "{{RAW_JSON_PATH}}",
         "{{PREVIOUS_SUMMARY_PATH_OR_NONE}}",
