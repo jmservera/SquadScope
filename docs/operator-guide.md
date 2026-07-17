@@ -195,7 +195,7 @@ All rerun modes are validated before any publishing side effects:
 | `normal` (default) | ✓ Fresh | ✓ Guarded gates | Produce fresh analysis, publish if gates pass | Standard weekly run |
 | `dry-run` | ✓ Fresh | ✗ Never | Build candidates only for inspection | Test analysis quality, verify gates, debug analysis |
 | `candidate-only` | ✓ Fresh | ✗ Manifest blocks | Run crawl/analysis but hold for manual approval | Staged analysis, manual promotion workflow |
-| `restore` | ✗ Hydrate | ✓ Guarded gates | Regenerate prior week from published artifacts | Restore/audit trail, regenerate HTML/feeds |
+| `restore` | ✗ Hydrate | ✓ Guarded gates | Regenerate a prior week from one source-bound immutable raw run | Restore/audit trail, regenerate HTML/feeds |
 | `force-replace` | ✓ Fresh | ✓ Guarded gates | Explicit replacement run, gates still enforce | Planned content refresh, operator override |
 
 ##### Source refresh policies
@@ -215,8 +215,45 @@ Same-day artifact reuse is safe by design:
 
 Invalid combinations fail immediately with clear error messages:
 - `rebuild_week` without `run_mode=restore`
+- `run_mode=restore` without both `rebuild_week` and `source_run_id`
 - `run_mode=restore` with `source_refresh_policy=force-refresh`
 - `publish_release=true` with `dry-run` or `candidate-only`
+
+##### Durable raw evidence and restore
+
+Each publishing crawl writes the current week's raw payloads to the existing
+`publish` branch under:
+
+```text
+data/raw-store/<week>/<source_run_id>/
+```
+
+The run directory is immutable: a repeated write to the same week/run path fails
+instead of replacing files. Its `manifest.json` records the source workflow run,
+`raw-data` artifact ID/name, source head SHA, original paths, sizes, and SHA-256
+hashes.
+
+Restore must identify that exact source run:
+
+```bash
+gh workflow run crawl-and-publish.yml \
+  -R YOUR_USERNAME/SquadScope \
+  -f run_mode=restore \
+  -f rebuild_week=2026-W23 \
+  -f source_run_id=26753498571
+```
+
+The workflow verifies the immutable manifest identity and every stored hash before
+copying any file into `data/raw/`. The selected manifest is authoritative for the
+week, so same-week raw files left by the checkout or artifact overlay but absent
+from that source run are removed before analysis. The publish eligibility manifest
+records the verified source run/artifact provenance and rechecks restored input
+hashes before promotion.
+
+The GitHub Actions `raw-data` artifact has **90-day retention** and remains a
+transport mechanism for jobs, same-day reuse, and emergency recovery only. It is not
+the durable raw store. The durable copy is the immutable week/run directory on
+`publish`; it is intentionally not synced into `main`.
 
 ### Option C: Run individual stages locally
 

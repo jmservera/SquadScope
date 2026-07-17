@@ -21,6 +21,38 @@ class RerunModeTests(unittest.TestCase):
 
         self.assertIn("requires run_mode=restore", decision.reasons[0])
 
+    def test_restore_requires_source_run_id(self) -> None:
+        decision = validate_modes(
+            run_mode="restore",
+            source_refresh_policy="reuse-same-day",
+            rebuild_week="2026-W21",
+        )
+
+        self.assertTrue(any("requires source_run_id" in reason for reason in decision.reasons))
+
+    def test_restore_accepts_source_bound_week(self) -> None:
+        decision = validate_modes(
+            run_mode="restore",
+            source_refresh_policy="reuse-same-day",
+            rebuild_week="2026-W21",
+            source_run_id="26753498571",
+        )
+
+        self.assertFalse(decision.reasons)
+        self.assertFalse(decision.crawl_allowed)
+        self.assertTrue(decision.publish_allowed)
+
+    def test_source_run_id_is_restore_only(self) -> None:
+        decision = validate_modes(
+            run_mode="normal",
+            source_refresh_policy="reuse-same-day",
+            source_run_id="26753498571",
+        )
+
+        self.assertTrue(
+            any("only allowed with run_mode=restore" in reason for reason in decision.reasons)
+        )
+
     def test_dry_run_cannot_publish_release(self) -> None:
         decision = validate_modes(
             run_mode="dry-run",

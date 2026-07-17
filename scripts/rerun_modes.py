@@ -5,11 +5,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
 RUN_MODES = {"normal", "dry-run", "restore", "force-replace", "candidate-only"}
 SOURCE_REFRESH_POLICIES = {"reuse-same-day", "refresh-missing-stale", "force-refresh"}
+WEEK_PATTERN = re.compile(r"^[0-9]{4}-W[0-9]{2}$")
+RUN_ID_PATTERN = re.compile(r"^[0-9]+$")
 
 
 @dataclass(frozen=True)
@@ -27,6 +30,7 @@ def validate_modes(
     run_mode: str,
     source_refresh_policy: str,
     rebuild_week: str = "",
+    source_run_id: str = "",
     publish_release: bool = False,
 ) -> ModeDecision:
     reasons: list[str] = []
@@ -36,8 +40,16 @@ def validate_modes(
         reasons.append(f"invalid source_refresh_policy: {source_refresh_policy}")
     if rebuild_week and run_mode != "restore":
         reasons.append("rebuild_week is a restore operation and requires run_mode=restore")
+    if rebuild_week and not WEEK_PATTERN.fullmatch(rebuild_week):
+        reasons.append("rebuild_week must use YYYY-WNN format")
     if run_mode == "restore" and not rebuild_week:
         reasons.append("run_mode=restore requires rebuild_week=YYYY-WNN")
+    if run_mode == "restore" and not source_run_id:
+        reasons.append("run_mode=restore requires source_run_id")
+    if source_run_id and run_mode != "restore":
+        reasons.append("source_run_id is only allowed with run_mode=restore")
+    if source_run_id and not RUN_ID_PATTERN.fullmatch(source_run_id):
+        reasons.append("source_run_id must be a numeric GitHub Actions workflow run ID")
     if run_mode in {"dry-run", "candidate-only"} and publish_release:
         reasons.append(f"publish_release is not allowed with run_mode={run_mode}")
     if run_mode == "restore" and source_refresh_policy == "force-refresh":
@@ -68,6 +80,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--run-mode", default="normal")
     parser.add_argument("--source-refresh-policy", default="reuse-same-day")
     parser.add_argument("--rebuild-week", default="")
+    parser.add_argument("--source-run-id", default="")
     parser.add_argument("--publish-release", action="store_true")
     parser.add_argument("--summary-json", type=Path)
     return parser.parse_args(argv)
@@ -79,6 +92,7 @@ def main(argv: list[str] | None = None) -> int:
         run_mode=args.run_mode,
         source_refresh_policy=args.source_refresh_policy,
         rebuild_week=args.rebuild_week.strip(),
+        source_run_id=args.source_run_id.strip(),
         publish_release=args.publish_release,
     )
     payload = {
@@ -86,6 +100,7 @@ def main(argv: list[str] | None = None) -> int:
         "source_refresh_policy": decision.source_refresh_policy,
         "publish_allowed": decision.publish_allowed,
         "crawl_allowed": decision.crawl_allowed,
+        "source_run_id": args.source_run_id.strip(),
         "action": decision.action,
         "valid": not decision.reasons,
         "reasons": decision.reasons,

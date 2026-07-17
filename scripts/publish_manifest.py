@@ -9,6 +9,11 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+try:
+    from scripts import publish_safety
+except ModuleNotFoundError:  # pragma: no cover - direct script execution path
+    import publish_safety  # type: ignore[no-redef]
+
 SCHEMA_VERSION = "publish_eligibility_v1"
 AI_SOURCES = {"copilot-cli"}
 RUN_MODES = {"normal", "dry-run", "restore", "force-replace", "candidate-only"}
@@ -39,6 +44,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     create = subparsers.add_parser("create", help="Create a publish eligibility manifest.")
     create.add_argument("--week", required=True)
     create.add_argument("--run-id", required=True)
+    create.add_argument("--root", default=".", type=Path)
     create.add_argument("--current-datetime", required=True)
     create.add_argument("--summary", required=True, type=Path)
     create.add_argument(
@@ -57,6 +63,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     create.add_argument("--validation-status", choices=["passed", "failed"], required=True)
     create.add_argument("--run-mode", choices=sorted(RUN_MODES), default="normal")
+    create.add_argument("--source-run-id", default="")
+    create.add_argument(
+        "--raw-store-manifest",
+        type=Path,
+        help="Immutable raw store manifest required for run_mode=restore.",
+    )
     create.add_argument(
         "--source-refresh-policy", choices=sorted(SOURCE_REFRESH_POLICIES), default="reuse-same-day"
     )
@@ -154,6 +166,77 @@ def load_json(path: Path) -> dict[str, Any] | None:
     except (OSError, json.JSONDecodeError):
         return None
     return payload if isinstance(payload, dict) else None
+
+
+def restore_verification(args: argparse.Namespace) -> tuple[dict[str, Any], list[str]]:
+    required = args.run_mode == "restore"
+    source_run_id = args.source_run_id.strip()
+    manifest_path = args.raw_store_manifest
+    resolved_manifest_path = (
+        manifest_path
+        if manifest_path is None or manifest_path.is_absolute()
+        else args.root / manifest_path
+    )
+    result: dict[str, Any] = {
+        "required": required,
+        "verified": False,
+        "source_run_id": source_run_id or None,
+        "manifest_path": manifest_path.as_posix() if manifest_path else None,
+        "manifest_sha256": (
+            sha256_file(resolved_manifest_path) if resolved_manifest_path else None
+        ),
+        "source_artifact": None,
+        "files": [],
+    }
+    reasons: list[str] = []
+    if not required:
+        if source_run_id or manifest_path is not None:
+            reasons.append("restore provenance is only allowed with run_mode=restore")
+        return result, reasons
+    if not source_run_id:
+        reasons.append("run_mode=restore requires source_run_id")
+    if manifest_path is None:
+        reasons.append("run_mode=restore requires raw_store_manifest")
+    if reasons:
+        return result, reasons
+
+    try:
+        payload, verified = publish_safety.validate_raw_store_manifest(
+            args.root,
+            manifest_path,
+            expected_week=args.week,
+            expected_source_run_id=source_run_id,
+        )
+    except SystemExit as exc:
+        return result, [str(exc)]
+
+    verified_files: list[dict[str, Any]] = []
+    for _, restored_path, entry in verified:
+        if not restored_path.exists() or not restored_path.is_file():
+            reasons.append(f"Restored raw input is missing: {entry['original_path']}")
+            continue
+        if restored_path.stat().st_size != entry.get("size_bytes"):
+            reasons.append(f"Restored raw input size mismatch: {entry['original_path']}")
+            continue
+        if sha256_file(restored_path) != entry.get("sha256"):
+            reasons.append(f"Restored raw input checksum mismatch: {entry['original_path']}")
+            continue
+        verified_files.append(
+            {
+                "original_path": entry["original_path"],
+                "size_bytes": entry["size_bytes"],
+                "sha256": entry["sha256"],
+            }
+        )
+
+    result.update(
+        {
+            "verified": not reasons and len(verified_files) == len(verified),
+            "source_artifact": payload.get("source_artifact"),
+            "files": verified_files,
+        }
+    )
+    return result, reasons
 
 
 def load_preflight(
@@ -581,6 +664,7 @@ def create_manifest(args: argparse.Namespace) -> int:
     model_status = publishable_model_status(args.analysis_model)
     preflight, preflight_reasons = load_preflight(args.preflight_report, required=ai_status == "ai")
     gate_report = load_gate_report(args.gate_report)
+    restore, restore_reasons = restore_verification(args)
     candidate_metadata = markdown_metadata(args.summary)
     published_status = published_summary_status(args.published_summary, args.week)
     candidate_exists = args.summary.exists()
@@ -600,6 +684,7 @@ def create_manifest(args: argparse.Namespace) -> int:
     # manifest never advertises unbacked synthesis provenance.
     synthesis_file = args.synthesis_file
     synthesis_sha256 = sha256_file(synthesis_file) if synthesis_file else None
+    synthesis_downgrade_note: str | None = None
     if synthesis_status == "available":
         file_ok = (
             synthesis_file is not None
@@ -611,16 +696,16 @@ def create_manifest(args: argparse.Namespace) -> int:
             synthesis_status = "missing"
             synthesis_file = None
             synthesis_sha256 = None
-            if synthesis_required:
-                synthesis_reasons.append(
-                    "required synthesis claimed 'available' but no readable, non-empty "
-                    "synthesis file was provided (downgraded to missing)"
-                )
-    if synthesis_required and synthesis_status != "available":
-        if not synthesis_reasons:
-            synthesis_reasons.append(
-                f"required synthesis is {synthesis_status} for normal publication"
+            synthesis_downgrade_note = (
+                "required synthesis claimed 'available' but no readable, non-empty "
+                "synthesis file was provided (downgraded to missing)"
             )
+    if synthesis_required and synthesis_status != "available":
+        # Always emit the canonical, mode-naming reason for every non-available
+        # required status, then add any downgrade context as a secondary reason.
+        synthesis_reasons.append(f"required synthesis is {synthesis_status} for normal publication")
+        if synthesis_downgrade_note:
+            synthesis_reasons.append(synthesis_downgrade_note)
     gates_passed = gate_report.get("present") is True and gate_report.get("passed") is True
     candidate_quality = candidate_metadata.get("quality_score")
     attempted_ai_paths = [path for path in args.attempted_ai_path if path.strip()]
@@ -699,6 +784,7 @@ def create_manifest(args: argparse.Namespace) -> int:
     if not gates_passed:
         reasons.extend(gate_reasons(gate_report))
     reasons.extend(artifact_reasons)
+    reasons.extend(restore_reasons)
     reasons.extend(comparison_reasons)
     reasons.extend(synthesis_reasons)
 
@@ -708,6 +794,7 @@ def create_manifest(args: argparse.Namespace) -> int:
         and validation_passed
         and gates_passed
         and not artifact_reasons
+        and not restore_reasons
         and not comparison_reasons
         and not preflight_reasons
         and not synthesis_reasons
@@ -732,6 +819,7 @@ def create_manifest(args: argparse.Namespace) -> int:
         "run_mode": args.run_mode,
         "source_refresh_policy": args.source_refresh_policy,
         "run_started_at": args.current_datetime,
+        "restore": restore,
         "candidate_summary_path": args.summary.as_posix(),
         "candidate_content_path": candidate_content.as_posix(),
         "promotion_eligible": eligible,
@@ -877,6 +965,26 @@ def assert_eligible(args: argparse.Namespace) -> int:
         raise SystemExit(PROMOTION_MANIFEST_ROOT_ERROR)
     if payload.get("schema_version") != SCHEMA_VERSION:
         raise SystemExit(f"Unsupported publish manifest schema: {payload.get('schema_version')!r}")
+    if payload.get("run_mode") == "restore":
+        restore = payload.get("restore")
+        if (
+            not isinstance(restore, dict)
+            or restore.get("required") is not True
+            or restore.get("verified") is not True
+            or not restore.get("source_run_id")
+            or not restore.get("manifest_sha256")
+            or not isinstance(restore.get("source_artifact"), dict)
+        ):
+            raise SystemExit("Manifest lacks verified source-bound raw restore provenance.")
+        restored_files = restore.get("files")
+        if not isinstance(restored_files, list) or not restored_files:
+            raise SystemExit("Manifest lacks verified restored raw files.")
+        for entry in restored_files:
+            if not isinstance(entry, dict) or not isinstance(entry.get("original_path"), str):
+                raise SystemExit("Manifest restored raw file entry is malformed.")
+            _, path = publish_safety.require_raw_path(Path.cwd(), entry["original_path"])
+            if sha256_file(path) != entry.get("sha256"):
+                raise SystemExit(f"Restored raw input checksum mismatch: {path}")
     analysis = payload.get("analysis")
     if not isinstance(analysis, dict):
         raise SystemExit("Manifest lacks publishable AI provenance.")

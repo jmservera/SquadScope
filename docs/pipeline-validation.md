@@ -33,6 +33,7 @@ Required secrets/tokens:
 - `data/raw/YYYY-WNN-external-news.json`
 - `data/snapshots/YYYY-WNN-stars.json`
 - `raw-data` artifact
+- Immutable raw evidence at `publish:data/raw-store/YYYY-WNN/<source_run_id>/`
 - `crawl-snapshots` artifact
 - `crawl-cache` artifact
 - Commit to `main` for `data/raw/` and `data/snapshots/`
@@ -44,6 +45,9 @@ Required secrets/tokens:
 - Optional per-source RSS failures are warnings with a valid partial artifact; malformed config/schema/checksum errors fail the crawl step
 - Snapshot file is written for the same ISO week
 - Cache artifact uploads even on partial failures
+- `raw-data` has explicit 90-day retention for transport/emergency recovery only
+- The publish-branch raw store refuses an existing week/run destination and records
+  source run/artifact identity plus per-file SHA-256 hashes
 - Job permissions include `actions: read` and `contents: write` at workflow level for cache restore and commits
 
 ### 2. Analyze
@@ -65,6 +69,8 @@ Required secrets/tokens:
 
 **Success criteria**
 - Current raw file week matches the run week
+- Restore mode requires `source_run_id`, hydrates the matching immutable raw-store
+  directory, and verifies all hashes before analysis accepts the inputs
 - Correlation and press-context steps consume compact external-news data with legacy `YYYY-WNN-techcrunch.json` fallback
 - Press context preserves source names, article URLs/titles/dates, strong-vs-weak labels, and partial-source caveats while staying under the ~8k token budget
 - Analysis preflight writes `analysis-preflight.json` with deterministic prompt component byte/token/checksum metadata and raw/prompt evidence inventories before Copilot is invoked.

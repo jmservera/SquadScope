@@ -35,7 +35,12 @@ on:
         default: false
         type: boolean
       rebuild_week:
-        description: 'Restore a specific past week (e.g. 2026-W21). Requires run_mode=restore; skips crawl and hydrates from publish.'
+        description: 'Restore a specific past week (e.g. 2026-W21). Requires run_mode=restore and source_run_id; skips crawl and hydrates immutable raw evidence from publish.'
+        required: false
+        default: ''
+        type: string
+      source_run_id:
+        description: 'Required for restore: source workflow run ID selecting data/raw-store/<week>/<source_run_id>/ on publish.'
         required: false
         default: ''
         type: string
@@ -78,10 +83,11 @@ jobs:
           RUN_MODE: ${{ inputs.run_mode || 'normal' }}
           SOURCE_REFRESH_POLICY: ${{ inputs.source_refresh_policy || 'reuse-same-day' }}
           REBUILD_WEEK: ${{ inputs.rebuild_week || '' }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id || '' }}
           PUBLISH_RELEASE: ${{ inputs.publish_release || false }}
         run: |
           set -euo pipefail
-          ARGS=(--run-mode "$RUN_MODE" --source-refresh-policy "$SOURCE_REFRESH_POLICY" --rebuild-week "$REBUILD_WEEK" --summary-json data/diagnostics/rerun-mode.json)
+          ARGS=(--run-mode "$RUN_MODE" --source-refresh-policy "$SOURCE_REFRESH_POLICY" --rebuild-week "$REBUILD_WEEK" --source-run-id "$SOURCE_RUN_ID" --summary-json data/diagnostics/rerun-mode.json)
           if [ "$PUBLISH_RELEASE" = "true" ]; then
             ARGS+=(--publish-release)
           fi
@@ -163,6 +169,20 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Restore immutable raw evidence
+        if: ${{ inputs.rebuild_week }}
+        env:
+          REBUILD_WEEK: ${{ inputs.rebuild_week }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+        run: |
+          set -euo pipefail
+          git fetch origin publish
+          RAW_STORE_DIR="data/raw-store/${REBUILD_WEEK}/${SOURCE_RUN_ID}"
+          git checkout origin/publish -- "$RAW_STORE_DIR"
+          python3 scripts/publish_safety.py restore-raw \
+            --week "$REBUILD_WEEK" \
+            --source-run-id "$SOURCE_RUN_ID"
+
       - name: Run crawler
         if: ${{ !inputs.rebuild_week }}
         env:
@@ -220,12 +240,14 @@ jobs:
           PY
 
       - name: Upload raw crawl artifact
+        id: raw-artifact
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: raw-data
           path: data/raw/
           if-no-files-found: warn
+          retention-days: 90
 
       - name: Upload snapshot artifact
         if: always()
@@ -249,10 +271,13 @@ jobs:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           DATA_BRANCH: publish
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RAW_ARTIFACT_ID: ${{ steps.raw-artifact.outputs.artifact-id }}
+          SOURCE_HEAD_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          cp scripts/publish_safety.py publish-safety-tool.py
           # Save crawl output before switching branches
           cp -r data/raw crawl-raw-backup
           cp -r data/snapshots crawl-snapshots-backup
@@ -269,15 +294,31 @@ jobs:
           cp -r crawl-raw-backup/* data/raw/ 2>/dev/null || true
           cp -r crawl-snapshots-backup/* data/snapshots/ 2>/dev/null || true
           rm -rf crawl-raw-backup crawl-snapshots-backup
-          if git diff --quiet -- data/raw data/snapshots; then
-            echo "No changes to data/raw or data/snapshots. Skipping."
+          WEEK=$(date -u +%Y-W%V)
+          RAW_PATH_ARGS=(--path "data/raw/${WEEK}.json")
+          for optional_raw in \
+            "data/raw/${WEEK}-external-news.json" \
+            "data/raw/${WEEK}-techcrunch.json"
+          do
+            [ -f "$optional_raw" ] && RAW_PATH_ARGS+=(--path "$optional_raw")
+          done
+          python3 publish-safety-tool.py store-raw \
+            --week "$WEEK" \
+            --source-run-id "$GITHUB_RUN_ID" \
+            --source-artifact-id "$RAW_ARTIFACT_ID" \
+            --source-artifact-name raw-data \
+            --source-head-sha "$SOURCE_HEAD_SHA" \
+            "${RAW_PATH_ARGS[@]}"
+          rm -f publish-safety-tool.py
+          git add data/raw/ data/snapshots/ data/raw-store/
+          if git diff --cached --quiet; then
+            echo "No raw or snapshot changes to commit after staging."
             exit 0
           fi
           COUNTER=$(cat .squad/run-counter.txt 2>/dev/null || echo 0)
           COUNTER=$((COUNTER + 1))
           printf '%s\n' "$COUNTER" > .squad/run-counter.txt
-          WEEK=$(date +%Y-W%V)
-          git add data/raw/ data/snapshots/ .squad/run-counter.txt
+          git add .squad/run-counter.txt
           git diff --cached --quiet && exit 0
           git commit -m "data: weekly crawl $WEEK [run #${GITHUB_RUN_ID}]"
           if [ -n "$EXPECTED_PUBLISH_SHA" ]; then
@@ -313,7 +354,6 @@ jobs:
           persist-credentials: false
 
       - name: Download raw crawl artifact
-        if: ${{ !inputs.rebuild_week }}
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: raw-data
@@ -323,6 +363,7 @@ jobs:
         if: ${{ inputs.rebuild_week }}
         env:
           REBUILD_WEEK: ${{ inputs.rebuild_week }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
         run: |
           set -euo pipefail
           if ! [[ "$REBUILD_WEEK" =~ ^[0-9]{4}-W[0-9]{2}$ ]]; then
@@ -330,10 +371,11 @@ jobs:
             exit 1
           fi
           git fetch origin publish
-          mkdir -p data/raw data/analyzed data/snapshots
-          git checkout origin/publish -- "data/raw/${REBUILD_WEEK}.json"
-          git checkout origin/publish -- "data/raw/${REBUILD_WEEK}-external-news.json" 2>/dev/null || true
-          git checkout origin/publish -- "data/raw/${REBUILD_WEEK}-techcrunch.json" 2>/dev/null || true
+          mkdir -p data/analyzed data/snapshots
+          git checkout origin/publish -- "data/raw-store/${REBUILD_WEEK}/${SOURCE_RUN_ID}"
+          python3 scripts/publish_safety.py restore-raw \
+            --week "$REBUILD_WEEK" \
+            --source-run-id "$SOURCE_RUN_ID"
           git checkout origin/publish -- "data/snapshots/${REBUILD_WEEK}-stars.json" 2>/dev/null || true
           # Also hydrate ALL prior analyzed files so rollups have correct historical context
           git ls-tree -r --name-only origin/publish -- data/analyzed/ | while read -r f; do
@@ -466,6 +508,7 @@ jobs:
         id: synthesis
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GH_TOKEN }}
           IN_WEEK_FILE: ${{ steps.analysis-context.outputs.week_file }}
           IN_OUTPUT_FILE: ${{ steps.analysis-context.outputs.candidate_output_file }}
           IN_CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
@@ -890,6 +933,7 @@ jobs:
           MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
           RUN_MODE: ${{ steps.analysis-context.outputs.run_mode }}
           SOURCE_REFRESH_POLICY: ${{ steps.analysis-context.outputs.source_refresh_policy }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id || '' }}
           GATE_REPORT: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
           PREFLIGHT_REPORT: ${{ steps.prompt-preflight.outputs.preflight_report_json }}
           SYNTHESIS_STATUS: ${{ steps.synthesis.outputs.synthesis_status }}
@@ -898,6 +942,13 @@ jobs:
           set -euo pipefail
           git fetch origin publish 2>/dev/null && git checkout origin/publish -- "$PUBLISHED_SUMMARY" 2>/dev/null || true
           ARTIFACT_ARGS=()
+          RESTORE_ARGS=()
+          if [ "$RUN_MODE" = "restore" ]; then
+            RESTORE_ARGS=(
+              --source-run-id "$SOURCE_RUN_ID"
+              --raw-store-manifest "data/raw-store/${WEEK}/${SOURCE_RUN_ID}/manifest.json"
+            )
+          fi
           for candidate in \
             "external_news=data/raw/${WEEK}-external-news.json" \
             "techcrunch_news=data/raw/${WEEK}-techcrunch.json" \
@@ -927,6 +978,7 @@ jobs:
             --gate-report "$GATE_REPORT" \
             "${SYNTHESIS_ARGS[@]}" \
             --output "$MANIFEST_FILE" \
+            "${RESTORE_ARGS[@]}" \
             "${ARTIFACT_ARGS[@]}"
 
       - name: Assert candidate is eligible for promotion
@@ -1394,4 +1446,3 @@ jobs:
               --label squad \
               --body "$BODY"
           fi
-
