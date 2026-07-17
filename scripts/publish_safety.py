@@ -364,10 +364,11 @@ def validate_raw_store_manifest(
             f"expected {source_run_id}, found {payload.get('source_run_id')!r}"
         )
     source_artifact = payload.get("source_artifact")
+    artifact_name = source_artifact.get("name") if isinstance(source_artifact, dict) else None
     if (
         not isinstance(source_artifact, dict)
         or not source_artifact.get("id")
-        or source_artifact.get("name") != "raw-data"
+        or not (isinstance(artifact_name, str) and artifact_name.strip())
         or not source_artifact.get("head_sha")
     ):
         raise SystemExit("Raw store manifest lacks source artifact provenance.")

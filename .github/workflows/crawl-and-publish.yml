@@ -294,7 +294,7 @@ jobs:
           cp -r crawl-raw-backup/* data/raw/ 2>/dev/null || true
           cp -r crawl-snapshots-backup/* data/snapshots/ 2>/dev/null || true
           rm -rf crawl-raw-backup crawl-snapshots-backup
-          WEEK=$(date +%Y-W%V)
+          WEEK=$(date -u +%Y-W%V)
           RAW_PATH_ARGS=(--path "data/raw/${WEEK}.json")
           for optional_raw in \
             "data/raw/${WEEK}-external-news.json" \

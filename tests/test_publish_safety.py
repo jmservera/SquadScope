@@ -337,6 +337,59 @@ class PublishSafetyTests(unittest.TestCase):
             self.assertEqual(raw.read_bytes(), b"accepted input must remain unchanged\n")
             self.assertTrue(stale_on_failure.exists())
 
+    def test_restore_accepts_custom_source_artifact_name(self) -> None:
+        """A non-default --source-artifact-name is still valid provenance and restorable."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            raw = root / "data/raw/2026-W24.json"
+            raw.parent.mkdir(parents=True, exist_ok=True)
+            original_raw = b'{"week":"2026-W24","evidence":"original"}\n'
+            raw.write_bytes(original_raw)
+
+            self.assertEqual(
+                publish_safety.main(
+                    [
+                        "store-raw",
+                        "--root",
+                        str(root),
+                        "--week",
+                        "2026-W24",
+                        "--source-run-id",
+                        "26753498572",
+                        "--source-artifact-id",
+                        "7330965999",
+                        "--source-artifact-name",
+                        "raw-evidence-bundle",
+                        "--source-head-sha",
+                        "def456",
+                        "--path",
+                        "data/raw/2026-W24.json",
+                    ]
+                ),
+                0,
+            )
+            store = root / "data/raw-store/2026-W24/26753498572"
+            manifest = json.loads((store / "manifest.json").read_text(encoding="utf-8"))
+            self.assertEqual(manifest["source_artifact"]["name"], "raw-evidence-bundle")
+
+            raw.write_bytes(b"drift that restore must overwrite\n")
+            self.assertEqual(
+                publish_safety.main(
+                    [
+                        "restore-raw",
+                        "--root",
+                        str(root),
+                        "--week",
+                        "2026-W24",
+                        "--source-run-id",
+                        "26753498572",
+                    ]
+                ),
+                0,
+            )
+            self.assertEqual(raw.read_bytes(), original_raw)
+
 
 if __name__ == "__main__":
     unittest.main()
