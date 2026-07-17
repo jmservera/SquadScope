@@ -213,7 +213,8 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("COUNTER=$(cat .squad/run-counter.txt", run_script)
         self.assertIn("COUNTER=$((COUNTER + 1))", run_script)
         self.assertIn(".squad/run-counter.txt", run_script)
-        self.assertIn("git add data/raw/ data/snapshots/ .squad/run-counter.txt", run_script)
+        self.assertIn("git add data/raw/ data/snapshots/ data/raw-store/", run_script)
+        self.assertIn("git add .squad/run-counter.txt", run_script)
 
     def test_external_news_workflow_passes_deterministic_until(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")

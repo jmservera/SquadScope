@@ -140,6 +140,9 @@ def create_args(
     gate_report: Path | None = None,
     validation_status: str = "passed",
     preflight: Path | None | bool = True,
+    run_mode: str = "normal",
+    source_run_id: str = "",
+    raw_store_manifest: Path | None = None,
 ) -> list[str]:
     args = [
         "create",
@@ -149,6 +152,8 @@ def create_args(
         RUN_ID,
         "--current-datetime",
         CURRENT_DATETIME,
+        "--root",
+        str(base),
         "--summary",
         str(summary),
         "--published-summary",
@@ -159,6 +164,8 @@ def create_args(
         source,
         "--validation-status",
         validation_status,
+        "--run-mode",
+        run_mode,
         "--output",
         str(manifest),
     ]
@@ -172,6 +179,10 @@ def create_args(
         args.extend(["--preflight-report", str(preflight_path)])
     elif isinstance(preflight, Path):
         args.extend(["--preflight-report", str(preflight)])
+    if source_run_id:
+        args.extend(["--source-run-id", source_run_id])
+    if raw_store_manifest is not None:
+        args.extend(["--raw-store-manifest", str(raw_store_manifest)])
     return args
 
 
@@ -223,6 +234,112 @@ class PublishManifestTests(unittest.TestCase):
                 "not_reused",
             )
             self.assertEqual(assert_eligible_from_root(base, manifest), 0)
+
+    def test_restore_candidate_requires_verified_source_bound_raw_store(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report)
+            publish_manifest.publish_safety.main(
+                [
+                    "store-raw",
+                    "--root",
+                    str(base),
+                    "--week",
+                    WEEK,
+                    "--source-run-id",
+                    "26753498571",
+                    "--source-artifact-id",
+                    "7330965888",
+                    "--source-head-sha",
+                    "abc123",
+                    "--path",
+                    "data/raw/2026-W21.json",
+                ]
+            )
+            raw_store_manifest = base / "data/raw-store/2026-W21/26753498571/manifest.json"
+
+            publish_manifest.main(
+                create_args(
+                    base,
+                    raw,
+                    summary,
+                    manifest,
+                    gate_report=gate_report,
+                    run_mode="restore",
+                    source_run_id="26753498571",
+                    raw_store_manifest=raw_store_manifest,
+                )
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertTrue(payload["promotion"]["eligible"])
+            self.assertTrue(payload["restore"]["verified"])
+            self.assertEqual(payload["restore"]["source_run_id"], "26753498571")
+            self.assertEqual(payload["restore"]["source_artifact"]["id"], "7330965888")
+            self.assertEqual(assert_eligible_from_root(base, manifest), 0)
+
+    def test_restore_candidate_rejects_hash_mismatch_before_acceptance(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report)
+            publish_manifest.publish_safety.main(
+                [
+                    "store-raw",
+                    "--root",
+                    str(base),
+                    "--week",
+                    WEEK,
+                    "--source-run-id",
+                    "26753498571",
+                    "--source-artifact-id",
+                    "7330965888",
+                    "--source-head-sha",
+                    "abc123",
+                    "--path",
+                    "data/raw/2026-W21.json",
+                ]
+            )
+            raw_store_manifest = base / "data/raw-store/2026-W21/26753498571/manifest.json"
+            raw.write_bytes(b"tampered restored input\n")
+
+            publish_manifest.main(
+                create_args(
+                    base,
+                    raw,
+                    summary,
+                    manifest,
+                    gate_report=gate_report,
+                    run_mode="restore",
+                    source_run_id="26753498571",
+                    raw_store_manifest=raw_store_manifest,
+                )
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertFalse(payload["restore"]["verified"])
+            self.assertTrue(
+                any(
+                    "Restored raw input" in reason and "mismatch" in reason
+                    for reason in payload["promotion"]["reasons"]
+                )
+            )
+            with self.assertRaises(SystemExit):
+                assert_eligible_from_root(base, manifest)
 
     def test_no_ai_candidate_is_not_eligible(self) -> None:
         tests_root = Path(__file__).resolve().parent

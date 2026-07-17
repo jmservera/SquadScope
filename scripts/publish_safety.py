@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import shutil
 from datetime import UTC, datetime
 from pathlib import Path
@@ -11,6 +12,9 @@ from typing import Any
 
 BACKUP_SCHEMA_VERSION = "publish_backup_v1"
 PUBLISH_MANIFEST_SCHEMA_VERSION = "publish_eligibility_v1"
+RAW_STORE_SCHEMA_VERSION = "raw_store_v1"
+WEEK_PATTERN = re.compile(r"^[0-9]{4}-W[0-9]{2}$")
+SAFE_COMPONENT_PATTERN = re.compile(r"^[A-Za-z0-9._-]+$")
 
 
 def sha256_file(path: Path) -> str | None:
@@ -53,6 +57,33 @@ def path_under_root(root: Path, value: Path) -> tuple[Path, Path]:
     return relative, resolved_path
 
 
+def require_safe_component(value: str, *, label: str) -> str:
+    candidate = value.strip()
+    if not candidate or not SAFE_COMPONENT_PATTERN.fullmatch(candidate):
+        raise SystemExit(f"Invalid {label}: {value!r}")
+    return candidate
+
+
+def require_week(value: str) -> str:
+    week = value.strip()
+    if not WEEK_PATTERN.fullmatch(week):
+        raise SystemExit(f"Invalid week format. Expected YYYY-WNN, got: {value!r}")
+    return week
+
+
+def require_raw_path(root: Path, value: str) -> tuple[Path, Path]:
+    relative = relpath_under_root(root, value)
+    if relative.parts[:2] != ("data", "raw"):
+        raise SystemExit(f"Raw store paths must live under data/raw/: {value}")
+    return relative, root / relative
+
+
+def is_week_raw_json(path: Path, week: str) -> bool:
+    return path.suffix == ".json" and (
+        path.name == f"{week}.json" or path.name.startswith(f"{week}-")
+    )
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Publish-branch backup and restore safeguards.")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -82,6 +113,31 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     restore.add_argument("--root", default=".", type=Path)
     restore.add_argument("--backup-manifest", required=True, type=Path)
+
+    store_raw_parser = subparsers.add_parser(
+        "store-raw", help="Store raw evidence under an immutable week/source-run path."
+    )
+    store_raw_parser.add_argument("--root", default=".", type=Path)
+    store_raw_parser.add_argument("--week", required=True)
+    store_raw_parser.add_argument("--source-run-id", required=True)
+    store_raw_parser.add_argument("--source-artifact-id", required=True)
+    store_raw_parser.add_argument("--source-artifact-name", default="raw-data")
+    store_raw_parser.add_argument("--source-head-sha", required=True)
+    store_raw_parser.add_argument("--store-root", default=Path("data/raw-store"), type=Path)
+    store_raw_parser.add_argument(
+        "--path",
+        action="append",
+        required=True,
+        help="Week-scoped data/raw file to preserve.",
+    )
+
+    restore_raw_parser = subparsers.add_parser(
+        "restore-raw", help="Restore hash-verified raw evidence from a source workflow run."
+    )
+    restore_raw_parser.add_argument("--root", default=".", type=Path)
+    restore_raw_parser.add_argument("--week", required=True)
+    restore_raw_parser.add_argument("--source-run-id", required=True)
+    restore_raw_parser.add_argument("--store-root", default=Path("data/raw-store"), type=Path)
 
     return parser.parse_args(argv)
 
@@ -203,12 +259,214 @@ def restore_backup(args: argparse.Namespace) -> int:
     return 0
 
 
+def store_raw(args: argparse.Namespace) -> int:
+    root = args.root.resolve()
+    week = require_week(args.week)
+    source_run_id = require_safe_component(args.source_run_id, label="source_run_id")
+    source_artifact_id = args.source_artifact_id.strip()
+    source_artifact_name = args.source_artifact_name.strip()
+    source_head_sha = args.source_head_sha.strip()
+    if not source_artifact_id:
+        raise SystemExit("source_artifact_id is required.")
+    if not source_artifact_name:
+        raise SystemExit("source_artifact_name is required.")
+    if not source_head_sha:
+        raise SystemExit("source_head_sha is required.")
+
+    sources: list[tuple[Path, Path]] = []
+    seen_sources: set[Path] = set()
+    for raw_path in args.path:
+        relative, source = require_raw_path(root, raw_path)
+        if relative in seen_sources:
+            raise SystemExit(f"Duplicate raw store source: {relative.as_posix()}")
+        seen_sources.add(relative)
+        if not source.exists() or not source.is_file():
+            raise SystemExit(f"Raw store source must be a regular file: {relative.as_posix()}")
+        if relative.name != f"{week}.json" and not relative.name.startswith(f"{week}-"):
+            raise SystemExit(f"Raw store source does not belong to {week}: {relative.as_posix()}")
+        sources.append((relative, source))
+
+    store_root = root / relpath_under_root(root, args.store_root.as_posix())
+    destination = store_root / week / source_run_id
+    if destination.exists():
+        raise SystemExit(f"Refusing to overwrite immutable raw store: {destination}")
+    destination.mkdir(parents=True, exist_ok=False)
+
+    entries: list[dict[str, Any]] = []
+    try:
+        for relative, source in sorted(sources):
+            stored = destination / "files" / relative
+            stored.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, stored)
+            source_hash = sha256_file(source)
+            stored_hash = sha256_file(stored)
+            if source_hash is None or stored_hash != source_hash:
+                raise SystemExit(f"Raw store checksum mismatch while copying {relative.as_posix()}")
+            entries.append(
+                {
+                    "week": week,
+                    "artifact_id": source_artifact_id,
+                    "source_run_id": source_run_id,
+                    "head_sha": source_head_sha,
+                    "original_path": relative.as_posix(),
+                    "stored_path": stored.relative_to(root).as_posix(),
+                    "size_bytes": stored.stat().st_size,
+                    "sha256": stored_hash,
+                }
+            )
+
+        manifest = {
+            "schema_version": RAW_STORE_SCHEMA_VERSION,
+            "created_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
+            "week": week,
+            "source_run_id": source_run_id,
+            "source_artifact": {
+                "id": source_artifact_id,
+                "name": source_artifact_name,
+                "head_sha": source_head_sha,
+                "retention_days": 90,
+            },
+            "files": entries,
+        }
+        manifest_path = destination / "manifest.json"
+        manifest_path.write_text(
+            json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+    except BaseException:
+        shutil.rmtree(destination, ignore_errors=True)
+        raise
+
+    print(f"Created immutable raw store: {destination.relative_to(root).as_posix()}")
+    return 0
+
+
+def validate_raw_store_manifest(
+    root: Path,
+    manifest_path: Path,
+    *,
+    expected_week: str,
+    expected_source_run_id: str,
+) -> tuple[dict[str, Any], list[tuple[Path, Path, dict[str, Any]]]]:
+    root = root.resolve()
+    week = require_week(expected_week)
+    source_run_id = require_safe_component(expected_source_run_id, label="source_run_id")
+    manifest_relative, manifest = path_under_root(root, manifest_path)
+    payload = load_json(manifest)
+    if payload is None:
+        raise SystemExit(f"Raw store manifest is missing or malformed: {manifest_relative}")
+    if payload.get("schema_version") != RAW_STORE_SCHEMA_VERSION:
+        raise SystemExit(f"Unsupported raw store schema: {payload.get('schema_version')!r}")
+    if payload.get("week") != week:
+        raise SystemExit(f"Raw store week mismatch: expected {week}, found {payload.get('week')!r}")
+    if payload.get("source_run_id") != source_run_id:
+        raise SystemExit(
+            "Raw store source_run_id mismatch: "
+            f"expected {source_run_id}, found {payload.get('source_run_id')!r}"
+        )
+    source_artifact = payload.get("source_artifact")
+    artifact_name = source_artifact.get("name") if isinstance(source_artifact, dict) else None
+    if (
+        not isinstance(source_artifact, dict)
+        or not source_artifact.get("id")
+        or not (isinstance(artifact_name, str) and artifact_name.strip())
+        or not source_artifact.get("head_sha")
+    ):
+        raise SystemExit("Raw store manifest lacks source artifact provenance.")
+    files = payload.get("files")
+    if not isinstance(files, list) or not files:
+        raise SystemExit("Raw store manifest has no files list.")
+
+    verified: list[tuple[Path, Path, dict[str, Any]]] = []
+    store_directory = manifest.parent.resolve()
+    store_directory_relative = manifest.parent.relative_to(root)
+    seen_original_paths: set[Path] = set()
+    for entry in files:
+        if not isinstance(entry, dict):
+            raise SystemExit("Raw store file entry is malformed.")
+        original_path = entry.get("original_path")
+        stored_path = entry.get("stored_path")
+        if not isinstance(original_path, str) or not isinstance(stored_path, str):
+            raise SystemExit("Raw store file entry lacks original_path or stored_path.")
+        if entry.get("week") != week or entry.get("source_run_id") != source_run_id:
+            raise SystemExit(f"Raw store file provenance mismatch for {original_path}")
+        if entry.get("artifact_id") != source_artifact.get("id") or entry.get(
+            "head_sha"
+        ) != source_artifact.get("head_sha"):
+            raise SystemExit(f"Raw store artifact provenance mismatch for {original_path}")
+
+        target_relative, target = require_raw_path(root, original_path)
+        if target_relative in seen_original_paths:
+            raise SystemExit(f"Duplicate raw store original_path: {original_path}")
+        seen_original_paths.add(target_relative)
+        stored_relative = relpath_under_root(root, stored_path)
+        expected_stored_relative = store_directory_relative / "files" / target_relative
+        if stored_relative != expected_stored_relative:
+            raise SystemExit(f"Raw store stored_path mismatch for {original_path}: {stored_path}")
+        stored = root / stored_relative
+        try:
+            stored.resolve().relative_to(store_directory)
+        except ValueError as exc:
+            raise SystemExit(
+                f"Raw store file must stay under its immutable run directory: {stored_path}"
+            ) from exc
+        if not stored.exists() or not stored.is_file():
+            raise SystemExit(f"Raw store file is missing: {stored_relative.as_posix()}")
+        if stored.stat().st_size != entry.get("size_bytes"):
+            raise SystemExit(f"Raw store size mismatch for {stored_relative.as_posix()}")
+        if sha256_file(stored) != entry.get("sha256"):
+            raise SystemExit(f"Raw store checksum mismatch for {stored_relative.as_posix()}")
+        verified.append((stored, target, entry))
+
+    required_raw_path = Path("data") / "raw" / f"{week}.json"
+    if required_raw_path not in seen_original_paths:
+        raise SystemExit(f"Raw store manifest lacks required payload: {required_raw_path}")
+    return payload, verified
+
+
+def restore_raw(args: argparse.Namespace) -> int:
+    root = args.root.resolve()
+    week = require_week(args.week)
+    source_run_id = require_safe_component(args.source_run_id, label="source_run_id")
+    store_root = root / relpath_under_root(root, args.store_root.as_posix())
+    manifest = store_root / week / source_run_id / "manifest.json"
+    _, verified = validate_raw_store_manifest(
+        root,
+        manifest,
+        expected_week=week,
+        expected_source_run_id=source_run_id,
+    )
+
+    expected_targets = {target for _, target, _ in verified}
+    raw_root = root / "data" / "raw"
+    if raw_root.exists():
+        for existing in sorted(raw_root.rglob("*.json")):
+            if (
+                existing.is_file()
+                and is_week_raw_json(existing, week)
+                and existing not in expected_targets
+            ):
+                existing.unlink()
+
+    for stored, target, _ in verified:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(stored, target)
+    print(
+        "Restored hash-verified raw evidence: "
+        f"week={week} source_run_id={source_run_id} files={len(verified)}"
+    )
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     if args.command == "backup-existing":
         return backup_existing(args)
     if args.command == "restore-backup":
         return restore_backup(args)
+    if args.command == "store-raw":
+        return store_raw(args)
+    if args.command == "restore-raw":
+        return restore_raw(args)
     raise AssertionError(args.command)
 
 
