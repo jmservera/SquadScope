@@ -1138,6 +1138,124 @@ class PublishManifestTests(unittest.TestCase):
                 )
             )
 
+    def test_synthesis_available_in_normal_mode_is_eligible(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report)
+
+            exit_code = publish_manifest.main(
+                create_args(base, raw, summary, manifest, gate_report=gate_report)
+                + ["--synthesis-status", "available", "--run-mode", "normal"]
+            )
+
+            self.assertEqual(exit_code, 0)
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertTrue(payload["promotion"]["eligible"])
+            self.assertEqual(payload["promotion"]["decision"], "promote")
+            self.assertEqual(payload["synthesis"]["status"], "available")
+            self.assertTrue(payload["synthesis"]["required"])
+            self.assertFalse(
+                any("synthesis" in reason for reason in payload["promotion"]["reasons"])
+            )
+            self.assertEqual(assert_eligible_from_root(base, manifest), 0)
+
+    def test_synthesis_failed_in_normal_mode_blocks_promotion(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report)
+
+            publish_manifest.main(
+                create_args(base, raw, summary, manifest, gate_report=gate_report)
+                + ["--synthesis-status", "failed", "--run-mode", "normal"]
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertEqual(payload["promotion"]["decision"], "block")
+            self.assertEqual(payload["synthesis"]["status"], "failed")
+            self.assertTrue(payload["synthesis"]["required"])
+            self.assertTrue(
+                any(
+                    "synthesis prerequisite unavailable" in reason
+                    for reason in payload["promotion"]["reasons"]
+                )
+            )
+            with self.assertRaises(SystemExit) as ctx:
+                assert_eligible_from_root(base, manifest)
+            self.assertIn("synthesis.status='failed'", str(ctx.exception))
+
+    def test_synthesis_missing_in_normal_mode_blocks_promotion(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report)
+
+            publish_manifest.main(
+                create_args(base, raw, summary, manifest, gate_report=gate_report)
+                + ["--synthesis-status", "missing", "--run-mode", "normal"]
+            )
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertEqual(payload["synthesis"]["status"], "missing")
+            self.assertTrue(payload["synthesis"]["required"])
+            self.assertTrue(
+                any(
+                    "synthesis prerequisite unavailable" in reason
+                    for reason in payload["promotion"]["reasons"]
+                )
+            )
+            with self.assertRaises(SystemExit):
+                assert_eligible_from_root(base, manifest)
+
+    def test_synthesis_not_required_does_not_block_promotion(self) -> None:
+        """Default synthesis-status='not-required' must not affect eligibility."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_summary(summary)
+            write_gate_report(gate_report)
+
+            # No --synthesis-status arg → default 'not-required'
+            exit_code = publish_manifest.main(
+                create_args(base, raw, summary, manifest, gate_report=gate_report)
+            )
+
+            self.assertEqual(exit_code, 0)
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertTrue(payload["promotion"]["eligible"])
+            self.assertEqual(payload["synthesis"]["status"], "not-required")
+            self.assertFalse(payload["synthesis"]["required"])
+            self.assertFalse(
+                any("synthesis" in reason for reason in payload["promotion"]["reasons"])
+            )
+            self.assertEqual(assert_eligible_from_root(base, manifest), 0)
+
 
 if __name__ == "__main__":
     unittest.main()

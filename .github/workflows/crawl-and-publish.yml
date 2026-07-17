@@ -452,6 +452,11 @@ jobs:
           PY
           echo "press_file=$PRESS_FILE" >> "$GITHUB_OUTPUT"
 
+      - name: Install Copilot CLI
+        if: ${{ inputs.analysis_path != 'map-reduce-dry-run' }}
+        id: install-copilot
+        run: npm install -g @github/copilot
+
       - name: Run synthesis step (Step 1)
         id: synthesis
         env:
@@ -480,6 +485,7 @@ jobs:
             --run-synthesis \
             --synthesis-output "$SYNTHESIS_PROMPT"
           if command -v copilot >/dev/null 2>&1 && [ -f "$SYNTHESIS_PROMPT" ]; then
+            echo "synthesis_attempted=true" >> "$GITHUB_OUTPUT"
             set +e
             copilot \
               --agent weekly-synthesis \
@@ -499,6 +505,7 @@ jobs:
               echo "synthesis_available=false" >> "$GITHUB_OUTPUT"
             fi
           else
+            echo "synthesis_attempted=false" >> "$GITHUB_OUTPUT"
             echo "::warning::Synthesis step skipped (copilot not available or prompt missing); falling back to single-prompt."
             echo "synthesis_available=false" >> "$GITHUB_OUTPUT"
           fi
@@ -570,11 +577,6 @@ jobs:
           echo "prompt_file=$PROMPT_FILE" >> "$GITHUB_OUTPUT"
           echo "preflight_report_json=$PREFLIGHT_JSON" >> "$GITHUB_OUTPUT"
           echo "preflight_report_md=$PREFLIGHT_MD" >> "$GITHUB_OUTPUT"
-
-      - name: Install Copilot CLI
-        if: ${{ inputs.analysis_path != 'map-reduce-dry-run' }}
-        id: install-copilot
-        run: npm install -g @github/copilot
 
       - name: Run analysis
         if: steps.prompt-preflight.outcome == 'success'
@@ -867,9 +869,26 @@ jobs:
           SOURCE_REFRESH_POLICY: ${{ steps.analysis-context.outputs.source_refresh_policy }}
           GATE_REPORT: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
           PREFLIGHT_REPORT: ${{ steps.prompt-preflight.outputs.preflight_report_json }}
+          IN_SYNTHESIS_AVAILABLE: ${{ steps.synthesis.outputs.synthesis_available }}
+          IN_SYNTHESIS_ATTEMPTED: ${{ steps.synthesis.outputs.synthesis_attempted }}
+          IN_ANALYSIS_PATH: ${{ inputs.analysis_path }}
         run: |
           set -euo pipefail
           git fetch origin publish 2>/dev/null && git checkout origin/publish -- "$PUBLISHED_SUMMARY" 2>/dev/null || true
+          # Derive synthesis status for manifest: available, failed, missing, or not-required.
+          # 'not-required' applies only when synthesis was never expected (map-reduce-dry-run).
+          # 'missing' covers paths where synthesis was expected but never attempted
+          #   (e.g. copilot CLI not found on PATH after install, or prompt render failed).
+          # This prevents a real "missing" case from being silently laundered into "not-required".
+          if [ "${IN_ANALYSIS_PATH:-}" = "map-reduce-dry-run" ]; then
+            SYNTHESIS_STATUS="not-required"
+          elif [ "${IN_SYNTHESIS_AVAILABLE:-false}" = "true" ]; then
+            SYNTHESIS_STATUS="available"
+          elif [ "${IN_SYNTHESIS_ATTEMPTED:-false}" = "true" ]; then
+            SYNTHESIS_STATUS="failed"
+          else
+            SYNTHESIS_STATUS="missing"
+          fi
           ARTIFACT_ARGS=()
           for candidate in \
             "external_news=data/raw/${WEEK}-external-news.json" \
@@ -896,6 +915,7 @@ jobs:
             --run-mode "$RUN_MODE" \
             --source-refresh-policy "$SOURCE_REFRESH_POLICY" \
             --gate-report "$GATE_REPORT" \
+            --synthesis-status "$SYNTHESIS_STATUS" \
             --output "$MANIFEST_FILE" \
             "${ARTIFACT_ARGS[@]}"
 

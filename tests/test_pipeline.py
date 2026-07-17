@@ -658,6 +658,55 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("--reuse-artifact", run_crawler["run"])
         self.assertIn("--source-refresh-policy", run_crawler["run"])
 
+    def test_synthesis_status_derivation_is_fail_closed(self) -> None:
+        """Verify the SYNTHESIS_STATUS bash derivation is fail-closed.
+
+        - map-reduce-dry-run path → 'not-required'
+        - synthesis_available=true → 'available'
+        - synthesis_attempted=true (but unavailable) → 'failed'
+        - neither attempted (e.g. copilot CLI not on PATH) → 'missing', NOT 'not-required'
+        """
+        workflow_path = Path(".github/workflows/crawl-and-publish.yml")
+        manifest_step = next(
+            (
+                s
+                for s in yaml.safe_load(workflow_path.read_text(encoding="utf-8"))["jobs"][
+                    "analyze"
+                ]["steps"]
+                if s.get("name") == "Emit publish eligibility manifest"
+            ),
+            None,
+        )
+        self.assertIsNotNone(manifest_step)
+        run = manifest_step["run"]
+        env = manifest_step.get("env", {})
+
+        # analysis_path must be threaded into the step
+        self.assertIn("IN_ANALYSIS_PATH", env)
+        self.assertIn("inputs.analysis_path", env["IN_ANALYSIS_PATH"])
+
+        # dry-run path → not-required (first branch, before available check)
+        self.assertIn("map-reduce-dry-run", run)
+        self.assertIn('SYNTHESIS_STATUS="not-required"', run)
+
+        # synthesis_available=true → available
+        self.assertIn('SYNTHESIS_STATUS="available"', run)
+
+        # synthesis_attempted=true but unavailable → failed
+        self.assertIn('SYNTHESIS_STATUS="failed"', run)
+
+        # not attempted in eligible path → missing (fail-closed, not not-required)
+        self.assertIn('SYNTHESIS_STATUS="missing"', run)
+
+        # old incorrect else-branch must not exist (not-required must NOT be the fallback)
+        lines = [line.strip() for line in run.splitlines()]
+        # 'not-required' must only appear inside the map-reduce-dry-run branch, not as the else
+        not_required_lines = [ln for ln in lines if 'SYNTHESIS_STATUS="not-required"' in ln]
+        self.assertEqual(len(not_required_lines), 1, "not-required must appear exactly once")
+        # missing must appear as the else/fallback
+        missing_lines = [ln for ln in lines if 'SYNTHESIS_STATUS="missing"' in ln]
+        self.assertEqual(len(missing_lines), 1, "missing must appear exactly once as the fallback")
+
     def test_notify_failure_job_creates_or_updates_issue(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))

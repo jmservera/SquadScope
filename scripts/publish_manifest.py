@@ -93,6 +93,13 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default="",
         help="Operator or automation actor requesting explicit fallback policy.",
     )
+    create.add_argument(
+        "--synthesis-status",
+        choices=["available", "missing", "failed", "not-required"],
+        default="not-required",
+        help="Outcome of the synthesis prerequisite step. 'not-required' preserves legacy behaviour. "
+        "'failed' or 'missing' blocks normal publication.",
+    )
 
     check = subparsers.add_parser(
         "assert-eligible", help="Fail unless the manifest permits promotion."
@@ -571,6 +578,8 @@ def create_manifest(args: argparse.Namespace) -> int:
     candidate_content_exists = candidate_content.exists()
     validation_passed = args.validation_status == "passed"
     mode_allows_promotion = args.run_mode not in {"dry-run", "candidate-only"}
+    synthesis_status = getattr(args, "synthesis_status", "not-required")
+    synthesis_required = synthesis_status != "not-required" and args.run_mode == "normal"
     gates_passed = gate_report.get("present") is True and gate_report.get("passed") is True
     candidate_quality = candidate_metadata.get("quality_score")
     attempted_ai_paths = [path for path in args.attempted_ai_path if path.strip()]
@@ -650,6 +659,11 @@ def create_manifest(args: argparse.Namespace) -> int:
         reasons.extend(gate_reasons(gate_report))
     reasons.extend(artifact_reasons)
     reasons.extend(comparison_reasons)
+    if synthesis_required and synthesis_status != "available":
+        reasons.append(
+            f"synthesis prerequisite unavailable ({synthesis_status}): "
+            "required synthesis must succeed for normal publication"
+        )
 
     eligible = (
         candidate_exists
@@ -794,6 +808,10 @@ def create_manifest(args: argparse.Namespace) -> int:
             else None,
             "reasons": reasons if preserve_existing else [],
         },
+        "synthesis": {
+            "status": synthesis_status,
+            "required": synthesis_required,
+        },
     }
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -817,6 +835,14 @@ def assert_eligible(args: argparse.Namespace) -> int:
         raise SystemExit(PROMOTION_MANIFEST_ROOT_ERROR)
     if payload.get("schema_version") != SCHEMA_VERSION:
         raise SystemExit(f"Unsupported publish manifest schema: {payload.get('schema_version')!r}")
+    synthesis = payload.get("synthesis")
+    if isinstance(synthesis, dict) and synthesis.get("required") is True:
+        if synthesis.get("status") != "available":
+            raise SystemExit(
+                f"Manifest synthesis prerequisite is unavailable "
+                f"(synthesis.status={synthesis.get('status')!r}); "
+                "required synthesis must succeed before normal publication."
+            )
     analysis = payload.get("analysis")
     if not isinstance(analysis, dict):
         raise SystemExit("Manifest lacks publishable AI provenance.")
