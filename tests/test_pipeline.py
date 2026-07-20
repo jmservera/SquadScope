@@ -847,9 +847,37 @@ class PipelineIntegrationTests(unittest.TestCase):
                 0,
             )
 
+            # quality_score is now pipeline-owned: a hand-set value is overwritten by the
+            # deterministic objective score, so an otherwise-valid summary still passes even
+            # when the authored score is low (jmservera/SquadScope#583).
+            overwritten_path = base / "data" / "analyzed" / "overwritten-summary.md"
+            overwritten_path.write_text(
+                make_analysis_markdown().replace("quality_score: 86", "quality_score: 40"),
+                encoding="utf-8",
+            )
+            self.assertEqual(
+                analysis_gate.main(
+                    [
+                        "--analysis-file",
+                        str(overwritten_path),
+                        "--raw-json",
+                        str(raw_path),
+                        "--current-datetime",
+                        FIXED_RUN_DATETIME,
+                        "--source",
+                        "copilot-cli",
+                    ]
+                ),
+                0,
+            )
+            rewritten = overwritten_path.read_text(encoding="utf-8")
+            self.assertNotIn("quality_score: 40", rewritten)
+            self.assertRegex(rewritten, r"(?m)^quality_score: (?:6[0-9]|[7-9][0-9]|100)$")
+
+            # A genuine gate violation (missing required section heading) must still be rejected.
             invalid_path = base / "data" / "analyzed" / "invalid-summary.md"
             invalid_path.write_text(
-                make_analysis_markdown().replace("quality_score: 86", "quality_score: 40"),
+                make_analysis_markdown().replace("## The Week Ahead", "## Looking Forward"),
                 encoding="utf-8",
             )
 
