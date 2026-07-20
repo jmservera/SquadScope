@@ -5,6 +5,7 @@ from pathlib import Path
 from unittest import mock
 
 import scripts.analysis_gate as analysis_gate
+from scripts.render_press_context import NO_PRESS_SENTINEL
 
 RAW_PAYLOAD = {"week": "2026-W23"}
 RAW_PAYLOAD_WITH_REPOS = {
@@ -721,6 +722,73 @@ No press data was provided this week.
 
             # A positive token estimate short-circuits to populated even without a file.
             self.assertTrue(analysis_gate.press_context_is_populated(missing, token_estimate=42))
+
+    def test_press_context_is_populated_sentinel_wins_over_token_estimate(self) -> None:
+        """Regression (2026-W30 press-less path): a provided path is authoritative, so a
+        sentinel-only press file is *not* populated even when token_estimate > 0, while a
+        real press file is. The token_estimate fallback only applies when no usable path
+        is provided."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+
+            sentinel = base / "sentinel-press-context.md"
+            sentinel.write_text(NO_PRESS_SENTINEL, encoding="utf-8")
+            self.assertFalse(
+                analysis_gate.press_context_is_populated(sentinel, token_estimate=500)
+            )
+
+            real = base / "real-press-context.md"
+            real.write_text(
+                "## Press Context\n\n22 relevant articles about AI agents.",
+                encoding="utf-8",
+            )
+            self.assertTrue(
+                analysis_gate.press_context_is_populated(real, token_estimate=500)
+            )
+
+            # token_estimate fallback applies only when no usable path is provided.
+            self.assertTrue(analysis_gate.press_context_is_populated(None, token_estimate=500))
+            self.assertFalse(analysis_gate.press_context_is_populated(None, 0))
+            self.assertFalse(analysis_gate.press_context_is_populated(None, None))
+
+    def test_stale_press_gate_end_to_end_for_sentinel_pressless_week(self) -> None:
+        """End-to-end press-less path: a body that legitimately states press was absent
+        must NOT trip the stale-press rule when the week's press file is the sentinel
+        (even with a positive token estimate); the identical body with a real press file
+        still trips it, confirming the W30 regression stays caught."""
+        body = "No industry press data was available for this week's analysis."
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            token_estimate = 500
+
+            sentinel = base / "sentinel-press-context.md"
+            sentinel.write_text(NO_PRESS_SENTINEL, encoding="utf-8")
+            sentinel_available = analysis_gate.press_context_is_populated(
+                sentinel, token_estimate=token_estimate
+            )
+            self.assertFalse(sentinel_available)
+            self.assertEqual(
+                analysis_gate.stale_press_claim_errors(
+                    body, press_context_available=sentinel_available
+                ),
+                [],
+            )
+
+            real = base / "real-press-context.md"
+            real.write_text(
+                "## Press Context\n\n22 relevant articles about AI agents.",
+                encoding="utf-8",
+            )
+            real_available = analysis_gate.press_context_is_populated(
+                real, token_estimate=token_estimate
+            )
+            self.assertTrue(real_available)
+            errors = analysis_gate.stale_press_claim_errors(
+                body, press_context_available=real_available
+            )
+            self.assertTrue(any(error.startswith("stale press claim:") for error in errors))
 
 
 if __name__ == "__main__":

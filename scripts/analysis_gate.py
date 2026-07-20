@@ -11,6 +11,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from scripts.render_press_context import NO_PRESS_SENTINEL_MARKER
+
 try:  # pragma: no cover - optional dependency on runners
     import yaml
 except ImportError:  # pragma: no cover - exercised via fallback parser
@@ -126,11 +128,6 @@ STALE_PRESS_CLAIM_PATTERNS = [
         "while a populated press context exists for this week.",
     ),
 ]
-# render_press_context.py emits this exact sentence when the week has no press data,
-# producing a non-empty file. Treat that sentinel as an *empty* press context.
-PRESS_CONTEXT_ABSENT_MARKER = re.compile(r"no press data available for this week", re.IGNORECASE)
-
-
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Validate weekly analysis output against the analysis spec."
@@ -657,20 +654,22 @@ def press_context_is_populated(
     render_press_context.py emits a non-empty "No press data available for this week."
     sentinel when press is absent, so a bare size/non-empty check is insufficient: the
     sentinel is treated as an empty press context.
+
+    When a press_context_path is provided its content is authoritative: sentinel
+    content wins over a positive token_estimate, so a genuinely press-less week is
+    classified as *not* populated even if token_estimate > 0. The token_estimate
+    fallback only applies when no usable path is provided (path is None, missing,
+    empty, or unreadable).
     """
-    if token_estimate is not None and token_estimate > 0:
-        return True
-    if press_context_path is None:
-        return False
-    try:
-        if not press_context_path.exists() or press_context_path.stat().st_size == 0:
-            return False
-        content = press_context_path.read_text(encoding="utf-8").strip()
-    except OSError:
-        return False
-    if not content:
-        return False
-    return not PRESS_CONTEXT_ABSENT_MARKER.search(content)
+    if press_context_path is not None:
+        try:
+            if press_context_path.exists() and press_context_path.stat().st_size > 0:
+                content = press_context_path.read_text(encoding="utf-8").strip()
+                if content:
+                    return not NO_PRESS_SENTINEL_MARKER.search(content)
+        except OSError:
+            pass
+    return token_estimate is not None and token_estimate > 0
 
 
 def stale_press_claim_errors(body: str, *, press_context_available: bool) -> list[str]:

@@ -9,6 +9,7 @@ from urllib import error
 
 import scripts.analyze_fallback as analyze_fallback
 import scripts.publish_manifest as publish_manifest
+from scripts.render_press_context import NO_PRESS_SENTINEL
 
 
 class _FakeHTTPResponse(io.BytesIO):
@@ -948,6 +949,79 @@ class AnalyzeFallbackTests(unittest.TestCase):
             )
             self.assertEqual(press_component["token_estimate"], 0)
             self.assertEqual(press_component["bytes"], 0)
+
+    def test_synthesis_narrative_with_sentinel_press_context_suppresses_block(self) -> None:
+        """Regression (press-less week): when the press-context FILE contains the render
+        NO_PRESS_SENTINEL, the non-empty sentinel must be treated as *no* press — the
+        '## Press Context' block is suppressed, the model is not told 'No industry press
+        data was available', and the press component is recorded as not included. A real
+        press file (contrast, covered by
+        test_synthesis_narrative_does_not_drop_press_context) still yields the block."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W30.json"
+            prompt_template = base / "prompt.md"
+            output_path = base / "data" / "analyzed" / "2026-W30-summary.md"
+            press_path = base / "data" / "analyzed" / "2026-W30-press-context.md"
+            synthesis_path = base / "synthesis.md"
+            report_path = base / "diagnostics" / "preflight.json"
+            raw_path.parent.mkdir(parents=True)
+            output_path.parent.mkdir(parents=True)
+            raw_path.write_text(
+                json.dumps({"week": "2026-W30", "new_repos": [], "trending_repos": []}),
+                encoding="utf-8",
+            )
+            prompt_template.write_text(
+                "{{RAW_JSON_CONTENT}}\n{{HISTORICAL_CONTEXT}}", encoding="utf-8"
+            )
+            # The press file is present but its content IS the no-press sentinel.
+            press_path.write_text(NO_PRESS_SENTINEL, encoding="utf-8")
+            synthesis_path.write_text(
+                "Industry narrative distilled from press and history.", encoding="utf-8"
+            )
+
+            with mock.patch("sys.stdout", new_callable=io.StringIO) as stdout:
+                exit_code = analyze_fallback.main(
+                    [
+                        "--raw-json",
+                        str(raw_path),
+                        "--output",
+                        str(output_path),
+                        "--current-datetime",
+                        "2026-07-27T12:00:00Z",
+                        "--prompt-template",
+                        str(prompt_template),
+                        "--analyzed-dir",
+                        str(output_path.parent),
+                        "--wisdom-file",
+                        str(base / "w.md"),
+                        "--skills-dir",
+                        str(base / "s"),
+                        "--press-context",
+                        str(press_path),
+                        "--synthesis-input",
+                        str(synthesis_path),
+                        "--preflight-report-json",
+                        str(report_path),
+                        "--print-prompt",
+                    ]
+                )
+
+            self.assertEqual(exit_code, 0)
+            rendered = stdout.getvalue()
+            self.assertIn("Industry narrative distilled", rendered)
+            # Sentinel content must NOT be emitted as a real press block.
+            self.assertNotIn("## Press Context", rendered)
+            self.assertNotIn("No industry press data was available", rendered)
+
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            components = {component["name"]: component for component in report["components"]}
+            press_component = components["press_correlations"]
+            self.assertFalse(press_component["included"])
+            self.assertEqual(
+                press_component["compaction_decision"], "not included: no press context"
+            )
 
     def test_run_synthesis_exits_zero_and_writes_prompt(self) -> None:
         """--run-synthesis should render synthesis prompt to output file."""
