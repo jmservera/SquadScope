@@ -1,3 +1,4 @@
+import hashlib
 import io
 import json
 import sys
@@ -238,10 +239,26 @@ class PodcasterHandoffTests(unittest.TestCase):
             manifest = self._write_manifest(Path(tmpdir))
             article_dir = Path(tmpdir) / "content" / "weekly" / "2026"
             article_dir.mkdir(parents=True)
-            (article_dir / "W23.md").write_text(
-                "---\ntitle: Week 23 Report\nsummary: Week 23 summary.\n---\n# Week 23 Report\nBody content here.\n",
-                encoding="utf-8",
+            # The Podcaster contract rejects article_content shorter than 150 chars
+            # (the W30 press-less "91-char baseline" defect) and requires
+            # article_sha256 to match the exact UTF-8 article_content bytes, so this
+            # smoke fixture must be a realistic full-length article whose sha256 the
+            # manifest records — mirroring a real weekly handoff.
+            article_text = (
+                "---\ntitle: Week 23 Report\nsummary: Week 23 summary.\n---\n"
+                "# Week 23 Report\n"
+                "This week the agent-skills ecosystem kept compounding: new packaging "
+                "conventions, tighter trust boundaries, and a steady stream of GitHub "
+                "signal worth reading in full.\n"
             )
+            (article_dir / "W23.md").write_text(article_text, encoding="utf-8")
+            # Point candidate.summary_sha256 at the real article bytes so the emitted
+            # payload.article_sha256 matches what the Podcaster recomputes and checks.
+            manifest_data = json.loads(manifest.read_text(encoding="utf-8"))
+            manifest_data["candidate"]["summary_sha256"] = hashlib.sha256(
+                article_text.encode("utf-8")
+            ).hexdigest()
+            manifest.write_text(json.dumps(manifest_data), encoding="utf-8")
 
             payload = podcaster_handoff.build_payload(
                 week="2026-W23",
