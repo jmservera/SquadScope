@@ -690,6 +690,7 @@ jobs:
               --source "$1" \
               --model "$2" \
               --repair-safe \
+              --press-context-path "$PRESS_FILE" \
               --report-json "$3"
           }
 
@@ -910,6 +911,7 @@ jobs:
           RAW_JSON_FILE: ${{ steps.analysis-context.outputs.week_file }}
           CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
           GATE_REPORT: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
+          PRESS_FILE: ${{ steps.press-context.outputs.press_file }}
         run: |
           python3 scripts/analysis_gate.py \
             --analysis-file "$ANALYSIS_FILE" \
@@ -917,6 +919,7 @@ jobs:
             --current-datetime "$CURRENT_DATETIME" \
             --source "$ANALYSIS_SOURCE" \
             --model "$ANALYSIS_MODEL" \
+            --press-context-path "$PRESS_FILE" \
             --report-json "$GATE_REPORT"
 
       - name: Emit publish eligibility manifest

@@ -373,7 +373,12 @@ summary: "A grounded week focused on practical tools."'''.strip()
             raw_path.write_text(json.dumps(RAW_PAYLOAD_WITH_REPOS), encoding="utf-8")
 
             def publish_quality_for(
-                text: str, raw_payload: dict, *, source: str, model: str
+                text: str,
+                raw_payload: dict,
+                *,
+                source: str,
+                model: str,
+                press_context_available: bool = False,
             ) -> tuple[list[str], dict]:
                 if text == original_text:
                     return ["pre-repair publish-quality failure"], analysis_gate.build_gate_results(

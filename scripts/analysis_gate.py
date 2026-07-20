@@ -110,6 +110,25 @@ CONTRADICTION_PATTERNS = [
         "claims no meaningful developer activity while citing active repositories.",
     ),
 ]
+# "No press data" style statements that must NOT appear in the published body when
+# the week's press context is actually populated. Unlike CONTRADICTION_PATTERNS these
+# fire even when the body does not self-contradict (no other press discussion present) —
+# they catch the false-negative where a populated press-context.md is silently dropped.
+STALE_PRESS_CLAIM_PATTERNS = [
+    (
+        re.compile(r"no industry press data was available", re.IGNORECASE),
+        'body states "No industry press data was available for this week\'s analysis." '
+        "while a populated press context exists for this week.",
+    ),
+    (
+        re.compile(r"no press data was provided this week", re.IGNORECASE),
+        'Key References state "No press data was provided this week." '
+        "while a populated press context exists for this week.",
+    ),
+]
+# render_press_context.py emits this exact sentence when the week has no press data,
+# producing a non-empty file. Treat that sentinel as an *empty* press context.
+PRESS_CONTEXT_ABSENT_MARKER = re.compile(r"no press data available for this week", re.IGNORECASE)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -135,6 +154,20 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Apply deterministic frontmatter/schema repairs before final validation.",
     )
     parser.add_argument("--report-json", type=Path, help="Write a machine-readable gate report.")
+    parser.add_argument(
+        "--press-context-path",
+        type=Path,
+        default=None,
+        help="Path to the week's rendered press-context.md. When populated, the gate fails "
+        'analyses that still claim "no press data".',
+    )
+    parser.add_argument(
+        "--press-token-estimate",
+        type=int,
+        default=None,
+        help="Optional token estimate for the week's press context; a value > 0 marks the "
+        "press context as populated even without the rendered file.",
+    )
     return parser.parse_args(argv)
 
 
@@ -616,6 +649,46 @@ def contradiction_errors(body: str) -> list[str]:
     return errors
 
 
+def press_context_is_populated(
+    press_context_path: Path | None, token_estimate: int | None = None
+) -> bool:
+    """Return True when the week has real press context to write from.
+
+    render_press_context.py emits a non-empty "No press data available for this week."
+    sentinel when press is absent, so a bare size/non-empty check is insufficient: the
+    sentinel is treated as an empty press context.
+    """
+    if token_estimate is not None and token_estimate > 0:
+        return True
+    if press_context_path is None:
+        return False
+    try:
+        if not press_context_path.exists() or press_context_path.stat().st_size == 0:
+            return False
+        content = press_context_path.read_text(encoding="utf-8").strip()
+    except OSError:
+        return False
+    if not content:
+        return False
+    return not PRESS_CONTEXT_ABSENT_MARKER.search(content)
+
+
+def stale_press_claim_errors(body: str, *, press_context_available: bool) -> list[str]:
+    """Fail analyses that claim "no press data" while press context is populated.
+
+    This is defense-in-depth against the 2026-W30 regression where a populated
+    press-context.md was silently dropped and the body shipped
+    "No industry press data was available for this week's analysis.".
+    """
+    if not press_context_available:
+        return []
+    errors: list[str] = []
+    for pattern, message in STALE_PRESS_CLAIM_PATTERNS:
+        if pattern.search(body):
+            errors.append(f"stale press claim: {message}")
+    return errors
+
+
 def ai_provenance_errors(source: str, model: str) -> list[str]:
     errors: list[str] = []
     normalized_source = source.strip()
@@ -635,7 +708,7 @@ def categorize_gate_error(error: str) -> str:
     ):
         return "evidence_citation"
     if (
-        error.startswith(("editorial analysis", "contradictory claim"))
+        error.startswith(("editorial analysis", "contradictory claim", "stale press claim"))
         or "section is too thin" in error
         or "must explain why" in error
     ):
@@ -665,6 +738,7 @@ def validate_publish_quality(
     *,
     source: str,
     model: str,
+    press_context_available: bool = False,
 ) -> tuple[list[str], dict[str, dict[str, Any]]]:
     try:
         _, body = extract_frontmatter(text)
@@ -676,6 +750,9 @@ def validate_publish_quality(
         errors.extend(evidence_citation_errors(body, raw_payload))
         errors.extend(editorial_quality_errors(body))
         errors.extend(contradiction_errors(body))
+        errors.extend(
+            stale_press_claim_errors(body, press_context_available=press_context_available)
+        )
     return errors, build_gate_results(errors)
 
 
@@ -874,9 +951,16 @@ def main(argv: list[str] | None = None) -> int:
 
     text = args.analysis_file.read_text(encoding="utf-8")
     raw_payload = load_json(args.raw_json)
+    press_context_available = press_context_is_populated(
+        args.press_context_path, args.press_token_estimate
+    )
     errors_before, word_count = validate_analysis(text, raw_payload, args.current_datetime)
     publish_errors_before, _ = validate_publish_quality(
-        text, raw_payload, source=args.source, model=args.model
+        text,
+        raw_payload,
+        source=args.source,
+        model=args.model,
+        press_context_available=press_context_available,
     )
     combined_errors_before = errors_before + [
         error for error in publish_errors_before if error not in errors_before
@@ -900,7 +984,11 @@ def main(argv: list[str] | None = None) -> int:
                     file=sys.stderr,
                 )
     publish_errors, _ = validate_publish_quality(
-        text, raw_payload, source=args.source, model=args.model
+        text,
+        raw_payload,
+        source=args.source,
+        model=args.model,
+        press_context_available=press_context_available,
     )
     errors = errors + [error for error in publish_errors if error not in errors]
     gate_results = build_gate_results(errors)
