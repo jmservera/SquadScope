@@ -126,6 +126,9 @@ class PodcasterHandoffTests(unittest.TestCase):
             yearly_path.mkdir(parents=True, exist_ok=True)
             (yearly_path / "2026.md").write_text(yearly_narrative, encoding="utf-8")
 
+    def test_escape_gha_data_escapes_workflow_command_data(self) -> None:
+        self.assertEqual(podcaster_handoff._escape_gha_data("a\r\nb%c"), "a%0D%0Ab%25c")
+
     def test_build_payload_uses_required_fields_and_real_optional_values(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
@@ -457,6 +460,49 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertEqual(exit_code, 0)
         urlopen_mock.assert_not_called()
         self.assertIn("Podcaster handoff skipped", stdout.getvalue())
+
+    def test_main_prints_podcaster_job_id_and_status_notice(self) -> None:
+        response = {
+            "job_id": "podcast-2026-W30-abc12345",
+            "status": "accepted",
+            "errors": [],
+        }
+        payload = {"week": "2026-W30"}
+        with (
+            mock.patch.object(podcaster_handoff, "build_payload", return_value=payload),
+            mock.patch.object(
+                podcaster_handoff, "post_handoff", return_value=response
+            ) as post_handoff_mock,
+            mock.patch.dict(
+                podcaster_handoff.os.environ, {"PODCASTER_API_KEY": "super-secret-value"}
+            ),
+            mock.patch("sys.stdout", new_callable=io.StringIO) as stdout,
+        ):
+            exit_code = podcaster_handoff.main(
+                [
+                    "--week",
+                    "2026-W30",
+                    "--article-url",
+                    "https://jmservera.github.io/SquadScope/weekly/2026/w30/",
+                    "--article-path",
+                    "content/weekly/2026/W30.md",
+                    "--publish-run-id",
+                    "123456789",
+                    "--endpoint",
+                    "http://localhost:7071/api/generate",
+                ]
+            )
+
+        self.assertEqual(exit_code, 0)
+        post_handoff_mock.assert_called_once_with(
+            "http://localhost:7071/api/generate",
+            "super-secret-value",
+            payload,
+            timeout=podcaster_handoff.DEFAULT_TIMEOUT_SECONDS,
+        )
+        notice = stdout.getvalue()
+        self.assertIn("job_id=podcast-2026-W30-abc12345", notice)
+        self.assertIn("status=accepted", notice)
 
     def test_post_handoff_sends_auth_header_without_logging_value(self) -> None:
         response = _FakeHTTPResponse(
