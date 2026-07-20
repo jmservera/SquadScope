@@ -29,6 +29,14 @@ MAX_RENDERED_ARTICLES = 40
 MAX_RENDERED_CORRELATIONS = 20
 GITHUB_REPO_FULL_NAME_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 
+# Single source of truth for the "no press this week" sentinel. This is a
+# NON-EMPTY string, so downstream code must use NO_PRESS_SENTINEL_MARKER to
+# detect it rather than treating any non-empty press_content as real press.
+NO_PRESS_SENTINEL = (
+    "No press data available for this week. Analyze repos based on GitHub signals only."
+)
+NO_PRESS_SENTINEL_MARKER = re.compile(r"no press data available for this week", re.IGNORECASE)
+
 
 def validate_https_url(url: str, *, label: str) -> None:
     parsed = urlparse(url)
@@ -614,6 +622,14 @@ def estimate_tokens(markdown: str) -> int:
     return max(1, (len(markdown) + 3) // 4)
 
 
+def press_token_estimate(content: str) -> int:
+    """Return 0 for empty content or no-press sentinel so gate fallback matches path logic."""
+    stripped = content.strip()
+    if not stripped or NO_PRESS_SENTINEL_MARKER.search(stripped):
+        return 0
+    return estimate_tokens(stripped)
+
+
 def enforce_press_context_budget(markdown: str) -> str:
     """Keep press context below the documented token budget."""
     if estimate_tokens(markdown) <= PRESS_CONTEXT_TOKEN_BUDGET:
@@ -649,7 +665,7 @@ def render_press_context(
         Rendered markdown prompt section.
     """
     if techcrunch_data is None and correlation_data is None:
-        return "No press data available for this week. Analyze repos based on GitHub signals only."
+        return NO_PRESS_SENTINEL
 
     template_path = _REPO_ROOT / "prompts" / "analyze-press-context.md"
     template = template_path.read_text(encoding="utf-8")

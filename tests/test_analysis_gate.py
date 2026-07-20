@@ -5,6 +5,7 @@ from pathlib import Path
 from unittest import mock
 
 import scripts.analysis_gate as analysis_gate
+from scripts.render_press_context import NO_PRESS_SENTINEL, press_token_estimate
 
 RAW_PAYLOAD = {"week": "2026-W23"}
 RAW_PAYLOAD_WITH_REPOS = {
@@ -373,7 +374,12 @@ summary: "A grounded week focused on practical tools."'''.strip()
             raw_path.write_text(json.dumps(RAW_PAYLOAD_WITH_REPOS), encoding="utf-8")
 
             def publish_quality_for(
-                text: str, raw_payload: dict, *, source: str, model: str
+                text: str,
+                raw_payload: dict,
+                *,
+                source: str,
+                model: str,
+                press_context_available: bool = False,
             ) -> tuple[list[str], dict]:
                 if text == original_text:
                     return ["pre-repair publish-quality failure"], analysis_gate.build_gate_results(
@@ -635,6 +641,207 @@ No press data was provided this week.
 
         self.assertTrue(any("contradictory claim" in error for error in errors))
         self.assertFalse(gates["editorial_quality"]["passed"])
+
+    def test_stale_press_claim_fails_when_press_context_available(self) -> None:
+        """Regression (2026-W30): body claims no press data while a populated press
+        context exists → gate must fail with a 'stale press claim:' error."""
+        body = "No industry press data was available for this week's analysis."
+        errors = analysis_gate.stale_press_claim_errors(body, press_context_available=True)
+        self.assertTrue(any(error.startswith("stale press claim:") for error in errors))
+
+    def test_stale_press_claim_ignored_when_no_press_context(self) -> None:
+        """Legitimately press-less weeks must NOT false-positive: the same body with
+        press_context_available=False produces no stale-press error."""
+        body = "No industry press data was available for this week's analysis."
+        errors = analysis_gate.stale_press_claim_errors(body, press_context_available=False)
+        self.assertEqual(errors, [])
+
+    def test_stale_press_claim_catches_key_references_variant(self) -> None:
+        """The 'No press data was provided this week.' Key References phrasing is also
+        caught when a populated press context exists."""
+        body = "### Press & Industry\n\nNo press data was provided this week."
+        errors = analysis_gate.stale_press_claim_errors(body, press_context_available=True)
+        self.assertTrue(any(error.startswith("stale press claim:") for error in errors))
+        errors_no_press = analysis_gate.stale_press_claim_errors(
+            body, press_context_available=False
+        )
+        self.assertEqual(errors_no_press, [])
+
+    def test_publish_quality_gate_fails_on_stale_press_claim_with_press_available(self) -> None:
+        """End-to-end: validate_publish_quality wires stale_press_claim_errors into the
+        editorial_quality gate when press context is available."""
+        body = make_body() + "\n\nNo industry press data was available for this week's analysis."
+        errors, gates = analysis_gate.validate_publish_quality(
+            make_analysis(VALID_FRONTMATTER, body),
+            RAW_PAYLOAD,
+            source="copilot-cli",
+            model="copilot-default",
+            press_context_available=True,
+        )
+        self.assertTrue(any(error.startswith("stale press claim:") for error in errors))
+        self.assertFalse(gates["editorial_quality"]["passed"])
+
+    def test_publish_quality_gate_allows_no_press_body_when_press_absent(self) -> None:
+        """The same body passes the stale-press rule when there is genuinely no press
+        context (the default press_context_available=False)."""
+        body = make_body() + "\n\nNo industry press data was available for this week's analysis."
+        errors, gates = analysis_gate.validate_publish_quality(
+            make_analysis(VALID_FRONTMATTER, body),
+            RAW_PAYLOAD,
+            source="copilot-cli",
+            model="copilot-default",
+            press_context_available=False,
+        )
+        self.assertFalse(any(error.startswith("stale press claim:") for error in errors))
+
+    def test_press_context_is_populated_detects_real_and_empty_context(self) -> None:
+        """The helper treats missing/empty files and the render sentinel as empty, but
+        real content (or a positive token estimate) as populated."""
+        self.assertFalse(analysis_gate.press_context_is_populated(None))
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+
+            missing = base / "missing-press-context.md"
+            self.assertFalse(analysis_gate.press_context_is_populated(missing))
+
+            empty = base / "empty-press-context.md"
+            empty.write_text("", encoding="utf-8")
+            self.assertFalse(analysis_gate.press_context_is_populated(empty))
+
+            sentinel = base / "sentinel-press-context.md"
+            sentinel.write_text("No press data available for this week.", encoding="utf-8")
+            self.assertFalse(analysis_gate.press_context_is_populated(sentinel))
+
+            real = base / "real-press-context.md"
+            real.write_text(
+                "## Press Context\n\n22 relevant articles about AI agents.",
+                encoding="utf-8",
+            )
+            self.assertTrue(analysis_gate.press_context_is_populated(real))
+
+            # A positive token estimate short-circuits to populated even without a file.
+            self.assertTrue(analysis_gate.press_context_is_populated(missing, token_estimate=42))
+
+    def test_press_context_is_populated_sentinel_wins_over_token_estimate(self) -> None:
+        """Regression (2026-W30 press-less path): a provided path is authoritative, so a
+        sentinel-only press file is *not* populated even when token_estimate > 0, while a
+        real press file is. The token_estimate fallback only applies when no usable path
+        is provided."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+
+            sentinel = base / "sentinel-press-context.md"
+            sentinel.write_text(NO_PRESS_SENTINEL, encoding="utf-8")
+            self.assertFalse(analysis_gate.press_context_is_populated(sentinel, token_estimate=500))
+
+            real = base / "real-press-context.md"
+            real.write_text(
+                "## Press Context\n\n22 relevant articles about AI agents.",
+                encoding="utf-8",
+            )
+            self.assertTrue(analysis_gate.press_context_is_populated(real, token_estimate=500))
+
+            # token_estimate fallback applies only when no usable path is provided.
+            self.assertTrue(analysis_gate.press_context_is_populated(None, token_estimate=500))
+            self.assertFalse(analysis_gate.press_context_is_populated(None, 0))
+            self.assertFalse(analysis_gate.press_context_is_populated(None, None))
+
+    def test_press_context_token_estimate_is_fallback_only(self) -> None:
+        """Positive token estimates populate only when no readable authoritative content exists."""
+        self.assertTrue(analysis_gate.press_context_is_populated(None, token_estimate=1))
+        self.assertFalse(analysis_gate.press_context_is_populated(None, token_estimate=0))
+        self.assertFalse(analysis_gate.press_context_is_populated(None, token_estimate=None))
+
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+
+            missing = base / "missing-press-context.md"
+            self.assertTrue(analysis_gate.press_context_is_populated(missing, token_estimate=1))
+            self.assertFalse(analysis_gate.press_context_is_populated(missing, token_estimate=0))
+            self.assertFalse(analysis_gate.press_context_is_populated(missing, token_estimate=None))
+
+            empty = base / "empty-press-context.md"
+            empty.write_text("", encoding="utf-8")
+            self.assertTrue(analysis_gate.press_context_is_populated(empty, token_estimate=1))
+            self.assertFalse(analysis_gate.press_context_is_populated(empty, token_estimate=0))
+
+            unreadable = base / "unreadable-press-context.md"
+            unreadable.write_text("content that cannot be read", encoding="utf-8")
+            with mock.patch.object(Path, "read_text", side_effect=OSError("unreadable")):
+                self.assertTrue(
+                    analysis_gate.press_context_is_populated(unreadable, token_estimate=1)
+                )
+
+            sentinel = base / "sentinel-press-context.md"
+            sentinel.write_text(NO_PRESS_SENTINEL, encoding="utf-8")
+            self.assertFalse(
+                analysis_gate.press_context_is_populated(sentinel, token_estimate=9999)
+            )
+
+            real = base / "real-press-context.md"
+            real.write_text(
+                "## Press Context\n\n22 relevant articles about AI agents.",
+                encoding="utf-8",
+            )
+            self.assertTrue(analysis_gate.press_context_is_populated(real, token_estimate=0))
+
+    def test_press_context_fallback_uses_rendered_content_token_estimate(self) -> None:
+        """The gate fallback consumes render_press_context.press_token_estimate, where
+        empty/whitespace/sentinel content maps to 0 and real press content maps positive."""
+        self.assertFalse(analysis_gate.press_context_is_populated(None, press_token_estimate("")))
+        self.assertFalse(
+            analysis_gate.press_context_is_populated(None, press_token_estimate("   \n\t "))
+        )
+        self.assertFalse(
+            analysis_gate.press_context_is_populated(None, press_token_estimate(NO_PRESS_SENTINEL))
+        )
+        self.assertTrue(
+            analysis_gate.press_context_is_populated(
+                None,
+                press_token_estimate("## Press Context\n\nA real article about AI agents."),
+            )
+        )
+
+    def test_stale_press_gate_end_to_end_for_sentinel_pressless_week(self) -> None:
+        """End-to-end press-less path: a body that legitimately states press was absent
+        must NOT trip the stale-press rule when the week's press file is the sentinel
+        (even with a positive token estimate); the identical body with a real press file
+        still trips it, confirming the W30 regression stays caught."""
+        body = "No industry press data was available for this week's analysis."
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            token_estimate = 500
+
+            sentinel = base / "sentinel-press-context.md"
+            sentinel.write_text(NO_PRESS_SENTINEL, encoding="utf-8")
+            sentinel_available = analysis_gate.press_context_is_populated(
+                sentinel, token_estimate=token_estimate
+            )
+            self.assertFalse(sentinel_available)
+            self.assertEqual(
+                analysis_gate.stale_press_claim_errors(
+                    body, press_context_available=sentinel_available
+                ),
+                [],
+            )
+
+            real = base / "real-press-context.md"
+            real.write_text(
+                "## Press Context\n\n22 relevant articles about AI agents.",
+                encoding="utf-8",
+            )
+            real_available = analysis_gate.press_context_is_populated(
+                real, token_estimate=token_estimate
+            )
+            self.assertTrue(real_available)
+            errors = analysis_gate.stale_press_claim_errors(
+                body, press_context_available=real_available
+            )
+            self.assertTrue(any(error.startswith("stale press claim:") for error in errors))
 
 
 if __name__ == "__main__":

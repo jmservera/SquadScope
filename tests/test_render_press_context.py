@@ -10,12 +10,14 @@ sys.path.insert(0, str(_REPO_ROOT / "scripts"))
 
 import render_press_context as render_press_context_module  # noqa: E402
 from render_press_context import (  # noqa: E402
+    NO_PRESS_SENTINEL,
     _escape_markdown_url,
     _extract_readme_description,
     _format_correlations_narrative,
     format_articles_list,
     format_correlations_list,
     format_divergences,
+    press_token_estimate,
     render_press_context,
     resolve_paths,
 )
@@ -156,6 +158,17 @@ class TestFormatCorrelationsList:
 
 
 class TestRenderPressContext:
+    def test_press_token_estimate_treats_empty_content_as_zero(self):
+        assert press_token_estimate("") == 0
+        assert press_token_estimate("   \n\t ") == 0
+        assert press_token_estimate(NO_PRESS_SENTINEL) == 0
+        assert press_token_estimate(f"  \n## Press Context\n\n{NO_PRESS_SENTINEL}\n  ") == 0
+
+        estimate = press_token_estimate("## Press Context\n\nA real article about AI agents.")
+
+        assert isinstance(estimate, int)
+        assert estimate > 0
+
     def test_no_data_returns_fallback(self):
         result = render_press_context(None, None, "2026-W21")
         assert "No press data available" in result

@@ -305,6 +305,65 @@ hugo --minify
 
 Output: `public/` directory ready for GitHub Pages.
 
+### Option D: Analysis-only rerun (reuse crawl artifacts, no re-crawl)
+
+When a report is wrong because of an **analysis/rendering bug** (not a data
+problem) — for example the report claims "No industry press data was available"
+even though the press crawl succeeded — you can regenerate the week's analysis
+**without re-crawling GitHub and without re-crawling press**. This reuses the
+existing immutable crawl artifacts:
+
+- `data/raw/<WEEK>.json` — GitHub raw payload
+- `data/raw/<WEEK>-external-news.json` — press/RSS crawl output
+- `data/analyzed/<WEEK>-correlations.json` — press↔repo correlations
+- `data/analyzed/<WEEK>-press-context.md` — rendered press context
+
+**Step 1 (optional) — regenerate press context from existing crawl artifacts**
+(press-only; no network calls). Reruns correlation + rendering only:
+
+```bash
+python3 scripts/correlate.py \
+  --raw data/raw/2026-W30.json \
+  --techcrunch data/raw/2026-W30-external-news.json \
+  --output data/analyzed/2026-W30-correlations.json
+
+python3 scripts/render_press_context.py --week 2026-W30 \
+  > data/analyzed/2026-W30-press-context.md
+```
+
+**Step 2 — regenerate the analysis prompt/report from existing artifacts**
+(no GitHub crawl, no press crawl). Pass the existing raw JSON and press context:
+
+```bash
+python3 scripts/analyze_fallback.py \
+  --raw-json data/raw/2026-W30.json \
+  --output data/analyzed/2026-W30-summary.md \
+  --current-datetime 2026-07-27T12:00:00Z \
+  --press-context data/analyzed/2026-W30-press-context.md \
+  --print-prompt   # inspect the prompt; drop this flag + wire Copilot CLI to emit the report
+```
+
+The rendered prompt includes a `## Press Context` block only when the press
+context contains real press data — even when a Step-1 synthesis narrative is
+supplied via `--synthesis-input` (the narrative condenses *historical* context
+but never replaces real press data). A press-less week still renders the
+non-empty `NO_PRESS_SENTINEL` marker (defined in
+`scripts/render_press_context.py`), which `analyze_fallback.py` treats as absent;
+the block is suppressed and the `press_correlations` component is recorded as
+`included: false`. Confirm whether real press reached the prompt with:
+
+```bash
+python3 scripts/analyze_fallback.py ... --print-prompt | grep -c "## Press Context"
+```
+
+A non-zero count means the "Where Industry Meets Code" and "Press & Industry"
+sections will be written from real press data. A zero count on a press-less week
+is expected: the sentinel was correctly suppressed. To distinguish real press
+from the marker, use `--preflight-report-json` to audit the
+`press_correlations` component (`included: true` for real press, `false` for
+no press), and consult the `NO_PRESS_SENTINEL` symbol in
+`scripts/render_press_context.py` as the authoritative marker definition.
+
 ## Understanding Source Artifacts and Reuse
 
 ### Source artifact tracking

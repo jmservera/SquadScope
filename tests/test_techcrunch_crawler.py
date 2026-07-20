@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import json
 import tempfile
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta, timezone
+from email.utils import format_datetime
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
+from urllib.error import HTTPError, URLError
 
 import pytest
 
@@ -59,6 +61,10 @@ def _make_entry(
 
 def _make_feed(entries=None, bozo=False):
     return SimpleNamespace(entries=entries or [], bozo=bozo)
+
+
+def _http_error_with_headers(headers):
+    return HTTPError("https://techcrunch.com/feed/", 503, "Unavailable", headers, None)
 
 
 # --- Unit tests: utility functions ---
@@ -164,6 +170,67 @@ class TestComputeRelevanceScore:
         score_no = compute_relevance_score(article_no_gh)
         score_with = compute_relevance_score(article_with_gh)
         assert score_with > score_no
+
+
+class TestRetryAfterSeconds:
+    def test_retry_after_numeric_header_preserved_and_floored(self):
+        assert (
+            techcrunch_crawler._retry_after_seconds(
+                _http_error_with_headers({"Retry-After": "120"})
+            )
+            == 120.0
+        )
+        assert (
+            techcrunch_crawler._retry_after_seconds(_http_error_with_headers({"Retry-After": "0"}))
+            == 1.0
+        )
+        assert (
+            techcrunch_crawler._retry_after_seconds(
+                _http_error_with_headers({"Retry-After": "0.5"})
+            )
+            == 1.0
+        )
+
+    def test_retry_after_http_date_future_returns_positive_delay(self):
+        retry_at = datetime.now(timezone.utc) + timedelta(seconds=120)
+        result = techcrunch_crawler._retry_after_seconds(
+            _http_error_with_headers({"Retry-After": format_datetime(retry_at)})
+        )
+
+        assert result is not None
+        assert 60 <= result <= 200
+
+    def test_retry_after_http_date_past_is_floored(self):
+        retry_at = datetime.now(timezone.utc) - timedelta(seconds=120)
+
+        assert (
+            techcrunch_crawler._retry_after_seconds(
+                _http_error_with_headers({"Retry-After": format_datetime(retry_at)})
+            )
+            == 1.0
+        )
+
+    def test_retry_after_garbage_empty_or_missing_returns_none(self):
+        assert (
+            techcrunch_crawler._retry_after_seconds(
+                _http_error_with_headers({"Retry-After": "not-a-date"})
+            )
+            is None
+        )
+        assert (
+            techcrunch_crawler._retry_after_seconds(_http_error_with_headers({"Retry-After": ""}))
+            is None
+        )
+        assert techcrunch_crawler._retry_after_seconds(_http_error_with_headers({})) is None
+
+    def test_retry_after_non_finite_numeric_returns_none(self):
+        for header_value in ("nan", "inf", "-inf", "Infinity"):
+            assert (
+                techcrunch_crawler._retry_after_seconds(
+                    _http_error_with_headers({"Retry-After": header_value})
+                )
+                is None
+            )
 
 
 class TestParsePublishedDate:
@@ -498,6 +565,107 @@ class TestExternalNewsSources:
 
         assert result is feed
         assert mock_urlopen.call_args.kwargs["timeout"] == DEFAULT_FETCH_TIMEOUT_SECONDS
+
+    def test_fetch_feed_retries_transient_error_with_backoff(self):
+        """A transient network error is retried with backoff and can then succeed."""
+        feed = _make_feed()
+
+        class FakeResponse:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                return None
+
+            def read(self):
+                return b"<rss><channel></channel></rss>"
+
+        attempts = {"n": 0}
+
+        def flaky_urlopen(request, timeout=None):
+            attempts["n"] += 1
+            if attempts["n"] == 1:
+                raise URLError("temporary DNS failure")
+            return FakeResponse()
+
+        with (
+            patch("scripts.techcrunch_crawler.urlopen", side_effect=flaky_urlopen),
+            patch("scripts.techcrunch_crawler.feedparser.parse", return_value=feed),
+            patch("scripts.techcrunch_crawler._sleep_before_retry", return_value=0.0) as sleeper,
+        ):
+            result = fetch_feed("https://techcrunch.com/feed/", retries=2)
+
+        assert result is feed
+        assert attempts["n"] == 2
+        assert sleeper.called
+
+    def test_fetch_feed_fails_fast_on_non_retryable_status(self):
+        """Permanent HTTP errors (e.g. 404) must not be retried."""
+        attempts = {"n": 0}
+
+        def not_found(request, timeout=None):
+            attempts["n"] += 1
+            raise HTTPError("https://techcrunch.com/feed/", 404, "Not Found", {}, None)
+
+        with (
+            patch("scripts.techcrunch_crawler.urlopen", side_effect=not_found),
+            patch("scripts.techcrunch_crawler._sleep_before_retry") as sleeper,
+        ):
+            with pytest.raises(HTTPError):
+                fetch_feed("https://techcrunch.com/feed/", retries=3)
+
+        assert attempts["n"] == 1
+        assert not sleeper.called
+
+    def test_fetch_feed_retries_retryable_status(self):
+        """Retryable HTTP statuses (e.g. 503) are retried with backoff."""
+        attempts = {"n": 0}
+
+        def unavailable(request, timeout=None):
+            attempts["n"] += 1
+            raise HTTPError("https://techcrunch.com/feed/", 503, "Unavailable", {}, None)
+
+        with (
+            patch("scripts.techcrunch_crawler.urlopen", side_effect=unavailable),
+            patch("scripts.techcrunch_crawler._sleep_before_retry", return_value=0.0) as sleeper,
+        ):
+            with pytest.raises(HTTPError):
+                fetch_feed("https://techcrunch.com/feed/", retries=2)
+
+        assert attempts["n"] == 3
+        assert sleeper.call_count == 2
+
+    def test_sleep_before_retry_honors_retry_after_120(self):
+        """Server Retry-After of 120s is honored instead of backoff-capped."""
+        with patch("scripts.techcrunch_crawler.time.sleep") as sleep_mock:
+            delay = techcrunch_crawler._sleep_before_retry(0, retry_after=120)
+
+        assert delay == techcrunch_crawler.RETRY_AFTER_MAX_SECONDS
+        sleep_mock.assert_called_once_with(delay)
+
+    def test_sleep_before_retry_bounds_absurd_retry_after(self):
+        """Absurd Retry-After values are capped to the Retry-After maximum."""
+        with patch("scripts.techcrunch_crawler.time.sleep") as sleep_mock:
+            delay = techcrunch_crawler._sleep_before_retry(0, retry_after=99999)
+
+        assert delay == techcrunch_crawler.RETRY_AFTER_MAX_SECONDS
+        sleep_mock.assert_called_once_with(delay)
+
+    def test_sleep_before_retry_honors_small_retry_after(self):
+        """Small positive Retry-After values are honored exactly."""
+        with patch("scripts.techcrunch_crawler.time.sleep") as sleep_mock:
+            delay = techcrunch_crawler._sleep_before_retry(0, retry_after=5)
+
+        assert delay == 5.0
+        sleep_mock.assert_called_once_with(delay)
+
+    def test_sleep_before_retry_without_retry_after_uses_capped_backoff(self):
+        """Computed backoff remains bounded by the backoff maximum."""
+        with patch("scripts.techcrunch_crawler.time.sleep") as sleep_mock:
+            delay = techcrunch_crawler._sleep_before_retry(10, retry_after=None)
+
+        assert 0 < delay <= techcrunch_crawler.RETRY_MAX_DELAY_SECONDS
+        sleep_mock.assert_called_once_with(delay)
 
     def test_crawl_sources_parallel_combines_sources(self):
         alpha_entry = _make_entry(

@@ -479,18 +479,22 @@ jobs:
           PRESS_CONTEXT=$(python scripts/render_press_context.py --week "$WEEK")
           PRESS_FILE="data/analyzed/${WEEK}-press-context.md"
           printf '%s\n' "$PRESS_CONTEXT" > "$PRESS_FILE"
-          python3 - <<'PY' "$PRESS_FILE"
+          python3 - <<'PY' "$PRESS_FILE" "$GITHUB_OUTPUT"
           import sys
           from pathlib import Path
-          from scripts.render_press_context import estimate_tokens
+          from scripts.render_press_context import press_token_estimate
 
           path = Path(sys.argv[1])
+          github_output = Path(sys.argv[2])
           content = path.read_text(encoding="utf-8")
+          token_estimate = press_token_estimate(content)
           print(
               "::notice::Press context "
               f"size_bytes={path.stat().st_size} "
-              f"token_estimate={estimate_tokens(content)}"
+              f"token_estimate={token_estimate}"
           )
+          with github_output.open("a", encoding="utf-8") as output:
+              print(f"press_token_estimate={token_estimate}", file=output)
           PY
           echo "press_file=$PRESS_FILE" >> "$GITHUB_OUTPUT"
 
@@ -658,6 +662,7 @@ jobs:
           IN_MANIFEST_FILE: ${{ steps.analysis-context.outputs.publish_manifest_file }}
           IN_PUBLISHED_SUMMARY: ${{ steps.analysis-context.outputs.published_output_file }}
           IN_PRESS_FILE: ${{ steps.press-context.outputs.press_file }}
+          IN_PRESS_TOKEN_ESTIMATE: ${{ steps.press-context.outputs.press_token_estimate }}
           IN_ANALYSIS_PATH: ${{ inputs.analysis_path || 'single-pass' }}
           IN_RUN_MODE: ${{ steps.analysis-context.outputs.run_mode }}
           IN_PROMPT_FILE: ${{ steps.prompt-preflight.outputs.prompt_file }}
@@ -671,6 +676,8 @@ jobs:
           MANIFEST_FILE="$IN_MANIFEST_FILE"
           PUBLISHED_SUMMARY="$IN_PUBLISHED_SUMMARY"
           PRESS_FILE="$IN_PRESS_FILE"
+          PRESS_TOKEN_ESTIMATE="${IN_PRESS_TOKEN_ESTIMATE:-0}"
+          case "$PRESS_TOKEN_ESTIMATE" in ''|*[!0-9]*) PRESS_TOKEN_ESTIMATE=0 ;; esac
           ANALYSIS_PATH="$IN_ANALYSIS_PATH"
           RUN_MODE="$IN_RUN_MODE"
           ANALYSIS_STARTED=$(date +%s)
@@ -690,6 +697,8 @@ jobs:
               --source "$1" \
               --model "$2" \
               --repair-safe \
+              --press-context-path "$PRESS_FILE" \
+              --press-token-estimate "$PRESS_TOKEN_ESTIMATE" \
               --report-json "$3"
           }
 
@@ -910,13 +919,20 @@ jobs:
           RAW_JSON_FILE: ${{ steps.analysis-context.outputs.week_file }}
           CURRENT_DATETIME: ${{ steps.analysis-context.outputs.current_datetime }}
           GATE_REPORT: ${{ steps.analysis-context.outputs.analysis_gate_report_file }}
+          PRESS_FILE: ${{ steps.press-context.outputs.press_file }}
+          IN_PRESS_TOKEN_ESTIMATE: ${{ steps.press-context.outputs.press_token_estimate }}
         run: |
+          set -euo pipefail
+          IN_PRESS_TOKEN_ESTIMATE="${IN_PRESS_TOKEN_ESTIMATE:-0}"
+          case "$IN_PRESS_TOKEN_ESTIMATE" in ''|*[!0-9]*) IN_PRESS_TOKEN_ESTIMATE=0 ;; esac
           python3 scripts/analysis_gate.py \
             --analysis-file "$ANALYSIS_FILE" \
             --raw-json "$RAW_JSON_FILE" \
             --current-datetime "$CURRENT_DATETIME" \
             --source "$ANALYSIS_SOURCE" \
             --model "$ANALYSIS_MODEL" \
+            --press-context-path "$PRESS_FILE" \
+            --press-token-estimate "$IN_PRESS_TOKEN_ESTIMATE" \
             --report-json "$GATE_REPORT"
 
       - name: Emit publish eligibility manifest
