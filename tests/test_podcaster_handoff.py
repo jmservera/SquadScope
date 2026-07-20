@@ -667,6 +667,23 @@ class PodcasterHandoffTests(unittest.TestCase):
             )
         )
 
+    def test_non_restore_modes_are_not_gated_replays(self) -> None:
+        # A gated replay is specifically a plain (non-audited) restore. Any other
+        # non-normal or missing run_mode must NOT be treated as a clean skip -- it
+        # stays fail-closed via build_payload -- so a broken manifest is never
+        # silently skipped (regression for jmservera/SquadScope#587 review).
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            missing_mode = self._write_manifest(base, run_mode="normal")
+            missing = json.loads(missing_mode.read_text(encoding="utf-8"))
+            del missing["run_mode"]
+            candidate_only = self._write_manifest(base, run_mode="candidate-only")
+            candidate = json.loads(candidate_only.read_text(encoding="utf-8"))
+
+        self.assertFalse(podcaster_handoff._is_gated_replay(missing, week="2026-W23"))
+        self.assertFalse(podcaster_handoff._is_gated_replay(candidate, week="2026-W23"))
+
     def test_missing_manifest_path_raises_fail_closed(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:

@@ -625,8 +625,10 @@ def _is_audited_force_replace(manifest: dict[str, Any]) -> bool:
 
 def _is_gated_replay(manifest: dict[str, Any], *, week: str) -> bool:
     """Well-formed, promotion-eligible manifest that is deliberately excluded from
-    handoff (a non-audited restore/replay). Such a manifest is a clean skip, not an
-    error. Malformed manifests return False here and stay fail-closed in build_payload.
+    handoff (a plain, non-audited ``restore`` replay). Such a manifest is a clean
+    skip, not an error. Anything else -- malformed manifests, a missing/unknown
+    run_mode, or other non-normal modes -- returns False here and stays fail-closed
+    in build_payload, so a genuinely broken manifest is never silently skipped.
     """
     if not manifest:
         return False
@@ -640,7 +642,7 @@ def _is_gated_replay(manifest: dict[str, Any], *, week: str) -> bool:
         and promotion.get("eligible") is True
         and promotion.get("decision") == "promote"
     )
-    gated_mode = manifest.get("run_mode") != "normal" and not _is_audited_force_replace(manifest)
+    gated_mode = manifest.get("run_mode") == "restore" and not _is_audited_force_replace(manifest)
     return well_formed_promotable and gated_mode
 
 
