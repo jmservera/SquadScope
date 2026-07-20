@@ -659,8 +659,10 @@ def build_payload(
     repo_root: Path | None = None,
     breaking_news: str | None = None,
     require_merged: bool = False,
+    manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    manifest = _load_manifest(manifest_path)
+    if manifest is None:
+        manifest = _load_manifest(manifest_path)
     if not _manifest_allows_handoff(manifest, week=week, publish_mode=publish_mode):
         raise PodcasterHandoffError("Publish manifest is not eligible for Podcaster handoff.")
     normalized_path = normalize_page_path(article_path)
@@ -835,6 +837,7 @@ def main(argv: list[str] | None = None) -> int:
             podcaster_dry_run=args.podcaster_dry_run,
             breaking_news=args.breaking_news,
             require_merged=args.require_merged,
+            manifest=manifest,
         )
         post_handoff(endpoint, api_key, payload, timeout=args.timeout)
     except PodcasterHandoffError as exc:

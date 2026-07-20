@@ -684,6 +684,26 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertFalse(podcaster_handoff._is_gated_replay(missing, week="2026-W23"))
         self.assertFalse(podcaster_handoff._is_gated_replay(candidate, week="2026-W23"))
 
+    def test_build_payload_uses_preloaded_manifest_without_reloading(self) -> None:
+        # main() loads the manifest once for _is_gated_replay and passes it into
+        # build_payload, which must reuse it rather than re-reading the file.
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            manifest_path = self._write_manifest(Path(tmpdir), run_mode="normal")
+            preloaded = json.loads(manifest_path.read_text(encoding="utf-8"))
+            with mock.patch.object(
+                podcaster_handoff, "_load_manifest", side_effect=AssertionError("reloaded")
+            ):
+                payload = podcaster_handoff.build_payload(
+                    week="2026-W23",
+                    article_url="https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                    article_path="content/weekly/2026/W23.md",
+                    publish_run_id="123456789",
+                    publish_mode="normal",
+                    manifest=preloaded,
+                )
+        self.assertEqual(payload["week"], "2026-W23")
+
     def test_missing_manifest_path_raises_fail_closed(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
