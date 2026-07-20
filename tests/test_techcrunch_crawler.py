@@ -618,6 +618,38 @@ class TestExternalNewsSources:
         assert attempts["n"] == 3
         assert sleeper.call_count == 2
 
+    def test_sleep_before_retry_honors_retry_after_120(self):
+        """Server Retry-After of 120s is honored instead of backoff-capped."""
+        with patch("scripts.techcrunch_crawler.time.sleep") as sleep_mock:
+            delay = techcrunch_crawler._sleep_before_retry(0, retry_after=120)
+
+        assert delay == techcrunch_crawler.RETRY_AFTER_MAX_SECONDS
+        sleep_mock.assert_called_once_with(delay)
+
+    def test_sleep_before_retry_bounds_absurd_retry_after(self):
+        """Absurd Retry-After values are capped to the Retry-After maximum."""
+        with patch("scripts.techcrunch_crawler.time.sleep") as sleep_mock:
+            delay = techcrunch_crawler._sleep_before_retry(0, retry_after=99999)
+
+        assert delay == techcrunch_crawler.RETRY_AFTER_MAX_SECONDS
+        sleep_mock.assert_called_once_with(delay)
+
+    def test_sleep_before_retry_honors_small_retry_after(self):
+        """Small positive Retry-After values are honored exactly."""
+        with patch("scripts.techcrunch_crawler.time.sleep") as sleep_mock:
+            delay = techcrunch_crawler._sleep_before_retry(0, retry_after=5)
+
+        assert delay == 5.0
+        sleep_mock.assert_called_once_with(delay)
+
+    def test_sleep_before_retry_without_retry_after_uses_capped_backoff(self):
+        """Computed backoff remains bounded by the backoff maximum."""
+        with patch("scripts.techcrunch_crawler.time.sleep") as sleep_mock:
+            delay = techcrunch_crawler._sleep_before_retry(10, retry_after=None)
+
+        assert 0 < delay <= techcrunch_crawler.RETRY_MAX_DELAY_SECONDS
+        sleep_mock.assert_called_once_with(delay)
+
     def test_crawl_sources_parallel_combines_sources(self):
         alpha_entry = _make_entry(
             title="Alpha AI framework",

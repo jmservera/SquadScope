@@ -54,6 +54,9 @@ RETRYABLE_STATUSES = frozenset({403, 408, 429, 500, 502, 503, 504})
 # Exponential backoff bounds for per-source retries (mirrors scripts/crawl.py).
 RETRY_BASE_DELAY_SECONDS = 2.0
 RETRY_MAX_DELAY_SECONDS = 30.0
+# Bound hostile/absurd Retry-After values while honoring reasonable server
+# requests well above the crawler's computed 30s backoff cap.
+RETRY_AFTER_MAX_SECONDS = 120.0
 _JITTER_RANDOM = secrets.SystemRandom()
 CANONICAL_SCHEMA_VERSION = 2
 APPROVED_FEED_HOSTS = frozenset(
@@ -752,13 +755,21 @@ def parse_published_date(entry: Any) -> datetime | None:
 def _sleep_before_retry(attempt: int, retry_after: float | None = None) -> float:
     """Sleep with exponential backoff + jitter before the next fetch attempt.
 
-    Mirrors the backoff style in scripts/crawl.py. Returns the delay slept so
-    callers/tests can reason about it.
+    Server-supplied Retry-After is honored up to RETRY_AFTER_MAX_SECONDS, while
+    computed backoff is bounded by RETRY_MAX_DELAY_SECONDS. Returns the delay
+    slept so callers/tests can reason about it.
     """
-    base_delay = min(RETRY_BASE_DELAY_SECONDS * (2**attempt), RETRY_MAX_DELAY_SECONDS)
-    jitter = _JITTER_RANDOM.uniform(0.3, 1.7)
-    delay = retry_after if retry_after and retry_after > 0 else base_delay + jitter
-    delay = min(delay, RETRY_MAX_DELAY_SECONDS)
+    if retry_after and retry_after > 0:
+        delay = min(retry_after, RETRY_AFTER_MAX_SECONDS)
+    else:
+        base_delay = min(
+            RETRY_BASE_DELAY_SECONDS * (2**attempt),
+            RETRY_MAX_DELAY_SECONDS,
+        )
+        delay = min(
+            base_delay + _JITTER_RANDOM.uniform(0.3, 1.7),
+            RETRY_MAX_DELAY_SECONDS,
+        )
     time.sleep(delay)
     return delay
 
