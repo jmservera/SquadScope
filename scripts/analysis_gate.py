@@ -559,6 +559,64 @@ def raw_repo_names(raw_payload: dict[str, Any]) -> set[str]:
     return {name for name in names if TOP_REPO_PATTERN.fullmatch(name)}
 
 
+def compute_objective_quality(
+    text: str, raw_payload: dict, press_context_available: bool
+) -> tuple[int, dict]:
+    _, body = extract_frontmatter(text)
+    words = len(WORD_PATTERN.findall(body))
+    depth = round(min(15, max(0, (words - 200) / 1000 * 15)))
+
+    available_repos = raw_repo_names(raw_payload)
+    cited_repos = set(REPO_LINK_PATTERN.findall(body)).intersection(available_repos)
+    evidence_target = min(10, len(available_repos))
+    evidence = (
+        0 if evidence_target == 0 else round(min(10, len(cited_repos) / evidence_target * 10))
+    )
+
+    press_citations = 0
+    press = 0
+    if press_context_available:
+        key_references = section_text(body, "## Key References")
+        press_section = section_text(key_references, "### Press & Industry")
+        urls = set(re.findall(r"https?://[^\s)\]]+", press_section))
+        external_urls = {
+            url
+            for url in urls
+            if not re.match(r"https?://(?:www\.)?github\.com(?:/|$)", url, re.IGNORECASE)
+        }
+        press_citations = len(external_urls)
+        press = round(min(15, press_citations / 3 * 15))
+
+    # Identical content with cited press must score strictly above its press-less variant.
+    score = min(100, 60 + depth + evidence + press)
+    return score, {
+        "base": 60,
+        "depth": depth,
+        "evidence": evidence,
+        "press": press,
+        "words": words,
+        "repo_citations": len(cited_repos),
+        "press_citations": press_citations,
+        "press_available": press_context_available,
+    }
+
+
+def set_frontmatter_quality_score(text: str, score: int) -> str:
+    match = FRONTMATTER_PATTERN.match(text)
+    if not match:
+        raise ValueError("Analysis output is missing YAML frontmatter.")
+    frontmatter_text, body = match.groups()
+    rewritten_frontmatter, replacements = re.subn(
+        r"(?m)^quality_score:.*$",
+        f"quality_score: {score}",
+        frontmatter_text,
+        count=1,
+    )
+    if replacements == 0:
+        rewritten_frontmatter = f"{frontmatter_text}\nquality_score: {score}"
+    return f"---\n{rewritten_frontmatter}\n---\n{body}"
+
+
 def raw_artifact_week_errors(raw_payload: dict[str, Any], expected_week: Any) -> list[str]:
     if not isinstance(expected_week, str):
         return []
@@ -874,6 +932,7 @@ def write_gate_report(
     repair_actions: list[str],
     word_count: int,
     gate_results: dict[str, dict[str, Any]],
+    quality_breakdown: dict[str, Any] | None = None,
 ) -> None:
     if path is None:
         return
@@ -884,6 +943,7 @@ def write_gate_report(
         "model": model,
         "passed": not errors_after,
         "word_count": word_count,
+        "quality_breakdown": quality_breakdown,
         "gates": gate_results,
         "failure_summary": build_failure_summary(errors_after, gate_results),
         "errors_before_repair": errors_before,
@@ -984,6 +1044,14 @@ def main(argv: list[str] | None = None) -> int:
                     f"::notice::Analysis gate applied safe repairs: {', '.join(repair_actions)}",
                     file=sys.stderr,
                 )
+    objective_score, quality_breakdown = compute_objective_quality(
+        text, raw_payload, press_context_available
+    )
+    rewritten = set_frontmatter_quality_score(text, objective_score)
+    if rewritten != text:
+        args.analysis_file.write_text(rewritten, encoding="utf-8")
+        text = rewritten
+        errors, word_count = validate_analysis(text, raw_payload, args.current_datetime)
     publish_errors, _ = validate_publish_quality(
         text,
         raw_payload,
@@ -1003,6 +1071,7 @@ def main(argv: list[str] | None = None) -> int:
         repair_actions=repair_actions,
         word_count=word_count,
         gate_results=gate_results,
+        quality_breakdown=quality_breakdown,
     )
     if errors:
         fail(errors, summary_path)

@@ -293,8 +293,14 @@ def _validate_manifest(
                 reasons.append("no-AI fallback provenance requires fallback_reason.")
             if not ai_provenance.get("attempted_ai_paths"):
                 reasons.append("no-AI fallback provenance requires attempted_ai_paths.")
-        elif source in {None, ""}:
-            reasons.append("AI-authored provenance is required for normal promotion.")
+        else:
+            if policy_mode == "force-replace":
+                if not policy.get("reason"):
+                    reasons.append("force-replace requires a reason.")
+                if not policy.get("actor"):
+                    reasons.append("force-replace requires an actor.")
+            if source in {None, ""}:
+                reasons.append("AI-authored provenance is required for normal promotion.")
         if ai_provenance.get("degraded") is True:
             reasons.append("degraded AI provenance is not eligible for normal promotion.")
 

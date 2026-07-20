@@ -112,7 +112,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--publish-policy",
         choices=["default", "allow-no-ai-first-publish", "force-replace"],
         default="default",
-        help="Explicit operator policy for no-AI fallback publication.",
+        help="Explicit operator policy for publication overrides.",
     )
     create.add_argument(
         "--force-reason", default="", help="Operator reason required for force-replace."
@@ -120,7 +120,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     create.add_argument(
         "--actor",
         default="",
-        help="Operator or automation actor requesting explicit fallback policy.",
+        help="Operator or automation actor requesting an explicit publication policy.",
     )
 
     check = subparsers.add_parser(
@@ -709,7 +709,7 @@ def create_manifest(args: argparse.Namespace) -> int:
     gates_passed = gate_report.get("present") is True and gate_report.get("passed") is True
     candidate_quality = candidate_metadata.get("quality_score")
     attempted_ai_paths = [path for path in args.attempted_ai_path if path.strip()]
-    force_replacing_no_ai = ai_status == "no-ai" and args.publish_policy == "force-replace"
+    force_replacing = args.publish_policy == "force-replace"
     comparison_reasons: list[str] = []
     if candidate_exists:
         if candidate_metadata.get("week") not in {None, args.week}:
@@ -725,7 +725,7 @@ def create_manifest(args: argparse.Namespace) -> int:
         if (
             published_status.get("good")
             and isinstance(candidate_quality, (int, float))
-            and not force_replacing_no_ai
+            and not force_replacing
         ):
             published_quality = published_status.get("quality_score")
             if (
@@ -738,6 +738,11 @@ def create_manifest(args: argparse.Namespace) -> int:
 
     reasons: list[str] = []
     fallback_errors: list[str] = []
+    if force_replacing:
+        if not args.force_reason.strip():
+            reasons.append("force-replace requires force_reason")
+        if not args.actor.strip():
+            reasons.append("force-replace requires actor")
     if ai_status == "no-ai":
         if not args.fallback_reason.strip():
             reasons.append("fallback_reason is required for no-AI fallback candidates")
@@ -761,10 +766,6 @@ def create_manifest(args: argparse.Namespace) -> int:
                 )
             fallback_errors = fallback_quality_errors(args.summary, validation_passed)
         elif args.publish_policy == "force-replace":
-            if not args.force_reason.strip():
-                reasons.append("force-replace requires force_reason")
-            if not args.actor.strip():
-                reasons.append("force-replace requires actor")
             fallback_errors = fallback_quality_errors(args.summary, validation_passed)
         reasons.extend(fallback_errors)
 
@@ -1041,6 +1042,10 @@ def assert_eligible(args: argparse.Namespace) -> int:
         if isinstance(payload.get("promotion"), dict)
         else None
     )
+    if promotion_policy == "force-replace":
+        audit = payload.get("audit")
+        if not isinstance(audit, dict) or not audit.get("actor") or not audit.get("reason"):
+            raise SystemExit("Force replacement requires actor and reason in manifest audit.")
     if ai_status == "no-ai":
         provenance = analysis.get("provenance") if isinstance(analysis, dict) else {}
         if not isinstance(provenance, dict) or provenance.get("authorship") != "no-ai-fallback":
@@ -1049,10 +1054,6 @@ def assert_eligible(args: argparse.Namespace) -> int:
             raise SystemExit("Manifest lacks no-AI fallback reason.")
         if not provenance.get("attempted_ai_paths"):
             raise SystemExit("Manifest lacks attempted AI path audit.")
-        if promotion_policy == "force-replace":
-            audit = payload.get("audit")
-            if not isinstance(audit, dict) or not audit.get("actor") or not audit.get("reason"):
-                raise SystemExit("Force replacement requires actor and reason in manifest audit.")
     elif ai_status != "ai":
         raise SystemExit("Manifest lacks publishable AI provenance.")
     promotion = payload.get("promotion")

@@ -169,6 +169,7 @@ Be critical, selective, and opinionated.
 10. `stars_tracked` should equal the total stars across those repos.
 11. `top_repo` should be the repo that best anchors the editorial narrative, not automatically the most-starred repo.
 12. `quality_score` must be an honest 0-100 self-assessment; publishable work is `>= 60`.
+    This value is advisory and is recomputed deterministically by the pipeline gate.
 13. Include all required sections in this exact order:
 
 ```md
