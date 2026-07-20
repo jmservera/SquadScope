@@ -734,18 +734,14 @@ No press data was provided this week.
 
             sentinel = base / "sentinel-press-context.md"
             sentinel.write_text(NO_PRESS_SENTINEL, encoding="utf-8")
-            self.assertFalse(
-                analysis_gate.press_context_is_populated(sentinel, token_estimate=500)
-            )
+            self.assertFalse(analysis_gate.press_context_is_populated(sentinel, token_estimate=500))
 
             real = base / "real-press-context.md"
             real.write_text(
                 "## Press Context\n\n22 relevant articles about AI agents.",
                 encoding="utf-8",
             )
-            self.assertTrue(
-                analysis_gate.press_context_is_populated(real, token_estimate=500)
-            )
+            self.assertTrue(analysis_gate.press_context_is_populated(real, token_estimate=500))
 
             # token_estimate fallback applies only when no usable path is provided.
             self.assertTrue(analysis_gate.press_context_is_populated(None, token_estimate=500))

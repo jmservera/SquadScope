@@ -128,6 +128,8 @@ STALE_PRESS_CLAIM_PATTERNS = [
         "while a populated press context exists for this week.",
     ),
 ]
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Validate weekly analysis output against the analysis spec."

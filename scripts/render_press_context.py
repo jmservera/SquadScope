@@ -32,7 +32,9 @@ GITHUB_REPO_FULL_NAME_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 # Single source of truth for the "no press this week" sentinel. This is a
 # NON-EMPTY string, so downstream code must use NO_PRESS_SENTINEL_MARKER to
 # detect it rather than treating any non-empty press_content as real press.
-NO_PRESS_SENTINEL = "No press data available for this week. Analyze repos based on GitHub signals only."
+NO_PRESS_SENTINEL = (
+    "No press data available for this week. Analyze repos based on GitHub signals only."
+)
 NO_PRESS_SENTINEL_MARKER = re.compile(r"no press data available for this week", re.IGNORECASE)
 
 
