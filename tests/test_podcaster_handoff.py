@@ -61,39 +61,49 @@ class _BalancedHtmlParser(HTMLParser):
 
 class PodcasterHandoffTests(unittest.TestCase):
     def _write_manifest(
-        self, base: Path, *, run_mode: str = "normal", ai_status: str = "ai"
+        self,
+        base: Path,
+        *,
+        run_mode: str = "normal",
+        ai_status: str = "ai",
+        policy: str | None = None,
+        audit: dict | None = None,
     ) -> Path:
         manifest = base / "publish-manifest.json"
-        manifest.write_text(
-            json.dumps(
+        promotion: dict[str, object] = {"eligible": True, "decision": "promote"}
+        if policy is not None:
+            promotion["policy"] = policy
+        payload = {
+            "week": "2026-W23",
+            "run_id": "123456789",
+            "run_mode": run_mode,
+            "candidate": {"summary_sha256": "a" * 64, "content_sha256": "c" * 64},
+            "analysis": {"ai_status": ai_status},
+            "promotion": promotion,
+            "source_artifacts": [
                 {
-                    "week": "2026-W23",
-                    "run_id": "123456789",
-                    "run_mode": run_mode,
-                    "candidate": {"summary_sha256": "a" * 64, "content_sha256": "c" * 64},
-                    "analysis": {"ai_status": ai_status},
-                    "promotion": {"eligible": True, "decision": "promote"},
-                    "source_artifacts": [
-                        {
-                            "role": "raw",
-                            "path": "data/raw/2026-W23.json",
-                            "sha256": "b" * 64,
-                            "generated_at": "2026-06-08T10:15:00Z",
-                            "freshness": {"status": "fresh", "reasons": []},
-                            "provenance": {
-                                "path": "data/raw/2026-W23.json",
-                                "sha256": "b" * 64,
-                            },
-                        },
-                        {
-                            "role": "blob",
-                            "artifact_url": "https://example.blob.core.windows.net/artifacts/source.json",
-                            "exists": True,
-                            "size_bytes": 1024,
-                        },
-                    ],
-                }
-            ),
+                    "role": "raw",
+                    "path": "data/raw/2026-W23.json",
+                    "sha256": "b" * 64,
+                    "generated_at": "2026-06-08T10:15:00Z",
+                    "freshness": {"status": "fresh", "reasons": []},
+                    "provenance": {
+                        "path": "data/raw/2026-W23.json",
+                        "sha256": "b" * 64,
+                    },
+                },
+                {
+                    "role": "blob",
+                    "artifact_url": "https://example.blob.core.windows.net/artifacts/source.json",
+                    "exists": True,
+                    "size_bytes": 1024,
+                },
+            ],
+        }
+        if audit is not None:
+            payload["audit"] = audit
+        manifest.write_text(
+            json.dumps(payload),
             encoding="utf-8",
         )
         return manifest
@@ -555,6 +565,107 @@ class PodcasterHandoffTests(unittest.TestCase):
                     publish_mode="normal",
                     manifest_path=no_ai_manifest,
                 )
+
+    def test_plain_restore_replay_skips_without_calling_podcaster(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            manifest = self._write_manifest(Path(tmpdir), run_mode="restore")
+            with (
+                mock.patch.object(podcaster_handoff.request, "urlopen") as urlopen_mock,
+                mock.patch.dict(
+                    podcaster_handoff.os.environ, {"PODCASTER_API_KEY": "super-secret-value"}
+                ),
+                mock.patch("sys.stdout", new_callable=io.StringIO) as stdout,
+            ):
+                exit_code = podcaster_handoff.main(
+                    [
+                        "--week",
+                        "2026-W23",
+                        "--article-url",
+                        "https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                        "--article-path",
+                        "content/weekly/2026/W23.md",
+                        "--publish-run-id",
+                        "123456789",
+                        "--publish-mode",
+                        "normal",
+                        "--manifest",
+                        str(manifest),
+                        "--endpoint",
+                        "http://localhost:7071/api/generate",
+                    ]
+                )
+
+        self.assertEqual(exit_code, 0)
+        urlopen_mock.assert_not_called()
+        self.assertIn("skipped", stdout.getvalue())
+        self.assertIn("non-audited replay", stdout.getvalue())
+
+    def test_audited_force_replace_restore_is_handoff_eligible(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            manifest = self._write_manifest(
+                Path(tmpdir),
+                run_mode="restore",
+                policy="force-replace",
+                audit={"actor": "jmservera", "reason": "W30 press-inclusion correction"},
+            )
+
+            payload = podcaster_handoff.build_payload(
+                week="2026-W23",
+                article_url="https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                article_path="content/weekly/2026/W23.md",
+                publish_run_id="123456789",
+                publish_mode="normal",
+                manifest_path=manifest,
+            )
+            loaded_manifest = json.loads(manifest.read_text(encoding="utf-8"))
+
+        self.assertEqual(payload["week"], "2026-W23")
+        self.assertFalse(podcaster_handoff._is_gated_replay(loaded_manifest, week="2026-W23"))
+
+    def test_normal_publish_manifest_is_handoff_eligible(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            manifest = self._write_manifest(Path(tmpdir), run_mode="normal")
+
+            payload = podcaster_handoff.build_payload(
+                week="2026-W23",
+                article_url="https://jmservera.github.io/SquadScope/weekly/2026/w23/",
+                article_path="content/weekly/2026/W23.md",
+                publish_run_id="123456789",
+                publish_mode="normal",
+                manifest_path=manifest,
+            )
+            loaded_manifest = json.loads(manifest.read_text(encoding="utf-8"))
+
+        self.assertEqual(payload["week"], "2026-W23")
+        self.assertFalse(podcaster_handoff._is_gated_replay(loaded_manifest, week="2026-W23"))
+
+    def test_manifest_allows_audited_force_replace_but_not_plain_restore(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            audited_manifest = self._write_manifest(
+                base,
+                run_mode="restore",
+                policy="force-replace",
+                audit={"actor": "jmservera", "reason": "W30 press-inclusion correction"},
+            )
+            audited = json.loads(audited_manifest.read_text(encoding="utf-8"))
+            plain_restore_manifest = self._write_manifest(base, run_mode="restore")
+            plain_restore = json.loads(plain_restore_manifest.read_text(encoding="utf-8"))
+
+        self.assertTrue(
+            podcaster_handoff._manifest_allows_handoff(
+                audited, week="2026-W23", publish_mode="normal"
+            )
+        )
+        self.assertFalse(
+            podcaster_handoff._manifest_allows_handoff(
+                plain_restore, week="2026-W23", publish_mode="normal"
+            )
+        )
 
     def test_missing_manifest_path_raises_fail_closed(self) -> None:
         tests_root = Path(__file__).resolve().parent

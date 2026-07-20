@@ -601,7 +601,7 @@ def _manifest_allows_handoff(manifest: dict[str, Any], *, week: str, publish_mod
     promotion = manifest.get("promotion")
     return (
         manifest.get("week") == week
-        and manifest.get("run_mode") == "normal"
+        and (manifest.get("run_mode") == "normal" or _is_audited_force_replace(manifest))
         and publish_mode == "normal"
         and isinstance(analysis, dict)
         and analysis.get("ai_status") == "ai"
@@ -609,6 +609,39 @@ def _manifest_allows_handoff(manifest: dict[str, Any], *, week: str, publish_mod
         and promotion.get("eligible") is True
         and promotion.get("decision") == "promote"
     )
+
+
+def _is_audited_force_replace(manifest: dict[str, Any]) -> bool:
+    promotion = manifest.get("promotion")
+    audit = manifest.get("audit")
+    return (
+        isinstance(promotion, dict)
+        and promotion.get("policy") == "force-replace"
+        and isinstance(audit, dict)
+        and bool(audit.get("actor"))
+        and bool(audit.get("reason"))
+    )
+
+
+def _is_gated_replay(manifest: dict[str, Any], *, week: str) -> bool:
+    """Well-formed, promotion-eligible manifest that is deliberately excluded from
+    handoff (a non-audited restore/replay). Such a manifest is a clean skip, not an
+    error. Malformed manifests return False here and stay fail-closed in build_payload.
+    """
+    if not manifest:
+        return False
+    analysis = manifest.get("analysis")
+    promotion = manifest.get("promotion")
+    well_formed_promotable = (
+        manifest.get("week") == week
+        and isinstance(analysis, dict)
+        and analysis.get("ai_status") == "ai"
+        and isinstance(promotion, dict)
+        and promotion.get("eligible") is True
+        and promotion.get("decision") == "promote"
+    )
+    gated_mode = manifest.get("run_mode") != "normal" and not _is_audited_force_replace(manifest)
+    return well_formed_promotable and gated_mode
 
 
 def build_payload(
@@ -774,6 +807,18 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.publish_mode != "normal":
         print(f"::notice::Podcaster handoff skipped for publish mode {args.publish_mode}.")
+        return 0
+
+    try:
+        manifest = _load_manifest(args.manifest)
+    except PodcasterHandoffError as exc:
+        print(f"::error::Podcaster handoff failed: {exc}")
+        return 1
+    if _is_gated_replay(manifest, week=args.week):
+        print(
+            "::notice::Podcaster handoff skipped: publish manifest is a non-audited replay "
+            "(not eligible for handoff)."
+        )
         return 0
 
     try:
