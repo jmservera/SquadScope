@@ -174,15 +174,22 @@ class TestComputeRelevanceScore:
 
 class TestRetryAfterSeconds:
     def test_retry_after_numeric_header_preserved_and_floored(self):
-        assert techcrunch_crawler._retry_after_seconds(
-            _http_error_with_headers({"Retry-After": "120"})
-        ) == 120.0
-        assert techcrunch_crawler._retry_after_seconds(
-            _http_error_with_headers({"Retry-After": "0"})
-        ) == 1.0
-        assert techcrunch_crawler._retry_after_seconds(
-            _http_error_with_headers({"Retry-After": "0.5"})
-        ) == 1.0
+        assert (
+            techcrunch_crawler._retry_after_seconds(
+                _http_error_with_headers({"Retry-After": "120"})
+            )
+            == 120.0
+        )
+        assert (
+            techcrunch_crawler._retry_after_seconds(_http_error_with_headers({"Retry-After": "0"}))
+            == 1.0
+        )
+        assert (
+            techcrunch_crawler._retry_after_seconds(
+                _http_error_with_headers({"Retry-After": "0.5"})
+            )
+            == 1.0
+        )
 
     def test_retry_after_http_date_future_returns_positive_delay(self):
         retry_at = datetime.now(timezone.utc) + timedelta(seconds=120)
@@ -196,9 +203,12 @@ class TestRetryAfterSeconds:
     def test_retry_after_http_date_past_is_floored(self):
         retry_at = datetime.now(timezone.utc) - timedelta(seconds=120)
 
-        assert techcrunch_crawler._retry_after_seconds(
-            _http_error_with_headers({"Retry-After": format_datetime(retry_at)})
-        ) == 1.0
+        assert (
+            techcrunch_crawler._retry_after_seconds(
+                _http_error_with_headers({"Retry-After": format_datetime(retry_at)})
+            )
+            == 1.0
+        )
 
     def test_retry_after_garbage_empty_or_missing_returns_none(self):
         assert (
@@ -208,9 +218,7 @@ class TestRetryAfterSeconds:
             is None
         )
         assert (
-            techcrunch_crawler._retry_after_seconds(
-                _http_error_with_headers({"Retry-After": ""})
-            )
+            techcrunch_crawler._retry_after_seconds(_http_error_with_headers({"Retry-After": ""}))
             is None
         )
         assert techcrunch_crawler._retry_after_seconds(_http_error_with_headers({})) is None
