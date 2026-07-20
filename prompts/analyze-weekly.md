@@ -166,6 +166,7 @@ is the story of the period, not a list.
 11. `stars_tracked` should equal the total stars across those repos.
 12. `top_repo` should be the repo that best anchors the editorial narrative, not automatically the most-starred repo.
 13. `quality_score` must be an honest 0-100 self-assessment; publishable work is `>= 60`, and a narrative-led, continuity-aware, evidence-dense weekly analysis that fully satisfies this contract should land at the top of the band (high 80s or above). Score honestly — do not inflate — but do not under-rate work that genuinely meets every requirement here. The `summary` field must be ≤155 characters, a complete sentence crafted as the meta description for search engines and social sharing. Do not let it exceed 155 characters.
+    This value is advisory and is recomputed deterministically by the pipeline gate.
 14. If you include `predictions`, each entry must be `{repo, claim_type, direction, confidence}` with `claim_type` in `signal|noise|gap`, `direction` in `up|flat|down`, and `confidence` from `0` to `1`.
 15. Open with a narrative lede (2-4 paragraphs, ~120-220 words, no heading) as described in
     "Lead with the story", then include all required sections in this exact order:

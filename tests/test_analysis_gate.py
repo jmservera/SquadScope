@@ -111,6 +111,207 @@ summary: "A grounded week focused on practical tools."'''.strip()
 
 
 class AnalysisGateTests(unittest.TestCase):
+    def test_objective_quality_press_included_never_scores_below_press_less(self) -> None:
+        body = make_body().replace(
+            "No press data was provided this week.",
+            "- [Industry report](https://example.com/industry-report) — confirms the trend.",
+        )
+        analysis = make_analysis(VALID_FRONTMATTER, body)
+
+        press_score, press_breakdown = analysis_gate.compute_objective_quality(
+            analysis, RAW_PAYLOAD_WITH_REPOS, press_context_available=True
+        )
+        press_less_score, press_less_breakdown = analysis_gate.compute_objective_quality(
+            analysis, RAW_PAYLOAD_WITH_REPOS, press_context_available=False
+        )
+
+        # jmservera/SquadScope#583: prevent the W30 paradox where adding real press
+        # evidence made an otherwise identical summary score lower.
+        self.assertGreaterEqual(press_score, press_less_score)
+        self.assertGreater(press_score, press_less_score)
+        self.assertEqual(press_breakdown["words"], press_less_breakdown["words"])
+        self.assertEqual(press_breakdown["repo_citations"], press_less_breakdown["repo_citations"])
+        self.assertEqual(press_breakdown["press_citations"], 1)
+        self.assertEqual(press_less_breakdown["press"], 0)
+
+    def test_objective_quality_no_press_week_retains_publishable_base_score(self) -> None:
+        score, breakdown = analysis_gate.compute_objective_quality(
+            make_analysis("week: 2026-W23", "A short press-less summary."),
+            RAW_PAYLOAD,
+            press_context_available=False,
+        )
+
+        self.assertGreaterEqual(score, 60)
+        self.assertEqual(breakdown["base"], 60)
+        self.assertEqual(breakdown["press"], 0)
+        self.assertFalse(breakdown["press_available"])
+
+    def test_objective_quality_depth_and_evidence_scale_and_cap(self) -> None:
+        short_text = make_analysis("week: 2026-W23", "word " * 200)
+        medium_text = make_analysis("week: 2026-W23", "word " * 700)
+        long_text = make_analysis("week: 2026-W23", "word " * 1400)
+
+        _, short = analysis_gate.compute_objective_quality(short_text, {}, False)
+        _, medium = analysis_gate.compute_objective_quality(medium_text, {}, False)
+        _, long = analysis_gate.compute_objective_quality(long_text, {}, False)
+
+        self.assertEqual(short["depth"], 0)
+        self.assertGreater(medium["depth"], short["depth"])
+        self.assertEqual(long["depth"], 15)
+
+        repos = [f"owner/repo-{index}" for index in range(12)]
+        raw_payload = {
+            "new_repos": [{"full_name": repo} for repo in repos[:6]],
+            "trending_repos": [{"full_name": repo} for repo in repos[6:]],
+        }
+
+        def cited_analysis(count: int) -> str:
+            links = "\n".join(f"- [{repo}](https://github.com/{repo})" for repo in repos[:count])
+            return make_analysis("week: 2026-W23", links)
+
+        _, none = analysis_gate.compute_objective_quality(cited_analysis(0), raw_payload, False)
+        _, half = analysis_gate.compute_objective_quality(cited_analysis(5), raw_payload, False)
+        _, full = analysis_gate.compute_objective_quality(cited_analysis(12), raw_payload, False)
+        _, no_inventory = analysis_gate.compute_objective_quality(cited_analysis(1), {}, False)
+
+        self.assertEqual(none["evidence"], 0)
+        self.assertEqual(half["evidence"], 5)
+        self.assertEqual(full["evidence"], 10)
+        self.assertEqual(full["repo_citations"], 12)
+        self.assertEqual(no_inventory["evidence"], 0)
+        self.assertEqual(no_inventory["repo_citations"], 0)
+
+    def test_objective_quality_press_bonus_caps_and_requires_press_context(self) -> None:
+        body = """## Key References
+
+### Notable Projects
+
+- [owner/repo-a](https://github.com/owner/repo-a)
+
+### Press & Industry
+
+- [One](https://one.example/article)
+- [Two](https://two.example/article)
+- [Three](https://three.example/article)
+- [Four](https://four.example/article)
+- [GitHub](https://github.com/owner/repo-a)
+"""
+        analysis = make_analysis("week: 2026-W23", body)
+
+        _, available = analysis_gate.compute_objective_quality(
+            analysis, RAW_PAYLOAD_WITH_REPOS, True
+        )
+        _, unavailable = analysis_gate.compute_objective_quality(
+            analysis, RAW_PAYLOAD_WITH_REPOS, False
+        )
+
+        self.assertEqual(available["press"], 15)
+        self.assertEqual(available["press_citations"], 4)
+        self.assertEqual(unavailable["press"], 0)
+        self.assertEqual(unavailable["press_citations"], 0)
+
+    def test_objective_quality_excludes_github_owned_hosts_from_press(self) -> None:
+        body = """## Key References
+
+### Notable Projects
+
+- [owner/repo-a](https://github.com/owner/repo-a)
+
+### Press & Industry
+
+- [Real press](https://press.example/article)
+- [Gist](https://gist.github.com/owner/abc123)
+- [Raw](https://raw.githubusercontent.com/owner/repo-a/main/README.md)
+- [Sub](https://api.github.com/repos/owner/repo-a)
+"""
+        analysis = make_analysis("week: 2026-W23", body)
+
+        _, breakdown = analysis_gate.compute_objective_quality(
+            analysis, RAW_PAYLOAD_WITH_REPOS, True
+        )
+
+        self.assertEqual(breakdown["press_citations"], 1)
+
+    def test_objective_quality_ignores_urls_after_press_subsection(self) -> None:
+        body = """## Key References
+
+### Press & Industry
+
+- [Real press](https://press.example/article)
+
+### Further Reading
+
+- [Not press](https://blog.example/post)
+- [Also not](https://docs.example/guide)
+"""
+        analysis = make_analysis("week: 2026-W23", body)
+
+        _, breakdown = analysis_gate.compute_objective_quality(
+            analysis, RAW_PAYLOAD_WITH_REPOS, True
+        )
+
+        self.assertEqual(breakdown["press_citations"], 1)
+
+    def test_set_frontmatter_quality_score_replaces_inserts_and_preserves_body(self) -> None:
+        body = "Body with quality_score: 999 that must remain untouched.\n"
+        existing = make_analysis("week: 2026-W23\nquality_score: 99", body)
+        missing = make_analysis("week: 2026-W23", body)
+
+        replaced = analysis_gate.set_frontmatter_quality_score(existing, 72)
+        inserted = analysis_gate.set_frontmatter_quality_score(missing, 68)
+
+        self.assertIn("\nquality_score: 72\n---", replaced)
+        self.assertEqual(replaced.split("---\n", 2)[2], f"\n{body}\n")
+        self.assertIn("\nquality_score: 68\n---", inserted)
+        self.assertEqual(inserted.split("---\n", 2)[2], f"\n{body}\n")
+        with self.assertRaisesRegex(ValueError, "missing YAML frontmatter"):
+            analysis_gate.set_frontmatter_quality_score(body, 70)
+
+    def test_main_overwrites_llm_quality_score_and_reports_objective_breakdown(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            workspace = Path(tmpdir)
+            analysis_path = workspace / "candidate.md"
+            raw_path = workspace / "raw.json"
+            report_path = workspace / "report.json"
+            original = make_analysis(
+                VALID_FRONTMATTER.replace("quality_score: 82", "quality_score: 99"),
+                make_body(),
+            )
+            expected_score, expected_breakdown = analysis_gate.compute_objective_quality(
+                original, RAW_PAYLOAD_WITH_REPOS, False
+            )
+            analysis_path.write_text(original, encoding="utf-8")
+            raw_path.write_text(json.dumps(RAW_PAYLOAD_WITH_REPOS), encoding="utf-8")
+
+            self.assertEqual(
+                analysis_gate.main(
+                    [
+                        "--analysis-file",
+                        str(analysis_path),
+                        "--raw-json",
+                        str(raw_path),
+                        "--current-datetime",
+                        CURRENT_DATETIME,
+                        "--source",
+                        "copilot-cli",
+                        "--model",
+                        "copilot-default",
+                        "--report-json",
+                        str(report_path),
+                    ]
+                ),
+                0,
+            )
+
+            frontmatter, _ = analysis_gate.extract_frontmatter(
+                analysis_path.read_text(encoding="utf-8")
+            )
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            self.assertEqual(frontmatter["quality_score"], expected_score)
+            self.assertNotEqual(frontmatter["quality_score"], 99)
+            self.assertEqual(report["quality_breakdown"], expected_breakdown)
+
     def test_validate_analysis_accepts_block_style_lists(self) -> None:
         errors, word_count = analysis_gate.validate_analysis(
             make_analysis(VALID_FRONTMATTER, make_body()),

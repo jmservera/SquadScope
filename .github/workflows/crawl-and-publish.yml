@@ -44,6 +44,11 @@ on:
         required: false
         default: ''
         type: string
+      force_reason:
+        description: 'Audited reason to force replacement while preserving all gates except candidate-vs-published score comparison.'
+        required: false
+        default: ''
+        type: string
       analysis_path:
         description: 'Analysis path. map-reduce-dry-run is allowed only with dry-run/candidate-only and never promotes content.'
         required: false
@@ -954,6 +959,8 @@ jobs:
           PREFLIGHT_REPORT: ${{ steps.prompt-preflight.outputs.preflight_report_json }}
           SYNTHESIS_STATUS: ${{ steps.synthesis.outputs.synthesis_status }}
           SYNTHESIS_FILE: ${{ steps.synthesis.outputs.synthesis_file }}
+          FORCE_REASON: ${{ inputs.force_reason || '' }}
+          GH_ACTOR: ${{ github.actor }}
         run: |
           set -euo pipefail
           git fetch origin publish 2>/dev/null && git checkout origin/publish -- "$PUBLISHED_SUMMARY" 2>/dev/null || true
@@ -978,6 +985,10 @@ jobs:
           done
           SYNTHESIS_ARGS=(--synthesis-status "${SYNTHESIS_STATUS:-missing}")
           [ -n "${SYNTHESIS_FILE:-}" ] && [ -f "${SYNTHESIS_FILE:-}" ] && SYNTHESIS_ARGS+=(--synthesis-file "$SYNTHESIS_FILE")
+          FORCE_ARGS=()
+          if [ -n "$FORCE_REASON" ]; then
+            FORCE_ARGS=(--publish-policy force-replace --force-reason "$FORCE_REASON" --actor "$GH_ACTOR")
+          fi
           python3 scripts/publish_manifest.py create \
             --week "$WEEK" \
             --run-id "$RUN_ID" \
@@ -995,6 +1006,7 @@ jobs:
             "${SYNTHESIS_ARGS[@]}" \
             --output "$MANIFEST_FILE" \
             "${RESTORE_ARGS[@]}" \
+            "${FORCE_ARGS[@]}" \
             "${ARTIFACT_ARGS[@]}"
 
       - name: Assert candidate is eligible for promotion

@@ -742,6 +742,155 @@ class PublishManifestTests(unittest.TestCase):
             self.assertEqual(payload["audit"]["actor"], "jmservera")
             self.assertEqual(assert_eligible_from_root(base, manifest), 0)
 
+    def test_force_replace_allows_lower_quality_ai_candidate_over_good_baseline(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            published = base / "data/analyzed/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_good_summary(summary, quality_score=70)
+            write_good_summary(published, quality_score=90)
+            write_gate_report(gate_report)
+            args = create_args(base, raw, summary, manifest, gate_report=gate_report)
+            args.extend(
+                [
+                    "--publish-policy",
+                    "force-replace",
+                    "--force-reason",
+                    "operator approved W30 correction",
+                    "--actor",
+                    "jmservera",
+                ]
+            )
+
+            # jmservera/SquadScope#583: the W30 correction must bypass only the
+            # candidate-vs-published score comparison when explicitly audited.
+            self.assertEqual(publish_manifest.main(args), 0)
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertTrue(payload["promotion"]["eligible"])
+            self.assertEqual(payload["promotion"]["decision"], "promote")
+            self.assertFalse(
+                any(
+                    "lower than published good quality_score" in reason
+                    for reason in payload["promotion"]["reasons"]
+                )
+            )
+            self.assertEqual(assert_eligible_from_root(base, manifest), 0)
+
+    def test_force_replace_ai_candidate_requires_reason_and_actor(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        for missing_flag, expected_reason in (
+            ("--force-reason", "force-replace requires force_reason"),
+            ("--actor", "force-replace requires actor"),
+        ):
+            with self.subTest(missing_flag=missing_flag):
+                with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+                    base = Path(tmpdir)
+                    raw = base / "data/raw/2026-W21.json"
+                    summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+                    published = base / "data/analyzed/2026-W21-summary.md"
+                    manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+                    gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+                    write_raw(raw)
+                    write_good_summary(summary, quality_score=70)
+                    write_good_summary(published, quality_score=90)
+                    write_gate_report(gate_report)
+                    args = create_args(base, raw, summary, manifest, gate_report=gate_report)
+                    audit_args = [
+                        "--publish-policy",
+                        "force-replace",
+                        "--force-reason",
+                        "operator approved correction",
+                        "--actor",
+                        "jmservera",
+                    ]
+                    missing_index = audit_args.index(missing_flag)
+                    del audit_args[missing_index : missing_index + 2]
+                    args.extend(audit_args)
+
+                    self.assertEqual(publish_manifest.main(args), 0)
+
+                    payload = json.loads(manifest.read_text(encoding="utf-8"))
+                    self.assertFalse(payload["promotion"]["eligible"])
+                    self.assertIn(expected_reason, payload["promotion"]["reasons"])
+
+    def test_force_replace_does_not_bypass_minimum_quality_score(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            published = base / "data/analyzed/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_good_summary(summary, quality_score=59)
+            write_good_summary(published, quality_score=90)
+            write_gate_report(gate_report)
+            args = create_args(base, raw, summary, manifest, gate_report=gate_report)
+            args.extend(
+                [
+                    "--publish-policy",
+                    "force-replace",
+                    "--force-reason",
+                    "operator approved correction",
+                    "--actor",
+                    "jmservera",
+                ]
+            )
+
+            self.assertEqual(publish_manifest.main(args), 0)
+
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            self.assertFalse(payload["promotion"]["eligible"])
+            self.assertIn("candidate quality_score below 60: 59", payload["promotion"]["reasons"])
+
+    def test_assert_eligible_force_replace_requires_complete_audit(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw = base / "data/raw/2026-W21.json"
+            summary = base / "data/candidates/2026-W21/123456/2026-W21-summary.md"
+            published = base / "data/analyzed/2026-W21-summary.md"
+            manifest = base / "data/candidates/2026-W21/123456/publish-manifest.json"
+            gate_report = base / "data/candidates/2026-W21/123456/analysis-gate-report.json"
+            write_raw(raw)
+            write_good_summary(summary, quality_score=70)
+            write_good_summary(published, quality_score=90)
+            write_gate_report(gate_report)
+            args = create_args(base, raw, summary, manifest, gate_report=gate_report)
+            args.extend(
+                [
+                    "--publish-policy",
+                    "force-replace",
+                    "--force-reason",
+                    "operator approved correction",
+                    "--actor",
+                    "jmservera",
+                ]
+            )
+            self.assertEqual(publish_manifest.main(args), 0)
+            valid_payload = json.loads(manifest.read_text(encoding="utf-8"))
+
+            for missing_field in ("actor", "reason"):
+                with self.subTest(missing_field=missing_field):
+                    tampered = json.loads(json.dumps(valid_payload))
+                    tampered["audit"][missing_field] = None
+                    manifest.write_text(json.dumps(tampered), encoding="utf-8")
+                    with self.assertRaisesRegex(
+                        SystemExit,
+                        "Force replacement requires actor and reason in manifest audit",
+                    ):
+                        assert_eligible_from_root(base, manifest)
+
+            manifest.write_text(json.dumps(valid_payload), encoding="utf-8")
+            self.assertEqual(assert_eligible_from_root(base, manifest), 0)
+
     def test_missing_candidate_summary_only_reports_missing_summary(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
@@ -920,6 +1069,9 @@ class PublishManifestTests(unittest.TestCase):
             )
 
             payload = json.loads(manifest.read_text(encoding="utf-8"))
+            # The jmservera/SquadScope#583 override is force-replace-only; normal
+            # publication must continue protecting the higher-quality baseline.
+            self.assertFalse(payload["promotion"]["eligible"])
             self.assertEqual(payload["promotion"]["decision"], "preserve")
             self.assertTrue(
                 any(

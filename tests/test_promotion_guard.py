@@ -517,6 +517,50 @@ class PromotionGuardTests(unittest.TestCase):
             audit = json.loads(audit_path.read_text(encoding="utf-8"))
             self.assertEqual(audit["actor"], "jmservera")
 
+    def test_force_replace_ai_candidate_requires_reason_and_actor(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        for name, policy, expected_reason in (
+            (
+                "ai-force-missing-reason",
+                {"mode": "force-replace", "actor": "jmservera"},
+                "force-replace requires a reason.",
+            ),
+            (
+                "ai-force-missing-actor",
+                {"mode": "force-replace", "reason": "operator approved correction"},
+                "force-replace requires an actor.",
+            ),
+        ):
+            with self.subTest(name=name):
+                with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+                    root = Path(tmpdir)
+                    manifest_path = manifest_for(root, name, promotion_policy=policy)
+
+                    with self.assertRaises(promotion_guard.PromotionBlocked) as blocked:
+                        promotion_guard.promote_candidate(manifest_path, root=root)
+
+                    self.assertIn(expected_reason, blocked.exception.reasons)
+
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            manifest_path = manifest_for(
+                root,
+                "ai-force-complete",
+                promotion_policy={
+                    "mode": "force-replace",
+                    "reason": "operator approved correction",
+                    "actor": "jmservera",
+                },
+            )
+
+            summary_path, _ = promotion_guard.promote_candidate(manifest_path, root=root)
+
+            self.assertIn("Better candidate analysis.", summary_path.read_text(encoding="utf-8"))
+            audit_path = root / "data/diagnostics/promotion/2026-W23-force-replace-audit.json"
+            audit = json.loads(audit_path.read_text(encoding="utf-8"))
+            self.assertEqual(audit["reason"], "operator approved correction")
+            self.assertEqual(audit["actor"], "jmservera")
+
     def test_same_day_reused_source_candidate_can_promote_when_manifest_is_fresh(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
