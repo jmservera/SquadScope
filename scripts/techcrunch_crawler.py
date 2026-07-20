@@ -23,7 +23,8 @@ import time
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
-from datetime import UTC, date, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta, timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError, URLError
@@ -763,7 +764,7 @@ def _sleep_before_retry(attempt: int, retry_after: float | None = None) -> float
 
 
 def _retry_after_seconds(exc: HTTPError) -> float | None:
-    """Extract a positive Retry-After delay (seconds) from an HTTPError, if any."""
+    """Extract a positive Retry-After delay from delta-seconds or HTTP-date."""
     header = None
     try:
         header = exc.headers.get("Retry-After") if exc.headers else None
@@ -774,7 +775,15 @@ def _retry_after_seconds(exc: HTTPError) -> float | None:
     try:
         return max(float(header), 1.0)
     except (TypeError, ValueError):
+        pass
+    try:
+        retry_at = parsedate_to_datetime(header)
+    except (TypeError, ValueError):
         return None
+    if retry_at.tzinfo is None:
+        retry_at = retry_at.replace(tzinfo=timezone.utc)
+    delay = (retry_at - datetime.now(timezone.utc)).total_seconds()
+    return max(delay, 1.0)
 
 
 def fetch_feed(

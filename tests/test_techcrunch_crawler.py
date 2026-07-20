@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import json
 import tempfile
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta, timezone
+from email.utils import format_datetime
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -60,6 +61,10 @@ def _make_entry(
 
 def _make_feed(entries=None, bozo=False):
     return SimpleNamespace(entries=entries or [], bozo=bozo)
+
+
+def _http_error_with_headers(headers):
+    return HTTPError("https://techcrunch.com/feed/", 503, "Unavailable", headers, None)
 
 
 # --- Unit tests: utility functions ---
@@ -165,6 +170,50 @@ class TestComputeRelevanceScore:
         score_no = compute_relevance_score(article_no_gh)
         score_with = compute_relevance_score(article_with_gh)
         assert score_with > score_no
+
+
+class TestRetryAfterSeconds:
+    def test_retry_after_numeric_header_preserved_and_floored(self):
+        assert techcrunch_crawler._retry_after_seconds(
+            _http_error_with_headers({"Retry-After": "120"})
+        ) == 120.0
+        assert techcrunch_crawler._retry_after_seconds(
+            _http_error_with_headers({"Retry-After": "0"})
+        ) == 1.0
+        assert techcrunch_crawler._retry_after_seconds(
+            _http_error_with_headers({"Retry-After": "0.5"})
+        ) == 1.0
+
+    def test_retry_after_http_date_future_returns_positive_delay(self):
+        retry_at = datetime.now(timezone.utc) + timedelta(seconds=120)
+        result = techcrunch_crawler._retry_after_seconds(
+            _http_error_with_headers({"Retry-After": format_datetime(retry_at)})
+        )
+
+        assert result is not None
+        assert 60 <= result <= 200
+
+    def test_retry_after_http_date_past_is_floored(self):
+        retry_at = datetime.now(timezone.utc) - timedelta(seconds=120)
+
+        assert techcrunch_crawler._retry_after_seconds(
+            _http_error_with_headers({"Retry-After": format_datetime(retry_at)})
+        ) == 1.0
+
+    def test_retry_after_garbage_empty_or_missing_returns_none(self):
+        assert (
+            techcrunch_crawler._retry_after_seconds(
+                _http_error_with_headers({"Retry-After": "not-a-date"})
+            )
+            is None
+        )
+        assert (
+            techcrunch_crawler._retry_after_seconds(
+                _http_error_with_headers({"Retry-After": ""})
+            )
+            is None
+        )
+        assert techcrunch_crawler._retry_after_seconds(_http_error_with_headers({})) is None
 
 
 class TestParsePublishedDate:
