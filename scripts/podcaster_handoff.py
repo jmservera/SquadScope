@@ -123,6 +123,11 @@ def article_url_from_page_path(base_url: str, page_path: str) -> str:
     return urljoin(base, f"weekly/{slug}/")
 
 
+def _escape_gha_data(value: str) -> str:
+    """Escape data for the message portion of a GitHub Actions workflow command."""
+    return value.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+
+
 def validate_endpoint(endpoint: str) -> None:
     parsed = urlparse(endpoint)
     if parsed.scheme not in {"https", "http"} or not parsed.netloc:
@@ -839,11 +844,13 @@ def main(argv: list[str] | None = None) -> int:
             require_merged=args.require_merged,
             manifest=manifest,
         )
-        post_handoff(endpoint, api_key, payload, timeout=args.timeout)
+        response = post_handoff(endpoint, api_key, payload, timeout=args.timeout)
     except PodcasterHandoffError as exc:
         print(f"::error::Podcaster handoff failed: {exc}")
         return 1
-    print("::notice::Podcaster handoff accepted.")
+    job_id = _escape_gha_data(str(response.get("job_id", "")))
+    status = _escape_gha_data(str(response.get("status", "")))
+    print(f"::notice::Podcaster handoff completed (job_id={job_id}, status={status}).")
     return 0
 
 
