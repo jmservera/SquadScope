@@ -738,6 +738,7 @@ class AnalyzeFallbackTests(unittest.TestCase):
             output_path = base / "data" / "analyzed" / "2026-W30-summary.md"
             press_path = base / "data" / "analyzed" / "2026-W30-press-context.md"
             synthesis_path = base / "synthesis.md"
+            report_path = base / "diagnostics" / "preflight.json"
             raw_path.parent.mkdir(parents=True)
             output_path.parent.mkdir(parents=True)
             raw_path.write_text(
@@ -777,6 +778,8 @@ class AnalyzeFallbackTests(unittest.TestCase):
                         str(press_path),
                         "--synthesis-input",
                         str(synthesis_path),
+                        "--preflight-report-json",
+                        str(report_path),
                         "--print-prompt",
                     ]
                 )
@@ -785,8 +788,166 @@ class AnalyzeFallbackTests(unittest.TestCase):
             rendered = stdout.getvalue()
             # Both the synthesis narrative and the real press data must be present.
             self.assertIn("Industry narrative distilled", rendered)
+            # The Step-2 prompt must still carry a real "## Press Context" block.
             self.assertIn("## Press Context", rendered)
             self.assertIn("UNIQUE_PRESS_MARKER", rendered)
+            # And the model must NOT be told there was no press data.
+            self.assertNotIn("No industry press data was available", rendered)
+
+            # Diagnostics must record the press context as *included* (not blanked).
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            components = {component["name"]: component for component in report["components"]}
+            press_component = components["press_correlations"]
+            self.assertTrue(press_component["included"])
+            # Short press content is under the compaction threshold, so it is
+            # included verbatim (not condensed and definitely not dropped).
+            self.assertEqual(press_component["compaction_decision"], "included")
+            self.assertGreater(press_component["token_estimate"], 0)
+            self.assertGreater(press_component["bytes"], 0)
+
+    def test_synthesis_narrative_condenses_but_keeps_large_press_context(self) -> None:
+        """A synthesis narrative may *condense* an oversized press context, but must
+        still keep the real press data in the Step-2 prompt (press_decision reflects
+        'included: condensed alongside synthesis narrative')."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W30.json"
+            prompt_template = base / "prompt.md"
+            output_path = base / "data" / "analyzed" / "2026-W30-summary.md"
+            press_path = base / "data" / "analyzed" / "2026-W30-press-context.md"
+            synthesis_path = base / "synthesis.md"
+            report_path = base / "diagnostics" / "preflight.json"
+            raw_path.parent.mkdir(parents=True)
+            output_path.parent.mkdir(parents=True)
+            raw_path.write_text(
+                json.dumps({"week": "2026-W30", "new_repos": [], "trending_repos": []}),
+                encoding="utf-8",
+            )
+            prompt_template.write_text(
+                "{{RAW_JSON_CONTENT}}\n{{HISTORICAL_CONTEXT}}", encoding="utf-8"
+            )
+            # Press context larger than COMPACTED_PRESS_CONTEXT_CHARS (14_000) so the
+            # synthesis path condenses it. A leading marker must survive truncation.
+            filler = "AI agents infrastructure launch coverage. " * 800
+            press_path.write_text(
+                "LEADING_PRESS_MARKER: 40 relevant articles.\n\n" + filler,
+                encoding="utf-8",
+            )
+            synthesis_path.write_text(
+                "Industry narrative distilled from press and history.", encoding="utf-8"
+            )
+
+            with mock.patch("sys.stdout", new_callable=io.StringIO) as stdout:
+                exit_code = analyze_fallback.main(
+                    [
+                        "--raw-json",
+                        str(raw_path),
+                        "--output",
+                        str(output_path),
+                        "--current-datetime",
+                        "2026-07-27T12:00:00Z",
+                        "--prompt-template",
+                        str(prompt_template),
+                        "--analyzed-dir",
+                        str(output_path.parent),
+                        "--wisdom-file",
+                        str(base / "w.md"),
+                        "--skills-dir",
+                        str(base / "s"),
+                        "--press-context",
+                        str(press_path),
+                        "--synthesis-input",
+                        str(synthesis_path),
+                        "--preflight-report-json",
+                        str(report_path),
+                        "--print-prompt",
+                    ]
+                )
+
+            self.assertEqual(exit_code, 0)
+            rendered = stdout.getvalue()
+            self.assertIn("## Press Context", rendered)
+            self.assertIn("LEADING_PRESS_MARKER", rendered)
+            self.assertNotIn("No industry press data was available", rendered)
+
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            components = {component["name"]: component for component in report["components"]}
+            press_component = components["press_correlations"]
+            self.assertTrue(press_component["included"])
+            self.assertEqual(
+                press_component["compaction_decision"],
+                "included: condensed alongside synthesis narrative",
+            )
+            self.assertGreater(press_component["token_estimate"], 0)
+            self.assertGreater(press_component["bytes"], 0)
+
+    def test_synthesis_narrative_with_absent_press_context_takes_no_press_path(self) -> None:
+        """The fix must not over-correct: when a synthesis narrative is present but
+        there is genuinely NO press context, the no-press path stays intact —
+        press_decision is 'not included: no press context' and no '## Press Context'
+        block is emitted."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W30.json"
+            prompt_template = base / "prompt.md"
+            output_path = base / "data" / "analyzed" / "2026-W30-summary.md"
+            synthesis_path = base / "synthesis.md"
+            report_path = base / "diagnostics" / "preflight.json"
+            raw_path.parent.mkdir(parents=True)
+            output_path.parent.mkdir(parents=True)
+            raw_path.write_text(
+                json.dumps({"week": "2026-W30", "new_repos": [], "trending_repos": []}),
+                encoding="utf-8",
+            )
+            prompt_template.write_text(
+                "{{RAW_JSON_CONTENT}}\n{{HISTORICAL_CONTEXT}}", encoding="utf-8"
+            )
+            synthesis_path.write_text(
+                "Industry narrative distilled from press and history.", encoding="utf-8"
+            )
+
+            with mock.patch("sys.stdout", new_callable=io.StringIO) as stdout:
+                exit_code = analyze_fallback.main(
+                    [
+                        "--raw-json",
+                        str(raw_path),
+                        "--output",
+                        str(output_path),
+                        "--current-datetime",
+                        "2026-07-27T12:00:00Z",
+                        "--prompt-template",
+                        str(prompt_template),
+                        "--analyzed-dir",
+                        str(output_path.parent),
+                        "--wisdom-file",
+                        str(base / "w.md"),
+                        "--skills-dir",
+                        str(base / "s"),
+                        # No --press-context: genuinely press-less week.
+                        "--synthesis-input",
+                        str(synthesis_path),
+                        "--preflight-report-json",
+                        str(report_path),
+                        "--print-prompt",
+                    ]
+                )
+
+            self.assertEqual(exit_code, 0)
+            rendered = stdout.getvalue()
+            self.assertIn("Industry narrative distilled", rendered)
+            self.assertNotIn("## Press Context", rendered)
+
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            components = {component["name"]: component for component in report["components"]}
+            press_component = components["press_correlations"]
+            self.assertFalse(press_component["included"])
+            self.assertEqual(
+                press_component["compaction_decision"], "not included: no press context"
+            )
+            self.assertEqual(press_component["token_estimate"], 0)
+            self.assertEqual(press_component["bytes"], 0)
 
     def test_run_synthesis_exits_zero_and_writes_prompt(self) -> None:
         """--run-synthesis should render synthesis prompt to output file."""
