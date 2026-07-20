@@ -790,7 +790,7 @@ No press data was provided this week.
 
     def test_press_context_fallback_uses_rendered_content_token_estimate(self) -> None:
         """The gate fallback consumes render_press_context.press_token_estimate, where
-        empty/whitespace content maps to 0 and real press content maps positive."""
+        empty/whitespace/sentinel content maps to 0 and real press content maps positive."""
         self.assertFalse(
             analysis_gate.press_context_is_populated(
                 None, press_token_estimate("")
@@ -799,6 +799,11 @@ No press data was provided this week.
         self.assertFalse(
             analysis_gate.press_context_is_populated(
                 None, press_token_estimate("   \n\t ")
+            )
+        )
+        self.assertFalse(
+            analysis_gate.press_context_is_populated(
+                None, press_token_estimate(NO_PRESS_SENTINEL)
             )
         )
         self.assertTrue(

@@ -623,9 +623,9 @@ def estimate_tokens(markdown: str) -> int:
 
 
 def press_token_estimate(content: str) -> int:
-    """Feed the gate fallback; empty/whitespace must be 0 to avoid false population."""
+    """Return 0 for empty content or no-press sentinel so gate fallback matches path logic."""
     stripped = content.strip()
-    if not stripped:
+    if not stripped or NO_PRESS_SENTINEL_MARKER.search(stripped):
         return 0
     return estimate_tokens(stripped)
 

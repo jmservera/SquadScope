@@ -10,6 +10,7 @@ sys.path.insert(0, str(_REPO_ROOT / "scripts"))
 
 import render_press_context as render_press_context_module  # noqa: E402
 from render_press_context import (  # noqa: E402
+    NO_PRESS_SENTINEL,
     _escape_markdown_url,
     _extract_readme_description,
     _format_correlations_narrative,
@@ -160,6 +161,8 @@ class TestRenderPressContext:
     def test_press_token_estimate_treats_empty_content_as_zero(self):
         assert press_token_estimate("") == 0
         assert press_token_estimate("   \n\t ") == 0
+        assert press_token_estimate(NO_PRESS_SENTINEL) == 0
+        assert press_token_estimate(f"  \n## Press Context\n\n{NO_PRESS_SENTINEL}\n  ") == 0
 
         estimate = press_token_estimate("## Press Context\n\nA real article about AI agents.")
 
