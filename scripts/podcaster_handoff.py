@@ -601,7 +601,7 @@ def _manifest_allows_handoff(manifest: dict[str, Any], *, week: str, publish_mod
     promotion = manifest.get("promotion")
     return (
         manifest.get("week") == week
-        and manifest.get("run_mode") == "normal"
+        and (manifest.get("run_mode") == "normal" or _is_audited_force_replace(manifest))
         and publish_mode == "normal"
         and isinstance(analysis, dict)
         and analysis.get("ai_status") == "ai"
@@ -609,6 +609,41 @@ def _manifest_allows_handoff(manifest: dict[str, Any], *, week: str, publish_mod
         and promotion.get("eligible") is True
         and promotion.get("decision") == "promote"
     )
+
+
+def _is_audited_force_replace(manifest: dict[str, Any]) -> bool:
+    promotion = manifest.get("promotion")
+    audit = manifest.get("audit")
+    return (
+        isinstance(promotion, dict)
+        and promotion.get("policy") == "force-replace"
+        and isinstance(audit, dict)
+        and bool(audit.get("actor"))
+        and bool(audit.get("reason"))
+    )
+
+
+def _is_gated_replay(manifest: dict[str, Any], *, week: str) -> bool:
+    """Well-formed, promotion-eligible manifest that is deliberately excluded from
+    handoff (a plain, non-audited ``restore`` replay). Such a manifest is a clean
+    skip, not an error. Anything else -- malformed manifests, a missing/unknown
+    run_mode, or other non-normal modes -- returns False here and stays fail-closed
+    in build_payload, so a genuinely broken manifest is never silently skipped.
+    """
+    if not manifest:
+        return False
+    analysis = manifest.get("analysis")
+    promotion = manifest.get("promotion")
+    well_formed_promotable = (
+        manifest.get("week") == week
+        and isinstance(analysis, dict)
+        and analysis.get("ai_status") == "ai"
+        and isinstance(promotion, dict)
+        and promotion.get("eligible") is True
+        and promotion.get("decision") == "promote"
+    )
+    gated_mode = manifest.get("run_mode") == "restore" and not _is_audited_force_replace(manifest)
+    return well_formed_promotable and gated_mode
 
 
 def build_payload(
@@ -624,8 +659,10 @@ def build_payload(
     repo_root: Path | None = None,
     breaking_news: str | None = None,
     require_merged: bool = False,
+    manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    manifest = _load_manifest(manifest_path)
+    if manifest is None:
+        manifest = _load_manifest(manifest_path)
     if not _manifest_allows_handoff(manifest, week=week, publish_mode=publish_mode):
         raise PodcasterHandoffError("Publish manifest is not eligible for Podcaster handoff.")
     normalized_path = normalize_page_path(article_path)
@@ -777,6 +814,18 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     try:
+        manifest = _load_manifest(args.manifest)
+    except PodcasterHandoffError as exc:
+        print(f"::error::Podcaster handoff failed: {exc}")
+        return 1
+    if _is_gated_replay(manifest, week=args.week):
+        print(
+            "::notice::Podcaster handoff skipped: publish manifest is a non-audited replay "
+            "(not eligible for handoff)."
+        )
+        return 0
+
+    try:
         payload = build_payload(
             week=args.week,
             article_url=args.article_url,
@@ -788,6 +837,7 @@ def main(argv: list[str] | None = None) -> int:
             podcaster_dry_run=args.podcaster_dry_run,
             breaking_news=args.breaking_news,
             require_merged=args.require_merged,
+            manifest=manifest,
         )
         post_handoff(endpoint, api_key, payload, timeout=args.timeout)
     except PodcasterHandoffError as exc:
