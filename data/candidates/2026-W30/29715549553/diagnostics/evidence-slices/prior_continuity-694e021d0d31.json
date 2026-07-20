@@ -1,0 +1,28 @@
+{
+  "checksum_sha256": "694e021d0d313ed8911bc27cd540b429d45b0ffb21bc7a7104a13f537e00753d",
+  "component": "prior_continuity",
+  "provenance": {
+    "sources": {
+      "prior_summary": {
+        "bytes": 12669,
+        "path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W29-summary.md",
+        "sha256": "dcac7a09d4a96a32ca7cd63f1fa60f66f7db26496dc2b427ac75bf8d29232025"
+      },
+      "raw_json": {
+        "bytes": 274545,
+        "path": "data/raw/2026-W30.json",
+        "sha256": "0e251c5ca51d1744e095bad85d9a80cbcdd75c260d716278ecbe07862a18ce7d"
+      }
+    },
+    "week": "2026-W30"
+  },
+  "records": [
+    {
+      "excerpt": "---\ntitle: \"Agents Became Products, and Spam Followed\"\ndate: 2026-07-17T22:23:39Z\nweek: \"2026-W29\"\nyear: 2026\ntags: [ai-agents, agent-skills, security, local-first, developer-tools, spam]\ncategories: [weekly]\nrepos_featured: 446\nstars_tracked: 24466000\ntop_repo: \"xai-org/grok-build\"\nquality_score: 89\nsummary: \"Agent tooling moved from experiments to packaged products while spam and abuse campaigns kept gaming GitHub discovery.\"\npredictions:\n  - repo: xai-org/grok-build\n    claim_type: signal\n    direction: up\n    confidence: 0.7\n  - repo: vshulcz/deja-vu\n    claim_type: signal\n    direction: up\n    confidence: 0.68\n  - repo: CyberSunil/LLMVault\n    claim_type: signal\n    direction: up\n    confidence: 0.64\n  - repo: Stormeye85/robinhood-token-bundler\n    claim_type: noise\n    direction: down\n    confidence: 0.84\n  - repo: agentic-commerce-lab/pawl\n    claim_type: gap\n    direction: flat\n    confidence: 0.61\n---\n\nJuly 2026's agent story is no longer that developers are experimenting with",
+      "present": true,
+      "source_path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W29-summary.md"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "prior_continuity"
+}
