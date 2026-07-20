@@ -232,6 +232,26 @@ class AnalysisGateTests(unittest.TestCase):
 
         self.assertEqual(breakdown["press_citations"], 1)
 
+    def test_objective_quality_ignores_urls_after_press_subsection(self) -> None:
+        body = """## Key References
+
+### Press & Industry
+
+- [Real press](https://press.example/article)
+
+### Further Reading
+
+- [Not press](https://blog.example/post)
+- [Also not](https://docs.example/guide)
+"""
+        analysis = make_analysis("week: 2026-W23", body)
+
+        _, breakdown = analysis_gate.compute_objective_quality(
+            analysis, RAW_PAYLOAD_WITH_REPOS, True
+        )
+
+        self.assertEqual(breakdown["press_citations"], 1)
+
     def test_set_frontmatter_quality_score_replaces_inserts_and_preserves_body(self) -> None:
         body = "Body with quality_score: 999 that must remain untouched.\n"
         existing = make_analysis("week: 2026-W23\nquality_score: 99", body)

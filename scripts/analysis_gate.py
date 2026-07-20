@@ -578,6 +578,11 @@ def compute_objective_quality(
     if press_context_available:
         key_references = section_text(body, "## Key References")
         press_section = section_text(key_references, "### Press & Industry")
+        # section_text() only terminates on the next level-2 heading, so trim at the next
+        # level-3 subsection to avoid counting URLs from later ### blocks as press citations.
+        next_subsection = re.search(r"(?m)^###\s+", press_section)
+        if next_subsection:
+            press_section = press_section[: next_subsection.start()]
         urls = set(re.findall(r"https?://[^\s)\]]+", press_section))
         external_urls = {
             url
