@@ -343,18 +343,26 @@ python3 scripts/analyze_fallback.py \
   --print-prompt   # inspect the prompt; drop this flag + wire Copilot CLI to emit the report
 ```
 
-The rendered prompt always includes a `## Press Context` block whenever
-`<WEEK>-press-context.md` is non-empty — even when a Step-1 synthesis narrative
-is supplied via `--synthesis-input` (the narrative condenses *historical*
-context but never replaces real press data). Confirm with:
+The rendered prompt includes a `## Press Context` block only when the press
+context contains real press data — even when a Step-1 synthesis narrative is
+supplied via `--synthesis-input` (the narrative condenses *historical* context
+but never replaces real press data). A press-less week still renders the
+non-empty `NO_PRESS_SENTINEL` marker (defined in
+`scripts/render_press_context.py`), which `analyze_fallback.py` treats as absent;
+the block is suppressed and the `press_correlations` component is recorded as
+`included: false`. Confirm whether real press reached the prompt with:
 
 ```bash
 python3 scripts/analyze_fallback.py ... --print-prompt | grep -c "## Press Context"
 ```
 
 A non-zero count means the "Where Industry Meets Code" and "Press & Industry"
-sections will be written from real press data. Use `--preflight-report-json` to
-audit the `press_correlations` component (`included: true`).
+sections will be written from real press data. A zero count on a press-less week
+is expected: the sentinel was correctly suppressed. To distinguish real press
+from the marker, use `--preflight-report-json` to audit the
+`press_correlations` component (`included: true` for real press, `false` for
+no press), and consult the `NO_PRESS_SENTINEL` symbol in
+`scripts/render_press_context.py` as the authoritative marker definition.
 
 ## Understanding Source Artifacts and Reuse
 

@@ -748,6 +748,46 @@ No press data was provided this week.
             self.assertFalse(analysis_gate.press_context_is_populated(None, 0))
             self.assertFalse(analysis_gate.press_context_is_populated(None, None))
 
+    def test_press_context_token_estimate_is_fallback_only(self) -> None:
+        """Positive token estimates populate only when no readable authoritative content exists."""
+        self.assertTrue(analysis_gate.press_context_is_populated(None, token_estimate=1))
+        self.assertFalse(analysis_gate.press_context_is_populated(None, token_estimate=0))
+        self.assertFalse(analysis_gate.press_context_is_populated(None, token_estimate=None))
+
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+
+            missing = base / "missing-press-context.md"
+            self.assertTrue(analysis_gate.press_context_is_populated(missing, token_estimate=1))
+            self.assertFalse(analysis_gate.press_context_is_populated(missing, token_estimate=0))
+            self.assertFalse(analysis_gate.press_context_is_populated(missing, token_estimate=None))
+
+            empty = base / "empty-press-context.md"
+            empty.write_text("", encoding="utf-8")
+            self.assertTrue(analysis_gate.press_context_is_populated(empty, token_estimate=1))
+            self.assertFalse(analysis_gate.press_context_is_populated(empty, token_estimate=0))
+
+            unreadable = base / "unreadable-press-context.md"
+            unreadable.write_text("content that cannot be read", encoding="utf-8")
+            with mock.patch.object(Path, "read_text", side_effect=OSError("unreadable")):
+                self.assertTrue(
+                    analysis_gate.press_context_is_populated(unreadable, token_estimate=1)
+                )
+
+            sentinel = base / "sentinel-press-context.md"
+            sentinel.write_text(NO_PRESS_SENTINEL, encoding="utf-8")
+            self.assertFalse(
+                analysis_gate.press_context_is_populated(sentinel, token_estimate=9999)
+            )
+
+            real = base / "real-press-context.md"
+            real.write_text(
+                "## Press Context\n\n22 relevant articles about AI agents.",
+                encoding="utf-8",
+            )
+            self.assertTrue(analysis_gate.press_context_is_populated(real, token_estimate=0))
+
     def test_stale_press_gate_end_to_end_for_sentinel_pressless_week(self) -> None:
         """End-to-end press-less path: a body that legitimately states press was absent
         must NOT trip the stale-press rule when the week's press file is the sentinel
