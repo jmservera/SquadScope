@@ -1245,9 +1245,9 @@ def _build_prompt(
     # context so those sections stay evidence-backed.
     press_condensed_for_synthesis = False
     if synthesis_narrative:
+        synthesis_source = "press & historical context" if press_content else "historical context"
         historical_context_content = (
-            "[Industry narrative synthesized from press & historical context]"
-            f"\n\n{synthesis_narrative}"
+            f"[Industry narrative synthesized from {synthesis_source}]\n\n{synthesis_narrative}"
         )
         if press_content and len(press_content) > COMPACTED_PRESS_CONTEXT_CHARS:
             press_content, _ = truncate_with_notice(

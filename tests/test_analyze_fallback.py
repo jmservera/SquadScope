@@ -789,6 +789,10 @@ class AnalyzeFallbackTests(unittest.TestCase):
             rendered = stdout.getvalue()
             # Both the synthesis narrative and the real press data must be present.
             self.assertIn("Industry narrative distilled", rendered)
+            self.assertIn(
+                "[Industry narrative synthesized from press & historical context]",
+                rendered,
+            )
             # The Step-2 prompt must still carry a real "## Press Context" block.
             self.assertIn("## Press Context", rendered)
             self.assertIn("UNIQUE_PRESS_MARKER", rendered)
@@ -938,6 +942,8 @@ class AnalyzeFallbackTests(unittest.TestCase):
             self.assertEqual(exit_code, 0)
             rendered = stdout.getvalue()
             self.assertIn("Industry narrative distilled", rendered)
+            self.assertIn("[Industry narrative synthesized from historical context]", rendered)
+            self.assertNotIn("press & historical context", rendered)
             self.assertNotIn("## Press Context", rendered)
 
             report = json.loads(report_path.read_text(encoding="utf-8"))
@@ -1011,6 +1017,8 @@ class AnalyzeFallbackTests(unittest.TestCase):
             self.assertEqual(exit_code, 0)
             rendered = stdout.getvalue()
             self.assertIn("Industry narrative distilled", rendered)
+            self.assertIn("[Industry narrative synthesized from historical context]", rendered)
+            self.assertNotIn("press & historical context", rendered)
             # Sentinel content must NOT be emitted as a real press block.
             self.assertNotIn("## Press Context", rendered)
             self.assertNotIn("No industry press data was available", rendered)
