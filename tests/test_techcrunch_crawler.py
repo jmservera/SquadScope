@@ -8,6 +8,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
+from urllib.error import HTTPError, URLError
 
 import pytest
 
@@ -498,6 +499,75 @@ class TestExternalNewsSources:
 
         assert result is feed
         assert mock_urlopen.call_args.kwargs["timeout"] == DEFAULT_FETCH_TIMEOUT_SECONDS
+
+    def test_fetch_feed_retries_transient_error_with_backoff(self):
+        """A transient network error is retried with backoff and can then succeed."""
+        feed = _make_feed()
+
+        class FakeResponse:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                return None
+
+            def read(self):
+                return b"<rss><channel></channel></rss>"
+
+        attempts = {"n": 0}
+
+        def flaky_urlopen(request, timeout=None):
+            attempts["n"] += 1
+            if attempts["n"] == 1:
+                raise URLError("temporary DNS failure")
+            return FakeResponse()
+
+        with (
+            patch("scripts.techcrunch_crawler.urlopen", side_effect=flaky_urlopen),
+            patch("scripts.techcrunch_crawler.feedparser.parse", return_value=feed),
+            patch("scripts.techcrunch_crawler._sleep_before_retry", return_value=0.0) as sleeper,
+        ):
+            result = fetch_feed("https://techcrunch.com/feed/", retries=2)
+
+        assert result is feed
+        assert attempts["n"] == 2
+        assert sleeper.called
+
+    def test_fetch_feed_fails_fast_on_non_retryable_status(self):
+        """Permanent HTTP errors (e.g. 404) must not be retried."""
+        attempts = {"n": 0}
+
+        def not_found(request, timeout=None):
+            attempts["n"] += 1
+            raise HTTPError("https://techcrunch.com/feed/", 404, "Not Found", {}, None)
+
+        with (
+            patch("scripts.techcrunch_crawler.urlopen", side_effect=not_found),
+            patch("scripts.techcrunch_crawler._sleep_before_retry") as sleeper,
+        ):
+            with pytest.raises(HTTPError):
+                fetch_feed("https://techcrunch.com/feed/", retries=3)
+
+        assert attempts["n"] == 1
+        assert not sleeper.called
+
+    def test_fetch_feed_retries_retryable_status(self):
+        """Retryable HTTP statuses (e.g. 503) are retried with backoff."""
+        attempts = {"n": 0}
+
+        def unavailable(request, timeout=None):
+            attempts["n"] += 1
+            raise HTTPError("https://techcrunch.com/feed/", 503, "Unavailable", {}, None)
+
+        with (
+            patch("scripts.techcrunch_crawler.urlopen", side_effect=unavailable),
+            patch("scripts.techcrunch_crawler._sleep_before_retry", return_value=0.0) as sleeper,
+        ):
+            with pytest.raises(HTTPError):
+                fetch_feed("https://techcrunch.com/feed/", retries=2)
+
+        assert attempts["n"] == 3
+        assert sleeper.call_count == 2
 
     def test_crawl_sources_parallel_combines_sources(self):
         alpha_entry = _make_entry(

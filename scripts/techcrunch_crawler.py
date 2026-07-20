@@ -17,6 +17,7 @@ import ipaddress
 import json
 import os
 import re
+import secrets
 import sys
 import time
 from collections import Counter
@@ -25,6 +26,7 @@ from dataclasses import dataclass
 from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 from typing import Any
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
@@ -43,8 +45,15 @@ from scripts.topic_paths import raw_dir
 FEED_URL = "https://techcrunch.com/feed/"
 DEFAULT_SOURCES_PATH = Path("config/external_news_sources.json")
 DEFAULT_FETCH_TIMEOUT_SECONDS = 15
-DEFAULT_FETCH_RETRIES = 1
+DEFAULT_FETCH_RETRIES = 3
 DEFAULT_MAX_WORKERS = 8
+# HTTP statuses worth retrying on a transient failure; everything else (e.g.
+# 400/401/404) is treated as permanent and fails the single source fast.
+RETRYABLE_STATUSES = frozenset({403, 408, 429, 500, 502, 503, 504})
+# Exponential backoff bounds for per-source retries (mirrors scripts/crawl.py).
+RETRY_BASE_DELAY_SECONDS = 2.0
+RETRY_MAX_DELAY_SECONDS = 30.0
+_JITTER_RANDOM = secrets.SystemRandom()
 CANONICAL_SCHEMA_VERSION = 2
 APPROVED_FEED_HOSTS = frozenset(
     {
@@ -739,15 +748,51 @@ def parse_published_date(entry: Any) -> datetime | None:
     return None
 
 
+def _sleep_before_retry(attempt: int, retry_after: float | None = None) -> float:
+    """Sleep with exponential backoff + jitter before the next fetch attempt.
+
+    Mirrors the backoff style in scripts/crawl.py. Returns the delay slept so
+    callers/tests can reason about it.
+    """
+    base_delay = min(RETRY_BASE_DELAY_SECONDS * (2**attempt), RETRY_MAX_DELAY_SECONDS)
+    jitter = _JITTER_RANDOM.uniform(0.3, 1.7)
+    delay = retry_after if retry_after and retry_after > 0 else base_delay + jitter
+    delay = min(delay, RETRY_MAX_DELAY_SECONDS)
+    time.sleep(delay)
+    return delay
+
+
+def _retry_after_seconds(exc: HTTPError) -> float | None:
+    """Extract a positive Retry-After delay (seconds) from an HTTPError, if any."""
+    header = None
+    try:
+        header = exc.headers.get("Retry-After") if exc.headers else None
+    except AttributeError:
+        header = None
+    if not header:
+        return None
+    try:
+        return max(float(header), 1.0)
+    except (TypeError, ValueError):
+        return None
+
+
 def fetch_feed(
     url: str = FEED_URL,
     retries: int = DEFAULT_FETCH_RETRIES,
     timeout: int = DEFAULT_FETCH_TIMEOUT_SECONDS,
 ) -> Any:
-    """Fetch and parse RSS feed with bounded retries and an explicit timeout."""
+    """Fetch and parse an RSS feed with bounded retries and exponential backoff.
+
+    Transient failures (network errors, retryable HTTP statuses, empty/bozo
+    feeds) are retried with exponential backoff + jitter. Permanent HTTP errors
+    (e.g. 404) fail fast. Feed bytes are always treated as UNTRUSTED content and
+    are only parsed, never executed.
+    """
     validate_feed_url(url)
     if timeout <= 0:
         raise ValueError("RSS fetch timeout must be greater than zero")
+    feed: Any = None
     for attempt in range(retries + 1):
         try:
             request = Request(url, headers={"User-Agent": "SquadScope RSS crawler"})
@@ -755,14 +800,20 @@ def fetch_feed(
                 feed = feedparser.parse(response.read())
             setattr(feed, "squad_fetch_attempts", attempt + 1)
             setattr(feed, "squad_fetch_timeout_seconds", timeout)
-        except Exception:
+        except HTTPError as exc:
+            # Only retry transient HTTP statuses; permanent errors fail fast.
+            if exc.code in RETRYABLE_STATUSES and attempt < retries:
+                _sleep_before_retry(attempt, _retry_after_seconds(exc))
+                continue
+            raise
+        except (URLError, TimeoutError, OSError):
             if attempt < retries:
-                time.sleep(2)
+                _sleep_before_retry(attempt)
                 continue
             raise
         if feed.bozo and not feed.entries:
             if attempt < retries:
-                time.sleep(2)
+                _sleep_before_retry(attempt)
                 continue
             # Return partial result even on failure
             setattr(feed, "squad_fetch_attempts", attempt + 1)
@@ -1382,6 +1433,37 @@ def main(argv: list[str] | None = None) -> int:
     refreshed_count = sum(
         1 for item in output["metadata"]["source_reuse_summary"] if item["action"] != "reused"
     )
+
+    # Explicit per-source success/failure summary on stdout so a partial crawl
+    # (one source failing while others succeed) is diagnosable straight from CI
+    # logs. The same detail is persisted in metadata.source_status / sources_failed.
+    succeeded_sources = list(output["metadata"]["sources_succeeded"])
+    failed_sources = list(output["metadata"]["sources_failed"])
+    print(
+        f"[external-news] per-source summary: "
+        f"{len(succeeded_sources)} succeeded, {len(failed_sources)} failed "
+        f"(requested {len(output['metadata']['sources_requested'])})"
+    )
+    if succeeded_sources:
+        print(f"[external-news]   succeeded: {', '.join(sorted(succeeded_sources))}")
+    if failed_sources:
+        status_by_source = {
+            str(status.get("source")): status for status in output["metadata"]["source_status"]
+        }
+        for source_name in sorted(failed_sources):
+            status = status_by_source.get(source_name, {})
+            reason = (
+                str(status.get("error_message") or status.get("error_class") or "unknown error")
+                .replace("\n", " ")
+                .strip()
+            )
+            attempts = status.get("attempts", "?")
+            print(f"[external-news]   FAILED: {source_name} attempts={attempts} reason={reason}")
+        print(
+            "::warning::external-news crawl completed with partial results; "
+            f"{len(failed_sources)} source(s) failed: {', '.join(sorted(failed_sources))}"
+        )
+
     print(
         f"Crawled {output['metadata']['total_articles']} articles "
         f"from {output['metadata']['source_count']} sources "

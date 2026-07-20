@@ -726,6 +726,68 @@ class AnalyzeFallbackTests(unittest.TestCase):
             markdown = analyze_fallback.call_github_models("prompt")
         self.assertEqual(markdown, "# Summary\n")
 
+    def test_synthesis_narrative_does_not_drop_press_context(self) -> None:
+        """Regression (jmservera/SquadScope#515): a synthesis narrative must NOT blank
+        a populated press context — Step-2 still needs real press data for the
+        'Where Industry Meets Code' and 'Press & Industry' sections."""
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            base = Path(tmpdir)
+            raw_path = base / "data" / "raw" / "2026-W30.json"
+            prompt_template = base / "prompt.md"
+            output_path = base / "data" / "analyzed" / "2026-W30-summary.md"
+            press_path = base / "data" / "analyzed" / "2026-W30-press-context.md"
+            synthesis_path = base / "synthesis.md"
+            raw_path.parent.mkdir(parents=True)
+            output_path.parent.mkdir(parents=True)
+            raw_path.write_text(
+                json.dumps({"week": "2026-W30", "new_repos": [], "trending_repos": []}),
+                encoding="utf-8",
+            )
+            prompt_template.write_text(
+                "{{RAW_JSON_CONTENT}}\n{{HISTORICAL_CONTEXT}}", encoding="utf-8"
+            )
+            press_path.write_text(
+                "## Press Context (External news, week of 2026-W30)\n\n"
+                "UNIQUE_PRESS_MARKER: 22 relevant articles about AI agents.",
+                encoding="utf-8",
+            )
+            synthesis_path.write_text(
+                "Industry narrative distilled from press and history.", encoding="utf-8"
+            )
+
+            with mock.patch("sys.stdout", new_callable=io.StringIO) as stdout:
+                exit_code = analyze_fallback.main(
+                    [
+                        "--raw-json",
+                        str(raw_path),
+                        "--output",
+                        str(output_path),
+                        "--current-datetime",
+                        "2026-07-27T12:00:00Z",
+                        "--prompt-template",
+                        str(prompt_template),
+                        "--analyzed-dir",
+                        str(output_path.parent),
+                        "--wisdom-file",
+                        str(base / "w.md"),
+                        "--skills-dir",
+                        str(base / "s"),
+                        "--press-context",
+                        str(press_path),
+                        "--synthesis-input",
+                        str(synthesis_path),
+                        "--print-prompt",
+                    ]
+                )
+
+            self.assertEqual(exit_code, 0)
+            rendered = stdout.getvalue()
+            # Both the synthesis narrative and the real press data must be present.
+            self.assertIn("Industry narrative distilled", rendered)
+            self.assertIn("## Press Context", rendered)
+            self.assertIn("UNIQUE_PRESS_MARKER", rendered)
+
     def test_run_synthesis_exits_zero_and_writes_prompt(self) -> None:
         """--run-synthesis should render synthesis prompt to output file."""
         tests_root = Path(__file__).resolve().parent

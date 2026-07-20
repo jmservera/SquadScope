@@ -1209,12 +1209,29 @@ def _build_prompt(
         and press_context_path.stat().st_size > 0
         else ""
     )
-    # When a synthesis narrative is available (Step 1 output), it replaces
-    # the raw press context and historical context — those were already
-    # distilled into the narrative.  This dramatically reduces token count.
+    if press_content:
+        press_content = _strip_ai_instruction_blocks(press_content)
+        press_content = _escape_untrusted_boundaries(press_content)
+    # When a synthesis narrative is available (Step 1 output), it distils the
+    # *historical* context into a compact narrative that replaces the bulky
+    # historical context block and saves tokens.  It must NOT drop the press
+    # context: the Step-2 sections "Where Industry Meets Code" and
+    # "Press & Industry" still have to be written from the real press data.
+    # jmservera/SquadScope#515 blanked press_content here, which silently
+    # dropped a populated press context and forced the model to emit
+    # "No industry press data was available...".  Keep a condensed press
+    # context so those sections stay evidence-backed.
+    press_condensed_for_synthesis = False
     if synthesis_narrative:
-        historical_context_content = f"[Industry narrative synthesized from press & historical context]\n\n{synthesis_narrative}"
-        press_content = ""
+        historical_context_content = (
+            "[Industry narrative synthesized from press & historical context]"
+            f"\n\n{synthesis_narrative}"
+        )
+        if press_content and len(press_content) > COMPACTED_PRESS_CONTEXT_CHARS:
+            press_content, _ = truncate_with_notice(
+                press_content, COMPACTED_PRESS_CONTEXT_CHARS, "press context"
+            )
+            press_condensed_for_synthesis = True
     payload_for_prompt = sanitized_payload
     raw_decisions = {"new_repos": "included", "trending_repos": "included"}
     previous_decision = "included" if previous_summary_path else "not included: no previous summary"
@@ -1237,7 +1254,12 @@ def _build_prompt(
         if continuity_file.exists()
         else "not included: no analysis-specific continuity capsule"
     )
-    press_decision = "included" if press_content else "not included: no press context"
+    if not press_content:
+        press_decision = "not included: no press context"
+    elif press_condensed_for_synthesis:
+        press_decision = "included: condensed alongside synthesis narrative"
+    else:
+        press_decision = "included"
     degraded = False
 
     def assemble() -> str:
