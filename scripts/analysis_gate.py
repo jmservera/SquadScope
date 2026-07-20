@@ -582,7 +582,11 @@ def compute_objective_quality(
         external_urls = {
             url
             for url in urls
-            if not re.match(r"https?://(?:www\.)?github\.com(?:/|$)", url, re.IGNORECASE)
+            if not re.match(
+                r"https?://(?:[^/\s]+\.)?(?:github\.com|githubusercontent\.com)(?:[/:?#]|$)",
+                url,
+                re.IGNORECASE,
+            )
         }
         press_citations = len(external_urls)
         press = round(min(15, press_citations / 3 * 15))
@@ -1044,10 +1048,17 @@ def main(argv: list[str] | None = None) -> int:
                     f"::notice::Analysis gate applied safe repairs: {', '.join(repair_actions)}",
                     file=sys.stderr,
                 )
-    objective_score, quality_breakdown = compute_objective_quality(
-        text, raw_payload, press_context_available
-    )
-    rewritten = set_frontmatter_quality_score(text, objective_score)
+    objective_score: int | None = None
+    quality_breakdown: dict | None = None
+    try:
+        objective_score, quality_breakdown = compute_objective_quality(
+            text, raw_payload, press_context_available
+        )
+        rewritten = set_frontmatter_quality_score(text, objective_score)
+    except ValueError:
+        # Missing/invalid frontmatter is already reported by validate_analysis(); let the
+        # gate fail cleanly with those errors instead of raising an uncaught exception.
+        rewritten = text
     if rewritten != text:
         args.analysis_file.write_text(rewritten, encoding="utf-8")
         text = rewritten

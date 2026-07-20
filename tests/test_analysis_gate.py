@@ -210,6 +210,28 @@ class AnalysisGateTests(unittest.TestCase):
         self.assertEqual(unavailable["press"], 0)
         self.assertEqual(unavailable["press_citations"], 0)
 
+    def test_objective_quality_excludes_github_owned_hosts_from_press(self) -> None:
+        body = """## Key References
+
+### Notable Projects
+
+- [owner/repo-a](https://github.com/owner/repo-a)
+
+### Press & Industry
+
+- [Real press](https://press.example/article)
+- [Gist](https://gist.github.com/owner/abc123)
+- [Raw](https://raw.githubusercontent.com/owner/repo-a/main/README.md)
+- [Sub](https://api.github.com/repos/owner/repo-a)
+"""
+        analysis = make_analysis("week: 2026-W23", body)
+
+        _, breakdown = analysis_gate.compute_objective_quality(
+            analysis, RAW_PAYLOAD_WITH_REPOS, True
+        )
+
+        self.assertEqual(breakdown["press_citations"], 1)
+
     def test_set_frontmatter_quality_score_replaces_inserts_and_preserves_body(self) -> None:
         body = "Body with quality_score: 999 that must remain untouched.\n"
         existing = make_analysis("week: 2026-W23\nquality_score: 99", body)
