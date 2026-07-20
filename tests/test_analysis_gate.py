@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest import mock
 
 import scripts.analysis_gate as analysis_gate
-from scripts.render_press_context import NO_PRESS_SENTINEL
+from scripts.render_press_context import NO_PRESS_SENTINEL, press_token_estimate
 
 RAW_PAYLOAD = {"week": "2026-W23"}
 RAW_PAYLOAD_WITH_REPOS = {
@@ -787,6 +787,26 @@ No press data was provided this week.
                 encoding="utf-8",
             )
             self.assertTrue(analysis_gate.press_context_is_populated(real, token_estimate=0))
+
+    def test_press_context_fallback_uses_rendered_content_token_estimate(self) -> None:
+        """The gate fallback consumes render_press_context.press_token_estimate, where
+        empty/whitespace content maps to 0 and real press content maps positive."""
+        self.assertFalse(
+            analysis_gate.press_context_is_populated(
+                None, press_token_estimate("")
+            )
+        )
+        self.assertFalse(
+            analysis_gate.press_context_is_populated(
+                None, press_token_estimate("   \n\t ")
+            )
+        )
+        self.assertTrue(
+            analysis_gate.press_context_is_populated(
+                None,
+                press_token_estimate("## Press Context\n\nA real article about AI agents."),
+            )
+        )
 
     def test_stale_press_gate_end_to_end_for_sentinel_pressless_week(self) -> None:
         """End-to-end press-less path: a body that legitimately states press was absent

@@ -16,6 +16,7 @@ from render_press_context import (  # noqa: E402
     format_articles_list,
     format_correlations_list,
     format_divergences,
+    press_token_estimate,
     render_press_context,
     resolve_paths,
 )
@@ -156,6 +157,15 @@ class TestFormatCorrelationsList:
 
 
 class TestRenderPressContext:
+    def test_press_token_estimate_treats_empty_content_as_zero(self):
+        assert press_token_estimate("") == 0
+        assert press_token_estimate("   \n\t ") == 0
+
+        estimate = press_token_estimate("## Press Context\n\nA real article about AI agents.")
+
+        assert isinstance(estimate, int)
+        assert estimate > 0
+
     def test_no_data_returns_fallback(self):
         result = render_press_context(None, None, "2026-W21")
         assert "No press data available" in result

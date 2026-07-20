@@ -622,6 +622,14 @@ def estimate_tokens(markdown: str) -> int:
     return max(1, (len(markdown) + 3) // 4)
 
 
+def press_token_estimate(content: str) -> int:
+    """Feed the gate fallback; empty/whitespace must be 0 to avoid false population."""
+    stripped = content.strip()
+    if not stripped:
+        return 0
+    return estimate_tokens(stripped)
+
+
 def enforce_press_context_budget(markdown: str) -> str:
     """Keep press context below the documented token budget."""
     if estimate_tokens(markdown) <= PRESS_CONTEXT_TOKEN_BUDGET:

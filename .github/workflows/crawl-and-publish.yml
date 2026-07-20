@@ -482,12 +482,12 @@ jobs:
           python3 - <<'PY' "$PRESS_FILE" "$GITHUB_OUTPUT"
           import sys
           from pathlib import Path
-          from scripts.render_press_context import estimate_tokens
+          from scripts.render_press_context import press_token_estimate
 
           path = Path(sys.argv[1])
           github_output = Path(sys.argv[2])
           content = path.read_text(encoding="utf-8")
-          token_estimate = int(estimate_tokens(content) or 0)
+          token_estimate = press_token_estimate(content)
           print(
               "::notice::Press context "
               f"size_bytes={path.stat().st_size} "
