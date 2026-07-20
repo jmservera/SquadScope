@@ -15,6 +15,7 @@ import argparse
 import hashlib
 import ipaddress
 import json
+import math
 import os
 import re
 import secrets
@@ -784,7 +785,9 @@ def _retry_after_seconds(exc: HTTPError) -> float | None:
     if not header:
         return None
     try:
-        return max(float(header), 1.0)
+        value = float(header)
+        if math.isfinite(value):
+            return max(value, 1.0)
     except (TypeError, ValueError):
         pass
     try:

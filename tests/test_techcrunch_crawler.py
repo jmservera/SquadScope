@@ -215,6 +215,15 @@ class TestRetryAfterSeconds:
         )
         assert techcrunch_crawler._retry_after_seconds(_http_error_with_headers({})) is None
 
+    def test_retry_after_non_finite_numeric_returns_none(self):
+        for header_value in ("nan", "inf", "-inf", "Infinity"):
+            assert (
+                techcrunch_crawler._retry_after_seconds(
+                    _http_error_with_headers({"Retry-After": header_value})
+                )
+                is None
+            )
+
 
 class TestParsePublishedDate:
     def test_published_parsed(self):
