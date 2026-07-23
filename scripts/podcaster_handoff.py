@@ -690,11 +690,10 @@ def build_payload(
         payload["article_title"] = title
     if summary:
         payload["article_summary"] = summary
-    article_sha = (
-        manifest.get("candidate", {}).get("summary_sha256")
-        if isinstance(manifest.get("candidate"), dict)
-        else None
-    )
+    candidate = manifest.get("candidate")
+    article_sha = None
+    if isinstance(candidate, dict):
+        article_sha = candidate.get("content_sha256") or candidate.get("summary_sha256")
     if (
         isinstance(article_sha, str)
         and len(article_sha) == 64

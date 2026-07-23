@@ -181,7 +181,7 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertEqual(payload["article_path"], "content/weekly/2026/W23.md")
         self.assertEqual(payload["publish_run_id"], "123456789")
         self.assertEqual(payload["publish_mode"], "normal")
-        self.assertEqual(payload["article_sha256"], "a" * 64)
+        self.assertEqual(payload["article_sha256"], "c" * 64)
         self.assertEqual(
             payload["source_artifacts"],
             [
@@ -252,10 +252,10 @@ class PodcasterHandoffTests(unittest.TestCase):
                 "signal worth reading in full.\n"
             )
             (article_dir / "W23.md").write_text(article_text, encoding="utf-8")
-            # Point candidate.summary_sha256 at the real article bytes so the emitted
+            # Point candidate.content_sha256 at the real article bytes so the emitted
             # payload.article_sha256 matches what the Podcaster recomputes and checks.
             manifest_data = json.loads(manifest.read_text(encoding="utf-8"))
-            manifest_data["candidate"]["summary_sha256"] = hashlib.sha256(
+            manifest_data["candidate"]["content_sha256"] = hashlib.sha256(
                 article_text.encode("utf-8")
             ).hexdigest()
             manifest.write_text(json.dumps(manifest_data), encoding="utf-8")
