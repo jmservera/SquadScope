@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import shutil
 import subprocess
 from collections import defaultdict
 from html.parser import HTMLParser
 from pathlib import Path
+
+import pytest
 
 
 class HeadMetadataParser(HTMLParser):
@@ -34,6 +37,9 @@ class HeadMetadataParser(HTMLParser):
 
 
 def test_rendered_pages_have_unique_titles_and_meta_descriptions() -> None:
+    if shutil.which("hugo") is None:
+        pytest.skip("Hugo binary is required to render SEO metadata fixtures")
+
     repo_root = Path(__file__).resolve().parents[1]
     subprocess.run(["hugo", "--minify", "--quiet"], cwd=repo_root, check=True)
 

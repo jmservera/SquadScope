@@ -25,6 +25,7 @@ on:
       - 'static/**'
       - 'config/**'
       - 'hugo.toml'
+      - 'tests/test_rendered_seo_metadata.py'
       - '.github/workflows/site-preview.yml'
 
 # Least privilege at the top level; jobs widen only what they need.
@@ -87,6 +88,17 @@ jobs:
           echo "${HOME}/.local/hugo" >> "${GITHUB_PATH}"
           export PATH="${HOME}/.local/hugo:${PATH}"
           hugo version
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+        with:
+          python-version: "3.12"
+
+      - name: Install pytest
+        run: python -m pip install --upgrade pytest
+
+      - name: Run rendered SEO metadata test
+        run: python -m pytest tests/test_rendered_seo_metadata.py
 
       - name: Build preview site
         # Same minify flag as production, but with a preview baseURL and with
