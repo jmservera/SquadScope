@@ -1,0 +1,14 @@
+{{- $pagePath := .Get "page" -}}
+{{- $page := site.GetPage $pagePath -}}
+{{- if not $page -}}
+  {{- errorf "observatory-chart shortcode could not find page %q" $pagePath -}}
+{{- end -}}
+{{- .Page.Store.Set "hasObservatoryChart" true -}}
+{{- $limit := 10 -}}
+{{- with .Get "limit" }}{{ $limit = int . }}{{ end -}}
+{{- partial "visuals/observatory-chart.html" (dict
+  "page" $page
+  "title" (.Get "title")
+  "limit" $limit
+  "embedURL" (.Get "embed")
+) -}}
