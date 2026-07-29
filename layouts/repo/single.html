@@ -1,0 +1,100 @@
+{{- define "main" }}
+<article class="post-single repo-page" data-pagefind-body>
+  {{ partial "pagefind-metadata.html" . }}
+
+  <header class="post-header repo-header">
+    {{ partial "breadcrumbs.html" . }}
+    <p class="section-topline">Repository Observatory</p>
+    <h1 class="post-title entry-hint-parent">{{ .Params.repo_full_name }}</h1>
+    {{- with (.Description | default .Params.repo_description) }}
+    <p class="post-description">{{ . }}</p>
+    {{- end }}
+    <div class="post-meta">
+      <span>{{ .Params.distinct_weekly_issues }} weekly appearances</span>
+      <span>As of {{ .Params.as_of_week }}</span>
+      {{- with .Params.repo_language }}<span>{{ . }}</span>{{ end }}
+    </div>
+  </header>
+
+  {{- $lifecycle := .Params.lifecycle -}}
+  {{- if eq $lifecycle.status "archived" }}
+  <div class="notice repo-lifecycle repo-lifecycle--archived">
+    <strong>Archived repository:</strong> Claracle marks this repository as archived as of {{ $lifecycle.as_of_week }}.
+  </div>
+  {{- else if eq $lifecycle.status "deleted" }}
+  <div class="notice repo-lifecycle repo-lifecycle--deleted">
+    <strong>Deleted or inaccessible repository:</strong> Claracle retains this historical page without claiming current availability.
+    Last seen {{ .Params.last_seen_week }}; retained until at least {{ $lifecycle.retained_until }}.
+  </div>
+  {{- end }}
+
+  <section class="repo-summary">
+    <p>{{ .Params.repo_description }}</p>
+    <p><a href="{{ .Params.repo_url }}">View {{ .Params.repo_full_name }} on GitHub</a> · <a href="{{ .Params.methodology_url }}">Observatory methodology</a></p>
+  </section>
+
+  <section id="weekly-appearances" class="repo-section">
+    <h2>Weekly appearances</h2>
+    <p>Observed from {{ .Params.first_seen_week }} through {{ .Params.last_seen_week }}.</p>
+    <ul>
+      {{- range .Params.weekly_appearances }}
+      <li><a href="{{ .url }}">{{ .week }}</a></li>
+      {{- end }}
+    </ul>
+  </section>
+
+  <section id="growth-history" class="repo-section">
+    <h2>Growth history and star velocity</h2>
+    <table>
+      <thead>
+        <tr><th>Week</th><th>Stars</th><th>Derived weekly change</th></tr>
+      </thead>
+      <tbody>
+        {{- range .Params.star_history }}
+        <tr>
+          <td>{{ .week }}</td>
+          <td>{{ lang.FormatNumber 0 .stars }}</td>
+          <td>{{ if ne .delta nil }}{{ if ge .delta 0 }}+{{ end }}{{ lang.FormatNumber 0 .delta }}{{ else }}—{{ end }}</td>
+        </tr>
+        {{- end }}
+      </tbody>
+    </table>
+  </section>
+
+  <section id="topics" class="repo-section">
+    <h2>Topic links</h2>
+    {{- if .Params.topic_links }}
+    <ul>
+      {{- range .Params.topic_links }}
+      <li><a href="{{ .url }}">{{ .name }}</a></li>
+      {{- end }}
+    </ul>
+    {{- else }}
+    <p>No raw GitHub topics were present in the checked-in weekly crawl records for this repository.</p>
+    {{- end }}
+  </section>
+
+  <section id="related-repos" class="repo-section">
+    <h2>Related repositories</h2>
+    <ul>
+      {{- range .Params.related_repos }}
+      <li>
+        <a href="/repo/{{ .slug }}/">{{ .full_name }}</a>
+        {{- with .shared_topics }} — shared topics: {{ delimit . ", " }}{{ end }}
+      </li>
+      {{- end }}
+    </ul>
+  </section>
+
+  <section id="provenance" class="repo-section">
+    <h2>Provenance</h2>
+    <p>This page is generated read-only from checked-in weekly crawl artifacts. Threshold: more than {{ .Params.recurrence_threshold.distinct_weekly_issues }} distinct weekly issues.</p>
+    <details>
+      <summary>Source files</summary>
+      <ul>
+        {{- range .Params.source_paths }}<li>{{ . }}</li>{{ end }}
+      </ul>
+    </details>
+  </section>
+</article>
+{{- end }}

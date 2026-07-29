@@ -1,0 +1,11 @@
+[repo_pages]
+# Generate repository pages for repos appearing in more than this many distinct weekly issues.
+# Default: >3 weekly issues, equivalent to at least 4 observed weeks.
+recurrence_threshold_distinct_weekly_issues = 3
+recurrence_threshold_operator = ">"
+retention_years = 3
+
+# Optional lifecycle overrides for known repository state transitions. Current checked-in
+# raw crawl data does not expose GitHub id/node_id, archive flags, or API deletion status,
+# so these entries let scheduled crawl metadata be recorded without changing the frozen pipeline.
+[repo_pages.lifecycle]

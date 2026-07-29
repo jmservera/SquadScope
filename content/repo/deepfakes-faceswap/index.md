@@ -1,0 +1,198 @@
+---
+title: deepfakes/faceswap repository trend history
+description: 'Evergreen Claracle Observatory page for deepfakes/faceswap: 4 weekly appearances, stars, velocity, topics, and
+  related repos.'
+date: '2026-07-29'
+draft: false
+layout: repo
+generated_by: observatory_repo_pages
+repo_owner: deepfakes
+repo_name: faceswap
+repo_full_name: deepfakes/faceswap
+repo_url: https://github.com/deepfakes/faceswap
+repo_slug: deepfakes-faceswap
+repo_description: Deepfakes Software For All
+repo_language: Python
+topics:
+- deep-face-swap
+- deep-learning
+- deep-neural-networks
+- deepface
+- deepfakes
+- deeplearning
+- face-swap
+- faceswap
+- fakeapp
+- machine-learning
+- myfakeapp
+- neural-nets
+first_seen_week: 2026-W22
+last_seen_week: 2026-W28
+as_of_week: 2026-W28
+source_paths:
+- data/archive/recovered-W23-W29/2026-W23/2026-W23.json
+- data/archive/recovered-W23-W29/2026-W27/2026-W27.json
+- data/archive/recovered-W23-W29/2026-W28/2026-W28.json
+- data/raw/2026-W22.json
+distinct_weekly_issues: 4
+recurrence_threshold:
+  operator: '>'
+  distinct_weekly_issues: 3
+  minimum_weeks: 4
+star_history:
+- week: 2026-W22
+  stars: 55243
+  delta: null
+- week: 2026-W23
+  stars: 55256
+  delta: 13
+- week: 2026-W27
+  stars: 55325
+  delta: 69
+- week: 2026-W28
+  stars: 55333
+  delta: 8
+weekly_appearances:
+- week: 2026-W22
+  url: /weekly/2026/w22/
+- week: 2026-W23
+  url: /weekly/2026/w23/
+- week: 2026-W27
+  url: /weekly/2026/w27/
+- week: 2026-W28
+  url: /weekly/2026/w28/
+topic_links:
+- name: deep-face-swap
+  url: /topics/deep-face-swap/
+- name: deep-learning
+  url: /topics/deep-learning/
+- name: deep-neural-networks
+  url: /topics/deep-neural-networks/
+- name: deepface
+  url: /topics/deepface/
+- name: deepfakes
+  url: /topics/deepfakes/
+- name: deeplearning
+  url: /topics/deeplearning/
+- name: face-swap
+  url: /topics/face-swap/
+- name: faceswap
+  url: /topics/faceswap/
+- name: fakeapp
+  url: /topics/fakeapp/
+- name: machine-learning
+  url: /topics/machine-learning/
+- name: myfakeapp
+  url: /topics/myfakeapp/
+- name: neural-nets
+  url: /topics/neural-nets/
+related_repos:
+- full_name: tensorflow/tensorflow
+  slug: tensorflow-tensorflow
+  url: https://github.com/tensorflow/tensorflow
+  score: 7
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - deep-learning
+  - deep-neural-networks
+  - machine-learning
+- full_name: keras-team/keras
+  slug: keras-team-keras
+  url: https://github.com/keras-team/keras
+  score: 7
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - deep-learning
+  - machine-learning
+  - neural-networks
+- full_name: huggingface/transformers
+  slug: huggingface-transformers
+  url: https://github.com/huggingface/transformers
+  score: 6
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - deep-learning
+  - machine-learning
+- full_name: pytorch/pytorch
+  slug: pytorch-pytorch
+  url: https://github.com/pytorch/pytorch
+  score: 6
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - deep-learning
+  - machine-learning
+- full_name: ultralytics/ultralytics
+  slug: ultralytics-ultralytics
+  url: https://github.com/ultralytics/ultralytics
+  score: 6
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - deep-learning
+  - machine-learning
+- full_name: f/prompts.chat
+  slug: f-prompts-chat
+  url: https://github.com/f/prompts.chat
+  score: 5
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - machine-learning
+- full_name: opencv/opencv
+  slug: opencv-opencv
+  url: https://github.com/opencv/opencv
+  score: 5
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - deep-learning
+- full_name: netdata/netdata
+  slug: netdata-netdata
+  url: https://github.com/netdata/netdata
+  score: 5
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - machine-learning
+lifecycle:
+  status: active
+  as_of_week: 2026-W28
+  retention_years: 3
+  retained_until: null
+  renamed_from: null
+  renamed_to: null
+  note: ''
+methodology_url: /methodology/
+---
+
+deepfakes/faceswap has appeared in 4 Claracle weekly issues.
+
+See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

@@ -47,13 +47,13 @@
 {{- $tokens := (resources.Get "css/tokens.css") }}
 {{- $theme_vars := (resources.Get "css/core/theme-vars.css") }}
 {{- $reset := (resources.Get "css/core/reset.css") }}
-{{- $media := (resources.Get "css/core/zmedia.css") }}
-{{- $license_css := (resources.Get "css/core/license.css") }}
+{{- $media := resources.Get "css/core/zmedia.css" | default (" " | resources.FromString "assets/css/zmedia.css") }}
+{{- $license_css := resources.Get "css/core/license.css" | default (" " | resources.FromString "assets/css/license.css") }}
 {{- $common := (resources.Match "css/common/*.css") | resources.Concat "assets/css/common.css" }}
 
 {{- /* markup.highlight.noClasses should be set to `false` */}}
-{{- $chroma_styles := (resources.Get "css/includes/chroma-styles.css") }}
-{{- $chroma_mod := (resources.Get "css/includes/chroma-mod.css") }}
+{{- $chroma_styles := resources.Get "css/includes/chroma-styles.css" | default (" " | resources.FromString "assets/css/chroma-styles.css") }}
+{{- $chroma_mod := resources.Get "css/includes/chroma-mod.css" | default (" " | resources.FromString "assets/css/chroma-mod.css") }}
 
 {{- /* order is important */}}
 {{- $core := (slice $tokens $theme_vars $reset $common $chroma_styles $chroma_mod $includes_all $media) | resources.Concat "assets/css/core.css" | resources.Minify }}

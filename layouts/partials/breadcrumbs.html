@@ -1,1 +1,22 @@
-{{- /* Project breadcrumb hook intentionally left blank until breadcrumb UX is designed. */ -}}
+{{- $items := slice (dict "name" "Home" "url" site.Home.RelPermalink) -}}
+{{- if .Section -}}
+  {{- $sectionTitle := .Section | humanize | title -}}
+  {{- if eq .Section "repo" }}{{ $sectionTitle = "Repositories" }}{{ end -}}
+  {{- $items = $items | append (dict "name" $sectionTitle "url" (printf "/%s/" .Section)) -}}
+{{- end -}}
+{{- if and .IsPage (not .IsHome) -}}
+  {{- $items = $items | append (dict "name" (.Params.repo_full_name | default .Title) "url" .RelPermalink) -}}
+{{- end -}}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    {{- range $index, $item := $items }}
+    <li>{{ if lt (add $index 1) (len $items) }}<a href="{{ $item.url }}">{{ $item.name }}</a>{{ else }}<span aria-current="page">{{ $item.name }}</span>{{ end }}</li>
+    {{- end }}
+  </ol>
+</nav>
+{{- $schemaItems := slice -}}
+{{- range $index, $item := $items -}}
+  {{- $schemaItems = $schemaItems | append (dict "@type" "ListItem" "position" (add $index 1) "name" $item.name "item" (absURL (strings.TrimPrefix "/" $item.url))) -}}
+{{- end -}}
+{{- $schema := dict "@context" "https://schema.org" "@type" "BreadcrumbList" "itemListElement" $schemaItems -}}
+<script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
