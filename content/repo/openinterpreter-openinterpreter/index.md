@@ -19,9 +19,9 @@ tags:
 - kimi
 - qwen
 - rust
+- acp
 - interpreter
 - tui
-- acp
 first_seen_week: 2026-W25
 last_seen_week: 2026-W31
 as_of_week: 2026-W31
@@ -80,12 +80,12 @@ tag_links:
   url: /tags/qwen/
 - name: rust
   url: /tags/rust/
+- name: acp
+  url: /tags/acp/
 - name: interpreter
   url: /tags/interpreter/
 - name: tui
   url: /tags/tui/
-- name: acp
-  url: /tags/acp/
 related_repos:
 - full_name: vllm-project/vllm
   slug: vllm-project-vllm

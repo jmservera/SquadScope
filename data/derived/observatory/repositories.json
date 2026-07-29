@@ -73159,16 +73159,16 @@
         "url": "/tags/rust/"
       },
       {
+        "name": "acp",
+        "url": "/tags/acp/"
+      },
+      {
         "name": "interpreter",
         "url": "/tags/interpreter/"
       },
       {
         "name": "tui",
         "url": "/tags/tui/"
-      },
-      {
-        "name": "acp",
-        "url": "/tags/acp/"
       }
     ],
     "tags": [
@@ -73177,9 +73177,9 @@
       "kimi",
       "qwen",
       "rust",
+      "acp",
       "interpreter",
-      "tui",
-      "acp"
+      "tui"
     ],
     "title": "openinterpreter/openinterpreter repository trend history",
     "weekly_appearances": [

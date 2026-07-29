@@ -108,13 +108,22 @@ def test_repo_github_topics_route_to_tags_not_curated_topics() -> None:
         page = page_path.read_text(encoding="utf-8")
         frontmatter = read_frontmatter(page_path)
         assert "topics" not in frontmatter
-        assert frontmatter["tags"] == ["ai agents", "llm", "raw repo topic"]
+        assert frontmatter["tags"] == ["AI Agents", "llm", "Raw Repo Topic"]
         assert frontmatter["tag_links"] == [
-            {"name": "ai agents", "url": "/tags/ai-agents/"},
+            {"name": "AI Agents", "url": "/tags/ai-agents/"},
             {"name": "llm", "url": "/tags/llm/"},
-            {"name": "raw repo topic", "url": "/tags/raw-repo-topic/"},
+            {"name": "Raw Repo Topic", "url": "/tags/raw-repo-topic/"},
         ]
         assert "/topics/raw-repo-topic/" not in page
+
+        tags_registry = json.loads((root / "data" / "taxonomy" / "tags.json").read_text())
+        raw_topic = tags_registry["terms"]["raw-repo-topic"]
+        assert raw_topic["display_name"] == "Raw Repo Topic"
+        assert raw_topic["count"] == 4
+        assert raw_topic["times_used"] == 4
+        assert raw_topic["weekly_issue_count"] == 4
+        assert raw_topic["first_seen"] == "2026-05-18"
+        assert raw_topic["last_used"] == "2026-06-08"
 
 
 def test_repo_generation_is_deterministic_and_sorts_related_repos() -> None:
@@ -137,11 +146,13 @@ def test_repo_generation_is_deterministic_and_sorts_related_repos() -> None:
             path.relative_to(root).as_posix(): path.read_bytes()
             for path in sorted((root / "content" / "repo").glob("**/*.md"))
         }
+        first["data/taxonomy/tags.json"] = (root / "data" / "taxonomy" / "tags.json").read_bytes()
         observatory_repos.generate(root)
         second = {
             path.relative_to(root).as_posix(): path.read_bytes()
             for path in sorted((root / "content" / "repo").glob("**/*.md"))
         }
+        second["data/taxonomy/tags.json"] = (root / "data" / "taxonomy" / "tags.json").read_bytes()
 
         assert first == second
         frontmatter = read_frontmatter(root / "content" / "repo" / "alpha-foo" / "index.md")

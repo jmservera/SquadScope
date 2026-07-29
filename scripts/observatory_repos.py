@@ -6,6 +6,7 @@ import argparse
 import json
 import re
 import shutil
+import sys
 import tomllib
 import unicodedata
 from collections import Counter, defaultdict
@@ -15,6 +16,11 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from scripts import taxonomy_registry
 
 DEFAULT_CONFIG = Path("config/observatory.toml")
 GENERATED_BY = "observatory_repo_pages"
@@ -110,7 +116,7 @@ def normalize_full_name(full_name: str) -> str:
 
 
 def topic_slug(topic: str) -> str:
-    return slug_component(topic)
+    return taxonomy_registry.slugify(topic)
 
 
 def weekly_permalink(week: str) -> str:
@@ -344,9 +350,19 @@ def page_params(
     history: RepositoryHistory,
     config: dict[str, Any],
     rename_aliases: dict[str, list[str]],
+    tag_display_names: dict[str, str],
 ) -> dict[str, Any]:
     latest = history.latest_observation
-    top_topics = [topic for topic, _count in history.topics.most_common(12)]
+    top_tags = [
+        {
+            "slug": taxonomy_registry.slugify(topic),
+            "display_name": tag_display_names.get(taxonomy_registry.slugify(topic), topic),
+        }
+        for topic, _count in sorted(
+            history.topics.items(),
+            key=lambda item: (-item[1], taxonomy_registry.slugify(item[0])),
+        )[:12]
+    ]
     lifecycle_status = history.lifecycle.get("status") or (
         "archived" if latest.archived else "active"
     )
@@ -374,7 +390,7 @@ def page_params(
         "repo_slug": history.slug,
         "repo_description": history.description or "",
         "repo_language": history.languages.most_common(1)[0][0] if history.languages else "",
-        "tags": top_topics,
+        "tags": [tag["display_name"] for tag in top_tags],
         "first_seen_week": history.first_seen_week,
         "last_seen_week": history.last_seen_week,
         "as_of_week": history.last_seen_week,
@@ -390,7 +406,7 @@ def page_params(
             {"week": week, "url": weekly_permalink(week)} for week in sorted(history.distinct_weeks)
         ],
         "tag_links": [
-            {"name": topic, "url": f"/tags/{topic_slug(topic)}/"} for topic in top_topics
+            {"name": tag["display_name"], "url": f"/tags/{tag['slug']}/"} for tag in top_tags
         ],
         "related_repos": history.related_repos,
         "lifecycle": {
@@ -488,6 +504,10 @@ def repository_index_content(generated_count: int, config: dict[str, Any]) -> st
 def write_repository_pages(
     root: Path, histories: dict[str, RepositoryHistory], config: dict[str, Any]
 ) -> list[Path]:
+    _topics_path, tags_path = taxonomy_registry.update_taxonomy_registries(
+        root=root, config_path=root / DEFAULT_CONFIG
+    )
+    tag_display_names = taxonomy_registry.load_display_names(tags_path)
     eligible = eligible_repositories(histories, config["minimum_weeks"])
     attach_related_repositories(histories, eligible)
     aliases = rename_aliases(histories)
@@ -500,7 +520,7 @@ def write_repository_pages(
     written: list[Path] = []
     derived: list[dict[str, Any]] = []
     for history in eligible:
-        params = page_params(history, config, aliases)
+        params = page_params(history, config, aliases, tag_display_names)
         output_path = content_repo / history.slug / "index.md"
         write_yaml_page(output_path, params)
         written.append(output_path)
