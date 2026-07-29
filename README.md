@@ -36,16 +36,15 @@ The repository contains the crawler, analysis prompts, generated Hugo content, a
 
 ## Screenshots and visual status
 
-Current README visuals are intentionally documentation-only until Calculon supplies refreshed screenshots. No placeholder binary images are fabricated in this PR.
+The README now embeds real refreshed captures from a local Hugo build of the Claracle site.
 
-See [`screenshots/README.md`](screenshots/README.md) for the visual capture plan. Planned asset paths:
+![Claracle homepage showing weekly data entry points](screenshots/claracle-homepage.png)
 
-- `screenshots/claracle-homepage.png` — Claracle homepage with weekly data entry points
-- `screenshots/claracle-weekly-report.png` — A published weekly issue page
-- `screenshots/claracle-monthly-rollup.png` — A monthly trend rollup page
-- `assets/images/claracle-architecture.png` — Optional exported version of the Mermaid architecture below
+![Claracle weekly report page for 2026 week 31](screenshots/claracle-weekly-report.png)
 
-**TODO(Calculon):** capture refreshed screenshots and, if needed for social previews or docs reuse, export the architecture diagram to `assets/images/`.
+![Claracle monthly rollup page for July 2026](screenshots/claracle-monthly-rollup.png)
+
+![Claracle topic hub page](screenshots/claracle-topic-hub.png)
 
 ## Architecture
 
