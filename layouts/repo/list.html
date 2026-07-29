@@ -1,0 +1,18 @@
+{{- define "main" }}
+<article class="repo-list page" data-pagefind-body>
+  {{ partial "breadcrumbs.html" . }}
+  <header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p>{{ . }}</p>{{ end }}
+    <p>Generated pages: {{ .Params.repo_pages_generated }}. Threshold: more than {{ .Params.recurrence_threshold.distinct_weekly_issues }} distinct weekly issues.</p>
+  </header>
+  <div class="post-content">
+    {{ .Content }}
+    <ul>
+      {{- range .Pages.ByTitle }}
+      <li><a href="{{ .RelPermalink }}">{{ .Params.repo_full_name }}</a> — {{ .Params.distinct_weekly_issues }} weekly appearances</li>
+      {{- end }}
+    </ul>
+  </div>
+</article>
+{{- end }}
