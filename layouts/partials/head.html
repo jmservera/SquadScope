@@ -44,24 +44,43 @@
 
 {{- $includes_all := $includes | resources.Concat "assets/css/includes.css" }}
 
-{{- $tokens := (resources.Get "css/tokens.css") }}
-{{- $theme_vars := (resources.Get "css/core/theme-vars.css") }}
-{{- $reset := (resources.Get "css/core/reset.css") }}
-{{- $media := (resources.Get "css/core/zmedia.css") }}
-{{- $license_css := (resources.Get "css/core/license.css") }}
-{{- $common := (resources.Match "css/common/*.css") | resources.Concat "assets/css/common.css" }}
-
-{{- /* markup.highlight.noClasses should be set to `false` */}}
-{{- $chroma_styles := (resources.Get "css/includes/chroma-styles.css") }}
-{{- $chroma_mod := (resources.Get "css/includes/chroma-mod.css") }}
+{{- $coreParts := slice -}}
+{{- range (slice "css/tokens.css" "css/core/theme-vars.css" "css/core/reset.css") -}}
+  {{- with resources.Get . -}}
+    {{- $coreParts = $coreParts | append . -}}
+  {{- end -}}
+{{- end -}}
+{{- with resources.Match "css/common/*.css" -}}
+  {{- if gt (len .) 0 -}}
+    {{- $coreParts = $coreParts | append (. | resources.Concat "assets/css/common.css") -}}
+  {{- end -}}
+{{- end -}}
+{{- range (slice "css/includes/chroma-styles.css" "css/includes/chroma-mod.css") -}}
+  {{- with resources.Get . -}}
+    {{- $coreParts = $coreParts | append . -}}
+  {{- end -}}
+{{- end -}}
+{{- $coreParts = $coreParts | append $includes_all -}}
+{{- with resources.Get "css/core/zmedia.css" -}}
+  {{- $coreParts = $coreParts | append . -}}
+{{- end -}}
 
 {{- /* order is important */}}
-{{- $core := (slice $tokens $theme_vars $reset $common $chroma_styles $chroma_mod $includes_all $media) | resources.Concat "assets/css/core.css" | resources.Minify }}
-{{- $extended := (resources.Match "css/extended/*.css") | resources.Concat "assets/css/extended.css" | resources.Minify }}
+{{- $core := $coreParts | resources.Concat "assets/css/core.css" | resources.Minify }}
+{{- $stylesheetParts := slice -}}
+{{- with resources.Get "css/core/license.css" -}}
+  {{- $stylesheetParts = $stylesheetParts | append . -}}
+{{- end -}}
+{{- $stylesheetParts = $stylesheetParts | append $core -}}
+{{- with resources.Match "css/extended/*.css" -}}
+  {{- if gt (len .) 0 -}}
+    {{- $stylesheetParts = $stylesheetParts | append (. | resources.Concat "assets/css/extended.css" | resources.Minify) -}}
+  {{- end -}}
+{{- end -}}
 
 {{- /* bundle all required css */}}
 {{- /* Add extended css after theme style */ -}}
-{{- $stylesheet := (slice $license_css $core $extended) | resources.Concat "assets/css/stylesheet.css"  }}
+{{- $stylesheet := $stylesheetParts | resources.Concat "assets/css/stylesheet.css"  }}
 
 {{- if not site.Params.assets.disableFingerprinting }}
 {{- $stylesheet := $stylesheet | fingerprint }}

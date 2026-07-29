@@ -35,6 +35,10 @@ rssLimit = 52
   ShowAllPagesInArchive = true
   mainSections = ['weekly', 'monthly', 'yearly']
 
+  [params.social]
+    twitter = 'jmservera'
+    twitter_creator = 'jmservera'
+
   # External podcast link (leave empty to hide)
   # When set, a "Podcast" link appears in the site footer navigation and weekly report shortcuts.
   podcast_url = "https://open.spotify.com/show/033xdn5nDMoCWxB3bss2dB"
