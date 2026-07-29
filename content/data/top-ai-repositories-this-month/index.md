@@ -33,19 +33,6 @@ last_seen_week = "2026-W31"
 
 [[ranking]]
 rank = 2
-repo = "nilbuild/developer-roadmap"
-repo_key = "nilbuild/developer-roadmap"
-repo_slug = "nilbuild-developer-roadmap"
-url = "https://github.com/nilbuild/developer-roadmap"
-metric_value = 362794
-metric_label = "362,794 stars"
-context = "Latest observed in 2026-W31; TypeScript; 18 raw topics."
-language = "TypeScript"
-latest_stars = 362794
-last_seen_week = "2026-W31"
-
-[[ranking]]
-rank = 3
 repo = "obra/superpowers"
 repo_key = "obra/superpowers"
 repo_slug = "obra-superpowers"
@@ -58,7 +45,7 @@ latest_stars = 261658
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 4
+rank = 3
 repo = "affaan-m/ECC"
 repo_key = "affaan-m/ecc"
 repo_slug = "affaan-m-ecc"
@@ -71,7 +58,7 @@ latest_stars = 233714
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 5
+rank = 4
 repo = "NousResearch/hermes-agent"
 repo_key = "nousresearch/hermes-agent"
 repo_slug = "nousresearch-hermes-agent"
@@ -84,7 +71,7 @@ latest_stars = 221006
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 6
+rank = 5
 repo = "n8n-io/n8n"
 repo_key = "n8n-io/n8n"
 repo_slug = "n8n-io-n8n"
@@ -97,7 +84,7 @@ latest_stars = 198137
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 7
+rank = 6
 repo = "tensorflow/tensorflow"
 repo_key = "tensorflow/tensorflow"
 repo_slug = "tensorflow-tensorflow"
@@ -110,7 +97,7 @@ latest_stars = 196557
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 8
+rank = 7
 repo = "anomalyco/opencode"
 repo_key = "anomalyco/opencode"
 repo_slug = "anomalyco-opencode"
@@ -123,7 +110,7 @@ latest_stars = 189992
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 9
+rank = 8
 repo = "mattpocock/skills"
 repo_key = "mattpocock/skills"
 repo_slug = "mattpocock-skills"
@@ -136,20 +123,7 @@ latest_stars = 189901
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 10
-repo = "DigitalPlatDev/FreeDomain"
-repo_key = "digitalplatdev/freedomain"
-repo_slug = "digitalplatdev-freedomain"
-url = "https://github.com/DigitalPlatDev/FreeDomain"
-metric_value = 186909
-metric_label = "186,909 stars"
-context = "Latest observed in 2026-W30; Unknown; 7 raw topics."
-language = "Unknown"
-latest_stars = 186909
-last_seen_week = "2026-W30"
-
-[[ranking]]
-rank = 11
+rank = 9
 repo = "Significant-Gravitas/AutoGPT"
 repo_key = "significant-gravitas/autogpt"
 repo_slug = "significant-gravitas-autogpt"
@@ -162,7 +136,7 @@ latest_stars = 185703
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 12
+rank = 10
 repo = "ollama/ollama"
 repo_key = "ollama/ollama"
 repo_slug = "ollama-ollama"
@@ -175,7 +149,7 @@ latest_stars = 176953
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 13
+rank = 11
 repo = "microsoft/markitdown"
 repo_key = "microsoft/markitdown"
 repo_slug = "microsoft-markitdown"
@@ -188,7 +162,7 @@ latest_stars = 169250
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 14
+rank = 12
 repo = "f/prompts.chat"
 repo_key = "f/prompts.chat"
 repo_slug = "f-prompts-chat"
@@ -201,7 +175,7 @@ latest_stars = 166403
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 15
+rank = 13
 repo = "anthropics/skills"
 repo_key = "anthropics/skills"
 repo_slug = "anthropics-skills"
@@ -214,7 +188,7 @@ latest_stars = 164377
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 16
+rank = 14
 repo = "huggingface/transformers"
 repo_key = "huggingface/transformers"
 repo_slug = "huggingface-transformers"
@@ -227,7 +201,7 @@ latest_stars = 163015
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 17
+rank = 15
 repo = "Snailclimb/JavaGuide"
 repo_key = "snailclimb/javaguide"
 repo_slug = "snailclimb-javaguide"
@@ -240,7 +214,7 @@ latest_stars = 157321
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 18
+rank = 16
 repo = "firecrawl/firecrawl"
 repo_key = "firecrawl/firecrawl"
 repo_slug = "firecrawl-firecrawl"
@@ -253,7 +227,7 @@ latest_stars = 156529
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 19
+rank = 17
 repo = "langflow-ai/langflow"
 repo_key = "langflow-ai/langflow"
 repo_slug = "langflow-ai-langflow"
@@ -266,7 +240,7 @@ latest_stars = 152450
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 20
+rank = 18
 repo = "langgenius/dify"
 repo_key = "langgenius/dify"
 repo_slug = "langgenius-dify"
@@ -279,7 +253,7 @@ latest_stars = 150345
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 21
+rank = 19
 repo = "open-webui/open-webui"
 repo_key = "open-webui/open-webui"
 repo_slug = "open-webui-open-webui"
@@ -292,7 +266,7 @@ latest_stars = 146851
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 22
+rank = 20
 repo = "langchain-ai/langchain"
 repo_key = "langchain-ai/langchain"
 repo_slug = "langchain-ai-langchain"
@@ -305,7 +279,7 @@ latest_stars = 142638
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 23
+rank = 21
 repo = "x1xhlol/system-prompts-and-models-of-ai-tools"
 repo_key = "x1xhlol/system-prompts-and-models-of-ai-tools"
 repo_slug = "x1xhlol-system-prompts-and-models-of-ai-tools"
@@ -318,7 +292,7 @@ latest_stars = 142025
 last_seen_week = "2026-W29"
 
 [[ranking]]
-rank = 24
+rank = 22
 repo = "anthropics/claude-code"
 repo_key = "anthropics/claude-code"
 repo_slug = "anthropics-claude-code"
@@ -331,7 +305,7 @@ latest_stars = 139221
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 25
+rank = 23
 repo = "msitarzewski/agency-agents"
 repo_key = "msitarzewski/agency-agents"
 repo_slug = "msitarzewski-agency-agents"
@@ -344,7 +318,7 @@ latest_stars = 136923
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 26
+rank = 24
 repo = "Shubhamsaboo/awesome-llm-apps"
 repo_key = "shubhamsaboo/awesome-llm-apps"
 repo_slug = "shubhamsaboo-awesome-llm-apps"
@@ -357,20 +331,7 @@ latest_stars = 127928
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 27
-repo = "kubernetes/kubernetes"
-repo_key = "kubernetes/kubernetes"
-repo_slug = "kubernetes-kubernetes"
-url = "https://github.com/kubernetes/kubernetes"
-metric_value = 123980
-metric_label = "123,980 stars"
-context = "Latest observed in 2026-W31; Go; 4 raw topics."
-language = "Go"
-latest_stars = 123980
-last_seen_week = "2026-W31"
-
-[[ranking]]
-rank = 28
+rank = 25
 repo = "github/spec-kit"
 repo_key = "github/spec-kit"
 repo_slug = "github-spec-kit"
@@ -383,7 +344,7 @@ latest_stars = 123965
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 29
+rank = 26
 repo = "garrytan/gstack"
 repo_key = "garrytan/gstack"
 repo_slug = "garrytan-gstack"
@@ -396,7 +357,7 @@ latest_stars = 123021
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 30
+rank = 27
 repo = "Comfy-Org/ComfyUI"
 repo_key = "comfy-org/comfyui"
 repo_slug = "comfy-org-comfyui"
@@ -409,7 +370,7 @@ latest_stars = 122402
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 31
+rank = 28
 repo = "ggml-org/llama.cpp"
 repo_key = "ggml-org/llama.cpp"
 repo_slug = "ggml-org-llama-cpp"
@@ -422,7 +383,7 @@ latest_stars = 121699
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 32
+rank = 29
 repo = "farion1231/cc-switch"
 repo_key = "farion1231/cc-switch"
 repo_slug = "farion1231-cc-switch"
@@ -435,20 +396,7 @@ latest_stars = 121450
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 33
-repo = "shadcn-ui/ui"
-repo_key = "shadcn-ui/ui"
-repo_slug = "shadcn-ui-ui"
-url = "https://github.com/shadcn-ui/ui"
-metric_value = 119888
-metric_label = "119,888 stars"
-context = "Latest observed in 2026-W31; TypeScript; 11 raw topics."
-language = "TypeScript"
-latest_stars = 119888
-last_seen_week = "2026-W31"
-
-[[ranking]]
-rank = 34
+rank = 30
 repo = "microsoft/generative-ai-for-beginners"
 repo_key = "microsoft/generative-ai-for-beginners"
 repo_slug = "microsoft-generative-ai-for-beginners"
@@ -461,7 +409,7 @@ latest_stars = 113540
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 35
+rank = 31
 repo = "nextlevelbuilder/ui-ux-pro-max-skill"
 repo_key = "nextlevelbuilder/ui-ux-pro-max-skill"
 repo_slug = "nextlevelbuilder-ui-ux-pro-max-skill"
@@ -474,7 +422,7 @@ latest_stars = 110478
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 36
+rank = 32
 repo = "browser-use/browser-use"
 repo_key = "browser-use/browser-use"
 repo_slug = "browser-use-browser-use"
@@ -487,7 +435,7 @@ latest_stars = 106930
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 37
+rank = 33
 repo = "google-gemini/gemini-cli"
 repo_key = "google-gemini/gemini-cli"
 repo_slug = "google-gemini-gemini-cli"
@@ -500,7 +448,7 @@ latest_stars = 106205
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 38
+rank = 34
 repo = "pytorch/pytorch"
 repo_key = "pytorch/pytorch"
 repo_slug = "pytorch-pytorch"
@@ -513,7 +461,7 @@ latest_stars = 101989
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 39
+rank = 35
 repo = "openai/codex"
 repo_key = "openai/codex"
 repo_slug = "openai-codex"
@@ -526,7 +474,7 @@ latest_stars = 101687
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 40
+rank = 36
 repo = "harry0703/MoneyPrinterTurbo"
 repo_key = "harry0703/moneyprinterturbo"
 repo_slug = "harry0703-moneyprinterturbo"
@@ -539,7 +487,7 @@ latest_stars = 99435
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 41
+rank = 37
 repo = "Graphify-Labs/graphify"
 repo_key = "graphify-labs/graphify"
 repo_slug = "graphify-labs-graphify"
@@ -552,20 +500,7 @@ latest_stars = 96560
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 42
-repo = "tailwindlabs/tailwindcss"
-repo_key = "tailwindlabs/tailwindcss"
-repo_slug = "tailwindlabs-tailwindcss"
-url = "https://github.com/tailwindlabs/tailwindcss"
-metric_value = 95991
-metric_label = "95,991 stars"
-context = "Latest observed in 2026-W30; TypeScript; 7 raw topics."
-language = "TypeScript"
-latest_stars = 95991
-last_seen_week = "2026-W30"
-
-[[ranking]]
-rank = 43
+rank = 38
 repo = "hacksider/Deep-Live-Cam"
 repo_key = "hacksider/deep-live-cam"
 repo_slug = "hacksider-deep-live-cam"
@@ -578,7 +513,7 @@ latest_stars = 95285
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 44
+rank = 39
 repo = "TauricResearch/TradingAgents"
 repo_key = "tauricresearch/tradingagents"
 repo_slug = "tauricresearch-tradingagents"
@@ -591,7 +526,7 @@ latest_stars = 93709
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 45
+rank = 40
 repo = "JuliusBrussee/caveman"
 repo_key = "juliusbrussee/caveman"
 repo_slug = "juliusbrussee-caveman"
@@ -604,7 +539,7 @@ latest_stars = 93250
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 46
+rank = 41
 repo = "punkpeye/awesome-mcp-servers"
 repo_key = "punkpeye/awesome-mcp-servers"
 repo_slug = "punkpeye-awesome-mcp-servers"
@@ -617,7 +552,7 @@ latest_stars = 91434
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 47
+rank = 42
 repo = "opencv/opencv"
 repo_key = "opencv/opencv"
 repo_slug = "opencv-opencv"
@@ -630,7 +565,7 @@ latest_stars = 90153
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 48
+rank = 43
 repo = "modelcontextprotocol/servers"
 repo_key = "modelcontextprotocol/servers"
 repo_slug = "modelcontextprotocol-servers"
@@ -643,7 +578,7 @@ latest_stars = 88925
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 49
+rank = 44
 repo = "thedotmack/claude-mem"
 repo_key = "thedotmack/claude-mem"
 repo_slug = "thedotmack-claude-mem"
@@ -656,7 +591,7 @@ latest_stars = 88660
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 50
+rank = 45
 repo = "microsoft/ML-For-Beginners"
 repo_key = "microsoft/ml-for-beginners"
 repo_slug = "microsoft-ml-for-beginners"
@@ -669,7 +604,7 @@ latest_stars = 88611
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 51
+rank = 46
 repo = "ChatGPTNextWeb/NextChat"
 repo_key = "chatgptnextweb/nextchat"
 repo_slug = "chatgptnextweb-nextchat"
@@ -682,7 +617,7 @@ latest_stars = 88388
 last_seen_week = "2026-W28"
 
 [[ranking]]
-rank = 52
+rank = 47
 repo = "vllm-project/vllm"
 repo_key = "vllm-project/vllm"
 repo_slug = "vllm-project-vllm"
@@ -695,20 +630,7 @@ latest_stars = 87260
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 53
-repo = "sherlock-project/sherlock"
-repo_key = "sherlock-project/sherlock"
-repo_slug = "sherlock-project-sherlock"
-url = "https://github.com/sherlock-project/sherlock"
-metric_value = 87128
-metric_label = "87,128 stars"
-context = "Latest observed in 2026-W31; Python; 16 raw topics."
-language = "Python"
-latest_stars = 87128
-last_seen_week = "2026-W31"
-
-[[ranking]]
-rank = 54
+rank = 48
 repo = "ruvnet/RuView"
 repo_key = "ruvnet/ruview"
 repo_slug = "ruvnet-ruview"
@@ -721,7 +643,7 @@ latest_stars = 86690
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 55
+rank = 49
 repo = "PaddlePaddle/PaddleOCR"
 repo_key = "paddlepaddle/paddleocr"
 repo_slug = "paddlepaddle-paddleocr"
@@ -734,7 +656,7 @@ latest_stars = 86297
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 56
+rank = 50
 repo = "DietrichGebert/ponytail"
 repo_key = "dietrichgebert/ponytail"
 repo_slug = "dietrichgebert-ponytail"
@@ -747,7 +669,7 @@ latest_stars = 86168
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 57
+rank = 51
 repo = "infiniflow/ragflow"
 repo_key = "infiniflow/ragflow"
 repo_slug = "infiniflow-ragflow"
@@ -760,7 +682,7 @@ latest_stars = 86080
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 58
+rank = 52
 repo = "OpenHands/OpenHands"
 repo_key = "openhands/openhands"
 repo_slug = "openhands-openhands"
@@ -773,7 +695,7 @@ latest_stars = 82210
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 59
+rank = 53
 repo = "nexu-io/open-design"
 repo_key = "nexu-io/open-design"
 repo_slug = "nexu-io-open-design"
@@ -786,7 +708,7 @@ latest_stars = 81772
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 60
+rank = 54
 repo = "pewdiepie-archdaemon/odysseus"
 repo_key = "pewdiepie-archdaemon/odysseus"
 repo_slug = "pewdiepie-archdaemon-odysseus"
@@ -799,7 +721,7 @@ latest_stars = 80967
 last_seen_week = "2026-W28"
 
 [[ranking]]
-rank = 61
+rank = 55
 repo = "lobehub/lobehub"
 repo_key = "lobehub/lobehub"
 repo_slug = "lobehub-lobehub"
@@ -812,7 +734,7 @@ latest_stars = 80838
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 62
+rank = 56
 repo = "addyosmani/agent-skills"
 repo_key = "addyosmani/agent-skills"
 repo_slug = "addyosmani-agent-skills"
@@ -825,7 +747,7 @@ latest_stars = 80530
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 63
+rank = 57
 repo = "netdata/netdata"
 repo_key = "netdata/netdata"
 repo_slug = "netdata-netdata"
@@ -838,7 +760,7 @@ latest_stars = 79863
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 64
+rank = 58
 repo = "earendil-works/pi"
 repo_key = "earendil-works/pi"
 repo_slug = "earendil-works-pi"
@@ -851,7 +773,7 @@ latest_stars = 78257
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 65
+rank = 59
 repo = "bytedance/deer-flow"
 repo_key = "bytedance/deer-flow"
 repo_slug = "bytedance-deer-flow"
@@ -864,7 +786,7 @@ latest_stars = 77925
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 66
+rank = 60
 repo = "Egonex-AI/Understand-Anything"
 repo_key = "egonex-ai/understand-anything"
 repo_slug = "egonex-ai-understand-anything"
@@ -877,7 +799,7 @@ latest_stars = 76264
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 67
+rank = 61
 repo = "opendatalab/MinerU"
 repo_key = "opendatalab/mineru"
 repo_slug = "opendatalab-mineru"
@@ -890,7 +812,7 @@ latest_stars = 75805
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 68
+rank = 62
 repo = "tesseract-ocr/tesseract"
 repo_key = "tesseract-ocr/tesseract"
 repo_slug = "tesseract-ocr-tesseract"
@@ -903,7 +825,7 @@ latest_stars = 75572
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 69
+rank = 63
 repo = "unclecode/crawl4ai"
 repo_key = "unclecode/crawl4ai"
 repo_slug = "unclecode-crawl4ai"
@@ -916,7 +838,7 @@ latest_stars = 75155
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 70
+rank = 64
 repo = "koala73/worldmonitor"
 repo_key = "koala73/worldmonitor"
 repo_slug = "koala73-worldmonitor"
@@ -929,7 +851,7 @@ latest_stars = 74893
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 71
+rank = 65
 repo = "paperclipai/paperclip"
 repo_key = "paperclipai/paperclip"
 repo_slug = "paperclipai-paperclip"
@@ -942,7 +864,7 @@ latest_stars = 74822
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 72
+rank = 66
 repo = "AppFlowy-IO/AppFlowy"
 repo_key = "appflowy-io/appflowy"
 repo_slug = "appflowy-io-appflowy"
@@ -955,20 +877,7 @@ latest_stars = 74320
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 73
-repo = "unionlabs/union"
-repo_key = "unionlabs/union"
-repo_slug = "unionlabs-union"
-url = "https://github.com/unionlabs/union"
-metric_value = 73874
-metric_label = "73,874 stars"
-context = "Latest observed in 2026-W31; Rust; 19 raw topics."
-language = "Rust"
-latest_stars = 73874
-last_seen_week = "2026-W31"
-
-[[ranking]]
-rank = 74
+rank = 67
 repo = "josephmisiti/awesome-machine-learning"
 repo_key = "josephmisiti/awesome-machine-learning"
 repo_slug = "josephmisiti-awesome-machine-learning"
@@ -981,7 +890,7 @@ latest_stars = 73732
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 75
+rank = 68
 repo = "hiyouga/LlamaFactory"
 repo_key = "hiyouga/llamafactory"
 repo_slug = "hiyouga-llamafactory"
@@ -994,7 +903,7 @@ latest_stars = 73530
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 76
+rank = 69
 repo = "rtk-ai/rtk"
 repo_key = "rtk-ai/rtk"
 repo_slug = "rtk-ai-rtk"
@@ -1007,7 +916,7 @@ latest_stars = 73362
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 77
+rank = 70
 repo = "daytonaio/daytona"
 repo_key = "daytonaio/daytona"
 repo_slug = "daytonaio-daytona"
@@ -1020,20 +929,7 @@ latest_stars = 72154
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 78
-repo = "moby/moby"
-repo_key = "moby/moby"
-repo_slug = "moby-moby"
-url = "https://github.com/moby/moby"
-metric_value = 71910
-metric_label = "71,910 stars"
-context = "Latest observed in 2026-W31; Go; 4 raw topics."
-language = "Go"
-latest_stars = 71910
-last_seen_week = "2026-W31"
-
-[[ranking]]
-rank = 79
+rank = 71
 repo = "D4Vinci/Scrapling"
 repo_key = "d4vinci/scrapling"
 repo_slug = "d4vinci-scrapling"
@@ -1046,7 +942,7 @@ latest_stars = 71360
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 80
+rank = 72
 repo = "OpenBB-finance/OpenBB"
 repo_key = "openbb-finance/openbb"
 repo_slug = "openbb-finance-openbb"
@@ -1059,7 +955,7 @@ latest_stars = 71046
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 81
+rank = 73
 repo = "ComposioHQ/awesome-claude-skills"
 repo_key = "composiohq/awesome-claude-skills"
 repo_slug = "composiohq-awesome-claude-skills"
@@ -1072,7 +968,7 @@ latest_stars = 70950
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 82
+rank = 74
 repo = "microsoft/ai-agents-for-beginners"
 repo_key = "microsoft/ai-agents-for-beginners"
 repo_slug = "microsoft-ai-agents-for-beginners"
@@ -1085,7 +981,7 @@ latest_stars = 70403
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 83
+rank = 75
 repo = "ansible/ansible"
 repo_key = "ansible/ansible"
 repo_slug = "ansible-ansible"
@@ -1098,7 +994,7 @@ latest_stars = 69701
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 84
+rank = 76
 repo = "666ghj/MiroFish"
 repo_key = "666ghj/mirofish"
 repo_slug = "666ghj-mirofish"
@@ -1111,7 +1007,7 @@ latest_stars = 69433
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 85
+rank = 77
 repo = "unslothai/unsloth"
 repo_key = "unslothai/unsloth"
 repo_slug = "unslothai-unsloth"
@@ -1124,7 +1020,7 @@ latest_stars = 68939
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 86
+rank = 78
 repo = "Leonxlnx/taste-skill"
 repo_key = "leonxlnx/taste-skill"
 repo_slug = "leonxlnx-taste-skill"
@@ -1137,7 +1033,7 @@ latest_stars = 67978
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 87
+rank = 79
 repo = "openinterpreter/openinterpreter"
 repo_key = "openinterpreter/openinterpreter"
 repo_slug = "openinterpreter-openinterpreter"
@@ -1150,7 +1046,7 @@ latest_stars = 67321
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 88
+rank = 80
 repo = "scikit-learn/scikit-learn"
 repo_key = "scikit-learn/scikit-learn"
 repo_slug = "scikit-learn-scikit-learn"
@@ -1163,7 +1059,7 @@ latest_stars = 66787
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 89
+rank = 81
 repo = "code-yeongyu/oh-my-openagent"
 repo_key = "code-yeongyu/oh-my-openagent"
 repo_slug = "code-yeongyu-oh-my-openagent"
@@ -1176,7 +1072,7 @@ latest_stars = 66631
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 90
+rank = 82
 repo = "xtekky/gpt4free"
 repo_key = "xtekky/gpt4free"
 repo_slug = "xtekky-gpt4free"
@@ -1189,7 +1085,7 @@ latest_stars = 66490
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 91
+rank = 83
 repo = "ruvnet/ruflo"
 repo_key = "ruvnet/ruflo"
 repo_slug = "ruvnet-ruflo"
@@ -1202,7 +1098,7 @@ latest_stars = 66146
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 92
+rank = 84
 repo = "cline/cline"
 repo_key = "cline/cline"
 repo_slug = "cline-cline"
@@ -1215,20 +1111,7 @@ latest_stars = 65091
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 93
-repo = "nocodb/nocodb"
-repo_key = "nocodb/nocodb"
-repo_slug = "nocodb-nocodb"
-url = "https://github.com/nocodb/nocodb"
-metric_value = 64321
-metric_label = "64,321 stars"
-context = "Latest observed in 2026-W31; TypeScript; 14 raw topics."
-language = "TypeScript"
-latest_stars = 64321
-last_seen_week = "2026-W31"
-
-[[ranking]]
-rank = 94
+rank = 85
 repo = "keras-team/keras"
 repo_key = "keras-team/keras"
 repo_slug = "keras-team-keras"
@@ -1241,7 +1124,7 @@ latest_stars = 64180
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 95
+rank = 86
 repo = "Mintplex-Labs/anything-llm"
 repo_key = "mintplex-labs/anything-llm"
 repo_slug = "mintplex-labs-anything-llm"
@@ -1254,7 +1137,7 @@ latest_stars = 63917
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 96
+rank = 87
 repo = "docling-project/docling"
 repo_key = "docling-project/docling"
 repo_slug = "docling-project-docling"
@@ -1267,7 +1150,7 @@ latest_stars = 63815
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 97
+rank = 88
 repo = "Fission-AI/OpenSpec"
 repo_key = "fission-ai/openspec"
 repo_slug = "fission-ai-openspec"
@@ -1280,7 +1163,7 @@ latest_stars = 62684
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 98
+rank = 89
 repo = "headroomlabs-ai/headroom"
 repo_key = "headroomlabs-ai/headroom"
 repo_slug = "headroomlabs-ai-headroom"
@@ -1293,7 +1176,7 @@ latest_stars = 62632
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 99
+rank = 90
 repo = "colbymchenry/codegraph"
 repo_key = "colbymchenry/codegraph"
 repo_slug = "colbymchenry-codegraph"
@@ -1306,7 +1189,7 @@ latest_stars = 62619
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 100
+rank = 91
 repo = "pathwaycom/pathway"
 repo_key = "pathwaycom/pathway"
 repo_slug = "pathwaycom-pathway"
@@ -1316,6 +1199,123 @@ metric_label = "62,617 stars"
 context = "Latest observed in 2026-W31; Python; 17 raw topics."
 language = "Python"
 latest_stars = 62617
+last_seen_week = "2026-W31"
+
+[[ranking]]
+rank = 92
+repo = "virattt/ai-hedge-fund"
+repo_key = "virattt/ai-hedge-fund"
+repo_slug = "virattt-ai-hedge-fund"
+url = "https://github.com/virattt/ai-hedge-fund"
+metric_value = 62441
+metric_label = "62,441 stars"
+context = "Latest observed in 2026-W31; Python; 0 raw topics."
+language = "Python"
+latest_stars = 62441
+last_seen_week = "2026-W31"
+
+[[ranking]]
+rank = 93
+repo = "odysseus-dev/odysseus"
+repo_key = "odysseus-dev/odysseus"
+repo_slug = "odysseus-dev-odysseus"
+url = "https://github.com/odysseus-dev/odysseus"
+metric_value = 62145
+metric_label = "62,145 stars"
+context = "Latest observed in 2026-W31; Python; 0 raw topics."
+language = "Python"
+latest_stars = 62145
+last_seen_week = "2026-W31"
+
+[[ranking]]
+rank = 94
+repo = "mem0ai/mem0"
+repo_key = "mem0ai/mem0"
+repo_slug = "mem0ai-mem0"
+url = "https://github.com/mem0ai/mem0"
+metric_value = 61788
+metric_label = "61,788 stars"
+context = "Latest observed in 2026-W31; TypeScript; 14 raw topics."
+language = "TypeScript"
+latest_stars = 61788
+last_seen_week = "2026-W31"
+
+[[ranking]]
+rank = 95
+repo = "santifer/career-ops"
+repo_key = "santifer/career-ops"
+repo_slug = "santifer-career-ops"
+url = "https://github.com/santifer/career-ops"
+metric_value = 61707
+metric_label = "61,707 stars"
+context = "Latest observed in 2026-W31; JavaScript; 20 raw topics."
+language = "JavaScript"
+latest_stars = 61707
+last_seen_week = "2026-W31"
+
+[[ranking]]
+rank = 96
+repo = "Panniantong/Agent-Reach"
+repo_key = "panniantong/agent-reach"
+repo_slug = "panniantong-agent-reach"
+url = "https://github.com/Panniantong/Agent-Reach"
+metric_value = 61060
+metric_label = "61,060 stars"
+context = "Latest observed in 2026-W31; Python; 17 raw topics."
+language = "Python"
+latest_stars = 61060
+last_seen_week = "2026-W31"
+
+[[ranking]]
+rank = 97
+repo = "asgeirtj/system_prompts_leaks"
+repo_key = "asgeirtj/system_prompts_leaks"
+repo_slug = "asgeirtj-system-prompts-leaks"
+url = "https://github.com/asgeirtj/system_prompts_leaks"
+metric_value = 60748
+metric_label = "60,748 stars"
+context = "Latest observed in 2026-W31; JavaScript; 20 raw topics."
+language = "JavaScript"
+latest_stars = 60748
+last_seen_week = "2026-W31"
+
+[[ranking]]
+rank = 98
+repo = "tw93/Pake"
+repo_key = "tw93/pake"
+repo_slug = "tw93-pake"
+url = "https://github.com/tw93/Pake"
+metric_value = 60248
+metric_label = "60,248 stars"
+context = "Latest observed in 2026-W31; Rust; 13 raw topics."
+language = "Rust"
+latest_stars = 60248
+last_seen_week = "2026-W31"
+
+[[ranking]]
+rank = 99
+repo = "ultralytics/ultralytics"
+repo_key = "ultralytics/ultralytics"
+repo_slug = "ultralytics-ultralytics"
+url = "https://github.com/ultralytics/ultralytics"
+metric_value = 59910
+metric_label = "59,910 stars"
+context = "Latest observed in 2026-W31; Python; 20 raw topics."
+language = "Python"
+latest_stars = 59910
+last_seen_week = "2026-W31"
+
+[[ranking]]
+rank = 100
+repo = "upstash/context7"
+repo_key = "upstash/context7"
+repo_slug = "upstash-context7"
+url = "https://github.com/upstash/context7"
+metric_value = 59801
+metric_label = "59,801 stars"
+context = "Latest observed in 2026-W31; TypeScript; 4 raw topics."
+language = "TypeScript"
+latest_stars = 59801
 last_seen_week = "2026-W31"
 +++
 

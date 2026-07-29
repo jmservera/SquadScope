@@ -162,7 +162,7 @@ def collect_observations(artifacts: list[WeekArtifact]) -> list[RepoObservation]
                     source_path=artifact.path,
                     full_name=full_name,
                     display_name=full_name,
-                    url=str(repo.get("url") or f"https://github.com/{full_name}"),
+                    url=f"https://github.com/{full_name}",
                     description=str(repo.get("description") or ""),
                     language=str(repo.get("language") or "Unknown"),
                     stars=coerce_int(repo.get("stars")),
@@ -460,7 +460,8 @@ def is_mcp_project(obs: RepoObservation) -> bool:
 
 def is_ai_project(obs: RepoObservation) -> bool:
     topics = {topic.lower() for topic in obs.topics}
-    if any(any(part in topic for part in AI_TOPIC_PARTS) for topic in topics):
+    topic_tokens = {token for topic in topics for token in re.split(r"[^a-z0-9]+", topic) if token}
+    if topics & AI_TOPIC_PARTS or topic_tokens & AI_TOPIC_PARTS:
         return True
     text_blob = f"{obs.full_name} {obs.description}".lower()
     return bool(AI_TEXT_RE.search(text_blob))
