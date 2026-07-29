@@ -36,21 +36,26 @@ class HeadMetadataParser(HTMLParser):
         return "".join(self.title_parts).strip()
 
 
-def test_rendered_pages_have_unique_titles_and_meta_descriptions() -> None:
+def test_rendered_pages_have_unique_titles_and_meta_descriptions(tmp_path: Path) -> None:
     if shutil.which("hugo") is None:
         pytest.skip("Hugo binary is required to render SEO metadata fixtures")
 
     repo_root = Path(__file__).resolve().parents[1]
-    subprocess.run(["hugo", "--minify", "--quiet"], cwd=repo_root, check=True)
+    rendered_site = tmp_path / "public"
+    subprocess.run(
+        ["hugo", "--minify", "--quiet", "--destination", str(rendered_site)],
+        cwd=repo_root,
+        check=True,
+    )
 
     values: dict[tuple[str, str], list[Path]] = defaultdict(list)
     missing: list[str] = []
-    for html_file in sorted((repo_root / "public").rglob("*.html")):
+    for html_file in sorted(rendered_site.rglob("*.html")):
         parser = HeadMetadataParser()
         parser.feed(html_file.read_text(encoding="utf-8", errors="ignore"))
         title = parser.title
         description = (parser.description or "").strip()
-        rel_path = html_file.relative_to(repo_root)
+        rel_path = html_file.relative_to(rendered_site)
         if not title:
             missing.append(f"{rel_path}: empty <title>")
         if not description:
