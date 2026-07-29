@@ -22,7 +22,7 @@
 {{- $gscSite := index $gsc "site" | default dict }}
 {{- $envGscSiteVerification := index $gscSite "verification" | default "" }}
 {{- $configGscSiteVerification := index site.Params "gsc_site_verification" | default "" }}
-{{- $gscSiteVerification := or site.Params.analytics.google.SiteVerificationTag $configGscSiteVerification $envGscSiteVerification }}
+{{- $gscSiteVerification := or $configGscSiteVerification $envGscSiteVerification site.Params.analytics.google.SiteVerificationTag }}
 {{- with $gscSiteVerification }}
 <meta name="google-site-verification" content="{{ . }}">
 {{- end }}

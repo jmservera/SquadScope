@@ -112,3 +112,74 @@ def test_gsc_site_verification_meta_requires_hugo_env_override(tmp_path: Path) -
     verified_parser = HeadMetadataParser()
     verified_parser.feed(verified_html)
     assert verified_parser.google_site_verification == "testtoken123"
+
+
+def test_gsc_site_verification_prefers_new_config_over_legacy(
+    tmp_path: Path,
+) -> None:
+    if shutil.which("hugo") is None:
+        pytest.skip("Hugo binary is required to render GSC verification metadata")
+
+    repo_root = Path(__file__).resolve().parents[1]
+    override_config = tmp_path / "gsc-precedence.toml"
+    override_config.write_text(
+        """
+[params]
+  gsc_site_verification = "newtoken123"
+
+[params.analytics.google]
+  SiteVerificationTag = "legacytoken456"
+""".strip(),
+        encoding="utf-8",
+    )
+
+    rendered_site = tmp_path / "new-precedence"
+    subprocess.run(
+        [
+            "hugo",
+            "--minify",
+            "--quiet",
+            "--config",
+            f"hugo.toml,{override_config}",
+            "--destination",
+            str(rendered_site),
+        ],
+        cwd=repo_root,
+        check=True,
+    )
+    parser = HeadMetadataParser()
+    parser.feed((rendered_site / "index.html").read_text(encoding="utf-8"))
+    assert parser.google_site_verification == "newtoken123"
+
+
+def test_gsc_site_verification_legacy_config_remains_fallback(tmp_path: Path) -> None:
+    if shutil.which("hugo") is None:
+        pytest.skip("Hugo binary is required to render GSC verification metadata")
+
+    repo_root = Path(__file__).resolve().parents[1]
+    legacy_config = tmp_path / "gsc-legacy.toml"
+    legacy_config.write_text(
+        """
+[params.analytics.google]
+  SiteVerificationTag = "legacytoken456"
+""".strip(),
+        encoding="utf-8",
+    )
+
+    rendered_site = tmp_path / "legacy"
+    subprocess.run(
+        [
+            "hugo",
+            "--minify",
+            "--quiet",
+            "--config",
+            f"hugo.toml,{legacy_config}",
+            "--destination",
+            str(rendered_site),
+        ],
+        cwd=repo_root,
+        check=True,
+    )
+    parser = HeadMetadataParser()
+    parser.feed((rendered_site / "index.html").read_text(encoding="utf-8"))
+    assert parser.google_site_verification == "legacytoken456"
