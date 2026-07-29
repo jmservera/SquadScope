@@ -1,0 +1,43 @@
+{
+  "prdFile": "docs/prds/claracle-data-observatory-relaunch.md",
+  "sourceBrd": "docs/brds/claracle-data-observatory-relaunch-brd.md",
+  "lastAccessed": "2026-07-29T00:00:00Z",
+  "currentPhase": "ready",
+  "questionsAsked": [
+    "product-name",
+    "core-problem",
+    "target-users",
+    "success-metrics",
+    "scope",
+    "technical-current-state"
+  ],
+  "answeredQuestions": {
+    "product-name": "Claracle Data Observatory Relaunch",
+    "core-problem": "Discovery/SEO; time-first architecture accumulates no authority and hides the dataset.",
+    "target-users": "Signal-seeking developers, tech leads/EMs, founders/investors, data citers (backlink source), query-driven search visitors.",
+    "success-metrics": "40 evergreen pages indexed (3mo); 250 organic sessions/mo, 25 referring domains, 15 queries top-20 (6mo); 100% SEO checklist at launch; no pipeline regression.",
+    "scope": "Topic hubs, data pages, repository pages, structured SEO, internal linking, linkable assets (datasets/charts/tool/stats), README discovery engine. Crawl untouched; Podcaster contract unchanged.",
+    "technical-current-state": "Hugo+PaperMod, topic taxonomy + per-topic RSS + layouts already exist; generate_content.py does NOT emit topics (gap); SEO partials present with catalogued gaps 1-7; unsafe=false; GA4 id empty; baseURL claracle.com."
+  },
+  "referencesProcessed": [
+    {"file": "docs/brds/claracle-data-observatory-relaunch-brd.md", "status": "analyzed", "keyFindings": "Source BRD; 28 requirements, 6 objectives, thresholds and lifecycle decisions."},
+    {"file": "hugo.toml", "status": "analyzed", "keyFindings": "topic taxonomy; outputs home HTML/RSS/JSON, taxonomy/term RSS; params default_social_image, ga_measurement_id empty; mainSections weekly/monthly/yearly; markup unsafe=false."},
+    {"file": "scripts/generate_content.py", "status": "analyzed", "keyFindings": "Weekly frontmatter has tags/categories/repos_featured/stars_tracked/top_repo/summary/cover/og_image; NO topics field emitted -> FR-002."},
+    {"file": "layouts/topics/list.html", "status": "analyzed", "keyFindings": "Topic term page scaffold with RSS subscribe, editorial stance, prediction tracking, recent issues list."},
+    {"file": "docs/growth/distribution-strategy.md", "status": "analyzed", "keyFindings": "Personas + SEO gap audit (OG image fallback/alt/dimensions, article:author, twitter:creator, homepage OG) -> FR-032/033."}
+  ],
+  "nextActions": [
+    "Stakeholder review of PRD",
+    "Design spike: client-side tool selection (Q-02) and chart embed approach",
+    "Quantify incremental generation cost (Q-01)"
+  ],
+  "qualityChecks": [
+    "goals-measurable",
+    "requirements-linked-to-goals-and-personas",
+    "nfrs-have-targets",
+    "cross-repo-impact-documented",
+    "risks-identified",
+    "traceability-to-brd"
+  ],
+  "userPreferences": {"detail-level": "comprehensive", "question-style": "structured"}
+}

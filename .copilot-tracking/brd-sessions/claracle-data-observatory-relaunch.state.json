@@ -1,0 +1,45 @@
+{
+  "brdFile": "docs/brds/claracle-data-observatory-relaunch-brd.md",
+  "lastAccessed": "2026-07-29T00:00:00Z",
+  "currentPhase": "ready-for-review",
+  "questionsAsked": [
+    "business-objectives",
+    "primary-stakeholders",
+    "scope-boundaries",
+    "seo-analysis-integration",
+    "sponsor-authority",
+    "analytics-baseline",
+    "topic-hub-priority",
+    "tool-hosting",
+    "dataset-licensing",
+    "repository-page-definition"
+  ],
+  "answeredQuestions": {
+    "business-problem": "Discovery/SEO is the core problem; time-organized weekly summaries do not rank or attract links. Reposition around evergreen topic/data pages built on the longitudinal GitHub trend dataset.",
+    "business-driver": "Growth (organic discovery) and competitive (data moat).",
+    "sponsor-authority": "jmservera is sponsor and human approval authority.",
+    "analytics-baseline": "Near-zero baseline confirmed; measured with GA4 + GSC.",
+    "topic-hub-priority": "Weekly trend crawl must remain untouched and is the data base. Topics aligned with current tech trends; continuity + dynamic new-topic creation when an important new trend is discovered.",
+    "tool-hosting": "Client-side-only tool acceptable; choose best tool via research/design spike.",
+    "dataset-licensing": "MIT license, cite all references.",
+    "repository-page-definition": "Elaborated in BRD section 6.3 (definition + implications)."
+  },
+  "referencesProcessed": [
+    {"file": "docs/growth/distribution-strategy.md", "status": "analyzed", "keyFindings": "Audience personas; channel mix; on-page SEO gaps 1-7 (OG image fallback/alt/dimensions, article:author, twitter:creator, homepage OG); UTM conventions."},
+    {"file": "architecture.md", "status": "analyzed", "keyFindings": "Hugo/PaperMod static site; weekly two-step Copilot analysis; Podcaster handoff contract; data/ artifacts; content weekly/monthly/yearly."},
+    {"file": "external SEO analysis (user-provided, 2026-07)", "status": "analyzed", "keyFindings": "Discovery is the problem, not conversion. Transform Claracle into the public database of GitHub trends. 5 phases: content strategy/topic hubs, data pages, structured SEO, internal linking, repository pages. 7 backlink strategies: datasets, communities, repo-as-engine, free tools, outreach, charts, statistics pages."},
+    {"file": "content/topics/ai-ml/_index.md", "status": "analyzed", "keyFindings": "Topic hubs are nascent/placeholder; only ai-ml exists."}
+  ],
+  "nextActions": [
+    "Quantify incremental generation cost for hubs/data/repo pages"
+  ],
+  "qualityChecks": [
+    "objectives-defined",
+    "scope-clarified",
+    "requirements-linked-to-objectives",
+    "cross-repo-impact-documented",
+    "risks-identified",
+    "baselines-confirmed"
+  ],
+  "userPreferences": {"detail-level": "comprehensive", "question-style": "structured"}
+}
