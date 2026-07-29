@@ -85,6 +85,18 @@ def load_seed_topics(config_path: Path) -> list[str]:
     return [topic for topic in topics if isinstance(topic, str) and topic]
 
 
+def raw_week_files(root: Path) -> list[Path]:
+    candidates: dict[str, Path] = {}
+    for path in sorted((root / "data" / "raw").glob("*.json")):
+        if WEEK_RE.fullmatch(path.stem):
+            candidates[path.stem] = path
+    archive_dir = root / "data" / "archive" / "recovered-W23-W29"
+    for path in sorted(archive_dir.glob("*/**/*.json")):
+        if WEEK_RE.fullmatch(path.stem):
+            candidates.setdefault(path.stem, path)
+    return [candidates[week] for week in sorted(candidates)]
+
+
 def get_term(
     terms: dict[str, TermStats],
     value: str,
@@ -153,7 +165,7 @@ def scan_weekly_frontmatter(
 
 
 def scan_raw_repo_topics(root: Path, tag_terms: dict[str, TermStats]) -> None:
-    for path in sorted((root / "data" / "raw").glob("*.json")):
+    for path in raw_week_files(root):
         payload = json.loads(path.read_text(encoding="utf-8"))
         week = str(payload.get("week") or "")
         used_on = normalize_date(payload.get("crawled_at"), week)
@@ -223,6 +235,19 @@ def write_registry(path: Path, terms: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = {"terms": terms}
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def load_display_names(path: Path) -> dict[str, str]:
+    terms = load_json(path).get("terms", {})
+    if not isinstance(terms, dict):
+        return {}
+    display_names: dict[str, str] = {}
+    for slug, raw in terms.items():
+        if not isinstance(raw, dict):
+            continue
+        key = str(raw.get("slug") or slug)
+        display_names[key] = str(raw.get("display_name") or key)
+    return display_names
 
 
 def update_taxonomy_registries(
