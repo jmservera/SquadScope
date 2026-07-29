@@ -1,33 +1,43 @@
 {{- define "main" -}}
-{{- $tagTerms := site.Taxonomies.tags.ByCount -}}
+{{- $topicTerms := site.Taxonomies.topics.ByCount -}}
 {{- $categoryTerms := site.Taxonomies.categories.Alphabetical -}}
+{{- $topicRegistry := site.Data.taxonomy.topics.terms -}}
 <header class="page-header">
   {{- partial "breadcrumbs.html" . }}
   <h1>{{ .Title }}</h1>
-  <div class="post-description">{{ .Description | default "Browse weekly issues by topic area, then jump across weekly, monthly, and yearly report categories." }}</div>
+  <div class="post-description">{{ .Description | default "Evergreen topic hubs collect related weekly issues, dataset context, predictions, and RSS feeds for each Claracle storyline." }}</div>
 </header>
+
+{{- if .Content }}
+<div class="post-content md-content">
+  {{ .Content }}
+</div>
+{{- end }}
 
 <section aria-labelledby="topics-directory-heading">
   <div class="section-heading-row">
     <div>
-      <div class="section-topline">Browse by theme</div>
-      <h2 id="topics-directory-heading">Active topics</h2>
+      <div class="section-topline">Evergreen coverage</div>
+      <h2 id="topics-directory-heading">Topic hubs</h2>
     </div>
-    <a href="{{ `categories/` | absLangURL }}">Browse categories</a>
+    <a href="{{ `state-of/open-source-ai-2026/` | absLangURL }}">Open dataset report</a>
   </div>
 
-  {{- if $tagTerms }}
+  {{- if $topicTerms }}
   <div class="taxonomy-grid">
-    {{- range $tagTerms }}
+    {{- range $topicTerms }}
     {{- $term := .Name -}}
     {{- $count := .Count -}}
-    {{- with site.GetPage (printf "/tags/%s" $term) }}
+    {{- with site.GetPage (printf "/topics/%s" ($term | urlize)) }}
+    {{- $registryEntry := index $topicRegistry ($term | urlize) -}}
+    {{- $topicTitle := .LinkTitle | default $term -}}
+    {{- with $registryEntry }}{{- $topicTitle = .display_name | default $topicTitle -}}{{- end -}}
     <article class="home-report-card taxonomy-card">
-      <h3><a href="{{ .RelPermalink }}">{{ $term | humanize }}</a></h3>
-      <p>Browse {{ $count }} weekly issue{{ if ne $count 1 }}s{{ end }} touching {{ $term | humanize | lower }}.</p>
+      <h3><a href="{{ .RelPermalink }}">{{ $topicTitle }}</a></h3>
+      <p>{{ .Params.summary | default .Description | default (printf "Follow %d weekly issue%s about %s." $count (cond (eq $count 1) "" "s") $topicTitle) }}</p>
       <div class="home-report-meta">
         <span>{{ $count }} issue{{ if ne $count 1 }}s{{ end }}</span>
-        <span>Topic</span>
+        <span><a href="{{ .RelPermalink }}index.xml">RSS</a></span>
       </div>
     </article>
     {{- end }}
@@ -35,8 +45,8 @@
   </div>
   {{- else }}
   <section class="home-empty-state">
-    <h2>No topics published yet</h2>
-    <p>Topic cards will appear here as soon as weekly issues ship with topic tags.</p>
+    <h2>No topic hubs have issue matches yet</h2>
+    <p>Seed hubs remain published; weekly issue cards appear automatically once reports ship with canonical <code>topics</code> frontmatter.</p>
   </section>
   {{- end }}
 </section>
