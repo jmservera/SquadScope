@@ -193,6 +193,3 @@
 {{- partial "cookie-consent.html" . -}}
 
 {{- /* Misc */}}
-{{- if hugo.IsProduction | or (eq site.Params.env "production") }}
-{{- partial "google_analytics.html" . }}
-{{- end -}}
