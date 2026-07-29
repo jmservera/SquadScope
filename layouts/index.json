@@ -1,0 +1,15 @@
+{{- $pages := where site.RegularPages "Params.searchHidden" "!=" true -}}
+[
+{{- range $index, $page := $pages -}}
+  {{- if $index }},{{ end }}
+  {
+    "title": {{ $page.Title | jsonify }},
+    "permalink": {{ $page.Permalink | jsonify }},
+    "summary": {{ ($page.Description | default $page.Params.summary | default $page.Summary) | plainify | jsonify }},
+    "content": {{ $page.Plain | jsonify }},
+    "tags": {{ ($page.Params.tags | default slice) | jsonify }},
+    "categories": {{ ($page.Params.categories | default slice) | jsonify }},
+    "topics": {{ ($page.Params.topics | default slice) | jsonify }}
+  }
+{{- end }}
+]

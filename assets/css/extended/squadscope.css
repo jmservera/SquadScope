@@ -703,6 +703,39 @@ summary:focus-visible,
   margin: 0;
 }
 
+.article-related-links {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: var(--size-border-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.article-related-links__title,
+.article-related-links__label {
+  margin: 0;
+  color: var(--color-text);
+}
+
+.article-related-links__title {
+  font-size: var(--text-base);
+}
+
+.article-related-links__label {
+  font-size: var(--text-sm);
+}
+
+.article-related-links__group {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.article-related-links__list {
+  margin: 0;
+  padding: 0;
+}
+
 .article-errata__title {
   margin: 0;
   color: var(--color-text);

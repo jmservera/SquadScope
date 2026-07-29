@@ -1,0 +1,86 @@
+{{- $page := . -}}
+{{- $registry := site.Data.taxonomy.topics.terms | default dict -}}
+{{- $topicLinks := slice -}}
+{{- $seenTopics := dict -}}
+{{- $rawTerms := slice -}}
+
+{{- with $page.Params.topics -}}
+  {{- range . -}}{{- $rawTerms = $rawTerms | append . -}}{{- end -}}
+{{- end -}}
+{{- with $page.Params.tags -}}
+  {{- range . -}}{{- $rawTerms = $rawTerms | append . -}}{{- end -}}
+{{- end -}}
+
+{{- range $rawTerms -}}
+  {{- $termSlug := printf "%s" . | lower | urlize -}}
+  {{- $matchedSlug := "" -}}
+  {{- $matchedEntry := dict -}}
+  {{- with index $registry $termSlug -}}
+    {{- $matchedSlug = .slug | default $termSlug -}}
+    {{- $matchedEntry = . -}}
+  {{- else -}}
+    {{- range $slug, $entry := $registry -}}
+      {{- if not $matchedSlug -}}
+        {{- range ($entry.aliases | default slice) -}}
+          {{- if eq (printf "%s" . | lower | urlize) $termSlug -}}
+            {{- $matchedSlug = $entry.slug | default $slug -}}
+            {{- $matchedEntry = $entry -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if and $matchedSlug (not (index $seenTopics $matchedSlug)) -}}
+    {{- with site.GetPage (printf "/topics/%s/" $matchedSlug) -}}
+      {{- $title := $matchedEntry.display_name | default .LinkTitle | default .Title -}}
+      {{- $topicLinks = $topicLinks | append (dict "title" $title "url" .RelPermalink) -}}
+      {{- $seenTopics = merge $seenTopics (dict $matchedSlug true) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $repoLinks := slice -}}
+{{- $seenRepos := dict -}}
+{{- range (findRE `https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+` $page.RawContent) -}}
+  {{- $repoPath := replace . "https://github.com/" "" -}}
+  {{- $parts := split $repoPath "/" -}}
+  {{- if ge (len $parts) 2 -}}
+    {{- $owner := index $parts 0 -}}
+    {{- $name := index $parts 1 -}}
+    {{- $repoKey := printf "%s/%s" (lower $owner) (lower $name) -}}
+    {{- $repoSlug := printf "%s-%s" $owner $name | lower | urlize -}}
+    {{- if not (index $seenRepos $repoKey) -}}
+      {{- with site.GetPage (printf "/repo/%s/" $repoSlug) -}}
+        {{- $title := .Params.repo_full_name | default (printf "%s/%s" $owner $name) -}}
+        {{- $repoLinks = $repoLinks | append (dict "title" $title "url" .RelPermalink) -}}
+        {{- $seenRepos = merge $seenRepos (dict $repoKey true) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if or $topicLinks $repoLinks -}}
+<section class="article-related-links" aria-labelledby="article-related-links-title">
+  <h2 id="article-related-links-title" class="article-related-links__title">Related topics and repositories</h2>
+  {{- if $topicLinks }}
+  <div class="article-related-links__group">
+    <h3 class="article-related-links__label">Topic hubs</h3>
+    <ul class="post-tags article-related-links__list">
+      {{- range $topicLinks }}
+      <li><a href="{{ .url }}">{{ .title }}</a></li>
+      {{- end }}
+    </ul>
+  </div>
+  {{- end }}
+  {{- if $repoLinks }}
+  <div class="article-related-links__group">
+    <h3 class="article-related-links__label">Repository pages</h3>
+    <ul class="post-tags article-related-links__list">
+      {{- range $repoLinks }}
+      <li><a href="{{ .url }}">{{ .title }}</a></li>
+      {{- end }}
+    </ul>
+  </div>
+  {{- end }}
+</section>
+{{- end -}}
