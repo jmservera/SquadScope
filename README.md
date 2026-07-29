@@ -1,148 +1,198 @@
 [![Crawl and publish weekly data](https://github.com/jmservera/SquadScope/actions/workflows/crawl-and-publish.yml/badge.svg)](https://github.com/jmservera/SquadScope/actions/workflows/crawl-and-publish.yml)
 [![Deploy Hugo site](https://github.com/jmservera/SquadScope/actions/workflows/deploy-site.yml/badge.svg)](https://github.com/jmservera/SquadScope/actions/workflows/deploy-site.yml)
+
 # Claracle (SquadScope)
 
-Claracle is an automated AI-powered site that publishes weekly, monthly, and yearly summaries of tech trends sourced from GitHub. The system crawls trending and newly-created repositories, applies AI analysis to identify signal vs. noise, and publishes curated insights with zero manual intervention.
+**Data published weekly at [claracle.com](https://claracle.com/).** Start with the latest public reports:
 
-## What is Claracle?
+- [Weekly GitHub trend analysis](https://claracle.com/weekly/2026/w31/) — signal, noise, gaps, and notable repositories from the latest crawl
+- [Monthly trend rollups](https://claracle.com/monthly/2026/07/) — multi-week arcs and recurring themes
+- [Yearly trend narrative](https://claracle.com/yearly/2026/) — longer-horizon synthesis across published months
+- [Topics](https://claracle.com/topics/) and [RSS](https://claracle.com/index.xml) — discovery and subscription surfaces
 
-Claracle solves the information overload problem in open-source development. Each week, millions of repositories are created or gain stars. Claracle:
+Claracle is the public brand for SquadScope: an automated AI-powered GitHub trend observatory. It crawls GitHub and selected external sources, separates durable signal from leaderboard noise, and publishes citable weekly, monthly, and yearly analysis as a static Hugo site.
 
-1. **Crawls** GitHub API for new and trending repositories in a given week
-2. **Analyzes** the data with Copilot to identify what's genuinely important vs. hype
-3. **Generates** human-readable weekly summaries with signal, noise, and gaps analysis
-4. **Publishes** to GitHub Pages with RSS feeds for consumption
-5. **Reskills** every 5 runs to improve its own analysis quality
+## Why this exists
 
-Result: Curated tech trend insights delivered automatically every week.
+GitHub creates more repositories and trend spikes than people can evaluate manually. Claracle turns that stream into a discoverable data product for:
+
+- **Builders and founders** tracking where developer attention is moving
+- **Researchers and journalists** citing original longitudinal trend observations
+- **Developer-relations and open-source teams** watching ecosystem momentum
+- **Operators** who need a reproducible, GitHub-native publishing pipeline
+
+The repository contains the crawler, analysis prompts, generated Hugo content, and operating docs. The public reading surface lives at [claracle.com](https://claracle.com/).
+
+## Example published outputs
+
+| Output | Live Claracle page | Source in this repo | What it shows |
+| --- | --- | --- | --- |
+| Weekly issue | [Agent Work Moved Into the Operating Room](https://claracle.com/weekly/2026/w31/) | [`content/weekly/2026/W31.md`](content/weekly/2026/W31.md) | Weekly signal/noise analysis, notable projects, press context, and blind spots |
+| Monthly rollup | [Discovery Noise and Local AI Surge — July 2026](https://claracle.com/monthly/2026/07/) | [`content/monthly/2026/07.md`](content/monthly/2026/07.md) | Cross-week trend arcs, persistent themes, accelerating themes, and top repos |
+| Yearly narrative | [When Agents Became Infrastructure — 2026 So Far](https://claracle.com/yearly/2026/) | [`content/yearly/2026.md`](content/yearly/2026.md) | Longer-horizon interpretation of recurring patterns across months |
+| Methodology | [How Claracle reads GitHub trends](https://claracle.com/methodology/) | [`content/methodology/_index.md`](content/methodology/_index.md) | Editorial method for separating signal from spam, hype, and manipulated discovery |
+| Raw crawl artifact | n/a | [`data/raw/2026-W31.json`](data/raw/2026-W31.json) | GitHub repositories, topics, stars, and metadata captured for the weekly analysis |
+| AI analysis artifact | n/a | [`data/analyzed/2026-W31-summary.md`](data/analyzed/2026-W31-summary.md) | The generated analysis used to produce the published weekly article |
+
+## Screenshots and visual status
+
+Current README visuals are intentionally documentation-only until Calculon supplies refreshed screenshots. No placeholder binary images are fabricated in this PR.
+
+See [`screenshots/README.md`](screenshots/README.md) for the visual capture plan. Planned asset paths:
+
+- `screenshots/claracle-homepage.png` — Claracle homepage with weekly data entry points
+- `screenshots/claracle-weekly-report.png` — A published weekly issue page
+- `screenshots/claracle-monthly-rollup.png` — A monthly trend rollup page
+- `assets/images/claracle-architecture.png` — Optional exported version of the Mermaid architecture below
+
+**TODO(Calculon):** capture refreshed screenshots and, if needed for social previews or docs reuse, export the architecture diagram to `assets/images/`.
 
 ## Architecture
 
-Claracle uses a **5-stage pipeline** executed entirely in GitHub Actions:
+Claracle uses a GitHub-native, static-site pipeline. The weekly crawler remains the source of truth; downstream pages and discovery surfaces are generated from stored artifacts rather than re-crawling on demand.
 
+```mermaid
+flowchart LR
+    GH[GitHub API] --> Crawl["Crawl<br/>scripts/crawl.py"]
+    News[External RSS/news] --> Crawl
+    Crawl --> Raw[data/raw JSON]
+    Crawl --> Snapshots[data/snapshots stars]
+    Raw --> Synthesis["Weekly Synthesis<br/>Copilot CLI agent"]
+    Snapshots --> Synthesis
+    Synthesis --> Analysis["Weekly Analysis<br/>Copilot CLI agent"]
+    Analysis --> Analyzed[data/analyzed Markdown + JSON]
+    Analyzed --> Generate["Generate Hugo content<br/>scripts/generate_content.py"]
+    Generate --> Content[content/weekly, monthly, yearly]
+    Content --> Hugo[Hugo + PaperMod + Pagefind]
+    Hugo --> Pages[GitHub Pages]
+    Pages --> Claracle[claracle.com]
+    Claracle --> RSS[RSS + discovery surfaces]
+    Content --> Handoff[Podcaster handoff]
 ```
-Crawl → Analyze → Generate → Deploy → Reskill
-  ↓        ↓          ↓         ↓        ↓
-JSON    Markdown   Hugo      Pages    Improvements
-```
 
-**Stage 1: Crawl** (`scripts/crawl.py`, `scripts/techcrunch_crawler.py`)
-- Queries GitHub API for repos created/trending in the current week
-- Fetches configured external RSS feeds from `config/external_news_sources.json` in parallel as an enrichment signal
-- Applies heuristic filtering (language, topic, description quality)
-- Outputs: `data/raw/YYYY-WNN.json`, `data/raw/YYYY-WNN-external-news.json`, `data/snapshots/YYYY-WNN-stars.json`
+Pipeline stages:
 
-**Stage 2: Analyze** (Copilot CLI agents, gpt-5.5)
-- Two-step AI analysis using dedicated Copilot CLI agents configured in `.github/agents/`:
-  1. **Weekly Synthesis** (`weekly-synthesis`) — generates a compact industry narrative (~2 000 tokens) from press context and historical signals
-  2. **Weekly Analysis** (`weekly-analysis`) — consumes the synthesis plus raw crawl data to produce the full editorial with signal/noise/gaps classification
-- Both agents use gpt-5.5 (configured in agent frontmatter) with only `read`/`write` tools
-- Outputs: `data/analyzed/YYYY-WNN-summary.md` with quality score, `data/analyzed/YYYY-WNN-correlations.json`, `data/analyzed/YYYY-WNN-press-context.md`
-- Quality gate: Blocks publish if quality_score < 60 or missing required sections
+1. **Crawl** — `scripts/crawl.py` and `scripts/techcrunch_crawler.py` collect GitHub and external-news signals into `data/raw/` and `data/snapshots/`.
+2. **Analyze** — dedicated Copilot CLI agents (`weekly-synthesis`, then `weekly-analysis`) produce editorial signal/noise/gaps analysis in `data/analyzed/`.
+3. **Generate** — `scripts/generate_content.py` transforms analysis artifacts into Hugo Markdown under `content/`.
+4. **Deploy** — Hugo builds the PaperMod site and GitHub Pages publishes [claracle.com](https://claracle.com/).
+5. **Reskill** — every fifth successful run, the AI squad records lessons and prompt-improvement recommendations.
+6. **Handoff** — after publication, the article can be handed to the Podcaster system for episode generation.
 
-**Stage 3: Generate** (`scripts/generate_content.py`)
-- Converts analyzed Markdown into Hugo content structure
-- Outputs: `content/weekly/YYYY/WNN.md` ready for Hugo build
+For a fuller technical map, see [`architecture.md`](architecture.md).
 
-**Stage 4: Deploy** (Hugo + GitHub Pages)
-- Builds static site from Hugo and publishes to GitHub Pages
-- Outputs: Live website + RSS feed at `https://www.claracle.com/index.xml`
+## Repository map
 
-**Stage 5: Reskill** (every 5th run)
-- Every 5th run, Copilot reviews squad history and recent analysis outputs
-- Writes observations and improvement recommendations to `.squad/reskill/YYYY-WNN.md`
-- Optional: Can trigger PR with proposed prompt refinements (not auto-merged)
+- `scripts/` — Python pipeline automation for crawl, analysis prep, content generation, publishing, reskill, and Podcaster handoff
+- `content/` — Hugo Markdown for public pages: weekly, monthly, yearly, topics, methodology, and supporting pages
+- `data/` — raw crawl outputs, analyzed summaries, snapshots, metrics, and cache artifacts
+- `.github/workflows/` — GitHub Actions for crawl/publish, site deployment, smoke checks, and guardrails
+- `.github/agents/` — Copilot CLI agent definitions for weekly synthesis and analysis
+- `docs/` — operator guides, PRDs, architecture decisions, distribution strategy, and DevSecOps guardrails
+- `config/` — shared configuration, including external news sources and Podcaster editorial config
+- `layouts/`, `assets/`, `static/` — Hugo theme customizations and static assets
+- `tests/` — pytest coverage for pipeline and content-generation behavior
 
 ## Theme and stack
 
-- **Static site generator:** Hugo (extended, v0.146.0+)
+- **Static site generator:** Hugo extended v0.146.0+
 - **Theme:** [PaperMod](https://github.com/adityatelange/hugo-PaperMod)
-- **Search:** Pagefind (static, client-side)
-- **Notifications:** RSS feeds + GitHub Releases
-- **Automation:** GitHub Actions
-- **Deployment:** GitHub Pages
-- **Analysis engine:** Copilot CLI agents (`weekly-synthesis`, `weekly-analysis`) using gpt-5.5; no GitHub Models/OpenAI fallback
+- **Search:** Pagefind static search
+- **Automation:** GitHub Actions and GitHub Pages
+- **Analysis engine:** Copilot CLI agents using `gpt-5.5`
+- **Notifications:** RSS feeds and GitHub Releases
+- **Primary public domain:** [claracle.com](https://claracle.com/)
 
 ## Quick start
 
-### For end users
+### For readers and data citers
 
-1. **Visit the site:** [Claracle](https://www.claracle.com/): Browse weekly, monthly, yearly summaries
-2. **Subscribe to RSS:** Add `https://www.claracle.com/index.xml` to your reader
-3. **Check GitHub Releases:** New summaries also posted as releases
+1. Visit [claracle.com](https://claracle.com/) for the live data observatory.
+2. Read the latest [weekly report](https://claracle.com/weekly/2026/w31/), [monthly rollup](https://claracle.com/monthly/2026/07/), or [yearly narrative](https://claracle.com/yearly/2026/).
+3. Subscribe to [RSS](https://claracle.com/index.xml) for new publications.
+4. Cite the live Claracle page and, when useful, reference the matching source artifact in this repository.
 
-### For operators (see `docs/operator-guide.md` for full setup)
+### For operators
 
-1. Fork this repository
-2. Configure `COPILOT_GH_TOKEN` secret in your repo (fine-grained PAT with Copilot Requests permission)
-3. Enable GitHub Pages (Actions source)
-4. Test manual run: `gh workflow run crawl-and-publish.yml`
-5. Monitor the first automated run
+See [`docs/operator-guide.md`](docs/operator-guide.md) and [`docs/rollout-checklist.md`](docs/rollout-checklist.md) for full setup.
 
-⚠️ **First-time operators:** Start with `docs/rollout-checklist.md` to ensure all prerequisites are in place.
+1. Fork this repository.
+2. Configure `COPILOT_GH_TOKEN` with Copilot Requests permission.
+3. Enable GitHub Pages with Actions as the source.
+4. Run the pipeline manually with `gh workflow run crawl-and-publish.yml`.
+5. Monitor generated content, quality gates, and the deployed site.
 
 ## Local development
 
-1. **Install Hugo:** `brew install hugo` (macOS) or download from [hugo releases](https://github.com/gohugoio/hugo/releases) (v0.146.0 or newer)
-2. **Clone with submodules:**
+1. Install Hugo extended v0.146.0 or newer.
+2. Clone with submodules:
+
    ```bash
    git clone --recurse-submodules https://github.com/jmservera/SquadScope.git
+   cd SquadScope
    git submodule update --init --recursive
    ```
-3. **Start dev server:** `hugo server` (default: http://localhost:1313)
-4. **Create production build:** `hugo --minify` (output: `public/`)
 
-## Content structure
+3. Start the local site:
 
-- `content/weekly/YYYY/WNN.md` — immutable weekly summaries (published once, never modified)
-- `content/monthly/YYYY/MM.md` — monthly rollups with synthesis narrative, SEO editorial titles (max 70 chars), cross-links to weekly/yearly pages, trend-arc sections, and structured frontmatter (themes, gaps, repos)
-- `content/yearly/YYYY.md` — yearly narrative summaries with SEO titles, ≤155-char meta descriptions, and cross-links to monthly pages
-- `data/raw/YYYY-WNN.json` — GitHub crawler output (JSON object with keys: `week`, `new_repos`, `trending_repos`, `signals`, `metadata`)
-- `data/raw/YYYY-WNN-external-news.json` — external RSS enrichment output from sources configured in `config/external_news_sources.json`
-- `data/analyzed/YYYY-WNN-summary.md` — AI analysis with quality score
-- `data/snapshots/YYYY-WNN-stars.json` — star count snapshots for trending analysis
+   ```bash
+   hugo server
+   ```
+
+4. Build production output:
+
+   ```bash
+   hugo --minify
+   ```
+
+5. Run Python tests when changing pipeline code:
+
+   ```bash
+   pytest tests/
+   ```
+
+## Content and data structure
+
+- `content/weekly/YYYY/WNN.md` — immutable weekly reports after publication
+- `content/monthly/YYYY/MM.md` — monthly rollups with trend arcs and cross-links
+- `content/yearly/YYYY.md` — annual or year-to-date narrative summaries
+- `content/topics/` — topic discovery surfaces and feeds
+- `data/raw/YYYY-WNN.json` — weekly GitHub crawl output
+- `data/raw/YYYY-WNN-external-news.json` — external-news enrichment data
+- `data/analyzed/YYYY-WNN-summary.md` — AI-generated weekly analysis artifact
+- `data/snapshots/YYYY-WNN-stars.json` — star snapshots for week-over-week comparison
 
 ## Automated weekly pipeline
 
-`.github/workflows/crawl-and-publish.yml` runs the full weekly automation on a best-effort Sunday schedule at 11:53 UTC:
+`.github/workflows/crawl-and-publish.yml` runs the weekly automation on a best-effort Sunday schedule at 11:53 UTC:
 
-1. **Crawl:** GitHub API → `data/raw/YYYY-WNN.json`; external RSS feeds → `data/raw/YYYY-WNN-external-news.json`
-2. **Analyze:** Copilot → `data/analyzed/YYYY-WNN-summary.md`
-3. **Quality gate:** Validates quality_score ≥ 60; blocks publish if failed
-4. **Generate:** Markdown → `content/weekly/YYYY/WNN.md`
-5. **Deploy:** Hugo build → GitHub Pages
-6. **Reskill:** Every 5th run, review and improve squad state
+1. Crawl GitHub and external sources.
+2. Analyze with Copilot CLI agents.
+3. Enforce the analysis quality gate.
+4. Generate Hugo content.
+5. Deploy the static site to GitHub Pages.
+6. Reskill the squad every fifth run.
 
-### Schedule and manual runs
+Manual trigger:
 
-- **Automated schedule:** Sunday 11:53 UTC (`53 11 * * 0`) on GitHub-hosted runners
-- **Timing expectation:** GitHub Actions `schedule` is best-effort on shared runners; this repo has observed multi-hour delays on scheduled starts
-- **Manual trigger:** `gh workflow run crawl-and-publish.yml` or GitHub Actions UI
-- **If punctuality matters:** trigger the existing `workflow_dispatch` from an external scheduler; see [`docs/operator-guide.md#schedule-latency-and-mitigation-ladder`](docs/operator-guide.md#schedule-latency-and-mitigation-ladder)
+```bash
+gh workflow run crawl-and-publish.yml
+```
 
-### Required secrets
-
-- `COPILOT_GH_TOKEN` — Fine-grained PAT with **Account → Copilot Requests** permission for Copilot CLI analysis
-- `GITHUB_TOKEN` — Built-in; used for crawling, commits, Pages deployment, and issue/notification automation
-- `PODCASTER_API_KEY` — Optional; used with the `PODCASTER_ENDPOINT` Actions variable for the post-publish Podcaster handoff. The value must never be logged or committed.
-
-## Crawler notes
-
-- `signals.top_topics` de-duplicates repositories by `full_name` across new and trending buckets
-- `data/snapshots/YYYY-WNN-stars.json` preserves the broader pre-filter candidate set for consistent week-over-week `stars_gained` comparisons
-- Live runs use open-ended `created:>` / `pushed:>` GitHub search filters
-- `--as-of` mode switches to bounded date ranges for deterministic historical backfills
-
-## Deployment
-
-- **Standard deploys:** Direct pushes to `main` trigger `.github/workflows/deploy-site.yml`
-- **Weekly automation:** `crawl-and-publish.yml` handles full pipeline and deploys Pages
-- **Deduplication:** Deploy workflow skips bot-authored pushes to avoid duplicate Pages runs
+GitHub Actions schedules are best-effort on shared runners. If punctuality matters, trigger the existing `workflow_dispatch` from an external scheduler; see [`docs/operator-guide.md#schedule-latency-and-mitigation-ladder`](docs/operator-guide.md#schedule-latency-and-mitigation-ladder).
 
 ## Documentation
 
-- **`docs/operator-guide.md`** — Complete setup, configuration, and troubleshooting guide for new operators
-- **`docs/rollout-checklist.md`** — Step-by-step verification checklist for first-time deployments
-- **`docs/pipeline-validation.md`** — Stage checklist, artifact handoffs, success criteria, and known limitations
-- **`docs/analysis-spec.md`** — Detailed specification for analysis output format and quality gate criteria
-- **`.squad/decisions.md`** — Architectural decisions and decision history
+- [`architecture.md`](architecture.md) — technical overview and data flow
+- [`docs/operator-guide.md`](docs/operator-guide.md) — setup, configuration, and troubleshooting
+- [`docs/rollout-checklist.md`](docs/rollout-checklist.md) — first-deployment checklist
+- [`docs/pipeline-validation.md`](docs/pipeline-validation.md) — stage handoffs and validation criteria
+- [`docs/analysis-spec.md`](docs/analysis-spec.md) — analysis format and quality gate expectations
+- [`docs/prds/claracle-data-observatory-relaunch.md`](docs/prds/claracle-data-observatory-relaunch.md) — relaunch PRD, including FR-060 for README discovery/backlink support
+
+## Guardrails
+
+- Do not commit secrets. Use GitHub repository or environment secrets.
+- Treat weekly crawl artifacts as the source of truth for generated discovery surfaces.
+- Coordinate changes to `config/podcast.json` and `scripts/podcaster_handoff.py` with the Podcaster repository.
+- CI must be correct, not merely green: do not weaken tests, security scans, or quality gates to pass a build.
