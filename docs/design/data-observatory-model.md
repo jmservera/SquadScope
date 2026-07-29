@@ -135,12 +135,17 @@ flat legacy layout when `topic_id` is omitted or `general`.
 ## Repository identity and metrics
 
 Repository identity is stable enough for the Observatory's first read-only model
-when keyed by normalized `full_name` (`owner/name` lowercased for comparison,
-original casing preserved for display). The raw records consistently include
-`owner`, `name`, `full_name`, and `url`; the scripts also already treat
-`full_name` as the primary repository key in paths such as
-`scripts/correlate.py`, `scripts/analysis_gate.py`, and
-`scripts/preprocess_for_analysis.py`.
+when it is read directly from raw crawl records and keyed by normalized
+`full_name` (`owner/name` lowercased for comparison, original casing preserved
+for display). The raw records consistently include `owner`, `name`,
+`full_name`, and `url`; `scripts/correlate.py` and `scripts/analysis_gate.py`
+already use `full_name` or an `owner/name` fallback for repository identity.
+`scripts/preprocess_for_analysis.py` is different: it combines `new_repos` and
+`trending_repos`, deduplicates on bare `name`, then emits compact prompt records
+with `name`, `desc`, `stars`, `gained`, `topics`, `lang`, and `age_days`. It
+does not retain `owner`, `full_name`, or `url`, so the Observatory repository
+model should not derive canonical identity from the compact preprocessing
+payload.
 
 Star history is derivable across weeks by grouping raw records on `full_name` and
 reading the weekly `stars` value. Examples from the inspected data:
@@ -242,6 +247,11 @@ The `data/derived/observatory/` layer should be generated from checked-in
 It should not be a new source of truth and should be safe to regenerate.
 
 ## Repository slug scheme
+
+Use the normalized raw `full_name` (`owner/name`) as the source identity key and
+derive public page paths from that key. The slug is a routing artifact, not the
+primary repository key: split `full_name` into `owner` and `name`, normalize each
+component, then join them with a hyphen for the URL path.
 
 Use:
 
