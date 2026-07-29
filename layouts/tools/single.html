@@ -1,0 +1,54 @@
+{{- define "main" }}
+<article class="post-single tool-page" data-pagefind-body>
+  {{ partial "pagefind-metadata.html" . }}
+
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <p class="section-topline">Interactive tool</p>
+    <h1 class="post-title entry-hint-parent">{{ .Title }}</h1>
+    {{- with (.Description | default .Params.summary) }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+  </header>
+
+  {{- if .Content }}
+  <div class="post-content md-content">
+    {{- if not (.Param "disableAnchoredHeadings") }}
+    {{- partial "anchored_headings.html" .Content -}}
+    {{- else }}{{ .Content }}{{ end }}
+  </div>
+  {{- end }}
+
+  <section
+    class="trend-explorer"
+    data-trend-explorer
+    data-source="{{ .Params.data_source | default "/tools/star-velocity-explorer.json" }}"
+    aria-labelledby="trend-explorer-heading"
+  >
+    <h2 id="trend-explorer-heading">Explore observed star velocity</h2>
+    <div class="trend-explorer__controls">
+      <label>
+        Search repositories
+        <input data-trend-search type="search" placeholder="owner/repo or description">
+      </label>
+      <label>
+        Language
+        <select data-trend-language>
+          <option value="">All languages</option>
+        </select>
+      </label>
+      <label>
+        Topic
+        <select data-trend-topic>
+          <option value="">All topics</option>
+        </select>
+      </label>
+    </div>
+    <p class="trend-explorer__status" data-trend-status>Loading static trend data…</p>
+    <ol class="trend-explorer__results" data-trend-results></ol>
+  </section>
+
+  {{- $script := resources.Get "js/star-velocity-explorer.js" | js.Build | resources.Minify | fingerprint }}
+  <script defer src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}"></script>
+</article>
+{{- end }}

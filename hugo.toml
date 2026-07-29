@@ -83,6 +83,12 @@ rssLimit = 52
     weight = 35
 
   [[menu.main]]
+    identifier = 'tools'
+    name = 'Tools'
+    url = '/tools/star-velocity-explorer/'
+    weight = 37
+
+  [[menu.main]]
     identifier = 'yearly'
     name = 'Yearly'
     url = '/yearly/'

@@ -1,0 +1,62 @@
+.trend-explorer {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.trend-explorer__controls {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+
+.trend-explorer__controls label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.trend-explorer__controls input,
+.trend-explorer__controls select {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 0.65rem 0.75rem;
+}
+
+.trend-explorer__status {
+  color: var(--secondary);
+}
+
+.trend-explorer__results {
+  display: grid;
+  gap: 0.85rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.trend-explorer__result {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.trend-explorer__result p {
+  margin: 0.35rem 0 0;
+  color: var(--secondary);
+}
+
+.trend-explorer__sparkline {
+  align-items: end;
+  display: flex;
+  gap: 0.2rem;
+  height: 3rem;
+  margin-top: 0.75rem;
+}
+
+.trend-explorer__sparkline span {
+  background: var(--color-accent, #0066cc);
+  border-radius: 999px 999px 0 0;
+  display: block;
+  flex: 1;
+  min-width: 0.35rem;
+}
