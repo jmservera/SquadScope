@@ -77,6 +77,12 @@ rssLimit = 52
     weight = 30
 
   [[menu.main]]
+    identifier = 'data'
+    name = 'Data'
+    url = '/data/'
+    weight = 35
+
+  [[menu.main]]
     identifier = 'yearly'
     name = 'Yearly'
     url = '/yearly/'

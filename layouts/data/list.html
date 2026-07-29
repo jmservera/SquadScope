@@ -1,0 +1,28 @@
+{{- define "main" -}}
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1>{{ .Title }}</h1>
+  {{- with .Description }}
+  <div class="post-description">{{ . }}</div>
+  {{- end }}
+</header>
+
+{{- if .Content }}
+<div class="post-content md-content">
+  {{ .Content }}
+</div>
+{{- end }}
+
+<section class="taxonomy-grid" aria-label="Data pages">
+  {{- range .Pages.ByTitle }}
+  <article class="home-report-card taxonomy-card">
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    <p>{{ .Params.summary | default .Summary }}</p>
+    <div class="home-report-meta">
+      <span>As of {{ .Params.as_of }}</span>
+      <span>{{ len .Params.ranking }} entries</span>
+    </div>
+  </article>
+  {{- end }}
+</section>
+{{- end -}}

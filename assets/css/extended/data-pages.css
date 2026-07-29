@@ -1,0 +1,39 @@
+.data-page__provenance {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--code-bg);
+}
+
+.data-page__provenance h2,
+.data-page__ranking h2 {
+  margin-top: 0;
+}
+
+.data-page__provenance dl {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.data-page__provenance dt {
+  font-weight: 700;
+}
+
+.data-page__provenance dd {
+  margin: 0.15rem 0 0;
+}
+
+.data-page__table-wrap {
+  overflow-x: auto;
+}
+
+.data-page__ranking table {
+  min-width: 46rem;
+}
+
+.data-page__repo-meta {
+  color: var(--secondary);
+  font-size: 0.9rem;
+}
