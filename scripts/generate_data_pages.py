@@ -72,9 +72,10 @@ class RepoObservation:
     topics: tuple[str, ...]
 
 
-def parse_datetime(value: str | None) -> datetime:
+def parse_datetime(value: str | None, week: str) -> datetime:
     if not value:
-        return datetime.now(UTC)
+        year, iso_week = week.split("-W", maxsplit=1)
+        return datetime.fromisocalendar(int(year), int(iso_week), 1).replace(tzinfo=UTC)
     return datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(UTC)
 
 
@@ -127,7 +128,8 @@ def discover_week_artifacts() -> list[WeekArtifact]:
     for week, path in sorted(selected.items()):
         payload = json.loads(path.read_text(encoding="utf-8"))
         crawled_at = parse_datetime(
-            payload.get("crawled_at") or payload.get("metadata", {}).get("crawled_at")
+            payload.get("crawled_at") or payload.get("metadata", {}).get("crawled_at"),
+            week,
         )
         artifacts.append(WeekArtifact(week=week, crawled_at=crawled_at, path=path, payload=payload))
     if not artifacts:

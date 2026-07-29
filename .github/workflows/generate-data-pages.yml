@@ -48,8 +48,8 @@ jobs:
           git switch -c "$BRANCH_NAME"
           git add content/data
           git commit -m "data: regenerate observatory pages"
-          auth_header="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
-          git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic ${auth_header}" push origin "HEAD:$BRANCH_NAME"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push origin "HEAD:$BRANCH_NAME"
           gh pr create \
             --base main \
             --head "$BRANCH_NAME" \
