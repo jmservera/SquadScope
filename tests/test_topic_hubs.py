@@ -2,11 +2,12 @@ from __future__ import annotations
 
 import shutil
 import subprocess
+import tomllib
 from pathlib import Path
 
 import pytest
 
-from scripts.manage_topic_hubs import create_dynamic_hubs
+from scripts.manage_topic_hubs import create_dynamic_hubs, load_config, normalized_key
 
 ROOT = Path(__file__).resolve().parent.parent
 WORKSPACE = ROOT / ".test-workspaces" / "topic-hub-lifecycle"
@@ -21,8 +22,15 @@ SEED_HUBS = {
 
 
 def test_seed_topic_hubs_have_unique_metadata_and_dataset_links() -> None:
+    config = load_config(ROOT / "config" / "observatory.toml")
+    assert {normalized_key(title) for title in config.seed_topics} == set(SEED_HUBS)
+
+    raw_config = tomllib.loads((ROOT / "config" / "observatory.toml").read_text(encoding="utf-8"))
+    assert tuple(raw_config["topic_hubs"]["seed_topics"]) == config.seed_topics
+
     descriptions: set[str] = set()
-    for slug, title in SEED_HUBS.items():
+    for title in config.seed_topics:
+        slug = normalized_key(title)
         hub_path = ROOT / "content" / "topics" / slug / "_index.md"
         content = hub_path.read_text(encoding="utf-8")
         assert f'title: "{title}"' in content

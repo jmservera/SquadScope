@@ -28,9 +28,10 @@
     {{- $term := .Name -}}
     {{- $count := .Count -}}
     {{- with site.GetPage (printf "/topics/%s" ($term | urlize)) }}
+    {{- $topicTitle := .LinkTitle | default $term -}}
     <article class="home-report-card taxonomy-card">
-      <h3><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h3>
-      <p>{{ .Params.summary | default .Description | default (printf "Follow %d weekly issue%s about %s." $count (cond (eq $count 1) "" "s") ($term | humanize | lower)) }}</p>
+      <h3><a href="{{ .RelPermalink }}">{{ $topicTitle }}</a></h3>
+      <p>{{ .Params.summary | default .Description | default (printf "Follow %d weekly issue%s about %s." $count (cond (eq $count 1) "" "s") $topicTitle) }}</p>
       <div class="home-report-meta">
         <span>{{ $count }} issue{{ if ne $count 1 }}s{{ end }}</span>
         <span><a href="{{ .RelPermalink }}index.xml">RSS</a></span>

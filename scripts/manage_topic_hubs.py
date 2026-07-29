@@ -36,6 +36,7 @@ SEED_TOPIC_TITLES = {
 @dataclass(frozen=True)
 class HubCreationConfig:
     enabled: bool
+    seed_topics: tuple[str, ...]
     min_weekly_issues: int
     lookback_days: int
     log_path: Path
@@ -62,9 +63,15 @@ def normalized_key(value: str) -> str:
 def load_config(path: Path = DEFAULT_CONFIG) -> HubCreationConfig:
     raw = tomllib.loads(path.read_text(encoding="utf-8"))
     dynamic = raw.get("topic_hubs", {}).get("dynamic_creation", {})
+    seed_topics = raw.get("topic_hubs", {}).get("seed_topics", [])
+    if not isinstance(seed_topics, list) or not all(
+        isinstance(topic, str) and topic for topic in seed_topics
+    ):
+        seed_topics = list(SEED_TOPIC_TITLES)
     config_root = path.parent.parent if path.parent.name == "config" else path.parent
     return HubCreationConfig(
         enabled=bool(dynamic.get("enabled", True)),
+        seed_topics=tuple(seed_topics),
         min_weekly_issues=int(dynamic["min_weekly_issues"]),
         lookback_days=int(dynamic["lookback_days"]),
         log_path=config_root / str(dynamic["log_path"]),
@@ -134,8 +141,8 @@ def collect_weekly_markdown_signals(path: Path) -> tuple[str | None, set[str]]:
     return week, values
 
 
-def existing_hub_keys(content_root: Path) -> set[str]:
-    keys = {normalized_key(title) for title in SEED_TOPIC_TITLES}
+def existing_hub_keys(content_root: Path, seed_topics: tuple[str, ...] = ()) -> set[str]:
+    keys = {normalized_key(title) for title in (seed_topics or tuple(SEED_TOPIC_TITLES))}
     topics_root = content_root / "topics"
     for index_path in topics_root.glob("*/_index.md"):
         keys.add(index_path.parent.name)
@@ -248,7 +255,7 @@ def create_dynamic_hubs(
         return []
 
     candidates = collect_candidates(root, config)
-    existing = existing_hub_keys(root / "content")
+    existing = existing_hub_keys(root / "content", config.seed_topics)
     created: list[Path] = []
     skipped: dict[str, str] = defaultdict(str)
     for key, signal in sorted(candidates.items()):

@@ -67,8 +67,10 @@
         <h2 id="home-rail-heading">Active storylines</h2>
         <div class="home-topic-list">
           {{- range $topTopics -}}
+          {{- $topicPage := site.GetPage (printf "/topics/%s" (.Name | urlize)) -}}
+          {{- $topicTitle := cond $topicPage $topicPage.LinkTitle .Name -}}
           <a class="home-topic-card" href="{{ printf "topics/%s/" (.Name | urlize) | absLangURL }}">
-            <span>{{ .Name | humanize }}</span>
+            <span>{{ $topicTitle }}</span>
             <small>{{ .Count }} issue{{ if ne .Count 1 }}s{{ end }}</small>
           </a>
           {{- end -}}
