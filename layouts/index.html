@@ -72,7 +72,9 @@
           {{- $registryEntry := index $topicRegistry (.Name | urlize) -}}
           {{- $topicTitle := .Name -}}
           {{- with $registryEntry }}{{- $topicTitle = .display_name | default $topicTitle -}}{{- end -}}
-          {{- if and (not $registryEntry) $topicPage }}{{- $topicTitle = $topicPage.LinkTitle -}}{{- end -}}
+          {{- if not $registryEntry -}}
+            {{- with $topicPage }}{{- $topicTitle = .LinkTitle | default $topicTitle -}}{{- end -}}
+          {{- end -}}
           <a class="home-topic-card" href="{{ printf "topics/%s/" (.Name | urlize) | absLangURL }}">
             <span>{{ $topicTitle }}</span>
             <small>{{ .Count }} issue{{ if ne .Count 1 }}s{{ end }}</small>

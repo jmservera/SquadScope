@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import shutil
 import subprocess
+import tomllib
 from pathlib import Path
 
 import pytest
@@ -217,6 +218,65 @@ def test_dynamic_topic_creation_does_not_create_below_threshold() -> None:
     assert not (WORKSPACE / "content" / "topics" / "three-week-trend").exists()
 
 
+def test_dynamic_topic_creation_preserves_parseable_seed_topics_without_trailing_comma() -> None:
+    if WORKSPACE.exists():
+        shutil.rmtree(WORKSPACE)
+    (WORKSPACE / "config").mkdir(parents=True)
+    (WORKSPACE / "content" / "topics").mkdir(parents=True)
+    (WORKSPACE / "data" / "taxonomy").mkdir(parents=True)
+    config_path = WORKSPACE / "config" / "observatory.toml"
+    config_path.write_text(
+        """[topic_hubs]
+seed_topics = [
+  "AI Coding Agents"
+]
+
+[topic_hubs.dynamic_creation]
+enabled = true
+min_weekly_issues = 4
+lookback_days = 62
+log_path = "data/topic-hubs/dynamic-topic-creation.log"
+ignore_topics = []
+""",
+        encoding="utf-8",
+    )
+    (WORKSPACE / "data" / "taxonomy" / "topics.json").write_text(
+        json.dumps(
+            {
+                "terms": {
+                    "edge-ai-workflows": {
+                        "display_name": "Edge AI Workflows",
+                        "slug": "edge-ai-workflows",
+                        "first_seen": "2026-07-01",
+                        "last_used": "2026-07-27",
+                        "count": 4,
+                        "times_used": 4,
+                        "weekly_issue_count": 4,
+                        "is_hub": False,
+                        "promoted": False,
+                    }
+                }
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    created = create_dynamic_hubs(
+        root=WORKSPACE,
+        config_path=config_path,
+        current_date="2026-07-29T12:57:30Z",
+    )
+
+    assert created == [WORKSPACE / "content" / "topics" / "edge-ai-workflows" / "_index.md"]
+    parsed = tomllib.loads(config_path.read_text(encoding="utf-8"))
+    assert parsed["topic_hubs"]["seed_topics"] == ["AI Coding Agents"]
+    registry = json.loads((WORKSPACE / "data" / "taxonomy" / "topics.json").read_text())
+    assert registry["terms"]["edge-ai-workflows"]["promoted"] is True
+
+
 @pytest.mark.skipif(shutil.which("hugo") is None, reason="hugo is not installed")
 def test_hugo_renders_topic_hubs_with_issue_cards_and_rss() -> None:
     destination = ROOT / ".test-workspaces" / "hugo-topic-hubs-public"
@@ -242,3 +302,41 @@ def test_hugo_renders_topic_hubs_with_issue_cards_and_rss() -> None:
     rss_content = rss.read_text(encoding="utf-8")
     assert "AI Coding Agents" in rss_content
     assert "https://claracle.com/topics/ai-coding-agents/" in rss_content
+
+
+@pytest.mark.skipif(shutil.which("hugo") is None, reason="hugo is not installed")
+def test_hugo_home_topic_display_is_safe_without_topic_content_page() -> None:
+    destination = ROOT / ".test-workspaces" / "hugo-unpaged-topic-public"
+    temp_weekly = ROOT / "content" / "weekly" / "2026" / "W99.md"
+    if destination.exists():
+        shutil.rmtree(destination)
+    temp_weekly.write_text(
+        """---
+title: "Temporary Unpaged Topic"
+date: 2026-07-28T00:00:00+00:00
+week: "2026-W99"
+tags: ["temporary"]
+categories: ["weekly"]
+topics: ["Unpaged Topic"]
+repos_featured: 1
+stars_tracked: 1
+top_repo: "example/repo"
+summary: "Temporary taxonomy regression fixture."
+draft: false
+---
+""",
+        encoding="utf-8",
+    )
+    try:
+        subprocess.run(
+            ["hugo", "--minify", "--destination", str(destination)],
+            cwd=ROOT,
+            check=True,
+            text=True,
+            capture_output=True,
+        )
+    finally:
+        temp_weekly.unlink(missing_ok=True)
+
+    home = (destination / "index.html").read_text(encoding="utf-8")
+    assert "Unpaged Topic" in home
