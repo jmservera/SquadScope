@@ -60,10 +60,16 @@
   <div class="taxonomy-grid">
     {{- range . }}
     {{- $repo := . -}}
-    {{- $repoPage := printf "/repo/%s/" (replace (replace (lower $repo) "/" "-") "." "-") -}}
+    {{- $repoSlug := replace (replace (lower $repo) "/" "-") "." "-" -}}
+    {{- $internalRepoPage := site.GetPage (printf "/repo/%s/" $repoSlug) -}}
     <article class="home-report-card taxonomy-card">
-      <h3><a href="{{ $repoPage | relURL }}">{{ $repo }}</a></h3>
-      <p>Internal repo page when available; source remains on <a href="https://github.com/{{ $repo }}" rel="noopener">GitHub</a>.</p>
+      {{- with $internalRepoPage }}
+      <h3><a href="{{ .RelPermalink }}">{{ $repo }}</a></h3>
+      <p>Internal repository history page. Source remains on <a href="https://github.com/{{ $repo }}" rel="noopener">GitHub</a>.</p>
+      {{- else }}
+      <h3>{{ $repo }}</h3>
+      <p>Repository history page pending; source remains on <a href="https://github.com/{{ $repo }}" rel="noopener">GitHub</a>.</p>
+      {{- end }}
     </article>
     {{- end }}
   </div>

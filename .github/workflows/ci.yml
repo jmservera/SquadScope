@@ -49,3 +49,58 @@ jobs:
 
       - name: Validate content images (no hotlinks/secrets)
         run: python scripts/validate_content_images.py
+
+  internal-links:
+    name: Internal links
+    runs-on: ubuntu-latest
+    env:
+      HUGO_VERSION: 0.161.1
+      PAGEFIND_VERSION: 1.5.2
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
+        with:
+          fetch-depth: 0
+          submodules: recursive
+          persist-credentials: false
+
+      - name: Install Hugo
+        run: | # zizmor: ignore[github-env] writes a fixed runner path (${HOME}/.local/hugo) to GITHUB_PATH; needed so later steps can run hugo
+          set -euo pipefail
+          RELEASE_URL="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}"
+          TARBALL="hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          CHECKSUM_FILE="hugo_${HUGO_VERSION}_checksums.txt"
+          curl --fail --silent --show-error --location --retry 10 --retry-delay 5 --retry-max-time 300 --retry-all-errors \
+            --output "${TARBALL}" "${RELEASE_URL}/${TARBALL}"
+          curl --fail --silent --show-error --location --retry 10 --retry-delay 5 --retry-max-time 300 --retry-all-errors \
+            --output "${CHECKSUM_FILE}" "${RELEASE_URL}/${CHECKSUM_FILE}"
+          checksum_line="$(awk -v file="${TARBALL}" '$NF == file {print; found=1} END {if (!found) exit 1}' "${CHECKSUM_FILE}")" || {
+            echo "Error: No checksum entry for ${TARBALL} found in ${CHECKSUM_FILE}" >&2
+            exit 1
+          }
+          if ! printf '%s\n' "${checksum_line}" | sha256sum --check; then
+            echo "Error: Checksum verification failed for ${TARBALL}" >&2
+            exit 1
+          fi
+          rm "${CHECKSUM_FILE}"
+          mkdir -p "${HOME}/.local/hugo"
+          tar -C "${HOME}/.local/hugo" -xf "${TARBALL}"
+          rm "${TARBALL}"
+          echo "${HOME}/.local/hugo" >> "${GITHUB_PATH}"
+          export PATH="${HOME}/.local/hugo:${PATH}"
+          hugo version
+
+      - name: Set up Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: '24'
+
+      - name: Build site
+        run: hugo --minify
+
+      - name: Build Pagefind index
+        run: npx "pagefind@${PAGEFIND_VERSION}" --site public/
+
+      - name: Check internal links
+        run: python scripts/check_internal_links.py public --base-url "https://claracle.com/"
