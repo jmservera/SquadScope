@@ -1,0 +1,430 @@
+{
+  "dataset": "open-source-ai-github-projects-2026",
+  "exported_repo_observations": 1545,
+  "fields": [
+    "rank_by_latest_stars",
+    "repository",
+    "url",
+    "primary_language",
+    "latest_license",
+    "first_seen_week",
+    "last_seen_week",
+    "weeks_observed",
+    "latest_stars",
+    "first_observed_stars",
+    "observed_star_change",
+    "max_forks_observed",
+    "seen_in_trending",
+    "seen_in_new",
+    "top_topics"
+  ],
+  "generated_at": "2026-07-29T13:26:39Z",
+  "license": "MIT",
+  "public_exposure_review": "PASS: exported fields are repository names, GitHub URLs, public language/license/topic metadata, public star/fork counts, and derived weekly aggregates from public GitHub crawl records. No tokens, private repo data, cache payloads, user account data, or unpublished crawl calls are included.",
+  "recurring_repository_count_min_4_weeks": 104,
+  "repositories_seen_in_new": 546,
+  "repositories_seen_in_trending": 119,
+  "row_count": 663,
+  "selection_rule": "Repository records are included when public name, description, or topics contain AI-adjacent terms such as AI, LLM, agent, MCP, RAG, machine learning, or model context protocol.",
+  "source": "Read-only export from checked-in Claracle weekly GitHub crawl artifacts.",
+  "source_files": [
+    "data/raw/2026-W21.json",
+    "data/raw/2026-W22.json",
+    "data/archive/recovered-W23-W29/2026-W23/2026-W23.json",
+    "data/archive/recovered-W23-W29/2026-W24/2026-W24.json",
+    "data/archive/recovered-W23-W29/2026-W25/2026-W25.json",
+    "data/archive/recovered-W23-W29/2026-W26/2026-W26.json",
+    "data/archive/recovered-W23-W29/2026-W27/2026-W27.json",
+    "data/archive/recovered-W23-W29/2026-W28/2026-W28.json",
+    "data/raw/2026-W29.json",
+    "data/raw/2026-W30.json",
+    "data/raw/2026-W31.json"
+  ],
+  "top_languages_by_repository_count": [
+    [
+      "Python",
+      218
+    ],
+    [
+      "TypeScript",
+      141
+    ],
+    [
+      "JavaScript",
+      65
+    ],
+    [
+      "Rust",
+      30
+    ],
+    [
+      "Shell",
+      21
+    ],
+    [
+      "HTML",
+      20
+    ],
+    [
+      "C#",
+      15
+    ],
+    [
+      "Go",
+      14
+    ],
+    [
+      "C++",
+      10
+    ],
+    [
+      "Swift",
+      10
+    ],
+    [
+      "Jupyter Notebook",
+      6
+    ],
+    [
+      "C",
+      4
+    ]
+  ],
+  "top_licenses_by_repository_count": [
+    [
+      "MIT",
+      358
+    ],
+    [
+      "Apache-2.0",
+      79
+    ],
+    [
+      "NOASSERTION",
+      65
+    ],
+    [
+      "AGPL-3.0",
+      28
+    ],
+    [
+      "GPL-3.0",
+      16
+    ],
+    [
+      "BSD-3-Clause",
+      3
+    ],
+    [
+      "CC0-1.0",
+      2
+    ],
+    [
+      "CC-BY-4.0",
+      1
+    ],
+    [
+      "CC-BY-SA-4.0",
+      1
+    ],
+    [
+      "MPL-2.0",
+      1
+    ],
+    [
+      "Unlicense",
+      1
+    ],
+    [
+      "LGPL-3.0",
+      1
+    ]
+  ],
+  "top_repositories_by_latest_stars": [
+    {
+      "latest_stars": 384251,
+      "observed_star_change": 11432,
+      "repository": "openclaw/openclaw",
+      "url": "https://github.com/openclaw/openclaw",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 261658,
+      "observed_star_change": 26407,
+      "repository": "obra/superpowers",
+      "url": "https://github.com/obra/superpowers",
+      "weeks_observed": 6
+    },
+    {
+      "latest_stars": 233714,
+      "observed_star_change": 42230,
+      "repository": "affaan-m/ECC",
+      "url": "https://github.com/affaan-m/ECC",
+      "weeks_observed": 10
+    },
+    {
+      "latest_stars": 221006,
+      "observed_star_change": 65501,
+      "repository": "NousResearch/hermes-agent",
+      "url": "https://github.com/NousResearch/hermes-agent",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 198137,
+      "observed_star_change": 9664,
+      "repository": "n8n-io/n8n",
+      "url": "https://github.com/n8n-io/n8n",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 196557,
+      "observed_star_change": 1415,
+      "repository": "tensorflow/tensorflow",
+      "url": "https://github.com/tensorflow/tensorflow",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 189992,
+      "observed_star_change": 28073,
+      "repository": "anomalyco/opencode",
+      "url": "https://github.com/anomalyco/opencode",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 189901,
+      "observed_star_change": 99614,
+      "repository": "mattpocock/skills",
+      "url": "https://github.com/mattpocock/skills",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 186048,
+      "observed_star_change": 0,
+      "repository": "affaan-m/everything-claude-code",
+      "url": "https://github.com/affaan-m/everything-claude-code",
+      "weeks_observed": 1
+    },
+    {
+      "latest_stars": 185703,
+      "observed_star_change": 1314,
+      "repository": "Significant-Gravitas/AutoGPT",
+      "url": "https://github.com/Significant-Gravitas/AutoGPT",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 176953,
+      "observed_star_change": 5284,
+      "repository": "ollama/ollama",
+      "url": "https://github.com/ollama/ollama",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 169250,
+      "observed_star_change": 44207,
+      "repository": "microsoft/markitdown",
+      "url": "https://github.com/microsoft/markitdown",
+      "weeks_observed": 6
+    },
+    {
+      "latest_stars": 166403,
+      "observed_star_change": 3959,
+      "repository": "f/prompts.chat",
+      "url": "https://github.com/f/prompts.chat",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 164377,
+      "observed_star_change": 27749,
+      "repository": "anthropics/skills",
+      "url": "https://github.com/anthropics/skills",
+      "weeks_observed": 9
+    },
+    {
+      "latest_stars": 163015,
+      "observed_star_change": 2303,
+      "repository": "huggingface/transformers",
+      "url": "https://github.com/huggingface/transformers",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 157321,
+      "observed_star_change": 1458,
+      "repository": "Snailclimb/JavaGuide",
+      "url": "https://github.com/Snailclimb/JavaGuide",
+      "weeks_observed": 8
+    },
+    {
+      "latest_stars": 156529,
+      "observed_star_change": 35346,
+      "repository": "firecrawl/firecrawl",
+      "url": "https://github.com/firecrawl/firecrawl",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 152450,
+      "observed_star_change": 4029,
+      "repository": "langflow-ai/langflow",
+      "url": "https://github.com/langflow-ai/langflow",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 150345,
+      "observed_star_change": 8598,
+      "repository": "langgenius/dify",
+      "url": "https://github.com/langgenius/dify",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 146851,
+      "observed_star_change": 9290,
+      "repository": "open-webui/open-webui",
+      "url": "https://github.com/open-webui/open-webui",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 142638,
+      "observed_star_change": 5642,
+      "repository": "langchain-ai/langchain",
+      "url": "https://github.com/langchain-ai/langchain",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 142025,
+      "observed_star_change": 3808,
+      "repository": "x1xhlol/system-prompts-and-models-of-ai-tools",
+      "url": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+      "weeks_observed": 4
+    },
+    {
+      "latest_stars": 139221,
+      "observed_star_change": 14703,
+      "repository": "anthropics/claude-code",
+      "url": "https://github.com/anthropics/claude-code",
+      "weeks_observed": 11
+    },
+    {
+      "latest_stars": 136923,
+      "observed_star_change": 28618,
+      "repository": "msitarzewski/agency-agents",
+      "url": "https://github.com/msitarzewski/agency-agents",
+      "weeks_observed": 8
+    },
+    {
+      "latest_stars": 127928,
+      "observed_star_change": 16234,
+      "repository": "Shubhamsaboo/awesome-llm-apps",
+      "url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
+      "weeks_observed": 7
+    }
+  ],
+  "top_topics_by_repository_mentions": [
+    [
+      "ai",
+      448
+    ],
+    [
+      "ai-agents",
+      225
+    ],
+    [
+      "claude-code",
+      149
+    ],
+    [
+      "chatgpt",
+      112
+    ],
+    [
+      "agent",
+      109
+    ],
+    [
+      "anthropic",
+      99
+    ],
+    [
+      "claude",
+      97
+    ],
+    [
+      "llm",
+      89
+    ],
+    [
+      "deep-learning",
+      82
+    ],
+    [
+      "machine-learning",
+      82
+    ],
+    [
+      "agents",
+      80
+    ],
+    [
+      "deepseek",
+      77
+    ],
+    [
+      "codex",
+      74
+    ],
+    [
+      "agentic-ai",
+      72
+    ],
+    [
+      "cli",
+      61
+    ],
+    [
+      "artificial-intelligence",
+      60
+    ],
+    [
+      "agent-skills",
+      58
+    ],
+    [
+      "ai-agent",
+      54
+    ],
+    [
+      "python",
+      54
+    ],
+    [
+      "automation",
+      51
+    ]
+  ],
+  "total_source_repo_observations_screened": 4602,
+  "version": "2026-W31",
+  "weekly_observation_counts": {
+    "2026-W21": 124,
+    "2026-W22": 137,
+    "2026-W23": 142,
+    "2026-W24": 135,
+    "2026-W25": 155,
+    "2026-W26": 142,
+    "2026-W27": 104,
+    "2026-W28": 149,
+    "2026-W29": 157,
+    "2026-W30": 161,
+    "2026-W31": 139
+  },
+  "weeks": [
+    "2026-W21",
+    "2026-W22",
+    "2026-W23",
+    "2026-W24",
+    "2026-W25",
+    "2026-W26",
+    "2026-W27",
+    "2026-W28",
+    "2026-W29",
+    "2026-W30",
+    "2026-W31"
+  ]
+}
