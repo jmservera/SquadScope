@@ -1,0 +1,12 @@
+{{- define "main" -}}
+{{- $source := site.GetPage (.Params.source_page | default "") -}}
+{{- if not $source -}}
+  {{- errorf "embed page %s is missing a valid source_page" .File.Path -}}
+{{- end -}}
+{{- partial "visuals/observatory-chart.html" (dict
+  "page" $source
+  "title" (.Params.chart_title | default .Title)
+  "limit" (.Params.chart_limit | default 10)
+  "standalone" true
+) -}}
+{{- end -}}

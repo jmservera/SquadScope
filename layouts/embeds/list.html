@@ -1,0 +1,12 @@
+{{- define "main" -}}
+<section class="observatory-chart observatory-chart--embed" aria-labelledby="embed-index-title">
+  <p class="observatory-chart__eyebrow">Claracle Data Observatory</p>
+  <h1 id="embed-index-title" class="observatory-chart__title">{{ .Title }}</h1>
+  <p class="observatory-chart__dek">{{ .Description | default .Params.summary }}</p>
+  <ul>
+    {{- range .Pages.ByTitle }}
+    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    {{- end }}
+  </ul>
+</section>
+{{- end -}}

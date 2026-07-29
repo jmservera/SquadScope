@@ -1,1 +1,5 @@
-{{- /* Project footer extension hook intentionally left blank. */ -}}
+{{- if .Store.Get "hasObservatoryChart" -}}
+  {{- with resources.Get "js/observatory-charts.js" | js.Build | resources.Minify }}
+<script src="{{ .RelPermalink }}" defer></script>
+  {{- end }}
+{{- end -}}
