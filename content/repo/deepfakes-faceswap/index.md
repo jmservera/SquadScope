@@ -2,7 +2,7 @@
 title: deepfakes/faceswap repository trend history
 description: 'Evergreen Claracle Observatory page for deepfakes/faceswap: 4 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-06'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/deepfakes/faceswap
 repo_slug: deepfakes-faceswap
 repo_description: Deepfakes Software For All
 repo_language: Python
-topics:
+tags:
 - deep-face-swap
 - deep-learning
 - deep-neural-networks
@@ -61,45 +61,32 @@ weekly_appearances:
   url: /weekly/2026/w27/
 - week: 2026-W28
   url: /weekly/2026/w28/
-topic_links:
+tag_links:
 - name: deep-face-swap
-  url: /topics/deep-face-swap/
+  url: /tags/deep-face-swap/
 - name: deep-learning
-  url: /topics/deep-learning/
+  url: /tags/deep-learning/
 - name: deep-neural-networks
-  url: /topics/deep-neural-networks/
+  url: /tags/deep-neural-networks/
 - name: deepface
-  url: /topics/deepface/
+  url: /tags/deepface/
 - name: deepfakes
-  url: /topics/deepfakes/
+  url: /tags/deepfakes/
 - name: deeplearning
-  url: /topics/deeplearning/
+  url: /tags/deeplearning/
 - name: face-swap
-  url: /topics/face-swap/
+  url: /tags/face-swap/
 - name: faceswap
-  url: /topics/faceswap/
+  url: /tags/faceswap/
 - name: fakeapp
-  url: /topics/fakeapp/
+  url: /tags/fakeapp/
 - name: machine-learning
-  url: /topics/machine-learning/
+  url: /tags/machine-learning/
 - name: myfakeapp
-  url: /topics/myfakeapp/
+  url: /tags/myfakeapp/
 - name: neural-nets
-  url: /topics/neural-nets/
+  url: /tags/neural-nets/
 related_repos:
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
-  score: 7
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W27
-  - 2026-W28
-  shared_topics:
-  - deep-learning
-  - deep-neural-networks
-  - machine-learning
 - full_name: keras-team/keras
   slug: keras-team-keras
   url: https://github.com/keras-team/keras
@@ -113,6 +100,19 @@ related_repos:
   - deep-learning
   - machine-learning
   - neural-networks
+- full_name: tensorflow/tensorflow
+  slug: tensorflow-tensorflow
+  url: https://github.com/tensorflow/tensorflow
+  score: 7
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - deep-learning
+  - deep-neural-networks
+  - machine-learning
 - full_name: huggingface/transformers
   slug: huggingface-transformers
   url: https://github.com/huggingface/transformers
@@ -160,9 +160,9 @@ related_repos:
   - 2026-W28
   shared_topics:
   - machine-learning
-- full_name: opencv/opencv
-  slug: opencv-opencv
-  url: https://github.com/opencv/opencv
+- full_name: microsoft/ML-For-Beginners
+  slug: microsoft-ml-for-beginners
+  url: https://github.com/microsoft/ML-For-Beginners
   score: 5
   shared_weeks:
   - 2026-W22
@@ -170,7 +170,7 @@ related_repos:
   - 2026-W27
   - 2026-W28
   shared_topics:
-  - deep-learning
+  - machine-learning
 - full_name: netdata/netdata
   slug: netdata-netdata
   url: https://github.com/netdata/netdata

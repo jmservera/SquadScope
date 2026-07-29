@@ -2,7 +2,7 @@
 title: go-gitea/gitea repository trend history
 description: 'Evergreen Claracle Observatory page for go-gitea/gitea: 8 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-20'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: go-gitea-gitea
 repo_description: Git with a cup of tea! Painless self-hosted all-in-one software development service, including Git hosting,
   code review, team collaboration, package registry and CI/CD
 repo_language: Go
-topics:
+tags:
 - bitbucket
 - cicd
 - devops
@@ -86,31 +86,31 @@ weekly_appearances:
   url: /weekly/2026/w28/
 - week: 2026-W30
   url: /weekly/2026/w30/
-topic_links:
+tag_links:
 - name: bitbucket
-  url: /topics/bitbucket/
+  url: /tags/bitbucket/
 - name: cicd
-  url: /topics/cicd/
+  url: /tags/cicd/
 - name: devops
-  url: /topics/devops/
+  url: /tags/devops/
 - name: docker-registry-v2
-  url: /topics/docker-registry-v2/
+  url: /tags/docker-registry-v2/
 - name: git
-  url: /topics/git/
+  url: /tags/git/
 - name: git-gui
-  url: /topics/git-gui/
+  url: /tags/git-gui/
 - name: git-lfs
-  url: /topics/git-lfs/
+  url: /tags/git-lfs/
 - name: git-server
-  url: /topics/git-server/
+  url: /tags/git-server/
 - name: gitea
-  url: /topics/gitea/
+  url: /tags/gitea/
 - name: github
-  url: /topics/github/
+  url: /tags/github/
 - name: github-actions
-  url: /topics/github-actions/
+  url: /tags/github-actions/
 - name: gitlab
-  url: /topics/gitlab/
+  url: /tags/gitlab/
 related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
@@ -127,34 +127,6 @@ related_repos:
   - go
   - golang
   - hacktoberfest
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 10
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - self-hosted
-  - typescript
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
-  score: 10
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - go
-  - golang
 - full_name: golang/go
   slug: golang-go
   url: https://github.com/golang/go
@@ -169,34 +141,6 @@ related_repos:
   shared_topics:
   - go
   - golang
-- full_name: immich-app/immich
-  slug: immich-app-immich
-  url: https://github.com/immich-app/immich
-  score: 10
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - self-hosted
-  - typescript
-- full_name: Stirling-Tools/Stirling-PDF
-  slug: stirling-tools-stirling-pdf
-  url: https://github.com/Stirling-Tools/Stirling-PDF
-  score: 10
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - hacktoberfest
-  - self-hosted
 - full_name: grafana/grafana
   slug: grafana-grafana
   url: https://github.com/grafana/grafana
@@ -211,9 +155,51 @@ related_repos:
   shared_topics:
   - go
   - hacktoberfest
-- full_name: strapi/strapi
-  slug: strapi-strapi
-  url: https://github.com/strapi/strapi
+- full_name: immich-app/immich
+  slug: immich-app-immich
+  url: https://github.com/immich-app/immich
+  score: 10
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - self-hosted
+  - typescript
+- full_name: moby/moby
+  slug: moby-moby
+  url: https://github.com/moby/moby
+  score: 10
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - go
+  - golang
+- full_name: n8n-io/n8n
+  slug: n8n-io-n8n
+  url: https://github.com/n8n-io/n8n
+  score: 10
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - self-hosted
+  - typescript
+- full_name: nestjs/nest
+  slug: nestjs-nest
+  url: https://github.com/nestjs/nest
   score: 10
   shared_weeks:
   - 2026-W22
@@ -225,6 +211,20 @@ related_repos:
   shared_topics:
   - hacktoberfest
   - typescript
+- full_name: nuxt/nuxt
+  slug: nuxt-nuxt
+  url: https://github.com/nuxt/nuxt
+  score: 10
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - hacktoberfest
+  - vue
 lifecycle:
   status: active
   as_of_week: 2026-W30

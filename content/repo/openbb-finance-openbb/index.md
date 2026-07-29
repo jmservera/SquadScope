@@ -2,7 +2,7 @@
 title: OpenBB-finance/OpenBB repository trend history
 description: 'Evergreen Claracle Observatory page for OpenBB-finance/OpenBB: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/OpenBB-finance/OpenBB
 repo_slug: openbb-finance-openbb
 repo_description: Open Data Platform for analysts, quants and AI agents.
 repo_language: Python
-topics:
+tags:
 - ai
 - crypto
 - derivatives
@@ -103,105 +103,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: crypto
-  url: /topics/crypto/
+  url: /tags/crypto/
 - name: derivatives
-  url: /topics/derivatives/
+  url: /tags/derivatives/
 - name: economics
-  url: /topics/economics/
+  url: /tags/economics/
 - name: equity
-  url: /topics/equity/
+  url: /tags/equity/
 - name: finance
-  url: /topics/finance/
+  url: /tags/finance/
 - name: fixed-income
-  url: /topics/fixed-income/
+  url: /tags/fixed-income/
 - name: machine-learning
-  url: /topics/machine-learning/
+  url: /tags/machine-learning/
 - name: openbb
-  url: /topics/openbb/
+  url: /tags/openbb/
 - name: options
-  url: /topics/options/
+  url: /tags/options/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: quantitative-finance
-  url: /topics/quantitative-finance/
+  url: /tags/quantitative-finance/
 related_repos:
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - machine-learning
-  - python
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - python
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - machine-learning
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - machine-learning
-  - python
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - python
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 13
   shared_weeks:
   - 2026-W21
@@ -227,9 +157,37 @@ related_repos:
   shared_topics:
   - ai
   - python
-- full_name: pytorch/pytorch
-  slug: pytorch-pytorch
-  url: https://github.com/pytorch/pytorch
+- full_name: f/prompts.chat
+  slug: f-prompts-chat
+  url: https://github.com/f/prompts.chat
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - machine-learning
+- full_name: harry0703/MoneyPrinterTurbo
+  slug: harry0703-moneyprinterturbo
+  url: https://github.com/harry0703/MoneyPrinterTurbo
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - python
+- full_name: huggingface/transformers
+  slug: huggingface-transformers
+  url: https://github.com/huggingface/transformers
   score: 13
   shared_weeks:
   - 2026-W21
@@ -240,6 +198,48 @@ related_repos:
   - 2026-W26
   shared_topics:
   - machine-learning
+  - python
+- full_name: keras-team/keras
+  slug: keras-team-keras
+  url: https://github.com/keras-team/keras
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - machine-learning
+  - python
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - python
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
   - python
 lifecycle:
   status: active

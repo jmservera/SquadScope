@@ -2,7 +2,7 @@
 title: toeverything/AFFiNE repository trend history
 description: 'Evergreen Claracle Observatory page for toeverything/AFFiNE: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: toeverything-affine
 repo_description: 'There can be more than Notion and Miro. AFFiNE(pronounced [ə‘fain]) is a next-gen knowledge base that brings
   planning, sorting and creating all together. Privacy first, open-source, customizable and ready to use. '
 repo_language: TypeScript
-topics:
+tags:
 - app
 - crdt
 - editor
@@ -104,46 +104,32 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: app
-  url: /topics/app/
+  url: /tags/app/
 - name: crdt
-  url: /topics/crdt/
+  url: /tags/crdt/
 - name: editor
-  url: /topics/editor/
+  url: /tags/editor/
 - name: electron
-  url: /topics/electron/
+  url: /tags/electron/
 - name: knowledge-base
-  url: /topics/knowledge-base/
+  url: /tags/knowledge-base/
 - name: markdown
-  url: /topics/markdown/
+  url: /tags/markdown/
 - name: miro
-  url: /topics/miro/
+  url: /tags/miro/
 - name: notes
-  url: /topics/notes/
+  url: /tags/notes/
 - name: notion
-  url: /topics/notion/
+  url: /tags/notion/
 - name: notion-alternative
-  url: /topics/notion-alternative/
+  url: /tags/notion-alternative/
 - name: rust
-  url: /topics/rust/
+  url: /tags/rust/
 - name: rust-lang
-  url: /topics/rust-lang/
+  url: /tags/rust-lang/
 related_repos:
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - rust
-  - rust-lang
 - full_name: oven-sh/bun
   slug: oven-sh-bun
   url: https://github.com/oven-sh/bun
@@ -158,36 +144,10 @@ related_repos:
   shared_topics:
   - rust
   - rust-lang
-- full_name: electron/electron
-  slug: electron-electron
-  url: https://github.com/electron/electron
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - electron
-- full_name: firecrawl/firecrawl
-  slug: firecrawl-firecrawl
-  url: https://github.com/firecrawl/firecrawl
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - markdown
-- full_name: rust-lang/rust
-  slug: rust-lang-rust
-  url: https://github.com/rust-lang/rust
-  score: 12
+- full_name: rustdesk/rustdesk
+  slug: rustdesk-rustdesk
+  url: https://github.com/rustdesk/rustdesk
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -197,19 +157,7 @@ related_repos:
   - 2026-W26
   shared_topics:
   - rust
-- full_name: tauri-apps/tauri
-  slug: tauri-apps-tauri
-  url: https://github.com/tauri-apps/tauri
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - rust
+  - rust-lang
 - full_name: denoland/deno
   slug: denoland-deno
   url: https://github.com/denoland/deno
@@ -223,6 +171,58 @@ related_repos:
   - 2026-W26
   shared_topics:
   - rust
+- full_name: docling-project/docling
+  slug: docling-project-docling
+  url: https://github.com/docling-project/docling
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - markdown
+- full_name: electron/electron
+  slug: electron-electron
+  url: https://github.com/electron/electron
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - electron
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - rust
+- full_name: firecrawl/firecrawl
+  slug: firecrawl-firecrawl
+  url: https://github.com/firecrawl/firecrawl
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - markdown
 - full_name: jaywcjlove/awesome-mac
   slug: jaywcjlove-awesome-mac
   url: https://github.com/jaywcjlove/awesome-mac

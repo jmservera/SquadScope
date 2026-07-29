@@ -2,7 +2,7 @@
 title: strapi/strapi repository trend history
 description: 'Evergreen Claracle Observatory page for strapi/strapi: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: strapi-strapi
 repo_description: 🚀 Strapi is the leading open-source headless CMS. It’s 100% JavaScript/TypeScript, fully customizable, and
   developer-first.
 repo_language: TypeScript
-topics:
+tags:
 - api
 - cms
 - cms-framework
@@ -104,31 +104,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: api
-  url: /topics/api/
+  url: /tags/api/
 - name: cms
-  url: /topics/cms/
+  url: /tags/cms/
 - name: cms-framework
-  url: /topics/cms-framework/
+  url: /tags/cms-framework/
 - name: content-management
-  url: /topics/content-management/
+  url: /tags/content-management/
 - name: content-management-system
-  url: /topics/content-management-system/
+  url: /tags/content-management-system/
 - name: customizable
-  url: /topics/customizable/
+  url: /tags/customizable/
 - name: dashboard
-  url: /topics/dashboard/
+  url: /tags/dashboard/
 - name: graphql
-  url: /topics/graphql/
+  url: /tags/graphql/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: headless-cms
-  url: /topics/headless-cms/
+  url: /tags/headless-cms/
 - name: jamstack
-  url: /topics/jamstack/
+  url: /tags/jamstack/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 related_repos:
 - full_name: axios/axios
   slug: axios-axios
@@ -145,6 +145,36 @@ related_repos:
   - hacktoberfest
   - javascript
   - nodejs
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - dashboard
+  - hacktoberfest
+  - mysql
+- full_name: hoppscotch/hoppscotch
+  slug: hoppscotch-hoppscotch
+  url: https://github.com/hoppscotch/hoppscotch
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - api
+  - graphql
+  - rest
 - full_name: immich-app/immich
   slug: immich-app-immich
   url: https://github.com/immich-app/immich
@@ -157,6 +187,22 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
+  - javascript
+  - nodejs
+  - typescript
+- full_name: nestjs/nest
+  slug: nestjs-nest
+  url: https://github.com/nestjs/nest
+  score: 14
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - hacktoberfest
   - javascript
   - nodejs
   - typescript
@@ -175,10 +221,10 @@ related_repos:
   - javascript
   - nodejs
   - typescript
-- full_name: hoppscotch/hoppscotch
-  slug: hoppscotch-hoppscotch
-  url: https://github.com/hoppscotch/hoppscotch
-  score: 14
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -187,43 +233,11 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - api
-  - graphql
-  - rest
-- full_name: grafana/grafana
-  slug: grafana-grafana
-  url: https://github.com/grafana/grafana
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - dashboard
-  - hacktoberfest
-  - mysql
-- full_name: nestjs/nest
-  slug: nestjs-nest
-  url: https://github.com/nestjs/nest
-  score: 14
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - hacktoberfest
   - javascript
-  - nodejs
   - typescript
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 13
   shared_weeks:
   - 2026-W21
@@ -233,21 +247,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - javascript
   - nodejs
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - no-code
   - typescript
 lifecycle:
   status: active

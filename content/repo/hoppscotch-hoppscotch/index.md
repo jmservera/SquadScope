@@ -2,7 +2,7 @@
 title: hoppscotch/hoppscotch repository trend history
 description: 'Evergreen Claracle Observatory page for hoppscotch/hoppscotch: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: hoppscotch-hoppscotch
 repo_description: Open-Source API Development Ecosystem • https://hoppscotch.io • Offline, On-Prem & Cloud • Web, Desktop
   & CLI • Open-Source Alternative to Postman, Insomnia
 repo_language: TypeScript
-topics:
+tags:
 - api
 - api-client
 - api-rest
@@ -104,31 +104,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: api
-  url: /topics/api/
+  url: /tags/api/
 - name: api-client
-  url: /topics/api-client/
+  url: /tags/api-client/
 - name: api-rest
-  url: /topics/api-rest/
+  url: /tags/api-rest/
 - name: api-testing
-  url: /topics/api-testing/
+  url: /tags/api-testing/
 - name: developer-tools
-  url: /topics/developer-tools/
+  url: /tags/developer-tools/
 - name: graphql
-  url: /topics/graphql/
+  url: /tags/graphql/
 - name: http
-  url: /topics/http/
+  url: /tags/http/
 - name: http-client
-  url: /topics/http-client/
+  url: /tags/http-client/
 - name: pwa
-  url: /topics/pwa/
+  url: /tags/pwa/
 - name: rest
-  url: /topics/rest/
+  url: /tags/rest/
 - name: rest-api
-  url: /topics/rest-api/
+  url: /tags/rest-api/
 - name: spa
-  url: /topics/spa/
+  url: /tags/spa/
 related_repos:
 - full_name: strapi/strapi
   slug: strapi-strapi
@@ -159,20 +159,6 @@ related_repos:
   shared_topics:
   - api
   - rest
-- full_name: puppeteer/puppeteer
-  slug: puppeteer-puppeteer
-  url: https://github.com/puppeteer/puppeteer
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - developer-tools
-  - testing
 - full_name: ocornut/imgui
   slug: ocornut-imgui
   url: https://github.com/ocornut/imgui
@@ -187,10 +173,10 @@ related_repos:
   shared_topics:
   - api
   - tools
-- full_name: axios/axios
-  slug: axios-axios
-  url: https://github.com/axios/axios
-  score: 12
+- full_name: puppeteer/puppeteer
+  slug: puppeteer-puppeteer
+  url: https://github.com/puppeteer/puppeteer
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -199,7 +185,8 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - http-client
+  - developer-tools
+  - testing
 - full_name: angular/angular
   slug: angular-angular
   url: https://github.com/angular/angular
@@ -213,9 +200,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - pwa
-- full_name: neovim/neovim
-  slug: neovim-neovim
-  url: https://github.com/neovim/neovim
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
   score: 12
   shared_weeks:
   - 2026-W21
@@ -225,7 +212,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - api
+  - http-client
 - full_name: louislam/uptime-kuma
   slug: louislam-uptime-kuma
   url: https://github.com/louislam/uptime-kuma
@@ -239,6 +226,19 @@ related_repos:
   - 2026-W26
   shared_topics:
   - websocket
+- full_name: meilisearch/meilisearch
+  slug: meilisearch-meilisearch
+  url: https://github.com/meilisearch/meilisearch
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - api
 lifecycle:
   status: active
   as_of_week: 2026-W31

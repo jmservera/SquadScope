@@ -2,7 +2,7 @@
 title: mui/material-ui repository trend history
 description: 'Evergreen Claracle Observatory page for mui/material-ui: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/mui/material-ui
 repo_slug: mui-material-ui
 repo_description: 'Material UI: Comprehensive React component library that implements Google''s Material Design. Free forever.'
 repo_language: JavaScript
-topics:
+tags:
 - design-system
 - material-design
 - material-ui
@@ -96,86 +96,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: design-system
-  url: /topics/design-system/
+  url: /tags/design-system/
 - name: material-design
-  url: /topics/material-design/
+  url: /tags/material-design/
 - name: material-ui
-  url: /topics/material-ui/
+  url: /tags/material-ui/
 - name: react
-  url: /topics/react/
+  url: /tags/react/
 - name: react-components
-  url: /topics/react-components/
+  url: /tags/react-components/
 related_repos:
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - react
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - material-design
-- full_name: vercel/next.js
-  slug: vercel-next-js
-  url: https://github.com/vercel/next.js
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - react
-- full_name: shadcn-ui/ui
-  slug: shadcn-ui-ui
-  url: https://github.com/shadcn-ui/ui
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - react
 - full_name: ant-design/ant-design
   slug: ant-design-ant-design
   url: https://github.com/ant-design/ant-design
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - react
-- full_name: oven-sh/bun
-  slug: oven-sh-bun
-  url: https://github.com/oven-sh/bun
   score: 12
   shared_weeks:
   - 2026-W21
@@ -202,6 +137,71 @@ related_repos:
 - full_name: facebook/docusaurus
   slug: facebook-docusaurus
   url: https://github.com/facebook/docusaurus
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - react
+- full_name: flutter/flutter
+  slug: flutter-flutter
+  url: https://github.com/flutter/flutter
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - material-design
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - react
+- full_name: oven-sh/bun
+  slug: oven-sh-bun
+  url: https://github.com/oven-sh/bun
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - react
+- full_name: ruvnet/RuView
+  slug: ruvnet-ruview
+  url: https://github.com/ruvnet/RuView
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - react
+- full_name: shadcn-ui/ui
+  slug: shadcn-ui-ui
+  url: https://github.com/shadcn-ui/ui
   score: 12
   shared_weeks:
   - 2026-W21

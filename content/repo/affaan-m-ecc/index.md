@@ -2,7 +2,7 @@
 title: affaan-m/ECC repository trend history
 description: 'Evergreen Claracle Observatory page for affaan-m/ECC: 10 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: affaan-m-ecc
 repo_description: The agent harness performance optimization system. Skills, instincts, memory, security, and research-first
   development for Claude Code, Codex, Opencode, Cursor and beyond.
 repo_language: JavaScript
-topics:
+tags:
 - ai-agents
 - anthropic
 - claude
@@ -94,24 +94,40 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: anthropic
-  url: /topics/anthropic/
+  url: /tags/anthropic/
 - name: claude
-  url: /topics/claude/
+  url: /tags/claude/
 - name: claude-code
-  url: /topics/claude-code/
+  url: /tags/claude-code/
 - name: developer-tools
-  url: /topics/developer-tools/
+  url: /tags/developer-tools/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: mcp
-  url: /topics/mcp/
+  url: /tags/mcp/
 - name: productivity
-  url: /topics/productivity/
+  url: /tags/productivity/
 related_repos:
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
+  score: 14
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - ai-agents
+  - anthropic
+  - claude
+  - claude-code
 - full_name: NousResearch/hermes-agent
   slug: nousresearch-hermes-agent
   url: https://github.com/NousResearch/hermes-agent
@@ -129,38 +145,6 @@ related_repos:
   - claude
   - claude-code
   - llm
-- full_name: thedotmack/claude-mem
-  slug: thedotmack-claude-mem
-  url: https://github.com/thedotmack/claude-mem
-  score: 14
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - ai-agents
-  - anthropic
-  - claude
-  - claude-code
-- full_name: code-yeongyu/oh-my-openagent
-  slug: code-yeongyu-oh-my-openagent
-  url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 14
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - ai-agents
-  - anthropic
-  - claude
-  - claude-code
 - full_name: rtk-ai/rtk
   slug: rtk-ai-rtk
   url: https://github.com/rtk-ai/rtk
@@ -178,10 +162,10 @@ related_repos:
   - developer-tools
   - llm
   - productivity
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 13
+- full_name: thedotmack/claude-mem
+  slug: thedotmack-claude-mem
+  url: https://github.com/thedotmack/claude-mem
+  score: 14
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -190,9 +174,10 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics:
+  - ai-agents
+  - anthropic
   - claude
-  - llm
-  - mcp
+  - claude-code
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
@@ -208,6 +193,21 @@ related_repos:
   - ai-agents
   - anthropic
   - llm
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
+  score: 13
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - claude
+  - llm
+  - mcp
 - full_name: Mintplex-Labs/anything-llm
   slug: mintplex-labs-anything-llm
   url: https://github.com/Mintplex-Labs/anything-llm
@@ -223,9 +223,9 @@ related_repos:
   - ai-agents
   - llm
   - mcp
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
   score: 12
   shared_weeks:
   - 2026-W22
@@ -235,7 +235,7 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics:
-  - claude
+  - ai-agents
   - llm
 lifecycle:
   status: active

@@ -2,7 +2,7 @@
 title: pathwaycom/pathway repository trend history
 description: 'Evergreen Claracle Observatory page for pathwaycom/pathway: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/pathwaycom/pathway
 repo_slug: pathwaycom-pathway
 repo_description: Python ETL framework for stream processing, real-time analytics, LLM pipelines, and RAG.
 repo_language: Python
-topics:
+tags:
 - batch-processing
 - data-analytics
 - data-pipelines
@@ -103,31 +103,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: batch-processing
-  url: /topics/batch-processing/
+  url: /tags/batch-processing/
 - name: data-analytics
-  url: /topics/data-analytics/
+  url: /tags/data-analytics/
 - name: data-pipelines
-  url: /topics/data-pipelines/
+  url: /tags/data-pipelines/
 - name: data-processing
-  url: /topics/data-processing/
+  url: /tags/data-processing/
 - name: dataflow
-  url: /topics/dataflow/
+  url: /tags/dataflow/
 - name: etl
-  url: /topics/etl/
+  url: /tags/etl/
 - name: etl-framework
-  url: /topics/etl-framework/
+  url: /tags/etl-framework/
 - name: iot-analytics
-  url: /topics/iot-analytics/
+  url: /tags/iot-analytics/
 - name: kafka
-  url: /topics/kafka/
+  url: /tags/kafka/
 - name: machine-learning-algorithms
-  url: /topics/machine-learning-algorithms/
+  url: /tags/machine-learning-algorithms/
 - name: pathway
-  url: /topics/pathway/
+  url: /tags/pathway/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 related_repos:
 - full_name: apache/superset
   slug: apache-superset
@@ -143,9 +143,9 @@ related_repos:
   shared_topics:
   - data-analytics
   - python
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 12
   shared_weeks:
   - 2026-W21
@@ -156,9 +156,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: astral-sh/uv
+  slug: astral-sh-uv
+  url: https://github.com/astral-sh/uv
   score: 12
   shared_weeks:
   - 2026-W21
@@ -169,9 +169,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
   score: 12
   shared_weeks:
   - 2026-W21
@@ -182,9 +182,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 12
   shared_weeks:
   - 2026-W21
@@ -195,32 +195,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - python
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - rust
 - full_name: Comfy-Org/ComfyUI
   slug: comfy-org-comfyui
   url: https://github.com/Comfy-Org/ComfyUI
@@ -234,6 +208,32 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
+- full_name: denoland/deno
+  slug: denoland-deno
+  url: https://github.com/denoland/deno
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - rust
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - rust
 lifecycle:
   status: active
   as_of_week: 2026-W31

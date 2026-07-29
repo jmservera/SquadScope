@@ -2,7 +2,7 @@
 title: meilisearch/meilisearch repository trend history
 description: 'Evergreen Claracle Observatory page for meilisearch/meilisearch: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/meilisearch/meilisearch
 repo_slug: meilisearch-meilisearch
 repo_description: A lightning-fast search engine API bringing AI-powered hybrid search to your sites and applications.
 repo_language: Rust
-topics:
+tags:
 - ai
 - api
 - app-search
@@ -103,31 +103,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: api
-  url: /topics/api/
+  url: /tags/api/
 - name: app-search
-  url: /topics/app-search/
+  url: /tags/app-search/
 - name: database
-  url: /topics/database/
+  url: /tags/database/
 - name: enterprise-search
-  url: /topics/enterprise-search/
+  url: /tags/enterprise-search/
 - name: faceting
-  url: /topics/faceting/
+  url: /tags/faceting/
 - name: full-text-search
-  url: /topics/full-text-search/
+  url: /tags/full-text-search/
 - name: fuzzy-search
-  url: /topics/fuzzy-search/
+  url: /tags/fuzzy-search/
 - name: geosearch
-  url: /topics/geosearch/
+  url: /tags/geosearch/
 - name: hybrid-search
-  url: /topics/hybrid-search/
+  url: /tags/hybrid-search/
 - name: instantsearch
-  url: /topics/instantsearch/
+  url: /tags/instantsearch/
 - name: search
-  url: /topics/search/
+  url: /tags/search/
 related_repos:
 - full_name: netdata/netdata
   slug: netdata-netdata
@@ -157,9 +157,9 @@ related_repos:
   shared_topics:
   - database
   - vector-search
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 12
   shared_weeks:
   - 2026-W21
@@ -170,9 +170,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 12
   shared_weeks:
   - 2026-W21
@@ -183,9 +183,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: Comfy-Org/ComfyUI
+  slug: comfy-org-comfyui
+  url: https://github.com/Comfy-Org/ComfyUI
   score: 12
   shared_weeks:
   - 2026-W21
@@ -196,9 +196,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: docling-project/docling
+  slug: docling-project-docling
+  url: https://github.com/docling-project/docling
   score: 12
   shared_weeks:
   - 2026-W21
@@ -209,22 +209,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
+- full_name: elastic/elasticsearch
+  slug: elastic-elasticsearch
+  url: https://github.com/elastic/elasticsearch
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - search-engine
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
   score: 12
   shared_weeks:
   - 2026-W21

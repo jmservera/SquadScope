@@ -2,7 +2,7 @@
 title: crewAIInc/crewAI repository trend history
 description: 'Evergreen Claracle Observatory page for crewAIInc/crewAI: 6 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-06'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: crewaiinc-crewai
 repo_description: Framework for orchestrating role-playing, autonomous AI agents. By fostering collaborative intelligence,
   CrewAI empowers agents to work together seamlessly, tackling complex tasks.
 repo_language: Python
-topics:
+tags:
 - agents
 - ai
 - ai-agents
@@ -67,17 +67,17 @@ weekly_appearances:
   url: /weekly/2026/w27/
 - week: 2026-W28
   url: /weekly/2026/w28/
-topic_links:
+tag_links:
 - name: agents
-  url: /topics/agents/
+  url: /tags/agents/
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: aiagentframework
-  url: /topics/aiagentframework/
+  url: /tags/aiagentframework/
 - name: llms
-  url: /topics/llms/
+  url: /tags/llms/
 related_repos:
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
@@ -109,23 +109,9 @@ related_repos:
   - agents
   - ai
   - ai-agents
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 8
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  shared_topics:
-  - agents
-  - ai
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 8
   shared_weeks:
   - 2026-W22
@@ -137,9 +123,9 @@ related_repos:
   shared_topics:
   - ai
   - ai-agents
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 8
   shared_weeks:
   - 2026-W22
@@ -150,7 +136,21 @@ related_repos:
   - 2026-W28
   shared_topics:
   - ai
-  - llms
+  - ai-agents
+- full_name: daytonaio/daytona
+  slug: daytonaio-daytona
+  url: https://github.com/daytonaio/daytona
+  score: 8
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - ai
+  - ai-agents
 - full_name: firecrawl/firecrawl
   slug: firecrawl-firecrawl
   url: https://github.com/firecrawl/firecrawl

@@ -2,7 +2,7 @@
 title: mem0ai/mem0 repository trend history
 description: 'Evergreen Claracle Observatory page for mem0ai/mem0: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/mem0ai/mem0
 repo_slug: mem0ai-mem0
 repo_description: Universal memory layer for AI Agents
 repo_language: Python
-topics:
+tags:
 - agents
 - ai
 - ai-agents
@@ -103,115 +103,32 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agents
-  url: /topics/agents/
+  url: /tags/agents/
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: application
-  url: /topics/application/
+  url: /tags/application/
 - name: chatbots
-  url: /topics/chatbots/
+  url: /tags/chatbots/
 - name: chatgpt
-  url: /topics/chatgpt/
+  url: /tags/chatgpt/
 - name: genai
-  url: /topics/genai/
+  url: /tags/genai/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: long-term-memory
-  url: /topics/long-term-memory/
+  url: /tags/long-term-memory/
 - name: memory
-  url: /topics/memory/
+  url: /tags/memory/
 - name: memory-management
-  url: /topics/memory-management/
+  url: /tags/memory-management/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 related_repos:
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - agents
-  - ai
-  - llm
-  - python
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - ai-agents
-  - chatgpt
-  - llm
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - genai
-  - llm
-  - python
-  - rag
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - agents
-  - ai
-  - ai-agents
-  - chatgpt
-  - llm
-  - python
-- full_name: thedotmack/claude-mem
-  slug: thedotmack-claude-mem
-  url: https://github.com/thedotmack/claude-mem
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - ai-agents
-  - long-term-memory
-  - rag
 - full_name: bytedance/deer-flow
   slug: bytedance-deer-flow
   url: https://github.com/bytedance/deer-flow
@@ -244,6 +161,41 @@ related_repos:
   - chatgpt
   - llm
   - python
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - agents
+  - ai
+  - ai-agents
+  - chatgpt
+  - llm
+  - python
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - genai
+  - llm
+  - python
+  - rag
 - full_name: MemPalace/mempalace
   slug: mempalace-mempalace
   url: https://github.com/MemPalace/mempalace
@@ -260,6 +212,54 @@ related_repos:
   - llm
   - memory
   - python
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - ai-agents
+  - chatgpt
+  - llm
+- full_name: Significant-Gravitas/AutoGPT
+  slug: significant-gravitas-autogpt
+  url: https://github.com/Significant-Gravitas/AutoGPT
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - agents
+  - ai
+  - llm
+  - python
+- full_name: thedotmack/claude-mem
+  slug: thedotmack-claude-mem
+  url: https://github.com/thedotmack/claude-mem
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - ai-agents
+  - long-term-memory
+  - rag
 lifecycle:
   status: active
   as_of_week: 2026-W31

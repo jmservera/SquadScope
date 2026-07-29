@@ -2,7 +2,7 @@
 title: rust-lang/rust repository trend history
 description: 'Evergreen Claracle Observatory page for rust-lang/rust: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/rust-lang/rust
 repo_slug: rust-lang-rust
 repo_description: Empowering everyone to build reliable and efficient software.
 repo_language: Rust
-topics:
+tags:
 - compiler
 - language
 - rust
@@ -94,13 +94,13 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: compiler
-  url: /topics/compiler/
+  url: /tags/compiler/
 - name: language
-  url: /topics/language/
+  url: /tags/language/
 - name: rust
-  url: /topics/rust/
+  url: /tags/rust/
 related_repos:
 - full_name: FuelLabs/sway
   slug: fuellabs-sway
@@ -116,58 +116,6 @@ related_repos:
   shared_topics:
   - compiler
   - language
-- full_name: vercel/next.js
-  slug: vercel-next-js
-  url: https://github.com/vercel/next.js
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - compiler
-- full_name: golang/go
-  slug: golang-go
-  url: https://github.com/golang/go
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - language
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - rust
-- full_name: tauri-apps/tauri
-  slug: tauri-apps-tauri
-  url: https://github.com/tauri-apps/tauri
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - rust
 - full_name: denoland/deno
   slug: denoland-deno
   url: https://github.com/denoland/deno
@@ -181,6 +129,32 @@ related_repos:
   - 2026-W26
   shared_topics:
   - rust
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - rust
+- full_name: golang/go
+  slug: golang-go
+  url: https://github.com/golang/go
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - language
 - full_name: oven-sh/bun
   slug: oven-sh-bun
   url: https://github.com/oven-sh/bun
@@ -194,9 +168,35 @@ related_repos:
   - 2026-W26
   shared_topics:
   - rust
-- full_name: farion1231/cc-switch
-  slug: farion1231-cc-switch
-  url: https://github.com/farion1231/cc-switch
+- full_name: pathwaycom/pathway
+  slug: pathwaycom-pathway
+  url: https://github.com/pathwaycom/pathway
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - rust
+- full_name: rust-unofficial/awesome-rust
+  slug: rust-unofficial-awesome-rust
+  url: https://github.com/rust-unofficial/awesome-rust
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - rust
+- full_name: rustdesk/rustdesk
+  slug: rustdesk-rustdesk
+  url: https://github.com/rustdesk/rustdesk
   score: 12
   shared_weeks:
   - 2026-W21

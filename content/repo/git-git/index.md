@@ -2,7 +2,7 @@
 title: git/git repository trend history
 description: 'Evergreen Claracle Observatory page for git/git: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -15,7 +15,7 @@ repo_description: Git Source Code Mirror - This is a publish-only repository but
   to the mailing list via GitGitGadget (https://gitgitgadget.github.io/). Please follow Documentation/SubmittingPatches procedure
   for any of your improvements.
 repo_language: C
-topics:
+tags:
 - c
 - hacktoberfest
 - shell
@@ -96,43 +96,17 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: c
-  url: /topics/c/
+  url: /tags/c/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: shell
-  url: /topics/shell/
+  url: /tags/shell/
 related_repos:
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - shell
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - hacktoberfest
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
   score: 12
   shared_weeks:
   - 2026-W21
@@ -156,9 +130,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: neovim/neovim
-  slug: neovim-neovim
-  url: https://github.com/neovim/neovim
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - hacktoberfest
+- full_name: FFmpeg/FFmpeg
+  slug: ffmpeg-ffmpeg
+  url: https://github.com/FFmpeg/FFmpeg
   score: 12
   shared_weeks:
   - 2026-W21
@@ -169,6 +156,19 @@ related_repos:
   - 2026-W26
   shared_topics:
   - c
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - hacktoberfest
 - full_name: home-assistant/core
   slug: home-assistant-core
   url: https://github.com/home-assistant/core
@@ -182,9 +182,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: sherlock-project/sherlock
-  slug: sherlock-project-sherlock
-  url: https://github.com/sherlock-project/sherlock
+- full_name: huggingface/transformers
+  slug: huggingface-transformers
+  url: https://github.com/huggingface/transformers
   score: 12
   shared_weeks:
   - 2026-W21
@@ -195,9 +195,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: Stirling-Tools/Stirling-PDF
-  slug: stirling-tools-stirling-pdf
-  url: https://github.com/Stirling-Tools/Stirling-PDF
+- full_name: neovim/neovim
+  slug: neovim-neovim
+  url: https://github.com/neovim/neovim
   score: 12
   shared_weeks:
   - 2026-W21
@@ -207,7 +207,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - hacktoberfest
+  - c
 lifecycle:
   status: active
   as_of_week: 2026-W31

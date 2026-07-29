@@ -2,7 +2,7 @@
 title: VoltAgent/awesome-design-md repository trend history
 description: 'Evergreen Claracle Observatory page for VoltAgent/awesome-design-md: 5 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-06-22'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: voltagent-awesome-design-md
 repo_description: A collection of DESIGN.md files analysis by popular brand design systems. Drop one into your project and
   let coding agents generate a matching UI.
 repo_language: ''
-topics:
+tags:
 - awesome-list
 - design-md
 - design-system
@@ -66,40 +66,28 @@ weekly_appearances:
   url: /weekly/2026/w25/
 - week: 2026-W26
   url: /weekly/2026/w26/
-topic_links:
+tag_links:
 - name: awesome-list
-  url: /topics/awesome-list/
+  url: /tags/awesome-list/
 - name: design-md
-  url: /topics/design-md/
+  url: /tags/design-md/
 - name: design-system
-  url: /topics/design-system/
+  url: /tags/design-system/
 - name: design-tokens
-  url: /topics/design-tokens/
+  url: /tags/design-tokens/
 - name: figma
-  url: /topics/figma/
+  url: /tags/figma/
 - name: google-stitch
-  url: /topics/google-stitch/
+  url: /tags/google-stitch/
 - name: landing-page
-  url: /topics/landing-page/
+  url: /tags/landing-page/
 - name: vibe-coding
-  url: /topics/vibe-coding/
+  url: /tags/vibe-coding/
 - name: vibe-design
-  url: /topics/vibe-design/
+  url: /tags/vibe-design/
 - name: vibecoding
-  url: /topics/vibecoding/
+  url: /tags/vibecoding/
 related_repos:
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
-  score: 6
-  shared_weeks:
-  - 2026-W21
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - awesome-list
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
@@ -112,9 +100,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - awesome-list
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
+- full_name: awesome-selfhosted/awesome-selfhosted
+  slug: awesome-selfhosted-awesome-selfhosted
+  url: https://github.com/awesome-selfhosted/awesome-selfhosted
   score: 6
   shared_weeks:
   - 2026-W21
@@ -124,9 +112,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - awesome-list
-- full_name: ripienaar/free-for-dev
-  slug: ripienaar-free-for-dev
-  url: https://github.com/ripienaar/free-for-dev
+- full_name: f/prompts.chat
+  slug: f-prompts-chat
+  url: https://github.com/f/prompts.chat
   score: 6
   shared_weeks:
   - 2026-W21
@@ -160,6 +148,18 @@ related_repos:
   - 2026-W26
   shared_topics:
   - design-system
+- full_name: ripienaar/free-for-dev
+  slug: ripienaar-free-for-dev
+  url: https://github.com/ripienaar/free-for-dev
+  score: 6
+  shared_weeks:
+  - 2026-W21
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - awesome-list
 - full_name: upstash/context7
   slug: upstash-context7
   url: https://github.com/upstash/context7
@@ -172,9 +172,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - vibe-coding
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 5
   shared_weeks:
   - 2026-W21

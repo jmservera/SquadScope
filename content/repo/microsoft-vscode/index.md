@@ -2,7 +2,7 @@
 title: microsoft/vscode repository trend history
 description: 'Evergreen Claracle Observatory page for microsoft/vscode: 10 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/microsoft/vscode
 repo_slug: microsoft-vscode
 repo_description: Visual Studio Code
 repo_language: TypeScript
-topics:
+tags:
 - editor
 - electron
 - microsoft
@@ -90,17 +90,17 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: editor
-  url: /topics/editor/
+  url: /tags/editor/
 - name: electron
-  url: /topics/electron/
+  url: /tags/electron/
 - name: microsoft
-  url: /topics/microsoft/
+  url: /tags/microsoft/
 - name: typescript
-  url: /topics/typescript/
+  url: /tags/typescript/
 - name: visual-studio-code
-  url: /topics/visual-studio-code/
+  url: /tags/visual-studio-code/
 related_repos:
 - full_name: toeverything/AFFiNE
   slug: toeverything-affine
@@ -116,9 +116,9 @@ related_repos:
   shared_topics:
   - editor
   - electron
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 11
   shared_weeks:
   - 2026-W22
@@ -129,9 +129,9 @@ related_repos:
   - 2026-W27
   shared_topics:
   - typescript
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
   score: 11
   shared_weeks:
   - 2026-W22
@@ -142,9 +142,35 @@ related_repos:
   - 2026-W27
   shared_topics:
   - typescript
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
+  score: 11
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - typescript
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
+  score: 11
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - typescript
+- full_name: denoland/deno
+  slug: denoland-deno
+  url: https://github.com/denoland/deno
   score: 11
   shared_weeks:
   - 2026-W22
@@ -168,35 +194,9 @@ related_repos:
   - 2026-W27
   shared_topics:
   - electron
-- full_name: denoland/deno
-  slug: denoland-deno
-  url: https://github.com/denoland/deno
-  score: 11
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - typescript
-- full_name: immich-app/immich
-  slug: immich-app-immich
-  url: https://github.com/immich-app/immich
-  score: 11
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - typescript
-- full_name: angular/angular
-  slug: angular-angular
-  url: https://github.com/angular/angular
+- full_name: f/prompts.chat
+  slug: f-prompts-chat
+  url: https://github.com/f/prompts.chat
   score: 11
   shared_weeks:
   - 2026-W22

@@ -2,7 +2,7 @@
 title: microsoft/generative-ai-for-beginners repository trend history
 description: 'Evergreen Claracle Observatory page for microsoft/generative-ai-for-beginners: 10 weekly appearances, stars,
   velocity, topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/microsoft/generative-ai-for-beginners
 repo_slug: microsoft-generative-ai-for-beginners
 repo_description: '21 Lessons, Get Started Building with Generative AI '
 repo_language: Jupyter Notebook
-topics:
+tags:
 - ai
 - azure
 - chatgpt
@@ -97,31 +97,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: azure
-  url: /topics/azure/
+  url: /tags/azure/
 - name: chatgpt
-  url: /topics/chatgpt/
+  url: /tags/chatgpt/
 - name: dall-e
-  url: /topics/dall-e/
+  url: /tags/dall-e/
 - name: generative-ai
-  url: /topics/generative-ai/
+  url: /tags/generative-ai/
 - name: generativeai
-  url: /topics/generativeai/
+  url: /tags/generativeai/
 - name: gpt
-  url: /topics/gpt/
+  url: /tags/gpt/
 - name: language-model
-  url: /topics/language-model/
+  url: /tags/language-model/
 - name: llms
-  url: /topics/llms/
+  url: /tags/llms/
 - name: microsoft-for-beginners
-  url: /topics/microsoft-for-beginners/
+  url: /tags/microsoft-for-beginners/
 - name: openai
-  url: /topics/openai/
+  url: /tags/openai/
 - name: prompt-engineering
-  url: /topics/prompt-engineering/
+  url: /tags/prompt-engineering/
 related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
@@ -172,9 +172,39 @@ related_repos:
   - chatgpt
   - gpt
   - openai
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
+  score: 13
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - ai
+  - chatgpt
+  - openai
+- full_name: hiyouga/LlamaFactory
+  slug: hiyouga-llamafactory
+  url: https://github.com/hiyouga/LlamaFactory
+  score: 13
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - ai
+  - gpt
+  - transformers
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
   score: 13
   shared_weeks:
   - 2026-W22
@@ -202,21 +232,6 @@ related_repos:
   - ai
   - chatgpt
   - openai
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 13
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - ai
-  - gpt
-  - openai
 - full_name: open-webui/open-webui
   slug: open-webui-open-webui
   url: https://github.com/open-webui/open-webui
@@ -231,21 +246,6 @@ related_repos:
   shared_topics:
   - ai
   - llms
-  - openai
-- full_name: OpenHands/OpenHands
-  slug: openhands-openhands
-  url: https://github.com/OpenHands/OpenHands
-  score: 13
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - chatgpt
-  - gpt
   - openai
 lifecycle:
   status: active

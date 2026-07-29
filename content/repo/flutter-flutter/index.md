@@ -2,7 +2,7 @@
 title: flutter/flutter repository trend history
 description: 'Evergreen Claracle Observatory page for flutter/flutter: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/flutter/flutter
 repo_slug: flutter-flutter
 repo_description: Flutter makes it easy and fast to build beautiful apps for mobile and beyond
 repo_language: Dart
-topics:
+tags:
 - android
 - app-framework
 - cross-platform
@@ -103,31 +103,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: android
-  url: /topics/android/
+  url: /tags/android/
 - name: app-framework
-  url: /topics/app-framework/
+  url: /tags/app-framework/
 - name: cross-platform
-  url: /topics/cross-platform/
+  url: /tags/cross-platform/
 - name: dart
-  url: /topics/dart/
+  url: /tags/dart/
 - name: dart-platform
-  url: /topics/dart-platform/
+  url: /tags/dart-platform/
 - name: desktop
-  url: /topics/desktop/
+  url: /tags/desktop/
 - name: flutter
-  url: /topics/flutter/
+  url: /tags/flutter/
 - name: flutter-package
-  url: /topics/flutter-package/
+  url: /tags/flutter-package/
 - name: fuchsia
-  url: /topics/fuchsia/
+  url: /tags/fuchsia/
 - name: ios
-  url: /topics/ios/
+  url: /tags/ios/
 - name: linux-desktop
-  url: /topics/linux-desktop/
+  url: /tags/linux-desktop/
 - name: macos
-  url: /topics/macos/
+  url: /tags/macos/
 related_repos:
 - full_name: rustdesk/rustdesk
   slug: rustdesk-rustdesk
@@ -145,20 +145,6 @@ related_repos:
   - dart
   - flutter
   - ios
-  - macos
-  - windows
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
   - macos
   - windows
 - full_name: angular/angular
@@ -191,10 +177,10 @@ related_repos:
   - flutter
   - ios
   - web
-- full_name: clash-verge-rev/clash-verge-rev
-  slug: clash-verge-rev-clash-verge-rev
-  url: https://github.com/clash-verge-rev/clash-verge-rev
-  score: 12
+- full_name: nodejs/node
+  slug: nodejs-node
+  url: https://github.com/nodejs/node
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -203,6 +189,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
+  - macos
   - windows
 - full_name: 2dust/v2rayN
   slug: 2dust-v2rayn
@@ -217,9 +204,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - windows
-- full_name: jaywcjlove/awesome-mac
-  slug: jaywcjlove-awesome-mac
-  url: https://github.com/jaywcjlove/awesome-mac
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 12
   shared_weeks:
   - 2026-W21
@@ -229,10 +216,10 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - macos
-- full_name: immich-app/immich
-  slug: immich-app-immich
-  url: https://github.com/immich-app/immich
+  - android
+- full_name: clash-verge-rev/clash-verge-rev
+  slug: clash-verge-rev-clash-verge-rev
+  url: https://github.com/clash-verge-rev/clash-verge-rev
   score: 12
   shared_weeks:
   - 2026-W21
@@ -242,7 +229,20 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - flutter
+  - windows
+- full_name: fastapi/fastapi
+  slug: fastapi-fastapi
+  url: https://github.com/fastapi/fastapi
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - web
 lifecycle:
   status: active
   as_of_week: 2026-W31

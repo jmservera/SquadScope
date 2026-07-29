@@ -2,7 +2,7 @@
 title: spring-projects/spring-framework repository trend history
 description: 'Evergreen Claracle Observatory page for spring-projects/spring-framework: 11 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/spring-projects/spring-framework
 repo_slug: spring-projects-spring-framework
 repo_description: Spring Framework
 repo_language: Java
-topics:
+tags:
 - framework
 - spring
 - spring-framework
@@ -94,13 +94,13 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: framework
-  url: /topics/framework/
+  url: /tags/framework/
 - name: spring
-  url: /topics/spring/
+  url: /tags/spring/
 - name: spring-framework
-  url: /topics/spring-framework/
+  url: /tags/spring-framework/
 related_repos:
 - full_name: spring-projects/spring-boot
   slug: spring-projects-spring-boot
@@ -116,19 +116,6 @@ related_repos:
   shared_topics:
   - framework
   - spring
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - framework
 - full_name: fastapi/fastapi
   slug: fastapi-fastapi
   url: https://github.com/fastapi/fastapi
@@ -142,9 +129,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - framework
-- full_name: ocornut/imgui
-  slug: ocornut-imgui
-  url: https://github.com/ocornut/imgui
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
   score: 12
   shared_weeks:
   - 2026-W21
@@ -168,6 +155,19 @@ related_repos:
   - 2026-W26
   shared_topics:
   - framework
+- full_name: ocornut/imgui
+  slug: ocornut-imgui
+  url: https://github.com/ocornut/imgui
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - framework
 - full_name: rails/rails
   slug: rails-rails
   url: https://github.com/rails/rails
@@ -181,9 +181,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - framework
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 11
   shared_weeks:
   - 2026-W21
@@ -193,9 +193,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 11
   shared_weeks:
   - 2026-W21

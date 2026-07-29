@@ -2,7 +2,7 @@
 title: NousResearch/hermes-agent repository trend history
 description: 'Evergreen Claracle Observatory page for NousResearch/hermes-agent: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/NousResearch/hermes-agent
 repo_slug: nousresearch-hermes-agent
 repo_description: The agent that grows with you
 repo_language: Python
-topics:
+tags:
 - ai
 - ai-agent
 - ai-agents
@@ -103,133 +103,32 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: ai-agent
-  url: /topics/ai-agent/
+  url: /tags/ai-agent/
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: anthropic
-  url: /topics/anthropic/
+  url: /tags/anthropic/
 - name: chatgpt
-  url: /topics/chatgpt/
+  url: /tags/chatgpt/
 - name: claude
-  url: /topics/claude/
+  url: /tags/claude/
 - name: claude-code
-  url: /topics/claude-code/
+  url: /tags/claude-code/
 - name: clawdbot
-  url: /topics/clawdbot/
+  url: /tags/clawdbot/
 - name: codex
-  url: /topics/codex/
+  url: /tags/codex/
 - name: hermes
-  url: /topics/hermes/
+  url: /tags/hermes/
 - name: hermes-agent
-  url: /topics/hermes-agent/
+  url: /tags/hermes-agent/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 related_repos:
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - claude
-  - llm
-  - openai
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - chatgpt
-  - claude
-  - llm
-  - openai
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - claude
-  - llm
-  - openai
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - ai-agents
-  - anthropic
-  - chatgpt
-  - llm
-  - openai
-- full_name: thedotmack/claude-mem
-  slug: thedotmack-claude-mem
-  url: https://github.com/thedotmack/claude-mem
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - ai-agents
-  - anthropic
-  - claude
-  - claude-code
-- full_name: farion1231/cc-switch
-  slug: farion1231-cc-switch
-  url: https://github.com/farion1231/cc-switch
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - claude-code
-  - codex
-  - hermes
-  - hermes-agent
-  - openclaw
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
@@ -248,6 +147,74 @@ related_repos:
   - chatgpt
   - claude
   - claude-code
+- full_name: f/prompts.chat
+  slug: f-prompts-chat
+  url: https://github.com/f/prompts.chat
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - chatgpt
+  - claude
+  - llm
+  - openai
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - claude-code
+  - codex
+  - hermes
+  - hermes-agent
+  - openclaw
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - ai-agents
+  - anthropic
+  - chatgpt
+  - llm
+  - openai
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - claude
+  - llm
+  - openai
 - full_name: mem0ai/mem0
   slug: mem0ai-mem0
   url: https://github.com/mem0ai/mem0
@@ -264,6 +231,38 @@ related_repos:
   - ai-agents
   - chatgpt
   - llm
+- full_name: ruvnet/ruflo
+  slug: ruvnet-ruflo
+  url: https://github.com/ruvnet/ruflo
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai-agent
+  - ai-agents
+  - claude-code
+  - codex
+- full_name: Significant-Gravitas/AutoGPT
+  slug: significant-gravitas-autogpt
+  url: https://github.com/Significant-Gravitas/AutoGPT
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - claude
+  - llm
+  - openai
 lifecycle:
   status: active
   as_of_week: 2026-W31

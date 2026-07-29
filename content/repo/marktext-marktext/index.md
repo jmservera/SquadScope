@@ -2,7 +2,7 @@
 title: marktext/marktext repository trend history
 description: 'Evergreen Claracle Observatory page for marktext/marktext: 8 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/marktext/marktext
 repo_slug: marktext-marktext
 repo_description: 📝A simple and elegant markdown editor, available for Linux, macOS and Windows.
 repo_language: TypeScript
-topics:
+tags:
 - dark-mode
 - editor
 - electron
@@ -85,31 +85,31 @@ weekly_appearances:
   url: /weekly/2026/w28/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: dark-mode
-  url: /topics/dark-mode/
+  url: /tags/dark-mode/
 - name: editor
-  url: /topics/editor/
+  url: /tags/editor/
 - name: electron
-  url: /topics/electron/
+  url: /tags/electron/
 - name: focus-mode
-  url: /topics/focus-mode/
+  url: /tags/focus-mode/
 - name: latex
-  url: /topics/latex/
+  url: /tags/latex/
 - name: linux
-  url: /topics/linux/
+  url: /tags/linux/
 - name: mac
-  url: /topics/mac/
+  url: /tags/mac/
 - name: macos
-  url: /topics/macos/
+  url: /tags/macos/
 - name: markdown
-  url: /topics/markdown/
+  url: /tags/markdown/
 - name: marktext
-  url: /topics/marktext/
+  url: /tags/marktext/
 - name: source-code
-  url: /topics/source-code/
+  url: /tags/source-code/
 - name: typewriter-mode
-  url: /topics/typewriter-mode/
+  url: /tags/typewriter-mode/
 related_repos:
 - full_name: clash-verge-rev/clash-verge-rev
   slug: clash-verge-rev-clash-verge-rev
@@ -199,9 +199,9 @@ related_repos:
   shared_topics:
   - mac
   - macos
-- full_name: warpdotdev/warp
-  slug: warpdotdev-warp
-  url: https://github.com/warpdotdev/warp
+- full_name: microsoft/vscode
+  slug: microsoft-vscode
+  url: https://github.com/microsoft/vscode
   score: 10
   shared_weeks:
   - 2026-W22
@@ -211,8 +211,8 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics:
-  - linux
-  - macos
+  - editor
+  - electron
 - full_name: tw93/Mole
   slug: tw93-mole
   url: https://github.com/tw93/Mole

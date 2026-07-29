@@ -2,7 +2,7 @@
 title: prometheus/prometheus repository trend history
 description: 'Evergreen Claracle Observatory page for prometheus/prometheus: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/prometheus/prometheus
 repo_slug: prometheus-prometheus
 repo_description: The Prometheus monitoring system and time series database.
 repo_language: Go
-topics:
+tags:
 - alerting
 - graphing
 - hacktoberfest
@@ -98,21 +98,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: alerting
-  url: /topics/alerting/
+  url: /tags/alerting/
 - name: graphing
-  url: /topics/graphing/
+  url: /tags/graphing/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: metrics
-  url: /topics/metrics/
+  url: /tags/metrics/
 - name: monitoring
-  url: /topics/monitoring/
+  url: /tags/monitoring/
 - name: prometheus
-  url: /topics/prometheus/
+  url: /tags/prometheus/
 - name: time-series
-  url: /topics/time-series/
+  url: /tags/time-series/
 related_repos:
 - full_name: grafana/grafana
   slug: grafana-grafana
@@ -159,9 +159,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
   score: 12
   shared_weeks:
   - 2026-W21
@@ -172,9 +172,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: axios/axios
-  slug: axios-axios
-  url: https://github.com/axios/axios
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - hacktoberfest
+- full_name: git/git
+  slug: git-git
+  url: https://github.com/git/git
   score: 12
   shared_weeks:
   - 2026-W21
@@ -198,22 +211,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: louislam/uptime-kuma
-  slug: louislam-uptime-kuma
-  url: https://github.com/louislam/uptime-kuma
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - monitoring
-- full_name: sherlock-project/sherlock
-  slug: sherlock-project-sherlock
-  url: https://github.com/sherlock-project/sherlock
+- full_name: huggingface/transformers
+  slug: huggingface-transformers
+  url: https://github.com/huggingface/transformers
   score: 12
   shared_weeks:
   - 2026-W21

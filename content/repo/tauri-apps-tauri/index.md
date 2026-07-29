@@ -2,7 +2,7 @@
 title: tauri-apps/tauri repository trend history
 description: 'Evergreen Claracle Observatory page for tauri-apps/tauri: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/tauri-apps/tauri
 repo_slug: tauri-apps-tauri
 repo_description: Build smaller, faster, and more secure desktop and mobile applications with a web frontend.
 repo_language: Rust
-topics:
+tags:
 - desktop-app
 - high-performance
 - mobile-app
@@ -98,21 +98,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: desktop-app
-  url: /topics/desktop-app/
+  url: /tags/desktop-app/
 - name: high-performance
-  url: /topics/high-performance/
+  url: /tags/high-performance/
 - name: mobile-app
-  url: /topics/mobile-app/
+  url: /tags/mobile-app/
 - name: native-app
-  url: /topics/native-app/
+  url: /tags/native-app/
 - name: rust
-  url: /topics/rust/
+  url: /tags/rust/
 - name: web-frontend
-  url: /topics/web-frontend/
+  url: /tags/web-frontend/
 - name: webview
-  url: /topics/webview/
+  url: /tags/webview/
 related_repos:
 - full_name: farion1231/cc-switch
   slug: farion1231-cc-switch
@@ -128,9 +128,61 @@ related_repos:
   shared_topics:
   - desktop-app
   - rust
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
+- full_name: denoland/deno
+  slug: denoland-deno
+  url: https://github.com/denoland/deno
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - rust
+- full_name: immich-app/immich
+  slug: immich-app-immich
+  url: https://github.com/immich-app/immich
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - mobile-app
+- full_name: jaywcjlove/awesome-mac
+  slug: jaywcjlove-awesome-mac
+  url: https://github.com/jaywcjlove/awesome-mac
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - desktop-app
+- full_name: oven-sh/bun
+  slug: oven-sh-bun
+  url: https://github.com/oven-sh/bun
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - rust
+- full_name: pathwaycom/pathway
+  slug: pathwaycom-pathway
+  url: https://github.com/pathwaycom/pathway
   score: 12
   shared_weeks:
   - 2026-W21
@@ -154,61 +206,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - rust
-- full_name: denoland/deno
-  slug: denoland-deno
-  url: https://github.com/denoland/deno
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - rust
-- full_name: jaywcjlove/awesome-mac
-  slug: jaywcjlove-awesome-mac
-  url: https://github.com/jaywcjlove/awesome-mac
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - desktop-app
-- full_name: immich-app/immich
-  slug: immich-app-immich
-  url: https://github.com/immich-app/immich
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - mobile-app
-- full_name: oven-sh/bun
-  slug: oven-sh-bun
-  url: https://github.com/oven-sh/bun
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - rust
-- full_name: toeverything/AFFiNE
-  slug: toeverything-affine
-  url: https://github.com/toeverything/AFFiNE
+- full_name: rust-unofficial/awesome-rust
+  slug: rust-unofficial-awesome-rust
+  url: https://github.com/rust-unofficial/awesome-rust
   score: 12
   shared_weeks:
   - 2026-W21

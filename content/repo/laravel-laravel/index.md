@@ -2,7 +2,7 @@
 title: laravel/laravel repository trend history
 description: 'Evergreen Claracle Observatory page for laravel/laravel: 10 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: laravel-laravel
 repo_description: Laravel is a web application framework with expressive, elegant syntax. We’ve already laid the foundation
   for your next big idea — freeing you to create without sweating the small things.
 repo_language: Blade
-topics:
+tags:
 - framework
 - laravel
 - php
@@ -89,13 +89,13 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: framework
-  url: /topics/framework/
+  url: /tags/framework/
 - name: laravel
-  url: /topics/laravel/
+  url: /tags/laravel/
 - name: php
-  url: /topics/php/
+  url: /tags/php/
 related_repos:
 - full_name: coollabsio/coolify
   slug: coollabsio-coolify
@@ -111,32 +111,6 @@ related_repos:
   shared_topics:
   - laravel
   - php
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - framework
-- full_name: shadcn-ui/ui
-  slug: shadcn-ui-ui
-  url: https://github.com/shadcn-ui/ui
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - laravel
 - full_name: fastapi/fastapi
   slug: fastapi-fastapi
   url: https://github.com/fastapi/fastapi
@@ -150,22 +124,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - framework
-- full_name: spring-projects/spring-boot
-  slug: spring-projects-spring-boot
-  url: https://github.com/spring-projects/spring-boot
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - framework
-- full_name: ocornut/imgui
-  slug: ocornut-imgui
-  url: https://github.com/ocornut/imgui
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
   score: 11
   shared_weeks:
   - 2026-W21
@@ -189,9 +150,48 @@ related_repos:
   - 2026-W26
   shared_topics:
   - framework
-- full_name: spring-projects/spring-framework
-  slug: spring-projects-spring-framework
-  url: https://github.com/spring-projects/spring-framework
+- full_name: ocornut/imgui
+  slug: ocornut-imgui
+  url: https://github.com/ocornut/imgui
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - framework
+- full_name: rails/rails
+  slug: rails-rails
+  url: https://github.com/rails/rails
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - framework
+- full_name: shadcn-ui/ui
+  slug: shadcn-ui-ui
+  url: https://github.com/shadcn-ui/ui
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - laravel
+- full_name: spring-projects/spring-boot
+  slug: spring-projects-spring-boot
+  url: https://github.com/spring-projects/spring-boot
   score: 11
   shared_weeks:
   - 2026-W21

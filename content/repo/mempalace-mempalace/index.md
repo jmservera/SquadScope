@@ -2,7 +2,7 @@
 title: MemPalace/mempalace repository trend history
 description: 'Evergreen Claracle Observatory page for MemPalace/mempalace: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/MemPalace/mempalace
 repo_slug: mempalace-mempalace
 repo_description: The best-benchmarked open-source AI memory system. And it's free.
 repo_language: Python
-topics:
+tags:
 - ai
 - chromadb
 - llm
@@ -97,19 +97,19 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: chromadb
-  url: /topics/chromadb/
+  url: /tags/chromadb/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: mcp
-  url: /topics/mcp/
+  url: /tags/mcp/
 - name: memory
-  url: /topics/memory/
+  url: /tags/memory/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 related_repos:
 - full_name: langgenius/dify
   slug: langgenius-dify
@@ -143,51 +143,6 @@ related_repos:
   - llm
   - memory
   - python
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - llm
-  - python
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - llm
-  - mcp
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - llm
-  - python
 - full_name: bytedance/deer-flow
   slug: bytedance-deer-flow
   url: https://github.com/bytedance/deer-flow
@@ -218,10 +173,10 @@ related_repos:
   - ai
   - llm
   - python
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 13
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -231,7 +186,52 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
+  - llm
+  - python
+- full_name: open-webui/open-webui
+  slug: open-webui-open-webui
+  url: https://github.com/open-webui/open-webui
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - llm
   - mcp
+- full_name: Significant-Gravitas/AutoGPT
+  slug: significant-gravitas-autogpt
+  url: https://github.com/Significant-Gravitas/AutoGPT
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - llm
+  - python
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - llm
+  - python
 lifecycle:
   status: active
   as_of_week: 2026-W31

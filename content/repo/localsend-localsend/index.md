@@ -2,7 +2,7 @@
 title: localsend/localsend repository trend history
 description: 'Evergreen Claracle Observatory page for localsend/localsend: 5 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/localsend/localsend
 repo_slug: localsend-localsend
 repo_description: An open-source cross-platform alternative to AirDrop
 repo_language: Dart
-topics:
+tags:
 - dart
 - file-sharing
 - flutter
@@ -59,15 +59,15 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: dart
-  url: /topics/dart/
+  url: /tags/dart/
 - name: file-sharing
-  url: /topics/file-sharing/
+  url: /tags/file-sharing/
 - name: flutter
-  url: /topics/flutter/
+  url: /tags/flutter/
 - name: flutter-apps
-  url: /topics/flutter-apps/
+  url: /tags/flutter-apps/
 related_repos:
 - full_name: rustdesk/rustdesk
   slug: rustdesk-rustdesk
@@ -108,9 +108,9 @@ related_repos:
   - 2026-W31
   shared_topics:
   - flutter
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 5
   shared_weeks:
   - 2026-W24
@@ -119,9 +119,9 @@ related_repos:
   - 2026-W30
   - 2026-W31
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 5
   shared_weeks:
   - 2026-W24
@@ -130,9 +130,9 @@ related_repos:
   - 2026-W30
   - 2026-W31
   shared_topics: []
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+- full_name: abi/screenshot-to-code
+  slug: abi-screenshot-to-code
+  url: https://github.com/abi/screenshot-to-code
   score: 5
   shared_weeks:
   - 2026-W24
@@ -141,9 +141,9 @@ related_repos:
   - 2026-W30
   - 2026-W31
   shared_topics: []
-- full_name: torvalds/linux
-  slug: torvalds-linux
-  url: https://github.com/torvalds/linux
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
   score: 5
   shared_weeks:
   - 2026-W24
@@ -152,9 +152,9 @@ related_repos:
   - 2026-W30
   - 2026-W31
   shared_topics: []
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
+- full_name: Anduin2017/HowToCook
+  slug: anduin2017-howtocook
+  url: https://github.com/Anduin2017/HowToCook
   score: 5
   shared_weeks:
   - 2026-W24

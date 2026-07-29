@@ -2,7 +2,7 @@
 title: bytedance/deer-flow repository trend history
 description: 'Evergreen Claracle Observatory page for bytedance/deer-flow: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: bytedance-deer-flow
 repo_description: An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes,
   memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours.
 repo_language: Python
-topics:
+tags:
 - agent
 - agentic
 - agentic-framework
@@ -104,50 +104,32 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agent
-  url: /topics/agent/
+  url: /tags/agent/
 - name: agentic
-  url: /topics/agentic/
+  url: /tags/agentic/
 - name: agentic-framework
-  url: /topics/agentic-framework/
+  url: /tags/agentic-framework/
 - name: agentic-workflow
-  url: /topics/agentic-workflow/
+  url: /tags/agentic-workflow/
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: deep-research
-  url: /topics/deep-research/
+  url: /tags/deep-research/
 - name: harness
-  url: /topics/harness/
+  url: /tags/harness/
 - name: langchain
-  url: /topics/langchain/
+  url: /tags/langchain/
 - name: langgraph
-  url: /topics/langgraph/
+  url: /tags/langgraph/
 - name: langmanus
-  url: /topics/langmanus/
+  url: /tags/langmanus/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 related_repos:
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - agent
-  - agentic-framework
-  - agentic-workflow
-  - ai
-  - llm
-  - python
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
@@ -164,6 +146,24 @@ related_repos:
   - ai-agents
   - langchain
   - langgraph
+  - llm
+  - python
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - agent
+  - agentic-framework
+  - agentic-workflow
+  - ai
   - llm
   - python
 - full_name: mem0ai/mem0
@@ -200,9 +200,24 @@ related_repos:
   - harness
   - multi-agent
   - typescript
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai-agents
+  - llm
+  - python
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 14
   shared_weeks:
   - 2026-W21
@@ -213,8 +228,8 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-  - llm
-  - python
+  - ai-agents
+  - typescript
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -230,21 +245,6 @@ related_repos:
   - ai
   - llm
   - typescript
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - ai-agents
-  - llm
 - full_name: firecrawl/firecrawl
   slug: firecrawl-firecrawl
   url: https://github.com/firecrawl/firecrawl

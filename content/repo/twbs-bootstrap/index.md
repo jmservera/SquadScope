@@ -2,7 +2,7 @@
 title: twbs/bootstrap repository trend history
 description: 'Evergreen Claracle Observatory page for twbs/bootstrap: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: twbs-bootstrap
 repo_description: The most popular HTML, CSS, and JavaScript framework for developing responsive, mobile first projects on
   the web.
 repo_language: MDX
-topics:
+tags:
 - bootstrap
 - css
 - css-framework
@@ -99,21 +99,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: bootstrap
-  url: /topics/bootstrap/
+  url: /tags/bootstrap/
 - name: css
-  url: /topics/css/
+  url: /tags/css/
 - name: css-framework
-  url: /topics/css-framework/
+  url: /tags/css-framework/
 - name: html
-  url: /topics/html/
+  url: /tags/html/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: sass
-  url: /topics/sass/
+  url: /tags/sass/
 - name: scss
-  url: /topics/scss/
+  url: /tags/scss/
 related_repos:
 - full_name: electron/electron
   slug: electron-electron
@@ -130,35 +130,9 @@ related_repos:
   - css
   - html
   - javascript
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-- full_name: mrdoob/three.js
-  slug: mrdoob-three-js
-  url: https://github.com/mrdoob/three.js
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 12
   shared_weeks:
   - 2026-W21
@@ -195,9 +169,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - javascript
-- full_name: immich-app/immich
-  slug: immich-app-immich
-  url: https://github.com/immich-app/immich
+- full_name: docling-project/docling
+  slug: docling-project-docling
+  url: https://github.com/docling-project/docling
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - html
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
   score: 12
   shared_weeks:
   - 2026-W21
@@ -208,9 +195,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - javascript
-- full_name: angular/angular
-  slug: angular-angular
-  url: https://github.com/angular/angular
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+- full_name: gorhill/uBlock
+  slug: gorhill-ublock
+  url: https://github.com/gorhill/uBlock
   score: 12
   shared_weeks:
   - 2026-W21

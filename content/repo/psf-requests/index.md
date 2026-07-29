@@ -2,7 +2,7 @@
 title: psf/requests repository trend history
 description: 'Evergreen Claracle Observatory page for psf/requests: 4 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-06-15'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/psf/requests
 repo_slug: psf-requests
 repo_description: A simple, yet elegant, HTTP library.
 repo_language: Python
-topics:
+tags:
 - client
 - cookies
 - forhumans
@@ -57,27 +57,27 @@ weekly_appearances:
   url: /weekly/2026/w24/
 - week: 2026-W25
   url: /weekly/2026/w25/
-topic_links:
+tag_links:
 - name: client
-  url: /topics/client/
+  url: /tags/client/
 - name: cookies
-  url: /topics/cookies/
+  url: /tags/cookies/
 - name: forhumans
-  url: /topics/forhumans/
+  url: /tags/forhumans/
 - name: http
-  url: /topics/http/
+  url: /tags/http/
 - name: humans
-  url: /topics/humans/
+  url: /tags/humans/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: python-requests
-  url: /topics/python-requests/
+  url: /tags/python-requests/
 - name: requests
-  url: /topics/requests/
+  url: /tags/requests/
 related_repos:
-- full_name: vinta/awesome-python
-  slug: vinta-awesome-python
-  url: https://github.com/vinta/awesome-python
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 5
   shared_weeks:
   - 2026-W21
@@ -86,9 +86,9 @@ related_repos:
   - 2026-W25
   shared_topics:
   - python
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
   score: 5
   shared_weeks:
   - 2026-W21
@@ -97,9 +97,9 @@ related_repos:
   - 2026-W25
   shared_topics:
   - python
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: astral-sh/uv
+  slug: astral-sh-uv
+  url: https://github.com/astral-sh/uv
   score: 5
   shared_weeks:
   - 2026-W21
@@ -108,9 +108,9 @@ related_repos:
   - 2026-W25
   shared_topics:
   - python
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
   score: 5
   shared_weeks:
   - 2026-W21
@@ -119,9 +119,9 @@ related_repos:
   - 2026-W25
   shared_topics:
   - python
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 5
   shared_weeks:
   - 2026-W21
@@ -130,9 +130,9 @@ related_repos:
   - 2026-W25
   shared_topics:
   - python
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: caddyserver/caddy
+  slug: caddyserver-caddy
+  url: https://github.com/caddyserver/caddy
   score: 5
   shared_weeks:
   - 2026-W21
@@ -140,7 +140,7 @@ related_repos:
   - 2026-W24
   - 2026-W25
   shared_topics:
-  - python
+  - http
 - full_name: Comfy-Org/ComfyUI
   slug: comfy-org-comfyui
   url: https://github.com/Comfy-Org/ComfyUI
@@ -152,9 +152,9 @@ related_repos:
   - 2026-W25
   shared_topics:
   - python
-- full_name: pytorch/pytorch
-  slug: pytorch-pytorch
-  url: https://github.com/pytorch/pytorch
+- full_name: fastapi/fastapi
+  slug: fastapi-fastapi
+  url: https://github.com/fastapi/fastapi
   score: 5
   shared_weeks:
   - 2026-W21

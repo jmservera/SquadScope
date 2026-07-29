@@ -2,7 +2,7 @@
 title: WerWolv/ImHex repository trend history
 description: 'Evergreen Claracle Observatory page for WerWolv/ImHex: 6 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-06-22'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/WerWolv/ImHex
 repo_slug: werwolv-imhex
 repo_description: 🔍 A Hex Editor for Reverse Engineers, Programmers and people who value their retinas when working at 3 AM.
 repo_language: C++
-topics:
+tags:
 - analyzer
 - binary-analysis
 - c-plus-plus
@@ -73,31 +73,31 @@ weekly_appearances:
   url: /weekly/2026/w25/
 - week: 2026-W26
   url: /weekly/2026/w26/
-topic_links:
+tag_links:
 - name: analyzer
-  url: /topics/analyzer/
+  url: /tags/analyzer/
 - name: binary-analysis
-  url: /topics/binary-analysis/
+  url: /tags/binary-analysis/
 - name: c-plus-plus
-  url: /topics/c-plus-plus/
+  url: /tags/c-plus-plus/
 - name: cpp
-  url: /topics/cpp/
+  url: /tags/cpp/
 - name: cybersecurity
-  url: /topics/cybersecurity/
+  url: /tags/cybersecurity/
 - name: dark-mode
-  url: /topics/dark-mode/
+  url: /tags/dark-mode/
 - name: dear-imgui
-  url: /topics/dear-imgui/
+  url: /tags/dear-imgui/
 - name: disassembler
-  url: /topics/disassembler/
+  url: /tags/disassembler/
 - name: forensics
-  url: /topics/forensics/
+  url: /tags/forensics/
 - name: hacking
-  url: /topics/hacking/
+  url: /tags/hacking/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: hex-editor
-  url: /topics/hex-editor/
+  url: /tags/hex-editor/
 related_repos:
 - full_name: sherlock-project/sherlock
   slug: sherlock-project-sherlock
@@ -115,36 +115,6 @@ related_repos:
   - forensics
   - hacktoberfest
   - linux
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
-  score: 9
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - linux
-  - macos
-  - windows
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
-  score: 9
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - linux
-  - macos
-  - windows
 - full_name: marktext/marktext
   slug: marktext-marktext
   url: https://github.com/marktext/marktext
@@ -157,6 +127,21 @@ related_repos:
   - 2026-W26
   shared_topics:
   - dark-mode
+  - linux
+  - macos
+  - windows
+- full_name: nodejs/node
+  slug: nodejs-node
+  url: https://github.com/nodejs/node
+  score: 9
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
   - linux
   - macos
   - windows
@@ -175,10 +160,10 @@ related_repos:
   - linux
   - macos
   - windows
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
-  score: 8
+- full_name: rustdesk/rustdesk
+  slug: rustdesk-rustdesk
+  url: https://github.com/rustdesk/rustdesk
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -187,6 +172,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
+  - linux
   - macos
   - windows
 - full_name: clash-verge-rev/clash-verge-rev
@@ -202,6 +188,20 @@ related_repos:
   - 2026-W26
   shared_topics:
   - linux
+  - windows
+- full_name: flutter/flutter
+  slug: flutter-flutter
+  url: https://github.com/flutter/flutter
+  score: 8
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - macos
   - windows
 - full_name: NationalSecurityAgency/ghidra
   slug: nationalsecurityagency-ghidra

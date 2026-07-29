@@ -2,7 +2,7 @@
 title: mrdoob/three.js repository trend history
 description: 'Evergreen Claracle Observatory page for mrdoob/three.js: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/mrdoob/three.js
 repo_slug: mrdoob-three-js
 repo_description: JavaScript 3D Library.
 repo_language: JavaScript
-topics:
+tags:
 - 3d
 - augmented-reality
 - canvas
@@ -103,74 +103,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: 3d
-  url: /topics/3d/
+  url: /tags/3d/
 - name: augmented-reality
-  url: /topics/augmented-reality/
+  url: /tags/augmented-reality/
 - name: canvas
-  url: /topics/canvas/
+  url: /tags/canvas/
 - name: html5
-  url: /topics/html5/
+  url: /tags/html5/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: svg
-  url: /topics/svg/
+  url: /tags/svg/
 - name: virtual-reality
-  url: /topics/virtual-reality/
+  url: /tags/virtual-reality/
 - name: webaudio
-  url: /topics/webaudio/
+  url: /tags/webaudio/
 - name: webgl
-  url: /topics/webgl/
+  url: /tags/webgl/
 - name: webgl2
-  url: /topics/webgl2/
+  url: /tags/webgl2/
 - name: webgpu
-  url: /topics/webgpu/
+  url: /tags/webgpu/
 - name: webxr
-  url: /topics/webxr/
+  url: /tags/webxr/
 related_repos:
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-- full_name: twbs/bootstrap
-  slug: twbs-bootstrap
-  url: https://github.com/twbs/bootstrap
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-- full_name: electron/electron
-  slug: electron-electron
-  url: https://github.com/electron/electron
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 12
   shared_weeks:
   - 2026-W21
@@ -207,9 +168,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - javascript
-- full_name: immich-app/immich
-  slug: immich-app-immich
-  url: https://github.com/immich-app/immich
+- full_name: electron/electron
+  slug: electron-electron
+  url: https://github.com/electron/electron
   score: 12
   shared_weeks:
   - 2026-W21
@@ -220,9 +181,48 @@ related_repos:
   - 2026-W26
   shared_topics:
   - javascript
-- full_name: angular/angular
-  slug: angular-angular
-  url: https://github.com/angular/angular
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+- full_name: gorhill/uBlock
+  slug: gorhill-ublock
+  url: https://github.com/gorhill/uBlock
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+- full_name: immich-app/immich
+  slug: immich-app-immich
+  url: https://github.com/immich-app/immich
   score: 12
   shared_weeks:
   - 2026-W21

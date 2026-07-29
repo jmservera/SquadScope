@@ -2,7 +2,7 @@
 title: appwrite/appwrite repository trend history
 description: 'Evergreen Claracle Observatory page for appwrite/appwrite: 9 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-20'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: appwrite-appwrite
 repo_description: Appwrite® - complete cloud infrastructure for your web, mobile and AI apps. Including Auth, Databases, Storage,
   Functions, Messaging, Hosting, Realtime and more
 repo_language: TypeScript
-topics:
+tags:
 - android
 - appwrite
 - backend
@@ -92,31 +92,31 @@ weekly_appearances:
   url: /weekly/2026/w28/
 - week: 2026-W30
   url: /weekly/2026/w30/
-topic_links:
+tag_links:
 - name: android
-  url: /topics/android/
+  url: /tags/android/
 - name: appwrite
-  url: /topics/appwrite/
+  url: /tags/appwrite/
 - name: backend
-  url: /topics/backend/
+  url: /tags/backend/
 - name: backend-as-a-service
-  url: /topics/backend-as-a-service/
+  url: /tags/backend-as-a-service/
 - name: docker
-  url: /topics/docker/
+  url: /tags/docker/
 - name: firebase
-  url: /topics/firebase/
+  url: /tags/firebase/
 - name: flutter
-  url: /topics/flutter/
+  url: /tags/flutter/
 - name: hosting
-  url: /topics/hosting/
+  url: /tags/hosting/
 - name: ios
-  url: /topics/ios/
+  url: /tags/ios/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: nextjs
-  url: /topics/nextjs/
+  url: /tags/nextjs/
 - name: react
-  url: /topics/react/
+  url: /tags/react/
 related_repos:
 - full_name: flutter/flutter
   slug: flutter-flutter
@@ -149,9 +149,9 @@ related_repos:
   - hosting
   - self-hosted
   - selfhosted
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
+- full_name: coollabsio/coolify
+  slug: coollabsio-coolify
+  url: https://github.com/coollabsio/coolify
   score: 12
   shared_weeks:
   - 2026-W21
@@ -161,9 +161,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - android
-  - flutter
-  - ios
+  - docker
+  - nextjs
+  - self-hosted
 - full_name: immich-app/immich
   slug: immich-app-immich
   url: https://github.com/immich-app/immich
@@ -194,9 +194,9 @@ related_repos:
   - docker
   - self-hosted
   - selfhosted
-- full_name: coollabsio/coolify
-  slug: coollabsio-coolify
-  url: https://github.com/coollabsio/coolify
+- full_name: rustdesk/rustdesk
+  slug: rustdesk-rustdesk
+  url: https://github.com/rustdesk/rustdesk
   score: 12
   shared_weeks:
   - 2026-W21
@@ -206,12 +206,12 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - docker
-  - nextjs
-  - self-hosted
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+  - android
+  - flutter
+  - ios
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 11
   shared_weeks:
   - 2026-W21
@@ -222,10 +222,10 @@ related_repos:
   - 2026-W26
   shared_topics:
   - javascript
-  - react
-- full_name: vercel/next.js
-  slug: vercel-next-js
-  url: https://github.com/vercel/next.js
+  - web
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
   score: 11
   shared_weeks:
   - 2026-W21
@@ -235,7 +235,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - nextjs
+  - javascript
   - react
 lifecycle:
   status: active

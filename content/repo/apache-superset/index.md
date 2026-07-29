@@ -2,7 +2,7 @@
 title: apache/superset repository trend history
 description: 'Evergreen Claracle Observatory page for apache/superset: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/apache/superset
 repo_slug: apache-superset
 repo_description: Apache Superset is a Data Visualization and Data Exploration Platform
 repo_language: TypeScript
-topics:
+tags:
 - analytics
 - apache
 - apache-superset
@@ -103,31 +103,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: analytics
-  url: /topics/analytics/
+  url: /tags/analytics/
 - name: apache
-  url: /topics/apache/
+  url: /tags/apache/
 - name: apache-superset
-  url: /topics/apache-superset/
+  url: /tags/apache-superset/
 - name: asf
-  url: /topics/asf/
+  url: /tags/asf/
 - name: bi
-  url: /topics/bi/
+  url: /tags/bi/
 - name: business-analytics
-  url: /topics/business-analytics/
+  url: /tags/business-analytics/
 - name: business-intelligence
-  url: /topics/business-intelligence/
+  url: /tags/business-intelligence/
 - name: data-analysis
-  url: /topics/data-analysis/
+  url: /tags/data-analysis/
 - name: data-analytics
-  url: /topics/data-analytics/
+  url: /tags/data-analytics/
 - name: data-engineering
-  url: /topics/data-engineering/
+  url: /tags/data-engineering/
 - name: data-science
-  url: /topics/data-science/
+  url: /tags/data-science/
 - name: data-visualization
-  url: /topics/data-visualization/
+  url: /tags/data-visualization/
 related_repos:
 - full_name: grafana/grafana
   slug: grafana-grafana
@@ -187,9 +187,22 @@ related_repos:
   shared_topics:
   - data-analytics
   - python
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - python
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
   score: 12
   shared_weeks:
   - 2026-W21
@@ -200,35 +213,24 @@ related_repos:
   - 2026-W26
   shared_topics:
   - react
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: apache/echarts
+  slug: apache-echarts
+  url: https://github.com/apache/echarts
   score: 12
   shared_weeks:
   - 2026-W21
   - 2026-W22
   - 2026-W23
   - 2026-W24
-  - 2026-W25
-  - 2026-W26
+  - 2026-W27
+  - 2026-W28
   shared_topics:
-  - python
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - python
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+  - apache
+  - data-visualization
+  - data-viz
+- full_name: astral-sh/uv
+  slug: astral-sh-uv
+  url: https://github.com/astral-sh/uv
   score: 12
   shared_weeks:
   - 2026-W21

@@ -2,7 +2,7 @@
 title: swisskyrepo/PayloadsAllTheThings repository trend history
 description: 'Evergreen Claracle Observatory page for swisskyrepo/PayloadsAllTheThings: 5 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/swisskyrepo/PayloadsAllTheThings
 repo_slug: swisskyrepo-payloadsallthethings
 repo_description: A list of useful payloads and bypass for Web Application Security and Pentest/CTF
 repo_language: Python
-topics:
+tags:
 - bounty
 - bugbounty
 - bypass
@@ -67,31 +67,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: bounty
-  url: /topics/bounty/
+  url: /tags/bounty/
 - name: bugbounty
-  url: /topics/bugbounty/
+  url: /tags/bugbounty/
 - name: bypass
-  url: /topics/bypass/
+  url: /tags/bypass/
 - name: cheatsheet
-  url: /topics/cheatsheet/
+  url: /tags/cheatsheet/
 - name: enumeration
-  url: /topics/enumeration/
+  url: /tags/enumeration/
 - name: hacking
-  url: /topics/hacking/
+  url: /tags/hacking/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: methodology
-  url: /topics/methodology/
+  url: /tags/methodology/
 - name: payload
-  url: /topics/payload/
+  url: /tags/payload/
 - name: payloads
-  url: /topics/payloads/
+  url: /tags/payloads/
 - name: penetration-testing
-  url: /topics/penetration-testing/
+  url: /tags/penetration-testing/
 - name: pentest
-  url: /topics/pentest/
+  url: /tags/pentest/
 related_repos:
 - full_name: sherlock-project/sherlock
   slug: sherlock-project-sherlock
@@ -118,57 +118,9 @@ related_repos:
   - 2026-W31
   shared_topics:
   - hacktoberfest
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
-  score: 6
-  shared_weeks:
-  - 2026-W24
-  - 2026-W26
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - hacktoberfest
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
-  score: 6
-  shared_weeks:
-  - 2026-W24
-  - 2026-W26
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - hacktoberfest
-- full_name: home-assistant/core
-  slug: home-assistant-core
-  url: https://github.com/home-assistant/core
-  score: 6
-  shared_weeks:
-  - 2026-W24
-  - 2026-W26
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - hacktoberfest
-- full_name: Stirling-Tools/Stirling-PDF
-  slug: stirling-tools-stirling-pdf
-  url: https://github.com/Stirling-Tools/Stirling-PDF
-  score: 6
-  shared_weeks:
-  - 2026-W24
-  - 2026-W26
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - hacktoberfest
-- full_name: grafana/grafana
-  slug: grafana-grafana
-  url: https://github.com/grafana/grafana
   score: 6
   shared_weeks:
   - 2026-W24
@@ -190,6 +142,54 @@ related_repos:
   - 2026-W31
   shared_topics:
   - security
+- full_name: EbookFoundation/free-programming-books
+  slug: ebookfoundation-free-programming-books
+  url: https://github.com/EbookFoundation/free-programming-books
+  score: 6
+  shared_weeks:
+  - 2026-W24
+  - 2026-W26
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - hacktoberfest
+- full_name: excalidraw/excalidraw
+  slug: excalidraw-excalidraw
+  url: https://github.com/excalidraw/excalidraw
+  score: 6
+  shared_weeks:
+  - 2026-W24
+  - 2026-W26
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - hacktoberfest
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
+  score: 6
+  shared_weeks:
+  - 2026-W24
+  - 2026-W26
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - hacktoberfest
+- full_name: git/git
+  slug: git-git
+  url: https://github.com/git/git
+  score: 6
+  shared_weeks:
+  - 2026-W24
+  - 2026-W26
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - hacktoberfest
 lifecycle:
   status: active
   as_of_week: 2026-W31

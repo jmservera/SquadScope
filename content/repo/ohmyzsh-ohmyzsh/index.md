@@ -2,7 +2,7 @@
 title: ohmyzsh/ohmyzsh repository trend history
 description: 'Evergreen Claracle Observatory page for ohmyzsh/ohmyzsh: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -15,7 +15,7 @@ repo_description: 🙃   A delightful community-driven (with 2,500+ contributors
   Includes 300+ optional plugins (rails, git, macOS, hub, docker, homebrew, node, php, python, etc), 140+ themes to spice
   up your morning, and an auto-update tool that makes it easy to keep up with the latest updates from the community.
 repo_language: Shell
-topics:
+tags:
 - cli
 - cli-app
 - oh-my-zsh
@@ -105,31 +105,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: cli
-  url: /topics/cli/
+  url: /tags/cli/
 - name: cli-app
-  url: /topics/cli-app/
+  url: /tags/cli-app/
 - name: oh-my-zsh
-  url: /topics/oh-my-zsh/
+  url: /tags/oh-my-zsh/
 - name: oh-my-zsh-plugin
-  url: /topics/oh-my-zsh-plugin/
+  url: /tags/oh-my-zsh-plugin/
 - name: oh-my-zsh-theme
-  url: /topics/oh-my-zsh-theme/
+  url: /tags/oh-my-zsh-theme/
 - name: ohmyzsh
-  url: /topics/ohmyzsh/
+  url: /tags/ohmyzsh/
 - name: plugin-framework
-  url: /topics/plugin-framework/
+  url: /tags/plugin-framework/
 - name: plugins
-  url: /topics/plugins/
+  url: /tags/plugins/
 - name: productivity
-  url: /topics/productivity/
+  url: /tags/productivity/
 - name: shell
-  url: /topics/shell/
+  url: /tags/shell/
 - name: terminal
-  url: /topics/terminal/
+  url: /tags/terminal/
 - name: theme
-  url: /topics/theme/
+  url: /tags/theme/
 related_repos:
 - full_name: warpdotdev/warp
   slug: warpdotdev-warp
@@ -146,20 +146,6 @@ related_repos:
   - shell
   - terminal
   - zsh
-- full_name: junegunn/fzf
-  slug: junegunn-fzf
-  url: https://github.com/junegunn/fzf
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - cli
-  - zsh
 - full_name: jesseduffield/lazygit
   slug: jesseduffield-lazygit
   url: https://github.com/jesseduffield/lazygit
@@ -174,6 +160,20 @@ related_repos:
   shared_topics:
   - cli
   - terminal
+- full_name: junegunn/fzf
+  slug: junegunn-fzf
+  url: https://github.com/junegunn/fzf
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - cli
+  - zsh
 - full_name: starship/starship
   slug: starship-starship
   url: https://github.com/starship/starship
@@ -188,9 +188,9 @@ related_repos:
   shared_topics:
   - oh-my-zsh
   - zsh
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: git/git
+  slug: git-git
+  url: https://github.com/git/git
   score: 12
   shared_weeks:
   - 2026-W21
@@ -200,7 +200,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - cli
+  - shell
 - full_name: google-gemini/gemini-cli
   slug: google-gemini-gemini-cli
   url: https://github.com/google-gemini/gemini-cli
@@ -214,9 +214,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - cli
-- full_name: sherlock-project/sherlock
-  slug: sherlock-project-sherlock
-  url: https://github.com/sherlock-project/sherlock
+- full_name: n8n-io/n8n
+  slug: n8n-io-n8n
+  url: https://github.com/n8n-io/n8n
   score: 12
   shared_weeks:
   - 2026-W21

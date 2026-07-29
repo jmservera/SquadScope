@@ -2,7 +2,7 @@
 title: xtekky/gpt4free repository trend history
 description: 'Evergreen Claracle Observatory page for xtekky/gpt4free: 10 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: xtekky-gpt4free
 repo_description: The official gpt4free repository | various collection of powerful language models | opus 4.6 gpt 5.3 kimi
   2.5 deepseek v3.2 gemini 3
 repo_language: Python
-topics:
+tags:
 - chatbot
 - chatbots
 - chatgpt
@@ -98,31 +98,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: chatbot
-  url: /topics/chatbot/
+  url: /tags/chatbot/
 - name: chatbots
-  url: /topics/chatbots/
+  url: /tags/chatbots/
 - name: chatgpt
-  url: /topics/chatgpt/
+  url: /tags/chatgpt/
 - name: chatgpt-4
-  url: /topics/chatgpt-4/
+  url: /tags/chatgpt-4/
 - name: chatgpt-api
-  url: /topics/chatgpt-api/
+  url: /tags/chatgpt-api/
 - name: chatgpt-free
-  url: /topics/chatgpt-free/
+  url: /tags/chatgpt-free/
 - name: chatgpt4
-  url: /topics/chatgpt4/
+  url: /tags/chatgpt4/
 - name: deepseek
-  url: /topics/deepseek/
+  url: /tags/deepseek/
 - name: deepseek-api
-  url: /topics/deepseek-api/
+  url: /tags/deepseek-api/
 - name: deepseek-r1
-  url: /topics/deepseek-r1/
+  url: /tags/deepseek-r1/
 - name: gpt
-  url: /topics/gpt/
+  url: /tags/gpt/
 - name: gpt-4
-  url: /topics/gpt-4/
+  url: /tags/gpt-4/
 related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
@@ -155,34 +155,20 @@ related_repos:
   - gpt
   - gpt-4
   - openai
-- full_name: vllm-project/vllm
-  slug: vllm-project-vllm
-  url: https://github.com/vllm-project/vllm
+- full_name: lobehub/lobehub
+  slug: lobehub-lobehub
+  url: https://github.com/lobehub/lobehub
   score: 13
   shared_weeks:
-  - 2026-W21
   - 2026-W23
   - 2026-W24
   - 2026-W25
   - 2026-W26
   - 2026-W27
-  shared_topics:
-  - deepseek
-  - gpt
-  - openai
-- full_name: OpenHands/OpenHands
-  slug: openhands-openhands
-  url: https://github.com/OpenHands/OpenHands
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
+  - 2026-W28
   shared_topics:
   - chatgpt
+  - deepseek
   - gpt
   - openai
 - full_name: microsoft/generative-ai-for-beginners
@@ -201,39 +187,39 @@ related_repos:
   - gpt
   - language-model
   - openai
-- full_name: lobehub/lobehub
-  slug: lobehub-lobehub
-  url: https://github.com/lobehub/lobehub
+- full_name: OpenHands/OpenHands
+  slug: openhands-openhands
+  url: https://github.com/OpenHands/OpenHands
   score: 13
   shared_weeks:
+  - 2026-W21
   - 2026-W23
   - 2026-W24
   - 2026-W25
   - 2026-W26
   - 2026-W27
-  - 2026-W28
   shared_topics:
   - chatgpt
+  - gpt
+  - openai
+- full_name: vllm-project/vllm
+  slug: vllm-project-vllm
+  url: https://github.com/vllm-project/vllm
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
   - deepseek
   - gpt
   - openai
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - gpt
-  - openai
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 12
   shared_weeks:
   - 2026-W21
@@ -245,6 +231,20 @@ related_repos:
   shared_topics:
   - chatgpt
   - openai
+- full_name: hiyouga/LlamaFactory
+  slug: hiyouga-llamafactory
+  url: https://github.com/hiyouga/LlamaFactory
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - deepseek
+  - gpt
 lifecycle:
   status: active
   as_of_week: 2026-W31

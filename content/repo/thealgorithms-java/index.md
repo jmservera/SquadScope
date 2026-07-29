@@ -2,7 +2,7 @@
 title: TheAlgorithms/Java repository trend history
 description: 'Evergreen Claracle Observatory page for TheAlgorithms/Java: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/TheAlgorithms/Java
 repo_slug: thealgorithms-java
 repo_description: All Algorithms implemented in Java
 repo_language: Java
-topics:
+tags:
 - algorithm
 - algorithm-challenges
 - algorithms
@@ -101,27 +101,27 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: algorithm
-  url: /topics/algorithm/
+  url: /tags/algorithm/
 - name: algorithm-challenges
-  url: /topics/algorithm-challenges/
+  url: /tags/algorithm-challenges/
 - name: algorithms
-  url: /topics/algorithms/
+  url: /tags/algorithms/
 - name: algorithms-datastructures
-  url: /topics/algorithms-datastructures/
+  url: /tags/algorithms-datastructures/
 - name: data-structures
-  url: /topics/data-structures/
+  url: /tags/data-structures/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: java
-  url: /topics/java/
+  url: /tags/java/
 - name: search
-  url: /topics/search/
+  url: /tags/search/
 - name: sort
-  url: /topics/sort/
+  url: /tags/sort/
 - name: sorting-algorithms
-  url: /topics/sorting-algorithms/
+  url: /tags/sorting-algorithms/
 related_repos:
 - full_name: Stirling-Tools/Stirling-PDF
   slug: stirling-tools-stirling-pdf
@@ -150,9 +150,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
   score: 12
   shared_weeks:
   - 2026-W21
@@ -163,9 +163,48 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: axios/axios
-  slug: axios-axios
-  url: https://github.com/axios/axios
+- full_name: elastic/elasticsearch
+  slug: elastic-elasticsearch
+  url: https://github.com/elastic/elasticsearch
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - java
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - hacktoberfest
+- full_name: git/git
+  slug: git-git
+  url: https://github.com/git/git
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - hacktoberfest
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
   score: 12
   shared_weeks:
   - 2026-W21
@@ -189,45 +228,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: sherlock-project/sherlock
-  slug: sherlock-project-sherlock
-  url: https://github.com/sherlock-project/sherlock
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - hacktoberfest
-- full_name: spring-projects/spring-boot
-  slug: spring-projects-spring-boot
-  url: https://github.com/spring-projects/spring-boot
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - java
-- full_name: elastic/elasticsearch
-  slug: elastic-elasticsearch
-  url: https://github.com/elastic/elasticsearch
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - java
 lifecycle:
   status: active
   as_of_week: 2026-W31

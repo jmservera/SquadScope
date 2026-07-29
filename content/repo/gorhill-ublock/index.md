@@ -2,7 +2,7 @@
 title: gorhill/uBlock repository trend history
 description: 'Evergreen Claracle Observatory page for gorhill/uBlock: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/gorhill/uBlock
 repo_slug: gorhill-ublock
 repo_description: uBlock Origin - An efficient blocker for Chromium and Firefox. Fast and lean.
 repo_language: JavaScript
-topics:
+tags:
 - blocker
 - browser-extension
 - chromium
@@ -98,36 +98,22 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: blocker
-  url: /topics/blocker/
+  url: /tags/blocker/
 - name: browser-extension
-  url: /topics/browser-extension/
+  url: /tags/browser-extension/
 - name: chromium
-  url: /topics/chromium/
+  url: /tags/chromium/
 - name: firefox
-  url: /topics/firefox/
+  url: /tags/firefox/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: ublock
-  url: /topics/ublock/
+  url: /tags/ublock/
 - name: ublock-origin
-  url: /topics/ublock-origin/
+  url: /tags/ublock-origin/
 related_repos:
-- full_name: puppeteer/puppeteer
-  slug: puppeteer-puppeteer
-  url: https://github.com/puppeteer/puppeteer
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - chromium
-  - firefox
 - full_name: microsoft/playwright
   slug: microsoft-playwright
   url: https://github.com/microsoft/playwright
@@ -143,9 +129,23 @@ related_repos:
   - chromium
   - firefox
   - javascript
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: puppeteer/puppeteer
+  slug: puppeteer-puppeteer
+  url: https://github.com/puppeteer/puppeteer
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - chromium
+  - firefox
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 12
   shared_weeks:
   - 2026-W21
@@ -156,9 +156,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - javascript
-- full_name: twbs/bootstrap
-  slug: twbs-bootstrap
-  url: https://github.com/twbs/bootstrap
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+- full_name: denoland/deno
+  slug: denoland-deno
+  url: https://github.com/denoland/deno
   score: 12
   shared_weeks:
   - 2026-W21
@@ -182,9 +195,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - javascript
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
   score: 12
   shared_weeks:
   - 2026-W21
@@ -195,22 +208,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - javascript
-- full_name: mrdoob/three.js
-  slug: mrdoob-three-js
-  url: https://github.com/mrdoob/three.js
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-- full_name: axios/axios
-  slug: axios-axios
-  url: https://github.com/axios/axios
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
   score: 12
   shared_weeks:
   - 2026-W21

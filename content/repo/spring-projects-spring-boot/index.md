@@ -2,7 +2,7 @@
 title: spring-projects/spring-boot repository trend history
 description: 'Evergreen Claracle Observatory page for spring-projects/spring-boot: 11 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: spring-projects-spring-boot
 repo_description: Spring Boot helps you to create Spring-powered, production-grade applications and services with absolute
   minimum fuss.
 repo_language: Java
-topics:
+tags:
 - framework
 - java
 - spring
@@ -96,15 +96,15 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: framework
-  url: /topics/framework/
+  url: /tags/framework/
 - name: java
-  url: /topics/java/
+  url: /tags/java/
 - name: spring
-  url: /topics/spring/
+  url: /tags/spring/
 - name: spring-boot
-  url: /topics/spring-boot/
+  url: /tags/spring-boot/
 related_repos:
 - full_name: spring-projects/spring-framework
   slug: spring-projects-spring-framework
@@ -120,6 +120,32 @@ related_repos:
   shared_topics:
   - framework
   - spring
+- full_name: elastic/elasticsearch
+  slug: elastic-elasticsearch
+  url: https://github.com/elastic/elasticsearch
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - java
+- full_name: fastapi/fastapi
+  slug: fastapi-fastapi
+  url: https://github.com/fastapi/fastapi
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - framework
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
@@ -133,9 +159,35 @@ related_repos:
   - 2026-W26
   shared_topics:
   - framework
-- full_name: fastapi/fastapi
-  slug: fastapi-fastapi
-  url: https://github.com/fastapi/fastapi
+- full_name: nuxt/nuxt
+  slug: nuxt-nuxt
+  url: https://github.com/nuxt/nuxt
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - framework
+- full_name: ocornut/imgui
+  slug: ocornut-imgui
+  url: https://github.com/ocornut/imgui
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - framework
+- full_name: rails/rails
+  slug: rails-rails
+  url: https://github.com/rails/rails
   score: 12
   shared_weeks:
   - 2026-W21
@@ -159,58 +211,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - java
-- full_name: elastic/elasticsearch
-  slug: elastic-elasticsearch
-  url: https://github.com/elastic/elasticsearch
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - java
-- full_name: ocornut/imgui
-  slug: ocornut-imgui
-  url: https://github.com/ocornut/imgui
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - framework
-- full_name: TheAlgorithms/Java
-  slug: thealgorithms-java
-  url: https://github.com/TheAlgorithms/Java
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - java
-- full_name: nuxt/nuxt
-  slug: nuxt-nuxt
-  url: https://github.com/nuxt/nuxt
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - framework
 lifecycle:
   status: active
   as_of_week: 2026-W31

@@ -2,7 +2,7 @@
 title: facebook/react repository trend history
 description: 'Evergreen Claracle Observatory page for facebook/react: 4 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-06-08'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/facebook/react
 repo_slug: facebook-react
 repo_description: The library for web and native user interfaces.
 repo_language: JavaScript
-topics:
+tags:
 - declarative
 - frontend
 - javascript
@@ -55,23 +55,23 @@ weekly_appearances:
   url: /weekly/2026/w23/
 - week: 2026-W24
   url: /weekly/2026/w24/
-topic_links:
+tag_links:
 - name: declarative
-  url: /topics/declarative/
+  url: /tags/declarative/
 - name: frontend
-  url: /topics/frontend/
+  url: /tags/frontend/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: library
-  url: /topics/library/
+  url: /tags/library/
 - name: react
-  url: /topics/react/
+  url: /tags/react/
 - name: ui
-  url: /topics/ui/
+  url: /tags/ui/
 related_repos:
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: appwrite/appwrite
+  slug: appwrite-appwrite
+  url: https://github.com/appwrite/appwrite
   score: 6
   shared_weeks:
   - 2026-W21
@@ -81,9 +81,9 @@ related_repos:
   shared_topics:
   - javascript
   - react
-- full_name: shadcn-ui/ui
-  slug: shadcn-ui-ui
-  url: https://github.com/shadcn-ui/ui
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
   score: 6
   shared_weeks:
   - 2026-W21
@@ -91,11 +91,11 @@ related_repos:
   - 2026-W23
   - 2026-W24
   shared_topics:
+  - javascript
   - react
-  - ui
-- full_name: oven-sh/bun
-  slug: oven-sh-bun
-  url: https://github.com/oven-sh/bun
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
   score: 6
   shared_weeks:
   - 2026-W21
@@ -117,9 +117,9 @@ related_repos:
   shared_topics:
   - library
   - ui
-- full_name: facebook/docusaurus
-  slug: facebook-docusaurus
-  url: https://github.com/facebook/docusaurus
+- full_name: oven-sh/bun
+  slug: oven-sh-bun
+  url: https://github.com/oven-sh/bun
   score: 6
   shared_weeks:
   - 2026-W21
@@ -129,9 +129,9 @@ related_repos:
   shared_topics:
   - javascript
   - react
-- full_name: appwrite/appwrite
-  slug: appwrite-appwrite
-  url: https://github.com/appwrite/appwrite
+- full_name: shadcn-ui/ui
+  slug: shadcn-ui-ui
+  url: https://github.com/shadcn-ui/ui
   score: 6
   shared_weeks:
   - 2026-W21
@@ -139,11 +139,11 @@ related_repos:
   - 2026-W23
   - 2026-W24
   shared_topics:
-  - javascript
   - react
-- full_name: twbs/bootstrap
-  slug: twbs-bootstrap
-  url: https://github.com/twbs/bootstrap
+  - ui
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 5
   shared_weeks:
   - 2026-W21
@@ -152,9 +152,9 @@ related_repos:
   - 2026-W24
   shared_topics:
   - javascript
-- full_name: vercel/next.js
-  slug: vercel-next-js
-  url: https://github.com/vercel/next.js
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
   score: 5
   shared_weeks:
   - 2026-W21

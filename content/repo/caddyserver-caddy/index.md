@@ -2,7 +2,7 @@
 title: caddyserver/caddy repository trend history
 description: 'Evergreen Claracle Observatory page for caddyserver/caddy: 10 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/caddyserver/caddy
 repo_slug: caddyserver-caddy
 repo_description: Fast and extensible multi-platform HTTP/1-2-3 web server with automatic HTTPS
 repo_language: Go
-topics:
+tags:
 - acme
 - automatic-https
 - caddy
@@ -97,31 +97,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: acme
-  url: /topics/acme/
+  url: /tags/acme/
 - name: automatic-https
-  url: /topics/automatic-https/
+  url: /tags/automatic-https/
 - name: caddy
-  url: /topics/caddy/
+  url: /tags/caddy/
 - name: caddyfile
-  url: /topics/caddyfile/
+  url: /tags/caddyfile/
 - name: go
-  url: /topics/go/
+  url: /tags/go/
 - name: golang
-  url: /topics/golang/
+  url: /tags/golang/
 - name: http
-  url: /topics/http/
+  url: /tags/http/
 - name: http-server
-  url: /topics/http-server/
+  url: /tags/http-server/
 - name: http3
-  url: /topics/http3/
+  url: /tags/http3/
 - name: https
-  url: /topics/https/
+  url: /tags/https/
 - name: privacy
-  url: /topics/privacy/
+  url: /tags/privacy/
 - name: reverse-proxy
-  url: /topics/reverse-proxy/
+  url: /tags/reverse-proxy/
 related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
@@ -137,9 +137,9 @@ related_repos:
   shared_topics:
   - go
   - golang
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+- full_name: golang/go
+  slug: golang-go
+  url: https://github.com/golang/go
   score: 12
   shared_weeks:
   - 2026-W21
@@ -151,9 +151,9 @@ related_repos:
   shared_topics:
   - go
   - golang
-- full_name: golang/go
-  slug: golang-go
-  url: https://github.com/golang/go
+- full_name: ollama/ollama
+  slug: ollama-ollama
+  url: https://github.com/ollama/ollama
   score: 12
   shared_weeks:
   - 2026-W21
@@ -207,9 +207,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - privacy
-- full_name: kubernetes/kubernetes
-  slug: kubernetes-kubernetes
-  url: https://github.com/kubernetes/kubernetes
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
   score: 11
   shared_weeks:
   - 2026-W21
@@ -220,9 +220,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: syncthing/syncthing
-  slug: syncthing-syncthing
-  url: https://github.com/syncthing/syncthing
+- full_name: hoppscotch/hoppscotch
+  slug: hoppscotch-hoppscotch
+  url: https://github.com/hoppscotch/hoppscotch
   score: 11
   shared_weeks:
   - 2026-W21
@@ -232,7 +232,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - go
+  - http
 lifecycle:
   status: active
   as_of_week: 2026-W31

@@ -2,7 +2,7 @@
 title: redis/redis repository trend history
 description: 'Evergreen Claracle Observatory page for redis/redis: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: redis-redis
 repo_description: For developers, who are building real-time data-driven applications, Redis is the preferred, fastest, and
   most feature-rich cache, data structure server, and document and vector query engine.
 repo_language: C
-topics:
+tags:
 - cache
 - caching
 - database
@@ -104,31 +104,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: cache
-  url: /topics/cache/
+  url: /tags/cache/
 - name: caching
-  url: /topics/caching/
+  url: /tags/caching/
 - name: database
-  url: /topics/database/
+  url: /tags/database/
 - name: distributed-systems
-  url: /topics/distributed-systems/
+  url: /tags/distributed-systems/
 - name: in-memory
-  url: /topics/in-memory/
+  url: /tags/in-memory/
 - name: in-memory-database
-  url: /topics/in-memory-database/
+  url: /tags/in-memory-database/
 - name: json
-  url: /topics/json/
+  url: /tags/json/
 - name: key-value
-  url: /topics/key-value/
+  url: /tags/key-value/
 - name: key-value-store
-  url: /topics/key-value-store/
+  url: /tags/key-value-store/
 - name: message-broker
-  url: /topics/message-broker/
+  url: /tags/message-broker/
 - name: message-queue
-  url: /topics/message-queue/
+  url: /tags/message-queue/
 - name: no-sql
-  url: /topics/no-sql/
+  url: /tags/no-sql/
 related_repos:
 - full_name: meilisearch/meilisearch
   slug: meilisearch-meilisearch
@@ -144,6 +144,19 @@ related_repos:
   shared_topics:
   - database
   - vector-search
+- full_name: coollabsio/coolify
+  slug: coollabsio-coolify
+  url: https://github.com/coollabsio/coolify
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - redis
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -157,9 +170,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - open-source
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
   score: 12
   shared_weeks:
   - 2026-W21
@@ -170,9 +183,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - open-source
-- full_name: godotengine/godot
-  slug: godotengine-godot
-  url: https://github.com/godotengine/godot
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
   score: 12
   shared_weeks:
   - 2026-W21
@@ -196,22 +209,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - json
-- full_name: netdata/netdata
-  slug: netdata-netdata
-  url: https://github.com/netdata/netdata
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - database
-- full_name: farion1231/cc-switch
-  slug: farion1231-cc-switch
-  url: https://github.com/farion1231/cc-switch
+- full_name: godotengine/godot
+  slug: godotengine-godot
+  url: https://github.com/godotengine/godot
   score: 12
   shared_weeks:
   - 2026-W21
@@ -222,9 +222,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - open-source
-- full_name: facebook/docusaurus
-  slug: facebook-docusaurus
-  url: https://github.com/facebook/docusaurus
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
   score: 12
   shared_weeks:
   - 2026-W21

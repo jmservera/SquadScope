@@ -2,7 +2,7 @@
 title: neovim/neovim repository trend history
 description: 'Evergreen Claracle Observatory page for neovim/neovim: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/neovim/neovim
 repo_slug: neovim-neovim
 repo_description: Vim-fork focused on extensibility and usability
 repo_language: Vim Script
-topics:
+tags:
 - api
 - c
 - lua
@@ -98,21 +98,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: api
-  url: /topics/api/
+  url: /tags/api/
 - name: c
-  url: /topics/c/
+  url: /tags/c/
 - name: lua
-  url: /topics/lua/
+  url: /tags/lua/
 - name: neovim
-  url: /topics/neovim/
+  url: /tags/neovim/
 - name: nvim
-  url: /topics/nvim/
+  url: /tags/nvim/
 - name: text-editor
-  url: /topics/text-editor/
+  url: /tags/text-editor/
 - name: vim
-  url: /topics/vim/
+  url: /tags/vim/
 related_repos:
 - full_name: junegunn/fzf
   slug: junegunn-fzf
@@ -141,9 +141,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - api
-- full_name: zed-industries/zed
-  slug: zed-industries-zed
-  url: https://github.com/zed-industries/zed
+- full_name: FFmpeg/FFmpeg
+  slug: ffmpeg-ffmpeg
+  url: https://github.com/FFmpeg/FFmpeg
   score: 12
   shared_weeks:
   - 2026-W21
@@ -153,7 +153,20 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - text-editor
+  - c
+- full_name: git/git
+  slug: git-git
+  url: https://github.com/git/git
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - c
 - full_name: hoppscotch/hoppscotch
   slug: hoppscotch-hoppscotch
   url: https://github.com/hoppscotch/hoppscotch
@@ -167,9 +180,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - api
-- full_name: ocornut/imgui
-  slug: ocornut-imgui
-  url: https://github.com/ocornut/imgui
+- full_name: meilisearch/meilisearch
+  slug: meilisearch-meilisearch
+  url: https://github.com/meilisearch/meilisearch
   score: 12
   shared_weeks:
   - 2026-W21
@@ -193,9 +206,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - c
-- full_name: strapi/strapi
-  slug: strapi-strapi
-  url: https://github.com/strapi/strapi
+- full_name: ocornut/imgui
+  slug: ocornut-imgui
+  url: https://github.com/ocornut/imgui
   score: 12
   shared_weeks:
   - 2026-W21
@@ -206,19 +219,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - api
-- full_name: git/git
-  slug: git-git
-  url: https://github.com/git/git
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - c
 lifecycle:
   status: active
   as_of_week: 2026-W31

@@ -2,7 +2,7 @@
 title: tesseract-ocr/tesseract repository trend history
 description: 'Evergreen Claracle Observatory page for tesseract-ocr/tesseract: 9 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/tesseract-ocr/tesseract
 repo_slug: tesseract-ocr-tesseract
 repo_description: Tesseract Open Source OCR Engine (main repository)
 repo_language: C++
-topics:
+tags:
 - hacktoberfest
 - lstm
 - machine-learning
@@ -86,21 +86,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: lstm
-  url: /topics/lstm/
+  url: /tags/lstm/
 - name: machine-learning
-  url: /topics/machine-learning/
+  url: /tags/machine-learning/
 - name: ocr
-  url: /topics/ocr/
+  url: /tags/ocr/
 - name: ocr-engine
-  url: /topics/ocr-engine/
+  url: /tags/ocr-engine/
 - name: tesseract
-  url: /topics/tesseract/
+  url: /tags/tesseract/
 - name: tesseract-ocr
-  url: /topics/tesseract-ocr/
+  url: /tags/tesseract-ocr/
 related_repos:
 - full_name: huggingface/transformers
   slug: huggingface-transformers
@@ -116,9 +116,9 @@ related_repos:
   shared_topics:
   - hacktoberfest
   - machine-learning
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: avelino/awesome-go
+  slug: avelino-awesome-go
+  url: https://github.com/avelino/awesome-go
   score: 10
   shared_weeks:
   - 2026-W23
@@ -128,10 +128,23 @@ related_repos:
   - 2026-W27
   - 2026-W28
   shared_topics:
-  - machine-learning
-- full_name: avelino/awesome-go
-  slug: avelino-awesome-go
-  url: https://github.com/avelino/awesome-go
+  - hacktoberfest
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
+  score: 10
+  shared_weeks:
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - hacktoberfest
+- full_name: EbookFoundation/free-programming-books
+  slug: ebookfoundation-free-programming-books
+  url: https://github.com/EbookFoundation/free-programming-books
   score: 10
   shared_weeks:
   - 2026-W23
@@ -155,9 +168,9 @@ related_repos:
   - 2026-W28
   shared_topics:
   - machine-learning
-- full_name: axios/axios
-  slug: axios-axios
-  url: https://github.com/axios/axios
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
   score: 10
   shared_weeks:
   - 2026-W23
@@ -168,22 +181,9 @@ related_repos:
   - 2026-W28
   shared_topics:
   - hacktoberfest
-- full_name: pytorch/pytorch
-  slug: pytorch-pytorch
-  url: https://github.com/pytorch/pytorch
-  score: 10
-  shared_weeks:
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  shared_topics:
-  - machine-learning
-- full_name: home-assistant/core
-  slug: home-assistant-core
-  url: https://github.com/home-assistant/core
+- full_name: git/git
+  slug: git-git
+  url: https://github.com/git/git
   score: 10
   shared_weeks:
   - 2026-W23
@@ -194,9 +194,9 @@ related_repos:
   - 2026-W28
   shared_topics:
   - hacktoberfest
-- full_name: sherlock-project/sherlock
-  slug: sherlock-project-sherlock
-  url: https://github.com/sherlock-project/sherlock
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
   score: 10
   shared_weeks:
   - 2026-W23

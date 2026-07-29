@@ -2,7 +2,7 @@
 title: microsoft/PowerToys repository trend history
 description: 'Evergreen Claracle Observatory page for microsoft/PowerToys: 10 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/microsoft/PowerToys
 repo_slug: microsoft-powertoys
 repo_description: Microsoft PowerToys is a collection of utilities that supercharge productivity and customization on Windows
 repo_language: C
-topics:
+tags:
 - advanced-paste
 - color-picker
 - command-palette
@@ -97,31 +97,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: advanced-paste
-  url: /topics/advanced-paste/
+  url: /tags/advanced-paste/
 - name: color-picker
-  url: /topics/color-picker/
+  url: /tags/color-picker/
 - name: command-palette
-  url: /topics/command-palette/
+  url: /tags/command-palette/
 - name: desktop
-  url: /topics/desktop/
+  url: /tags/desktop/
 - name: fancyzones
-  url: /topics/fancyzones/
+  url: /tags/fancyzones/
 - name: keyboard-manager
-  url: /topics/keyboard-manager/
+  url: /tags/keyboard-manager/
 - name: microsoft-powertoys
-  url: /topics/microsoft-powertoys/
+  url: /tags/microsoft-powertoys/
 - name: powerrename
-  url: /topics/powerrename/
+  url: /tags/powerrename/
 - name: powertoys
-  url: /topics/powertoys/
+  url: /tags/powertoys/
 - name: windows
-  url: /topics/windows/
+  url: /tags/windows/
 - name: windows-10
-  url: /topics/windows-10/
+  url: /tags/windows-10/
 - name: windows-11
-  url: /topics/windows-11/
+  url: /tags/windows-11/
 related_repos:
 - full_name: flutter/flutter
   slug: flutter-flutter
@@ -137,9 +137,35 @@ related_repos:
   shared_topics:
   - desktop
   - windows
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
+  score: 11
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - windows
 - full_name: clash-verge-rev/clash-verge-rev
   slug: clash-verge-rev-clash-verge-rev
   url: https://github.com/clash-verge-rev/clash-verge-rev
+  score: 11
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - windows
+- full_name: microsoft/terminal
+  slug: microsoft-terminal
+  url: https://github.com/microsoft/terminal
   score: 11
   shared_weeks:
   - 2026-W22
@@ -176,35 +202,9 @@ related_repos:
   - 2026-W27
   shared_topics:
   - windows
-- full_name: 2dust/v2rayN
-  slug: 2dust-v2rayn
-  url: https://github.com/2dust/v2rayN
-  score: 11
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - windows
-- full_name: microsoft/terminal
-  slug: microsoft-terminal
-  url: https://github.com/microsoft/terminal
-  score: 11
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - windows
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 10
   shared_weeks:
   - 2026-W22
@@ -214,9 +214,9 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: abi/screenshot-to-code
+  slug: abi-screenshot-to-code
+  url: https://github.com/abi/screenshot-to-code
   score: 10
   shared_weeks:
   - 2026-W22

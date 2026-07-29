@@ -2,7 +2,7 @@
 title: rustdesk/rustdesk repository trend history
 description: 'Evergreen Claracle Observatory page for rustdesk/rustdesk: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/rustdesk/rustdesk
 repo_slug: rustdesk-rustdesk
 repo_description: An open-source remote desktop application designed for self-hosting, as an alternative to TeamViewer.
 repo_language: Rust
-topics:
+tags:
 - android
 - anydesk
 - dart
@@ -103,31 +103,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: android
-  url: /topics/android/
+  url: /tags/android/
 - name: anydesk
-  url: /topics/anydesk/
+  url: /tags/anydesk/
 - name: dart
-  url: /topics/dart/
+  url: /tags/dart/
 - name: flatpak
-  url: /topics/flatpak/
+  url: /tags/flatpak/
 - name: flutter
-  url: /topics/flutter/
+  url: /tags/flutter/
 - name: flutter-apps
-  url: /topics/flutter-apps/
+  url: /tags/flutter-apps/
 - name: ios
-  url: /topics/ios/
+  url: /tags/ios/
 - name: linux
-  url: /topics/linux/
+  url: /tags/linux/
 - name: macos
-  url: /topics/macos/
+  url: /tags/macos/
 - name: p2p
-  url: /topics/p2p/
+  url: /tags/p2p/
 - name: rdp
-  url: /topics/rdp/
+  url: /tags/rdp/
 - name: remote-control
-  url: /topics/remote-control/
+  url: /tags/remote-control/
 related_repos:
 - full_name: flutter/flutter
   slug: flutter-flutter
@@ -219,9 +219,9 @@ related_repos:
   shared_topics:
   - rust
   - rust-lang
-- full_name: rust-lang/rust
-  slug: rust-lang-rust
-  url: https://github.com/rust-lang/rust
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 12
   shared_weeks:
   - 2026-W21
@@ -231,10 +231,10 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - rust
-- full_name: tauri-apps/tauri
-  slug: tauri-apps-tauri
-  url: https://github.com/tauri-apps/tauri
+  - windows
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 12
   shared_weeks:
   - 2026-W21
@@ -244,7 +244,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - rust
+  - android
 lifecycle:
   status: active
   as_of_week: 2026-W31

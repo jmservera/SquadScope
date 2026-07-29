@@ -2,7 +2,7 @@
 title: coder/code-server repository trend history
 description: 'Evergreen Claracle Observatory page for coder/code-server: 10 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/coder/code-server
 repo_slug: coder-code-server
 repo_description: VS Code in the browser
 repo_language: TypeScript
-topics:
+tags:
 - browser-ide
 - dev-tools
 - development-environment
@@ -92,21 +92,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: browser-ide
-  url: /topics/browser-ide/
+  url: /tags/browser-ide/
 - name: dev-tools
-  url: /topics/dev-tools/
+  url: /tags/dev-tools/
 - name: development-environment
-  url: /topics/development-environment/
+  url: /tags/development-environment/
 - name: ide
-  url: /topics/ide/
+  url: /tags/ide/
 - name: remote-work
-  url: /topics/remote-work/
+  url: /tags/remote-work/
 - name: vscode
-  url: /topics/vscode/
+  url: /tags/vscode/
 - name: vscode-remote
-  url: /topics/vscode-remote/
+  url: /tags/vscode-remote/
 related_repos:
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
@@ -121,9 +121,9 @@ related_repos:
   - 2026-W27
   shared_topics:
   - ide
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 10
   shared_weeks:
   - 2026-W22
@@ -133,9 +133,9 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 10
   shared_weeks:
   - 2026-W22
@@ -145,9 +145,9 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics: []
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+- full_name: abi/screenshot-to-code
+  slug: abi-screenshot-to-code
+  url: https://github.com/abi/screenshot-to-code
   score: 10
   shared_weeks:
   - 2026-W22
@@ -157,9 +157,9 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics: []
-- full_name: torvalds/linux
-  slug: torvalds-linux
-  url: https://github.com/torvalds/linux
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
   score: 10
   shared_weeks:
   - 2026-W22
@@ -169,9 +169,9 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics: []
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
+- full_name: Anduin2017/HowToCook
+  slug: anduin2017-howtocook
+  url: https://github.com/Anduin2017/HowToCook
   score: 10
   shared_weeks:
   - 2026-W22
@@ -181,9 +181,9 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics: []
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 10
   shared_weeks:
   - 2026-W22
@@ -193,9 +193,9 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics: []
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: anomalyco/opencode
+  slug: anomalyco-opencode
+  url: https://github.com/anomalyco/opencode
   score: 10
   shared_weeks:
   - 2026-W22

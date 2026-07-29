@@ -2,7 +2,7 @@
 title: langchain-ai/langchain repository trend history
 description: 'Evergreen Claracle Observatory page for langchain-ai/langchain: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/langchain-ai/langchain
 repo_slug: langchain-ai-langchain
 repo_description: The agent engineering platform.
 repo_language: Python
-topics:
+tags:
 - agents
 - ai
 - ai-agents
@@ -103,35 +103,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agents
-  url: /topics/agents/
+  url: /tags/agents/
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: anthropic
-  url: /topics/anthropic/
+  url: /tags/anthropic/
 - name: chatgpt
-  url: /topics/chatgpt/
+  url: /tags/chatgpt/
 - name: deepagents
-  url: /topics/deepagents/
+  url: /tags/deepagents/
 - name: enterprise
-  url: /topics/enterprise/
+  url: /tags/enterprise/
 - name: framework
-  url: /topics/framework/
+  url: /tags/framework/
 - name: gemini
-  url: /topics/gemini/
+  url: /tags/gemini/
 - name: generative-ai
-  url: /topics/generative-ai/
+  url: /tags/generative-ai/
 - name: langchain
-  url: /topics/langchain/
+  url: /tags/langchain/
 - name: langgraph
-  url: /topics/langgraph/
+  url: /tags/langgraph/
 related_repos:
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 15
   shared_weeks:
   - 2026-W21
@@ -141,11 +141,30 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - agents
   - ai
+  - ai-agents
+  - langchain
+  - langgraph
   - llm
-  - openai
   - python
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - ai-agents
+  - anthropic
+  - chatgpt
+  - gemini
+  - openai
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -164,9 +183,9 @@ related_repos:
   - llm
   - open-source
   - openai
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: harry0703/MoneyPrinterTurbo
+  slug: harry0703-moneyprinterturbo
+  url: https://github.com/harry0703/MoneyPrinterTurbo
   score: 15
   shared_weeks:
   - 2026-W21
@@ -177,11 +196,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-  - ai-agents
-  - anthropic
   - chatgpt
   - llm
-  - openai
+  - python
 - full_name: langflow-ai/langflow
   slug: langflow-ai-langflow
   url: https://github.com/langflow-ai/langflow
@@ -216,9 +233,9 @@ related_repos:
   - openai
   - python
   - rag
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
+- full_name: mem0ai/mem0
+  slug: mem0ai-mem0
+  url: https://github.com/mem0ai/mem0
   score: 15
   shared_weeks:
   - 2026-W21
@@ -228,13 +245,15 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
+  - agents
   - ai
+  - ai-agents
+  - chatgpt
   - llm
-  - openai
-  - rag
-- full_name: thedotmack/claude-mem
-  slug: thedotmack-claude-mem
-  url: https://github.com/thedotmack/claude-mem
+  - python
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
   score: 15
   shared_weeks:
   - 2026-W21
@@ -247,25 +266,9 @@ related_repos:
   - ai
   - ai-agents
   - anthropic
-  - rag
-- full_name: bytedance/deer-flow
-  slug: bytedance-deer-flow
-  url: https://github.com/bytedance/deer-flow
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - ai-agents
-  - langchain
-  - langgraph
+  - chatgpt
   - llm
-  - python
+  - openai
 lifecycle:
   status: active
   as_of_week: 2026-W31

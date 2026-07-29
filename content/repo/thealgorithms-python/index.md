@@ -2,7 +2,7 @@
 title: TheAlgorithms/Python repository trend history
 description: 'Evergreen Claracle Observatory page for TheAlgorithms/Python: 4 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/TheAlgorithms/Python
 repo_slug: thealgorithms-python
 repo_description: All Algorithms implemented in Python
 repo_language: Python
-topics:
+tags:
 - algorithm
 - algorithm-competitions
 - algorithms-implemented
@@ -61,31 +61,31 @@ weekly_appearances:
   url: /weekly/2026/w29/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: algorithm
-  url: /topics/algorithm/
+  url: /tags/algorithm/
 - name: algorithm-competitions
-  url: /topics/algorithm-competitions/
+  url: /tags/algorithm-competitions/
 - name: algorithms-implemented
-  url: /topics/algorithms-implemented/
+  url: /tags/algorithms-implemented/
 - name: algos
-  url: /topics/algos/
+  url: /tags/algos/
 - name: community-driven
-  url: /topics/community-driven/
+  url: /tags/community-driven/
 - name: education
-  url: /topics/education/
+  url: /tags/education/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: interview
-  url: /topics/interview/
+  url: /tags/interview/
 - name: learn
-  url: /topics/learn/
+  url: /tags/learn/
 - name: practice
-  url: /topics/practice/
+  url: /tags/practice/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: searches
-  url: /topics/searches/
+  url: /tags/searches/
 related_repos:
 - full_name: TheAlgorithms/Java
   slug: thealgorithms-java
@@ -100,9 +100,9 @@ related_repos:
   - algorithm
   - hacktoberfest
   - sorting-algorithms
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+- full_name: EbookFoundation/free-programming-books
+  slug: ebookfoundation-free-programming-books
+  url: https://github.com/EbookFoundation/free-programming-books
   score: 6
   shared_weeks:
   - 2026-W22
@@ -110,8 +110,8 @@ related_repos:
   - 2026-W29
   - 2026-W31
   shared_topics:
+  - education
   - hacktoberfest
-  - python
 - full_name: home-assistant/core
   slug: home-assistant-core
   url: https://github.com/home-assistant/core
@@ -124,9 +124,9 @@ related_repos:
   shared_topics:
   - hacktoberfest
   - python
-- full_name: sherlock-project/sherlock
-  slug: sherlock-project-sherlock
-  url: https://github.com/sherlock-project/sherlock
+- full_name: huggingface/transformers
+  slug: huggingface-transformers
+  url: https://github.com/huggingface/transformers
   score: 6
   shared_weeks:
   - 2026-W22
@@ -148,9 +148,9 @@ related_repos:
   shared_topics:
   - hacktoberfest
   - python
-- full_name: EbookFoundation/free-programming-books
-  slug: ebookfoundation-free-programming-books
-  url: https://github.com/EbookFoundation/free-programming-books
+- full_name: sherlock-project/sherlock
+  slug: sherlock-project-sherlock
+  url: https://github.com/sherlock-project/sherlock
   score: 6
   shared_weeks:
   - 2026-W22
@@ -158,11 +158,11 @@ related_repos:
   - 2026-W29
   - 2026-W31
   shared_topics:
-  - education
   - hacktoberfest
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+  - python
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 5
   shared_weeks:
   - 2026-W22
@@ -170,10 +170,10 @@ related_repos:
   - 2026-W29
   - 2026-W31
   shared_topics:
-  - education
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+  - python
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
   score: 5
   shared_weeks:
   - 2026-W22

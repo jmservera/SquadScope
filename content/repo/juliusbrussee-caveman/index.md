@@ -2,7 +2,7 @@
 title: JuliusBrussee/caveman repository trend history
 description: 'Evergreen Claracle Observatory page for JuliusBrussee/caveman: 5 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: juliusbrussee-caveman
 repo_description: 🪨 why use many token when few token do trick — Claude Code skill that cuts 65% of tokens by talking like
   caveman
 repo_language: JavaScript
-topics:
+tags:
 - ai
 - anthropic
 - caveman
@@ -66,28 +66,43 @@ weekly_appearances:
   url: /weekly/2026/w28/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: anthropic
-  url: /topics/anthropic/
+  url: /tags/anthropic/
 - name: caveman
-  url: /topics/caveman/
+  url: /tags/caveman/
 - name: claude
-  url: /topics/claude/
+  url: /tags/claude/
 - name: claude-code
-  url: /topics/claude-code/
+  url: /tags/claude-code/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: meme
-  url: /topics/meme/
+  url: /tags/meme/
 - name: prompt-engineering
-  url: /topics/prompt-engineering/
+  url: /tags/prompt-engineering/
 - name: skill
-  url: /topics/skill/
+  url: /tags/skill/
 - name: tokens
-  url: /topics/tokens/
+  url: /tags/tokens/
 related_repos:
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
+  score: 9
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W25
+  - 2026-W28
+  - 2026-W31
+  shared_topics:
+  - ai
+  - anthropic
+  - claude
+  - claude-code
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -134,48 +149,19 @@ related_repos:
   - anthropic
   - claude
   - claude-code
-- full_name: code-yeongyu/oh-my-openagent
-  slug: code-yeongyu-oh-my-openagent
-  url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 9
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 8
   shared_weeks:
-  - 2026-W21
   - 2026-W22
   - 2026-W25
   - 2026-W28
   - 2026-W31
   shared_topics:
-  - ai
   - anthropic
   - claude
   - claude-code
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 8
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W25
-  - 2026-W28
-  - 2026-W31
-  shared_topics:
-  - ai
-  - claude
-  - llm
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 8
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W25
-  - 2026-W28
-  - 2026-W31
-  shared_topics:
-  - ai
-  - claude
   - llm
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
@@ -191,19 +177,33 @@ related_repos:
   - ai
   - anthropic
   - llm
-- full_name: affaan-m/ECC
-  slug: affaan-m-ecc
-  url: https://github.com/affaan-m/ECC
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
   score: 8
   shared_weeks:
+  - 2026-W21
   - 2026-W22
   - 2026-W25
   - 2026-W28
   - 2026-W31
   shared_topics:
-  - anthropic
+  - ai
   - claude
-  - claude-code
+  - llm
+- full_name: Significant-Gravitas/AutoGPT
+  slug: significant-gravitas-autogpt
+  url: https://github.com/Significant-Gravitas/AutoGPT
+  score: 8
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W25
+  - 2026-W28
+  - 2026-W31
+  shared_topics:
+  - ai
+  - claude
   - llm
 lifecycle:
   status: active

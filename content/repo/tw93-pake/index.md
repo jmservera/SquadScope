@@ -2,7 +2,7 @@
 title: tw93/Pake repository trend history
 description: 'Evergreen Claracle Observatory page for tw93/Pake: 6 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/tw93/Pake
 repo_slug: tw93-pake
 repo_description: 🤱🏻 Turn any webpage into a desktop app with one command.
 repo_language: Rust
-topics:
+tags:
 - chatgpt
 - claude
 - desktop
@@ -73,31 +73,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: chatgpt
-  url: /topics/chatgpt/
+  url: /tags/chatgpt/
 - name: claude
-  url: /topics/claude/
+  url: /tags/claude/
 - name: desktop
-  url: /topics/desktop/
+  url: /tags/desktop/
 - name: gemini
-  url: /topics/gemini/
+  url: /tags/gemini/
 - name: hight-performance
-  url: /topics/hight-performance/
+  url: /tags/hight-performance/
 - name: linux
-  url: /topics/linux/
+  url: /tags/linux/
 - name: macos
-  url: /topics/macos/
+  url: /tags/macos/
 - name: no-electron
-  url: /topics/no-electron/
+  url: /tags/no-electron/
 - name: package
-  url: /topics/package/
+  url: /tags/package/
 - name: rust
-  url: /topics/rust/
+  url: /tags/rust/
 - name: tauri
-  url: /topics/tauri/
+  url: /tags/tauri/
 - name: windows
-  url: /topics/windows/
+  url: /tags/windows/
 related_repos:
 - full_name: rustdesk/rustdesk
   slug: rustdesk-rustdesk
@@ -115,6 +115,36 @@ related_repos:
   - macos
   - rust
   - windows
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
+  score: 9
+  shared_weeks:
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - chatgpt
+  - claude
+  - gemini
+- full_name: f/prompts.chat
+  slug: f-prompts-chat
+  url: https://github.com/f/prompts.chat
+  score: 9
+  shared_weeks:
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - chatgpt
+  - claude
+  - gemini
 - full_name: flutter/flutter
   slug: flutter-flutter
   url: https://github.com/flutter/flutter
@@ -130,9 +160,9 @@ related_repos:
   - desktop
   - macos
   - windows
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
+- full_name: lobehub/lobehub
+  slug: lobehub-lobehub
+  url: https://github.com/lobehub/lobehub
   score: 9
   shared_weeks:
   - 2026-W26
@@ -175,39 +205,9 @@ related_repos:
   - linux
   - macos
   - rust
-- full_name: code-yeongyu/oh-my-openagent
-  slug: code-yeongyu-oh-my-openagent
-  url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 9
-  shared_weeks:
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - chatgpt
-  - claude
-  - gemini
-- full_name: lobehub/lobehub
-  slug: lobehub-lobehub
-  url: https://github.com/lobehub/lobehub
-  score: 9
-  shared_weeks:
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - chatgpt
-  - claude
-  - gemini
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: clash-verge-rev/clash-verge-rev
+  slug: clash-verge-rev-clash-verge-rev
+  url: https://github.com/clash-verge-rev/clash-verge-rev
   score: 8
   shared_weeks:
   - 2026-W26
@@ -217,8 +217,8 @@ related_repos:
   - 2026-W30
   - 2026-W31
   shared_topics:
-  - chatgpt
-  - claude
+  - linux
+  - windows
 lifecycle:
   status: active
   as_of_week: 2026-W31

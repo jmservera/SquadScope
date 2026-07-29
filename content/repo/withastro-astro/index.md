@@ -2,7 +2,7 @@
 title: withastro/astro repository trend history
 description: 'Evergreen Claracle Observatory page for withastro/astro: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/withastro/astro
 repo_slug: withastro-astro
 repo_description: The web framework for content-driven websites. ⭐️ Star to support our work!
 repo_language: TypeScript
-topics:
+tags:
 - astro
 - blog
 - browser
@@ -102,30 +102,46 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: astro
-  url: /topics/astro/
+  url: /tags/astro/
 - name: blog
-  url: /topics/blog/
+  url: /tags/blog/
 - name: browser
-  url: /topics/browser/
+  url: /tags/browser/
 - name: components
-  url: /topics/components/
+  url: /tags/components/
 - name: hybrid
-  url: /topics/hybrid/
+  url: /tags/hybrid/
 - name: islands
-  url: /topics/islands/
+  url: /tags/islands/
 - name: node
-  url: /topics/node/
+  url: /tags/node/
 - name: server
-  url: /topics/server/
+  url: /tags/server/
 - name: static
-  url: /topics/static/
+  url: /tags/static/
 - name: static-site-generator
-  url: /topics/static-site-generator/
+  url: /tags/static-site-generator/
 - name: universal
-  url: /topics/universal/
+  url: /tags/universal/
 related_repos:
+- full_name: nuxt/nuxt
+  slug: nuxt-nuxt
+  url: https://github.com/nuxt/nuxt
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - hybrid
+  - node
+  - static-site-generator
+  - universal
 - full_name: vercel/next.js
   slug: vercel-next-js
   url: https://github.com/vercel/next.js
@@ -144,10 +160,10 @@ related_repos:
   - hybrid
   - node
   - static
-- full_name: nuxt/nuxt
-  slug: nuxt-nuxt
-  url: https://github.com/nuxt/nuxt
-  score: 15
+- full_name: coollabsio/coolify
+  slug: coollabsio-coolify
+  url: https://github.com/coollabsio/coolify
+  score: 12
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -156,10 +172,20 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - hybrid
-  - node
-  - static-site-generator
-  - universal
+  - server
+- full_name: LadybirdBrowser/ladybird
+  slug: ladybirdbrowser-ladybird
+  url: https://github.com/LadybirdBrowser/ladybird
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - browser
 - full_name: nodejs/node
   slug: nodejs-node
   url: https://github.com/nodejs/node
@@ -186,35 +212,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - components
-- full_name: LadybirdBrowser/ladybird
-  slug: ladybirdbrowser-ladybird
-  url: https://github.com/LadybirdBrowser/ladybird
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - browser
-- full_name: coollabsio/coolify
-  slug: coollabsio-coolify
-  url: https://github.com/coollabsio/coolify
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - server
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 11
   shared_weeks:
   - 2026-W21
@@ -224,9 +224,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 11
   shared_weeks:
   - 2026-W21

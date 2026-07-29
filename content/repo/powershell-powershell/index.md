@@ -2,7 +2,7 @@
 title: PowerShell/PowerShell repository trend history
 description: 'Evergreen Claracle Observatory page for PowerShell/PowerShell: 5 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-06-22'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/PowerShell/PowerShell
 repo_slug: powershell-powershell
 repo_description: PowerShell for every system!
 repo_language: C#
-topics:
+tags:
 - command-line
 - hacktoberfest
 - linux
@@ -63,23 +63,23 @@ weekly_appearances:
   url: /weekly/2026/w25/
 - week: 2026-W26
   url: /weekly/2026/w26/
-topic_links:
+tag_links:
 - name: command-line
-  url: /topics/command-line/
+  url: /tags/command-line/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: linux
-  url: /topics/linux/
+  url: /tags/linux/
 - name: macos
-  url: /topics/macos/
+  url: /tags/macos/
 - name: netcore
-  url: /topics/netcore/
+  url: /tags/netcore/
 - name: powershell
-  url: /topics/powershell/
+  url: /tags/powershell/
 - name: shell
-  url: /topics/shell/
+  url: /tags/shell/
 - name: windows
-  url: /topics/windows/
+  url: /tags/windows/
 related_repos:
 - full_name: WerWolv/ImHex
   slug: werwolv-imhex
@@ -95,6 +95,34 @@ related_repos:
   - hacktoberfest
   - linux
   - macos
+  - windows
+- full_name: marktext/marktext
+  slug: marktext-marktext
+  url: https://github.com/marktext/marktext
+  score: 8
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - linux
+  - macos
+  - windows
+- full_name: microsoft/terminal
+  slug: microsoft-terminal
+  url: https://github.com/microsoft/terminal
+  score: 8
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - command-line
+  - hacktoberfest
   - windows
 - full_name: nodejs/node
   slug: nodejs-node
@@ -124,20 +152,6 @@ related_repos:
   - linux
   - macos
   - windows
-- full_name: warpdotdev/warp
-  slug: warpdotdev-warp
-  url: https://github.com/warpdotdev/warp
-  score: 8
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - linux
-  - macos
-  - shell
 - full_name: tw93/Mole
   slug: tw93-mole
   url: https://github.com/tw93/Mole
@@ -152,23 +166,9 @@ related_repos:
   - command-line
   - macos
   - shell
-- full_name: microsoft/terminal
-  slug: microsoft-terminal
-  url: https://github.com/microsoft/terminal
-  score: 8
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - command-line
-  - hacktoberfest
-  - windows
-- full_name: marktext/marktext
-  slug: marktext-marktext
-  url: https://github.com/marktext/marktext
+- full_name: warpdotdev/warp
+  slug: warpdotdev-warp
+  url: https://github.com/warpdotdev/warp
   score: 8
   shared_weeks:
   - 2026-W22
@@ -179,10 +179,10 @@ related_repos:
   shared_topics:
   - linux
   - macos
-  - windows
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
+  - shell
+- full_name: clash-verge-rev/clash-verge-rev
+  slug: clash-verge-rev-clash-verge-rev
+  url: https://github.com/clash-verge-rev/clash-verge-rev
   score: 7
   shared_weeks:
   - 2026-W22
@@ -191,7 +191,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - macos
+  - linux
   - windows
 lifecycle:
   status: active

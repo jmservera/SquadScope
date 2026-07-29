@@ -2,7 +2,7 @@
 title: unslothai/unsloth repository trend history
 description: 'Evergreen Claracle Observatory page for unslothai/unsloth: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/unslothai/unsloth
 repo_slug: unslothai-unsloth
 repo_description: Unsloth is a local UI for training and running Gemma 4, Qwen3.6, DeepSeek, Kimi, GLM and other models.
 repo_language: Python
-topics:
+tags:
 - agent
 - deepseek
 - fine-tuning
@@ -103,35 +103,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agent
-  url: /topics/agent/
+  url: /tags/agent/
 - name: deepseek
-  url: /topics/deepseek/
+  url: /tags/deepseek/
 - name: fine-tuning
-  url: /topics/fine-tuning/
+  url: /tags/fine-tuning/
 - name: gemma
-  url: /topics/gemma/
+  url: /tags/gemma/
 - name: gemma3
-  url: /topics/gemma3/
+  url: /tags/gemma3/
 - name: gpt-oss
-  url: /topics/gpt-oss/
+  url: /tags/gpt-oss/
 - name: llama
-  url: /topics/llama/
+  url: /tags/llama/
 - name: llama3
-  url: /topics/llama3/
+  url: /tags/llama3/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: llms
-  url: /topics/llms/
+  url: /tags/llms/
 - name: mistral
-  url: /topics/mistral/
+  url: /tags/mistral/
 - name: openai
-  url: /topics/openai/
+  url: /tags/openai/
 related_repos:
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+- full_name: hiyouga/LlamaFactory
+  slug: hiyouga-llamafactory
+  url: https://github.com/hiyouga/LlamaFactory
   score: 15
   shared_weeks:
   - 2026-W21
@@ -141,10 +141,10 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
+  - agent
   - deepseek
+  - fine-tuning
   - gemma
-  - gemma3
-  - gpt-oss
   - llama
   - llama3
 - full_name: huggingface/transformers
@@ -163,6 +163,24 @@ related_repos:
   - gemma
   - llm
   - qwen
+- full_name: ollama/ollama
+  slug: ollama-ollama
+  url: https://github.com/ollama/ollama
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - deepseek
+  - gemma
+  - gemma3
+  - gpt-oss
+  - llama
+  - llama3
 - full_name: open-webui/open-webui
   slug: open-webui-open-webui
   url: https://github.com/open-webui/open-webui
@@ -198,42 +216,9 @@ related_repos:
   - llm
   - openai
   - qwen
-- full_name: hiyouga/LlamaFactory
-  slug: hiyouga-llamafactory
-  url: https://github.com/hiyouga/LlamaFactory
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - agent
-  - deepseek
-  - fine-tuning
-  - gemma
-  - llama
-  - llama3
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - agent
-  - llm
-  - openai
-- full_name: OpenHands/OpenHands
-  slug: openhands-openhands
-  url: https://github.com/OpenHands/OpenHands
   score: 14
   shared_weeks:
   - 2026-W21
@@ -261,6 +246,21 @@ related_repos:
   - deepseek
   - llama3
   - llm
+- full_name: OpenHands/OpenHands
+  slug: openhands-openhands
+  url: https://github.com/OpenHands/OpenHands
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - agent
+  - llm
+  - openai
 lifecycle:
   status: active
   as_of_week: 2026-W31

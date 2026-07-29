@@ -2,7 +2,7 @@
 title: microsoft/TypeScript repository trend history
 description: 'Evergreen Claracle Observatory page for microsoft/TypeScript: 9 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/microsoft/TypeScript
 repo_slug: microsoft-typescript
 repo_description: TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
 repo_language: TypeScript
-topics:
+tags:
 - javascript
 - language
 - typechecker
@@ -83,16 +83,30 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: language
-  url: /topics/language/
+  url: /tags/language/
 - name: typechecker
-  url: /topics/typechecker/
+  url: /tags/typechecker/
 - name: typescript
-  url: /topics/typescript/
+  url: /tags/typescript/
 related_repos:
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
+  score: 11
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - javascript
+  - typescript
 - full_name: denoland/deno
   slug: denoland-deno
   url: https://github.com/denoland/deno
@@ -121,51 +135,9 @@ related_repos:
   shared_topics:
   - javascript
   - typescript
-- full_name: angular/angular
-  slug: angular-angular
-  url: https://github.com/angular/angular
-  score: 11
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - javascript
-  - typescript
-- full_name: oven-sh/bun
-  slug: oven-sh-bun
-  url: https://github.com/oven-sh/bun
-  score: 11
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - javascript
-  - typescript
 - full_name: mermaid-js/mermaid
   slug: mermaid-js-mermaid
   url: https://github.com/mermaid-js/mermaid
-  score: 11
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - javascript
-  - typescript
-- full_name: strapi/strapi
-  slug: strapi-strapi
-  url: https://github.com/strapi/strapi
   score: 11
   shared_weeks:
   - 2026-W22
@@ -191,10 +163,10 @@ related_repos:
   shared_topics:
   - javascript
   - typescript
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 10
+- full_name: oven-sh/bun
+  slug: oven-sh-bun
+  url: https://github.com/oven-sh/bun
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -204,6 +176,34 @@ related_repos:
   - 2026-W27
   shared_topics:
   - javascript
+  - typescript
+- full_name: strapi/strapi
+  slug: strapi-strapi
+  url: https://github.com/strapi/strapi
+  score: 11
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - javascript
+  - typescript
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
+  score: 10
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - typescript
 lifecycle:
   status: active
   as_of_week: 2026-W31

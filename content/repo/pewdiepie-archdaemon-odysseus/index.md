@@ -2,7 +2,7 @@
 title: pewdiepie-archdaemon/odysseus repository trend history
 description: 'Evergreen Claracle Observatory page for pewdiepie-archdaemon/odysseus: 6 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-06'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/pewdiepie-archdaemon/odysseus
 repo_slug: pewdiepie-archdaemon-odysseus
 repo_description: 'Self-hosted AI workspace. '
 repo_language: Python
-topics: []
+tags: []
 first_seen_week: 2026-W23
 last_seen_week: 2026-W28
 as_of_week: 2026-W28
@@ -61,11 +61,11 @@ weekly_appearances:
   url: /weekly/2026/w27/
 - week: 2026-W28
   url: /weekly/2026/w28/
-topic_links: []
+tag_links: []
 related_repos:
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 6
   shared_weeks:
   - 2026-W23
@@ -75,9 +75,9 @@ related_repos:
   - 2026-W27
   - 2026-W28
   shared_topics: []
-- full_name: public-apis/public-apis
-  slug: public-apis-public-apis
-  url: https://github.com/public-apis/public-apis
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 6
   shared_weeks:
   - 2026-W23
@@ -87,9 +87,9 @@ related_repos:
   - 2026-W27
   - 2026-W28
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: abi/screenshot-to-code
+  slug: abi-screenshot-to-code
+  url: https://github.com/abi/screenshot-to-code
   score: 6
   shared_weeks:
   - 2026-W23
@@ -99,9 +99,9 @@ related_repos:
   - 2026-W27
   - 2026-W28
   shared_topics: []
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
   score: 6
   shared_weeks:
   - 2026-W23
@@ -111,9 +111,9 @@ related_repos:
   - 2026-W27
   - 2026-W28
   shared_topics: []
-- full_name: torvalds/linux
-  slug: torvalds-linux
-  url: https://github.com/torvalds/linux
+- full_name: Anduin2017/HowToCook
+  slug: anduin2017-howtocook
+  url: https://github.com/Anduin2017/HowToCook
   score: 6
   shared_weeks:
   - 2026-W23
@@ -123,9 +123,9 @@ related_repos:
   - 2026-W27
   - 2026-W28
   shared_topics: []
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 6
   shared_weeks:
   - 2026-W23
@@ -135,9 +135,9 @@ related_repos:
   - 2026-W27
   - 2026-W28
   shared_topics: []
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: anomalyco/opencode
+  slug: anomalyco-opencode
+  url: https://github.com/anomalyco/opencode
   score: 6
   shared_weeks:
   - 2026-W23
@@ -147,9 +147,9 @@ related_repos:
   - 2026-W27
   - 2026-W28
   shared_topics: []
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 6
   shared_weeks:
   - 2026-W23

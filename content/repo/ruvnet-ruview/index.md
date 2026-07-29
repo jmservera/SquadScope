@@ -2,7 +2,7 @@
 title: ruvnet/RuView repository trend history
 description: 'Evergreen Claracle Observatory page for ruvnet/RuView: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: ruvnet-ruview
 repo_description: π RuView turns commodity WiFi signals into real-time spatial intelligence, vital sign monitoring, and presence
   detection — all without a single pixel of video.
 repo_language: Rust
-topics:
+tags:
 - densepose
 - esp32
 - firmware
@@ -104,31 +104,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: densepose
-  url: /topics/densepose/
+  url: /tags/densepose/
 - name: esp32
-  url: /topics/esp32/
+  url: /tags/esp32/
 - name: firmware
-  url: /topics/firmware/
+  url: /tags/firmware/
 - name: monitoring
-  url: /topics/monitoring/
+  url: /tags/monitoring/
 - name: pose-estimation
-  url: /topics/pose-estimation/
+  url: /tags/pose-estimation/
 - name: rf
-  url: /topics/rf/
+  url: /tags/rf/
 - name: self-learning
-  url: /topics/self-learning/
+  url: /tags/self-learning/
 - name: spatial-intelligence
-  url: /topics/spatial-intelligence/
+  url: /tags/spatial-intelligence/
 - name: wifi
-  url: /topics/wifi/
+  url: /tags/wifi/
 - name: wifi-security
-  url: /topics/wifi-security/
+  url: /tags/wifi-security/
 - name: claude
-  url: /topics/claude/
+  url: /tags/claude/
 - name: home-assistant
-  url: /topics/home-assistant/
+  url: /tags/home-assistant/
 related_repos:
 - full_name: ruvnet/ruflo
   slug: ruvnet-ruflo
@@ -176,9 +176,9 @@ related_repos:
   - npm
   - react
   - typescript
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
   score: 13
   shared_weeks:
   - 2026-W21
@@ -188,8 +188,22 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - agentic-ai
+  - react
+  - typescript
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
   - claude
+  - typescript
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -204,9 +218,9 @@ related_repos:
   shared_topics:
   - claude
   - typescript
-- full_name: ant-design/ant-design
-  slug: ant-design-ant-design
-  url: https://github.com/ant-design/ant-design
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
   score: 13
   shared_weeks:
   - 2026-W21
@@ -216,7 +230,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - react
+  - skills
   - typescript
 - full_name: home-assistant/core
   slug: home-assistant-core
@@ -232,20 +246,6 @@ related_repos:
   shared_topics:
   - home-automation
   - iot
-- full_name: farion1231/cc-switch
-  slug: farion1231-cc-switch
-  url: https://github.com/farion1231/cc-switch
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - skills
-  - typescript
 lifecycle:
   status: active
   as_of_week: 2026-W31

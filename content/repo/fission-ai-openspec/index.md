@@ -2,7 +2,7 @@
 title: Fission-AI/OpenSpec repository trend history
 description: 'Evergreen Claracle Observatory page for Fission-AI/OpenSpec: 6 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/Fission-AI/OpenSpec
 repo_slug: fission-ai-openspec
 repo_description: Spec-driven development (SDD) for AI coding assistants.
 repo_language: TypeScript
-topics:
+tags:
 - ai
 - context-engineering
 - engineering
@@ -71,27 +71,27 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: context-engineering
-  url: /topics/context-engineering/
+  url: /tags/context-engineering/
 - name: engineering
-  url: /topics/engineering/
+  url: /tags/engineering/
 - name: planning
-  url: /topics/planning/
+  url: /tags/planning/
 - name: prd
-  url: /topics/prd/
+  url: /tags/prd/
 - name: sdd
-  url: /topics/sdd/
+  url: /tags/sdd/
 - name: sdlc
-  url: /topics/sdlc/
+  url: /tags/sdlc/
 - name: spec
-  url: /topics/spec/
+  url: /tags/spec/
 - name: spec-driven-development
-  url: /topics/spec-driven-development/
+  url: /tags/spec-driven-development/
 - name: specification
-  url: /topics/specification/
+  url: /tags/specification/
 related_repos:
 - full_name: github/spec-kit
   slug: github-spec-kit
@@ -109,20 +109,6 @@ related_repos:
   - engineering
   - prd
   - spec
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
-  score: 8
-  shared_weeks:
-  - 2026-W25
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - ai
-  - sdlc
 - full_name: infiniflow/ragflow
   slug: infiniflow-ragflow
   url: https://github.com/infiniflow/ragflow
@@ -137,9 +123,23 @@ related_repos:
   shared_topics:
   - ai
   - context-engineering
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: obra/superpowers
+  slug: obra-superpowers
+  url: https://github.com/obra/superpowers
+  score: 8
+  shared_weeks:
+  - 2026-W25
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - ai
+  - sdlc
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 7
   shared_weeks:
   - 2026-W25
@@ -150,9 +150,9 @@ related_repos:
   - 2026-W31
   shared_topics:
   - ai
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 7
   shared_weeks:
   - 2026-W25
@@ -163,9 +163,22 @@ related_repos:
   - 2026-W31
   shared_topics:
   - ai
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: Comfy-Org/ComfyUI
+  slug: comfy-org-comfyui
+  url: https://github.com/Comfy-Org/ComfyUI
+  score: 7
+  shared_weeks:
+  - 2026-W25
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - ai
+- full_name: docling-project/docling
+  slug: docling-project-docling
+  url: https://github.com/docling-project/docling
   score: 7
   shared_weeks:
   - 2026-W25
@@ -179,19 +192,6 @@ related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
-  score: 7
-  shared_weeks:
-  - 2026-W25
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - ai
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
   score: 7
   shared_weeks:
   - 2026-W25

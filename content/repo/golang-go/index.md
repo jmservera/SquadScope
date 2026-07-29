@@ -2,7 +2,7 @@
 title: golang/go repository trend history
 description: 'Evergreen Claracle Observatory page for golang/go: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/golang/go
 repo_slug: golang-go
 repo_description: The Go programming language
 repo_language: Go
-topics:
+tags:
 - go
 - golang
 - language
@@ -95,15 +95,15 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: go
-  url: /topics/go/
+  url: /tags/go/
 - name: golang
-  url: /topics/golang/
+  url: /tags/golang/
 - name: language
-  url: /topics/language/
+  url: /tags/language/
 - name: programming-language
-  url: /topics/programming-language/
+  url: /tags/programming-language/
 related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
@@ -147,9 +147,9 @@ related_repos:
   shared_topics:
   - go
   - golang
-- full_name: kubernetes/kubernetes
-  slug: kubernetes-kubernetes
-  url: https://github.com/kubernetes/kubernetes
+- full_name: caddyserver/caddy
+  slug: caddyserver-caddy
+  url: https://github.com/caddyserver/caddy
   score: 12
   shared_weeks:
   - 2026-W21
@@ -160,9 +160,10 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: rust-lang/rust
-  slug: rust-lang-rust
-  url: https://github.com/rust-lang/rust
+  - golang
+- full_name: FuelLabs/sway
+  slug: fuellabs-sway
+  url: https://github.com/FuelLabs/sway
   score: 12
   shared_weeks:
   - 2026-W21
@@ -173,9 +174,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - language
-- full_name: syncthing/syncthing
-  slug: syncthing-syncthing
-  url: https://github.com/syncthing/syncthing
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
   score: 12
   shared_weeks:
   - 2026-W21
@@ -199,9 +200,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: grafana/grafana
-  slug: grafana-grafana
-  url: https://github.com/grafana/grafana
+- full_name: kubernetes/kubernetes
+  slug: kubernetes-kubernetes
+  url: https://github.com/kubernetes/kubernetes
   score: 12
   shared_weeks:
   - 2026-W21

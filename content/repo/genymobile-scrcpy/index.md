@@ -2,7 +2,7 @@
 title: Genymobile/scrcpy repository trend history
 description: 'Evergreen Claracle Observatory page for Genymobile/scrcpy: 6 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-13'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/Genymobile/scrcpy
 repo_slug: genymobile-scrcpy
 repo_description: Display and control your Android device
 repo_language: C
-topics:
+tags:
 - android
 - c
 - ffmpeg
@@ -69,38 +69,24 @@ weekly_appearances:
   url: /weekly/2026/w28/
 - week: 2026-W29
   url: /weekly/2026/w29/
-topic_links:
+tag_links:
 - name: android
-  url: /topics/android/
+  url: /tags/android/
 - name: c
-  url: /topics/c/
+  url: /tags/c/
 - name: ffmpeg
-  url: /topics/ffmpeg/
+  url: /tags/ffmpeg/
 - name: libav
-  url: /topics/libav/
+  url: /tags/libav/
 - name: mirroring
-  url: /topics/mirroring/
+  url: /tags/mirroring/
 - name: recording
-  url: /topics/recording/
+  url: /tags/recording/
 - name: screen
-  url: /topics/screen/
+  url: /tags/screen/
 - name: sdl2
-  url: /topics/sdl2/
+  url: /tags/sdl2/
 related_repos:
-- full_name: obsproject/obs-studio
-  slug: obsproject-obs-studio
-  url: https://github.com/obsproject/obs-studio
-  score: 8
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  shared_topics:
-  - c
-  - ffmpeg
 - full_name: FFmpeg/FFmpeg
   slug: ffmpeg-ffmpeg
   url: https://github.com/FFmpeg/FFmpeg
@@ -115,6 +101,33 @@ related_repos:
   shared_topics:
   - c
   - ffmpeg
+- full_name: obsproject/obs-studio
+  slug: obsproject-obs-studio
+  url: https://github.com/obsproject/obs-studio
+  score: 8
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  shared_topics:
+  - c
+  - ffmpeg
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
+  score: 7
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  shared_topics:
+  - android
 - full_name: flutter/flutter
   slug: flutter-flutter
   url: https://github.com/flutter/flutter
@@ -128,32 +141,6 @@ related_repos:
   - 2026-W29
   shared_topics:
   - android
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
-  score: 7
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  shared_topics:
-  - android
-- full_name: neovim/neovim
-  slug: neovim-neovim
-  url: https://github.com/neovim/neovim
-  score: 7
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  shared_topics:
-  - c
 - full_name: git/git
   slug: git-git
   url: https://github.com/git/git
@@ -180,9 +167,22 @@ related_repos:
   - 2026-W29
   shared_topics:
   - ffmpeg
-- full_name: 2dust/v2rayNG
-  slug: 2dust-v2rayng
-  url: https://github.com/2dust/v2rayNG
+- full_name: neovim/neovim
+  slug: neovim-neovim
+  url: https://github.com/neovim/neovim
+  score: 7
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  shared_topics:
+  - c
+- full_name: rustdesk/rustdesk
+  slug: rustdesk-rustdesk
+  url: https://github.com/rustdesk/rustdesk
   score: 7
   shared_weeks:
   - 2026-W21

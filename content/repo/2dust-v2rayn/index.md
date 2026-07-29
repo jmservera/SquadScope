@@ -2,7 +2,7 @@
 title: 2dust/v2rayN repository trend history
 description: 'Evergreen Claracle Observatory page for 2dust/v2rayN: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/2dust/v2rayN
 repo_slug: 2dust-v2rayn
 repo_description: A GUI client for Windows, Linux and macOS, support Xray and sing-box and others
 repo_language: C#
-topics:
+tags:
 - proxy
 - shadowsocks
 - socks5
@@ -102,29 +102,29 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: proxy
-  url: /topics/proxy/
+  url: /tags/proxy/
 - name: shadowsocks
-  url: /topics/shadowsocks/
+  url: /tags/shadowsocks/
 - name: socks5
-  url: /topics/socks5/
+  url: /tags/socks5/
 - name: trojan
-  url: /topics/trojan/
+  url: /tags/trojan/
 - name: v2fly
-  url: /topics/v2fly/
+  url: /tags/v2fly/
 - name: v2ray
-  url: /topics/v2ray/
+  url: /tags/v2ray/
 - name: vless
-  url: /topics/vless/
+  url: /tags/vless/
 - name: vmess
-  url: /topics/vmess/
+  url: /tags/vmess/
 - name: windows
-  url: /topics/windows/
+  url: /tags/windows/
 - name: xray
-  url: /topics/xray/
+  url: /tags/xray/
 - name: xtls
-  url: /topics/xtls/
+  url: /tags/xtls/
 related_repos:
 - full_name: 2dust/v2rayNG
   slug: 2dust-v2rayng
@@ -144,9 +144,9 @@ related_repos:
   - trojan
   - v2fly
   - v2ray
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
+- full_name: clash-verge-rev/clash-verge-rev
+  slug: clash-verge-rev-clash-verge-rev
+  url: https://github.com/clash-verge-rev/clash-verge-rev
   score: 12
   shared_weeks:
   - 2026-W21
@@ -157,9 +157,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - windows
-- full_name: clash-verge-rev/clash-verge-rev
-  slug: clash-verge-rev-clash-verge-rev
-  url: https://github.com/clash-verge-rev/clash-verge-rev
+- full_name: flutter/flutter
+  slug: flutter-flutter
+  url: https://github.com/flutter/flutter
   score: 12
   shared_weeks:
   - 2026-W21
@@ -196,9 +196,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - windows
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: abi/screenshot-to-code
+  slug: abi-screenshot-to-code
+  url: https://github.com/abi/screenshot-to-code
   score: 11
   shared_weeks:
   - 2026-W21
@@ -208,9 +208,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 11
   shared_weeks:
   - 2026-W21
@@ -220,9 +220,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+- full_name: anomalyco/opencode
+  slug: anomalyco-opencode
+  url: https://github.com/anomalyco/opencode
   score: 11
   shared_weeks:
   - 2026-W21

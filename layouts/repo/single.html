@@ -61,11 +61,11 @@
     </table>
   </section>
 
-  <section id="topics" class="repo-section">
-    <h2>Topic links</h2>
-    {{- if .Params.topic_links }}
+  <section id="tags" class="repo-section">
+    <h2>GitHub topic tags</h2>
+    {{- if .Params.tag_links }}
     <ul>
-      {{- range .Params.topic_links }}
+      {{- range .Params.tag_links }}
       <li><a href="{{ .url }}">{{ .name }}</a></li>
       {{- end }}
     </ul>

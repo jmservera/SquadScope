@@ -2,7 +2,7 @@
 title: firecrawl/firecrawl repository trend history
 description: 'Evergreen Claracle Observatory page for firecrawl/firecrawl: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/firecrawl/firecrawl
 repo_slug: firecrawl-firecrawl
 repo_description: The API to search, scrape, and interact with the web at scale. 🔥
 repo_language: TypeScript
-topics:
+tags:
 - ai
 - ai-agents
 - ai-crawler
@@ -103,35 +103,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: ai-crawler
-  url: /topics/ai-crawler/
+  url: /tags/ai-crawler/
 - name: ai-scraping
-  url: /topics/ai-scraping/
+  url: /tags/ai-scraping/
 - name: ai-search
-  url: /topics/ai-search/
+  url: /tags/ai-search/
 - name: crawler
-  url: /topics/crawler/
+  url: /tags/crawler/
 - name: data-extraction
-  url: /topics/data-extraction/
+  url: /tags/data-extraction/
 - name: html-to-markdown
-  url: /topics/html-to-markdown/
+  url: /tags/html-to-markdown/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: markdown
-  url: /topics/markdown/
+  url: /tags/markdown/
 - name: scraper
-  url: /topics/scraper/
+  url: /tags/scraper/
 - name: scraping
-  url: /topics/scraping/
+  url: /tags/scraping/
 related_repos:
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 14
   shared_weeks:
   - 2026-W21
@@ -159,9 +159,9 @@ related_repos:
   - ai
   - ai-agents
   - llm
-- full_name: bytedance/deer-flow
-  slug: bytedance-deer-flow
-  url: https://github.com/bytedance/deer-flow
+- full_name: mem0ai/mem0
+  slug: mem0ai-mem0
+  url: https://github.com/mem0ai/mem0
   score: 14
   shared_weeks:
   - 2026-W21
@@ -189,9 +189,9 @@ related_repos:
   - ai-agents
   - llm
   - web-scraping
-- full_name: mem0ai/mem0
-  slug: mem0ai-mem0
-  url: https://github.com/mem0ai/mem0
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
   score: 14
   shared_weeks:
   - 2026-W21
@@ -204,9 +204,23 @@ related_repos:
   - ai
   - ai-agents
   - llm
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai-agents
+  - llm
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 13
   shared_weeks:
   - 2026-W21
@@ -217,10 +231,10 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-  - llm
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
+  - ai-agents
+- full_name: docling-project/docling
+  slug: docling-project-docling
+  url: https://github.com/docling-project/docling
   score: 13
   shared_weeks:
   - 2026-W21
@@ -231,21 +245,7 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-  - llm
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - llm
+  - markdown
 lifecycle:
   status: active
   as_of_week: 2026-W31

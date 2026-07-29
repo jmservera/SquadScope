@@ -2,7 +2,7 @@
 title: astral-sh/uv repository trend history
 description: 'Evergreen Claracle Observatory page for astral-sh/uv: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/astral-sh/uv
 repo_slug: astral-sh-uv
 repo_description: An extremely fast Python package and project manager, written in Rust.
 repo_language: Rust
-topics:
+tags:
 - packaging
 - python
 - resolver
@@ -95,19 +95,19 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: packaging
-  url: /topics/packaging/
+  url: /tags/packaging/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: resolver
-  url: /topics/resolver/
+  url: /tags/resolver/
 - name: uv
-  url: /topics/uv/
+  url: /tags/uv/
 related_repos:
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 12
   shared_weeks:
   - 2026-W21
@@ -118,9 +118,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
   score: 12
   shared_weeks:
   - 2026-W21
@@ -131,9 +131,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
   score: 12
   shared_weeks:
   - 2026-W21
@@ -144,22 +144,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - python
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 12
   shared_weeks:
   - 2026-W21
@@ -183,9 +170,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: pytorch/pytorch
-  slug: pytorch-pytorch
-  url: https://github.com/pytorch/pytorch
+- full_name: fastapi/fastapi
+  slug: fastapi-fastapi
+  url: https://github.com/fastapi/fastapi
   score: 12
   shared_weeks:
   - 2026-W21
@@ -196,9 +183,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: fastapi/fastapi
-  slug: fastapi-fastapi
-  url: https://github.com/fastapi/fastapi
+- full_name: harry0703/MoneyPrinterTurbo
+  slug: harry0703-moneyprinterturbo
+  url: https://github.com/harry0703/MoneyPrinterTurbo
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - python
+- full_name: home-assistant/core
+  slug: home-assistant-core
+  url: https://github.com/home-assistant/core
   score: 12
   shared_weeks:
   - 2026-W21

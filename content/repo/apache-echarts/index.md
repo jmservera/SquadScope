@@ -2,7 +2,7 @@
 title: apache/echarts repository trend history
 description: 'Evergreen Claracle Observatory page for apache/echarts: 9 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/apache/echarts
 repo_slug: apache-echarts
 repo_description: Apache ECharts is a powerful, interactive charting and data visualization library for browser
 repo_language: TypeScript
-topics:
+tags:
 - apache
 - canvas
 - charting-library
@@ -88,25 +88,25 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: apache
-  url: /topics/apache/
+  url: /tags/apache/
 - name: canvas
-  url: /topics/canvas/
+  url: /tags/canvas/
 - name: charting-library
-  url: /topics/charting-library/
+  url: /tags/charting-library/
 - name: charts
-  url: /topics/charts/
+  url: /tags/charts/
 - name: data-visualization
-  url: /topics/data-visualization/
+  url: /tags/data-visualization/
 - name: data-viz
-  url: /topics/data-viz/
+  url: /tags/data-viz/
 - name: echarts
-  url: /topics/echarts/
+  url: /tags/echarts/
 - name: svg
-  url: /topics/svg/
+  url: /tags/svg/
 - name: visualization
-  url: /topics/visualization/
+  url: /tags/visualization/
 related_repos:
 - full_name: apache/superset
   slug: apache-superset
@@ -137,19 +137,6 @@ related_repos:
   shared_topics:
   - canvas
   - svg
-- full_name: netdata/netdata
-  slug: netdata-netdata
-  url: https://github.com/netdata/netdata
-  score: 10
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W27
-  - 2026-W28
-  shared_topics:
-  - data-visualization
 - full_name: grafana/grafana
   slug: grafana-grafana
   url: https://github.com/grafana/grafana
@@ -163,9 +150,22 @@ related_repos:
   - 2026-W28
   shared_topics:
   - data-visualization
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: netdata/netdata
+  slug: netdata-netdata
+  url: https://github.com/netdata/netdata
+  score: 10
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - data-visualization
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 9
   shared_weeks:
   - 2026-W21
@@ -175,9 +175,9 @@ related_repos:
   - 2026-W27
   - 2026-W28
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 9
   shared_weeks:
   - 2026-W21
@@ -187,9 +187,9 @@ related_repos:
   - 2026-W27
   - 2026-W28
   shared_topics: []
-- full_name: vinta/awesome-python
-  slug: vinta-awesome-python
-  url: https://github.com/vinta/awesome-python
+- full_name: abi/screenshot-to-code
+  slug: abi-screenshot-to-code
+  url: https://github.com/abi/screenshot-to-code
   score: 9
   shared_weeks:
   - 2026-W21
@@ -199,9 +199,9 @@ related_repos:
   - 2026-W27
   - 2026-W28
   shared_topics: []
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 9
   shared_weeks:
   - 2026-W21

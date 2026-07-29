@@ -2,7 +2,7 @@
 title: FFmpeg/FFmpeg repository trend history
 description: 'Evergreen Claracle Observatory page for FFmpeg/FFmpeg: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/FFmpeg/FFmpeg
 repo_slug: ffmpeg-ffmpeg
 repo_description: Mirror of https://git.ffmpeg.org/ffmpeg.git
 repo_language: C
-topics:
+tags:
 - audio
 - c
 - ffmpeg
@@ -103,31 +103,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: audio
-  url: /topics/audio/
+  url: /tags/audio/
 - name: c
-  url: /topics/c/
+  url: /tags/c/
 - name: ffmpeg
-  url: /topics/ffmpeg/
+  url: /tags/ffmpeg/
 - name: fft
-  url: /topics/fft/
+  url: /tags/fft/
 - name: hevc
-  url: /topics/hevc/
+  url: /tags/hevc/
 - name: hls
-  url: /topics/hls/
+  url: /tags/hls/
 - name: matroska
-  url: /topics/matroska/
+  url: /tags/matroska/
 - name: mp4
-  url: /topics/mp4/
+  url: /tags/mp4/
 - name: mpeg
-  url: /topics/mpeg/
+  url: /tags/mpeg/
 - name: multimedia
-  url: /topics/multimedia/
+  url: /tags/multimedia/
 - name: rtmp
-  url: /topics/rtmp/
+  url: /tags/rtmp/
 - name: rtsp
-  url: /topics/rtsp/
+  url: /tags/rtsp/
 related_repos:
 - full_name: obsproject/obs-studio
   slug: obsproject-obs-studio
@@ -142,6 +142,32 @@ related_repos:
   - 2026-W26
   shared_topics:
   - c
+  - ffmpeg
+- full_name: git/git
+  slug: git-git
+  url: https://github.com/git/git
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - c
+- full_name: harry0703/MoneyPrinterTurbo
+  slug: harry0703-moneyprinterturbo
+  url: https://github.com/harry0703/MoneyPrinterTurbo
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
   - ffmpeg
 - full_name: huggingface/transformers
   slug: huggingface-transformers
@@ -182,35 +208,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - streaming
-- full_name: git/git
-  slug: git-git
-  url: https://github.com/git/git
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - c
-- full_name: harry0703/MoneyPrinterTurbo
-  slug: harry0703-moneyprinterturbo
-  url: https://github.com/harry0703/MoneyPrinterTurbo
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ffmpeg
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 11
   shared_weeks:
   - 2026-W21
@@ -220,9 +220,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 11
   shared_weeks:
   - 2026-W21

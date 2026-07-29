@@ -2,7 +2,7 @@
 title: nilbuild/developer-roadmap repository trend history
 description: 'Evergreen Claracle Observatory page for nilbuild/developer-roadmap: 10 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/nilbuild/developer-roadmap
 repo_slug: nilbuild-developer-roadmap
 repo_description: Interactive roadmaps, guides and other educational content to help developers grow in their careers.
 repo_language: TypeScript
-topics:
+tags:
 - angular-roadmap
 - backend-roadmap
 - blockchain-roadmap
@@ -97,35 +97,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: angular-roadmap
-  url: /topics/angular-roadmap/
+  url: /tags/angular-roadmap/
 - name: backend-roadmap
-  url: /topics/backend-roadmap/
+  url: /tags/backend-roadmap/
 - name: blockchain-roadmap
-  url: /topics/blockchain-roadmap/
+  url: /tags/blockchain-roadmap/
 - name: computer-science
-  url: /topics/computer-science/
+  url: /tags/computer-science/
 - name: dba-roadmap
-  url: /topics/dba-roadmap/
+  url: /tags/dba-roadmap/
 - name: developer-roadmap
-  url: /topics/developer-roadmap/
+  url: /tags/developer-roadmap/
 - name: devops-roadmap
-  url: /topics/devops-roadmap/
+  url: /tags/devops-roadmap/
 - name: frontend-roadmap
-  url: /topics/frontend-roadmap/
+  url: /tags/frontend-roadmap/
 - name: go-roadmap
-  url: /topics/go-roadmap/
+  url: /tags/go-roadmap/
 - name: java-roadmap
-  url: /topics/java-roadmap/
+  url: /tags/java-roadmap/
 - name: javascript-roadmap
-  url: /topics/javascript-roadmap/
+  url: /tags/javascript-roadmap/
 - name: nodejs-roadmap
-  url: /topics/nodejs-roadmap/
+  url: /tags/nodejs-roadmap/
 related_repos:
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 10
   shared_weeks:
   - 2026-W22
@@ -135,9 +135,9 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 10
   shared_weeks:
   - 2026-W22
@@ -147,9 +147,9 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics: []
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+- full_name: abi/screenshot-to-code
+  slug: abi-screenshot-to-code
+  url: https://github.com/abi/screenshot-to-code
   score: 10
   shared_weeks:
   - 2026-W22
@@ -159,9 +159,9 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics: []
-- full_name: torvalds/linux
-  slug: torvalds-linux
-  url: https://github.com/torvalds/linux
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
   score: 10
   shared_weeks:
   - 2026-W22
@@ -171,9 +171,9 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics: []
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
+- full_name: Anduin2017/HowToCook
+  slug: anduin2017-howtocook
+  url: https://github.com/Anduin2017/HowToCook
   score: 10
   shared_weeks:
   - 2026-W22
@@ -183,9 +183,9 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics: []
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 10
   shared_weeks:
   - 2026-W22
@@ -195,9 +195,9 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics: []
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: anomalyco/opencode
+  slug: anomalyco-opencode
+  url: https://github.com/anomalyco/opencode
   score: 10
   shared_weeks:
   - 2026-W22
@@ -207,9 +207,9 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics: []
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 10
   shared_weeks:
   - 2026-W22

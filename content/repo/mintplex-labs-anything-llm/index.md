@@ -2,7 +2,7 @@
 title: Mintplex-Labs/anything-llm repository trend history
 description: 'Evergreen Claracle Observatory page for Mintplex-Labs/anything-llm: 11 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: mintplex-labs-anything-llm
 repo_description: 'Stop renting your intelligence. Own it with AnythingLLM. Everything you need for a powerful local-first
   agent experience '
 repo_language: JavaScript
-topics:
+tags:
 - ai-agents
 - llm
 - localai
@@ -104,35 +104,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: localai
-  url: /topics/localai/
+  url: /tags/localai/
 - name: multimodal
-  url: /topics/multimodal/
+  url: /tags/multimodal/
 - name: no-code
-  url: /topics/no-code/
+  url: /tags/no-code/
 - name: rag
-  url: /topics/rag/
+  url: /tags/rag/
 - name: vector-database
-  url: /topics/vector-database/
+  url: /tags/vector-database/
 - name: agent-harness
-  url: /topics/agent-harness/
+  url: /tags/agent-harness/
 - name: agentic-ai
-  url: /topics/agentic-ai/
+  url: /tags/agentic-ai/
 - name: hermes-agent
-  url: /topics/hermes-agent/
+  url: /tags/hermes-agent/
 - name: local-ai
-  url: /topics/local-ai/
+  url: /tags/local-ai/
 - name: open-claw
-  url: /topics/open-claw/
+  url: /tags/open-claw/
 related_repos:
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+- full_name: infiniflow/ragflow
+  slug: infiniflow-ragflow
+  url: https://github.com/infiniflow/ragflow
   score: 15
   shared_weeks:
   - 2026-W21
@@ -142,10 +142,10 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - deepseek
-  - llama3
-  - llm
-  - ollama
+  - agent-harness
+  - agentic-ai
+  - ai-agents
+  - rag
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
@@ -163,6 +163,22 @@ related_repos:
   - mcp
   - no-code
   - rag
+- full_name: ollama/ollama
+  slug: ollama-ollama
+  url: https://github.com/ollama/ollama
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - deepseek
+  - llama3
+  - llm
+  - ollama
 - full_name: open-webui/open-webui
   slug: open-webui-open-webui
   url: https://github.com/open-webui/open-webui
@@ -178,22 +194,6 @@ related_repos:
   - llm
   - mcp
   - ollama
-  - rag
-- full_name: infiniflow/ragflow
-  slug: infiniflow-ragflow
-  url: https://github.com/infiniflow/ragflow
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - agent-harness
-  - agentic-ai
-  - ai-agents
   - rag
 - full_name: vllm-project/vllm
   slug: vllm-project-vllm
@@ -211,9 +211,9 @@ related_repos:
   - kimi
   - llm
   - qwen3
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: firecrawl/firecrawl
+  slug: firecrawl-firecrawl
+  url: https://github.com/firecrawl/firecrawl
   score: 14
   shared_weeks:
   - 2026-W21
@@ -224,7 +224,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai-agents
-  - hermes-agent
+  - llm
+  - web-scraping
+- full_name: hiyouga/LlamaFactory
+  slug: hiyouga-llamafactory
+  url: https://github.com/hiyouga/LlamaFactory
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - deepseek
+  - llama3
   - llm
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
@@ -241,21 +256,6 @@ related_repos:
   - ai-agents
   - llm
   - rag
-- full_name: firecrawl/firecrawl
-  slug: firecrawl-firecrawl
-  url: https://github.com/firecrawl/firecrawl
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai-agents
-  - llm
-  - web-scraping
 lifecycle:
   status: active
   as_of_week: 2026-W31

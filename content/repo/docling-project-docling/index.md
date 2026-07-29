@@ -2,7 +2,7 @@
 title: docling-project/docling repository trend history
 description: 'Evergreen Claracle Observatory page for docling-project/docling: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/docling-project/docling
 repo_slug: docling-project-docling
 repo_description: Get your documents ready for gen AI
 repo_language: Python
-topics:
+tags:
 - ai
 - convert
 - document-parser
@@ -103,31 +103,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: convert
-  url: /topics/convert/
+  url: /tags/convert/
 - name: document-parser
-  url: /topics/document-parser/
+  url: /tags/document-parser/
 - name: document-parsing
-  url: /topics/document-parsing/
+  url: /tags/document-parsing/
 - name: documents
-  url: /topics/documents/
+  url: /tags/documents/
 - name: docx
-  url: /topics/docx/
+  url: /tags/docx/
 - name: html
-  url: /topics/html/
+  url: /tags/html/
 - name: markdown
-  url: /topics/markdown/
+  url: /tags/markdown/
 - name: pdf
-  url: /topics/pdf/
+  url: /tags/pdf/
 - name: pdf-converter
-  url: /topics/pdf-converter/
+  url: /tags/pdf-converter/
 - name: pdf-to-json
-  url: /topics/pdf-to-json/
+  url: /tags/pdf-to-json/
 - name: pdf-to-text
-  url: /topics/pdf-to-text/
+  url: /tags/pdf-to-text/
 related_repos:
 - full_name: opendatalab/MinerU
   slug: opendatalab-mineru
@@ -174,9 +174,9 @@ related_repos:
   shared_topics:
   - pdf
   - pdf-converter
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 12
   shared_weeks:
   - 2026-W21
@@ -187,9 +187,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 12
   shared_weeks:
   - 2026-W21
@@ -200,9 +200,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: Comfy-Org/ComfyUI
+  slug: comfy-org-comfyui
+  url: https://github.com/Comfy-Org/ComfyUI
   score: 12
   shared_weeks:
   - 2026-W21
@@ -213,22 +213,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-- full_name: twbs/bootstrap
-  slug: twbs-bootstrap
-  url: https://github.com/twbs/bootstrap
+- full_name: electron/electron
+  slug: electron-electron
+  url: https://github.com/electron/electron
   score: 12
   shared_weeks:
   - 2026-W21
@@ -239,6 +226,19 @@ related_repos:
   - 2026-W26
   shared_topics:
   - html
+- full_name: f/prompts.chat
+  slug: f-prompts-chat
+  url: https://github.com/f/prompts.chat
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
 lifecycle:
   status: active
   as_of_week: 2026-W31

@@ -2,7 +2,7 @@
 title: kubernetes/kubernetes repository trend history
 description: 'Evergreen Claracle Observatory page for kubernetes/kubernetes: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/kubernetes/kubernetes
 repo_slug: kubernetes-kubernetes
 repo_description: Production-Grade Container Scheduling and Management
 repo_language: Go
-topics:
+tags:
 - cncf
 - containers
 - go
@@ -95,15 +95,15 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: cncf
-  url: /topics/cncf/
+  url: /tags/cncf/
 - name: containers
-  url: /topics/containers/
+  url: /tags/containers/
 - name: go
-  url: /topics/go/
+  url: /tags/go/
 - name: kubernetes
-  url: /topics/kubernetes/
+  url: /tags/kubernetes/
 related_repos:
 - full_name: netdata/netdata
   slug: netdata-netdata
@@ -132,19 +132,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - go
 - full_name: golang/go
   slug: golang-go
   url: https://github.com/golang/go
@@ -158,9 +145,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: syncthing/syncthing
-  slug: syncthing-syncthing
-  url: https://github.com/syncthing/syncthing
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
   score: 12
   shared_weeks:
   - 2026-W21
@@ -184,9 +171,23 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: grafana/grafana
-  slug: grafana-grafana
-  url: https://github.com/grafana/grafana
+- full_name: moby/moby
+  slug: moby-moby
+  url: https://github.com/moby/moby
+  score: 12
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - containers
+  - go
+- full_name: ollama/ollama
+  slug: ollama-ollama
+  url: https://github.com/ollama/ollama
   score: 12
   shared_weeks:
   - 2026-W21

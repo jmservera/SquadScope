@@ -2,7 +2,7 @@
 title: nodejs/node repository trend history
 description: 'Evergreen Claracle Observatory page for nodejs/node: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/nodejs/node
 repo_slug: nodejs-node
 repo_description: Node.js JavaScript runtime ✨🐢🚀✨
 repo_language: JavaScript
-topics:
+tags:
 - javascript
 - js
 - linux
@@ -100,25 +100,25 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: js
-  url: /topics/js/
+  url: /tags/js/
 - name: linux
-  url: /topics/linux/
+  url: /tags/linux/
 - name: macos
-  url: /topics/macos/
+  url: /tags/macos/
 - name: mit
-  url: /topics/mit/
+  url: /tags/mit/
 - name: node
-  url: /topics/node/
+  url: /tags/node/
 - name: nodejs
-  url: /topics/nodejs/
+  url: /tags/nodejs/
 - name: runtime
-  url: /topics/runtime/
+  url: /tags/runtime/
 - name: windows
-  url: /topics/windows/
+  url: /tags/windows/
 related_repos:
 - full_name: rustdesk/rustdesk
   slug: rustdesk-rustdesk
@@ -135,37 +135,9 @@ related_repos:
   - linux
   - macos
   - windows
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - nodejs
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - macos
-  - windows
-- full_name: electron/electron
-  slug: electron-electron
-  url: https://github.com/electron/electron
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
   score: 13
   shared_weeks:
   - 2026-W21
@@ -191,9 +163,37 @@ related_repos:
   shared_topics:
   - linux
   - windows
-- full_name: axios/axios
-  slug: axios-axios
-  url: https://github.com/axios/axios
+- full_name: electron/electron
+  slug: electron-electron
+  url: https://github.com/electron/electron
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - nodejs
+- full_name: flutter/flutter
+  slug: flutter-flutter
+  url: https://github.com/flutter/flutter
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - macos
+  - windows
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
   score: 13
   shared_weeks:
   - 2026-W21
@@ -219,19 +219,20 @@ related_repos:
   shared_topics:
   - javascript
   - nodejs
-- full_name: oven-sh/bun
-  slug: oven-sh-bun
-  url: https://github.com/oven-sh/bun
+- full_name: nestjs/nest
+  slug: nestjs-nest
+  url: https://github.com/nestjs/nest
   score: 13
   shared_weeks:
-  - 2026-W21
   - 2026-W22
   - 2026-W23
   - 2026-W24
   - 2026-W25
   - 2026-W26
+  - 2026-W27
   shared_topics:
   - javascript
+  - node
   - nodejs
 lifecycle:
   status: active

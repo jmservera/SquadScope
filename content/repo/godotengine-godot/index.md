@@ -2,7 +2,7 @@
 title: godotengine/godot repository trend history
 description: 'Evergreen Claracle Observatory page for godotengine/godot: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/godotengine/godot
 repo_slug: godotengine-godot
 repo_description: Godot Engine – Multi-platform 2D and 3D game engine
 repo_language: C++
-topics:
+tags:
 - game-development
 - game-engine
 - gamedev
@@ -98,21 +98,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: game-development
-  url: /topics/game-development/
+  url: /tags/game-development/
 - name: game-engine
-  url: /topics/game-engine/
+  url: /tags/game-engine/
 - name: gamedev
-  url: /topics/gamedev/
+  url: /tags/gamedev/
 - name: godot
-  url: /topics/godot/
+  url: /tags/godot/
 - name: godotengine
-  url: /topics/godotengine/
+  url: /tags/godotengine/
 - name: multi-platform
-  url: /topics/multi-platform/
+  url: /tags/multi-platform/
 - name: open-source
-  url: /topics/open-source/
+  url: /tags/open-source/
 related_repos:
 - full_name: ocornut/imgui
   slug: ocornut-imgui
@@ -133,6 +133,32 @@ related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - open-source
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - open-source
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
   score: 12
   shared_weeks:
   - 2026-W21
@@ -169,35 +195,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - open-source
-- full_name: farion1231/cc-switch
-  slug: farion1231-cc-switch
-  url: https://github.com/farion1231/cc-switch
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - open-source
-- full_name: facebook/docusaurus
-  slug: facebook-docusaurus
-  url: https://github.com/facebook/docusaurus
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - open-source
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 11
   shared_weeks:
   - 2026-W21
@@ -207,9 +207,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 11
   shared_weeks:
   - 2026-W21

@@ -2,7 +2,7 @@
 title: farion1231/cc-switch repository trend history
 description: 'Evergreen Claracle Observatory page for farion1231/cc-switch: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: farion1231-cc-switch
 repo_description: 'A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Grok Build &
   Hermes Agent. Only official website: ccswitch.io'
 repo_language: Rust
-topics:
+tags:
 - ai-tools
 - claude-code
 - codex
@@ -104,32 +104,48 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai-tools
-  url: /topics/ai-tools/
+  url: /tags/ai-tools/
 - name: claude-code
-  url: /topics/claude-code/
+  url: /tags/claude-code/
 - name: codex
-  url: /topics/codex/
+  url: /tags/codex/
 - name: desktop-app
-  url: /topics/desktop-app/
+  url: /tags/desktop-app/
 - name: hermes
-  url: /topics/hermes/
+  url: /tags/hermes/
 - name: hermes-agent
-  url: /topics/hermes-agent/
+  url: /tags/hermes-agent/
 - name: mcp
-  url: /topics/mcp/
+  url: /tags/mcp/
 - name: open-source
-  url: /topics/open-source/
+  url: /tags/open-source/
 - name: openclaw
-  url: /topics/openclaw/
+  url: /tags/openclaw/
 - name: openclaw-ui
-  url: /topics/openclaw-ui/
+  url: /tags/openclaw-ui/
 - name: opencode
-  url: /topics/opencode/
+  url: /tags/opencode/
 - name: provider-management
-  url: /topics/provider-management/
+  url: /tags/provider-management/
 related_repos:
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - claude-code
+  - codex
+  - opencode
+  - typescript
 - full_name: NousResearch/hermes-agent
   slug: nousresearch-hermes-agent
   url: https://github.com/NousResearch/hermes-agent
@@ -147,22 +163,6 @@ related_repos:
   - hermes
   - hermes-agent
   - openclaw
-- full_name: code-yeongyu/oh-my-openagent
-  slug: code-yeongyu-oh-my-openagent
-  url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - claude-code
-  - codex
-  - opencode
-  - typescript
 - full_name: ruvnet/ruflo
   slug: ruvnet-ruflo
   url: https://github.com/ruvnet/ruflo
@@ -179,9 +179,9 @@ related_repos:
   - codex
   - skills
   - typescript
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: denoland/deno
+  slug: denoland-deno
+  url: https://github.com/denoland/deno
   score: 13
   shared_weeks:
   - 2026-W21
@@ -191,11 +191,25 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - mcp
+  - rust
   - typescript
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - open-source
+  - typescript
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
   score: 13
   shared_weeks:
   - 2026-W21
@@ -221,9 +235,9 @@ related_repos:
   shared_topics:
   - mcp
   - skills
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: Mintplex-Labs/anything-llm
+  slug: mintplex-labs-anything-llm
+  url: https://github.com/Mintplex-Labs/anything-llm
   score: 13
   shared_weeks:
   - 2026-W21
@@ -233,22 +247,8 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - open-source
-  - typescript
-- full_name: tauri-apps/tauri
-  slug: tauri-apps-tauri
-  url: https://github.com/tauri-apps/tauri
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - desktop-app
-  - rust
+  - hermes-agent
+  - mcp
 lifecycle:
   status: active
   as_of_week: 2026-W31

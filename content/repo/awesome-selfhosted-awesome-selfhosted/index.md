@@ -2,7 +2,7 @@
 title: awesome-selfhosted/awesome-selfhosted repository trend history
 description: 'Evergreen Claracle Observatory page for awesome-selfhosted/awesome-selfhosted: 11 weekly appearances, stars,
   velocity, topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/awesome-selfhosted/awesome-selfhosted
 repo_slug: awesome-selfhosted-awesome-selfhosted
 repo_description: A list of Free Software network services and web applications which can be hosted on your own servers
 repo_language: ''
-topics:
+tags:
 - awesome
 - awesome-list
 - cloud
@@ -99,23 +99,23 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: awesome
-  url: /topics/awesome/
+  url: /tags/awesome/
 - name: awesome-list
-  url: /topics/awesome-list/
+  url: /tags/awesome-list/
 - name: cloud
-  url: /topics/cloud/
+  url: /tags/cloud/
 - name: free-software
-  url: /topics/free-software/
+  url: /tags/free-software/
 - name: hosting
-  url: /topics/hosting/
+  url: /tags/hosting/
 - name: privacy
-  url: /topics/privacy/
+  url: /tags/privacy/
 - name: self-hosted
-  url: /topics/self-hosted/
+  url: /tags/self-hosted/
 - name: selfhosted
-  url: /topics/selfhosted/
+  url: /tags/selfhosted/
 related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
@@ -159,9 +159,24 @@ related_repos:
   shared_topics:
   - self-hosted
   - selfhosted
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: appwrite/appwrite
+  slug: appwrite-appwrite
+  url: https://github.com/appwrite/appwrite
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - hosting
+  - self-hosted
+  - selfhosted
+- full_name: coollabsio/coolify
+  slug: coollabsio-coolify
+  url: https://github.com/coollabsio/coolify
   score: 12
   shared_weeks:
   - 2026-W21
@@ -185,9 +200,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - awesome-list
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
+- full_name: immich-app/immich
+  slug: immich-app-immich
+  url: https://github.com/immich-app/immich
   score: 12
   shared_weeks:
   - 2026-W21
@@ -198,22 +213,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - self-hosted
-- full_name: ripienaar/free-for-dev
-  slug: ripienaar-free-for-dev
-  url: https://github.com/ripienaar/free-for-dev
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - awesome-list
-- full_name: immich-app/immich
-  slug: immich-app-immich
-  url: https://github.com/immich-app/immich
+- full_name: n8n-io/n8n
+  slug: n8n-io-n8n
+  url: https://github.com/n8n-io/n8n
   score: 12
   shared_weeks:
   - 2026-W21

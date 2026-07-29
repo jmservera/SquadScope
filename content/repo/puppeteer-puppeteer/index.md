@@ -2,7 +2,7 @@
 title: puppeteer/puppeteer repository trend history
 description: 'Evergreen Claracle Observatory page for puppeteer/puppeteer: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/puppeteer/puppeteer
 repo_slug: puppeteer-puppeteer
 repo_description: JavaScript API for Chrome and Firefox
 repo_language: TypeScript
-topics:
+tags:
 - automation
 - chrome
 - chromium
@@ -100,25 +100,25 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: automation
-  url: /topics/automation/
+  url: /tags/automation/
 - name: chrome
-  url: /topics/chrome/
+  url: /tags/chrome/
 - name: chromium
-  url: /topics/chromium/
+  url: /tags/chromium/
 - name: developer-tools
-  url: /topics/developer-tools/
+  url: /tags/developer-tools/
 - name: firefox
-  url: /topics/firefox/
+  url: /tags/firefox/
 - name: headless-chrome
-  url: /topics/headless-chrome/
+  url: /tags/headless-chrome/
 - name: node-module
-  url: /topics/node-module/
+  url: /tags/node-module/
 - name: testing
-  url: /topics/testing/
+  url: /tags/testing/
 - name: web
-  url: /topics/web/
+  url: /tags/web/
 related_repos:
 - full_name: microsoft/playwright
   slug: microsoft-playwright
@@ -138,20 +138,6 @@ related_repos:
   - firefox
   - testing
   - web
-- full_name: hoppscotch/hoppscotch
-  slug: hoppscotch-hoppscotch
-  url: https://github.com/hoppscotch/hoppscotch
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - developer-tools
-  - testing
 - full_name: gorhill/uBlock
   slug: gorhill-ublock
   url: https://github.com/gorhill/uBlock
@@ -166,10 +152,10 @@ related_repos:
   shared_topics:
   - chromium
   - firefox
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 12
+- full_name: hoppscotch/hoppscotch
+  slug: hoppscotch-hoppscotch
+  url: https://github.com/hoppscotch/hoppscotch
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -178,46 +164,8 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - automation
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - web
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - automation
-- full_name: electron/electron
-  slug: electron-electron
-  url: https://github.com/electron/electron
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - chrome
+  - developer-tools
+  - testing
 - full_name: angular/angular
   slug: angular-angular
   url: https://github.com/angular/angular
@@ -231,6 +179,58 @@ related_repos:
   - 2026-W26
   shared_topics:
   - web
+- full_name: electron/electron
+  slug: electron-electron
+  url: https://github.com/electron/electron
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - chrome
+- full_name: fastapi/fastapi
+  slug: fastapi-fastapi
+  url: https://github.com/fastapi/fastapi
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - web
+- full_name: flutter/flutter
+  slug: flutter-flutter
+  url: https://github.com/flutter/flutter
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - web
+- full_name: harry0703/MoneyPrinterTurbo
+  slug: harry0703-moneyprinterturbo
+  url: https://github.com/harry0703/MoneyPrinterTurbo
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - automation
 lifecycle:
   status: active
   as_of_week: 2026-W31

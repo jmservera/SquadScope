@@ -2,7 +2,7 @@
 title: daytonaio/daytona repository trend history
 description: 'Evergreen Claracle Observatory page for daytonaio/daytona: 9 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/daytonaio/daytona
 repo_slug: daytonaio-daytona
 repo_description: Daytona is a Secure and Elastic Infrastructure for Running AI-Generated Code
 repo_language: TypeScript
-topics:
+tags:
 - agentic-workflow
 - ai
 - ai-agents
@@ -87,23 +87,23 @@ weekly_appearances:
   url: /weekly/2026/w28/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agentic-workflow
-  url: /topics/agentic-workflow/
+  url: /tags/agentic-workflow/
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: ai-runtime
-  url: /topics/ai-runtime/
+  url: /tags/ai-runtime/
 - name: ai-sandboxes
-  url: /topics/ai-sandboxes/
+  url: /tags/ai-sandboxes/
 - name: code-execution
-  url: /topics/code-execution/
+  url: /tags/code-execution/
 - name: code-interpreter
-  url: /topics/code-interpreter/
+  url: /tags/code-interpreter/
 - name: developer-tools
-  url: /topics/developer-tools/
+  url: /tags/developer-tools/
 related_repos:
 - full_name: bytedance/deer-flow
   slug: bytedance-deer-flow
@@ -120,37 +120,9 @@ related_repos:
   - agentic-workflow
   - ai
   - ai-agents
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - ai-agents
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - agentic-workflow
-  - ai
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 11
   shared_weeks:
   - 2026-W21
@@ -204,9 +176,37 @@ related_repos:
   shared_topics:
   - ai
   - ai-agents
-- full_name: thedotmack/claude-mem
-  slug: thedotmack-claude-mem
-  url: https://github.com/thedotmack/claude-mem
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - ai-agents
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - agentic-workflow
+  - ai
+- full_name: mem0ai/mem0
+  slug: mem0ai-mem0
+  url: https://github.com/mem0ai/mem0
   score: 11
   shared_weeks:
   - 2026-W21

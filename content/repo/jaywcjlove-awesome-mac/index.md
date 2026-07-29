@@ -2,7 +2,7 @@
 title: jaywcjlove/awesome-mac repository trend history
 description: 'Evergreen Claracle Observatory page for jaywcjlove/awesome-mac: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: jaywcjlove-awesome-mac
 repo_description:  This project is dedicated to collecting high-quality macOS software and organizing them systematically
   by different categories for easy search and use.
 repo_language: Swift
-topics:
+tags:
 - app
 - apple
 - application
@@ -104,35 +104,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: app
-  url: /topics/app/
+  url: /tags/app/
 - name: apple
-  url: /topics/apple/
+  url: /tags/apple/
 - name: application
-  url: /topics/application/
+  url: /tags/application/
 - name: apps
-  url: /topics/apps/
+  url: /tags/apps/
 - name: awesome
-  url: /topics/awesome/
+  url: /tags/awesome/
 - name: awesome-list
-  url: /topics/awesome-list/
+  url: /tags/awesome-list/
 - name: awesome-lists
-  url: /topics/awesome-lists/
+  url: /tags/awesome-lists/
 - name: awesome-mac
-  url: /topics/awesome-mac/
+  url: /tags/awesome-mac/
 - name: desktop-app
-  url: /topics/desktop-app/
+  url: /tags/desktop-app/
 - name: desktop-application
-  url: /topics/desktop-application/
+  url: /tags/desktop-application/
 - name: desktop-apps
-  url: /topics/desktop-apps/
+  url: /tags/desktop-apps/
 - name: list
-  url: /topics/list/
+  url: /tags/list/
 related_repos:
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+- full_name: avelino/awesome-go
+  slug: avelino-awesome-go
+  url: https://github.com/avelino/awesome-go
   score: 13
   shared_weeks:
   - 2026-W21
@@ -144,9 +144,9 @@ related_repos:
   shared_topics:
   - awesome
   - awesome-list
-- full_name: avelino/awesome-go
-  slug: avelino-awesome-go
-  url: https://github.com/avelino/awesome-go
+- full_name: awesome-selfhosted/awesome-selfhosted
+  slug: awesome-selfhosted-awesome-selfhosted
+  url: https://github.com/awesome-selfhosted/awesome-selfhosted
   score: 13
   shared_weeks:
   - 2026-W21
@@ -172,45 +172,6 @@ related_repos:
   shared_topics:
   - mac
   - macos
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - macos
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - awesome-list
-- full_name: ripienaar/free-for-dev
-  slug: ripienaar-free-for-dev
-  url: https://github.com/ripienaar/free-for-dev
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - awesome-list
 - full_name: clash-verge-rev/clash-verge-rev
   slug: clash-verge-rev-clash-verge-rev
   url: https://github.com/clash-verge-rev/clash-verge-rev
@@ -224,9 +185,35 @@ related_repos:
   - 2026-W26
   shared_topics:
   - mac
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
+- full_name: f/prompts.chat
+  slug: f-prompts-chat
+  url: https://github.com/f/prompts.chat
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - awesome-list
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - desktop-app
+- full_name: flutter/flutter
+  slug: flutter-flutter
+  url: https://github.com/flutter/flutter
   score: 12
   shared_weeks:
   - 2026-W21
@@ -237,6 +224,19 @@ related_repos:
   - 2026-W26
   shared_topics:
   - macos
+- full_name: mem0ai/mem0
+  slug: mem0ai-mem0
+  url: https://github.com/mem0ai/mem0
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - application
 lifecycle:
   status: active
   as_of_week: 2026-W31

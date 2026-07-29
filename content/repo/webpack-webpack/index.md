@@ -2,7 +2,7 @@
 title: webpack/webpack repository trend history
 description: 'Evergreen Claracle Observatory page for webpack/webpack: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -15,7 +15,7 @@ repo_description: A bundler for javascript and friends. Packs many modules into 
   for loading parts of the application on demand. Through "loaders", modules can be CommonJs, AMD, ES6 modules, CSS, Images,
   JSON, Coffeescript, LESS, ... and your custom stuff.
 repo_language: JavaScript
-topics:
+tags:
 - amd
 - build-tool
 - commonjs
@@ -105,31 +105,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: amd
-  url: /topics/amd/
+  url: /tags/amd/
 - name: build-tool
-  url: /topics/build-tool/
+  url: /tags/build-tool/
 - name: commonjs
-  url: /topics/commonjs/
+  url: /tags/commonjs/
 - name: compiler
-  url: /topics/compiler/
+  url: /tags/compiler/
 - name: es2015
-  url: /topics/es2015/
+  url: /tags/es2015/
 - name: es6
-  url: /topics/es6/
+  url: /tags/es6/
 - name: esm
-  url: /topics/esm/
+  url: /tags/esm/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: javascript-compiler
-  url: /topics/javascript-compiler/
+  url: /tags/javascript-compiler/
 - name: javascript-modules
-  url: /topics/javascript-modules/
+  url: /tags/javascript-modules/
 - name: loaders
-  url: /topics/loaders/
+  url: /tags/loaders/
 - name: module-bundler
-  url: /topics/module-bundler/
+  url: /tags/module-bundler/
 related_repos:
 - full_name: angular/angular
   slug: angular-angular
@@ -146,9 +146,9 @@ related_repos:
   - javascript
   - web
   - web-performance
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
   score: 12
   shared_weeks:
   - 2026-W21
@@ -159,35 +159,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - javascript
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - plugins
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - web
-- full_name: twbs/bootstrap
-  slug: twbs-bootstrap
-  url: https://github.com/twbs/bootstrap
+- full_name: denoland/deno
+  slug: denoland-deno
+  url: https://github.com/denoland/deno
   score: 12
   shared_weeks:
   - 2026-W21
@@ -198,19 +172,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - javascript
-- full_name: vercel/next.js
-  slug: vercel-next-js
-  url: https://github.com/vercel/next.js
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - compiler
 - full_name: electron/electron
   slug: electron-electron
   url: https://github.com/electron/electron
@@ -224,9 +185,48 @@ related_repos:
   - 2026-W26
   shared_topics:
   - javascript
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+- full_name: fastapi/fastapi
+  slug: fastapi-fastapi
+  url: https://github.com/fastapi/fastapi
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - web
+- full_name: flutter/flutter
+  slug: flutter-flutter
+  url: https://github.com/flutter/flutter
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - web
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
   score: 12
   shared_weeks:
   - 2026-W21

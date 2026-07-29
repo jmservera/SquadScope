@@ -2,7 +2,7 @@
 title: Comfy-Org/ComfyUI repository trend history
 description: 'Evergreen Claracle Observatory page for Comfy-Org/ComfyUI: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/Comfy-Org/ComfyUI
 repo_slug: comfy-org-comfyui
 repo_description: The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface.
 repo_language: Python
-topics:
+tags:
 - ai
 - comfy
 - comfyui
@@ -97,23 +97,37 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: comfy
-  url: /topics/comfy/
+  url: /tags/comfy/
 - name: comfyui
-  url: /topics/comfyui/
+  url: /tags/comfyui/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: pytorch
-  url: /topics/pytorch/
+  url: /tags/pytorch/
 - name: stable-diffusion
-  url: /topics/stable-diffusion/
+  url: /tags/stable-diffusion/
 related_repos:
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - python
+- full_name: harry0703/MoneyPrinterTurbo
+  slug: harry0703-moneyprinterturbo
+  url: https://github.com/harry0703/MoneyPrinterTurbo
   score: 13
   shared_weeks:
   - 2026-W21
@@ -139,62 +153,6 @@ related_repos:
   shared_topics:
   - python
   - pytorch
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - python
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - python
-- full_name: bytedance/deer-flow
-  slug: bytedance-deer-flow
-  url: https://github.com/bytedance/deer-flow
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - python
-- full_name: OpenBB-finance/OpenBB
-  slug: openbb-finance-openbb
-  url: https://github.com/OpenBB-finance/OpenBB
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - python
 - full_name: keras-team/keras
   slug: keras-team-keras
   url: https://github.com/keras-team/keras
@@ -209,9 +167,51 @@ related_repos:
   shared_topics:
   - python
   - pytorch
-- full_name: harry0703/MoneyPrinterTurbo
-  slug: harry0703-moneyprinterturbo
-  url: https://github.com/harry0703/MoneyPrinterTurbo
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - python
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - python
+- full_name: mem0ai/mem0
+  slug: mem0ai-mem0
+  url: https://github.com/mem0ai/mem0
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - python
+- full_name: MemPalace/mempalace
+  slug: mempalace-mempalace
+  url: https://github.com/MemPalace/mempalace
   score: 13
   shared_weeks:
   - 2026-W21

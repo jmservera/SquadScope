@@ -2,7 +2,7 @@
 title: Snailclimb/JavaGuide repository trend history
 description: 'Evergreen Claracle Observatory page for Snailclimb/JavaGuide: 8 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/Snailclimb/JavaGuide
 repo_slug: snailclimb-javaguide
 repo_description: Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发、系统设计与 AI 应用开发
 repo_language: JavaScript
-topics:
+tags:
 - agent
 - ai
 - context-engineering
@@ -85,31 +85,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agent
-  url: /topics/agent/
+  url: /tags/agent/
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: context-engineering
-  url: /topics/context-engineering/
+  url: /tags/context-engineering/
 - name: deepseek
-  url: /topics/deepseek/
+  url: /tags/deepseek/
 - name: interview
-  url: /topics/interview/
+  url: /tags/interview/
 - name: java
-  url: /topics/java/
+  url: /tags/java/
 - name: mcp
-  url: /topics/mcp/
+  url: /tags/mcp/
 - name: mysql
-  url: /topics/mysql/
+  url: /tags/mysql/
 - name: redis
-  url: /topics/redis/
+  url: /tags/redis/
 - name: redisson
-  url: /topics/redisson/
+  url: /tags/redisson/
 - name: skills
-  url: /topics/skills/
+  url: /tags/skills/
 - name: springai
-  url: /topics/springai/
+  url: /tags/springai/
 related_repos:
 - full_name: langgenius/dify
   slug: langgenius-dify
@@ -144,21 +144,6 @@ related_repos:
   - deepseek
   - mcp
   - skills
-- full_name: netdata/netdata
-  slug: netdata-netdata
-  url: https://github.com/netdata/netdata
-  score: 11
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - ai
-  - mcp
-  - mysql
 - full_name: hiyouga/LlamaFactory
   slug: hiyouga-llamafactory
   url: https://github.com/hiyouga/LlamaFactory
@@ -189,10 +174,10 @@ related_repos:
   - agent
   - ai
   - mcp
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
-  score: 10
+- full_name: netdata/netdata
+  slug: netdata-netdata
+  url: https://github.com/netdata/netdata
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -202,35 +187,50 @@ related_repos:
   - 2026-W27
   shared_topics:
   - ai
+  - mcp
+  - mysql
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
+  score: 10
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - agent
+  - ai
+- full_name: coollabsio/coolify
+  slug: coollabsio-coolify
+  url: https://github.com/coollabsio/coolify
+  score: 10
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - mysql
+  - redis
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
+  score: 10
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - mcp
   - skills
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 10
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - ai
-  - mcp
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
-  score: 10
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - ai
-  - mcp
 lifecycle:
   status: active
   as_of_week: 2026-W31

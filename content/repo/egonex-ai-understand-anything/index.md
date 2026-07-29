@@ -2,7 +2,7 @@
 title: Egonex-AI/Understand-Anything repository trend history
 description: 'Evergreen Claracle Observatory page for Egonex-AI/Understand-Anything: 7 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: egonex-ai-understand-anything
 repo_description: Graphs that teach > graphs that impress. Turn any code into an interactive knowledge graph you can explore,
   search, and ask questions about. Works with Claude Code, Codex, Cursor, Copilot, Gemini CLI, and more.
 repo_language: TypeScript
-topics:
+tags:
 - antigravity-skills
 - business-knowledge
 - claude-code
@@ -80,31 +80,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: antigravity-skills
-  url: /topics/antigravity-skills/
+  url: /tags/antigravity-skills/
 - name: business-knowledge
-  url: /topics/business-knowledge/
+  url: /tags/business-knowledge/
 - name: claude-code
-  url: /topics/claude-code/
+  url: /tags/claude-code/
 - name: claude-skills
-  url: /topics/claude-skills/
+  url: /tags/claude-skills/
 - name: codebase-analysis
-  url: /topics/codebase-analysis/
+  url: /tags/codebase-analysis/
 - name: codex
-  url: /topics/codex/
+  url: /tags/codex/
 - name: codex-skills
-  url: /topics/codex-skills/
+  url: /tags/codex-skills/
 - name: developer-tools-ai-agent
-  url: /topics/developer-tools-ai-agent/
+  url: /tags/developer-tools-ai-agent/
 - name: gemini-cli-skills
-  url: /topics/gemini-cli-skills/
+  url: /tags/gemini-cli-skills/
 - name: karpathy-llm-wiki
-  url: /topics/karpathy-llm-wiki/
+  url: /tags/karpathy-llm-wiki/
 - name: knowledge-base
-  url: /topics/knowledge-base/
+  url: /tags/knowledge-base/
 - name: knowledge-graph
-  url: /topics/knowledge-graph/
+  url: /tags/knowledge-graph/
 related_repos:
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
@@ -121,9 +121,9 @@ related_repos:
   - claude-code
   - claude-skills
   - codex
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: addyosmani/agent-skills
+  slug: addyosmani-agent-skills
+  url: https://github.com/addyosmani/agent-skills
   score: 9
   shared_weeks:
   - 2026-W25
@@ -135,9 +135,9 @@ related_repos:
   shared_topics:
   - claude-code
   - codex
-- full_name: thedotmack/claude-mem
-  slug: thedotmack-claude-mem
-  url: https://github.com/thedotmack/claude-mem
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
   score: 9
   shared_weeks:
   - 2026-W25
@@ -148,10 +148,10 @@ related_repos:
   - 2026-W30
   shared_topics:
   - claude-code
-  - claude-skills
-- full_name: farion1231/cc-switch
-  slug: farion1231-cc-switch
-  url: https://github.com/farion1231/cc-switch
+  - codex
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
   score: 9
   shared_weeks:
   - 2026-W25
@@ -177,9 +177,9 @@ related_repos:
   shared_topics:
   - claude-code
   - codex
-- full_name: addyosmani/agent-skills
-  slug: addyosmani-agent-skills
-  url: https://github.com/addyosmani/agent-skills
+- full_name: thedotmack/claude-mem
+  slug: thedotmack-claude-mem
+  url: https://github.com/thedotmack/claude-mem
   score: 9
   shared_weeks:
   - 2026-W25
@@ -190,10 +190,23 @@ related_repos:
   - 2026-W30
   shared_topics:
   - claude-code
-  - codex
-- full_name: toeverything/AFFiNE
-  slug: toeverything-affine
-  url: https://github.com/toeverything/AFFiNE
+  - claude-skills
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 8
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - claude-code
+- full_name: lobehub/lobehub
+  slug: lobehub-lobehub
+  url: https://github.com/lobehub/lobehub
   score: 8
   shared_weeks:
   - 2026-W25
@@ -204,19 +217,6 @@ related_repos:
   - 2026-W30
   shared_topics:
   - knowledge-base
-- full_name: mem0ai/mem0
-  slug: mem0ai-mem0
-  url: https://github.com/mem0ai/mem0
-  score: 8
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - memory
 lifecycle:
   status: active
   as_of_week: 2026-W31

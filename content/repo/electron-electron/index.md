@@ -2,7 +2,7 @@
 title: electron/electron repository trend history
 description: 'Evergreen Claracle Observatory page for electron/electron: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/electron/electron
 repo_slug: electron-electron
 repo_description: ':electron: Build cross-platform desktop apps with JavaScript, HTML, and CSS'
 repo_language: C++
-topics:
+tags:
 - c-plus-plus
 - chrome
 - css
@@ -100,25 +100,25 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: c-plus-plus
-  url: /topics/c-plus-plus/
+  url: /tags/c-plus-plus/
 - name: chrome
-  url: /topics/chrome/
+  url: /tags/chrome/
 - name: css
-  url: /topics/css/
+  url: /tags/css/
 - name: electron
-  url: /topics/electron/
+  url: /tags/electron/
 - name: html
-  url: /topics/html/
+  url: /tags/html/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: nodejs
-  url: /topics/nodejs/
+  url: /tags/nodejs/
 - name: v8
-  url: /topics/v8/
+  url: /tags/v8/
 - name: works-with-codespaces
-  url: /topics/works-with-codespaces/
+  url: /tags/works-with-codespaces/
 related_repos:
 - full_name: twbs/bootstrap
   slug: twbs-bootstrap
@@ -135,34 +135,6 @@ related_repos:
   - css
   - html
   - javascript
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - nodejs
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - nodejs
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
@@ -177,9 +149,52 @@ related_repos:
   shared_topics:
   - javascript
   - nodejs
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - nodejs
 - full_name: immich-app/immich
   slug: immich-app-immich
   url: https://github.com/immich-app/immich
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - nodejs
+- full_name: microsoft/playwright
+  slug: microsoft-playwright
+  url: https://github.com/microsoft/playwright
+  score: 13
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - chrome
+  - electron
+  - javascript
+- full_name: nodejs/node
+  slug: nodejs-node
+  url: https://github.com/nodejs/node
   score: 13
   shared_weeks:
   - 2026-W21
@@ -219,21 +234,6 @@ related_repos:
   shared_topics:
   - javascript
   - nodejs
-- full_name: microsoft/playwright
-  slug: microsoft-playwright
-  url: https://github.com/microsoft/playwright
-  score: 13
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - chrome
-  - electron
-  - javascript
 lifecycle:
   status: active
   as_of_week: 2026-W31

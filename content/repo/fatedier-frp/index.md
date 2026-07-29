@@ -2,7 +2,7 @@
 title: fatedier/frp repository trend history
 description: 'Evergreen Claracle Observatory page for fatedier/frp: 8 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/fatedier/frp
 repo_slug: fatedier-frp
 repo_description: A fast reverse proxy to help you expose a local server behind a NAT or firewall to the internet.
 repo_language: Go
-topics:
+tags:
 - expose
 - firewall
 - frp
@@ -83,27 +83,27 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: expose
-  url: /topics/expose/
+  url: /tags/expose/
 - name: firewall
-  url: /topics/firewall/
+  url: /tags/firewall/
 - name: frp
-  url: /topics/frp/
+  url: /tags/frp/
 - name: go
-  url: /topics/go/
+  url: /tags/go/
 - name: http-proxy
-  url: /topics/http-proxy/
+  url: /tags/http-proxy/
 - name: nat
-  url: /topics/nat/
+  url: /tags/nat/
 - name: p2p
-  url: /topics/p2p/
+  url: /tags/p2p/
 - name: proxy
-  url: /topics/proxy/
+  url: /tags/proxy/
 - name: reverse-proxy
-  url: /topics/reverse-proxy/
+  url: /tags/reverse-proxy/
 - name: tunnel
-  url: /topics/tunnel/
+  url: /tags/tunnel/
 related_repos:
 - full_name: syncthing/syncthing
   slug: syncthing-syncthing
@@ -119,71 +119,6 @@ related_repos:
   shared_topics:
   - go
   - p2p
-- full_name: avelino/awesome-go
-  slug: avelino-awesome-go
-  url: https://github.com/avelino/awesome-go
-  score: 9
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W27
-  - 2026-W29
-  shared_topics:
-  - go
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
-  score: 9
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W27
-  - 2026-W29
-  shared_topics:
-  - go
-- full_name: golang/go
-  slug: golang-go
-  url: https://github.com/golang/go
-  score: 9
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W27
-  - 2026-W29
-  shared_topics:
-  - go
-- full_name: kubernetes/kubernetes
-  slug: kubernetes-kubernetes
-  url: https://github.com/kubernetes/kubernetes
-  score: 9
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W27
-  - 2026-W29
-  shared_topics:
-  - go
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
-  score: 9
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W27
-  - 2026-W29
-  shared_topics:
-  - p2p
 - full_name: 2dust/v2rayN
   slug: 2dust-v2rayn
   url: https://github.com/2dust/v2rayN
@@ -197,6 +132,32 @@ related_repos:
   - 2026-W29
   shared_topics:
   - proxy
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
+  score: 9
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W27
+  - 2026-W29
+  shared_topics:
+  - proxy
+- full_name: avelino/awesome-go
+  slug: avelino-awesome-go
+  url: https://github.com/avelino/awesome-go
+  score: 9
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W27
+  - 2026-W29
+  shared_topics:
+  - go
 - full_name: bitcoin/bitcoin
   slug: bitcoin-bitcoin
   url: https://github.com/bitcoin/bitcoin
@@ -210,6 +171,46 @@ related_repos:
   - 2026-W29
   shared_topics:
   - p2p
+- full_name: caddyserver/caddy
+  slug: caddyserver-caddy
+  url: https://github.com/caddyserver/caddy
+  score: 9
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - go
+  - reverse-proxy
+- full_name: golang/go
+  slug: golang-go
+  url: https://github.com/golang/go
+  score: 9
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W27
+  - 2026-W29
+  shared_topics:
+  - go
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
+  score: 9
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W27
+  - 2026-W29
+  shared_topics:
+  - go
 lifecycle:
   status: active
   as_of_week: 2026-W31

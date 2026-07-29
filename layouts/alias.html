@@ -1,0 +1,14 @@
+{{- $target := .Permalink -}}
+{{- $title := printf "Redirect to %s" $target -}}
+{{- $description := printf "Redirect page for %s on Claracle." $target -}}
+<!doctype html>
+<html lang="{{ site.Language.Lang | default "en-us" }}">
+<head>
+  <title>{{ $title }}</title>
+  <link rel="canonical" href="{{ $target }}">
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="{{ $description }}">
+  <meta http-equiv="refresh" content="0; url={{ $target }}">
+</head>
+</html>

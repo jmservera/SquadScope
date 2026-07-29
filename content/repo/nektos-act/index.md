@@ -2,7 +2,7 @@
 title: nektos/act repository trend history
 description: 'Evergreen Claracle Observatory page for nektos/act: 4 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-06'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/nektos/act
 repo_slug: nektos-act
 repo_description: Run your GitHub Actions locally 🚀
 repo_language: Go
-topics:
+tags:
 - ci
 - devops
 - github-actions
@@ -53,15 +53,15 @@ weekly_appearances:
   url: /weekly/2026/w23/
 - week: 2026-W28
   url: /weekly/2026/w28/
-topic_links:
+tag_links:
 - name: ci
-  url: /topics/ci/
+  url: /tags/ci/
 - name: devops
-  url: /topics/devops/
+  url: /tags/devops/
 - name: github-actions
-  url: /topics/github-actions/
+  url: /tags/github-actions/
 - name: golang
-  url: /topics/golang/
+  url: /tags/golang/
 related_repos:
 - full_name: go-gitea/gitea
   slug: go-gitea-gitea
@@ -86,9 +86,9 @@ related_repos:
   - 2026-W28
   shared_topics:
   - golang
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+- full_name: caddyserver/caddy
+  slug: caddyserver-caddy
+  url: https://github.com/caddyserver/caddy
   score: 5
   shared_weeks:
   - 2026-W21
@@ -119,20 +119,9 @@ related_repos:
   - 2026-W28
   shared_topics:
   - devops
-- full_name: unionlabs/union
-  slug: unionlabs-union
-  url: https://github.com/unionlabs/union
-  score: 5
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W28
-  shared_topics:
-  - golang
-- full_name: caddyserver/caddy
-  slug: caddyserver-caddy
-  url: https://github.com/caddyserver/caddy
+- full_name: ollama/ollama
+  slug: ollama-ollama
+  url: https://github.com/ollama/ollama
   score: 5
   shared_weeks:
   - 2026-W21
@@ -144,6 +133,17 @@ related_repos:
 - full_name: rclone/rclone
   slug: rclone-rclone
   url: https://github.com/rclone/rclone
+  score: 5
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W28
+  shared_topics:
+  - golang
+- full_name: unionlabs/union
+  slug: unionlabs-union
+  url: https://github.com/unionlabs/union
   score: 5
   shared_weeks:
   - 2026-W21

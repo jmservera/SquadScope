@@ -2,7 +2,7 @@
 title: laurent22/joplin repository trend history
 description: 'Evergreen Claracle Observatory page for laurent22/joplin: 8 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-06'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: laurent22-joplin
 repo_description: Joplin - the privacy-focused note taking app with sync capabilities for Windows, macOS, Linux, Android and
   iOS.
 repo_language: TypeScript
-topics:
+tags:
 - android
 - dropbox
 - electron
@@ -86,32 +86,47 @@ weekly_appearances:
   url: /weekly/2026/w27/
 - week: 2026-W28
   url: /weekly/2026/w28/
-topic_links:
+tag_links:
 - name: android
-  url: /topics/android/
+  url: /tags/android/
 - name: dropbox
-  url: /topics/dropbox/
+  url: /tags/dropbox/
 - name: electron
-  url: /topics/electron/
+  url: /tags/electron/
 - name: enex-files
-  url: /topics/enex-files/
+  url: /tags/enex-files/
 - name: evernote
-  url: /topics/evernote/
+  url: /tags/evernote/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: joplin
-  url: /topics/joplin/
+  url: /tags/joplin/
 - name: nextcloud
-  url: /topics/nextcloud/
+  url: /tags/nextcloud/
 - name: nodejs
-  url: /topics/nodejs/
+  url: /tags/nodejs/
 - name: note-taking
-  url: /topics/note-taking/
+  url: /tags/note-taking/
 - name: notesnook
-  url: /topics/notesnook/
+  url: /tags/notesnook/
 - name: obsidian
-  url: /topics/obsidian/
+  url: /tags/obsidian/
 related_repos:
+- full_name: appwrite/appwrite
+  slug: appwrite-appwrite
+  url: https://github.com/appwrite/appwrite
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - android
+  - javascript
+  - react-native
 - full_name: electron/electron
   slug: electron-electron
   url: https://github.com/electron/electron
@@ -142,49 +157,6 @@ related_repos:
   - dropbox
   - onedrive
   - webdav
-- full_name: appwrite/appwrite
-  slug: appwrite-appwrite
-  url: https://github.com/appwrite/appwrite
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - android
-  - javascript
-  - react-native
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 10
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - nodejs
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
-  score: 10
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - nodejs
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
@@ -199,9 +171,37 @@ related_repos:
   shared_topics:
   - javascript
   - nodejs
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
+  score: 10
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - nodejs
 - full_name: immich-app/immich
   slug: immich-app-immich
   url: https://github.com/immich-app/immich
+  score: 10
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - nodejs
+- full_name: nodejs/node
+  slug: nodejs-node
+  url: https://github.com/nodejs/node
   score: 10
   shared_weeks:
   - 2026-W21

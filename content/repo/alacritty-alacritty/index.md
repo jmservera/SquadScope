@@ -2,7 +2,7 @@
 title: alacritty/alacritty repository trend history
 description: 'Evergreen Claracle Observatory page for alacritty/alacritty: 5 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-20'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/alacritty/alacritty
 repo_slug: alacritty-alacritty
 repo_description: A cross-platform, OpenGL terminal emulator.
 repo_language: Rust
-topics:
+tags:
 - bsd
 - gpu
 - linux
@@ -65,27 +65,27 @@ weekly_appearances:
   url: /weekly/2026/w29/
 - week: 2026-W30
   url: /weekly/2026/w30/
-topic_links:
+tag_links:
 - name: bsd
-  url: /topics/bsd/
+  url: /tags/bsd/
 - name: gpu
-  url: /topics/gpu/
+  url: /tags/gpu/
 - name: linux
-  url: /topics/linux/
+  url: /tags/linux/
 - name: macos
-  url: /topics/macos/
+  url: /tags/macos/
 - name: opengl
-  url: /topics/opengl/
+  url: /tags/opengl/
 - name: rust
-  url: /topics/rust/
+  url: /tags/rust/
 - name: terminal
-  url: /topics/terminal/
+  url: /tags/terminal/
 - name: terminal-emulators
-  url: /topics/terminal-emulators/
+  url: /tags/terminal-emulators/
 - name: vte
-  url: /topics/vte/
+  url: /tags/vte/
 - name: windows
-  url: /topics/windows/
+  url: /tags/windows/
 related_repos:
 - full_name: rustdesk/rustdesk
   slug: rustdesk-rustdesk
@@ -131,19 +131,6 @@ related_repos:
   - linux
   - macos
   - windows
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
-  score: 7
-  shared_weeks:
-  - 2026-W22
-  - 2026-W24
-  - 2026-W26
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - macos
-  - windows
 - full_name: clash-verge-rev/clash-verge-rev
   slug: clash-verge-rev-clash-verge-rev
   url: https://github.com/clash-verge-rev/clash-verge-rev
@@ -156,6 +143,19 @@ related_repos:
   - 2026-W30
   shared_topics:
   - linux
+  - windows
+- full_name: flutter/flutter
+  slug: flutter-flutter
+  url: https://github.com/flutter/flutter
+  score: 7
+  shared_weeks:
+  - 2026-W22
+  - 2026-W24
+  - 2026-W26
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - macos
   - windows
 - full_name: microsoft/terminal
   slug: microsoft-terminal
@@ -183,9 +183,9 @@ related_repos:
   - macos
   - rust
   - windows
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 6
   shared_weeks:
   - 2026-W22
@@ -194,7 +194,7 @@ related_repos:
   - 2026-W29
   - 2026-W30
   shared_topics:
-  - terminal
+  - windows
 lifecycle:
   status: active
   as_of_week: 2026-W30

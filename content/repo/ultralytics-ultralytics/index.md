@@ -2,7 +2,7 @@
 title: ultralytics/ultralytics repository trend history
 description: 'Evergreen Claracle Observatory page for ultralytics/ultralytics: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: ultralytics-ultralytics
 repo_description: Ultralytics YOLO26, YOLO11, YOLOv8 — object detection, instance segmentation, semantic segmentation, image
   classification, pose estimation, object tracking
 repo_language: Python
-topics:
+tags:
 - computer-vision
 - deep-learning
 - image-classification
@@ -104,31 +104,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: computer-vision
-  url: /topics/computer-vision/
+  url: /tags/computer-vision/
 - name: deep-learning
-  url: /topics/deep-learning/
+  url: /tags/deep-learning/
 - name: image-classification
-  url: /topics/image-classification/
+  url: /tags/image-classification/
 - name: instance-segmentation
-  url: /topics/instance-segmentation/
+  url: /tags/instance-segmentation/
 - name: machine-learning
-  url: /topics/machine-learning/
+  url: /tags/machine-learning/
 - name: object-detection
-  url: /topics/object-detection/
+  url: /tags/object-detection/
 - name: pose-estimation
-  url: /topics/pose-estimation/
+  url: /tags/pose-estimation/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: pytorch
-  url: /topics/pytorch/
+  url: /tags/pytorch/
 - name: rotated-object-detection
-  url: /topics/rotated-object-detection/
+  url: /tags/rotated-object-detection/
 - name: segment-anything
-  url: /topics/segment-anything/
+  url: /tags/segment-anything/
 - name: tracking
-  url: /topics/tracking/
+  url: /tags/tracking/
 related_repos:
 - full_name: huggingface/transformers
   slug: huggingface-transformers
@@ -162,9 +162,9 @@ related_repos:
   - machine-learning
   - python
   - pytorch
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: pytorch/pytorch
+  slug: pytorch-pytorch
+  url: https://github.com/pytorch/pytorch
   score: 14
   shared_weeks:
   - 2026-W21
@@ -177,9 +177,9 @@ related_repos:
   - deep-learning
   - machine-learning
   - python
-- full_name: pytorch/pytorch
-  slug: pytorch-pytorch
-  url: https://github.com/pytorch/pytorch
+- full_name: tensorflow/tensorflow
+  slug: tensorflow-tensorflow
+  url: https://github.com/tensorflow/tensorflow
   score: 14
   shared_weeks:
   - 2026-W21
@@ -206,6 +206,20 @@ related_repos:
   shared_topics:
   - python
   - pytorch
+- full_name: OpenBB-finance/OpenBB
+  slug: openbb-finance-openbb
+  url: https://github.com/OpenBB-finance/OpenBB
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - machine-learning
+  - python
 - full_name: opencv/opencv
   slug: opencv-opencv
   url: https://github.com/opencv/opencv
@@ -220,23 +234,9 @@ related_repos:
   shared_topics:
   - computer-vision
   - deep-learning
-- full_name: sherlock-project/sherlock
-  slug: sherlock-project-sherlock
-  url: https://github.com/sherlock-project/sherlock
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - cli
-  - python
-- full_name: OpenBB-finance/OpenBB
-  slug: openbb-finance-openbb
-  url: https://github.com/OpenBB-finance/OpenBB
+- full_name: scikit-learn/scikit-learn
+  slug: scikit-learn-scikit-learn
+  url: https://github.com/scikit-learn/scikit-learn
   score: 13
   shared_weeks:
   - 2026-W21

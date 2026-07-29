@@ -2,7 +2,7 @@
 title: Shubhamsaboo/awesome-llm-apps repository trend history
 description: 'Evergreen Claracle Observatory page for Shubhamsaboo/awesome-llm-apps: 7 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/Shubhamsaboo/awesome-llm-apps
 repo_slug: shubhamsaboo-awesome-llm-apps
 repo_description: 100+ AI Agents, Agent Skills and RAG Apps - Free and Open Source.
 repo_language: Python
-topics:
+tags:
 - agents
 - llms
 - python
@@ -71,15 +71,15 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agents
-  url: /topics/agents/
+  url: /tags/agents/
 - name: llms
-  url: /topics/llms/
+  url: /tags/llms/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: rag
-  url: /topics/rag/
+  url: /tags/rag/
 related_repos:
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
@@ -111,20 +111,6 @@ related_repos:
   - agents
   - python
   - rag
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 9
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - agents
-  - python
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
@@ -153,9 +139,23 @@ related_repos:
   shared_topics:
   - llms
   - rag
-- full_name: vinta/awesome-python
-  slug: vinta-awesome-python
-  url: https://github.com/vinta/awesome-python
+- full_name: Significant-Gravitas/AutoGPT
+  slug: significant-gravitas-autogpt
+  url: https://github.com/Significant-Gravitas/AutoGPT
+  score: 9
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - agents
+  - python
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 8
   shared_weeks:
   - 2026-W22
@@ -166,9 +166,9 @@ related_repos:
   - 2026-W30
   shared_topics:
   - python
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
   score: 8
   shared_weeks:
   - 2026-W22
@@ -179,9 +179,9 @@ related_repos:
   - 2026-W30
   shared_topics:
   - python
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+- full_name: astral-sh/uv
+  slug: astral-sh-uv
+  url: https://github.com/astral-sh/uv
   score: 8
   shared_weeks:
   - 2026-W22
@@ -191,7 +191,7 @@ related_repos:
   - 2026-W29
   - 2026-W30
   shared_topics:
-  - llms
+  - python
 lifecycle:
   status: active
   as_of_week: 2026-W31

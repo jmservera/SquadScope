@@ -2,7 +2,7 @@
 title: browser-use/browser-use repository trend history
 description: 'Evergreen Claracle Observatory page for browser-use/browser-use: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/browser-use/browser-use
 repo_slug: browser-use-browser-use
 repo_description: 🌐 Make websites accessible for AI agents. Automate tasks online with ease.
 repo_language: Python
-topics:
+tags:
 - ai-agents
 - ai-tools
 - browser-automation
@@ -98,25 +98,25 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: ai-tools
-  url: /topics/ai-tools/
+  url: /tags/ai-tools/
 - name: browser-automation
-  url: /topics/browser-automation/
+  url: /tags/browser-automation/
 - name: browser-use
-  url: /topics/browser-use/
+  url: /tags/browser-use/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: playwright
-  url: /topics/playwright/
+  url: /tags/playwright/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 related_repos:
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 14
   shared_weeks:
   - 2026-W21
@@ -129,9 +129,9 @@ related_repos:
   - ai-agents
   - llm
   - python
-- full_name: bytedance/deer-flow
-  slug: bytedance-deer-flow
-  url: https://github.com/bytedance/deer-flow
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
   score: 14
   shared_weeks:
   - 2026-W21
@@ -159,9 +159,23 @@ related_repos:
   - ai-agents
   - llm
   - python
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: firecrawl/firecrawl
+  slug: firecrawl-firecrawl
+  url: https://github.com/firecrawl/firecrawl
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai-agents
+  - llm
+- full_name: harry0703/MoneyPrinterTurbo
+  slug: harry0703-moneyprinterturbo
+  url: https://github.com/harry0703/MoneyPrinterTurbo
   score: 13
   shared_weeks:
   - 2026-W21
@@ -187,20 +201,6 @@ related_repos:
   shared_topics:
   - llm
   - python
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai-agents
-  - llm
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
@@ -215,9 +215,9 @@ related_repos:
   shared_topics:
   - llm
   - python
-- full_name: firecrawl/firecrawl
-  slug: firecrawl-firecrawl
-  url: https://github.com/firecrawl/firecrawl
+- full_name: MemPalace/mempalace
+  slug: mempalace-mempalace
+  url: https://github.com/MemPalace/mempalace
   score: 13
   shared_weeks:
   - 2026-W21
@@ -227,8 +227,8 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - ai-agents
   - llm
+  - python
 lifecycle:
   status: active
   as_of_week: 2026-W31

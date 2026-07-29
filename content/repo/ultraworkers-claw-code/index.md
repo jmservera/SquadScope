@@ -2,7 +2,7 @@
 title: ultraworkers/claw-code repository trend history
 description: 'Evergreen Claracle Observatory page for ultraworkers/claw-code: 5 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-06-29'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: ultraworkers-claw-code
 repo_description: An agent-managed museum exhibit, built in Rust with Gajae-Code / LazyCodex — developed and maintained with
   no human intervention.
 repo_language: Rust
-topics: []
+tags: []
 first_seen_week: 2026-W21
 last_seen_week: 2026-W27
 as_of_week: 2026-W27
@@ -56,11 +56,11 @@ weekly_appearances:
   url: /weekly/2026/w24/
 - week: 2026-W27
   url: /weekly/2026/w27/
-topic_links: []
+tag_links: []
 related_repos:
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 5
   shared_weeks:
   - 2026-W21
@@ -69,9 +69,9 @@ related_repos:
   - 2026-W24
   - 2026-W27
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 5
   shared_weeks:
   - 2026-W21
@@ -80,9 +80,9 @@ related_repos:
   - 2026-W24
   - 2026-W27
   shared_topics: []
-- full_name: vinta/awesome-python
-  slug: vinta-awesome-python
-  url: https://github.com/vinta/awesome-python
+- full_name: abi/screenshot-to-code
+  slug: abi-screenshot-to-code
+  url: https://github.com/abi/screenshot-to-code
   score: 5
   shared_weeks:
   - 2026-W21
@@ -91,9 +91,9 @@ related_repos:
   - 2026-W24
   - 2026-W27
   shared_topics: []
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 5
   shared_weeks:
   - 2026-W21
@@ -102,9 +102,9 @@ related_repos:
   - 2026-W24
   - 2026-W27
   shared_topics: []
-- full_name: torvalds/linux
-  slug: torvalds-linux
-  url: https://github.com/torvalds/linux
+- full_name: anomalyco/opencode
+  slug: anomalyco-opencode
+  url: https://github.com/anomalyco/opencode
   score: 5
   shared_weeks:
   - 2026-W21
@@ -113,9 +113,9 @@ related_repos:
   - 2026-W24
   - 2026-W27
   shared_topics: []
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 5
   shared_weeks:
   - 2026-W21
@@ -124,9 +124,9 @@ related_repos:
   - 2026-W24
   - 2026-W27
   shared_topics: []
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
   score: 5
   shared_weeks:
   - 2026-W21
@@ -135,9 +135,9 @@ related_repos:
   - 2026-W24
   - 2026-W27
   shared_topics: []
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: anthropics/claude-code
+  slug: anthropics-claude-code
+  url: https://github.com/anthropics/claude-code
   score: 5
   shared_weeks:
   - 2026-W21

@@ -2,7 +2,7 @@
 title: vinta/awesome-python repository trend history
 description: 'Evergreen Claracle Observatory page for vinta/awesome-python: 10 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/vinta/awesome-python
 repo_slug: vinta-awesome-python
 repo_description: An opinionated list of Python frameworks, libraries, tools, and resources
 repo_language: Python
-topics:
+tags:
 - awesome
 - collections
 - python
@@ -91,36 +91,23 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: awesome
-  url: /topics/awesome/
+  url: /tags/awesome/
 - name: collections
-  url: /topics/collections/
+  url: /tags/collections/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: python-frameworks
-  url: /topics/python-frameworks/
+  url: /tags/python-frameworks/
 - name: python-libraries
-  url: /topics/python-libraries/
+  url: /tags/python-libraries/
 - name: python-tools
-  url: /topics/python-tools/
+  url: /tags/python-tools/
 related_repos:
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W27
-  shared_topics:
-  - awesome
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 11
   shared_weeks:
   - 2026-W21
@@ -131,9 +118,22 @@ related_repos:
   - 2026-W27
   shared_topics:
   - python
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W27
+  shared_topics:
+  - python
+- full_name: astral-sh/uv
+  slug: astral-sh-uv
+  url: https://github.com/astral-sh/uv
   score: 11
   shared_weeks:
   - 2026-W21
@@ -157,9 +157,22 @@ related_repos:
   - 2026-W27
   shared_topics:
   - awesome
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+- full_name: awesome-selfhosted/awesome-selfhosted
+  slug: awesome-selfhosted-awesome-selfhosted
+  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W27
+  shared_topics:
+  - awesome
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
   score: 11
   shared_weeks:
   - 2026-W21
@@ -170,22 +183,9 @@ related_repos:
   - 2026-W27
   shared_topics:
   - python
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W27
-  shared_topics:
-  - python
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 11
   shared_weeks:
   - 2026-W21

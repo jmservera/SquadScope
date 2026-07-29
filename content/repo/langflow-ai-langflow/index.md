@@ -2,7 +2,7 @@
 title: langflow-ai/langflow repository trend history
 description: 'Evergreen Claracle Observatory page for langflow-ai/langflow: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/langflow-ai/langflow
 repo_slug: langflow-ai-langflow
 repo_description: Langflow is a powerful tool for building and deploying AI-powered agents and workflows.
 repo_language: Python
-topics:
+tags:
 - agents
 - chatgpt
 - generative-ai
@@ -97,19 +97,19 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agents
-  url: /topics/agents/
+  url: /tags/agents/
 - name: chatgpt
-  url: /topics/chatgpt/
+  url: /tags/chatgpt/
 - name: generative-ai
-  url: /topics/generative-ai/
+  url: /tags/generative-ai/
 - name: large-language-models
-  url: /topics/large-language-models/
+  url: /tags/large-language-models/
 - name: multiagent
-  url: /topics/multiagent/
+  url: /tags/multiagent/
 - name: react-flow
-  url: /topics/react-flow/
+  url: /tags/react-flow/
 related_repos:
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
@@ -141,9 +141,9 @@ related_repos:
   shared_topics:
   - agents
   - chatgpt
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 12
   shared_weeks:
   - 2026-W21
@@ -153,7 +153,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - agents
+  - chatgpt
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -167,22 +167,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - chatgpt
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - chatgpt
-- full_name: OpenHands/OpenHands
-  slug: openhands-openhands
-  url: https://github.com/OpenHands/OpenHands
+- full_name: harry0703/MoneyPrinterTurbo
+  slug: harry0703-moneyprinterturbo
+  url: https://github.com/harry0703/MoneyPrinterTurbo
   score: 12
   shared_weeks:
   - 2026-W21
@@ -206,9 +193,23 @@ related_repos:
   - 2026-W26
   shared_topics:
   - large-language-models
-- full_name: code-yeongyu/oh-my-openagent
-  slug: code-yeongyu-oh-my-openagent
-  url: https://github.com/code-yeongyu/oh-my-openagent
+- full_name: microsoft/generative-ai-for-beginners
+  slug: microsoft-generative-ai-for-beginners
+  url: https://github.com/microsoft/generative-ai-for-beginners
+  score: 12
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - chatgpt
+  - generative-ai
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
   score: 12
   shared_weeks:
   - 2026-W21

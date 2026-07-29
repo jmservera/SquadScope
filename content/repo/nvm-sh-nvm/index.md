@@ -2,7 +2,7 @@
 title: nvm-sh/nvm repository trend history
 description: 'Evergreen Claracle Observatory page for nvm-sh/nvm: 7 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/nvm-sh/nvm
 repo_slug: nvm-sh-nvm
 repo_description: Node Version Manager - POSIX-compliant bash script to manage multiple active node.js versions
 repo_language: Shell
-topics:
+tags:
 - bash
 - install
 - lts
@@ -79,31 +79,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: bash
-  url: /topics/bash/
+  url: /tags/bash/
 - name: install
-  url: /topics/install/
+  url: /tags/install/
 - name: lts
-  url: /topics/lts/
+  url: /tags/lts/
 - name: node
-  url: /topics/node/
+  url: /tags/node/
 - name: node-js
-  url: /topics/node-js/
+  url: /tags/node-js/
 - name: nodejs
-  url: /topics/nodejs/
+  url: /tags/nodejs/
 - name: nvm
-  url: /topics/nvm/
+  url: /tags/nvm/
 - name: nvmrc
-  url: /topics/nvmrc/
+  url: /tags/nvmrc/
 - name: posix
-  url: /topics/posix/
+  url: /tags/posix/
 - name: posix-compliant
-  url: /topics/posix-compliant/
+  url: /tags/posix-compliant/
 - name: shell
-  url: /topics/shell/
+  url: /tags/shell/
 - name: version-manager
-  url: /topics/version-manager/
+  url: /tags/version-manager/
 related_repos:
 - full_name: warpdotdev/warp
   slug: warpdotdev-warp
@@ -120,9 +120,9 @@ related_repos:
   - bash
   - shell
   - zsh
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
+- full_name: junegunn/fzf
+  slug: junegunn-fzf
+  url: https://github.com/junegunn/fzf
   score: 9
   shared_weeks:
   - 2026-W21
@@ -132,7 +132,7 @@ related_repos:
   - 2026-W29
   - 2026-W30
   shared_topics:
-  - shell
+  - bash
   - zsh
 - full_name: nodejs/node
   slug: nodejs-node
@@ -148,9 +148,9 @@ related_repos:
   shared_topics:
   - node
   - nodejs
-- full_name: junegunn/fzf
-  slug: junegunn-fzf
-  url: https://github.com/junegunn/fzf
+- full_name: ohmyzsh/ohmyzsh
+  slug: ohmyzsh-ohmyzsh
+  url: https://github.com/ohmyzsh/ohmyzsh
   score: 9
   shared_weeks:
   - 2026-W21
@@ -160,7 +160,7 @@ related_repos:
   - 2026-W29
   - 2026-W30
   shared_topics:
-  - bash
+  - shell
   - zsh
 - full_name: starship/starship
   slug: starship-starship
@@ -176,9 +176,9 @@ related_repos:
   shared_topics:
   - bash
   - zsh
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
   score: 8
   shared_weeks:
   - 2026-W21
@@ -189,9 +189,9 @@ related_repos:
   - 2026-W30
   shared_topics:
   - nodejs
-- full_name: vercel/next.js
-  slug: vercel-next-js
-  url: https://github.com/vercel/next.js
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 8
   shared_weeks:
   - 2026-W21
@@ -201,10 +201,10 @@ related_repos:
   - 2026-W29
   - 2026-W30
   shared_topics:
-  - node
-- full_name: electron/electron
-  slug: electron-electron
-  url: https://github.com/electron/electron
+  - nodejs
+- full_name: coollabsio/coolify
+  slug: coollabsio-coolify
+  url: https://github.com/coollabsio/coolify
   score: 8
   shared_weeks:
   - 2026-W21

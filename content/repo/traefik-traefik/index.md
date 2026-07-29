@@ -2,7 +2,7 @@
 title: traefik/traefik repository trend history
 description: 'Evergreen Claracle Observatory page for traefik/traefik: 10 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/traefik/traefik
 repo_slug: traefik-traefik
 repo_description: The Cloud Native Application Proxy
 repo_language: Go
-topics:
+tags:
 - consul
 - docker
 - etcd
@@ -97,31 +97,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: consul
-  url: /topics/consul/
+  url: /tags/consul/
 - name: docker
-  url: /topics/docker/
+  url: /tags/docker/
 - name: etcd
-  url: /topics/etcd/
+  url: /tags/etcd/
 - name: go
-  url: /topics/go/
+  url: /tags/go/
 - name: golang
-  url: /topics/golang/
+  url: /tags/golang/
 - name: kubernetes
-  url: /topics/kubernetes/
+  url: /tags/kubernetes/
 - name: letsencrypt
-  url: /topics/letsencrypt/
+  url: /tags/letsencrypt/
 - name: load-balancer
-  url: /topics/load-balancer/
+  url: /tags/load-balancer/
 - name: marathon
-  url: /topics/marathon/
+  url: /tags/marathon/
 - name: mesos
-  url: /topics/mesos/
+  url: /tags/mesos/
 - name: microservice
-  url: /topics/microservice/
+  url: /tags/microservice/
 - name: reverse-proxy
-  url: /topics/reverse-proxy/
+  url: /tags/reverse-proxy/
 related_repos:
 - full_name: moby/moby
   slug: moby-moby
@@ -152,9 +152,9 @@ related_repos:
   shared_topics:
   - go
   - golang
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+- full_name: caddyserver/caddy
+  slug: caddyserver-caddy
+  url: https://github.com/caddyserver/caddy
   score: 12
   shared_weeks:
   - 2026-W22
@@ -162,10 +162,11 @@ related_repos:
   - 2026-W24
   - 2026-W25
   - 2026-W26
-  - 2026-W27
+  - 2026-W28
   shared_topics:
   - go
   - golang
+  - reverse-proxy
 - full_name: golang/go
   slug: golang-go
   url: https://github.com/golang/go
@@ -208,9 +209,9 @@ related_repos:
   shared_topics:
   - docker
   - kubernetes
-- full_name: caddyserver/caddy
-  slug: caddyserver-caddy
-  url: https://github.com/caddyserver/caddy
+- full_name: ollama/ollama
+  slug: ollama-ollama
+  url: https://github.com/ollama/ollama
   score: 12
   shared_weeks:
   - 2026-W22
@@ -218,11 +219,10 @@ related_repos:
   - 2026-W24
   - 2026-W25
   - 2026-W26
-  - 2026-W28
+  - 2026-W27
   shared_topics:
   - go
   - golang
-  - reverse-proxy
 - full_name: rclone/rclone
   slug: rclone-rclone
   url: https://github.com/rclone/rclone

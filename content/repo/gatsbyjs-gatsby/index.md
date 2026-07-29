@@ -2,7 +2,7 @@
 title: gatsbyjs/gatsby repository trend history
 description: 'Evergreen Claracle Observatory page for gatsbyjs/gatsby: 7 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-06'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/gatsbyjs/gatsby
 repo_slug: gatsbyjs-gatsby
 repo_description: React-based framework with performance, scalability, and security built in.
 repo_language: JavaScript
-topics:
+tags:
 - blog
 - compiler
 - gatsby
@@ -74,21 +74,21 @@ weekly_appearances:
   url: /weekly/2026/w27/
 - week: 2026-W28
   url: /weekly/2026/w28/
-topic_links:
+tag_links:
 - name: blog
-  url: /topics/blog/
+  url: /tags/blog/
 - name: compiler
-  url: /topics/compiler/
+  url: /tags/compiler/
 - name: gatsby
-  url: /topics/gatsby/
+  url: /tags/gatsby/
 - name: graphql
-  url: /topics/graphql/
+  url: /tags/graphql/
 - name: react
-  url: /topics/react/
+  url: /tags/react/
 - name: static-site-generator
-  url: /topics/static-site-generator/
+  url: /tags/static-site-generator/
 - name: web-app
-  url: /topics/web-app/
+  url: /tags/web-app/
 related_repos:
 - full_name: vercel/next.js
   slug: vercel-next-js
@@ -120,58 +120,6 @@ related_repos:
   shared_topics:
   - blog
   - static-site-generator
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 8
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - react
-- full_name: shadcn-ui/ui
-  slug: shadcn-ui-ui
-  url: https://github.com/shadcn-ui/ui
-  score: 8
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - react
-- full_name: rust-lang/rust
-  slug: rust-lang-rust
-  url: https://github.com/rust-lang/rust
-  score: 8
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - compiler
-- full_name: mui/material-ui
-  slug: mui-material-ui
-  url: https://github.com/mui/material-ui
-  score: 8
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - react
 - full_name: ant-design/ant-design
   slug: ant-design-ant-design
   url: https://github.com/ant-design/ant-design
@@ -185,9 +133,9 @@ related_repos:
   - 2026-W27
   shared_topics:
   - react
-- full_name: oven-sh/bun
-  slug: oven-sh-bun
-  url: https://github.com/oven-sh/bun
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
   score: 8
   shared_weeks:
   - 2026-W22
@@ -198,6 +146,58 @@ related_repos:
   - 2026-W27
   shared_topics:
   - react
+- full_name: appwrite/appwrite
+  slug: appwrite-appwrite
+  url: https://github.com/appwrite/appwrite
+  score: 8
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - react
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
+  score: 8
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - react
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
+  score: 8
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - react
+- full_name: FuelLabs/sway
+  slug: fuellabs-sway
+  url: https://github.com/FuelLabs/sway
+  score: 8
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - compiler
 lifecycle:
   status: active
   as_of_week: 2026-W28

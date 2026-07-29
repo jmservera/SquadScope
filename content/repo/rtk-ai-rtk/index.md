@@ -2,7 +2,7 @@
 title: rtk-ai/rtk repository trend history
 description: 'Evergreen Claracle Observatory page for rtk-ai/rtk: 10 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: rtk-ai-rtk
 repo_description: CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero
   dependencies
 repo_language: Rust
-topics:
+tags:
 - agentic-coding
 - ai-coding
 - anthropic
@@ -98,31 +98,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agentic-coding
-  url: /topics/agentic-coding/
+  url: /tags/agentic-coding/
 - name: ai-coding
-  url: /topics/ai-coding/
+  url: /tags/ai-coding/
 - name: anthropic
-  url: /topics/anthropic/
+  url: /tags/anthropic/
 - name: claude-code
-  url: /topics/claude-code/
+  url: /tags/claude-code/
 - name: cli
-  url: /topics/cli/
+  url: /tags/cli/
 - name: command-line-tool
-  url: /topics/command-line-tool/
+  url: /tags/command-line-tool/
 - name: cost-reduction
-  url: /topics/cost-reduction/
+  url: /tags/cost-reduction/
 - name: developer-tools
-  url: /topics/developer-tools/
+  url: /tags/developer-tools/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: open-source
-  url: /topics/open-source/
+  url: /tags/open-source/
 - name: productivity
-  url: /topics/productivity/
+  url: /tags/productivity/
 - name: rust
-  url: /topics/rust/
+  url: /tags/rust/
 related_repos:
 - full_name: affaan-m/ECC
   slug: affaan-m-ecc
@@ -141,36 +141,6 @@ related_repos:
   - developer-tools
   - llm
   - productivity
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
-  score: 13
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - anthropic
-  - claude-code
-  - llm
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 13
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - anthropic
-  - llm
-  - open-source
 - full_name: farion1231/cc-switch
   slug: farion1231-cc-switch
   url: https://github.com/farion1231/cc-switch
@@ -186,6 +156,36 @@ related_repos:
   - claude-code
   - open-source
   - rust
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 13
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - anthropic
+  - llm
+  - open-source
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
+  score: 13
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - anthropic
+  - claude-code
+  - llm
 - full_name: OpenHands/OpenHands
   slug: openhands-openhands
   url: https://github.com/OpenHands/OpenHands
@@ -201,9 +201,9 @@ related_repos:
   - cli
   - developer-tools
   - llm
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 12
   shared_weeks:
   - 2026-W22
@@ -213,8 +213,8 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics:
-  - cli
-  - productivity
+  - anthropic
+  - claude-code
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -229,9 +229,9 @@ related_repos:
   shared_topics:
   - llm
   - open-source
-- full_name: thedotmack/claude-mem
-  slug: thedotmack-claude-mem
-  url: https://github.com/thedotmack/claude-mem
+- full_name: ohmyzsh/ohmyzsh
+  slug: ohmyzsh-ohmyzsh
+  url: https://github.com/ohmyzsh/ohmyzsh
   score: 12
   shared_weeks:
   - 2026-W22
@@ -241,8 +241,8 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics:
-  - anthropic
-  - claude-code
+  - cli
+  - productivity
 lifecycle:
   status: active
   as_of_week: 2026-W31

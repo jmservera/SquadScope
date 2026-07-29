@@ -2,7 +2,7 @@
 title: FlowiseAI/Flowise repository trend history
 description: 'Evergreen Claracle Observatory page for FlowiseAI/Flowise: 4 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-06-22'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/FlowiseAI/Flowise
 repo_slug: flowiseai-flowise
 repo_description: Build AI Agents, Visually
 repo_language: TypeScript
-topics:
+tags:
 - agentic-ai
 - agentic-workflow
 - agents
@@ -61,60 +61,32 @@ weekly_appearances:
   url: /weekly/2026/w23/
 - week: 2026-W26
   url: /weekly/2026/w26/
-topic_links:
+tag_links:
 - name: agentic-ai
-  url: /topics/agentic-ai/
+  url: /tags/agentic-ai/
 - name: agentic-workflow
-  url: /topics/agentic-workflow/
+  url: /tags/agentic-workflow/
 - name: agents
-  url: /topics/agents/
+  url: /tags/agents/
 - name: artificial-intelligence
-  url: /topics/artificial-intelligence/
+  url: /tags/artificial-intelligence/
 - name: chatbot
-  url: /topics/chatbot/
+  url: /tags/chatbot/
 - name: chatgpt
-  url: /topics/chatgpt/
+  url: /tags/chatgpt/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: langchain
-  url: /topics/langchain/
+  url: /tags/langchain/
 - name: large-language-models
-  url: /topics/large-language-models/
+  url: /tags/large-language-models/
 - name: low-code
-  url: /topics/low-code/
+  url: /tags/low-code/
 - name: multiagent-systems
-  url: /topics/multiagent-systems/
+  url: /tags/multiagent-systems/
 - name: no-code
-  url: /topics/no-code/
+  url: /tags/no-code/
 related_repos:
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 8
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W26
-  shared_topics:
-  - low-code
-  - no-code
-  - typescript
-  - workflow-automation
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 8
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W26
-  shared_topics:
-  - agentic-ai
-  - agents
-  - artificial-intelligence
-  - openai
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -128,6 +100,22 @@ related_repos:
   - artificial-intelligence
   - chatgpt
   - openai
+  - typescript
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 8
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W26
+  shared_topics:
+  - agents
+  - chatgpt
+  - langchain
+  - openai
+  - rag
   - typescript
 - full_name: langgenius/dify
   slug: langgenius-dify
@@ -145,9 +133,9 @@ related_repos:
   - no-code
   - openai
   - rag
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: n8n-io/n8n
+  slug: n8n-io-n8n
+  url: https://github.com/n8n-io/n8n
   score: 8
   shared_weeks:
   - 2026-W21
@@ -155,12 +143,10 @@ related_repos:
   - 2026-W23
   - 2026-W26
   shared_topics:
-  - agents
-  - chatgpt
-  - langchain
-  - openai
-  - rag
+  - low-code
+  - no-code
   - typescript
+  - workflow-automation
 - full_name: ruvnet/ruflo
   slug: ruvnet-ruflo
   url: https://github.com/ruvnet/ruflo
@@ -175,22 +161,23 @@ related_repos:
   - agentic-workflow
   - agents
   - typescript
-- full_name: langflow-ai/langflow
-  slug: langflow-ai-langflow
-  url: https://github.com/langflow-ai/langflow
-  score: 7
+- full_name: Significant-Gravitas/AutoGPT
+  slug: significant-gravitas-autogpt
+  url: https://github.com/Significant-Gravitas/AutoGPT
+  score: 8
   shared_weeks:
   - 2026-W21
   - 2026-W22
   - 2026-W23
   - 2026-W26
   shared_topics:
+  - agentic-ai
   - agents
-  - chatgpt
-  - large-language-models
-- full_name: oven-sh/bun
-  slug: oven-sh-bun
-  url: https://github.com/oven-sh/bun
+  - artificial-intelligence
+  - openai
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 7
   shared_weeks:
   - 2026-W21
@@ -198,8 +185,21 @@ related_repos:
   - 2026-W23
   - 2026-W26
   shared_topics:
-  - javascript
-  - react
+  - agentic-workflow
+  - langchain
+  - typescript
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
+  score: 7
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W26
+  shared_topics:
+  - chatgpt
+  - openai
   - typescript
 lifecycle:
   status: active

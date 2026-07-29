@@ -2,7 +2,7 @@
 title: punkpeye/awesome-mcp-servers repository trend history
 description: 'Evergreen Claracle Observatory page for punkpeye/awesome-mcp-servers: 8 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/punkpeye/awesome-mcp-servers
 repo_slug: punkpeye-awesome-mcp-servers
 repo_description: A collection of MCP servers.
 repo_language: ''
-topics:
+tags:
 - ai
 - mcp
 first_seen_week: 2026-W23
@@ -75,15 +75,15 @@ weekly_appearances:
   url: /weekly/2026/w29/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: mcp
-  url: /topics/mcp/
+  url: /tags/mcp/
 related_repos:
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: koala73/worldmonitor
+  slug: koala73-worldmonitor
+  url: https://github.com/koala73/worldmonitor
   score: 10
   shared_weeks:
   - 2026-W23
@@ -109,37 +109,9 @@ related_repos:
   shared_topics:
   - ai
   - mcp
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
-  score: 10
-  shared_weeks:
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  shared_topics:
-  - ai
-  - mcp
-- full_name: netdata/netdata
-  slug: netdata-netdata
-  url: https://github.com/netdata/netdata
-  score: 10
-  shared_weeks:
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  shared_topics:
-  - ai
-  - mcp
-- full_name: koala73/worldmonitor
-  slug: koala73-worldmonitor
-  url: https://github.com/koala73/worldmonitor
+- full_name: lobehub/lobehub
+  slug: lobehub-lobehub
+  url: https://github.com/lobehub/lobehub
   score: 10
   shared_weeks:
   - 2026-W23
@@ -165,9 +137,9 @@ related_repos:
   shared_topics:
   - ai
   - mcp
-- full_name: lobehub/lobehub
-  slug: lobehub-lobehub
-  url: https://github.com/lobehub/lobehub
+- full_name: n8n-io/n8n
+  slug: n8n-io-n8n
+  url: https://github.com/n8n-io/n8n
   score: 10
   shared_weeks:
   - 2026-W23
@@ -179,10 +151,10 @@ related_repos:
   shared_topics:
   - ai
   - mcp
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
-  score: 9
+- full_name: netdata/netdata
+  slug: netdata-netdata
+  url: https://github.com/netdata/netdata
+  score: 10
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -192,6 +164,34 @@ related_repos:
   - 2026-W28
   shared_topics:
   - ai
+  - mcp
+- full_name: open-webui/open-webui
+  slug: open-webui-open-webui
+  url: https://github.com/open-webui/open-webui
+  score: 10
+  shared_weeks:
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - ai
+  - mcp
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 9
+  shared_weeks:
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - mcp
 lifecycle:
   status: active
   as_of_week: 2026-W31

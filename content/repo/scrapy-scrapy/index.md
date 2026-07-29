@@ -2,7 +2,7 @@
 title: scrapy/scrapy repository trend history
 description: 'Evergreen Claracle Observatory page for scrapy/scrapy: 9 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/scrapy/scrapy
 repo_slug: scrapy-scrapy
 repo_description: Scrapy, a fast high-level web crawling & scraping framework for Python.
 repo_language: Python
-topics:
+tags:
 - crawler
 - crawling
 - framework
@@ -87,23 +87,23 @@ weekly_appearances:
   url: /weekly/2026/w29/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: crawler
-  url: /topics/crawler/
+  url: /tags/crawler/
 - name: crawling
-  url: /topics/crawling/
+  url: /tags/crawling/
 - name: framework
-  url: /topics/framework/
+  url: /tags/framework/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: scraping
-  url: /topics/scraping/
+  url: /tags/scraping/
 - name: web-scraping
-  url: /topics/web-scraping/
+  url: /tags/web-scraping/
 - name: web-scraping-python
-  url: /topics/web-scraping-python/
+  url: /tags/web-scraping-python/
 related_repos:
 - full_name: firecrawl/firecrawl
   slug: firecrawl-firecrawl
@@ -120,34 +120,6 @@ related_repos:
   - crawler
   - scraping
   - web-scraping
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - hacktoberfest
-  - python
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - framework
-  - python
 - full_name: fastapi/fastapi
   slug: fastapi-fastapi
   url: https://github.com/fastapi/fastapi
@@ -176,9 +148,9 @@ related_repos:
   shared_topics:
   - hacktoberfest
   - python
-- full_name: sherlock-project/sherlock
-  slug: sherlock-project-sherlock
-  url: https://github.com/sherlock-project/sherlock
+- full_name: huggingface/transformers
+  slug: huggingface-transformers
+  url: https://github.com/huggingface/transformers
   score: 11
   shared_weeks:
   - 2026-W21
@@ -189,6 +161,20 @@ related_repos:
   - 2026-W27
   shared_topics:
   - hacktoberfest
+  - python
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - framework
   - python
 - full_name: nuxt/nuxt
   slug: nuxt-nuxt
@@ -204,9 +190,23 @@ related_repos:
   shared_topics:
   - framework
   - hacktoberfest
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: sherlock-project/sherlock
+  slug: sherlock-project-sherlock
+  url: https://github.com/sherlock-project/sherlock
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - hacktoberfest
+  - python
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 10
   shared_weeks:
   - 2026-W21

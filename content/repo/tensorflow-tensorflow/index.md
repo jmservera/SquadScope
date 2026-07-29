@@ -2,7 +2,7 @@
 title: tensorflow/tensorflow repository trend history
 description: 'Evergreen Claracle Observatory page for tensorflow/tensorflow: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/tensorflow/tensorflow
 repo_slug: tensorflow-tensorflow
 repo_description: An Open Source Machine Learning Framework for Everyone
 repo_language: C++
-topics:
+tags:
 - deep-learning
 - deep-neural-networks
 - distributed
@@ -99,40 +99,24 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: deep-learning
-  url: /topics/deep-learning/
+  url: /tags/deep-learning/
 - name: deep-neural-networks
-  url: /topics/deep-neural-networks/
+  url: /tags/deep-neural-networks/
 - name: distributed
-  url: /topics/distributed/
+  url: /tags/distributed/
 - name: machine-learning
-  url: /topics/machine-learning/
+  url: /tags/machine-learning/
 - name: ml
-  url: /topics/ml/
+  url: /tags/ml/
 - name: neural-network
-  url: /topics/neural-network/
+  url: /tags/neural-network/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: tensorflow
-  url: /topics/tensorflow/
+  url: /tags/tensorflow/
 related_repos:
-- full_name: pytorch/pytorch
-  slug: pytorch-pytorch
-  url: https://github.com/pytorch/pytorch
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - deep-learning
-  - machine-learning
-  - neural-network
-  - python
 - full_name: keras-team/keras
   slug: keras-team-keras
   url: https://github.com/keras-team/keras
@@ -149,6 +133,22 @@ related_repos:
   - machine-learning
   - python
   - tensorflow
+- full_name: pytorch/pytorch
+  slug: pytorch-pytorch
+  url: https://github.com/pytorch/pytorch
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - deep-learning
+  - machine-learning
+  - neural-network
+  - python
 - full_name: huggingface/transformers
   slug: huggingface-transformers
   url: https://github.com/huggingface/transformers
@@ -207,9 +207,9 @@ related_repos:
   shared_topics:
   - machine-learning
   - python
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 12
   shared_weeks:
   - 2026-W21
@@ -220,9 +220,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
   score: 12
   shared_weeks:
   - 2026-W21
@@ -232,7 +232,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - machine-learning
+  - python
 lifecycle:
   status: active
   as_of_week: 2026-W31

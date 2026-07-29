@@ -2,7 +2,7 @@
 title: D4Vinci/Scrapling repository trend history
 description: 'Evergreen Claracle Observatory page for D4Vinci/Scrapling: 8 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/D4Vinci/Scrapling
 repo_slug: d4vinci-scrapling
 repo_description: 🕷️ An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl!
 repo_language: Python
-topics:
+tags:
 - ai
 - ai-scraping
 - automation
@@ -85,64 +85,32 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: ai-scraping
-  url: /topics/ai-scraping/
+  url: /tags/ai-scraping/
 - name: automation
-  url: /topics/automation/
+  url: /tags/automation/
 - name: crawler
-  url: /topics/crawler/
+  url: /tags/crawler/
 - name: crawling
-  url: /topics/crawling/
+  url: /tags/crawling/
 - name: crawling-python
-  url: /topics/crawling-python/
+  url: /tags/crawling-python/
 - name: data
-  url: /topics/data/
+  url: /tags/data/
 - name: data-extraction
-  url: /topics/data-extraction/
+  url: /tags/data-extraction/
 - name: mcp
-  url: /topics/mcp/
+  url: /tags/mcp/
 - name: mcp-server
-  url: /topics/mcp-server/
+  url: /tags/mcp-server/
 - name: playwright
-  url: /topics/playwright/
+  url: /tags/playwright/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 related_repos:
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 12
-  shared_weeks:
-  - 2026-W23
-  - 2026-W24
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  shared_topics:
-  - ai
-  - automation
-  - mcp
-  - mcp-server
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 12
-  shared_weeks:
-  - 2026-W23
-  - 2026-W24
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  shared_topics:
-  - ai
-  - automation
-  - mcp
-  - python
 - full_name: firecrawl/firecrawl
   slug: firecrawl-firecrawl
   url: https://github.com/firecrawl/firecrawl
@@ -161,6 +129,38 @@ related_repos:
   - data-extraction
   - scraping
   - web-scraper
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
+  score: 12
+  shared_weeks:
+  - 2026-W23
+  - 2026-W24
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  shared_topics:
+  - ai
+  - automation
+  - mcp
+  - python
+- full_name: n8n-io/n8n
+  slug: n8n-io-n8n
+  url: https://github.com/n8n-io/n8n
+  score: 12
+  shared_weeks:
+  - 2026-W23
+  - 2026-W24
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  shared_topics:
+  - ai
+  - automation
+  - mcp
+  - mcp-server
 - full_name: harry0703/MoneyPrinterTurbo
   slug: harry0703-moneyprinterturbo
   url: https://github.com/harry0703/MoneyPrinterTurbo
@@ -206,9 +206,23 @@ related_repos:
   - ai
   - mcp
   - python
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
+  score: 10
+  shared_weeks:
+  - 2026-W23
+  - 2026-W24
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  shared_topics:
+  - playwright
+  - python
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 10
   shared_weeks:
   - 2026-W23
@@ -220,20 +234,6 @@ related_repos:
   shared_topics:
   - ai
   - python
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
-  score: 10
-  shared_weeks:
-  - 2026-W23
-  - 2026-W24
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  shared_topics:
-  - ai
-  - mcp
 lifecycle:
   status: active
   as_of_week: 2026-W31

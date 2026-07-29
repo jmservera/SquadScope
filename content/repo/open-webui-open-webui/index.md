@@ -2,7 +2,7 @@
 title: open-webui/open-webui repository trend history
 description: 'Evergreen Claracle Observatory page for open-webui/open-webui: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/open-webui/open-webui
 repo_slug: open-webui-open-webui
 repo_description: User-friendly AI Interface (Supports Ollama, OpenAI API, ...)
 repo_language: Python
-topics:
+tags:
 - ai
 - llm
 - llm-ui
@@ -103,32 +103,48 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: llm-ui
-  url: /topics/llm-ui/
+  url: /tags/llm-ui/
 - name: llm-webui
-  url: /topics/llm-webui/
+  url: /tags/llm-webui/
 - name: llms
-  url: /topics/llms/
+  url: /tags/llms/
 - name: mcp
-  url: /topics/mcp/
+  url: /tags/mcp/
 - name: ollama
-  url: /topics/ollama/
+  url: /tags/ollama/
 - name: ollama-webui
-  url: /topics/ollama-webui/
+  url: /tags/ollama-webui/
 - name: open-webui
-  url: /topics/open-webui/
+  url: /tags/open-webui/
 - name: openai
-  url: /topics/openai/
+  url: /tags/openai/
 - name: openapi
-  url: /topics/openapi/
+  url: /tags/openapi/
 - name: rag
-  url: /topics/rag/
+  url: /tags/rag/
 related_repos:
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - llm
+  - openai
+  - rag
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
@@ -146,9 +162,9 @@ related_repos:
   - mcp
   - openai
   - rag
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: Mintplex-Labs/anything-llm
+  slug: mintplex-labs-anything-llm
+  url: https://github.com/Mintplex-Labs/anything-llm
   score: 15
   shared_weeks:
   - 2026-W21
@@ -158,9 +174,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - ai
   - llm
-  - openai
+  - mcp
+  - ollama
   - rag
 - full_name: unslothai/unsloth
   slug: unslothai-unsloth
@@ -179,67 +195,6 @@ related_repos:
   - openai
   - self-hosted
   - ui
-- full_name: Mintplex-Labs/anything-llm
-  slug: mintplex-labs-anything-llm
-  url: https://github.com/Mintplex-Labs/anything-llm
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - llm
-  - mcp
-  - ollama
-  - rag
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - mcp
-  - self-hosted
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - llm
-  - openai
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - llm
-  - llms
-  - ollama
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -255,6 +210,51 @@ related_repos:
   - ai
   - llm
   - openai
+- full_name: mem0ai/mem0
+  slug: mem0ai-mem0
+  url: https://github.com/mem0ai/mem0
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - llm
+  - rag
+- full_name: MemPalace/mempalace
+  slug: mempalace-mempalace
+  url: https://github.com/MemPalace/mempalace
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - llm
+  - mcp
+- full_name: n8n-io/n8n
+  slug: n8n-io-n8n
+  url: https://github.com/n8n-io/n8n
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - mcp
+  - self-hosted
 lifecycle:
   status: active
   as_of_week: 2026-W31

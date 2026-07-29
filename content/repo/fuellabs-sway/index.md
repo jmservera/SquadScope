@@ -2,7 +2,7 @@
 title: FuelLabs/sway repository trend history
 description: 'Evergreen Claracle Observatory page for FuelLabs/sway: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/FuelLabs/sway
 repo_slug: fuellabs-sway
 repo_description: 🌴 Empowering everyone to build reliable and efficient smart contracts.
 repo_language: Rust
-topics:
+tags:
 - compiler
 - fuel
 - language
@@ -95,15 +95,15 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: compiler
-  url: /topics/compiler/
+  url: /tags/compiler/
 - name: fuel
-  url: /topics/fuel/
+  url: /tags/fuel/
 - name: language
-  url: /topics/language/
+  url: /tags/language/
 - name: sway
-  url: /topics/sway/
+  url: /tags/sway/
 related_repos:
 - full_name: rust-lang/rust
   slug: rust-lang-rust
@@ -119,19 +119,6 @@ related_repos:
   shared_topics:
   - compiler
   - language
-- full_name: vercel/next.js
-  slug: vercel-next-js
-  url: https://github.com/vercel/next.js
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - compiler
 - full_name: golang/go
   slug: golang-go
   url: https://github.com/golang/go
@@ -145,6 +132,19 @@ related_repos:
   - 2026-W26
   shared_topics:
   - language
+- full_name: vercel/next.js
+  slug: vercel-next-js
+  url: https://github.com/vercel/next.js
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - compiler
 - full_name: webpack/webpack
   slug: webpack-webpack
   url: https://github.com/webpack/webpack
@@ -158,9 +158,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - compiler
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 11
   shared_weeks:
   - 2026-W21
@@ -170,9 +170,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 11
   shared_weeks:
   - 2026-W21
@@ -182,9 +182,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+- full_name: abi/screenshot-to-code
+  slug: abi-screenshot-to-code
+  url: https://github.com/abi/screenshot-to-code
   score: 11
   shared_weeks:
   - 2026-W21
@@ -194,9 +194,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: torvalds/linux
-  slug: torvalds-linux
-  url: https://github.com/torvalds/linux
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 11
   shared_weeks:
   - 2026-W21

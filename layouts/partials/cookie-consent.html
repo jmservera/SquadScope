@@ -41,11 +41,54 @@
 
       reviveCookiePatterns(cfg.categories);
 
-      CookieConsent.run(Object.assign({
+      function analyticsMeasurementId() {
+        return window.SquadScopeAnalytics && window.SquadScopeAnalytics.gaMeasurementId;
+      }
+
+      function disableGoogleAnalytics() {
+        var measurementId = analyticsMeasurementId();
+        if (measurementId) {
+          window['ga-disable-' + measurementId] = true;
+        }
+      }
+
+      function loadGoogleAnalytics() {
+        var measurementId = analyticsMeasurementId();
+        if (!measurementId) return;
+
+        window['ga-disable-' + measurementId] = false;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = window.gtag || function () {
+          window.dataLayer.push(arguments);
+        };
+
+        if (!window.SquadScopeGA4Loaded) {
+          window.SquadScopeGA4Loaded = true;
+          window.gtag('js', new Date());
+          window.gtag('config', measurementId, { anonymize_ip: true });
+
+          var gaScript = document.createElement('script');
+          gaScript.async = true;
+          gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(measurementId);
+          document.head.appendChild(gaScript);
+        }
+      }
+
+      function updateAnalyticsConsent() {
+        if (CookieConsent.acceptedCategory('analytics')) {
+          loadGoogleAnalytics();
+        } else {
+          disableGoogleAnalytics();
+        }
+      }
+
+      var userOnConsent = cfg.onConsent;
+      var userOnChange = cfg.onChange;
+      var runConfig = Object.assign({
         mode: 'opt-in',
         revision: 1,
         hideFromBots: false,
-        manageScriptTags: true,
+        manageScriptTags: false,
         cookie: {
           name: 'squadscope_cookie_consent',
           sameSite: 'Lax',
@@ -64,7 +107,24 @@
             flipButtons: false
           }
         }
-      }, cfg));
+      }, cfg);
+
+      runConfig.onConsent = function (cookie) {
+        updateAnalyticsConsent();
+        if (typeof userOnConsent === 'function') {
+          userOnConsent(cookie);
+        }
+      };
+
+      runConfig.onChange = function (cookie, changedCategories, changedServices) {
+        updateAnalyticsConsent();
+        if (typeof userOnChange === 'function') {
+          userOnChange(cookie, changedCategories, changedServices);
+        }
+      };
+
+      disableGoogleAnalytics();
+      CookieConsent.run(runConfig);
     };
     document.head.appendChild(script);
   })();

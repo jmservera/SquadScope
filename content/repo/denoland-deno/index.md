@@ -2,7 +2,7 @@
 title: denoland/deno repository trend history
 description: 'Evergreen Claracle Observatory page for denoland/deno: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/denoland/deno
 repo_slug: denoland-deno
 repo_description: A modern runtime for JavaScript and TypeScript.
 repo_language: Rust
-topics:
+tags:
 - deno
 - javascript
 - rust
@@ -95,15 +95,15 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: deno
-  url: /topics/deno/
+  url: /tags/deno/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: rust
-  url: /topics/rust/
+  url: /tags/rust/
 - name: typescript
-  url: /topics/typescript/
+  url: /tags/typescript/
 related_repos:
 - full_name: oven-sh/bun
   slug: oven-sh-bun
@@ -120,37 +120,9 @@ related_repos:
   - javascript
   - rust
   - typescript
-- full_name: immich-app/immich
-  slug: immich-app-immich
-  url: https://github.com/immich-app/immich
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - typescript
 - full_name: angular/angular
   slug: angular-angular
   url: https://github.com/angular/angular
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - typescript
-- full_name: mermaid-js/mermaid
-  slug: mermaid-js-mermaid
-  url: https://github.com/mermaid-js/mermaid
   score: 13
   shared_weeks:
   - 2026-W21
@@ -176,6 +148,34 @@ related_repos:
   shared_topics:
   - rust
   - typescript
+- full_name: immich-app/immich
+  slug: immich-app-immich
+  url: https://github.com/immich-app/immich
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - typescript
+- full_name: mermaid-js/mermaid
+  slug: mermaid-js-mermaid
+  url: https://github.com/mermaid-js/mermaid
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - typescript
 - full_name: strapi/strapi
   slug: strapi-strapi
   url: https://github.com/strapi/strapi
@@ -190,22 +190,9 @@ related_repos:
   shared_topics:
   - javascript
   - typescript
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
   score: 12
   shared_weeks:
   - 2026-W21
@@ -216,6 +203,19 @@ related_repos:
   - 2026-W26
   shared_topics:
   - typescript
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
 lifecycle:
   status: active
   as_of_week: 2026-W31

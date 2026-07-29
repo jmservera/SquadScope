@@ -2,7 +2,7 @@
 title: pi-hole/pi-hole repository trend history
 description: 'Evergreen Claracle Observatory page for pi-hole/pi-hole: 10 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/pi-hole/pi-hole
 repo_slug: pi-hole-pi-hole
 repo_description: A black hole for Internet advertisements
 repo_language: Shell
-topics:
+tags:
 - ad-blocker
 - blocker
 - cloud
@@ -96,29 +96,29 @@ weekly_appearances:
   url: /weekly/2026/w29/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ad-blocker
-  url: /topics/ad-blocker/
+  url: /tags/ad-blocker/
 - name: blocker
-  url: /topics/blocker/
+  url: /tags/blocker/
 - name: cloud
-  url: /topics/cloud/
+  url: /tags/cloud/
 - name: dashboard
-  url: /topics/dashboard/
+  url: /tags/dashboard/
 - name: dhcp
-  url: /topics/dhcp/
+  url: /tags/dhcp/
 - name: dhcp-server
-  url: /topics/dhcp-server/
+  url: /tags/dhcp-server/
 - name: dns-server
-  url: /topics/dns-server/
+  url: /tags/dns-server/
 - name: dnsmasq
-  url: /topics/dnsmasq/
+  url: /tags/dnsmasq/
 - name: pi-hole
-  url: /topics/pi-hole/
+  url: /tags/pi-hole/
 - name: raspberry-pi
-  url: /topics/raspberry-pi/
+  url: /tags/raspberry-pi/
 - name: shell
-  url: /topics/shell/
+  url: /tags/shell/
 related_repos:
 - full_name: awesome-selfhosted/awesome-selfhosted
   slug: awesome-selfhosted-awesome-selfhosted
@@ -133,71 +133,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - cloud
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - shell
-- full_name: home-assistant/core
-  slug: home-assistant-core
-  url: https://github.com/home-assistant/core
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - raspberry-pi
-- full_name: grafana/grafana
-  slug: grafana-grafana
-  url: https://github.com/grafana/grafana
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - dashboard
-- full_name: strapi/strapi
-  slug: strapi-strapi
-  url: https://github.com/strapi/strapi
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - dashboard
-- full_name: gorhill/uBlock
-  slug: gorhill-ublock
-  url: https://github.com/gorhill/uBlock
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - blocker
 - full_name: git/git
   slug: git-git
   url: https://github.com/git/git
@@ -211,9 +146,61 @@ related_repos:
   - 2026-W26
   shared_topics:
   - shell
-- full_name: warpdotdev/warp
-  slug: warpdotdev-warp
-  url: https://github.com/warpdotdev/warp
+- full_name: gorhill/uBlock
+  slug: gorhill-ublock
+  url: https://github.com/gorhill/uBlock
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - blocker
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - dashboard
+- full_name: home-assistant/core
+  slug: home-assistant-core
+  url: https://github.com/home-assistant/core
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - raspberry-pi
+- full_name: koala73/worldmonitor
+  slug: koala73-worldmonitor
+  url: https://github.com/koala73/worldmonitor
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - dashboard
+- full_name: ohmyzsh/ohmyzsh
+  slug: ohmyzsh-ohmyzsh
+  url: https://github.com/ohmyzsh/ohmyzsh
   score: 11
   shared_weeks:
   - 2026-W21
@@ -224,6 +211,19 @@ related_repos:
   - 2026-W26
   shared_topics:
   - shell
+- full_name: strapi/strapi
+  slug: strapi-strapi
+  url: https://github.com/strapi/strapi
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - dashboard
 lifecycle:
   status: active
   as_of_week: 2026-W31

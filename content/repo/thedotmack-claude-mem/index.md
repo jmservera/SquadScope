@@ -2,7 +2,7 @@
 title: thedotmack/claude-mem repository trend history
 description: 'Evergreen Claracle Observatory page for thedotmack/claude-mem: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -15,7 +15,7 @@ repo_description: Persistent Context Across Sessions for Every Agent –  Captur
   compresses it with AI, and injects relevant context back into future sessions. Works with Claude Code, OpenClaw, Codex,
   Gemini, Hermes, Copilot, OpenCode + More
 repo_language: JavaScript
-topics:
+tags:
 - ai
 - ai-agents
 - ai-memory
@@ -105,65 +105,32 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: ai-memory
-  url: /topics/ai-memory/
+  url: /tags/ai-memory/
 - name: anthropic
-  url: /topics/anthropic/
+  url: /tags/anthropic/
 - name: artificial-intelligence
-  url: /topics/artificial-intelligence/
+  url: /tags/artificial-intelligence/
 - name: chromadb
-  url: /topics/chromadb/
+  url: /tags/chromadb/
 - name: claude
-  url: /topics/claude/
+  url: /tags/claude/
 - name: claude-agent-sdk
-  url: /topics/claude-agent-sdk/
+  url: /tags/claude-agent-sdk/
 - name: claude-agents
-  url: /topics/claude-agents/
+  url: /tags/claude-agents/
 - name: claude-code
-  url: /topics/claude-code/
+  url: /tags/claude-code/
 - name: claude-code-plugin
-  url: /topics/claude-code-plugin/
+  url: /tags/claude-code-plugin/
 - name: claude-skills
-  url: /topics/claude-skills/
+  url: /tags/claude-skills/
 related_repos:
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - ai-agents
-  - anthropic
-  - claude
-  - claude-code
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - ai-agents
-  - anthropic
-  - rag
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
@@ -182,6 +149,22 @@ related_repos:
   - claude
   - claude-code
   - claude-skills
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - ai-agents
+  - anthropic
+  - rag
 - full_name: mem0ai/mem0
   slug: mem0ai-mem0
   url: https://github.com/mem0ai/mem0
@@ -198,10 +181,10 @@ related_repos:
   - ai-agents
   - long-term-memory
   - rag
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 14
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
+  score: 15
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -211,8 +194,26 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-  - artificial-intelligence
+  - ai-agents
+  - anthropic
   - claude
+  - claude-code
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 14
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - ai-agents
+  - anthropic
+  - claude
+  - claude-code
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -228,21 +229,6 @@ related_repos:
   - ai
   - artificial-intelligence
   - claude
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - claude
-  - rag
 - full_name: infiniflow/ragflow
   slug: infiniflow-ragflow
   url: https://github.com/infiniflow/ragflow
@@ -257,6 +243,21 @@ related_repos:
   shared_topics:
   - ai
   - ai-agents
+  - rag
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - claude
   - rag
 lifecycle:
   status: active

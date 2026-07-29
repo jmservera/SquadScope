@@ -2,7 +2,7 @@
 title: microsoft/ML-For-Beginners repository trend history
 description: 'Evergreen Claracle Observatory page for microsoft/ML-For-Beginners: 8 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/microsoft/ML-For-Beginners
 repo_slug: microsoft-ml-for-beginners
 repo_description: 12 weeks, 26 lessons, 52 quizzes, classic Machine Learning for all
 repo_language: Jupyter Notebook
-topics:
+tags:
 - data-science
 - education
 - machine-learning
@@ -85,35 +85,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: data-science
-  url: /topics/data-science/
+  url: /tags/data-science/
 - name: education
-  url: /topics/education/
+  url: /tags/education/
 - name: machine-learning
-  url: /topics/machine-learning/
+  url: /tags/machine-learning/
 - name: machine-learning-algorithms
-  url: /topics/machine-learning-algorithms/
+  url: /tags/machine-learning-algorithms/
 - name: machinelearning
-  url: /topics/machinelearning/
+  url: /tags/machinelearning/
 - name: machinelearning-python
-  url: /topics/machinelearning-python/
+  url: /tags/machinelearning-python/
 - name: microsoft-for-beginners
-  url: /topics/microsoft-for-beginners/
+  url: /tags/microsoft-for-beginners/
 - name: ml
-  url: /topics/ml/
+  url: /tags/ml/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: r
-  url: /topics/r/
+  url: /tags/r/
 - name: scikit-learn
-  url: /topics/scikit-learn/
+  url: /tags/scikit-learn/
 - name: scikit-learn-python
-  url: /topics/scikit-learn-python/
+  url: /tags/scikit-learn-python/
 related_repos:
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: keras-team/keras
+  slug: keras-team-keras
+  url: https://github.com/keras-team/keras
   score: 11
   shared_weeks:
   - 2026-W22
@@ -123,8 +123,8 @@ related_repos:
   - 2026-W28
   - 2026-W29
   shared_topics:
+  - data-science
   - machine-learning
-  - ml
   - python
 - full_name: scikit-learn/scikit-learn
   slug: scikit-learn-scikit-learn
@@ -141,9 +141,9 @@ related_repos:
   - data-science
   - machine-learning
   - python
-- full_name: keras-team/keras
-  slug: keras-team-keras
-  url: https://github.com/keras-team/keras
+- full_name: tensorflow/tensorflow
+  slug: tensorflow-tensorflow
+  url: https://github.com/tensorflow/tensorflow
   score: 11
   shared_weeks:
   - 2026-W22
@@ -153,36 +153,8 @@ related_repos:
   - 2026-W28
   - 2026-W29
   shared_topics:
-  - data-science
   - machine-learning
-  - python
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
-  score: 10
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  shared_topics:
-  - machine-learning
-  - python
-- full_name: pytorch/pytorch
-  slug: pytorch-pytorch
-  url: https://github.com/pytorch/pytorch
-  score: 10
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  shared_topics:
-  - machine-learning
+  - ml
   - python
 - full_name: apache/superset
   slug: apache-superset
@@ -197,6 +169,20 @@ related_repos:
   - 2026-W29
   shared_topics:
   - data-science
+  - python
+- full_name: huggingface/transformers
+  slug: huggingface-transformers
+  url: https://github.com/huggingface/transformers
+  score: 10
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  shared_topics:
+  - machine-learning
   - python
 - full_name: OpenBB-finance/OpenBB
   slug: openbb-finance-openbb
@@ -225,6 +211,20 @@ related_repos:
   - 2026-W29
   shared_topics:
   - machine-learning-algorithms
+  - python
+- full_name: pytorch/pytorch
+  slug: pytorch-pytorch
+  url: https://github.com/pytorch/pytorch
+  score: 10
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  shared_topics:
+  - machine-learning
   - python
 lifecycle:
   status: active

@@ -2,7 +2,7 @@
 title: koala73/worldmonitor repository trend history
 description: 'Evergreen Claracle Observatory page for koala73/worldmonitor: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: koala73-worldmonitor
 repo_description: Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure
   tracking in a unified situational awareness interface
 repo_language: TypeScript
-topics:
+tags:
 - ai
 - dashboard
 - geopolitics
@@ -104,47 +104,32 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: dashboard
-  url: /topics/dashboard/
+  url: /tags/dashboard/
 - name: geopolitics
-  url: /topics/geopolitics/
+  url: /tags/geopolitics/
 - name: monitoring
-  url: /topics/monitoring/
+  url: /tags/monitoring/
 - name: news
-  url: /topics/news/
+  url: /tags/news/
 - name: opensource
-  url: /topics/opensource/
+  url: /tags/opensource/
 - name: osint
-  url: /topics/osint/
+  url: /tags/osint/
 - name: palantir
-  url: /topics/palantir/
+  url: /tags/palantir/
 - name: situation
-  url: /topics/situation/
+  url: /tags/situation/
 - name: agent
-  url: /topics/agent/
+  url: /tags/agent/
 - name: mcp
-  url: /topics/mcp/
+  url: /tags/mcp/
 - name: mcp-server
-  url: /topics/mcp-server/
+  url: /tags/mcp-server/
 related_repos:
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - mcp
-  - mcp-server
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
@@ -160,6 +145,21 @@ related_repos:
   - agent
   - ai
   - mcp
+- full_name: n8n-io/n8n
+  slug: n8n-io-n8n
+  url: https://github.com/n8n-io/n8n
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - mcp
+  - mcp-server
 - full_name: netdata/netdata
   slug: netdata-netdata
   url: https://github.com/netdata/netdata
@@ -175,9 +175,9 @@ related_repos:
   - ai
   - mcp
   - monitoring
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 13
   shared_weeks:
   - 2026-W21
@@ -187,8 +187,8 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
+  - agent
   - ai
-  - mcp
 - full_name: google-gemini/gemini-cli
   slug: google-gemini-gemini-cli
   url: https://github.com/google-gemini/gemini-cli
@@ -231,20 +231,21 @@ related_repos:
   shared_topics:
   - agent
   - ai
-- full_name: bytedance/deer-flow
-  slug: bytedance-deer-flow
-  url: https://github.com/bytedance/deer-flow
+- full_name: lobehub/lobehub
+  slug: lobehub-lobehub
+  url: https://github.com/lobehub/lobehub
   score: 13
   shared_weeks:
-  - 2026-W21
   - 2026-W22
   - 2026-W23
   - 2026-W24
   - 2026-W25
   - 2026-W26
+  - 2026-W27
   shared_topics:
   - agent
   - ai
+  - mcp
 lifecycle:
   status: active
   as_of_week: 2026-W31

@@ -2,7 +2,7 @@
 title: nestjs/nest repository trend history
 description: 'Evergreen Claracle Observatory page for nestjs/nest: 10 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: nestjs-nest
 repo_description: A progressive Node.js framework for building efficient, scalable, and enterprise-grade server-side applications
   with TypeScript/JavaScript 🚀
 repo_language: TypeScript
-topics:
+tags:
 - framework
 - hacktoberfest
 - javascript
@@ -98,31 +98,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: framework
-  url: /topics/framework/
+  url: /tags/framework/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: javascript-framework
-  url: /topics/javascript-framework/
+  url: /tags/javascript-framework/
 - name: microservices
-  url: /topics/microservices/
+  url: /tags/microservices/
 - name: nest
-  url: /topics/nest/
+  url: /tags/nest/
 - name: nestjs
-  url: /topics/nestjs/
+  url: /tags/nestjs/
 - name: node
-  url: /topics/node/
+  url: /tags/node/
 - name: nodejs
-  url: /topics/nodejs/
+  url: /tags/nodejs/
 - name: nodejs-framework
-  url: /topics/nodejs-framework/
+  url: /tags/nodejs-framework/
 - name: typescript
-  url: /topics/typescript/
+  url: /tags/typescript/
 - name: typescript-framework
-  url: /topics/typescript-framework/
+  url: /tags/typescript-framework/
 related_repos:
 - full_name: immich-app/immich
   slug: immich-app-immich
@@ -156,21 +156,6 @@ related_repos:
   - javascript
   - nodejs
   - typescript
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
-  score: 13
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - javascript
-  - node
-  - nodejs
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
@@ -186,9 +171,9 @@ related_repos:
   - hacktoberfest
   - javascript
   - nodejs
-- full_name: oven-sh/bun
-  slug: oven-sh-bun
-  url: https://github.com/oven-sh/bun
+- full_name: nodejs/node
+  slug: nodejs-node
+  url: https://github.com/nodejs/node
   score: 13
   shared_weeks:
   - 2026-W22
@@ -199,8 +184,8 @@ related_repos:
   - 2026-W27
   shared_topics:
   - javascript
+  - node
   - nodejs
-  - typescript
 - full_name: nuxt/nuxt
   slug: nuxt-nuxt
   url: https://github.com/nuxt/nuxt
@@ -216,10 +201,10 @@ related_repos:
   - framework
   - hacktoberfest
   - node
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 12
+- full_name: oven-sh/bun
+  slug: oven-sh-bun
+  url: https://github.com/oven-sh/bun
+  score: 13
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -230,9 +215,10 @@ related_repos:
   shared_topics:
   - javascript
   - nodejs
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+  - typescript
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 12
   shared_weeks:
   - 2026-W22
@@ -242,7 +228,21 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics:
-  - framework
+  - javascript
+  - typescript
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
+  score: 12
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - nodejs
   - typescript
 lifecycle:
   status: active

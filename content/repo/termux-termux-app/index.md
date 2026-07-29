@@ -2,7 +2,7 @@
 title: termux/termux-app repository trend history
 description: 'Evergreen Claracle Observatory page for termux/termux-app: 4 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-20'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/termux/termux-app
 repo_slug: termux-termux-app
 repo_description: Termux - a terminal emulator application for Android OS extendible by variety of packages.
 repo_language: Java
-topics:
+tags:
 - android
 - hacktoberfest
 - linux
@@ -54,17 +54,17 @@ weekly_appearances:
   url: /weekly/2026/w29/
 - week: 2026-W30
   url: /weekly/2026/w30/
-topic_links:
+tag_links:
 - name: android
-  url: /topics/android/
+  url: /tags/android/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: linux
-  url: /topics/linux/
+  url: /tags/linux/
 - name: terminal
-  url: /topics/terminal/
+  url: /tags/terminal/
 - name: termux
-  url: /topics/termux/
+  url: /tags/termux/
 related_repos:
 - full_name: rustdesk/rustdesk
   slug: rustdesk-rustdesk
@@ -102,20 +102,9 @@ related_repos:
   shared_topics:
   - linux
   - terminal
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
-  score: 5
-  shared_weeks:
-  - 2026-W21
-  - 2026-W24
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - terminal
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 5
   shared_weeks:
   - 2026-W21
@@ -124,6 +113,17 @@ related_repos:
   - 2026-W30
   shared_topics:
   - android
+- full_name: alacritty/alacritty
+  slug: alacritty-alacritty
+  url: https://github.com/alacritty/alacritty
+  score: 5
+  shared_weeks:
+  - 2026-W24
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - linux
+  - terminal
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
@@ -135,9 +135,9 @@ related_repos:
   - 2026-W30
   shared_topics:
   - hacktoberfest
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
   score: 5
   shared_weeks:
   - 2026-W21

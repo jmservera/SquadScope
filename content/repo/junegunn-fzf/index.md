@@ -2,7 +2,7 @@
 title: junegunn/fzf repository trend history
 description: 'Evergreen Claracle Observatory page for junegunn/fzf: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/junegunn/fzf
 repo_slug: junegunn-fzf
 repo_description: ':cherry_blossom: A command-line fuzzy finder'
 repo_language: Go
-topics:
+tags:
 - bash
 - cli
 - fish
@@ -101,27 +101,27 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: bash
-  url: /topics/bash/
+  url: /tags/bash/
 - name: cli
-  url: /topics/cli/
+  url: /tags/cli/
 - name: fish
-  url: /topics/fish/
+  url: /tags/fish/
 - name: fzf
-  url: /topics/fzf/
+  url: /tags/fzf/
 - name: go
-  url: /topics/go/
+  url: /tags/go/
 - name: neovim
-  url: /topics/neovim/
+  url: /tags/neovim/
 - name: tmux
-  url: /topics/tmux/
+  url: /tags/tmux/
 - name: unix
-  url: /topics/unix/
+  url: /tags/unix/
 - name: vim
-  url: /topics/vim/
+  url: /tags/vim/
 - name: zsh
-  url: /topics/zsh/
+  url: /tags/zsh/
 related_repos:
 - full_name: starship/starship
   slug: starship-starship
@@ -138,20 +138,6 @@ related_repos:
   - bash
   - fish
   - zsh
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - cli
-  - zsh
 - full_name: neovim/neovim
   slug: neovim-neovim
   url: https://github.com/neovim/neovim
@@ -166,6 +152,20 @@ related_repos:
   shared_topics:
   - neovim
   - vim
+- full_name: ohmyzsh/ohmyzsh
+  slug: ohmyzsh-ohmyzsh
+  url: https://github.com/ohmyzsh/ohmyzsh
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - cli
+  - zsh
 - full_name: warpdotdev/warp
   slug: warpdotdev-warp
   url: https://github.com/warpdotdev/warp
@@ -180,19 +180,6 @@ related_repos:
   shared_topics:
   - bash
   - zsh
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - cli
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
@@ -206,9 +193,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+- full_name: golang/go
+  slug: golang-go
+  url: https://github.com/golang/go
   score: 12
   shared_weeks:
   - 2026-W21
@@ -219,9 +206,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: golang/go
-  slug: golang-go
-  url: https://github.com/golang/go
+- full_name: google-gemini/gemini-cli
+  slug: google-gemini-gemini-cli
+  url: https://github.com/google-gemini/gemini-cli
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - cli
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
   score: 12
   shared_weeks:
   - 2026-W21

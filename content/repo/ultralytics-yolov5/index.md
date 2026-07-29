@@ -2,7 +2,7 @@
 title: ultralytics/yolov5 repository trend history
 description: 'Evergreen Claracle Observatory page for ultralytics/yolov5: 8 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-20'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/ultralytics/yolov5
 repo_slug: ultralytics-yolov5
 repo_description: Ultralytics YOLOv5 in PyTorch > ONNX > CoreML > TFLite
 repo_language: Python
-topics:
+tags:
 - coreml
 - deep-learning
 - ios
@@ -85,31 +85,31 @@ weekly_appearances:
   url: /weekly/2026/w29/
 - week: 2026-W30
   url: /weekly/2026/w30/
-topic_links:
+tag_links:
 - name: coreml
-  url: /topics/coreml/
+  url: /tags/coreml/
 - name: deep-learning
-  url: /topics/deep-learning/
+  url: /tags/deep-learning/
 - name: ios
-  url: /topics/ios/
+  url: /tags/ios/
 - name: machine-learning
-  url: /topics/machine-learning/
+  url: /tags/machine-learning/
 - name: ml
-  url: /topics/ml/
+  url: /tags/ml/
 - name: object-detection
-  url: /topics/object-detection/
+  url: /tags/object-detection/
 - name: onnx
-  url: /topics/onnx/
+  url: /tags/onnx/
 - name: pytorch
-  url: /topics/pytorch/
+  url: /tags/pytorch/
 - name: tflite
-  url: /topics/tflite/
+  url: /tags/tflite/
 - name: ultralytics
-  url: /topics/ultralytics/
+  url: /tags/ultralytics/
 - name: yolo
-  url: /topics/yolo/
+  url: /tags/yolo/
 - name: yolov3
-  url: /topics/yolov3/
+  url: /tags/yolov3/
 related_repos:
 - full_name: ultralytics/ultralytics
   slug: ultralytics-ultralytics
@@ -129,21 +129,6 @@ related_repos:
   - pytorch
   - ultralytics
   - yolo
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
-  score: 11
-  shared_weeks:
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  shared_topics:
-  - deep-learning
-  - machine-learning
-  - ml
 - full_name: huggingface/transformers
   slug: huggingface-transformers
   url: https://github.com/huggingface/transformers
@@ -174,6 +159,21 @@ related_repos:
   - deep-learning
   - machine-learning
   - pytorch
+- full_name: tensorflow/tensorflow
+  slug: tensorflow-tensorflow
+  url: https://github.com/tensorflow/tensorflow
+  score: 11
+  shared_weeks:
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - deep-learning
+  - machine-learning
+  - ml
 - full_name: pytorch/pytorch
   slug: pytorch-pytorch
   url: https://github.com/pytorch/pytorch
@@ -188,9 +188,9 @@ related_repos:
   shared_topics:
   - deep-learning
   - machine-learning
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
+- full_name: Comfy-Org/ComfyUI
+  slug: comfy-org-comfyui
+  url: https://github.com/Comfy-Org/ComfyUI
   score: 9
   shared_weeks:
   - 2026-W23
@@ -200,7 +200,7 @@ related_repos:
   - 2026-W27
   - 2026-W28
   shared_topics:
-  - ios
+  - pytorch
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -214,9 +214,9 @@ related_repos:
   - 2026-W28
   shared_topics:
   - machine-learning
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
+- full_name: flutter/flutter
+  slug: flutter-flutter
+  url: https://github.com/flutter/flutter
   score: 9
   shared_weeks:
   - 2026-W23

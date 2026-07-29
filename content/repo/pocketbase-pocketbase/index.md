@@ -2,7 +2,7 @@
 title: pocketbase/pocketbase repository trend history
 description: 'Evergreen Claracle Observatory page for pocketbase/pocketbase: 10 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/pocketbase/pocketbase
 repo_slug: pocketbase-pocketbase
 repo_description: Open Source realtime backend in 1 file
 repo_language: Go
-topics:
+tags:
 - authentication
 - backend
 - golang
@@ -89,32 +89,19 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: authentication
-  url: /topics/authentication/
+  url: /tags/authentication/
 - name: backend
-  url: /topics/backend/
+  url: /tags/backend/
 - name: golang
-  url: /topics/golang/
+  url: /tags/golang/
 - name: realtime
-  url: /topics/realtime/
+  url: /tags/realtime/
 related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - golang
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
   score: 11
   shared_weeks:
   - 2026-W21
@@ -138,9 +125,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - golang
-- full_name: redis/redis
-  slug: redis-redis
-  url: https://github.com/redis/redis
+- full_name: ollama/ollama
+  slug: ollama-ollama
+  url: https://github.com/ollama/ollama
   score: 11
   shared_weeks:
   - 2026-W21
@@ -150,7 +137,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - realtime
+  - golang
 - full_name: rclone/rclone
   slug: rclone-rclone
   url: https://github.com/rclone/rclone
@@ -164,9 +151,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - golang
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: redis/redis
+  slug: redis-redis
+  url: https://github.com/redis/redis
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - realtime
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 10
   shared_weeks:
   - 2026-W21
@@ -176,9 +176,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 10
   shared_weeks:
   - 2026-W21
@@ -188,9 +188,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+- full_name: abi/screenshot-to-code
+  slug: abi-screenshot-to-code
+  url: https://github.com/abi/screenshot-to-code
   score: 10
   shared_weeks:
   - 2026-W21

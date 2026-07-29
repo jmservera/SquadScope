@@ -2,7 +2,7 @@
 title: pytorch/pytorch repository trend history
 description: 'Evergreen Claracle Observatory page for pytorch/pytorch: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/pytorch/pytorch
 repo_slug: pytorch-pytorch
 repo_description: Tensors and Dynamic neural networks in Python with strong GPU acceleration
 repo_language: Python
-topics:
+tags:
 - autograd
 - deep-learning
 - gpu
@@ -99,23 +99,23 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: autograd
-  url: /topics/autograd/
+  url: /tags/autograd/
 - name: deep-learning
-  url: /topics/deep-learning/
+  url: /tags/deep-learning/
 - name: gpu
-  url: /topics/gpu/
+  url: /tags/gpu/
 - name: machine-learning
-  url: /topics/machine-learning/
+  url: /tags/machine-learning/
 - name: neural-network
-  url: /topics/neural-network/
+  url: /tags/neural-network/
 - name: numpy
-  url: /topics/numpy/
+  url: /tags/numpy/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: tensor
-  url: /topics/tensor/
+  url: /tags/tensor/
 related_repos:
 - full_name: tensorflow/tensorflow
   slug: tensorflow-tensorflow
@@ -206,9 +206,9 @@ related_repos:
   shared_topics:
   - machine-learning
   - python
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 12
   shared_weeks:
   - 2026-W21
@@ -219,9 +219,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
   score: 12
   shared_weeks:
   - 2026-W21
@@ -231,7 +231,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - machine-learning
+  - python
 lifecycle:
   status: active
   as_of_week: 2026-W31

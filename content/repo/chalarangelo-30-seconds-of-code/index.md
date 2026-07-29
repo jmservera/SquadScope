@@ -2,7 +2,7 @@
 title: Chalarangelo/30-seconds-of-code repository trend history
 description: 'Evergreen Claracle Observatory page for Chalarangelo/30-seconds-of-code: 5 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/Chalarangelo/30-seconds-of-code
 repo_slug: chalarangelo-30-seconds-of-code
 repo_description: Coding articles to level up your development skills
 repo_language: JavaScript
-topics:
+tags:
 - astro
 - awesome-list
 - css
@@ -67,32 +67,47 @@ weekly_appearances:
   url: /weekly/2026/w26/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: astro
-  url: /topics/astro/
+  url: /tags/astro/
 - name: awesome-list
-  url: /topics/awesome-list/
+  url: /tags/awesome-list/
 - name: css
-  url: /topics/css/
+  url: /tags/css/
 - name: education
-  url: /topics/education/
+  url: /tags/education/
 - name: es6-javascript
-  url: /topics/es6-javascript/
+  url: /tags/es6-javascript/
 - name: git
-  url: /topics/git/
+  url: /tags/git/
 - name: html
-  url: /topics/html/
+  url: /tags/html/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: learn-to-code
-  url: /topics/learn-to-code/
+  url: /tags/learn-to-code/
 - name: learning-resources
-  url: /topics/learning-resources/
+  url: /tags/learning-resources/
 - name: nodejs
-  url: /topics/nodejs/
+  url: /tags/nodejs/
 - name: programming
-  url: /topics/programming/
+  url: /tags/programming/
 related_repos:
+- full_name: electron/electron
+  slug: electron-electron
+  url: https://github.com/electron/electron
+  score: 9
+  shared_weeks:
+  - 2026-W21
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W31
+  shared_topics:
+  - css
+  - html
+  - javascript
+  - nodejs
 - full_name: freeCodeCamp/freeCodeCamp
   slug: freecodecamp-freecodecamp
   url: https://github.com/freeCodeCamp/freeCodeCamp
@@ -109,21 +124,6 @@ related_repos:
   - learn-to-code
   - nodejs
   - programming
-- full_name: electron/electron
-  slug: electron-electron
-  url: https://github.com/electron/electron
-  score: 9
-  shared_weeks:
-  - 2026-W21
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W31
-  shared_topics:
-  - css
-  - html
-  - javascript
-  - nodejs
 - full_name: twbs/bootstrap
   slug: twbs-bootstrap
   url: https://github.com/twbs/bootstrap
@@ -138,19 +138,6 @@ related_repos:
   - css
   - html
   - javascript
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
-  score: 7
-  shared_weeks:
-  - 2026-W21
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W31
-  shared_topics:
-  - javascript
-  - nodejs
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
@@ -167,6 +154,19 @@ related_repos:
 - full_name: immich-app/immich
   slug: immich-app-immich
   url: https://github.com/immich-app/immich
+  score: 7
+  shared_weeks:
+  - 2026-W21
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W31
+  shared_topics:
+  - javascript
+  - nodejs
+- full_name: nodejs/node
+  slug: nodejs-node
+  url: https://github.com/nodejs/node
   score: 7
   shared_weeks:
   - 2026-W21

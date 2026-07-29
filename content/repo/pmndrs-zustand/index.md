@@ -2,7 +2,7 @@
 title: pmndrs/zustand repository trend history
 description: 'Evergreen Claracle Observatory page for pmndrs/zustand: 10 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/pmndrs/zustand
 repo_slug: pmndrs-zustand
 repo_description: 🐻 Bear necessities for state management in React
 repo_language: TypeScript
-topics:
+tags:
 - hacktoberfest
 - hooks
 - react
@@ -92,21 +92,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: hooks
-  url: /topics/hooks/
+  url: /tags/hooks/
 - name: react
-  url: /topics/react/
+  url: /tags/react/
 - name: react-context
-  url: /topics/react-context/
+  url: /tags/react-context/
 - name: reactjs
-  url: /topics/reactjs/
+  url: /tags/reactjs/
 - name: redux
-  url: /topics/redux/
+  url: /tags/redux/
 - name: state-management
-  url: /topics/state-management/
+  url: /tags/state-management/
 related_repos:
 - full_name: facebook/docusaurus
   slug: facebook-docusaurus
@@ -122,9 +122,22 @@ related_repos:
   shared_topics:
   - hacktoberfest
   - react
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - react
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
   score: 11
   shared_weeks:
   - 2026-W21
@@ -148,45 +161,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - hacktoberfest
-- full_name: vercel/next.js
-  slug: vercel-next-js
-  url: https://github.com/vercel/next.js
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - react
-- full_name: shadcn-ui/ui
-  slug: shadcn-ui-ui
-  url: https://github.com/shadcn-ui/ui
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - react
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
@@ -200,9 +174,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: mui/material-ui
-  slug: mui-material-ui
-  url: https://github.com/mui/material-ui
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
   score: 11
   shared_weeks:
   - 2026-W21
@@ -213,6 +187,32 @@ related_repos:
   - 2026-W26
   shared_topics:
   - react
+- full_name: git/git
+  slug: git-git
+  url: https://github.com/git/git
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - hacktoberfest
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - hacktoberfest
 lifecycle:
   status: active
   as_of_week: 2026-W31

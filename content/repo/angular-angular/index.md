@@ -2,7 +2,7 @@
 title: angular/angular repository trend history
 description: 'Evergreen Claracle Observatory page for angular/angular: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/angular/angular
 repo_slug: angular-angular
 repo_description: Deliver web apps with confidence 🚀
 repo_language: TypeScript
-topics:
+tags:
 - angular
 - javascript
 - pwa
@@ -98,21 +98,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: angular
-  url: /topics/angular/
+  url: /tags/angular/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: pwa
-  url: /topics/pwa/
+  url: /tags/pwa/
 - name: typescript
-  url: /topics/typescript/
+  url: /tags/typescript/
 - name: web
-  url: /topics/web/
+  url: /tags/web/
 - name: web-framework
-  url: /topics/web-framework/
+  url: /tags/web-framework/
 - name: web-performance
-  url: /topics/web-performance/
+  url: /tags/web-performance/
 related_repos:
 - full_name: webpack/webpack
   slug: webpack-webpack
@@ -129,20 +129,6 @@ related_repos:
   - javascript
   - web
   - web-performance
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - web
-  - web-framework
 - full_name: denoland/deno
   slug: denoland-deno
   url: https://github.com/denoland/deno
@@ -157,9 +143,9 @@ related_repos:
   shared_topics:
   - javascript
   - typescript
-- full_name: immich-app/immich
-  slug: immich-app-immich
-  url: https://github.com/immich-app/immich
+- full_name: flutter/flutter
+  slug: flutter-flutter
+  url: https://github.com/flutter/flutter
   score: 13
   shared_weeks:
   - 2026-W21
@@ -169,11 +155,11 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - javascript
-  - typescript
-- full_name: oven-sh/bun
-  slug: oven-sh-bun
-  url: https://github.com/oven-sh/bun
+  - web
+  - web-framework
+- full_name: immich-app/immich
+  slug: immich-app-immich
+  url: https://github.com/immich-app/immich
   score: 13
   shared_weeks:
   - 2026-W21
@@ -199,6 +185,20 @@ related_repos:
   shared_topics:
   - javascript
   - typescript
+- full_name: oven-sh/bun
+  slug: oven-sh-bun
+  url: https://github.com/oven-sh/bun
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - typescript
 - full_name: strapi/strapi
   slug: strapi-strapi
   url: https://github.com/strapi/strapi
@@ -213,9 +213,9 @@ related_repos:
   shared_topics:
   - javascript
   - typescript
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
   score: 12
   shared_weeks:
   - 2026-W21
@@ -225,7 +225,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - javascript
+  - typescript
 lifecycle:
   status: active
   as_of_week: 2026-W31

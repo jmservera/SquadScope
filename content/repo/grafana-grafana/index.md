@@ -2,7 +2,7 @@
 title: grafana/grafana repository trend history
 description: 'Evergreen Claracle Observatory page for grafana/grafana: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: grafana-grafana
 repo_description: 'The open and composable observability and data visualization platform. Visualize metrics, logs, and traces
   from multiple sources like Prometheus, Loki, Elasticsearch, InfluxDB, Postgres and many more. '
 repo_language: TypeScript
-topics:
+tags:
 - alerting
 - analytics
 - business-intelligence
@@ -104,31 +104,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: alerting
-  url: /topics/alerting/
+  url: /tags/alerting/
 - name: analytics
-  url: /topics/analytics/
+  url: /tags/analytics/
 - name: business-intelligence
-  url: /topics/business-intelligence/
+  url: /tags/business-intelligence/
 - name: dashboard
-  url: /topics/dashboard/
+  url: /tags/dashboard/
 - name: data-visualization
-  url: /topics/data-visualization/
+  url: /tags/data-visualization/
 - name: elasticsearch
-  url: /topics/elasticsearch/
+  url: /tags/elasticsearch/
 - name: go
-  url: /topics/go/
+  url: /tags/go/
 - name: grafana
-  url: /topics/grafana/
+  url: /tags/grafana/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: influxdb
-  url: /topics/influxdb/
+  url: /tags/influxdb/
 - name: metrics
-  url: /topics/metrics/
+  url: /tags/metrics/
 - name: monitoring
-  url: /topics/monitoring/
+  url: /tags/monitoring/
 related_repos:
 - full_name: netdata/netdata
   slug: netdata-netdata
@@ -237,9 +237,9 @@ related_repos:
   shared_topics:
   - dashboard
   - monitoring
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
   score: 12
   shared_weeks:
   - 2026-W21
@@ -249,7 +249,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - go
+  - hacktoberfest
 lifecycle:
   status: active
   as_of_week: 2026-W31

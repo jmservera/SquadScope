@@ -2,7 +2,7 @@
 title: jesseduffield/lazygit repository trend history
 description: 'Evergreen Claracle Observatory page for jesseduffield/lazygit: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/jesseduffield/lazygit
 repo_slug: jesseduffield-lazygit
 repo_description: simple terminal UI for git commands
 repo_language: Go
-topics:
+tags:
 - cli
 - git
 - terminal
@@ -94,13 +94,13 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: cli
-  url: /topics/cli/
+  url: /tags/cli/
 - name: git
-  url: /topics/git/
+  url: /tags/git/
 - name: terminal
-  url: /topics/terminal/
+  url: /tags/terminal/
 related_repos:
 - full_name: ohmyzsh/ohmyzsh
   slug: ohmyzsh-ohmyzsh
@@ -116,35 +116,9 @@ related_repos:
   shared_topics:
   - cli
   - terminal
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - cli
 - full_name: google-gemini/gemini-cli
   slug: google-gemini-gemini-cli
   url: https://github.com/google-gemini/gemini-cli
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - cli
-- full_name: sherlock-project/sherlock
-  slug: sherlock-project-sherlock
-  url: https://github.com/sherlock-project/sherlock
   score: 12
   shared_weeks:
   - 2026-W21
@@ -168,9 +142,48 @@ related_repos:
   - 2026-W26
   shared_topics:
   - cli
+- full_name: n8n-io/n8n
+  slug: n8n-io-n8n
+  url: https://github.com/n8n-io/n8n
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - cli
 - full_name: OpenHands/OpenHands
   slug: openhands-openhands
   url: https://github.com/OpenHands/OpenHands
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - cli
+- full_name: sherlock-project/sherlock
+  slug: sherlock-project-sherlock
+  url: https://github.com/sherlock-project/sherlock
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - cli
+- full_name: ultralytics/ultralytics
+  slug: ultralytics-ultralytics
+  url: https://github.com/ultralytics/ultralytics
   score: 12
   shared_weeks:
   - 2026-W21
@@ -194,19 +207,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - terminal
-- full_name: ultralytics/ultralytics
-  slug: ultralytics-ultralytics
-  url: https://github.com/ultralytics/ultralytics
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - cli
 lifecycle:
   status: active
   as_of_week: 2026-W31

@@ -2,7 +2,7 @@
 title: rust-unofficial/awesome-rust repository trend history
 description: 'Evergreen Claracle Observatory page for rust-unofficial/awesome-rust: 11 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/rust-unofficial/awesome-rust
 repo_slug: rust-unofficial-awesome-rust
 repo_description: A curated list of Rust code and resources.
 repo_language: Rust
-topics:
+tags:
 - awesome
 - rust
 first_seen_week: 2026-W21
@@ -93,25 +93,12 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: awesome
-  url: /topics/awesome/
+  url: /tags/awesome/
 - name: rust
-  url: /topics/rust/
+  url: /tags/rust/
 related_repos:
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - awesome
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
@@ -125,9 +112,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - awesome
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
+- full_name: awesome-selfhosted/awesome-selfhosted
+  slug: awesome-selfhosted-awesome-selfhosted
+  url: https://github.com/awesome-selfhosted/awesome-selfhosted
   score: 12
   shared_weeks:
   - 2026-W21
@@ -137,36 +124,23 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - rust
-- full_name: rust-lang/rust
-  slug: rust-lang-rust
-  url: https://github.com/rust-lang/rust
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - rust
-- full_name: tauri-apps/tauri
-  slug: tauri-apps-tauri
-  url: https://github.com/tauri-apps/tauri
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - rust
+  - awesome
 - full_name: denoland/deno
   slug: denoland-deno
   url: https://github.com/denoland/deno
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - rust
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
   score: 12
   shared_weeks:
   - 2026-W21
@@ -193,6 +167,32 @@ related_repos:
 - full_name: oven-sh/bun
   slug: oven-sh-bun
   url: https://github.com/oven-sh/bun
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - rust
+- full_name: pathwaycom/pathway
+  slug: pathwaycom-pathway
+  url: https://github.com/pathwaycom/pathway
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - rust
+- full_name: rust-lang/rust
+  slug: rust-lang-rust
+  url: https://github.com/rust-lang/rust
   score: 12
   shared_weeks:
   - 2026-W21

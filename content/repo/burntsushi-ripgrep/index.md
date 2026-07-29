@@ -2,7 +2,7 @@
 title: BurntSushi/ripgrep repository trend history
 description: 'Evergreen Claracle Observatory page for BurntSushi/ripgrep: 7 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/BurntSushi/ripgrep
 repo_slug: burntsushi-ripgrep
 repo_description: ripgrep recursively searches directories for a regex pattern while respecting your gitignore
 repo_language: Rust
-topics:
+tags:
 - cli
 - command-line
 - command-line-tool
@@ -77,27 +77,27 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: cli
-  url: /topics/cli/
+  url: /tags/cli/
 - name: command-line
-  url: /topics/command-line/
+  url: /tags/command-line/
 - name: command-line-tool
-  url: /topics/command-line-tool/
+  url: /tags/command-line-tool/
 - name: gitignore
-  url: /topics/gitignore/
+  url: /tags/gitignore/
 - name: grep
-  url: /topics/grep/
+  url: /tags/grep/
 - name: recursively-search
-  url: /topics/recursively-search/
+  url: /tags/recursively-search/
 - name: regex
-  url: /topics/regex/
+  url: /tags/regex/
 - name: ripgrep
-  url: /topics/ripgrep/
+  url: /tags/ripgrep/
 - name: rust
-  url: /topics/rust/
+  url: /tags/rust/
 - name: search
-  url: /topics/search/
+  url: /tags/search/
 related_repos:
 - full_name: rtk-ai/rtk
   slug: rtk-ai-rtk
@@ -114,74 +114,22 @@ related_repos:
   - cli
   - command-line-tool
   - rust
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 8
-  shared_weeks:
-  - 2026-W23
-  - 2026-W24
-  - 2026-W26
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - cli
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
-  score: 8
-  shared_weeks:
-  - 2026-W23
-  - 2026-W24
-  - 2026-W26
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - cli
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
-  score: 8
-  shared_weeks:
-  - 2026-W23
-  - 2026-W24
-  - 2026-W26
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - rust
-- full_name: rust-lang/rust
-  slug: rust-lang-rust
-  url: https://github.com/rust-lang/rust
-  score: 8
-  shared_weeks:
-  - 2026-W23
-  - 2026-W24
-  - 2026-W26
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - rust
-- full_name: tauri-apps/tauri
-  slug: tauri-apps-tauri
-  url: https://github.com/tauri-apps/tauri
-  score: 8
-  shared_weeks:
-  - 2026-W23
-  - 2026-W24
-  - 2026-W26
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - rust
 - full_name: denoland/deno
   slug: denoland-deno
   url: https://github.com/denoland/deno
+  score: 8
+  shared_weeks:
+  - 2026-W23
+  - 2026-W24
+  - 2026-W26
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - rust
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
   score: 8
   shared_weeks:
   - 2026-W23
@@ -205,6 +153,58 @@ related_repos:
   - 2026-W30
   shared_topics:
   - cli
+- full_name: jesseduffield/lazygit
+  slug: jesseduffield-lazygit
+  url: https://github.com/jesseduffield/lazygit
+  score: 8
+  shared_weeks:
+  - 2026-W23
+  - 2026-W24
+  - 2026-W26
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - cli
+- full_name: junegunn/fzf
+  slug: junegunn-fzf
+  url: https://github.com/junegunn/fzf
+  score: 8
+  shared_weeks:
+  - 2026-W23
+  - 2026-W24
+  - 2026-W26
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - cli
+- full_name: meilisearch/meilisearch
+  slug: meilisearch-meilisearch
+  url: https://github.com/meilisearch/meilisearch
+  score: 8
+  shared_weeks:
+  - 2026-W23
+  - 2026-W24
+  - 2026-W26
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - search
+- full_name: microsoft/terminal
+  slug: microsoft-terminal
+  url: https://github.com/microsoft/terminal
+  score: 8
+  shared_weeks:
+  - 2026-W23
+  - 2026-W24
+  - 2026-W26
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - command-line
 lifecycle:
   status: active
   as_of_week: 2026-W31

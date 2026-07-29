@@ -2,7 +2,7 @@
 title: OpenHands/OpenHands repository trend history
 description: 'Evergreen Claracle Observatory page for OpenHands/OpenHands: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/OpenHands/OpenHands
 repo_slug: openhands-openhands
 repo_description: '🙌 OpenHands: AI-Driven Development'
 repo_language: Python
-topics:
+tags:
 - agent
 - artificial-intelligence
 - chatgpt
@@ -100,42 +100,26 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agent
-  url: /topics/agent/
+  url: /tags/agent/
 - name: artificial-intelligence
-  url: /topics/artificial-intelligence/
+  url: /tags/artificial-intelligence/
 - name: chatgpt
-  url: /topics/chatgpt/
+  url: /tags/chatgpt/
 - name: claude-ai
-  url: /topics/claude-ai/
+  url: /tags/claude-ai/
 - name: cli
-  url: /topics/cli/
+  url: /tags/cli/
 - name: developer-tools
-  url: /topics/developer-tools/
+  url: /tags/developer-tools/
 - name: gpt
-  url: /topics/gpt/
+  url: /tags/gpt/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: openai
-  url: /topics/openai/
+  url: /tags/openai/
 related_repos:
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - artificial-intelligence
-  - gpt
-  - llm
-  - openai
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -169,10 +153,10 @@ related_repos:
   - gpt
   - llm
   - openai
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
-  score: 14
+- full_name: Significant-Gravitas/AutoGPT
+  slug: significant-gravitas-autogpt
+  url: https://github.com/Significant-Gravitas/AutoGPT
+  score: 15
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -181,36 +165,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - chatgpt
-  - llm
-  - openai
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - chatgpt
-  - llm
-  - openai
-- full_name: vllm-project/vllm
-  slug: vllm-project-vllm
-  url: https://github.com/vllm-project/vllm
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
+  - artificial-intelligence
   - gpt
   - llm
   - openai
@@ -229,6 +184,52 @@ related_repos:
   - agent
   - gpt
   - llm
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - chatgpt
+  - llm
+  - openai
+- full_name: lobehub/lobehub
+  slug: lobehub-lobehub
+  url: https://github.com/lobehub/lobehub
+  score: 14
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - agent
+  - chatgpt
+  - gpt
+  - openai
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - chatgpt
+  - llm
+  - openai
 - full_name: unslothai/unsloth
   slug: unslothai-unsloth
   url: https://github.com/unslothai/unsloth

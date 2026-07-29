@@ -2,7 +2,7 @@
 title: freeCodeCamp/freeCodeCamp repository trend history
 description: 'Evergreen Claracle Observatory page for freeCodeCamp/freeCodeCamp: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: freecodecamp-freecodecamp
 repo_description: freeCodeCamp.org's open-source codebase and curriculum. Learn math, programming, and computer science for
   free.
 repo_language: TypeScript
-topics:
+tags:
 - careers
 - certification
 - community
@@ -104,31 +104,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: careers
-  url: /topics/careers/
+  url: /tags/careers/
 - name: certification
-  url: /topics/certification/
+  url: /tags/certification/
 - name: community
-  url: /topics/community/
+  url: /tags/community/
 - name: curriculum
-  url: /topics/curriculum/
+  url: /tags/curriculum/
 - name: d3
-  url: /topics/d3/
+  url: /tags/d3/
 - name: education
-  url: /topics/education/
+  url: /tags/education/
 - name: freecodecamp
-  url: /topics/freecodecamp/
+  url: /tags/freecodecamp/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: learn-to-code
-  url: /topics/learn-to-code/
+  url: /tags/learn-to-code/
 - name: math
-  url: /topics/math/
+  url: /tags/math/
 - name: nodejs
-  url: /topics/nodejs/
+  url: /tags/nodejs/
 - name: nonprofits
-  url: /topics/nonprofits/
+  url: /tags/nonprofits/
 related_repos:
 - full_name: oven-sh/bun
   slug: oven-sh-bun
@@ -145,34 +145,6 @@ related_repos:
   - javascript
   - nodejs
   - react
-- full_name: electron/electron
-  slug: electron-electron
-  url: https://github.com/electron/electron
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - nodejs
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - nodejs
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
@@ -187,23 +159,9 @@ related_repos:
   shared_topics:
   - javascript
   - nodejs
-- full_name: immich-app/immich
-  slug: immich-app-immich
-  url: https://github.com/immich-app/immich
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - nodejs
-- full_name: strapi/strapi
-  slug: strapi-strapi
-  url: https://github.com/strapi/strapi
+- full_name: electron/electron
+  slug: electron-electron
+  url: https://github.com/electron/electron
   score: 13
   shared_weeks:
   - 2026-W21
@@ -229,9 +187,51 @@ related_repos:
   shared_topics:
   - javascript
   - react
-- full_name: twbs/bootstrap
-  slug: twbs-bootstrap
-  url: https://github.com/twbs/bootstrap
+- full_name: immich-app/immich
+  slug: immich-app-immich
+  url: https://github.com/immich-app/immich
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - nodejs
+- full_name: nodejs/node
+  slug: nodejs-node
+  url: https://github.com/nodejs/node
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - nodejs
+- full_name: strapi/strapi
+  slug: strapi-strapi
+  url: https://github.com/strapi/strapi
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - nodejs
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 12
   shared_weeks:
   - 2026-W21

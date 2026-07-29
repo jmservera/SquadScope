@@ -2,7 +2,7 @@
 title: obsproject/obs-studio repository trend history
 description: 'Evergreen Claracle Observatory page for obsproject/obs-studio: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/obsproject/obs-studio
 repo_slug: obsproject-obs-studio
 repo_description: OBS Studio - Free and open source software for live streaming and screen recording
 repo_language: C
-topics:
+tags:
 - c
 - c-plus-plus
 - directshow
@@ -102,29 +102,29 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: c
-  url: /topics/c/
+  url: /tags/c/
 - name: c-plus-plus
-  url: /topics/c-plus-plus/
+  url: /tags/c-plus-plus/
 - name: directshow
-  url: /topics/directshow/
+  url: /tags/directshow/
 - name: facebook-live
-  url: /topics/facebook-live/
+  url: /tags/facebook-live/
 - name: ffmpeg
-  url: /topics/ffmpeg/
+  url: /tags/ffmpeg/
 - name: game-capture
-  url: /topics/game-capture/
+  url: /tags/game-capture/
 - name: live-streaming
-  url: /topics/live-streaming/
+  url: /tags/live-streaming/
 - name: screen-capture
-  url: /topics/screen-capture/
+  url: /tags/screen-capture/
 - name: twitch-tv
-  url: /topics/twitch-tv/
+  url: /tags/twitch-tv/
 - name: video-recording
-  url: /topics/video-recording/
+  url: /tags/video-recording/
 - name: youtube-live
-  url: /topics/youtube-live/
+  url: /tags/youtube-live/
 related_repos:
 - full_name: FFmpeg/FFmpeg
   slug: ffmpeg-ffmpeg
@@ -140,32 +140,6 @@ related_repos:
   shared_topics:
   - c
   - ffmpeg
-- full_name: electron/electron
-  slug: electron-electron
-  url: https://github.com/electron/electron
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - c-plus-plus
-- full_name: neovim/neovim
-  slug: neovim-neovim
-  url: https://github.com/neovim/neovim
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - c
 - full_name: bitcoin/bitcoin
   slug: bitcoin-bitcoin
   url: https://github.com/bitcoin/bitcoin
@@ -179,9 +153,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - c-plus-plus
-- full_name: opencv/opencv
-  slug: opencv-opencv
-  url: https://github.com/opencv/opencv
+- full_name: electron/electron
+  slug: electron-electron
+  url: https://github.com/electron/electron
   score: 12
   shared_weeks:
   - 2026-W21
@@ -218,9 +192,35 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ffmpeg
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: neovim/neovim
+  slug: neovim-neovim
+  url: https://github.com/neovim/neovim
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - c
+- full_name: opencv/opencv
+  slug: opencv-opencv
+  url: https://github.com/opencv/opencv
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - c-plus-plus
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 11
   shared_weeks:
   - 2026-W21

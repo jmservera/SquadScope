@@ -2,7 +2,7 @@
 title: tailwindlabs/tailwindcss repository trend history
 description: 'Evergreen Claracle Observatory page for tailwindlabs/tailwindcss: 10 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-20'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/tailwindlabs/tailwindcss
 repo_slug: tailwindlabs-tailwindcss
 repo_description: A utility-first CSS framework for rapid UI development.
 repo_language: TypeScript
-topics:
+tags:
 - css
 - css-framework
 - functional-css
@@ -92,21 +92,21 @@ weekly_appearances:
   url: /weekly/2026/w29/
 - week: 2026-W30
   url: /weekly/2026/w30/
-topic_links:
+tag_links:
 - name: css
-  url: /topics/css/
+  url: /tags/css/
 - name: css-framework
-  url: /topics/css-framework/
+  url: /tags/css-framework/
 - name: functional-css
-  url: /topics/functional-css/
+  url: /tags/functional-css/
 - name: postcss
-  url: /topics/postcss/
+  url: /tags/postcss/
 - name: responsive
-  url: /topics/responsive/
+  url: /tags/responsive/
 - name: tailwindcss
-  url: /topics/tailwindcss/
+  url: /tags/tailwindcss/
 - name: utility-classes
-  url: /topics/utility-classes/
+  url: /tags/utility-classes/
 related_repos:
 - full_name: twbs/bootstrap
   slug: twbs-bootstrap
@@ -135,19 +135,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - css
-- full_name: shadcn-ui/ui
-  slug: shadcn-ui-ui
-  url: https://github.com/shadcn-ui/ui
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - tailwindcss
 - full_name: louislam/uptime-kuma
   slug: louislam-uptime-kuma
   url: https://github.com/louislam/uptime-kuma
@@ -161,9 +148,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - responsive
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: shadcn-ui/ui
+  slug: shadcn-ui-ui
+  url: https://github.com/shadcn-ui/ui
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - tailwindcss
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 10
   shared_weeks:
   - 2026-W21
@@ -173,9 +173,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 10
   shared_weeks:
   - 2026-W21
@@ -185,9 +185,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+- full_name: abi/screenshot-to-code
+  slug: abi-screenshot-to-code
+  url: https://github.com/abi/screenshot-to-code
   score: 10
   shared_weeks:
   - 2026-W21
@@ -197,9 +197,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: torvalds/linux
-  slug: torvalds-linux
-  url: https://github.com/torvalds/linux
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 10
   shared_weeks:
   - 2026-W21

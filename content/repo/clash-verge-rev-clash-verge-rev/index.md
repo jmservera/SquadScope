@@ -2,7 +2,7 @@
 title: clash-verge-rev/clash-verge-rev repository trend history
 description: 'Evergreen Claracle Observatory page for clash-verge-rev/clash-verge-rev: 11 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/clash-verge-rev/clash-verge-rev
 repo_slug: clash-verge-rev-clash-verge-rev
 repo_description: A modern GUI client based on Tauri, designed to run in Windows, macOS and Linux for tailored proxy experience
 repo_language: TypeScript
-topics:
+tags:
 - clash
 - clash-meta
 - clash-verge
@@ -99,23 +99,23 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: clash
-  url: /topics/clash/
+  url: /tags/clash/
 - name: clash-meta
-  url: /topics/clash-meta/
+  url: /tags/clash-meta/
 - name: clash-verge
-  url: /topics/clash-verge/
+  url: /tags/clash-verge/
 - name: linux
-  url: /topics/linux/
+  url: /tags/linux/
 - name: mac
-  url: /topics/mac/
+  url: /tags/mac/
 - name: mihomo
-  url: /topics/mihomo/
+  url: /tags/mihomo/
 - name: tauri-app
-  url: /topics/tauri-app/
+  url: /tags/tauri-app/
 - name: windows
-  url: /topics/windows/
+  url: /tags/windows/
 related_repos:
 - full_name: nodejs/node
   slug: nodejs-node
@@ -145,9 +145,9 @@ related_repos:
   shared_topics:
   - linux
   - windows
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 12
   shared_weeks:
   - 2026-W21
@@ -158,9 +158,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - windows
-- full_name: 2dust/v2rayN
-  slug: 2dust-v2rayn
-  url: https://github.com/2dust/v2rayN
+- full_name: flutter/flutter
+  slug: flutter-flutter
+  url: https://github.com/flutter/flutter
   score: 12
   shared_weeks:
   - 2026-W21
@@ -184,19 +184,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - mac
-- full_name: sherlock-project/sherlock
-  slug: sherlock-project-sherlock
-  url: https://github.com/sherlock-project/sherlock
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - linux
 - full_name: netdata/netdata
   slug: netdata-netdata
   url: https://github.com/netdata/netdata
@@ -210,9 +197,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - linux
-- full_name: warpdotdev/warp
-  slug: warpdotdev-warp
-  url: https://github.com/warpdotdev/warp
+- full_name: sherlock-project/sherlock
+  slug: sherlock-project-sherlock
+  url: https://github.com/sherlock-project/sherlock
   score: 12
   shared_weeks:
   - 2026-W21
@@ -223,6 +210,19 @@ related_repos:
   - 2026-W26
   shared_topics:
   - linux
+- full_name: tw93/Mole
+  slug: tw93-mole
+  url: https://github.com/tw93/Mole
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - mac
 lifecycle:
   status: active
   as_of_week: 2026-W31

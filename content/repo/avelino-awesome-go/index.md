@@ -2,7 +2,7 @@
 title: avelino/awesome-go repository trend history
 description: 'Evergreen Claracle Observatory page for avelino/awesome-go: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/avelino/awesome-go
 repo_slug: avelino-awesome-go
 repo_description: A curated list of awesome Go frameworks, libraries and software
 repo_language: Go
-topics:
+tags:
 - awesome
 - awesome-list
 - go
@@ -97,23 +97,65 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: awesome
-  url: /topics/awesome/
+  url: /tags/awesome/
 - name: awesome-list
-  url: /topics/awesome-list/
+  url: /tags/awesome-list/
 - name: go
-  url: /topics/go/
+  url: /tags/go/
 - name: golang
-  url: /topics/golang/
+  url: /tags/golang/
 - name: golang-library
-  url: /topics/golang-library/
+  url: /tags/golang-library/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 related_repos:
 - full_name: awesome-selfhosted/awesome-selfhosted
   slug: awesome-selfhosted-awesome-selfhosted
   url: https://github.com/awesome-selfhosted/awesome-selfhosted
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - awesome
+  - awesome-list
+- full_name: golang/go
+  slug: golang-go
+  url: https://github.com/golang/go
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - go
+  - golang
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - go
+  - hacktoberfest
+- full_name: jaywcjlove/awesome-mac
+  slug: jaywcjlove-awesome-mac
+  url: https://github.com/jaywcjlove/awesome-mac
   score: 13
   shared_weeks:
   - 2026-W21
@@ -139,48 +181,6 @@ related_repos:
   shared_topics:
   - go
   - golang
-- full_name: golang/go
-  slug: golang-go
-  url: https://github.com/golang/go
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - go
-  - golang
-- full_name: jaywcjlove/awesome-mac
-  slug: jaywcjlove-awesome-mac
-  url: https://github.com/jaywcjlove/awesome-mac
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - awesome
-  - awesome-list
-- full_name: grafana/grafana
-  slug: grafana-grafana
-  url: https://github.com/grafana/grafana
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - go
-  - hacktoberfest
 - full_name: rclone/rclone
   slug: rclone-rclone
   url: https://github.com/rclone/rclone
@@ -195,22 +195,9 @@ related_repos:
   shared_topics:
   - go
   - golang
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - awesome-list
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
   score: 12
   shared_weeks:
   - 2026-W21
@@ -221,6 +208,20 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
+- full_name: caddyserver/caddy
+  slug: caddyserver-caddy
+  url: https://github.com/caddyserver/caddy
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - go
+  - golang
 lifecycle:
   status: active
   as_of_week: 2026-W31

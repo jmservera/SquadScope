@@ -2,7 +2,7 @@
 title: syncthing/syncthing repository trend history
 description: 'Evergreen Claracle Observatory page for syncthing/syncthing: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/syncthing/syncthing
 repo_slug: syncthing-syncthing
 repo_description: Open Source Continuous File Synchronization
 repo_language: Go
-topics:
+tags:
 - go
 - p2p
 - peer-to-peer
@@ -95,15 +95,15 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: go
-  url: /topics/go/
+  url: /tags/go/
 - name: p2p
-  url: /topics/p2p/
+  url: /tags/p2p/
 - name: peer-to-peer
-  url: /topics/peer-to-peer/
+  url: /tags/peer-to-peer/
 - name: synchronization
-  url: /topics/synchronization/
+  url: /tags/synchronization/
 related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
@@ -118,9 +118,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+- full_name: bitcoin/bitcoin
+  slug: bitcoin-bitcoin
+  url: https://github.com/bitcoin/bitcoin
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - p2p
+- full_name: golang/go
+  slug: golang-go
+  url: https://github.com/golang/go
   score: 12
   shared_weeks:
   - 2026-W21
@@ -131,9 +144,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: golang/go
-  slug: golang-go
-  url: https://github.com/golang/go
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - go
+- full_name: junegunn/fzf
+  slug: junegunn-fzf
+  url: https://github.com/junegunn/fzf
   score: 12
   shared_weeks:
   - 2026-W21
@@ -157,35 +183,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - p2p
-- full_name: bitcoin/bitcoin
-  slug: bitcoin-bitcoin
-  url: https://github.com/bitcoin/bitcoin
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - p2p
-- full_name: junegunn/fzf
-  slug: junegunn-fzf
-  url: https://github.com/junegunn/fzf
+- full_name: ollama/ollama
+  slug: ollama-ollama
+  url: https://github.com/ollama/ollama
   score: 12
   shared_weeks:
   - 2026-W21
@@ -196,9 +196,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: grafana/grafana
-  slug: grafana-grafana
-  url: https://github.com/grafana/grafana
+- full_name: rclone/rclone
+  slug: rclone-rclone
+  url: https://github.com/rclone/rclone
   score: 12
   shared_weeks:
   - 2026-W21

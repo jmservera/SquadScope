@@ -2,7 +2,7 @@
 title: Significant-Gravitas/AutoGPT repository trend history
 description: 'Evergreen Claracle Observatory page for Significant-Gravitas/AutoGPT: 11 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: significant-gravitas-autogpt
 repo_description: AutoGPT is the vision of accessible AI for everyone, to use and to build on. Our mission is to provide the
   tools, so that you can focus on what matters.
 repo_language: Python
-topics:
+tags:
 - agentic-ai
 - agents
 - ai
@@ -103,29 +103,29 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agentic-ai
-  url: /topics/agentic-ai/
+  url: /tags/agentic-ai/
 - name: agents
-  url: /topics/agents/
+  url: /tags/agents/
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: artificial-intelligence
-  url: /topics/artificial-intelligence/
+  url: /tags/artificial-intelligence/
 - name: autonomous-agents
-  url: /topics/autonomous-agents/
+  url: /tags/autonomous-agents/
 - name: claude
-  url: /topics/claude/
+  url: /tags/claude/
 - name: gpt
-  url: /topics/gpt/
+  url: /tags/gpt/
 - name: llama-api
-  url: /topics/llama-api/
+  url: /tags/llama-api/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: openai
-  url: /topics/openai/
+  url: /tags/openai/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
@@ -141,40 +141,6 @@ related_repos:
   shared_topics:
   - ai
   - artificial-intelligence
-  - claude
-  - gpt
-  - llm
-  - openai
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - claude
-  - llm
-  - openai
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - agentic-ai
-  - ai
   - claude
   - gpt
   - llm
@@ -196,9 +162,9 @@ related_repos:
   - llm
   - openai
   - python
-- full_name: OpenHands/OpenHands
-  slug: openhands-openhands
-  url: https://github.com/OpenHands/OpenHands
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
   score: 15
   shared_weeks:
   - 2026-W21
@@ -208,7 +174,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - artificial-intelligence
+  - agentic-ai
+  - ai
+  - claude
   - gpt
   - llm
   - openai
@@ -228,9 +196,41 @@ related_repos:
   - ai
   - llm
   - python
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - claude
+  - llm
+  - openai
+- full_name: OpenHands/OpenHands
+  slug: openhands-openhands
+  url: https://github.com/OpenHands/OpenHands
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - artificial-intelligence
+  - gpt
+  - llm
+  - openai
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 14
   shared_weeks:
   - 2026-W21
@@ -242,10 +242,10 @@ related_repos:
   shared_topics:
   - ai
   - llm
-  - openai
-- full_name: vllm-project/vllm
-  slug: vllm-project-vllm
-  url: https://github.com/vllm-project/vllm
+  - python
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 14
   shared_weeks:
   - 2026-W21
@@ -255,8 +255,8 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - gpt
-  - llm
+  - ai
+  - claude
   - openai
 lifecycle:
   status: active

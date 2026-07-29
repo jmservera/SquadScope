@@ -2,7 +2,7 @@
 title: virattt/ai-hedge-fund repository trend history
 description: 'Evergreen Claracle Observatory page for virattt/ai-hedge-fund: 9 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/virattt/ai-hedge-fund
 repo_slug: virattt-ai-hedge-fund
 repo_description: An AI Hedge Fund Team
 repo_language: Python
-topics: []
+tags: []
 first_seen_week: 2026-W21
 last_seen_week: 2026-W31
 as_of_week: 2026-W31
@@ -79,11 +79,11 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links: []
+tag_links: []
 related_repos:
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 9
   shared_weeks:
   - 2026-W21
@@ -93,9 +93,9 @@ related_repos:
   - 2026-W26
   - 2026-W28
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 9
   shared_weeks:
   - 2026-W21
@@ -105,9 +105,9 @@ related_repos:
   - 2026-W26
   - 2026-W28
   shared_topics: []
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+- full_name: abi/screenshot-to-code
+  slug: abi-screenshot-to-code
+  url: https://github.com/abi/screenshot-to-code
   score: 9
   shared_weeks:
   - 2026-W21
@@ -117,9 +117,9 @@ related_repos:
   - 2026-W26
   - 2026-W28
   shared_topics: []
-- full_name: torvalds/linux
-  slug: torvalds-linux
-  url: https://github.com/torvalds/linux
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 9
   shared_weeks:
   - 2026-W21
@@ -129,9 +129,9 @@ related_repos:
   - 2026-W26
   - 2026-W28
   shared_topics: []
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
+- full_name: anomalyco/opencode
+  slug: anomalyco-opencode
+  url: https://github.com/anomalyco/opencode
   score: 9
   shared_weeks:
   - 2026-W21
@@ -141,9 +141,9 @@ related_repos:
   - 2026-W26
   - 2026-W28
   shared_topics: []
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 9
   shared_weeks:
   - 2026-W21
@@ -153,9 +153,9 @@ related_repos:
   - 2026-W26
   - 2026-W28
   shared_topics: []
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
   score: 9
   shared_weeks:
   - 2026-W21
@@ -165,9 +165,9 @@ related_repos:
   - 2026-W26
   - 2026-W28
   shared_topics: []
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
+- full_name: anthropics/claude-code
+  slug: anthropics-claude-code
+  url: https://github.com/anthropics/claude-code
   score: 9
   shared_weeks:
   - 2026-W21

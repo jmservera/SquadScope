@@ -2,7 +2,7 @@
 title: n8n-io/n8n repository trend history
 description: 'Evergreen Claracle Observatory page for n8n-io/n8n: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: n8n-io-n8n
 repo_description: Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom
   code, self-host or cloud, 400+ integrations.
 repo_language: TypeScript
-topics:
+tags:
 - ai
 - apis
 - automation
@@ -104,32 +104,48 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: apis
-  url: /topics/apis/
+  url: /tags/apis/
 - name: automation
-  url: /topics/automation/
+  url: /tags/automation/
 - name: cli
-  url: /topics/cli/
+  url: /tags/cli/
 - name: data-flow
-  url: /topics/data-flow/
+  url: /tags/data-flow/
 - name: development
-  url: /topics/development/
+  url: /tags/development/
 - name: integration-framework
-  url: /topics/integration-framework/
+  url: /tags/integration-framework/
 - name: integrations
-  url: /topics/integrations/
+  url: /tags/integrations/
 - name: ipaas
-  url: /topics/ipaas/
+  url: /tags/ipaas/
 - name: low-code
-  url: /topics/low-code/
+  url: /tags/low-code/
 - name: low-code-platform
-  url: /topics/low-code-platform/
+  url: /tags/low-code-platform/
 - name: mcp
-  url: /topics/mcp/
+  url: /tags/mcp/
 related_repos:
+- full_name: google-gemini/gemini-cli
+  slug: google-gemini-gemini-cli
+  url: https://github.com/google-gemini/gemini-cli
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - cli
+  - mcp-client
+  - mcp-server
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
@@ -148,37 +164,6 @@ related_repos:
   - mcp
   - no-code
   - workflow
-- full_name: google-gemini/gemini-cli
-  slug: google-gemini-gemini-cli
-  url: https://github.com/google-gemini/gemini-cli
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - cli
-  - mcp-client
-  - mcp-server
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - mcp
-  - self-hosted
 - full_name: harry0703/MoneyPrinterTurbo
   slug: harry0703-moneyprinterturbo
   url: https://github.com/harry0703/MoneyPrinterTurbo
@@ -209,6 +194,49 @@ related_repos:
   - ai
   - mcp
   - mcp-server
+- full_name: open-webui/open-webui
+  slug: open-webui-open-webui
+  url: https://github.com/open-webui/open-webui
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - mcp
+  - self-hosted
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - typescript
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - typescript
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -223,34 +251,6 @@ related_repos:
   shared_topics:
   - ai
   - typescript
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - typescript
-- full_name: github/spec-kit
-  slug: github-spec-kit
-  url: https://github.com/github/spec-kit
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - development
 lifecycle:
   status: active
   as_of_week: 2026-W31

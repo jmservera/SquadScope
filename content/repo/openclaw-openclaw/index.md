@@ -2,7 +2,7 @@
 title: openclaw/openclaw repository trend history
 description: 'Evergreen Claracle Observatory page for openclaw/openclaw: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/openclaw/openclaw
 repo_slug: openclaw-openclaw
 repo_description: 'Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞 '
 repo_language: TypeScript
-topics:
+tags:
 - ai
 - assistant
 - crustacean
@@ -98,21 +98,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: assistant
-  url: /topics/assistant/
+  url: /tags/assistant/
 - name: crustacean
-  url: /topics/crustacean/
+  url: /tags/crustacean/
 - name: molty
-  url: /topics/molty/
+  url: /tags/molty/
 - name: openclaw
-  url: /topics/openclaw/
+  url: /tags/openclaw/
 - name: own-your-data
-  url: /topics/own-your-data/
+  url: /tags/own-your-data/
 - name: personal
-  url: /topics/personal/
+  url: /tags/personal/
 related_repos:
 - full_name: NousResearch/hermes-agent
   slug: nousresearch-hermes-agent
@@ -128,9 +128,9 @@ related_repos:
   shared_topics:
   - ai
   - openclaw
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 12
   shared_weeks:
   - 2026-W21
@@ -141,9 +141,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 12
   shared_weeks:
   - 2026-W21
@@ -154,9 +154,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: Comfy-Org/ComfyUI
+  slug: comfy-org-comfyui
+  url: https://github.com/Comfy-Org/ComfyUI
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+- full_name: docling-project/docling
+  slug: docling-project-docling
+  url: https://github.com/docling-project/docling
   score: 12
   shared_weeks:
   - 2026-W21
@@ -180,9 +193,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
   score: 12
   shared_weeks:
   - 2026-W21
@@ -192,23 +205,10 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - ai
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+  - openclaw
+- full_name: firecrawl/firecrawl
+  slug: firecrawl-firecrawl
+  url: https://github.com/firecrawl/firecrawl
   score: 12
   shared_weeks:
   - 2026-W21

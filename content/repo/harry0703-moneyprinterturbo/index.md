@@ -2,7 +2,7 @@
 title: harry0703/MoneyPrinterTurbo repository trend history
 description: 'Evergreen Claracle Observatory page for harry0703/MoneyPrinterTurbo: 11 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: harry0703-moneyprinterturbo
 repo_description: 利用 AI 大模型和自动化工作流，根据主题或关键词一键生成高清短视频。Generate HD short videos from a topic or keyword with an automated AI
   workflow.
 repo_language: Python
-topics:
+tags:
 - python
 - tiktok
 - ai
@@ -104,48 +104,32 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: tiktok
-  url: /topics/tiktok/
+  url: /tags/tiktok/
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: automation
-  url: /topics/automation/
+  url: /tags/automation/
 - name: chatgpt
-  url: /topics/chatgpt/
+  url: /tags/chatgpt/
 - name: moviepy
-  url: /topics/moviepy/
+  url: /tags/moviepy/
 - name: shortvideo
-  url: /topics/shortvideo/
+  url: /tags/shortvideo/
 - name: ai-video-generator
-  url: /topics/ai-video-generator/
+  url: /tags/ai-video-generator/
 - name: content-creation
-  url: /topics/content-creation/
+  url: /tags/content-creation/
 - name: ffmpeg
-  url: /topics/ffmpeg/
+  url: /tags/ffmpeg/
 - name: instagram-reels
-  url: /topics/instagram-reels/
+  url: /tags/instagram-reels/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 related_repos:
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - automation
-  - llm
-  - python
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
@@ -160,6 +144,22 @@ related_repos:
   shared_topics:
   - ai
   - chatgpt
+  - llm
+  - python
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - automation
   - llm
   - python
 - full_name: mem0ai/mem0
@@ -178,24 +178,9 @@ related_repos:
   - chatgpt
   - llm
   - python
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - automation
-  - workflow-automation
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 14
   shared_weeks:
   - 2026-W21
@@ -223,6 +208,36 @@ related_repos:
   - ai
   - chatgpt
   - llm
+- full_name: MemPalace/mempalace
+  slug: mempalace-mempalace
+  url: https://github.com/MemPalace/mempalace
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - llm
+  - python
+- full_name: n8n-io/n8n
+  slug: n8n-io-n8n
+  url: https://github.com/n8n-io/n8n
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - automation
+  - workflow-automation
 - full_name: NousResearch/hermes-agent
   slug: nousresearch-hermes-agent
   url: https://github.com/NousResearch/hermes-agent
@@ -238,21 +253,6 @@ related_repos:
   - ai
   - chatgpt
   - llm
-- full_name: bytedance/deer-flow
-  slug: bytedance-deer-flow
-  url: https://github.com/bytedance/deer-flow
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - llm
-  - python
 lifecycle:
   status: active
   as_of_week: 2026-W31

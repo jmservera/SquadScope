@@ -2,7 +2,7 @@
 title: code-yeongyu/oh-my-openagent repository trend history
 description: 'Evergreen Claracle Observatory page for code-yeongyu/oh-my-openagent: 11 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: code-yeongyu-oh-my-openagent
 repo_description: 'omo/lazycodex: The coding agent for tokenmaxxers;the one and only agent harness for complex codebases.
   For your Codex, for your OpenCode'
 repo_language: TypeScript
-topics:
+tags:
 - ai
 - ai-agents
 - anthropic
@@ -104,31 +104,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: anthropic
-  url: /topics/anthropic/
+  url: /tags/anthropic/
 - name: chatgpt
-  url: /topics/chatgpt/
+  url: /tags/chatgpt/
 - name: claude
-  url: /topics/claude/
+  url: /tags/claude/
 - name: claude-skills
-  url: /topics/claude-skills/
+  url: /tags/claude-skills/
 - name: cursor
-  url: /topics/cursor/
+  url: /tags/cursor/
 - name: gemini
-  url: /topics/gemini/
+  url: /tags/gemini/
 - name: ide
-  url: /topics/ide/
+  url: /tags/ide/
 - name: openai
-  url: /topics/openai/
+  url: /tags/openai/
 - name: opencode
-  url: /topics/opencode/
+  url: /tags/opencode/
 - name: orchestration
-  url: /topics/orchestration/
+  url: /tags/orchestration/
 related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
@@ -148,9 +148,9 @@ related_repos:
   - gemini
   - openai
   - typescript
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
   score: 15
   shared_weeks:
   - 2026-W21
@@ -160,29 +160,10 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - ai
-  - ai-agents
-  - anthropic
-  - chatgpt
-  - claude
   - claude-code
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - claude
-  - gemini
-  - openai
-  - orchestration
+  - codex
+  - opencode
+  - typescript
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
@@ -201,6 +182,57 @@ related_repos:
   - chatgpt
   - gemini
   - openai
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - claude
+  - gemini
+  - openai
+  - orchestration
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - ai-agents
+  - anthropic
+  - chatgpt
+  - claude
+  - claude-code
+- full_name: ruvnet/ruflo
+  slug: ruvnet-ruflo
+  url: https://github.com/ruvnet/ruflo
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai-agents
+  - claude-code
+  - codex
+  - typescript
 - full_name: thedotmack/claude-mem
   slug: thedotmack-claude-mem
   url: https://github.com/thedotmack/claude-mem
@@ -219,53 +251,22 @@ related_repos:
   - claude
   - claude-code
   - claude-skills
-- full_name: farion1231/cc-switch
-  slug: farion1231-cc-switch
-  url: https://github.com/farion1231/cc-switch
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - claude-code
-  - codex
-  - opencode
-  - typescript
-- full_name: ruvnet/ruflo
-  slug: ruvnet-ruflo
-  url: https://github.com/ruvnet/ruflo
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai-agents
-  - claude-code
-  - codex
-  - typescript
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
   score: 14
   shared_weeks:
-  - 2026-W21
   - 2026-W22
   - 2026-W23
   - 2026-W24
   - 2026-W25
   - 2026-W26
+  - 2026-W27
   shared_topics:
-  - ai
+  - ai-agents
+  - anthropic
   - claude
-  - openai
+  - claude-code
 lifecycle:
   status: active
   as_of_week: 2026-W31

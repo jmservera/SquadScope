@@ -2,7 +2,7 @@
 title: x1xhlol/system-prompts-and-models-of-ai-tools repository trend history
 description: 'Evergreen Claracle Observatory page for x1xhlol/system-prompts-and-models-of-ai-tools: 4 weekly appearances,
   stars, velocity, topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-13'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -15,7 +15,7 @@ repo_description: FULL Augment Code, Claude Code, Cluely, CodeBuddy, Comet, Curs
   Manus, NotionAI, Orchids.app, Perplexity, Poke, Qoder, Replit, Same.dev, Trae, Traycer AI, VSCode Agent, Warp.dev, Windsurf,
   Xcode, Z.ai Code, Dia & v0. (And other Open Sourced) System Prompts, Internal Tools & AI Models
 repo_language: ''
-topics:
+tags:
 - ai
 - bolt
 - cluely
@@ -63,35 +63,35 @@ weekly_appearances:
   url: /weekly/2026/w28/
 - week: 2026-W29
   url: /weekly/2026/w29/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: bolt
-  url: /topics/bolt/
+  url: /tags/bolt/
 - name: cluely
-  url: /topics/cluely/
+  url: /tags/cluely/
 - name: copilot
-  url: /topics/copilot/
+  url: /tags/copilot/
 - name: cursor
-  url: /topics/cursor/
+  url: /tags/cursor/
 - name: cursorai
-  url: /topics/cursorai/
+  url: /tags/cursorai/
 - name: devin
-  url: /topics/devin/
+  url: /tags/devin/
 - name: github-copilot
-  url: /topics/github-copilot/
+  url: /tags/github-copilot/
 - name: lovable
-  url: /topics/lovable/
+  url: /tags/lovable/
 - name: open-source
-  url: /topics/open-source/
+  url: /tags/open-source/
 - name: perplexity
-  url: /topics/perplexity/
+  url: /tags/perplexity/
 - name: replit
-  url: /topics/replit/
+  url: /tags/replit/
 related_repos:
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 6
   shared_weeks:
   - 2026-W22
@@ -100,10 +100,10 @@ related_repos:
   - 2026-W29
   shared_topics:
   - ai
-  - open-source
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+  - cursor
+- full_name: f/prompts.chat
+  slug: f-prompts-chat
+  url: https://github.com/f/prompts.chat
   score: 6
   shared_weeks:
   - 2026-W22
@@ -125,9 +125,9 @@ related_repos:
   shared_topics:
   - ai
   - copilot
-- full_name: code-yeongyu/oh-my-openagent
-  slug: code-yeongyu-oh-my-openagent
-  url: https://github.com/code-yeongyu/oh-my-openagent
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
   score: 6
   shared_weeks:
   - 2026-W22
@@ -136,10 +136,10 @@ related_repos:
   - 2026-W29
   shared_topics:
   - ai
-  - cursor
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+  - open-source
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 5
   shared_weeks:
   - 2026-W22
@@ -148,9 +148,20 @@ related_repos:
   - 2026-W29
   shared_topics:
   - ai
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
+- full_name: coder/code-server
+  slug: coder-code-server
+  url: https://github.com/coder/code-server
+  score: 5
+  shared_weeks:
+  - 2026-W22
+  - 2026-W25
+  - 2026-W28
+  - 2026-W29
+  shared_topics:
+  - vscode
+- full_name: Comfy-Org/ComfyUI
+  slug: comfy-org-comfyui
+  url: https://github.com/Comfy-Org/ComfyUI
   score: 5
   shared_weeks:
   - 2026-W22
@@ -159,20 +170,9 @@ related_repos:
   - 2026-W29
   shared_topics:
   - ai
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 5
-  shared_weeks:
-  - 2026-W22
-  - 2026-W25
-  - 2026-W28
-  - 2026-W29
-  shared_topics:
-  - ai
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: docling-project/docling
+  slug: docling-project-docling
+  url: https://github.com/docling-project/docling
   score: 5
   shared_weeks:
   - 2026-W22

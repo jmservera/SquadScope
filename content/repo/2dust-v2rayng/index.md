@@ -2,7 +2,7 @@
 title: 2dust/v2rayNG repository trend history
 description: 'Evergreen Claracle Observatory page for 2dust/v2rayNG: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/2dust/v2rayNG
 repo_slug: 2dust-v2rayng
 repo_description: A V2Ray client for Android, support Xray core and v2fly core
 repo_language: Kotlin
-topics:
+tags:
 - android
 - proxy
 - shadowsocks
@@ -103,31 +103,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: android
-  url: /topics/android/
+  url: /tags/android/
 - name: proxy
-  url: /topics/proxy/
+  url: /tags/proxy/
 - name: shadowsocks
-  url: /topics/shadowsocks/
+  url: /tags/shadowsocks/
 - name: socks5
-  url: /topics/socks5/
+  url: /tags/socks5/
 - name: trojan
-  url: /topics/trojan/
+  url: /tags/trojan/
 - name: v2fly
-  url: /topics/v2fly/
+  url: /tags/v2fly/
 - name: v2ray
-  url: /topics/v2ray/
+  url: /tags/v2ray/
 - name: vless
-  url: /topics/vless/
+  url: /tags/vless/
 - name: vmess
-  url: /topics/vmess/
+  url: /tags/vmess/
 - name: vpn
-  url: /topics/vpn/
+  url: /tags/vpn/
 - name: xray
-  url: /topics/xray/
+  url: /tags/xray/
 - name: xtls
-  url: /topics/xtls/
+  url: /tags/xtls/
 related_repos:
 - full_name: 2dust/v2rayN
   slug: 2dust-v2rayn
@@ -173,9 +173,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - android
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: abi/screenshot-to-code
+  slug: abi-screenshot-to-code
+  url: https://github.com/abi/screenshot-to-code
   score: 11
   shared_weeks:
   - 2026-W21
@@ -185,9 +185,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 11
   shared_weeks:
   - 2026-W21
@@ -197,9 +197,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+- full_name: anomalyco/opencode
+  slug: anomalyco-opencode
+  url: https://github.com/anomalyco/opencode
   score: 11
   shared_weeks:
   - 2026-W21
@@ -209,9 +209,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: torvalds/linux
-  slug: torvalds-linux
-  url: https://github.com/torvalds/linux
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 11
   shared_weeks:
   - 2026-W21
@@ -221,9 +221,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
   score: 11
   shared_weeks:
   - 2026-W21

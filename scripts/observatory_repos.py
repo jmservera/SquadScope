@@ -10,7 +10,7 @@ import tomllib
 import unicodedata
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
-from datetime import date, datetime, timezone
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -290,24 +290,25 @@ def attach_related_repositories(
 ) -> None:
     eligible_keys = {history.key for history in eligible}
     weeks: dict[str, list[str]] = defaultdict(list)
-    for key, history in histories.items():
-        for week in history.distinct_weeks:
+    for key, history in sorted(histories.items()):
+        for week in sorted(history.distinct_weeks):
             weeks[week].append(key)
 
     related: dict[str, Counter[str]] = {key: Counter() for key in eligible_keys}
     for keys in weeks.values():
-        present_eligible = [key for key in keys if key in eligible_keys]
+        sorted_keys = sorted(keys)
+        present_eligible = [key for key in sorted_keys if key in eligible_keys]
         for source in present_eligible:
-            for target in keys:
+            for target in sorted_keys:
                 if source != target and target in eligible_keys:
                     related[source][target] += 1
 
     topic_sets = {key: set(history.topics) for key, history in histories.items()}
-    for source in eligible_keys:
+    for source in sorted(eligible_keys):
         source_topics = topic_sets[source]
         if not source_topics:
             continue
-        for target, target_topics in topic_sets.items():
+        for target, target_topics in sorted(topic_sets.items()):
             if source == target or target not in eligible_keys:
                 continue
             overlap = source_topics.intersection(target_topics)
@@ -316,7 +317,11 @@ def attach_related_repositories(
 
     for history in eligible:
         entries: list[dict[str, Any]] = []
-        for target, score in related[history.key].most_common(8):
+        ordered_related = sorted(
+            related[history.key].items(),
+            key=lambda item: (-item[1], histories[item[0]].display_name.lower()),
+        )
+        for target, score in ordered_related[:8]:
             target_history = histories[target]
             shared_weeks = sorted(
                 history.distinct_weeks.intersection(target_history.distinct_weeks)
@@ -339,7 +344,6 @@ def page_params(
     history: RepositoryHistory,
     config: dict[str, Any],
     rename_aliases: dict[str, list[str]],
-    generated_at: datetime,
 ) -> dict[str, Any]:
     latest = history.latest_observation
     top_topics = [topic for topic, _count in history.topics.most_common(12)]
@@ -359,7 +363,7 @@ def page_params(
     params: dict[str, Any] = {
         "title": title,
         "description": description,
-        "date": generated_at.date().isoformat(),
+        "date": week_start_date(history.last_seen_week).isoformat(),
         "draft": False,
         "layout": "repo",
         "generated_by": GENERATED_BY,
@@ -370,7 +374,7 @@ def page_params(
         "repo_slug": history.slug,
         "repo_description": history.description or "",
         "repo_language": history.languages.most_common(1)[0][0] if history.languages else "",
-        "topics": top_topics,
+        "tags": top_topics,
         "first_seen_week": history.first_seen_week,
         "last_seen_week": history.last_seen_week,
         "as_of_week": history.last_seen_week,
@@ -385,8 +389,8 @@ def page_params(
         "weekly_appearances": [
             {"week": week, "url": weekly_permalink(week)} for week in sorted(history.distinct_weeks)
         ],
-        "topic_links": [
-            {"name": topic, "url": f"/topics/{topic_slug(topic)}/"} for topic in top_topics
+        "tag_links": [
+            {"name": topic, "url": f"/tags/{topic_slug(topic)}/"} for topic in top_topics
         ],
         "related_repos": history.related_repos,
         "lifecycle": {
@@ -484,7 +488,6 @@ def repository_index_content(generated_count: int, config: dict[str, Any]) -> st
 def write_repository_pages(
     root: Path, histories: dict[str, RepositoryHistory], config: dict[str, Any]
 ) -> list[Path]:
-    generated_at = datetime.now(timezone.utc)
     eligible = eligible_repositories(histories, config["minimum_weeks"])
     attach_related_repositories(histories, eligible)
     aliases = rename_aliases(histories)
@@ -497,7 +500,7 @@ def write_repository_pages(
     written: list[Path] = []
     derived: list[dict[str, Any]] = []
     for history in eligible:
-        params = page_params(history, config, aliases, generated_at)
+        params = page_params(history, config, aliases)
         output_path = content_repo / history.slug / "index.md"
         write_yaml_page(output_path, params)
         written.append(output_path)

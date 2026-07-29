@@ -2,7 +2,7 @@
 title: nextlevelbuilder/ui-ux-pro-max-skill repository trend history
 description: 'Evergreen Claracle Observatory page for nextlevelbuilder/ui-ux-pro-max-skill: 6 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
 repo_slug: nextlevelbuilder-ui-ux-pro-max-skill
 repo_description: An AI SKILL that provide design intelligence for building professional UI/UX multiple platforms
 repo_language: Python
-topics:
+tags:
 - ai-skills
 - antigravity
 - claude
@@ -73,35 +73,50 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai-skills
-  url: /topics/ai-skills/
+  url: /tags/ai-skills/
 - name: antigravity
-  url: /topics/antigravity/
+  url: /tags/antigravity/
 - name: claude
-  url: /topics/claude/
+  url: /tags/claude/
 - name: claude-code
-  url: /topics/claude-code/
+  url: /tags/claude-code/
 - name: codex
-  url: /topics/codex/
+  url: /tags/codex/
 - name: command-line
-  url: /topics/command-line/
+  url: /tags/command-line/
 - name: copilot
-  url: /topics/copilot/
+  url: /tags/copilot/
 - name: cursor-ai
-  url: /topics/cursor-ai/
+  url: /tags/cursor-ai/
 - name: html5
-  url: /topics/html5/
+  url: /tags/html5/
 - name: kiro
-  url: /topics/kiro/
+  url: /tags/kiro/
 - name: landing-page
-  url: /topics/landing-page/
+  url: /tags/landing-page/
 - name: mobile-ui
-  url: /topics/mobile-ui/
+  url: /tags/mobile-ui/
 related_repos:
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: addyosmani/agent-skills
+  slug: addyosmani-agent-skills
+  url: https://github.com/addyosmani/agent-skills
+  score: 9
+  shared_weeks:
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - antigravity
+  - claude-code
+  - codex
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 9
   shared_weeks:
   - 2026-W26
@@ -114,9 +129,9 @@ related_repos:
   - claude
   - claude-code
   - codex
-- full_name: code-yeongyu/oh-my-openagent
-  slug: code-yeongyu-oh-my-openagent
-  url: https://github.com/code-yeongyu/oh-my-openagent
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
   score: 9
   shared_weeks:
   - 2026-W26
@@ -144,38 +159,9 @@ related_repos:
   - ai-skills
   - claude-code
   - codex
-- full_name: addyosmani/agent-skills
-  slug: addyosmani-agent-skills
-  url: https://github.com/addyosmani/agent-skills
-  score: 9
-  shared_weeks:
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - antigravity
-  - claude-code
-  - codex
-- full_name: shadcn-ui/ui
-  slug: shadcn-ui-ui
-  url: https://github.com/shadcn-ui/ui
-  score: 8
-  shared_weeks:
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - react
-  - tailwindcss
-- full_name: thedotmack/claude-mem
-  slug: thedotmack-claude-mem
-  url: https://github.com/thedotmack/claude-mem
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
   score: 8
   shared_weeks:
   - 2026-W26
@@ -187,6 +173,20 @@ related_repos:
   shared_topics:
   - claude
   - claude-code
+- full_name: Egonex-AI/Understand-Anything
+  slug: egonex-ai-understand-anything
+  url: https://github.com/Egonex-AI/Understand-Anything
+  score: 8
+  shared_weeks:
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - claude-code
+  - codex
 - full_name: farion1231/cc-switch
   slug: farion1231-cc-switch
   url: https://github.com/farion1231/cc-switch

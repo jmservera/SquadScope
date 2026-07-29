@@ -2,7 +2,7 @@
 title: ngosang/trackerslist repository trend history
 description: 'Evergreen Claracle Observatory page for ngosang/trackerslist: 6 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-06-22'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/ngosang/trackerslist
 repo_slug: ngosang-trackerslist
 repo_description: Updated list of public BitTorrent trackers
 repo_language: ''
-topics:
+tags:
 - bittorrent
 - bittorrent-tracker
 - bittorrent-trackers
@@ -73,71 +73,32 @@ weekly_appearances:
   url: /weekly/2026/w25/
 - week: 2026-W26
   url: /weekly/2026/w26/
-topic_links:
+tag_links:
 - name: bittorrent
-  url: /topics/bittorrent/
+  url: /tags/bittorrent/
 - name: bittorrent-tracker
-  url: /topics/bittorrent-tracker/
+  url: /tags/bittorrent-tracker/
 - name: bittorrent-trackers
-  url: /topics/bittorrent-trackers/
+  url: /tags/bittorrent-trackers/
 - name: http
-  url: /topics/http/
+  url: /tags/http/
 - name: list
-  url: /topics/list/
+  url: /tags/list/
 - name: lists
-  url: /topics/lists/
+  url: /tags/lists/
 - name: public-tracker
-  url: /topics/public-tracker/
+  url: /tags/public-tracker/
 - name: public-trackers
-  url: /topics/public-trackers/
+  url: /tags/public-trackers/
 - name: torrent
-  url: /topics/torrent/
+  url: /tags/torrent/
 - name: tracker
-  url: /topics/tracker/
+  url: /tags/tracker/
 - name: trackers
-  url: /topics/trackers/
+  url: /tags/trackers/
 - name: trackerslist
-  url: /topics/trackerslist/
+  url: /tags/trackerslist/
 related_repos:
-- full_name: public-apis/public-apis
-  slug: public-apis-public-apis
-  url: https://github.com/public-apis/public-apis
-  score: 7
-  shared_weeks:
-  - 2026-W21
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - list
-  - lists
-- full_name: jaywcjlove/awesome-mac
-  slug: jaywcjlove-awesome-mac
-  url: https://github.com/jaywcjlove/awesome-mac
-  score: 7
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - list
-- full_name: hoppscotch/hoppscotch
-  slug: hoppscotch-hoppscotch
-  url: https://github.com/hoppscotch/hoppscotch
-  score: 7
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - http
 - full_name: caddyserver/caddy
   slug: caddyserver-caddy
   url: https://github.com/caddyserver/caddy
@@ -151,9 +112,48 @@ related_repos:
   - 2026-W26
   shared_topics:
   - http
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: hoppscotch/hoppscotch
+  slug: hoppscotch-hoppscotch
+  url: https://github.com/hoppscotch/hoppscotch
+  score: 7
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - http
+- full_name: jaywcjlove/awesome-mac
+  slug: jaywcjlove-awesome-mac
+  url: https://github.com/jaywcjlove/awesome-mac
+  score: 7
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - list
+- full_name: public-apis/public-apis
+  slug: public-apis-public-apis
+  url: https://github.com/public-apis/public-apis
+  score: 7
+  shared_weeks:
+  - 2026-W21
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - list
+  - lists
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 6
   shared_weeks:
   - 2026-W21
@@ -163,9 +163,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 6
   shared_weeks:
   - 2026-W21
@@ -175,9 +175,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+- full_name: abi/screenshot-to-code
+  slug: abi-screenshot-to-code
+  url: https://github.com/abi/screenshot-to-code
   score: 6
   shared_weeks:
   - 2026-W21
@@ -187,9 +187,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: torvalds/linux
-  slug: torvalds-linux
-  url: https://github.com/torvalds/linux
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 6
   shared_weeks:
   - 2026-W21

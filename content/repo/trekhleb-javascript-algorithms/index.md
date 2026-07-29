@@ -2,7 +2,7 @@
 title: trekhleb/javascript-algorithms repository trend history
 description: 'Evergreen Claracle Observatory page for trekhleb/javascript-algorithms: 6 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/trekhleb/javascript-algorithms
 repo_slug: trekhleb-javascript-algorithms
 repo_description: 📝 Algorithms and data structures implemented in JavaScript with explanations and links to further readings
 repo_language: JavaScript
-topics:
+tags:
 - algorithm
 - algorithms
 - computer-science
@@ -69,23 +69,23 @@ weekly_appearances:
   url: /weekly/2026/w27/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: algorithm
-  url: /topics/algorithm/
+  url: /tags/algorithm/
 - name: algorithms
-  url: /topics/algorithms/
+  url: /tags/algorithms/
 - name: computer-science
-  url: /topics/computer-science/
+  url: /tags/computer-science/
 - name: data-structures
-  url: /topics/data-structures/
+  url: /tags/data-structures/
 - name: interview
-  url: /topics/interview/
+  url: /tags/interview/
 - name: interview-preparation
-  url: /topics/interview-preparation/
+  url: /tags/interview-preparation/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: javascript-algorithms
-  url: /topics/javascript-algorithms/
+  url: /tags/javascript-algorithms/
 related_repos:
 - full_name: TheAlgorithms/Java
   slug: thealgorithms-java
@@ -102,61 +102,9 @@ related_repos:
   - algorithm
   - algorithms
   - data-structures
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 7
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W31
-  shared_topics:
-  - javascript
-- full_name: twbs/bootstrap
-  slug: twbs-bootstrap
-  url: https://github.com/twbs/bootstrap
-  score: 7
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W31
-  shared_topics:
-  - javascript
-- full_name: electron/electron
-  slug: electron-electron
-  url: https://github.com/electron/electron
-  score: 7
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W31
-  shared_topics:
-  - javascript
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
-  score: 7
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W31
-  shared_topics:
-  - javascript
-- full_name: mrdoob/three.js
-  slug: mrdoob-three-js
-  url: https://github.com/mrdoob/three.js
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 7
   shared_weeks:
   - 2026-W22
@@ -183,6 +131,58 @@ related_repos:
 - full_name: denoland/deno
   slug: denoland-deno
   url: https://github.com/denoland/deno
+  score: 7
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W31
+  shared_topics:
+  - javascript
+- full_name: electron/electron
+  slug: electron-electron
+  url: https://github.com/electron/electron
+  score: 7
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W31
+  shared_topics:
+  - javascript
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
+  score: 7
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W31
+  shared_topics:
+  - javascript
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
+  score: 7
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W31
+  shared_topics:
+  - javascript
+- full_name: gorhill/uBlock
+  slug: gorhill-ublock
+  url: https://github.com/gorhill/uBlock
   score: 7
   shared_weeks:
   - 2026-W22

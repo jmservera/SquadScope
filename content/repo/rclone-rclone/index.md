@@ -2,7 +2,7 @@
 title: rclone/rclone repository trend history
 description: 'Evergreen Claracle Observatory page for rclone/rclone: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: rclone-rclone
 repo_description: '"rsync for cloud storage" - Google Drive, S3, Dropbox, Backblaze B2, One Drive, Swift, Hubic, Wasabi, Google
   Cloud Storage, Azure Blob, Azure Files, Yandex Files'
 repo_language: Go
-topics:
+tags:
 - azure-blob
 - azure-blob-storage
 - azure-files
@@ -104,49 +104,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: azure-blob
-  url: /topics/azure-blob/
+  url: /tags/azure-blob/
 - name: azure-blob-storage
-  url: /topics/azure-blob-storage/
+  url: /tags/azure-blob-storage/
 - name: azure-files
-  url: /topics/azure-files/
+  url: /tags/azure-files/
 - name: backblaze-b2
-  url: /topics/backblaze-b2/
+  url: /tags/backblaze-b2/
 - name: cloud-storage
-  url: /topics/cloud-storage/
+  url: /tags/cloud-storage/
 - name: dropbox
-  url: /topics/dropbox/
+  url: /tags/dropbox/
 - name: encryption
-  url: /topics/encryption/
+  url: /tags/encryption/
 - name: ftp
-  url: /topics/ftp/
+  url: /tags/ftp/
 - name: fuse-filesystem
-  url: /topics/fuse-filesystem/
+  url: /tags/fuse-filesystem/
 - name: go
-  url: /topics/go/
+  url: /tags/go/
 - name: golang
-  url: /topics/golang/
+  url: /tags/golang/
 - name: google-cloud-storage
-  url: /topics/google-cloud-storage/
+  url: /tags/google-cloud-storage/
 related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - go
-  - golang
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
   score: 13
   shared_weeks:
   - 2026-W21
@@ -172,9 +158,23 @@ related_repos:
   shared_topics:
   - go
   - golang
-- full_name: kubernetes/kubernetes
-  slug: kubernetes-kubernetes
-  url: https://github.com/kubernetes/kubernetes
+- full_name: ollama/ollama
+  slug: ollama-ollama
+  url: https://github.com/ollama/ollama
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - go
+  - golang
+- full_name: caddyserver/caddy
+  slug: caddyserver-caddy
+  url: https://github.com/caddyserver/caddy
   score: 12
   shared_weeks:
   - 2026-W21
@@ -185,9 +185,10 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: syncthing/syncthing
-  slug: syncthing-syncthing
-  url: https://github.com/syncthing/syncthing
+  - golang
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
   score: 12
   shared_weeks:
   - 2026-W21
@@ -211,9 +212,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: grafana/grafana
-  slug: grafana-grafana
-  url: https://github.com/grafana/grafana
+- full_name: kubernetes/kubernetes
+  slug: kubernetes-kubernetes
+  url: https://github.com/kubernetes/kubernetes
   score: 12
   shared_weeks:
   - 2026-W21
@@ -224,17 +225,17 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: caddyserver/caddy
-  slug: caddyserver-caddy
-  url: https://github.com/caddyserver/caddy
+- full_name: moby/moby
+  slug: moby-moby
+  url: https://github.com/moby/moby
   score: 12
   shared_weeks:
-  - 2026-W21
   - 2026-W22
   - 2026-W23
   - 2026-W24
   - 2026-W25
   - 2026-W26
+  - 2026-W27
   shared_topics:
   - go
   - golang

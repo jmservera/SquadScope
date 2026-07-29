@@ -2,7 +2,7 @@
 title: huggingface/transformers repository trend history
 description: 'Evergreen Claracle Observatory page for huggingface/transformers: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: huggingface-transformers
 repo_description: '🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision,
   audio, and multimodal models, for both inference and training. '
 repo_language: Python
-topics:
+tags:
 - audio
 - deep-learning
 - deepseek
@@ -104,32 +104,65 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: audio
-  url: /topics/audio/
+  url: /tags/audio/
 - name: deep-learning
-  url: /topics/deep-learning/
+  url: /tags/deep-learning/
 - name: deepseek
-  url: /topics/deepseek/
+  url: /tags/deepseek/
 - name: gemma
-  url: /topics/gemma/
+  url: /tags/gemma/
 - name: glm
-  url: /topics/glm/
+  url: /tags/glm/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: machine-learning
-  url: /topics/machine-learning/
+  url: /tags/machine-learning/
 - name: model-hub
-  url: /topics/model-hub/
+  url: /tags/model-hub/
 - name: natural-language-processing
-  url: /topics/natural-language-processing/
+  url: /tags/natural-language-processing/
 - name: nlp
-  url: /topics/nlp/
+  url: /tags/nlp/
 - name: pretrained-models
-  url: /topics/pretrained-models/
+  url: /tags/pretrained-models/
 related_repos:
+- full_name: hiyouga/LlamaFactory
+  slug: hiyouga-llamafactory
+  url: https://github.com/hiyouga/LlamaFactory
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - deepseek
+  - gemma
+  - llm
+  - nlp
+  - qwen
+- full_name: keras-team/keras
+  slug: keras-team-keras
+  url: https://github.com/keras-team/keras
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - deep-learning
+  - machine-learning
+  - python
+  - pytorch
 - full_name: ollama/ollama
   slug: ollama-ollama
   url: https://github.com/ollama/ollama
@@ -145,6 +178,38 @@ related_repos:
   - deepseek
   - gemma
   - glm
+  - llm
+  - qwen
+- full_name: ultralytics/ultralytics
+  slug: ultralytics-ultralytics
+  url: https://github.com/ultralytics/ultralytics
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - deep-learning
+  - machine-learning
+  - python
+  - pytorch
+- full_name: unslothai/unsloth
+  slug: unslothai-unsloth
+  url: https://github.com/unslothai/unsloth
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - deepseek
+  - gemma
   - llm
   - qwen
 - full_name: vllm-project/vllm
@@ -164,74 +229,9 @@ related_repos:
   - pytorch
   - qwen
   - transformer
-- full_name: hiyouga/LlamaFactory
-  slug: hiyouga-llamafactory
-  url: https://github.com/hiyouga/LlamaFactory
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - deepseek
-  - gemma
-  - llm
-  - nlp
-  - qwen
-- full_name: unslothai/unsloth
-  slug: unslothai-unsloth
-  url: https://github.com/unslothai/unsloth
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - deepseek
-  - gemma
-  - llm
-  - qwen
-- full_name: keras-team/keras
-  slug: keras-team-keras
-  url: https://github.com/keras-team/keras
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - deep-learning
-  - machine-learning
-  - python
-  - pytorch
-- full_name: ultralytics/ultralytics
-  slug: ultralytics-ultralytics
-  url: https://github.com/ultralytics/ultralytics
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - deep-learning
-  - machine-learning
-  - python
-  - pytorch
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: pytorch/pytorch
+  slug: pytorch-pytorch
+  url: https://github.com/pytorch/pytorch
   score: 14
   shared_weeks:
   - 2026-W21
@@ -244,9 +244,9 @@ related_repos:
   - deep-learning
   - machine-learning
   - python
-- full_name: pytorch/pytorch
-  slug: pytorch-pytorch
-  url: https://github.com/pytorch/pytorch
+- full_name: tensorflow/tensorflow
+  slug: tensorflow-tensorflow
+  url: https://github.com/tensorflow/tensorflow
   score: 14
   shared_weeks:
   - 2026-W21

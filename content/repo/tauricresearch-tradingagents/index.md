@@ -2,7 +2,7 @@
 title: TauricResearch/TradingAgents repository trend history
 description: 'Evergreen Claracle Observatory page for TauricResearch/TradingAgents: 6 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-20'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/TauricResearch/TradingAgents
 repo_slug: tauricresearch-tradingagents
 repo_description: 'TradingAgents: Multi-Agents LLM Financial Trading Framework'
 repo_language: Python
-topics:
+tags:
 - agent
 - finance
 - llm
@@ -66,49 +66,21 @@ weekly_appearances:
   url: /weekly/2026/w28/
 - week: 2026-W30
   url: /weekly/2026/w30/
-topic_links:
+tag_links:
 - name: agent
-  url: /topics/agent/
+  url: /tags/agent/
 - name: finance
-  url: /topics/finance/
+  url: /tags/finance/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: multiagent
-  url: /topics/multiagent/
+  url: /tags/multiagent/
 - name: trading
-  url: /topics/trading/
+  url: /tags/trading/
 related_repos:
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 8
-  shared_weeks:
-  - 2026-W21
-  - 2026-W23
-  - 2026-W25
-  - 2026-W26
-  - 2026-W28
-  - 2026-W30
-  shared_topics:
-  - agent
-  - llm
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 8
-  shared_weeks:
-  - 2026-W21
-  - 2026-W23
-  - 2026-W25
-  - 2026-W26
-  - 2026-W28
-  - 2026-W30
-  shared_topics:
-  - llm
-  - multiagent
-- full_name: OpenHands/OpenHands
-  slug: openhands-openhands
-  url: https://github.com/OpenHands/OpenHands
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 8
   shared_weeks:
   - 2026-W21
@@ -134,9 +106,37 @@ related_repos:
   shared_topics:
   - agent
   - llm
-- full_name: bytedance/deer-flow
-  slug: bytedance-deer-flow
-  url: https://github.com/bytedance/deer-flow
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 8
+  shared_weeks:
+  - 2026-W21
+  - 2026-W23
+  - 2026-W25
+  - 2026-W26
+  - 2026-W28
+  - 2026-W30
+  shared_topics:
+  - llm
+  - multiagent
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
+  score: 8
+  shared_weeks:
+  - 2026-W21
+  - 2026-W23
+  - 2026-W25
+  - 2026-W26
+  - 2026-W28
+  - 2026-W30
+  shared_topics:
+  - agent
+  - llm
+- full_name: OpenHands/OpenHands
+  slug: openhands-openhands
+  url: https://github.com/OpenHands/OpenHands
   score: 8
   shared_weeks:
   - 2026-W21
@@ -162,9 +162,9 @@ related_repos:
   shared_topics:
   - agent
   - llm
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
   score: 7
   shared_weeks:
   - 2026-W21
@@ -175,9 +175,9 @@ related_repos:
   - 2026-W30
   shared_topics:
   - llm
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+- full_name: f/prompts.chat
+  slug: f-prompts-chat
+  url: https://github.com/f/prompts.chat
   score: 7
   shared_weeks:
   - 2026-W21

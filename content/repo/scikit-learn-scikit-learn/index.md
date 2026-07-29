@@ -2,7 +2,7 @@
 title: scikit-learn/scikit-learn repository trend history
 description: 'Evergreen Claracle Observatory page for scikit-learn/scikit-learn: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/scikit-learn/scikit-learn
 repo_slug: scikit-learn-scikit-learn
 repo_description: 'scikit-learn: machine learning in Python'
 repo_language: Python
-topics:
+tags:
 - data-analysis
 - data-science
 - machine-learning
@@ -96,17 +96,17 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: data-analysis
-  url: /topics/data-analysis/
+  url: /tags/data-analysis/
 - name: data-science
-  url: /topics/data-science/
+  url: /tags/data-science/
 - name: machine-learning
-  url: /topics/machine-learning/
+  url: /tags/machine-learning/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: statistics
-  url: /topics/statistics/
+  url: /tags/statistics/
 related_repos:
 - full_name: apache/superset
   slug: apache-superset
@@ -138,37 +138,9 @@ related_repos:
   - data-science
   - machine-learning
   - python
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - machine-learning
-  - python
 - full_name: huggingface/transformers
   slug: huggingface-transformers
   url: https://github.com/huggingface/transformers
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - machine-learning
-  - python
-- full_name: pytorch/pytorch
-  slug: pytorch-pytorch
-  url: https://github.com/pytorch/pytorch
   score: 13
   shared_weeks:
   - 2026-W21
@@ -194,6 +166,34 @@ related_repos:
   shared_topics:
   - machine-learning
   - python
+- full_name: pytorch/pytorch
+  slug: pytorch-pytorch
+  url: https://github.com/pytorch/pytorch
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - machine-learning
+  - python
+- full_name: tensorflow/tensorflow
+  slug: tensorflow-tensorflow
+  url: https://github.com/tensorflow/tensorflow
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - machine-learning
+  - python
 - full_name: ultralytics/ultralytics
   slug: ultralytics-ultralytics
   url: https://github.com/ultralytics/ultralytics
@@ -208,9 +208,9 @@ related_repos:
   shared_topics:
   - machine-learning
   - python
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 12
   shared_weeks:
   - 2026-W21

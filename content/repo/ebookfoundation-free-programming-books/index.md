@@ -2,7 +2,7 @@
 title: EbookFoundation/free-programming-books repository trend history
 description: 'Evergreen Claracle Observatory page for EbookFoundation/free-programming-books: 10 weekly appearances, stars,
   velocity, topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/EbookFoundation/free-programming-books
 repo_slug: ebookfoundation-free-programming-books
 repo_description: ':books: Freely available programming books'
 repo_language: Python
-topics:
+tags:
 - books
 - education
 - hacktoberfest
@@ -90,47 +90,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: books
-  url: /topics/books/
+  url: /tags/books/
 - name: education
-  url: /topics/education/
+  url: /tags/education/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: list
-  url: /topics/list/
+  url: /tags/list/
 - name: resource
-  url: /topics/resource/
+  url: /tags/resource/
 related_repos:
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 11
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - education
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
-  score: 11
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - hacktoberfest
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
   score: 11
   shared_weeks:
   - 2026-W22
@@ -154,9 +128,9 @@ related_repos:
   - 2026-W27
   shared_topics:
   - hacktoberfest
-- full_name: jaywcjlove/awesome-mac
-  slug: jaywcjlove-awesome-mac
-  url: https://github.com/jaywcjlove/awesome-mac
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
   score: 11
   shared_weeks:
   - 2026-W22
@@ -166,7 +140,46 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics:
-  - list
+  - hacktoberfest
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
+  score: 11
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - education
+- full_name: git/git
+  slug: git-git
+  url: https://github.com/git/git
+  score: 11
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - hacktoberfest
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
+  score: 11
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - hacktoberfest
 - full_name: home-assistant/core
   slug: home-assistant-core
   url: https://github.com/home-assistant/core
@@ -180,22 +193,9 @@ related_repos:
   - 2026-W27
   shared_topics:
   - hacktoberfest
-- full_name: sherlock-project/sherlock
-  slug: sherlock-project-sherlock
-  url: https://github.com/sherlock-project/sherlock
-  score: 11
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - hacktoberfest
-- full_name: Stirling-Tools/Stirling-PDF
-  slug: stirling-tools-stirling-pdf
-  url: https://github.com/Stirling-Tools/Stirling-PDF
+- full_name: huggingface/transformers
+  slug: huggingface-transformers
+  url: https://github.com/huggingface/transformers
   score: 11
   shared_weeks:
   - 2026-W22

@@ -2,7 +2,7 @@
 title: home-assistant/core repository trend history
 description: 'Evergreen Claracle Observatory page for home-assistant/core: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/home-assistant/core
 repo_slug: home-assistant-core
 repo_description: ':house_with_garden: Open source home automation that puts local control and privacy first.'
 repo_language: Python
-topics:
+tags:
 - asyncio
 - hacktoberfest
 - home-automation
@@ -99,38 +99,24 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: asyncio
-  url: /topics/asyncio/
+  url: /tags/asyncio/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: home-automation
-  url: /topics/home-automation/
+  url: /tags/home-automation/
 - name: internet-of-things
-  url: /topics/internet-of-things/
+  url: /tags/internet-of-things/
 - name: iot
-  url: /topics/iot/
+  url: /tags/iot/
 - name: mqtt
-  url: /topics/mqtt/
+  url: /tags/mqtt/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: raspberry-pi
-  url: /topics/raspberry-pi/
+  url: /tags/raspberry-pi/
 related_repos:
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - hacktoberfest
-  - python
 - full_name: fastapi/fastapi
   slug: fastapi-fastapi
   url: https://github.com/fastapi/fastapi
@@ -145,9 +131,9 @@ related_repos:
   shared_topics:
   - asyncio
   - python
-- full_name: sherlock-project/sherlock
-  slug: sherlock-project-sherlock
-  url: https://github.com/sherlock-project/sherlock
+- full_name: huggingface/transformers
+  slug: huggingface-transformers
+  url: https://github.com/huggingface/transformers
   score: 13
   shared_weeks:
   - 2026-W21
@@ -173,9 +159,23 @@ related_repos:
   shared_topics:
   - home-automation
   - iot
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: sherlock-project/sherlock
+  slug: sherlock-project-sherlock
+  url: https://github.com/sherlock-project/sherlock
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - hacktoberfest
+  - python
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 12
   shared_weeks:
   - 2026-W21
@@ -186,9 +186,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - python
+- full_name: astral-sh/uv
+  slug: astral-sh-uv
+  url: https://github.com/astral-sh/uv
   score: 12
   shared_weeks:
   - 2026-W21
@@ -212,19 +225,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - python
 lifecycle:
   status: active
   as_of_week: 2026-W31

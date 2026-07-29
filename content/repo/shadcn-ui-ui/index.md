@@ -2,7 +2,7 @@
 title: shadcn-ui/ui repository trend history
 description: 'Evergreen Claracle Observatory page for shadcn-ui/ui: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: shadcn-ui-ui
 repo_description: A set of beautifully-designed, accessible components and a code distribution platform. Works with your favorite
   frameworks. Open Source. Open Code.
 repo_language: TypeScript
-topics:
+tags:
 - base-ui
 - components
 - laravel
@@ -103,29 +103,29 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: base-ui
-  url: /topics/base-ui/
+  url: /tags/base-ui/
 - name: components
-  url: /topics/components/
+  url: /tags/components/
 - name: laravel
-  url: /topics/laravel/
+  url: /tags/laravel/
 - name: nextjs
-  url: /topics/nextjs/
+  url: /tags/nextjs/
 - name: radix-ui
-  url: /topics/radix-ui/
+  url: /tags/radix-ui/
 - name: react
-  url: /topics/react/
+  url: /tags/react/
 - name: shadcn
-  url: /topics/shadcn/
+  url: /tags/shadcn/
 - name: tailwindcss
-  url: /topics/tailwindcss/
+  url: /tags/tailwindcss/
 - name: tanstack
-  url: /topics/tanstack/
+  url: /tags/tanstack/
 - name: ui
-  url: /topics/ui/
+  url: /tags/ui/
 - name: vite
-  url: /topics/vite/
+  url: /tags/vite/
 related_repos:
 - full_name: vercel/next.js
   slug: vercel-next-js
@@ -156,9 +156,22 @@ related_repos:
   shared_topics:
   - laravel
   - nextjs
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - react
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
   score: 12
   shared_weeks:
   - 2026-W21
@@ -182,6 +195,32 @@ related_repos:
   - 2026-W26
   shared_topics:
   - nextjs
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - react
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - react
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
@@ -195,45 +234,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - nextjs
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ui
-- full_name: mui/material-ui
-  slug: mui-material-ui
-  url: https://github.com/mui/material-ui
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - react
-- full_name: ant-design/ant-design
-  slug: ant-design-ant-design
-  url: https://github.com/ant-design/ant-design
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - react
 lifecycle:
   status: active
   as_of_week: 2026-W31

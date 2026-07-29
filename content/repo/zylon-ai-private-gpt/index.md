@@ -2,7 +2,7 @@
 title: zylon-ai/private-gpt repository trend history
 description: 'Evergreen Claracle Observatory page for zylon-ai/private-gpt: 7 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-20'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: zylon-ai-private-gpt
 repo_description: 'Complete API layer for private AI applications on local models: RAG, skills, tools, MCP, text-to-sql, and
   more. Works with any OpenAI-compatible inference server.'
 repo_language: Python
-topics:
+tags:
 - ai
 - ai-tools
 - on-premise
@@ -71,17 +71,30 @@ weekly_appearances:
   url: /weekly/2026/w29/
 - week: 2026-W30
   url: /weekly/2026/w30/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: ai-tools
-  url: /topics/ai-tools/
+  url: /tags/ai-tools/
 - name: on-premise
-  url: /topics/on-premise/
+  url: /tags/on-premise/
 related_repos:
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
+  score: 8
+  shared_weeks:
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  shared_topics:
+  - ai-tools
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 8
   shared_weeks:
   - 2026-W24
@@ -92,9 +105,9 @@ related_repos:
   - 2026-W29
   shared_topics:
   - ai
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 8
   shared_weeks:
   - 2026-W24
@@ -105,9 +118,9 @@ related_repos:
   - 2026-W29
   shared_topics:
   - ai
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: Comfy-Org/ComfyUI
+  slug: comfy-org-comfyui
+  url: https://github.com/Comfy-Org/ComfyUI
   score: 8
   shared_weeks:
   - 2026-W24
@@ -118,9 +131,9 @@ related_repos:
   - 2026-W29
   shared_topics:
   - ai
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: docling-project/docling
+  slug: docling-project-docling
+  url: https://github.com/docling-project/docling
   score: 8
   shared_weeks:
   - 2026-W24
@@ -144,9 +157,9 @@ related_repos:
   - 2026-W29
   shared_topics:
   - ai
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
   score: 8
   shared_weeks:
   - 2026-W24
@@ -156,23 +169,10 @@ related_repos:
   - 2026-W28
   - 2026-W29
   shared_topics:
-  - ai
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 8
-  shared_weeks:
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  shared_topics:
-  - ai
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
+  - ai-tools
+- full_name: firecrawl/firecrawl
+  slug: firecrawl-firecrawl
+  url: https://github.com/firecrawl/firecrawl
   score: 8
   shared_weeks:
   - 2026-W24

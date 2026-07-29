@@ -2,7 +2,7 @@
 title: tw93/Mole repository trend history
 description: 'Evergreen Claracle Observatory page for tw93/Mole: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/tw93/Mole
 repo_slug: tw93-mole
 repo_description: 🐹 Clean, uninstall, analyze, optimize, and monitor your Mac from the terminal.
 repo_language: Shell
-topics:
+tags:
 - analyzer
 - appcleaner
 - clean
@@ -103,31 +103,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: analyzer
-  url: /topics/analyzer/
+  url: /tags/analyzer/
 - name: appcleaner
-  url: /topics/appcleaner/
+  url: /tags/appcleaner/
 - name: clean
-  url: /topics/clean/
+  url: /tags/clean/
 - name: cleaner
-  url: /topics/cleaner/
+  url: /tags/cleaner/
 - name: cleaner-cli
-  url: /topics/cleaner-cli/
+  url: /tags/cleaner-cli/
 - name: cleaner-script
-  url: /topics/cleaner-script/
+  url: /tags/cleaner-script/
 - name: command-line
-  url: /topics/command-line/
+  url: /tags/command-line/
 - name: daisydisk
-  url: /topics/daisydisk/
+  url: /tags/daisydisk/
 - name: istat
-  url: /topics/istat/
+  url: /tags/istat/
 - name: mac
-  url: /topics/mac/
+  url: /tags/mac/
 - name: macos
-  url: /topics/macos/
+  url: /tags/macos/
 - name: optimize
-  url: /topics/optimize/
+  url: /tags/optimize/
 related_repos:
 - full_name: jaywcjlove/awesome-mac
   slug: jaywcjlove-awesome-mac
@@ -157,32 +157,6 @@ related_repos:
   shared_topics:
   - macos
   - shell
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - shell
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - macos
 - full_name: clash-verge-rev/clash-verge-rev
   slug: clash-verge-rev-clash-verge-rev
   url: https://github.com/clash-verge-rev/clash-verge-rev
@@ -196,22 +170,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - mac
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - macos
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
+- full_name: flutter/flutter
+  slug: flutter-flutter
+  url: https://github.com/flutter/flutter
   score: 12
   shared_weeks:
   - 2026-W21
@@ -235,6 +196,45 @@ related_repos:
   - 2026-W26
   shared_topics:
   - shell
+- full_name: nodejs/node
+  slug: nodejs-node
+  url: https://github.com/nodejs/node
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - macos
+- full_name: ohmyzsh/ohmyzsh
+  slug: ohmyzsh-ohmyzsh
+  url: https://github.com/ohmyzsh/ohmyzsh
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - shell
+- full_name: rustdesk/rustdesk
+  slug: rustdesk-rustdesk
+  url: https://github.com/rustdesk/rustdesk
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - macos
 lifecycle:
   status: active
   as_of_week: 2026-W31

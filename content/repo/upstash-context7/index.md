@@ -2,7 +2,7 @@
 title: upstash/context7 repository trend history
 description: 'Evergreen Claracle Observatory page for upstash/context7: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/upstash/context7
 repo_slug: upstash-context7
 repo_description: Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors
 repo_language: TypeScript
-topics:
+tags:
 - llm
 - mcp
 - mcp-server
@@ -95,19 +95,19 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: mcp
-  url: /topics/mcp/
+  url: /tags/mcp/
 - name: mcp-server
-  url: /topics/mcp-server/
+  url: /tags/mcp-server/
 - name: vibe-coding
-  url: /topics/vibe-coding/
+  url: /tags/vibe-coding/
 related_repos:
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: koala73/worldmonitor
+  slug: koala73-worldmonitor
+  url: https://github.com/koala73/worldmonitor
   score: 13
   shared_weeks:
   - 2026-W21
@@ -133,9 +133,9 @@ related_repos:
   shared_topics:
   - llm
   - mcp
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
+- full_name: MemPalace/mempalace
+  slug: mempalace-mempalace
+  url: https://github.com/MemPalace/mempalace
   score: 13
   shared_weeks:
   - 2026-W21
@@ -161,9 +161,9 @@ related_repos:
   shared_topics:
   - llm
   - mcp
-- full_name: koala73/worldmonitor
-  slug: koala73-worldmonitor
-  url: https://github.com/koala73/worldmonitor
+- full_name: n8n-io/n8n
+  slug: n8n-io-n8n
+  url: https://github.com/n8n-io/n8n
   score: 13
   shared_weeks:
   - 2026-W21
@@ -175,9 +175,9 @@ related_repos:
   shared_topics:
   - mcp
   - mcp-server
-- full_name: MemPalace/mempalace
-  slug: mempalace-mempalace
-  url: https://github.com/MemPalace/mempalace
+- full_name: open-webui/open-webui
+  slug: open-webui-open-webui
+  url: https://github.com/open-webui/open-webui
   score: 13
   shared_weeks:
   - 2026-W21
@@ -189,22 +189,23 @@ related_repos:
   shared_topics:
   - llm
   - mcp
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
   score: 12
   shared_weeks:
-  - 2026-W21
   - 2026-W22
   - 2026-W23
   - 2026-W24
   - 2026-W25
   - 2026-W26
+  - 2026-W27
   shared_topics:
   - llm
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+  - mcp
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
   score: 12
   shared_weeks:
   - 2026-W21

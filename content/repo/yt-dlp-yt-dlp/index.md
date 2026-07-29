@@ -2,7 +2,7 @@
 title: yt-dlp/yt-dlp repository trend history
 description: 'Evergreen Claracle Observatory page for yt-dlp/yt-dlp: 10 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/yt-dlp/yt-dlp
 repo_slug: yt-dlp-yt-dlp
 repo_description: A feature-rich command-line audio/video downloader
 repo_language: Python
-topics:
+tags:
 - cli
 - downloader
 - python
@@ -92,21 +92,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: cli
-  url: /topics/cli/
+  url: /tags/cli/
 - name: downloader
-  url: /topics/downloader/
+  url: /tags/downloader/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: sponsorblock
-  url: /topics/sponsorblock/
+  url: /tags/sponsorblock/
 - name: youtube-dl
-  url: /topics/youtube-dl/
+  url: /tags/youtube-dl/
 - name: youtube-downloader
-  url: /topics/youtube-downloader/
+  url: /tags/youtube-downloader/
 - name: yt-dlp
-  url: /topics/yt-dlp/
+  url: /tags/yt-dlp/
 related_repos:
 - full_name: sherlock-project/sherlock
   slug: sherlock-project-sherlock
@@ -136,9 +136,9 @@ related_repos:
   shared_topics:
   - cli
   - python
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 11
   shared_weeks:
   - 2026-W21
@@ -149,35 +149,9 @@ related_repos:
   - 2026-W27
   shared_topics:
   - python
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - cli
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - cli
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
   score: 11
   shared_weeks:
   - 2026-W21
@@ -188,9 +162,9 @@ related_repos:
   - 2026-W27
   shared_topics:
   - python
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+- full_name: astral-sh/uv
+  slug: astral-sh-uv
+  url: https://github.com/astral-sh/uv
   score: 11
   shared_weeks:
   - 2026-W21
@@ -201,9 +175,35 @@ related_repos:
   - 2026-W27
   shared_topics:
   - python
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - python
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - python
+- full_name: Comfy-Org/ComfyUI
+  slug: comfy-org-comfyui
+  url: https://github.com/Comfy-Org/ComfyUI
   score: 11
   shared_weeks:
   - 2026-W21

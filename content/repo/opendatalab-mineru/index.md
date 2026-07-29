@@ -2,7 +2,7 @@
 title: opendatalab/MinerU repository trend history
 description: 'Evergreen Claracle Observatory page for opendatalab/MinerU: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/opendatalab/MinerU
 repo_slug: opendatalab-mineru
 repo_description: Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows.
 repo_language: Python
-topics:
+tags:
 - ai4science
 - document-analysis
 - docx
@@ -103,31 +103,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai4science
-  url: /topics/ai4science/
+  url: /tags/ai4science/
 - name: document-analysis
-  url: /topics/document-analysis/
+  url: /tags/document-analysis/
 - name: docx
-  url: /topics/docx/
+  url: /tags/docx/
 - name: extract-data
-  url: /topics/extract-data/
+  url: /tags/extract-data/
 - name: layout-analysis
-  url: /topics/layout-analysis/
+  url: /tags/layout-analysis/
 - name: ocr
-  url: /topics/ocr/
+  url: /tags/ocr/
 - name: parser
-  url: /topics/parser/
+  url: /tags/parser/
 - name: pdf
-  url: /topics/pdf/
+  url: /tags/pdf/
 - name: pdf-converter
-  url: /topics/pdf-converter/
+  url: /tags/pdf-converter/
 - name: pdf-extractor-llm
-  url: /topics/pdf-extractor-llm/
+  url: /tags/pdf-extractor-llm/
 - name: pdf-extractor-pretrain
-  url: /topics/pdf-extractor-pretrain/
+  url: /tags/pdf-extractor-pretrain/
 - name: pdf-extractor-rag
-  url: /topics/pdf-extractor-rag/
+  url: /tags/pdf-extractor-rag/
 related_repos:
 - full_name: docling-project/docling
   slug: docling-project-docling
@@ -176,9 +176,9 @@ related_repos:
   shared_topics:
   - pdf
   - pdf-converter
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 12
   shared_weeks:
   - 2026-W21
@@ -189,9 +189,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
   score: 12
   shared_weeks:
   - 2026-W21
@@ -202,9 +202,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+- full_name: astral-sh/uv
+  slug: astral-sh-uv
+  url: https://github.com/astral-sh/uv
   score: 12
   shared_weeks:
   - 2026-W21
@@ -215,9 +215,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
   score: 12
   shared_weeks:
   - 2026-W21
@@ -228,9 +228,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 12
   shared_weeks:
   - 2026-W21

@@ -2,7 +2,7 @@
 title: axios/axios repository trend history
 description: 'Evergreen Claracle Observatory page for axios/axios: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/axios/axios
 repo_slug: axios-axios
 repo_description: Promise based HTTP client for the browser and node.js
 repo_language: JavaScript
-topics:
+tags:
 - hacktoberfest
 - http-client
 - javascript
@@ -96,17 +96,17 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: http-client
-  url: /topics/http-client/
+  url: /tags/http-client/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: nodejs
-  url: /topics/nodejs/
+  url: /tags/nodejs/
 - name: promise
-  url: /topics/promise/
+  url: /tags/promise/
 related_repos:
 - full_name: strapi/strapi
   slug: strapi-strapi
@@ -123,65 +123,9 @@ related_repos:
   - hacktoberfest
   - javascript
   - nodejs
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - nodejs
 - full_name: electron/electron
   slug: electron-electron
   url: https://github.com/electron/electron
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - nodejs
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - nodejs
-- full_name: immich-app/immich
-  slug: immich-app-immich
-  url: https://github.com/immich-app/immich
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - nodejs
-- full_name: oven-sh/bun
-  slug: oven-sh-bun
-  url: https://github.com/oven-sh/bun
   score: 13
   shared_weeks:
   - 2026-W21
@@ -207,6 +151,34 @@ related_repos:
   shared_topics:
   - hacktoberfest
   - javascript
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - nodejs
+- full_name: immich-app/immich
+  slug: immich-app-immich
+  url: https://github.com/immich-app/immich
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - nodejs
 - full_name: nestjs/nest
   slug: nestjs-nest
   url: https://github.com/nestjs/nest
@@ -220,6 +192,34 @@ related_repos:
   - 2026-W27
   shared_topics:
   - hacktoberfest
+  - javascript
+  - nodejs
+- full_name: nodejs/node
+  slug: nodejs-node
+  url: https://github.com/nodejs/node
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - nodejs
+- full_name: oven-sh/bun
+  slug: oven-sh-bun
+  url: https://github.com/oven-sh/bun
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
   - javascript
   - nodejs
 lifecycle:

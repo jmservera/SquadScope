@@ -2,7 +2,7 @@
 title: iluwatar/java-design-patterns repository trend history
 description: 'Evergreen Claracle Observatory page for iluwatar/java-design-patterns: 7 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/iluwatar/java-design-patterns
 repo_slug: iluwatar-java-design-patterns
 repo_description: Design patterns implemented in Java
 repo_language: Java
-topics:
+tags:
 - awesome-list
 - design-patterns
 - hacktoberfest
@@ -75,23 +75,23 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: awesome-list
-  url: /topics/awesome-list/
+  url: /tags/awesome-list/
 - name: design-patterns
-  url: /topics/design-patterns/
+  url: /tags/design-patterns/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: java
-  url: /topics/java/
+  url: /tags/java/
 - name: principles
-  url: /topics/principles/
+  url: /tags/principles/
 - name: snippets
-  url: /topics/snippets/
+  url: /tags/snippets/
 - name: snippets-collection
-  url: /topics/snippets-collection/
+  url: /tags/snippets-collection/
 - name: snippets-library
-  url: /topics/snippets-library/
+  url: /tags/snippets-library/
 related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
@@ -148,45 +148,6 @@ related_repos:
   - 2026-W30
   shared_topics:
   - awesome-list
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
-  score: 8
-  shared_weeks:
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - awesome-list
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
-  score: 8
-  shared_weeks:
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - hacktoberfest
-- full_name: ripienaar/free-for-dev
-  slug: ripienaar-free-for-dev
-  url: https://github.com/ripienaar/free-for-dev
-  score: 8
-  shared_weeks:
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - awesome-list
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
@@ -200,6 +161,45 @@ related_repos:
   - 2026-W30
   shared_topics:
   - hacktoberfest
+- full_name: EbookFoundation/free-programming-books
+  slug: ebookfoundation-free-programming-books
+  url: https://github.com/EbookFoundation/free-programming-books
+  score: 8
+  shared_weeks:
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - hacktoberfest
+- full_name: elastic/elasticsearch
+  slug: elastic-elasticsearch
+  url: https://github.com/elastic/elasticsearch
+  score: 8
+  shared_weeks:
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - java
+- full_name: f/prompts.chat
+  slug: f-prompts-chat
+  url: https://github.com/f/prompts.chat
+  score: 8
+  shared_weeks:
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - awesome-list
 lifecycle:
   status: active
   as_of_week: 2026-W31

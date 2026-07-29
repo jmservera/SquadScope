@@ -2,7 +2,7 @@
 title: lobehub/lobehub repository trend history
 description: 'Evergreen Claracle Observatory page for lobehub/lobehub: 10 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: lobehub-lobehub
 repo_description: 🤯 LobeHub is your Chief Agent Operator, organizing your agents into 7×24 operations by hiring, scheduling,
   and reporting on your entire AI team.
 repo_language: TypeScript
-topics:
+tags:
 - agent
 - agent-collaboration
 - agent-harness
@@ -98,35 +98,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agent
-  url: /topics/agent/
+  url: /tags/agent/
 - name: agent-collaboration
-  url: /topics/agent-collaboration/
+  url: /tags/agent-collaboration/
 - name: agent-harness
-  url: /topics/agent-harness/
+  url: /tags/agent-harness/
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: cao
-  url: /topics/cao/
+  url: /tags/cao/
 - name: chatgpt
-  url: /topics/chatgpt/
+  url: /tags/chatgpt/
 - name: chief-agent-operator
-  url: /topics/chief-agent-operator/
+  url: /tags/chief-agent-operator/
 - name: claude
-  url: /topics/claude/
+  url: /tags/claude/
 - name: deepseek
-  url: /topics/deepseek/
+  url: /tags/deepseek/
 - name: gemini
-  url: /topics/gemini/
+  url: /tags/gemini/
 - name: gpt
-  url: /topics/gpt/
+  url: /tags/gpt/
 - name: knowledge-base
-  url: /topics/knowledge-base/
+  url: /tags/knowledge-base/
 related_repos:
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 14
   shared_weeks:
   - 2026-W22
@@ -137,8 +137,9 @@ related_repos:
   - 2026-W27
   shared_topics:
   - ai
+  - chatgpt
   - claude
-  - gpt
+  - gemini
   - openai
 - full_name: f/prompts.chat
   slug: f-prompts-chat
@@ -158,9 +159,25 @@ related_repos:
   - gemini
   - gpt
   - openai
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: hiyouga/LlamaFactory
+  slug: hiyouga-llamafactory
+  url: https://github.com/hiyouga/LlamaFactory
+  score: 14
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - agent
+  - ai
+  - deepseek
+  - gpt
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
   score: 14
   shared_weeks:
   - 2026-W22
@@ -172,7 +189,7 @@ related_repos:
   shared_topics:
   - ai
   - chatgpt
-  - claude
+  - gemini
   - openai
 - full_name: langgenius/dify
   slug: langgenius-dify
@@ -192,9 +209,9 @@ related_repos:
   - gemini
   - gpt
   - mcp
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: microsoft/generative-ai-for-beginners
+  slug: microsoft-generative-ai-for-beginners
+  url: https://github.com/microsoft/generative-ai-for-beginners
   score: 14
   shared_weeks:
   - 2026-W22
@@ -206,7 +223,23 @@ related_repos:
   shared_topics:
   - ai
   - chatgpt
-  - gemini
+  - gpt
+  - openai
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
+  score: 14
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - ai
+  - chatgpt
+  - claude
   - openai
 - full_name: OpenHands/OpenHands
   slug: openhands-openhands
@@ -223,39 +256,6 @@ related_repos:
   - agent
   - chatgpt
   - gpt
-  - openai
-- full_name: hiyouga/LlamaFactory
-  slug: hiyouga-llamafactory
-  url: https://github.com/hiyouga/LlamaFactory
-  score: 14
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - agent
-  - ai
-  - deepseek
-  - gpt
-- full_name: code-yeongyu/oh-my-openagent
-  slug: code-yeongyu-oh-my-openagent
-  url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 14
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - ai
-  - chatgpt
-  - claude
-  - gemini
   - openai
 lifecycle:
   status: active

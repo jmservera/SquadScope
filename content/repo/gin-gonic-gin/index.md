@@ -2,7 +2,7 @@
 title: gin-gonic/gin repository trend history
 description: 'Evergreen Claracle Observatory page for gin-gonic/gin: 5 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-20'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -15,7 +15,7 @@ repo_description: Gin is a high-performance HTTP web framework written in Go. It
   better performance—up to 40 times faster—thanks to httprouter. Gin is designed for building REST APIs, web applications,
   and microservices.
 repo_language: Go
-topics:
+tags:
 - framework
 - gin
 - go
@@ -64,21 +64,21 @@ weekly_appearances:
   url: /weekly/2026/w29/
 - week: 2026-W30
   url: /weekly/2026/w30/
-topic_links:
+tag_links:
 - name: framework
-  url: /topics/framework/
+  url: /tags/framework/
 - name: gin
-  url: /topics/gin/
+  url: /tags/gin/
 - name: go
-  url: /topics/go/
+  url: /tags/go/
 - name: middleware
-  url: /topics/middleware/
+  url: /tags/middleware/
 - name: performance
-  url: /topics/performance/
+  url: /tags/performance/
 - name: router
-  url: /topics/router/
+  url: /tags/router/
 - name: server
-  url: /topics/server/
+  url: /tags/server/
 related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
@@ -92,9 +92,9 @@ related_repos:
   - 2026-W30
   shared_topics:
   - go
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+- full_name: coollabsio/coolify
+  slug: coollabsio-coolify
+  url: https://github.com/coollabsio/coolify
   score: 6
   shared_weeks:
   - 2026-W24
@@ -103,10 +103,10 @@ related_repos:
   - 2026-W29
   - 2026-W30
   shared_topics:
-  - go
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+  - server
+- full_name: fastapi/fastapi
+  slug: fastapi-fastapi
+  url: https://github.com/fastapi/fastapi
   score: 6
   shared_weeks:
   - 2026-W24
@@ -128,6 +128,30 @@ related_repos:
   - 2026-W30
   shared_topics:
   - go
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
+  score: 6
+  shared_weeks:
+  - 2026-W24
+  - 2026-W26
+  - 2026-W27
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - go
+- full_name: junegunn/fzf
+  slug: junegunn-fzf
+  url: https://github.com/junegunn/fzf
+  score: 6
+  shared_weeks:
+  - 2026-W24
+  - 2026-W26
+  - 2026-W27
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - go
 - full_name: kubernetes/kubernetes
   slug: kubernetes-kubernetes
   url: https://github.com/kubernetes/kubernetes
@@ -140,9 +164,9 @@ related_repos:
   - 2026-W30
   shared_topics:
   - go
-- full_name: fastapi/fastapi
-  slug: fastapi-fastapi
-  url: https://github.com/fastapi/fastapi
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
   score: 6
   shared_weeks:
   - 2026-W24
@@ -152,30 +176,6 @@ related_repos:
   - 2026-W30
   shared_topics:
   - framework
-- full_name: laravel/laravel
-  slug: laravel-laravel
-  url: https://github.com/laravel/laravel
-  score: 6
-  shared_weeks:
-  - 2026-W24
-  - 2026-W26
-  - 2026-W27
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - framework
-- full_name: syncthing/syncthing
-  slug: syncthing-syncthing
-  url: https://github.com/syncthing/syncthing
-  score: 6
-  shared_weeks:
-  - 2026-W24
-  - 2026-W26
-  - 2026-W27
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - go
 lifecycle:
   status: active
   as_of_week: 2026-W30

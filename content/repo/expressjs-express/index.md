@@ -2,7 +2,7 @@
 title: expressjs/express repository trend history
 description: 'Evergreen Claracle Observatory page for expressjs/express: 6 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-13'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/expressjs/express
 repo_slug: expressjs-express
 repo_description: Fast, unopinionated, minimalist web framework for node.
 repo_language: JavaScript
-topics:
+tags:
 - express
 - javascript
 - nodejs
@@ -65,58 +65,16 @@ weekly_appearances:
   url: /weekly/2026/w28/
 - week: 2026-W29
   url: /weekly/2026/w29/
-topic_links:
+tag_links:
 - name: express
-  url: /topics/express/
+  url: /tags/express/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: nodejs
-  url: /topics/nodejs/
+  url: /tags/nodejs/
 - name: server
-  url: /topics/server/
+  url: /tags/server/
 related_repos:
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 8
-  shared_weeks:
-  - 2026-W21
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W28
-  - 2026-W29
-  shared_topics:
-  - javascript
-  - nodejs
-- full_name: electron/electron
-  slug: electron-electron
-  url: https://github.com/electron/electron
-  score: 8
-  shared_weeks:
-  - 2026-W21
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W28
-  - 2026-W29
-  shared_topics:
-  - javascript
-  - nodejs
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
-  score: 8
-  shared_weeks:
-  - 2026-W21
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W28
-  - 2026-W29
-  shared_topics:
-  - javascript
-  - nodejs
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
@@ -131,9 +89,65 @@ related_repos:
   shared_topics:
   - javascript
   - nodejs
+- full_name: coollabsio/coolify
+  slug: coollabsio-coolify
+  url: https://github.com/coollabsio/coolify
+  score: 8
+  shared_weeks:
+  - 2026-W21
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W28
+  - 2026-W29
+  shared_topics:
+  - nodejs
+  - server
+- full_name: electron/electron
+  slug: electron-electron
+  url: https://github.com/electron/electron
+  score: 8
+  shared_weeks:
+  - 2026-W21
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W28
+  - 2026-W29
+  shared_topics:
+  - javascript
+  - nodejs
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
+  score: 8
+  shared_weeks:
+  - 2026-W21
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W28
+  - 2026-W29
+  shared_topics:
+  - javascript
+  - nodejs
 - full_name: immich-app/immich
   slug: immich-app-immich
   url: https://github.com/immich-app/immich
+  score: 8
+  shared_weeks:
+  - 2026-W21
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W28
+  - 2026-W29
+  shared_topics:
+  - javascript
+  - nodejs
+- full_name: nodejs/node
+  slug: nodejs-node
+  url: https://github.com/nodejs/node
   score: 8
   shared_weeks:
   - 2026-W21
@@ -173,20 +187,6 @@ related_repos:
   shared_topics:
   - javascript
   - nodejs
-- full_name: coollabsio/coolify
-  slug: coollabsio-coolify
-  url: https://github.com/coollabsio/coolify
-  score: 8
-  shared_weeks:
-  - 2026-W21
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W28
-  - 2026-W29
-  shared_topics:
-  - nodejs
-  - server
 lifecycle:
   status: active
   as_of_week: 2026-W29

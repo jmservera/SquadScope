@@ -2,7 +2,7 @@
 title: f/prompts.chat repository trend history
 description: 'Evergreen Claracle Observatory page for f/prompts.chat: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: f-prompts-chat
 repo_description: f.k.a. Awesome ChatGPT Prompts. Share, discover, and collect prompts from the community. Free and open source
   — self-host for your organization with complete privacy.
 repo_language: HTML
-topics:
+tags:
 - ai
 - artificial-intelligence
 - awesome-list
@@ -104,53 +104,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: artificial-intelligence
-  url: /topics/artificial-intelligence/
+  url: /tags/artificial-intelligence/
 - name: awesome-list
-  url: /topics/awesome-list/
+  url: /tags/awesome-list/
 - name: chatgpt
-  url: /topics/chatgpt/
+  url: /tags/chatgpt/
 - name: chatgpt-prompts
-  url: /topics/chatgpt-prompts/
+  url: /tags/chatgpt-prompts/
 - name: claude
-  url: /topics/claude/
+  url: /tags/claude/
 - name: gemini
-  url: /topics/gemini/
+  url: /tags/gemini/
 - name: gpt
-  url: /topics/gpt/
+  url: /tags/gpt/
 - name: gpt-4
-  url: /topics/gpt-4/
+  url: /tags/gpt-4/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: machine-learning
-  url: /topics/machine-learning/
+  url: /tags/machine-learning/
 - name: nextjs
-  url: /topics/nextjs/
+  url: /tags/nextjs/
 related_repos:
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - artificial-intelligence
-  - claude
-  - gpt
-  - llm
-  - openai
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 15
   shared_weeks:
   - 2026-W21
@@ -163,7 +145,26 @@ related_repos:
   - ai
   - chatgpt
   - claude
+  - gemini
+  - openai
+  - typescript
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - chatgpt
+  - gemini
   - llm
+  - open-source
   - openai
 - full_name: langgenius/dify
   slug: langgenius-dify
@@ -183,9 +184,9 @@ related_repos:
   - gpt
   - gpt-4
   - llm
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
   score: 15
   shared_weeks:
   - 2026-W21
@@ -197,9 +198,8 @@ related_repos:
   shared_topics:
   - ai
   - chatgpt
-  - gemini
+  - claude
   - llm
-  - open-source
   - openai
 - full_name: OpenHands/OpenHands
   slug: openhands-openhands
@@ -218,9 +218,9 @@ related_repos:
   - gpt
   - llm
   - openai
-- full_name: code-yeongyu/oh-my-openagent
-  slug: code-yeongyu-oh-my-openagent
-  url: https://github.com/code-yeongyu/oh-my-openagent
+- full_name: Significant-Gravitas/AutoGPT
+  slug: significant-gravitas-autogpt
+  url: https://github.com/Significant-Gravitas/AutoGPT
   score: 15
   shared_weeks:
   - 2026-W21
@@ -231,14 +231,14 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-  - chatgpt
+  - artificial-intelligence
   - claude
-  - gemini
+  - gpt
+  - llm
   - openai
-  - typescript
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 14
   shared_weeks:
   - 2026-W21
@@ -250,10 +250,10 @@ related_repos:
   shared_topics:
   - ai
   - llm
-  - openai
-- full_name: vllm-project/vllm
-  slug: vllm-project-vllm
-  url: https://github.com/vllm-project/vllm
+  - typescript
+- full_name: harry0703/MoneyPrinterTurbo
+  slug: harry0703-moneyprinterturbo
+  url: https://github.com/harry0703/MoneyPrinterTurbo
   score: 14
   shared_weeks:
   - 2026-W21
@@ -263,9 +263,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - gpt
+  - ai
+  - chatgpt
   - llm
-  - openai
 lifecycle:
   status: active
   as_of_week: 2026-W31

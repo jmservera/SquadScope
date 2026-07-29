@@ -2,7 +2,7 @@
 title: Stirling-Tools/Stirling-PDF repository trend history
 description: 'Evergreen Claracle Observatory page for Stirling-Tools/Stirling-PDF: 11 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/Stirling-Tools/Stirling-PDF
 repo_slug: stirling-tools-stirling-pdf
 repo_description: '#1 PDF Application on GitHub that lets you edit PDFs on any device anywhere'
 repo_language: Java
-topics:
+tags:
 - docker
 - hacktoberfest
 - java
@@ -103,88 +103,32 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: docker
-  url: /topics/docker/
+  url: /tags/docker/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: java
-  url: /topics/java/
+  url: /tags/java/
 - name: pdf
-  url: /topics/pdf/
+  url: /tags/pdf/
 - name: pdf-converter
-  url: /topics/pdf-converter/
+  url: /tags/pdf-converter/
 - name: pdf-editor
-  url: /topics/pdf-editor/
+  url: /tags/pdf-editor/
 - name: pdf-manipulation
-  url: /topics/pdf-manipulation/
+  url: /tags/pdf-manipulation/
 - name: pdf-merger
-  url: /topics/pdf-merger/
+  url: /tags/pdf-merger/
 - name: pdf-ocr
-  url: /topics/pdf-ocr/
+  url: /tags/pdf-ocr/
 - name: pdf-tools
-  url: /topics/pdf-tools/
+  url: /tags/pdf-tools/
 - name: pdf-web-apps
-  url: /topics/pdf-web-apps/
+  url: /tags/pdf-web-apps/
 - name: pdfmerger
-  url: /topics/pdfmerger/
+  url: /tags/pdfmerger/
 related_repos:
-- full_name: louislam/uptime-kuma
-  slug: louislam-uptime-kuma
-  url: https://github.com/louislam/uptime-kuma
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - docker
-  - self-hosted
-- full_name: TheAlgorithms/Java
-  slug: thealgorithms-java
-  url: https://github.com/TheAlgorithms/Java
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - hacktoberfest
-  - java
-- full_name: opendatalab/MinerU
-  slug: opendatalab-mineru
-  url: https://github.com/opendatalab/MinerU
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - pdf
-  - pdf-converter
-- full_name: docling-project/docling
-  slug: docling-project-docling
-  url: https://github.com/docling-project/docling
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - pdf
-  - pdf-converter
 - full_name: coollabsio/coolify
   slug: coollabsio-coolify
   url: https://github.com/coollabsio/coolify
@@ -199,6 +143,75 @@ related_repos:
   shared_topics:
   - docker
   - self-hosted
+- full_name: docling-project/docling
+  slug: docling-project-docling
+  url: https://github.com/docling-project/docling
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - pdf
+  - pdf-converter
+- full_name: louislam/uptime-kuma
+  slug: louislam-uptime-kuma
+  url: https://github.com/louislam/uptime-kuma
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - docker
+  - self-hosted
+- full_name: opendatalab/MinerU
+  slug: opendatalab-mineru
+  url: https://github.com/opendatalab/MinerU
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - pdf
+  - pdf-converter
+- full_name: TheAlgorithms/Java
+  slug: thealgorithms-java
+  url: https://github.com/TheAlgorithms/Java
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - hacktoberfest
+  - java
+- full_name: avelino/awesome-go
+  slug: avelino-awesome-go
+  url: https://github.com/avelino/awesome-go
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - hacktoberfest
 - full_name: awesome-selfhosted/awesome-selfhosted
   slug: awesome-selfhosted-awesome-selfhosted
   url: https://github.com/awesome-selfhosted/awesome-selfhosted
@@ -212,22 +225,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - self-hosted
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - self-hosted
-- full_name: avelino/awesome-go
-  slug: avelino-awesome-go
-  url: https://github.com/avelino/awesome-go
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
   score: 12
   shared_weeks:
   - 2026-W21

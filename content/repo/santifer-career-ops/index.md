@@ -2,7 +2,7 @@
 title: santifer/career-ops repository trend history
 description: 'Evergreen Claracle Observatory page for santifer/career-ops: 7 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: santifer-career-ops
 repo_description: 'Open-source AI job search: scan job portals, evaluate listings with a structured A-F rubric into a 1.0-5.0
   score, tailor your CV, track applications — runs locally in your AI coding CLI (Claude Code, Codex, OpenCode, Antigravity…)'
 repo_language: JavaScript
-topics:
+tags:
 - ai-agent
 - anthropic
 - automation
@@ -80,32 +80,48 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai-agent
-  url: /topics/ai-agent/
+  url: /tags/ai-agent/
 - name: anthropic
-  url: /topics/anthropic/
+  url: /tags/anthropic/
 - name: automation
-  url: /topics/automation/
+  url: /tags/automation/
 - name: career
-  url: /topics/career/
+  url: /tags/career/
 - name: careerops
-  url: /topics/careerops/
+  url: /tags/careerops/
 - name: claude
-  url: /topics/claude/
+  url: /tags/claude/
 - name: claude-code
-  url: /topics/claude-code/
+  url: /tags/claude-code/
 - name: cli
-  url: /topics/cli/
+  url: /tags/cli/
 - name: golang
-  url: /topics/golang/
+  url: /tags/golang/
 - name: interview-prep
-  url: /topics/interview-prep/
+  url: /tags/interview-prep/
 - name: job-search
-  url: /topics/job-search/
+  url: /tags/job-search/
 - name: open-source
-  url: /topics/open-source/
+  url: /tags/open-source/
 related_repos:
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
+  score: 11
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - ai
+  - anthropic
+  - claude
+  - claude-code
 - full_name: NousResearch/hermes-agent
   slug: nousresearch-hermes-agent
   url: https://github.com/NousResearch/hermes-agent
@@ -120,38 +136,6 @@ related_repos:
   shared_topics:
   - ai
   - ai-agent
-  - anthropic
-  - claude
-  - claude-code
-- full_name: thedotmack/claude-mem
-  slug: thedotmack-claude-mem
-  url: https://github.com/thedotmack/claude-mem
-  score: 11
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - ai
-  - anthropic
-  - claude
-  - claude-code
-- full_name: code-yeongyu/oh-my-openagent
-  slug: code-yeongyu-oh-my-openagent
-  url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 11
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - ai
   - anthropic
   - claude
   - claude-code
@@ -171,10 +155,10 @@ related_repos:
   - claude-code
   - cli
   - open-source
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 10
+- full_name: thedotmack/claude-mem
+  slug: thedotmack-claude-mem
+  url: https://github.com/thedotmack/claude-mem
+  score: 11
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -184,8 +168,24 @@ related_repos:
   - 2026-W30
   shared_topics:
   - ai
-  - automation
-  - cli
+  - anthropic
+  - claude
+  - claude-code
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 10
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - anthropic
+  - claude
+  - claude-code
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -200,6 +200,21 @@ related_repos:
   shared_topics:
   - ai
   - claude
+  - open-source
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 10
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - ai
+  - anthropic
   - open-source
 - full_name: langgenius/dify
   slug: langgenius-dify
@@ -216,21 +231,6 @@ related_repos:
   - ai
   - automation
   - claude
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 10
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - ai
-  - anthropic
-  - open-source
 lifecycle:
   status: active
   as_of_week: 2026-W31

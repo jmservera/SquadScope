@@ -2,7 +2,7 @@
 title: sherlock-project/sherlock repository trend history
 description: 'Evergreen Claracle Observatory page for sherlock-project/sherlock: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/sherlock-project/sherlock
 repo_slug: sherlock-project-sherlock
 repo_description: Hunt down social media accounts by username across social networks
 repo_language: Python
-topics:
+tags:
 - cli
 - cti
 - cybersecurity
@@ -103,46 +103,32 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: cli
-  url: /topics/cli/
+  url: /tags/cli/
 - name: cti
-  url: /topics/cti/
+  url: /tags/cti/
 - name: cybersecurity
-  url: /topics/cybersecurity/
+  url: /tags/cybersecurity/
 - name: forensics
-  url: /topics/forensics/
+  url: /tags/forensics/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: information-gathering
-  url: /topics/information-gathering/
+  url: /tags/information-gathering/
 - name: infosec
-  url: /topics/infosec/
+  url: /tags/infosec/
 - name: linux
-  url: /topics/linux/
+  url: /tags/linux/
 - name: osint
-  url: /topics/osint/
+  url: /tags/osint/
 - name: pentesting
-  url: /topics/pentesting/
+  url: /tags/pentesting/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: python3
-  url: /topics/python3/
+  url: /tags/python3/
 related_repos:
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - hacktoberfest
-  - python
 - full_name: fastapi/fastapi
   slug: fastapi-fastapi
   url: https://github.com/fastapi/fastapi
@@ -171,6 +157,20 @@ related_repos:
   shared_topics:
   - hacktoberfest
   - python
+- full_name: huggingface/transformers
+  slug: huggingface-transformers
+  url: https://github.com/huggingface/transformers
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - hacktoberfest
+  - python
 - full_name: ultralytics/ultralytics
   slug: ultralytics-ultralytics
   url: https://github.com/ultralytics/ultralytics
@@ -185,9 +185,9 @@ related_repos:
   shared_topics:
   - cli
   - python
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 12
   shared_weeks:
   - 2026-W21
@@ -198,35 +198,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - cli
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - cli
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
   score: 12
   shared_weeks:
   - 2026-W21
@@ -237,6 +211,32 @@ related_repos:
   - 2026-W26
   shared_topics:
   - python
+- full_name: astral-sh/uv
+  slug: astral-sh-uv
+  url: https://github.com/astral-sh/uv
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - python
+- full_name: avelino/awesome-go
+  slug: avelino-awesome-go
+  url: https://github.com/avelino/awesome-go
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - hacktoberfest
 lifecycle:
   status: active
   as_of_week: 2026-W31

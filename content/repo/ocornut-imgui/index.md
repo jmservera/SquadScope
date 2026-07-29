@@ -2,7 +2,7 @@
 title: ocornut/imgui repository trend history
 description: 'Evergreen Claracle Observatory page for ocornut/imgui: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/ocornut/imgui
 repo_slug: ocornut-imgui
 repo_description: 'Dear ImGui: Bloat-free Graphical User interface for C++ with minimal dependencies'
 repo_language: C++
-topics:
+tags:
 - api
 - cplusplus
 - framework
@@ -103,31 +103,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: api
-  url: /topics/api/
+  url: /tags/api/
 - name: cplusplus
-  url: /topics/cplusplus/
+  url: /tags/cplusplus/
 - name: framework
-  url: /topics/framework/
+  url: /tags/framework/
 - name: game-development
-  url: /topics/game-development/
+  url: /tags/game-development/
 - name: game-engine
-  url: /topics/game-engine/
+  url: /tags/game-engine/
 - name: gamedev
-  url: /topics/gamedev/
+  url: /tags/gamedev/
 - name: gui
-  url: /topics/gui/
+  url: /tags/gui/
 - name: imgui
-  url: /topics/imgui/
+  url: /tags/imgui/
 - name: immediate-gui
-  url: /topics/immediate-gui/
+  url: /tags/immediate-gui/
 - name: library
-  url: /topics/library/
+  url: /tags/library/
 - name: multi-platform
-  url: /topics/multi-platform/
+  url: /tags/multi-platform/
 - name: native
-  url: /topics/native/
+  url: /tags/native/
 related_repos:
 - full_name: godotengine/godot
   slug: godotengine-godot
@@ -173,19 +173,6 @@ related_repos:
   shared_topics:
   - api
   - tools
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ui
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
@@ -199,9 +186,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - framework
-- full_name: shadcn-ui/ui
-  slug: shadcn-ui-ui
-  url: https://github.com/shadcn-ui/ui
+- full_name: meilisearch/meilisearch
+  slug: meilisearch-meilisearch
+  url: https://github.com/meilisearch/meilisearch
   score: 12
   shared_weeks:
   - 2026-W21
@@ -211,7 +198,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - ui
+  - api
 - full_name: neovim/neovim
   slug: neovim-neovim
   url: https://github.com/neovim/neovim
@@ -225,9 +212,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - api
-- full_name: sherlock-project/sherlock
-  slug: sherlock-project-sherlock
-  url: https://github.com/sherlock-project/sherlock
+- full_name: nuxt/nuxt
+  slug: nuxt-nuxt
+  url: https://github.com/nuxt/nuxt
   score: 12
   shared_weeks:
   - 2026-W21
@@ -237,7 +224,20 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - tools
+  - framework
+- full_name: open-webui/open-webui
+  slug: open-webui-open-webui
+  url: https://github.com/open-webui/open-webui
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ui
 lifecycle:
   status: active
   as_of_week: 2026-W31

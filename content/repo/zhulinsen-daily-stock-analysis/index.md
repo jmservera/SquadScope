@@ -2,7 +2,7 @@
 title: ZhuLinsen/daily_stock_analysis repository trend history
 description: 'Evergreen Claracle Observatory page for ZhuLinsen/daily_stock_analysis: 4 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: zhulinsen-daily-stock-analysis
 repo_description: LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。  LLM-powered multi-market stock analysis system with multi-source
   market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs.
 repo_language: Python
-topics:
+tags:
 - a-stock
 - ai-agent
 - aigc
@@ -57,21 +57,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: a-stock
-  url: /topics/a-stock/
+  url: /tags/a-stock/
 - name: ai-agent
-  url: /topics/ai-agent/
+  url: /tags/ai-agent/
 - name: aigc
-  url: /topics/aigc/
+  url: /tags/aigc/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: quant
-  url: /topics/quant/
+  url: /tags/quant/
 - name: quantitative-finance
-  url: /topics/quantitative-finance/
+  url: /tags/quantitative-finance/
 - name: quantitative-trading
-  url: /topics/quantitative-trading/
+  url: /tags/quantitative-trading/
 related_repos:
 - full_name: NousResearch/hermes-agent
   slug: nousresearch-hermes-agent
@@ -85,9 +85,9 @@ related_repos:
   shared_topics:
   - ai-agent
   - llm
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
   score: 5
   shared_weeks:
   - 2026-W28
@@ -96,9 +96,20 @@ related_repos:
   - 2026-W31
   shared_topics:
   - llm
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
+  score: 5
+  shared_weeks:
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - llm
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 5
   shared_weeks:
   - 2026-W28
@@ -118,9 +129,9 @@ related_repos:
   - 2026-W31
   shared_topics:
   - llm
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+- full_name: firecrawl/firecrawl
+  slug: firecrawl-firecrawl
+  url: https://github.com/firecrawl/firecrawl
   score: 5
   shared_weeks:
   - 2026-W28
@@ -129,9 +140,9 @@ related_repos:
   - 2026-W31
   shared_topics:
   - llm
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
+- full_name: Graphify-Labs/graphify
+  slug: graphify-labs-graphify
+  url: https://github.com/Graphify-Labs/graphify
   score: 5
   shared_weeks:
   - 2026-W28
@@ -140,20 +151,9 @@ related_repos:
   - 2026-W31
   shared_topics:
   - llm
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
-  score: 5
-  shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - llm
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: harry0703/MoneyPrinterTurbo
+  slug: harry0703-moneyprinterturbo
+  url: https://github.com/harry0703/MoneyPrinterTurbo
   score: 5
   shared_weeks:
   - 2026-W28

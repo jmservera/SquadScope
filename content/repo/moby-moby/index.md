@@ -2,7 +2,7 @@
 title: moby/moby repository trend history
 description: 'Evergreen Claracle Observatory page for moby/moby: 10 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/moby/moby
 repo_slug: moby-moby
 repo_description: The Moby Project - a collaborative project for the container ecosystem to assemble container-based systems
 repo_language: Go
-topics:
+tags:
 - containers
 - docker
 - go
@@ -89,15 +89,15 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: containers
-  url: /topics/containers/
+  url: /tags/containers/
 - name: docker
-  url: /topics/docker/
+  url: /tags/docker/
 - name: go
-  url: /topics/go/
+  url: /tags/go/
 - name: golang
-  url: /topics/golang/
+  url: /tags/golang/
 related_repos:
 - full_name: traefik/traefik
   slug: traefik-traefik
@@ -117,20 +117,6 @@ related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
-  score: 12
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - go
-  - golang
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
   score: 12
   shared_weeks:
   - 2026-W22
@@ -170,6 +156,20 @@ related_repos:
   shared_topics:
   - containers
   - go
+- full_name: ollama/ollama
+  slug: ollama-ollama
+  url: https://github.com/ollama/ollama
+  score: 12
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - go
+  - golang
 - full_name: rclone/rclone
   slug: rclone-rclone
   url: https://github.com/rclone/rclone
@@ -184,9 +184,23 @@ related_repos:
   shared_topics:
   - go
   - golang
-- full_name: louislam/uptime-kuma
-  slug: louislam-uptime-kuma
-  url: https://github.com/louislam/uptime-kuma
+- full_name: caddyserver/caddy
+  slug: caddyserver-caddy
+  url: https://github.com/caddyserver/caddy
+  score: 11
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W28
+  shared_topics:
+  - go
+  - golang
+- full_name: coollabsio/coolify
+  slug: coollabsio-coolify
+  url: https://github.com/coollabsio/coolify
   score: 11
   shared_weeks:
   - 2026-W22
@@ -197,19 +211,6 @@ related_repos:
   - 2026-W27
   shared_topics:
   - docker
-- full_name: syncthing/syncthing
-  slug: syncthing-syncthing
-  url: https://github.com/syncthing/syncthing
-  score: 11
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - go
 lifecycle:
   status: active
   as_of_week: 2026-W31

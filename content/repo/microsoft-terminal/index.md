@@ -2,7 +2,7 @@
 title: microsoft/terminal repository trend history
 description: 'Evergreen Claracle Observatory page for microsoft/terminal: 10 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/microsoft/terminal
 repo_slug: microsoft-terminal
 repo_description: The new Windows Terminal and the original Windows console host, all in the same place!
 repo_language: C++
-topics:
+tags:
 - cmd
 - command-line
 - console
@@ -96,46 +96,33 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: cmd
-  url: /topics/cmd/
+  url: /tags/cmd/
 - name: command-line
-  url: /topics/command-line/
+  url: /tags/command-line/
 - name: console
-  url: /topics/console/
+  url: /tags/console/
 - name: contributions-welcome
-  url: /topics/contributions-welcome/
+  url: /tags/contributions-welcome/
 - name: good-first-issue
-  url: /topics/good-first-issue/
+  url: /tags/good-first-issue/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: terminal
-  url: /topics/terminal/
+  url: /tags/terminal/
 - name: windows
-  url: /topics/windows/
+  url: /tags/windows/
 - name: windows-console
-  url: /topics/windows-console/
+  url: /tags/windows-console/
 - name: windows-terminal
-  url: /topics/windows-terminal/
+  url: /tags/windows-terminal/
 - name: wsl
-  url: /topics/wsl/
+  url: /tags/wsl/
 related_repos:
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
-  score: 11
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - terminal
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 11
   shared_weeks:
   - 2026-W22
@@ -159,9 +146,9 @@ related_repos:
   - 2026-W27
   shared_topics:
   - hacktoberfest
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
   score: 11
   shared_weeks:
   - 2026-W22
@@ -185,9 +172,35 @@ related_repos:
   - 2026-W27
   shared_topics:
   - windows
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
+- full_name: EbookFoundation/free-programming-books
+  slug: ebookfoundation-free-programming-books
+  url: https://github.com/EbookFoundation/free-programming-books
+  score: 11
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - hacktoberfest
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
+  score: 11
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - hacktoberfest
+- full_name: flutter/flutter
+  slug: flutter-flutter
+  url: https://github.com/flutter/flutter
   score: 11
   shared_weeks:
   - 2026-W22
@@ -198,22 +211,9 @@ related_repos:
   - 2026-W27
   shared_topics:
   - windows
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
-  score: 11
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - windows
-- full_name: axios/axios
-  slug: axios-axios
-  url: https://github.com/axios/axios
+- full_name: git/git
+  slug: git-git
+  url: https://github.com/git/git
   score: 11
   shared_weeks:
   - 2026-W22

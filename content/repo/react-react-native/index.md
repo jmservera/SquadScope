@@ -2,7 +2,7 @@
 title: react/react-native repository trend history
 description: 'Evergreen Claracle Observatory page for react/react-native: 7 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/react/react-native
 repo_slug: react-react-native
 repo_description: A framework for building native applications using React
 repo_language: C++
-topics:
+tags:
 - android
 - app-framework
 - cross-platform
@@ -75,23 +75,23 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: android
-  url: /topics/android/
+  url: /tags/android/
 - name: app-framework
-  url: /topics/app-framework/
+  url: /tags/app-framework/
 - name: cross-platform
-  url: /topics/cross-platform/
+  url: /tags/cross-platform/
 - name: ios
-  url: /topics/ios/
+  url: /tags/ios/
 - name: mobile
-  url: /topics/mobile/
+  url: /tags/mobile/
 - name: mobile-development
-  url: /topics/mobile-development/
+  url: /tags/mobile-development/
 - name: react
-  url: /topics/react/
+  url: /tags/react/
 - name: react-native
-  url: /topics/react-native/
+  url: /tags/react-native/
 related_repos:
 - full_name: flutter/flutter
   slug: flutter-flutter
@@ -111,20 +111,6 @@ related_repos:
   - ios
   - mobile
   - mobile-development
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
-  score: 9
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - android
-  - ios
 - full_name: appwrite/appwrite
   slug: appwrite-appwrite
   url: https://github.com/appwrite/appwrite
@@ -140,9 +126,23 @@ related_repos:
   - ios
   - react
   - react-native
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: rustdesk/rustdesk
+  slug: rustdesk-rustdesk
+  url: https://github.com/rustdesk/rustdesk
+  score: 9
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - android
+  - ios
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
   score: 8
   shared_weeks:
   - 2026-W25
@@ -152,49 +152,49 @@ related_repos:
   - 2026-W29
   - 2026-W30
   shared_topics:
-  - react
-- full_name: vercel/next.js
-  slug: vercel-next-js
-  url: https://github.com/vercel/next.js
-  score: 8
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - react
-- full_name: shadcn-ui/ui
-  slug: shadcn-ui-ui
-  url: https://github.com/shadcn-ui/ui
-  score: 8
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - react
-- full_name: mui/material-ui
-  slug: mui-material-ui
-  url: https://github.com/mui/material-ui
-  score: 8
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - react
+  - android
 - full_name: ant-design/ant-design
   slug: ant-design-ant-design
   url: https://github.com/ant-design/ant-design
+  score: 8
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - react
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
+  score: 8
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - react
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
+  score: 8
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - react
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
   score: 8
   shared_weeks:
   - 2026-W25

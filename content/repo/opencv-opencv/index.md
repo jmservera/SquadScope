@@ -2,7 +2,7 @@
 title: opencv/opencv repository trend history
 description: 'Evergreen Claracle Observatory page for opencv/opencv: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/opencv/opencv
 repo_slug: opencv-opencv
 repo_description: Open Source Computer Vision Library
 repo_language: C++
-topics:
+tags:
 - c-plus-plus
 - computer-vision
 - deep-learning
@@ -96,17 +96,17 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: c-plus-plus
-  url: /topics/c-plus-plus/
+  url: /tags/c-plus-plus/
 - name: computer-vision
-  url: /topics/computer-vision/
+  url: /tags/computer-vision/
 - name: deep-learning
-  url: /topics/deep-learning/
+  url: /tags/deep-learning/
 - name: image-processing
-  url: /topics/image-processing/
+  url: /tags/image-processing/
 - name: opencv
-  url: /topics/opencv/
+  url: /tags/opencv/
 related_repos:
 - full_name: ultralytics/ultralytics
   slug: ultralytics-ultralytics
@@ -122,9 +122,9 @@ related_repos:
   shared_topics:
   - computer-vision
   - deep-learning
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: bitcoin/bitcoin
+  slug: bitcoin-bitcoin
+  url: https://github.com/bitcoin/bitcoin
   score: 12
   shared_weeks:
   - 2026-W21
@@ -134,7 +134,20 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - deep-learning
+  - c-plus-plus
+- full_name: electron/electron
+  slug: electron-electron
+  url: https://github.com/electron/electron
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - c-plus-plus
 - full_name: huggingface/transformers
   slug: huggingface-transformers
   url: https://github.com/huggingface/transformers
@@ -148,9 +161,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - deep-learning
-- full_name: electron/electron
-  slug: electron-electron
-  url: https://github.com/electron/electron
+- full_name: keras-team/keras
+  slug: keras-team-keras
+  url: https://github.com/keras-team/keras
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - deep-learning
+- full_name: obsproject/obs-studio
+  slug: obsproject-obs-studio
+  url: https://github.com/obsproject/obs-studio
   score: 12
   shared_weeks:
   - 2026-W21
@@ -174,35 +200,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - deep-learning
-- full_name: bitcoin/bitcoin
-  slug: bitcoin-bitcoin
-  url: https://github.com/bitcoin/bitcoin
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - c-plus-plus
-- full_name: obsproject/obs-studio
-  slug: obsproject-obs-studio
-  url: https://github.com/obsproject/obs-studio
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - c-plus-plus
-- full_name: keras-team/keras
-  slug: keras-team-keras
-  url: https://github.com/keras-team/keras
+- full_name: tensorflow/tensorflow
+  slug: tensorflow-tensorflow
+  url: https://github.com/tensorflow/tensorflow
   score: 12
   shared_weeks:
   - 2026-W21

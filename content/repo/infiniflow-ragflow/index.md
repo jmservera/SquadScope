@@ -2,7 +2,7 @@
 title: infiniflow/ragflow repository trend history
 description: 'Evergreen Claracle Observatory page for infiniflow/ragflow: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: infiniflow-ragflow
 repo_description: RAGFlow is a leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG
   with Agent capabilities to create a superior context layer for LLMs
 repo_language: Python
-topics:
+tags:
 - agentic-ai
 - agentic-retrieval
 - agentic-search
@@ -104,31 +104,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agentic-ai
-  url: /topics/agentic-ai/
+  url: /tags/agentic-ai/
 - name: agentic-retrieval
-  url: /topics/agentic-retrieval/
+  url: /tags/agentic-retrieval/
 - name: agentic-search
-  url: /topics/agentic-search/
+  url: /tags/agentic-search/
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: context-engine
-  url: /topics/context-engine/
+  url: /tags/context-engine/
 - name: context-management
-  url: /topics/context-management/
+  url: /tags/context-management/
 - name: llm-apps
-  url: /topics/llm-apps/
+  url: /tags/llm-apps/
 - name: rag
-  url: /topics/rag/
+  url: /tags/rag/
 - name: retrieval-augmented-generation
-  url: /topics/retrieval-augmented-generation/
+  url: /tags/retrieval-augmented-generation/
 - name: agent-harness
-  url: /topics/agent-harness/
+  url: /tags/agent-harness/
 - name: context-engineering
-  url: /topics/context-engineering/
+  url: /tags/context-engineering/
 related_repos:
 - full_name: Mintplex-Labs/anything-llm
   slug: mintplex-labs-anything-llm
@@ -146,6 +146,21 @@ related_repos:
   - agentic-ai
   - ai-agents
   - rag
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - ai-agents
+  - rag
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
@@ -161,9 +176,9 @@ related_repos:
   - agentic-ai
   - ai
   - rag
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: mem0ai/mem0
+  slug: mem0ai-mem0
+  url: https://github.com/mem0ai/mem0
   score: 14
   shared_weeks:
   - 2026-W21
@@ -191,38 +206,9 @@ related_repos:
   - ai
   - ai-agents
   - rag
-- full_name: mem0ai/mem0
-  slug: mem0ai-mem0
-  url: https://github.com/mem0ai/mem0
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - ai-agents
-  - rag
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - agentic-ai
-  - ai
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 13
   shared_weeks:
   - 2026-W21
@@ -234,9 +220,9 @@ related_repos:
   shared_topics:
   - ai
   - ai-agents
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 13
   shared_weeks:
   - 2026-W21
@@ -247,7 +233,21 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-  - rag
+  - ai-agents
+- full_name: firecrawl/firecrawl
+  slug: firecrawl-firecrawl
+  url: https://github.com/firecrawl/firecrawl
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - ai-agents
 lifecycle:
   status: active
   as_of_week: 2026-W31

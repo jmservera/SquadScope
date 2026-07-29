@@ -2,7 +2,7 @@
 title: openinterpreter/openinterpreter repository trend history
 description: 'Evergreen Claracle Observatory page for openinterpreter/openinterpreter: 6 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/openinterpreter/openinterpreter
 repo_slug: openinterpreter-openinterpreter
 repo_description: A coding agent for open models like Kimi K3
 repo_language: Rust
-topics:
+tags:
 - coding-agent
 - deepseek
 - kimi
@@ -69,23 +69,23 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: coding-agent
-  url: /topics/coding-agent/
+  url: /tags/coding-agent/
 - name: deepseek
-  url: /topics/deepseek/
+  url: /tags/deepseek/
 - name: kimi
-  url: /topics/kimi/
+  url: /tags/kimi/
 - name: qwen
-  url: /topics/qwen/
+  url: /tags/qwen/
 - name: rust
-  url: /topics/rust/
+  url: /tags/rust/
 - name: interpreter
-  url: /topics/interpreter/
+  url: /tags/interpreter/
 - name: tui
-  url: /topics/tui/
+  url: /tags/tui/
 - name: acp
-  url: /topics/acp/
+  url: /tags/acp/
 related_repos:
 - full_name: vllm-project/vllm
   slug: vllm-project-vllm
@@ -102,9 +102,9 @@ related_repos:
   - deepseek
   - kimi
   - qwen
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+- full_name: hiyouga/LlamaFactory
+  slug: hiyouga-llamafactory
+  url: https://github.com/hiyouga/LlamaFactory
   score: 8
   shared_weeks:
   - 2026-W25
@@ -130,9 +130,23 @@ related_repos:
   shared_topics:
   - deepseek
   - qwen
-- full_name: hiyouga/LlamaFactory
-  slug: hiyouga-llamafactory
-  url: https://github.com/hiyouga/LlamaFactory
+- full_name: Mintplex-Labs/anything-llm
+  slug: mintplex-labs-anything-llm
+  url: https://github.com/Mintplex-Labs/anything-llm
+  score: 8
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - deepseek
+  - kimi
+- full_name: ollama/ollama
+  slug: ollama-ollama
+  url: https://github.com/ollama/ollama
   score: 8
   shared_weeks:
   - 2026-W25
@@ -158,23 +172,9 @@ related_repos:
   shared_topics:
   - deepseek
   - qwen
-- full_name: Mintplex-Labs/anything-llm
-  slug: mintplex-labs-anything-llm
-  url: https://github.com/Mintplex-Labs/anything-llm
-  score: 8
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - deepseek
-  - kimi
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 7
   shared_weeks:
   - 2026-W25
@@ -184,10 +184,10 @@ related_repos:
   - 2026-W30
   - 2026-W31
   shared_topics:
-  - rust
-- full_name: rust-lang/rust
-  slug: rust-lang-rust
-  url: https://github.com/rust-lang/rust
+  - tui
+- full_name: denoland/deno
+  slug: denoland-deno
+  url: https://github.com/denoland/deno
   score: 7
   shared_weeks:
   - 2026-W25

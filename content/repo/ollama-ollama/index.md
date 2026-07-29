@@ -2,7 +2,7 @@
 title: ollama/ollama repository trend history
 description: 'Evergreen Claracle Observatory page for ollama/ollama: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/ollama/ollama
 repo_slug: ollama-ollama
 repo_description: Get up and running with Kimi-K2.6, GLM-5.2, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models.
 repo_language: Go
-topics:
+tags:
 - deepseek
 - gemma
 - gemma3
@@ -103,66 +103,32 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: deepseek
-  url: /topics/deepseek/
+  url: /tags/deepseek/
 - name: gemma
-  url: /topics/gemma/
+  url: /tags/gemma/
 - name: gemma3
-  url: /topics/gemma3/
+  url: /tags/gemma3/
 - name: glm
-  url: /topics/glm/
+  url: /tags/glm/
 - name: go
-  url: /topics/go/
+  url: /tags/go/
 - name: golang
-  url: /topics/golang/
+  url: /tags/golang/
 - name: gpt-oss
-  url: /topics/gpt-oss/
+  url: /tags/gpt-oss/
 - name: llama
-  url: /topics/llama/
+  url: /tags/llama/
 - name: llama3
-  url: /topics/llama3/
+  url: /tags/llama3/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: llms
-  url: /topics/llms/
+  url: /tags/llms/
 - name: minimax
-  url: /topics/minimax/
+  url: /tags/minimax/
 related_repos:
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - deepseek
-  - gemma
-  - glm
-  - llm
-  - qwen
-- full_name: vllm-project/vllm
-  slug: vllm-project-vllm
-  url: https://github.com/vllm-project/vllm
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - deepseek
-  - gpt-oss
-  - llama
-  - llm
-  - qwen
 - full_name: hiyouga/LlamaFactory
   slug: hiyouga-llamafactory
   url: https://github.com/hiyouga/LlamaFactory
@@ -181,6 +147,39 @@ related_repos:
   - llama3
   - llm
   - qwen
+- full_name: huggingface/transformers
+  slug: huggingface-transformers
+  url: https://github.com/huggingface/transformers
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - deepseek
+  - gemma
+  - glm
+  - llm
+  - qwen
+- full_name: Mintplex-Labs/anything-llm
+  slug: mintplex-labs-anything-llm
+  url: https://github.com/Mintplex-Labs/anything-llm
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - deepseek
+  - llama3
+  - llm
+  - ollama
 - full_name: unslothai/unsloth
   slug: unslothai-unsloth
   url: https://github.com/unslothai/unsloth
@@ -199,9 +198,9 @@ related_repos:
   - gpt-oss
   - llama
   - llama3
-- full_name: Mintplex-Labs/anything-llm
-  slug: mintplex-labs-anything-llm
-  url: https://github.com/Mintplex-Labs/anything-llm
+- full_name: vllm-project/vllm
+  slug: vllm-project-vllm
+  url: https://github.com/vllm-project/vllm
   score: 15
   shared_weeks:
   - 2026-W21
@@ -212,9 +211,10 @@ related_repos:
   - 2026-W26
   shared_topics:
   - deepseek
-  - llama3
+  - gpt-oss
+  - llama
   - llm
-  - ollama
+  - qwen
 - full_name: open-webui/open-webui
   slug: open-webui-open-webui
   url: https://github.com/open-webui/open-webui

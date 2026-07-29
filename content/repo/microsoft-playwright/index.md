@@ -2,7 +2,7 @@
 title: microsoft/playwright repository trend history
 description: 'Evergreen Claracle Observatory page for microsoft/playwright: 10 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: microsoft-playwright
 repo_description: 'Playwright is a framework for Web Testing and Automation. It allows testing Chromium, Firefox and WebKit
   with a single API. '
 repo_language: TypeScript
-topics:
+tags:
 - automation
 - chrome
 - chromium
@@ -98,31 +98,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: automation
-  url: /topics/automation/
+  url: /tags/automation/
 - name: chrome
-  url: /topics/chrome/
+  url: /tags/chrome/
 - name: chromium
-  url: /topics/chromium/
+  url: /tags/chromium/
 - name: e2e-testing
-  url: /topics/e2e-testing/
+  url: /tags/e2e-testing/
 - name: electron
-  url: /topics/electron/
+  url: /tags/electron/
 - name: end-to-end-testing
-  url: /topics/end-to-end-testing/
+  url: /tags/end-to-end-testing/
 - name: firefox
-  url: /topics/firefox/
+  url: /tags/firefox/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: playwright
-  url: /topics/playwright/
+  url: /tags/playwright/
 - name: test
-  url: /topics/test/
+  url: /tags/test/
 - name: test-automation
-  url: /topics/test-automation/
+  url: /tags/test-automation/
 - name: testing
-  url: /topics/testing/
+  url: /tags/testing/
 related_repos:
 - full_name: puppeteer/puppeteer
   slug: puppeteer-puppeteer
@@ -214,9 +214,9 @@ related_repos:
   shared_topics:
   - javascript
   - web
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
   score: 11
   shared_weeks:
   - 2026-W22
@@ -227,9 +227,9 @@ related_repos:
   - 2026-W27
   shared_topics:
   - javascript
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
   score: 11
   shared_weeks:
   - 2026-W22
@@ -239,7 +239,7 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics:
-  - automation
+  - playwright
 lifecycle:
   status: active
   as_of_week: 2026-W31

@@ -2,7 +2,7 @@
 title: Leonxlnx/taste-skill repository trend history
 description: 'Evergreen Claracle Observatory page for Leonxlnx/taste-skill: 4 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/Leonxlnx/taste-skill
 repo_slug: leonxlnx-taste-skill
 repo_description: 'Taste-Skill - gives your AI good taste. stops the AI from generating boring, generic slop '
 repo_language: JavaScript
-topics:
+tags:
 - agent
 - ai
 - claude
@@ -61,35 +61,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agent
-  url: /topics/agent/
+  url: /tags/agent/
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: claude
-  url: /topics/claude/
+  url: /tags/claude/
 - name: claude-code
-  url: /topics/claude-code/
+  url: /tags/claude-code/
 - name: codex
-  url: /topics/codex/
+  url: /tags/codex/
 - name: coding
-  url: /topics/coding/
+  url: /tags/coding/
 - name: design
-  url: /topics/design/
+  url: /tags/design/
 - name: frontend
-  url: /topics/frontend/
+  url: /tags/frontend/
 - name: lowcode
-  url: /topics/lowcode/
+  url: /tags/lowcode/
 - name: nocode
-  url: /topics/nocode/
+  url: /tags/nocode/
 - name: skill
-  url: /topics/skill/
+  url: /tags/skill/
 - name: skills
-  url: /topics/skills/
+  url: /tags/skills/
 related_repos:
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 8
   shared_weeks:
   - 2026-W28
@@ -115,20 +115,6 @@ related_repos:
   - ai
   - claude
   - skills
-- full_name: code-yeongyu/oh-my-openagent
-  slug: code-yeongyu-oh-my-openagent
-  url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 8
-  shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - ai
-  - claude
-  - claude-code
-  - codex
 - full_name: lobehub/lobehub
   slug: lobehub-lobehub
   url: https://github.com/lobehub/lobehub
@@ -143,23 +129,10 @@ related_repos:
   - ai
   - claude
   - skills
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
-  score: 7
-  shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - ai
-  - coding
-  - skills
-- full_name: thedotmack/claude-mem
-  slug: thedotmack-claude-mem
-  url: https://github.com/thedotmack/claude-mem
-  score: 7
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
+  score: 8
   shared_weeks:
   - 2026-W28
   - 2026-W29
@@ -169,6 +142,20 @@ related_repos:
   - ai
   - claude
   - claude-code
+  - codex
+- full_name: addyosmani/agent-skills
+  slug: addyosmani-agent-skills
+  url: https://github.com/addyosmani/agent-skills
+  score: 7
+  shared_weeks:
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - claude-code
+  - codex
+  - skills
 - full_name: farion1231/cc-switch
   slug: farion1231-cc-switch
   url: https://github.com/farion1231/cc-switch
@@ -182,9 +169,9 @@ related_repos:
   - claude-code
   - codex
   - skills
-- full_name: ruvnet/ruflo
-  slug: ruvnet-ruflo
-  url: https://github.com/ruvnet/ruflo
+- full_name: Graphify-Labs/graphify
+  slug: graphify-labs-graphify
+  url: https://github.com/Graphify-Labs/graphify
   score: 7
   shared_weeks:
   - 2026-W28
@@ -195,6 +182,19 @@ related_repos:
   - claude-code
   - codex
   - skills
+- full_name: headroomlabs-ai/headroom
+  slug: headroomlabs-ai-headroom
+  url: https://github.com/headroomlabs-ai/headroom
+  score: 7
+  shared_weeks:
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - agent
+  - ai
+  - claude-code
 lifecycle:
   status: active
   as_of_week: 2026-W31

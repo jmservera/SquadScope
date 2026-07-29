@@ -2,7 +2,7 @@
 title: github/spec-kit repository trend history
 description: 'Evergreen Claracle Observatory page for github/spec-kit: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/github/spec-kit
 repo_slug: github-spec-kit
 repo_description: 💫 Toolkit to help you get started with Spec-Driven Development
 repo_language: Python
-topics:
+tags:
 - ai
 - copilot
 - development
@@ -98,21 +98,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: copilot
-  url: /topics/copilot/
+  url: /tags/copilot/
 - name: development
-  url: /topics/development/
+  url: /tags/development/
 - name: engineering
-  url: /topics/engineering/
+  url: /tags/engineering/
 - name: prd
-  url: /topics/prd/
+  url: /tags/prd/
 - name: spec
-  url: /topics/spec/
+  url: /tags/spec/
 - name: spec-driven
-  url: /topics/spec-driven/
+  url: /tags/spec-driven/
 related_repos:
 - full_name: n8n-io/n8n
   slug: n8n-io-n8n
@@ -128,9 +128,9 @@ related_repos:
   shared_topics:
   - ai
   - development
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 12
   shared_weeks:
   - 2026-W21
@@ -141,9 +141,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 12
   shared_weeks:
   - 2026-W21
@@ -154,9 +154,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: Comfy-Org/ComfyUI
+  slug: comfy-org-comfyui
+  url: https://github.com/Comfy-Org/ComfyUI
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+- full_name: docling-project/docling
+  slug: docling-project-docling
+  url: https://github.com/docling-project/docling
   score: 12
   shared_weeks:
   - 2026-W21
@@ -180,9 +193,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: firecrawl/firecrawl
+  slug: firecrawl-firecrawl
+  url: https://github.com/firecrawl/firecrawl
   score: 12
   shared_weeks:
   - 2026-W21
@@ -193,22 +206,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
+- full_name: google-gemini/gemini-cli
+  slug: google-gemini-gemini-cli
+  url: https://github.com/google-gemini/gemini-cli
   score: 12
   shared_weeks:
   - 2026-W21

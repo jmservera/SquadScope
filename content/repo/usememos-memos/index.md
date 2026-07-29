@@ -2,7 +2,7 @@
 title: usememos/memos repository trend history
 description: 'Evergreen Claracle Observatory page for usememos/memos: 10 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: usememos-memos
 repo_description: Open-source, self-hosted note-taking tool built for quick capture. Markdown-native, lightweight, and fully
   yours.
 repo_language: Go
-topics:
+tags:
 - docker
 - foss
 - go
@@ -98,32 +98,46 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: docker
-  url: /topics/docker/
+  url: /tags/docker/
 - name: foss
-  url: /topics/foss/
+  url: /tags/foss/
 - name: go
-  url: /topics/go/
+  url: /tags/go/
 - name: markdown
-  url: /topics/markdown/
+  url: /tags/markdown/
 - name: memo
-  url: /topics/memo/
+  url: /tags/memo/
 - name: microblog
-  url: /topics/microblog/
+  url: /tags/microblog/
 - name: note-taking
-  url: /topics/note-taking/
+  url: /tags/note-taking/
 - name: notecard
-  url: /topics/notecard/
+  url: /tags/notecard/
 - name: own-your-data
-  url: /topics/own-your-data/
+  url: /tags/own-your-data/
 - name: react
-  url: /topics/react/
+  url: /tags/react/
 - name: self-hosted
-  url: /topics/self-hosted/
+  url: /tags/self-hosted/
 - name: social-network
-  url: /topics/social-network/
+  url: /tags/social-network/
 related_repos:
+- full_name: coollabsio/coolify
+  slug: coollabsio-coolify
+  url: https://github.com/coollabsio/coolify
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - docker
+  - self-hosted
 - full_name: louislam/uptime-kuma
   slug: louislam-uptime-kuma
   url: https://github.com/louislam/uptime-kuma
@@ -152,23 +166,9 @@ related_repos:
   shared_topics:
   - docker
   - self-hosted
-- full_name: coollabsio/coolify
-  slug: coollabsio-coolify
-  url: https://github.com/coollabsio/coolify
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - docker
-  - self-hosted
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
   score: 11
   shared_weeks:
   - 2026-W21
@@ -179,9 +179,9 @@ related_repos:
   - 2026-W27
   shared_topics:
   - react
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
   score: 11
   shared_weeks:
   - 2026-W21
@@ -191,10 +191,10 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics:
-  - own-your-data
-- full_name: awesome-selfhosted/awesome-selfhosted
-  slug: awesome-selfhosted-awesome-selfhosted
-  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+  - react
+- full_name: appwrite/appwrite
+  slug: appwrite-appwrite
+  url: https://github.com/appwrite/appwrite
   score: 11
   shared_weeks:
   - 2026-W21
@@ -204,19 +204,8 @@ related_repos:
   - 2026-W26
   - 2026-W27
   shared_topics:
-  - self-hosted
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
+  - docker
+  - react
   - self-hosted
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
@@ -231,6 +220,19 @@ related_repos:
   - 2026-W27
   shared_topics:
   - go
+- full_name: awesome-selfhosted/awesome-selfhosted
+  slug: awesome-selfhosted-awesome-selfhosted
+  url: https://github.com/awesome-selfhosted/awesome-selfhosted
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - self-hosted
 lifecycle:
   status: active
   as_of_week: 2026-W31

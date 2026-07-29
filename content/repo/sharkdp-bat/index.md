@@ -2,7 +2,7 @@
 title: sharkdp/bat repository trend history
 description: 'Evergreen Claracle Observatory page for sharkdp/bat: 5 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-06'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/sharkdp/bat
 repo_slug: sharkdp-bat
 repo_description: A cat(1) clone with wings.
 repo_language: Rust
-topics:
+tags:
 - cli
 - command-line
 - git
@@ -63,23 +63,23 @@ weekly_appearances:
   url: /weekly/2026/w27/
 - week: 2026-W28
   url: /weekly/2026/w28/
-topic_links:
+tag_links:
 - name: cli
-  url: /topics/cli/
+  url: /tags/cli/
 - name: command-line
-  url: /topics/command-line/
+  url: /tags/command-line/
 - name: git
-  url: /topics/git/
+  url: /tags/git/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: rust
-  url: /topics/rust/
+  url: /tags/rust/
 - name: syntax-highlighting
-  url: /topics/syntax-highlighting/
+  url: /tags/syntax-highlighting/
 - name: terminal
-  url: /topics/terminal/
+  url: /tags/terminal/
 - name: tool
-  url: /topics/tool/
+  url: /tags/tool/
 related_repos:
 - full_name: jesseduffield/lazygit
   slug: jesseduffield-lazygit
@@ -109,6 +109,19 @@ related_repos:
   - command-line
   - hacktoberfest
   - terminal
+- full_name: go-gitea/gitea
+  slug: go-gitea-gitea
+  url: https://github.com/go-gitea/gitea
+  score: 7
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - git
+  - hacktoberfest
 - full_name: ohmyzsh/ohmyzsh
   slug: ohmyzsh-ohmyzsh
   url: https://github.com/ohmyzsh/ohmyzsh
@@ -122,6 +135,19 @@ related_repos:
   shared_topics:
   - cli
   - terminal
+- full_name: rtk-ai/rtk
+  slug: rtk-ai-rtk
+  url: https://github.com/rtk-ai/rtk
+  score: 7
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  shared_topics:
+  - cli
+  - rust
 - full_name: sherlock-project/sherlock
   slug: sherlock-project-sherlock
   url: https://github.com/sherlock-project/sherlock
@@ -148,35 +174,9 @@ related_repos:
   shared_topics:
   - rust
   - terminal
-- full_name: go-gitea/gitea
-  slug: go-gitea-gitea
-  url: https://github.com/go-gitea/gitea
-  score: 7
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  shared_topics:
-  - git
-  - hacktoberfest
-- full_name: rtk-ai/rtk
-  slug: rtk-ai-rtk
-  url: https://github.com/rtk-ai/rtk
-  score: 7
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  shared_topics:
-  - cli
-  - rust
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: avelino/awesome-go
+  slug: avelino-awesome-go
+  url: https://github.com/avelino/awesome-go
   score: 6
   shared_weeks:
   - 2026-W22
@@ -185,7 +185,7 @@ related_repos:
   - 2026-W27
   - 2026-W28
   shared_topics:
-  - cli
+  - hacktoberfest
 lifecycle:
   status: active
   as_of_week: 2026-W28

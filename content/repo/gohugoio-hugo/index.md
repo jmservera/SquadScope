@@ -2,7 +2,7 @@
 title: gohugoio/hugo repository trend history
 description: 'Evergreen Claracle Observatory page for gohugoio/hugo: 10 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/gohugoio/hugo
 repo_slug: gohugoio-hugo
 repo_description: The world’s fastest framework for building websites.
 repo_language: Go
-topics:
+tags:
 - blog-engine
 - cms
 - content-management-system
@@ -92,21 +92,21 @@ weekly_appearances:
   url: /weekly/2026/w29/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: blog-engine
-  url: /topics/blog-engine/
+  url: /tags/blog-engine/
 - name: cms
-  url: /topics/cms/
+  url: /tags/cms/
 - name: content-management-system
-  url: /topics/content-management-system/
+  url: /tags/content-management-system/
 - name: documentation-tool
-  url: /topics/documentation-tool/
+  url: /tags/documentation-tool/
 - name: go
-  url: /topics/go/
+  url: /tags/go/
 - name: hugo
-  url: /topics/hugo/
+  url: /tags/hugo/
 - name: static-site-generator
-  url: /topics/static-site-generator/
+  url: /tags/static-site-generator/
 related_repos:
 - full_name: strapi/strapi
   slug: strapi-strapi
@@ -135,9 +135,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+- full_name: golang/go
+  slug: golang-go
+  url: https://github.com/golang/go
   score: 11
   shared_weeks:
   - 2026-W21
@@ -148,9 +148,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: vercel/next.js
-  slug: vercel-next-js
-  url: https://github.com/vercel/next.js
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
   score: 11
   shared_weeks:
   - 2026-W21
@@ -160,10 +160,10 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - static-site-generator
-- full_name: golang/go
-  slug: golang-go
-  url: https://github.com/golang/go
+  - go
+- full_name: junegunn/fzf
+  slug: junegunn-fzf
+  url: https://github.com/junegunn/fzf
   score: 11
   shared_weeks:
   - 2026-W21
@@ -187,9 +187,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
-- full_name: syncthing/syncthing
-  slug: syncthing-syncthing
-  url: https://github.com/syncthing/syncthing
+- full_name: nuxt/nuxt
+  slug: nuxt-nuxt
+  url: https://github.com/nuxt/nuxt
   score: 11
   shared_weeks:
   - 2026-W21
@@ -199,10 +199,10 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - go
-- full_name: junegunn/fzf
-  slug: junegunn-fzf
-  url: https://github.com/junegunn/fzf
+  - static-site-generator
+- full_name: ollama/ollama
+  slug: ollama-ollama
+  url: https://github.com/ollama/ollama
   score: 11
   shared_weeks:
   - 2026-W21

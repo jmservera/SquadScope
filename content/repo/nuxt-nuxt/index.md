@@ -2,7 +2,7 @@
 title: nuxt/nuxt repository trend history
 description: 'Evergreen Claracle Observatory page for nuxt/nuxt: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/nuxt/nuxt
 repo_slug: nuxt-nuxt
 repo_description: the full-stack Vue framework
 repo_language: TypeScript
-topics:
+tags:
 - csr
 - framework
 - full-stack
@@ -103,31 +103,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: csr
-  url: /topics/csr/
+  url: /tags/csr/
 - name: framework
-  url: /topics/framework/
+  url: /tags/framework/
 - name: full-stack
-  url: /topics/full-stack/
+  url: /tags/full-stack/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: hybrid
-  url: /topics/hybrid/
+  url: /tags/hybrid/
 - name: node
-  url: /topics/node/
+  url: /tags/node/
 - name: nuxt
-  url: /topics/nuxt/
+  url: /tags/nuxt/
 - name: server-rendering
-  url: /topics/server-rendering/
+  url: /tags/server-rendering/
 - name: ssg
-  url: /topics/ssg/
+  url: /tags/ssg/
 - name: ssr
-  url: /topics/ssr/
+  url: /tags/ssr/
 - name: static-site-generator
-  url: /topics/static-site-generator/
+  url: /tags/static-site-generator/
 - name: universal
-  url: /topics/universal/
+  url: /tags/universal/
 related_repos:
 - full_name: vercel/next.js
   slug: vercel-next-js
@@ -191,9 +191,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
   score: 12
   shared_weeks:
   - 2026-W21
@@ -204,9 +204,22 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - hacktoberfest
+- full_name: fastapi/fastapi
+  slug: fastapi-fastapi
+  url: https://github.com/fastapi/fastapi
   score: 12
   shared_weeks:
   - 2026-W21
@@ -217,22 +230,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - framework
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - node
-- full_name: axios/axios
-  slug: axios-axios
-  url: https://github.com/axios/axios
+- full_name: git/git
+  slug: git-git
+  url: https://github.com/git/git
   score: 12
   shared_weeks:
   - 2026-W21

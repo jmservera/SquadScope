@@ -2,7 +2,7 @@
 title: netdata/netdata repository trend history
 description: 'Evergreen Claracle Observatory page for netdata/netdata: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/netdata/netdata
 repo_slug: netdata-netdata
 repo_description: The fastest path to AI-powered full stack observability, even for lean teams.
 repo_language: Go
-topics:
+tags:
 - ai
 - alerting
 - cncf
@@ -103,31 +103,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: alerting
-  url: /topics/alerting/
+  url: /tags/alerting/
 - name: cncf
-  url: /topics/cncf/
+  url: /tags/cncf/
 - name: data-visualization
-  url: /topics/data-visualization/
+  url: /tags/data-visualization/
 - name: database
-  url: /topics/database/
+  url: /tags/database/
 - name: devops
-  url: /topics/devops/
+  url: /tags/devops/
 - name: docker
-  url: /topics/docker/
+  url: /tags/docker/
 - name: grafana
-  url: /topics/grafana/
+  url: /tags/grafana/
 - name: influxdb
-  url: /topics/influxdb/
+  url: /tags/influxdb/
 - name: kubernetes
-  url: /topics/kubernetes/
+  url: /tags/kubernetes/
 - name: linux
-  url: /topics/linux/
+  url: /tags/linux/
 - name: machine-learning
-  url: /topics/machine-learning/
+  url: /tags/machine-learning/
 related_repos:
 - full_name: grafana/grafana
   slug: grafana-grafana
@@ -147,21 +147,6 @@ related_repos:
   - influxdb
   - monitoring
   - mysql
-- full_name: prometheus/prometheus
-  slug: prometheus-prometheus
-  url: https://github.com/prometheus/prometheus
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - alerting
-  - monitoring
-  - prometheus
 - full_name: koala73/worldmonitor
   slug: koala73-worldmonitor
   url: https://github.com/koala73/worldmonitor
@@ -177,9 +162,24 @@ related_repos:
   - ai
   - mcp
   - monitoring
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: prometheus/prometheus
+  slug: prometheus-prometheus
+  url: https://github.com/prometheus/prometheus
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - alerting
+  - monitoring
+  - prometheus
+- full_name: coollabsio/coolify
+  slug: coollabsio-coolify
+  url: https://github.com/coollabsio/coolify
   score: 13
   shared_weeks:
   - 2026-W21
@@ -189,8 +189,8 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - ai
-  - mcp
+  - docker
+  - mysql
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -205,34 +205,6 @@ related_repos:
   shared_topics:
   - ai
   - machine-learning
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - mcp
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - mcp
 - full_name: kubernetes/kubernetes
   slug: kubernetes-kubernetes
   url: https://github.com/kubernetes/kubernetes
@@ -247,6 +219,34 @@ related_repos:
   shared_topics:
   - cncf
   - kubernetes
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - mcp
+- full_name: louislam/uptime-kuma
+  slug: louislam-uptime-kuma
+  url: https://github.com/louislam/uptime-kuma
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - docker
+  - monitoring
 lifecycle:
   status: active
   as_of_week: 2026-W31

@@ -2,7 +2,7 @@
 title: immich-app/immich repository trend history
 description: 'Evergreen Claracle Observatory page for immich-app/immich: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/immich-app/immich
 repo_slug: immich-app-immich
 repo_description: High performance self-hosted photo and video management solution.
 repo_language: TypeScript
-topics:
+tags:
 - backup-tool
 - flutter
 - google-photos
@@ -103,62 +103,32 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: backup-tool
-  url: /topics/backup-tool/
+  url: /tags/backup-tool/
 - name: flutter
-  url: /topics/flutter/
+  url: /tags/flutter/
 - name: google-photos
-  url: /topics/google-photos/
+  url: /tags/google-photos/
 - name: google-photos-alternative
-  url: /topics/google-photos-alternative/
+  url: /tags/google-photos-alternative/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: mobile-app
-  url: /topics/mobile-app/
+  url: /tags/mobile-app/
 - name: nestjs
-  url: /topics/nestjs/
+  url: /tags/nestjs/
 - name: nodejs
-  url: /topics/nodejs/
+  url: /tags/nodejs/
 - name: photo-gallery
-  url: /topics/photo-gallery/
+  url: /tags/photo-gallery/
 - name: photos
-  url: /topics/photos/
+  url: /tags/photos/
 - name: photos-management
-  url: /topics/photos-management/
+  url: /tags/photos-management/
 - name: self-hosted
-  url: /topics/self-hosted/
+  url: /tags/self-hosted/
 related_repos:
-- full_name: oven-sh/bun
-  slug: oven-sh-bun
-  url: https://github.com/oven-sh/bun
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - nodejs
-  - typescript
-- full_name: strapi/strapi
-  slug: strapi-strapi
-  url: https://github.com/strapi/strapi
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - nodejs
-  - typescript
 - full_name: coollabsio/coolify
   slug: coollabsio-coolify
   url: https://github.com/coollabsio/coolify
@@ -190,10 +160,10 @@ related_repos:
   - nestjs
   - nodejs
   - typescript
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 13
+- full_name: oven-sh/bun
+  slug: oven-sh-bun
+  url: https://github.com/oven-sh/bun
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -204,23 +174,39 @@ related_repos:
   shared_topics:
   - javascript
   - nodejs
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - self-hosted
   - typescript
-- full_name: electron/electron
-  slug: electron-electron
-  url: https://github.com/electron/electron
+- full_name: strapi/strapi
+  slug: strapi-strapi
+  url: https://github.com/strapi/strapi
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - nodejs
+  - typescript
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - typescript
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
   score: 13
   shared_weeks:
   - 2026-W21
@@ -232,9 +218,23 @@ related_repos:
   shared_topics:
   - javascript
   - nodejs
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - nodejs
+  - typescript
+- full_name: denoland/deno
+  slug: denoland-deno
+  url: https://github.com/denoland/deno
   score: 13
   shared_weeks:
   - 2026-W21
@@ -245,7 +245,7 @@ related_repos:
   - 2026-W26
   shared_topics:
   - javascript
-  - nodejs
+  - typescript
 lifecycle:
   status: active
   as_of_week: 2026-W31

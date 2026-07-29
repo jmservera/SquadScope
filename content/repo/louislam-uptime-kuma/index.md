@@ -2,7 +2,7 @@
 title: louislam/uptime-kuma repository trend history
 description: 'Evergreen Claracle Observatory page for louislam/uptime-kuma: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/louislam/uptime-kuma
 repo_slug: louislam-uptime-kuma
 repo_description: A fancy self-hosted monitoring tool
 repo_language: JavaScript
-topics:
+tags:
 - docker
 - monitor
 - monitoring
@@ -103,31 +103,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: docker
-  url: /topics/docker/
+  url: /tags/docker/
 - name: monitor
-  url: /topics/monitor/
+  url: /tags/monitor/
 - name: monitoring
-  url: /topics/monitoring/
+  url: /tags/monitoring/
 - name: responsive
-  url: /topics/responsive/
+  url: /tags/responsive/
 - name: self-hosted
-  url: /topics/self-hosted/
+  url: /tags/self-hosted/
 - name: selfhosted
-  url: /topics/selfhosted/
+  url: /tags/selfhosted/
 - name: single-page-app
-  url: /topics/single-page-app/
+  url: /tags/single-page-app/
 - name: socket-io
-  url: /topics/socket-io/
+  url: /tags/socket-io/
 - name: uptime
-  url: /topics/uptime/
+  url: /tags/uptime/
 - name: uptime-monitoring
-  url: /topics/uptime-monitoring/
+  url: /tags/uptime-monitoring/
 - name: webapp
-  url: /topics/webapp/
+  url: /tags/webapp/
 - name: websocket
-  url: /topics/websocket/
+  url: /tags/websocket/
 related_repos:
 - full_name: awesome-selfhosted/awesome-selfhosted
   slug: awesome-selfhosted-awesome-selfhosted
@@ -143,9 +143,9 @@ related_repos:
   shared_topics:
   - self-hosted
   - selfhosted
-- full_name: Stirling-Tools/Stirling-PDF
-  slug: stirling-tools-stirling-pdf
-  url: https://github.com/Stirling-Tools/Stirling-PDF
+- full_name: coollabsio/coolify
+  slug: coollabsio-coolify
+  url: https://github.com/coollabsio/coolify
   score: 13
   shared_weeks:
   - 2026-W21
@@ -171,9 +171,9 @@ related_repos:
   shared_topics:
   - docker
   - monitoring
-- full_name: coollabsio/coolify
-  slug: coollabsio-coolify
-  url: https://github.com/coollabsio/coolify
+- full_name: Stirling-Tools/Stirling-PDF
+  slug: stirling-tools-stirling-pdf
+  url: https://github.com/Stirling-Tools/Stirling-PDF
   score: 13
   shared_weeks:
   - 2026-W21
@@ -185,9 +185,9 @@ related_repos:
   shared_topics:
   - docker
   - self-hosted
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: appwrite/appwrite
+  slug: appwrite-appwrite
+  url: https://github.com/appwrite/appwrite
   score: 12
   shared_weeks:
   - 2026-W21
@@ -197,10 +197,12 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
+  - docker
   - self-hosted
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
+  - selfhosted
+- full_name: grafana/grafana
+  slug: grafana-grafana
+  url: https://github.com/grafana/grafana
   score: 12
   shared_weeks:
   - 2026-W21
@@ -210,20 +212,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - self-hosted
-- full_name: immich-app/immich
-  slug: immich-app-immich
-  url: https://github.com/immich-app/immich
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - self-hosted
+  - monitoring
 - full_name: hoppscotch/hoppscotch
   slug: hoppscotch-hoppscotch
   url: https://github.com/hoppscotch/hoppscotch
@@ -237,6 +226,19 @@ related_repos:
   - 2026-W26
   shared_topics:
   - websocket
+- full_name: immich-app/immich
+  slug: immich-app-immich
+  url: https://github.com/immich-app/immich
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - self-hosted
 lifecycle:
   status: active
   as_of_week: 2026-W31

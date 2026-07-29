@@ -2,7 +2,7 @@
 title: nocodb/nocodb repository trend history
 description: 'Evergreen Claracle Observatory page for nocodb/nocodb: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/nocodb/nocodb
 repo_slug: nocodb-nocodb
 repo_description: 🔥 🔥 🔥 A Free & Self-hostable Airtable Alternative
 repo_language: TypeScript
-topics:
+tags:
 - airtable
 - airtable-alternative
 - automatic-api
@@ -103,35 +103,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: airtable
-  url: /topics/airtable/
+  url: /tags/airtable/
 - name: airtable-alternative
-  url: /topics/airtable-alternative/
+  url: /tags/airtable-alternative/
 - name: automatic-api
-  url: /topics/automatic-api/
+  url: /tags/automatic-api/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: low-code
-  url: /topics/low-code/
+  url: /tags/low-code/
 - name: no-code
-  url: /topics/no-code/
+  url: /tags/no-code/
 - name: no-code-database
-  url: /topics/no-code-database/
+  url: /tags/no-code-database/
 - name: no-code-platform
-  url: /topics/no-code-platform/
+  url: /tags/no-code-platform/
 - name: postgresql
-  url: /topics/postgresql/
+  url: /tags/postgresql/
 - name: rest-api
-  url: /topics/rest-api/
+  url: /tags/rest-api/
 - name: restful-api
-  url: /topics/restful-api/
+  url: /tags/restful-api/
 - name: spreadsheet
-  url: /topics/spreadsheet/
+  url: /tags/spreadsheet/
 related_repos:
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
   score: 13
   shared_weeks:
   - 2026-W21
@@ -143,9 +143,9 @@ related_repos:
   shared_topics:
   - low-code
   - no-code
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
+- full_name: n8n-io/n8n
+  slug: n8n-io-n8n
+  url: https://github.com/n8n-io/n8n
   score: 13
   shared_weeks:
   - 2026-W21
@@ -184,9 +184,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: huggingface/transformers
-  slug: huggingface-transformers
-  url: https://github.com/huggingface/transformers
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
   score: 12
   shared_weeks:
   - 2026-W21
@@ -197,9 +197,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - hacktoberfest
-- full_name: axios/axios
-  slug: axios-axios
-  url: https://github.com/axios/axios
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
   score: 12
   shared_weeks:
   - 2026-W21
@@ -223,9 +223,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - swagger
-- full_name: home-assistant/core
-  slug: home-assistant-core
-  url: https://github.com/home-assistant/core
+- full_name: git/git
+  slug: git-git
+  url: https://github.com/git/git
   score: 12
   shared_weeks:
   - 2026-W21

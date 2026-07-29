@@ -2,7 +2,7 @@
 title: warpdotdev/warp repository trend history
 description: 'Evergreen Claracle Observatory page for warpdotdev/warp: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/warpdotdev/warp
 repo_slug: warpdotdev-warp
 repo_description: Warp is an agentic development environment, born out of the terminal.
 repo_language: Rust
-topics:
+tags:
 - bash
 - linux
 - macos
@@ -99,23 +99,23 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: bash
-  url: /topics/bash/
+  url: /tags/bash/
 - name: linux
-  url: /topics/linux/
+  url: /tags/linux/
 - name: macos
-  url: /topics/macos/
+  url: /tags/macos/
 - name: rust
-  url: /topics/rust/
+  url: /tags/rust/
 - name: shell
-  url: /topics/shell/
+  url: /tags/shell/
 - name: terminal
-  url: /topics/terminal/
+  url: /tags/terminal/
 - name: wasm
-  url: /topics/wasm/
+  url: /tags/wasm/
 - name: zsh
-  url: /topics/zsh/
+  url: /tags/zsh/
 related_repos:
 - full_name: ohmyzsh/ohmyzsh
   slug: ohmyzsh-ohmyzsh
@@ -162,20 +162,6 @@ related_repos:
   - bash
   - rust
   - zsh
-- full_name: nodejs/node
-  slug: nodejs-node
-  url: https://github.com/nodejs/node
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - linux
-  - macos
 - full_name: junegunn/fzf
   slug: junegunn-fzf
   url: https://github.com/junegunn/fzf
@@ -190,6 +176,20 @@ related_repos:
   shared_topics:
   - bash
   - zsh
+- full_name: nodejs/node
+  slug: nodejs-node
+  url: https://github.com/nodejs/node
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - linux
+  - macos
 - full_name: tw93/Mole
   slug: tw93-mole
   url: https://github.com/tw93/Mole
@@ -204,19 +204,6 @@ related_repos:
   shared_topics:
   - macos
   - shell
-- full_name: flutter/flutter
-  slug: flutter-flutter
-  url: https://github.com/flutter/flutter
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - macos
 - full_name: clash-verge-rev/clash-verge-rev
   slug: clash-verge-rev-clash-verge-rev
   url: https://github.com/clash-verge-rev/clash-verge-rev
@@ -230,6 +217,19 @@ related_repos:
   - 2026-W26
   shared_topics:
   - linux
+- full_name: denoland/deno
+  slug: denoland-deno
+  url: https://github.com/denoland/deno
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - rust
 lifecycle:
   status: active
   as_of_week: 2026-W31

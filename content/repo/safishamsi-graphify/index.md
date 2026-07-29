@@ -2,7 +2,7 @@
 title: safishamsi/graphify repository trend history
 description: 'Evergreen Claracle Observatory page for safishamsi/graphify: 6 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-06-29'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -15,7 +15,7 @@ repo_description: AI coding assistant skill (Claude Code, Codex, OpenCode, Curso
   of code, SQL schemas, R scripts, shell scripts, docs, papers, images, or videos into a queryable knowledge graph. App code
   + database schema + infrastructure in one graph.
 repo_language: Python
-topics:
+tags:
 - antigravity
 - claude-code
 - codex
@@ -74,29 +74,29 @@ weekly_appearances:
   url: /weekly/2026/w26/
 - week: 2026-W27
   url: /weekly/2026/w27/
-topic_links:
+tag_links:
 - name: antigravity
-  url: /topics/antigravity/
+  url: /tags/antigravity/
 - name: claude-code
-  url: /topics/claude-code/
+  url: /tags/claude-code/
 - name: codex
-  url: /topics/codex/
+  url: /tags/codex/
 - name: gemini
-  url: /topics/gemini/
+  url: /tags/gemini/
 - name: graphrag
-  url: /topics/graphrag/
+  url: /tags/graphrag/
 - name: knowledge-graph
-  url: /topics/knowledge-graph/
+  url: /tags/knowledge-graph/
 - name: leiden
-  url: /topics/leiden/
+  url: /tags/leiden/
 - name: openclaw
-  url: /topics/openclaw/
+  url: /tags/openclaw/
 - name: rag
-  url: /topics/rag/
+  url: /tags/rag/
 - name: skills
-  url: /topics/skills/
+  url: /tags/skills/
 - name: tree-sitter
-  url: /topics/tree-sitter/
+  url: /tags/tree-sitter/
 related_repos:
 - full_name: farion1231/cc-switch
   slug: farion1231-cc-switch
@@ -114,36 +114,6 @@ related_repos:
   - codex
   - openclaw
   - skills
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
-  score: 9
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - claude-code
-  - codex
-  - openclaw
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 9
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - gemini
-  - rag
-  - skills
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
@@ -159,6 +129,36 @@ related_repos:
   - claude-code
   - codex
   - gemini
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
+  score: 9
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - gemini
+  - rag
+  - skills
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
+  score: 9
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - claude-code
+  - codex
+  - openclaw
 - full_name: ruvnet/ruflo
   slug: ruvnet-ruflo
   url: https://github.com/ruvnet/ruflo
@@ -188,20 +188,6 @@ related_repos:
   shared_topics:
   - gemini
   - rag
-- full_name: thedotmack/claude-mem
-  slug: thedotmack-claude-mem
-  url: https://github.com/thedotmack/claude-mem
-  score: 8
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - claude-code
-  - rag
 - full_name: lobehub/lobehub
   slug: lobehub-lobehub
   url: https://github.com/lobehub/lobehub
@@ -216,6 +202,20 @@ related_repos:
   shared_topics:
   - gemini
   - skills
+- full_name: thedotmack/claude-mem
+  slug: thedotmack-claude-mem
+  url: https://github.com/thedotmack/claude-mem
+  score: 8
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - claude-code
+  - rag
 lifecycle:
   status: active
   as_of_week: 2026-W27

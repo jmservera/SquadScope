@@ -2,7 +2,7 @@
 title: addyosmani/agent-skills repository trend history
 description: 'Evergreen Claracle Observatory page for addyosmani/agent-skills: 7 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/addyosmani/agent-skills
 repo_slug: addyosmani-agent-skills
 repo_description: Production-grade engineering skills for AI coding agents.
 repo_language: Shell
-topics:
+tags:
 - agent-skills
 - antigravity
 - claude-code
@@ -74,37 +74,22 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agent-skills
-  url: /topics/agent-skills/
+  url: /tags/agent-skills/
 - name: antigravity
-  url: /topics/antigravity/
+  url: /tags/antigravity/
 - name: claude-code
-  url: /topics/claude-code/
+  url: /tags/claude-code/
 - name: cursor
-  url: /topics/cursor/
+  url: /tags/cursor/
 - name: skills
-  url: /topics/skills/
+  url: /tags/skills/
 - name: antigravity-ide
-  url: /topics/antigravity-ide/
+  url: /tags/antigravity-ide/
 - name: codex
-  url: /topics/codex/
+  url: /tags/codex/
 related_repos:
-- full_name: farion1231/cc-switch
-  slug: farion1231-cc-switch
-  url: https://github.com/farion1231/cc-switch
-  score: 10
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - claude-code
-  - codex
-  - skills
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
@@ -120,6 +105,21 @@ related_repos:
   - claude-code
   - codex
   - cursor
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
+  score: 10
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - claude-code
+  - codex
+  - skills
 - full_name: ruvnet/ruflo
   slug: ruvnet-ruflo
   url: https://github.com/ruvnet/ruflo
@@ -135,20 +135,6 @@ related_repos:
   - claude-code
   - codex
   - skills
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
-  score: 9
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - claude-code
-  - codex
 - full_name: Egonex-AI/Understand-Anything
   slug: egonex-ai-understand-anything
   url: https://github.com/Egonex-AI/Understand-Anything
@@ -178,9 +164,23 @@ related_repos:
   - antigravity
   - claude-code
   - codex
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
+  score: 9
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - claude-code
+  - codex
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
   score: 8
   shared_weeks:
   - 2026-W25
@@ -190,19 +190,21 @@ related_repos:
   - 2026-W29
   - 2026-W30
   shared_topics:
-  - skills
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
+  - claude-code
+- full_name: Graphify-Labs/graphify
+  slug: graphify-labs-graphify
+  url: https://github.com/Graphify-Labs/graphify
   score: 8
   shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
   - 2026-W28
   - 2026-W29
   - 2026-W30
+  - 2026-W31
   shared_topics:
+  - antigravity
+  - claude-code
+  - codex
+  - cursor
   - skills
 lifecycle:
   status: active

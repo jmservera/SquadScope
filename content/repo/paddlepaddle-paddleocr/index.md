@@ -2,7 +2,7 @@
 title: PaddlePaddle/PaddleOCR repository trend history
 description: 'Evergreen Claracle Observatory page for PaddlePaddle/PaddleOCR: 10 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: paddlepaddle-paddleocr
 repo_description: Turn any PDF or image document into structured data for your AI. A powerful, lightweight OCR toolkit that
   bridges the gap between images/PDFs and LLMs. Supports 100+ languages.
 repo_language: Python
-topics:
+tags:
 - ai4science
 - chineseocr
 - document-parsing
@@ -98,31 +98,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai4science
-  url: /topics/ai4science/
+  url: /tags/ai4science/
 - name: chineseocr
-  url: /topics/chineseocr/
+  url: /tags/chineseocr/
 - name: document-parsing
-  url: /topics/document-parsing/
+  url: /tags/document-parsing/
 - name: document-translation
-  url: /topics/document-translation/
+  url: /tags/document-translation/
 - name: kie
-  url: /topics/kie/
+  url: /tags/kie/
 - name: ocr
-  url: /topics/ocr/
+  url: /tags/ocr/
 - name: paddleocr-vl
-  url: /topics/paddleocr-vl/
+  url: /tags/paddleocr-vl/
 - name: pdf-extractor-rag
-  url: /topics/pdf-extractor-rag/
+  url: /tags/pdf-extractor-rag/
 - name: pdf-parser
-  url: /topics/pdf-parser/
+  url: /tags/pdf-parser/
 - name: pdf2markdown
-  url: /topics/pdf2markdown/
+  url: /tags/pdf2markdown/
 - name: pp-ocr
-  url: /topics/pp-ocr/
+  url: /tags/pp-ocr/
 - name: pp-structure
-  url: /topics/pp-structure/
+  url: /tags/pp-structure/
 related_repos:
 - full_name: opendatalab/MinerU
   slug: opendatalab-mineru
@@ -140,9 +140,9 @@ related_repos:
   - ocr
   - pdf-extractor-rag
   - pdf-parser
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
+- full_name: docling-project/docling
+  slug: docling-project-docling
+  url: https://github.com/docling-project/docling
   score: 11
   shared_weeks:
   - 2026-W21
@@ -152,10 +152,10 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - rag
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
+  - document-parsing
+- full_name: infiniflow/ragflow
+  slug: infiniflow-ragflow
+  url: https://github.com/infiniflow/ragflow
   score: 11
   shared_weeks:
   - 2026-W21
@@ -179,9 +179,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - rag
-- full_name: infiniflow/ragflow
-  slug: infiniflow-ragflow
-  url: https://github.com/infiniflow/ragflow
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
   score: 11
   shared_weeks:
   - 2026-W21
@@ -192,9 +192,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - rag
-- full_name: thedotmack/claude-mem
-  slug: thedotmack-claude-mem
-  url: https://github.com/thedotmack/claude-mem
+- full_name: mem0ai/mem0
+  slug: mem0ai-mem0
+  url: https://github.com/mem0ai/mem0
   score: 11
   shared_weeks:
   - 2026-W21
@@ -218,9 +218,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - rag
-- full_name: docling-project/docling
-  slug: docling-project-docling
-  url: https://github.com/docling-project/docling
+- full_name: open-webui/open-webui
+  slug: open-webui-open-webui
+  url: https://github.com/open-webui/open-webui
   score: 11
   shared_weeks:
   - 2026-W21
@@ -230,7 +230,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - document-parsing
+  - rag
 lifecycle:
   status: active
   as_of_week: 2026-W31

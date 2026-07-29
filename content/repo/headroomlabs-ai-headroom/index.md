@@ -2,7 +2,7 @@
 title: headroomlabs-ai/headroom repository trend history
 description: 'Evergreen Claracle Observatory page for headroomlabs-ai/headroom: 4 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: headroomlabs-ai-headroom
 repo_description: Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20% fewer tokens for coding
   agents, 60-95% fewer tokens for JSON, same answers. Library, proxy, MCP server.
 repo_language: Python
-topics:
+tags:
 - agent
 - ai
 - anthropic
@@ -62,35 +62,65 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agent
-  url: /topics/agent/
+  url: /tags/agent/
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: anthropic
-  url: /topics/anthropic/
+  url: /tags/anthropic/
 - name: claude-code
-  url: /topics/claude-code/
+  url: /tags/claude-code/
 - name: compression
-  url: /topics/compression/
+  url: /tags/compression/
 - name: context-engineering
-  url: /topics/context-engineering/
+  url: /tags/context-engineering/
 - name: context-window
-  url: /topics/context-window/
+  url: /tags/context-window/
 - name: cursor
-  url: /topics/cursor/
+  url: /tags/cursor/
 - name: fastapi
-  url: /topics/fastapi/
+  url: /tags/fastapi/
 - name: langchain
-  url: /topics/langchain/
+  url: /tags/langchain/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: mcp
-  url: /topics/mcp/
+  url: /tags/mcp/
 related_repos:
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 8
+  shared_weeks:
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - anthropic
+  - claude-code
+  - llm
+  - mcp
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
+  score: 8
+  shared_weeks:
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - agent
+  - ai
+  - langchain
+  - llm
+  - python
+  - typescript
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 8
   shared_weeks:
   - 2026-W28
@@ -99,9 +129,11 @@ related_repos:
   - 2026-W31
   shared_topics:
   - ai
-  - llm
+  - anthropic
+  - claude-code
+  - cursor
   - openai
-  - python
+  - typescript
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -117,9 +149,9 @@ related_repos:
   - openai
   - prompt-engineering
   - typescript
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: Graphify-Labs/graphify
+  slug: graphify-labs-graphify
+  url: https://github.com/Graphify-Labs/graphify
   score: 8
   shared_weeks:
   - 2026-W28
@@ -127,41 +159,10 @@ related_repos:
   - 2026-W30
   - 2026-W31
   shared_topics:
-  - ai
-  - anthropic
   - claude-code
-  - llm
-  - openai
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 8
-  shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - agent
-  - ai
+  - cursor
   - llm
   - mcp
-  - openai
-  - python
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
-  score: 8
-  shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - ai
-  - llm
-  - mcp
-  - openai
   - rag
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
@@ -179,23 +180,9 @@ related_repos:
   - llm
   - openai
   - python
-- full_name: thedotmack/claude-mem
-  slug: thedotmack-claude-mem
-  url: https://github.com/thedotmack/claude-mem
-  score: 8
-  shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - ai
-  - anthropic
-  - claude-code
-  - rag
-- full_name: bytedance/deer-flow
-  slug: bytedance-deer-flow
-  url: https://github.com/bytedance/deer-flow
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
   score: 8
   shared_weeks:
   - 2026-W28
@@ -205,10 +192,24 @@ related_repos:
   shared_topics:
   - agent
   - ai
-  - langchain
   - llm
+  - mcp
+  - openai
   - python
-  - typescript
+- full_name: lobehub/lobehub
+  slug: lobehub-lobehub
+  url: https://github.com/lobehub/lobehub
+  score: 8
+  shared_weeks:
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - agent
+  - ai
+  - mcp
+  - openai
 lifecycle:
   status: active
   as_of_week: 2026-W31

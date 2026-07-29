@@ -2,7 +2,7 @@
 title: facebook/docusaurus repository trend history
 description: 'Evergreen Claracle Observatory page for facebook/docusaurus: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/facebook/docusaurus
 repo_slug: facebook-docusaurus
 repo_description: Easy to maintain open source documentation websites.
 repo_language: TypeScript
-topics:
+tags:
 - documentation
 - hacktoberfest
 - javascript
@@ -97,34 +97,20 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: documentation
-  url: /topics/documentation/
+  url: /tags/documentation/
 - name: hacktoberfest
-  url: /topics/hacktoberfest/
+  url: /tags/hacktoberfest/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: open-source
-  url: /topics/open-source/
+  url: /tags/open-source/
 - name: react
-  url: /topics/react/
+  url: /tags/react/
 - name: website
-  url: /topics/website/
+  url: /tags/website/
 related_repos:
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - react
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
@@ -139,9 +125,9 @@ related_repos:
   shared_topics:
   - hacktoberfest
   - javascript
-- full_name: oven-sh/bun
-  slug: oven-sh-bun
-  url: https://github.com/oven-sh/bun
+- full_name: freeCodeCamp/freeCodeCamp
+  slug: freecodecamp-freecodecamp
+  url: https://github.com/freeCodeCamp/freeCodeCamp
   score: 13
   shared_weeks:
   - 2026-W21
@@ -167,6 +153,20 @@ related_repos:
   shared_topics:
   - documentation
   - javascript
+- full_name: oven-sh/bun
+  slug: oven-sh-bun
+  url: https://github.com/oven-sh/bun
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - react
 - full_name: strapi/strapi
   slug: strapi-strapi
   url: https://github.com/strapi/strapi
@@ -181,9 +181,9 @@ related_repos:
   shared_topics:
   - hacktoberfest
   - javascript
-- full_name: twbs/bootstrap
-  slug: twbs-bootstrap
-  url: https://github.com/twbs/bootstrap
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 12
   shared_weeks:
   - 2026-W21
@@ -194,9 +194,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - javascript
-- full_name: avelino/awesome-go
-  slug: avelino-awesome-go
-  url: https://github.com/avelino/awesome-go
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
   score: 12
   shared_weeks:
   - 2026-W21
@@ -206,10 +206,10 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - hacktoberfest
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
+  - react
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
   score: 12
   shared_weeks:
   - 2026-W21
@@ -219,7 +219,7 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - open-source
+  - react
 lifecycle:
   status: active
   as_of_week: 2026-W31

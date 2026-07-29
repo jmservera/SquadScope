@@ -85,6 +85,73 @@ retention_years = 3
         assert frontmatter["weekly_appearances"][0]["url"] == "/weekly/2026/w21/"
 
 
+def test_repo_github_topics_route_to_tags_not_curated_topics() -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        for index, week in enumerate(("2026-W21", "2026-W22", "2026-W23", "2026-W24")):
+            write_week(
+                root,
+                week,
+                [
+                    repo_record(
+                        "octo/recurring",
+                        100 + index,
+                        topics=["Raw Repo Topic", "llm", "AI Agents"],
+                    )
+                ],
+            )
+
+        observatory_repos.generate(root)
+
+        page_path = root / "content" / "repo" / "octo-recurring" / "index.md"
+        page = page_path.read_text(encoding="utf-8")
+        frontmatter = read_frontmatter(page_path)
+        assert "topics" not in frontmatter
+        assert frontmatter["tags"] == ["ai agents", "llm", "raw repo topic"]
+        assert frontmatter["tag_links"] == [
+            {"name": "ai agents", "url": "/tags/ai-agents/"},
+            {"name": "llm", "url": "/tags/llm/"},
+            {"name": "raw repo topic", "url": "/tags/raw-repo-topic/"},
+        ]
+        assert "/topics/raw-repo-topic/" not in page
+
+
+def test_repo_generation_is_deterministic_and_sorts_related_repos() -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        for index, week in enumerate(("2026-W21", "2026-W22", "2026-W23", "2026-W24")):
+            write_week(
+                root,
+                week,
+                [
+                    repo_record("Alpha/Foo", 100 + index, topics=["shared", "llm"]),
+                    repo_record("Gamma/Baz", 90 + index, topics=["shared", "agent"]),
+                    repo_record("Beta/Bar", 80 + index, topics=["shared", "agent"]),
+                ],
+            )
+
+        observatory_repos.generate(root)
+        first = {
+            path.relative_to(root).as_posix(): path.read_bytes()
+            for path in sorted((root / "content" / "repo").glob("**/*.md"))
+        }
+        observatory_repos.generate(root)
+        second = {
+            path.relative_to(root).as_posix(): path.read_bytes()
+            for path in sorted((root / "content" / "repo").glob("**/*.md"))
+        }
+
+        assert first == second
+        frontmatter = read_frontmatter(root / "content" / "repo" / "alpha-foo" / "index.md")
+        assert frontmatter["date"] == "2026-06-08"
+        assert [item["full_name"] for item in frontmatter["related_repos"]] == [
+            "Beta/Bar",
+            "Gamma/Baz",
+        ]
+
+
 def test_lifecycle_rename_archive_and_delete_handling() -> None:
     tests_root = Path(__file__).resolve().parent
     with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:

@@ -2,7 +2,7 @@
 title: vllm-project/vllm repository trend history
 description: 'Evergreen Claracle Observatory page for vllm-project/vllm: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/vllm-project/vllm
 repo_slug: vllm-project-vllm
 repo_description: A high-throughput and memory-efficient inference and serving engine for LLMs
 repo_language: Python
-topics:
+tags:
 - amd
 - blackwell
 - cuda
@@ -103,35 +103,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: amd
-  url: /topics/amd/
+  url: /tags/amd/
 - name: blackwell
-  url: /topics/blackwell/
+  url: /tags/blackwell/
 - name: cuda
-  url: /topics/cuda/
+  url: /tags/cuda/
 - name: deepseek
-  url: /topics/deepseek/
+  url: /tags/deepseek/
 - name: deepseek-v3
-  url: /topics/deepseek-v3/
+  url: /tags/deepseek-v3/
 - name: gpt
-  url: /topics/gpt/
+  url: /tags/gpt/
 - name: gpt-oss
-  url: /topics/gpt-oss/
+  url: /tags/gpt-oss/
 - name: inference
-  url: /topics/inference/
+  url: /tags/inference/
 - name: kimi
-  url: /topics/kimi/
+  url: /tags/kimi/
 - name: llama
-  url: /topics/llama/
+  url: /tags/llama/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: llm-serving
-  url: /topics/llm-serving/
+  url: /tags/llm-serving/
 related_repos:
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
+- full_name: hiyouga/LlamaFactory
+  slug: hiyouga-llamafactory
+  url: https://github.com/hiyouga/LlamaFactory
   score: 15
   shared_weeks:
   - 2026-W21
@@ -142,9 +142,10 @@ related_repos:
   - 2026-W26
   shared_topics:
   - deepseek
-  - gpt-oss
+  - gpt
   - llama
   - llm
+  - moe
   - qwen
 - full_name: huggingface/transformers
   slug: huggingface-transformers
@@ -163,9 +164,9 @@ related_repos:
   - pytorch
   - qwen
   - transformer
-- full_name: hiyouga/LlamaFactory
-  slug: hiyouga-llamafactory
-  url: https://github.com/hiyouga/LlamaFactory
+- full_name: Mintplex-Labs/anything-llm
+  slug: mintplex-labs-anything-llm
+  url: https://github.com/Mintplex-Labs/anything-llm
   score: 15
   shared_weeks:
   - 2026-W21
@@ -176,10 +177,25 @@ related_repos:
   - 2026-W26
   shared_topics:
   - deepseek
-  - gpt
+  - kimi
+  - llm
+  - qwen3
+- full_name: ollama/ollama
+  slug: ollama-ollama
+  url: https://github.com/ollama/ollama
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - deepseek
+  - gpt-oss
   - llama
   - llm
-  - moe
   - qwen
 - full_name: unslothai/unsloth
   slug: unslothai-unsloth
@@ -199,37 +215,6 @@ related_repos:
   - llm
   - openai
   - qwen
-- full_name: Mintplex-Labs/anything-llm
-  slug: mintplex-labs-anything-llm
-  url: https://github.com/Mintplex-Labs/anything-llm
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - deepseek
-  - kimi
-  - llm
-  - qwen3
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - gpt
-  - llm
-  - openai
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -248,6 +233,21 @@ related_repos:
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - gpt
+  - llm
+  - openai
+- full_name: OpenHands/OpenHands
+  slug: openhands-openhands
+  url: https://github.com/OpenHands/OpenHands
   score: 14
   shared_weeks:
   - 2026-W21

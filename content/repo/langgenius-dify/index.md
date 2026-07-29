@@ -2,7 +2,7 @@
 title: langgenius/dify repository trend history
 description: 'Evergreen Claracle Observatory page for langgenius/dify: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: langgenius-dify
 repo_description: Build Agentic workflows, RAG pipelines, with rich AI model and tool support on one collaborative workspace.
   Deploy on cloud, VPC, or self-hosted, so teams move from prototype to production without rebuilding the stack.
 repo_language: TypeScript
-topics:
+tags:
 - agent
 - agentic-ai
 - agentic-framework
@@ -104,35 +104,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agent
-  url: /topics/agent/
+  url: /tags/agent/
 - name: agentic-ai
-  url: /topics/agentic-ai/
+  url: /tags/agentic-ai/
 - name: agentic-framework
-  url: /topics/agentic-framework/
+  url: /tags/agentic-framework/
 - name: agentic-workflow
-  url: /topics/agentic-workflow/
+  url: /tags/agentic-workflow/
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: automation
-  url: /topics/automation/
+  url: /tags/automation/
 - name: genai
-  url: /topics/genai/
+  url: /tags/genai/
 - name: gpt
-  url: /topics/gpt/
+  url: /tags/gpt/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: low-code
-  url: /topics/low-code/
+  url: /tags/low-code/
 - name: mcp
-  url: /topics/mcp/
+  url: /tags/mcp/
 - name: nextjs
-  url: /topics/nextjs/
+  url: /tags/nextjs/
 related_repos:
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 15
   shared_weeks:
   - 2026-W21
@@ -142,15 +142,15 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
+  - agent
+  - agentic-framework
+  - agentic-workflow
   - ai
-  - automation
-  - low-code
-  - mcp
-  - no-code
-  - workflow
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+  - llm
+  - python
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 15
   shared_weeks:
   - 2026-W21
@@ -160,12 +160,11 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - agentic-ai
   - ai
   - claude
-  - gpt
-  - llm
+  - gemini
   - openai
+  - orchestration
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -184,9 +183,9 @@ related_repos:
   - gpt
   - gpt-4
   - llm
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: harry0703/MoneyPrinterTurbo
+  slug: harry0703-moneyprinterturbo
+  url: https://github.com/harry0703/MoneyPrinterTurbo
   score: 15
   shared_weeks:
   - 2026-W21
@@ -197,12 +196,12 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-  - claude
+  - automation
   - llm
-  - openai
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
+  - python
+- full_name: hiyouga/LlamaFactory
+  slug: hiyouga-llamafactory
+  url: https://github.com/hiyouga/LlamaFactory
   score: 15
   shared_weeks:
   - 2026-W21
@@ -212,11 +211,10 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
+  - agent
   - ai
+  - gpt
   - llm
-  - mcp
-  - openai
-  - rag
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
@@ -235,9 +233,9 @@ related_repos:
   - openai
   - python
   - rag
-- full_name: OpenHands/OpenHands
-  slug: openhands-openhands
-  url: https://github.com/OpenHands/OpenHands
+- full_name: mem0ai/mem0
+  slug: mem0ai-mem0
+  url: https://github.com/mem0ai/mem0
   score: 15
   shared_weeks:
   - 2026-W21
@@ -247,26 +245,27 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - agent
-  - gpt
-  - llm
-  - openai
-- full_name: hiyouga/LlamaFactory
-  slug: hiyouga-llamafactory
-  url: https://github.com/hiyouga/LlamaFactory
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - agent
   - ai
-  - gpt
+  - genai
   - llm
+  - python
+  - rag
+- full_name: MemPalace/mempalace
+  slug: mempalace-mempalace
+  url: https://github.com/MemPalace/mempalace
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - llm
+  - mcp
+  - python
 lifecycle:
   status: active
   as_of_week: 2026-W31

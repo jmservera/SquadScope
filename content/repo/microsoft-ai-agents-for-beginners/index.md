@@ -2,7 +2,7 @@
 title: microsoft/ai-agents-for-beginners repository trend history
 description: 'Evergreen Claracle Observatory page for microsoft/ai-agents-for-beginners: 7 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/microsoft/ai-agents-for-beginners
 repo_slug: microsoft-ai-agents-for-beginners
 repo_description: 18 Lessons to Get Started Building AI Agents
 repo_language: Jupyter Notebook
-topics:
+tags:
 - agentic-ai
 - agentic-framework
 - agentic-rag
@@ -78,29 +78,29 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: agentic-ai
-  url: /topics/agentic-ai/
+  url: /tags/agentic-ai/
 - name: agentic-framework
-  url: /topics/agentic-framework/
+  url: /tags/agentic-framework/
 - name: agentic-rag
-  url: /topics/agentic-rag/
+  url: /tags/agentic-rag/
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: ai-agents-framework
-  url: /topics/ai-agents-framework/
+  url: /tags/ai-agents-framework/
 - name: autogen
-  url: /topics/autogen/
+  url: /tags/autogen/
 - name: generative-ai
-  url: /topics/generative-ai/
+  url: /tags/generative-ai/
 - name: semantic-kernel
-  url: /topics/semantic-kernel/
+  url: /tags/semantic-kernel/
 - name: foundry
-  url: /topics/foundry/
+  url: /tags/foundry/
 - name: foundry-local
-  url: /topics/foundry-local/
+  url: /tags/foundry-local/
 - name: microsoft-foundry
-  url: /topics/microsoft-foundry/
+  url: /tags/microsoft-foundry/
 related_repos:
 - full_name: ruvnet/ruflo
   slug: ruvnet-ruflo
@@ -118,48 +118,6 @@ related_repos:
   - agentic-framework
   - agentic-rag
   - ai-agents
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 9
-  shared_weeks:
-  - 2026-W22
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - agentic-ai
-  - agentic-framework
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 9
-  shared_weeks:
-  - 2026-W22
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - ai-agents
-  - generative-ai
-- full_name: infiniflow/ragflow
-  slug: infiniflow-ragflow
-  url: https://github.com/infiniflow/ragflow
-  score: 9
-  shared_weeks:
-  - 2026-W22
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - agentic-ai
-  - ai-agents
 - full_name: bytedance/deer-flow
   slug: bytedance-deer-flow
   url: https://github.com/bytedance/deer-flow
@@ -174,6 +132,48 @@ related_repos:
   shared_topics:
   - agentic-framework
   - ai-agents
+- full_name: infiniflow/ragflow
+  slug: infiniflow-ragflow
+  url: https://github.com/infiniflow/ragflow
+  score: 9
+  shared_weeks:
+  - 2026-W22
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - agentic-ai
+  - ai-agents
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 9
+  shared_weeks:
+  - 2026-W22
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - ai-agents
+  - generative-ai
+- full_name: langgenius/dify
+  slug: langgenius-dify
+  url: https://github.com/langgenius/dify
+  score: 9
+  shared_weeks:
+  - 2026-W22
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - agentic-ai
+  - agentic-framework
 - full_name: Mintplex-Labs/anything-llm
   slug: mintplex-labs-anything-llm
   url: https://github.com/Mintplex-Labs/anything-llm
@@ -202,9 +202,9 @@ related_repos:
   shared_topics:
   - ai-agents
   - generative-ai
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
   score: 8
   shared_weeks:
   - 2026-W22
@@ -214,7 +214,7 @@ related_repos:
   - 2026-W29
   - 2026-W30
   shared_topics:
-  - agentic-ai
+  - ai-agents
 lifecycle:
   status: active
   as_of_week: 2026-W31

@@ -2,7 +2,7 @@
 title: google-gemini/gemini-cli repository trend history
 description: 'Evergreen Claracle Observatory page for google-gemini/gemini-cli: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/google-gemini/gemini-cli
 repo_slug: google-gemini-gemini-cli
 repo_description: An open-source AI agent that brings the power of Gemini directly into your terminal.
 repo_language: TypeScript
-topics:
+tags:
 - ai
 - ai-agents
 - cli
@@ -98,21 +98,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: cli
-  url: /topics/cli/
+  url: /tags/cli/
 - name: gemini
-  url: /topics/gemini/
+  url: /tags/gemini/
 - name: gemini-api
-  url: /topics/gemini-api/
+  url: /tags/gemini-api/
 - name: mcp-client
-  url: /topics/mcp-client/
+  url: /tags/mcp-client/
 - name: mcp-server
-  url: /topics/mcp-server/
+  url: /tags/mcp-server/
 related_repos:
 - full_name: n8n-io/n8n
   slug: n8n-io-n8n
@@ -130,21 +130,6 @@ related_repos:
   - cli
   - mcp-client
   - mcp-server
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - ai-agents
-  - gemini
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
@@ -160,10 +145,10 @@ related_repos:
   - ai
   - ai-agents
   - gemini
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
-  score: 13
+- full_name: langchain-ai/langchain
+  slug: langchain-ai-langchain
+  url: https://github.com/langchain-ai/langchain
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -173,10 +158,11 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
+  - ai-agents
   - gemini
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 13
   shared_weeks:
   - 2026-W21
@@ -188,9 +174,9 @@ related_repos:
   shared_topics:
   - ai
   - ai-agents
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
+- full_name: f/prompts.chat
+  slug: f-prompts-chat
+  url: https://github.com/f/prompts.chat
   score: 13
   shared_weeks:
   - 2026-W21
@@ -230,6 +216,20 @@ related_repos:
   shared_topics:
   - ai
   - ai-agents
+- full_name: koala73/worldmonitor
+  slug: koala73-worldmonitor
+  url: https://github.com/koala73/worldmonitor
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai
+  - mcp-server
 lifecycle:
   status: active
   as_of_week: 2026-W31

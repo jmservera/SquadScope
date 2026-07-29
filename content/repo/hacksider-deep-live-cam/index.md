@@ -2,7 +2,7 @@
 title: hacksider/Deep-Live-Cam repository trend history
 description: 'Evergreen Claracle Observatory page for hacksider/Deep-Live-Cam: 8 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/hacksider/Deep-Live-Cam
 repo_slug: hacksider-deep-live-cam
 repo_description: real time face swap and one-click video deepfake with only a single image
 repo_language: Python
-topics:
+tags:
 - ai
 - ai-deep-fake
 - ai-face
@@ -85,35 +85,35 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ai
-  url: /topics/ai/
+  url: /tags/ai/
 - name: ai-deep-fake
-  url: /topics/ai-deep-fake/
+  url: /tags/ai-deep-fake/
 - name: ai-face
-  url: /topics/ai-face/
+  url: /tags/ai-face/
 - name: ai-webcam
-  url: /topics/ai-webcam/
+  url: /tags/ai-webcam/
 - name: artificial-intelligence
-  url: /topics/artificial-intelligence/
+  url: /tags/artificial-intelligence/
 - name: deep-fake
-  url: /topics/deep-fake/
+  url: /tags/deep-fake/
 - name: deepfake
-  url: /topics/deepfake/
+  url: /tags/deepfake/
 - name: deepfake-webcam
-  url: /topics/deepfake-webcam/
+  url: /tags/deepfake-webcam/
 - name: faceswap
-  url: /topics/faceswap/
+  url: /tags/faceswap/
 - name: fake-webcam
-  url: /topics/fake-webcam/
+  url: /tags/fake-webcam/
 - name: gan
-  url: /topics/gan/
+  url: /tags/gan/
 - name: real-time-deepfake
-  url: /topics/real-time-deepfake/
+  url: /tags/real-time-deepfake/
 related_repos:
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: f/prompts.chat
+  slug: f-prompts-chat
+  url: https://github.com/f/prompts.chat
   score: 10
   shared_weeks:
   - 2026-W21
@@ -125,9 +125,9 @@ related_repos:
   shared_topics:
   - ai
   - artificial-intelligence
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
+- full_name: Significant-Gravitas/AutoGPT
+  slug: significant-gravitas-autogpt
+  url: https://github.com/Significant-Gravitas/AutoGPT
   score: 10
   shared_weeks:
   - 2026-W21
@@ -153,9 +153,9 @@ related_repos:
   shared_topics:
   - ai
   - artificial-intelligence
-- full_name: openclaw/openclaw
-  slug: openclaw-openclaw
-  url: https://github.com/openclaw/openclaw
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 9
   shared_weeks:
   - 2026-W21
@@ -166,9 +166,9 @@ related_repos:
   - 2026-W29
   shared_topics:
   - ai
-- full_name: obra/superpowers
-  slug: obra-superpowers
-  url: https://github.com/obra/superpowers
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
   score: 9
   shared_weeks:
   - 2026-W21
@@ -179,9 +179,9 @@ related_repos:
   - 2026-W29
   shared_topics:
   - ai
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: Comfy-Org/ComfyUI
+  slug: comfy-org-comfyui
+  url: https://github.com/Comfy-Org/ComfyUI
   score: 9
   shared_weeks:
   - 2026-W21
@@ -192,9 +192,9 @@ related_repos:
   - 2026-W29
   shared_topics:
   - ai
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
+- full_name: docling-project/docling
+  slug: docling-project-docling
+  url: https://github.com/docling-project/docling
   score: 9
   shared_weeks:
   - 2026-W21
@@ -205,9 +205,9 @@ related_repos:
   - 2026-W29
   shared_topics:
   - ai
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
+- full_name: firecrawl/firecrawl
+  slug: firecrawl-firecrawl
+  url: https://github.com/firecrawl/firecrawl
   score: 9
   shared_weeks:
   - 2026-W21

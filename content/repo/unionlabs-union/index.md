@@ -2,7 +2,7 @@
 title: unionlabs/union repository trend history
 description: 'Evergreen Claracle Observatory page for unionlabs/union: 9 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -14,7 +14,7 @@ repo_slug: unionlabs-union
 repo_description: The trust-minimized, zero-knowledge bridging protocol, designed for censorship resistance, extremely high
   security, and usage in decentralized finance.
 repo_language: Rust
-topics:
+tags:
 - astro
 - blockchain
 - cosmos
@@ -92,35 +92,49 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: astro
-  url: /topics/astro/
+  url: /tags/astro/
 - name: blockchain
-  url: /topics/blockchain/
+  url: /tags/blockchain/
 - name: cosmos
-  url: /topics/cosmos/
+  url: /tags/cosmos/
 - name: cosmwasm
-  url: /topics/cosmwasm/
+  url: /tags/cosmwasm/
 - name: ethereum
-  url: /topics/ethereum/
+  url: /tags/ethereum/
 - name: evm
-  url: /topics/evm/
+  url: /tags/evm/
 - name: golang
-  url: /topics/golang/
+  url: /tags/golang/
 - name: indexer
-  url: /topics/indexer/
+  url: /tags/indexer/
 - name: interoperability
-  url: /topics/interoperability/
+  url: /tags/interoperability/
 - name: move
-  url: /topics/move/
+  url: /tags/move/
 - name: nix
-  url: /topics/nix/
+  url: /tags/nix/
 - name: prover
-  url: /topics/prover/
+  url: /tags/prover/
 related_repos:
 - full_name: denoland/deno
   slug: denoland-deno
   url: https://github.com/denoland/deno
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W25
+  - 2026-W26
+  - 2026-W28
+  shared_topics:
+  - rust
+  - typescript
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
   score: 11
   shared_weeks:
   - 2026-W21
@@ -160,10 +174,10 @@ related_repos:
   shared_topics:
   - rust
   - typescript
-- full_name: farion1231/cc-switch
-  slug: farion1231-cc-switch
-  url: https://github.com/farion1231/cc-switch
-  score: 11
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
+  score: 10
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -172,11 +186,10 @@ related_repos:
   - 2026-W26
   - 2026-W28
   shared_topics:
-  - rust
   - typescript
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
   score: 10
   shared_weeks:
   - 2026-W21
@@ -200,22 +213,9 @@ related_repos:
   - 2026-W28
   shared_topics:
   - golang
-- full_name: ollama/ollama
-  slug: ollama-ollama
-  url: https://github.com/ollama/ollama
-  score: 10
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W25
-  - 2026-W26
-  - 2026-W28
-  shared_topics:
-  - golang
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
   score: 10
   shared_weeks:
   - 2026-W21

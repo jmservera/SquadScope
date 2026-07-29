@@ -2,7 +2,7 @@
 title: mermaid-js/mermaid repository trend history
 description: 'Evergreen Claracle Observatory page for mermaid-js/mermaid: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/mermaid-js/mermaid
 repo_slug: mermaid-js-mermaid
 repo_description: Generation of diagrams like flowcharts or sequence diagrams from text in a similar manner as markdown
 repo_language: TypeScript
-topics:
+tags:
 - diagrams
 - diagrams-as-code
 - documentation
@@ -99,24 +99,38 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: diagrams
-  url: /topics/diagrams/
+  url: /tags/diagrams/
 - name: diagrams-as-code
-  url: /topics/diagrams-as-code/
+  url: /tags/diagrams-as-code/
 - name: documentation
-  url: /topics/documentation/
+  url: /tags/documentation/
 - name: flowchart
-  url: /topics/flowchart/
+  url: /tags/flowchart/
 - name: javascript
-  url: /topics/javascript/
+  url: /tags/javascript/
 - name: mindmap
-  url: /topics/mindmap/
+  url: /tags/mindmap/
 - name: typescript
-  url: /topics/typescript/
+  url: /tags/typescript/
 - name: uml-diagrams
-  url: /topics/uml-diagrams/
+  url: /tags/uml-diagrams/
 related_repos:
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - typescript
 - full_name: denoland/deno
   slug: denoland-deno
   url: https://github.com/denoland/deno
@@ -131,9 +145,9 @@ related_repos:
   shared_topics:
   - javascript
   - typescript
-- full_name: immich-app/immich
-  slug: immich-app-immich
-  url: https://github.com/immich-app/immich
+- full_name: facebook/docusaurus
+  slug: facebook-docusaurus
+  url: https://github.com/facebook/docusaurus
   score: 13
   shared_weeks:
   - 2026-W21
@@ -143,11 +157,11 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
+  - documentation
   - javascript
-  - typescript
-- full_name: angular/angular
-  slug: angular-angular
-  url: https://github.com/angular/angular
+- full_name: immich-app/immich
+  slug: immich-app-immich
+  url: https://github.com/immich-app/immich
   score: 13
   shared_weeks:
   - 2026-W21
@@ -187,36 +201,9 @@ related_repos:
   shared_topics:
   - javascript
   - typescript
-- full_name: facebook/docusaurus
-  slug: facebook-docusaurus
-  url: https://github.com/facebook/docusaurus
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - documentation
-  - javascript
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
   score: 12
   shared_weeks:
   - 2026-W21
@@ -227,6 +214,19 @@ related_repos:
   - 2026-W26
   shared_topics:
   - typescript
+- full_name: axios/axios
+  slug: axios-axios
+  url: https://github.com/axios/axios
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
 lifecycle:
   status: active
   as_of_week: 2026-W31

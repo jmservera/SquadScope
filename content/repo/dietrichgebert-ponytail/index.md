@@ -2,7 +2,7 @@
 title: DietrichGebert/ponytail repository trend history
 description: 'Evergreen Claracle Observatory page for DietrichGebert/ponytail: 5 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-20'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/DietrichGebert/ponytail
 repo_slug: dietrichgebert-ponytail
 repo_description: Makes your AI agent think like the laziest senior dev in the room. The best code is the code you never wrote.
 repo_language: JavaScript
-topics:
+tags:
 - agent-skills
 - ai-agents
 - claude
@@ -65,28 +65,44 @@ weekly_appearances:
   url: /weekly/2026/w29/
 - week: 2026-W30
   url: /weekly/2026/w30/
-topic_links:
+tag_links:
 - name: agent-skills
-  url: /topics/agent-skills/
+  url: /tags/agent-skills/
 - name: ai-agents
-  url: /topics/ai-agents/
+  url: /tags/ai-agents/
 - name: claude
-  url: /topics/claude/
+  url: /tags/claude/
 - name: claude-code
-  url: /topics/claude-code/
+  url: /tags/claude-code/
 - name: claude-code-plugin
-  url: /topics/claude-code-plugin/
+  url: /tags/claude-code-plugin/
 - name: cursor-rules
-  url: /topics/cursor-rules/
+  url: /tags/cursor-rules/
 - name: developer-tools
-  url: /topics/developer-tools/
+  url: /tags/developer-tools/
 - name: llm
-  url: /topics/llm/
+  url: /tags/llm/
 - name: prompt-engineering
-  url: /topics/prompt-engineering/
+  url: /tags/prompt-engineering/
 - name: yagni
-  url: /topics/yagni/
+  url: /tags/yagni/
 related_repos:
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 9
+  shared_weeks:
+  - 2026-W25
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - ai-agents
+  - claude
+  - claude-code
+  - developer-tools
+  - llm
 - full_name: NousResearch/hermes-agent
   slug: nousresearch-hermes-agent
   url: https://github.com/NousResearch/hermes-agent
@@ -117,36 +133,6 @@ related_repos:
   - claude
   - claude-code
   - claude-code-plugin
-- full_name: affaan-m/ECC
-  slug: affaan-m-ecc
-  url: https://github.com/affaan-m/ECC
-  score: 9
-  shared_weeks:
-  - 2026-W25
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - ai-agents
-  - claude
-  - claude-code
-  - developer-tools
-  - llm
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
-  score: 8
-  shared_weeks:
-  - 2026-W25
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - claude
-  - llm
-  - prompt-engineering
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
@@ -161,9 +147,9 @@ related_repos:
   - ai-agents
   - claude
   - claude-code
-- full_name: rtk-ai/rtk
-  slug: rtk-ai-rtk
-  url: https://github.com/rtk-ai/rtk
+- full_name: f/prompts.chat
+  slug: f-prompts-chat
+  url: https://github.com/f/prompts.chat
   score: 8
   shared_weeks:
   - 2026-W25
@@ -172,9 +158,9 @@ related_repos:
   - 2026-W29
   - 2026-W30
   shared_topics:
-  - claude-code
-  - developer-tools
+  - claude
   - llm
+  - prompt-engineering
 - full_name: nexu-io/open-design
   slug: nexu-io-open-design
   url: https://github.com/nexu-io/open-design
@@ -189,9 +175,23 @@ related_repos:
   - agent-skills
   - ai-agents
   - claude
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+- full_name: rtk-ai/rtk
+  slug: rtk-ai-rtk
+  url: https://github.com/rtk-ai/rtk
+  score: 8
+  shared_weeks:
+  - 2026-W25
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - claude-code
+  - developer-tools
+  - llm
+- full_name: addyosmani/agent-skills
+  slug: addyosmani-agent-skills
+  url: https://github.com/addyosmani/agent-skills
   score: 7
   shared_weeks:
   - 2026-W25
@@ -200,8 +200,8 @@ related_repos:
   - 2026-W29
   - 2026-W30
   shared_topics:
-  - claude
-  - llm
+  - agent-skills
+  - claude-code
 lifecycle:
   status: active
   as_of_week: 2026-W30

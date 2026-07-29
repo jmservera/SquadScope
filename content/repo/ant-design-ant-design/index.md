@@ -2,7 +2,7 @@
 title: ant-design/ant-design repository trend history
 description: 'Evergreen Claracle Observatory page for ant-design/ant-design: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/ant-design/ant-design
 repo_slug: ant-design-ant-design
 repo_description: An enterprise-class UI design language and React UI library
 repo_language: TypeScript
-topics:
+tags:
 - ant-design
 - antd
 - design-systems
@@ -98,21 +98,21 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: ant-design
-  url: /topics/ant-design/
+  url: /tags/ant-design/
 - name: antd
-  url: /topics/antd/
+  url: /tags/antd/
 - name: design-systems
-  url: /topics/design-systems/
+  url: /tags/design-systems/
 - name: react
-  url: /topics/react/
+  url: /tags/react/
 - name: typescript
-  url: /topics/typescript/
+  url: /tags/typescript/
 - name: ui-kit
-  url: /topics/ui-kit/
+  url: /tags/ui-kit/
 - name: ui-library
-  url: /topics/ui-library/
+  url: /tags/ui-library/
 related_repos:
 - full_name: oven-sh/bun
   slug: oven-sh-bun
@@ -142,9 +142,22 @@ related_repos:
   shared_topics:
   - react
   - typescript
-- full_name: freeCodeCamp/freeCodeCamp
-  slug: freecodecamp-freecodecamp
-  url: https://github.com/freeCodeCamp/freeCodeCamp
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - typescript
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
   score: 12
   shared_weeks:
   - 2026-W21
@@ -155,9 +168,35 @@ related_repos:
   - 2026-W26
   shared_topics:
   - react
-- full_name: n8n-io/n8n
-  slug: n8n-io-n8n
-  url: https://github.com/n8n-io/n8n
+- full_name: bytedance/deer-flow
+  slug: bytedance-deer-flow
+  url: https://github.com/bytedance/deer-flow
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - typescript
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - typescript
+- full_name: denoland/deno
+  slug: denoland-deno
+  url: https://github.com/denoland/deno
   score: 12
   shared_weeks:
   - 2026-W21
@@ -181,45 +220,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - typescript
-- full_name: vercel/next.js
-  slug: vercel-next-js
-  url: https://github.com/vercel/next.js
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - react
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - typescript
-- full_name: shadcn-ui/ui
-  slug: shadcn-ui-ui
-  url: https://github.com/shadcn-ui/ui
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - react
 lifecycle:
   status: active
   as_of_week: 2026-W31

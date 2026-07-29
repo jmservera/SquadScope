@@ -2,7 +2,7 @@
 title: fastapi/fastapi repository trend history
 description: 'Evergreen Claracle Observatory page for fastapi/fastapi: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-29'
+date: '2026-07-27'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -13,7 +13,7 @@ repo_url: https://github.com/fastapi/fastapi
 repo_slug: fastapi-fastapi
 repo_description: FastAPI framework, high performance, easy to learn, fast to code, ready for production
 repo_language: Python
-topics:
+tags:
 - api
 - async
 - asyncio
@@ -103,31 +103,31 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
-topic_links:
+tag_links:
 - name: api
-  url: /topics/api/
+  url: /tags/api/
 - name: async
-  url: /topics/async/
+  url: /tags/async/
 - name: asyncio
-  url: /topics/asyncio/
+  url: /tags/asyncio/
 - name: fastapi
-  url: /topics/fastapi/
+  url: /tags/fastapi/
 - name: framework
-  url: /topics/framework/
+  url: /tags/framework/
 - name: json
-  url: /topics/json/
+  url: /tags/json/
 - name: json-schema
-  url: /topics/json-schema/
+  url: /tags/json-schema/
 - name: openapi
-  url: /topics/openapi/
+  url: /tags/openapi/
 - name: openapi3
-  url: /topics/openapi3/
+  url: /tags/openapi3/
 - name: pydantic
-  url: /topics/pydantic/
+  url: /tags/pydantic/
 - name: python
-  url: /topics/python/
+  url: /tags/python/
 - name: python-types
-  url: /topics/python-types/
+  url: /tags/python-types/
 related_repos:
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
@@ -158,20 +158,6 @@ related_repos:
   shared_topics:
   - asyncio
   - python
-- full_name: sherlock-project/sherlock
-  slug: sherlock-project-sherlock
-  url: https://github.com/sherlock-project/sherlock
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - python
-  - python3
 - full_name: hoppscotch/hoppscotch
   slug: hoppscotch-hoppscotch
   url: https://github.com/hoppscotch/hoppscotch
@@ -200,6 +186,20 @@ related_repos:
   shared_topics:
   - api
   - framework
+- full_name: sherlock-project/sherlock
+  slug: sherlock-project-sherlock
+  url: https://github.com/sherlock-project/sherlock
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - python
+  - python3
 - full_name: strapi/strapi
   slug: strapi-strapi
   url: https://github.com/strapi/strapi
@@ -214,9 +214,9 @@ related_repos:
   shared_topics:
   - api
   - rest
-- full_name: tensorflow/tensorflow
-  slug: tensorflow-tensorflow
-  url: https://github.com/tensorflow/tensorflow
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 12
   shared_weeks:
   - 2026-W21
@@ -226,10 +226,10 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - python
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
+  - web
+- full_name: ansible/ansible
+  slug: ansible-ansible
+  url: https://github.com/ansible/ansible
   score: 12
   shared_weeks:
   - 2026-W21
