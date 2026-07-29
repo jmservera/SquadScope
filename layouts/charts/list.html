@@ -1,0 +1,18 @@
+{{- define "main" -}}
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1>{{ .Title }}</h1>
+  {{- with .Description }}
+  <div class="post-description">{{ . }}</div>
+  {{- end }}
+</header>
+
+<section class="taxonomy-grid" aria-label="Chart pages">
+  {{- range .Pages.ByTitle }}
+  <article class="home-report-card taxonomy-card">
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    <p>{{ .Params.summary | default .Summary }}</p>
+  </article>
+  {{- end }}
+</section>
+{{- end -}}
