@@ -29,6 +29,16 @@ def test_internal_link_checker_reports_missing_internal_page(tmp_path: Path) -> 
     ]
 
 
+def test_internal_link_checker_detects_mixed_case_scheme_internal_links(
+    tmp_path: Path,
+) -> None:
+    write(tmp_path / "index.html", '<a href="HTTPS://claracle.com/missing/">missing</a>')
+
+    assert check_links(tmp_path, "https://claracle.com/") == [
+        "index.html: href='HTTPS://claracle.com/missing/' -> missing missing/index.html"
+    ]
+
+
 def test_internal_link_checker_reports_missing_fragment(tmp_path: Path) -> None:
     write(tmp_path / "index.html", '<a href="/weekly/#not-there">weekly</a>')
     write(tmp_path / "weekly/index.html", '<h1 id="weekly">Weekly</h1>')
@@ -36,3 +46,14 @@ def test_internal_link_checker_reports_missing_fragment(tmp_path: Path) -> None:
     assert check_links(tmp_path, "https://claracle.com/") == [
         "index.html: href='/weekly/#not-there' -> missing fragment #not-there"
     ]
+
+
+def test_internal_link_checker_resolves_empty_path_links_to_current_file(
+    tmp_path: Path,
+) -> None:
+    write(
+        tmp_path / "404.html",
+        '<h1 id="top">Not found</h1><a href="#top">top</a><a href="?from=404#top">query</a>',
+    )
+
+    assert check_links(tmp_path, "https://claracle.com/") == []

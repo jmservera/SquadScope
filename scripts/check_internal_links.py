@@ -75,9 +75,10 @@ def collect_pages(site_root: Path) -> tuple[dict[Path, set[str]], list[Link]]:
 
 def is_internal_url(url: str, base_netlocs: set[str]) -> bool:
     parsed = urlsplit(url)
-    if parsed.scheme.lower() in IGNORED_SCHEMES:
+    scheme = parsed.scheme.lower()
+    if scheme in IGNORED_SCHEMES:
         return False
-    if parsed.scheme and parsed.scheme not in {"http", "https"}:
+    if scheme and scheme not in {"http", "https"}:
         return False
     if parsed.netloc and parsed.netloc.lower() not in base_netlocs:
         return False
@@ -109,6 +110,8 @@ def resolve_target(
         return None
     if parsed.netloc or target.startswith("/"):
         return target_file_for_path(site_root, parsed.path or "/")
+    if not parsed.path:
+        return source
 
     source_dir = "/" + str(source.parent.relative_to(site_root))
     normalized = posixpath.normpath(posixpath.join(source_dir, parsed.path or "."))
