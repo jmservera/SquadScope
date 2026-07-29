@@ -1,0 +1,31 @@
+{{- define "main" }}
+<article class="post-single tools-list" data-pagefind-body>
+  {{ partial "pagefind-metadata.html" . }}
+
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <p class="section-topline">Interactive tools</p>
+    <h1 class="post-title entry-hint-parent">{{ .Title }}</h1>
+    {{- with (.Description | default .Params.summary) }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+  </header>
+
+  {{- if .Content }}
+  <div class="post-content md-content">
+    {{- if not (.Param "disableAnchoredHeadings") }}
+    {{- partial "anchored_headings.html" .Content -}}
+    {{- else }}{{ .Content }}{{ end }}
+  </div>
+  {{- end }}
+
+  <section aria-labelledby="tools-list-heading">
+    <h2 id="tools-list-heading">Available tools</h2>
+    <ul>
+      {{- range .Pages }}
+      <li><a href="{{ .RelPermalink }}">{{ .Title }}</a> — {{ .Description | default .Summary }}</li>
+      {{- end }}
+    </ul>
+  </section>
+</article>
+{{- end }}
