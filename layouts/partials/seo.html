@@ -1,6 +1,11 @@
 {{- $siteTitle := .Site.Title | plainify -}}
 {{- $siteDescription := .Site.Params.description | default "Claracle turns GitHub activity into weekly tech trend analysis for developers and tech leads." -}}
 {{- $title := cond .IsHome $siteTitle (printf "%s | %s" (.Title | plainify) $siteTitle) -}}
+{{- $termTaxonomy := "" -}}
+{{- if eq .Kind "term" -}}
+  {{- $termTaxonomy = .Data.Plural | default .Type | humanize | lower -}}
+  {{- $title = printf "%s in %s | %s" (.Title | plainify) $termTaxonomy $siteTitle -}}
+{{- end -}}
 {{- $pageNumber := "" -}}
 {{- with findRE "/page/[0-9]+/?$" .RelPermalink 1 -}}
   {{- $pageNumber = replaceRE "^.*/page/([0-9]+)/?$" "$1" (index . 0) -}}
@@ -15,7 +20,7 @@
   {{- else if eq (.Title | plainify) "404 Page not found" -}}
     {{- $descriptionSource = "Claracle could not find that page. Use navigation or search to return to GitHub trend reports, topics, monthly rollups, and yearly analysis." -}}
   {{- else if eq .Kind "term" -}}
-    {{- $descriptionSource = printf "Browse Claracle reports about %s, with weekly GitHub trend analysis and per-topic RSS." (.Title | plainify) -}}
+    {{- $descriptionSource = printf "Browse Claracle %s entries for %s, with weekly GitHub trend analysis, archives, and RSS feeds." $termTaxonomy (.Title | plainify) -}}
   {{- else if eq .Kind "taxonomy" -}}
     {{- $descriptionSource = printf "Browse Claracle %s hubs for weekly GitHub trend analysis, archives, and RSS feeds." (.Title | plainify | lower) -}}
   {{- else if and .IsPage (eq .Section "monthly") -}}
