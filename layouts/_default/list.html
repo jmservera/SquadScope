@@ -1,0 +1,34 @@
+{{- define "main" -}}
+{{- $pages := .RegularPagesRecursive.ByDate.Reverse -}}
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <p class="section-topline">{{ .Type | default .Section | humanize }}</p>
+  <h1>{{ .Title }}</h1>
+  {{- with (.Description | default .Params.summary) }}
+  <div class="post-description">{{ . }}</div>
+  {{- end }}
+</header>
+
+{{- if .Content }}
+<div class="post-content md-content">
+  {{ .Content }}
+</div>
+{{- end }}
+
+{{- if $pages }}
+<section class="taxonomy-grid" aria-label="{{ .Title }} pages">
+  {{- range $pages }}
+  <article class="home-report-card taxonomy-card">
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    {{- with (.Description | default .Params.summary | default .Summary) }}
+    <p>{{ . }}</p>
+    {{- end }}
+    <div class="home-report-meta">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+      <span>{{ .Type | humanize }}</span>
+    </div>
+  </article>
+  {{- end }}
+</section>
+{{- end }}
+{{- end -}}

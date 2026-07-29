@@ -7,6 +7,8 @@
   {{- $issueTitle := printf "Correction report: %s" $week -}}
   {{- $issueBody := printf "## Correction / source / safety concern\n\nArticle: %s\nWeek: %s\n\nConcern type: correction / source concern / safety concern\nSuggested labels for maintainers: correction, source concern, safety concern, or bias/framing concern\n\nWhat should be corrected or reviewed?\n\n\nSuggested source(s) or evidence:\n\n\nVisible correction note needed? yes/no\n" $articleURL $week -}}
   {{- $reportURL := printf "https://github.com/jmservera/SquadScope/issues/new?title=%s&body=%s&labels=%s" ($issueTitle | urlquery) ($issueBody | urlquery) ("correction,reader-report" | urlquery) -}}
+  {{ partial "article-related-links.html" $page }}
+
   <div class="article-footer__taxonomies" aria-label="Report taxonomy">
     <ul class="post-tags">
       {{- range ($page.GetTerms $categories) }}
