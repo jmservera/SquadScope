@@ -1,10 +1,10 @@
 +++
-title = "Fastest-growing AI repositories this year"
+title = "Fastest-growing AI repositories this year as of 2026-W31"
 date = "2026-07-27T03:52:10Z"
 lastmod = "2026-07-27T03:52:10Z"
 draft = false
 summary = "Top 100 repositories ranked by derived star gain across 2026 observations."
-description = "AI and developer-tool repositories with the largest observed star gains across the current year's checked-in Claracle data."
+description = "AI and developer-tool repositories with the largest observed star gains across the current year's checked-in Claracle data, measured as of 2026-W31."
 layout = "single"
 ranking_id = "fastest-growing-ai-repositories-this-year"
 metric_definition = "Derived star gain: latest observed stars minus earliest observed stars in the year."

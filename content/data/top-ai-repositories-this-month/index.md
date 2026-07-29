@@ -1,10 +1,10 @@
 +++
-title = "Top 100 AI repositories this month"
+title = "Top 100 AI repositories this month as of 2026-W31"
 date = "2026-07-27T03:52:10Z"
 lastmod = "2026-07-27T03:52:10Z"
 draft = false
 summary = "Top 100 repositories observed in 2026-07, ranked by latest checked-in star count."
-description = "The most-starred repositories observed by Claracle in the latest monthly GitHub trend window."
+description = "The most-starred repositories observed by Claracle in the latest monthly GitHub trend window, ranked as of 2026-W31."
 layout = "single"
 ranking_id = "top-ai-repositories-this-month"
 metric_definition = "Latest absolute GitHub stars for repositories observed in the latest crawl month."

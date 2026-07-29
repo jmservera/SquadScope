@@ -360,11 +360,14 @@ def build_pages() -> dict[Path, str]:
     pages = {
         CONTENT_DIR / "_index.md": frontmatter(
             {
-                "title": "Data pages",
+                "title": f"Data pages as of {latest_week}",
                 "date": latest_artifact.crawled_at.isoformat().replace("+00:00", "Z"),
                 "draft": False,
                 "summary": "Citable Claracle rankings generated from checked-in GitHub trend artifacts.",
-                "description": "Browse read-only GitHub trend rankings with source provenance, as-of dates, and metric definitions.",
+                "description": (
+                    "Browse read-only GitHub trend rankings with source provenance, "
+                    f"metric definitions, and latest data as of {latest_week}."
+                ),
                 "categories": ["Data Observatory"],
                 "tags": ["data-pages", "github-trends"],
             },
@@ -376,10 +379,10 @@ def build_pages() -> dict[Path, str]:
         ),
         CONTENT_DIR / "top-ai-repositories-this-month" / "index.md": render_page(
             CONTENT_DIR / "top-ai-repositories-this-month" / "index.md",
-            title="Top 100 AI repositories this month",
+            title=f"Top 100 AI repositories this month as of {latest_week}",
             description=(
                 "The most-starred repositories observed by Claracle in the latest monthly "
-                "GitHub trend window."
+                f"GitHub trend window, ranked as of {latest_week}."
             ),
             summary=(
                 f"Top {len(top_month_rows)} repositories observed in {latest_month}, ranked by "
@@ -398,10 +401,10 @@ def build_pages() -> dict[Path, str]:
         ),
         CONTENT_DIR / "fastest-growing-ai-repositories-this-year" / "index.md": render_page(
             CONTENT_DIR / "fastest-growing-ai-repositories-this-year" / "index.md",
-            title="Fastest-growing AI repositories this year",
+            title=f"Fastest-growing AI repositories this year as of {latest_week}",
             description=(
                 "AI and developer-tool repositories with the largest observed star gains "
-                "across the current year's checked-in Claracle data."
+                f"across the current year's checked-in Claracle data, measured as of {latest_week}."
             ),
             summary=(
                 f"Top {len(fastest_rows)} repositories ranked by derived star gain across "
@@ -420,10 +423,10 @@ def build_pages() -> dict[Path, str]:
         ),
         CONTENT_DIR / "most-starred-mcp-projects" / "index.md": render_page(
             CONTENT_DIR / "most-starred-mcp-projects" / "index.md",
-            title="Most-starred MCP projects",
+            title=f"Most-starred MCP projects as of {latest_week}",
             description=(
                 "Model Context Protocol projects ranked by latest observed GitHub stars "
-                "from Claracle raw artifacts."
+                f"from Claracle raw artifacts as of {latest_week}."
             ),
             summary=(
                 f"Top {len(mcp_rows)} MCP-related repositories ranked by latest checked-in stars."

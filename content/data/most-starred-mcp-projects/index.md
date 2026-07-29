@@ -1,10 +1,10 @@
 +++
-title = "Most-starred MCP projects"
+title = "Most-starred MCP projects as of 2026-W31"
 date = "2026-07-27T03:52:10Z"
 lastmod = "2026-07-27T03:52:10Z"
 draft = false
 summary = "Top 72 MCP-related repositories ranked by latest checked-in stars."
-description = "Model Context Protocol projects ranked by latest observed GitHub stars from Claracle raw artifacts."
+description = "Model Context Protocol projects ranked by latest observed GitHub stars from Claracle raw artifacts as of 2026-W31."
 layout = "single"
 ranking_id = "most-starred-mcp-projects"
 metric_definition = "Latest absolute GitHub stars for repositories with MCP or Model Context Protocol signals."
