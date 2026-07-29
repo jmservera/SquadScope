@@ -26,10 +26,7 @@ def _frontmatter(**overrides: object) -> dict[str, object]:
 def test_transform_summary_emits_canonical_topics_from_tag_aliases() -> None:
     result = transform_summary(_frontmatter(), "# Content\n")
 
-    assert (
-        'topics: ["AI Coding Agents", "MCP Ecosystem", "Developer Tools"]'
-        in result
-    )
+    assert 'topics: ["AI Coding Agents", "MCP Ecosystem", "Developer Tools"]' in result
 
 
 def test_transform_summary_rejects_unknown_explicit_topics() -> None:
@@ -52,7 +49,9 @@ def test_transform_summary_never_echoes_unsafe_topic_text() -> None:
 
 
 def test_transform_summary_keeps_legacy_inputs_without_topic_signals_working() -> None:
-    result = transform_summary(_frontmatter(tags=["security"], categories=["analysis"]), "# Content\n")
+    result = transform_summary(
+        _frontmatter(tags=["security"], categories=["analysis"]), "# Content\n"
+    )
 
     assert 'categories: ["analysis", "weekly"]' in result
     assert "topics: []" in result

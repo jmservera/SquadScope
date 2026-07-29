@@ -244,9 +244,7 @@ def derive_canonical_topics(frontmatter: dict[str, object], tags: list[str]) -> 
         explicit_topics = ensure_list(frontmatter["topics"], field_name="topics")
         unknown_topics = [topic for topic in explicit_topics if topic not in _CANONICAL_TOPIC_SET]
         if unknown_topics:
-            raise GenerationError(
-                "topics contains values outside the canonical vocabulary."
-            )
+            raise GenerationError("topics contains values outside the canonical vocabulary.")
 
     selected = set(explicit_topics)
     for tag in tags:
