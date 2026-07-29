@@ -10,12 +10,19 @@
         return;
       }
 
-      await navigator.clipboard.writeText(snippet.trim());
-      const original = button.textContent;
-      button.textContent = "Copied";
-      window.setTimeout(() => {
-        button.textContent = original;
-      }, 1800);
+      try {
+        await navigator.clipboard.writeText(snippet.trim());
+        const original = button.textContent;
+        button.textContent = "Copied";
+        window.setTimeout(() => {
+          button.textContent = original;
+        }, 1800);
+      } catch {
+        button.textContent = "Copy failed";
+        window.setTimeout(() => {
+          button.textContent = "Copy embed snippet";
+        }, 1800);
+      }
     });
   });
 })();

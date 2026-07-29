@@ -28,8 +28,18 @@ def test_chart_shortcode_and_embed_layout_are_local_and_attributed() -> None:
     assert "site.GetPage" in shortcode
     assert "Claracle Data Observatory" in partial
     assert "Embed attribution must keep this Claracle backlink visible" in partial
+    assert "$title | htmlEscape" in partial
     assert "application/json" in partial
     assert "source_page" in embed_layout
+    assert "robotsNoIndex" in (ROOT / "layouts/embeds/baseof.html").read_text(encoding="utf-8")
+
+
+def test_copy_button_handles_clipboard_rejections() -> None:
+    script = (ROOT / "assets/js/observatory-charts.js").read_text(encoding="utf-8")
+
+    assert "try {" in script
+    assert "await navigator.clipboard.writeText" in script
+    assert "Copy failed" in script
 
 
 def test_rendered_embed_contains_backlink_and_chart_data(tmp_path: Path) -> None:
