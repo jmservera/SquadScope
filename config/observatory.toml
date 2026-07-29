@@ -1,0 +1,34 @@
+[repo_pages]
+# Generate repository pages for repos appearing in more than this many distinct weekly issues.
+# Default: >3 weekly issues, equivalent to at least 4 observed weeks.
+recurrence_threshold_distinct_weekly_issues = 3
+recurrence_threshold_operator = ">"
+retention_years = 3
+
+# Optional lifecycle overrides for known repository state transitions. Current checked-in
+# raw crawl data does not expose GitHub id/node_id, archive flags, or API deletion status,
+# so these entries let scheduled crawl metadata be recorded without changing the frozen pipeline.
+[repo_pages.lifecycle]
+
+[topic_hubs]
+seed_topics = [
+  "AI Coding Agents",
+  "MCP Ecosystem",
+  "Open-Source LLMs",
+  "Developer Tools",
+  "AI Agents in Healthcare",
+]
+
+[topic_hubs.dynamic_creation]
+enabled = true
+min_weekly_issues = 4
+lookback_days = 62
+log_path = "data/topic-hubs/dynamic-topic-creation.log"
+ignore_topics = [
+  "ai",
+  "artificial intelligence",
+  "apps",
+  "security",
+  "startups",
+  "the download",
+]

@@ -1,0 +1,149 @@
+.observatory-chart {
+  --chart-ink: #102033;
+  --chart-muted: #5a6b7f;
+  --chart-blue: #0066cc;
+  --chart-cyan: #00a7b5;
+  --chart-surface: #f7fbff;
+  --chart-border: rgba(0, 102, 204, 0.18);
+  background: linear-gradient(135deg, #ffffff 0%, var(--chart-surface) 100%);
+  border: 1px solid var(--chart-border);
+  border-radius: 22px;
+  box-shadow: 0 18px 48px rgba(16, 32, 51, 0.08);
+  color: var(--chart-ink);
+  margin: 2rem 0;
+  overflow: hidden;
+  padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+.observatory-chart--embed {
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  min-height: 100vh;
+}
+
+.observatory-chart__eyebrow {
+  color: var(--chart-blue);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  margin: 0 0 0.35rem;
+  text-transform: uppercase;
+}
+
+.observatory-chart__title {
+  color: var(--chart-ink);
+  font-size: clamp(1.35rem, 3vw, 2.1rem);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.observatory-chart__dek,
+.observatory-chart__caption,
+.observatory-chart__embed-panel p {
+  color: var(--chart-muted);
+}
+
+.observatory-chart__dek {
+  margin: 0.6rem 0 1.1rem;
+}
+
+.observatory-chart__svg {
+  background: #ffffff;
+  border: 1px solid rgba(16, 32, 51, 0.08);
+  border-radius: 16px;
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+.observatory-chart__axis {
+  stroke: rgba(16, 32, 51, 0.16);
+  stroke-width: 2;
+}
+
+.observatory-chart__rank {
+  fill: var(--chart-blue);
+  font: 700 18px/1 Inter, system-ui, sans-serif;
+}
+
+.observatory-chart__repo {
+  fill: var(--chart-ink);
+  font: 650 18px/1 Inter, system-ui, sans-serif;
+}
+
+.observatory-chart__bar {
+  fill: url("#observatory-chart-gradient");
+  fill: var(--chart-blue);
+}
+
+.observatory-chart__row:nth-of-type(odd) .observatory-chart__bar {
+  fill: var(--chart-cyan);
+}
+
+.observatory-chart__value {
+  fill: var(--chart-muted);
+  font: 600 16px/1 "JetBrains Mono", ui-monospace, monospace;
+}
+
+.observatory-chart__caption {
+  font-size: 0.92rem;
+  margin-top: 1rem;
+}
+
+.observatory-chart__caption a {
+  color: var(--chart-blue);
+  font-weight: 700;
+}
+
+.observatory-chart__embed-panel {
+  background: rgba(0, 102, 204, 0.06);
+  border: 1px solid var(--chart-border);
+  border-radius: 16px;
+  margin-top: 1.25rem;
+  padding: 1rem;
+}
+
+.observatory-chart__embed-panel h3 {
+  margin-top: 0;
+}
+
+.observatory-chart__snippet {
+  background: #102033;
+  border-radius: 12px;
+  color: #f7fbff;
+  overflow-x: auto;
+  padding: 0.85rem;
+  white-space: pre-wrap;
+}
+
+.observatory-chart__copy {
+  background: var(--chart-blue);
+  border: 0;
+  border-radius: 999px;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0.7rem 1rem;
+}
+
+.observatory-embed {
+  background: #ffffff;
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .observatory-chart {
+    border-radius: 14px;
+    padding: 0.8rem;
+  }
+
+  .observatory-chart__repo,
+  .observatory-chart__rank {
+    font-size: 14px;
+  }
+
+  .observatory-chart__value {
+    font-size: 12px;
+  }
+}
