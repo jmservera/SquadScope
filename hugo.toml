@@ -22,6 +22,8 @@ rssLimit = 52
 [params]
   # jmservera: set to the production GA4 web stream ID (for example, G-XXXXXXXXXX) after creating the Google Analytics property.
   ga_measurement_id = ""
+  # jmservera: set via GSC_SITE_VERIFICATION secret.
+  gsc_site_verification = ""
   description = 'Claracle turns GitHub activity into readable weekly, monthly, and yearly trend reports for busy developers and tech leads.'
   default_social_image = '/images/squadscope-social-card.png'
   defaultTheme = 'auto'

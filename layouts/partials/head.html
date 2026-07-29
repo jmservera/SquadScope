@@ -18,8 +18,13 @@
     {{- range $i, $e := .Params.keywords }}{{ if $i }}, {{ end }}{{ $e }}{{ end }} {{- else }}
     {{- range $i, $e := .Params.tags }}{{ if $i }}, {{ end }}{{ $e }}{{ end }} {{- end -}}">
 {{- end }}
-{{- if site.Params.analytics.google.SiteVerificationTag }}
-<meta name="google-site-verification" content="{{ site.Params.analytics.google.SiteVerificationTag }}">
+{{- $gsc := index site.Params "gsc" | default dict }}
+{{- $gscSite := index $gsc "site" | default dict }}
+{{- $envGscSiteVerification := index $gscSite "verification" | default "" }}
+{{- $configGscSiteVerification := index site.Params "gsc_site_verification" | default "" }}
+{{- $gscSiteVerification := or site.Params.analytics.google.SiteVerificationTag $configGscSiteVerification $envGscSiteVerification }}
+{{- with $gscSiteVerification }}
+<meta name="google-site-verification" content="{{ . }}">
 {{- end }}
 {{- if site.Params.analytics.yandex.SiteVerificationTag }}
 <meta name="yandex-verification" content="{{ site.Params.analytics.yandex.SiteVerificationTag }}">

@@ -197,6 +197,17 @@ class WorkflowConfigTests(unittest.TestCase):
             self.assertIn('CHECKSUM_FILE="hugo_${HUGO_VERSION}_checksums.txt"', install_run)
             self.assertEqual(install_run.count(expected_retry_flags), 2)
 
+    def test_deploy_workflow_maps_analytics_and_gsc_secrets_to_hugo_params(self) -> None:
+        workflow_path = Path(".github/workflows/deploy-site.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+
+        env = workflow["jobs"]["build"]["env"]
+        self.assertEqual(env["HUGO_PARAMS_GA_MEASUREMENT_ID"], "${{ secrets.GA_MEASUREMENT_ID }}")
+        self.assertEqual(
+            env["HUGO_PARAMS_GSC_SITE_VERIFICATION"],
+            "${{ secrets.GSC_SITE_VERIFICATION }}",
+        )
+
     def test_crawl_workflow_persists_run_counter(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
