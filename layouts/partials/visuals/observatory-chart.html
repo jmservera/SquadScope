@@ -1,0 +1,69 @@
+{{- /*
+  Claracle Observatory chart — static SVG ranking bars from Data Observatory
+  frontmatter. Optional local JS enhances copy buttons, but the chart renders
+  without JavaScript for iframe embeds and GitHub Pages.
+*/ -}}
+{{- $page := .page -}}
+{{- $title := .title | default (printf "%s — chart" $page.Title) -}}
+{{- $limit := .limit | default 10 -}}
+{{- $embedURL := .embedURL | default "" -}}
+{{- $standalone := .standalone | default false -}}
+{{- $rows := first $limit ($page.Params.ranking | default slice) -}}
+{{- if gt (len $rows) 0 -}}
+  {{- $max := 1 -}}
+  {{- range $rows }}{{ if gt (int .metric_value) $max }}{{ $max = int .metric_value }}{{ end }}{{ end -}}
+  {{- $chartID := printf "observatory-chart-%s-%d" ($page.Params.ranking_id | default ($page.File.UniqueID | default "ranking")) $limit | anchorize -}}
+  {{- $dataRows := slice -}}
+  {{- range $rows -}}
+    {{- $dataRows = $dataRows | append (dict
+      "rank" .rank
+      "repo" .repo
+      "metric_value" .metric_value
+      "metric_label" .metric_label
+      "url" .url
+      "context" .context
+    ) -}}
+  {{- end -}}
+  {{- $sourcePermalink := $page.Permalink -}}
+  {{- $embedSnippet := "" -}}
+  {{- with $embedURL -}}
+    {{- $embedSnippet = printf `<iframe title="%s" src="%s" width="100%%" height="620" loading="lazy" style="border:0;max-width:100%%;"></iframe>` ($title | htmlEscape) (. | absURL) -}}
+  {{- end -}}
+<figure class="observatory-chart{{ if $standalone }} observatory-chart--embed{{ end }}" id="{{ $chartID }}" role="group" aria-labelledby="{{ $chartID }}-title">
+  <div class="observatory-chart__header">
+    <p class="observatory-chart__eyebrow">Claracle Data Observatory</p>
+    <h2 id="{{ $chartID }}-title" class="observatory-chart__title">{{ $title }}</h2>
+    <p class="observatory-chart__dek">{{ $page.Params.metric_definition }} Data as of {{ $page.Params.as_of_week }}.</p>
+  </div>
+  <svg class="observatory-chart__svg" viewBox="0 0 960 {{ add 132 (mul (len $rows) 56) }}" role="img" aria-labelledby="{{ $chartID }}-svg-title {{ $chartID }}-svg-desc">
+    <title id="{{ $chartID }}-svg-title">{{ $title }}</title>
+    <desc id="{{ $chartID }}-svg-desc">Top {{ len $rows }} repositories from Claracle's {{ $page.Title }} ranking.</desc>
+    <line class="observatory-chart__axis" x1="260" y1="56" x2="260" y2="{{ add 62 (mul (len $rows) 56) }}" />
+    {{- range $i, $row := $rows }}
+      {{- $value := int $row.metric_value -}}
+      {{- $width := math.Round (mul (div (float $value) (float $max)) 560.0) -}}
+      {{- if lt $width 4.0 }}{{ $width = 4.0 }}{{ end -}}
+      {{- $y := add 48 (mul $i 56) -}}
+      <g class="observatory-chart__row">
+        <text class="observatory-chart__rank" x="24" y="{{ add $y 24 }}">#{{ $row.rank }}</text>
+        <text class="observatory-chart__repo" x="72" y="{{ add $y 24 }}">{{ $row.repo }}</text>
+        <rect class="observatory-chart__bar" x="260" y="{{ add $y 4 }}" width="{{ $width }}" height="28" rx="14" />
+        <text class="observatory-chart__value" x="{{ add 280 $width }}" y="{{ add $y 24 }}">{{ $row.metric_label }}</text>
+      </g>
+    {{- end }}
+  </svg>
+  <script type="application/json" class="observatory-chart__data">{{ dict "title" $title "source" $sourcePermalink "rows" $dataRows | jsonify }}</script>
+  <figcaption class="observatory-chart__caption">
+    Source: <a href="{{ $sourcePermalink }}">Claracle Data Observatory — {{ $page.Title }}</a>.
+    Embed attribution must keep this Claracle backlink visible.
+  </figcaption>
+  {{- if and (not $standalone) $embedSnippet }}
+  <div class="observatory-chart__embed-panel" aria-labelledby="{{ $chartID }}-embed-title">
+    <h3 id="{{ $chartID }}-embed-title">Embed this chart</h3>
+    <p>Copy this iframe to reuse the chart with Claracle attribution and a backlink to the source ranking.</p>
+    <pre class="observatory-chart__snippet" data-embed-snippet="{{ $embedSnippet }}"><code>{{ $embedSnippet }}</code></pre>
+    <button class="observatory-chart__copy" type="button" data-copy-target="#{{ $chartID }} .observatory-chart__snippet">Copy embed snippet</button>
+  </div>
+  {{- end }}
+</figure>
+{{- end -}}

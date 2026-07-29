@@ -1,7 +1,7 @@
 # GA4 + GSC launch baseline — 2026-07-29
 
-Issue: jmservera/SquadScope#599  
-Production domain: `https://claracle.com/`  
+Issue: jmservera/SquadScope#599
+Production domain: `https://claracle.com/`
 Sitemap URL: `https://claracle.com/sitemap.xml`
 
 ## Status

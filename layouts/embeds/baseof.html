@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language }}" dir="{{ .Language.LanguageDirection | default "auto" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="ai-generated" content="true">
+  <title>{{ .Title }}</title>
+  <meta name="description" content="{{ .Description | default .Params.summary }}">
+  {{- if and (hugo.IsProduction | or (eq site.Params.env "production")) (ne .Params.robotsNoIndex true) }}
+  <meta name="robots" content="index, follow">
+  {{- else }}
+  <meta name="robots" content="noindex, nofollow">
+  {{- end }}
+  <link rel="canonical" href="{{ .Permalink }}">
+  {{- with resources.Get "css/extended/observatory-charts.css" }}
+  <style>{{ .Content | safeCSS }}</style>
+  {{- end }}
+</head>
+<body class="observatory-embed">
+  <main id="main-content">
+    {{- block "main" . }}{{ end }}
+  </main>
+  {{- with resources.Get "js/observatory-charts.js" | js.Build | resources.Minify }}
+  <script src="{{ .RelPermalink }}" defer></script>
+  {{- end }}
+</body>
+</html>
