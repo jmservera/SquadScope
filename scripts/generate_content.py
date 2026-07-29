@@ -29,6 +29,67 @@ REQUIRED_ANALYSIS_FIELDS = {
     "summary",
 }
 
+CANONICAL_TOPICS = (
+    "AI Coding Agents",
+    "MCP Ecosystem",
+    "Open-Source LLMs",
+    "Developer Tools",
+    "AI Agents in Healthcare",
+)
+
+_TOPIC_ALIASES: dict[str, tuple[str, ...]] = {
+    "AI Coding Agents": (
+        "ai-agents",
+        "coding-agents",
+        "agent-skills",
+        "claude-code",
+        "openai",
+        "codex",
+        "autogpt",
+        "openhands",
+    ),
+    "MCP Ecosystem": (
+        "mcp",
+        "modelcontextprotocol",
+        "mcp-server",
+        "servers",
+    ),
+    "Open-Source LLMs": (
+        "llm",
+        "open-source",
+        "ollama",
+        "transformers",
+        "huggingface",
+        "local-ai",
+        "model-routing",
+    ),
+    "Developer Tools": (
+        "developer-tools",
+        "developer-tooling",
+        "cli",
+        "typescript",
+        "javascript",
+        "python",
+        "go",
+        "rust",
+        "build",
+        "testing",
+        "observability",
+    ),
+    "AI Agents in Healthcare": (
+        "healthcare",
+        "medical",
+        "simulation",
+        "scientific",
+        "clinical",
+    ),
+}
+
+_CANONICAL_TOPIC_SET = set(CANONICAL_TOPICS)
+_TOPIC_ALIAS_TO_CANONICAL = {
+    alias: topic for topic, aliases in _TOPIC_ALIASES.items() for alias in aliases
+}
+
 # Defense-in-depth: max lengths for frontmatter fields even though upstream
 # sanitization should already have applied limits.
 _FIELD_MAX_LENGTHS: dict[str, int] = {
@@ -172,6 +233,32 @@ def ensure_list(value: object, *, field_name: str) -> list[str]:
     return value
 
 
+def _normalize_topic_signal(value: str) -> str:
+    return re.sub(r"[\s_]+", "-", value.strip().lower())
+
+
+def derive_canonical_topics(frontmatter: dict[str, object], tags: list[str]) -> list[str]:
+    """Map analysis signals to the fixed Hugo topic taxonomy vocabulary."""
+    explicit_topics: list[str] = []
+    if "topics" in frontmatter:
+        explicit_topics = ensure_list(frontmatter["topics"], field_name="topics")
+        unknown_topics = [topic for topic in explicit_topics if topic not in _CANONICAL_TOPIC_SET]
+        if unknown_topics:
+            raise GenerationError(
+                "topics contains values outside the canonical vocabulary."
+            )
+
+    selected = set(explicit_topics)
+    for tag in tags:
+        normalized = _normalize_topic_signal(tag)
+        if tag in _CANONICAL_TOPIC_SET:
+            selected.add(tag)
+        elif normalized in _TOPIC_ALIAS_TO_CANONICAL:
+            selected.add(_TOPIC_ALIAS_TO_CANONICAL[normalized])
+
+    return [topic for topic in CANONICAL_TOPICS if topic in selected]
+
+
 def infer_output_path(week: str, root: Path) -> Path:
     year, week_number = parse_week(week)
     return root / "content" / "weekly" / str(year) / f"W{week_number:02d}.md"
@@ -199,6 +286,7 @@ def is_local_asset_path(value: object) -> bool:
 
 
 def render_frontmatter(data: dict[str, object]) -> str:
+    topics = data.get("topics", [])
     lines = [
         "---",
         f"title: {yaml_quote(str(data['title']))}",
@@ -206,6 +294,7 @@ def render_frontmatter(data: dict[str, object]) -> str:
         f"week: {yaml_quote(str(data['week']))}",
         f"tags: [{', '.join(yaml_quote(t) for t in data['tags'])}]",
         f"categories: [{', '.join(yaml_quote(c) for c in data['categories'])}]",
+        f"topics: [{', '.join(yaml_quote(t) for t in topics)}]",
         f"repos_featured: {data['repos_featured']}",
         f"stars_tracked: {data['stars_tracked']}",
         f"top_repo: {yaml_quote(str(data['top_repo']))}",
@@ -243,6 +332,7 @@ def transform_summary(frontmatter: dict[str, object], body: str) -> str:
     categories = ensure_list(frontmatter["categories"], field_name="categories")
     if "weekly" not in categories:
         categories = [*categories, "weekly"]
+    topics = derive_canonical_topics(frontmatter, tags)
 
     page_frontmatter: dict[str, object] = {
         "title": normalize_title(str(frontmatter["title"])),
@@ -250,6 +340,7 @@ def transform_summary(frontmatter: dict[str, object], body: str) -> str:
         "week": str(frontmatter["week"]),
         "tags": tags,
         "categories": categories,
+        "topics": topics,
         "repos_featured": int(frontmatter["repos_featured"]),
         "stars_tracked": int(frontmatter["stars_tracked"]),
         "top_repo": str(frontmatter["top_repo"]),
