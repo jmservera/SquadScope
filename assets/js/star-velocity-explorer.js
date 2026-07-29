@@ -44,6 +44,18 @@
     return numberFormatter.format(Number.isFinite(value) ? value : 0);
   }
 
+  function safeGitHubUrl(value) {
+    try {
+      const parsed = new URL(String(value || ""), window.location.origin);
+      if (parsed.protocol === "https:" && parsed.hostname === "github.com") {
+        return parsed.href;
+      }
+    } catch (error) {
+      return "#";
+    }
+    return "#";
+  }
+
   function renderRows(root, repositories) {
     const list = root.querySelector("[data-trend-results]");
     if (!list) {
@@ -56,7 +68,7 @@
       item.className = "trend-explorer__result";
 
       const title = document.createElement("a");
-      title.href = String(repo.url || "#");
+      title.href = safeGitHubUrl(repo.url);
       title.textContent = `${index + 1}. ${repo.repository || "Unknown repository"}`;
       title.rel = "noopener";
 

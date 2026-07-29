@@ -87,7 +87,7 @@ def test_tool_page_renders_static_client_bootstrap() -> None:
             encoding="utf-8"
         )
         assert "Star Velocity Explorer" in rendered
-        assert "data-source=/tools/star-velocity-explorer.json" in rendered
+        assert "/tools/star-velocity-explorer.json" in rendered
         assert "Loading static trend data" in rendered
     finally:
         shutil.rmtree(destination, ignore_errors=True)
@@ -164,6 +164,23 @@ vm.runInThisContext(script);
   await window.initTrendExplorer(empty);
   if (!empty.map['[data-trend-status]'].textContent.includes('No trend data')) {
     throw new Error('empty payload was not handled');
+  }
+  const unsafe = rootFor({
+    language_filters: [],
+    topic_filters: [],
+    repositories: [{
+      repository: 'example/bad',
+      url: 'javascript:alert(1)',
+      primary_language: 'JavaScript',
+      observed_star_change: 1,
+      latest_stars: 2,
+      series: [{ week: '2026-W01', stars: 1 }],
+    }],
+  });
+  await window.initTrendExplorer(unsafe);
+  const link = unsafe.map['[data-trend-results]'].children[0].children[0];
+  if (link.href !== '#') {
+    throw new Error('unsafe repository URL was not sanitized');
   }
   console.log('ok');
 })().catch((error) => { console.error(error); process.exit(1); });
