@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import csv
 import re
+import tomllib
 import warnings
 from pathlib import Path
 
@@ -12,6 +13,8 @@ from scripts.sanitize_repo_content import INJECTION_PHRASES
 from scripts.topic_paths import analyzed_dir
 
 FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---\n(.*)\Z", re.DOTALL)
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_OBSERVATORY_CONFIG = PROJECT_ROOT / "config" / "observatory.toml"
 WEEK_PATTERN = re.compile(r"^(?P<year>\d{4})-W(?P<week>\d{2})$")
 SUMMARY_SUFFIX = "-summary.md"
 ANALYSIS_SUFFIX = " Analysis"
@@ -237,24 +240,53 @@ def _normalize_topic_signal(value: str) -> str:
     return re.sub(r"[\s_]+", "-", value.strip().lower())
 
 
+def _topic_config_path() -> Path:
+    cwd_config = Path.cwd() / "config" / "observatory.toml"
+    return cwd_config if cwd_config.exists() else DEFAULT_OBSERVATORY_CONFIG
+
+
+def load_topic_vocabulary(
+    config_path: Path | None = None,
+) -> tuple[tuple[str, ...], dict[str, str]]:
+    topics = CANONICAL_TOPICS
+    path = config_path or _topic_config_path()
+    if path.exists():
+        raw = tomllib.loads(path.read_text(encoding="utf-8"))
+        configured = raw.get("topic_hubs", {}).get("seed_topics")
+        if isinstance(configured, list) and configured:
+            if not all(isinstance(topic, str) and topic for topic in configured):
+                raise GenerationError("Configured topic_hubs.seed_topics must be strings.")
+            topics = tuple(configured)
+
+    topic_set = set(topics)
+    aliases = {
+        alias: topic for alias, topic in _TOPIC_ALIAS_TO_CANONICAL.items() if topic in topic_set
+    }
+    for topic in topics:
+        aliases[_normalize_topic_signal(topic)] = topic
+    return topics, aliases
+
+
 def derive_canonical_topics(frontmatter: dict[str, object], tags: list[str]) -> list[str]:
     """Map analysis signals to the fixed Hugo topic taxonomy vocabulary."""
+    topic_titles, alias_map = load_topic_vocabulary()
+    topic_set = set(topic_titles)
     explicit_topics: list[str] = []
     if "topics" in frontmatter:
         explicit_topics = ensure_list(frontmatter["topics"], field_name="topics")
-        unknown_topics = [topic for topic in explicit_topics if topic not in _CANONICAL_TOPIC_SET]
+        unknown_topics = [topic for topic in explicit_topics if topic not in topic_set]
         if unknown_topics:
             raise GenerationError("topics contains values outside the canonical vocabulary.")
 
     selected = set(explicit_topics)
     for tag in tags:
         normalized = _normalize_topic_signal(tag)
-        if tag in _CANONICAL_TOPIC_SET:
+        if tag in topic_set:
             selected.add(tag)
-        elif normalized in _TOPIC_ALIAS_TO_CANONICAL:
-            selected.add(_TOPIC_ALIAS_TO_CANONICAL[normalized])
+        elif normalized in alias_map:
+            selected.add(alias_map[normalized])
 
-    return [topic for topic in CANONICAL_TOPICS if topic in selected]
+    return [topic for topic in topic_titles if topic in selected]
 
 
 def infer_output_path(week: str, root: Path) -> Path:

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Create durable Hugo topic hubs from recurring analysis signals.
+"""Create durable Hugo topic hubs from recurring weekly topic taxonomy terms.
 
 The lifecycle is intentionally additive: a quiet week never deletes an existing
-hub. The weekly crawl/analysis pipeline remains read-only input for this step.
+hub. The weekly crawl/analysis pipeline remains read-only input for this step;
+promotion updates the shared topic registry used by generation.
 """
 
 from __future__ import annotations
 
 import argparse
-import json
 import re
 import tomllib
 from collections import defaultdict
@@ -125,25 +125,10 @@ def collect_weekly_markdown_signals(path: Path) -> tuple[str | None, set[str]]:
     if not WEEK_RE.fullmatch(week):
         return None, set()
     values: set[str] = set()
-    for key in ("candidate_topics", "topics", "tags"):
-        raw = frontmatter.get(key)
-        if isinstance(raw, list):
-            for item in raw:
-                title = safe_candidate_title(item)
-                if title:
-                    values.add(title)
-    return week, values
-
-
-def collect_correlation_signals(path: Path) -> tuple[str | None, set[str]]:
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    week = str(payload.get("week") or week_from_path(path) or "")
-    if not WEEK_RE.fullmatch(week):
-        return None, set()
-    values: set[str] = set()
-    for item in payload.get("uncovered_tech_trends") or []:
-        if isinstance(item, dict):
-            title = safe_candidate_title(item.get("topic"))
+    raw = frontmatter.get("topics")
+    if isinstance(raw, list):
+        for item in raw:
+            title = safe_candidate_title(item)
             if title:
                 values.add(title)
     return week, values
@@ -165,12 +150,9 @@ def collect_candidates(root: Path, config: HubCreationConfig) -> dict[str, Candi
     signals: dict[str, CandidateSignal] = {}
     for pattern in config.source_globs:
         for path in root.glob(pattern):
-            if path.suffix == ".md":
-                week, titles = collect_weekly_markdown_signals(path)
-            elif path.suffix == ".json":
-                week, titles = collect_correlation_signals(path)
-            else:
+            if path.suffix != ".md":
                 continue
+            week, titles = collect_weekly_markdown_signals(path)
             if not week:
                 continue
             for title in titles:
@@ -213,6 +195,33 @@ This hub was created automatically because **{signal.title}** appeared in at lea
 
 It is durable: a quiet week will not delete this page. Future weekly issues join the hub automatically when they include the matching canonical topic frontmatter.
 '''
+
+
+def _toml_quote(value: str) -> str:
+    return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
+
+
+def promote_topic_in_config(config_path: Path, title: str) -> None:
+    """Add a promoted topic to the shared topic registry for future generation."""
+    raw = tomllib.loads(config_path.read_text(encoding="utf-8"))
+    seed_topics = raw.get("topic_hubs", {}).get("seed_topics", [])
+    if title in seed_topics:
+        return
+
+    text = config_path.read_text(encoding="utf-8")
+    list_match = re.search(r"(?ms)^[ \t]*seed_topics\s*=\s*\[(.*?)^[ \t]*\]", text)
+    if list_match:
+        insert_at = list_match.end() - 1
+        text = text[:insert_at] + f"  {_toml_quote(title)},\n" + text[insert_at:]
+    else:
+        topic_hubs_match = re.search(r"(?m)^\[topic_hubs\]\s*$", text)
+        block = f"seed_topics = [\n  {_toml_quote(title)},\n]\n"
+        if topic_hubs_match:
+            insert_at = topic_hubs_match.end() + 1
+            text = text[:insert_at] + block + text[insert_at:]
+        else:
+            text = f"[topic_hubs]\n{block}\n{text}"
+    config_path.write_text(text, encoding="utf-8")
 
 
 def append_log(config: HubCreationConfig, message: str) -> None:
@@ -265,6 +274,8 @@ def create_dynamic_hubs(
         if not dry_run:
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(render_hub(signal, key, config), encoding="utf-8")
+            promote_topic_in_config(config_path, signal.title)
+            append_log(config, f"promote topic={signal.title!r} registry={config_path}")
         created.append(target)
 
     append_log(config, f"dynamic-topic-summary created={len(created)} skipped={len(skipped)}")

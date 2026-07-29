@@ -22,5 +22,4 @@ ignore_topics = [
 ]
 source_globs = [
   "content/weekly/**/*.md",
-  "data/analyzed/*-correlations.json",
 ]

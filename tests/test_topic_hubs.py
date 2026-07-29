@@ -45,7 +45,16 @@ def test_dynamic_topic_creation_is_threshold_driven_and_additive() -> None:
     (WORKSPACE / "content" / "topics" / "quiet-existing").mkdir(parents=True)
 
     (WORKSPACE / "config" / "observatory.toml").write_text(
-        """[topic_hubs.dynamic_creation]
+        """[topic_hubs]
+        seed_topics = [
+          "AI Coding Agents",
+          "MCP Ecosystem",
+          "Open-Source LLMs",
+          "Developer Tools",
+          "AI Agents in Healthcare",
+        ]
+
+        [topic_hubs.dynamic_creation]
         enabled = true
         min_weekly_issues = 4
         lookback_days = 62
@@ -68,7 +77,9 @@ def test_dynamic_topic_creation_is_threshold_driven_and_additive() -> None:
 title: "{week}"
 date: 2026-07-01T00:00:00+00:00
 week: "{week}"
-candidate_topics: ["Edge AI Workflows", "Quiet Existing"]
+topics: ["Edge AI Workflows", "Quiet Existing"]
+candidate_topics: ["Forked Candidate Source"]
+tags: ["tag-only-signal"]
 ---
 
 Body.
@@ -94,6 +105,15 @@ Body.
     )
     assert "threshold=4" in log
     assert "create topic='Edge AI Workflows'" in log
+    config = (WORKSPACE / "config" / "observatory.toml").read_text(encoding="utf-8")
+    assert '"Edge AI Workflows",' in config
+    from scripts.generate_content import load_topic_vocabulary
+
+    topic_titles, topic_aliases = load_topic_vocabulary(WORKSPACE / "config" / "observatory.toml")
+    assert "Edge AI Workflows" in topic_titles
+    assert topic_aliases["edge-ai-workflows"] == "Edge AI Workflows"
+    assert not (WORKSPACE / "content" / "topics" / "forked-candidate-source").exists()
+    assert not (WORKSPACE / "content" / "topics" / "tag-only-signal").exists()
 
 
 def test_dynamic_topic_creation_does_not_create_below_threshold() -> None:
@@ -103,7 +123,16 @@ def test_dynamic_topic_creation_does_not_create_below_threshold() -> None:
     (WORKSPACE / "content" / "weekly" / "2026").mkdir(parents=True)
     (WORKSPACE / "content" / "topics").mkdir(parents=True)
     (WORKSPACE / "config" / "observatory.toml").write_text(
-        """[topic_hubs.dynamic_creation]
+        """[topic_hubs]
+        seed_topics = [
+          "AI Coding Agents",
+          "MCP Ecosystem",
+          "Open-Source LLMs",
+          "Developer Tools",
+          "AI Agents in Healthcare",
+        ]
+
+        [topic_hubs.dynamic_creation]
         enabled = true
         min_weekly_issues = 4
         lookback_days = 62
@@ -116,7 +145,7 @@ def test_dynamic_topic_creation_does_not_create_below_threshold() -> None:
     for week in ("2026-W29", "2026-W30", "2026-W31"):
         year, week_number = week.split("-W")
         (WORKSPACE / "content" / "weekly" / year / f"W{week_number}.md").write_text(
-            f'---\ntitle: "{week}"\nweek: "{week}"\ncandidate_topics: ["Three Week Trend"]\n---\n',
+            f'---\ntitle: "{week}"\nweek: "{week}"\ntopics: ["Three Week Trend"]\n---\n',
             encoding="utf-8",
         )
 
@@ -149,8 +178,9 @@ def test_hugo_renders_topic_hubs_with_issue_cards_and_rss() -> None:
     rss = destination / "topics" / "ai-coding-agents" / "index.xml"
     assert "Topic hub" in page
     assert "Recent weekly issues" in page
-    assert "Agent Work Moved Into the Operating Room" in page
     assert "Dataset highlights" in page
     assert "rel=canonical href=https://claracle.com/topics/ai-coding-agents/" in page
     assert rss.exists()
-    assert "Agent Work Moved Into the Operating Room" in rss.read_text(encoding="utf-8")
+    rss_content = rss.read_text(encoding="utf-8")
+    assert "AI Coding Agents" in rss_content
+    assert "https://claracle.com/topics/ai-coding-agents/" in rss_content
