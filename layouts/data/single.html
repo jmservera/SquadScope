@@ -1,0 +1,80 @@
+{{- define "main" }}
+<article class="post-single data-page" data-pagefind-body>
+  {{ partial "pagefind-metadata.html" . }}
+
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <p class="section-topline">Data Observatory</p>
+    <h1 class="post-title entry-hint-parent">{{ .Title }}</h1>
+    {{- with (.Description | default .Params.summary) }}
+    <div class="post-description">{{ . }}</div>
+    {{- end }}
+  </header>
+
+  <section class="data-page__provenance" aria-labelledby="data-page-provenance">
+    <h2 id="data-page-provenance">Provenance</h2>
+    <dl>
+      <div>
+        <dt>As of</dt>
+        <dd>{{ .Params.as_of }} ({{ .Params.as_of_week }})</dd>
+      </div>
+      <div>
+        <dt>Metric</dt>
+        <dd>{{ .Params.metric_definition }}</dd>
+      </div>
+      <div>
+        <dt>Source</dt>
+        <dd>{{ .Params.source }}</dd>
+      </div>
+      <div>
+        <dt>Cadence</dt>
+        <dd>{{ .Params.cadence }}</dd>
+      </div>
+      <div>
+        <dt>Methodology</dt>
+        <dd><a href="{{ .Params.methodology_url | default "/methodology/" }}">Read the methodology</a></dd>
+      </div>
+    </dl>
+  </section>
+
+  {{- with .Params.ranking }}
+  <section class="data-page__ranking" aria-labelledby="data-page-ranking">
+    <h2 id="data-page-ranking">Ranking</h2>
+    <div class="data-page__table-wrap">
+      <table>
+        <caption>{{ $.Title }} — {{ len . }} ranked repositories</caption>
+        <thead>
+          <tr>
+            <th scope="col">Rank</th>
+            <th scope="col">Repository</th>
+            <th scope="col">Metric</th>
+            <th scope="col">Context</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{- range . }}
+          <tr>
+            <td>{{ .rank }}</td>
+            <td>
+              <a href="{{ .url }}">{{ .repo }}</a>
+              <div class="data-page__repo-meta">{{ .language }} · last seen {{ .last_seen_week }}</div>
+            </td>
+            <td>{{ .metric_label }}</td>
+            <td>{{ .context }}</td>
+          </tr>
+          {{- end }}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {{- end }}
+
+  {{- if .Content }}
+  <div class="post-content md-content">
+    {{- if not (.Param "disableAnchoredHeadings") }}
+    {{- partial "anchored_headings.html" .Content -}}
+    {{- else }}{{ .Content }}{{ end }}
+  </div>
+  {{- end }}
+</article>
+{{- end }}

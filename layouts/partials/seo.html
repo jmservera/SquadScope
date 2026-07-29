@@ -13,7 +13,8 @@
 {{- if not (or (hasPrefix $publisherLogo "http://") (hasPrefix $publisherLogo "https://")) -}}
 {{- $publisherLogo = (strings.TrimPrefix "/" $publisherLogo) | absURL -}}
 {{- end -}}
-{{- $isArticle := or (and .IsPage (eq .Section "weekly")) (eq .Type "topics") -}}
+{{- $isDataPage := and .IsPage (eq .Section "data") -}}
+{{- $isArticle := or (and .IsPage (eq .Section "weekly")) (eq .Type "topics") $isDataPage -}}
 {{- $type := cond $isArticle "article" "website" -}}
 
 <title>{{ $title }}</title>
@@ -47,4 +48,17 @@
   "publisher" $publisher
 -}}
 <script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
+{{- end }}
+
+{{- if $isDataPage }}
+{{- $breadcrumb := dict
+  "@context" "https://schema.org"
+  "@type" "BreadcrumbList"
+  "itemListElement" (slice
+    (dict "@type" "ListItem" "position" 1 "name" "Home" "item" site.Home.Permalink)
+    (dict "@type" "ListItem" "position" 2 "name" "Data pages" "item" ("/data/" | absURL))
+    (dict "@type" "ListItem" "position" 3 "name" .Title "item" .Permalink)
+  )
+-}}
+<script type="application/ld+json">{{ $breadcrumb | jsonify | safeJS }}</script>
 {{- end }}

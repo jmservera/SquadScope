@@ -44,20 +44,28 @@
 
 {{- $includes_all := $includes | resources.Concat "assets/css/includes.css" }}
 
-{{- $tokens := (resources.Get "css/tokens.css") }}
-{{- $theme_vars := (resources.Get "css/core/theme-vars.css") }}
-{{- $reset := (resources.Get "css/core/reset.css") }}
-{{- $media := (resources.Get "css/core/zmedia.css") }}
-{{- $license_css := (resources.Get "css/core/license.css") }}
-{{- $common := (resources.Match "css/common/*.css") | resources.Concat "assets/css/common.css" }}
+{{- $tokens := (resources.Get "css/tokens.css") | default (" " | resources.FromString "assets/css/tokens-blank.css") }}
+{{- $theme_vars := (resources.Get "css/core/theme-vars.css") | default (" " | resources.FromString "assets/css/theme-vars-blank.css") }}
+{{- $reset := (resources.Get "css/core/reset.css") | default (" " | resources.FromString "assets/css/reset-blank.css") }}
+{{- $media := (resources.Get "css/core/zmedia.css") | default (" " | resources.FromString "assets/css/zmedia-blank.css") }}
+{{- $license_css := (resources.Get "css/core/license.css") | default (" " | resources.FromString "assets/css/license-blank.css") }}
+{{- $commonFiles := resources.Match "css/common/*.css" }}
+{{- if eq (len $commonFiles) 0 }}
+{{- $commonFiles = slice (" " | resources.FromString "assets/css/common-blank.css") }}
+{{- end }}
+{{- $common := $commonFiles | resources.Concat "assets/css/common.css" }}
 
 {{- /* markup.highlight.noClasses should be set to `false` */}}
-{{- $chroma_styles := (resources.Get "css/includes/chroma-styles.css") }}
-{{- $chroma_mod := (resources.Get "css/includes/chroma-mod.css") }}
+{{- $chroma_styles := (resources.Get "css/includes/chroma-styles.css") | default (" " | resources.FromString "assets/css/chroma-styles-blank.css") }}
+{{- $chroma_mod := (resources.Get "css/includes/chroma-mod.css") | default (" " | resources.FromString "assets/css/chroma-mod-blank.css") }}
 
 {{- /* order is important */}}
 {{- $core := (slice $tokens $theme_vars $reset $common $chroma_styles $chroma_mod $includes_all $media) | resources.Concat "assets/css/core.css" | resources.Minify }}
-{{- $extended := (resources.Match "css/extended/*.css") | resources.Concat "assets/css/extended.css" | resources.Minify }}
+{{- $extendedFiles := resources.Match "css/extended/*.css" }}
+{{- if eq (len $extendedFiles) 0 }}
+{{- $extendedFiles = slice (" " | resources.FromString "assets/css/extended-blank.css") }}
+{{- end }}
+{{- $extended := $extendedFiles | resources.Concat "assets/css/extended.css" | resources.Minify }}
 
 {{- /* bundle all required css */}}
 {{- /* Add extended css after theme style */ -}}
