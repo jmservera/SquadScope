@@ -6,8 +6,9 @@ Sitemap URL: `https://claracle.com/sitemap.xml`
 
 ## Status
 
-- Agent-complete: GA4 wiring is present and consent-gated.
-- Human-blocked: jmservera must create the GA4 property, fill the measurement ID, verify Google Search Console ownership, submit the sitemap, and capture the real dashboard values.
+- Agent-complete: GA4 wiring is present, consent-gated, and confirmed active via the existing `GA_MEASUREMENT_ID` Actions secret on the next deploy.
+- Agent-complete: Google Search Console URL-prefix verification is now completable by adding the `GSC_SITE_VERIFICATION` Actions secret; the deployed site will render the guarded `google-site-verification` meta tag only when that secret exists.
+- Human-blocked: jmservera must get the Google Search Console verification token, add `GSC_SITE_VERIFICATION` or use DNS verification, click **Verify** after deploy, submit the sitemap, and capture the real dashboard values.
 - Privacy note: no new custom analytics events or user identifiers were added. The default page view can include path, referrer, and UTM parameters only after analytics consent.
 
 ## GA4 setup for jmservera
@@ -15,9 +16,7 @@ Sitemap URL: `https://claracle.com/sitemap.xml`
 1. In Google Analytics, create or select the Claracle GA4 property for `claracle.com`.
 2. Create a Web data stream for `https://claracle.com/`.
 3. Copy the measurement ID (`G-XXXXXXXXXX`).
-4. Set the production value by either:
-   - adding/updating the GitHub Pages deployment secret `GA_MEASUREMENT_ID`, or
-   - filling `params.ga_measurement_id` in `hugo.toml` for a direct config-based deployment.
+4. Confirm the production repository secret `GA_MEASUREMENT_ID` is present. It is already wired into the deploy workflow and activates GA4 on deploy.
 5. Deploy, open the site in a private browser, reject analytics, and confirm no `_ga` cookies appear.
 6. Accept analytics, then confirm the GA4 Realtime report receives a page view.
 
@@ -40,13 +39,15 @@ Fallback method: URL-prefix property with HTML tag verification.
 
 1. Add a URL-prefix property for `https://claracle.com/`.
 2. Copy Google's HTML meta tag value.
-3. Add the value to `params.analytics.google.SiteVerificationTag` in Hugo config, then deploy.
+3. Add only the token value as the GitHub Actions secret `GSC_SITE_VERIFICATION`, then deploy.
 4. Click **Verify** in Search Console.
 5. Submit `https://claracle.com/sitemap.xml`.
 
 ## Near-zero launch baseline template
 
-Fill this after GA4 is receiving data and GSC is verified.
+Fill this after GA4 is receiving data and GSC is verified. Treat launch values as near-zero until
+Claracle has accumulated search discovery and referral traffic; the baseline is meant to record that
+starting point rather than imply a performance target.
 
 | Metric | Source | Date range | Baseline value | Notes |
 | --- | --- | --- | --- | --- |
