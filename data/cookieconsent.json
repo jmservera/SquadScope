@@ -7,6 +7,13 @@
     "analytics": {
       "enabled": false,
       "readOnly": false,
+      "autoClear": {
+        "cookies": [
+          {
+            "name": "/^_ga/"
+          }
+        ]
+      },
       "services": {
         "ga4": {
           "label": "Google Analytics 4",
