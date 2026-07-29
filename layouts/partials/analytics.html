@@ -4,11 +4,8 @@
 {{- $configGAID := index .Site.Params "ga_measurement_id" | default "" }}
 {{- $gaID := or $configGAID $envGAID }}
 {{- with $gaID }}
-<script type="text/plain" data-category="analytics" data-cc-category="analytics" async data-src="https://www.googletagmanager.com/gtag/js?id={{ . | urlquery }}"></script>
-<script type="text/plain" data-category="analytics" data-cc-category="analytics">
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', '{{ . }}');
+<script>
+  window.SquadScopeAnalytics = {{ dict "gaMeasurementId" . | jsonify | safeJS }};
+  window['ga-disable-' + window.SquadScopeAnalytics.gaMeasurementId] = true;
 </script>
 {{- end }}

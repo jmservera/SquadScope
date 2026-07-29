@@ -20,6 +20,7 @@ rssLimit = 52
   term = ['HTML', 'RSS']
 
 [params]
+  # jmservera: set to the production GA4 web stream ID (for example, G-XXXXXXXXXX) after creating the Google Analytics property.
   ga_measurement_id = ""
   description = 'Claracle turns GitHub activity into readable weekly, monthly, and yearly trend reports for busy developers and tech leads.'
   default_social_image = '/images/squadscope-social-card.png'
