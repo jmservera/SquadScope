@@ -1,0 +1,109 @@
+{
+  "terms": {
+    "ai-agents-in-healthcare": {
+      "aliases": [
+        "clinical",
+        "healthcare",
+        "medical",
+        "scientific",
+        "simulation"
+      ],
+      "count": 0,
+      "display_name": "AI Agents in Healthcare",
+      "first_seen": null,
+      "is_hub": true,
+      "last_used": null,
+      "order": 4,
+      "promoted": true,
+      "slug": "ai-agents-in-healthcare",
+      "times_used": 0,
+      "weekly_issue_count": 0
+    },
+    "ai-coding-agents": {
+      "aliases": [
+        "agent-skills",
+        "ai-agents",
+        "autogpt",
+        "claude-code",
+        "codex",
+        "coding-agents",
+        "openai",
+        "openhands"
+      ],
+      "count": 0,
+      "display_name": "AI Coding Agents",
+      "first_seen": null,
+      "is_hub": true,
+      "last_used": null,
+      "order": 0,
+      "promoted": true,
+      "slug": "ai-coding-agents",
+      "times_used": 0,
+      "weekly_issue_count": 0
+    },
+    "developer-tools": {
+      "aliases": [
+        "build",
+        "cli",
+        "developer-tooling",
+        "developer-tools",
+        "go",
+        "javascript",
+        "observability",
+        "python",
+        "rust",
+        "testing",
+        "typescript"
+      ],
+      "count": 0,
+      "display_name": "Developer Tools",
+      "first_seen": null,
+      "is_hub": true,
+      "last_used": null,
+      "order": 3,
+      "promoted": true,
+      "slug": "developer-tools",
+      "times_used": 0,
+      "weekly_issue_count": 0
+    },
+    "mcp-ecosystem": {
+      "aliases": [
+        "mcp",
+        "mcp-server",
+        "modelcontextprotocol",
+        "servers"
+      ],
+      "count": 0,
+      "display_name": "MCP Ecosystem",
+      "first_seen": null,
+      "is_hub": true,
+      "last_used": null,
+      "order": 1,
+      "promoted": true,
+      "slug": "mcp-ecosystem",
+      "times_used": 0,
+      "weekly_issue_count": 0
+    },
+    "open-source-llms": {
+      "aliases": [
+        "huggingface",
+        "llm",
+        "local-ai",
+        "model-routing",
+        "ollama",
+        "open-source",
+        "transformers"
+      ],
+      "count": 0,
+      "display_name": "Open-Source LLMs",
+      "first_seen": null,
+      "is_hub": true,
+      "last_used": null,
+      "order": 2,
+      "promoted": true,
+      "slug": "open-source-llms",
+      "times_used": 0,
+      "weekly_issue_count": 0
+    }
+  }
+}

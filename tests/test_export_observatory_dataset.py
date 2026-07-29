@@ -56,7 +56,7 @@ class ExportObservatoryDatasetTests(unittest.TestCase):
         page = (root / "content" / "state-of" / "open-source-ai-2026.md").read_text(
             encoding="utf-8"
         )
-        topic_hub = (root / "content" / "topics" / "ai-ml" / "_index.md").read_text(
+        topic_hub = (root / "content" / "topics" / "open-source-llms" / "_index.md").read_text(
             encoding="utf-8"
         )
         topics_index = (root / "content" / "topics" / "_index.md").read_text(encoding="utf-8")
