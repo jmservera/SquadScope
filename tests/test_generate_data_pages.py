@@ -69,9 +69,9 @@ def test_hugo_builds_generated_data_pages_when_available() -> None:
     )
     try:
         assert result.returncode == 0, result.stderr
-        rendered = (
-            destination / "data/top-ai-repositories-this-month/index.html"
-        ).read_text(encoding="utf-8")
+        rendered = (destination / "data/top-ai-repositories-this-month/index.html").read_text(
+            encoding="utf-8"
+        )
         assert "Provenance" in rendered
         assert "BreadcrumbList" in rendered
     finally:

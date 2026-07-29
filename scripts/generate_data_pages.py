@@ -126,7 +126,9 @@ def discover_week_artifacts() -> list[WeekArtifact]:
     artifacts: list[WeekArtifact] = []
     for week, path in sorted(selected.items()):
         payload = json.loads(path.read_text(encoding="utf-8"))
-        crawled_at = parse_datetime(payload.get("crawled_at") or payload.get("metadata", {}).get("crawled_at"))
+        crawled_at = parse_datetime(
+            payload.get("crawled_at") or payload.get("metadata", {}).get("crawled_at")
+        )
         artifacts.append(WeekArtifact(week=week, crawled_at=crawled_at, path=path, payload=payload))
     if not artifacts:
         raise SystemExit("No weekly raw artifacts found under data/raw or recovered archive.")
@@ -147,8 +149,7 @@ def collect_observations(artifacts: list[WeekArtifact]) -> list[RepoObservation]
         for bucket in ("trending_repos", "new_repos"):
             for repo in artifact.payload.get(bucket, []) or []:
                 full_name = str(
-                    repo.get("full_name")
-                    or f"{repo.get('owner', '')}/{repo.get('name', '')}"
+                    repo.get("full_name") or f"{repo.get('owner', '')}/{repo.get('name', '')}"
                 ).strip("/")
                 if "/" not in full_name:
                     continue
@@ -339,11 +340,7 @@ def build_pages() -> dict[Path, str]:
         )
     ]
 
-    mcp_latest = [
-        obs
-        for obs in latest_by_repo(observations).values()
-        if is_mcp_project(obs)
-    ]
+    mcp_latest = [obs for obs in latest_by_repo(observations).values() if is_mcp_project(obs)]
     mcp_rows = [
         row(
             rank=index,
@@ -361,8 +358,7 @@ def build_pages() -> dict[Path, str]:
     ]
 
     pages = {
-        CONTENT_DIR
-        / "_index.md": frontmatter(
+        CONTENT_DIR / "_index.md": frontmatter(
             {
                 "title": "Data pages",
                 "date": latest_artifact.crawled_at.isoformat().replace("+00:00", "Z"),
@@ -378,9 +374,7 @@ def build_pages() -> dict[Path, str]:
             "These data pages are generated from checked-in weekly raw artifacts, "
             "not from live GitHub API calls.\n"
         ),
-        CONTENT_DIR
-        / "top-ai-repositories-this-month"
-        / "index.md": render_page(
+        CONTENT_DIR / "top-ai-repositories-this-month" / "index.md": render_page(
             CONTENT_DIR / "top-ai-repositories-this-month" / "index.md",
             title="Top 100 AI repositories this month",
             description=(
@@ -402,9 +396,7 @@ def build_pages() -> dict[Path, str]:
             cadence=cadence,
             rows=top_month_rows,
         ),
-        CONTENT_DIR
-        / "fastest-growing-ai-repositories-this-year"
-        / "index.md": render_page(
+        CONTENT_DIR / "fastest-growing-ai-repositories-this-year" / "index.md": render_page(
             CONTENT_DIR / "fastest-growing-ai-repositories-this-year" / "index.md",
             title="Fastest-growing AI repositories this year",
             description=(
@@ -426,9 +418,7 @@ def build_pages() -> dict[Path, str]:
             cadence=cadence,
             rows=fastest_rows,
         ),
-        CONTENT_DIR
-        / "most-starred-mcp-projects"
-        / "index.md": render_page(
+        CONTENT_DIR / "most-starred-mcp-projects" / "index.md": render_page(
             CONTENT_DIR / "most-starred-mcp-projects" / "index.md",
             title="Most-starred MCP projects",
             description=(
