@@ -9,6 +9,7 @@ promotion updates the shared topic registry used by generation.
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import tomllib
 from collections import defaultdict
@@ -21,27 +22,20 @@ import yaml
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_CONFIG = PROJECT_ROOT / "config" / "observatory.toml"
+DEFAULT_TOPICS_REGISTRY = PROJECT_ROOT / "data" / "taxonomy" / "topics.json"
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
 WEEK_RE = re.compile(r"(?P<year>\d{4})-W(?P<week>\d{2})")
 SLUG_RE = re.compile(r"[^a-z0-9]+")
-SEED_TOPIC_TITLES = {
-    "AI Coding Agents",
-    "MCP Ecosystem",
-    "Open-Source LLMs",
-    "Developer Tools",
-    "AI Agents in Healthcare",
-}
 
 
 @dataclass(frozen=True)
 class HubCreationConfig:
     enabled: bool
-    seed_topics: tuple[str, ...]
     min_weekly_issues: int
     lookback_days: int
     log_path: Path
     ignore_topics: frozenset[str]
-    source_globs: tuple[str, ...]
+    registry_path: Path
 
 
 @dataclass
@@ -49,6 +43,8 @@ class CandidateSignal:
     title: str
     weeks: set[str]
     sources: set[str]
+    weekly_issue_count: int = 0
+    last_used: str = ""
 
 
 def slugify(value: str) -> str:
@@ -63,22 +59,16 @@ def normalized_key(value: str) -> str:
 def load_config(path: Path = DEFAULT_CONFIG) -> HubCreationConfig:
     raw = tomllib.loads(path.read_text(encoding="utf-8"))
     dynamic = raw.get("topic_hubs", {}).get("dynamic_creation", {})
-    seed_topics = raw.get("topic_hubs", {}).get("seed_topics", [])
-    if not isinstance(seed_topics, list) or not all(
-        isinstance(topic, str) and topic for topic in seed_topics
-    ):
-        seed_topics = list(SEED_TOPIC_TITLES)
     config_root = path.parent.parent if path.parent.name == "config" else path.parent
     return HubCreationConfig(
         enabled=bool(dynamic.get("enabled", True)),
-        seed_topics=tuple(seed_topics),
         min_weekly_issues=int(dynamic["min_weekly_issues"]),
         lookback_days=int(dynamic["lookback_days"]),
         log_path=config_root / str(dynamic["log_path"]),
         ignore_topics=frozenset(
             normalized_key(str(item)) for item in dynamic.get("ignore_topics", [])
         ),
-        source_globs=tuple(str(item) for item in dynamic.get("source_globs", [])),
+        registry_path=config_root / "data" / "taxonomy" / "topics.json",
     )
 
 
@@ -126,23 +116,8 @@ def week_from_path(path: Path) -> str | None:
     return match.group(0) if match else None
 
 
-def collect_weekly_markdown_signals(path: Path) -> tuple[str | None, set[str]]:
-    frontmatter = read_frontmatter(path)
-    week = str(frontmatter.get("week") or week_from_path(path) or "")
-    if not WEEK_RE.fullmatch(week):
-        return None, set()
-    values: set[str] = set()
-    raw = frontmatter.get("topics")
-    if isinstance(raw, list):
-        for item in raw:
-            title = safe_candidate_title(item)
-            if title:
-                values.add(title)
-    return week, values
-
-
-def existing_hub_keys(content_root: Path, seed_topics: tuple[str, ...] = ()) -> set[str]:
-    keys = {normalized_key(title) for title in (seed_topics or tuple(SEED_TOPIC_TITLES))}
+def existing_hub_keys(content_root: Path) -> set[str]:
+    keys: set[str] = set()
     topics_root = content_root / "topics"
     for index_path in topics_root.glob("*/_index.md"):
         keys.add(index_path.parent.name)
@@ -155,35 +130,49 @@ def existing_hub_keys(content_root: Path, seed_topics: tuple[str, ...] = ()) -> 
 
 def collect_candidates(root: Path, config: HubCreationConfig) -> dict[str, CandidateSignal]:
     signals: dict[str, CandidateSignal] = {}
-    for pattern in config.source_globs:
-        for path in root.glob(pattern):
-            if path.suffix != ".md":
-                continue
-            week, titles = collect_weekly_markdown_signals(path)
-            if not week:
-                continue
-            for title in titles:
-                key = normalized_key(title)
-                if not key:
-                    continue
-                signal = signals.setdefault(
-                    key, CandidateSignal(title=title, weeks=set(), sources=set())
-                )
-                signal.weeks.add(week)
-                signal.sources.add(str(path.relative_to(root)))
+    if not config.registry_path.exists():
+        return signals
+    payload = json.loads(config.registry_path.read_text(encoding="utf-8"))
+    terms = payload.get("terms", {}) if isinstance(payload, dict) else {}
+    if not isinstance(terms, dict):
+        return signals
+    for slug, raw in terms.items():
+        if not isinstance(raw, dict) or raw.get("is_hub") or raw.get("promoted"):
+            continue
+        title = safe_candidate_title(raw.get("display_name"))
+        if not title:
+            continue
+        weekly_count = int(raw.get("weekly_issue_count") or 0)
+        last_used = raw.get("last_used")
+        weeks = {f"registry-count-{index + 1:03d}" for index in range(weekly_count)}
+        signal = CandidateSignal(
+            title=title,
+            weeks=weeks,
+            sources={str(config.registry_path)},
+            weekly_issue_count=weekly_count,
+            last_used=str(last_used or ""),
+        )
+        signals[str(slug) or normalized_key(title)] = signal
     return signals
 
 
 def candidate_is_recent(signal: CandidateSignal, current: date, lookback_days: int) -> bool:
+    if signal.last_used:
+        return datetime.fromisoformat(signal.last_used).date() >= current - timedelta(
+            days=lookback_days
+        )
+    if signal.weekly_issue_count:
+        return False
     cutoff = current - timedelta(days=lookback_days)
     return any(parse_week_date(week) >= cutoff for week in signal.weeks)
 
 
 def render_hub(signal: CandidateSignal, slug: str, config: HubCreationConfig) -> str:
     weeks = sorted(signal.weeks)
+    weekly_count = signal.weekly_issue_count or len(weeks)
     description = (
         f"Evergreen Claracle hub for {signal.title}, created after the topic appeared in "
-        f"{len(weeks)} weekly issues within the configured {config.lookback_days}-day window."
+        f"{weekly_count} weekly issues within the configured {config.lookback_days}-day window."
     )
     return f'''---
 title: "{signal.title.replace('"', '\\"')}"
@@ -204,31 +193,15 @@ It is durable: a quiet week will not delete this page. Future weekly issues join
 '''
 
 
-def _toml_quote(value: str) -> str:
-    return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
-
-
-def promote_topic_in_config(config_path: Path, title: str) -> None:
-    """Add a promoted topic to the shared topic registry for future generation."""
-    raw = tomllib.loads(config_path.read_text(encoding="utf-8"))
-    seed_topics = raw.get("topic_hubs", {}).get("seed_topics", [])
-    if title in seed_topics:
-        return
-
-    text = config_path.read_text(encoding="utf-8")
-    list_match = re.search(r"(?ms)^[ \t]*seed_topics\s*=\s*\[(.*?)^[ \t]*\]", text)
-    if list_match:
-        insert_at = list_match.end() - 1
-        text = text[:insert_at] + f"  {_toml_quote(title)},\n" + text[insert_at:]
-    else:
-        topic_hubs_match = re.search(r"(?m)^\[topic_hubs\]\s*$", text)
-        block = f"seed_topics = [\n  {_toml_quote(title)},\n]\n"
-        if topic_hubs_match:
-            insert_at = topic_hubs_match.end() + 1
-            text = text[:insert_at] + block + text[insert_at:]
-        else:
-            text = f"[topic_hubs]\n{block}\n{text}"
-    config_path.write_text(text, encoding="utf-8")
+def promote_topic_in_registry(registry_path: Path, slug: str) -> None:
+    payload = json.loads(registry_path.read_text(encoding="utf-8"))
+    terms = payload.get("terms", {}) if isinstance(payload, dict) else {}
+    if isinstance(terms, dict) and slug in terms and isinstance(terms[slug], dict):
+        terms[slug]["is_hub"] = True
+        terms[slug]["promoted"] = True
+        registry_path.write_text(
+            json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
 
 
 def append_log(config: HubCreationConfig, message: str) -> None:
@@ -255,19 +228,15 @@ def create_dynamic_hubs(
         return []
 
     candidates = collect_candidates(root, config)
-    existing = existing_hub_keys(root / "content", config.seed_topics)
+    existing = existing_hub_keys(root / "content")
     created: list[Path] = []
     skipped: dict[str, str] = defaultdict(str)
     for key, signal in sorted(candidates.items()):
-        recent_weeks = {
-            week
-            for week in signal.weeks
-            if parse_week_date(week) >= now - timedelta(days=config.lookback_days)
-        }
+        weekly_count = signal.weekly_issue_count or len(signal.weeks)
         if key in existing or key in config.ignore_topics:
             skipped[key] = "existing-or-ignored"
             continue
-        if len(recent_weeks) < config.min_weekly_issues or not candidate_is_recent(
+        if weekly_count < config.min_weekly_issues or not candidate_is_recent(
             signal, now, config.lookback_days
         ):
             skipped[key] = "below-threshold"
@@ -275,14 +244,14 @@ def create_dynamic_hubs(
         target = root / "content" / "topics" / key / "_index.md"
         append_log(
             config,
-            f"create topic={signal.title!r} slug={key} weeks={','.join(sorted(recent_weeks))} "
+            f"create topic={signal.title!r} slug={key} weekly_issue_count={weekly_count} "
             f"threshold={config.min_weekly_issues}/{config.lookback_days}d",
         )
         if not dry_run:
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(render_hub(signal, key, config), encoding="utf-8")
-            promote_topic_in_config(config_path, signal.title)
-            append_log(config, f"promote topic={signal.title!r} registry={config_path}")
+            promote_topic_in_registry(config.registry_path, key)
+            append_log(config, f"promote topic={signal.title!r} registry={config.registry_path}")
         created.append(target)
 
     append_log(config, f"dynamic-topic-summary created={len(created)} skipped={len(skipped)}")

@@ -20,6 +20,3 @@ ignore_topics = [
   "startups",
   "the download",
 ]
-source_globs = [
-  "content/weekly/**/*.md",
-]

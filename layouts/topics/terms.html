@@ -1,6 +1,7 @@
 {{- define "main" -}}
 {{- $topicTerms := site.Taxonomies.topics.ByCount -}}
 {{- $categoryTerms := site.Taxonomies.categories.Alphabetical -}}
+{{- $topicRegistry := site.Data.taxonomy.topics.terms -}}
 <header class="page-header">
   {{- partial "breadcrumbs.html" . }}
   <h1>{{ .Title }}</h1>
@@ -28,7 +29,9 @@
     {{- $term := .Name -}}
     {{- $count := .Count -}}
     {{- with site.GetPage (printf "/topics/%s" ($term | urlize)) }}
+    {{- $registryEntry := index $topicRegistry ($term | urlize) -}}
     {{- $topicTitle := .LinkTitle | default $term -}}
+    {{- with $registryEntry }}{{- $topicTitle = .display_name | default $topicTitle -}}{{- end -}}
     <article class="home-report-card taxonomy-card">
       <h3><a href="{{ .RelPermalink }}">{{ $topicTitle }}</a></h3>
       <p>{{ .Params.summary | default .Description | default (printf "Follow %d weekly issue%s about %s." $count (cond (eq $count 1) "" "s") $topicTitle) }}</p>

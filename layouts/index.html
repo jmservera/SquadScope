@@ -2,6 +2,7 @@
 {{- $weeklyPages := (where site.RegularPages "Type" "weekly").ByDate.Reverse -}}
 {{- $latest := cond (gt (len $weeklyPages) 0) (index $weeklyPages 0) nil -}}
 {{- $topTopics := first 6 site.Taxonomies.topics.ByCount -}}
+{{- $topicRegistry := site.Data.taxonomy.topics.terms -}}
 
 <div class="home-shell">
   <section class="home-hero home-hero--minimal" aria-labelledby="home-title">
@@ -68,7 +69,10 @@
         <div class="home-topic-list">
           {{- range $topTopics -}}
           {{- $topicPage := site.GetPage (printf "/topics/%s" (.Name | urlize)) -}}
-          {{- $topicTitle := cond $topicPage $topicPage.LinkTitle .Name -}}
+          {{- $registryEntry := index $topicRegistry (.Name | urlize) -}}
+          {{- $topicTitle := .Name -}}
+          {{- with $registryEntry }}{{- $topicTitle = .display_name | default $topicTitle -}}{{- end -}}
+          {{- if and (not $registryEntry) $topicPage }}{{- $topicTitle = $topicPage.LinkTitle -}}{{- end -}}
           <a class="home-topic-card" href="{{ printf "topics/%s/" (.Name | urlize) | absLangURL }}">
             <span>{{ $topicTitle }}</span>
             <small>{{ .Count }} issue{{ if ne .Count 1 }}s{{ end }}</small>

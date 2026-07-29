@@ -1,13 +1,13 @@
 from __future__ import annotations
 
+import json
 import shutil
 import subprocess
-import tomllib
 from pathlib import Path
 
 import pytest
 
-from scripts.manage_topic_hubs import create_dynamic_hubs, load_config, normalized_key
+from scripts.manage_topic_hubs import create_dynamic_hubs
 
 ROOT = Path(__file__).resolve().parent.parent
 WORKSPACE = ROOT / ".test-workspaces" / "topic-hub-lifecycle"
@@ -22,15 +22,16 @@ SEED_HUBS = {
 
 
 def test_seed_topic_hubs_have_unique_metadata_and_dataset_links() -> None:
-    config = load_config(ROOT / "config" / "observatory.toml")
-    assert {normalized_key(title) for title in config.seed_topics} == set(SEED_HUBS)
-
-    raw_config = tomllib.loads((ROOT / "config" / "observatory.toml").read_text(encoding="utf-8"))
-    assert tuple(raw_config["topic_hubs"]["seed_topics"]) == config.seed_topics
+    registry = json.loads((ROOT / "data" / "taxonomy" / "topics.json").read_text(encoding="utf-8"))
+    seed_topics = {
+        slug: term["display_name"]
+        for slug, term in registry["terms"].items()
+        if term["is_hub"] and term["promoted"]
+    }
+    assert seed_topics == SEED_HUBS
 
     descriptions: set[str] = set()
-    for title in config.seed_topics:
-        slug = normalized_key(title)
+    for slug, title in seed_topics.items():
         hub_path = ROOT / "content" / "topics" / slug / "_index.md"
         content = hub_path.read_text(encoding="utf-8")
         assert f'title: "{title}"' in content
@@ -68,32 +69,59 @@ def test_dynamic_topic_creation_is_threshold_driven_and_additive() -> None:
         lookback_days = 62
         log_path = "data/topic-hubs/dynamic-topic-creation.log"
         ignore_topics = []
-        source_globs = ["content/weekly/**/*.md"]
         """,
         encoding="utf-8",
     )
+    (WORKSPACE / "data" / "taxonomy").mkdir(parents=True)
     (WORKSPACE / "content" / "topics" / "quiet-existing" / "_index.md").write_text(
         '---\ntitle: "Quiet Existing"\n---\n',
         encoding="utf-8",
     )
-
-    weeks = ["2026-W27", "2026-W28", "2026-W29", "2026-W30"]
-    for week in weeks:
-        year, week_number = week.split("-W")
-        (WORKSPACE / "content" / "weekly" / year / f"W{week_number}.md").write_text(
-            f'''---
-title: "{week}"
-date: 2026-07-01T00:00:00+00:00
-week: "{week}"
-topics: ["Edge AI Workflows", "Quiet Existing"]
-candidate_topics: ["Forked Candidate Source"]
-tags: ["tag-only-signal"]
----
-
-Body.
-''',
-            encoding="utf-8",
+    (WORKSPACE / "data" / "taxonomy" / "topics.json").write_text(
+        json.dumps(
+            {
+                "terms": {
+                    "edge-ai-workflows": {
+                        "display_name": "Edge AI Workflows",
+                        "slug": "edge-ai-workflows",
+                        "first_seen": "2026-07-01",
+                        "last_used": "2026-07-27",
+                        "count": 4,
+                        "times_used": 4,
+                        "weekly_issue_count": 4,
+                        "is_hub": False,
+                        "promoted": False,
+                    },
+                    "quiet-existing": {
+                        "display_name": "Quiet Existing",
+                        "slug": "quiet-existing",
+                        "first_seen": "2026-07-01",
+                        "last_used": "2026-07-27",
+                        "count": 4,
+                        "times_used": 4,
+                        "weekly_issue_count": 4,
+                        "is_hub": False,
+                        "promoted": False,
+                    },
+                    "forked-candidate-source": {
+                        "display_name": "Forked Candidate Source",
+                        "slug": "forked-candidate-source",
+                        "first_seen": "2026-07-01",
+                        "last_used": "2026-07-27",
+                        "count": 0,
+                        "times_used": 0,
+                        "weekly_issue_count": 0,
+                        "is_hub": False,
+                        "promoted": False,
+                    },
+                }
+            },
+            indent=2,
+            sort_keys=True,
         )
+        + "\n",
+        encoding="utf-8",
+    )
 
     created = create_dynamic_hubs(
         root=WORKSPACE,
@@ -113,11 +141,16 @@ Body.
     )
     assert "threshold=4" in log
     assert "create topic='Edge AI Workflows'" in log
-    config = (WORKSPACE / "config" / "observatory.toml").read_text(encoding="utf-8")
-    assert '"Edge AI Workflows",' in config
+    registry = json.loads(
+        (WORKSPACE / "data" / "taxonomy" / "topics.json").read_text(encoding="utf-8")
+    )
+    assert registry["terms"]["edge-ai-workflows"]["is_hub"] is True
+    assert registry["terms"]["edge-ai-workflows"]["promoted"] is True
     from scripts.generate_content import load_topic_vocabulary
 
-    topic_titles, topic_aliases = load_topic_vocabulary(WORKSPACE / "config" / "observatory.toml")
+    topic_titles, topic_aliases = load_topic_vocabulary(
+        registry_path=WORKSPACE / "data" / "taxonomy" / "topics.json"
+    )
     assert "Edge AI Workflows" in topic_titles
     assert topic_aliases["edge-ai-workflows"] == "Edge AI Workflows"
     assert not (WORKSPACE / "content" / "topics" / "forked-candidate-source").exists()
@@ -146,16 +179,33 @@ def test_dynamic_topic_creation_does_not_create_below_threshold() -> None:
         lookback_days = 62
         log_path = "data/topic-hubs/dynamic-topic-creation.log"
         ignore_topics = []
-        source_globs = ["content/weekly/**/*.md"]
         """,
         encoding="utf-8",
     )
-    for week in ("2026-W29", "2026-W30", "2026-W31"):
-        year, week_number = week.split("-W")
-        (WORKSPACE / "content" / "weekly" / year / f"W{week_number}.md").write_text(
-            f'---\ntitle: "{week}"\nweek: "{week}"\ntopics: ["Three Week Trend"]\n---\n',
-            encoding="utf-8",
+    (WORKSPACE / "data" / "taxonomy").mkdir(parents=True)
+    (WORKSPACE / "data" / "taxonomy" / "topics.json").write_text(
+        json.dumps(
+            {
+                "terms": {
+                    "three-week-trend": {
+                        "display_name": "Three Week Trend",
+                        "slug": "three-week-trend",
+                        "first_seen": "2026-07-01",
+                        "last_used": "2026-07-27",
+                        "count": 3,
+                        "times_used": 3,
+                        "weekly_issue_count": 3,
+                        "is_hub": False,
+                        "promoted": False,
+                    }
+                }
+            },
+            indent=2,
+            sort_keys=True,
         )
+        + "\n",
+        encoding="utf-8",
+    )
 
     created = create_dynamic_hubs(
         root=WORKSPACE,
