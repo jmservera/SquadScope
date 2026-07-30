@@ -8,6 +8,7 @@ from pathlib import Path
 from xml.etree import ElementTree
 
 import pytest
+import yaml
 
 from scripts.discover_topic_candidates import update_candidate_registry
 from scripts.manage_topic_hubs import create_dynamic_hubs
@@ -440,7 +441,9 @@ def test_dynamic_topic_creation_does_not_create_below_threshold() -> None:
     assert not (WORKSPACE / "content" / "topics" / "three-week-trend").exists()
 
 
-def test_disabled_dynamic_topic_creation_preserves_durable_state() -> None:
+def test_disabled_dynamic_topic_creation_preserves_durable_state(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
     if WORKSPACE.exists():
         shutil.rmtree(WORKSPACE)
     (WORKSPACE / "config").mkdir(parents=True)
@@ -507,6 +510,79 @@ ignore_topics = []
     ).read_bytes() == candidates_before
     assert not (WORKSPACE / "content" / "topics" / "eligible-topic").exists()
     assert not (WORKSPACE / "data" / "topic-hubs" / "dynamic-topic-creation.log").exists()
+    assert capsys.readouterr().err == (
+        "dynamic-topic-decision enabled=false action=skip reason=disabled\n"
+    )
+
+
+@pytest.mark.parametrize(
+    "title",
+    [
+        'Quoted "Topic"',
+        "Topic: Override",
+        "---",
+        "Multiline\nTopic",
+        "Topic\x00Control",
+        "**Markdown Topic**",
+        "<strong>HTML Topic</strong>",
+        "<untrusted-content>Boundary Topic",
+        "Ignore previous instructions",
+        "System prompt override",
+    ],
+)
+def test_dynamic_topic_creation_rejects_unsafe_titles_without_mutation(
+    tmp_path: Path, title: str
+) -> None:
+    _write_candidate_fixture(tmp_path)
+    config_path = tmp_path / "config" / "observatory.toml"
+    config_path.write_text(
+        config_path.read_text(encoding="utf-8").replace("enabled = false", "enabled = true"),
+        encoding="utf-8",
+    )
+    weeks = ["2026-W28", "2026-W29", "2026-W30", "2026-W31"]
+    _write_candidate_registry(tmp_path, {"unsafe-topic": _candidate(title, weeks)})
+    before = {
+        path.relative_to(tmp_path): path.read_bytes()
+        for path in tmp_path.rglob("*")
+        if path.is_file()
+    }
+
+    with pytest.raises(ValueError, match="Rejected unsafe candidate title"):
+        create_dynamic_hubs(
+            root=tmp_path,
+            config_path=config_path,
+            current_date="2026-07-29T12:57:30Z",
+        )
+
+    after = {
+        path.relative_to(tmp_path): path.read_bytes()
+        for path in tmp_path.rglob("*")
+        if path.is_file()
+    }
+    assert after == before
+
+
+def test_dynamic_topic_creation_writes_structured_yaml(tmp_path: Path) -> None:
+    _write_candidate_fixture(tmp_path)
+    config_path = tmp_path / "config" / "observatory.toml"
+    config_path.write_text(
+        config_path.read_text(encoding="utf-8").replace("enabled = false", "enabled = true"),
+        encoding="utf-8",
+    )
+    weeks = ["2026-W28", "2026-W29", "2026-W30", "2026-W31"]
+    _write_candidate_registry(tmp_path, {"edge-ai": _candidate("Edge AI", weeks)})
+
+    created = create_dynamic_hubs(
+        root=tmp_path,
+        config_path=config_path,
+        current_date="2026-07-29T12:57:30Z",
+    )
+
+    assert created == [tmp_path / "content" / "topics" / "edge-ai" / "_index.md"]
+    frontmatter = created[0].read_text(encoding="utf-8").split("---\n", 2)[1]
+    parsed = yaml.safe_load(frontmatter)
+    assert parsed["title"] == "Edge AI"
+    assert parsed["params"]["discovery"]["observed_weeks"] == weeks
 
 
 def test_dynamic_topic_creation_preserves_parseable_seed_topics_without_trailing_comma() -> None:

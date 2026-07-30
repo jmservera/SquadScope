@@ -105,11 +105,31 @@ required by the generator contract. A missing repository in fresh input is not e
 
 Deletion handling follows these rules:
 
-- A confirmed deletion becomes a retained historical page with a tombstone and last-seen data
-- `deletion_confirmed_at` starts the configured retention period
-- `retained_until` is persisted in the lifecycle ledger
-- Removal occurs only when the generation `--as-of` date is later than `retained_until`
-- `--as-of` is for deterministic lifecycle checks and reviewed expiry execution, not for shortening retention
+* A confirmed deletion becomes a retained historical page with a tombstone and last-seen data
+* Every `status = "deleted"` override requires a valid, non-future `deletion_confirmed_at`
+* `deletion_confirmed_at` starts the configured retention period; `last_seen_week` is provenance only
+* An operator-supplied `retained_until` cannot shorten the configured retention period
+* `retained_until` is derived from the confirmation date and persisted in the lifecycle ledger
+* Removal occurs only when the generation `--as-of` date is later than `retained_until`
+* `--as-of` is for deterministic lifecycle checks and reviewed expiry execution, not for shortening retention
+
+Seed durable lifecycle history before repository-page rollout with:
+
+```bash
+python scripts/observatory_repos.py --seed-lifecycle
+```
+
+Keep production `repo_pages.enabled = false` during this operation. The seed loads checked-in
+observations and prior ledger state, then compares every qualified repository name and slug with
+the generated pages and `data/derived/observatory/repositories.json`. Any mismatch stops before a
+write and requires review. A successful seed atomically replaces only
+`data/derived/observatory/repository-lifecycle.json`; it does not query GitHub, generate pages,
+refresh taxonomy, or rewrite derived repository data. Run the command twice and confirm that the
+second run leaves the ledger byte-identical.
+
+If a seed is interrupted before replacement, rerun it against the same reviewed revision. If
+parity fails, restore the page, derived data, raw observations, configuration, and prior ledger
+from one reviewed revision before retrying. Do not bypass parity checks or invent stable IDs.
 
 Rename handling preserves prior slugs as aliases where the static content model permits. Archive
 handling adds status evidence without deleting history. Quiet topics and repositories remain
@@ -119,10 +139,10 @@ durable.
 
 Before publication, verify all of the following:
 
-- Source weeks and generated `as_of` values match the intended reporting window
-- A second generation pass is byte-stable
-- Candidate evidence cites repository paths and observed weeks
-- Topic hubs show real weekly membership rather than placeholder text
+* Source weeks and generated `as_of` values match the intended reporting window
+* A second generation pass is byte-stable
+* Candidate evidence cites repository paths and observed weeks
+* Topic hubs show real weekly membership rather than placeholder text
 - Generated repository pages meet the recurrence threshold or carry reviewed retained lifecycle state
 - The lifecycle ledger contains no unexplained identity, status, or retention change
 - No disabled rollout flag changed
@@ -147,6 +167,21 @@ Review these signals after an approved production deployment:
 - GSC property verification, sitemap submission, and processing state
 - Rich Results, Schema.org, and social-preview debugger results
 - Accessibility findings and visual acceptance captures
+
+## Cross-origin embed privacy
+
+Claracle's consent controls govern scripts, cookies, and telemetry on the Claracle origin. They
+cannot inspect, suppress, or withdraw storage and network activity initiated inside a
+cross-origin iframe. The repository does not currently contain approved evidence that a
+third-party embed receives or honors Claracle's consent state.
+
+Treat analytics-bearing cross-origin embeds as blocked until Hermes records an approved consent
+and referrer policy with reproducible browser evidence. Before publication, test the fresh,
+denied, granted, reloaded, and withdrawn consent states while capturing iframe requests and
+storage behavior. If an embed sends requests before approval, continues after withdrawal, or
+cannot be inspected reliably, remove or disable the embed, stop publication of the affected
+page, preserve the request evidence and deployed revision, and escalate to Hermes and URL. Do
+not describe the embed as consent-compliant while that review is pending.
 
 ## Failed-run recovery
 

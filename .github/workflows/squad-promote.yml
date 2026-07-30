@@ -11,18 +11,19 @@ on:
         type: choice
         options: ['false', 'true']
 
-permissions:
-  contents: write
+permissions: {}
 
 jobs:
   dev-to-preview:
     name: Promote dev → preview
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
 
       - name: Configure git
         run: |
@@ -41,6 +42,8 @@ jobs:
 
       - name: Merge dev → preview (strip forbidden paths)
         if: ${{ inputs.dry_run == 'false' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git checkout preview
           git merge origin/dev --no-commit --no-ff -X theirs || true
@@ -56,7 +59,7 @@ jobs:
           # Commit if there are staged changes
           if ! git diff --cached --quiet; then
             git commit -m "chore: promote dev → preview (v$(node -e "console.log(require('./package.json').version)"))"
-            git push origin preview
+            git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" preview
             echo "✅ Pushed preview branch"
           else
             echo "ℹ️ Nothing to commit — preview is already up to date"
@@ -70,11 +73,13 @@ jobs:
     name: Promote preview → main (release)
     needs: dev-to-preview
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
 
       - name: Configure git
         run: |
@@ -110,10 +115,12 @@ jobs:
 
       - name: Merge preview → main
         if: ${{ inputs.dry_run == 'false' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git checkout main
           git merge origin/preview --no-ff -m "chore: promote preview → main (v$(node -e "console.log(require('./package.json').version)"))"
-          git push origin main
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" main
           echo "✅ Pushed main — squad-release.yml will tag and publish the release"
 
       - name: Dry run complete

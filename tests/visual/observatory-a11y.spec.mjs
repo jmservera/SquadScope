@@ -92,6 +92,50 @@ test('consent modal traps keyboard focus and restores it when closed', async ({ 
   await expect(manageCookies).toBeFocused();
 });
 
+test('breadcrumb is unique, semantic, marker-free, and wrapping', async ({ page }) => {
+  await page.goto('/topics/ai-coding-agents/');
+  await settle(page);
+
+  const breadcrumbs = page.locator('nav.breadcrumbs[aria-label="Breadcrumb"]');
+  await expect(breadcrumbs).toHaveCount(1);
+  await expect(breadcrumbs.locator(':scope > ol')).toHaveCount(1);
+  await expect(breadcrumbs.locator('li a')).not.toHaveCount(0);
+  await expect(breadcrumbs.locator('li:last-child [aria-current="page"]')).toHaveCount(1);
+  await expect(breadcrumbs.locator('li:last-child [aria-current="page"]')).toHaveText(/\S/);
+  await expect(breadcrumbs.locator('li:last-child a')).toHaveCount(0);
+
+  const schemaBreadcrumbCount = await page
+    .locator('script[type="application/ld+json"]')
+    .evaluateAll((scripts) =>
+      scripts.filter((script) => JSON.parse(script.textContent || '{}')['@type'] === 'BreadcrumbList')
+        .length,
+    );
+  expect(schemaBreadcrumbCount).toBe(1);
+
+  const itemCount = await breadcrumbs.locator('li').count();
+  const separators = breadcrumbs.locator('.breadcrumb-separator[aria-hidden="true"]');
+  await expect(separators).toHaveCount(itemCount - 1);
+
+  const styles = await breadcrumbs.locator(':scope > ol').evaluate((list) => {
+    const style = getComputedStyle(list);
+    return {
+      display: style.display,
+      flexWrap: style.flexWrap,
+      listStyleType: style.listStyleType,
+    };
+  });
+  expect(styles).toEqual({ display: 'flex', flexWrap: 'wrap', listStyleType: 'none' });
+
+  const overflow = await breadcrumbs.evaluate((nav) => ({
+    documentClientWidth: document.documentElement.clientWidth,
+    documentScrollWidth: document.documentElement.scrollWidth,
+    navClientWidth: nav.clientWidth,
+    navScrollWidth: nav.scrollWidth,
+  }));
+  expect(overflow.navScrollWidth).toBeLessThanOrEqual(overflow.navClientWidth);
+  expect(overflow.documentScrollWidth).toBeLessThanOrEqual(overflow.documentClientWidth);
+});
+
 test('chart exposes an accessible image alternative and source caption', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop-light', 'One Chromium project covers chart semantics.');
   await page.goto('/embeds/fastest-growing-ai-repositories-chart/');

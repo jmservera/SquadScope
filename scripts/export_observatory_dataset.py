@@ -392,6 +392,14 @@ def check_dataset(output_dir: Path, data_root: Path) -> list[Path]:
         return stale
 
 
+def display_path(path: Path) -> str:
+    """Return a repository-relative path when possible, otherwise the supplied path."""
+    try:
+        return path.resolve().relative_to(PROJECT_ROOT.resolve()).as_posix()
+    except ValueError:
+        return str(path)
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
@@ -405,7 +413,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.check:
         stale = check_dataset(args.output_dir, args.data_root)
         for path in stale:
-            print(f"stale: {path.relative_to(PROJECT_ROOT)}", file=sys.stderr)
+            print(f"stale: {display_path(path)}", file=sys.stderr)
         return 1 if stale else 0
     summary = export_dataset(args.output_dir, args.data_root)
     print(

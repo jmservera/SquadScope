@@ -73,7 +73,7 @@ export default defineConfig({
     {
       name: 'mobile-light',
       use: {
-        ...devices['iPhone 13'],
+        ...devices['Pixel 5'],
         colorScheme: 'light',
       },
     },
@@ -81,7 +81,7 @@ export default defineConfig({
     {
       name: 'mobile-dark',
       use: {
-        ...devices['iPhone 13'],
+        ...devices['Pixel 5'],
         colorScheme: 'dark',
       },
     },

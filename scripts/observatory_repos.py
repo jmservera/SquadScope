@@ -6,6 +6,7 @@ import argparse
 import json
 import re
 import sys
+import tempfile
 import tomllib
 import unicodedata
 from collections import Counter, defaultdict
@@ -151,6 +152,53 @@ def add_years(day: date, years: int) -> date:
         return day.replace(year=day.year + years)
     except ValueError:
         return day.replace(month=2, day=28, year=day.year + years)
+
+
+def deletion_retention(
+    lifecycle: dict[str, Any], *, as_of: date, retention_years: int, identity: str
+) -> tuple[date, date]:
+    confirmed_text = lifecycle.get("deletion_confirmed_at")
+    if not isinstance(confirmed_text, str) or not confirmed_text.strip():
+        raise ValueError(f"Deleted repository {identity} requires deletion_confirmed_at")
+    try:
+        confirmed = date.fromisoformat(confirmed_text)
+    except ValueError as error:
+        raise ValueError(
+            f"Deleted repository {identity} has invalid deletion_confirmed_at: {confirmed_text}"
+        ) from error
+    if confirmed > as_of:
+        raise ValueError(
+            f"Deleted repository {identity} has future deletion_confirmed_at: {confirmed_text}"
+        )
+    retained_until = add_years(confirmed, retention_years)
+    supplied_retained_until = lifecycle.get("retained_until")
+    if supplied_retained_until is not None:
+        try:
+            supplied = date.fromisoformat(str(supplied_retained_until))
+        except ValueError as error:
+            raise ValueError(
+                f"Deleted repository {identity} has invalid retained_until: "
+                f"{supplied_retained_until}"
+            ) from error
+        if supplied < retained_until:
+            raise ValueError(
+                f"Deleted repository {identity} retained_until {supplied} shortens "
+                f"configured retention through {retained_until}"
+            )
+    return confirmed, retained_until
+
+
+def validate_lifecycle_overrides(
+    lifecycle: dict[str, Any], *, as_of: date, retention_years: int
+) -> None:
+    for identity, override in lifecycle.items():
+        if isinstance(override, dict) and override.get("status") == "deleted":
+            deletion_retention(
+                override,
+                as_of=as_of,
+                retention_years=retention_years,
+                identity=identity,
+            )
 
 
 def load_config(root: Path, config_path: Path | None = None) -> dict[str, Any]:
@@ -726,23 +774,124 @@ def lifecycle_ledger_payload(histories: dict[str, RepositoryHistory]) -> dict[st
     return {"schema_version": LIFECYCLE_SCHEMA_VERSION, "repositories": repositories}
 
 
+def existing_repository_identities(root: Path) -> tuple[set[tuple[str, str]], set[tuple[str, str]]]:
+    page_identities: set[tuple[str, str]] = set()
+    for path in sorted((root / "content" / "repo").glob("*/index.md")):
+        text = path.read_text(encoding="utf-8")
+        if not text.startswith("---\n"):
+            continue
+        params = yaml.safe_load(text.split("---", 2)[1])
+        if not isinstance(params, dict) or params.get("generated_by") != GENERATED_BY:
+            continue
+        page_identities.add((str(params.get("repo_full_name")), str(params.get("repo_slug"))))
+
+    derived_path = root / "data" / "derived" / "observatory" / "repositories.json"
+    derived = json.loads(derived_path.read_text(encoding="utf-8"))
+    if not isinstance(derived, list):
+        raise ValueError("Derived repository data must be an array")
+    derived_identities = {
+        (str(item.get("repo_full_name")), str(item.get("repo_slug")))
+        for item in derived
+        if isinstance(item, dict)
+    }
+    return page_identities, derived_identities
+
+
+def write_json_atomically(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=path.parent,
+            prefix=f".{path.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as temporary:
+            json.dump(payload, temporary, indent=2, sort_keys=True)
+            temporary.write("\n")
+            temporary.flush()
+            temporary_path = Path(temporary.name)
+        temporary_path.replace(path)
+    finally:
+        if temporary_path is not None:
+            temporary_path.unlink(missing_ok=True)
+
+
+def seed_lifecycle(
+    root: Path, config_path: Path | None = None, *, as_of: date | None = None
+) -> dict[str, int]:
+    config = load_config(root, config_path)
+    if config["enabled"] and config_path is None:
+        raise ValueError("Lifecycle seed requires repo_pages.enabled = false")
+    effective_as_of = as_of or date.today()
+    validate_lifecycle_overrides(
+        config["lifecycle"],
+        as_of=effective_as_of,
+        retention_years=config["retention_years"],
+    )
+    ledger = load_lifecycle_ledger(config["ledger_path"])
+    histories = load_repository_histories(root, config["lifecycle"], ledger)
+    for history in histories.values():
+        if len(history.distinct_weeks) >= config["minimum_weeks"]:
+            history.qualified = True
+        if history.lifecycle.get("status") == "deleted":
+            confirmed, retained_until = deletion_retention(
+                history.lifecycle,
+                as_of=effective_as_of,
+                retention_years=config["retention_years"],
+                identity=history.display_name,
+            )
+            history.lifecycle["deletion_confirmed_at"] = confirmed.isoformat()
+            history.lifecycle["retained_until"] = retained_until.isoformat()
+
+    qualified_identities = {
+        (history.display_name, history.slug) for history in histories.values() if history.qualified
+    }
+    page_identities, derived_identities = existing_repository_identities(root)
+    if qualified_identities != page_identities or qualified_identities != derived_identities:
+        raise ValueError(
+            "Lifecycle seed parity mismatch: "
+            f"qualified={len(qualified_identities)}, pages={len(page_identities)}, "
+            f"derived={len(derived_identities)}"
+        )
+
+    write_json_atomically(config["ledger_path"], lifecycle_ledger_payload(histories))
+    counts = {
+        "fallback_histories": sum(key.startswith("name:") for key in histories),
+        "stable_id_histories": sum(not key.startswith("name:") for key in histories),
+        "qualified_histories": len(qualified_identities),
+        "existing_pages": len(page_identities),
+        "mismatches": 0,
+    }
+    print(
+        "Seeded lifecycle ledger: " + ", ".join(f"{name}={value}" for name, value in counts.items())
+    )
+    return counts
+
+
 def reconcile_lifecycle(
     histories: dict[str, RepositoryHistory], config: dict[str, Any], as_of: date
 ) -> list[RepositoryHistory]:
     expired: list[RepositoryHistory] = []
+    deletion_dates = {
+        history.key: deletion_retention(
+            history.lifecycle,
+            as_of=as_of,
+            retention_years=config["retention_years"],
+            identity=history.display_name,
+        )
+        for history in histories.values()
+        if history.lifecycle.get("status") == "deleted"
+    }
     for history in histories.values():
         if len(history.distinct_weeks) >= config["minimum_weeks"]:
             history.qualified = True
         if history.lifecycle.get("status") != "deleted":
             continue
-        confirmed_text = history.lifecycle.get("deletion_confirmed_at")
-        confirmed = (
-            date.fromisoformat(confirmed_text)
-            if confirmed_text
-            else week_start_date(history.last_seen_week)
-        )
+        confirmed, retained_until = deletion_dates[history.key]
         history.lifecycle["deletion_confirmed_at"] = confirmed.isoformat()
-        retained_until = add_years(confirmed, config["retention_years"])
         history.lifecycle["retained_until"] = retained_until.isoformat()
         if as_of > retained_until:
             expired.append(history)
@@ -859,9 +1008,15 @@ def generate(
             "no repository pages created or durable pages deleted"
         )
         return []
+    effective_as_of = as_of or date.today()
+    validate_lifecycle_overrides(
+        config["lifecycle"],
+        as_of=effective_as_of,
+        retention_years=config["retention_years"],
+    )
     ledger = load_lifecycle_ledger(config["ledger_path"])
     histories = load_repository_histories(root, config["lifecycle"], ledger)
-    expired = reconcile_lifecycle(histories, config, as_of or date.today())
+    expired = reconcile_lifecycle(histories, config, effective_as_of)
     return write_repository_pages(root, histories, config, check=check, expired=expired)
 
 
@@ -869,8 +1024,14 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--config", type=Path, default=None)
-    parser.add_argument(
+    operation = parser.add_mutually_exclusive_group()
+    operation.add_argument(
         "--check", action="store_true", help="Fail when generated repository files are stale."
+    )
+    operation.add_argument(
+        "--seed-lifecycle",
+        action="store_true",
+        help="Validate repository parity and atomically seed only the lifecycle ledger.",
     )
     parser.add_argument("--as-of", type=date.fromisoformat, default=None)
     return parser.parse_args()
@@ -878,6 +1039,9 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
+    if args.seed_lifecycle:
+        seed_lifecycle(args.root.resolve(), args.config, as_of=args.as_of)
+        return 0
     written = generate(args.root.resolve(), args.config, check=args.check, as_of=args.as_of)
     if args.check and written:
         for path in written:

@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+const TEST_MEASUREMENT_ID = 'G-TEST-OBSERVATORY';
+
 function desktopOnly(testInfo) {
   test.skip(
     testInfo.project.name !== 'desktop-light',
@@ -7,15 +9,52 @@ function desktopOnly(testInfo) {
   );
 }
 
-async function installEventRecorder(page) {
-  await page.waitForFunction(() => window.CookieConsent && window.ObservatoryAnalytics);
-  await page.evaluate(() => {
-    delete window.dataLayer;
-    window.gtag = (...args) => {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push(args);
-    };
+async function interceptGoogleEndpoints(page) {
+  const requests = [];
+  await page.route('https://www.googletagmanager.com/**', async (route) => {
+    requests.push({ kind: 'script', url: route.request().url() });
+    await route.fulfill({
+      contentType: 'application/javascript',
+      body: `
+        window.SquadScopeGA4TestStubLoaded = true;
+        window.gtag = function () {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push(arguments);
+          if (arguments[0] === 'event') {
+            var params = new URLSearchParams({ en: arguments[1] });
+            Object.keys(arguments[2] || {}).forEach(function (key) {
+              params.set('ep.' + key, arguments[2][key]);
+            });
+            fetch('https://www.google-analytics.com/g/collect?' + params, {
+              mode: 'no-cors',
+              keepalive: true
+            });
+          }
+        };
+      `,
+    });
   });
+  await page.route('https://www.google-analytics.com/**', async (route) => {
+    requests.push({ kind: 'collect', url: route.request().url() });
+    await route.fulfill({ status: 204, body: '' });
+  });
+  return requests;
+}
+
+async function waitForConsentUi(page) {
+  await page.waitForFunction(() => window.CookieConsent && window.ObservatoryAnalytics);
+  return page.getByRole('dialog').first();
+}
+
+async function acceptAnalytics(page) {
+  const dialog = await waitForConsentUi(page);
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole('button', { name: /accept all/i }).click();
+  await expect(dialog).toBeHidden();
+  await expect
+    .poll(() => page.locator(`script[src*="gtag/js?id=${TEST_MEASUREMENT_ID}"]`).count())
+    .toBe(1);
+  await page.waitForFunction(() => window.SquadScopeGA4TestStubLoaded === true);
 }
 
 async function customEvents(page) {
@@ -33,30 +72,46 @@ async function clickWithoutNavigation(page, selector) {
   });
 }
 
-test('dataset events require current consent and contain bounded fields', async ({
-  page,
-}, testInfo) => {
-  desktopOnly(testInfo);
-  const analyticsRequests = [];
-  page.on('request', (request) => {
-    if (request.url().includes('google-analytics.com/g/collect')) {
-      analyticsRequests.push(request.url());
-    }
-  });
+async function analyticsCookies(page) {
+  const cookies = await page.context().cookies();
+  return cookies.filter(({ name }) => /^_ga/.test(name));
+}
 
+test('fresh and rejected consent send no analytics data', async ({ page }, testInfo) => {
+  desktopOnly(testInfo);
+  const requests = await interceptGoogleEndpoints(page);
   await page.goto('/state-of/open-source-ai-2026/');
-  await installEventRecorder(page);
+  const dialog = await waitForConsentUi(page);
   const csvLink = 'a[href*="top-github-projects.csv"]';
-  await page.locator(csvLink).evaluate((link) => {
-    link.href = `${link.href}?repository=private-owner/private-repository`;
-  });
 
   await clickWithoutNavigation(page, csvLink);
   expect(await customEvents(page)).toEqual([]);
-  expect(analyticsRequests).toEqual([]);
+  expect(requests).toEqual([]);
+  expect(await analyticsCookies(page)).toEqual([]);
 
-  await page.evaluate(() => window.ObservatoryAnalytics.setConsent(true));
+  await dialog.getByRole('button', { name: /reject all/i }).click();
+  await expect(dialog).toBeHidden();
   await clickWithoutNavigation(page, csvLink);
+
+  expect(await customEvents(page)).toEqual([]);
+  expect(requests).toEqual([]);
+  expect(await analyticsCookies(page)).toEqual([]);
+  await expect
+    .poll(async () => (await page.context().cookies()).map(({ name }) => name))
+    .toContain('squadscope_cookie_consent');
+});
+
+test('acceptance, reload, and withdrawal enforce the analytics boundary', async ({
+  page,
+}, testInfo) => {
+  desktopOnly(testInfo);
+  const requests = await interceptGoogleEndpoints(page);
+  const csvLink = 'a[href*="top-github-projects.csv"]';
+  await page.goto('/state-of/open-source-ai-2026/');
+  await acceptAnalytics(page);
+
+  await clickWithoutNavigation(page, csvLink);
+  await expect.poll(() => requests.filter(({ kind }) => kind === 'collect').length).toBe(1);
   expect(await customEvents(page)).toEqual([
     {
       name: 'dataset_download',
@@ -66,20 +121,48 @@ test('dataset events require current consent and contain bounded fields', async 
       },
     },
   ]);
+  expect(requests.filter(({ kind }) => kind === 'script')).toHaveLength(1);
+  expect(requests.find(({ kind }) => kind === 'collect').url).not.toContain('private');
 
-  await page.evaluate(() => window.ObservatoryAnalytics.setConsent(false));
+  await page.context().addCookies([
+    { name: '_ga', value: 'GA1.1.123.456', domain: '127.0.0.1', path: '/' },
+    { name: '_ga_TEST', value: 'GS1.1.123.1.0.0.0', domain: '127.0.0.1', path: '/' },
+  ]);
+  await page.reload();
+  await page.waitForFunction(() => window.CookieConsent && window.ObservatoryAnalytics);
+  await expect(page.getByRole('dialog').first()).toBeHidden();
+  await expect.poll(() => requests.filter(({ kind }) => kind === 'script').length).toBe(2);
+  const initCalls = await page.evaluate(() =>
+    (window.dataLayer || []).filter((entry) => entry[0] === 'config'),
+  );
+  expect(initCalls).toHaveLength(1);
+  expect(initCalls[0][1]).toBe(TEST_MEASUREMENT_ID);
+
+  await page.getByRole('button', { name: /manage cookies/i }).click();
+  const preferences = page.getByRole('dialog').first();
+  const analyticsToggle = preferences.getByRole('checkbox', { name: /analytics/i });
+  await expect(analyticsToggle).toBeChecked();
+  await analyticsToggle.uncheck();
+  await preferences.getByRole('button', { name: /save preferences/i }).click();
+  await expect(preferences).toBeHidden();
+
+  await expect
+    .poll(() => page.evaluate((id) => window[`ga-disable-${id}`], TEST_MEASUREMENT_ID))
+    .toBe(true);
+  await expect.poll(() => analyticsCookies(page)).toEqual([]);
+  const eventCount = (await customEvents(page)).length;
+  const collectCount = requests.filter(({ kind }) => kind === 'collect').length;
   await clickWithoutNavigation(page, csvLink);
-  expect(await customEvents(page)).toHaveLength(1);
+  expect(await customEvents(page)).toHaveLength(eventCount);
+  expect(requests.filter(({ kind }) => kind === 'collect')).toHaveLength(collectCount);
 });
 
-test('tool interactions never include repository names or search input', async ({
-  page,
-}, testInfo) => {
+test('tool interactions use real handlers and bounded fields', async ({ page }, testInfo) => {
   desktopOnly(testInfo);
+  await interceptGoogleEndpoints(page);
   await page.goto('/tools/star-velocity-explorer/');
-  await installEventRecorder(page);
+  await acceptAnalytics(page);
   await expect(page.locator('[data-trend-status]')).not.toHaveText(/Loading static trend data/);
-  await page.evaluate(() => window.ObservatoryAnalytics.setConsent(true));
 
   const search = page.locator('[data-trend-search]');
   await search.fill('private-owner/private-repository?token=secret');
@@ -99,14 +182,14 @@ test('tool interactions never include repository names or search input', async (
   expect(JSON.stringify(events)).not.toContain('token=secret');
 });
 
-test('standalone chart view fires only after consent', async ({ page }, testInfo) => {
+test('standalone chart view fires only after UI acceptance', async ({ page }, testInfo) => {
   desktopOnly(testInfo);
+  await interceptGoogleEndpoints(page);
   await page.goto('/embeds/fastest-growing-ai-repositories-chart/');
-  await installEventRecorder(page);
+  await waitForConsentUi(page);
 
   expect(await customEvents(page)).toEqual([]);
-  await page.evaluate(() => window.ObservatoryAnalytics.setConsent(true));
-
+  await acceptAnalytics(page);
   expect(await customEvents(page)).toEqual([
     {
       name: 'chart_embed_view',

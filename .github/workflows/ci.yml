@@ -65,6 +65,7 @@ jobs:
       AXE_PLAYWRIGHT_VERSION: 4.10.2
       LIGHTHOUSE_VERSION: 12.8.2
       BASE_URL: http://127.0.0.1:1313
+      HUGO_PARAMS_GA_MEASUREMENT_ID: G-TEST-OBSERVATORY
 
     steps:
       - name: Checkout code
@@ -125,7 +126,7 @@ jobs:
         run: |
           set -euo pipefail
           started_at="$(date +%s%N)"
-          hugo --minify
+          hugo --minify --baseURL "${BASE_URL}/"
           finished_at="$(date +%s%N)"
           echo "duration_ms=$(( (finished_at - started_at) / 1000000 ))" >> "${GITHUB_OUTPUT}"
 
@@ -169,7 +170,7 @@ jobs:
           curl --fail --silent --show-error --retry 30 --retry-delay 1 --retry-connrefused "${BASE_URL}/" > /dev/null
 
       - name: Run axe and responsive browser gates
-        run: npx --no-install playwright test --config tests/visual/playwright.config.mjs tests/visual/a11y-perf.spec.mjs tests/visual/observatory-a11y.spec.mjs
+        run: npx --no-install playwright test --config tests/visual/playwright.config.mjs tests/visual/a11y-perf.spec.mjs tests/visual/observatory-a11y.spec.mjs tests/visual/observatory-analytics.spec.mjs
 
       - name: Run Lighthouse gates
         run: node scripts/design/lighthouse-gates.mjs --base "${BASE_URL}"

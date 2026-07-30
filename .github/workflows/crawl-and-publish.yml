@@ -508,7 +508,7 @@ jobs:
         id: install-copilot
         run: |
           set -euo pipefail
-          npm install -g @github/copilot
+          npm install -g @github/copilot@1.0.76
           # Verify the CLI actually installed and is runnable before any step
           # (including synthesis) is allowed to depend on it.
           copilot --version

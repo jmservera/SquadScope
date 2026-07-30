@@ -83,6 +83,49 @@ class JsonLdParser(HTMLParser):
             self.json_parts.append(data)
 
 
+class BreadcrumbParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.stack: list[str] = []
+        self.nav_count = 0
+        self.direct_ol_count = 0
+        self.links = 0
+        self.current_items = 0
+        self.hidden_separators = 0
+        self.item_order: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        attrs_dict = {name.lower(): value or "" for name, value in attrs}
+        in_breadcrumb = "breadcrumb" in self.stack
+        marker = tag.lower()
+        if (
+            marker == "nav"
+            and "breadcrumbs" in attrs_dict.get("class", "").split()
+            and attrs_dict.get("aria-label") == "Breadcrumb"
+        ):
+            marker = "breadcrumb"
+            self.nav_count += 1
+        elif marker == "ol" and self.stack[-1:] == ["breadcrumb"]:
+            self.direct_ol_count += 1
+        elif in_breadcrumb and marker == "a":
+            self.links += 1
+            self.item_order.append("link")
+        elif in_breadcrumb and attrs_dict.get("aria-current") == "page":
+            self.current_items += 1
+            self.item_order.append("current")
+        elif (
+            in_breadcrumb
+            and "breadcrumb-separator" in attrs_dict.get("class", "").split()
+            and attrs_dict.get("aria-hidden") == "true"
+        ):
+            self.hidden_separators += 1
+        self.stack.append(marker)
+
+    def handle_endtag(self, tag: str) -> None:
+        if self.stack:
+            self.stack.pop()
+
+
 @pytest.fixture(scope="module")
 def rendered_site(tmp_path_factory: pytest.TempPathFactory) -> Path:
     if shutil.which("hugo") is None:
@@ -117,6 +160,44 @@ def _assert_absolute_schema_urls(value: object, path: Path, key: str = "") -> No
             _assert_absolute_schema_urls(child_value, path, key)
     elif key in url_keys and isinstance(value, str):
         assert urlparse(value).scheme in {"http", "https"}, f"{path}: {key}={value!r}"
+
+
+def test_breadcrumb_source_has_single_semantic_owner_and_wrapping_styles() -> None:
+    repo_root = Path(__file__).resolve().parents[1]
+    partial = (repo_root / "layouts/partials/breadcrumbs.html").read_text(encoding="utf-8")
+    seo = (repo_root / "layouts/partials/seo.html").read_text(encoding="utf-8")
+    styles = (repo_root / "assets/css/common/post-single.css").read_text(encoding="utf-8")
+
+    assert partial.count('<nav class="breadcrumbs" aria-label="Breadcrumb">') == 1
+    assert partial.count("<ol>") == 1
+    assert partial.count('aria-current="page"') == 1
+    assert 'class="breadcrumb-separator" aria-hidden="true"' in partial
+    assert "application/ld+json" not in partial
+    assert seo.count('"BreadcrumbList"') == 1
+    assert ".breadcrumbs ol" in styles
+    assert "display: flex" in styles
+    assert "flex-wrap: wrap" in styles
+    assert "list-style: none" in styles
+    assert "overflow-wrap: anywhere" in styles
+
+
+def test_rendered_breadcrumb_is_unique_semantic_and_matches_schema(rendered_site: Path) -> None:
+    html_path = rendered_site / "topics/ai-coding-agents/index.html"
+    content = html_path.read_text(encoding="utf-8", errors="ignore")
+    breadcrumb = BreadcrumbParser()
+    breadcrumb.feed(content)
+    _, schemas = _parse_html(html_path)
+    schema_breadcrumbs = [
+        document for document in schemas.json_ld if document.get("@type") == "BreadcrumbList"
+    ]
+
+    assert breadcrumb.nav_count == 1
+    assert breadcrumb.direct_ol_count == 1
+    assert breadcrumb.links >= 1
+    assert breadcrumb.current_items == 1
+    assert breadcrumb.item_order[-1] == "current"
+    assert breadcrumb.hidden_separators == len(breadcrumb.item_order) - 1
+    assert len(schema_breadcrumbs) == 1
 
 
 def test_rendered_page_classes_emit_appropriate_schema(rendered_site: Path) -> None:
@@ -205,8 +286,10 @@ def test_site_wide_metadata_json_ld_and_breadcrumb_contracts(rendered_site: Path
                 for document in schemas.json_ld
                 if document.get("@type") == "BreadcrumbList"
             ]
-            if not breadcrumbs:
-                failures.append(f"{relative_path}: expected a BreadcrumbList")
+            if len(breadcrumbs) != 1:
+                failures.append(
+                    f"{relative_path}: expected exactly one BreadcrumbList, got {len(breadcrumbs)}"
+                )
                 continue
             for breadcrumb in breadcrumbs:
                 items = breadcrumb.get("itemListElement", [])

@@ -13,6 +13,7 @@ import scripts.analysis_gate as analysis_gate
 import scripts.analyze_fallback as analyze_fallback
 import scripts.crawl as crawl
 import scripts.generate_content as generate_content
+import scripts.podcaster_handoff as podcaster_handoff
 
 
 def _uses_action(step: dict, action: str) -> bool:
@@ -26,6 +27,69 @@ def _uses_action(step: dict, action: str) -> bool:
     if not isinstance(uses, str):
         return False
     return uses.split("@", 1)[0] == action
+
+
+def _checkout_steps(workflow: dict) -> list[dict]:
+    return [
+        step
+        for job in workflow.get("jobs", {}).values()
+        for step in job.get("steps", [])
+        if _uses_action(step, "actions/checkout")
+    ]
+
+
+class WorkflowSecurityTests(unittest.TestCase):
+    def test_zizmor_uses_pinned_full_workflow_scope(self) -> None:
+        workflow = yaml.safe_load(
+            Path(".github/workflows/security-scanning.yml").read_text(encoding="utf-8")
+        )
+        scan_step = next(
+            step
+            for step in workflow["jobs"]["zizmor-scan"]["steps"]
+            if step.get("name") == "Run zizmor security scan"
+        )
+
+        self.assertEqual(scan_step["with"]["inputs"], ".github/workflows/")
+        self.assertEqual(scan_step["with"]["version"], "1.27.0")
+        self.assertFalse(scan_step["with"]["advanced-security"])
+
+    def test_squad_checkouts_do_not_persist_credentials(self) -> None:
+        workflow_paths = sorted(Path(".github/workflows").glob("squad-*.yml"))
+        workflow_paths.append(Path(".github/workflows/sync-squad-labels.yml"))
+
+        for workflow_path in workflow_paths:
+            with self.subTest(workflow=workflow_path.name):
+                workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+                checkouts = _checkout_steps(workflow)
+                self.assertTrue(checkouts)
+                for checkout in checkouts:
+                    self.assertFalse(checkout.get("with", {}).get("persist-credentials"))
+                    self.assertNotIn("token", checkout.get("with", {}))
+
+    def test_squad_promote_scopes_write_and_push_authentication(self) -> None:
+        workflow = yaml.safe_load(
+            Path(".github/workflows/squad-promote.yml").read_text(encoding="utf-8")
+        )
+
+        self.assertEqual(workflow["permissions"], {})
+        for job in workflow["jobs"].values():
+            self.assertEqual(job["permissions"], {"contents": "write"})
+            push_step = next(step for step in job["steps"] if "git push " in step.get("run", ""))
+            self.assertEqual(push_step["env"]["GH_TOKEN"], "${{ github.token }}")
+            self.assertIn("https://x-access-token:${GH_TOKEN}@github.com/", push_step["run"])
+
+    def test_copilot_cli_install_is_pinned(self) -> None:
+        workflow = yaml.safe_load(
+            Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+        )
+        install_step = next(
+            step
+            for step in workflow["jobs"]["analyze"]["steps"]
+            if step.get("name") == "Install Copilot CLI"
+        )
+
+        self.assertIn("npm install -g @github/copilot@1.0.76", install_step["run"])
+        self.assertNotIn("npm install -g @github/copilot\n", install_step["run"])
 
 
 class _FakeHTTPResponse(io.BytesIO):
@@ -207,6 +271,42 @@ class WorkflowConfigTests(unittest.TestCase):
             env["HUGO_PARAMS_GSC_SITE_VERIFICATION"],
             "${{ secrets.GSC_SITE_VERIFICATION }}",
         )
+
+    def test_production_browser_gate_is_blocking_and_chromium_aligned(self) -> None:
+        workflow = yaml.safe_load(Path(".github/workflows/ci.yml").read_text(encoding="utf-8"))
+        production = workflow["jobs"]["production-site"]
+        self.assertEqual(
+            production["env"]["HUGO_PARAMS_GA_MEASUREMENT_ID"],
+            "G-TEST-OBSERVATORY",
+        )
+
+        steps = production["steps"]
+        install = next(
+            step for step in steps if step.get("name") == "Install production test dependencies"
+        )
+        self.assertIn("playwright install --with-deps chromium", install["run"])
+        browser_index = next(
+            index
+            for index, step in enumerate(steps)
+            if step.get("name") == "Run axe and responsive browser gates"
+        )
+        lighthouse_index = next(
+            index for index, step in enumerate(steps) if step.get("name") == "Run Lighthouse gates"
+        )
+        browser_command = steps[browser_index]["run"]
+        for spec in (
+            "tests/visual/a11y-perf.spec.mjs",
+            "tests/visual/observatory-a11y.spec.mjs",
+            "tests/visual/observatory-analytics.spec.mjs",
+        ):
+            self.assertIn(spec, browser_command)
+        self.assertLess(browser_index, lighthouse_index)
+
+        config = Path("tests/visual/playwright.config.mjs").read_text(encoding="utf-8")
+        self.assertEqual(config.count("devices['Desktop Chrome']"), 2)
+        self.assertEqual(config.count("devices['Pixel 5']"), 2)
+        self.assertNotIn("iPhone", config)
+        self.assertNotIn("webkit", config.lower())
 
     def test_deploy_invokes_exact_promoted_article_smoke_after_pages(self) -> None:
         workflow = yaml.safe_load(
@@ -429,6 +529,19 @@ class WorkflowConfigTests(unittest.TestCase):
         )
         self.assertIsNotNone(promoted_upload)
         self.assertEqual(promoted_upload["with"]["name"], "promoted-analyzed-data")
+
+    def test_production_quality_build_uses_local_server_base_url(self) -> None:
+        workflow_path = Path(".github/workflows/ci.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+
+        production_job = workflow["jobs"]["production-site"]
+        self.assertEqual(production_job["env"]["BASE_URL"], "http://127.0.0.1:1313")
+        build_step = next(
+            step
+            for step in production_job["steps"]
+            if step.get("name") == "Build site and capture Hugo duration"
+        )
+        self.assertIn('hugo --minify --baseURL "${BASE_URL}/"', build_step["run"])
 
     def test_publish_transaction_orders_all_observatory_generators(self) -> None:
         workflow = yaml.safe_load(
@@ -676,40 +789,38 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertEqual(smoke_job["environment"]["name"], "podcaster-release-smoke")
         checkout = next(s for s in smoke_job["steps"] if _uses_action(s, "actions/checkout"))
         self.assertEqual(checkout["with"]["ref"], "publish")
-        validation_step = next(
-            s for s in smoke_job["steps"] if s.get("name") == "Validate promoted release evidence"
-        )
-        validation_script = validation_step["run"]
-        self.assertIn('schema_version == "promotion_transaction_v1"', validation_script)
-        self.assertIn("promotion_reference transaction_id is invalid", validation_script)
-        self.assertIn("source manifest bytes do not match promotion_reference", validation_script)
-        self.assertIn(
-            "promotion_reference article path does not match article_path", validation_script
-        )
-        self.assertIn(
-            "article_sha256 does not match the exact ARTICLE_PATH bytes", validation_script
-        )
-
         smoke_step = next(
             (s for s in smoke_job["steps"] if s.get("name") == "Smoke test Podcaster dry run"), None
         )
         self.assertIsNotNone(smoke_step)
         run_script = smoke_step["run"]
-        self.assertIn("build_payload(", run_script)
-        self.assertIn('"podcast_config"', run_script)
-        self.assertIn('"script_directions"', run_script)
-        self.assertIn('"spotify_publish"', run_script)
-        self.assertIn('"article_content"', run_script)
-        self.assertIn('payload["article_content"].encode("utf-8") != article_bytes', run_script)
-        self.assertIn('payload["article_sha256"]', run_script)
-        self.assertIn('--manifest "$MANIFEST_PATH"', run_script)
+        self.assertNotIn("python3 - <<", run_script)
+        self.assertIn("python3 scripts/podcaster_handoff.py", run_script)
+        self.assertIn('--promotion-reference "$PROMOTION_REFERENCE"', run_script)
+        self.assertIn('--expected-article-sha256 "$ARTICLE_SHA256"', run_script)
         self.assertIn("--podcast-config config/podcast.json", run_script)
         self.assertIn("--podcaster-dry-run", run_script)
+        self.assertIn("--exact-article-content", run_script)
         evidence_step = next(
             s for s in smoke_job["steps"] if s.get("name") == "Retain smoke run evidence"
         )
         self.assertEqual(evidence_step["if"], "always()")
         self.assertIn("actions/runs", evidence_step["env"]["RUN_URL"])
+
+    def test_podcaster_release_verifier_executes_checked_in_validation(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            with self.assertRaisesRegex(
+                podcaster_handoff.PodcasterHandoffError,
+                "article_sha256 must be lowercase",
+            ):
+                podcaster_handoff.verify_release_evidence(
+                    week="2026-W23",
+                    article_path="content/weekly/2026/W23.md",
+                    article_sha256="not-a-sha",
+                    promotion_reference=Path("data/published/2026-W23/promotion-manifest.json"),
+                    repo_root=root,
+                )
 
     def test_publish_workflow_uses_candidate_manifest_before_promotion(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")

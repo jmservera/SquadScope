@@ -10,13 +10,7 @@
 <nav class="breadcrumbs" aria-label="Breadcrumb">
   <ol>
     {{- range $index, $item := $items }}
-    <li>{{ if lt (add $index 1) (len $items) }}<a href="{{ $item.url }}">{{ $item.name }}</a>{{ else }}<span aria-current="page">{{ $item.name }}</span>{{ end }}</li>
+    <li>{{ if gt $index 0 }}<span class="breadcrumb-separator" aria-hidden="true">›</span>{{ end }}{{ if lt (add $index 1) (len $items) }}<a href="{{ $item.url }}">{{ $item.name }}</a>{{ else }}<span aria-current="page">{{ $item.name }}</span>{{ end }}</li>
     {{- end }}
   </ol>
 </nav>
-{{- $schemaItems := slice -}}
-{{- range $index, $item := $items -}}
-  {{- $schemaItems = $schemaItems | append (dict "@type" "ListItem" "position" (add $index 1) "name" $item.name "item" (absURL (strings.TrimPrefix "/" $item.url))) -}}
-{{- end -}}
-{{- $schema := dict "@context" "https://schema.org" "@type" "BreadcrumbList" "itemListElement" $schemaItems -}}
-<script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>

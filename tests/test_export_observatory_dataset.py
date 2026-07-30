@@ -1,8 +1,11 @@
 import csv
+import io
 import json
 import shutil
 import unittest
+from contextlib import redirect_stderr
 from pathlib import Path
+from unittest.mock import patch
 
 import scripts.export_observatory_dataset as export_observatory_dataset
 
@@ -10,6 +13,21 @@ WORKSPACE_ROOT = Path(".test-workspaces")
 
 
 class ExportObservatoryDatasetTests(unittest.TestCase):
+    def test_check_reports_stale_external_output_path(self) -> None:
+        external_path = Path("/tmp/claracle-dataset/dataset-metadata.json")
+        stderr = io.StringIO()
+
+        with (
+            patch.object(export_observatory_dataset, "check_dataset", return_value=[external_path]),
+            redirect_stderr(stderr),
+        ):
+            result = export_observatory_dataset.main(
+                ["--check", "--output-dir", str(external_path.parent)]
+            )
+
+        self.assertEqual(result, 1)
+        self.assertEqual(stderr.getvalue(), f"stale: {external_path}\n")
+
     def test_export_dataset_writes_public_mit_dataset(self) -> None:
         output_dir = WORKSPACE_ROOT / "observatory-dataset"
         if output_dir.exists():

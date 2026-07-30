@@ -24,6 +24,7 @@ import yaml
 if __package__ is None or __package__ == "":
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from scripts.sanitize_repo_content import INJECTION_PHRASES, sanitize_text
 from scripts.taxonomy_registry import update_taxonomy_registries
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -36,6 +37,7 @@ CATEGORIES_LINE_RE = re.compile(r"^categories:.*$", re.MULTILINE)
 BOLD_HEADING_RE = re.compile(r"^\*\*(?P<title>[^*]+)\*\*", re.MULTILINE)
 WEEK_RE = re.compile(r"(?P<year>\d{4})-W(?P<week>\d{2})")
 SLUG_RE = re.compile(r"[^a-z0-9]+")
+TITLE_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9 .&+(),/-]*")
 
 
 @dataclass(frozen=True)
@@ -111,15 +113,19 @@ def read_frontmatter(path: Path) -> dict[str, Any]:
 def safe_candidate_title(value: object) -> str | None:
     if not isinstance(value, str):
         return None
-    title = " ".join(value.strip().split())
+    stripped = value.strip()
+    sanitized = sanitize_text(stripped, max_length=80, label="candidate title")
+    if sanitized != stripped or any(character in value for character in "\r\n"):
+        return None
+    title = " ".join(stripped.split())
     if len(title) < 3 or len(title) > 80:
         return None
     lowered = title.lower()
     if lowered.startswith(("http://", "https://")):
         return None
-    if any(
-        phrase in lowered for phrase in ("ignore previous", "system prompt", "developer message")
-    ):
+    if any(phrase in lowered for phrase in INJECTION_PHRASES):
+        return None
+    if "developer message" in lowered or "---" in title or not TITLE_RE.fullmatch(title):
         return None
     if not re.search(r"[a-zA-Z]", title):
         return None
@@ -156,7 +162,10 @@ def collect_candidates(root: Path, config: HubCreationConfig) -> dict[str, Candi
             continue
         title = safe_candidate_title(raw.get("display_name"))
         if not title:
-            continue
+            raise ValueError(f"Rejected unsafe candidate title for {slug!r}")
+        expected_slug = normalized_key(title)
+        if slug != expected_slug:
+            raise ValueError(f"Rejected candidate slug {slug!r}; expected {expected_slug!r}")
         weekly_count = int(raw.get("weekly_issue_count") or 0)
         weeks = {
             str(week)
@@ -183,7 +192,7 @@ def collect_candidates(root: Path, config: HubCreationConfig) -> dict[str, Candi
             weekly_issue_count=weekly_count,
             last_used=parse_week_date(max(weeks)).isoformat() if weeks else "",
         )
-        signals[str(slug) or normalized_key(title)] = signal
+        signals[slug] = signal
     return signals
 
 
@@ -205,23 +214,34 @@ def render_hub(signal: CandidateSignal, slug: str, config: HubCreationConfig) ->
         f"Evergreen Claracle hub for {signal.title}, created after the topic appeared in "
         f"{weekly_count} weekly issues within the configured {config.lookback_days}-day window."
     )
-    return f'''---
-title: "{signal.title.replace('"', '\\"')}"
-description: "{description.replace('"', '\\"')}"
-summary: "Dynamic topic hub for recurring Claracle coverage of {signal.title.replace('"', '\\"')}."
-params:
-  dynamic_topic: true
-  editorial_stance: "This hub was created by the additive dynamic-topic lifecycle after recurring analysis signals crossed the configured threshold. It persists through quiet weeks."
-  discovery:
-    min_weekly_issues: {config.min_weekly_issues}
-    lookback_days: {config.lookback_days}
-    observed_weeks: [{", ".join('"' + week + '"' for week in weeks)}]
----
-
-This hub was created automatically because **{signal.title}** appeared in at least {config.min_weekly_issues} weekly issues within the configured {config.lookback_days}-day lookback window.
-
-It is durable: a quiet week will not delete this page. Future weekly issues join the hub automatically when they include the matching canonical topic frontmatter.
-'''
+    frontmatter = {
+        "title": signal.title,
+        "description": description,
+        "summary": f"Dynamic topic hub for recurring Claracle coverage of {signal.title}.",
+        "params": {
+            "dynamic_topic": True,
+            "editorial_stance": (
+                "This hub was created by the additive dynamic-topic lifecycle after recurring "
+                "analysis signals crossed the configured threshold. It persists through quiet weeks."
+            ),
+            "discovery": {
+                "min_weekly_issues": config.min_weekly_issues,
+                "lookback_days": config.lookback_days,
+                "observed_weeks": weeks,
+            },
+        },
+    }
+    serialized = yaml.safe_dump(
+        frontmatter, sort_keys=False, allow_unicode=True, width=1000
+    ).rstrip()
+    return (
+        f"---\n{serialized}\n---\n\n"
+        f"This hub was created automatically because **{signal.title}** appeared in at least "
+        f"{config.min_weekly_issues} weekly issues within the configured "
+        f"{config.lookback_days}-day lookback window.\n\n"
+        "It is durable: a quiet week will not delete this page. Future weekly issues join the "
+        "hub automatically when they include the matching canonical topic frontmatter.\n"
+    )
 
 
 def promote_topic_in_registry(registry_path: Path, slug: str) -> None:
@@ -390,15 +410,19 @@ def create_dynamic_hubs(
 ) -> list[Path]:
     config = load_config(config_path)
     now = parse_current_date(current_date)
-    if not config.enabled or dry_run:
+    if not config.enabled:
+        print("dynamic-topic-decision enabled=false action=skip reason=disabled", file=sys.stderr)
+        return []
+    if dry_run:
+        print("dynamic-topic-decision enabled=true action=skip reason=dry-run", file=sys.stderr)
         return []
 
+    candidates = collect_candidates(root, config)
     append_log(
         config,
         f"dynamic-topic-check enabled=true threshold={config.min_weekly_issues} "
         f"lookback_days={config.lookback_days} current_date={now.isoformat()}",
     )
-    candidates = collect_candidates(root, config)
     existing = existing_hub_keys(root / "content")
     created: list[Path] = []
     skipped: dict[str, str] = defaultdict(str)

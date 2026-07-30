@@ -56,7 +56,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--article-path", required=True, help="Published SquadScope article content path."
     )
     parser.add_argument(
-        "--publish-run-id", required=True, help="GitHub Actions run ID that published the article."
+        "--publish-run-id",
+        default="",
+        help="GitHub Actions run ID that published the article; derived from promotion evidence in exact mode.",
     )
     parser.add_argument(
         "--publish-mode",
@@ -69,9 +71,24 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Optional publish manifest used for article hash/source artifact metadata.",
     )
     parser.add_argument(
+        "--promotion-reference",
+        type=Path,
+        help="Promotion transaction or publish manifest to verify in exact article mode.",
+    )
+    parser.add_argument(
+        "--expected-article-sha256",
+        default="",
+        help="Expected lowercase SHA-256 of the promoted article bytes in exact article mode.",
+    )
+    parser.add_argument(
         "--podcaster-dry-run",
         action="store_true",
         help="Ask Podcaster to validate without generating an episode; intended only for the manual smoke workflow.",
+    )
+    parser.add_argument(
+        "--exact-article-content",
+        action="store_true",
+        help="Send the complete UTF-8 article and hash its exact bytes; intended only for protected release smoke.",
     )
     parser.add_argument(
         "--podcast-config",
@@ -93,7 +110,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument("--endpoint", default=os.environ.get("PODCASTER_ENDPOINT", ""))
     parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT_SECONDS)
-    return parser.parse_args(argv)
+    args = parser.parse_args(argv)
+    if not args.exact_article_content and not args.publish_run_id:
+        parser.error("--publish-run-id is required unless --exact-article-content is used")
+    return args
 
 
 WEEKLY_CONTENT_PREFIX = "content/weekly/"
@@ -152,6 +172,121 @@ def _load_manifest(path: Path | None) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise PodcasterHandoffError(f"Publish manifest must be a JSON object: {path}")
     return payload
+
+
+def _repository_file(root: Path, value: str, label: str) -> Path:
+    relative = Path(value)
+    if relative.is_absolute():
+        raise PodcasterHandoffError(f"{label} must be repository-relative.")
+    resolved = (root / relative).resolve()
+    try:
+        resolved.relative_to(root)
+    except ValueError as exc:
+        raise PodcasterHandoffError(f"{label} must stay under the repository root.") from exc
+    if not resolved.is_file():
+        raise PodcasterHandoffError(f"{label} does not exist: {value}")
+    return resolved
+
+
+def _load_json_object(path: Path, label: str) -> dict[str, Any]:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise PodcasterHandoffError(f"{label} must be a readable UTF-8 JSON object.") from exc
+    if not isinstance(payload, dict):
+        raise PodcasterHandoffError(f"{label} must be a JSON object.")
+    return payload
+
+
+def verify_release_evidence(
+    *,
+    week: str,
+    article_path: str,
+    article_sha256: str,
+    promotion_reference: Path,
+    repo_root: Path = REPO_ROOT,
+) -> tuple[Path, str]:
+    """Verify retained promotion evidence and return its source manifest and run ID."""
+    root = repo_root.resolve()
+    if not re.fullmatch(r"[0-9a-f]{64}", article_sha256):
+        raise PodcasterHandoffError("article_sha256 must be lowercase 64-character hex.")
+    week_match = re.fullmatch(r"(?P<year>\d{4})-W(?P<week>\d{2})", week)
+    if not week_match:
+        raise PodcasterHandoffError("week must use YYYY-WNN format.")
+    normalized_path = normalize_page_path(article_path)
+    expected_path = f"content/weekly/{week_match.group('year')}/W{week_match.group('week')}.md"
+    if normalized_path != expected_path:
+        raise PodcasterHandoffError("article_path does not match the requested week.")
+
+    article = _repository_file(root, normalized_path, "article_path")
+    reference = _repository_file(root, promotion_reference.as_posix(), "promotion_reference")
+    record = _load_json_object(reference, "promotion_reference")
+    schema_version = record.get("schema_version")
+
+    if schema_version == "promotion_transaction_v1":
+        stable_record = dict(record)
+        transaction_id = stable_record.pop("transaction_id", None)
+        transaction_bytes = json.dumps(stable_record, sort_keys=True, separators=(",", ":")).encode(
+            "utf-8"
+        )
+        if transaction_id != hashlib.sha256(transaction_bytes).hexdigest():
+            raise PodcasterHandoffError("promotion_reference transaction_id is invalid.")
+        published_artifacts = record.get("published_artifacts")
+        if not isinstance(published_artifacts, list):
+            raise PodcasterHandoffError("promotion_reference lacks published_artifacts.")
+        published = next(
+            (
+                artifact
+                for artifact in published_artifacts
+                if isinstance(artifact, dict) and artifact.get("role") == "hugo_content"
+            ),
+            None,
+        )
+        if published is None:
+            raise PodcasterHandoffError("promotion_reference lacks a hugo_content artifact.")
+        promoted_path = published.get("path")
+        promoted_sha = published.get("sha256")
+        source_manifest = record.get("source_manifest")
+        if not isinstance(source_manifest, dict):
+            raise PodcasterHandoffError("promotion_reference lacks source_manifest.")
+        source_path = source_manifest.get("path")
+        source_sha = source_manifest.get("sha256")
+        if not isinstance(source_path, str) or not isinstance(source_sha, str):
+            raise PodcasterHandoffError(
+                "promotion_reference source_manifest path and sha256 are required."
+            )
+        manifest = _repository_file(root, source_path, "source_manifest.path")
+        if hashlib.sha256(manifest.read_bytes()).hexdigest() != source_sha:
+            raise PodcasterHandoffError("source manifest bytes do not match promotion_reference.")
+    elif schema_version == "publish_eligibility_v1":
+        candidate = record.get("candidate")
+        if not isinstance(candidate, dict):
+            raise PodcasterHandoffError("promotion_reference lacks candidate metadata.")
+        promoted_path = candidate.get("content_path") or record.get("candidate_content_path")
+        promoted_sha = candidate.get("content_sha256")
+        manifest = reference
+    else:
+        raise PodcasterHandoffError(f"Unsupported promotion_reference schema: {schema_version!r}")
+
+    if record.get("week") != week:
+        raise PodcasterHandoffError("promotion_reference week does not match the requested week.")
+    if promoted_path != normalized_path:
+        raise PodcasterHandoffError("promotion_reference article path does not match article_path.")
+    if promoted_sha != article_sha256:
+        raise PodcasterHandoffError(
+            "promotion_reference article hash does not match article_sha256."
+        )
+    try:
+        article_bytes = article.read_bytes()
+        article_bytes.decode("utf-8")
+    except (OSError, UnicodeDecodeError) as exc:
+        raise PodcasterHandoffError("article_path must contain valid UTF-8 bytes.") from exc
+    if hashlib.sha256(article_bytes).hexdigest() != article_sha256:
+        raise PodcasterHandoffError("article_sha256 does not match the exact article_path bytes.")
+    publish_run_id = str(record.get("run_id") or "")
+    if not publish_run_id:
+        raise PodcasterHandoffError("promotion_reference does not identify the publishing run.")
+    return manifest.relative_to(root), publish_run_id
 
 
 def _load_podcast_config(path: Path | None) -> dict[str, Any]:
@@ -522,11 +657,15 @@ def _resolve_spotify_publish(
 
 
 def _read_article_content(
-    article_path: str, repo_root: Path = REPO_ROOT
+    article_path: str,
+    repo_root: Path = REPO_ROOT,
+    *,
+    exact: bool = False,
 ) -> tuple[str | None, str | None, str | None]:
     """Read article file content and extract title.
 
-    Returns (content, title, summary). Content is truncated to MAX_ARTICLE_CONTENT_CHARS.
+    Returns (content, title, summary). Content is truncated to MAX_ARTICLE_CONTENT_CHARS
+    unless exact is true.
     Returns (None, None, None) if the file does not exist.
     Raises PodcasterHandoffError if the file exists but cannot be read, or if
     the resolved path escapes the repo root (path traversal prevention).
@@ -551,7 +690,7 @@ def _read_article_content(
         return None, None, None
     title = _extract_frontmatter_field(content, "title") or _extract_title(content)
     summary = _extract_frontmatter_field(content, "summary")
-    if len(content) > MAX_ARTICLE_CONTENT_CHARS:
+    if not exact and len(content) > MAX_ARTICLE_CONTENT_CHARS:
         content = content[:MAX_ARTICLE_CONTENT_CHARS]
     return content, title, summary
 
@@ -664,6 +803,7 @@ def build_payload(
     repo_root: Path | None = None,
     breaking_news: str | None = None,
     require_merged: bool = False,
+    exact_article_content: bool = False,
     manifest: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     if manifest is None:
@@ -683,7 +823,9 @@ def build_payload(
     }
 
     # Read article content and extract title
-    content, title, summary = _read_article_content(normalized_path, repo_root=root)
+    content, title, summary = _read_article_content(
+        normalized_path, repo_root=root, exact=exact_article_content
+    )
     if content:
         payload["article_content"] = content
     if title:
@@ -700,6 +842,17 @@ def build_payload(
         and article_sha.lower() == article_sha
     ):
         payload["article_sha256"] = article_sha
+    if exact_article_content:
+        if content is None:
+            raise PodcasterHandoffError(
+                "Exact article mode requires a non-empty UTF-8 article file."
+            )
+        exact_sha = hashlib.sha256(content.encode("utf-8")).hexdigest()
+        if payload.get("article_sha256") != exact_sha:
+            raise PodcasterHandoffError(
+                "Exact article bytes do not match the publish manifest article hash."
+            )
+        payload["article_sha256"] = exact_sha
     source_refs = _source_artifact_refs(manifest)
     if source_refs:
         payload["source_artifacts"] = source_refs
@@ -737,6 +890,71 @@ def build_payload(
     if podcaster_dry_run:
         payload["dry_run"] = True
     return payload
+
+
+def validate_exact_release_payload(
+    payload: dict[str, Any],
+    *,
+    week: str,
+    article_url: str,
+    article_path: str,
+    article_sha256: str,
+    publish_run_id: str,
+    repo_root: Path = REPO_ROOT,
+) -> None:
+    """Fail unless an exact-release payload matches the verified local article."""
+    required_fields = {
+        "week",
+        "article_url",
+        "article_path",
+        "publish_run_id",
+        "publish_mode",
+        "article_content",
+        "article_title",
+        "article_sha256",
+        "source_artifacts",
+        "podcast_config",
+        "script_directions",
+        "spotify_publish",
+        "dry_run",
+    }
+    missing = sorted(required_fields.difference(payload))
+    if missing:
+        raise PodcasterHandoffError(
+            f"Exact release payload is missing required fields: {', '.join(missing)}"
+        )
+    expected_values = {
+        "week": week,
+        "article_url": article_url,
+        "article_path": normalize_page_path(article_path),
+        "publish_run_id": publish_run_id,
+        "publish_mode": "normal",
+        "article_sha256": article_sha256,
+        "dry_run": True,
+    }
+    for field, expected in expected_values.items():
+        if payload.get(field) != expected:
+            raise PodcasterHandoffError(
+                f"Exact release payload field {field} does not match verified evidence."
+            )
+    if not isinstance(payload.get("source_artifacts"), list) or not payload["source_artifacts"]:
+        raise PodcasterHandoffError("Exact release payload must include source_artifacts.")
+    article = _repository_file(
+        repo_root.resolve(), normalize_page_path(article_path), "article_path"
+    )
+    try:
+        article_bytes = article.read_bytes()
+        payload_bytes = payload["article_content"].encode("utf-8")
+    except (OSError, AttributeError, UnicodeEncodeError) as exc:
+        raise PodcasterHandoffError(
+            "Exact release payload article_content must be valid UTF-8 text."
+        ) from exc
+    if payload_bytes != article_bytes:
+        raise PodcasterHandoffError(
+            "Exact release payload does not contain the promoted article bytes."
+        )
+    if hashlib.sha256(payload_bytes).hexdigest() != payload["article_sha256"]:
+        raise PodcasterHandoffError("Exact release payload hash does not match article_content.")
 
 
 SUCCESS_RESPONSE_STATUSES = {"accepted", "dry_run"}
@@ -805,6 +1023,46 @@ def post_handoff(
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    exact_payload: dict[str, Any] | None = None
+    exact_manifest: dict[str, Any] | None = None
+    if args.exact_article_content:
+        try:
+            if args.promotion_reference is None or not args.expected_article_sha256:
+                raise PodcasterHandoffError(
+                    "Exact article mode requires --promotion-reference and --expected-article-sha256."
+                )
+            manifest_path, publish_run_id = verify_release_evidence(
+                week=args.week,
+                article_path=args.article_path,
+                article_sha256=args.expected_article_sha256,
+                promotion_reference=args.promotion_reference,
+            )
+            exact_manifest = _load_manifest(manifest_path)
+            exact_payload = build_payload(
+                week=args.week,
+                article_url=args.article_url,
+                article_path=args.article_path,
+                publish_run_id=publish_run_id,
+                publish_mode=args.publish_mode,
+                manifest_path=manifest_path,
+                podcast_config_path=args.podcast_config,
+                podcaster_dry_run=args.podcaster_dry_run,
+                breaking_news=args.breaking_news,
+                require_merged=args.require_merged,
+                exact_article_content=True,
+                manifest=exact_manifest,
+            )
+            validate_exact_release_payload(
+                exact_payload,
+                week=args.week,
+                article_url=args.article_url,
+                article_path=args.article_path,
+                article_sha256=args.expected_article_sha256,
+                publish_run_id=publish_run_id,
+            )
+        except PodcasterHandoffError as exc:
+            print(f"::error::Podcaster handoff failed: {exc}")
+            return 1
     endpoint = args.endpoint.strip()
     api_key = os.environ.get("PODCASTER_API_KEY", "").strip()
     if not endpoint or not api_key:
@@ -818,7 +1076,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     try:
-        manifest = _load_manifest(args.manifest)
+        manifest = exact_manifest if exact_manifest is not None else _load_manifest(args.manifest)
     except PodcasterHandoffError as exc:
         print(f"::error::Podcaster handoff failed: {exc}")
         return 1
@@ -830,19 +1088,24 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     try:
-        payload = build_payload(
-            week=args.week,
-            article_url=args.article_url,
-            article_path=args.article_path,
-            publish_run_id=args.publish_run_id,
-            publish_mode=args.publish_mode,
-            manifest_path=args.manifest,
-            podcast_config_path=args.podcast_config,
-            podcaster_dry_run=args.podcaster_dry_run,
-            breaking_news=args.breaking_news,
-            require_merged=args.require_merged,
-            manifest=manifest,
-        )
+        if exact_payload is not None:
+            payload = exact_payload
+        else:
+            if not args.publish_run_id:
+                raise PodcasterHandoffError("--publish-run-id is required outside exact mode.")
+            payload = build_payload(
+                week=args.week,
+                article_url=args.article_url,
+                article_path=args.article_path,
+                publish_run_id=args.publish_run_id,
+                publish_mode=args.publish_mode,
+                manifest_path=args.manifest,
+                podcast_config_path=args.podcast_config,
+                podcaster_dry_run=args.podcaster_dry_run,
+                breaking_news=args.breaking_news,
+                require_merged=args.require_merged,
+                manifest=manifest,
+            )
         response = post_handoff(endpoint, api_key, payload, timeout=args.timeout)
     except PodcasterHandoffError as exc:
         print(f"::error::Podcaster handoff failed: {exc}")

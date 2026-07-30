@@ -127,6 +127,65 @@ class PodcasterHandoffTests(unittest.TestCase):
             yearly_path.mkdir(parents=True, exist_ok=True)
             (yearly_path / "2026.md").write_text(yearly_narrative, encoding="utf-8")
 
+    def _write_release_evidence(self, base: Path) -> tuple[Path, Path, str, dict[str, object]]:
+        article_path = Path("content/weekly/2026/W23.md")
+        article = base / article_path
+        article.parent.mkdir(parents=True)
+        article.write_text(
+            "---\ntitle: Exact Release\nsummary: Verified release.\n---\n"
+            "# Exact Release\n" + "Complete promoted article content.\n" * 2_000,
+            encoding="utf-8",
+        )
+        article_sha = hashlib.sha256(article.read_bytes()).hexdigest()
+        manifest = self._write_manifest(base)
+        manifest_data = json.loads(manifest.read_text(encoding="utf-8"))
+        manifest_data.update(
+            {
+                "schema_version": "publish_eligibility_v1",
+                "candidate_content_path": article_path.as_posix(),
+            }
+        )
+        manifest_data["candidate"]["content_path"] = article_path.as_posix()
+        manifest_data["candidate"]["content_sha256"] = article_sha
+        manifest.write_text(json.dumps(manifest_data), encoding="utf-8")
+
+        transaction: dict[str, object] = {
+            "schema_version": "promotion_transaction_v1",
+            "week": "2026-W23",
+            "run_id": "123456789",
+            "source_manifest": {
+                "path": manifest.relative_to(base).as_posix(),
+                "sha256": hashlib.sha256(manifest.read_bytes()).hexdigest(),
+            },
+            "candidate": {
+                "content_path": article_path.as_posix(),
+                "content_sha256": article_sha,
+            },
+            "published_artifacts": [
+                {
+                    "role": "hugo_content",
+                    "path": article_path.as_posix(),
+                    "sha256": article_sha,
+                }
+            ],
+        }
+        transaction_bytes = json.dumps(transaction, sort_keys=True, separators=(",", ":")).encode(
+            "utf-8"
+        )
+        transaction["transaction_id"] = hashlib.sha256(transaction_bytes).hexdigest()
+        reference = base / "data/published/2026-W23/promotion-manifest.json"
+        reference.parent.mkdir(parents=True)
+        reference.write_text(json.dumps(transaction), encoding="utf-8")
+        return article_path, reference, article_sha, transaction
+
+    def _write_transaction(self, path: Path, transaction: dict[str, object]) -> None:
+        stable = dict(transaction)
+        stable.pop("transaction_id", None)
+        transaction["transaction_id"] = hashlib.sha256(
+            json.dumps(stable, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        ).hexdigest()
+        path.write_text(json.dumps(transaction), encoding="utf-8")
+
     def test_escape_gha_data_escapes_workflow_command_data(self) -> None:
         self.assertEqual(podcaster_handoff._escape_gha_data("a\r\nb%c"), "a%0D%0Ab%25c")
 
@@ -295,7 +354,10 @@ class PodcasterHandoffTests(unittest.TestCase):
             article.parent.mkdir(parents=True)
             article_bytes = (
                 b"---\ntitle: Exact Promoted Release\nsummary: Exact bytes.\n---\n"
-                b"# Exact Promoted Release\nThe downstream dry run must receive these exact bytes.\n"
+                b"# Exact Promoted Release\n"
+                + (
+                    "Unicode release evidence: caf\N{LATIN SMALL LETTER E WITH ACUTE}.\n" * 2_000
+                ).encode("utf-8")
             )
             article.write_bytes(article_bytes)
             manifest_data = json.loads(manifest.read_text(encoding="utf-8"))
@@ -311,11 +373,148 @@ class PodcasterHandoffTests(unittest.TestCase):
                 manifest_path=manifest,
                 repo_root=root,
                 podcaster_dry_run=True,
+                exact_article_content=True,
             )
 
+        self.assertGreater(len(article_bytes.decode("utf-8")), 50_000)
         self.assertEqual(payload["article_content"].encode("utf-8"), article_bytes)
         self.assertEqual(payload["article_sha256"], hashlib.sha256(article_bytes).hexdigest())
         self.assertTrue(payload["dry_run"])
+
+    def test_default_payload_still_truncates_article_content_at_50000_characters(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            manifest = self._write_manifest(root)
+            article_path = Path("content/weekly/2026/W23.md")
+            article = root / article_path
+            article.parent.mkdir(parents=True)
+            article.write_text("x" * 50_001, encoding="utf-8")
+
+            payload = podcaster_handoff.build_payload(
+                week="2026-W23",
+                article_url="https://claracle.com/weekly/2026/w23/",
+                article_path=article_path.as_posix(),
+                publish_run_id="123456789",
+                manifest_path=manifest,
+                repo_root=root,
+            )
+
+        self.assertEqual(payload["article_content"], "x" * 50_000)
+
+    def test_exact_article_hash_mismatch_fails(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            manifest = self._write_manifest(root)
+            article_path = Path("content/weekly/2026/W23.md")
+            article = root / article_path
+            article.parent.mkdir(parents=True)
+            article.write_text("exact release body", encoding="utf-8")
+
+            with self.assertRaisesRegex(
+                podcaster_handoff.PodcasterHandoffError,
+                "Exact article bytes do not match",
+            ):
+                podcaster_handoff.build_payload(
+                    week="2026-W23",
+                    article_url="https://claracle.com/weekly/2026/w23/",
+                    article_path=article_path.as_posix(),
+                    publish_run_id="123456789",
+                    manifest_path=manifest,
+                    repo_root=root,
+                    exact_article_content=True,
+                )
+
+    def test_release_evidence_rejects_adversarial_inputs_before_network(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        cases = (
+            "wrong_path",
+            "wrong_week",
+            "wrong_hash",
+            "wrong_source_hash",
+            "wrong_transaction",
+        )
+        for case in cases:
+            with self.subTest(case=case), tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+                root = Path(tmpdir)
+                article_path, reference, article_sha, transaction = self._write_release_evidence(
+                    root
+                )
+                week = "2026-W23"
+                requested_path = article_path.as_posix()
+                requested_sha = article_sha
+                if case == "wrong_path":
+                    requested_path = "content/weekly/2026/W24.md"
+                elif case == "wrong_week":
+                    week = "2026-W24"
+                elif case == "wrong_hash":
+                    requested_sha = "f" * 64
+                elif case == "wrong_source_hash":
+                    transaction["source_manifest"]["sha256"] = "f" * 64
+                    self._write_transaction(reference, transaction)
+                elif case == "wrong_transaction":
+                    transaction["transaction_id"] = "f" * 64
+                    reference.write_text(json.dumps(transaction), encoding="utf-8")
+
+                with (
+                    mock.patch.object(podcaster_handoff.request, "urlopen") as urlopen_mock,
+                    self.assertRaises(podcaster_handoff.PodcasterHandoffError),
+                ):
+                    podcaster_handoff.verify_release_evidence(
+                        week=week,
+                        article_path=requested_path,
+                        article_sha256=requested_sha,
+                        promotion_reference=reference.relative_to(root),
+                        repo_root=root,
+                    )
+                urlopen_mock.assert_not_called()
+
+    def test_exact_payload_rejects_content_and_missing_fields_before_network(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            article_path, reference, article_sha, _ = self._write_release_evidence(root)
+            manifest_path, publish_run_id = podcaster_handoff.verify_release_evidence(
+                week="2026-W23",
+                article_path=article_path.as_posix(),
+                article_sha256=article_sha,
+                promotion_reference=reference.relative_to(root),
+                repo_root=root,
+            )
+            payload = podcaster_handoff.build_payload(
+                week="2026-W23",
+                article_url="https://claracle.com/weekly/2026/w23/",
+                article_path=article_path.as_posix(),
+                publish_run_id=publish_run_id,
+                manifest_path=root / manifest_path,
+                podcast_config_path=Path(__file__).resolve().parents[1] / "config" / "podcast.json",
+                podcaster_dry_run=True,
+                repo_root=root,
+                exact_article_content=True,
+            )
+
+            for case in ("payload_content", "missing_field"):
+                with self.subTest(case=case):
+                    adversarial = dict(payload)
+                    if case == "payload_content":
+                        adversarial["article_content"] += "tampered"
+                    else:
+                        adversarial.pop("article_title")
+                    with (
+                        mock.patch.object(podcaster_handoff.request, "urlopen") as urlopen_mock,
+                        self.assertRaises(podcaster_handoff.PodcasterHandoffError),
+                    ):
+                        podcaster_handoff.validate_exact_release_payload(
+                            adversarial,
+                            week="2026-W23",
+                            article_url="https://claracle.com/weekly/2026/w23/",
+                            article_path=article_path.as_posix(),
+                            article_sha256=article_sha,
+                            publish_run_id=publish_run_id,
+                            repo_root=root,
+                        )
+                    urlopen_mock.assert_not_called()
 
     def test_build_payload_filters_non_string_source_artifact_lists(self) -> None:
         tests_root = Path(__file__).resolve().parent

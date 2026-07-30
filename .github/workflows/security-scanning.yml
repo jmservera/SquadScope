@@ -5,7 +5,7 @@
 #   - zizmor: Focuses on GitHub Actions-specific supply-chain risks such as
 #     template injection and dangerous triggers.
 #
-# All jobs run in parallel and upload SARIF results to GitHub Code Scanning.
+# All jobs run in parallel. Bandit uploads SARIF; zizmor fails directly on findings.
 
 name: Security Scanning
 
@@ -86,40 +86,17 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      security-events: write
-      actions: read
-    # Phase C (DevSecOps Guardrails epic, issue #545): BLOCKING.
-    # continue-on-error has been dropped so zizmor findings (default persona)
-    # fail the build. The Phase B baseline (#543) is clean on the default
-    # persona, so this gate is green today and catches new findings going
-    # forward. See docs/devsecops/zizmor-baseline.md.
+    # Blocking regular-persona scan of every workflow. Console mode preserves
+    # zizmor's finding exit code; Advanced Security mode suppresses that code.
     steps:
       - name: Checkout repository
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
         with:
           persist-credentials: false
 
-      - name: Collect zizmor workflow inputs
-        id: zizmor-inputs
-        run: |
-          {
-            echo "inputs<<EOF"
-            find .github/workflows -maxdepth 1 -type f \
-              \( -name "*.yml" -o -name "*.yaml" \) \
-              ! -name "squad-*.yml" \
-              ! -name "squad-*.yaml" \
-              ! -name "sync-squad-labels.yml" \
-              ! -name "sync-squad-labels.yaml" \
-              | sort
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
-
       - name: Run zizmor security scan
         uses: zizmorcore/zizmor-action@5f14fd08f7cf1cb1609c1e344975f152c7ee938d  # v0.5.6
         with:
-          # Squad workflows are generated upstream; scan all repository-owned
-          # workflows while excluding generated Squad workflow files.
-          inputs: ${{ steps.zizmor-inputs.outputs.inputs }}
-          # SARIF output automatically uploaded to GitHub Code Scanning
-          # Focuses on P0 findings: template-injection and dangerous-triggers
-          advanced-security: true
+          inputs: .github/workflows/
+          version: 1.27.0
+          advanced-security: false

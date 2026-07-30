@@ -24,10 +24,30 @@
 }
 
 .breadcrumbs {
+    min-width: 0;
+}
+
+.breadcrumbs ol {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.2rem;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.breadcrumbs li {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.breadcrumb-separator {
+    margin-inline-end: 0.2rem;
 }
 
 .breadcrumbs a {

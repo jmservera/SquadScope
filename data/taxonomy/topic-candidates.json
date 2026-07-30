@@ -908,36 +908,6 @@
       ],
       "weekly_issue_count": 1
     },
-    "agent-frameworks-became-the-week-s-organizing-layer": {
-      "aliases": [
-        "Agent frameworks became the week's organizing layer"
-      ],
-      "display_name": "Agent frameworks became the week's organizing layer",
-      "eligible": false,
-      "evidence_weeks": [
-        "2026-W26"
-      ],
-      "first_seen_week": "2026-W26",
-      "last_seen_week": "2026-W26",
-      "slug": "agent-frameworks-became-the-week-s-organizing-layer",
-      "sources": [
-        {
-          "signal": "Agent frameworks became the week's organizing layer",
-          "source_path": "data/analyzed/2026-W26-summary.md",
-          "source_type": "summary_heading",
-          "week": "2026-W26"
-        }
-      ],
-      "supporting_signals": [
-        {
-          "detail": "Agent frameworks became the week's organizing layer",
-          "source_path": "data/analyzed/2026-W26-summary.md",
-          "support_type": "analysis-summary",
-          "week": "2026-W26"
-        }
-      ],
-      "weekly_issue_count": 1
-    },
     "agent-harness": {
       "aliases": [
         "agent-harness"
@@ -1228,36 +1198,6 @@
       ],
       "supporting_signals": [],
       "weekly_issue_count": 2
-    },
-    "agent-skills-are-no-longer-generic-they-are-professional-vertical-tools": {
-      "aliases": [
-        "Agent skills are no longer generic \u2014 they are professional vertical tools"
-      ],
-      "display_name": "Agent skills are no longer generic \u2014 they are professional vertical tools",
-      "eligible": false,
-      "evidence_weeks": [
-        "2026-W24"
-      ],
-      "first_seen_week": "2026-W24",
-      "last_seen_week": "2026-W24",
-      "slug": "agent-skills-are-no-longer-generic-they-are-professional-vertical-tools",
-      "sources": [
-        {
-          "signal": "Agent skills are no longer generic \u2014 they are professional vertical tools",
-          "source_path": "data/analyzed/2026-W24-summary.md",
-          "source_type": "summary_heading",
-          "week": "2026-W24"
-        }
-      ],
-      "supporting_signals": [
-        {
-          "detail": "Agent skills are no longer generic \u2014 they are professional vertical tools",
-          "source_path": "data/analyzed/2026-W24-summary.md",
-          "support_type": "analysis-summary",
-          "week": "2026-W24"
-        }
-      ],
-      "weekly_issue_count": 1
     },
     "agent-skills-deepen-into-domain-verticals": {
       "aliases": [
@@ -51936,36 +51876,6 @@
       ],
       "supporting_signals": [],
       "weekly_issue_count": 3
-    },
-    "science-became-the-week-s-strongest-legitimate-application-surface": {
-      "aliases": [
-        "Science became the week's strongest legitimate application surface"
-      ],
-      "display_name": "Science became the week's strongest legitimate application surface",
-      "eligible": false,
-      "evidence_weeks": [
-        "2026-W28"
-      ],
-      "first_seen_week": "2026-W28",
-      "last_seen_week": "2026-W28",
-      "slug": "science-became-the-week-s-strongest-legitimate-application-surface",
-      "sources": [
-        {
-          "signal": "Science became the week's strongest legitimate application surface",
-          "source_path": "data/analyzed/2026-W28-summary.md",
-          "source_type": "summary_heading",
-          "week": "2026-W28"
-        }
-      ],
-      "supporting_signals": [
-        {
-          "detail": "Science became the week's strongest legitimate application surface",
-          "source_path": "data/analyzed/2026-W28-summary.md",
-          "support_type": "analysis-summary",
-          "week": "2026-W28"
-        }
-      ],
-      "weekly_issue_count": 1
     },
     "scientific-illustration": {
       "aliases": [
