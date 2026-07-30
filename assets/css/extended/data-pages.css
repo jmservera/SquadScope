@@ -33,6 +33,12 @@
   min-width: 46rem;
 }
 
+.data-page__ranking td > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
+}
+
 .data-page__repo-meta {
   color: var(--secondary);
   font-size: 0.9rem;

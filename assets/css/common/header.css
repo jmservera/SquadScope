@@ -28,7 +28,7 @@
 
 .site-brand {
     gap: var(--space-2);
-    min-height: 2.75rem;
+    min-height: var(--size-touch-target);
     color: var(--color-text);
     font-family: var(--font-display);
     font-size: var(--text-xl);
@@ -151,8 +151,8 @@
 
 .icon-button {
     justify-content: center;
-    width: 2.75rem;
-    height: 2.75rem;
+    width: var(--size-touch-target);
+    height: var(--size-touch-target);
     border: var(--size-border-thin) solid var(--color-border);
     border-radius: var(--radius-full);
     background: var(--color-surface);
