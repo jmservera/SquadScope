@@ -543,6 +543,11 @@ class WorkflowConfigTests(unittest.TestCase):
             if step.get("name") == "Build site and capture Hugo duration"
         )
         self.assertIn('hugo --minify --baseURL "${BASE_URL}/"', build_step["run"])
+        serve_step = next(
+            step for step in production_job["steps"] if step.get("name") == "Serve production build"
+        )
+        self.assertIn("scripts/serve_static.py", serve_step["run"])
+        self.assertNotIn("http.server", serve_step["run"])
 
     def test_publish_transaction_orders_all_observatory_generators(self) -> None:
         workflow = yaml.safe_load(

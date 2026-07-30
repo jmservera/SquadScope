@@ -165,7 +165,7 @@ jobs:
       - name: Serve production build
         run: |
           set -euo pipefail
-          python -m http.server 1313 --bind 127.0.0.1 --directory public > reports/site-server.log 2>&1 &
+          python scripts/serve_static.py --directory public --bind 127.0.0.1 --port 1313 > reports/site-server.log 2>&1 &
           echo $! > reports/site-server.pid
           curl --fail --silent --show-error --retry 30 --retry-delay 1 --retry-connrefused "${BASE_URL}/" > /dev/null
 
