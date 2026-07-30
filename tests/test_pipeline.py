@@ -51,6 +51,7 @@ class WorkflowSecurityTests(unittest.TestCase):
 
         self.assertEqual(scan_step["with"]["inputs"], ".github/workflows/")
         self.assertEqual(scan_step["with"]["version"], "1.27.0")
+        self.assertEqual(scan_step["with"]["min-severity"], "medium")
         self.assertFalse(scan_step["with"]["advanced-security"])
 
     def test_squad_checkouts_do_not_persist_credentials(self) -> None:

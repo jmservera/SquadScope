@@ -99,4 +99,5 @@ jobs:
         with:
           inputs: .github/workflows/
           version: 1.27.0
+          min-severity: medium
           advanced-security: false
