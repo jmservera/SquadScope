@@ -14,6 +14,9 @@ function getArg(name, fallback) {
 
 const BASE_URL = getArg('--base', 'http://localhost:1313/SquadScope').replace(/\/$/, '');
 const OUTPUT_DIR = join('screenshots', 'lighthouse-results');
+// Single Lighthouse runs vary by several points on shared CI runners; the median of
+// repeated runs is Lighthouse's recommended stable measurement. Thresholds are unchanged.
+const RUNS = Math.max(1, Number.parseInt(getArg('--runs', '3'), 10) || 3);
 const THRESHOLDS = {
   performance: 0.9,
   accessibility: 0.95,
@@ -72,6 +75,38 @@ function getScores(report) {
   };
 }
 
+function median(values) {
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
+}
+
+// Run Lighthouse RUNS times and return the median score per metric plus the report
+// whose performance is closest to the median (kept as the uploaded artifact).
+function runLighthouseMedian(url) {
+  const runs = [];
+
+  for (let attempt = 0; attempt < RUNS; attempt += 1) {
+    const report = runLighthouse(url);
+    runs.push({ report, scores: getScores(report) });
+  }
+
+  const scores = {
+    performance: median(runs.map(run => run.scores.performance)),
+    accessibility: median(runs.map(run => run.scores.accessibility)),
+    bestPractices: median(runs.map(run => run.scores.bestPractices)),
+    cls: median(runs.map(run => run.scores.cls)),
+  };
+
+  const representative = runs.reduce((best, current) =>
+    Math.abs(current.scores.performance - scores.performance)
+      < Math.abs(best.scores.performance - scores.performance)
+      ? current
+      : best);
+
+  return { report: representative.report, scores };
+}
+
 function getFailures(scores) {
   const failures = [];
 
@@ -109,8 +144,7 @@ async function main() {
 
   for (const page of PAGES) {
     const url = `${BASE_URL}${page.path}`;
-    const report = runLighthouse(url);
-    const scores = getScores(report);
+    const { report, scores } = runLighthouseMedian(url);
     const failures = getFailures(scores);
     const result = {
       page: page.key,
@@ -128,9 +162,9 @@ async function main() {
     await writeFile(join(OUTPUT_DIR, `${page.key}.json`), JSON.stringify(report, null, 2));
   }
 
-  await writeFile(join(OUTPUT_DIR, 'summary.json'), JSON.stringify({ baseUrl: BASE_URL, thresholds: THRESHOLDS, results }, null, 2));
+  await writeFile(join(OUTPUT_DIR, 'summary.json'), JSON.stringify({ baseUrl: BASE_URL, runs: RUNS, thresholds: THRESHOLDS, results }, null, 2));
 
-  console.log(`Lighthouse gates for ${BASE_URL}`);
+  console.log(`Lighthouse gates for ${BASE_URL} (median of ${RUNS} run${RUNS === 1 ? '' : 's'})`);
   console.table(results.map(result => ({
     page: result.page,
     performance: formatPercent(result.performance),
