@@ -5,8 +5,8 @@
   --cc-secondary-color: var(--color-text-muted);
   --cc-link-color: var(--color-accent);
   --cc-modal-border-radius: var(--radius-lg);
-  --cc-modal-margin: var(--space-4);
-  --cc-z-index: calc(var(--z-overlay) + 10);
+  --cc-modal-margin: var(--space-4, 1rem);
+  --cc-z-index: calc(var(--z-overlay, 2147483637) + 10);
   --cc-btn-border-radius: var(--radius-full);
   --cc-btn-primary-bg: #005ea8;
   --cc-btn-primary-color: #fff;
