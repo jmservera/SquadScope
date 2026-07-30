@@ -883,6 +883,11 @@ summary:focus-visible,
   white-space: nowrap;
 }
 
+.topic-repo-source {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .home-quick-links {
   align-content: start;
 }

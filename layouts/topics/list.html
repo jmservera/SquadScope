@@ -82,10 +82,10 @@
     <article class="home-report-card taxonomy-card">
       {{- with $internalRepoPage }}
       <h3><a href="{{ .RelPermalink }}">{{ $repo }}</a></h3>
-      <p>Internal repository history page. Source remains on <a href="https://github.com/{{ $repo }}" rel="noopener">GitHub</a>.</p>
+      <p>Internal repository history page. Source remains on <a class="topic-repo-source" href="https://github.com/{{ $repo }}" rel="noopener">GitHub</a>.</p>
       {{- else }}
       <h3>{{ $repo }}</h3>
-      <p>Repository history page pending; source remains on <a href="https://github.com/{{ $repo }}" rel="noopener">GitHub</a>.</p>
+      <p>Repository history page pending; source remains on <a class="topic-repo-source" href="https://github.com/{{ $repo }}" rel="noopener">GitHub</a>.</p>
       {{- end }}
     </article>
     {{- end }}

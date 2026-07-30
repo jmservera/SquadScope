@@ -8,12 +8,12 @@
   --cc-modal-margin: var(--space-4);
   --cc-z-index: calc(var(--z-overlay) + 10);
   --cc-btn-border-radius: var(--radius-full);
-  --cc-btn-primary-bg: var(--color-accent);
+  --cc-btn-primary-bg: #005ea8;
   --cc-btn-primary-color: #fff;
-  --cc-btn-primary-border-color: var(--color-accent);
-  --cc-btn-primary-hover-bg: var(--color-accent-hover);
+  --cc-btn-primary-border-color: #005ea8;
+  --cc-btn-primary-hover-bg: #004b87;
   --cc-btn-primary-hover-color: #fff;
-  --cc-btn-primary-hover-border-color: var(--color-accent-hover);
+  --cc-btn-primary-hover-border-color: #004b87;
   --cc-btn-secondary-bg: var(--color-accent-muted);
   --cc-btn-secondary-color: var(--color-text);
   --cc-btn-secondary-border-color: var(--color-border);

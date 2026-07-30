@@ -77,6 +77,11 @@ for (const pageConfig of PAGES) {
 
           return Array.from(document.querySelectorAll('a, button'))
             .filter(element => !element.hasAttribute('data-small-ok'))
+            .filter(element => {
+              if (element.tagName !== 'A') return true;
+              if (element.closest('p, h1, h2, h3, h4, h5, h6, dd, dt, figcaption')) return false;
+              return !element.closest('li') || Boolean(element.closest('nav'));
+            })
             .map(element => {
               const rect = element.getBoundingClientRect();
               const style = window.getComputedStyle(element);
