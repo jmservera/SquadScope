@@ -143,7 +143,11 @@
     }
 
     function scheduleConsent() {
-      window.setTimeout(loadConsent, 0);
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(loadConsent, { timeout: 1000 });
+      } else {
+        window.setTimeout(loadConsent, 0);
+      }
     }
 
     if (document.readyState === 'complete') {

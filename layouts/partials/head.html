@@ -77,23 +77,26 @@
   {{- $stylesheetParts = $stylesheetParts | append . -}}
 {{- end -}}
 {{- $stylesheetParts = $stylesheetParts | append $core -}}
+{{- /* Tool pages don't render article or chart visuals; keep their blocking bundle lean. */ -}}
+{{- $isTool := eq .Type "tools" -}}
+{{- $excludedExtended := cond $isTool (slice "cookieconsent-theme.css" "article-visuals.css" "observatory-charts.css") (slice "cookieconsent-theme.css") -}}
 {{- with resources.Match "css/extended/*.css" -}}
-  {{- if gt (len .) 0 -}}
-    {{- $extendedParts := slice -}}
-    {{- range . -}}
-      {{- if ne .Name "css/extended/cookieconsent-theme.css" -}}
-        {{- $extendedParts = $extendedParts | append . -}}
-      {{- end -}}
+  {{- $extendedParts := slice -}}
+  {{- range . -}}
+    {{- if not (in $excludedExtended (path.Base .Name)) -}}
+      {{- $extendedParts = $extendedParts | append . -}}
     {{- end -}}
-    {{- if gt (len $extendedParts) 0 -}}
-      {{- $stylesheetParts = $stylesheetParts | append ($extendedParts | resources.Concat "assets/css/extended.css" | resources.Minify) -}}
-    {{- end -}}
+  {{- end -}}
+  {{- if gt (len $extendedParts) 0 -}}
+    {{- $extendedTarget := cond $isTool "assets/css/extended-tools.css" "assets/css/extended.css" -}}
+    {{- $stylesheetParts = $stylesheetParts | append ($extendedParts | resources.Concat $extendedTarget | resources.Minify) -}}
   {{- end -}}
 {{- end -}}
 
 {{- /* bundle all required css */}}
 {{- /* Add extended css after theme style */ -}}
-{{- $stylesheet := $stylesheetParts | resources.Concat "assets/css/stylesheet.css"  }}
+{{- $stylesheetTarget := cond $isTool "assets/css/stylesheet-tools.css" "assets/css/stylesheet.css" -}}
+{{- $stylesheet := $stylesheetParts | resources.Concat $stylesheetTarget }}
 
 {{- if not site.Params.assets.disableFingerprinting }}
 {{- $stylesheet := $stylesheet | fingerprint }}
