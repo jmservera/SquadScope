@@ -59,6 +59,20 @@
   line-height: var(--leading-relaxed);
 }
 
+#cc-main button.cm__btn,
+#cc-main button.pm__btn,
+#cc-main button.pm__close-btn,
+#cc-main .cm__link-group a,
+#cc-main .pm__footer a {
+  min-height: 44px;
+}
+
+#cc-main .cm__link-group a,
+#cc-main .pm__footer a {
+  display: inline-flex;
+  align-items: center;
+}
+
 [data-theme="dark"] #cc-main {
   --cc-bg: color-mix(in srgb, var(--color-surface) 92%, transparent);
   --cc-overlay-bg: rgb(0 0 0 / 0.72);

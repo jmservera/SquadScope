@@ -36,6 +36,15 @@
     gap: var(--space-3);
 }
 
+.site-footer__nav a,
+.site-footer__nav .site-footer__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--size-touch-target);
+    min-height: var(--size-touch-target);
+}
+
 .ai-disclosure {
     display: grid;
     grid-template-columns: auto 1fr;

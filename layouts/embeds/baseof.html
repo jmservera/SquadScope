@@ -10,6 +10,9 @@
   {{- else }}
   <meta name="robots" content="noindex, nofollow">
   {{- end }}
+  {{- with resources.Get "css/tokens.css" }}
+  <style>{{ .Content | safeCSS }}</style>
+  {{- end }}
   {{- with resources.Get "css/extended/observatory-charts.css" }}
   <style>{{ .Content | safeCSS }}</style>
   {{- end }}

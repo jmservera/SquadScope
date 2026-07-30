@@ -77,11 +77,14 @@ test('consent modal traps keyboard focus and restores it when closed', async ({ 
   await expect(dialog.getByRole('button', { name: /reject all/i })).toBeVisible();
   await expect(dialog.getByRole('button', { name: /customize/i })).toBeVisible();
 
-  const visibleFocus = dialog.locator(':focus-visible');
-  for (let attempt = 0; attempt < 3 && !(await visibleFocus.isVisible()); attempt += 1) {
-    await page.keyboard.press('Tab');
-  }
-  await expect(visibleFocus).toBeVisible();
+  const hasVisibleDialogFocus = () =>
+    dialog.evaluate((element) => {
+      const activeElement = element.ownerDocument.activeElement;
+      return Boolean(activeElement && element.contains(activeElement) && activeElement.matches(':focus-visible'));
+    });
+
+  await page.keyboard.press('Tab');
+  await expect.poll(hasVisibleDialogFocus).toBe(true);
   await dialog.getByRole('button', { name: /reject all/i }).click();
   await expect(dialog).toBeHidden();
 

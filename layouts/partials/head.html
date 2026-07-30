@@ -79,7 +79,15 @@
 {{- $stylesheetParts = $stylesheetParts | append $core -}}
 {{- with resources.Match "css/extended/*.css" -}}
   {{- if gt (len .) 0 -}}
-    {{- $stylesheetParts = $stylesheetParts | append (. | resources.Concat "assets/css/extended.css" | resources.Minify) -}}
+    {{- $extendedParts := slice -}}
+    {{- range . -}}
+      {{- if ne .Name "css/extended/cookieconsent-theme.css" -}}
+        {{- $extendedParts = $extendedParts | append . -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if gt (len $extendedParts) 0 -}}
+      {{- $stylesheetParts = $stylesheetParts | append ($extendedParts | resources.Concat "assets/css/extended.css" | resources.Minify) -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 

@@ -51,6 +51,11 @@
 }
 
 .breadcrumbs a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--size-touch-target);
+    min-height: var(--size-touch-target);
     font-size: var(--text-base);
 }
 
@@ -216,8 +221,8 @@ details li ul {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: calc(var(--space-5) + var(--space-2));
-    min-height: calc(var(--space-5) + var(--space-2));
+    min-width: var(--size-touch-target);
+    min-height: var(--size-touch-target);
     padding: 0 var(--space-3);
     border: var(--size-border-thin) solid var(--color-border);
     border-radius: var(--radius-full);
