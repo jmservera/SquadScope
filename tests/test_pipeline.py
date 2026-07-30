@@ -208,6 +208,44 @@ class WorkflowConfigTests(unittest.TestCase):
             "${{ secrets.GSC_SITE_VERIFICATION }}",
         )
 
+    def test_deploy_invokes_exact_promoted_article_smoke_after_pages(self) -> None:
+        workflow = yaml.safe_load(
+            Path(".github/workflows/deploy-site.yml").read_text(encoding="utf-8")
+        )
+
+        build = workflow["jobs"]["build"]
+        resolve_step = next(
+            step
+            for step in build["steps"]
+            if step.get("name") == "Resolve promoted Podcaster release"
+        )
+        resolve_script = resolve_step["run"]
+        self.assertIn('Path("data/published").glob("*/promotion-manifest.json")', resolve_script)
+        self.assertIn('record.get("schema_version") != "promotion_transaction_v1"', resolve_script)
+        self.assertIn('artifact.get("role") == "hugo_content"', resolve_script)
+        self.assertIn("hashlib.sha256(article_path.read_bytes()).hexdigest()", resolve_script)
+        self.assertIn('article_sha256 != article.get("sha256")', resolve_script)
+        self.assertIn(
+            'article_url_from_page_path("https://claracle.com/", article_path)', resolve_script
+        )
+
+        smoke = workflow["jobs"]["podcaster-release-smoke"]
+        self.assertEqual(smoke["needs"], ["build", "deploy"])
+        self.assertEqual(smoke["uses"], "./.github/workflows/podcaster-handoff-smoke.yml")
+        self.assertEqual(smoke["permissions"], {"contents": "read"})
+        self.assertNotIn("secrets", smoke)
+        self.assertEqual(
+            smoke["with"],
+            {
+                "week": "${{ needs.build.outputs.smoke_week }}",
+                "article_url": "${{ needs.build.outputs.smoke_article_url }}",
+                "article_path": "${{ needs.build.outputs.smoke_article_path }}",
+                "article_sha256": "${{ needs.build.outputs.smoke_article_sha256 }}",
+                "promotion_reference": "${{ needs.build.outputs.smoke_promotion_reference }}",
+            },
+        )
+        self.assertIn("podcaster-release-smoke", workflow["jobs"]["notify-failure"]["needs"])
+
     def test_crawl_workflow_persists_run_counter(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
@@ -366,9 +404,9 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("content/weekly/", commit_run)
         self.assertIn("content/monthly/", commit_run)
         self.assertIn("content/yearly/", commit_run)
-        self.assertIn("GITHUB_WORKSPACE", commit_run)
-        self.assertIn('case "$PAGE_PATH" in', commit_run)
-        self.assertIn("Expected PAGE_PATH under content/weekly/", commit_run)
+        self.assertIn("GENERATED_PATHS=(", commit_run)
+        self.assertIn('tar -cf generated-state.tar "${ARCHIVE_PATHS[@]}"', commit_run)
+        self.assertIn("tar -xf generated-state.tar", commit_run)
 
         upload_step = next(
             (
@@ -391,6 +429,122 @@ class WorkflowConfigTests(unittest.TestCase):
         )
         self.assertIsNotNone(promoted_upload)
         self.assertEqual(promoted_upload["with"]["name"], "promoted-analyzed-data")
+
+    def test_publish_transaction_orders_all_observatory_generators(self) -> None:
+        workflow = yaml.safe_load(
+            Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+        )
+        steps = workflow["jobs"]["generate"]["steps"]
+        positions = {step.get("name"): index for index, step in enumerate(steps)}
+
+        expected_order = [
+            "Hydrate prior generated state from publish",
+            "Download analyzed data artifact",
+            "Download analysis candidate artifact",
+            "Download raw crawl artifact",
+            "Generate weekly content candidate",
+            "Discover topic candidates",
+            "Promote and assign topic hubs",
+            "Rehash and promote final weekly content",
+            "Refresh taxonomy registries",
+            "Generate rollups",
+            "Generate repository pages",
+            "Generate data pages",
+            "Export Observatory dataset",
+            "Export trend explorer data",
+            "Verify generated content freshness",
+            "Commit generated content to data branch",
+        ]
+        self.assertTrue(
+            all(name in positions for name in expected_order),
+            f"Missing transaction steps: {[name for name in expected_order if name not in positions]}",
+        )
+        self.assertEqual(
+            [positions[name] for name in expected_order],
+            sorted(positions[name] for name in expected_order),
+        )
+
+        rehash = steps[positions["Rehash and promote final weekly content"]]["run"]
+        self.assertIn('manifest["candidate"]["content_sha256"]', rehash)
+        self.assertIn("scripts/promotion_guard.py", rehash)
+        self.assertLess(
+            rehash.index('manifest["candidate"]["content_sha256"]'),
+            rehash.index("scripts/promotion_guard.py"),
+        )
+
+    def test_publish_transaction_carries_every_generated_path(self) -> None:
+        generated_paths = (
+            "content/topics/",
+            "content/repo/",
+            "content/data/",
+            "data/taxonomy/",
+            "data/topic-hubs/",
+            "data/derived/observatory/",
+            "static/datasets/open-source-ai-github-projects-2026/",
+            "static/tools/star-velocity-explorer.json",
+        )
+        crawl = yaml.safe_load(
+            Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+        )
+        generate_steps = crawl["jobs"]["generate"]["steps"]
+        hydrate = next(
+            step
+            for step in generate_steps
+            if step.get("name") == "Hydrate prior generated state from publish"
+        )["run"]
+        commit = next(
+            step
+            for step in generate_steps
+            if step.get("name") == "Commit generated content to data branch"
+        )["run"]
+        upload = next(
+            step
+            for step in generate_steps
+            if step.get("name") == "Upload generated content artifact"
+        )["with"]["path"]
+        inline_deploy_download = next(
+            step
+            for step in crawl["jobs"]["deploy"]["steps"]
+            if step.get("name") == "Download generated content artifact"
+        )
+        deploy = yaml.safe_load(
+            Path(".github/workflows/deploy-site.yml").read_text(encoding="utf-8")
+        )
+        deploy_hydrate = next(
+            step
+            for step in deploy["jobs"]["build"]["steps"]
+            if step.get("name") == "Hydrate generated content from publish"
+        )["run"]
+
+        for path in generated_paths:
+            with self.subTest(path=path):
+                self.assertIn(path, hydrate)
+                self.assertIn(path, commit)
+                self.assertIn(path, upload)
+                self.assertIn(path, deploy_hydrate)
+
+        self.assertIn("--force-with-lease", commit)
+        self.assertIn("git diff --cached --quiet && exit 0", commit)
+        self.assertEqual(inline_deploy_download["with"]["path"], "./")
+
+    def test_data_page_schedule_is_read_only_freshness_check(self) -> None:
+        workflow = yaml.safe_load(
+            Path(".github/workflows/generate-data-pages.yml").read_text(encoding="utf-8")
+        )
+        self.assertEqual(workflow.get("permissions"), {"contents": "read"})
+        freshness_steps = workflow["jobs"]["freshness"]["steps"]
+        install = next(
+            step for step in freshness_steps if step.get("name") == "Install Python dependencies"
+        )
+        self.assertEqual(install["run"], "pip install -r requirements.txt")
+        rendered = Path(".github/workflows/generate-data-pages.yml").read_text(encoding="utf-8")
+        self.assertIn("python3 scripts/generate_data_pages.py --check", rendered)
+        self.assertIn("python3 scripts/observatory_repos.py --check", rendered)
+        self.assertIn("python3 scripts/export_observatory_dataset.py --check", rendered)
+        self.assertIn("python3 scripts/export_trend_explorer_data.py --check", rendered)
+        self.assertNotIn("gh pr create", rendered)
+        self.assertNotIn("git push", rendered)
+        self.assertNotIn("contents: write", rendered)
 
     def test_sync_publish_to_main_excludes_squad_state_and_regenerates_rollups(self) -> None:
         workflow_path = Path(".github/workflows/sync-publish-to-main.yml")
@@ -503,38 +657,59 @@ class WorkflowConfigTests(unittest.TestCase):
         workflow_path = Path(".github/workflows/podcaster-handoff-smoke.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
 
-        inputs = workflow[True]["workflow_dispatch"]["inputs"]
-        self.assertIn("week", inputs)
-        self.assertIn("article_url", inputs)
-        self.assertIn("article_path", inputs)
-        self.assertIn("article_sha256", inputs)
-        self.assertEqual(inputs["article_sha256"]["default"], "")
+        triggers = workflow[True]
+        dispatch_inputs = triggers["workflow_dispatch"]["inputs"]
+        call_inputs = triggers["workflow_call"]["inputs"]
+        expected_inputs = {
+            "week",
+            "article_url",
+            "article_path",
+            "article_sha256",
+            "promotion_reference",
+        }
+        self.assertEqual(set(dispatch_inputs), expected_inputs)
+        self.assertEqual(set(call_inputs), expected_inputs)
+        self.assertTrue(all(details["required"] for details in call_inputs.values()))
+        self.assertNotIn("secrets", triggers["workflow_call"])
 
         smoke_job = workflow["jobs"]["smoke"]
+        self.assertEqual(smoke_job["environment"]["name"], "podcaster-release-smoke")
+        checkout = next(s for s in smoke_job["steps"] if _uses_action(s, "actions/checkout"))
+        self.assertEqual(checkout["with"]["ref"], "publish")
+        validation_step = next(
+            s for s in smoke_job["steps"] if s.get("name") == "Validate promoted release evidence"
+        )
+        validation_script = validation_step["run"]
+        self.assertIn('schema_version == "promotion_transaction_v1"', validation_script)
+        self.assertIn("promotion_reference transaction_id is invalid", validation_script)
+        self.assertIn("source manifest bytes do not match promotion_reference", validation_script)
+        self.assertIn(
+            "promotion_reference article path does not match article_path", validation_script
+        )
+        self.assertIn(
+            "article_sha256 does not match the exact ARTICLE_PATH bytes", validation_script
+        )
+
         smoke_step = next(
             (s for s in smoke_job["steps"] if s.get("name") == "Smoke test Podcaster dry run"), None
         )
         self.assertIsNotNone(smoke_step)
         run_script = smoke_step["run"]
-        self.assertIn('if [ ! -f "$ARTICLE_PATH" ]', run_script)
-        self.assertIn("hashlib.sha256(article_bytes).hexdigest()", run_script)
-        self.assertIn("article_sha256 must match ARTICLE_PATH contents when provided.", run_script)
-        self.assertIn(
-            'raw_payload = {"week": week, "source": "github", "article_path": article_path}',
-            run_script,
-        )
-        self.assertIn('"size_bytes": len(raw_bytes)', run_script)
-        self.assertIn('"sha256": article_sha', run_script)
-        self.assertIn('"source_artifacts": [', run_script)
-        self.assertIn('"same_day_reuse"', run_script)
         self.assertIn("build_payload(", run_script)
         self.assertIn('"podcast_config"', run_script)
         self.assertIn('"script_directions"', run_script)
         self.assertIn('"spotify_publish"', run_script)
         self.assertIn('"article_content"', run_script)
-        self.assertIn("--manifest .podcaster-smoke/publish-manifest.json", run_script)
+        self.assertIn('payload["article_content"].encode("utf-8") != article_bytes', run_script)
+        self.assertIn('payload["article_sha256"]', run_script)
+        self.assertIn('--manifest "$MANIFEST_PATH"', run_script)
         self.assertIn("--podcast-config config/podcast.json", run_script)
         self.assertIn("--podcaster-dry-run", run_script)
+        evidence_step = next(
+            s for s in smoke_job["steps"] if s.get("name") == "Retain smoke run evidence"
+        )
+        self.assertEqual(evidence_step["if"], "always()")
+        self.assertIn("actions/runs", evidence_step["env"]["RUN_URL"])
 
     def test_publish_workflow_uses_candidate_manifest_before_promotion(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
@@ -623,7 +798,8 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIsNotNone(generate_raw_download)
 
         generate_step = next(
-            (s for s in generate["steps"] if s.get("name") == "Generate weekly content"), None
+            (s for s in generate["steps"] if s.get("name") == "Generate weekly content candidate"),
+            None,
         )
         self.assertIsNotNone(generate_step)
         self.assertIn('assert-eligible --manifest "$MANIFEST_FILE"', generate_step["run"])

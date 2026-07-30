@@ -2,7 +2,7 @@ name: Podcaster handoff smoke test
 
 on:
   workflow_dispatch:
-    # checkov:skip=CKV_GHA_7:Manual smoke-test workflow (not a release build). Inputs identify the article/week to validate the handoff payload; they do not produce or alter published build artifacts. Inputs are required to target a specific article.
+    # checkov:skip=CKV_GHA_7:Manual release acceptance requires exact retained promotion evidence and does not alter published artifacts.
     inputs:
       week:
         description: 'Week slug to validate, e.g. 2026-W23.'
@@ -17,9 +17,34 @@ on:
         required: true
         type: string
       article_sha256:
-        description: 'Optional 64-character article SHA-256 override; when omitted the checked-out article file is hashed.'
-        required: false
-        default: ''
+        description: 'Exact lowercase SHA-256 of the promoted article bytes.'
+        required: true
+        type: string
+      promotion_reference:
+        description: 'Repository-relative promotion record or publish manifest path.'
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      week:
+        description: 'Week slug to validate.'
+        required: true
+        type: string
+      article_url:
+        description: 'Published article URL sent to Podcaster.'
+        required: true
+        type: string
+      article_path:
+        description: 'Repository-relative promoted article path.'
+        required: true
+        type: string
+      article_sha256:
+        description: 'Exact lowercase SHA-256 of the promoted article bytes.'
+        required: true
+        type: string
+      promotion_reference:
+        description: 'Repository-relative promotion record or publish manifest path.'
+        required: true
         type: string
 
 permissions:
@@ -34,17 +59,116 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    environment:
+      name: podcaster-release-smoke
 
     steps:
       - name: Check out repository
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
         with:
+          ref: publish
           persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
         with:
           python-version: '3.12'
+
+      - name: Validate promoted release evidence
+        id: release
+        env:
+          WEEK: ${{ inputs.week }}
+          ARTICLE_PATH: ${{ inputs.article_path }}
+          ARTICLE_SHA256: ${{ inputs.article_sha256 }}
+          PROMOTION_REFERENCE: ${{ inputs.promotion_reference }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path.cwd().resolve()
+          week = os.environ["WEEK"]
+          expected_article_path = os.environ["ARTICLE_PATH"]
+          expected_article_sha = os.environ["ARTICLE_SHA256"]
+
+          def repository_file(value: str, label: str) -> Path:
+            relative = Path(value)
+            if relative.is_absolute():
+              raise SystemExit(f"{label} must be repository-relative.")
+            resolved = (root / relative).resolve()
+            try:
+              resolved.relative_to(root)
+            except ValueError as exc:
+              raise SystemExit(f"{label} must stay under the repository root.") from exc
+            if not resolved.is_file():
+              raise SystemExit(f"{label} does not exist: {value}")
+            return resolved
+
+          if (
+            len(expected_article_sha) != 64
+            or expected_article_sha.lower() != expected_article_sha
+            or any(character not in "0123456789abcdef" for character in expected_article_sha)
+          ):
+            raise SystemExit("article_sha256 must be lowercase 64-character hex.")
+
+          article = repository_file(expected_article_path, "article_path")
+          reference = repository_file(os.environ["PROMOTION_REFERENCE"], "promotion_reference")
+          record = json.loads(reference.read_text(encoding="utf-8"))
+          schema_version = record.get("schema_version")
+
+          if schema_version == "promotion_transaction_v1":
+            stable_record = dict(record)
+            transaction_id = stable_record.pop("transaction_id", None)
+            transaction_bytes = json.dumps(
+              stable_record, sort_keys=True, separators=(",", ":")
+            ).encode("utf-8")
+            if transaction_id != hashlib.sha256(transaction_bytes).hexdigest():
+              raise SystemExit("promotion_reference transaction_id is invalid.")
+            published = next(
+              (
+                artifact
+                for artifact in record.get("published_artifacts", [])
+                if artifact.get("role") == "hugo_content"
+              ),
+              None,
+            )
+            if not isinstance(published, dict):
+              raise SystemExit("promotion_reference lacks a hugo_content artifact.")
+            promoted_path = published.get("path")
+            promoted_sha = published.get("sha256")
+            source_manifest = record.get("source_manifest", {})
+            manifest_path = source_manifest.get("path")
+            manifest = repository_file(str(manifest_path or ""), "source_manifest.path")
+            if hashlib.sha256(manifest.read_bytes()).hexdigest() != source_manifest.get("sha256"):
+              raise SystemExit("source manifest bytes do not match promotion_reference.")
+            publish_run_id = str(record.get("run_id") or "")
+          elif schema_version == "publish_eligibility_v1":
+            candidate = record.get("candidate", {})
+            promoted_path = candidate.get("content_path") or record.get("candidate_content_path")
+            promoted_sha = candidate.get("content_sha256")
+            manifest = reference
+            publish_run_id = str(record.get("run_id") or "")
+          else:
+            raise SystemExit(f"Unsupported promotion_reference schema: {schema_version!r}")
+
+          if record.get("week") != week:
+            raise SystemExit("promotion_reference week does not match the requested week.")
+          if promoted_path != expected_article_path:
+            raise SystemExit("promotion_reference article path does not match article_path.")
+          if promoted_sha != expected_article_sha:
+            raise SystemExit("promotion_reference article hash does not match article_sha256.")
+          if hashlib.sha256(article.read_bytes()).hexdigest() != expected_article_sha:
+            raise SystemExit("article_sha256 does not match the exact ARTICLE_PATH bytes.")
+          if not publish_run_id:
+            raise SystemExit("promotion_reference does not identify the publishing run.")
+
+          with Path(os.environ["GITHUB_OUTPUT"]).open("a", encoding="utf-8") as output:
+            print(f"manifest_path={manifest.relative_to(root).as_posix()}", file=output)
+            print(f"publish_run_id={publish_run_id}", file=output)
+          PY
 
       - name: Smoke test Podcaster dry run
         env:
@@ -53,115 +177,31 @@ jobs:
           WEEK: ${{ inputs.week }}
           ARTICLE_URL: ${{ inputs.article_url }}
           ARTICLE_PATH: ${{ inputs.article_path }}
-          ARTICLE_SHA256: ${{ inputs.article_sha256 || '' }}
-          PUBLISH_RUN_ID: ${{ github.run_id }}
+          ARTICLE_SHA256: ${{ inputs.article_sha256 }}
+          MANIFEST_PATH: ${{ steps.release.outputs.manifest_path }}
+          PUBLISH_RUN_ID: ${{ steps.release.outputs.publish_run_id }}
         run: |
           set -euo pipefail
           if [ -z "$PODCASTER_ENDPOINT" ] || [ -z "$PODCASTER_API_KEY" ]; then
             echo "::error::Podcaster smoke test requires PODCASTER_ENDPOINT variable and PODCASTER_API_KEY secret."
             exit 1
           fi
-          if [ ! -f "$ARTICLE_PATH" ]; then
-            echo "::error::article_path must exist in the checked-out repository so the smoke test exercises the real article-content handoff path."
-            exit 1
-          fi
-          mkdir -p .podcaster-smoke
-          python3 - <<'PY' "$WEEK" "$ARTICLE_PATH" "$ARTICLE_SHA256" .podcaster-smoke/publish-manifest.json
+          python3 - <<'PY'
           import hashlib
-          import json
-          import sys
-          from pathlib import Path
-
-          week, article_path, article_sha, manifest_path = sys.argv[1:]
-          article = Path(article_path)
-          if not article.is_file():
-              raise SystemExit(f"article_path does not exist: {article_path}")
-          article_bytes = article.read_bytes()
-          actual_article_sha = hashlib.sha256(article_bytes).hexdigest()
-          if article_sha:
-              if len(article_sha) != 64 or article_sha.lower() != article_sha or any(ch not in "0123456789abcdef" for ch in article_sha):
-                  raise SystemExit("article_sha256 must be lowercase 64-character hex when provided.")
-              if article_sha != actual_article_sha:
-                  raise SystemExit("article_sha256 must match ARTICLE_PATH contents when provided.")
-          else:
-              article_sha = actual_article_sha
-          raw_payload = {"week": week, "source": "github", "article_path": article_path}
-          raw_bytes = (json.dumps(raw_payload, sort_keys=True) + "\n").encode("utf-8")
-          raw_sha = hashlib.sha256(raw_bytes).hexdigest()
-          article_size = len(article_bytes)
-
-          def digest(label: str) -> str:
-              return hashlib.sha256(f"{week}:{label}".encode("utf-8")).hexdigest()
-
-          manifest = {
-              "week": week,
-              "run_mode": "normal",
-              "candidate": {"summary_sha256": article_sha},
-              "analysis": {"ai_status": "ai"},
-              "promotion": {"eligible": True, "decision": "promote"},
-              "source_artifacts": [
-                  {
-                      "role": "raw_github",
-                      "path": f"data/raw/{week}.json",
-                      "name": f"{week}-raw-github",
-                      "sha256": raw_sha,
-                      "generated_at": "2026-06-08T10:15:00Z",
-                      "crawled_at": "2026-06-08T10:12:00Z",
-                      "source_status": "fresh",
-                      "exists": True,
-                      "size_bytes": len(raw_bytes),
-                      "freshness": {"status": "fresh", "reasons": []},
-                      "provenance": {
-                          "path": f"data/raw/{week}.json",
-                          "sha256": raw_sha,
-                      },
-                      "same_day_reuse": {"status": "reused", "source": "smoke"},
-                      "sources_requested": ["github"],
-                      "sources_succeeded": ["github"],
-                      "sources_failed": [],
-                  },
-                  {
-                      "role": "published_summary",
-                      "path": article_path,
-                      "href": f"https://example.com/{week}/source-index.json",
-                      "sha256": article_sha,
-                      "generated_at": "2026-06-08T11:20:00Z",
-                      "exists": True,
-                      "size_bytes": article_size,
-                      "provenance": {
-                          "path": article_path,
-                          "sha256": article_sha,
-                      },
-                      "source_reuse_summary": {"reused": False},
-                  },
-                  {
-                      "role": "operator_packet",
-                      "name": "weekly-publishing-packet",
-                      "uri": f"https://example.com/{week}/publishing-packet.json",
-                      "artifact_checksum": digest("publishing-packet"),
-                      "schema_checksum": digest("publishing-packet-schema"),
-                      "source_config_checksum": digest("publishing-packet-config"),
-                      "source_artifact_provenance": {"source": "smoke-manifest"},
-                      "week": week,
-                  },
-              ],
-          }
-          Path(manifest_path).write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-          PY
-          python3 - <<'PY' "$WEEK" "$ARTICLE_URL" "$ARTICLE_PATH" "$PUBLISH_RUN_ID" .podcaster-smoke/publish-manifest.json
-          import sys
+          import os
           from pathlib import Path
 
           from scripts.podcaster_handoff import build_payload
 
-          week, article_url, article_path, publish_run_id, manifest_path = sys.argv[1:]
+          article = Path(os.environ["ARTICLE_PATH"])
+          article_bytes = article.read_bytes()
           payload = build_payload(
-              week=week,
-              article_url=article_url,
-              article_path=article_path,
-              publish_run_id=publish_run_id,
+            week=os.environ["WEEK"],
+            article_url=os.environ["ARTICLE_URL"],
+            article_path=os.environ["ARTICLE_PATH"],
+            publish_run_id=os.environ["PUBLISH_RUN_ID"],
               publish_mode="normal",
-              manifest_path=Path(manifest_path),
+            manifest_path=Path(os.environ["MANIFEST_PATH"]),
               podcast_config_path=Path("config/podcast.json"),
               podcaster_dry_run=True,
           )
@@ -178,7 +218,11 @@ jobs:
           if missing:
               raise SystemExit(f"smoke payload is missing expected real-handoff fields: {', '.join(missing)}")
           if not payload["source_artifacts"]:
-              raise SystemExit("smoke payload must include representative source_artifacts")
+              raise SystemExit("smoke payload must include promoted source_artifacts")
+            if payload["article_content"].encode("utf-8") != article_bytes:
+              raise SystemExit("handoff payload does not contain the exact promoted article bytes")
+            if payload["article_sha256"] != hashlib.sha256(article_bytes).hexdigest():
+              raise SystemExit("handoff payload hash does not match the exact promoted article bytes")
           PY
           python3 scripts/podcaster_handoff.py \
             --week "$WEEK" \
@@ -186,6 +230,23 @@ jobs:
             --article-path "$ARTICLE_PATH" \
             --publish-run-id "$PUBLISH_RUN_ID" \
             --publish-mode normal \
-            --manifest .podcaster-smoke/publish-manifest.json \
+            --manifest "$MANIFEST_PATH" \
             --podcast-config config/podcast.json \
             --podcaster-dry-run
+
+      - name: Retain smoke run evidence
+        if: always()
+        env:
+          ARTICLE_PATH: ${{ inputs.article_path }}
+          ARTICLE_SHA256: ${{ inputs.article_sha256 }}
+          RUN_STATUS: ${{ job.status }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          {
+            echo "## Podcaster release smoke"
+            echo
+            echo "- Status: ${RUN_STATUS}"
+            echo "- Article: \`${ARTICLE_PATH}\`"
+            echo "- SHA-256: \`${ARTICLE_SHA256}\`"
+            echo "- Actions run: ${RUN_URL}"
+          } >> "$GITHUB_STEP_SUMMARY"

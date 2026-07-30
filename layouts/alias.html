@@ -1,6 +1,13 @@
 {{- $target := .Permalink -}}
 {{- $title := printf "Redirect to %s" $target -}}
 {{- $description := printf "Redirect page for %s on Claracle." $target -}}
+{{- $image := site.Params.default_social_image | default "/images/squadscope-social-card.png" -}}
+{{- if not (or (hasPrefix $image "http://") (hasPrefix $image "https://") (hasPrefix $image "//")) -}}
+  {{- $image = (strings.TrimPrefix "/" $image) | absURL -}}
+{{- end -}}
+{{- $imageAlt := printf "Claracle social preview for %s" (.Title | default site.Title | plainify) -}}
+{{- $imageWidth := site.Params.default_social_image_width | default 1200 -}}
+{{- $imageHeight := site.Params.default_social_image_height | default 630 -}}
 <!doctype html>
 <html lang="{{ site.Language.Lang | default "en-us" }}">
 <head>
@@ -9,6 +16,25 @@
   <meta charset="utf-8">
   <meta name="robots" content="noindex">
   <meta name="description" content="{{ $description }}">
+  <meta property="og:url" content="{{ $target }}">
+  <meta property="og:title" content="{{ $title }}">
+  <meta property="og:description" content="{{ $description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="{{ $image }}">
+  <meta property="og:image:alt" content="{{ $imageAlt }}">
+  <meta property="og:image:width" content="{{ $imageWidth }}">
+  <meta property="og:image:height" content="{{ $imageHeight }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ $title }}">
+  <meta name="twitter:description" content="{{ $description }}">
+  <meta name="twitter:image" content="{{ $image }}">
+  <meta name="twitter:image:alt" content="{{ $imageAlt }}">
   <meta http-equiv="refresh" content="0; url={{ $target }}">
+  {{- $breadcrumb := dict
+    "@context" "https://schema.org"
+    "@type" "BreadcrumbList"
+    "itemListElement" (slice (dict "@type" "ListItem" "position" 1 "name" (.Title | plainify) "item" $target))
+  -}}
+  <script type="application/ld+json">{{ $breadcrumb | jsonify | safeJS }}</script>
 </head>
 </html>

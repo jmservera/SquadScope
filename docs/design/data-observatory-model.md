@@ -409,32 +409,28 @@ data would create approximately:
 That first Observatory wave is therefore roughly 271 additional content pages
 before taxonomy, RSS, sitemap, and listing pages.
 
-Local verification note: in this worktree, `hugo --minify --noBuildLock` with
-Hugo `v0.147.6` fails before full rendering in `layouts/partials/head.html`
-because `resources.Concat` receives an empty resource slice. A previous project
-dry run in `docs/processed/dry-run-report.md` records that the Hugo build
-succeeded with a compatible `v0.161.1` binary. Because this spike is docs-only, I
-did not change site templates or assets to force a benchmark.
+One local report-only observation was captured on 2026-07-30 from the current
+worktree:
 
-Planning estimate:
+| Command | Pinned version | Duration | Scope |
+| --- | --- | ---: | --- |
+| `hugo --minify` | Hugo extended `v0.161.1` | 6,668 ms | 2,669 rendered pages |
+| `npx pagefind@1.5.2 --site public/` | Pagefind `v1.5.2` | 6,207 ms | 1,477 HTML files scanned and 288 pages indexed; includes local `npx` startup and package resolution |
 
-- 40 evergreen pages, the PRD's three-month target, should be negligible versus
-  the current site: well under 10 seconds of Hugo build time on CI once the
-  baseline build is healthy.
-- The current data-derived repository threshold (~271 new pages) should remain
-  comfortably inside a GitHub Actions Pages budget. Expect low single-digit
-  seconds of incremental Hugo rendering, plus any Pagefind/search indexing cost.
-- A larger 1,000-repository corpus should still be practical for Hugo static
-  generation, but should be watched in CI. At 1-3 ms/page of conservative
-  Markdown/template rendering overhead, 1,000 repo pages adds roughly 1-3 seconds
-  before search indexing and asset work; budget 10-30 seconds end-to-end to leave
-  margin for taxonomy pages, RSS, JSON output, and Pagefind.
-- If repository pages exceed several thousand, add a CI timing gate and consider
-  paginating data pages aggressively, but do not weaken correctness checks.
+This observation proves that Hugo and Pagefind complete separately with the
+pinned production versions. It is not an external CI baseline and is not enough
+to calculate representative statistics. The production CI job now uploads one
+machine-readable report per run with separate `duration_ms` values in
+report-only mode.
 
-Wave 2 should record actual `hugo --minify` and search-index timings after the
-current baseline build issue is fixed, then update this estimate with measured
-numbers.
+The following acceptance evidence remains pending:
+
+* Three comparable external CI timing reports
+* Median and p95 calculated from those reports
+* A proposed blocking regression budget based on the measured distribution
+* Owner approval of that budget before enforcement
+
+No blocking timing threshold is approved or enforced.
 
 ## Open risks for Wave 2
 
@@ -446,7 +442,7 @@ numbers.
 - Topic creation needs a quality gate because the raw crawl includes high-volume
   low-signal and abuse-adjacent repositories; analysis summaries already call out
   this noise floor.
-- The Hugo build baseline should be repaired or pinned before Wave 2 relies on
-  build timing numbers.
+- The pinned local build is healthy, but three comparable external CI runs and
+  owner approval are still required before build timing can become blocking.
 - Recovered archive data must not double-count duplicate weeks when a matching
   `data/raw/YYYY-WNN.json` exists.

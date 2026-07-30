@@ -38,6 +38,23 @@
 </div>
 {{- end }}
 
+<section class="topic-latest-signals" style="margin: 2rem 0;">
+  <div class="section-topline">Latest weekly signals</div>
+  <h2>What changed recently</h2>
+  {{- range first 3 $issues.ByDate.Reverse }}
+  <article class="home-report-card taxonomy-card">
+    <h3><a href="{{ .RelPermalink }}">{{ .Params.week | default .Title }}</a></h3>
+    <p>{{ .Params.summary | default .Summary }}</p>
+    <div class="home-report-meta">
+      {{- with .Params.top_repo }}<span>Top repo: {{ . }}</span>{{- end }}
+      {{- with .Params.stars_tracked }}<span>{{ lang.FormatNumber 0 . }} stars tracked</span>{{- end }}
+    </div>
+  </article>
+  {{- else }}
+  <p>No weekly signals have been assigned to this hub yet.</p>
+  {{- end }}
+</section>
+
 <section class="topic-dataset" style="margin: 2rem 0; padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px;">
   <div class="section-topline">Dataset highlights</div>
   <h2>Observed data signals</h2>

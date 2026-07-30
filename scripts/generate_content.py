@@ -233,9 +233,15 @@ def load_topic_vocabulary(
     return topics, aliases
 
 
-def derive_canonical_topics(frontmatter: dict[str, object], tags: list[str]) -> list[str]:
+def derive_canonical_topics(
+    frontmatter: dict[str, object],
+    tags: list[str],
+    *,
+    config_path: Path | None = None,
+    registry_path: Path | None = None,
+) -> list[str]:
     """Map analysis signals to the fixed Hugo topic taxonomy vocabulary."""
-    topic_titles, alias_map = load_topic_vocabulary()
+    topic_titles, alias_map = load_topic_vocabulary(config_path, registry_path)
     topic_set = set(topic_titles)
     explicit_topics: list[str] = []
     if "topics" in frontmatter:

@@ -53,6 +53,41 @@
   {{- end -}}
 {{- end -}}
 {{- $imageAlt := .Params.og_image_alt | default .Params.cover.alt | default (printf "Claracle social preview for %s" (.Title | default .Site.Title | plainify)) -}}
+{{- $imageWidth := .Params.og_image_width | default .Params.cover.width | default 0 -}}
+{{- $imageHeight := .Params.og_image_height | default .Params.cover.height | default 0 -}}
+{{- if and (not $imageWidth) $usesDefaultSocialImage -}}
+  {{- $imageWidth = .Site.Params.default_social_image_width | default 1200 -}}
+{{- end -}}
+{{- if and (not $imageHeight) $usesDefaultSocialImage -}}
+  {{- $imageHeight = .Site.Params.default_social_image_height | default 630 -}}
+{{- end -}}
+{{- $isRemoteImage := or (hasPrefix $imageParam "http://") (hasPrefix $imageParam "https://") (hasPrefix $imageParam "//") -}}
+{{- if and (not $isRemoteImage) (or (not $imageWidth) (not $imageHeight)) -}}
+  {{- $localImagePath := strings.TrimPrefix "/" $imageParam -}}
+  {{- with .Resources.GetMatch $localImagePath -}}
+    {{- if eq .MediaType.MainType "image" -}}
+      {{- $imageWidth = .Width -}}
+      {{- $imageHeight = .Height -}}
+    {{- end -}}
+  {{- else -}}
+    {{- with resources.Get $localImagePath -}}
+      {{- if eq .MediaType.MainType "image" -}}
+        {{- $imageWidth = .Width -}}
+        {{- $imageHeight = .Height -}}
+      {{- end -}}
+    {{- else -}}
+      {{- $staticImagePath := printf "static/%s" $localImagePath -}}
+      {{- if fileExists $staticImagePath -}}
+        {{- $localImageConfig := imageConfig $staticImagePath -}}
+        {{- $imageWidth = $localImageConfig.Width -}}
+        {{- $imageHeight = $localImageConfig.Height -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if or (le (int $imageWidth) 0) (le (int $imageHeight) 0) -}}
+  {{- errorf "social image %q on %s requires positive og_image_width and og_image_height values" $imageParam .Path -}}
+{{- end -}}
 {{- $authorParam := .Params.author | default .Site.Params.author | default "Claracle" -}}
 {{- $authorName := "Claracle" -}}
 {{- if reflect.IsSlice $authorParam -}}
@@ -72,7 +107,7 @@
 {{- if and $twitterCreator (not (strings.HasPrefix $twitterCreator "@")) -}}
   {{- $twitterCreator = printf "@%s" $twitterCreator -}}
 {{- end -}}
-{{- $articleSections := slice "weekly" "monthly" "yearly" "data" "repo" -}}
+{{- $articleSections := slice "weekly" "monthly" "yearly" -}}
 {{- $isArticle := and .IsPage (in $articleSections .Section) (not .Params.noArticleSchema) -}}
 {{- $ogType := cond $isArticle "article" "website" -}}
 
@@ -88,10 +123,8 @@
 <meta property="og:type" content="{{ $ogType }}">
 <meta property="og:image" content="{{ $image }}">
 <meta property="og:image:alt" content="{{ $imageAlt | plainify }}">
-{{- if $usesDefaultSocialImage }}
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-{{- end }}
+<meta property="og:image:width" content="{{ $imageWidth }}">
+<meta property="og:image:height" content="{{ $imageHeight }}">
 {{- with or .Params.locale site.Language.LanguageCode }}
 <meta property="og:locale" content="{{ replace . `-` `_` }}">
 {{- end }}
@@ -155,4 +188,94 @@
   "inLanguage" (.Language.Lang | default "en-us")
 -}}
 <script type="application/ld+json">{{ $article | jsonify | safeJS }}</script>
+{{- end }}
+
+{{- if and (eq .Kind "term") (eq .Type "topics") -}}
+{{- $weeklyItems := slice -}}
+{{- range $index, $page := (where .Pages "Section" "weekly").ByDate.Reverse -}}
+  {{- $weeklyItems = $weeklyItems | append (dict
+    "@type" "ListItem"
+    "position" (add $index 1)
+    "name" ($page.Title | plainify)
+    "url" $page.Permalink
+  ) -}}
+{{- end -}}
+{{- $weeklyList := dict
+  "@context" "https://schema.org"
+  "@type" "ItemList"
+  "name" (printf "%s weekly reports" (.Title | plainify))
+  "url" .Permalink
+  "numberOfItems" (len $weeklyItems)
+  "itemListElement" $weeklyItems
+-}}
+{{- $collectionPage := dict
+  "@context" "https://schema.org"
+  "@type" "CollectionPage"
+  "name" (.Title | plainify)
+  "description" $description
+  "url" .Permalink
+  "mainEntity" (dict "@id" (printf "%s#weekly-reports" .Permalink))
+-}}
+<script type="application/ld+json">{{ $collectionPage | jsonify | safeJS }}</script>
+<script type="application/ld+json">{{ merge $weeklyList (dict "@id" (printf "%s#weekly-reports" .Permalink)) | jsonify | safeJS }}</script>
+{{- end }}
+
+{{- if and .IsPage (eq .Section "data") -}}
+{{- $rankingItems := slice -}}
+{{- range $index, $entry := .Params.ranking -}}
+  {{- $rankingItems = $rankingItems | append (dict
+    "@type" "ListItem"
+    "position" ($entry.rank | default (add $index 1))
+    "name" ($entry.repo | default (printf "Rank %d" (add $index 1)))
+    "url" ($entry.url | default $.Permalink)
+  ) -}}
+{{- end -}}
+{{- $rankingList := dict
+  "@context" "https://schema.org"
+  "@type" "ItemList"
+  "@id" (printf "%s#ranking" .Permalink)
+  "name" (.Title | plainify)
+  "url" .Permalink
+  "numberOfItems" (len $rankingItems)
+  "itemListOrder" "https://schema.org/ItemListOrderAscending"
+  "itemListElement" $rankingItems
+-}}
+{{- $dataset := dict
+  "@context" "https://schema.org"
+  "@type" "Dataset"
+  "name" (.Title | plainify)
+  "description" $description
+  "url" .Permalink
+  "datePublished" (.PublishDate.Format "2006-01-02")
+  "dateModified" (.Lastmod.Format "2006-01-02")
+  "creator" (dict "@type" "Organization" "name" "Claracle")
+  "isBasedOn" (.Params.methodology_url | default "/methodology/" | absURL)
+  "mainEntity" (dict "@id" (printf "%s#ranking" .Permalink))
+-}}
+<script type="application/ld+json">{{ $dataset | jsonify | safeJS }}</script>
+<script type="application/ld+json">{{ $rankingList | jsonify | safeJS }}</script>
+{{- end }}
+
+{{- if and .IsPage (eq .Section "repo") -}}
+{{- $repositoryURL := .Params.repo_url | default .Permalink -}}
+{{- $sourceCode := dict
+  "@context" "https://schema.org"
+  "@type" "SoftwareSourceCode"
+  "@id" (printf "%s#repository" .Permalink)
+  "name" (.Params.repo_full_name | default .Title | plainify)
+  "description" (.Params.repo_description | default $description | plainify)
+  "url" $repositoryURL
+  "codeRepository" $repositoryURL
+  "programmingLanguage" (.Params.repo_language | default "Unknown")
+-}}
+{{- $repositoryPage := dict
+  "@context" "https://schema.org"
+  "@type" "WebPage"
+  "name" (.Title | plainify)
+  "description" $description
+  "url" .Permalink
+  "mainEntity" (dict "@id" (printf "%s#repository" .Permalink))
+-}}
+<script type="application/ld+json">{{ $repositoryPage | jsonify | safeJS }}</script>
+<script type="application/ld+json">{{ $sourceCode | jsonify | safeJS }}</script>
 {{- end }}

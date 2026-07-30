@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 import tomllib
 from collections import defaultdict
 from dataclasses import dataclass
@@ -20,10 +21,19 @@ from typing import Any
 
 import yaml
 
+if __package__ is None or __package__ == "":
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from scripts.taxonomy_registry import update_taxonomy_registries
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_CONFIG = PROJECT_ROOT / "config" / "observatory.toml"
 DEFAULT_TOPICS_REGISTRY = PROJECT_ROOT / "data" / "taxonomy" / "topics.json"
+DEFAULT_CANDIDATES_REGISTRY = PROJECT_ROOT / "data" / "taxonomy" / "topic-candidates.json"
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
+TOPICS_LINE_RE = re.compile(r"^topics:.*$", re.MULTILINE)
+CATEGORIES_LINE_RE = re.compile(r"^categories:.*$", re.MULTILINE)
+BOLD_HEADING_RE = re.compile(r"^\*\*(?P<title>[^*]+)\*\*", re.MULTILINE)
 WEEK_RE = re.compile(r"(?P<year>\d{4})-W(?P<week>\d{2})")
 SLUG_RE = re.compile(r"[^a-z0-9]+")
 
@@ -36,6 +46,7 @@ class HubCreationConfig:
     log_path: Path
     ignore_topics: frozenset[str]
     registry_path: Path
+    candidates_path: Path
 
 
 @dataclass
@@ -43,6 +54,9 @@ class CandidateSignal:
     title: str
     weeks: set[str]
     sources: set[str]
+    aliases: set[str]
+    supporting_signals: list[dict[str, Any]]
+    eligible: bool
     weekly_issue_count: int = 0
     last_used: str = ""
 
@@ -61,7 +75,7 @@ def load_config(path: Path = DEFAULT_CONFIG) -> HubCreationConfig:
     dynamic = raw.get("topic_hubs", {}).get("dynamic_creation", {})
     config_root = path.parent.parent if path.parent.name == "config" else path.parent
     return HubCreationConfig(
-        enabled=bool(dynamic.get("enabled", True)),
+        enabled=bool(dynamic.get("enabled", False)),
         min_weekly_issues=int(dynamic["min_weekly_issues"]),
         lookback_days=int(dynamic["lookback_days"]),
         log_path=config_root / str(dynamic["log_path"]),
@@ -69,6 +83,7 @@ def load_config(path: Path = DEFAULT_CONFIG) -> HubCreationConfig:
             normalized_key(str(item)) for item in dynamic.get("ignore_topics", [])
         ),
         registry_path=config_root / "data" / "taxonomy" / "topics.json",
+        candidates_path=config_root / "data" / "taxonomy" / "topic-candidates.json",
     )
 
 
@@ -130,27 +145,43 @@ def existing_hub_keys(content_root: Path) -> set[str]:
 
 def collect_candidates(root: Path, config: HubCreationConfig) -> dict[str, CandidateSignal]:
     signals: dict[str, CandidateSignal] = {}
-    if not config.registry_path.exists():
+    if not config.candidates_path.exists():
         return signals
-    payload = json.loads(config.registry_path.read_text(encoding="utf-8"))
-    terms = payload.get("terms", {}) if isinstance(payload, dict) else {}
-    if not isinstance(terms, dict):
+    payload = json.loads(config.candidates_path.read_text(encoding="utf-8"))
+    candidates = payload.get("candidates", {}) if isinstance(payload, dict) else {}
+    if not isinstance(candidates, dict):
         return signals
-    for slug, raw in terms.items():
-        if not isinstance(raw, dict) or raw.get("is_hub") or raw.get("promoted"):
+    for slug, raw in candidates.items():
+        if not isinstance(raw, dict):
             continue
         title = safe_candidate_title(raw.get("display_name"))
         if not title:
             continue
         weekly_count = int(raw.get("weekly_issue_count") or 0)
-        last_used = raw.get("last_used")
-        weeks = {f"registry-count-{index + 1:03d}" for index in range(weekly_count)}
+        weeks = {
+            str(week)
+            for week in raw.get("evidence_weeks", [])
+            if isinstance(week, str) and WEEK_RE.fullmatch(week)
+        }
         signal = CandidateSignal(
             title=title,
             weeks=weeks,
-            sources={str(config.registry_path)},
+            sources={
+                str(source.get("source_path"))
+                for source in raw.get("sources", [])
+                if isinstance(source, dict) and source.get("source_path")
+            },
+            aliases={
+                str(alias) for alias in raw.get("aliases", []) if isinstance(alias, str) and alias
+            },
+            supporting_signals=[
+                support
+                for support in raw.get("supporting_signals", [])
+                if isinstance(support, dict)
+            ],
+            eligible=bool(raw.get("eligible", False)),
             weekly_issue_count=weekly_count,
-            last_used=str(last_used or ""),
+            last_used=parse_week_date(max(weeks)).isoformat() if weeks else "",
         )
         signals[str(slug) or normalized_key(title)] = signal
     return signals
@@ -204,6 +235,146 @@ def promote_topic_in_registry(registry_path: Path, slug: str) -> None:
         )
 
 
+def add_topic_to_registry(registry_path: Path, slug: str, signal: CandidateSignal) -> None:
+    """Create or promote a canonical registry term from candidate evidence."""
+    payload = json.loads(registry_path.read_text(encoding="utf-8"))
+    terms = payload.setdefault("terms", {})
+    if not isinstance(terms, dict):
+        raise ValueError(f"{registry_path}: terms must be a mapping")
+    term = terms.setdefault(slug, {})
+    if not isinstance(term, dict):
+        raise ValueError(f"{registry_path}: invalid term {slug}")
+    term.update(
+        {
+            "display_name": signal.title,
+            "slug": slug,
+            "first_seen": parse_week_date(min(signal.weeks)).isoformat(),
+            "last_used": parse_week_date(max(signal.weeks)).isoformat(),
+            "count": int(term.get("count") or 0),
+            "times_used": int(term.get("times_used") or 0),
+            "weekly_issue_count": int(term.get("weekly_issue_count") or 0),
+            "is_hub": True,
+            "promoted": True,
+            "aliases": sorted(signal.aliases, key=str.lower),
+        }
+    )
+    registry_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def assign_topic_to_weeks(root: Path, signal: CandidateSignal) -> list[Path]:
+    """Add a promoted canonical topic to every evidenced weekly issue."""
+    changed: list[Path] = []
+    for week in sorted(signal.weeks):
+        year, number = week.split("-W", maxsplit=1)
+        path = root / "content" / "weekly" / year / f"W{number}.md"
+        if not path.exists():
+            continue
+        document = path.read_text(encoding="utf-8")
+        match = FRONTMATTER_RE.match(document)
+        if not match:
+            raise ValueError(f"{path}: missing YAML frontmatter")
+        frontmatter = yaml.safe_load(match.group(1))
+        if not isinstance(frontmatter, dict):
+            raise ValueError(f"{path}: frontmatter must be a mapping")
+        topics = frontmatter.get("topics", [])
+        if not isinstance(topics, list) or any(not isinstance(topic, str) for topic in topics):
+            raise ValueError(f"{path}: topics must be a list of strings")
+        if signal.title in topics:
+            continue
+        topics_line = (
+            "topics: [" + ", ".join(json.dumps(topic) for topic in [*topics, signal.title]) + "]"
+        )
+        frontmatter_text = match.group(1)
+        if TOPICS_LINE_RE.search(frontmatter_text):
+            updated_frontmatter = TOPICS_LINE_RE.sub(topics_line, frontmatter_text, count=1)
+        else:
+            categories = CATEGORIES_LINE_RE.search(frontmatter_text)
+            if not categories:
+                raise ValueError(f"{path}: categories field is required before topics")
+            updated_frontmatter = (
+                frontmatter_text[: categories.end()]
+                + "\n"
+                + topics_line
+                + frontmatter_text[categories.end() :]
+            )
+        updated = document[: match.start(1)] + updated_frontmatter + document[match.end(1) :]
+        path.write_text(updated, encoding="utf-8")
+        changed.append(path)
+    return changed
+
+
+def assign_promoted_topics_from_sources(root: Path, registry_path: Path) -> list[Path]:
+    """Assign dynamic canonical topics when their aliases recur in current sources."""
+    payload = json.loads(registry_path.read_text(encoding="utf-8"))
+    terms = payload.get("terms", {}) if isinstance(payload, dict) else {}
+    aliases: dict[str, str] = {}
+    if not isinstance(terms, dict):
+        return []
+    for slug, raw in terms.items():
+        if (
+            not isinstance(raw, dict)
+            or not raw.get("promoted")
+            or not raw.get("is_hub")
+            or isinstance(raw.get("order"), int)
+        ):
+            continue
+        title = safe_candidate_title(raw.get("display_name"))
+        if not title:
+            continue
+        aliases[normalized_key(str(slug))] = title
+        aliases[normalized_key(title)] = title
+        for alias in raw.get("aliases", []):
+            if isinstance(alias, str):
+                aliases[normalized_key(alias)] = title
+
+    weeks_by_title: dict[str, set[str]] = defaultdict(set)
+
+    def record(week: str | None, values: list[object]) -> None:
+        if not week:
+            return
+        for value in values:
+            if isinstance(value, str) and (title := aliases.get(normalized_key(value))):
+                weeks_by_title[title].add(week)
+
+    for path in sorted((root / "content" / "weekly").glob("**/W[0-9][0-9].md")):
+        values = read_frontmatter(path).get("tags", [])
+        record(week_from_path(path), values if isinstance(values, list) else [])
+    for path in sorted((root / "data" / "analyzed").glob("*-summary.md")):
+        values = read_frontmatter(path).get("tags", [])
+        record(week_from_path(path), values if isinstance(values, list) else [])
+        headings = BOLD_HEADING_RE.findall(path.read_text(encoding="utf-8"))
+        record(week_from_path(path), [heading.rstrip(".?!") for heading in headings])
+    for path in sorted((root / "data" / "raw").glob("*.json")):
+        week = week_from_path(path)
+        if not week or path.name.endswith("-external-news.json"):
+            continue
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        signals = raw.get("signals", {}) if isinstance(raw, dict) else {}
+        top_topics = signals.get("top_topics", []) if isinstance(signals, dict) else []
+        record(week, [item.get("topic") for item in top_topics if isinstance(item, dict)])
+        for bucket in ("new_repos", "trending_repos"):
+            for repo in raw.get(bucket, []) if isinstance(raw, dict) else []:
+                if isinstance(repo, dict) and isinstance(repo.get("topics"), list):
+                    record(week, repo["topics"])
+
+    changed: list[Path] = []
+    for title, weeks in sorted(weeks_by_title.items()):
+        changed.extend(
+            assign_topic_to_weeks(
+                root,
+                CandidateSignal(
+                    title=title,
+                    weeks=weeks,
+                    sources=set(),
+                    aliases=set(),
+                    supporting_signals=[],
+                    eligible=True,
+                ),
+            )
+        )
+    return sorted(set(changed))
+
+
 def append_log(config: HubCreationConfig, message: str) -> None:
     config.log_path.parent.mkdir(parents=True, exist_ok=True)
     with config.log_path.open("a", encoding="utf-8") as handle:
@@ -219,14 +390,14 @@ def create_dynamic_hubs(
 ) -> list[Path]:
     config = load_config(config_path)
     now = parse_current_date(current_date)
-    append_log(
-        config,
-        f"dynamic-topic-check enabled={config.enabled} threshold={config.min_weekly_issues} "
-        f"lookback_days={config.lookback_days} current_date={now.isoformat()}",
-    )
-    if not config.enabled:
+    if not config.enabled or dry_run:
         return []
 
+    append_log(
+        config,
+        f"dynamic-topic-check enabled=true threshold={config.min_weekly_issues} "
+        f"lookback_days={config.lookback_days} current_date={now.isoformat()}",
+    )
     candidates = collect_candidates(root, config)
     existing = existing_hub_keys(root / "content")
     created: list[Path] = []
@@ -235,6 +406,9 @@ def create_dynamic_hubs(
         weekly_count = signal.weekly_issue_count or len(signal.weeks)
         if key in existing or key in config.ignore_topics:
             skipped[key] = "existing-or-ignored"
+            continue
+        if not signal.eligible or not signal.supporting_signals:
+            skipped[key] = "missing-supporting-evidence"
             continue
         if weekly_count < config.min_weekly_issues or not candidate_is_recent(
             signal, now, config.lookback_days
@@ -247,13 +421,43 @@ def create_dynamic_hubs(
             f"create topic={signal.title!r} slug={key} weekly_issue_count={weekly_count} "
             f"threshold={config.min_weekly_issues}/{config.lookback_days}d",
         )
-        if not dry_run:
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_text(render_hub(signal, key, config), encoding="utf-8")
-            promote_topic_in_registry(config.registry_path, key)
-            append_log(config, f"promote topic={signal.title!r} registry={config.registry_path}")
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(render_hub(signal, key, config), encoding="utf-8")
+        add_topic_to_registry(config.registry_path, key, signal)
+        assigned = assign_topic_to_weeks(root, signal)
+        append_log(
+            config,
+            json.dumps(
+                {
+                    "event": "promote-topic",
+                    "topic": signal.title,
+                    "slug": key,
+                    "evidence_weeks": sorted(signal.weeks),
+                    "sources": sorted(signal.sources),
+                    "supporting_signals": signal.supporting_signals,
+                    "assigned_paths": [path.relative_to(root).as_posix() for path in assigned],
+                },
+                sort_keys=True,
+            ),
+        )
         created.append(target)
 
+    current_assignments = assign_promoted_topics_from_sources(root, config.registry_path)
+    if current_assignments:
+        append_log(
+            config,
+            json.dumps(
+                {
+                    "event": "assign-promoted-topics",
+                    "assigned_paths": [
+                        path.relative_to(root).as_posix() for path in current_assignments
+                    ],
+                },
+                sort_keys=True,
+            ),
+        )
+    if created or current_assignments:
+        update_taxonomy_registries(root=root, config_path=config_path)
     append_log(config, f"dynamic-topic-summary created={len(created)} skipped={len(skipped)}")
     return created
 

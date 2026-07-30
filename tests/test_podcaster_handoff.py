@@ -285,6 +285,38 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertEqual(payload["article_title"], "Week 23 Report")
         self.assertEqual(payload["article_summary"], "Week 23 summary.")
 
+    def test_release_smoke_payload_preserves_exact_promoted_article_bytes(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            manifest = self._write_manifest(root)
+            article_path = Path("content/weekly/2026/W23.md")
+            article = root / article_path
+            article.parent.mkdir(parents=True)
+            article_bytes = (
+                b"---\ntitle: Exact Promoted Release\nsummary: Exact bytes.\n---\n"
+                b"# Exact Promoted Release\nThe downstream dry run must receive these exact bytes.\n"
+            )
+            article.write_bytes(article_bytes)
+            manifest_data = json.loads(manifest.read_text(encoding="utf-8"))
+            manifest_data["candidate"]["content_sha256"] = hashlib.sha256(article_bytes).hexdigest()
+            manifest.write_text(json.dumps(manifest_data), encoding="utf-8")
+
+            payload = podcaster_handoff.build_payload(
+                week="2026-W23",
+                article_url="https://claracle.com/weekly/2026/w23/",
+                article_path=article_path.as_posix(),
+                publish_run_id="123456789",
+                publish_mode="normal",
+                manifest_path=manifest,
+                repo_root=root,
+                podcaster_dry_run=True,
+            )
+
+        self.assertEqual(payload["article_content"].encode("utf-8"), article_bytes)
+        self.assertEqual(payload["article_sha256"], hashlib.sha256(article_bytes).hexdigest())
+        self.assertTrue(payload["dry_run"])
+
     def test_build_payload_filters_non_string_source_artifact_lists(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:

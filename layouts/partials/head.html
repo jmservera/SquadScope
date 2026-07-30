@@ -214,6 +214,9 @@
 
 {{- partial "extend_head.html" . -}}
 {{- partial "analytics.html" . -}}
+{{- with resources.Get "js/observatory-analytics.js" | js.Build | resources.Minify | fingerprint }}
+<script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
+{{- end }}
 {{- partial "cookie-consent.html" . -}}
 
 {{- /* Misc */}}

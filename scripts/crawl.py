@@ -681,8 +681,19 @@ def sha256_file(path: Path) -> str | None:
 
 def github_schema_checksum() -> str:
     contract = {
-        "schema": "github_raw_v1",
+        "schema": "github_raw_v2",
         "top_level": ["week", "crawled_at", "new_repos", "trending_repos", "signals", "metadata"],
+        "repository_lifecycle_fields": [
+            "id",
+            "node_id",
+            "archived",
+            "disabled",
+            "created_at",
+            "updated_at",
+            "pushed_at",
+            "url",
+            "api_url",
+        ],
         "metadata": [
             "crawl_window",
             "crawl_config_checksum",
@@ -935,6 +946,8 @@ def significance_skip_reason(repo: dict[str, Any]) -> str | None:
 def to_repo_record(repo: dict[str, Any], *, stars_gained: int | None = None) -> dict[str, Any]:
     license_info = repo.get("license") or {}
     record = {
+        "id": repo.get("id"),
+        "node_id": repo.get("node_id"),
         "name": repo.get("name"),
         "owner": (repo.get("owner") or {}).get("login"),
         "full_name": repo.get("full_name"),
@@ -942,10 +955,15 @@ def to_repo_record(repo: dict[str, Any], *, stars_gained: int | None = None) -> 
         "language": repo.get("language"),
         "stars": repo.get("stargazers_count"),
         "forks": repo.get("forks_count"),
+        "archived": bool(repo.get("archived", False)),
+        "disabled": bool(repo.get("disabled", False)),
         "created_at": repo.get("created_at"),
+        "updated_at": repo.get("updated_at"),
+        "pushed_at": repo.get("pushed_at"),
         "topics": sorted(str(topic).lower() for topic in (repo.get("topics") or [])),
         "license": license_info.get("spdx_id") or license_info.get("name"),
         "url": repo.get("html_url"),
+        "api_url": repo.get("url"),
     }
     if stars_gained is not None:
         record["stars_gained"] = stars_gained
@@ -1063,12 +1081,29 @@ def validate_payload(payload: dict[str, Any]) -> None:
         "license",
         "url",
     }
+    lifecycle_fields = {
+        "id",
+        "node_id",
+        "archived",
+        "disabled",
+        "updated_at",
+        "pushed_at",
+        "api_url",
+    }
     for section in ("new_repos", "trending_repos"):
         for repo in payload[section]:
             missing_fields = repo_fields - repo.keys()
             if missing_fields:
                 raise ValueError(
                     f"Repository in {section} missing fields: {sorted(missing_fields)}"
+                )
+            # Legacy reduced records contain none of these fields and remain readable.
+            present_lifecycle_fields = lifecycle_fields.intersection(repo)
+            if present_lifecycle_fields and present_lifecycle_fields != lifecycle_fields:
+                missing_lifecycle_fields = lifecycle_fields - repo.keys()
+                raise ValueError(
+                    f"Repository in {section} missing lifecycle fields: "
+                    f"{sorted(missing_lifecycle_fields)}"
                 )
     metadata = payload["metadata"]
     if not isinstance(metadata.get("api_calls_used"), int):

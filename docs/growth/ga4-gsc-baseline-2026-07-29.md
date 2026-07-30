@@ -1,67 +1,88 @@
-# GA4 + GSC launch baseline — 2026-07-29
+---
+title: GA4 and GSC Launch Baseline for 2026-07-29
+description: Dated Claracle analytics and search baseline record that separates repository wiring from pending external platform evidence
+author: SquadScope Squad
+ms.date: 2026-07-30
+ms.topic: reference
+keywords:
+  - google analytics 4
+  - google search console
+  - launch baseline
+  - acceptance evidence
+estimated_reading_time: 6
+---
 
-Issue: jmservera/SquadScope#599
-Production domain: `https://claracle.com/`
-Sitemap URL: `https://claracle.com/sitemap.xml`
+## Baseline status
 
-## Status
+The 2026-07-29 launch baseline has not been captured from GA4 or Google Search
+Console. No numeric baseline value is asserted in this record. The repository contains
+conditional integration paths, but repository inspection cannot prove property setup,
+secret presence, consent behavior in production, data receipt, verification, sitemap
+submission, or indexing.
 
-- Agent-complete: GA4 wiring is present, consent-gated, and confirmed active via the existing `GA_MEASUREMENT_ID` Actions secret on the next deploy.
-- Agent-complete: Google Search Console URL-prefix verification is now completable by adding the `GSC_SITE_VERIFICATION` Actions secret; the deployed site will render the guarded `google-site-verification` meta tag only when that secret exists.
-- Human-blocked: jmservera must get the Google Search Console verification token, add `GSC_SITE_VERIFICATION` or use DNS verification, click **Verify** after deploy, submit the sitemap, and capture the real dashboard values.
-- Privacy note: no new custom analytics events or user identifiers were added. The default page view can include path, referrer, and UTM parameters only after analytics consent.
+The configured production target is `https://claracle.com/`, and the expected standard
+sitemap target is `https://claracle.com/sitemap.xml`. Their production responses remain
+unverified for this acceptance record.
 
-## GA4 setup for jmservera
+## Repository-verifiable implementation
 
-1. In Google Analytics, create or select the Claracle GA4 property for `claracle.com`.
-2. Create a Web data stream for `https://claracle.com/`.
-3. Copy the measurement ID (`G-XXXXXXXXXX`).
-4. Confirm the production repository secret `GA_MEASUREMENT_ID` is present. It is already wired into the deploy workflow and activates GA4 on deploy.
-5. Deploy, open the site in a private browser, reject analytics, and confirm no `_ga` cookies appear.
-6. Accept analytics, then confirm the GA4 Realtime report receives a page view.
+| Surface                    | Repository status                         | Evidence boundary                                                                               |
+| -------------------------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| GA4 build parameter        | Implemented conditionally                 | `deploy-site.yml` reads `GA_MEASUREMENT_ID`; secret existence and value are not observable      |
+| GSC verification parameter | Implemented conditionally                 | `deploy-site.yml` reads `GSC_SITE_VERIFICATION`; verification is not observable                 |
+| Fork-safe defaults         | Implemented                               | Hugo parameters default empty, so an unconfigured build does not inherit production identifiers |
+| Analytics consent gate     | Implemented in templates and browser code | Production requests and cookies require browser evidence                                        |
+| Observatory events         | Implemented with a consent check          | GA4 receipt and payload inspection require browser and Realtime evidence                        |
+| Sitemap generation         | Configured through Hugo                   | Production response and GSC processing require external evidence                                |
 
-## Google Search Console verification for jmservera
+Secret values must not be copied into this file. A masked secret name or workflow
+reference is implementation evidence, not proof that the protected environment contains
+the secret.
 
-Recommended method: Domain property with DNS TXT verification.
+## External evidence matrix
 
-1. In Google Search Console, add a Domain property for `claracle.com`.
-2. Copy the TXT record Google provides. It will look like:
+| Evidence                    | Status  | Owner                | Required proof                                                                   |
+| --------------------------- | ------- | -------------------- | -------------------------------------------------------------------------------- |
+| GA4 property and web stream | Pending | jmservera            | Dated property or stream evidence with identifiers redacted where appropriate    |
+| Consent denied behavior     | Pending | jmservera and Hermes | Private first-visit network and cookie evidence showing no GA4 request or cookie |
+| Consent granted behavior    | Pending | jmservera and Hermes | Network evidence showing the expected GA4 request after consent                  |
+| GA4 Realtime receipt        | Pending | jmservera            | Dated Realtime evidence correlated to the consented test visit                   |
+| GSC property verification   | Pending | jmservera            | Dated verified-property evidence                                                 |
+| GSC sitemap submission      | Pending | jmservera            | Submission URL, date, and platform status                                        |
+| Production sitemap response | Pending | jmservera            | Dated response status and content-type evidence                                  |
+| Production feed responses   | Pending | jmservera            | Dated site and topic feed response status and content types                      |
 
-   ```text
-   google-site-verification=PASTE_GOOGLE_VALUE_HERE
-   ```
+## Baseline values
 
-3. Add that TXT record at the DNS provider for `claracle.com`.
-4. Wait for DNS propagation, then click **Verify** in Search Console.
-5. In Search Console, submit `https://claracle.com/sitemap.xml`.
+Use the platform-reported date range when access is available. Do not replace missing
+values with estimates such as “near zero.”
 
-Fallback method: URL-prefix property with HTML tag verification.
+| Metric                   | Source | Date range | Baseline value | Status       |
+| ------------------------ | ------ | ---------- | -------------- | ------------ |
+| Total sessions           | GA4    | Pending    | Pending        | Not captured |
+| Organic search sessions  | GA4    | Pending    | Pending        | Not captured |
+| Referral sessions        | GA4    | Pending    | Pending        | Not captured |
+| Direct sessions          | GA4    | Pending    | Pending        | Not captured |
+| Search impressions       | GSC    | Pending    | Pending        | Not captured |
+| Search clicks            | GSC    | Pending    | Pending        | Not captured |
+| Indexed pages            | GSC    | Pending    | Pending        | Not captured |
+| Queries with impressions | GSC    | Pending    | Pending        | Not captured |
 
-1. Add a URL-prefix property for `https://claracle.com/`.
-2. Copy Google's HTML meta tag value.
-3. Add only the token value as the GitHub Actions secret `GSC_SITE_VERIFICATION`, then deploy.
-4. Click **Verify** in Search Console.
-5. Submit `https://claracle.com/sitemap.xml`.
+## Capture procedure
 
-## Near-zero launch baseline template
+1. Confirm the protected deployment environment contains the intended GA4 and GSC
+   configuration without revealing either value.
+2. Deploy the reviewed release revision.
+3. Record consent-denied network and cookie behavior in a private browser session.
+4. Grant analytics consent and record the expected request.
+5. Correlate that visit with GA4 Realtime and record the observation date.
+6. Verify the GSC property, submit the configured sitemap, and record platform status.
+7. Capture GA4 acquisition values and GSC performance values for the same documented
+   baseline window.
+8. Link the evidence from the relaunch review index and retain redacted artifacts in the
+   approved evidence location.
 
-Fill this after GA4 is receiving data and GSC is verified. Treat launch values as near-zero until
-Claracle has accumulated search discovery and referral traffic; the baseline is meant to record that
-starting point rather than imply a performance target.
+## Acceptance rule
 
-| Metric | Source | Date range | Baseline value | Notes |
-| --- | --- | --- | --- | --- |
-| Total sessions | GA4 | 2026-07-29 to 2026-07-29 | TBD | Expected near-zero before discovery work compounds. |
-| Organic search sessions | GA4 | 2026-07-29 to 2026-07-29 | TBD | Use Traffic acquisition. |
-| Referral sessions | GA4 | 2026-07-29 to 2026-07-29 | TBD | Use Traffic acquisition. |
-| Direct sessions | GA4 | 2026-07-29 to 2026-07-29 | TBD | Use Traffic acquisition. |
-| Search impressions | GSC | 2026-07-29 to 2026-07-29 | TBD | Performance report. |
-| Search clicks | GSC | 2026-07-29 to 2026-07-29 | TBD | Performance report. |
-| Indexed pages | GSC | 2026-07-29 | TBD | Pages indexing report. |
-| Top queries | GSC | 2026-07-29 to 2026-07-29 | TBD | Record query, impressions, clicks, average position. |
-
-### Top query rows
-
-| Query | Impressions | Clicks | Average position |
-| --- | ---: | ---: | ---: |
-| TBD | TBD | TBD | TBD |
+NFR-007, FR-035, and the analytics portion of NFR-008 remain pending. They may be marked
+accepted only after the external evidence matrix contains dated proof and actual values.

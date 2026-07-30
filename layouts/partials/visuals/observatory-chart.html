@@ -12,7 +12,8 @@
 {{- if gt (len $rows) 0 -}}
   {{- $max := 1 -}}
   {{- range $rows }}{{ if gt (int .metric_value) $max }}{{ $max = int .metric_value }}{{ end }}{{ end -}}
-  {{- $chartID := printf "observatory-chart-%s-%d" ($page.Params.ranking_id | default ($page.File.UniqueID | default "ranking")) $limit | anchorize -}}
+  {{- $analyticsChartID := $page.Params.ranking_id | default ($page.File.UniqueID | default "ranking") | anchorize -}}
+  {{- $chartID := printf "observatory-chart-%s-%d" $analyticsChartID $limit | anchorize -}}
   {{- $dataRows := slice -}}
   {{- range $rows -}}
     {{- $dataRows = $dataRows | append (dict
@@ -29,7 +30,7 @@
   {{- with $embedURL -}}
     {{- $embedSnippet = printf `<iframe title="%s" src="%s" width="100%%" height="620" loading="lazy" style="border:0;max-width:100%%;"></iframe>` ($title | htmlEscape) (. | absURL) -}}
   {{- end -}}
-<figure class="observatory-chart{{ if $standalone }} observatory-chart--embed{{ end }}" id="{{ $chartID }}" role="group" aria-labelledby="{{ $chartID }}-title">
+<figure class="observatory-chart{{ if $standalone }} observatory-chart--embed{{ end }}" id="{{ $chartID }}" role="group" aria-labelledby="{{ $chartID }}-title" data-observatory-chart-id="{{ $analyticsChartID }}" data-observatory-embed="{{ $standalone }}">
   <div class="observatory-chart__header">
     <p class="observatory-chart__eyebrow">Claracle Data Observatory</p>
     <h2 id="{{ $chartID }}-title" class="observatory-chart__title">{{ $title }}</h2>

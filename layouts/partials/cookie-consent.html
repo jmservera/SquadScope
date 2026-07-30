@@ -52,6 +52,12 @@
         }
       }
 
+      function setObservatoryAnalyticsConsent(enabled) {
+        if (window.ObservatoryAnalytics) {
+          window.ObservatoryAnalytics.setConsent(enabled);
+        }
+      }
+
       function loadGoogleAnalytics() {
         var measurementId = analyticsMeasurementId();
         if (!measurementId) return;
@@ -77,7 +83,9 @@
       function updateAnalyticsConsent() {
         if (CookieConsent.acceptedCategory('analytics')) {
           loadGoogleAnalytics();
+          setObservatoryAnalyticsConsent(true);
         } else {
+          setObservatoryAnalyticsConsent(false);
           disableGoogleAnalytics();
         }
       }
@@ -124,6 +132,7 @@
       };
 
       disableGoogleAnalytics();
+        setObservatoryAnalyticsConsent(false);
       CookieConsent.run(runConfig);
     };
     document.head.appendChild(script);

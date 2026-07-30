@@ -5,7 +5,6 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import shutil
 import sys
 import tomllib
 import unicodedata
@@ -23,7 +22,9 @@ if __package__ in {None, ""}:
 from scripts import taxonomy_registry
 
 DEFAULT_CONFIG = Path("config/observatory.toml")
+DEFAULT_LIFECYCLE_LEDGER = Path("data/derived/observatory/repository-lifecycle.json")
 GENERATED_BY = "observatory_repo_pages"
+LIFECYCLE_SCHEMA_VERSION = 1
 WEEKLY_LINK_PREFIX = "/weekly"
 
 
@@ -42,13 +43,20 @@ class RepoObservation:
     created_at: str | None
     topics: tuple[str, ...]
     source_path: str
+    github_id: str | None = None
+    node_id: str | None = None
     archived: bool = False
     disabled: bool = False
+    updated_at: str | None = None
+    pushed_at: str | None = None
+    api_url: str | None = None
 
 
 @dataclass
 class RepositoryHistory:
     key: str
+    github_id: str | None
+    node_id: str | None
     display_name: str
     owner: str
     name: str
@@ -59,6 +67,9 @@ class RepositoryHistory:
     topics: Counter[str] = field(default_factory=Counter)
     languages: Counter[str] = field(default_factory=Counter)
     lifecycle: dict[str, Any] = field(default_factory=dict)
+    prior_full_names: set[str] = field(default_factory=set)
+    prior_slugs: set[str] = field(default_factory=set)
+    qualified: bool = False
     related_repos: list[dict[str, Any]] = field(default_factory=list)
 
     @property
@@ -115,6 +126,12 @@ def normalize_full_name(full_name: str) -> str:
     return full_name.strip().lower()
 
 
+def repository_key(github_id: object, full_name: str) -> str:
+    if github_id is not None and str(github_id).strip():
+        return str(github_id).strip()
+    return f"name:{normalize_full_name(full_name)}"
+
+
 def topic_slug(topic: str) -> str:
     return taxonomy_registry.slugify(topic)
 
@@ -147,11 +164,14 @@ def load_config(root: Path, config_path: Path | None = None) -> dict[str, Any]:
     if operator != ">":
         raise ValueError("repo page recurrence threshold currently supports only '>' semantics")
     return {
+        "enabled": bool(repo_pages.get("enabled", False)),
         "threshold": threshold,
         "operator": operator,
         "minimum_weeks": threshold + 1,
         "retention_years": int(repo_pages.get("retention_years", 3)),
         "lifecycle": repo_pages.get("lifecycle", {}),
+        "ledger_path": root / DEFAULT_LIFECYCLE_LEDGER,
+        "topics_registry_path": root / "data" / "taxonomy" / "topics.json",
     }
 
 
@@ -197,15 +217,185 @@ def observation_from_record(
         created_at=record.get("created_at"),
         topics=topics,
         source_path=str(source_path.relative_to(root)),
+        github_id=str(record["id"]) if record.get("id") is not None else None,
+        node_id=str(record["node_id"]) if record.get("node_id") is not None else None,
         archived=bool(record.get("archived", False)),
         disabled=bool(record.get("disabled", False)),
+        updated_at=record.get("updated_at"),
+        pushed_at=record.get("pushed_at"),
+        api_url=record.get("api_url"),
     )
 
 
+def observation_to_dict(observation: RepoObservation) -> dict[str, Any]:
+    return {
+        "week": observation.week,
+        "source_bucket": observation.source_bucket,
+        "owner": observation.owner,
+        "name": observation.name,
+        "full_name": observation.full_name,
+        "url": observation.url,
+        "description": observation.description,
+        "language": observation.language,
+        "stars": observation.stars,
+        "forks": observation.forks,
+        "created_at": observation.created_at,
+        "topics": list(observation.topics),
+        "source_path": observation.source_path,
+        "github_id": observation.github_id,
+        "node_id": observation.node_id,
+        "archived": observation.archived,
+        "disabled": observation.disabled,
+        "updated_at": observation.updated_at,
+        "pushed_at": observation.pushed_at,
+        "api_url": observation.api_url,
+    }
+
+
+def observation_from_ledger(raw: dict[str, Any]) -> RepoObservation:
+    return RepoObservation(
+        week=str(raw["week"]),
+        source_bucket=str(raw.get("source_bucket") or "ledger"),
+        owner=str(raw.get("owner") or ""),
+        name=str(raw.get("name") or ""),
+        full_name=str(raw["full_name"]),
+        url=str(raw.get("url") or f"https://github.com/{raw['full_name']}"),
+        description=raw.get("description"),
+        language=raw.get("language"),
+        stars=raw.get("stars") if isinstance(raw.get("stars"), int) else None,
+        forks=raw.get("forks") if isinstance(raw.get("forks"), int) else None,
+        created_at=raw.get("created_at"),
+        topics=tuple(str(topic) for topic in raw.get("topics", [])),
+        source_path=str(raw.get("source_path") or ""),
+        github_id=str(raw["github_id"]) if raw.get("github_id") is not None else None,
+        node_id=str(raw["node_id"]) if raw.get("node_id") is not None else None,
+        archived=bool(raw.get("archived", False)),
+        disabled=bool(raw.get("disabled", False)),
+        updated_at=raw.get("updated_at"),
+        pushed_at=raw.get("pushed_at"),
+        api_url=raw.get("api_url"),
+    )
+
+
+def load_lifecycle_ledger(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {"schema_version": LIFECYCLE_SCHEMA_VERSION, "repositories": {}}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("schema_version") != LIFECYCLE_SCHEMA_VERSION:
+        raise ValueError(
+            f"Unsupported repository lifecycle schema: {payload.get('schema_version')}"
+        )
+    if not isinstance(payload.get("repositories"), dict):
+        raise ValueError("Repository lifecycle ledger repositories must be an object")
+    return payload
+
+
+def add_observation(history: RepositoryHistory, observation: RepoObservation) -> bool:
+    identity = (observation.week, observation.source_path)
+    if any((item.week, item.source_path) == identity for item in history.observations):
+        return False
+    if history.display_name != observation.full_name:
+        history.prior_full_names.add(history.display_name)
+        history.prior_slugs.add(history.slug)
+    history.observations.append(observation)
+    history.github_id = observation.github_id or history.github_id
+    history.node_id = observation.node_id or history.node_id
+    history.display_name = observation.full_name
+    history.owner = observation.owner
+    history.name = observation.name
+    history.slug = repo_slug(observation.full_name)
+    history.url = observation.url
+    history.description = observation.description or history.description
+    history.topics.update(observation.topics)
+    if observation.language:
+        history.languages.update([observation.language])
+    return True
+
+
+def history_from_ledger(key: str, raw: dict[str, Any]) -> RepositoryHistory | None:
+    observations = [
+        observation_from_ledger(item)
+        for item in raw.get("observations", [])
+        if isinstance(item, dict) and item.get("week") and item.get("full_name")
+    ]
+    if not observations:
+        return None
+    latest = sorted(observations, key=lambda item: item.week)[-1]
+    history = RepositoryHistory(
+        key=key,
+        github_id=str(raw["github_id"]) if raw.get("github_id") is not None else latest.github_id,
+        node_id=raw.get("node_id") or latest.node_id,
+        display_name=str(raw.get("current_full_name") or latest.full_name),
+        owner=latest.owner,
+        name=latest.name,
+        slug=str(raw.get("current_slug") or repo_slug(latest.full_name)),
+        url=str(raw.get("last_successful_url") or latest.url),
+        description=latest.description,
+        lifecycle=dict(raw.get("lifecycle") or {}),
+        prior_full_names=set(str(value) for value in raw.get("prior_full_names", [])),
+        prior_slugs=set(str(value) for value in raw.get("prior_slugs", [])),
+        qualified=bool(raw.get("qualified", False)),
+    )
+    for observation in observations:
+        history.observations.append(observation)
+        history.topics.update(observation.topics)
+        if observation.language:
+            history.languages.update([observation.language])
+    return history
+
+
+def apply_configured_renames(histories: dict[str, RepositoryHistory]) -> None:
+    for source_key, source in list(histories.items()):
+        if source.lifecycle.get("status") != "renamed":
+            continue
+        renamed_to = str(source.lifecycle.get("renamed_to") or "").strip()
+        if not renamed_to:
+            continue
+        target = next(
+            (
+                history
+                for history in histories.values()
+                if normalize_full_name(history.display_name) == normalize_full_name(renamed_to)
+            ),
+            None,
+        )
+        if target is None:
+            owner, name = split_full_name(renamed_to)
+            target_key = repository_key(None, renamed_to)
+            target = RepositoryHistory(
+                key=target_key,
+                github_id=None,
+                node_id=None,
+                display_name=renamed_to,
+                owner=owner,
+                name=name,
+                slug=repo_slug(renamed_to),
+                url=f"https://github.com/{renamed_to}",
+                description=source.description,
+            )
+            histories[target_key] = target
+        target.prior_full_names.update(source.prior_full_names | {source.display_name})
+        target.prior_slugs.update(source.prior_slugs | {source.slug})
+        target.qualified = target.qualified or source.qualified
+        for observation in source.observations:
+            if observation not in target.observations:
+                target.observations.append(observation)
+                target.topics.update(observation.topics)
+                if observation.language:
+                    target.languages.update([observation.language])
+        histories.pop(source_key, None)
+
+
 def load_repository_histories(
-    root: Path, lifecycle: dict[str, Any] | None = None
+    root: Path,
+    lifecycle: dict[str, Any] | None = None,
+    ledger: dict[str, Any] | None = None,
 ) -> dict[str, RepositoryHistory]:
     histories: dict[str, RepositoryHistory] = {}
+    for key, raw in (ledger or {}).get("repositories", {}).items():
+        if isinstance(raw, dict) and (history := history_from_ledger(str(key), raw)):
+            histories[str(key)] = history
+    current_keys: set[str] = set()
     for path in raw_week_files(root):
         payload = json.loads(path.read_text(encoding="utf-8"))
         week = str(payload.get("week") or path.stem)
@@ -215,14 +405,23 @@ def load_repository_histories(
                 observation = observation_from_record(week, bucket, record, path, root)
                 if observation is None:
                     continue
-                key = normalize_full_name(observation.full_name)
+                key = repository_key(observation.github_id, observation.full_name)
+                legacy_key = f"name:{normalize_full_name(observation.full_name)}"
+                if key != legacy_key and key not in histories and legacy_key in histories:
+                    history = histories.pop(legacy_key)
+                    history.key = key
+                    history.github_id = observation.github_id
+                    histories[key] = history
                 if (key, week) in seen_this_week:
                     continue
                 seen_this_week.add((key, week))
+                current_keys.add(key)
                 history = histories.get(key)
                 if history is None:
                     history = RepositoryHistory(
                         key=key,
+                        github_id=observation.github_id,
+                        node_id=observation.node_id,
                         display_name=observation.full_name,
                         owner=observation.owner,
                         name=observation.name,
@@ -231,50 +430,54 @@ def load_repository_histories(
                         description=observation.description,
                     )
                     histories[key] = history
-                history.observations.append(observation)
-                history.display_name = observation.full_name
-                history.owner = observation.owner
-                history.name = observation.name
-                history.url = observation.url
-                history.description = observation.description or history.description
-                history.topics.update(observation.topics)
-                if observation.language:
-                    history.languages.update([observation.language])
+                observation_added = add_observation(history, observation)
                 if observation.archived:
-                    history.lifecycle["status"] = "archived"
-    for key, override in (lifecycle or {}).items():
-        normalized = normalize_full_name(key)
-        if normalized in histories and isinstance(override, dict):
-            histories[normalized].lifecycle.update(override)
-    apply_rename_lifecycle(histories)
+                    history.lifecycle.update(
+                        {
+                            "status": "archived",
+                            "status_evidence": "github_archived_field",
+                            "archived_at": observation.updated_at
+                            or week_start_date(week).isoformat(),
+                        }
+                    )
+                elif observation.disabled:
+                    history.lifecycle.update(
+                        {
+                            "status": "disabled",
+                            "status_evidence": "github_disabled_field",
+                            "disabled_at": observation.updated_at
+                            or week_start_date(week).isoformat(),
+                        }
+                    )
+                elif (
+                    observation_added
+                    and history.lifecycle.get("status") == "deleted"
+                    and (
+                        not history.lifecycle.get("deletion_confirmed_at")
+                        or week_start_date(observation.week)
+                        > date.fromisoformat(history.lifecycle["deletion_confirmed_at"])
+                    )
+                ):
+                    history.lifecycle = {
+                        "status": "active",
+                        "status_evidence": "github_observation",
+                    }
+    for configured_name, override in (lifecycle or {}).items():
+        if not isinstance(override, dict):
+            continue
+        normalized = normalize_full_name(configured_name)
+        for history in histories.values():
+            known_names = {normalize_full_name(history.display_name)} | {
+                normalize_full_name(name) for name in history.prior_full_names
+            }
+            if normalized in known_names:
+                history.lifecycle.update(override)
+                history.lifecycle.setdefault("status_evidence", "reviewed_config_override")
+    for history in histories.values():
+        if history.key in current_keys and not history.lifecycle:
+            history.lifecycle = {"status": "active", "status_evidence": "github_observation"}
+    apply_configured_renames(histories)
     return histories
-
-
-def apply_rename_lifecycle(histories: dict[str, RepositoryHistory]) -> None:
-    for source in list(histories.values()):
-        if source.lifecycle.get("status") != "renamed":
-            continue
-        renamed_to = source.lifecycle.get("renamed_to")
-        if not renamed_to:
-            continue
-        target_key = normalize_full_name(renamed_to)
-        target = histories.get(target_key)
-        if target is None:
-            owner, name = split_full_name(renamed_to)
-            target = RepositoryHistory(
-                key=target_key,
-                display_name=renamed_to,
-                owner=owner,
-                name=name,
-                slug=repo_slug(renamed_to),
-                url=f"https://github.com/{renamed_to}",
-                description=source.description,
-            )
-            histories[target_key] = target
-        target.observations = source.observations + target.observations
-        target.topics.update(source.topics)
-        target.languages.update(source.languages)
-        target.lifecycle.setdefault("renamed_from", source.display_name)
 
 
 def eligible_repositories(
@@ -284,8 +487,7 @@ def eligible_repositories(
         [
             history
             for history in histories.values()
-            if len(history.distinct_weeks) >= minimum_weeks
-            and history.lifecycle.get("status") != "renamed"
+            if history.qualified or len(history.distinct_weeks) >= minimum_weeks
         ],
         key=lambda history: (-len(history.distinct_weeks), history.display_name.lower()),
     )
@@ -351,6 +553,7 @@ def page_params(
     config: dict[str, Any],
     rename_aliases: dict[str, list[str]],
     tag_display_names: dict[str, str],
+    promoted_topic_aliases: dict[str, dict[str, str]],
 ) -> dict[str, Any]:
     latest = history.latest_observation
     top_tags = [
@@ -366,11 +569,12 @@ def page_params(
     lifecycle_status = history.lifecycle.get("status") or (
         "archived" if latest.archived else "active"
     )
-    retained_until = None
-    if lifecycle_status == "deleted":
-        retained_until = add_years(
-            week_start_date(history.last_seen_week), config["retention_years"]
-        ).isoformat()
+    retained_until = history.lifecycle.get("retained_until")
+    topic_links_by_slug: dict[str, dict[str, str]] = {}
+    for raw_topic in history.topics:
+        mapped = promoted_topic_aliases.get(taxonomy_registry.slugify(raw_topic))
+        if mapped:
+            topic_links_by_slug[mapped["slug"]] = mapped
     title = f"{history.display_name} repository trend history"
     description = (
         f"Evergreen Claracle Observatory page for {history.display_name}: "
@@ -408,14 +612,22 @@ def page_params(
         "tag_links": [
             {"name": tag["display_name"], "url": f"/tags/{tag['slug']}/"} for tag in top_tags
         ],
+        "topic_links": [topic_links_by_slug[slug] for slug in sorted(topic_links_by_slug)],
         "related_repos": history.related_repos,
         "lifecycle": {
             "status": lifecycle_status,
             "as_of_week": history.last_seen_week,
             "retention_years": config["retention_years"],
             "retained_until": retained_until,
-            "renamed_from": history.lifecycle.get("renamed_from"),
+            "renamed_from": sorted(history.prior_full_names)[-1]
+            if history.prior_full_names
+            else None,
+            "prior_full_names": sorted(history.prior_full_names),
             "renamed_to": history.lifecycle.get("renamed_to"),
+            "status_evidence": history.lifecycle.get("status_evidence"),
+            "archived_at": history.lifecycle.get("archived_at"),
+            "disabled_at": history.lifecycle.get("disabled_at"),
+            "deletion_confirmed_at": history.lifecycle.get("deletion_confirmed_at"),
             "note": history.lifecycle.get("note", ""),
         },
         "methodology_url": "/methodology/",
@@ -462,24 +674,81 @@ def write_yaml_page(path: Path, params: dict[str, Any]) -> None:
     path.write_text(f"---\n{frontmatter}---\n\n{markdown_body(params)}", encoding="utf-8")
 
 
-def clean_generated_repo_pages(content_repo: Path) -> None:
-    if not content_repo.exists():
-        return
-    for index_path in content_repo.glob("*/index.md"):
-        if f"generated_by: {GENERATED_BY}" in index_path.read_text(encoding="utf-8"):
-            shutil.rmtree(index_path.parent)
-
-
 def rename_aliases(histories: dict[str, RepositoryHistory]) -> dict[str, list[str]]:
     aliases: dict[str, list[str]] = defaultdict(list)
     for history in histories.values():
-        if history.lifecycle.get("status") != "renamed":
-            continue
-        renamed_to = history.lifecycle.get("renamed_to")
-        if not renamed_to:
-            continue
-        aliases[normalize_full_name(renamed_to)].append(f"/repo/{history.slug}/")
+        aliases[history.key].extend(f"/repo/{slug}/" for slug in sorted(history.prior_slugs))
     return aliases
+
+
+def load_promoted_topic_aliases(path: Path) -> dict[str, dict[str, str]]:
+    if not path.exists():
+        return {}
+    terms = json.loads(path.read_text(encoding="utf-8")).get("terms", {})
+    aliases: dict[str, dict[str, str]] = {}
+    for slug, raw in terms.items():
+        if not isinstance(raw, dict) or not raw.get("promoted"):
+            continue
+        canonical_slug = str(raw.get("slug") or slug)
+        link = {
+            "name": str(raw.get("display_name") or canonical_slug),
+            "slug": canonical_slug,
+            "url": f"/topics/{canonical_slug}/",
+        }
+        for value in [canonical_slug, raw.get("display_name"), *raw.get("aliases", [])]:
+            if isinstance(value, str):
+                aliases[taxonomy_registry.slugify(value)] = link
+    return aliases
+
+
+def lifecycle_ledger_payload(histories: dict[str, RepositoryHistory]) -> dict[str, Any]:
+    repositories: dict[str, Any] = {}
+    for key, history in sorted(histories.items()):
+        repositories[key] = {
+            "github_id": history.github_id,
+            "node_id": history.node_id,
+            "current_full_name": history.display_name,
+            "current_slug": history.slug,
+            "prior_full_names": sorted(history.prior_full_names),
+            "prior_slugs": sorted(history.prior_slugs),
+            "first_seen_week": history.first_seen_week,
+            "last_seen_week": history.last_seen_week,
+            "last_successful_url": history.url,
+            "qualified": history.qualified,
+            "lifecycle": history.lifecycle,
+            "observations": [
+                observation_to_dict(item)
+                for item in sorted(
+                    history.observations, key=lambda item: (item.week, item.source_path)
+                )
+            ],
+        }
+    return {"schema_version": LIFECYCLE_SCHEMA_VERSION, "repositories": repositories}
+
+
+def reconcile_lifecycle(
+    histories: dict[str, RepositoryHistory], config: dict[str, Any], as_of: date
+) -> list[RepositoryHistory]:
+    expired: list[RepositoryHistory] = []
+    for history in histories.values():
+        if len(history.distinct_weeks) >= config["minimum_weeks"]:
+            history.qualified = True
+        if history.lifecycle.get("status") != "deleted":
+            continue
+        confirmed_text = history.lifecycle.get("deletion_confirmed_at")
+        confirmed = (
+            date.fromisoformat(confirmed_text)
+            if confirmed_text
+            else week_start_date(history.last_seen_week)
+        )
+        history.lifecycle["deletion_confirmed_at"] = confirmed.isoformat()
+        retained_until = add_years(confirmed, config["retention_years"])
+        history.lifecycle["retained_until"] = retained_until.isoformat()
+        if as_of > retained_until:
+            expired.append(history)
+    for history in expired:
+        histories.pop(history.key)
+    return expired
 
 
 def repository_index_content(generated_count: int, config: dict[str, Any]) -> str:
@@ -502,51 +771,118 @@ def repository_index_content(generated_count: int, config: dict[str, Any]) -> st
 
 
 def write_repository_pages(
-    root: Path, histories: dict[str, RepositoryHistory], config: dict[str, Any]
+    root: Path,
+    histories: dict[str, RepositoryHistory],
+    config: dict[str, Any],
+    *,
+    check: bool = False,
+    expired: list[RepositoryHistory] | None = None,
 ) -> list[Path]:
-    _topics_path, tags_path = taxonomy_registry.update_taxonomy_registries(
-        root=root, config_path=root / DEFAULT_CONFIG
-    )
+    if check:
+        tags_path = root / "data" / "taxonomy" / "tags.json"
+    else:
+        _topics_path, tags_path = taxonomy_registry.update_taxonomy_registries(
+            root=root, config_path=root / DEFAULT_CONFIG
+        )
     tag_display_names = taxonomy_registry.load_display_names(tags_path)
+    promoted_topic_aliases = load_promoted_topic_aliases(config["topics_registry_path"])
     eligible = eligible_repositories(histories, config["minimum_weeks"])
     attach_related_repositories(histories, eligible)
     aliases = rename_aliases(histories)
     content_repo = root / "content" / "repo"
-    clean_generated_repo_pages(content_repo)
-    content_repo.mkdir(parents=True, exist_ok=True)
-    (content_repo / "_index.md").write_text(
-        repository_index_content(len(eligible), config), encoding="utf-8"
-    )
+    expected: dict[Path, str] = {
+        content_repo / "_index.md": repository_index_content(len(eligible), config)
+    }
     written: list[Path] = []
     derived: list[dict[str, Any]] = []
     for history in eligible:
-        params = page_params(history, config, aliases, tag_display_names)
+        params = page_params(history, config, aliases, tag_display_names, promoted_topic_aliases)
         output_path = content_repo / history.slug / "index.md"
-        write_yaml_page(output_path, params)
+        frontmatter = yaml.safe_dump(params, sort_keys=False, allow_unicode=True, width=120)
+        expected[output_path] = f"---\n{frontmatter}---\n\n{markdown_body(params)}"
         written.append(output_path)
         derived.append(params)
     derived_path = root / "data" / "derived" / "observatory" / "repositories.json"
-    derived_path.parent.mkdir(parents=True, exist_ok=True)
-    derived_path.write_text(json.dumps(derived, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    ledger_path = config["ledger_path"]
+    expected[derived_path] = json.dumps(derived, indent=2, sort_keys=True) + "\n"
+    expected[ledger_path] = (
+        json.dumps(lifecycle_ledger_payload(histories), indent=2, sort_keys=True) + "\n"
+    )
+    stale = [
+        path
+        for path, content in expected.items()
+        if not path.exists() or path.read_text(encoding="utf-8") != content
+    ]
+    obsolete_pages = [
+        content_repo / slug / "index.md"
+        for history in histories.values()
+        for slug in history.prior_slugs
+        if (content_repo / slug / "index.md").exists()
+    ]
+    expired_pages = [
+        content_repo / history.slug / "index.md"
+        for history in expired or []
+        if (content_repo / history.slug / "index.md").exists()
+    ]
+    if check:
+        return sorted(set(stale + obsolete_pages + expired_pages))
+    for path, content in expected.items():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content, encoding="utf-8")
+    for obsolete_page in obsolete_pages:
+        if f"generated_by: {GENERATED_BY}" in obsolete_page.read_text(encoding="utf-8"):
+            obsolete_page.unlink()
+    for history in expired or []:
+        expired_page = content_repo / history.slug / "index.md"
+        if expired_page.exists() and f"generated_by: {GENERATED_BY}" in expired_page.read_text(
+            encoding="utf-8"
+        ):
+            expired_page.unlink()
+            print(
+                f"Removed expired repository tombstone {history.display_name}: "
+                f"retention ended {history.lifecycle['retained_until']}"
+            )
     return written
 
 
-def generate(root: Path, config_path: Path | None = None) -> list[Path]:
+def generate(
+    root: Path,
+    config_path: Path | None = None,
+    *,
+    check: bool = False,
+    as_of: date | None = None,
+) -> list[Path]:
     config = load_config(root, config_path)
-    histories = load_repository_histories(root, config["lifecycle"])
-    return write_repository_pages(root, histories, config)
+    if not config["enabled"]:
+        print(
+            "repository-page-decision disabled; "
+            "no repository pages created or durable pages deleted"
+        )
+        return []
+    ledger = load_lifecycle_ledger(config["ledger_path"])
+    histories = load_repository_histories(root, config["lifecycle"], ledger)
+    expired = reconcile_lifecycle(histories, config, as_of or date.today())
+    return write_repository_pages(root, histories, config, check=check, expired=expired)
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--config", type=Path, default=None)
+    parser.add_argument(
+        "--check", action="store_true", help="Fail when generated repository files are stale."
+    )
+    parser.add_argument("--as-of", type=date.fromisoformat, default=None)
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    written = generate(args.root.resolve(), args.config)
+    written = generate(args.root.resolve(), args.config, check=args.check, as_of=args.as_of)
+    if args.check and written:
+        for path in written:
+            print(f"Out of date: {path.relative_to(args.root.resolve())}")
+        return 1
     print(f"Generated {len(written)} repository pages")
     return 0
 

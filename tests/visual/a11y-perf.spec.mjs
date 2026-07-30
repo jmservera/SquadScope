@@ -22,6 +22,11 @@ const PAGES = [
   { key: 'weekly', label: 'weekly', path: '/weekly/2026/w22/' },
   { key: 'monthly', label: 'monthly', path: '/monthly/2026/05/' },
   { key: 'yearly', label: 'yearly', path: '/yearly/2026/' },
+  { key: 'topic', label: 'topic', path: '/topics/ai-coding-agents/' },
+  { key: 'data', label: 'data', path: '/data/fastest-growing-ai-repositories-this-year/' },
+  { key: 'repository', label: 'repository', path: '/repo/anthropics-claude-code/' },
+  { key: 'chart', label: 'chart', path: '/embeds/fastest-growing-ai-repositories-chart/' },
+  { key: 'tool', label: 'tool', path: '/tools/star-velocity-explorer/' },
 ];
 
 async function settle(page) {

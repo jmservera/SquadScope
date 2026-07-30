@@ -15,6 +15,7 @@ function getArg(name, fallback) {
 const BASE_URL = getArg('--base', 'http://localhost:1313/SquadScope').replace(/\/$/, '');
 const OUTPUT_DIR = join('screenshots', 'lighthouse-results');
 const THRESHOLDS = {
+  performance: 0.9,
   accessibility: 0.95,
   bestPractices: 0.95,
   cls: 0.1,
@@ -25,6 +26,11 @@ const PAGES = [
   { key: 'weekly', path: '/weekly/2026/w22/' },
   { key: 'monthly', path: '/monthly/2026/05/' },
   { key: 'yearly', path: '/yearly/2026/' },
+  { key: 'topic', path: '/topics/ai-coding-agents/' },
+  { key: 'data', path: '/data/fastest-growing-ai-repositories-this-year/' },
+  { key: 'repository', path: '/repo/anthropics-claude-code/' },
+  { key: 'chart', path: '/embeds/fastest-growing-ai-repositories-chart/' },
+  { key: 'tool', path: '/tools/star-velocity-explorer/' },
 ];
 
 function ensureDir(path) {
@@ -37,7 +43,7 @@ function ensureDir(path) {
 
 function runLighthouse(url) {
   const command = [
-    'npx -y lighthouse',
+    'npx --no-install lighthouse',
     JSON.stringify(url),
     '--quiet',
     '--output=json',
@@ -59,6 +65,7 @@ function runLighthouse(url) {
 
 function getScores(report) {
   return {
+    performance: report.categories.performance?.score ?? 0,
     accessibility: report.categories.accessibility?.score ?? 0,
     bestPractices: report.categories['best-practices']?.score ?? 0,
     cls: report.audits['cumulative-layout-shift']?.numericValue ?? Number.POSITIVE_INFINITY,
@@ -68,16 +75,20 @@ function getScores(report) {
 function getFailures(scores) {
   const failures = [];
 
+  if (scores.performance < THRESHOLDS.performance) {
+    failures.push({ category: 'performance', actual: scores.performance, minimum: THRESHOLDS.performance });
+  }
+
   if (scores.accessibility < THRESHOLDS.accessibility) {
-    failures.push(`a11y ${(scores.accessibility * 100).toFixed(0)} < 95`);
+    failures.push({ category: 'accessibility', actual: scores.accessibility, minimum: THRESHOLDS.accessibility });
   }
 
   if (scores.bestPractices < THRESHOLDS.bestPractices) {
-    failures.push(`best ${(scores.bestPractices * 100).toFixed(0)} < 95`);
+    failures.push({ category: 'best-practices', actual: scores.bestPractices, minimum: THRESHOLDS.bestPractices });
   }
 
   if (scores.cls > THRESHOLDS.cls) {
-    failures.push(`cls ${scores.cls.toFixed(3)} > 0.100`);
+    failures.push({ category: 'cumulative-layout-shift', actual: scores.cls, maximum: THRESHOLDS.cls });
   }
 
   return failures;
@@ -103,7 +114,9 @@ async function main() {
     const failures = getFailures(scores);
     const result = {
       page: page.key,
+      route: page.path,
       url,
+      performance: scores.performance,
       accessibility: scores.accessibility,
       bestPractices: scores.bestPractices,
       cls: scores.cls,
@@ -120,10 +133,11 @@ async function main() {
   console.log(`Lighthouse gates for ${BASE_URL}`);
   console.table(results.map(result => ({
     page: result.page,
+    performance: formatPercent(result.performance),
     accessibility: formatPercent(result.accessibility),
     bestPractices: formatPercent(result.bestPractices),
     cls: formatCls(result.cls),
-    status: result.ok ? 'PASS' : `FAIL (${result.failures.join(', ')})`,
+    status: result.ok ? 'PASS' : `FAIL (${result.failures.map(failure => failure.category).join(', ')})`,
   })));
 
   if (results.some(result => !result.ok)) {
