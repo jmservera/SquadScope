@@ -46,6 +46,10 @@ on:
         description: 'Repository-relative promotion record or publish manifest path.'
         required: true
         type: string
+    secrets:
+      PODCASTER_API_KEY:
+        description: 'API key for the Podcaster generation endpoint.'
+        required: true
 
 permissions:
   contents: read

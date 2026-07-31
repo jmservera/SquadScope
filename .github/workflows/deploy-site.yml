@@ -206,6 +206,8 @@ jobs:
     permissions:
       contents: read
     uses: ./.github/workflows/podcaster-handoff-smoke.yml
+    secrets:
+      PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
     with:
       week: ${{ needs.build.outputs.smoke_week }}
       article_url: ${{ needs.build.outputs.smoke_article_url }}
