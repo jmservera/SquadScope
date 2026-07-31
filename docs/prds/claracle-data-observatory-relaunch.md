@@ -2,12 +2,12 @@
 title: Claracle Data Observatory Relaunch Product Requirements Document
 description: Product requirements, delivery state, rollout controls, risks, and acceptance gates for the Claracle Data Observatory relaunch
 author: SquadScope Squad
-ms.date: 2026-07-30
+ms.date: 2026-07-31
 ms.topic: reference
 ---
 <!-- markdownlint-disable-file -->
 <!-- markdown-table-prettify-ignore-start -->
-Version 1.1 | Status Acceptance pending | Owner jmservera | Team SquadScope Squad | Target Wave 1 (foundation) | Lifecycle Definition
+Version 1.2 | Status Acceptance pending | Owner jmservera | Team SquadScope Squad | Target Wave 1 (foundation) | Lifecycle Definition
 
 ## Progress Tracker
 | Phase | Done | Gaps | Updated |
@@ -174,6 +174,8 @@ Discovery engine
 | NFR-008 | Privacy | Analytics respects existing consent | GA4 gated by existing cookie consent | Must | `data/cookieconsent.json` flow | |
 | NFR-009 | Scalability | Generation scales with dataset growth | Full build time stays within CI budget as pages grow | Should | Build timing in CI | Ties to open cost question |
 | NFR-010 | Portability | Everything runs within Hugo static build | No server dependency introduced | Must | Build/deploy on GitHub Pages | |
+| NFR-011 | Reliability | Deploy and CI build the same hydrated content set | CI reproduces the publish-hydration that deploy performs, so generated-content divergence between `main` and `publish` fails CI rather than the production deploy | Must | CI deploy-parity build; `test_pipeline.py` provenance invariant | Root cause of the 2026-07-31 deploy failure (issue #627) |
+| NFR-012 | Reliability | Embedded charts never break the site build | Every `content/embeds/*` `source_page` resolves to an existing data page in the built content set | Must | Build-time reference check | The dangling embed reference aborted the 2026-07-31 deploy |
 
 ## 8. Data & Analytics (Conditional)
 ### Inputs
@@ -220,6 +222,7 @@ Generated Hugo content: topic hubs (taxonomy terms), data pages, repository page
 | R-05 | Dataset/tool exposure adds abuse/injection surface | Medium | Low | Hermes review; sanitize inputs; `unsafe=false` | Hermes | Open; sign-off pending |
 | R-06 | Generation cost/time grows unbounded | Medium | Medium | Quantify in design spike; cap/paginate; incremental builds | Leela | Open |
 | R-07 | Over-scoping delays discovery wins | Medium | Medium | Sequence: IA + SEO + linking first, then assets | Leela | Open |
+| R-08 | Deploy hydration wipes committed pages referenced by non-hydrated content, breaking the production build while CI stays green | High | Medium | Keep generated-content sources consistent across `main` and `publish`; add a CI deploy-parity build; validate every `content/embeds/*` `source_page` resolves | URL | Open; interim fix ships `content/data` pages from `main` until the crawl publishes them (issue #627) |
 
 ## 11. Privacy, Security & Compliance
 ### Data Classification
@@ -246,6 +249,7 @@ AI-generated content must not render raw HTML (`unsafe=false`); repo-derived tex
 | Alerting | CI failures (build, link-check, handoff smoke) | Existing gates + FR-041 |
 | Support | Squad ownership per role (Amy/Bender/Farnsworth/Fry) | See BRD s4 |
 | Capacity Planning | Watch full-build time as page count grows | NFR-009; open cost item |
+| Deploy parity | CI must reproduce the deploy's publish-hydration | Prevents `main`/`publish` divergence from reaching production (NFR-011; issue #627) |
 
 ## 13. Rollout & Launch Plan
 ### Phases / Milestones
@@ -269,10 +273,12 @@ Use the existing per-week distribution playbook (`docs/growth/distribution-strat
 |------|----------|-------|---------|--------|
 | Q-01 | Quantify incremental generation cost/time for hubs, data, and repo pages | Leela | Design spike | Open |
 | Q-02 | Which client-side tool to build first (FR-052) | Amy | 2026-07-30 | Resolved: Star Velocity Explorer; see ADR |
+| Q-03 | When can `content/data/` deploy hydration be restored (once the crawl reliably publishes observatory pages to `publish`)? | Bender | Post-#627 crawl run | Open |
 
 ## 15. Changelog
 | Version | Date | Author | Summary | Type |
 |---------|------|-------|---------|------|
+| 1.2 | 2026-07-31 | SquadScope Squad | Recorded the deploy hydration content-provenance failure (issue #627), the interim `content/data` fix, and the deploy/CI parity requirement (NFR-011/012, R-08) | Updated |
 | 1.1 | 2026-07-30 | SquadScope Squad | Reconciled repository delivery with pending external, security, visual, accessibility, Podcaster, and rollout gates | Updated |
 | 1.0 | 2026-07-29 | PRD Builder (facilitated) | Initial PRD derived from BRD-CLARACLE-002 v1.0 | Created |
 
