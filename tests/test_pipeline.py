@@ -655,6 +655,20 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("git diff --cached --quiet && exit 0", commit)
         self.assertEqual(inline_deploy_download["with"]["path"], "./")
 
+    def test_generate_hydration_preserves_committed_paths_absent_from_publish(self) -> None:
+        crawl = yaml.safe_load(
+            Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+        )
+        hydrate = next(
+            step
+            for step in crawl["jobs"]["generate"]["steps"]
+            if step.get("name") == "Hydrate prior generated state from publish"
+        )["run"]
+        # Only wipe+restore paths that exist on publish so committed generated files
+        # not yet on publish (e.g. data/taxonomy/topics.json) are preserved (issue #627).
+        self.assertIn('git ls-tree -r --name-only origin/publish -- "$path"', hydrate)
+        self.assertNotIn('git checkout origin/publish -- "$path" 2>/dev/null || true', hydrate)
+
     def test_data_page_schedule_is_read_only_freshness_check(self) -> None:
         workflow = yaml.safe_load(
             Path(".github/workflows/generate-data-pages.yml").read_text(encoding="utf-8")
