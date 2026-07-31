@@ -1301,7 +1301,15 @@ jobs:
           tar -xf generated-state.tar
           python3 promotion-guard-tool.py --manifest "data/candidates/${WEEK}/${GITHUB_RUN_ID}/publish-manifest.json"
           rm -f generated-state.tar publish-manifest-tool.json publish-safety-tool.py promotion-guard-tool.py
-          git add -A -- "${GENERATED_PATHS[@]}" data/backups/
+          # Stage only generated paths that exist; some (e.g. data/topic-hubs/) are
+          # absent when a feature produced no output this run and would otherwise
+          # abort `git add` with a pathspec error.
+          ADD_PATHS=()
+          for path in "${GENERATED_PATHS[@]}"; do
+            [ -e "${path%/}" ] && ADD_PATHS+=("${path%/}")
+          done
+          [ -e data/backups ] && ADD_PATHS+=("data/backups")
+          git add -A -- "${ADD_PATHS[@]}"
           git diff --cached --quiet && exit 0
           git commit -m "publish: weekly article transaction $WEEK [run #${GITHUB_RUN_ID}]"
           if [ -n "$CURRENT_PUBLISH_SHA" ]; then
