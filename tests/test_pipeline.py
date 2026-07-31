@@ -509,6 +509,10 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("GENERATED_PATHS=(", commit_run)
         self.assertIn('tar -cf generated-state.tar "${ARCHIVE_PATHS[@]}"', commit_run)
         self.assertIn("tar -xf generated-state.tar", commit_run)
+        # Stage only generated paths that exist; optional outputs (e.g.
+        # data/topic-hubs/) are absent when a feature produced nothing (issue #633).
+        self.assertIn('git add -A -- "${ADD_PATHS[@]}"', commit_run)
+        self.assertNotIn('git add -A -- "${GENERATED_PATHS[@]}" data/backups/', commit_run)
 
         upload_step = next(
             (
