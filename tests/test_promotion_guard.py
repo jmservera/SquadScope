@@ -586,6 +586,59 @@ class PromotionGuardTests(unittest.TestCase):
             self.assertIn("Better AI Article", summary_path.read_text(encoding="utf-8"))
             self.assertIn("Better AI Article", content_path.read_text(encoding="utf-8"))
 
+    def test_restore_mode_accepts_historical_source_artifacts(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            install_existing_good_article(root)
+            source_artifact = write_source_artifact(root, "restore")
+            manifest_path = manifest_for(
+                root,
+                "restore",
+                run_mode="restore",
+                source_artifacts=[
+                    {
+                        "path": source_artifact.relative_to(root).as_posix(),
+                        "checksum": "sha256:restore",
+                        "generated_at": "2026-06-01T08:00:00Z",
+                        "reused_same_day": False,
+                        "stale": False,
+                    }
+                ],
+            )
+
+            summary_path, _ = promotion_guard.promote_candidate(manifest_path, root=root)
+
+            self.assertIn("Better AI Article", summary_path.read_text(encoding="utf-8"))
+
+    def test_normal_mode_rejects_historical_source_artifacts(self) -> None:
+        tests_root = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+            root = Path(tmpdir)
+            install_existing_good_article(root)
+            source_artifact = write_source_artifact(root, "historical-normal")
+            manifest_path = manifest_for(
+                root,
+                "historical-normal",
+                source_artifacts=[
+                    {
+                        "path": source_artifact.relative_to(root).as_posix(),
+                        "checksum": "sha256:historical",
+                        "generated_at": "2026-06-01T08:00:00Z",
+                        "reused_same_day": False,
+                        "stale": False,
+                    }
+                ],
+            )
+
+            with self.assertRaises(promotion_guard.PromotionBlocked) as blocked:
+                promotion_guard.promote_candidate(manifest_path, root=root)
+
+            self.assertIn(
+                "source_artifacts[1] is not from the current run date or marked as same-day reuse.",
+                blocked.exception.reasons,
+            )
+
     def test_candidate_paths_cannot_traverse_outside_repository_root(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
