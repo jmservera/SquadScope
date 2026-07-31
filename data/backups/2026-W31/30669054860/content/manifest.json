@@ -1,0 +1,2835 @@
+{
+  "created_at": "2026-07-31T22:14:28.464954Z",
+  "files": [
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W31-summary.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W31-summary.md",
+      "sha256": "08d6eee13676e923ff8d2e911f98d65e39491bd7dcb40ad3400b7bba4c718e08",
+      "size_bytes": 12666
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W31-correlations.json",
+      "existed": true,
+      "path": "data/analyzed/2026-W31-correlations.json",
+      "sha256": "fc0f0283fadc95bd6f2fdac4e46a394d21f1ad3501494a3e3f9a1bfe679a0c29",
+      "size_bytes": 163107
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W31-press-context.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W31-press-context.md",
+      "sha256": "94e559349a85330021244047cd639c3fa3174b7bde1f6982a5a2e593828af368",
+      "size_bytes": 32934
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/published/2026-W31/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W31/promotion-manifest.json",
+      "sha256": "060c14c54354729147b252c582db7bdb7c9768444d3d8004da1724cdf5fd4113",
+      "size_bytes": 17324
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/weekly/2026/W31.md",
+      "existed": true,
+      "path": "content/weekly/2026/W31.md",
+      "sha256": "7af78b01d06cc1321c0b910d5550f2b2b3ee5c983fa7603ef13ddb1de83d7002",
+      "size_bytes": 12141
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/weekly/2026/W21.md",
+      "existed": true,
+      "path": "content/weekly/2026/W21.md",
+      "sha256": "07907b97ca1673cd6aaf55b4275b883b0d69dfac76f9de7517c455bd8e805f57",
+      "size_bytes": 13523
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/weekly/2026/W22.md",
+      "existed": true,
+      "path": "content/weekly/2026/W22.md",
+      "sha256": "e1353b810d509f36c8b0639cbb77d1fe47c37d582f9ab59b4a45fe99a087a1b7",
+      "size_bytes": 13675
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/weekly/2026/W23.md",
+      "existed": true,
+      "path": "content/weekly/2026/W23.md",
+      "sha256": "7e4f87defd1413679a8672a212f03755cf8ec888d96bdbb4fcb2151914d9d32c",
+      "size_bytes": 15909
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/weekly/2026/W24.md",
+      "existed": true,
+      "path": "content/weekly/2026/W24.md",
+      "sha256": "e311717fce843445b6b91bb082b6c31b9518ed997c0ce2fca902f9cf16d07eb8",
+      "size_bytes": 16655
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/weekly/2026/W25.md",
+      "existed": true,
+      "path": "content/weekly/2026/W25.md",
+      "sha256": "2247ec629b12ed0aff56f8f0cd9d1c0b7cf9f9ed0dedcc09bc217e0813765776",
+      "size_bytes": 11944
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/weekly/2026/W26.md",
+      "existed": true,
+      "path": "content/weekly/2026/W26.md",
+      "sha256": "c69d17fa1f9817e95a4775ea9de913f6f3bca6afb1dcac4ca8a84ca68981274f",
+      "size_bytes": 10949
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/weekly/2026/W27.md",
+      "existed": true,
+      "path": "content/weekly/2026/W27.md",
+      "sha256": "14db6eb3d6a255c7117a30eb130c854a6e897223b27fe8d71069aa49ae770ff6",
+      "size_bytes": 10354
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/weekly/2026/W28.md",
+      "existed": true,
+      "path": "content/weekly/2026/W28.md",
+      "sha256": "ab5ba1bf3084fe87504bb093766dfad5f9e167eb59d22a0598c1fb7e9d80a073",
+      "size_bytes": 11525
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/weekly/2026/W29.md",
+      "existed": true,
+      "path": "content/weekly/2026/W29.md",
+      "sha256": "321881999b8cc17176b871992f7911dd1a24673290623917c9b979db2d40d4f7",
+      "size_bytes": 12184
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/weekly/2026/W30.md",
+      "existed": true,
+      "path": "content/weekly/2026/W30.md",
+      "sha256": "2f4bec757ee515a1eff5eae4822745c2fe16aab5f48e63efe763599d3bce9a40",
+      "size_bytes": 13264
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/weekly/2026/W31.md",
+      "existed": true,
+      "path": "content/weekly/2026/W31.md",
+      "sha256": "7af78b01d06cc1321c0b910d5550f2b2b3ee5c983fa7603ef13ddb1de83d7002",
+      "size_bytes": 12141
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/weekly/_index.md",
+      "existed": true,
+      "path": "content/weekly/_index.md",
+      "sha256": "92258c42ee84063c956a1174e31db3c911da78d2da9ba70216f0e78782768665",
+      "size_bytes": 260
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/monthly/2026/05.md",
+      "existed": true,
+      "path": "content/monthly/2026/05.md",
+      "sha256": "545e6605a804a6d881f05d538a73a37f8cf16b09bb9180a26e1b0f7c08ad5807",
+      "size_bytes": 13554
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/monthly/2026/06.md",
+      "existed": true,
+      "path": "content/monthly/2026/06.md",
+      "sha256": "09b05d3e3617dce737baf2c7627babbe0608d94b5e7f7feebe92fc6b89199c31",
+      "size_bytes": 32342
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/monthly/2026/07.md",
+      "existed": true,
+      "path": "content/monthly/2026/07.md",
+      "sha256": "e8ee02139b0e46c193512c26e9feec249ec3d770c60b628b558d05b2e4b51b15",
+      "size_bytes": 20896
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/monthly/_index.md",
+      "existed": true,
+      "path": "content/monthly/_index.md",
+      "sha256": "69638062d7d17832f7e32ba98de202ef3e9b49482add82f8cecb6f07308f1672",
+      "size_bytes": 257
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/yearly/2026.md",
+      "existed": true,
+      "path": "content/yearly/2026.md",
+      "sha256": "97f3611fac298faf736a5be8569b6ee929de494c993e73b2fe079aa5f0acb372",
+      "size_bytes": 3720
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/yearly/_index.md",
+      "existed": true,
+      "path": "content/yearly/_index.md",
+      "sha256": "9c70bdd75222757f78616ecf7bc28e4a610d908f12df933101d17c8755d7d190",
+      "size_bytes": 274
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/topics/_index.md",
+      "existed": true,
+      "path": "content/topics/_index.md",
+      "sha256": "50b94ead767699727897f358b8d89ee08cf80284b91fdb6577cf3e17c693a186",
+      "size_bytes": 108
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/content/topics/ai-ml/_index.md",
+      "existed": true,
+      "path": "content/topics/ai-ml/_index.md",
+      "sha256": "ad7e10f5bb0b9b8d7455e21c28a6f77fb534047862f2e75bcf00858946928880",
+      "size_bytes": 515
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/.gitkeep",
+      "existed": true,
+      "path": "data/analyzed/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-07-month-synthesis.md",
+      "existed": true,
+      "path": "data/analyzed/2026-07-month-synthesis.md",
+      "sha256": "e7e8819271715a60ae04d2544c37b20b27db847d6a52302e4950d047a907e9c7",
+      "size_bytes": 3053
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W21-correlations.json",
+      "existed": true,
+      "path": "data/analyzed/2026-W21-correlations.json",
+      "sha256": "85ce97e49cc9b000430ab10c6b28a2c62b3c47493d86e317a4518317f700ccce",
+      "size_bytes": 147538
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W21-press-context.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W21-press-context.md",
+      "sha256": "0c02e6c889da0898cf8f4c3a31259952cfdd2d82bf76e3bbd652e2f3a2f1025f",
+      "size_bytes": 26252
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W21-summary.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W21-summary.md",
+      "sha256": "b1fea81a1eb5451ffd1fee160a38d3e5c3d11737c88395633a90078f5c481596",
+      "size_bytes": 4873
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W22-correlations.json",
+      "existed": true,
+      "path": "data/analyzed/2026-W22-correlations.json",
+      "sha256": "100543b1de16f8388b6fbe7580602b8fd57ef4e0e5fe14ae514f3fce81cff4a1",
+      "size_bytes": 151109
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W22-press-context.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W22-press-context.md",
+      "sha256": "d3efeb7512d5bea6aaa4e0448dbb5651fa899dd61424419540bcbccbc1697ddb",
+      "size_bytes": 27407
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W22-summary.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W22-summary.md",
+      "sha256": "130619b0e30d80e3e979e00e015a0dc7f5e0a219bc5cfbe074a675b3af502cb3",
+      "size_bytes": 13670
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W23-correlations.json",
+      "existed": true,
+      "path": "data/analyzed/2026-W23-correlations.json",
+      "sha256": "77607e936e4d6be36b5583e582e090648d86c9af3393fa696df0421d5278d124",
+      "size_bytes": 189033
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W23-press-context.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W23-press-context.md",
+      "sha256": "e1c3317198a812406cd5e8fdb50e31c64f1698313f9f43e8ae414d3bb43d0407",
+      "size_bytes": 32560
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W23-summary.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W23-summary.md",
+      "sha256": "eadff75a4e3041a6a4094072321e45621d882eaeafcad4fb00a0b0714eebeb60",
+      "size_bytes": 16398
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W24-correlations.json",
+      "existed": true,
+      "path": "data/analyzed/2026-W24-correlations.json",
+      "sha256": "06e8cb07971e2ae111343a669aa7dd921131fc65081ae1d6e9b81c501cc537f8",
+      "size_bytes": 173745
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W24-press-context.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W24-press-context.md",
+      "sha256": "59c6159260feb46c9033f387fa06f46ba72ceee0ffceffe81b0d05be8a2a6f09",
+      "size_bytes": 32787
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W24-summary.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W24-summary.md",
+      "sha256": "31b7620b46aca36329ff252464ff13e57747b4bf106dbcdf66251284374ea50c",
+      "size_bytes": 17121
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W25-correlations.json",
+      "existed": true,
+      "path": "data/analyzed/2026-W25-correlations.json",
+      "sha256": "7068935e955b1bb99c887f18efb85df513d03e00a2128eace0ec81c29ed269a0",
+      "size_bytes": 187932
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W25-press-context.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W25-press-context.md",
+      "sha256": "1e13a562aa35fdf26e236aaf122a50eb7b0b97f364d0693d1e7e5d7e54a1d5f7",
+      "size_bytes": 32815
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W25-summary.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W25-summary.md",
+      "sha256": "701e49c0c973a0bdd07dc25f5fc050e1e071dd7db8de8a8cb2dd654b9cfd9881",
+      "size_bytes": 12480
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W26-correlations.json",
+      "existed": true,
+      "path": "data/analyzed/2026-W26-correlations.json",
+      "sha256": "d4fd102c4d005c6adbf930fe010614e3381e5017f6c74b1d92a25793310c76ce",
+      "size_bytes": 185387
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W26-press-context.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W26-press-context.md",
+      "sha256": "fb812066d9e51c08f4af951d96629dd1e9d77d24b0bbed759cde291e73b8d7f1",
+      "size_bytes": 32544
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W26-summary.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W26-summary.md",
+      "sha256": "05f6add57643bec330865675629b716feaeade07c74438ee107e4ce2ce1e4dd5",
+      "size_bytes": 11462
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W27-correlations.json",
+      "existed": true,
+      "path": "data/analyzed/2026-W27-correlations.json",
+      "sha256": "cb8ab38e1241152fec324bcd0d0b58f91b57737e8fc09cad5142d6de4686fa97",
+      "size_bytes": 187815
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W27-press-context.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W27-press-context.md",
+      "sha256": "98a53b0c954dd3d51ab8777d81089dd3c02d1924540571448d7d8cc2e9b867f7",
+      "size_bytes": 32368
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W27-summary.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W27-summary.md",
+      "sha256": "2104cde8f416e47855f6b68fb902febd01d1403a069c51d550cad4e546e2431b",
+      "size_bytes": 10828
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W28-correlations.json",
+      "existed": true,
+      "path": "data/analyzed/2026-W28-correlations.json",
+      "sha256": "e1d9aa4b4195840a9f4019171666eeacd7b6e58c67030ce262159b1d592c5ee3",
+      "size_bytes": 159426
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W28-press-context.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W28-press-context.md",
+      "sha256": "ddfaa5e78416cb2f8401e06e53e4582eb9b2641c2d21ccd82288221f67fcdf82",
+      "size_bytes": 32750
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W28-summary.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W28-summary.md",
+      "sha256": "6518c830c646ebc5d382c657658d12b9fa2dff772a96c9fcc0c8de59040bb4c7",
+      "size_bytes": 12033
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W29-correlations.json",
+      "existed": true,
+      "path": "data/analyzed/2026-W29-correlations.json",
+      "sha256": "719a629256cc66fdedc250331d7c11ec56a19902626ab4baa69e02276a62b0ba",
+      "size_bytes": 173538
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W29-press-context.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W29-press-context.md",
+      "sha256": "d589ddadc691c4108f0ebf940d43fc416532c359b1fb64a848fe14a452373ec3",
+      "size_bytes": 33014
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W29-summary.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W29-summary.md",
+      "sha256": "dcac7a09d4a96a32ca7cd63f1fa60f66f7db26496dc2b427ac75bf8d29232025",
+      "size_bytes": 12669
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W30-correlations.json",
+      "existed": true,
+      "path": "data/analyzed/2026-W30-correlations.json",
+      "sha256": "a3cb3317dca3ea4b6dd31a2d9d0ef86074b4dc38b5c2f6491abf4aaf61ff28dd",
+      "size_bytes": 171977
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W30-press-context.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W30-press-context.md",
+      "sha256": "56105b05176877e0edc2e5472f2ef456502e3c3db318b2d20a429550891a5d46",
+      "size_bytes": 32868
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W30-summary.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W30-summary.md",
+      "sha256": "4d2ee446b94233dd4aff32b0910e90696bf6be5ca910dcdbd6107b3adf26fce4",
+      "size_bytes": 13760
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W31-correlations.json",
+      "existed": true,
+      "path": "data/analyzed/2026-W31-correlations.json",
+      "sha256": "fc0f0283fadc95bd6f2fdac4e46a394d21f1ad3501494a3e3f9a1bfe679a0c29",
+      "size_bytes": 163107
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W31-press-context.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W31-press-context.md",
+      "sha256": "94e559349a85330021244047cd639c3fa3174b7bde1f6982a5a2e593828af368",
+      "size_bytes": 32934
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/analyzed/2026-W31-summary.md",
+      "existed": true,
+      "path": "data/analyzed/2026-W31-summary.md",
+      "sha256": "08d6eee13676e923ff8d2e911f98d65e39491bd7dcb40ad3400b7bba4c718e08",
+      "size_bytes": 12666
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W23/27056632166/2026-W23-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W23/27056632166/2026-W23-summary.md",
+      "sha256": "eadff75a4e3041a6a4094072321e45621d882eaeafcad4fb00a0b0714eebeb60",
+      "size_bytes": 16398
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W23/27056632166/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W23/27056632166/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "eadff75a4e3041a6a4094072321e45621d882eaeafcad4fb00a0b0714eebeb60",
+      "size_bytes": 16398
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W23/27056632166/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W23/27056632166/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "159666b413d9440713954366c72d0be0d0e51c502a2623f0e2a1929f86b21b02",
+      "size_bytes": 261
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W23/27056632166/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W23/27056632166/publish-manifest.json",
+      "sha256": "ad614958911d884b9500587a1d25fddfefe7c521a963138f0f198b12951a4770",
+      "size_bytes": 6102
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W24/27137991437/2026-W24-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W24/27137991437/2026-W24-content.md",
+      "sha256": "e311717fce843445b6b91bb082b6c31b9518ed997c0ce2fca902f9cf16d07eb8",
+      "size_bytes": 16655
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W24/27137991437/2026-W24-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W24/27137991437/2026-W24-summary.md",
+      "sha256": "31b7620b46aca36329ff252464ff13e57747b4bf106dbcdf66251284374ea50c",
+      "size_bytes": 17121
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W24/27137991437/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W24/27137991437/analysis-gate-report.json",
+      "sha256": "0e4e71932d23a0294cdaba264a83151c8bfcc29024614dadba049cca20f0db1a",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W24/27137991437/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W24/27137991437/diagnostics/analysis-input-manifest.json",
+      "sha256": "174133b453d22e62d76f0b32518317f65b3eb7e5829a77dcda36d221f02a6951",
+      "size_bytes": 907810
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W24/27137991437/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W24/27137991437/diagnostics/analysis-preflight.json",
+      "sha256": "174133b453d22e62d76f0b32518317f65b3eb7e5829a77dcda36d221f02a6951",
+      "size_bytes": 907810
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W24/27137991437/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W24/27137991437/diagnostics/analysis-preflight.md",
+      "sha256": "379d8226acbc5fd7b150fe145aed6657d42065e39f31a01b106dad07105aea8e",
+      "size_bytes": 2776
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W24/27137991437/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W24/27137991437/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "31b7620b46aca36329ff252464ff13e57747b4bf106dbcdf66251284374ea50c",
+      "size_bytes": 17121
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W24/27137991437/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W24/27137991437/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "59fe760c9c445c7d2bdd770e8e6a623850e987fa3642c1cf4e70512359f65b30",
+      "size_bytes": 1549
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W24/27137991437/diagnostics/evidence-slices/new_repos-5c56c788b908.json",
+      "existed": true,
+      "path": "data/candidates/2026-W24/27137991437/diagnostics/evidence-slices/new_repos-5c56c788b908.json",
+      "sha256": "732db4e7d03366504fc509bfe9c043c883c9988f63a1a8568d37f6c5725b954f",
+      "size_bytes": 88593
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W24/27137991437/diagnostics/evidence-slices/press_correlations-8d0e99254055.json",
+      "existed": true,
+      "path": "data/candidates/2026-W24/27137991437/diagnostics/evidence-slices/press_correlations-8d0e99254055.json",
+      "sha256": "e54cb38eb195aba31b78d5625a1e64e91a6d0b46b666bf3bacf92c8466b6a872",
+      "size_bytes": 69380
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W24/27137991437/diagnostics/evidence-slices/prior_continuity-58b0e582d2fd.json",
+      "existed": true,
+      "path": "data/candidates/2026-W24/27137991437/diagnostics/evidence-slices/prior_continuity-58b0e582d2fd.json",
+      "sha256": "280f2be110012207ab769dc95926d37b73d5cd51196f1fbfb7d9c164ff091de8",
+      "size_bytes": 1909
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W24/27137991437/diagnostics/evidence-slices/trending_repos-19efa352b0d2.json",
+      "existed": true,
+      "path": "data/candidates/2026-W24/27137991437/diagnostics/evidence-slices/trending_repos-19efa352b0d2.json",
+      "sha256": "96f115784f9dcddb58fb663b69f5bb6825e85edc1bfe3f5a2fedf44dd751e23a",
+      "size_bytes": 140705
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W24/27137991437/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W24/27137991437/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "0e4e71932d23a0294cdaba264a83151c8bfcc29024614dadba049cca20f0db1a",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W24/27137991437/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W24/27137991437/publish-manifest.json",
+      "sha256": "03e1eb30373abf4b0422db831fee9862d1ed437f0fb0ad920d926b03d164d510",
+      "size_bytes": 30949
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27541542758/2026-W25-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27541542758/2026-W25-content.md",
+      "sha256": "ce2031ad58c213414c26ce19cb8c1e5cfd33c8d322e48bd0e3aa1717da11dfc0",
+      "size_bytes": 14455
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27541542758/2026-W25-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27541542758/2026-W25-summary.md",
+      "sha256": "c327b6a7ce06819f08c70e905facd43e44672e73c5a0e36a322e2754b88b610c",
+      "size_bytes": 14946
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27541542758/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27541542758/analysis-gate-report.json",
+      "sha256": "46d017f17ae2291b0dea476f7fa2e6daba7a9e8320e14257d9b9abf0a877de9e",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27541542758/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27541542758/diagnostics/analysis-input-manifest.json",
+      "sha256": "e6bfa46d59983dd8aa934125e0a89b7e4cc9934151ccb42424ecf0776835daf8",
+      "size_bytes": 943290
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27541542758/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27541542758/diagnostics/analysis-preflight.json",
+      "sha256": "e6bfa46d59983dd8aa934125e0a89b7e4cc9934151ccb42424ecf0776835daf8",
+      "size_bytes": 943290
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27541542758/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27541542758/diagnostics/analysis-preflight.md",
+      "sha256": "d5b345d6f5c9124ea9240107410bef3623da2631e3562172b379b32dd1ea0870",
+      "size_bytes": 3047
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27541542758/diagnostics/candidate-copilot-cli-attempt-1.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27541542758/diagnostics/candidate-copilot-cli-attempt-1.md",
+      "sha256": "c327b6a7ce06819f08c70e905facd43e44672e73c5a0e36a322e2754b88b610c",
+      "size_bytes": 14946
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27541542758/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27541542758/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "a9c7699cb00be29b011bd6a3f8b35563448d6372849392afff9674a6d999c7a3",
+      "size_bytes": 485
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27541542758/diagnostics/copilot-cli-attempt-1.log",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27541542758/diagnostics/copilot-cli-attempt-1.log",
+      "sha256": "40ba332a48d6451401eda39ba04b52a1dfe98af3281f9b5dbf83d815a2360b18",
+      "size_bytes": 16061
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27541542758/diagnostics/evidence-slices/new_repos-dcaa2c932198.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27541542758/diagnostics/evidence-slices/new_repos-dcaa2c932198.json",
+      "sha256": "783f2e4b007ca08ff348c5d8cb9a1bcabdb5f6dbccd554f6316b03fa22dc1bfd",
+      "size_bytes": 97262
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27541542758/diagnostics/evidence-slices/press_correlations-50afde888c3d.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27541542758/diagnostics/evidence-slices/press_correlations-50afde888c3d.json",
+      "sha256": "56f2e0de4b797efdee8552cb46ccb6e6148dbb3066396431487054af9372d60f",
+      "size_bytes": 73236
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27541542758/diagnostics/evidence-slices/prior_continuity-c526a5932a90.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27541542758/diagnostics/evidence-slices/prior_continuity-c526a5932a90.json",
+      "sha256": "56e45bbadacf7c308b5a4d9ccfe0eb9394a9e5d10aeccae4e46239f9de4a7244",
+      "size_bytes": 1909
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27541542758/diagnostics/evidence-slices/trending_repos-526a08b2fd45.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27541542758/diagnostics/evidence-slices/trending_repos-526a08b2fd45.json",
+      "sha256": "060b4484e81e9c0a98e4798278048eb6ae694af55f6d302bce767f849f089a85",
+      "size_bytes": 141273
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27541542758/diagnostics/gate-copilot-cli-attempt-1.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27541542758/diagnostics/gate-copilot-cli-attempt-1.json",
+      "sha256": "46d017f17ae2291b0dea476f7fa2e6daba7a9e8320e14257d9b9abf0a877de9e",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27541542758/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27541542758/publish-manifest.json",
+      "sha256": "9fe3ecaec86342be0831f69c9dcc67e973b1ed30010b9c61def22c8781ae3cde",
+      "size_bytes": 30943
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27547655741/2026-W25-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27547655741/2026-W25-content.md",
+      "sha256": "5c8a88f16b5f21d5bf8d35474faf1755a633249f1185e66c887622cb83dc0c2e",
+      "size_bytes": 17253
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27547655741/2026-W25-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27547655741/2026-W25-summary.md",
+      "sha256": "93ec1d8961a00a3e313039252fad72c135feda7e0fb848bda9789874ff6978e3",
+      "size_bytes": 17728
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27547655741/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27547655741/analysis-gate-report.json",
+      "sha256": "bacaada0d14c025954324ca5e233975344a5f51b7e0b88b66ac3a1d11fa90532",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27547655741/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27547655741/diagnostics/analysis-input-manifest.json",
+      "sha256": "02637901ce56dbba4ac917f972d988bdb504084823cdb0122399d73c400dcaa1",
+      "size_bytes": 943290
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27547655741/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27547655741/diagnostics/analysis-preflight.json",
+      "sha256": "02637901ce56dbba4ac917f972d988bdb504084823cdb0122399d73c400dcaa1",
+      "size_bytes": 943290
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27547655741/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27547655741/diagnostics/analysis-preflight.md",
+      "sha256": "b37d27bff7faca1e88524a936f5af802682690ae10bb686f449fb8c39c1c391c",
+      "size_bytes": 3047
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27547655741/diagnostics/candidate-copilot-cli-attempt-1.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27547655741/diagnostics/candidate-copilot-cli-attempt-1.md",
+      "sha256": "93ec1d8961a00a3e313039252fad72c135feda7e0fb848bda9789874ff6978e3",
+      "size_bytes": 17728
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27547655741/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27547655741/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "728836bf39d749fac4e95ba92927d600cc3370932b81c1b9a26596c31050b2ce",
+      "size_bytes": 557
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27547655741/diagnostics/copilot-cli-attempt-1.log",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27547655741/diagnostics/copilot-cli-attempt-1.log",
+      "sha256": "21db489c9e80e27dd9bfe7aaa74db77eb95686501075371856f82393782a990f",
+      "size_bytes": 1429
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27547655741/diagnostics/evidence-slices/new_repos-398c783e9b80.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27547655741/diagnostics/evidence-slices/new_repos-398c783e9b80.json",
+      "sha256": "1614f1e5bf35f46e61402fd8f3cd63554f3d413575cecc7001d0a34c73de4431",
+      "size_bytes": 97262
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27547655741/diagnostics/evidence-slices/press_correlations-fcdd0ca14891.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27547655741/diagnostics/evidence-slices/press_correlations-fcdd0ca14891.json",
+      "sha256": "20bd5ec3c1648a9c0a76b96988a14e660287a842f2fc1594d929890622d27aaf",
+      "size_bytes": 73236
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27547655741/diagnostics/evidence-slices/prior_continuity-31ad26cdc281.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27547655741/diagnostics/evidence-slices/prior_continuity-31ad26cdc281.json",
+      "sha256": "69a21ade46d7dd2f0fc545380219b323c9c9465237ff92bb0c6e680543c27290",
+      "size_bytes": 1909
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27547655741/diagnostics/evidence-slices/trending_repos-3455553debdf.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27547655741/diagnostics/evidence-slices/trending_repos-3455553debdf.json",
+      "sha256": "f7093a58aa3c3ac07d379a0cae077495fd8607f0cb0caff35c9096768e505eba",
+      "size_bytes": 141273
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27547655741/diagnostics/gate-copilot-cli-attempt-1.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27547655741/diagnostics/gate-copilot-cli-attempt-1.json",
+      "sha256": "bacaada0d14c025954324ca5e233975344a5f51b7e0b88b66ac3a1d11fa90532",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27547655741/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27547655741/publish-manifest.json",
+      "sha256": "cdf1749b1d7232fbc078f5d4d1c799f243e9e31059e5c1440f627ab25c3e9472",
+      "size_bytes": 33760
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27608724098/2026-W25-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27608724098/2026-W25-content.md",
+      "sha256": "df1c05a2a0e5971a46db94397330540e7995562c38b6d300c0a5eec4024b7026",
+      "size_bytes": 17785
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27608724098/2026-W25-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27608724098/2026-W25-summary.md",
+      "sha256": "358313cf0cd6810daa5bcbdf7e4e161d868c053e27a8016e3e758c70830e5c47",
+      "size_bytes": 18313
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27608724098/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27608724098/analysis-gate-report.json",
+      "sha256": "722e4d3a11b5d7d47b34fa3ed4c7887d7a55ab588fc42acbcbac2c31d2701092",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27608724098/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27608724098/diagnostics/analysis-input-manifest.json",
+      "sha256": "bb8607ffb9b7f7a2b6ce28ac4c9401f59daa8fda21fb8c9f8c197d9af5ed625c",
+      "size_bytes": 960040
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27608724098/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27608724098/diagnostics/analysis-preflight.json",
+      "sha256": "bb8607ffb9b7f7a2b6ce28ac4c9401f59daa8fda21fb8c9f8c197d9af5ed625c",
+      "size_bytes": 960040
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27608724098/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27608724098/diagnostics/analysis-preflight.md",
+      "sha256": "7bd2424e2f8b0c57d0ef1a58bce011c0af64602052a4c27626887eeb49f76260",
+      "size_bytes": 3363
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27608724098/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27608724098/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "358313cf0cd6810daa5bcbdf7e4e161d868c053e27a8016e3e758c70830e5c47",
+      "size_bytes": 18313
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27608724098/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27608724098/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "32c986acb86a097759aca7861e06502e0411827f9ab344b37e3f5866c161ff4f",
+      "size_bytes": 115
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27608724098/diagnostics/evidence-slices/new_repos-30360c0dd375.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27608724098/diagnostics/evidence-slices/new_repos-30360c0dd375.json",
+      "sha256": "2a32e046caf70cc5ee0aaeb4b72f73b952f317f4afe6a3b7633e6a46cbce06ad",
+      "size_bytes": 100393
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27608724098/diagnostics/evidence-slices/press_correlations-9d15953b186b.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27608724098/diagnostics/evidence-slices/press_correlations-9d15953b186b.json",
+      "sha256": "a17e064fcadbf2d9ee4d816a2df3686b5b3ad4ed0e82f0428f78921ac2564ad4",
+      "size_bytes": 77405
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27608724098/diagnostics/evidence-slices/prior_continuity-0533305d1195.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27608724098/diagnostics/evidence-slices/prior_continuity-0533305d1195.json",
+      "sha256": "4fc6f7446afe5bfec41ddf0eed73d895e1422f3bde45316ac0dab99820f1de63",
+      "size_bytes": 1909
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27608724098/diagnostics/evidence-slices/trending_repos-39ff02e3c0bd.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27608724098/diagnostics/evidence-slices/trending_repos-39ff02e3c0bd.json",
+      "sha256": "e387d2b546701f7775be4f44761e79542ec9e8c7c8e7fa647eaa5fdcb95ad74b",
+      "size_bytes": 141499
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27608724098/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27608724098/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "722e4d3a11b5d7d47b34fa3ed4c7887d7a55ab588fc42acbcbac2c31d2701092",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27608724098/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27608724098/publish-manifest.json",
+      "sha256": "0e67d5cff2197ed09b5fb911982854015ae4a097923616d29cb2ae86a4db562d",
+      "size_bytes": 31087
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/2026-W25-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/2026-W25-content.md",
+      "sha256": "4e2ed42f7da77230752b02896c8ed4b747da6adbb8ea65db78dbd4560ae825ee",
+      "size_bytes": 15198
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/2026-W25-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/2026-W25-summary.md",
+      "sha256": "ee8848597242a13e49c398ed7c9825d59a5e1d0ee28add4bd6ead9315af32326",
+      "size_bytes": 15780
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/analysis-gate-report.json",
+      "sha256": "64d58ee239304eed972ad188dd01ffcf47fa1d7fe5aae750ba66015ff00d9a61",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/diagnostics/analysis-input-manifest.json",
+      "sha256": "2bf5934c1fc286bcd4fefd9ec17832381f8bb61ead2509cd0529c9c831c3e1fa",
+      "size_bytes": 959539
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/diagnostics/analysis-preflight.json",
+      "sha256": "2bf5934c1fc286bcd4fefd9ec17832381f8bb61ead2509cd0529c9c831c3e1fa",
+      "size_bytes": 959539
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/diagnostics/analysis-preflight.md",
+      "sha256": "23742260975062be42f8708a41e3b1d05d48f8e243bedf7df2423b3af4f6255c",
+      "size_bytes": 3306
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "ae40b0b2c949b37e06fa359aa825ca03b958cf3d2aced7490466eda4de30226f",
+      "size_bytes": 17954
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/diagnostics/candidate-copilot-cli-attempt-1.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/diagnostics/candidate-copilot-cli-attempt-1.md",
+      "sha256": "ee8848597242a13e49c398ed7c9825d59a5e1d0ee28add4bd6ead9315af32326",
+      "size_bytes": 15780
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "8ce23df7532a219455555cf0a764ada301711ad7cd6749bdc3817432091db937",
+      "size_bytes": 125
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/diagnostics/copilot-cli-attempt-1.log",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/diagnostics/copilot-cli-attempt-1.log",
+      "sha256": "992da3a65bd1d3dde04ebfe83950f28006b8298f52dcfeb9980c7b6e763aa694",
+      "size_bytes": 354
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/diagnostics/evidence-slices/new_repos-d4ecd1b96830.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/diagnostics/evidence-slices/new_repos-d4ecd1b96830.json",
+      "sha256": "86e79612e151bf3773e72dd5f3f6ee165feea4030806d96a374329dbfd87d33a",
+      "size_bytes": 100393
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/diagnostics/evidence-slices/press_correlations-57d7d830611d.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/diagnostics/evidence-slices/press_correlations-57d7d830611d.json",
+      "sha256": "fe5bdce0e100460d03806af386e6d46fdf43a8b837d552eba5e4bb79f700d934",
+      "size_bytes": 77203
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/diagnostics/evidence-slices/prior_continuity-393aa51c4f27.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/diagnostics/evidence-slices/prior_continuity-393aa51c4f27.json",
+      "sha256": "ae4df24d6bb04213657b2a9ffbab2ebc30763479cc76a10a933395ddfd3a9f32",
+      "size_bytes": 1909
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/diagnostics/evidence-slices/trending_repos-91eadfc89aad.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/diagnostics/evidence-slices/trending_repos-91eadfc89aad.json",
+      "sha256": "7242d9df14797362ddc6550fd5ec7eab0ce4f6d136849e6808568aa7c37134b1",
+      "size_bytes": 141499
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "228d12040f3d158dbc30bd282c93a14241c14f6cc9bf997635b15d064c23cfb4",
+      "size_bytes": 1125
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/diagnostics/gate-copilot-cli-attempt-1.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/diagnostics/gate-copilot-cli-attempt-1.json",
+      "sha256": "64d58ee239304eed972ad188dd01ffcf47fa1d7fe5aae750ba66015ff00d9a61",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/diagnostics/synthesis-narrative.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/diagnostics/synthesis-narrative.md",
+      "sha256": "62c57975c45ac6e0046da3427160264d618fb1f5754f9c047fda036767e21cf3",
+      "size_bytes": 6450
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27636959989/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27636959989/publish-manifest.json",
+      "sha256": "57e292575cd01d86e479db0c4cb8105bc6e31e99dce086c467607ef1134edf0a",
+      "size_bytes": 33746
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27637885716/2026-W25-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27637885716/2026-W25-content.md",
+      "sha256": "3888b939e2eb64260ca3cc3ff7ed436f7a6738c58651399bbdf6d283edba19f0",
+      "size_bytes": 12220
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27637885716/2026-W25-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27637885716/2026-W25-summary.md",
+      "sha256": "0f993b1b0782edb2f994d003d43753af55d19f9a768be58d7710174488748661",
+      "size_bytes": 12787
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27637885716/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27637885716/analysis-gate-report.json",
+      "sha256": "fb6a9bd11f8e834eb1327f3495a82922cd6da9461739e46c1d92ab31efadf8cb",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27637885716/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27637885716/diagnostics/analysis-input-manifest.json",
+      "sha256": "13d8ccb97baee9c2fdcc731348d9dbb79e18b95b0ed38be6c1b526da71ed3f46",
+      "size_bytes": 959967
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27637885716/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27637885716/diagnostics/analysis-preflight.json",
+      "sha256": "13d8ccb97baee9c2fdcc731348d9dbb79e18b95b0ed38be6c1b526da71ed3f46",
+      "size_bytes": 959967
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27637885716/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27637885716/diagnostics/analysis-preflight.md",
+      "sha256": "6b5478a67918abc0b2221e603d20b11b74bb1c901621133c5c4be597e382978b",
+      "size_bytes": 3290
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27637885716/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27637885716/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "0f993b1b0782edb2f994d003d43753af55d19f9a768be58d7710174488748661",
+      "size_bytes": 12787
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27637885716/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27637885716/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "24998ca508898406b1779745fe4da4da5f99a2a1b6f7269f9936eea6133ae2d4",
+      "size_bytes": 7
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27637885716/diagnostics/evidence-slices/new_repos-5201f5b7e2bd.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27637885716/diagnostics/evidence-slices/new_repos-5201f5b7e2bd.json",
+      "sha256": "d599fd0b69d5f2543c37853eb523045e777eeff8b37c87165bd56d27ee817fe6",
+      "size_bytes": 100393
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27637885716/diagnostics/evidence-slices/press_correlations-f8b00146c260.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27637885716/diagnostics/evidence-slices/press_correlations-f8b00146c260.json",
+      "sha256": "236a8356bdc05dc09fddb0320cd0ca378cd85aa2f3ffafd6d7dab49cc214e0be",
+      "size_bytes": 77405
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27637885716/diagnostics/evidence-slices/prior_continuity-f823ec6cdd52.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27637885716/diagnostics/evidence-slices/prior_continuity-f823ec6cdd52.json",
+      "sha256": "7919e0d9864eb76200dfeb6f6086e18e1091bae9cb6f315a1feea6ddcb3a32a9",
+      "size_bytes": 1909
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27637885716/diagnostics/evidence-slices/trending_repos-e63991fa75d0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27637885716/diagnostics/evidence-slices/trending_repos-e63991fa75d0.json",
+      "sha256": "984d49fc9ac24b7e09a3035045b25210ac6702a2d9e6a0809950b52197530e5e",
+      "size_bytes": 141499
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27637885716/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27637885716/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "fb6a9bd11f8e834eb1327f3495a82922cd6da9461739e46c1d92ab31efadf8cb",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27637885716/diagnostics/synthesis-prompt.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27637885716/diagnostics/synthesis-prompt.md",
+      "sha256": "a4806ace546145598a7c2bcb9dd665fc592ebb5b7aead1f5f3cdc40cc66afd1b",
+      "size_bytes": 42224
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27637885716/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27637885716/publish-manifest.json",
+      "sha256": "416093d999c954333200a949b8dd4e63b1f72576988177233e52bb1c3305ee40",
+      "size_bytes": 33744
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27650616699/2026-W25-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27650616699/2026-W25-content.md",
+      "sha256": "2247ec629b12ed0aff56f8f0cd9d1c0b7cf9f9ed0dedcc09bc217e0813765776",
+      "size_bytes": 11944
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27650616699/2026-W25-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27650616699/2026-W25-summary.md",
+      "sha256": "701e49c0c973a0bdd07dc25f5fc050e1e071dd7db8de8a8cb2dd654b9cfd9881",
+      "size_bytes": 12480
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27650616699/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27650616699/analysis-gate-report.json",
+      "sha256": "3999b7e793b30b78731f8824c2f9d3a895ec9327b24c915bcbedd73fd4f9ffc0",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27650616699/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27650616699/diagnostics/analysis-input-manifest.json",
+      "sha256": "c0516dc3c325f7cbded748234f91a8440db11bb3b08df4c049a23081f5172da6",
+      "size_bytes": 959967
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27650616699/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27650616699/diagnostics/analysis-preflight.json",
+      "sha256": "c0516dc3c325f7cbded748234f91a8440db11bb3b08df4c049a23081f5172da6",
+      "size_bytes": 959967
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27650616699/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27650616699/diagnostics/analysis-preflight.md",
+      "sha256": "a333bbcff86166cf9d4d6e5716929a104b69d8a654d3e77cfcfab53729067224",
+      "size_bytes": 3290
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27650616699/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27650616699/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "701e49c0c973a0bdd07dc25f5fc050e1e071dd7db8de8a8cb2dd654b9cfd9881",
+      "size_bytes": 12480
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27650616699/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27650616699/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "24998ca508898406b1779745fe4da4da5f99a2a1b6f7269f9936eea6133ae2d4",
+      "size_bytes": 7
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27650616699/diagnostics/evidence-slices/new_repos-c80df2bf265c.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27650616699/diagnostics/evidence-slices/new_repos-c80df2bf265c.json",
+      "sha256": "c53970a2b6fe81bec2a4849b8de33f0b2b54769225f331e4e42de42d36014ce0",
+      "size_bytes": 100393
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27650616699/diagnostics/evidence-slices/press_correlations-e8dbfd8d5b72.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27650616699/diagnostics/evidence-slices/press_correlations-e8dbfd8d5b72.json",
+      "sha256": "4d0eb1d0563ef2f531010c9c95e3d007c5016670b87a153ccab9c4c51f29be98",
+      "size_bytes": 77405
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27650616699/diagnostics/evidence-slices/prior_continuity-f05fba8d9524.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27650616699/diagnostics/evidence-slices/prior_continuity-f05fba8d9524.json",
+      "sha256": "4926219133fe284370cdd6292418d3045187ed11dce3f335d86f689017709b6c",
+      "size_bytes": 1909
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27650616699/diagnostics/evidence-slices/trending_repos-874ef3088e04.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27650616699/diagnostics/evidence-slices/trending_repos-874ef3088e04.json",
+      "sha256": "972360481f11dc9953b457701550a02734b18565a7938024466d28f1689c0212",
+      "size_bytes": 141499
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27650616699/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27650616699/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "3999b7e793b30b78731f8824c2f9d3a895ec9327b24c915bcbedd73fd4f9ffc0",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27650616699/diagnostics/synthesis-prompt.md",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27650616699/diagnostics/synthesis-prompt.md",
+      "sha256": "6d2de529564eff0acfa5fc6f4468966590a3e4028a8e211d34c2eb2a2bd00299",
+      "size_bytes": 42393
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W25/27650616699/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W25/27650616699/publish-manifest.json",
+      "sha256": "9e544f3d16663f05a0d1b4a9ca151ae544e7f56a0bb692f0e8bfbfcbd7714377",
+      "size_bytes": 33723
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27932065456/2026-W26-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27932065456/2026-W26-content.md",
+      "sha256": "65f1ce4f1ad86ca223c5e9ca4c9fafdf26ac78e24a3f50b6da4f6c272587d38a",
+      "size_bytes": 11126
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27932065456/2026-W26-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27932065456/2026-W26-summary.md",
+      "sha256": "dac2361f0bf16b602e05e412bd0ef359dbc5aa8ac3e1da3741ea31bae519c3e5",
+      "size_bytes": 11642
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27932065456/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27932065456/analysis-gate-report.json",
+      "sha256": "caa860a29a9f95c3d97498ec2eaad51773360743bc32ca8553948d4f0d32fc93",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27932065456/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27932065456/diagnostics/analysis-input-manifest.json",
+      "sha256": "9b64550e652666887e01730ab24c4b35b498f2a12135d4d9e0325cdff73c8536",
+      "size_bytes": 512164
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27932065456/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27932065456/diagnostics/analysis-preflight.json",
+      "sha256": "9b64550e652666887e01730ab24c4b35b498f2a12135d4d9e0325cdff73c8536",
+      "size_bytes": 512164
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27932065456/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27932065456/diagnostics/analysis-preflight.md",
+      "sha256": "85cae52b6fb54ab66218b2aeb49586b761542fb61ee51b5be36e6dc82c11dbad",
+      "size_bytes": 3475
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27932065456/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27932065456/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "dac2361f0bf16b602e05e412bd0ef359dbc5aa8ac3e1da3741ea31bae519c3e5",
+      "size_bytes": 11642
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27932065456/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27932065456/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "399db61c913991ec83e07bbd5b8097255063cafd7781c8a45b446be70e9b848d",
+      "size_bytes": 69
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27932065456/diagnostics/evidence-slices/new_repos-3bf0e1e86253.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27932065456/diagnostics/evidence-slices/new_repos-3bf0e1e86253.json",
+      "sha256": "aa3669bbb300e26d25934a7be6b8bc87fa4ea6275d0c4285733fa9afb5e284e3",
+      "size_bytes": 16153
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27932065456/diagnostics/evidence-slices/press_correlations-627beecc7c75.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27932065456/diagnostics/evidence-slices/press_correlations-627beecc7c75.json",
+      "sha256": "eebea5f3950bf8b8b9f3e1ddb385da3b94750ea2386defddbc315e06ade7c152",
+      "size_bytes": 62917
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27932065456/diagnostics/evidence-slices/prior_continuity-f14ad0b9df47.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27932065456/diagnostics/evidence-slices/prior_continuity-f14ad0b9df47.json",
+      "sha256": "2df98b4616ef2f3adf2fcce796207802a74e0f3dd562f739b7c6cc283f5f3b5d",
+      "size_bytes": 1907
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27932065456/diagnostics/evidence-slices/trending_repos-c98e6e25b7d7.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27932065456/diagnostics/evidence-slices/trending_repos-c98e6e25b7d7.json",
+      "sha256": "b8fa76e19fe9aa2e559a8cf4cd09c7f794bad97facf3f34c5e69cd4d2445c37d",
+      "size_bytes": 16132
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27932065456/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27932065456/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "caa860a29a9f95c3d97498ec2eaad51773360743bc32ca8553948d4f0d32fc93",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27932065456/diagnostics/synthesis-prompt.md",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27932065456/diagnostics/synthesis-prompt.md",
+      "sha256": "c6d5986496dc4ec104b49c2c404aef5a5b7abaebde038574e157a1c6a99e6f57",
+      "size_bytes": 41756
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27932065456/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27932065456/publish-manifest.json",
+      "sha256": "c0e2fe95201eae23788e975949493051262d161307084de18bc5943b91e922d4",
+      "size_bytes": 31015
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27937940184/2026-W26-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27937940184/2026-W26-content.md",
+      "sha256": "c69d17fa1f9817e95a4775ea9de913f6f3bca6afb1dcac4ca8a84ca68981274f",
+      "size_bytes": 10949
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27937940184/2026-W26-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27937940184/2026-W26-summary.md",
+      "sha256": "05f6add57643bec330865675629b716feaeade07c74438ee107e4ce2ce1e4dd5",
+      "size_bytes": 11462
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27937940184/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27937940184/analysis-gate-report.json",
+      "sha256": "aa5e1c7341bebb4ba9ea4e56e15edf2881ae63c911379caf7a2eadc12d4651f0",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27937940184/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27937940184/diagnostics/analysis-input-manifest.json",
+      "sha256": "e70f73d0934a875cee7fb7c1213b5c1d5ef571a7dc485e6ac44afe176ad981b6",
+      "size_bytes": 512164
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27937940184/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27937940184/diagnostics/analysis-preflight.json",
+      "sha256": "e70f73d0934a875cee7fb7c1213b5c1d5ef571a7dc485e6ac44afe176ad981b6",
+      "size_bytes": 512164
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27937940184/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27937940184/diagnostics/analysis-preflight.md",
+      "sha256": "aa3755afe7e3d23ffedd952360a5dd279bcb61867544ce8d1fab92771f41e448",
+      "size_bytes": 3475
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27937940184/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27937940184/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "05f6add57643bec330865675629b716feaeade07c74438ee107e4ce2ce1e4dd5",
+      "size_bytes": 11462
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27937940184/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27937940184/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "a5c9614e589a37390b92e427489d3b66715cad1d30a1fe7073374f3e0cab0dba",
+      "size_bytes": 11
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27937940184/diagnostics/evidence-slices/new_repos-6ab3d57aa0de.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27937940184/diagnostics/evidence-slices/new_repos-6ab3d57aa0de.json",
+      "sha256": "366d9e25fa64bce79d1fca7eaeaf8a2467c0757f6b3c93a987b4901b57950feb",
+      "size_bytes": 16153
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27937940184/diagnostics/evidence-slices/press_correlations-08472d4b923a.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27937940184/diagnostics/evidence-slices/press_correlations-08472d4b923a.json",
+      "sha256": "10d731f1b96fcd56b4e6480bfb90bf23be11daaf537f722477f4486f5e660110",
+      "size_bytes": 62917
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27937940184/diagnostics/evidence-slices/prior_continuity-9d0d98f36f61.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27937940184/diagnostics/evidence-slices/prior_continuity-9d0d98f36f61.json",
+      "sha256": "60cff42e1c3ac5caa7f623d81bbaa8dfaecdea53a431a070fd0327de961bbf12",
+      "size_bytes": 1907
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27937940184/diagnostics/evidence-slices/trending_repos-f3427f981831.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27937940184/diagnostics/evidence-slices/trending_repos-f3427f981831.json",
+      "sha256": "02c3b68173b453ff8a5c7c5a68e23cf8384a5842bb5d3fa3366fa0312c00d0c5",
+      "size_bytes": 16132
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27937940184/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27937940184/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "aa5e1c7341bebb4ba9ea4e56e15edf2881ae63c911379caf7a2eadc12d4651f0",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27937940184/diagnostics/synthesis-prompt.md",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27937940184/diagnostics/synthesis-prompt.md",
+      "sha256": "2bc00dbf5e987e2e07b8566744c8d1ac4f69defaeeefc9965e3dab7688355451",
+      "size_bytes": 41756
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W26/27937940184/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W26/27937940184/publish-manifest.json",
+      "sha256": "efb31e4c21f4d3272dde62930fff6d2264437b712769e506fa68a3093c757ca1",
+      "size_bytes": 33810
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W27/28349393843/2026-W27-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W27/28349393843/2026-W27-content.md",
+      "sha256": "14db6eb3d6a255c7117a30eb130c854a6e897223b27fe8d71069aa49ae770ff6",
+      "size_bytes": 10354
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W27/28349393843/2026-W27-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W27/28349393843/2026-W27-summary.md",
+      "sha256": "2104cde8f416e47855f6b68fb902febd01d1403a069c51d550cad4e546e2431b",
+      "size_bytes": 10828
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W27/28349393843/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W27/28349393843/analysis-gate-report.json",
+      "sha256": "02e59dbae88e75a238649e15846d980b54c5f50032d7507d19747b86fded36b5",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W27/28349393843/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W27/28349393843/diagnostics/analysis-input-manifest.json",
+      "sha256": "203bfe49822fc3465dc592c111a32dbf0d331ffa776fb8b3b0fc89b2ba61989e",
+      "size_bytes": 483555
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W27/28349393843/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W27/28349393843/diagnostics/analysis-preflight.json",
+      "sha256": "203bfe49822fc3465dc592c111a32dbf0d331ffa776fb8b3b0fc89b2ba61989e",
+      "size_bytes": 483555
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W27/28349393843/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W27/28349393843/diagnostics/analysis-preflight.md",
+      "sha256": "782222c3e4a9cf5afd6dafac128cb2b4e757e0a0de2d2f0e40265a278939d6a9",
+      "size_bytes": 3475
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W27/28349393843/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W27/28349393843/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "2104cde8f416e47855f6b68fb902febd01d1403a069c51d550cad4e546e2431b",
+      "size_bytes": 10828
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W27/28349393843/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W27/28349393843/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "24998ca508898406b1779745fe4da4da5f99a2a1b6f7269f9936eea6133ae2d4",
+      "size_bytes": 7
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W27/28349393843/diagnostics/evidence-slices/new_repos-7e9852793ab0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W27/28349393843/diagnostics/evidence-slices/new_repos-7e9852793ab0.json",
+      "sha256": "8114719c1c5076d11b576ae937da822f9a8693caa7e54a38f576c102988c722c",
+      "size_bytes": 13607
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W27/28349393843/diagnostics/evidence-slices/press_correlations-f15f382bef16.json",
+      "existed": true,
+      "path": "data/candidates/2026-W27/28349393843/diagnostics/evidence-slices/press_correlations-f15f382bef16.json",
+      "sha256": "2c7f3538a48c7b5b56f344911332abcc601900ff9ccbeefcb852629f9690a943",
+      "size_bytes": 63322
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W27/28349393843/diagnostics/evidence-slices/prior_continuity-2d43fc46afaa.json",
+      "existed": true,
+      "path": "data/candidates/2026-W27/28349393843/diagnostics/evidence-slices/prior_continuity-2d43fc46afaa.json",
+      "sha256": "62d717c812fe053cc8d790873395df8d1918f6534fbd1cfed895698f3e78a076",
+      "size_bytes": 1916
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W27/28349393843/diagnostics/evidence-slices/trending_repos-b1fe862de5d3.json",
+      "existed": true,
+      "path": "data/candidates/2026-W27/28349393843/diagnostics/evidence-slices/trending_repos-b1fe862de5d3.json",
+      "sha256": "3d7fbcc95cf46fe13bc8b4a36ed8c54f413168a38bd93bf6a307408aefa9d7ec",
+      "size_bytes": 15544
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W27/28349393843/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W27/28349393843/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "02e59dbae88e75a238649e15846d980b54c5f50032d7507d19747b86fded36b5",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W27/28349393843/diagnostics/synthesis-prompt.md",
+      "existed": true,
+      "path": "data/candidates/2026-W27/28349393843/diagnostics/synthesis-prompt.md",
+      "sha256": "0788aff2d1d2d86ce3d4652937d6a48cd2f65a146df957acaeb1b92438be85c5",
+      "size_bytes": 42088
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W27/28349393843/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W27/28349393843/publish-manifest.json",
+      "sha256": "31140afafd8a3d823eed79a2775b66c2bace6cae6269d2d3148fea1fa9505394",
+      "size_bytes": 31019
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W28/28767491281/2026-W28-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W28/28767491281/2026-W28-content.md",
+      "sha256": "ab5ba1bf3084fe87504bb093766dfad5f9e167eb59d22a0598c1fb7e9d80a073",
+      "size_bytes": 11525
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W28/28767491281/2026-W28-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W28/28767491281/2026-W28-summary.md",
+      "sha256": "6518c830c646ebc5d382c657658d12b9fa2dff772a96c9fcc0c8de59040bb4c7",
+      "size_bytes": 12033
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W28/28767491281/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W28/28767491281/analysis-gate-report.json",
+      "sha256": "174a64050179b78cc6e846e28855aa09d6b754d64e33ba06e3a363dfa8f7612e",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W28/28767491281/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W28/28767491281/diagnostics/analysis-input-manifest.json",
+      "sha256": "743aa3e484ef7783e69e5c6c217dcf9ee6c5cead2cd0ad26bbc6c9d2031639f7",
+      "size_bytes": 856634
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W28/28767491281/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W28/28767491281/diagnostics/analysis-preflight.json",
+      "sha256": "743aa3e484ef7783e69e5c6c217dcf9ee6c5cead2cd0ad26bbc6c9d2031639f7",
+      "size_bytes": 856634
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W28/28767491281/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W28/28767491281/diagnostics/analysis-preflight.md",
+      "sha256": "80d48d1a29cf73fe0b87eb9db2d5ae9247c9a5a13c4c8624bdd422538c06be57",
+      "size_bytes": 3289
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W28/28767491281/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W28/28767491281/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "6518c830c646ebc5d382c657658d12b9fa2dff772a96c9fcc0c8de59040bb4c7",
+      "size_bytes": 12033
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W28/28767491281/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W28/28767491281/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W28/28767491281/diagnostics/evidence-slices/new_repos-9ce57f3964fd.json",
+      "existed": true,
+      "path": "data/candidates/2026-W28/28767491281/diagnostics/evidence-slices/new_repos-9ce57f3964fd.json",
+      "sha256": "2c51515a126d0338aa82dabafcfe410a46ce4bfa082118fd1be6af0f233efedb",
+      "size_bytes": 74451
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W28/28767491281/diagnostics/evidence-slices/press_correlations-1123a2e3bd57.json",
+      "existed": true,
+      "path": "data/candidates/2026-W28/28767491281/diagnostics/evidence-slices/press_correlations-1123a2e3bd57.json",
+      "sha256": "d70862c09c998e17783697c326af0ce46749bd8edb2bb684010047a2771eca2a",
+      "size_bytes": 58206
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W28/28767491281/diagnostics/evidence-slices/prior_continuity-e9ae2a76f032.json",
+      "existed": true,
+      "path": "data/candidates/2026-W28/28767491281/diagnostics/evidence-slices/prior_continuity-e9ae2a76f032.json",
+      "sha256": "d86272554710438c3b8a811a18ef9a6efded5c800e8a5e62d3418d15d2cdc5d4",
+      "size_bytes": 1917
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W28/28767491281/diagnostics/evidence-slices/trending_repos-65ed390506cb.json",
+      "existed": true,
+      "path": "data/candidates/2026-W28/28767491281/diagnostics/evidence-slices/trending_repos-65ed390506cb.json",
+      "sha256": "fb57a4f06aa430d4d5a315876b101e5177016bd167383ffc5bdabb7a6685b411",
+      "size_bytes": 143352
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W28/28767491281/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W28/28767491281/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "174a64050179b78cc6e846e28855aa09d6b754d64e33ba06e3a363dfa8f7612e",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W28/28767491281/diagnostics/synthesis-prompt.md",
+      "existed": true,
+      "path": "data/candidates/2026-W28/28767491281/diagnostics/synthesis-prompt.md",
+      "sha256": "fac889787ead07da9197def644085615b8bbde1b35ecaa4f0348e3e8a47a347a",
+      "size_bytes": 42392
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W28/28767491281/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W28/28767491281/publish-manifest.json",
+      "sha256": "95462922417bf7d3bf5fc49fca2d27a28e102e89c2417e56b04157b60f9a5106",
+      "size_bytes": 30947
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29222289174/2026-W29-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29222289174/2026-W29-content.md",
+      "sha256": "8cc03e77298c000b3bdae8806685781dd68d87715655a7f62bc5110be57b827c",
+      "size_bytes": 12217
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29222289174/2026-W29-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29222289174/2026-W29-summary.md",
+      "sha256": "b926e8c11c1b53838da7da2726707ba13e6df4f081189abab15cac981254c176",
+      "size_bytes": 12727
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29222289174/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29222289174/analysis-gate-report.json",
+      "sha256": "b7ee873717b00595ec49394fc346e4ae7ca201c1ee056ec49b28f0b5b5e2162d",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29222289174/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29222289174/diagnostics/analysis-input-manifest.json",
+      "sha256": "12329fa1c4e6877dd8942fe53abde9f199cd7bf4d9e12309a4f550bf1e27ec76",
+      "size_bytes": 899603
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29222289174/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29222289174/diagnostics/analysis-preflight.json",
+      "sha256": "12329fa1c4e6877dd8942fe53abde9f199cd7bf4d9e12309a4f550bf1e27ec76",
+      "size_bytes": 899603
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29222289174/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29222289174/diagnostics/analysis-preflight.md",
+      "sha256": "8b511033b23d3e3ecad62911e7e8c844909e58e0ecf9edbf9de81337be45655c",
+      "size_bytes": 3289
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29222289174/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29222289174/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "b926e8c11c1b53838da7da2726707ba13e6df4f081189abab15cac981254c176",
+      "size_bytes": 12727
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29222289174/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29222289174/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "24998ca508898406b1779745fe4da4da5f99a2a1b6f7269f9936eea6133ae2d4",
+      "size_bytes": 7
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29222289174/diagnostics/evidence-slices/new_repos-fb9f564be111.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29222289174/diagnostics/evidence-slices/new_repos-fb9f564be111.json",
+      "sha256": "df6314a67b1cd986ea38c1e4f929fcffacd3caa6ed9b3064b2b489369eaf96f7",
+      "size_bytes": 80246
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29222289174/diagnostics/evidence-slices/press_correlations-c9fefe3a8cd6.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29222289174/diagnostics/evidence-slices/press_correlations-c9fefe3a8cd6.json",
+      "sha256": "479b3c5e669e228a6ac39b43befc3bc50cb47c7befd3a30e7d4091ee54cea4ea",
+      "size_bytes": 77641
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29222289174/diagnostics/evidence-slices/prior_continuity-94e527eb7100.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29222289174/diagnostics/evidence-slices/prior_continuity-94e527eb7100.json",
+      "sha256": "812cd2e242297355ed59bfef01535cf1adce4c07c6bd850b806ab20e94f33fc5",
+      "size_bytes": 1917
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29222289174/diagnostics/evidence-slices/trending_repos-7b89051b0f92.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29222289174/diagnostics/evidence-slices/trending_repos-7b89051b0f92.json",
+      "sha256": "88bca0ede62fa0414a5a2b570e9fe2528a6b47ddff25c562cdc48a1084fb3400",
+      "size_bytes": 143625
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29222289174/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29222289174/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "b7ee873717b00595ec49394fc346e4ae7ca201c1ee056ec49b28f0b5b5e2162d",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29222289174/diagnostics/synthesis-prompt.md",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29222289174/diagnostics/synthesis-prompt.md",
+      "sha256": "717945f5374baf9f4a5a834b37a3b95af0ac8040067a5176b67e485168cf4743",
+      "size_bytes": 44074
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29222289174/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29222289174/publish-manifest.json",
+      "sha256": "ffae555ad7be2661f1893b2f5041cc4f1874bcff86ebe4a83c4fe9ccac5abc64",
+      "size_bytes": 30943
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/2026-W29-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/2026-W29-content.md",
+      "sha256": "321881999b8cc17176b871992f7911dd1a24673290623917c9b979db2d40d4f7",
+      "size_bytes": 12184
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/2026-W29-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/2026-W29-summary.md",
+      "sha256": "dcac7a09d4a96a32ca7cd63f1fa60f66f7db26496dc2b427ac75bf8d29232025",
+      "size_bytes": 12669
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/analysis-gate-report.json",
+      "sha256": "3124adbbe405424048b77c0cd9c21b22d49736b6ce25b33542f0c39a4ee76922",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/diagnostics/analysis-input-manifest.json",
+      "sha256": "13561fd96ceb8e808cd3a99265a95de1b0a5e0c09c5d533fe84d46c9d34d6456",
+      "size_bytes": 982483
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/diagnostics/analysis-preflight.json",
+      "sha256": "13561fd96ceb8e808cd3a99265a95de1b0a5e0c09c5d533fe84d46c9d34d6456",
+      "size_bytes": 982483
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/diagnostics/analysis-preflight.md",
+      "sha256": "ec71ca99a5a31bb2da72c0a9c69f2ff69d1fb2f8d39b4a3627ef9227ed680582",
+      "size_bytes": 3306
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "dcac7a09d4a96a32ca7cd63f1fa60f66f7db26496dc2b427ac75bf8d29232025",
+      "size_bytes": 12669
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "24998ca508898406b1779745fe4da4da5f99a2a1b6f7269f9936eea6133ae2d4",
+      "size_bytes": 7
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/diagnostics/evidence-slices/new_repos-a0ff20a5ebf1.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/diagnostics/evidence-slices/new_repos-a0ff20a5ebf1.json",
+      "sha256": "1c24310792c4429d027c0cba49c0322f45d6ad6c903964ca9d9822488a7e38e3",
+      "size_bytes": 116448
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/diagnostics/evidence-slices/press_correlations-151c2b39d9ae.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/diagnostics/evidence-slices/press_correlations-151c2b39d9ae.json",
+      "sha256": "af1f4e19a454a9be0283a8d202659ea65248fe7a7e728e460f5f539afce20f2d",
+      "size_bytes": 59196
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/diagnostics/evidence-slices/prior_continuity-6e93012379fa.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/diagnostics/evidence-slices/prior_continuity-6e93012379fa.json",
+      "sha256": "2b6218aff5a2a0f94282b9e816df77d4368181402d777e7636c66a970303001b",
+      "size_bytes": 1917
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/diagnostics/evidence-slices/trending_repos-97977d8580d4.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/diagnostics/evidence-slices/trending_repos-97977d8580d4.json",
+      "sha256": "07f9a71aa2cc2ca1a143e6443d8eb7a2f9b5767ec5209cf6edc076e60ce3be94",
+      "size_bytes": 143504
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "3124adbbe405424048b77c0cd9c21b22d49736b6ce25b33542f0c39a4ee76922",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/diagnostics/synthesis-copilot.log",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/diagnostics/synthesis-copilot.log",
+      "sha256": "24998ca508898406b1779745fe4da4da5f99a2a1b6f7269f9936eea6133ae2d4",
+      "size_bytes": 7
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/diagnostics/synthesis-narrative.md",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/diagnostics/synthesis-narrative.md",
+      "sha256": "807f3ad9bbc27edcd8fc3b8fc2f1f06396609318bc73e73e679a240a2c96f2ff",
+      "size_bytes": 5573
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/diagnostics/synthesis-prompt.md",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/diagnostics/synthesis-prompt.md",
+      "sha256": "b488c4922ae181d0b2ce1070f6358a359570ed50631ed14075ab9e4bccd35f75",
+      "size_bytes": 44333
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W29/29617480422/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W29/29617480422/publish-manifest.json",
+      "sha256": "13386d75c036991f7b3654aac5611d62d681029e76cb51263b87510581e6d3fb",
+      "size_bytes": 31529
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/2026-W30-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/2026-W30-content.md",
+      "sha256": "bb9703430bad477cab479d14cac59d7902bfc70698417467b09a6fbd0dc1e3b0",
+      "size_bytes": 11941
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/2026-W30-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/2026-W30-summary.md",
+      "sha256": "f7c76bf5e9cb3be1acdc8246aa56b0260ebdc1986c98eeae8d2ed9c4a6bb05b3",
+      "size_bytes": 12440
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/analysis-gate-report.json",
+      "sha256": "2d83d202aba974fad5789f68010f93bf9609edcc1e033117728a04fb90dd8841",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/diagnostics/analysis-input-manifest.json",
+      "sha256": "7774a35cfc3c8e599e6f3aca6c8370992e385fa00ce6cd317bcfd4e5ecb8c69d",
+      "size_bytes": 969332
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/diagnostics/analysis-preflight.json",
+      "sha256": "7774a35cfc3c8e599e6f3aca6c8370992e385fa00ce6cd317bcfd4e5ecb8c69d",
+      "size_bytes": 969332
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/diagnostics/analysis-preflight.md",
+      "sha256": "f4158ff3ae7fea5172e51b0e5e364a0f78ada994ce0343abb50b125487bff528",
+      "size_bytes": 3306
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "f7c76bf5e9cb3be1acdc8246aa56b0260ebdc1986c98eeae8d2ed9c4a6bb05b3",
+      "size_bytes": 12440
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "24998ca508898406b1779745fe4da4da5f99a2a1b6f7269f9936eea6133ae2d4",
+      "size_bytes": 7
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/diagnostics/evidence-slices/new_repos-09e7db0161a4.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/diagnostics/evidence-slices/new_repos-09e7db0161a4.json",
+      "sha256": "6af32ce0953ed35e4a7b0cb04192a467e2e53801ad5ecf120610e4faac88a0f1",
+      "size_bytes": 108230
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/diagnostics/evidence-slices/press_correlations-6d9f0d62a50b.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/diagnostics/evidence-slices/press_correlations-6d9f0d62a50b.json",
+      "sha256": "3140b4521b620ee1b2e9d5d44a7e5589526de8274e70d7928754acc6500dcefd",
+      "size_bytes": 54406
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/diagnostics/evidence-slices/prior_continuity-694e021d0d31.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/diagnostics/evidence-slices/prior_continuity-694e021d0d31.json",
+      "sha256": "fef051477441d577610171b5b5b4719d74c83e9ee6383adb9bb998d7684de4bb",
+      "size_bytes": 1915
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/diagnostics/evidence-slices/trending_repos-a12df30dcf27.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/diagnostics/evidence-slices/trending_repos-a12df30dcf27.json",
+      "sha256": "8f94d7eaf69ca97287dff5035a2e4a828a8f5597eb26657bb6bd6812c0f6752a",
+      "size_bytes": 144606
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "2d83d202aba974fad5789f68010f93bf9609edcc1e033117728a04fb90dd8841",
+      "size_bytes": 738
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/diagnostics/synthesis-copilot.log",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/diagnostics/synthesis-copilot.log",
+      "sha256": "81dbca7dd34e1864ab3bd6a00b2efeeb62e9739f3becdce5db05423ba893049e",
+      "size_bytes": 116
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/diagnostics/synthesis-narrative.md",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/diagnostics/synthesis-narrative.md",
+      "sha256": "bdc26af92b7be3c12ab3c2f468793163c747583ec384ac539daa0a15b5949d7b",
+      "size_bytes": 7231
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/diagnostics/synthesis-prompt.md",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/diagnostics/synthesis-prompt.md",
+      "sha256": "e4bbd42343014fc98bd692267712ab07afd2d384d2d2be42051d1342878f346e",
+      "size_bytes": 43865
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29715549553/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29715549553/publish-manifest.json",
+      "sha256": "6c34be6633a9d565bb27786f9e1bbdd1d8d354c1843a6e6a058aa9628c747ba1",
+      "size_bytes": 31422
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/2026-W30-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/2026-W30-content.md",
+      "sha256": "2f4bec757ee515a1eff5eae4822745c2fe16aab5f48e63efe763599d3bce9a40",
+      "size_bytes": 13264
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/2026-W30-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/2026-W30-summary.md",
+      "sha256": "4d2ee446b94233dd4aff32b0910e90696bf6be5ca910dcdbd6107b3adf26fce4",
+      "size_bytes": 13760
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/analysis-gate-report.json",
+      "sha256": "74852006ef52dc875734818c90f034f9e23ebf2eb33fd5df6abfc50c9ea279f0",
+      "size_bytes": 937
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/diagnostics/analysis-input-manifest.json",
+      "sha256": "197c61eb649b525a04ff8384306538a5075999f1cc5d7603cee68ac9addbef9c",
+      "size_bytes": 969801
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/diagnostics/analysis-preflight.json",
+      "sha256": "197c61eb649b525a04ff8384306538a5075999f1cc5d7603cee68ac9addbef9c",
+      "size_bytes": 969801
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/diagnostics/analysis-preflight.md",
+      "sha256": "fdccc1d7c2d1a7e8d688a0f98f359e4a863eac82520e1e9594a8d25970584804",
+      "size_bytes": 3331
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "4d2ee446b94233dd4aff32b0910e90696bf6be5ca910dcdbd6107b3adf26fce4",
+      "size_bytes": 13760
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/diagnostics/evidence-slices/new_repos-09e7db0161a4.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/diagnostics/evidence-slices/new_repos-09e7db0161a4.json",
+      "sha256": "6af32ce0953ed35e4a7b0cb04192a467e2e53801ad5ecf120610e4faac88a0f1",
+      "size_bytes": 108230
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/diagnostics/evidence-slices/press_correlations-50ed991a6e6f.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/diagnostics/evidence-slices/press_correlations-50ed991a6e6f.json",
+      "sha256": "8766f11b24d6ac489a1ac984e83d52de1fc4d08de03f25f6993131b0619a071c",
+      "size_bytes": 54608
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/diagnostics/evidence-slices/prior_continuity-694e021d0d31.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/diagnostics/evidence-slices/prior_continuity-694e021d0d31.json",
+      "sha256": "fef051477441d577610171b5b5b4719d74c83e9ee6383adb9bb998d7684de4bb",
+      "size_bytes": 1915
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/diagnostics/evidence-slices/trending_repos-a12df30dcf27.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/diagnostics/evidence-slices/trending_repos-a12df30dcf27.json",
+      "sha256": "8f94d7eaf69ca97287dff5035a2e4a828a8f5597eb26657bb6bd6812c0f6752a",
+      "size_bytes": 144606
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "74852006ef52dc875734818c90f034f9e23ebf2eb33fd5df6abfc50c9ea279f0",
+      "size_bytes": 937
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/diagnostics/synthesis-copilot.log",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/diagnostics/synthesis-copilot.log",
+      "sha256": "24998ca508898406b1779745fe4da4da5f99a2a1b6f7269f9936eea6133ae2d4",
+      "size_bytes": 7
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/diagnostics/synthesis-narrative.md",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/diagnostics/synthesis-narrative.md",
+      "sha256": "44c546b35896db605b1de362bca2f17e30d48f53dc435b1c629899071ae5b984",
+      "size_bytes": 6978
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/diagnostics/synthesis-prompt.md",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/diagnostics/synthesis-prompt.md",
+      "sha256": "f70701a3c0e18456f8e664ecc48fa3f167e44f227ac1e20fafab624b79db53ea",
+      "size_bytes": 43371
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W30/29744859230/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W30/29744859230/publish-manifest.json",
+      "sha256": "0f7f65b46e92b8b301471fce870fafaf7e563666f512421ef63e9e328f8dc2b6",
+      "size_bytes": 32342
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/2026-W31-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/2026-W31-content.md",
+      "sha256": "7af78b01d06cc1321c0b910d5550f2b2b3ee5c983fa7603ef13ddb1de83d7002",
+      "size_bytes": 12141
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/2026-W31-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/2026-W31-summary.md",
+      "sha256": "08d6eee13676e923ff8d2e911f98d65e39491bd7dcb40ad3400b7bba4c718e08",
+      "size_bytes": 12666
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/analysis-gate-report.json",
+      "sha256": "0bd65f9aea5edfaf955a726fd80eb467060d7f888df0529899f6e1220c015eec",
+      "size_bytes": 937
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/diagnostics/analysis-input-manifest.json",
+      "sha256": "a527ec4e1be5874e390e4514b7b126c7c67275deea14168c1f4c98448a4ac94e",
+      "size_bytes": 832518
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/diagnostics/analysis-preflight.json",
+      "sha256": "a527ec4e1be5874e390e4514b7b126c7c67275deea14168c1f4c98448a4ac94e",
+      "size_bytes": 832518
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/diagnostics/analysis-preflight.md",
+      "sha256": "991acf83ab37a7af73e6b85a03fa3e2356dbf62f20523afe936042d2e9eb04ad",
+      "size_bytes": 3330
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "08d6eee13676e923ff8d2e911f98d65e39491bd7dcb40ad3400b7bba4c718e08",
+      "size_bytes": 12666
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "24998ca508898406b1779745fe4da4da5f99a2a1b6f7269f9936eea6133ae2d4",
+      "size_bytes": 7
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/diagnostics/evidence-slices/new_repos-c0fed1ab3570.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/diagnostics/evidence-slices/new_repos-c0fed1ab3570.json",
+      "sha256": "99f808fad1ab58674f10e756fecdda5e32ac25c4a5d2ca70b98bda68d3d8a336",
+      "size_bytes": 60964
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/diagnostics/evidence-slices/press_correlations-a9f674e7aae8.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/diagnostics/evidence-slices/press_correlations-a9f674e7aae8.json",
+      "sha256": "aea15eadba1f51d2cd17d3d5ad09efb5d57f9709bacbeafacf22858e857f8302",
+      "size_bytes": 67418
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/diagnostics/evidence-slices/prior_continuity-61e27c5e3c13.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/diagnostics/evidence-slices/prior_continuity-61e27c5e3c13.json",
+      "sha256": "de97b4aa74ce65c3770a5424c0adbaf9684a107b8d652c5d125d32268101d2c4",
+      "size_bytes": 1917
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/diagnostics/evidence-slices/trending_repos-7e8e3c8332ad.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/diagnostics/evidence-slices/trending_repos-7e8e3c8332ad.json",
+      "sha256": "056e63fd6c4c9224078e7f710daba9e1707c965e0e6ed9b352669983ff301d12",
+      "size_bytes": 147396
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "0bd65f9aea5edfaf955a726fd80eb467060d7f888df0529899f6e1220c015eec",
+      "size_bytes": 937
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/diagnostics/synthesis-copilot.log",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/diagnostics/synthesis-copilot.log",
+      "sha256": "8d75c2f51db549e425d135e7ae14a41920172690a2283e3b697fc70ef026141c",
+      "size_bytes": 87
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/diagnostics/synthesis-narrative.md",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/diagnostics/synthesis-narrative.md",
+      "sha256": "85a959b80a4c14e8f66ef409d8c779f5b7d71b17b16717d68aafc89d29b1daa0",
+      "size_bytes": 5977
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/diagnostics/synthesis-prompt.md",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/diagnostics/synthesis-prompt.md",
+      "sha256": "80002b8332297062e6bb774b11ecc3af4f592b1b6cce00fc260872fa53d544c9",
+      "size_bytes": 43927
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30235602261/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30235602261/publish-manifest.json",
+      "sha256": "cf71eb3d6797f43be0572b2e65e000b3f8d7b37db3d4b1cc83a603521bf675f8",
+      "size_bytes": 31423
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/2026-W31-content.md",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/2026-W31-content.md",
+      "sha256": "d52d7f4ef15dd954d038ba9c155ae69e6b28d0b0632ffd098ebdb13100ce357b",
+      "size_bytes": 13580
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/2026-W31-summary.md",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/2026-W31-summary.md",
+      "sha256": "27bb1bfe471540fd86caf72e22e1edb36d2053570978cc8ce8a757ca87c88a11",
+      "size_bytes": 14040
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/analysis-gate-report.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/analysis-gate-report.json",
+      "sha256": "57bd365183dff4a793a940412eb6a90b6c0c7d9c4bbfb69ff67afbcceaa547a4",
+      "size_bytes": 937
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/analysis-input-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/analysis-input-manifest.json",
+      "sha256": "af64ac9f839359e7e175c716b01fd5b7b948c6e190755e900dea58f1a8a9d58c",
+      "size_bytes": 832518
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/analysis-preflight.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/analysis-preflight.json",
+      "sha256": "af64ac9f839359e7e175c716b01fd5b7b948c6e190755e900dea58f1a8a9d58c",
+      "size_bytes": 832518
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/analysis-preflight.md",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/analysis-preflight.md",
+      "sha256": "e67dbdd305f8146fa3eccdb3f340de9cea5e856b45f5259f5cce77323708806c",
+      "size_bytes": 3330
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/candidate-copilot-cli-attempt-0.md",
+      "sha256": "87e831e0f0f3353ddc810f9a89ca4ce8ac2d8b6c700ac1a2b55526e8126827cc",
+      "size_bytes": 14638
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/candidate-copilot-cli-attempt-1.md",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/candidate-copilot-cli-attempt-1.md",
+      "sha256": "27bb1bfe471540fd86caf72e22e1edb36d2053570978cc8ce8a757ca87c88a11",
+      "size_bytes": 14040
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/copilot-cli-attempt-0.log",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/copilot-cli-attempt-0.log",
+      "sha256": "24998ca508898406b1779745fe4da4da5f99a2a1b6f7269f9936eea6133ae2d4",
+      "size_bytes": 7
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/copilot-cli-attempt-1.log",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/copilot-cli-attempt-1.log",
+      "sha256": "24998ca508898406b1779745fe4da4da5f99a2a1b6f7269f9936eea6133ae2d4",
+      "size_bytes": 7
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/evidence-slices/new_repos-c0fed1ab3570.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/evidence-slices/new_repos-c0fed1ab3570.json",
+      "sha256": "99f808fad1ab58674f10e756fecdda5e32ac25c4a5d2ca70b98bda68d3d8a336",
+      "size_bytes": 60964
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/evidence-slices/press_correlations-a9f674e7aae8.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/evidence-slices/press_correlations-a9f674e7aae8.json",
+      "sha256": "aea15eadba1f51d2cd17d3d5ad09efb5d57f9709bacbeafacf22858e857f8302",
+      "size_bytes": 67418
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/evidence-slices/prior_continuity-61e27c5e3c13.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/evidence-slices/prior_continuity-61e27c5e3c13.json",
+      "sha256": "de97b4aa74ce65c3770a5424c0adbaf9684a107b8d652c5d125d32268101d2c4",
+      "size_bytes": 1917
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/evidence-slices/trending_repos-7e8e3c8332ad.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/evidence-slices/trending_repos-7e8e3c8332ad.json",
+      "sha256": "056e63fd6c4c9224078e7f710daba9e1707c965e0e6ed9b352669983ff301d12",
+      "size_bytes": 147396
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/gate-copilot-cli-attempt-0.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/gate-copilot-cli-attempt-0.json",
+      "sha256": "f2c37ed5a126510fea72bba62eea558f42668c580efbaf74b2be4213c714fa3c",
+      "size_bytes": 1239
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/gate-copilot-cli-attempt-1.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/gate-copilot-cli-attempt-1.json",
+      "sha256": "57bd365183dff4a793a940412eb6a90b6c0c7d9c4bbfb69ff67afbcceaa547a4",
+      "size_bytes": 937
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/synthesis-copilot.log",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/synthesis-copilot.log",
+      "sha256": "24998ca508898406b1779745fe4da4da5f99a2a1b6f7269f9936eea6133ae2d4",
+      "size_bytes": 7
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/synthesis-narrative.md",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/synthesis-narrative.md",
+      "sha256": "8cb01ff63249e691e9de8035f371ea05314404191fc1bef02e28c42c3a7cf696",
+      "size_bytes": 5686
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/diagnostics/synthesis-prompt.md",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/diagnostics/synthesis-prompt.md",
+      "sha256": "66a4c123c5f0432f0a5a886df0960abe25c8974279f752ef570c77ac528fe3b9",
+      "size_bytes": 43575
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/candidates/2026-W31/30669054860/publish-manifest.json",
+      "existed": true,
+      "path": "data/candidates/2026-W31/30669054860/publish-manifest.json",
+      "sha256": "f197fcff00bfbf1f159f88079e60f5c2c96223989ba402b1981959f53a66b3a0",
+      "size_bytes": 32174
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/metrics/.gitkeep",
+      "existed": true,
+      "path": "data/metrics/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/metrics/copilot-transcript.md",
+      "existed": true,
+      "path": "data/metrics/copilot-transcript.md",
+      "sha256": "d0101d340f15e41d4b98b186f8ef60cce56c2a4b93dc5cdb510df48ed5bc9221",
+      "size_bytes": 187117
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/metrics/cost-summary.json",
+      "existed": true,
+      "path": "data/metrics/cost-summary.json",
+      "sha256": "e6d2d4d1e413e8b515ce7fd5d081198b1f4caaf700c79404b17f6af07191aaf3",
+      "size_bytes": 396
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/metrics/momentum-2026-W21.json",
+      "existed": true,
+      "path": "data/metrics/momentum-2026-W21.json",
+      "sha256": "eb0dfda902611772b86e905a4c0354179b4af2b5914b720f3d71621285d98579",
+      "size_bytes": 18424
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/metrics/scorecards/2026-W23-scorecard.json",
+      "existed": true,
+      "path": "data/metrics/scorecards/2026-W23-scorecard.json",
+      "sha256": "faaeffcc68805a9671be6bdef8699187e941886c7b28065ed8973ebe9900c2ba",
+      "size_bytes": 16132
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/metrics/token-usage.jsonl",
+      "existed": true,
+      "path": "data/metrics/token-usage.jsonl",
+      "sha256": "198c445e1c54756f7099b7ac78b61014b6a2a5a1fec38b1b74ed55a9200d5430",
+      "size_bytes": 1540
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/published/2026-W24/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W24/promotion-manifest.json",
+      "sha256": "fef288a82214359c228ebd8822e20bc2e27d3a3e30f511cad61646821b138468",
+      "size_bytes": 17325
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/published/2026-W25/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W25/promotion-manifest.json",
+      "sha256": "40d92fd3b309497f9671e8ed13f7ec6045564ba50e89b0cbee49176ea47a5e12",
+      "size_bytes": 18691
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/published/2026-W26/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W26/promotion-manifest.json",
+      "sha256": "c3999b2ddf1b72f2acc27dbae2c4f51281b158c32b3275cdd6908bf39947dd5b",
+      "size_bytes": 18761
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/published/2026-W27/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W27/promotion-manifest.json",
+      "sha256": "81d26cd8baa83837a43b1ed4b25cb37d3375372799bd08bf34dbc90ef836f91d",
+      "size_bytes": 17395
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/published/2026-W28/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W28/promotion-manifest.json",
+      "sha256": "c956b4e08950b7a03056e488900397e23e3e6b82f3c6a0b26f44efb8cbec5fcc",
+      "size_bytes": 17324
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/published/2026-W29/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W29/promotion-manifest.json",
+      "sha256": "80719e543ce01a0cf48bd26cd77c6823513acc8e5bf2aa6167f86a0802a8993b",
+      "size_bytes": 17322
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/published/2026-W30/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W30/promotion-manifest.json",
+      "sha256": "15784ef9f45a8fb3759667f57cd462cd42489b96c3001eef06030cb64ef64aae",
+      "size_bytes": 17331
+    },
+    {
+      "backup_path": "data/backups/2026-W31/30669054860/content/files/data/published/2026-W31/promotion-manifest.json",
+      "existed": true,
+      "path": "data/published/2026-W31/promotion-manifest.json",
+      "sha256": "060c14c54354729147b252c582db7bdb7c9768444d3d8004da1724cdf5fd4113",
+      "size_bytes": 17324
+    }
+  ],
+  "kind": "content",
+  "publish_ref": {
+    "actual": "a7848a4dfd1f6eac8f4d3c577b707a1c43500255",
+    "expected": "a7848a4dfd1f6eac8f4d3c577b707a1c43500255"
+  },
+  "run_id": "30669054860",
+  "schema_version": "publish_backup_v1",
+  "source_manifest": {
+    "analysis": {
+      "ai_status": "ai",
+      "model": "copilot-default",
+      "model_status": "available",
+      "preflight": {
+        "degradation_reason": null,
+        "degraded": false,
+        "path": "data/candidates/2026-W31/30669054860/diagnostics/analysis-input-manifest.json",
+        "promotion_policy": "normal-promotion",
+        "prompt_checksum_sha256": "5ea7a9d0c50a07027c70abd9eadf5a1a23c6078b38befcc2cdcae562e5c5e96b",
+        "prompt_token_budget": 90000,
+        "prompt_tokens": 71449,
+        "publish_eligible": true
+      },
+      "provenance": {
+        "attempted_ai_paths": [],
+        "authorship": "ai-authored",
+        "current_datetime": "2026-07-31T22:10:40Z",
+        "degraded": false,
+        "fallback_reason": null,
+        "model": "copilot-default",
+        "provider": "copilot-cli",
+        "run_id": "30669054860"
+      },
+      "provider": "copilot-cli",
+      "source": "copilot-cli"
+    },
+    "candidate": {
+      "ai_status": "ai",
+      "content_path": "data/candidates/2026-W31/30669054860/2026-W31-content.md",
+      "content_sha256": "d52d7f4ef15dd954d038ba9c155ae69e6b28d0b0632ffd098ebdb13100ce357b",
+      "published_summary_path": "data/analyzed/2026-W31-summary.md",
+      "quality_score": 100,
+      "summary_path": "data/candidates/2026-W31/30669054860/2026-W31-summary.md",
+      "summary_sha256": "27bb1bfe471540fd86caf72e22e1edb36d2053570978cc8ce8a757ca87c88a11"
+    },
+    "path": "publish-manifest-tool.json",
+    "sha256": "f197fcff00bfbf1f159f88079e60f5c2c96223989ba402b1981959f53a66b3a0",
+    "source_artifacts": [
+      {
+        "artifact_checksum": "b8d61aab1817f28eb994fe8976047f5f49211264aa9724deb26fb05c64efeb40",
+        "crawled_at": "2026-07-27T03:52:10Z",
+        "exists": true,
+        "freshness": {
+          "reasons": [],
+          "status": "fresh"
+        },
+        "generated_at": "2026-07-27T03:52:10Z",
+        "path": "data/raw/2026-W31.json",
+        "provenance": {
+          "artifact_checksum": "b8d61aab1817f28eb994fe8976047f5f49211264aa9724deb26fb05c64efeb40",
+          "generated_at": "2026-07-27T03:52:10Z",
+          "path": "data/raw/2026-W31.json",
+          "same_day_reuse": {
+            "source": "github",
+            "source_id": "github-search",
+            "status": "not_reused"
+          },
+          "sha256": "88fa723e44aab8788f338d765e3f9fe50457dc8a09a6c64033c03c760f9a2585"
+        },
+        "role": "raw_github",
+        "same_day_reuse": {
+          "source": "github",
+          "source_id": "github-search",
+          "status": "not_reused"
+        },
+        "schema_checksum": "9e9b20fa60d33c1b7d2eaf3e70a05961b95b297469e73613f6b448be7464028c",
+        "sha256": "88fa723e44aab8788f338d765e3f9fe50457dc8a09a6c64033c03c760f9a2585",
+        "size_bytes": 225864,
+        "week": "2026-W31"
+      },
+      {
+        "artifact_checksum": "d85ee65bc106fabf1e4bf14f097536b7c2626983418dacbdbe47db030dad3967",
+        "crawled_at": "2026-07-27T03:55:29.960724Z",
+        "exists": true,
+        "freshness": {
+          "reasons": [],
+          "status": "fresh"
+        },
+        "generated_at": "2026-07-27T03:55:29.960724Z",
+        "path": "data/raw/2026-W31-external-news.json",
+        "provenance": {
+          "artifact_checksum": "d85ee65bc106fabf1e4bf14f097536b7c2626983418dacbdbe47db030dad3967",
+          "generated_at": "2026-07-27T03:55:29.960724Z",
+          "path": "data/raw/2026-W31-external-news.json",
+          "same_day_reuse": {
+            "source": "artifact-metadata",
+            "status": "not_reused"
+          },
+          "sha256": "3fc7666ffbb4070ec4e361e960b02bc04fb256e443ce0911813693203d0998ef"
+        },
+        "role": "external_news",
+        "same_day_reuse": {
+          "source": "artifact-metadata",
+          "status": "not_reused"
+        },
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "sha256": "3fc7666ffbb4070ec4e361e960b02bc04fb256e443ce0911813693203d0998ef",
+        "size_bytes": 50977,
+        "source_artifact_provenance": [
+          {
+            "action": "refreshed",
+            "artifact_checksum": "58957921c94cd7654f44d18da810530cc1be7efd474458fa0ac9de7f0031255a",
+            "artifact_path": "data/raw/2026-W31-external-news.json",
+            "content_checksum": "e1d08735e7e56c2322c1decfc70351ba74a9bd2b1be3f1b4b8c7b5b51a516540",
+            "crawl_window": {
+              "since": "2026-07-20T00:00:00Z",
+              "until": "2026-07-27T00:00:00Z"
+            },
+            "date": "2026-07-27",
+            "evaluated_at": "2026-07-27T03:55:29.960724Z",
+            "original_crawled_at": "2026-07-27T03:55:29.960724Z",
+            "original_run_id": "30235602261",
+            "reasons": [],
+            "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+            "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+            "source_id": "github_blog",
+            "week": "2026-W31"
+          },
+          {
+            "action": "refreshed",
+            "artifact_checksum": "58957921c94cd7654f44d18da810530cc1be7efd474458fa0ac9de7f0031255a",
+            "artifact_path": "data/raw/2026-W31-external-news.json",
+            "content_checksum": "3607a0f5ac9afc2578eb7c451a5289084786c041b11f575f1b25e453853a0194",
+            "crawl_window": {
+              "since": "2026-07-20T00:00:00Z",
+              "until": "2026-07-27T00:00:00Z"
+            },
+            "date": "2026-07-27",
+            "evaluated_at": "2026-07-27T03:55:29.960724Z",
+            "original_crawled_at": "2026-07-27T03:55:29.960724Z",
+            "original_run_id": "30235602261",
+            "reasons": [],
+            "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+            "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+            "source_id": "hugging_face_blog",
+            "week": "2026-W31"
+          },
+          {
+            "action": "refreshed",
+            "artifact_checksum": "58957921c94cd7654f44d18da810530cc1be7efd474458fa0ac9de7f0031255a",
+            "artifact_path": "data/raw/2026-W31-external-news.json",
+            "content_checksum": "e7d91547e6aedf3297b59c3f43d85922abce5bd434f673825c35d4d6f3f7b281",
+            "crawl_window": {
+              "since": "2026-07-20T00:00:00Z",
+              "until": "2026-07-27T00:00:00Z"
+            },
+            "date": "2026-07-27",
+            "evaluated_at": "2026-07-27T03:55:29.960724Z",
+            "original_crawled_at": "2026-07-27T03:55:29.960724Z",
+            "original_run_id": "30235602261",
+            "reasons": [],
+            "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+            "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+            "source_id": "mit_technology_review",
+            "week": "2026-W31"
+          },
+          {
+            "action": "refreshed",
+            "artifact_checksum": "58957921c94cd7654f44d18da810530cc1be7efd474458fa0ac9de7f0031255a",
+            "artifact_path": "data/raw/2026-W31-external-news.json",
+            "content_checksum": "4a6f4dccd05bc002012897afe1a466c7ed48682d34106366677d430922bba61c",
+            "crawl_window": {
+              "since": "2026-07-20T00:00:00Z",
+              "until": "2026-07-27T00:00:00Z"
+            },
+            "date": "2026-07-27",
+            "evaluated_at": "2026-07-27T03:55:29.960724Z",
+            "original_crawled_at": "2026-07-27T03:55:29.960724Z",
+            "original_run_id": "30235602261",
+            "reasons": [],
+            "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+            "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+            "source_id": "nvidia_blog",
+            "week": "2026-W31"
+          },
+          {
+            "action": "refreshed",
+            "artifact_checksum": "58957921c94cd7654f44d18da810530cc1be7efd474458fa0ac9de7f0031255a",
+            "artifact_path": "data/raw/2026-W31-external-news.json",
+            "content_checksum": "37b6d6ba4841b88771b2b4859bf82c848550f82cc088f0e380b47ecec1dec501",
+            "crawl_window": {
+              "since": "2026-07-20T00:00:00Z",
+              "until": "2026-07-27T00:00:00Z"
+            },
+            "date": "2026-07-27",
+            "evaluated_at": "2026-07-27T03:55:29.960724Z",
+            "original_crawled_at": "2026-07-27T03:55:29.960724Z",
+            "original_run_id": "30235602261",
+            "reasons": [],
+            "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+            "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+            "source_id": "techcrunch",
+            "week": "2026-W31"
+          }
+        ],
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "source_reuse_summary": [
+          {
+            "action": "refreshed",
+            "reasons": [],
+            "refreshed": true,
+            "reused": false,
+            "source": "github_blog"
+          },
+          {
+            "action": "refreshed",
+            "reasons": [],
+            "refreshed": true,
+            "reused": false,
+            "source": "hugging_face_blog"
+          },
+          {
+            "action": "refreshed",
+            "reasons": [],
+            "refreshed": true,
+            "reused": false,
+            "source": "mit_technology_review"
+          },
+          {
+            "action": "refreshed",
+            "reasons": [],
+            "refreshed": true,
+            "reused": false,
+            "source": "nvidia_blog"
+          },
+          {
+            "action": "refreshed",
+            "reasons": [],
+            "refreshed": true,
+            "reused": false,
+            "source": "techcrunch"
+          }
+        ],
+        "source_status": [
+          {
+            "attempts": 1,
+            "duration_seconds": 0.196,
+            "ended_at": "2026-07-27T03:55:30.179530Z",
+            "error_class": "",
+            "error_message": "",
+            "github_links_found": 8,
+            "host": "github.blog",
+            "relevant_articles": 4,
+            "source": "github_blog",
+            "started_at": "2026-07-27T03:55:29.983619Z",
+            "success": true,
+            "timeout_seconds": 15,
+            "total_articles": 5
+          },
+          {
+            "attempts": 1,
+            "duration_seconds": 0.384,
+            "ended_at": "2026-07-27T03:55:30.363555Z",
+            "error_class": "",
+            "error_message": "",
+            "github_links_found": 0,
+            "host": "huggingface.co",
+            "relevant_articles": 0,
+            "source": "hugging_face_blog",
+            "started_at": "2026-07-27T03:55:29.979415Z",
+            "success": true,
+            "timeout_seconds": 15,
+            "total_articles": 3
+          },
+          {
+            "attempts": 1,
+            "duration_seconds": 0.143,
+            "ended_at": "2026-07-27T03:55:30.123299Z",
+            "error_class": "",
+            "error_message": "",
+            "github_links_found": 0,
+            "host": "www.technologyreview.com",
+            "relevant_articles": 3,
+            "source": "mit_technology_review",
+            "started_at": "2026-07-27T03:55:29.980335Z",
+            "success": true,
+            "timeout_seconds": 15,
+            "total_articles": 10
+          },
+          {
+            "attempts": 1,
+            "duration_seconds": 0.57,
+            "ended_at": "2026-07-27T03:55:30.549309Z",
+            "error_class": "",
+            "error_message": "",
+            "github_links_found": 2,
+            "host": "blogs.nvidia.com",
+            "relevant_articles": 6,
+            "source": "nvidia_blog",
+            "started_at": "2026-07-27T03:55:29.978856Z",
+            "success": true,
+            "timeout_seconds": 15,
+            "total_articles": 10
+          },
+          {
+            "attempts": 1,
+            "duration_seconds": 0.103,
+            "ended_at": "2026-07-27T03:55:30.080893Z",
+            "error_class": "",
+            "error_message": "",
+            "github_links_found": 0,
+            "host": "techcrunch.com",
+            "relevant_articles": 5,
+            "source": "techcrunch",
+            "started_at": "2026-07-27T03:55:29.978068Z",
+            "success": true,
+            "timeout_seconds": 15,
+            "total_articles": 19
+          }
+        ],
+        "sources_failed": [],
+        "sources_requested": [
+          "github_blog",
+          "hugging_face_blog",
+          "mit_technology_review",
+          "nvidia_blog",
+          "techcrunch"
+        ],
+        "sources_succeeded": [
+          "github_blog",
+          "hugging_face_blog",
+          "mit_technology_review",
+          "nvidia_blog",
+          "techcrunch"
+        ],
+        "week": "2026-W31"
+      },
+      {
+        "artifact_checksum": null,
+        "crawled_at": null,
+        "exists": true,
+        "freshness": {
+          "reasons": [],
+          "status": "fresh"
+        },
+        "generated_at": "2026-07-31T22:10:40Z",
+        "path": "data/analyzed/2026-W31-correlations.json",
+        "provenance": {
+          "artifact_checksum": null,
+          "generated_at": "2026-07-31T22:10:40Z",
+          "path": "data/analyzed/2026-W31-correlations.json",
+          "same_day_reuse": {
+            "details": "No same-day reuse marker was present on this artifact.",
+            "source": "default",
+            "status": "not_reused"
+          },
+          "sha256": "fc0f0283fadc95bd6f2fdac4e46a394d21f1ad3501494a3e3f9a1bfe679a0c29"
+        },
+        "role": "correlations",
+        "same_day_reuse": {
+          "details": "No same-day reuse marker was present on this artifact.",
+          "source": "default",
+          "status": "not_reused"
+        },
+        "sha256": "fc0f0283fadc95bd6f2fdac4e46a394d21f1ad3501494a3e3f9a1bfe679a0c29",
+        "size_bytes": 163107,
+        "week": "2026-W31"
+      },
+      {
+        "artifact_checksum": null,
+        "crawled_at": null,
+        "exists": true,
+        "freshness": {
+          "reasons": [],
+          "status": "not_applicable"
+        },
+        "generated_at": "2026-07-31T22:10:40Z",
+        "path": "data/analyzed/2026-W31-press-context.md",
+        "provenance": {
+          "artifact_checksum": null,
+          "generated_at": "2026-07-31T22:10:40Z",
+          "path": "data/analyzed/2026-W31-press-context.md",
+          "same_day_reuse": {
+            "details": "No same-day reuse marker was present on this artifact.",
+            "source": "default",
+            "status": "not_reused"
+          },
+          "sha256": "94e559349a85330021244047cd639c3fa3174b7bde1f6982a5a2e593828af368"
+        },
+        "role": "press_context",
+        "same_day_reuse": {
+          "details": "No same-day reuse marker was present on this artifact.",
+          "source": "default",
+          "status": "not_reused"
+        },
+        "sha256": "94e559349a85330021244047cd639c3fa3174b7bde1f6982a5a2e593828af368",
+        "size_bytes": 32934,
+        "week": null
+      }
+    ]
+  },
+  "week": "2026-W31"
+}
