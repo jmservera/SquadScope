@@ -332,6 +332,12 @@ def _validate_manifest(
     if run_date is None:
         reasons.append("run_started_at/generated_at must be an ISO date or timestamp.")
 
+    # Restore/force-replace runs rebuild a past week from immutable stored evidence,
+    # so their source artifacts are historical rather than from the current run date.
+    # Mirror publish_manifest.py, which relaxes the same freshness check for these modes.
+    run_mode = str(manifest.get("run_mode") or "normal").lower()
+    allow_historical_sources = run_mode in {"restore", "force-replace"}
+
     source_artifacts = _manifest_source_artifacts(manifest)
     if not isinstance(source_artifacts, list) or not source_artifacts:
         reasons.append("source_artifacts must include at least one artifact.")
@@ -353,6 +359,7 @@ def _validate_manifest(
                 run_date is not None
                 and generated_date != run_date
                 and not _artifact_reused_same_day(artifact)
+                and not allow_historical_sources
             ):
                 reasons.append(
                     f"{prefix} is not from the current run date or marked as same-day reuse."
