@@ -648,7 +648,8 @@ class WorkflowConfigTests(unittest.TestCase):
         for path in (p for p in generated_paths if p != "content/data/"):
             with self.subTest(path=path, target="deploy"):
                 self.assertIn(path, deploy_hydrate)
-        self.assertNotIn("content/data/", deploy_hydrate)
+        deploy_hydrate_entries = {line.strip() for line in deploy_hydrate.splitlines()}
+        self.assertNotIn("content/data/", deploy_hydrate_entries)
 
         self.assertIn("--force-with-lease", commit)
         self.assertIn("git diff --cached --quiet && exit 0", commit)

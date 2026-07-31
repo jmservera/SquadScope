@@ -2,7 +2,7 @@
 title: Claracle Data Observatory Relaunch Product Requirements Document
 description: Product requirements, delivery state, rollout controls, risks, and acceptance gates for the Claracle Data Observatory relaunch
 author: SquadScope Squad
-ms.date: 2026-07-30
+ms.date: 2026-07-31
 ms.topic: reference
 ---
 <!-- markdownlint-disable-file -->

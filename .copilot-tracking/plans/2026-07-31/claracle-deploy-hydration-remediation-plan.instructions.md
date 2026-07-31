@@ -1,7 +1,7 @@
-<!-- markdownlint-disable-file -->
 ---
 applyTo: '.copilot-tracking/changes/2026-07-31/claracle-deploy-hydration-remediation-changes.md'
 ---
+<!-- markdownlint-disable-file -->
 # Implementation Plan: Claracle Deploy Hydration Remediation
 
 ## Overview
