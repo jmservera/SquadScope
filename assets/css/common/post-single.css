@@ -24,13 +24,38 @@
 }
 
 .breadcrumbs {
+    min-width: 0;
+}
+
+.breadcrumbs ol {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.2rem;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.breadcrumbs li {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.breadcrumb-separator {
+    margin-inline-end: 0.2rem;
 }
 
 .breadcrumbs a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--size-touch-target);
+    min-height: var(--size-touch-target);
     font-size: var(--text-base);
 }
 
@@ -196,8 +221,8 @@ details li ul {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: calc(var(--space-5) + var(--space-2));
-    min-height: calc(var(--space-5) + var(--space-2));
+    min-width: var(--size-touch-target);
+    min-height: var(--size-touch-target);
     padding: 0 var(--space-3);
     border: var(--size-border-thin) solid var(--color-border);
     border-radius: var(--radius-full);

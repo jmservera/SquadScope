@@ -1,16 +1,20 @@
 {{- $cfg := .Site.Data.cookieconsent -}}
 {{- $cfgJSON := $cfg | jsonify -}}
 {{- $cfgJSON = replace $cfgJSON "__PRIVACY_URL__" ("privacy/" | relURL) -}}
-<link rel="stylesheet" href="{{ "vendor/cookieconsent/cookieconsent.css" | relURL }}">
+<link rel="preload" as="style" href="{{ "vendor/cookieconsent/cookieconsent.css" | relURL }}" onload="this.onload=null;this.rel='stylesheet'">
+{{- with resources.Get "css/extended/cookieconsent-theme.css" | resources.Minify }}
+<link rel="preload" as="style" href="{{ .RelPermalink }}" onload="this.onload=null;this.rel='stylesheet'">
+{{- end }}
 <script>
   window.SquadScopeCookieConsent = {{ $cfgJSON | safeJS }};
 </script>
 <script>
   (function () {
-    var script = document.createElement('script');
-    script.src = '{{ "vendor/cookieconsent/cookieconsent.umd.js" | relURL }}';
-    script.async = true;
-    script.onload = function () {
+    function loadConsent() {
+      var script = document.createElement('script');
+      script.src = '{{ "vendor/cookieconsent/cookieconsent.umd.js" | relURL }}';
+      script.async = true;
+      script.onload = function () {
       var cfg = window.SquadScopeCookieConsent || {};
 
       function reviveCookiePattern(cookie) {
@@ -52,6 +56,12 @@
         }
       }
 
+      function setObservatoryAnalyticsConsent(enabled) {
+        if (window.ObservatoryAnalytics) {
+          window.ObservatoryAnalytics.setConsent(enabled);
+        }
+      }
+
       function loadGoogleAnalytics() {
         var measurementId = analyticsMeasurementId();
         if (!measurementId) return;
@@ -77,7 +87,9 @@
       function updateAnalyticsConsent() {
         if (CookieConsent.acceptedCategory('analytics')) {
           loadGoogleAnalytics();
+          setObservatoryAnalyticsConsent(true);
         } else {
+          setObservatoryAnalyticsConsent(false);
           disableGoogleAnalytics();
         }
       }
@@ -124,8 +136,24 @@
       };
 
       disableGoogleAnalytics();
-      CookieConsent.run(runConfig);
-    };
-    document.head.appendChild(script);
+        setObservatoryAnalyticsConsent(false);
+        CookieConsent.run(runConfig);
+      };
+      document.head.appendChild(script);
+    }
+
+    function scheduleConsent() {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(loadConsent, { timeout: 1000 });
+      } else {
+        window.setTimeout(loadConsent, 0);
+      }
+    }
+
+    if (document.readyState === 'complete') {
+      scheduleConsent();
+    } else {
+      window.addEventListener('load', scheduleConsent, { once: true });
+    }
   })();
 </script>

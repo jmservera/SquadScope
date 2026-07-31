@@ -18,6 +18,17 @@
     return payload && Array.isArray(payload.repositories);
   }
 
+  function trackToolAction(action) {
+    if (!window.ObservatoryAnalytics) {
+      return false;
+    }
+    return window.ObservatoryAnalytics.track("tool_interaction", {
+      tool_id: "star-velocity-explorer",
+      action,
+      path: window.location.pathname,
+    });
+  }
+
   function renderFilters(root, payload) {
     const languageSelect = root.querySelector("[data-trend-language]");
     const topicSelect = root.querySelector("[data-trend-topic]");
@@ -143,10 +154,31 @@
       }
 
       renderFilters(root, payload);
+      const trackedActions = new Set();
+      function trackOnce(action) {
+        if (!trackedActions.has(action) && trackToolAction(action)) {
+          trackedActions.add(action);
+        }
+      }
       ["input", "change"].forEach((eventName) => {
-        root.addEventListener(eventName, () => applyFilters(root, payload));
+        root.addEventListener(eventName, (event) => {
+          if (event.target.matches("[data-trend-search]")) {
+            trackOnce("search");
+          } else if (event.target.matches("[data-trend-language]")) {
+            trackOnce("language_filter");
+          } else if (event.target.matches("[data-trend-topic]")) {
+            trackOnce("topic_filter");
+          }
+          applyFilters(root, payload);
+        });
+      });
+      root.addEventListener("click", (event) => {
+        if (event.target.closest("[data-trend-results] a")) {
+          trackOnce("repository_open");
+        }
       });
       applyFilters(root, payload);
+      trackOnce("load");
     } catch (error) {
       setStatus(root, "Trend data could not be loaded. Try again later.");
     }

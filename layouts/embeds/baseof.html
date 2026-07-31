@@ -4,17 +4,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="ai-generated" content="true">
-  <title>{{ .Title }}</title>
-  <meta name="description" content="{{ .Description | default .Params.summary }}">
+  {{- partial "seo.html" . -}}
   {{- if and (hugo.IsProduction | or (eq site.Params.env "production")) (ne .Params.robotsNoIndex true) }}
   <meta name="robots" content="index, follow">
   {{- else }}
   <meta name="robots" content="noindex, nofollow">
   {{- end }}
-  <link rel="canonical" href="{{ .Permalink }}">
+  {{- with resources.Get "css/tokens.css" }}
+  <style>{{ .Content | safeCSS }}</style>
+  {{- end }}
   {{- with resources.Get "css/extended/observatory-charts.css" }}
   <style>{{ .Content | safeCSS }}</style>
   {{- end }}
+  {{- partial "analytics.html" . -}}
+  {{- with resources.Get "js/observatory-analytics.js" | js.Build | resources.Minify | fingerprint }}
+  <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
+  {{- end }}
+  {{- /* Off-site telemetry remains consent-gated and may be unavailable when third-party cookies are blocked. */ -}}
+  {{- partial "cookie-consent.html" . -}}
 </head>
 <body class="observatory-embed">
   <main id="main-content">

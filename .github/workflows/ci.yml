@@ -42,7 +42,12 @@ jobs:
         run: python -m pip_audit -r requirements.txt
 
       - name: Run Python tests
-        run: python -m pytest
+        run: |
+          python -m pytest \
+            --ignore=tests/test_rendered_seo_metadata.py \
+            --ignore=tests/test_rendered_weekly_links.py \
+            --ignore=tests/test_internal_link_checker.py \
+            --ignore=tests/test_topic_hubs.py
 
       - name: Validate image registry
         run: python scripts/manage_image_registry.py validate
@@ -50,12 +55,17 @@ jobs:
       - name: Validate content images (no hotlinks/secrets)
         run: python scripts/validate_content_images.py
 
-  internal-links:
-    name: Internal links
+  production-site:
+    name: Production site
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: 0.161.1
       PAGEFIND_VERSION: 1.5.2
+      PLAYWRIGHT_VERSION: 1.54.2
+      AXE_PLAYWRIGHT_VERSION: 4.10.2
+      LIGHTHOUSE_VERSION: 12.8.2
+      BASE_URL: http://127.0.0.1:1313
+      HUGO_PARAMS_GA_MEASUREMENT_ID: G-TEST-OBSERVATORY
 
     steps:
       - name: Checkout code
@@ -96,11 +106,86 @@ jobs:
         with:
           node-version: '24'
 
-      - name: Build site
-        run: hugo --minify
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+        with:
+          python-version: "3.12"
 
-      - name: Build Pagefind index
-        run: npx "pagefind@${PAGEFIND_VERSION}" --site public/
+      - name: Install production test dependencies
+        run: | # zizmor: ignore[adhoc-packages] Phase 7 pins each browser test package; the plan excludes adding a Node manifest.
+          set -euo pipefail
+          python -m pip install --upgrade pytest -r requirements.txt
+          npm install --no-save --no-package-lock \
+            "@playwright/test@${PLAYWRIGHT_VERSION}" \
+            "@axe-core/playwright@${AXE_PLAYWRIGHT_VERSION}" \
+            "lighthouse@${LIGHTHOUSE_VERSION}"
+          npx --no-install playwright install --with-deps chromium
+
+      - name: Build site and capture Hugo duration
+        id: hugo-build
+        run: |
+          set -euo pipefail
+          started_at="$(date +%s%N)"
+          hugo --minify --baseURL "${BASE_URL}/"
+          finished_at="$(date +%s%N)"
+          echo "duration_ms=$(( (finished_at - started_at) / 1000000 ))" >> "${GITHUB_OUTPUT}"
+
+      - name: Build Pagefind index and capture duration
+        id: pagefind-build
+        run: |
+          set -euo pipefail
+          started_at="$(date +%s%N)"
+          npx "pagefind@${PAGEFIND_VERSION}" --site public/
+          finished_at="$(date +%s%N)"
+          echo "duration_ms=$(( (finished_at - started_at) / 1000000 ))" >> "${GITHUB_OUTPUT}"
+
+      - name: Write report-only build timing
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+          HUGO_DURATION_MS: ${{ steps.hugo-build.outputs.duration_ms }}
+          PAGEFIND_DURATION_MS: ${{ steps.pagefind-build.outputs.duration_ms }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          printf '{\n  "commit": "%s",\n  "mode": "report-only",\n  "hugo": {"version": "%s", "duration_ms": %s},\n  "pagefind": {"version": "%s", "duration_ms": %s},\n  "blocking_threshold_ms": null\n}\n' \
+            "${COMMIT_SHA}" "${HUGO_VERSION}" "${HUGO_DURATION_MS}" \
+            "${PAGEFIND_VERSION}" "${PAGEFIND_DURATION_MS}" > reports/build-timing.json
+
+      - name: Run rendered SEO and link contracts
+        run: |
+          python -m pytest \
+            tests/test_rendered_seo_metadata.py \
+            tests/test_rendered_weekly_links.py \
+            tests/test_internal_link_checker.py \
+            tests/test_topic_hubs.py
 
       - name: Check internal links
         run: python scripts/check_internal_links.py public --base-url "https://claracle.com/"
+
+      - name: Serve production build
+        run: |
+          set -euo pipefail
+          python scripts/serve_static.py --directory public --bind 127.0.0.1 --port 1313 > reports/site-server.log 2>&1 &
+          echo $! > reports/site-server.pid
+          curl --fail --silent --show-error --retry 30 --retry-delay 1 --retry-connrefused "${BASE_URL}/" > /dev/null
+
+      - name: Run axe and responsive browser gates
+        run: npx --no-install playwright test --config tests/visual/playwright.config.mjs tests/visual/a11y-perf.spec.mjs tests/visual/observatory-a11y.spec.mjs tests/visual/observatory-analytics.spec.mjs
+
+      - name: Run Lighthouse gates
+        run: node scripts/design/lighthouse-gates.mjs --base "${BASE_URL}"
+
+      - name: Upload production quality reports
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: production-quality-reports
+          path: |
+            reports/build-timing.json
+            reports/site-server.log
+            screenshots/lighthouse-results/
+            screenshots/playwright-output/
+            screenshots/playwright-report.json
+            screenshots/playwright-report/
+          retention-days: 30
+          if-no-files-found: warn

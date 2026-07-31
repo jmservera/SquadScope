@@ -12,9 +12,9 @@ import argparse
 import csv
 import json
 import sys
+import tempfile
 from collections import Counter
 from dataclasses import dataclass, field
-from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -245,10 +245,14 @@ def build_summary(
             license_counts[repo.licenses.most_common(1)[0][0]] += 1
         topic_counts.update(dict(repo.topics.most_common(5)))
 
+    generated_at = max(
+        str(json.loads(path.read_text(encoding="utf-8")).get("crawled_at") or "")
+        for path in source_paths
+    )
     return {
         "dataset": DATASET_SLUG,
         "version": DATASET_VERSION,
-        "generated_at": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        "generated_at": generated_at,
         "source": "Read-only export from checked-in Claracle weekly GitHub crawl artifacts.",
         "selection_rule": (
             "Repository records are included when public name, description, or topics contain "
@@ -373,15 +377,44 @@ def export_dataset(
     return summary
 
 
+def check_dataset(output_dir: Path, data_root: Path) -> list[Path]:
+    """Return generated dataset files whose checked-in bytes are stale."""
+    with tempfile.TemporaryDirectory() as temporary_directory:
+        expected_dir = Path(temporary_directory)
+        export_dataset(expected_dir, data_root)
+        expected_paths = sorted(path for path in expected_dir.rglob("*") if path.is_file())
+        stale: list[Path] = []
+        for expected_path in expected_paths:
+            relative_path = expected_path.relative_to(expected_dir)
+            actual_path = output_dir / relative_path
+            if not actual_path.exists() or actual_path.read_bytes() != expected_path.read_bytes():
+                stale.append(actual_path)
+        return stale
+
+
+def display_path(path: Path) -> str:
+    """Return a repository-relative path when possible, otherwise the supplied path."""
+    try:
+        return path.resolve().relative_to(PROJECT_ROOT.resolve()).as_posix()
+    except ValueError:
+        return str(path)
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--data-root", type=Path, default=PROJECT_ROOT / "data")
+    parser.add_argument("--check", action="store_true", help="Fail if dataset files are stale.")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    if args.check:
+        stale = check_dataset(args.output_dir, args.data_root)
+        for path in stale:
+            print(f"stale: {display_path(path)}", file=sys.stderr)
+        return 1 if stale else 0
     summary = export_dataset(args.output_dir, args.data_root)
     print(
         f"Exported {summary['row_count']} repositories from "

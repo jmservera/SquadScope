@@ -29,6 +29,12 @@ jobs:
     permissions:
       contents: read
       pages: write
+    outputs:
+      smoke_week: ${{ steps.podcaster-release.outputs.week }}
+      smoke_article_url: ${{ steps.podcaster-release.outputs.article_url }}
+      smoke_article_path: ${{ steps.podcaster-release.outputs.article_path }}
+      smoke_article_sha256: ${{ steps.podcaster-release.outputs.article_sha256 }}
+      smoke_promotion_reference: ${{ steps.podcaster-release.outputs.promotion_reference }}
     env:
       HUGO_VERSION: 0.161.1
       HUGO_PARAMS_GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
@@ -80,23 +86,90 @@ jobs:
 
       - name: Hydrate generated content from publish
         # Architecture: code/theme/config come from main; all generated content
-        # (weekly pages, rollups, raw data) comes from the canonical publish branch.
+        # comes from the canonical publish branch.
         # This prevents the site from ever diverging from the crawl-and-publish output.
         run: |
           set -euo pipefail
           git fetch origin publish
           # Wipe and re-checkout to mirror publish exactly (deletions propagate)
-          rm -rf content/weekly content/monthly content/yearly data/analyzed data/raw data/metrics data/snapshots
-          git checkout origin/publish -- \
-            content/weekly/ \
-            content/monthly/ \
-            content/yearly/ \
-            data/analyzed/ \
-            data/raw/ \
-            data/metrics/ \
-            data/snapshots/ || true
+          GENERATED_PATHS=(
+            content/weekly/
+            content/monthly/
+            content/yearly/
+            content/topics/
+            content/repo/
+            content/data/
+            data/analyzed/
+            data/raw/
+            data/metrics/
+            data/snapshots/
+            data/candidates/
+            data/published/
+            data/taxonomy/
+            data/topic-hubs/
+            data/derived/observatory/
+            static/datasets/open-source-ai-github-projects-2026/
+            static/tools/star-velocity-explorer.json
+          )
+          for path in "${GENERATED_PATHS[@]}"; do
+            path="${path%/}"
+            rm -rf "$path"
+            git checkout origin/publish -- "$path" 2>/dev/null || true
+          done
           echo "Hydrated from publish:"
           ls content/weekly/2026/ 2>/dev/null || true
+
+      - name: Resolve promoted Podcaster release
+        id: podcaster-release
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          from scripts.podcaster_handoff import article_url_from_page_path
+
+          records = sorted(Path("data/published").glob("*/promotion-manifest.json"))
+          if not records:
+              raise SystemExit("No retained promotion record is available for release smoke.")
+
+          promotion_reference = records[-1]
+          record = json.loads(promotion_reference.read_text(encoding="utf-8"))
+          if record.get("schema_version") != "promotion_transaction_v1":
+              raise SystemExit(f"Unsupported promotion record: {promotion_reference}")
+          article = next(
+              (
+                  artifact
+                  for artifact in record.get("published_artifacts", [])
+                  if artifact.get("role") == "hugo_content"
+              ),
+              None,
+          )
+          if not isinstance(article, dict):
+              raise SystemExit(f"Promotion record lacks hugo_content: {promotion_reference}")
+
+          article_path = Path(str(article.get("path") or ""))
+          if not article_path.is_file():
+              raise SystemExit(f"Promoted article does not exist: {article_path}")
+          article_sha256 = hashlib.sha256(article_path.read_bytes()).hexdigest()
+          if article_sha256 != article.get("sha256"):
+              raise SystemExit(f"Promoted article bytes do not match: {promotion_reference}")
+
+          outputs = {
+              "week": str(record.get("week") or ""),
+              "article_url": article_url_from_page_path("https://claracle.com/", article_path.as_posix()),
+              "article_path": article_path.as_posix(),
+              "article_sha256": article_sha256,
+              "promotion_reference": promotion_reference.as_posix(),
+          }
+          if not outputs["week"]:
+              raise SystemExit(f"Promotion record lacks week: {promotion_reference}")
+          with Path(os.environ["GITHUB_OUTPUT"]).open("a", encoding="utf-8") as output:
+              for key, value in outputs.items():
+                  print(f"{key}={value}", file=output)
+          PY
 
       - name: Build site
         run: hugo --minify
@@ -123,8 +196,20 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
 
-  notify-failure:
+  podcaster-release-smoke:
     needs: [build, deploy]
+    permissions:
+      contents: read
+    uses: ./.github/workflows/podcaster-handoff-smoke.yml
+    with:
+      week: ${{ needs.build.outputs.smoke_week }}
+      article_url: ${{ needs.build.outputs.smoke_article_url }}
+      article_path: ${{ needs.build.outputs.smoke_article_path }}
+      article_sha256: ${{ needs.build.outputs.smoke_article_sha256 }}
+      promotion_reference: ${{ needs.build.outputs.smoke_promotion_reference }}
+
+  notify-failure:
+    needs: [build, deploy, podcaster-release-smoke]
     if: failure()
     runs-on: ubuntu-latest
     permissions:

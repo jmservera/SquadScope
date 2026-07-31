@@ -2,23 +2,27 @@
 title: "Claracle Data Observatory Relaunch — Business Requirements Document"
 description: "BRD for the next version of the Claracle site, repositioning it from weekly AI-generated summaries into a discoverable, linkable public database of GitHub technology trends to solve the discovery/SEO problem."
 author: "BRD Builder (facilitated)"
-ms.date: 07/29/2026
+ms.date: 2026-07-30
 ms.topic: reference
 ---
-
-# Claracle Data Observatory Relaunch — Business Requirements Document
 
 ## Document Control
 
 | Field | Value |
 |-------|-------|
 | BRD ID | BRD-CLARACLE-002 |
-| Status | Ready for review |
-| Version | 1.0 |
+| Status | Acceptance and sponsor approval pending |
+| Version | 1.1 |
 | Author | BRD Builder (facilitated) |
 | Sponsor | jmservera (also the human approval authority) |
 | Last updated | 2026-07-29 |
 | Related repositories | SquadScope, SquadScope-Podcaster, SquadScope-Coordinator |
+
+---
+
+## Acceptance Status
+
+The business requirements remain approved as requirements, but no repository artifact records sponsor approval to enable either rollout flag. Security sign-off, analytics and search evidence, production responses, Podcaster execution, accessibility review, and refreshed visual acceptance remain pending. Dynamic topic creation and repository-page creation must be approved separately.
 
 ---
 
@@ -61,14 +65,14 @@ Claracle's content and information architecture optimize for a weekly publishing
 
 ## 3. Business Objectives and Success Metrics
 
-> Baselines are confirmed near-zero. Discovery is measured with **Google Analytics 4 (GA4)** and **Google Search Console (GSC)**. Because absolute numbers are tiny, several targets are stated as absolute counts rather than only multipliers.
+> Numeric baselines have not been captured from **Google Analytics 4 (GA4)** or **Google Search Console (GSC)**. Targets remain unchanged, but baseline values stay pending until dated platform evidence exists.
 
 | ID | Objective | KPI | Baseline | Target | Timeframe |
 |----|-----------|-----|----------|--------|-----------|
 | OBJ-1 | Establish durable, topic-aligned discovery surface | Number of evergreen topic/data/repository pages indexed by Google | ~0 (weekly-only) | ≥ 40 evergreen pages indexed | 3 months post-launch |
-| OBJ-2 | Grow organic search discovery | Organic sessions / month (GA4 + GSC) | Near-zero (confirmed) | ≥ 250 organic sessions / month | 6 months post-launch |
+| OBJ-2 | Grow organic search discovery | Organic sessions / month (GA4 + GSC) | Pending platform capture | ≥ 250 organic sessions / month | 6 months post-launch |
 | OBJ-3 | Turn the dataset into a linkable asset | Number of external backlinks to data/dataset/chart/tool pages | ~0 | ≥ 25 referring domains | 6 months post-launch |
-| OBJ-4 | Rank for target head/mid-tail queries | Queries with impressions in GSC; count in top 20 | Near-zero (confirmed) | ≥ 15 queries in top 20 | 6 months post-launch |
+| OBJ-4 | Rank for target head/mid-tail queries | Queries with impressions in GSC; count in top 20 | Pending platform capture | ≥ 15 queries in top 20 | 6 months post-launch |
 | OBJ-5 | Improve technical SEO completeness | On-page SEO checklist coverage (titles, meta, canonical, OG, Twitter, Article + Breadcrumb schema, sitemaps, RSS) | Partial (see §7) | 100% of checklist items met and validated | At launch |
 | OBJ-6 | Preserve pipeline integrity and cross-repo contracts | Weekly pipeline success rate; Podcaster handoff smoke pass rate | Current (assumed passing) | No regression | Ongoing |
 
@@ -175,11 +179,13 @@ Claracle's content and information architecture optimize for a weekly publishing
 > **What a "repository page" is and its implications.** A repository page is a dedicated, evergreen landing page for a single GitHub repository that Claracle has tracked over time (e.g., `/repo/langchain-langchain/`). It is generated from the existing crawl/analysis dataset — not by re-crawling on demand — and presents that repo's Claracle history: star/growth trajectory, star velocity, the list of weekly issues it appeared in, and related repositories seen alongside it. Its purpose is to capture existing search demand (people already search specific repo names) and to become a citable reference.
 >
 > Implications to plan for:
+>
 > - **Content model:** requires a per-repository identity/slug and a way to accumulate a repo's appearances and metrics across weeks from `data/` artifacts (no new crawl).
 > - **Volume & quality:** unbounded auto-generation risks thin/duplicate pages that hurt SEO; a recurrence threshold (BR-022) gates creation so only repositories with enough signal get a page.
 > - **Stability & change data:** URLs must stay stable; repos can be renamed, archived, or deleted upstream — pages need a defined handling (mark archived, keep historical data, avoid dead outbound links).
 > - **Maintenance:** pages update on the normal generation cadence; internal links to/from topic hubs and weekly issues must stay valid (covered by the CI link-check, BR-041).
 > - **Provenance:** each metric shows an "as of" date and links to methodology (DR-003), since the data is historical, not live.
+>
 
 ### 6.4 Structured On-Page SEO
 
@@ -255,10 +261,10 @@ Claracle's content and information architecture optimize for a weekly publishing
 | ID | Requirement | Objective | Priority |
 |----|-------------|-----------|----------|
 | DR-001 | The trend dataset (repositories, metrics, weekly appearances, growth/velocity over time) shall be exposed in a structured, queryable form usable by content generation for hubs, data pages, and repo pages. | OBJ-1, OBJ-3 | Must |
-| DR-002 | Discovery and ranking performance shall be measurable via **Google Analytics 4 and Google Search Console**; baseline is confirmed near-zero and both properties shall be connected/verified for the production domain. | OBJ-2, OBJ-4 | Must |
+| DR-002 | Discovery and ranking performance shall be measurable via **Google Analytics 4 and Google Search Console**; a dated baseline shall be captured and both properties shall be connected or verified for the production domain. | OBJ-2, OBJ-4 | Must |
 | DR-003 | Published rankings and datasets shall carry provenance (source, "as of" date, methodology link) consistent with the existing methodology and corrections policy. | OBJ-5 | Must |
 
-- **DR-002 note:** Analytics stack is confirmed as GA4 + GSC. Baseline is near-zero; capture a dated snapshot of sessions, sources, and query impressions at launch to anchor the KPI trend line.
+- **DR-002 note:** The selected analytics stack is GA4 + GSC. The baseline remains pending; capture a dated snapshot of sessions, sources, and query impressions at launch to anchor the KPI trend line.
 
 ---
 
@@ -310,7 +316,7 @@ Aligned to the SEO analysis phasing; final sequencing is a delivery decision.
 Resolved in elicitation (2026-07-29):
 
 - ✅ Sponsor and approval authority: **jmservera** (human approval authority).
-- ✅ Analytics baseline: **near-zero, confirmed**; measured with **GA4 + GSC**.
+- Analytics measurement stack: **GA4 + GSC selected**; property state and numeric baseline remain pending external evidence.
 - ✅ Wave 1 topic hubs: AI Coding Agents, MCP Ecosystem, Open-Source LLMs, Developer Tools, plus one vertical (e.g., AI Agents in Healthcare) — kept **trend-aligned and dynamic** (BR-004).
 - ✅ Dataset licensing: **MIT**, cite all references (BR-050).
 - ✅ Free tool: **client-side-only**, specific tool chosen via design spike (BR-052).
@@ -323,3 +329,6 @@ Resolved in elicitation (2026-07-29):
 Still open:
 
 1. Quantify **incremental generation cost/time** for hubs, data, and repository pages.
+2. Record Hermes security sign-off and disposition of open review findings.
+3. Capture GA4, GSC, production, Podcaster, accessibility, and visual acceptance evidence.
+4. Obtain separate sponsor approval before enabling dynamic topic creation or repository-page creation.

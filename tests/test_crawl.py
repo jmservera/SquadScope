@@ -10,6 +10,71 @@ import scripts.crawl as crawl
 
 
 class CrawlTests(unittest.TestCase):
+    def test_to_repo_record_retains_stable_identity_and_lifecycle_fields(self) -> None:
+        record = crawl.to_repo_record(
+            {
+                "id": 123,
+                "node_id": "R_kgDOExample",
+                "name": "repo",
+                "owner": {"login": "octo"},
+                "full_name": "octo/repo",
+                "description": "Repository description",
+                "language": "Python",
+                "stargazers_count": 42,
+                "forks_count": 3,
+                "archived": True,
+                "disabled": False,
+                "created_at": "2024-01-01T00:00:00Z",
+                "updated_at": "2026-07-28T10:00:00Z",
+                "pushed_at": "2026-07-27T09:00:00Z",
+                "topics": ["AI-Agents"],
+                "license": {"spdx_id": "MIT"},
+                "html_url": "https://github.com/octo/repo",
+                "url": "https://api.github.com/repos/octo/repo",
+            }
+        )
+
+        self.assertEqual(record["id"], 123)
+        self.assertEqual(record["node_id"], "R_kgDOExample")
+        self.assertTrue(record["archived"])
+        self.assertFalse(record["disabled"])
+        self.assertEqual(record["updated_at"], "2026-07-28T10:00:00Z")
+        self.assertEqual(record["pushed_at"], "2026-07-27T09:00:00Z")
+        self.assertEqual(record["url"], "https://github.com/octo/repo")
+        self.assertEqual(record["api_url"], "https://api.github.com/repos/octo/repo")
+
+    def test_validate_payload_accepts_legacy_repo_records_without_lifecycle_fields(self) -> None:
+        legacy_record = {
+            "name": "repo",
+            "owner": "octo",
+            "full_name": "octo/repo",
+            "description": "Repository description",
+            "language": "Python",
+            "stars": 42,
+            "forks": 3,
+            "created_at": "2024-01-01T00:00:00Z",
+            "topics": ["ai-agents"],
+            "license": "MIT",
+            "url": "https://github.com/octo/repo",
+        }
+        payload = {
+            "week": "2026-W31",
+            "crawled_at": "2026-07-29T10:00:00Z",
+            "new_repos": [legacy_record],
+            "trending_repos": [],
+            "signals": {"top_topics": []},
+            "metadata": {
+                "api_calls_used": 1,
+                "cache_hits": 0,
+                "stale_cache_hits": 0,
+                "rate_limit_remaining": None,
+                "rate_limit_limit": None,
+                "snapshot_path": "data/snapshots/2026-W31-stars.json",
+            },
+        }
+
+        crawl.validate_payload(payload)
+
     def test_significance_skip_reason_allows_common_description_terms(self) -> None:
         repo = {
             "name": "awesome-tool",

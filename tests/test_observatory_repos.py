@@ -21,7 +21,15 @@ def write_week(root: Path, week: str, repos: list[dict[str, object]]) -> None:
     (raw_dir / f"{week}.json").write_text(json.dumps(payload), encoding="utf-8")
 
 
-def repo_record(full_name: str, stars: int, topics: list[str] | None = None) -> dict[str, object]:
+def repo_record(
+    full_name: str,
+    stars: int,
+    topics: list[str] | None = None,
+    *,
+    github_id: int | None = None,
+    archived: bool = False,
+    disabled: bool = False,
+) -> dict[str, object]:
     owner, name = full_name.split("/", 1)
     return {
         "owner": owner,
@@ -35,6 +43,13 @@ def repo_record(full_name: str, stars: int, topics: list[str] | None = None) -> 
         "topics": topics or ["ai-agents"],
         "license": None,
         "url": f"https://github.com/{full_name}",
+        "id": github_id,
+        "node_id": f"R_{github_id}" if github_id is not None else None,
+        "archived": archived,
+        "disabled": disabled,
+        "updated_at": "2026-07-29T00:00:00Z",
+        "pushed_at": "2026-07-28T00:00:00Z",
+        "api_url": f"https://api.github.com/repos/{full_name}",
     }
 
 
@@ -64,6 +79,7 @@ def test_generates_only_repositories_above_configured_threshold() -> None:
         (config_dir / "observatory.toml").write_text(
             """
 [repo_pages]
+enabled = true
 recurrence_threshold_distinct_weekly_issues = 3
 recurrence_threshold_operator = ">"
 retention_years = 3
@@ -102,6 +118,35 @@ def test_repo_github_topics_route_to_tags_not_curated_topics() -> None:
                 ],
             )
 
+        config_dir = root / "config"
+        config_dir.mkdir()
+        (config_dir / "observatory.toml").write_text(
+            "[repo_pages]\nenabled = true\n", encoding="utf-8"
+        )
+        topics_path = root / "data" / "taxonomy" / "topics.json"
+        topics_path.parent.mkdir(parents=True)
+        topics_path.write_text(
+            json.dumps(
+                {
+                    "terms": {
+                        "open-source-llms": {
+                            "slug": "open-source-llms",
+                            "display_name": "Open-Source LLMs",
+                            "promoted": True,
+                            "aliases": ["llm"],
+                        },
+                        "unpromoted": {
+                            "slug": "unpromoted",
+                            "display_name": "Unpromoted",
+                            "promoted": False,
+                            "aliases": ["raw-repo-topic"],
+                        },
+                    }
+                }
+            ),
+            encoding="utf-8",
+        )
+
         observatory_repos.generate(root)
 
         page_path = root / "content" / "repo" / "octo-recurring" / "index.md"
@@ -113,6 +158,13 @@ def test_repo_github_topics_route_to_tags_not_curated_topics() -> None:
             {"name": "AI Agents", "url": "/tags/ai-agents/"},
             {"name": "llm", "url": "/tags/llm/"},
             {"name": "Raw Repo Topic", "url": "/tags/raw-repo-topic/"},
+        ]
+        assert frontmatter["topic_links"] == [
+            {
+                "name": "Open-Source LLMs",
+                "slug": "open-source-llms",
+                "url": "/topics/open-source-llms/",
+            }
         ]
         assert "/topics/raw-repo-topic/" not in page
 
@@ -140,6 +192,12 @@ def test_repo_generation_is_deterministic_and_sorts_related_repos() -> None:
                     repo_record("Beta/Bar", 80 + index, topics=["shared", "agent"]),
                 ],
             )
+
+        config_dir = root / "config"
+        config_dir.mkdir()
+        (config_dir / "observatory.toml").write_text(
+            "[repo_pages]\nenabled = true\n", encoding="utf-8"
+        )
 
         observatory_repos.generate(root)
         first = {
@@ -186,6 +244,7 @@ def test_lifecycle_rename_archive_and_delete_handling() -> None:
         (config_dir / "observatory.toml").write_text(
             """
 [repo_pages]
+enabled = true
 recurrence_threshold_distinct_weekly_issues = 3
 recurrence_threshold_operator = ">"
 retention_years = 3
@@ -199,6 +258,7 @@ status = "archived"
 
 [repo_pages.lifecycle."octo/deleted"]
 status = "deleted"
+deletion_confirmed_at = "2026-06-15"
 """.strip(),
             encoding="utf-8",
         )
@@ -216,8 +276,488 @@ status = "deleted"
         deleted = read_frontmatter(deleted_path)
         assert deleted["lifecycle"]["status"] == "deleted"
         assert deleted["lifecycle"]["retention_years"] == 3
-        assert deleted["lifecycle"]["retained_until"] >= "2029-06-08"
+        assert deleted["lifecycle"]["retained_until"] == "2029-06-15"
         assert "last seen week 2026-W24" in deleted_path.read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize(
+    ("lifecycle_fields", "error_match"),
+    [
+        ("", "requires deletion_confirmed_at"),
+        ('deletion_confirmed_at = "not-a-date"', "invalid deletion_confirmed_at"),
+        ('deletion_confirmed_at = "2026-07-02"', "future deletion_confirmed_at"),
+        (
+            'deletion_confirmed_at = "2026-07-01"\nretained_until = "2029-06-30"',
+            "shortens configured retention",
+        ),
+    ],
+)
+def test_deleted_override_fails_closed_without_valid_retention(
+    lifecycle_fields: str, error_match: str
+) -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        write_week(root, "2024-W01", [repo_record("octo/deleted", 30, github_id=789)])
+        config_dir = root / "config"
+        config_dir.mkdir()
+        config_path = config_dir / "observatory.toml"
+        config_path.write_text(
+            f"""
+[repo_pages]
+enabled = true
+retention_years = 3
+
+[repo_pages.lifecycle."octo/deleted"]
+status = "deleted"
+{lifecycle_fields}
+""".strip(),
+            encoding="utf-8",
+        )
+
+        with pytest.raises(ValueError, match=error_match):
+            observatory_repos.generate(root, as_of=observatory_repos.date(2026, 7, 1))
+
+        assert not (root / "content").exists()
+        assert not (root / "data/derived").exists()
+        assert not (root / "data/taxonomy").exists()
+
+
+def test_deletion_retention_uses_confirmation_not_old_last_seen() -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        write_week(root, "2024-W01", [repo_record("octo/deleted", 30, github_id=789)])
+        config_dir = root / "config"
+        config_dir.mkdir()
+        (config_dir / "observatory.toml").write_text(
+            """
+[repo_pages]
+enabled = true
+retention_years = 3
+
+[repo_pages.lifecycle."octo/deleted"]
+status = "deleted"
+deletion_confirmed_at = "2026-07-01"
+retained_until = "2030-01-01"
+""".strip(),
+            encoding="utf-8",
+        )
+
+        observatory_repos.generate(root, as_of=observatory_repos.date(2026, 7, 1))
+
+        ledger = json.loads(
+            (root / "data/derived/observatory/repository-lifecycle.json").read_text()
+        )
+        assert ledger["repositories"]["789"]["lifecycle"]["retained_until"] == "2029-07-01"
+
+
+def test_stable_id_rename_creates_alias_and_positive_archive_evidence() -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        for index, week in enumerate(("2026-W21", "2026-W22", "2026-W23", "2026-W24")):
+            write_week(
+                root,
+                week,
+                [repo_record("old-owner/repo", 10 + index, github_id=123)],
+            )
+        config_dir = root / "config"
+        config_dir.mkdir()
+        (config_dir / "observatory.toml").write_text(
+            "[repo_pages]\nenabled = true\n", encoding="utf-8"
+        )
+
+        observatory_repos.generate(root)
+        old_page = root / "content/repo/old-owner-repo/index.md"
+        assert old_page.exists()
+
+        write_week(
+            root,
+            "2026-W25",
+            [repo_record("new-owner/repo", 14, github_id=123, archived=True)],
+        )
+        observatory_repos.generate(root)
+
+        page = read_frontmatter(root / "content/repo/new-owner-repo/index.md")
+        assert not old_page.exists()
+        assert page["aliases"] == ["/repo/old-owner-repo/"]
+        assert page["lifecycle"]["status"] == "archived"
+        assert page["lifecycle"]["status_evidence"] == "github_archived_field"
+        ledger = json.loads(
+            (root / "data/derived/observatory/repository-lifecycle.json").read_text()
+        )
+        assert ledger["schema_version"] == 1
+        assert ledger["repositories"]["123"]["current_full_name"] == "new-owner/repo"
+        assert ledger["repositories"]["123"]["prior_full_names"] == ["old-owner/repo"]
+
+
+def test_absence_preserves_qualified_page_and_does_not_imply_deletion() -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        for index, week in enumerate(("2026-W21", "2026-W22", "2026-W23", "2026-W24")):
+            write_week(root, week, [repo_record("octo/durable", 20 + index, github_id=456)])
+        config_dir = root / "config"
+        config_dir.mkdir()
+        config_path = config_dir / "observatory.toml"
+        config_path.write_text("[repo_pages]\nenabled = true\n", encoding="utf-8")
+        observatory_repos.generate(root)
+        page_path = root / "content/repo/octo-durable/index.md"
+
+        shutil.rmtree(root / "data/raw")
+        config_path.write_text(
+            "[repo_pages]\nenabled = true\nrecurrence_threshold_distinct_weekly_issues = 10\n",
+            encoding="utf-8",
+        )
+        observatory_repos.generate(root)
+
+        assert page_path.exists()
+        page = read_frontmatter(page_path)
+        assert page["lifecycle"]["status"] == "active"
+        ledger = json.loads(
+            (root / "data/derived/observatory/repository-lifecycle.json").read_text()
+        )
+        assert ledger["repositories"]["456"]["qualified"] is True
+        assert ledger["repositories"]["456"]["lifecycle"]["status"] == "active"
+
+
+def test_confirmed_deletion_is_retained_then_removed_only_after_expiry(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        for index, week in enumerate(("2026-W21", "2026-W22", "2026-W23", "2026-W24")):
+            write_week(root, week, [repo_record("octo/deleted", 30 + index, github_id=789)])
+        config_dir = root / "config"
+        config_dir.mkdir()
+        config_path = config_dir / "observatory.toml"
+        config_path.write_text(
+            """
+[repo_pages]
+enabled = true
+retention_years = 3
+
+[repo_pages.lifecycle."octo/deleted"]
+status = "deleted"
+deletion_confirmed_at = "2026-07-01"
+""".strip(),
+            encoding="utf-8",
+        )
+
+        observatory_repos.generate(root, as_of=observatory_repos.date(2029, 7, 1))
+        page_path = root / "content/repo/octo-deleted/index.md"
+        assert page_path.exists()
+        assert read_frontmatter(page_path)["lifecycle"]["retained_until"] == "2029-07-01"
+
+        shutil.rmtree(root / "data/raw")
+        config_path.write_text("[repo_pages]\nenabled = true\n", encoding="utf-8")
+        observatory_repos.generate(root, as_of=observatory_repos.date(2029, 7, 2))
+
+        assert not page_path.exists()
+        ledger = json.loads(
+            (root / "data/derived/observatory/repository-lifecycle.json").read_text()
+        )
+        assert "789" not in ledger["repositories"]
+        assert "Removed expired repository tombstone octo/deleted" in capsys.readouterr().out
+
+
+def test_check_mode_is_non_mutating_and_reports_stale_outputs() -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        for index, week in enumerate(("2026-W21", "2026-W22", "2026-W23", "2026-W24")):
+            write_week(root, week, [repo_record("octo/check", 40 + index, github_id=999)])
+        config_dir = root / "config"
+        config_dir.mkdir()
+        (config_dir / "observatory.toml").write_text(
+            "[repo_pages]\nenabled = true\n", encoding="utf-8"
+        )
+        observatory_repos.generate(root)
+        tracked = [
+            root / "content/repo/octo-check/index.md",
+            root / "data/derived/observatory/repositories.json",
+            root / "data/derived/observatory/repository-lifecycle.json",
+        ]
+        before = {path: path.read_bytes() for path in tracked}
+
+        assert observatory_repos.generate(root, check=True) == []
+        assert {path: path.read_bytes() for path in tracked} == before
+        tracked[0].write_text("stale\n", encoding="utf-8")
+        stale_before = tracked[0].read_bytes()
+
+        assert tracked[0] in observatory_repos.generate(root, check=True)
+        assert tracked[0].read_bytes() == stale_before
+
+
+def test_seed_lifecycle_writes_only_ledger_and_is_byte_stable() -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        for index, week in enumerate(("2026-W21", "2026-W22", "2026-W23", "2026-W24")):
+            write_week(
+                root,
+                week,
+                [
+                    repo_record("octo/qualified", 30 + index),
+                    repo_record("octo/unqualified", 10 + index) if index == 0 else {},
+                ],
+            )
+        config_dir = root / "config"
+        config_dir.mkdir()
+        config_path = config_dir / "observatory.toml"
+        config_path.write_text("[repo_pages]\nenabled = true\n", encoding="utf-8")
+        observatory_repos.generate(root)
+        ledger_path = root / "data/derived/observatory/repository-lifecycle.json"
+        ledger_path.unlink()
+        config_path.write_text("[repo_pages]\nenabled = false\n", encoding="utf-8")
+        page_path = root / "content/repo/octo-qualified/index.md"
+        derived_path = root / "data/derived/observatory/repositories.json"
+        unchanged_before = {path: path.read_bytes() for path in (page_path, derived_path)}
+
+        counts = observatory_repos.seed_lifecycle(root)
+        first_ledger = ledger_path.read_bytes()
+        observatory_repos.seed_lifecycle(root)
+
+        assert counts == {
+            "fallback_histories": 2,
+            "stable_id_histories": 0,
+            "qualified_histories": 1,
+            "existing_pages": 1,
+            "mismatches": 0,
+        }
+        assert ledger_path.read_bytes() == first_ledger
+        assert {path: path.read_bytes() for path in (page_path, derived_path)} == unchanged_before
+
+
+def test_seed_lifecycle_rejects_page_parity_mismatch_without_writing() -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        for index, week in enumerate(("2026-W21", "2026-W22", "2026-W23", "2026-W24")):
+            write_week(root, week, [repo_record("octo/qualified", 30 + index)])
+        config_dir = root / "config"
+        config_dir.mkdir()
+        config_path = config_dir / "observatory.toml"
+        config_path.write_text("[repo_pages]\nenabled = true\n", encoding="utf-8")
+        observatory_repos.generate(root)
+        ledger_path = root / "data/derived/observatory/repository-lifecycle.json"
+        original_ledger = ledger_path.read_bytes()
+        (root / "content/repo/octo-qualified/index.md").unlink()
+        config_path.write_text("[repo_pages]\nenabled = false\n", encoding="utf-8")
+
+        with pytest.raises(ValueError, match="Lifecycle seed parity mismatch"):
+            observatory_repos.seed_lifecycle(root)
+
+        assert ledger_path.read_bytes() == original_ledger
+
+
+def test_frozen_corpus_lifecycle_seed_has_expected_parity() -> None:
+    config = observatory_repos.load_config(REPO_ROOT)
+    ledger_path = config["ledger_path"]
+    ledger = observatory_repos.load_lifecycle_ledger(ledger_path)
+    histories = observatory_repos.load_repository_histories(REPO_ROOT, config["lifecycle"], ledger)
+    qualified_identities = {
+        (history.display_name, history.slug) for history in histories.values() if history.qualified
+    }
+    page_identities, derived_identities = observatory_repos.existing_repository_identities(
+        REPO_ROOT
+    )
+    expected_ledger = (
+        json.dumps(observatory_repos.lifecycle_ledger_payload(histories), indent=2, sort_keys=True)
+        + "\n"
+    )
+
+    assert config["enabled"] is False
+    assert len(histories) == 2242
+    assert all(key.startswith("name:") for key in histories)
+    assert len(qualified_identities) == 263
+    assert qualified_identities == page_identities == derived_identities
+    assert ledger_path.read_text(encoding="utf-8") == expected_ledger
+
+
+def test_stable_id_absorbs_seeded_fallback_history() -> None:
+    observation = observatory_repos.RepoObservation(
+        week="2026-W25",
+        source_bucket="trending_repos",
+        owner="new-owner",
+        name="repo",
+        full_name="new-owner/repo",
+        url="https://github.com/new-owner/repo",
+        description="renamed",
+        language="Python",
+        stars=20,
+        forks=1,
+        created_at="2026-01-01T00:00:00Z",
+        topics=("ai-agents",),
+        source_path="data/raw/2026-W25.json",
+        github_id="123",
+    )
+    history = observatory_repos.RepositoryHistory(
+        key="name:new-owner/repo",
+        github_id=None,
+        node_id=None,
+        display_name="new-owner/repo",
+        owner="new-owner",
+        name="repo",
+        slug="new-owner-repo",
+        url="https://github.com/new-owner/repo",
+        observations=[observation],
+        lifecycle={"status": "active", "note": "seeded"},
+        prior_full_names={"old-owner/repo"},
+        prior_slugs={"old-owner-repo"},
+        qualified=True,
+    )
+    ledger = observatory_repos.lifecycle_ledger_payload({history.key: history})
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        write_week(root, "2026-W26", [repo_record("new-owner/repo", 21, github_id=123)])
+
+        histories = observatory_repos.load_repository_histories(root, ledger=ledger)
+
+        migrated = histories["123"]
+        assert "name:new-owner/repo" not in histories
+        assert migrated.qualified is True
+        assert migrated.lifecycle == {"status": "active", "note": "seeded"}
+        assert migrated.prior_full_names == {"old-owner/repo"}
+        assert migrated.prior_slugs == {"old-owner-repo"}
+        assert {item.week for item in migrated.observations} == {"2026-W25", "2026-W26"}
+
+
+def test_disabled_repo_generation_preserves_durable_state(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        write_week(root, "2026-W21", [repo_record("octo/new", 100)])
+        config_dir = root / "config"
+        config_dir.mkdir()
+        (config_dir / "observatory.toml").write_text(
+            "[repo_pages]\nenabled = false\n", encoding="utf-8"
+        )
+        durable_page = root / "content" / "repo" / "octo-durable" / "index.md"
+        durable_page.parent.mkdir(parents=True)
+        durable_page.write_text(
+            f"---\ngenerated_by: {observatory_repos.GENERATED_BY}\n---\n",
+            encoding="utf-8",
+        )
+        page_before = durable_page.read_bytes()
+
+        written = observatory_repos.generate(root)
+
+        assert written == []
+        assert durable_page.read_bytes() == page_before
+        assert not (root / "content" / "repo" / "octo-new").exists()
+        assert not (root / "data" / "derived" / "observatory" / "repositories.json").exists()
+        assert (
+            "repository-page-decision disabled; "
+            "no repository pages created or durable pages deleted" in capsys.readouterr().out
+        )
+
+
+@pytest.mark.skipif(shutil.which("hugo") is None, reason="hugo binary is not installed")
+def test_enabled_fixture_is_idempotent_and_renders_lifecycle_contracts() -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        shutil.copy2(REPO_ROOT / "hugo.toml", root / "hugo.toml")
+        for directory in ("archetypes", "assets", "layouts", "static", "themes"):
+            shutil.copytree(REPO_ROOT / directory, root / directory)
+        for directory in ("data/raw", "data/snapshots", "data/metrics", "content"):
+            (root / directory).mkdir(parents=True, exist_ok=True)
+        shutil.copy2(REPO_ROOT / "data/cookieconsent.json", root / "data/cookieconsent.json")
+        for index, week in enumerate(("2026-W21", "2026-W22", "2026-W23", "2026-W24")):
+            write_week(
+                root,
+                week,
+                [
+                    repo_record(
+                        "old-owner/old-name",
+                        30 + index,
+                        topics=["Raw Repo Topic", "llm"],
+                    ),
+                    repo_record("octo/deleted", 20 + index),
+                ],
+            )
+            weekly_path = root / "content/weekly/2026" / f"{week.split('-')[1]}.md"
+            weekly_path.parent.mkdir(parents=True, exist_ok=True)
+            weekly_path.write_text(f"---\ntitle: {week}\n---\n", encoding="utf-8")
+        (root / "content/_index.md").write_text("---\ntitle: Home\n---\n", encoding="utf-8")
+        for path, title in (
+            (root / "content/methodology/_index.md", "Methodology"),
+            (root / "content/topics/open-source-llms/_index.md", "Open-Source LLMs"),
+        ):
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(f"---\ntitle: {title}\n---\n", encoding="utf-8")
+        topics_path = root / "data/taxonomy/topics.json"
+        topics_path.parent.mkdir(parents=True, exist_ok=True)
+        topics_path.write_text(
+            json.dumps(
+                {
+                    "terms": {
+                        "open-source-llms": {
+                            "slug": "open-source-llms",
+                            "display_name": "Open-Source LLMs",
+                            "promoted": True,
+                            "aliases": ["llm"],
+                        }
+                    }
+                }
+            ),
+            encoding="utf-8",
+        )
+        config_dir = root / "config"
+        config_dir.mkdir()
+        (config_dir / "observatory.toml").write_text(
+            """
+[repo_pages]
+enabled = true
+retention_years = 3
+
+[repo_pages.lifecycle."old-owner/old-name"]
+status = "renamed"
+renamed_to = "new-owner/new-name"
+
+[repo_pages.lifecycle."octo/deleted"]
+status = "deleted"
+deletion_confirmed_at = "2026-07-01"
+""".strip(),
+            encoding="utf-8",
+        )
+
+        observatory_repos.generate(root, as_of=observatory_repos.date(2026, 7, 1))
+        generated_paths = sorted((root / "content/repo").glob("**/*.md")) + sorted(
+            (root / "data/derived/observatory").glob("*.json")
+        )
+        generated_paths += [root / "data/taxonomy/tags.json"]
+        first = {path.relative_to(root): path.read_bytes() for path in generated_paths}
+        observatory_repos.generate(root, as_of=observatory_repos.date(2026, 7, 1))
+        second = {path.relative_to(root): path.read_bytes() for path in generated_paths}
+
+        assert second == first
+        result = subprocess.run(
+            ["hugo", "--minify", "--quiet"],
+            cwd=root,
+            check=False,
+            text=True,
+            capture_output=True,
+        )
+        assert result.returncode == 0, result.stderr + result.stdout
+        canonical = root / "public/repo/new-owner-new-name/index.html"
+        alias = root / "public/repo/old-owner-old-name/index.html"
+        deleted = root / "public/repo/octo-deleted/index.html"
+        canonical_html = canonical.read_text(encoding="utf-8")
+        deleted_html = deleted.read_text(encoding="utf-8")
+        assert canonical.exists()
+        assert alias.exists()
+        assert "/tags/raw-repo-topic/" in canonical_html
+        assert "/topics/open-source-llms/" in canonical_html
+        assert (root / "public/tags/raw-repo-topic/index.html").exists()
+        assert (root / "public/topics/open-source-llms/index.html").exists()
+        assert "Deleted or inaccessible repository" in deleted_html
 
 
 @pytest.mark.skipif(shutil.which("hugo") is None, reason="hugo binary is not installed")

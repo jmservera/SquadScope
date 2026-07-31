@@ -1,73 +1,93 @@
-# Data Observatory Relaunch — Visual Acceptance Review
+---
+title: Data Observatory Relaunch Acceptance Evidence
+description: Bounded evidence index for repository implementation, external launch gates, security review, and visual acceptance of the Claracle relaunch
+author: SquadScope Squad
+ms.date: 2026-07-30
+ms.topic: reference
+keywords:
+  - acceptance evidence
+  - data observatory
+  - release review
+  - visual acceptance
+estimated_reading_time: 8
+---
 
-Epic: **#594** · Milestone: **Data Observatory Relaunch**
+## Release status
 
-This gallery bundles rendered-site screenshots of every user-facing feature shipped in
-the relaunch so reviewers can do a final **visual acceptance pass** in one place. All
-shots were captured from a local `hugo --minify` build of `main` (baseURL rewritten to
-`localhost` for capture only), with the analytics env vars set so the consent behavior
-is exercised.
+Repository implementation evidence is available, but relaunch acceptance is incomplete.
+Dynamic topic creation and repository-page creation remain disabled in
+`config/observatory.toml`. This index does not authorize either rollout.
 
-> Scope check for reviewers: confirm each page renders correctly, the internal links
-> resolve to real hub/repo pages, titles/descriptions are unique (strict SEO gate), and
-> nothing forks the weekly-fed taxonomy. Report anything off as a review comment on this PR.
+External platform, production, cross-repository run, security sign-off, accessibility
+review, and visual acceptance evidence remain pending as listed below.
 
-## Delivered features
+## Evidence principles
 
-| # | Screenshot | Feature | Issue / PR | PRD |
-|---|-----------|---------|-----------|-----|
-| 1 | [Home](screenshots/01-home.png) | Landing page + cookie-consent banner (analytics stays disabled until consent) | #599 / #610, #620 | FR-035 |
-| 2 | [Topics index](screenshots/02-topics-index.png) | Curated topic-hub index (editorial taxonomy, not forked) | #597 / #616 | FR-001/003/004 |
-| 3 | [Topic hub — MCP Ecosystem](screenshots/03-topic-hub-mcp.png) | Per-topic hub page with dynamic lifecycle | #597 / #616 | FR-001/003/004 |
-| 4 | [Repository page — ollama/ollama](screenshots/04-repo-ollama.png) | Per-repo trend-history page + lifecycle | #602 / #615 | FR-020/021/022 |
-| 5 | [Data / trend page](screenshots/05-data-trend-page.png) | Fastest-growing AI repositories (data-driven page) | #601 / #613 | FR-010/011 |
-| 6 | [State of Open Source AI 2026](screenshots/06-state-of-ai.png) | Annual "State of" page backed by the MIT-licensed dataset | #603 / #614 | FR-050/053 |
-| 7 | [Embeddable charts](screenshots/07-embeddable-charts.png) | Copyable iframe embed + Claracle backlink | #604 / #617 | FR-051 |
-| 8 | [Star Velocity Explorer](screenshots/08-star-velocity-tool.png) | Client-side interactive tool (no backend, same-origin data) | #605 / #618 | FR-052 |
-| 9 | [Weekly article (full)](screenshots/09-weekly-article-internal-links.png) | Weekly report with internal-linking block | #600 / #619 | FR-040/041 |
-| 10 | [Internal-linking block (detail)](screenshots/10-internal-linking-block.png) | "Related topics & repositories" + prev/next navigation | #600 / #619 | FR-040/041 |
+- Repository links prove checked-in implementation, not production behavior
+- Command output proves only the revision and environment in which it ran
+- Screenshots prove visible rendering only; they do not prove metadata, schema, network,
+  consent, lifecycle, accessibility, or secret behavior
+- External claims require a date, observed value or conclusion, actor, and retained link
+- Secret values and private tokens must never appear in evidence
 
-## Cross-cutting evidence
+## Repository evidence
 
-- **On-page SEO metadata + structured data** (#598 / #611) — visible in every shot's
-  title/description; enforced by the strict per-page uniqueness CI gate.
-- **Internal link-check CI gate** (#600 / #619) — builds `public/` and fails on any
-  broken internal link (verified: exit 1 on a deliberate broken link, exit 0 clean).
-- **Dynamic file-based taxonomy registry** (#597) — `data/taxonomy/{topics,tags}.json`
-  with per-term stats; repo GitHub topics feed the `tags` side (#602), curated `topics`
-  stay editorial. Registry generation is byte-deterministic on re-run.
-- **Analytics** (#599) — GA4 activates on deploy via the existing `GA_MEASUREMENT_ID`
-  secret and is consent-gated; GSC becomes verifiable by adding a `GSC_SITE_VERIFICATION`
-  secret (PR #620).
+| Evidence                                                  | Status                      | Record                                                                      |
+| --------------------------------------------------------- | --------------------------- | --------------------------------------------------------------------------- |
+| Observatory operations, recovery, rollback, and ownership | Complete                    | [Data Observatory runbook](../../data-observatory-runbook.md)               |
+| FR-052 tool selection and architecture rationale          | Complete                    | [Star Velocity Explorer ADR](../../decisions/adr-star-velocity-explorer.md) |
+| Security and privacy surface review                       | Complete with open findings | [Security review](security-review.md)                                       |
+| Hermes security acceptance                                | Pending                     | Security review sign-off table                                              |
+| GA4 and GSC repository wiring                             | Implemented conditionally   | [Dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md)               |
+| GA4 and GSC external baseline values                      | Pending                     | Dated baseline external evidence matrix                                     |
+| Product delivery and rollout status                       | Pending acceptance          | [PRD](../../prds/claracle-data-observatory-relaunch.md)                     |
+| Sponsor-approved lifecycle state                          | Pending                     | [BRD](../../brds/claracle-data-observatory-relaunch-brd.md)                 |
+| Visual capture requirements                               | Pending                     | [Screenshot capture checklist](screenshots/README.md)                       |
 
-## Gallery
+## External acceptance matrix
 
-### 1. Home + consent banner
-![Home](screenshots/01-home.png)
+| Gate                                  | Status  | Actor or access needed                              | Required evidence                                          |
+| ------------------------------------- | ------- | --------------------------------------------------- | ---------------------------------------------------------- |
+| GSC property verification             | Pending | jmservera with GSC access                           | Dated verified-property evidence                           |
+| GSC sitemap submission                | Pending | jmservera with GSC access                           | Submitted sitemap target and platform status               |
+| GA4 consent-denied behavior           | Pending | jmservera and Hermes with production browser access | Network and cookie evidence from a private first visit     |
+| GA4 consent-granted behavior          | Pending | jmservera and Hermes with production browser access | Expected request after consent                             |
+| GA4 Realtime receipt                  | Pending | jmservera with GA4 access                           | Dated Realtime observation correlated to test visit        |
+| Social preview debuggers              | Pending | Reviewer with external debugger access              | Homepage and article conclusions with retained links       |
+| Rich Results Test                     | Pending | Reviewer with external debugger access              | Article and breadcrumb conclusions with retained links     |
+| Schema.org validator                  | Pending | Reviewer with external debugger access              | Relevant page-type conclusions with retained links         |
+| Production sitemap and feed responses | Pending | jmservera with production access                    | Status, content type, date, and tested target              |
+| Podcaster downstream run              | Pending | Podcaster maintainer and protected environment      | Successful downstream run conclusion and Actions link      |
+| Accessibility review                  | Pending | Fry and accessibility reviewer                      | Automated results plus keyboard and screen-reader findings |
+| Hermes sign-off                       | Pending | Hermes                                              | Dated disposition of security findings and NFR-004         |
+| Sponsor rollout approval              | Pending | jmservera                                           | Dated approval identifying each flag separately            |
 
-### 2. Topics index (curated hubs)
-![Topics index](screenshots/02-topics-index.png)
+## Visual evidence status
 
-### 3. Topic hub — MCP Ecosystem
-![Topic hub](screenshots/03-topic-hub-mcp.png)
+The existing ten PNG files are retained as historical local captures. Their current index
+did not include a revision, viewport dimensions, theme for each image, interaction state,
+or evidence that topic membership was populated and unobscured. They are not accepted as
+Phase 9 visual evidence.
 
-### 4. Repository page — ollama/ollama
-![Repo page](screenshots/04-repo-ollama.png)
+Do not overwrite them until a browser run can render populated repository evidence and
+the capture checklist can be completed. The replacement set must cover desktop, mobile,
+dark theme, interaction state, and unobscured content. Topic captures must show real weekly
+membership.
 
-### 5. Data / trend page
-![Data trend page](screenshots/05-data-trend-page.png)
+## Evidence still prohibited from screenshot substitution
 
-### 6. State of Open Source AI 2026
-![State of AI](screenshots/06-state-of-ai.png)
+Do not use the gallery as proof of:
 
-### 7. Embeddable charts
-![Embeddable charts](screenshots/07-embeddable-charts.png)
+- Canonical, Open Graph, Twitter, or Schema.org source correctness
+- HTTP response status, headers, content types, sitemap, or feed validity
+- GA4 network requests, cookies, consent state, or Realtime receipt
+- GSC verification, submission, indexing, impressions, or clicks
+- Lifecycle rename, archive, deletion confirmation, retention, or expiry
+- Podcaster protected-environment execution
+- Keyboard navigation, screen-reader output, or automated accessibility results
 
-### 8. Star Velocity Explorer (client-side tool)
-![Star Velocity Explorer](screenshots/08-star-velocity-tool.png)
+## Acceptance decision
 
-### 9. Weekly article (full page)
-![Weekly article](screenshots/09-weekly-article-internal-links.png)
-
-### 10. Internal-linking block (detail)
-![Internal linking block](screenshots/10-internal-linking-block.png)
+Release acceptance is **pending**. Keep both rollout flags disabled until the named actors
+provide the missing evidence and the PRD, BRD, security review, and this index all agree on
+the approved state.

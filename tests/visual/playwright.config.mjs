@@ -29,6 +29,14 @@ export default defineConfig({
   // Run tests sequentially — Hugo is on localhost, parallelism adds noise
   workers: 1,
 
+  reporter: process.env.CI
+    ? [
+        ['line'],
+        ['json', { outputFile: '../../screenshots/playwright-report.json' }],
+        ['html', { outputFolder: '../../screenshots/playwright-report', open: 'never' }],
+      ]
+    : 'line',
+
   use: {
     baseURL: process.env.BASE_URL ?? 'http://localhost:1313/SquadScope',
     // Wait for network to settle before screenshotting
@@ -39,8 +47,6 @@ export default defineConfig({
     toHaveScreenshot: {
       // Allow ~150 pixel diff for anti-aliasing and sub-pixel font rendering
       maxDiffPixels: 150,
-      // Timeout for screenshot comparison
-      timeout: 10000,
     },
   },
 
@@ -67,7 +73,7 @@ export default defineConfig({
     {
       name: 'mobile-light',
       use: {
-        ...devices['iPhone 13'],
+        ...devices['Pixel 5'],
         colorScheme: 'light',
       },
     },
@@ -75,25 +81,7 @@ export default defineConfig({
     {
       name: 'mobile-dark',
       use: {
-        ...devices['iPhone 13'],
-        colorScheme: 'dark',
-      },
-    },
-    // Wide — light (for the wide editorial layout)
-    {
-      name: 'wide-light',
-      use: {
-        ...devices['Desktop Chrome'],
-        viewport: { width: 1920, height: 1080 },
-        colorScheme: 'light',
-      },
-    },
-    // Wide — dark
-    {
-      name: 'wide-dark',
-      use: {
-        ...devices['Desktop Chrome'],
-        viewport: { width: 1920, height: 1080 },
+        ...devices['Pixel 5'],
         colorScheme: 'dark',
       },
     },

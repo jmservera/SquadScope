@@ -128,7 +128,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(var(--space-5) + var(--space-2));
+  min-height: var(--size-touch-target);
   padding: 0 var(--space-3);
   border-radius: var(--radius-full);
   text-decoration: none;
@@ -356,6 +356,7 @@ summary:focus-visible,
   inset-inline-start: var(--space-3);
   z-index: var(--z-overlay);
   transform: translateY(calc((var(--space-8) + var(--space-3)) * -1));
+  min-height: var(--size-touch-target);
   padding: var(--space-2) var(--space-3);
   border: var(--size-border-thin) solid var(--color-border);
   border-radius: var(--radius-full);
@@ -553,6 +554,9 @@ summary:focus-visible,
 }
 
 .repo-card__title {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
   overflow-wrap: anywhere;
   font-size: var(--text-lg);
   font-weight: 700;
@@ -585,6 +589,9 @@ summary:focus-visible,
 }
 
 .repo-card__button {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
   color: var(--color-text);
   font-size: var(--text-sm);
   font-weight: 700;
@@ -801,6 +808,9 @@ summary:focus-visible,
 }
 
 .section-heading-row > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
   color: var(--color-accent);
   font-size: var(--text-sm);
   font-weight: 700;
@@ -883,13 +893,20 @@ summary:focus-visible,
   white-space: nowrap;
 }
 
+.topic-repo-source {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .home-quick-links {
   align-content: start;
 }
 
 .home-quick-links a {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  min-height: var(--size-touch-target);
   gap: var(--space-3);
   padding: var(--space-2) 0;
   border-bottom: 1px solid var(--color-border);
@@ -902,6 +919,22 @@ summary:focus-visible,
 
 .home-quick-links a:last-child {
   border-bottom: 0;
+}
+
+.topic-subscribe > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--size-touch-target);
+  min-height: var(--size-touch-target);
+}
+
+.metric-value a,
+.taxonomy-card h3 a,
+.article-footer__prompt a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
 }
 
 .weekly-archive-entry {

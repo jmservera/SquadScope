@@ -1,22 +1,20 @@
-name: Generate data pages
+name: Check Observatory freshness
 
 on:
   schedule:
-    # Regenerate citable rankings monthly after the weekly crawl has had time
-    # to publish checked-in raw artifacts. This workflow reads existing data only.
+    # Verify citable Observatory outputs monthly without creating publication state.
     - cron: '23 2 1 * *'
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 concurrency:
   group: data-pages
   cancel-in-progress: false
 
 jobs:
-  regenerate:
+  freshness:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -25,33 +23,42 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Hydrate generated state from publish
+        run: |
+          set -euo pipefail
+          git fetch origin publish
+          GENERATED_PATHS=(
+            content/weekly/
+            content/topics/
+            content/repo/
+            content/data/
+            data/raw/
+            data/analyzed/
+            data/taxonomy/
+            data/topic-hubs/
+            data/derived/observatory/
+            static/datasets/open-source-ai-github-projects-2026/
+            static/tools/star-velocity-explorer.json
+          )
+          for path in "${GENERATED_PATHS[@]}"; do
+            path="${path%/}"
+            rm -rf "$path"
+            git checkout origin/publish -- "$path" 2>/dev/null || true
+          done
+
       - name: Set up Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: '3.12'
 
-      - name: Generate data pages
-        run: python3 scripts/generate_data_pages.py
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
 
-      - name: Open regeneration pull request
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH_NAME: data-pages/monthly-${{ github.run_id }}
+      - name: Check generated Observatory freshness
         run: |
           set -euo pipefail
-          if git diff --quiet -- content/data; then
-            echo "Data pages are already current."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git switch -c "$BRANCH_NAME"
-          git add content/data
-          git commit -m "data: regenerate observatory pages"
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git push origin "HEAD:$BRANCH_NAME"
-          gh pr create \
-            --base main \
-            --head "$BRANCH_NAME" \
-            --title "data: regenerate observatory pages" \
-            --body "Regenerates Claracle data pages from checked-in data artifacts. No crawl is performed."
+          python3 scripts/discover_topic_candidates.py --check
+          python3 scripts/observatory_repos.py --check
+          python3 scripts/generate_data_pages.py --check
+          python3 scripts/export_observatory_dataset.py --check
+          python3 scripts/export_trend_explorer_data.py --check

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from scripts.generate_content import GenerationError, transform_summary
+from scripts.generate_content import GenerationError, derive_canonical_topics, transform_summary
 
 
 def _frontmatter(**overrides: object) -> dict[str, object]:
@@ -56,3 +56,112 @@ def test_transform_summary_keeps_legacy_inputs_without_topic_signals_working() -
     assert 'categories: ["analysis", "weekly"]' in result
     assert "topics: []" in result
     assert "# Content" in result
+
+
+@pytest.mark.parametrize(
+    ("tags", "expected"),
+    [
+        (
+            [
+                "ai-agents",
+                "agent-skills",
+                "mcp",
+                "small-models",
+                "coding-agents",
+                "exploit-churn",
+                "piracy-spam",
+            ],
+            ["AI Coding Agents", "MCP Ecosystem"],
+        ),
+        (
+            [
+                "supply-chain-security",
+                "agent-skills",
+                "ai-memory",
+                "coding-agents",
+                "developer-tooling",
+                "noise-amplification",
+                "open-source",
+            ],
+            ["AI Coding Agents", "Open-Source LLMs", "Developer Tools"],
+        ),
+        (
+            [
+                "self-hosted",
+                "agent-skills",
+                "ai-memory",
+                "coding-agents",
+                "censorship-bypass",
+                "offensive-security",
+                "exploit-churn",
+            ],
+            ["AI Coding Agents"],
+        ),
+        (
+            [
+                "agent-skills",
+                "coding-agents",
+                "hardware-adjacent",
+                "local-first",
+                "noise-floor",
+                "chinese-developer-ecosystem",
+                "ai-security",
+            ],
+            ["AI Coding Agents"],
+        ),
+        (
+            [
+                "fable",
+                "agent-skills",
+                "ai-costs",
+                "supply-chain-security",
+                "apple-intelligence",
+                "local-ai",
+                "noise-floor",
+            ],
+            ["AI Coding Agents", "Open-Source LLMs"],
+        ),
+        (
+            ["agent-frameworks", "mcp", "agent-skills", "security", "model-routing", "noise-floor"],
+            ["AI Coding Agents", "MCP Ecosystem", "Open-Source LLMs"],
+        ),
+        (
+            [
+                "speculative-decoding",
+                "ai-agents",
+                "agent-skills",
+                "evals",
+                "security",
+                "local-first",
+            ],
+            ["AI Coding Agents"],
+        ),
+        (
+            ["ai-agents", "agent-skills", "security", "local-first", "ai-science", "inference"],
+            ["AI Coding Agents"],
+        ),
+        (
+            ["ai-agents", "agent-skills", "security", "local-first", "developer-tools", "spam"],
+            ["AI Coding Agents", "Developer Tools"],
+        ),
+        (
+            ["ai-agents", "agent-skills", "local-ai", "security", "robotics", "discovery-noise"],
+            ["AI Coding Agents", "Open-Source LLMs"],
+        ),
+        (
+            [
+                "ai-agents",
+                "agent-skills",
+                "developer-tools",
+                "local-first",
+                "security",
+                "simulation",
+            ],
+            ["AI Coding Agents", "Developer Tools", "AI Agents in Healthcare"],
+        ),
+    ],
+)
+def test_canonical_topic_derivation_matches_committed_weekly_corpus(
+    tags: list[str], expected: list[str]
+) -> None:
+    assert derive_canonical_topics({}, tags) == expected

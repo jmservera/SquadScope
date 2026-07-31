@@ -138,13 +138,20 @@ See [`docs/operator-guide.md`](docs/operator-guide.md) and [`docs/rollout-checkl
    hugo server
    ```
 
-4. Build production output:
+4. Build output for local static-file testing:
+
+   ```bash
+   hugo --minify --baseURL "http://localhost:1313/"
+   python3 -m http.server 1313 --directory public
+   ```
+
+5. Build production output using the configured `baseURL`:
 
    ```bash
    hugo --minify
    ```
 
-5. Run Python tests when changing pipeline code:
+6. Run Python tests when changing pipeline code:
 
    ```bash
    pytest tests/

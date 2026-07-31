@@ -1,7 +1,13 @@
+---
+title: Claracle Data Observatory Relaunch Product Requirements Document
+description: Product requirements, delivery state, rollout controls, risks, and acceptance gates for the Claracle Data Observatory relaunch
+author: SquadScope Squad
+ms.date: 2026-07-30
+ms.topic: reference
+---
 <!-- markdownlint-disable-file -->
 <!-- markdown-table-prettify-ignore-start -->
-# Claracle Data Observatory Relaunch - Product Requirements Document (PRD)
-Version 1.0 | Status Ready | Owner jmservera | Team SquadScope Squad | Target Wave 1 (foundation) | Lifecycle Definition
+Version 1.1 | Status Acceptance pending | Owner jmservera | Team SquadScope Squad | Target Wave 1 (foundation) | Lifecycle Definition
 
 ## Progress Tracker
 | Phase | Done | Gaps | Updated |
@@ -9,11 +15,15 @@ Version 1.0 | Status Ready | Owner jmservera | Team SquadScope Squad | Target Wa
 | Context | Yes | None | 2026-07-29 |
 | Problem & Users | Yes | None | 2026-07-29 |
 | Scope | Yes | None | 2026-07-29 |
-| Requirements | Yes | Incremental generation cost still to quantify in design spike | 2026-07-29 |
+| Requirements | Yes | Incremental generation cost still to quantify | 2026-07-30 |
 | Metrics & Risks | Yes | None | 2026-07-29 |
-| Operationalization | Yes | Tool selection pending design spike (FR-052) | 2026-07-29 |
-| Finalization | Yes | Awaiting stakeholder review | 2026-07-29 |
-Unresolved Critical Questions: 0 | TBDs: 2 (generation cost, client-side tool selection)
+| Operationalization | Yes | Star Velocity Explorer selected; production evidence pending | 2026-07-30 |
+| Finalization | No | Security, external platform, Podcaster, accessibility, visual, and sponsor gates remain open | 2026-07-30 |
+Unresolved launch gates: 6 | TBDs: 1 (incremental generation cost)
+
+## Acceptance Status
+
+Repository implementation is present, but GA acceptance is pending. Hermes has not signed NFR-004; GA4/GSC, production responses, external schema and social debuggers, a downstream Podcaster run, accessibility review, and refreshed visual evidence are not recorded. `dynamic_topic_creation` and `repo_pages` remain off and require separate sponsor-approved rollout changes.
 
 Derived from: `docs/brds/claracle-data-observatory-relaunch-brd.md` (BRD-CLARACLE-002, v1.0).
 
@@ -28,9 +38,9 @@ An external SEO analysis concluded discovery (not conversion) is the core proble
 | Goal ID | Statement | Type | Baseline | Target | Timeframe | Priority |
 |---------|-----------|------|----------|--------|-----------|----------|
 | G-001 | Establish a durable, topic-aligned discovery surface | Growth | ~0 evergreen pages | >= 40 evergreen pages indexed | 3 months post-launch | Must |
-| G-002 | Grow organic search discovery | Growth | Near-zero (GA4/GSC) | >= 250 organic sessions/month | 6 months post-launch | Must |
+| G-002 | Grow organic search discovery | Growth | Pending GA4/GSC capture | >= 250 organic sessions/month | 6 months post-launch | Must |
 | G-003 | Turn the dataset into a linkable asset | Growth | ~0 backlinks | >= 25 referring domains | 6 months post-launch | Should |
-| G-004 | Rank for target head/mid-tail queries | Growth | Near-zero (GSC) | >= 15 queries in top 20 | 6 months post-launch | Should |
+| G-004 | Rank for target head/mid-tail queries | Growth | Pending GSC capture | >= 15 queries in top 20 | 6 months post-launch | Should |
 | G-005 | Complete and validate technical SEO | Quality | Partial | 100% checklist met and validated | At launch | Must |
 | G-006 | Preserve pipeline integrity and cross-repo contracts | Reliability | Passing | No regression | Ongoing | Must |
 
@@ -160,7 +170,7 @@ Discovery engine
 | NFR-004 | Security | No raw HTML in AI content; no secrets in client tool | `unsafe=false` retained; tool ships no secrets; inputs sanitized | Must | Build config check; Hermes review; `sanitize_repo_content` path | Follows prompt-injection guardrails |
 | NFR-005 | Accessibility | New pages meet WCAG 2.1 AA basics | Images have alt; charts have text alternative; contrast passes | Should | axe/Lighthouse a11y audit | OG alt also required (FR-032) |
 | NFR-006 | SEO correctness | Structured data and metadata validate | 0 errors in Rich Results Test; no duplicate titles/meta | Must | Rich Results Test; build check (FR-030) | |
-| NFR-007 | Observability | Discovery is measurable | GA4 + GSC connected; launch baseline snapshot captured | Must | GSC/GA4 dashboards | Baseline near-zero |
+| NFR-007 | Observability | Discovery is measurable | GA4 + GSC connected; launch baseline snapshot captured | Must | GSC/GA4 dashboards | Pending external evidence |
 | NFR-008 | Privacy | Analytics respects existing consent | GA4 gated by existing cookie consent | Must | `data/cookieconsent.json` flow | |
 | NFR-009 | Scalability | Generation scales with dataset growth | Full build time stays within CI budget as pages grow | Should | Build timing in CI | Ties to open cost question |
 | NFR-010 | Portability | Everything runs within Hugo static build | No server dependency introduced | Must | Build/deploy on GitHub Pages | |
@@ -184,9 +194,9 @@ Generated Hugo content: topic hubs (taxonomy terms), data pages, repository page
 | Metric | Type | Baseline | Target | Window | Source |
 |--------|------|----------|--------|--------|--------|
 | Evergreen pages indexed | Coverage | ~0 | >= 40 | 3 months | GSC |
-| Organic sessions/month | Traffic | Near-zero | >= 250 | 6 months | GA4 |
+| Organic sessions/month | Traffic | Pending capture | >= 250 | 6 months | GA4 |
 | Referring domains | Backlinks | ~0 | >= 25 | 6 months | GSC / backlink tool |
-| Queries in top 20 | Ranking | Near-zero | >= 15 | 6 months | GSC |
+| Queries in top 20 | Ranking | Pending capture | >= 15 | 6 months | GSC |
 | SEO checklist coverage | Quality | Partial | 100% | Launch | Manual + Rich Results |
 
 ## 9. Dependencies
@@ -206,8 +216,8 @@ Generated Hugo content: topic hubs (taxonomy terms), data pages, repository page
 | R-01 | Thin/duplicate evergreen pages harm SEO | High | Medium | Real data + provenance; unique titles/meta; content-quality gate; thresholds gate creation | Amy | Open |
 | R-02 | Static hosting limits interactive tools | Medium | Medium | Constrain to client-side; design spike validates feasibility | Amy | Open |
 | R-03 | Auto-generation breaks internal links | Medium | Medium | CI link-check gate (FR-041) | Fry | Open |
-| R-04 | Cross-repo contract regression (Podcaster) | High | Low | Keep handoff payload unchanged; retain smoke test | URL | Open |
-| R-05 | Dataset/tool exposure adds abuse/injection surface | Medium | Low | Hermes review; sanitize inputs; `unsafe=false` | Hermes | Open |
+| R-04 | Cross-repo contract regression (Podcaster) | High | Low | Keep handoff payload unchanged; retain smoke test | URL | Open; downstream run pending |
+| R-05 | Dataset/tool exposure adds abuse/injection surface | Medium | Low | Hermes review; sanitize inputs; `unsafe=false` | Hermes | Open; sign-off pending |
 | R-06 | Generation cost/time grows unbounded | Medium | Medium | Quantify in design spike; cap/paginate; incremental builds | Leela | Open |
 | R-07 | Over-scoping delays discovery wins | Medium | Medium | Sequence: IA + SEO + linking first, then assets | Leela | Open |
 
@@ -248,8 +258,8 @@ AI-generated content must not render raw HTML (`unsafe=false`); repo-derived tex
 ### Feature Flags (Conditional)
 | Flag | Purpose | Default | Sunset Criteria |
 |------|---------|--------|----------------|
-| dynamic_topic_creation | Gate auto-creation of new topic hubs | Off until threshold tuned | On after validation |
-| repo_pages | Gate repository-page generation | Off until threshold tuned | On after validation |
+| dynamic_topic_creation | Gate auto-creation of new topic hubs | Off; no rollout approval recorded | Separate sponsor approval after security and acceptance evidence |
+| repo_pages | Gate repository-page generation | Off; no rollout approval recorded | Separate sponsor approval after lifecycle and acceptance evidence |
 
 ### Communication Plan (Optional)
 Use the existing per-week distribution playbook (`docs/growth/distribution-strategy.md`) for launch posts; announce Wave 2 dataset and Wave 3 tool on developer communities (HN, Lobsters, dev.to) when genuinely useful.
@@ -258,11 +268,12 @@ Use the existing per-week distribution playbook (`docs/growth/distribution-strat
 | Q ID | Question | Owner | Deadline | Status |
 |------|----------|-------|---------|--------|
 | Q-01 | Quantify incremental generation cost/time for hubs, data, and repo pages | Leela | Design spike | Open |
-| Q-02 | Which client-side tool to build first (FR-052) | Amy | Design spike | Open |
+| Q-02 | Which client-side tool to build first (FR-052) | Amy | 2026-07-30 | Resolved: Star Velocity Explorer; see ADR |
 
 ## 15. Changelog
 | Version | Date | Author | Summary | Type |
 |---------|------|-------|---------|------|
+| 1.1 | 2026-07-30 | SquadScope Squad | Reconciled repository delivery with pending external, security, visual, accessibility, Podcaster, and rollout gates | Updated |
 | 1.0 | 2026-07-29 | PRD Builder (facilitated) | Initial PRD derived from BRD-CLARACLE-002 v1.0 | Created |
 
 ## 16. References & Provenance
@@ -275,6 +286,8 @@ Use the existing per-week distribution playbook (`docs/growth/distribution-strat
 | REF-5 | Config | `hugo.toml` | `topic` taxonomy, outputs (RSS/JSON), params | Confirms taxonomy + RSS already present |
 | REF-6 | Layout | `layouts/topics/list.html` | Existing topic hub scaffold + RSS | Basis for topic hubs (FR-001) |
 | REF-7 | Analysis | External SEO analysis (user-provided, 2026-07) | Discovery-first strategy | Primary driver |
+| REF-8 | ADR | `docs/decisions/adr-star-velocity-explorer.md` | FR-052 selection and static-hosting rationale | Resolves Q-02 |
+| REF-9 | Review | `docs/review/data-observatory-relaunch/README.md` | Bounded acceptance evidence and pending gates | Source of release status |
 
 ### Citation Usage
 Functional requirements cite BRD requirement IDs (BR-xxx) inline; technical claims cite the repository files above.

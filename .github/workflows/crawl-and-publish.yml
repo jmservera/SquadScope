@@ -508,7 +508,7 @@ jobs:
         id: install-copilot
         run: |
           set -euo pipefail
-          npm install -g @github/copilot
+          npm install -g @github/copilot@1.0.76
           # Verify the CLI actually installed and is runnable before any step
           # (including synthesis) is allowed to depend on it.
           copilot --version
@@ -1048,6 +1048,33 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
 
+      - name: Hydrate prior generated state from publish
+        run: |
+          set -euo pipefail
+          git fetch origin publish
+          GENERATED_PATHS=(
+            content/weekly/
+            content/monthly/
+            content/yearly/
+            content/topics/
+            content/repo/
+            content/data/
+            data/analyzed/
+            data/raw/
+            data/taxonomy/
+            data/topic-hubs/
+            data/derived/observatory/
+            data/metrics/
+            data/published/
+            static/datasets/open-source-ai-github-projects-2026/
+            static/tools/star-velocity-explorer.json
+          )
+          for path in "${GENERATED_PATHS[@]}"; do
+            path="${path%/}"
+            rm -rf "$path"
+            git checkout origin/publish -- "$path" 2>/dev/null || true
+          done
+
       - name: Download analyzed data artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
@@ -1074,7 +1101,7 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
-      - name: Generate weekly content
+      - name: Generate weekly content candidate
         id: generate-content
         env:
           WEEK: ${{ needs.analyze.outputs.week }}
@@ -1110,33 +1137,81 @@ jobs:
           python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
           python3 scripts/promotion_guard.py --manifest "$MANIFEST_FILE"
 
-      - name: Hydrate analyzed data from publish
+      - name: Discover topic candidates
+        run: python3 scripts/discover_topic_candidates.py
+
+      - name: Promote and assign topic hubs
+        run: |
+          set -euo pipefail
+          python3 scripts/manage_topic_hubs.py
+          for log in data/topic-hubs/*.log; do
+            [ -f "$log" ] || continue
+            awk '!seen[$0]++' "$log" > "${log}.tmp"
+            mv "${log}.tmp" "$log"
+          done
+
+      - name: Rehash and promote final weekly content
         env:
           WEEK: ${{ needs.analyze.outputs.week }}
           MANIFEST_FILE: ${{ needs.analyze.outputs.publish_manifest_file }}
         run: |
           set -euo pipefail
+          python3 - <<'PYREHASH' "$WEEK" "$MANIFEST_FILE"
+          import json
+          import shutil
+          import sys
+          from pathlib import Path
+
+          import scripts.publish_manifest as publish_manifest
+
+          week = sys.argv[1]
+          manifest_path = Path(sys.argv[2])
+          year, week_number = week.split("-W", maxsplit=1)
+          final_page = Path("content/weekly") / year / f"W{week_number}.md"
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          candidate_page = Path(manifest["candidate"]["content_path"])
+          shutil.copy2(final_page, candidate_page)
+          manifest["candidate"]["content_sha256"] = publish_manifest.sha256_file(candidate_page)
+          manifest_path.write_text(
+              json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+          )
+          PYREHASH
           python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
-          git fetch origin publish
-          # Restore prior weeks' analyzed files from publish so generate_rollups.py
-          # sees accurate historical data. Skip the current week's file (already
-          # present from the downloaded artifact).
-          git ls-tree -r --name-only origin/publish -- data/analyzed/ 2>/dev/null | while read -r f; do
-            case "$f" in
-              *"${WEEK}"*) continue ;;
-            esac
-            git checkout origin/publish -- "$f" 2>/dev/null || true
-          done
+          python3 scripts/promotion_guard.py --manifest "$MANIFEST_FILE"
+
+      - name: Refresh taxonomy registries
+        run: python3 scripts/taxonomy_registry.py
 
       - name: Generate rollups
         run: python3 scripts/generate_rollups.py
+
+      - name: Generate repository pages
+        run: python3 scripts/observatory_repos.py
+
+      - name: Generate data pages
+        run: python3 scripts/generate_data_pages.py
+
+      - name: Export Observatory dataset
+        run: python3 scripts/export_observatory_dataset.py
+
+      - name: Export trend explorer data
+        run: python3 scripts/export_trend_explorer_data.py
+
+      - name: Verify generated content freshness
+        run: |
+          set -euo pipefail
+          python3 scripts/discover_topic_candidates.py --check
+          python3 scripts/observatory_repos.py --check
+          python3 scripts/generate_data_pages.py --check
+          python3 scripts/export_observatory_dataset.py --check
+          python3 scripts/export_trend_explorer_data.py --check
 
       - name: Commit generated content to data branch
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           DATA_BRANCH: publish
           WEEK: ${{ needs.analyze.outputs.week }}
-          PAGE_PATH: ${{ steps.generate-content.outputs.page_path }}
           MANIFEST_FILE: ${{ needs.analyze.outputs.publish_manifest_file }}
           EXPECTED_PUBLISH_SHA: ${{ needs.analyze.outputs.publish_head_sha }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -1149,18 +1224,34 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           python3 scripts/promotion_guard.py --manifest "$MANIFEST_FILE"
           python3 scripts/publish_manifest.py assert-eligible --manifest "$MANIFEST_FILE"
-          if ! git status --short -- data/analyzed data/candidates data/metrics data/published content/weekly content/monthly content/yearly | grep -q .; then
-            echo "No promoted analysis or generated content changes to commit."
+          GENERATED_PATHS=(
+            content/weekly/
+            content/monthly/
+            content/yearly/
+            content/topics/
+            content/repo/
+            content/data/
+            data/analyzed/
+            data/candidates/
+            data/metrics/
+            data/published/
+            data/taxonomy/
+            data/topic-hubs/
+            data/derived/observatory/
+            static/datasets/open-source-ai-github-projects-2026/
+            static/tools/star-velocity-explorer.json
+          )
+          if ! git status --short -- "${GENERATED_PATHS[@]}" | grep -q .; then
+            echo "No promoted analysis or generated Observatory changes to commit."
             rm -f publish-safety-tool.py promotion-guard-tool.py
             exit 0
           fi
-          cp -r data/analyzed analyzed-data-backup
-          cp -r data/candidates candidates-data-backup
-          cp -r data/metrics metrics-data-backup 2>/dev/null || true
-          cp -r data/published published-data-backup 2>/dev/null || true
-          cp -r content/weekly content-weekly-backup 2>/dev/null || true
-          cp -r content/monthly content-monthly-backup 2>/dev/null || true
-          cp -r content/yearly content-yearly-backup 2>/dev/null || true
+          cp "$MANIFEST_FILE" publish-manifest-tool.json
+          ARCHIVE_PATHS=()
+          for path in "${GENERATED_PATHS[@]}"; do
+            [ -e "${path%/}" ] && ARCHIVE_PATHS+=("${path%/}")
+          done
+          tar -cf generated-state.tar "${ARCHIVE_PATHS[@]}"
           # Push to the unprotected data branch
           if git fetch origin "$DATA_BRANCH" 2>/dev/null; then
             CURRENT_PUBLISH_SHA=$(git rev-parse "origin/$DATA_BRANCH")
@@ -1178,45 +1269,35 @@ jobs:
             git fetch origin "$DEFAULT_BRANCH"
             git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
           fi
-          mkdir -p data/analyzed data/candidates data/metrics data/published content/weekly content/monthly content/yearly
-          # generate_content.py returns an absolute path; normalize it before restoring
-          # the freshly generated page onto the publish branch checkout.
-          case "$PAGE_PATH" in
-            "$GITHUB_WORKSPACE"/*) PAGE_PATH="${PAGE_PATH#"$GITHUB_WORKSPACE"/}" ;;
-          esac
-          PAGE_PATH="${PAGE_PATH#/}"
-          case "$PAGE_PATH" in
-            content/weekly/*) ;;
-            *)
-              echo "::error::Expected PAGE_PATH under content/weekly/, got: $PAGE_PATH"
-              exit 1
-              ;;
-          esac
-          RELATIVE_FROM_WEEKLY="${PAGE_PATH#content/weekly/}"
-          mkdir -p "$(dirname "$PAGE_PATH")"
-          cp -r "candidates-data-backup/${WEEK}" data/candidates/
+          BACKUP_PATH_ARGS=(
+            --path "data/analyzed/${WEEK}-summary.md"
+            --path "data/analyzed/${WEEK}-correlations.json"
+            --path "data/analyzed/${WEEK}-press-context.md"
+            --path "data/published/${WEEK}/promotion-manifest.json"
+            --path "content/weekly/${WEEK%-W*}/W${WEEK#*-W}.md"
+          )
+          for path in "${GENERATED_PATHS[@]}"; do
+            path="${path%/}"
+            if [ -f "$path" ]; then
+              BACKUP_PATH_ARGS+=(--path "$path")
+            elif [ -d "$path" ]; then
+              while IFS= read -r -d '' file; do
+                BACKUP_PATH_ARGS+=(--path "$file")
+              done < <(find "$path" -type f -print0 | sort -z)
+            fi
+          done
           python3 publish-safety-tool.py backup-existing \
             --week "$WEEK" \
             --run-id "$GITHUB_RUN_ID" \
             --kind content \
-            --manifest "$MANIFEST_FILE" \
+            --manifest publish-manifest-tool.json \
             --expected-publish-ref "$EXPECTED_PUBLISH_SHA" \
             --actual-publish-ref "$CURRENT_PUBLISH_SHA" \
-            --path "data/analyzed/${WEEK}-summary.md" \
-            --path "data/analyzed/${WEEK}-correlations.json" \
-            --path "data/analyzed/${WEEK}-press-context.md" \
-            --path "data/published/${WEEK}/promotion-manifest.json" \
-            --path "$PAGE_PATH"
-          cp -r metrics-data-backup/* data/metrics/ 2>/dev/null || true
-          cp "analyzed-data-backup/${WEEK}-correlations.json" data/analyzed/ 2>/dev/null || true
-          cp "analyzed-data-backup/${WEEK}-press-context.md" data/analyzed/ 2>/dev/null || true
+            "${BACKUP_PATH_ARGS[@]}"
+          tar -xf generated-state.tar
           python3 promotion-guard-tool.py --manifest "data/candidates/${WEEK}/${GITHUB_RUN_ID}/publish-manifest.json"
-          # Monthly/yearly rollups are safe to copy since generate_rollups.py was seeded
-          # with hydrated prior-week data (see Hydrate analyzed data step above)
-          cp -r content-monthly-backup/* content/monthly/ 2>/dev/null || true
-          cp -r content-yearly-backup/* content/yearly/ 2>/dev/null || true
-          rm -rf analyzed-data-backup candidates-data-backup metrics-data-backup published-data-backup content-weekly-backup content-monthly-backup content-yearly-backup publish-safety-tool.py promotion-guard-tool.py
-          git add data/analyzed/ data/candidates/ data/metrics/ data/published/ content/weekly/ content/monthly/ content/yearly/ data/backups/
+          rm -f generated-state.tar publish-manifest-tool.json publish-safety-tool.py promotion-guard-tool.py
+          git add -A -- "${GENERATED_PATHS[@]}" data/backups/
           git diff --cached --quiet && exit 0
           git commit -m "publish: weekly article transaction $WEEK [run #${GITHUB_RUN_ID}]"
           if [ -n "$CURRENT_PUBLISH_SHA" ]; then
@@ -1233,6 +1314,14 @@ jobs:
             content/weekly/
             content/monthly/
             content/yearly/
+            content/topics/
+            content/repo/
+            content/data/
+            data/taxonomy/
+            data/topic-hubs/
+            data/derived/observatory/
+            static/datasets/open-source-ai-github-projects-2026/
+            static/tools/star-velocity-explorer.json
           if-no-files-found: warn
 
       - name: Upload promoted analyzed artifact
@@ -1285,7 +1374,7 @@ jobs:
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: generated-content
-          path: content/
+          path: ./
           merge-multiple: true
 
       # Deploy builds from artifacts — no dependency on PR merges to main.

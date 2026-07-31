@@ -18,7 +18,7 @@
     "seen_in_new",
     "top_topics"
   ],
-  "generated_at": "2026-07-29T13:26:39Z",
+  "generated_at": "2026-07-27T03:52:10Z",
   "license": "MIT",
   "public_exposure_review": "PASS: exported fields are repository names, GitHub URLs, public language/license/topic metadata, public star/fork counts, and derived weekly aggregates from public GitHub crawl records. No tokens, private repo data, cache payloads, user account data, or unpublished crawl calls are included.",
   "recurring_repository_count_min_4_weeks": 104,

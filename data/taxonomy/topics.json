@@ -8,16 +8,16 @@
         "scientific",
         "simulation"
       ],
-      "count": 0,
+      "count": 1,
       "display_name": "AI Agents in Healthcare",
-      "first_seen": null,
+      "first_seen": "2026-07-27",
       "is_hub": true,
-      "last_used": null,
+      "last_used": "2026-07-27",
       "order": 4,
       "promoted": true,
       "slug": "ai-agents-in-healthcare",
-      "times_used": 0,
-      "weekly_issue_count": 0
+      "times_used": 1,
+      "weekly_issue_count": 1
     },
     "ai-coding-agents": {
       "aliases": [
@@ -30,16 +30,16 @@
         "openai",
         "openhands"
       ],
-      "count": 0,
+      "count": 11,
       "display_name": "AI Coding Agents",
-      "first_seen": null,
+      "first_seen": "2026-05-21",
       "is_hub": true,
-      "last_used": null,
+      "last_used": "2026-07-27",
       "order": 0,
       "promoted": true,
       "slug": "ai-coding-agents",
-      "times_used": 0,
-      "weekly_issue_count": 0
+      "times_used": 11,
+      "weekly_issue_count": 11
     },
     "developer-tools": {
       "aliases": [
@@ -55,16 +55,16 @@
         "testing",
         "typescript"
       ],
-      "count": 0,
+      "count": 3,
       "display_name": "Developer Tools",
-      "first_seen": null,
+      "first_seen": "2026-05-25",
       "is_hub": true,
-      "last_used": null,
+      "last_used": "2026-07-27",
       "order": 3,
       "promoted": true,
       "slug": "developer-tools",
-      "times_used": 0,
-      "weekly_issue_count": 0
+      "times_used": 3,
+      "weekly_issue_count": 3
     },
     "mcp-ecosystem": {
       "aliases": [
@@ -73,16 +73,16 @@
         "modelcontextprotocol",
         "servers"
       ],
-      "count": 0,
+      "count": 2,
       "display_name": "MCP Ecosystem",
-      "first_seen": null,
+      "first_seen": "2026-05-21",
       "is_hub": true,
-      "last_used": null,
+      "last_used": "2026-06-22",
       "order": 1,
       "promoted": true,
       "slug": "mcp-ecosystem",
-      "times_used": 0,
-      "weekly_issue_count": 0
+      "times_used": 2,
+      "weekly_issue_count": 2
     },
     "open-source-llms": {
       "aliases": [
@@ -94,16 +94,16 @@
         "open-source",
         "transformers"
       ],
-      "count": 0,
+      "count": 4,
       "display_name": "Open-Source LLMs",
-      "first_seen": null,
+      "first_seen": "2026-05-25",
       "is_hub": true,
-      "last_used": null,
+      "last_used": "2026-07-20",
       "order": 2,
       "promoted": true,
       "slug": "open-source-llms",
-      "times_used": 0,
-      "weekly_issue_count": 0
+      "times_used": 4,
+      "weekly_issue_count": 4
     }
   }
 }

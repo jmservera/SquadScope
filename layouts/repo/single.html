@@ -74,6 +74,17 @@
     {{- end }}
   </section>
 
+  {{- with .Params.topic_links }}
+  <section id="claracle-topics" class="repo-section">
+    <h2>Claracle topic hubs</h2>
+    <ul>
+      {{- range . }}
+      <li><a href="{{ .url }}">{{ .name }}</a></li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+
   <section id="related-repos" class="repo-section">
     <h2>Related repositories</h2>
     <ul>

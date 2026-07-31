@@ -5,9 +5,12 @@ import shutil
 import subprocess
 import tomllib
 from pathlib import Path
+from xml.etree import ElementTree
 
 import pytest
+import yaml
 
+from scripts.discover_topic_candidates import update_candidate_registry
 from scripts.manage_topic_hubs import create_dynamic_hubs
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -20,6 +23,157 @@ SEED_HUBS = {
     "developer-tools": "Developer Tools",
     "ai-agents-in-healthcare": "AI Agents in Healthcare",
 }
+
+
+def _write_candidate_fixture(root: Path) -> None:
+    (root / "config").mkdir(parents=True)
+    (root / "data" / "taxonomy").mkdir(parents=True)
+    (root / "config" / "observatory.toml").write_text(
+        """[repo_pages]
+recurrence_threshold_distinct_weekly_issues = 3
+
+[topic_hubs]
+seed_topics = ["AI Coding Agents"]
+
+[topic_hubs.dynamic_creation]
+enabled = false
+min_weekly_issues = 4
+lookback_days = 62
+log_path = "data/topic-hubs/dynamic-topic-creation.log"
+ignore_topics = ["ignored-candidate"]
+""",
+        encoding="utf-8",
+    )
+    (root / "data" / "taxonomy" / "topics.json").write_text(
+        json.dumps(
+            {
+                "terms": {
+                    "ai-coding-agents": {
+                        "display_name": "AI Coding Agents",
+                        "slug": "ai-coding-agents",
+                        "aliases": ["ai-agents"],
+                        "is_hub": True,
+                        "promoted": True,
+                    }
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+    for week in range(27, 32):
+        weekly = root / "content" / "weekly" / "2026" / f"W{week:02d}.md"
+        weekly.parent.mkdir(parents=True, exist_ok=True)
+        tags = ["edge-ai", "ignored-candidate", "ai-agents"] if week >= 28 else ["stale-only"]
+        weekly.write_text(
+            f'---\ntitle: "Week {week}"\ndate: 2026-07-01\nweek: "2026-W{week:02d}"\n'
+            f'tags: {json.dumps(tags)}\ncategories: ["weekly"]\n---\nBody\n',
+            encoding="utf-8",
+        )
+        summary = root / "data" / "analyzed" / f"2026-W{week:02d}-summary.md"
+        summary.parent.mkdir(parents=True, exist_ok=True)
+        heading = "Edge AI" if week >= 28 else "Stale Only"
+        summary.write_text(
+            f'---\ntitle: "Week {week}"\nweek: "2026-W{week:02d}"\n'
+            f"tags: {json.dumps(tags)}\n---\n\n**{heading}.** Supporting analysis.\n",
+            encoding="utf-8",
+        )
+        raw = root / "data" / "raw" / f"2026-W{week:02d}.json"
+        raw.parent.mkdir(parents=True, exist_ok=True)
+        raw_topic = "edge-ai" if week >= 28 else "stale-only"
+        raw.write_text(
+            json.dumps(
+                {
+                    "week": f"2026-W{week:02d}",
+                    "new_repos": [{"full_name": "example/edge", "topics": [raw_topic]}],
+                    "trending_repos": [],
+                    "signals": {"top_topics": [{"topic": raw_topic, "count": 8}]},
+                }
+            ),
+            encoding="utf-8",
+        )
+
+
+def _write_candidate_registry(root: Path, candidates: dict[str, dict[str, object]]) -> None:
+    path = root / "data" / "taxonomy" / "topic-candidates.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "as_of_week": "2026-W31",
+                "policy": {"min_weekly_issues": 4, "lookback_days": 62},
+                "candidates": candidates,
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
+def _candidate(title: str, weeks: list[str], *, eligible: bool = True) -> dict[str, object]:
+    slug = title.lower().replace(" ", "-")
+    return {
+        "display_name": title,
+        "slug": slug,
+        "aliases": [slug],
+        "first_seen_week": min(weeks),
+        "last_seen_week": max(weeks),
+        "weekly_issue_count": len(weeks),
+        "evidence_weeks": weeks,
+        "sources": [
+            {
+                "week": week,
+                "source_type": "summary_tag",
+                "source_path": f"data/analyzed/{week}-summary.md",
+                "signal": slug,
+            }
+            for week in weeks
+        ],
+        "supporting_signals": [
+            {
+                "week": weeks[-1],
+                "support_type": "analysis-summary",
+                "source_path": f"data/analyzed/{weeks[-1]}-summary.md",
+                "detail": slug,
+            }
+        ],
+        "eligible": eligible,
+    }
+
+
+def test_candidate_registry_is_auditable_filtered_and_byte_stable(tmp_path: Path) -> None:
+    _write_candidate_fixture(tmp_path)
+    output = tmp_path / "data" / "taxonomy" / "topic-candidates.json"
+
+    assert update_candidate_registry(root=tmp_path) is True
+    first = output.read_bytes()
+    assert update_candidate_registry(root=tmp_path) is False
+    assert update_candidate_registry(root=tmp_path, check=True) is False
+    assert output.read_bytes() == first
+
+    payload = json.loads(first)
+    candidate = payload["candidates"]["edge-ai"]
+    assert candidate["weekly_issue_count"] == 4
+    assert candidate["evidence_weeks"] == [
+        "2026-W28",
+        "2026-W29",
+        "2026-W30",
+        "2026-W31",
+    ]
+    assert candidate["eligible"] is True
+    assert {item["support_type"] for item in candidate["supporting_signals"]} == {
+        "analysis-summary",
+        "recurring-repository-cluster",
+    }
+    assert "ignored-candidate" not in payload["candidates"]
+    assert "ai-agents" not in payload["candidates"]
+    assert payload["candidates"]["stale-only"]["eligible"] is False
+
+    output.write_text("{}\n", encoding="utf-8")
+    assert update_candidate_registry(root=tmp_path, check=True) is True
+    assert output.read_text(encoding="utf-8") == "{}\n"
 
 
 def test_seed_topic_hubs_have_unique_metadata_and_dataset_links() -> None:
@@ -123,6 +277,23 @@ def test_dynamic_topic_creation_is_threshold_driven_and_additive() -> None:
         + "\n",
         encoding="utf-8",
     )
+    weeks = ["2026-W28", "2026-W29", "2026-W30", "2026-W31"]
+    _write_candidate_registry(
+        WORKSPACE,
+        {
+            "edge-ai-workflows": _candidate("Edge AI Workflows", weeks),
+            "forked-candidate-source": _candidate(
+                "Forked Candidate Source", ["2026-W31"], eligible=False
+            ),
+        },
+    )
+    for week in weeks:
+        weekly = WORKSPACE / "content" / "weekly" / "2026" / f"W{week[-2:]}.md"
+        weekly.write_text(
+            f'---\ntitle: "{week}"\ndate: 2026-07-27\nweek: "{week}"\n'
+            'tags: ["edge-ai-workflows"]\ncategories: ["weekly"]\ntopics: []\n---\nBody\n',
+            encoding="utf-8",
+        )
 
     created = create_dynamic_hubs(
         root=WORKSPACE,
@@ -147,6 +318,10 @@ def test_dynamic_topic_creation_is_threshold_driven_and_additive() -> None:
     )
     assert registry["terms"]["edge-ai-workflows"]["is_hub"] is True
     assert registry["terms"]["edge-ai-workflows"]["promoted"] is True
+    assert registry["terms"]["edge-ai-workflows"]["weekly_issue_count"] == 4
+    for week in weeks:
+        weekly = WORKSPACE / "content" / "weekly" / "2026" / f"W{week[-2:]}.md"
+        assert 'topics: ["Edge AI Workflows"]' in weekly.read_text(encoding="utf-8")
     from scripts.generate_content import load_topic_vocabulary
 
     topic_titles, topic_aliases = load_topic_vocabulary(
@@ -156,6 +331,46 @@ def test_dynamic_topic_creation_is_threshold_driven_and_additive() -> None:
     assert topic_aliases["edge-ai-workflows"] == "Edge AI Workflows"
     assert not (WORKSPACE / "content" / "topics" / "forked-candidate-source").exists()
     assert not (WORKSPACE / "content" / "topics" / "tag-only-signal").exists()
+
+    _write_candidate_registry(WORKSPACE, {})
+    assert (
+        create_dynamic_hubs(
+            root=WORKSPACE,
+            config_path=WORKSPACE / "config" / "observatory.toml",
+            current_date="2026-08-05T12:57:30Z",
+        )
+        == []
+    )
+    assert created[0].exists()
+
+    current_week = WORKSPACE / "content" / "weekly" / "2026" / "W32.md"
+    current_week.write_text(
+        '---\ntitle: "2026-W32"\ndate: 2026-08-03\nweek: "2026-W32"\n'
+        'tags: ["unrelated"]\ncategories: ["weekly"]\ntopics: []\n---\nBody\n',
+        encoding="utf-8",
+    )
+    raw = WORKSPACE / "data" / "raw" / "2026-W32.json"
+    raw.parent.mkdir(parents=True, exist_ok=True)
+    raw.write_text(
+        json.dumps(
+            {
+                "week": "2026-W32",
+                "new_repos": [{"full_name": "example/current", "topics": ["edge-ai-workflows"]}],
+                "trending_repos": [],
+                "signals": {"top_topics": []},
+            }
+        ),
+        encoding="utf-8",
+    )
+    assert (
+        create_dynamic_hubs(
+            root=WORKSPACE,
+            config_path=WORKSPACE / "config" / "observatory.toml",
+            current_date="2026-08-05T12:57:30Z",
+        )
+        == []
+    )
+    assert 'topics: ["Edge AI Workflows"]' in current_week.read_text(encoding="utf-8")
 
 
 def test_dynamic_topic_creation_does_not_create_below_threshold() -> None:
@@ -207,6 +422,14 @@ def test_dynamic_topic_creation_does_not_create_below_threshold() -> None:
         + "\n",
         encoding="utf-8",
     )
+    _write_candidate_registry(
+        WORKSPACE,
+        {
+            "three-week-trend": _candidate(
+                "Three Week Trend", ["2026-W29", "2026-W30", "2026-W31"], eligible=False
+            )
+        },
+    )
 
     created = create_dynamic_hubs(
         root=WORKSPACE,
@@ -216,6 +439,150 @@ def test_dynamic_topic_creation_does_not_create_below_threshold() -> None:
 
     assert created == []
     assert not (WORKSPACE / "content" / "topics" / "three-week-trend").exists()
+
+
+def test_disabled_dynamic_topic_creation_preserves_durable_state(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    if WORKSPACE.exists():
+        shutil.rmtree(WORKSPACE)
+    (WORKSPACE / "config").mkdir(parents=True)
+    existing_hub = WORKSPACE / "content" / "topics" / "durable-topic" / "_index.md"
+    existing_hub.parent.mkdir(parents=True)
+    existing_hub.write_text('---\ntitle: "Durable Topic"\n---\n', encoding="utf-8")
+    registry_path = WORKSPACE / "data" / "taxonomy" / "topics.json"
+    registry_path.parent.mkdir(parents=True)
+    registry_path.write_text(
+        json.dumps(
+            {
+                "terms": {
+                    "eligible-topic": {
+                        "display_name": "Eligible Topic",
+                        "weekly_issue_count": 4,
+                        "last_used": "2026-07-27",
+                        "is_hub": False,
+                        "promoted": False,
+                    }
+                }
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (WORKSPACE / "config" / "observatory.toml").write_text(
+        """[topic_hubs]
+seed_topics = ["Durable Topic"]
+
+[topic_hubs.dynamic_creation]
+enabled = false
+min_weekly_issues = 4
+lookback_days = 62
+log_path = "data/topic-hubs/dynamic-topic-creation.log"
+ignore_topics = []
+""",
+        encoding="utf-8",
+    )
+    hub_before = existing_hub.read_bytes()
+    registry_before = registry_path.read_bytes()
+    _write_candidate_registry(
+        WORKSPACE,
+        {
+            "eligible-topic": _candidate(
+                "Eligible Topic", ["2026-W28", "2026-W29", "2026-W30", "2026-W31"]
+            )
+        },
+    )
+    candidates_before = (WORKSPACE / "data" / "taxonomy" / "topic-candidates.json").read_bytes()
+
+    created = create_dynamic_hubs(
+        root=WORKSPACE,
+        config_path=WORKSPACE / "config" / "observatory.toml",
+        current_date="2026-07-29T12:57:30Z",
+    )
+
+    assert created == []
+    assert existing_hub.read_bytes() == hub_before
+    assert registry_path.read_bytes() == registry_before
+    assert (
+        WORKSPACE / "data" / "taxonomy" / "topic-candidates.json"
+    ).read_bytes() == candidates_before
+    assert not (WORKSPACE / "content" / "topics" / "eligible-topic").exists()
+    assert not (WORKSPACE / "data" / "topic-hubs" / "dynamic-topic-creation.log").exists()
+    assert capsys.readouterr().err == (
+        "dynamic-topic-decision enabled=false action=skip reason=disabled\n"
+    )
+
+
+@pytest.mark.parametrize(
+    "title",
+    [
+        'Quoted "Topic"',
+        "Topic: Override",
+        "---",
+        "Multiline\nTopic",
+        "Topic\x00Control",
+        "**Markdown Topic**",
+        "<strong>HTML Topic</strong>",
+        "<untrusted-content>Boundary Topic",
+        "Ignore previous instructions",
+        "System prompt override",
+    ],
+)
+def test_dynamic_topic_creation_rejects_unsafe_titles_without_mutation(
+    tmp_path: Path, title: str
+) -> None:
+    _write_candidate_fixture(tmp_path)
+    config_path = tmp_path / "config" / "observatory.toml"
+    config_path.write_text(
+        config_path.read_text(encoding="utf-8").replace("enabled = false", "enabled = true"),
+        encoding="utf-8",
+    )
+    weeks = ["2026-W28", "2026-W29", "2026-W30", "2026-W31"]
+    _write_candidate_registry(tmp_path, {"unsafe-topic": _candidate(title, weeks)})
+    before = {
+        path.relative_to(tmp_path): path.read_bytes()
+        for path in tmp_path.rglob("*")
+        if path.is_file()
+    }
+
+    with pytest.raises(ValueError, match="Rejected unsafe candidate title"):
+        create_dynamic_hubs(
+            root=tmp_path,
+            config_path=config_path,
+            current_date="2026-07-29T12:57:30Z",
+        )
+
+    after = {
+        path.relative_to(tmp_path): path.read_bytes()
+        for path in tmp_path.rglob("*")
+        if path.is_file()
+    }
+    assert after == before
+
+
+def test_dynamic_topic_creation_writes_structured_yaml(tmp_path: Path) -> None:
+    _write_candidate_fixture(tmp_path)
+    config_path = tmp_path / "config" / "observatory.toml"
+    config_path.write_text(
+        config_path.read_text(encoding="utf-8").replace("enabled = false", "enabled = true"),
+        encoding="utf-8",
+    )
+    weeks = ["2026-W28", "2026-W29", "2026-W30", "2026-W31"]
+    _write_candidate_registry(tmp_path, {"edge-ai": _candidate("Edge AI", weeks)})
+
+    created = create_dynamic_hubs(
+        root=tmp_path,
+        config_path=config_path,
+        current_date="2026-07-29T12:57:30Z",
+    )
+
+    assert created == [tmp_path / "content" / "topics" / "edge-ai" / "_index.md"]
+    frontmatter = created[0].read_text(encoding="utf-8").split("---\n", 2)[1]
+    parsed = yaml.safe_load(frontmatter)
+    assert parsed["title"] == "Edge AI"
+    assert parsed["params"]["discovery"]["observed_weeks"] == weeks
 
 
 def test_dynamic_topic_creation_preserves_parseable_seed_topics_without_trailing_comma() -> None:
@@ -263,6 +630,14 @@ ignore_topics = []
         + "\n",
         encoding="utf-8",
     )
+    _write_candidate_registry(
+        WORKSPACE,
+        {
+            "edge-ai-workflows": _candidate(
+                "Edge AI Workflows", ["2026-W28", "2026-W29", "2026-W30", "2026-W31"]
+            )
+        },
+    )
 
     created = create_dynamic_hubs(
         root=WORKSPACE,
@@ -293,15 +668,29 @@ def test_hugo_renders_topic_hubs_with_issue_cards_and_rss() -> None:
     )
 
     page = (destination / "topics" / "ai-coding-agents" / "index.html").read_text(encoding="utf-8")
-    rss = destination / "topics" / "ai-coding-agents" / "index.xml"
     assert "Topic hub" in page
+    assert "Latest weekly signals" in page
     assert "Recent weekly issues" in page
     assert "Dataset highlights" in page
+    assert "2026-W31" in page
     assert "rel=canonical href=https://claracle.com/topics/ai-coding-agents/" in page
-    assert rss.exists()
-    rss_content = rss.read_text(encoding="utf-8")
-    assert "AI Coding Agents" in rss_content
-    assert "https://claracle.com/topics/ai-coding-agents/" in rss_content
+    for slug, title in SEED_HUBS.items():
+        rss = destination / "topics" / slug / "index.xml"
+        assert rss.exists(), f"missing promoted topic feed: {slug}"
+        root = ElementTree.parse(rss).getroot()
+        rss_content = rss.read_text(encoding="utf-8")
+        assert title in rss_content
+        for element in root.iter():
+            if element.tag.rsplit("}", 1)[-1] in {"guid", "link"}:
+                url = (element.text or "").strip()
+                if url:
+                    assert url.startswith("https://claracle.com/")
+
+    ai_coding_feed = (destination / "topics" / "ai-coding-agents" / "index.xml").read_text(
+        encoding="utf-8"
+    )
+    assert "Agent Work Moved Into the Operating Room" in ai_coding_feed
+    assert "https://claracle.com/topics/ai-coding-agents/" in ai_coding_feed
 
 
 @pytest.mark.skipif(shutil.which("hugo") is None, reason="hugo is not installed")

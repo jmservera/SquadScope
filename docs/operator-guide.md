@@ -120,7 +120,14 @@ hugo server
 
 Visit `http://localhost:1313` and verify the site loads. Press `Ctrl+C` to stop.
 
-For production build:
+For a minified build served locally:
+
+```bash
+hugo --minify --baseURL "http://localhost:1313/"
+python3 -m http.server 1313 --directory public
+```
+
+For a production build using the configured `baseURL`:
 
 ```bash
 hugo --minify

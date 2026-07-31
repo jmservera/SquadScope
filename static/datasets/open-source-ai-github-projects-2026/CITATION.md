@@ -8,7 +8,7 @@ Suggested citation:
 
 > Claracle contributors. "Claracle Open Source AI GitHub Projects 2026."
 > Version 2026-W31, generated from public GitHub crawl artifacts,
-> 2026-07-29T13:26:39Z. https://claracle.com/datasets/open-source-ai-github-projects-2026/top-github-projects.csv
+> 2026-07-27T03:52:10Z. https://claracle.com/datasets/open-source-ai-github-projects-2026/top-github-projects.csv
 
 ## Sources
 
