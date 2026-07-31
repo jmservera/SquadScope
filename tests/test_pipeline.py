@@ -641,7 +641,14 @@ class WorkflowConfigTests(unittest.TestCase):
                 self.assertIn(path, hydrate)
                 self.assertIn(path, commit)
                 self.assertIn(path, upload)
+
+        # content/data/ ships from main until the crawl publishes the observatory
+        # pages; deploy must not hydrate an empty source and delete the pages that
+        # content/embeds/ depends on (issue #627).
+        for path in (p for p in generated_paths if p != "content/data/"):
+            with self.subTest(path=path, target="deploy"):
                 self.assertIn(path, deploy_hydrate)
+        self.assertNotIn("content/data/", deploy_hydrate)
 
         self.assertIn("--force-with-lease", commit)
         self.assertIn("git diff --cached --quiet && exit 0", commit)
