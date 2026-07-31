@@ -327,7 +327,8 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("hashlib.sha256(article_path.read_bytes()).hexdigest()", resolve_script)
         self.assertIn('article_sha256 != article.get("sha256")', resolve_script)
         self.assertIn(
-            'article_url_from_page_path("https://claracle.com/", article_path)', resolve_script
+            'article_url_from_page_path("https://claracle.com/", article_path.as_posix())',
+            resolve_script,
         )
 
         smoke = workflow["jobs"]["podcaster-release-smoke"]

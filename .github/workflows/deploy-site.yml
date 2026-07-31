@@ -159,7 +159,7 @@ jobs:
 
           outputs = {
               "week": str(record.get("week") or ""),
-              "article_url": article_url_from_page_path("https://claracle.com/", article_path),
+              "article_url": article_url_from_page_path("https://claracle.com/", article_path.as_posix()),
               "article_path": article_path.as_posix(),
               "article_sha256": article_sha256,
               "promotion_reference": promotion_reference.as_posix(),

@@ -16,6 +16,7 @@ import os
 from functools import partial
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from urllib.parse import quote, urlsplit, urlunsplit
 
 # Content types GitHub Pages compresses. Binary assets (images, fonts) are left
 # untouched because they are already compressed.
@@ -50,8 +51,12 @@ class GzipHandler(SimpleHTTPRequestHandler):
 
         if os.path.isdir(path):
             if not self.path.endswith("/"):
+                # Sanitise the request path before echoing it into the Location
+                # header to avoid HTTP response splitting.
+                split = urlsplit(self.path)
+                location = urlunsplit(("", "", quote(split.path) + "/", split.query, ""))
                 self.send_response(HTTPStatus.MOVED_PERMANENTLY)
-                self.send_header("Location", self.path + "/")
+                self.send_header("Location", location)
                 self.end_headers()
                 return
             index = os.path.join(path, "index.html")
