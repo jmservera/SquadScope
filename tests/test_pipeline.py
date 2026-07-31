@@ -645,15 +645,14 @@ class WorkflowConfigTests(unittest.TestCase):
                 self.assertIn(path, hydrate)
                 self.assertIn(path, commit)
                 self.assertIn(path, upload)
-
-        # content/data/ ships from main until the crawl publishes the observatory
-        # pages; deploy must not hydrate an empty source and delete the pages that
-        # content/embeds/ depends on (issue #627).
-        for path in (p for p in generated_paths if p != "content/data/"):
-            with self.subTest(path=path, target="deploy"):
                 self.assertIn(path, deploy_hydrate)
-        deploy_hydrate_entries = {line.strip() for line in deploy_hydrate.splitlines()}
-        self.assertNotIn("content/data/", deploy_hydrate_entries)
+
+        # Deploy hydration guards each path with git ls-tree so committed content
+        # absent from publish is preserved rather than deleted (issues #627, #633).
+        self.assertIn('git ls-tree -r --name-only origin/publish -- "$path"', deploy_hydrate)
+        self.assertNotIn(
+            'git checkout origin/publish -- "$path" 2>/dev/null || true', deploy_hydrate
+        )
 
         self.assertIn("--force-with-lease", commit)
         self.assertIn("git diff --cached --quiet && exit 0", commit)
@@ -691,6 +690,15 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertNotIn("gh pr create", rendered)
         self.assertNotIn("git push", rendered)
         self.assertNotIn("contents: write", rendered)
+        # Hydration guards each path so committed content absent from publish is
+        # preserved rather than deleted (#633).
+        hydrate = next(
+            step
+            for step in freshness_steps
+            if step.get("name") == "Hydrate generated state from publish"
+        )["run"]
+        self.assertIn('git ls-tree -r --name-only origin/publish -- "$path"', hydrate)
+        self.assertNotIn('git checkout origin/publish -- "$path" 2>/dev/null || true', hydrate)
 
     def test_sync_publish_to_main_excludes_squad_state_and_regenerates_rollups(self) -> None:
         workflow_path = Path(".github/workflows/sync-publish-to-main.yml")

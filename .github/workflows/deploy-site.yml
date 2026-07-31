@@ -86,24 +86,20 @@ jobs:
 
       - name: Hydrate generated content from publish
         # Architecture: code/theme/config come from main; generated content comes
-        # from the canonical publish branch. Exception: content/data/ is served
-        # from main until the crawl repopulates it on publish (see issue #627),
-        # so it is omitted from the hydration list below.
+        # from the canonical publish branch.
         run: |
           set -euo pipefail
           git fetch origin publish
-          # Wipe and re-checkout to mirror publish exactly (deletions propagate)
-          # The observatory data-page directory is intentionally omitted here:
-          # those pages are not yet present on publish, so hydrating an empty
-          # source would delete the committed pages that the chart embeds depend
-          # on and break the build (see issue #627). Re-add it once the crawl
-          # publishes those pages.
+          # Mirror publish for generated content. Only wipe+restore paths that
+          # exist on publish; otherwise keep main's committed version so content
+          # not yet published is not deleted (issues #627, #633).
           GENERATED_PATHS=(
             content/weekly/
             content/monthly/
             content/yearly/
             content/topics/
             content/repo/
+            content/data/
             data/analyzed/
             data/raw/
             data/metrics/
@@ -118,8 +114,10 @@ jobs:
           )
           for path in "${GENERATED_PATHS[@]}"; do
             path="${path%/}"
-            rm -rf "$path"
-            git checkout origin/publish -- "$path" 2>/dev/null || true
+            if [ -n "$(git ls-tree -r --name-only origin/publish -- "$path")" ]; then
+              rm -rf "$path"
+              git checkout origin/publish -- "$path"
+            fi
           done
           echo "Hydrated from publish:"
           ls content/weekly/2026/ 2>/dev/null || true
