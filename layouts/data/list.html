@@ -25,4 +25,11 @@
   </article>
   {{- end }}
 </section>
+
+{{- with site.GetPage "/charts/embeddable-rankings" }}
+<p class="data-embed-note">
+  Want these rankings on your own site?
+  <a href="{{ .RelPermalink }}">See how to embed Claracle charts</a>.
+</p>
+{{- end }}
 {{- end -}}
