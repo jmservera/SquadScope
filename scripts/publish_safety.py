@@ -71,6 +71,22 @@ def require_week(value: str) -> str:
     return week
 
 
+def weekly_transaction_paths(week: str) -> list[str]:
+    """Repo-relative files that make up a week's published weekly transaction.
+
+    A restore must never rewrite these already-published files (issue #640):
+    the weekly article, the analyzed summary that rollups and topics consume,
+    and the promotion record that provides Podcaster handoff provenance.
+    """
+    week = require_week(week)
+    year, number = week.split("-W", maxsplit=1)
+    return [
+        f"content/weekly/{year}/W{number}.md",
+        f"data/analyzed/{week}-summary.md",
+        f"data/published/{week}/promotion-manifest.json",
+    ]
+
+
 def require_raw_path(root: Path, value: str) -> tuple[Path, Path]:
     relative = relpath_under_root(root, value)
     if relative.parts[:2] != ("data", "raw"):
@@ -138,6 +154,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     restore_raw_parser.add_argument("--week", required=True)
     restore_raw_parser.add_argument("--source-run-id", required=True)
     restore_raw_parser.add_argument("--store-root", default=Path("data/raw-store"), type=Path)
+
+    weekly_tx_parser = subparsers.add_parser(
+        "weekly-transaction-paths",
+        help="Print the repo-relative files that make up a week's published weekly transaction.",
+    )
+    weekly_tx_parser.add_argument("--week", required=True)
 
     return parser.parse_args(argv)
 
@@ -467,6 +489,10 @@ def main(argv: list[str] | None = None) -> int:
         return store_raw(args)
     if args.command == "restore-raw":
         return restore_raw(args)
+    if args.command == "weekly-transaction-paths":
+        for path in weekly_transaction_paths(args.week):
+            print(path)
+        return 0
     raise AssertionError(args.command)
 
 

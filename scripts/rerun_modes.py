@@ -64,7 +64,10 @@ def validate_modes(
     elif run_mode == "candidate-only":
         action = "produce candidate artifacts only; never promote"
     elif run_mode == "restore":
-        action = f"restore published artifacts for {rebuild_week} and regenerate through guarded promotion"
+        action = (
+            f"restore observatory surfaces for {rebuild_week} from stored raw evidence; "
+            "the already-published weekly article, summary, and promotion record are preserved"
+        )
     elif run_mode == "force-replace":
         action = "explicit replacement run; promotion still requires all gates"
     else:

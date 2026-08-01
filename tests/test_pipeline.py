@@ -515,6 +515,15 @@ class WorkflowConfigTests(unittest.TestCase):
         # data/topic-hubs/) are absent when a feature produced nothing (issue #633).
         self.assertIn('git add -A -- "${ADD_PATHS[@]}"', commit_run)
         self.assertNotIn('git add -A -- "${GENERATED_PATHS[@]}" data/backups/', commit_run)
+        # A restore must refresh observatory surfaces only and preserve the already-
+        # published weekly transaction (issue #640). The commit step reverts those
+        # files -- and the rollups that embed the article summary -- to the publish
+        # versions before staging when run_mode == restore.
+        self.assertIn('if [ "$RUN_MODE" = "restore" ]; then', commit_run)
+        self.assertIn("weekly-transaction-paths", commit_run)
+        self.assertIn('git checkout HEAD -- "$tx_path"', commit_run)
+        self.assertIn("RESTORE_PRESERVE+=(content/monthly content/yearly)", commit_run)
+        self.assertEqual(commit_step["env"]["RUN_MODE"], "${{ needs.analyze.outputs.run_mode }}")
 
         upload_step = next(
             (

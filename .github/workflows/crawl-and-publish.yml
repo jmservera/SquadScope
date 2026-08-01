@@ -1216,6 +1216,7 @@ jobs:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           DATA_BRANCH: publish
           WEEK: ${{ needs.analyze.outputs.week }}
+          RUN_MODE: ${{ needs.analyze.outputs.run_mode }}
           MANIFEST_FILE: ${{ needs.analyze.outputs.publish_manifest_file }}
           EXPECTED_PUBLISH_SHA: ${{ needs.analyze.outputs.publish_head_sha }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -1300,6 +1301,24 @@ jobs:
             "${BACKUP_PATH_ARGS[@]}"
           tar -xf generated-state.tar
           python3 promotion-guard-tool.py --manifest "data/candidates/${WEEK}/${GITHUB_RUN_ID}/publish-manifest.json"
+          if [ "$RUN_MODE" = "restore" ]; then
+            # A restore refreshes observatory surfaces only; it must never rewrite
+            # the already-published weekly transaction (issue #640). Revert the
+            # weekly article, its summary, and its promotion record -- plus the
+            # monthly/yearly rollups that embed the article summary -- to the
+            # versions on publish (HEAD == origin/publish here) so the commit and
+            # the publish->main sync leave published content byte-identical.
+            RESTORE_PRESERVE=()
+            while IFS= read -r tx_path; do
+              [ -n "$tx_path" ] && RESTORE_PRESERVE+=("$tx_path")
+            done < <(python3 publish-safety-tool.py weekly-transaction-paths --week "$WEEK")
+            RESTORE_PRESERVE+=(content/monthly content/yearly)
+            for tx_path in "${RESTORE_PRESERVE[@]}"; do
+              if git cat-file -e "HEAD:$tx_path" 2>/dev/null; then
+                git checkout HEAD -- "$tx_path"
+              fi
+            done
+          fi
           rm -f generated-state.tar publish-manifest-tool.json publish-safety-tool.py promotion-guard-tool.py
           # Stage only generated paths that exist; some (e.g. data/topic-hubs/) are
           # absent when a feature produced no output this run and would otherwise
