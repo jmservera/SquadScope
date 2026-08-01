@@ -110,37 +110,37 @@ docs/
   * File: `tests/test_pipeline.py`
 * [x] Step 1.3: Validate locally: `pytest tests/test_pipeline.py`, zizmor on the workflow, and a clean `hugo --minify` build with the embed and its data page rendered
 
-### [ ] Implementation Phase 2: Regenerate Observatory Content onto Publish
+### [x] Implementation Phase 2: Regenerate Observatory Content onto Publish
 
 <!-- parallelizable: false -->
 
-* [ ] Step 2.1: Trigger `crawl-and-publish.yml` (or the appropriate generation workflow) via `workflow_dispatch` and confirm the `generate` job commits `content/data/` and the chart-embed dependencies to `publish`
-* [ ] Step 2.2: Confirm `git ls-tree -r --name-only origin/publish -- content/data/` lists `fastest-growing-ai-repositories-this-year/` and the other ranking pages
-* [ ] Step 2.3: Confirm the embed dependency resolves against the `publish` content set (the observatory-chart shortcode finds the data page)
+* [x] Step 2.1: Trigger `crawl-and-publish.yml` (or the appropriate generation workflow) via `workflow_dispatch` and confirm the `generate` job commits `content/data/` and the chart-embed dependencies to `publish` — regenerated via crawl runs; `#634` stages only existing generated paths in the publish commit
+* [x] Step 2.2: Confirm `git ls-tree -r --name-only origin/publish -- content/data/` lists `fastest-growing-ai-repositories-this-year/` and the other ranking pages
+* [x] Step 2.3: Confirm the embed dependency resolves against the `publish` content set (the observatory-chart shortcode finds the data page)
 
-### [ ] Implementation Phase 3: Restore Consistent Deploy Hydration
+### [x] Implementation Phase 3: Restore Consistent Deploy Hydration
 
 <!-- parallelizable: false -->
 
-* [ ] Step 3.1: Re-add `content/data/` to the deploy hydration list and revert the interim comment once `publish` reliably carries the pages
-* [ ] Step 3.2: Restore the provenance invariant test to require `content/data/` in deploy hydration
-* [ ] Step 3.3: Confirm a full deploy build succeeds against the hydrated `publish` content set
+* [x] Step 3.1: Re-add `content/data/` to the deploy hydration list and revert the interim comment once `publish` reliably carries the pages — restored via `#637` (generalize safe hydration guard and restore content/data deploy)
+* [x] Step 3.2: Restore the provenance invariant test to require `content/data/` in deploy hydration — `#637`
+* [x] Step 3.3: Confirm a full deploy build succeeds against the hydrated `publish` content set — deploy-site runs green since 2026-08-01
 
-### [ ] Implementation Phase 4: CI Deploy-Parity Guard
+### [x] Implementation Phase 4: CI Deploy-Parity Guard
 
 <!-- parallelizable: true -->
 
-* [ ] Step 4.1: Add a CI build that reproduces the deploy publish-hydration (or a lightweight check that every `content/embeds/*` `source_page` resolves to an existing data page in the built content set)
-* [ ] Step 4.2: Wire the guard into the production-site job so `main`/`publish` divergence fails CI, not the deploy
-* [ ] Step 4.3: Add or extend tests covering the guard behavior
+* [x] Step 4.1: Add a CI build that reproduces the deploy publish-hydration (or a lightweight check that every `content/embeds/*` `source_page` resolves to an existing data page in the built content set) — shipped as `scripts/check_embed_sources.py` (`#641`)
+* [x] Step 4.2: Wire the guard into the production-site job so `main`/`publish` divergence fails CI, not the deploy — wired into `.github/workflows/ci.yml` ("Validate embed source pages" step) via `#641`
+* [x] Step 4.3: Add or extend tests covering the guard behavior — `tests/test_embed_sources.py` (`#641`)
 
 ### [ ] Implementation Phase 5: Validation and Re-Review
 
 <!-- parallelizable: false -->
 
-* [ ] Step 5.1: Run full validation: `pytest tests/`, ruff, zizmor on changed workflows, and a clean Hugo build
-* [ ] Step 5.2: Confirm the production deploy succeeds end to end and close issue #627
-* [ ] Step 5.3: Reconcile PRD NFR-011/012, R-08, and Q-03 status with the delivered state
+* [x] Step 5.1: Run full validation: `pytest tests/`, ruff, zizmor on changed workflows, and a clean Hugo build — validated per PR CI (`#628`/`#634`/`#637`/`#641`)
+* [x] Step 5.2: Confirm the production deploy succeeds end to end and close issue #627 — `#627` CLOSED; deploy-site green
+* [ ] Step 5.3: Reconcile PRD NFR-011/012, R-08, and Q-03 status with the delivered state — handled by the 2026-08-02 relaunch-readiness reconciliation (PRD Phase 3)
 
 ## Parallelization Summary
 

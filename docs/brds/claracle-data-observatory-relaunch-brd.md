@@ -2,7 +2,7 @@
 title: "Claracle Data Observatory Relaunch — Business Requirements Document"
 description: "BRD for the next version of the Claracle site, repositioning it from weekly AI-generated summaries into a discoverable, linkable public database of GitHub technology trends to solve the discovery/SEO problem."
 author: "BRD Builder (facilitated)"
-ms.date: 2026-07-30
+ms.date: 2026-08-02
 ms.topic: reference
 ---
 
@@ -12,17 +12,25 @@ ms.topic: reference
 |-------|-------|
 | BRD ID | BRD-CLARACLE-002 |
 | Status | Acceptance and sponsor approval pending |
-| Version | 1.1 |
+| Version | 1.2 |
 | Author | BRD Builder (facilitated) |
 | Sponsor | jmservera (also the human approval authority) |
-| Last updated | 2026-07-29 |
+| Last updated | 2026-08-02 |
 | Related repositories | SquadScope, SquadScope-Podcaster, SquadScope-Coordinator |
+
+### Change History
+
+| Version | Date | Author | Summary |
+|---------|------|--------|---------|
+| 1.0 | 2026-07-29 | BRD Builder (facilitated) | Initial BRD repositioning Claracle into a data observatory |
+| 1.1 | 2026-07-30 | BRD Builder (facilitated) | Reconciled acceptance status with pending security, analytics, production, Podcaster, accessibility, visual, and rollout gates |
+| 1.2 | 2026-08-02 | SquadScope Squad | Added this change history, aligned the PRD cross-reference to the current version, and linked the relaunch status of record |
 
 ---
 
 ## Acceptance Status
 
-The business requirements remain approved as requirements, but no repository artifact records sponsor approval to enable either rollout flag. Security sign-off, analytics and search evidence, production responses, Podcaster execution, accessibility review, and refreshed visual acceptance remain pending. Dynamic topic creation and repository-page creation must be approved separately.
+The business requirements remain approved as requirements, but no repository artifact records sponsor approval to enable either rollout flag. Security sign-off, analytics and search evidence, production responses, Podcaster execution, accessibility review, and refreshed visual acceptance remain pending. Dynamic topic creation and repository-page creation must be approved separately. Current delivered-versus-pending status is tracked in the [relaunch status of record](../review/data-observatory-relaunch/status-of-record.md).
 
 ---
 
