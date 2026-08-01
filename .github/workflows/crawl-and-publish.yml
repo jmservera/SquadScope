@@ -1309,9 +1309,13 @@ jobs:
             # versions on publish (HEAD == origin/publish here) so the commit and
             # the publish->main sync leave published content byte-identical.
             RESTORE_PRESERVE=()
+            # Capture into a variable first so a failure in the tool (missing
+            # subcommand, syntax error) aborts under set -e instead of silently
+            # leaving the preserve list empty (process substitution would not).
+            TX_PATHS="$(python3 publish-safety-tool.py weekly-transaction-paths --week "$WEEK")"
             while IFS= read -r tx_path; do
               [ -n "$tx_path" ] && RESTORE_PRESERVE+=("$tx_path")
-            done < <(python3 publish-safety-tool.py weekly-transaction-paths --week "$WEEK")
+            done <<< "$TX_PATHS"
             RESTORE_PRESERVE+=(content/monthly content/yearly)
             for tx_path in "${RESTORE_PRESERVE[@]}"; do
               if git cat-file -e "HEAD:$tx_path" 2>/dev/null; then

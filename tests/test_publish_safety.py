@@ -1,3 +1,5 @@
+import contextlib
+import io
 import json
 import tempfile
 import unittest
@@ -38,8 +40,18 @@ class PublishSafetyTests(unittest.TestCase):
             publish_safety.weekly_transaction_paths("2026-31")
 
     def test_weekly_transaction_paths_cli_prints_one_path_per_line(self) -> None:
-        rc = publish_safety.main(["weekly-transaction-paths", "--week", "2026-W31"])
+        buffer = io.StringIO()
+        with contextlib.redirect_stdout(buffer):
+            rc = publish_safety.main(["weekly-transaction-paths", "--week", "2026-W31"])
         self.assertEqual(rc, 0)
+        self.assertEqual(
+            buffer.getvalue().splitlines(),
+            [
+                "content/weekly/2026/W31.md",
+                "data/analyzed/2026-W31-summary.md",
+                "data/published/2026-W31/promotion-manifest.json",
+            ],
+        )
 
     def test_backup_existing_is_immutable_and_restorable_with_provenance(self) -> None:
         tests_root = Path(__file__).resolve().parent
