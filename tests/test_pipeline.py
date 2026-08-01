@@ -845,6 +845,13 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn(
             'git checkout FETCH_HEAD -- "$ARTICLE_PATH" "$PROMOTION_REFERENCE"', hydrate["run"]
         )
+        # promotion_transaction_v1 records reference a source manifest whose bytes
+        # the handoff tooling verifies, so the smoke must hydrate it too (issue #639).
+        self.assertIn("source_manifest", hydrate["run"])
+        self.assertIn('git checkout FETCH_HEAD -- "$SOURCE_MANIFEST_PATH"', hydrate["run"])
+        # Hydration is restricted to the expected candidate-manifest location so a
+        # crafted promotion record cannot overwrite tooling/config (PR #645 review).
+        self.assertIn(r"data/candidates/[^/]+/[^/]+/publish-manifest\.json", hydrate["run"])
         smoke_step = next(
             (s for s in smoke_job["steps"] if s.get("name") == "Smoke test Podcaster dry run"), None
         )
