@@ -91,23 +91,29 @@ jobs:
           git checkout FETCH_HEAD -- "$ARTICLE_PATH" "$PROMOTION_REFERENCE"
           # promotion_transaction_v1 records reference a source manifest whose
           # bytes the handoff tooling also verifies; hydrate it from publish too.
+          # Restrict hydration to the expected candidate-manifest location so a
+          # crafted record cannot overwrite tooling/config in the working tree,
+          # and fail the step on any other path rather than silently skipping.
           SOURCE_MANIFEST_PATH="$(python3 - "$PROMOTION_REFERENCE" <<'PY'
           import json
+          import re
           import sys
 
           try:
               record = json.load(open(sys.argv[1], encoding="utf-8"))
           except (OSError, ValueError):
-              sys.exit(0)
+              raise SystemExit(0)
           source_manifest = record.get("source_manifest")
           if not isinstance(source_manifest, dict):
-              sys.exit(0)
+              raise SystemExit(0)
           path = source_manifest.get("path")
-          if not isinstance(path, str) or not path:
-              sys.exit(0)
-          # Only hydrate safe, repository-relative paths.
-          if path.startswith("/") or ".." in path.split("/"):
-              sys.exit(0)
+          if path is None:
+              raise SystemExit(0)
+          if not isinstance(path, str) or not re.fullmatch(
+              r"data/candidates/[^/]+/[^/]+/publish-manifest\.json", path
+          ):
+              sys.stderr.write(f"::error::unexpected source_manifest.path: {path!r}\n")
+              raise SystemExit(1)
           print(path)
           PY
           )"
