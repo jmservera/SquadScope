@@ -121,6 +121,9 @@ jobs:
             "lighthouse@${LIGHTHOUSE_VERSION}"
           npx --no-install playwright install --with-deps chromium
 
+      - name: Validate embed source pages
+        run: python scripts/check_embed_sources.py
+
       - name: Build site and capture Hugo duration
         id: hugo-build
         run: |
