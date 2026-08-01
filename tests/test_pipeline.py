@@ -335,7 +335,9 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertEqual(smoke["needs"], ["build", "deploy"])
         self.assertEqual(smoke["uses"], "./.github/workflows/podcaster-handoff-smoke.yml")
         self.assertEqual(smoke["permissions"], {"contents": "read"})
-        self.assertNotIn("secrets", smoke)
+        self.assertEqual(
+            smoke["secrets"], {"PODCASTER_API_KEY": "${{ secrets.PODCASTER_API_KEY }}"}
+        )
         self.assertEqual(
             smoke["with"],
             {
@@ -816,7 +818,9 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertEqual(set(dispatch_inputs), expected_inputs)
         self.assertEqual(set(call_inputs), expected_inputs)
         self.assertTrue(all(details["required"] for details in call_inputs.values()))
-        self.assertNotIn("secrets", triggers["workflow_call"])
+        # The reusable workflow must declare PODCASTER_API_KEY so callers can pass
+        # the repository secret explicitly (reusable workflows do not inherit it).
+        self.assertTrue(triggers["workflow_call"]["secrets"]["PODCASTER_API_KEY"]["required"])
 
         smoke_job = workflow["jobs"]["smoke"]
         self.assertEqual(smoke_job["environment"]["name"], "podcaster-release-smoke")
