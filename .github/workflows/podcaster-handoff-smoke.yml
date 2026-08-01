@@ -70,13 +70,24 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
         with:
-          ref: publish
+          ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
         with:
           python-version: '3.12'
+
+      - name: Hydrate published article from publish
+        # The handoff tooling (scripts/, config/) lives on the default branch,
+        # while the promoted article and its record live on publish.
+        env:
+          ARTICLE_PATH: ${{ inputs.article_path }}
+          PROMOTION_REFERENCE: ${{ inputs.promotion_reference }}
+        run: |
+          set -euo pipefail
+          git fetch origin publish
+          git checkout FETCH_HEAD -- "$ARTICLE_PATH" "$PROMOTION_REFERENCE"
 
       - name: Smoke test Podcaster dry run
         env:

@@ -832,8 +832,19 @@ class WorkflowConfigTests(unittest.TestCase):
 
         smoke_job = workflow["jobs"]["smoke"]
         self.assertEqual(smoke_job["environment"]["name"], "podcaster-release-smoke")
+        # Code (scripts/, config/) comes from the default branch checkout; the
+        # promoted article and its record are hydrated from publish (issue #639).
         checkout = next(s for s in smoke_job["steps"] if _uses_action(s, "actions/checkout"))
-        self.assertEqual(checkout["with"]["ref"], "publish")
+        self.assertEqual(checkout["with"]["ref"], "${{ github.event.repository.default_branch }}")
+        hydrate = next(
+            s
+            for s in smoke_job["steps"]
+            if s.get("name") == "Hydrate published article from publish"
+        )
+        self.assertIn("git fetch origin publish", hydrate["run"])
+        self.assertIn(
+            'git checkout FETCH_HEAD -- "$ARTICLE_PATH" "$PROMOTION_REFERENCE"', hydrate["run"]
+        )
         smoke_step = next(
             (s for s in smoke_job["steps"] if s.get("name") == "Smoke test Podcaster dry run"), None
         )
