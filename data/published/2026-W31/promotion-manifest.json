@@ -1,9 +1,9 @@
 {
   "candidate": {
-    "content_path": "data/candidates/2026-W31/30669054860/2026-W31-content.md",
-    "content_sha256": "d52d7f4ef15dd954d038ba9c155ae69e6b28d0b0632ffd098ebdb13100ce357b",
-    "summary_path": "data/candidates/2026-W31/30669054860/2026-W31-summary.md",
-    "summary_sha256": "27bb1bfe471540fd86caf72e22e1edb36d2053570978cc8ce8a757ca87c88a11"
+    "content_path": "data/candidates/2026-W31/30235602261/2026-W31-content.md",
+    "content_sha256": "7af78b01d06cc1321c0b910d5550f2b2b3ee5c983fa7603ef13ddb1de83d7002",
+    "summary_path": "data/candidates/2026-W31/30235602261/2026-W31-summary.md",
+    "summary_sha256": "08d6eee13676e923ff8d2e911f98d65e39491bd7dcb40ad3400b7bba4c718e08"
   },
   "provenance": {
     "analysis": {
@@ -13,22 +13,22 @@
       "preflight": {
         "degradation_reason": null,
         "degraded": false,
-        "path": "data/candidates/2026-W31/30669054860/diagnostics/analysis-input-manifest.json",
+        "path": "data/candidates/2026-W31/30235602261/diagnostics/analysis-input-manifest.json",
         "promotion_policy": "normal-promotion",
-        "prompt_checksum_sha256": "5ea7a9d0c50a07027c70abd9eadf5a1a23c6078b38befcc2cdcae562e5c5e96b",
+        "prompt_checksum_sha256": "b3f1ad0bd9d4b192a184f6993d3db09530bfe73ae8b62afae3aa0c1b12cf5292",
         "prompt_token_budget": 90000,
-        "prompt_tokens": 71449,
+        "prompt_tokens": 71522,
         "publish_eligible": true
       },
       "provenance": {
         "attempted_ai_paths": [],
         "authorship": "ai-authored",
-        "current_datetime": "2026-07-31T22:10:40Z",
+        "current_datetime": "2026-07-27T03:55:47Z",
         "degraded": false,
         "fallback_reason": null,
         "model": "copilot-default",
         "provider": "copilot-cli",
-        "run_id": "30669054860"
+        "run_id": "30235602261"
       },
       "provider": "copilot-cli",
       "source": "copilot-cli"
@@ -36,7 +36,7 @@
     "promotion": {
       "decision": "promote",
       "eligible": true,
-      "mode": "restore",
+      "mode": "normal",
       "policy": "default",
       "reasons": [],
       "source_refresh_policy": "reuse-same-day"
@@ -339,11 +339,11 @@
           "reasons": [],
           "status": "fresh"
         },
-        "generated_at": "2026-07-31T22:10:40Z",
+        "generated_at": "2026-07-27T03:55:47Z",
         "path": "data/analyzed/2026-W31-correlations.json",
         "provenance": {
           "artifact_checksum": null,
-          "generated_at": "2026-07-31T22:10:40Z",
+          "generated_at": "2026-07-27T03:55:47Z",
           "path": "data/analyzed/2026-W31-correlations.json",
           "same_day_reuse": {
             "details": "No same-day reuse marker was present on this artifact.",
@@ -370,11 +370,11 @@
           "reasons": [],
           "status": "not_applicable"
         },
-        "generated_at": "2026-07-31T22:10:40Z",
+        "generated_at": "2026-07-27T03:55:47Z",
         "path": "data/analyzed/2026-W31-press-context.md",
         "provenance": {
           "artifact_checksum": null,
-          "generated_at": "2026-07-31T22:10:40Z",
+          "generated_at": "2026-07-27T03:55:47Z",
           "path": "data/analyzed/2026-W31-press-context.md",
           "same_day_reuse": {
             "details": "No same-day reuse marker was present on this artifact.",
@@ -418,16 +418,16 @@
         },
         "model": "copilot-default",
         "passed": true,
-        "path": "data/candidates/2026-W31/30669054860/analysis-gate-report.json",
+        "path": "data/candidates/2026-W31/30235602261/analysis-gate-report.json",
         "present": true,
         "repair_actions": [],
-        "sha256": "57bd365183dff4a793a940412eb6a90b6c0c7d9c4bbfb69ff67afbcceaa547a4",
+        "sha256": "0bd65f9aea5edfaf955a726fd80eb467060d7f888df0529899f6e1220c015eec",
         "source": "copilot-cli"
       },
       "quality_gates": [
         {
           "name": "analysis_gate",
-          "report": "data/candidates/2026-W31/30669054860/analysis-gate-report.json",
+          "report": "data/candidates/2026-W31/30235602261/analysis-gate-report.json",
           "source": "copilot-cli",
           "status": "passed"
         }
@@ -439,22 +439,22 @@
     {
       "path": "data/analyzed/2026-W31-summary.md",
       "role": "analysis_summary",
-      "sha256": "27bb1bfe471540fd86caf72e22e1edb36d2053570978cc8ce8a757ca87c88a11",
-      "source_path": "data/candidates/2026-W31/30669054860/2026-W31-summary.md"
+      "sha256": "08d6eee13676e923ff8d2e911f98d65e39491bd7dcb40ad3400b7bba4c718e08",
+      "source_path": "data/candidates/2026-W31/30235602261/2026-W31-summary.md"
     },
     {
       "path": "content/weekly/2026/W31.md",
       "role": "hugo_content",
-      "sha256": "d52d7f4ef15dd954d038ba9c155ae69e6b28d0b0632ffd098ebdb13100ce357b",
-      "source_path": "data/candidates/2026-W31/30669054860/2026-W31-content.md"
+      "sha256": "7af78b01d06cc1321c0b910d5550f2b2b3ee5c983fa7603ef13ddb1de83d7002",
+      "source_path": "data/candidates/2026-W31/30235602261/2026-W31-content.md"
     }
   ],
-  "run_id": "30669054860",
+  "run_id": "30235602261",
   "schema_version": "promotion_transaction_v1",
   "source_manifest": {
-    "path": "data/candidates/2026-W31/30669054860/publish-manifest.json",
-    "sha256": "f197fcff00bfbf1f159f88079e60f5c2c96223989ba402b1981959f53a66b3a0"
+    "path": "data/candidates/2026-W31/30235602261/publish-manifest.json",
+    "sha256": "cf71eb3d6797f43be0572b2e65e000b3f8d7b37db3d4b1cc83a603521bf675f8"
   },
-  "transaction_id": "8ef18d6212ee338639acc08c9c7274dcdb6b03d483440a29909302366298fb28",
+  "transaction_id": "216f5522012489d17f56b0b7cea57cb6555b97b76a4e549e50d99ade88938ed5",
   "week": "2026-W31"
 }
