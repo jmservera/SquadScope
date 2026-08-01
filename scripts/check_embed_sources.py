@@ -59,10 +59,10 @@ def check_embed_sources(root: Path = ROOT) -> list[str]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--root", default=str(ROOT), type=Path, help="Repository root")
+    parser.add_argument("--root", default=ROOT, type=Path, help="Repository root")
     args = parser.parse_args(argv)
 
-    problems = check_embed_sources(args.root)
+    problems = check_embed_sources(Path(args.root))
     for problem in problems:
         print(f"::error::{problem}", file=sys.stderr)
     if problems:
