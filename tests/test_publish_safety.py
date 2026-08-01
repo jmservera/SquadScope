@@ -1,3 +1,5 @@
+import contextlib
+import io
 import json
 import tempfile
 import unittest
@@ -22,6 +24,34 @@ class PublishSafetyTests(unittest.TestCase):
             encoding="utf-8",
         )
         return manifest
+
+    def test_weekly_transaction_paths_lists_published_transaction_files(self) -> None:
+        self.assertEqual(
+            publish_safety.weekly_transaction_paths("2026-W31"),
+            [
+                "content/weekly/2026/W31.md",
+                "data/analyzed/2026-W31-summary.md",
+                "data/published/2026-W31/promotion-manifest.json",
+            ],
+        )
+
+    def test_weekly_transaction_paths_rejects_bad_week(self) -> None:
+        with self.assertRaises(SystemExit):
+            publish_safety.weekly_transaction_paths("2026-31")
+
+    def test_weekly_transaction_paths_cli_prints_one_path_per_line(self) -> None:
+        buffer = io.StringIO()
+        with contextlib.redirect_stdout(buffer):
+            rc = publish_safety.main(["weekly-transaction-paths", "--week", "2026-W31"])
+        self.assertEqual(rc, 0)
+        self.assertEqual(
+            buffer.getvalue().splitlines(),
+            [
+                "content/weekly/2026/W31.md",
+                "data/analyzed/2026-W31-summary.md",
+                "data/published/2026-W31/promotion-manifest.json",
+            ],
+        )
 
     def test_backup_existing_is_immutable_and_restorable_with_provenance(self) -> None:
         tests_root = Path(__file__).resolve().parent
