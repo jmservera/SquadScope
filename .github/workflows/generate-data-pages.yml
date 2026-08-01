@@ -42,8 +42,12 @@ jobs:
           )
           for path in "${GENERATED_PATHS[@]}"; do
             path="${path%/}"
-            rm -rf "$path"
-            git checkout origin/publish -- "$path" 2>/dev/null || true
+            # Only mirror paths present on publish; otherwise keep main's committed
+            # version so generated content not yet published is not deleted (#633).
+            if [ -n "$(git ls-tree -r --name-only origin/publish -- "$path")" ]; then
+              rm -rf "$path"
+              git checkout origin/publish -- "$path"
+            fi
           done
 
       - name: Set up Python
