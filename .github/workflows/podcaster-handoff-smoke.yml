@@ -80,7 +80,8 @@ jobs:
 
       - name: Hydrate published article from publish
         # The handoff tooling (scripts/, config/) lives on the default branch,
-        # while the promoted article and its record live on publish.
+        # while the promoted article, its promotion record, and the source
+        # manifest that record references all live on publish.
         env:
           ARTICLE_PATH: ${{ inputs.article_path }}
           PROMOTION_REFERENCE: ${{ inputs.promotion_reference }}
@@ -88,6 +89,31 @@ jobs:
           set -euo pipefail
           git fetch origin publish
           git checkout FETCH_HEAD -- "$ARTICLE_PATH" "$PROMOTION_REFERENCE"
+          # promotion_transaction_v1 records reference a source manifest whose
+          # bytes the handoff tooling also verifies; hydrate it from publish too.
+          SOURCE_MANIFEST_PATH="$(python3 - "$PROMOTION_REFERENCE" <<'PY'
+          import json
+          import sys
+
+          try:
+              record = json.load(open(sys.argv[1], encoding="utf-8"))
+          except (OSError, ValueError):
+              sys.exit(0)
+          source_manifest = record.get("source_manifest")
+          if not isinstance(source_manifest, dict):
+              sys.exit(0)
+          path = source_manifest.get("path")
+          if not isinstance(path, str) or not path:
+              sys.exit(0)
+          # Only hydrate safe, repository-relative paths.
+          if path.startswith("/") or ".." in path.split("/"):
+              sys.exit(0)
+          print(path)
+          PY
+          )"
+          if [ -n "$SOURCE_MANIFEST_PATH" ]; then
+            git checkout FETCH_HEAD -- "$SOURCE_MANIFEST_PATH"
+          fi
 
       - name: Smoke test Podcaster dry run
         env:
