@@ -30,7 +30,8 @@ def _source_page(document: str) -> str | None:
 
 def _resolves(content_root: Path, source_page: str) -> bool:
     relative = source_page.strip("/")
-    if not relative:
+    # NFR-012: an embed's source_page must be a data page under content/data/.
+    if relative != "data" and not relative.startswith("data/"):
         return False
     target = content_root / relative
     return (target / "index.md").is_file() or (target / "_index.md").is_file()
@@ -48,7 +49,10 @@ def check_embed_sources(root: Path = ROOT) -> list[str]:
             problems.append(f"{relative_embed}: missing source_page")
             continue
         if not _resolves(content_root, source_page):
-            problems.append(f"{relative_embed}: source_page does not resolve: {source_page}")
+            problems.append(
+                f"{relative_embed}: source_page does not resolve to a content/data page: "
+                f"{source_page}"
+            )
 
     return problems
 

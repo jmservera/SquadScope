@@ -45,3 +45,16 @@ def test_resolving_source_page_passes() -> None:
         )
         _write(root / "content/data/live/index.md", '+++\ntitle = "Live"\n+++\n')
         assert check_embed_sources(root) == []
+
+
+def test_non_data_source_page_is_reported() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        _write(
+            root / "content/embeds/chart/index.md",
+            '+++\nsource_page = "/weekly/2026/w22/"\n+++\n',
+        )
+        # The referenced page exists, but it is not a content/data page.
+        _write(root / "content/weekly/2026/w22/index.md", '+++\ntitle = "W22"\n+++\n')
+        problems = check_embed_sources(root)
+        assert any("does not resolve to a content/data page" in problem for problem in problems)
