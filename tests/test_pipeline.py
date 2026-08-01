@@ -835,7 +835,7 @@ class WorkflowConfigTests(unittest.TestCase):
         # Code (scripts/, config/) comes from the default branch checkout; the
         # promoted article and its record are hydrated from publish (issue #639).
         checkout = next(s for s in smoke_job["steps"] if _uses_action(s, "actions/checkout"))
-        self.assertNotIn("ref", checkout.get("with", {}))
+        self.assertEqual(checkout["with"]["ref"], "${{ github.event.repository.default_branch }}")
         hydrate = next(
             s
             for s in smoke_job["steps"]
