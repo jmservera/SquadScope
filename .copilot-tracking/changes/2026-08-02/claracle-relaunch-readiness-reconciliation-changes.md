@@ -11,7 +11,7 @@
 
 ## Summary
 
-Reconciled the Claracle relaunch plans, PRD, BRD, and issue evidence into one status of record. One review iteration corrected stale issue-state claims for closed issues #599 and #644 while preserving the outstanding GA4/GSC launch gate.
+Reconciled the Claracle relaunch plans, PRD, BRD, and issue evidence into one status of record. The initial review corrected stale issue-state claims for closed issues #599 and #644; the post-merge review finalized PR #647 and narrowed the outstanding GA4/GSC work to baseline, consent, and sitemap processing evidence.
 
 ## Changes by Category
 
@@ -37,15 +37,26 @@ Reconciled the Claracle relaunch plans, PRD, BRD, and issue evidence into one st
 
 ## Review Iteration
 
-PR #647 review found that #599 and #644 were described as open after both had closed as completed on 2026-08-01. The research and status-of-record artifacts now show the final dispositions. FR-035 remains partial because #599 closed with GSC, platform-receipt, and baseline actions still outstanding; later production verification confirmed secret-backed GA configuration is present.
+PR #647 review found that #599 and #644 were described as open after both had closed as completed on 2026-08-01. The research and status-of-record artifacts now show the final dispositions. The GA4/GSC connection is complete by owner confirmation; dated baseline transcription, production consent observations, and sitemap processing review remain outstanding.
+
+## Post-Merge Review Reconciliation
+
+* Recorded PR #647 merge commit `2fdcb0962dad770832b7b6ee4b6807b3b9c721c7`
+* Marked resolved review threads and RI-001 as complete
+* Corrected stale GA4/GSC connection language in the planning log
+* Preserved `pr-reference.xml` as an immutable pre-merge diff snapshot
 
 ## Validation
 
 * Focused documentation tests: 10 passed
+* Post-merge internal-link tests: 5 passed
 * PR #647 status checks: 13 passed, 0 failed
 * Editor diagnostics: no errors in the corrected files
 * Git whitespace validation: passed
 
 ## Release Summary
 
-The repository now has one evidence-backed relaunch readiness view. Delivered remediation work is distinguished from pending external acceptance gates, and closed issue state is no longer used as evidence that GA4/GSC acceptance work shipped.
+The repository now has one evidence-backed relaunch readiness view. Delivered remediation
+work is distinguished from pending external acceptance gates, RI-001 is resolved, and
+PR #647 merged as `2fdcb09`. Closed issue state is not used as evidence for the remaining
+GA4/GSC baseline and consent work.

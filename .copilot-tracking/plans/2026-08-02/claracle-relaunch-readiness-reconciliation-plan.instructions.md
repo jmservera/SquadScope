@@ -98,7 +98,7 @@ Triage the live deploy failure, reconcile the three relaunch plans and the PRD/B
 * [x] Step 5.1: Validate all edited docs (markdown lint, internal link/reference integrity, changelog/version consistency) — `test_internal_link_checker`/`test_embed_sources` green; referenced files verified; no stale version strings
   * Details: .copilot-tracking/details/2026-08-02/claracle-relaunch-readiness-reconciliation-details.md (Lines 182-192)
 * [x] Step 5.2: Fix minor validation issues — none required
-* [x] Step 5.3: Report blocking issues and hand off deferred plans — no blockers; #644 resolved; deferred plans in the log (WI-01/03/04/05)
+* [x] Step 5.3: Report blocking issues and hand off deferred plans — no blockers; #644 resolved; RI-001 resolved; PR #647 merged as `2fdcb09`; deferred plans remain in the log
 
 ## Planning Log
 

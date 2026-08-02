@@ -7,7 +7,7 @@
 * Pull request: #647
 * Reviewer: RPI Agent
 * Date: 2026-08-02
-* Iterations: 1
+* Iterations: 2
 
 ## User Request Fulfillment
 
@@ -30,11 +30,14 @@ No placement or architecture concerns remain. The status of record is the owning
 * Local `hugo --minify`: unavailable because Hugo is not installed; PR #647 Production site check passed
 * Editor diagnostics: no errors in the corrected files
 * `git diff --check`: passed
+* Post-merge tracking validation: 5 internal-link tests passed
 
 ## Pull Request Threads
 
-Both review comments are addressed locally. The threads remain unresolved until the correction commit is pushed so reviewers can inspect the updated PR diff.
+Both review comments were addressed and resolved. PR #647 merged on 2026-08-02 as
+`2fdcb0962dad770832b7b6ee4b6807b3b9c721c7` after all required checks passed.
 
 ## Overall Status
 
-Complete. The implementation fulfills the recorded user requests and local validation passes. Committing and pushing the review corrections is the only remaining delivery action.
+Complete. The implementation fulfills the recorded user requests, RI-001 is resolved,
+all validation passed, and PR #647 is merged. No review finding remains open.

@@ -196,7 +196,9 @@ Apply straightforward lint/reference fixes directly.
 
 ### Step 5.3: Report blocking issues and hand off deferred plans
 
-Summarize residual blockers (e.g., #644 if not fixed inline) and hand off the deferred planning items.
+Summarize residual blockers and hand off the deferred planning items. The final review
+must record addressed findings, resolved PR threads, the merged PR commit, and distinguish
+completed GA4/GSC connection work from pending baseline and consent evidence.
 
 ## Dependencies
 
