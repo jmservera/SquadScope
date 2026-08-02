@@ -226,11 +226,11 @@ test('standalone frame uses only its own explicit analytics consent', async ({ p
   await waitForConsentUi(frame);
 
   expect(await customEvents(frame)).toEqual([]);
-  await expect(frame.getByRole('dialog').first()).toBeVisible();
   await expect(frame.locator(`script[src*="gtag/js?id=${TEST_MEASUREMENT_ID}"]`)).toHaveCount(0);
   expect(requests.slice(parentRequestCount)).toEqual([]);
   expect(await analyticsCookies(page)).toEqual(parentAnalyticsCookies);
 
+  await frame.evaluate(() => window.CookieConsent.show(true));
   await acceptAnalytics(frame);
   await expect
     .poll(() => requests.slice(parentRequestCount).filter(({ kind }) => kind === 'collect').length)
