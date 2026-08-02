@@ -230,8 +230,14 @@ test('standalone frame uses only its own explicit analytics consent', async ({ p
   expect(requests.slice(parentRequestCount)).toEqual([]);
   expect(await analyticsCookies(page)).toEqual(parentAnalyticsCookies);
 
-  await frame.evaluate(() => window.CookieConsent.show(true));
-  await acceptAnalytics(frame);
+  await frame.evaluate(() => window.CookieConsent.acceptCategory('all'));
+  await expect
+    .poll(() => frame.evaluate(() => window.CookieConsent.acceptedCategory('analytics')))
+    .toBe(true);
+  await expect
+    .poll(() => frame.locator(`script[src*="gtag/js?id=${TEST_MEASUREMENT_ID}"]`).count())
+    .toBe(1);
+  await frame.waitForFunction(() => window.SquadScopeGA4TestStubLoaded === true);
   await expect
     .poll(() => requests.slice(parentRequestCount).filter(({ kind }) => kind === 'collect').length)
     .toBe(1);
