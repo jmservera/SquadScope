@@ -2,12 +2,12 @@
 title: Claracle Data Observatory Relaunch Product Requirements Document
 description: Product requirements, delivery state, rollout controls, risks, and acceptance gates for the Claracle Data Observatory relaunch
 author: SquadScope Squad
-ms.date: 2026-07-31
+ms.date: 2026-08-02
 ms.topic: reference
 ---
 <!-- markdownlint-disable-file -->
 <!-- markdown-table-prettify-ignore-start -->
-Version 1.2 | Status Acceptance pending | Owner jmservera | Team SquadScope Squad | Target Wave 1 (foundation) | Lifecycle Definition
+Version 1.3 | Status Acceptance pending | Owner jmservera | Team SquadScope Squad | Target Wave 1 (foundation) | Lifecycle Definition
 
 ## Progress Tracker
 | Phase | Done | Gaps | Updated |
@@ -18,14 +18,14 @@ Version 1.2 | Status Acceptance pending | Owner jmservera | Team SquadScope Squa
 | Requirements | Yes | Incremental generation cost still to quantify | 2026-07-30 |
 | Metrics & Risks | Yes | None | 2026-07-29 |
 | Operationalization | Yes | Star Velocity Explorer selected; production evidence pending | 2026-07-30 |
-| Finalization | No | Security, external platform, Podcaster, accessibility, visual, and sponsor gates remain open | 2026-07-30 |
-Unresolved launch gates: 6 | TBDs: 1 (incremental generation cost)
+| Finalization | No | Security, baseline and consent, Podcaster, accessibility, visual, and sponsor gates remain open | 2026-08-02 |
+Unresolved launch gates: See the launch-gate register | TBDs: 1 (incremental generation cost)
 
 ## Acceptance Status
 
-Repository implementation is present, but GA acceptance is pending. Hermes has not signed NFR-004; GA4/GSC, production responses, external schema and social debuggers, a downstream Podcaster run, accessibility review, and refreshed visual evidence are not recorded. `dynamic_topic_creation` and `repo_pages` remain off and require separate sponsor-approved rollout changes.
+Repository implementation is present, and the GA4/GSC connection is complete by owner confirmation. Dated baseline values and production consent observations remain pending. Hermes has not signed NFR-004; remaining production responses, external schema and social debuggers, a downstream Podcaster run, accessibility review, and refreshed visual evidence are not recorded. `dynamic_topic_creation` and `repo_pages` remain off and require separate sponsor-approved rollout changes. Delivered-versus-pending status and the launch-gate register are tracked in the [relaunch status of record](../review/data-observatory-relaunch/status-of-record.md).
 
-Derived from: `docs/brds/claracle-data-observatory-relaunch-brd.md` (BRD-CLARACLE-002, v1.0).
+Derived from: `docs/brds/claracle-data-observatory-relaunch-brd.md` (BRD-CLARACLE-002, v1.2).
 
 ## 1. Executive Summary
 ### Context
@@ -135,9 +135,9 @@ Extends the existing PaperMod theme and topic layouts. New page types: topic hub
 | FR-032 | OG + Twitter cards | Emit Open Graph and Twitter/X tags including image, `og:image:alt`, width/height, `article:author`, `twitter:creator`, plus a homepage/fallback OG image. | G-005 | Data citer | Must | FB/Twitter debuggers render valid previews with image on homepage and articles; closes gaps 1-7 in distribution-strategy.md. | Uses existing `default_social_image` param. |
 | FR-033 | Structured data | Article pages emit Schema.org Article; hub/data/repo pages emit appropriate schema; all hierarchical pages emit Breadcrumb schema. | G-005,G-004 | Search visitor | Must | Google Rich Results Test validates Article + Breadcrumb with no errors. | Extends `schema_json.html`. |
 | FR-034 | Sitemap + RSS | Publish Hugo's built-in `sitemap.xml` and RSS feeds (site-wide + per topic). No news sitemap. | G-005,G-002 | Search visitor | Must | Sitemap and feeds reachable/valid; per-topic feeds resolve. | Hugo `outputs` already emit taxonomy RSS. |
-| FR-035 | Search Console | Connect and verify Google Search Console (and confirm GA4) for the production domain; submit sitemap. | G-002,G-004 | Search visitor | Must | GSC property verified, sitemap submitted; GA4 receiving data. | `ga_measurement_id` currently empty. |
+| FR-035 | Search Console | Connect and verify Google Search Console (and confirm GA4) for the production domain; submit sitemap. | G-002,G-004 | Search visitor | Must | GSC property verified, sitemap submitted; GA4 receiving data. | Complete by owner confirmation on 2026-08-02: GA4 stream operational, GSC verified, root sitemap submitted, and products linked. |
 | FR-040 | Internal linking | Every weekly article links to previous/next week, its topic hubs, and referenced repository/technology pages. | G-001,G-004 | Signal-seeker | Must | Rendered weekly pages contain prev/next, topic-hub, and repo links where applicable. | PaperMod `ShowPostNavLinks` already on. |
-| FR-041 | Link-check gate | Validate internal links in CI; broken internal links fail the build gate. | G-005 | - | Should | CI link-check runs and fails on broken internal links. | New CI step. |
+| FR-041 | Link-check gate | Validate internal links in CI; broken internal links fail the build gate. | G-005 | - | Should | CI link-check runs and fails on broken internal links. | Partial: satisfied at test level (`tests/test_internal_link_checker.py`); no standalone CI link tool. |
 | FR-050 | Downloadable datasets | Offer MIT-licensed downloadable datasets (e.g., CSV of top projects, weekly trend archive) with all sources cited and a stable link. | G-003 | Data citer | Should | >= 1 dataset published under MIT with citation/attribution note and stable download URL. | Maps BR-050. |
 | FR-051 | Embeddable charts | Generate charts (growth curves, rankings, momentum) with an embed snippet that links back to Claracle. | G-003 | Data citer | Should | >= 1 chart type embeddable via provided snippet with backlink. | Shortcode/layout, not raw HTML. |
 | FR-052 | Client-side tool | Provide >= 1 free, client-side-only interactive tool (e.g., trend explorer, star-velocity tracker), selected via a design spike weighing discoverability value, effort, and static-hosting fit. | G-003,G-002 | Search visitor, Data citer | Could | Design spike recommends one tool with rationale; tool ships and runs fully in-browser with no backend. | Maps BR-052. |
@@ -165,7 +165,7 @@ Discovery engine
 | NFR ID | Category | Requirement | Metric/Target | Priority | Validation | Notes |
 |--------|----------|------------|--------------|----------|-----------|-------|
 | NFR-001 | Performance | New page types keep the site fast on static hosting | Lighthouse Performance >= 90 on hub/data/repo pages | Should | Lighthouse CI or manual audit | Static pre-rendered; charts lazy-loaded |
-| NFR-002 | Reliability | No regression to weekly pipeline or handoff | Weekly pipeline success + handoff smoke unchanged (G-006) | Must | `podcaster-handoff-smoke.yml`, pytest | Crawl untouched |
+| NFR-002 | Reliability | No regression to weekly pipeline or handoff | Weekly pipeline success + handoff smoke unchanged (G-006) | Must | `podcaster-handoff-smoke.yml`, pytest | Crawl untouched; restore mode preserves the published weekly transaction (article, summary, promotion record, rollups) rather than overwriting provenance (`#640`/`#646`) |
 | NFR-003 | Maintainability | Thresholds are configuration, not code | Topic (FR-004) and repo (FR-021) thresholds set via config | Must | Change threshold with no code edit in review | |
 | NFR-004 | Security | No raw HTML in AI content; no secrets in client tool | `unsafe=false` retained; tool ships no secrets; inputs sanitized | Must | Build config check; Hermes review; `sanitize_repo_content` path | Follows prompt-injection guardrails |
 | NFR-005 | Accessibility | New pages meet WCAG 2.1 AA basics | Images have alt; charts have text alternative; contrast passes | Should | axe/Lighthouse a11y audit | OG alt also required (FR-032) |
@@ -208,7 +208,7 @@ Generated Hugo content: topic hubs (taxonomy terms), data pages, repository page
 | `generate_content.py` | Internal code | High | Farnsworth | Regression on frontmatter | Add `topics` behind tests (FR-002) |
 | Hugo `topic` taxonomy + `layouts/topics` | Platform | High | Amy | Layout gaps | Extend existing templates |
 | SEO partials (`opengraph`, `twitter_cards`, `schema_json`) | Platform | Medium | Amy | Incomplete tags | Close catalogued gaps (FR-032/033) |
-| GA4 + GSC | External | High | jmservera | Access/verification | Verify property early (FR-035) |
+| GA4 + GSC | External | High | jmservera | Baseline and consent evidence | Capture dated values and production consent observations (FR-035, NFR-007/008) |
 | Podcaster handoff contract | Cross-repo | High | URL/Hermes | Contract break | Keep payload unchanged; smoke test |
 | Client-side charting/tool library | External | Medium | Amy | Static-hosting fit | Design spike (FR-051/052) |
 
@@ -265,6 +265,8 @@ AI-generated content must not render raw HTML (`unsafe=false`); repo-derived tex
 | dynamic_topic_creation | Gate auto-creation of new topic hubs | Off; no rollout approval recorded | Separate sponsor approval after security and acceptance evidence |
 | repo_pages | Gate repository-page generation | Off; no rollout approval recorded | Separate sponsor approval after lifecycle and acceptance evidence |
 
+Owners, dependencies, and evidence paths for every launch gate (including sponsor rollout approval) are consolidated in the [relaunch status of record launch-gate register](../review/data-observatory-relaunch/status-of-record.md#launch-gate-register).
+
 ### Communication Plan (Optional)
 Use the existing per-week distribution playbook (`docs/growth/distribution-strategy.md`) for launch posts; announce Wave 2 dataset and Wave 3 tool on developer communities (HN, Lobsters, dev.to) when genuinely useful.
 
@@ -273,11 +275,12 @@ Use the existing per-week distribution playbook (`docs/growth/distribution-strat
 |------|----------|-------|---------|--------|
 | Q-01 | Quantify incremental generation cost/time for hubs, data, and repo pages | Leela | Design spike | Open |
 | Q-02 | Which client-side tool to build first (FR-052) | Amy | 2026-07-30 | Resolved: Star Velocity Explorer; see ADR |
-| Q-03 | When can `content/data/` deploy hydration be restored (once the crawl reliably publishes observatory pages to `publish`)? | Bender | Post-#627 crawl run | Open |
+| Q-03 | When can `content/data/` deploy hydration be restored (once the crawl reliably publishes observatory pages to `publish`)? | Bender | Post-#627 crawl run | Resolved: hydration restored via `#637` after the crawl repopulated `publish`; CI embed-source guard (`#641`) prevents recurrence |
 
 ## 15. Changelog
 | Version | Date | Author | Summary | Type |
 |---------|------|-------|---------|------|
+| 1.3 | 2026-08-02 | SquadScope Squad | Reconciled the #627-#646 workstream: deploy/hydration parity restored and CI embed-source guard shipped (`#634`/`#637`/`#641`), Podcaster smoke hardened (`#636`/`#639`/`#643`/`#645`), restore preserves the published weekly transaction (NFR-002; `#640`/`#646`); recorded FR-041 partial status and linked the status of record | Updated |
 | 1.2 | 2026-07-31 | SquadScope Squad | Recorded the deploy hydration content-provenance failure (issue #627), the interim `content/data` fix, and the deploy/CI parity requirement (NFR-011/012, R-08) | Updated |
 | 1.1 | 2026-07-30 | SquadScope Squad | Reconciled repository delivery with pending external, security, visual, accessibility, Podcaster, and rollout gates | Updated |
 | 1.0 | 2026-07-29 | PRD Builder (facilitated) | Initial PRD derived from BRD-CLARACLE-002 v1.0 | Created |
@@ -294,6 +297,7 @@ Use the existing per-week distribution playbook (`docs/growth/distribution-strat
 | REF-7 | Analysis | External SEO analysis (user-provided, 2026-07) | Discovery-first strategy | Primary driver |
 | REF-8 | ADR | `docs/decisions/adr-star-velocity-explorer.md` | FR-052 selection and static-hosting rationale | Resolves Q-02 |
 | REF-9 | Review | `docs/review/data-observatory-relaunch/README.md` | Bounded acceptance evidence and pending gates | Source of release status |
+| REF-10 | Review | `docs/review/data-observatory-relaunch/status-of-record.md` | Reconciled delivered-versus-pending status and launch-gate register | Single readiness view |
 
 ### Citation Usage
 Functional requirements cite BRD requirement IDs (BR-xxx) inline; technical claims cite the repository files above.

@@ -42,6 +42,21 @@ def test_copy_button_handles_clipboard_rejections() -> None:
     assert "Copy failed" in script
 
 
+def test_embed_layout_keeps_consent_gated_analytics_wiring() -> None:
+    base_layout = (ROOT / "layouts/embeds/baseof.html").read_text(encoding="utf-8")
+    analytics = (ROOT / "assets/js/observatory-analytics.js").read_text(encoding="utf-8")
+    consent = (ROOT / "layouts/partials/cookie-consent.html").read_text(encoding="utf-8")
+
+    assert 'partial "analytics.html"' in base_layout
+    assert 'resources.Get "js/observatory-analytics.js"' in base_layout
+    assert 'partial "cookie-consent.html"' in base_layout
+    assert "let analyticsConsent = false;" in analytics
+    assert "analyticsConsent = enabled === true;" in analytics
+    assert "if (!analyticsConsent" in analytics
+    assert "CookieConsent.acceptedCategory('analytics')" in consent
+    assert "setObservatoryAnalyticsConsent(false);" in consent
+
+
 def test_rendered_embed_contains_backlink_and_chart_data(tmp_path: Path) -> None:
     if shutil.which("hugo") is None:
         pytest.skip("Hugo binary is required to render embed fixtures")
@@ -66,3 +81,4 @@ def test_rendered_embed_contains_backlink_and_chart_data(tmp_path: Path) -> None
     assert "observatory-chart__data" in embed_html
     assert "https://claracle.com/embeds/fastest-growing-ai-repositories-chart/" in demo_html
     assert "&lt;iframe" in demo_html
+    assert "referrerpolicy=&#34;no-referrer&#34;" in demo_html

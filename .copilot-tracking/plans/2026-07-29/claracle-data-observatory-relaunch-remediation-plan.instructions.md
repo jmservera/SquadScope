@@ -217,13 +217,13 @@ tests/
 * [ ] Step 7.3: Measure Hugo and Pagefind separately
   * Details: `.copilot-tracking/details/2026-07-29/claracle-data-observatory-relaunch-remediation-details.md` (Lines 357-372)
 
-### [ ] Implementation Phase 8: Podcaster Release Smoke
+### [x] Implementation Phase 8: Podcaster Release Smoke
 
 <!-- parallelizable: true -->
 
 * [x] Step 8.1: Make the smoke workflow reusable
   * Details: `.copilot-tracking/details/2026-07-29/claracle-data-observatory-relaunch-remediation-details.md` (Lines 377-392)
-* [ ] Step 8.2: Invoke and retain release evidence
+* [x] Step 8.2: Invoke and retain release evidence — smoke wired as a blocking post-deploy gate in `deploy-site.yml`; hardened via `#636` (API key), `#639`/`#643`/`#645` (tooling + source-manifest hydration); deploy-site smoke green since 2026-08-01. Note: the real protected Podcaster downstream run (NFR-002 / R-04) remains a pending launch gate (see 2026-07-30 Step 6.3).
   * Details: `.copilot-tracking/details/2026-07-29/claracle-data-observatory-relaunch-remediation-details.md` (Lines 393-407)
 
 ### [ ] Implementation Phase 9: Documentation and Acceptance Evidence

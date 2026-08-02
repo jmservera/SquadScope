@@ -2,7 +2,7 @@
 title: Data Observatory Relaunch Acceptance Evidence
 description: Bounded evidence index for repository implementation, external launch gates, security review, and visual acceptance of the Claracle relaunch
 author: SquadScope Squad
-ms.date: 2026-07-30
+ms.date: 2026-08-02
 ms.topic: reference
 keywords:
   - acceptance evidence
@@ -18,8 +18,12 @@ Repository implementation evidence is available, but relaunch acceptance is inco
 Dynamic topic creation and repository-page creation remain disabled in
 `config/observatory.toml`. This index does not authorize either rollout.
 
-External platform, production, cross-repository run, security sign-off, accessibility
-review, and visual acceptance evidence remain pending as listed below.
+External baseline and consent, remaining production responses, cross-repository run,
+security sign-off, accessibility review, and visual acceptance evidence remain pending
+as listed below. The GA4/GSC connection itself is complete.
+
+The [owner action register](owner-action-register.md) sequences the remaining human and
+protected-environment work without treating repository automation as approval evidence.
 
 ## Evidence principles
 
@@ -38,29 +42,36 @@ review, and visual acceptance evidence remain pending as listed below.
 | FR-052 tool selection and architecture rationale          | Complete                    | [Star Velocity Explorer ADR](../../decisions/adr-star-velocity-explorer.md) |
 | Security and privacy surface review                       | Complete with open findings | [Security review](security-review.md)                                       |
 | Hermes security acceptance                                | Pending                     | Security review sign-off table                                              |
-| GA4 and GSC repository wiring                             | Implemented conditionally   | [Dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md)               |
+| GA4 and GSC connection                                   | Complete                    | [Dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md)               |
 | GA4 and GSC external baseline values                      | Pending                     | Dated baseline external evidence matrix                                     |
 | Product delivery and rollout status                       | Pending acceptance          | [PRD](../../prds/claracle-data-observatory-relaunch.md)                     |
 | Sponsor-approved lifecycle state                          | Pending                     | [BRD](../../brds/claracle-data-observatory-relaunch-brd.md)                 |
 | Visual capture requirements                               | Pending                     | [Screenshot capture checklist](screenshots/README.md)                       |
+| Owner-gated acceptance actions                            | Pending                     | [Owner action register](owner-action-register.md)                           |
 
 ## External acceptance matrix
 
 | Gate                                  | Status  | Actor or access needed                              | Required evidence                                          |
 | ------------------------------------- | ------- | --------------------------------------------------- | ---------------------------------------------------------- |
-| GSC property verification             | Pending | jmservera with GSC access                           | Dated verified-property evidence                           |
-| GSC sitemap submission                | Pending | jmservera with GSC access                           | Submitted sitemap target and platform status               |
+| GSC property verification             | Complete | jmservera                                          | Owner confirmed verification on 2026-08-02                 |
+| GSC sitemap submission                | Complete | jmservera                                          | Root `sitemap.xml` submitted on 2026-08-02                 |
 | GA4 consent-denied behavior           | Pending | jmservera and Hermes with production browser access | Network and cookie evidence from a private first visit     |
 | GA4 consent-granted behavior          | Pending | jmservera and Hermes with production browser access | Expected request after consent                             |
-| GA4 Realtime receipt                  | Pending | jmservera with GA4 access                           | Dated Realtime observation correlated to test visit        |
+| GA4 property, stream, and receipt      | Complete by owner attestation | jmservera                              | Intended production stream confirmed operational           |
 | Social preview debuggers              | Pending | Reviewer with external debugger access              | Homepage and article conclusions with retained links       |
 | Rich Results Test                     | Pending | Reviewer with external debugger access              | Article and breadcrumb conclusions with retained links     |
 | Schema.org validator                  | Pending | Reviewer with external debugger access              | Relevant page-type conclusions with retained links         |
-| Production sitemap and feed responses | Pending | jmservera with production access                    | Status, content type, date, and tested target              |
+| Production sitemap response           | Complete | jmservera                                           | HTTP 200 `application/xml` observed on 2026-08-02          |
+| Production feed responses             | Pending | jmservera with production access                    | Status, content type, date, and tested target              |
 | Podcaster downstream run              | Pending | Podcaster maintainer and protected environment      | Successful downstream run conclusion and Actions link      |
 | Accessibility review                  | Pending | Fry and accessibility reviewer                      | Automated results plus keyboard and screen-reader findings |
 | Hermes sign-off                       | Pending | Hermes                                              | Dated disposition of security findings and NFR-004         |
 | Sponsor rollout approval              | Pending | jmservera                                           | Dated approval identifying each flag separately            |
+
+Issue #622 is non-blocking UX polish according to its issue contract. Issue #626 is
+independent quality hardening whose existing thresholds remain unchanged. Both should be
+completed before final visual recapture where their changes affect the rendered result,
+but neither is represented as an unevidenced acceptance approval.
 
 ## Visual evidence status
 

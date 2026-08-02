@@ -171,17 +171,22 @@ Review these signals after an approved production deployment:
 ## Cross-origin embed privacy
 
 Claracle's consent controls govern scripts, cookies, and telemetry on the Claracle origin. They
-cannot inspect, suppress, or withdraw storage and network activity initiated inside a
-cross-origin iframe. The repository does not currently contain approved evidence that a
-third-party embed receives or honors Claracle's consent state.
+cannot inherit or inspect consent collected by an embedding site. Use the generated official
+snippet unchanged: it includes `referrerpolicy="no-referrer"`. Publishers can alter copied iframe
+attributes, so production review must inspect the markup actually deployed by the publisher.
 
-Treat analytics-bearing cross-origin embeds as blocked until Hermes records an approved consent
-and referrer policy with reproducible browser evidence. Before publication, test the fresh,
-denied, granted, reloaded, and withdrawn consent states while capturing iframe requests and
-storage behavior. If an embed sends requests before approval, continues after withdrawal, or
-cannot be inspected reliably, remove or disable the embed, stop publication of the affected
-page, preserve the request evidence and deployed revision, and escalate to Hermes and URL. Do
-not describe the embed as consent-compliant while that review is pending.
+The iframe starts Claracle analytics disabled. Only an explicit analytics choice in the Claracle
+consent UI inside that frame can enable telemetry; parent-page consent is not inferred or
+transferred. Third-party storage blocking may prevent the choice from persisting and cause another
+prompt, but it must never enable analytics.
+
+Before publication, test the fresh, denied, granted, reloaded, and withdrawn frame-local consent
+states while capturing iframe requests and storage behavior. Confirm the deployed iframe retains
+`no-referrer`. If an embed sends requests before Claracle consent, continues after withdrawal, or
+cannot be inspected reliably, remove or disable the embed, stop publication of the affected page,
+preserve the request evidence and deployed revision, and escalate to Hermes and URL. Repository
+tests establish the implementation contract; Hermes approval and production evidence remain
+pending.
 
 ## Failed-run recovery
 

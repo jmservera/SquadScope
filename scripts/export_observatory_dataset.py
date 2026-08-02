@@ -24,7 +24,7 @@ DATASET_VERSION = "2026-W31"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "static" / "datasets" / DATASET_SLUG
 PREFERRED_RAW_WEEKS = ("2026-W21", "2026-W22", "2026-W29", "2026-W30", "2026-W31")
 RECOVERED_WEEKS = ("2026-W23", "2026-W24", "2026-W25", "2026-W26", "2026-W27", "2026-W28")
-CSV_COLUMNS = [
+PUBLIC_CSV_FIELDS = (
     "rank_by_latest_stars",
     "repository",
     "url",
@@ -40,7 +40,37 @@ CSV_COLUMNS = [
     "seen_in_trending",
     "seen_in_new",
     "top_topics",
-]
+)
+PUBLIC_METADATA_FIELDS = (
+    "dataset",
+    "version",
+    "generated_at",
+    "source",
+    "selection_rule",
+    "license",
+    "row_count",
+    "weeks",
+    "weekly_observation_counts",
+    "exported_repo_observations",
+    "total_source_repo_observations_screened",
+    "recurring_repository_count_min_4_weeks",
+    "repositories_seen_in_trending",
+    "repositories_seen_in_new",
+    "top_languages_by_repository_count",
+    "top_licenses_by_repository_count",
+    "top_topics_by_repository_mentions",
+    "top_repositories_by_latest_stars",
+    "fields",
+    "source_files",
+    "public_exposure_review",
+)
+PUBLIC_TOP_REPOSITORY_FIELDS = (
+    "repository",
+    "latest_stars",
+    "observed_star_change",
+    "weeks_observed",
+    "url",
+)
 AI_KEYWORDS = {
     "agent",
     "agents",
@@ -136,7 +166,7 @@ class RepoAggregate:
         return self.latest_stars - self.first_stars
 
     def row(self, rank: int) -> dict[str, str | int]:
-        return {
+        row = {
             "rank_by_latest_stars": rank,
             "repository": self.repository,
             "url": self.url,
@@ -153,6 +183,57 @@ class RepoAggregate:
             "seen_in_new": "true" if "new_repos" in self.buckets else "false",
             "top_topics": "|".join(topic for topic, _count in self.topics.most_common(8)),
         }
+        validate_exact_keys(row, PUBLIC_CSV_FIELDS, "CSV row")
+        return row
+
+
+def validate_exact_keys(
+    payload: dict[str, Any], allowed_fields: tuple[str, ...], label: str
+) -> None:
+    actual = set(payload)
+    expected = set(allowed_fields)
+    if actual != expected:
+        added = sorted(actual - expected)
+        missing = sorted(expected - actual)
+        raise ValueError(
+            f"{label} fields violate the public allowlist: added={added}, missing={missing}"
+        )
+
+
+def public_source_path(path: Path, data_root: Path) -> str:
+    try:
+        relative_path = path.resolve().relative_to(data_root.resolve())
+    except ValueError as error:
+        raise ValueError(f"Source path is outside the public export policy: {path}") from error
+    allowed_paths = {Path("raw") / f"{week}.json" for week in PREFERRED_RAW_WEEKS} | {
+        Path("archive") / "recovered-W23-W29" / week / f"{week}.json" for week in RECOVERED_WEEKS
+    }
+    if relative_path not in allowed_paths:
+        raise ValueError(f"Source path is outside the public export policy: {relative_path}")
+    return (Path("data") / relative_path).as_posix()
+
+
+def validate_public_summary(summary: dict[str, Any]) -> None:
+    validate_exact_keys(summary, PUBLIC_METADATA_FIELDS, "dataset metadata")
+    if summary["fields"] != list(PUBLIC_CSV_FIELDS):
+        raise ValueError("Metadata fields must exactly match the public CSV allowlist")
+    if set(summary["weekly_observation_counts"]) != set(summary["weeks"]):
+        raise ValueError("Weekly observation metadata must exactly match the exported weeks")
+    for metadata_field in (
+        "top_languages_by_repository_count",
+        "top_licenses_by_repository_count",
+        "top_topics_by_repository_mentions",
+    ):
+        for item in summary[metadata_field]:
+            if (
+                not isinstance(item, (list, tuple))
+                or len(item) != 2
+                or not isinstance(item[0], str)
+                or not isinstance(item[1], int)
+            ):
+                raise ValueError(f"{metadata_field} entries must be public label/count pairs")
+    for repository in summary["top_repositories_by_latest_stars"]:
+        validate_exact_keys(repository, PUBLIC_TOP_REPOSITORY_FIELDS, "top repository metadata")
 
 
 def discover_source_paths(data_root: Path) -> list[Path]:
@@ -225,6 +306,7 @@ def build_summary(
     source_paths: list[Path],
     observation_counts: dict[str, int],
     total_source_observations: int,
+    data_root: Path = PROJECT_ROOT / "data",
 ) -> dict[str, Any]:
     language_counts: Counter[str] = Counter()
     license_counts: Counter[str] = Counter()
@@ -249,7 +331,7 @@ def build_summary(
         str(json.loads(path.read_text(encoding="utf-8")).get("crawled_at") or "")
         for path in source_paths
     )
-    return {
+    summary = {
         "dataset": DATASET_SLUG,
         "version": DATASET_VERSION,
         "generated_at": generated_at,
@@ -281,19 +363,26 @@ def build_summary(
             }
             for repo in repos[:25]
         ],
-        "fields": CSV_COLUMNS,
-        "source_files": [str(path.relative_to(PROJECT_ROOT)) for path in source_paths],
+        "fields": list(PUBLIC_CSV_FIELDS),
+        "source_files": [public_source_path(path, data_root) for path in source_paths],
         "public_exposure_review": (
             "PASS: exported fields are repository names, GitHub URLs, public language/license/topic "
             "metadata, public star/fork counts, and derived weekly aggregates from public GitHub crawl records. "
             "No tokens, private repo data, cache payloads, user account data, or unpublished crawl calls are included."
         ),
     }
+    validate_public_summary(summary)
+    return summary
 
 
 def write_csv(path: Path, repos: list[RepoAggregate]) -> None:
     with path.open("w", encoding="utf-8", newline="") as output:
-        writer = csv.DictWriter(output, fieldnames=CSV_COLUMNS, lineterminator="\n")
+        writer = csv.DictWriter(
+            output,
+            fieldnames=PUBLIC_CSV_FIELDS,
+            extrasaction="raise",
+            lineterminator="\n",
+        )
         writer.writeheader()
         for rank, repo in enumerate(repos, start=1):
             writer.writerow(repo.row(rank))
@@ -364,7 +453,13 @@ def export_dataset(
     source_paths = discover_source_paths(data_root)
     aggregates, observation_counts, total_source_observations = load_aggregates(source_paths)
     repos = sorted_aggregates(aggregates)
-    summary = build_summary(repos, source_paths, observation_counts, total_source_observations)
+    summary = build_summary(
+        repos,
+        source_paths,
+        observation_counts,
+        total_source_observations,
+        data_root,
+    )
 
     output_dir.mkdir(parents=True, exist_ok=True)
     write_csv(output_dir / "top-github-projects.csv", repos)
@@ -379,7 +474,9 @@ def export_dataset(
 
 def check_dataset(output_dir: Path, data_root: Path) -> list[Path]:
     """Return generated dataset files whose checked-in bytes are stale."""
-    with tempfile.TemporaryDirectory() as temporary_directory:
+    workspace_root = PROJECT_ROOT / ".test-workspaces"
+    workspace_root.mkdir(exist_ok=True)
+    with tempfile.TemporaryDirectory(dir=workspace_root) as temporary_directory:
         expected_dir = Path(temporary_directory)
         export_dataset(expected_dir, data_root)
         expected_paths = sorted(path for path in expected_dir.rglob("*") if path.is_file())

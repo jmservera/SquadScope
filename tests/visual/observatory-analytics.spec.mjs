@@ -17,20 +17,25 @@ async function interceptGoogleEndpoints(page) {
       contentType: 'application/javascript',
       body: `
         window.SquadScopeGA4TestStubLoaded = true;
-        window.gtag = function () {
-          window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push(arguments);
-          if (arguments[0] === 'event') {
-            var params = new URLSearchParams({ en: arguments[1] });
-            Object.keys(arguments[2] || {}).forEach(function (key) {
-              params.set('ep.' + key, arguments[2][key]);
+        function sendEvent(args) {
+          if (args[0] === 'event') {
+            var params = new URLSearchParams({ en: args[1] });
+            Object.keys(args[2] || {}).forEach(function (key) {
+              params.set('ep.' + key, args[2][key]);
             });
             fetch('https://www.google-analytics.com/g/collect?' + params, {
               mode: 'no-cors',
               keepalive: true
             });
           }
+        }
+        var queuedEntries = (window.dataLayer || []).slice();
+        window.gtag = function () {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push(arguments);
+          sendEvent(arguments);
         };
+        queuedEntries.forEach(sendEvent);
       `,
     });
   });
@@ -182,15 +187,67 @@ test('tool interactions use real handlers and bounded fields', async ({ page }, 
   expect(JSON.stringify(events)).not.toContain('token=secret');
 });
 
-test('standalone chart view fires only after UI acceptance', async ({ page }, testInfo) => {
+test('standalone frame uses only its own explicit analytics consent', async ({ page }, testInfo) => {
   desktopOnly(testInfo);
-  await interceptGoogleEndpoints(page);
-  await page.goto('/embeds/fastest-growing-ai-repositories-chart/');
-  await waitForConsentUi(page);
+  const requests = await interceptGoogleEndpoints(page);
+  const embedUrl = new URL(
+    '/embeds/fastest-growing-ai-repositories-chart/',
+    testInfo.project.use.baseURL,
+  );
+  const publisherUrl = new URL('/charts/embeddable-rankings/', embedUrl);
+  publisherUrl.hostname = embedUrl.hostname === 'localhost' ? '127.0.0.1' : 'localhost';
+  expect(publisherUrl.origin).not.toBe(embedUrl.origin);
 
-  expect(await customEvents(page)).toEqual([]);
+  await page.goto(publisherUrl.href);
   await acceptAnalytics(page);
-  expect(await customEvents(page)).toEqual([
+  const parentRequestCount = requests.length;
+  const parentAnalyticsCookies = await analyticsCookies(page);
+  expect(requests.filter(({ kind }) => kind === 'script')).toHaveLength(1);
+  expect(parentAnalyticsCookies).toEqual([]);
+
+  await page.locator('body').evaluate((body, src) => {
+    const iframe = document.createElement('iframe');
+    iframe.title = 'Cross-origin Claracle chart';
+    iframe.src = src;
+    iframe.referrerPolicy = 'no-referrer';
+    body.appendChild(iframe);
+  }, embedUrl.href);
+
+  await expect
+    .poll(() =>
+      page
+        .frames()
+        .some((candidate) =>
+          candidate.url().includes('/embeds/fastest-growing-ai-repositories-chart/'),
+        ),
+    )
+    .toBe(true);
+  const frame = page
+    .frames()
+    .find((candidate) =>
+      candidate.url().includes('/embeds/fastest-growing-ai-repositories-chart/'),
+    );
+  expect(frame).toBeDefined();
+  await waitForConsentUi(frame);
+
+  expect(await customEvents(frame)).toEqual([]);
+  await expect(frame.locator(`script[src*="gtag/js?id=${TEST_MEASUREMENT_ID}"]`)).toHaveCount(0);
+  expect(requests.slice(parentRequestCount)).toEqual([]);
+  expect(await analyticsCookies(page)).toEqual(parentAnalyticsCookies);
+
+  await frame.evaluate(() => window.CookieConsent.acceptCategory('all'));
+  await expect
+    .poll(() => frame.evaluate(() => window.CookieConsent.acceptedCategory('analytics')))
+    .toBe(true);
+  await expect
+    .poll(() => frame.locator(`script[src*="gtag/js?id=${TEST_MEASUREMENT_ID}"]`).count())
+    .toBe(1);
+  await frame.waitForFunction(() => window.SquadScopeGA4TestStubLoaded === true);
+  await expect
+    .poll(() => requests.slice(parentRequestCount).filter(({ kind }) => kind === 'collect').length)
+    .toBe(1);
+  expect(requests.slice(parentRequestCount).filter(({ kind }) => kind === 'script')).toHaveLength(1);
+  expect(await customEvents(frame)).toEqual([
     {
       name: 'chart_embed_view',
       payload: {
