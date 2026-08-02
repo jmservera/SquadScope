@@ -32,7 +32,8 @@ Research shows that the repository implementation is ahead of the acceptance rec
 * [x] Verify production GA configuration presence, GSC metadata absence, sitemap response, and secret names without exposing values
 * [x] Correct the baseline and status of record to distinguish deployed wiring from external acceptance
 * [x] Clarify that production GA configuration is injected through an Actions secret
-* [ ] Complete Google property verification, sitemap submission, Realtime confirmation, and numeric baseline capture (owner-gated: jmservera)
+* [x] Complete Google property verification, sitemap submission, Realtime confirmation, and product link (owner-confirmed by jmservera on 2026-08-02)
+* [ ] Transcribe the supplied GSC performance export and retain production consent observations
 
 ### [x] Phase 3: Refresh Acceptance Evidence
 

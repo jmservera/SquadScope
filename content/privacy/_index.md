@@ -29,6 +29,12 @@ Claracle uses Google Analytics 4 (GA4) **only if you accept the analytics catego
 
 After consent, GA4 helps us understand whether the site is useful: page views, referrers, session duration, device/browser information, and approximate location derived from network data. The GA4 measurement ID is configured per deployment through a repository secret, not hard-coded in this page. Google's processing is governed by [Google's Privacy Policy](https://policies.google.com/privacy). You can also use the [Google Analytics opt-out browser add-on](https://tools.google.com/dlpage/gaoptout).
 
+### Charts embedded on other sites
+
+Claracle's official chart iframe snippet uses `referrerpolicy="no-referrer"`. If a publisher uses the snippet unchanged, the embedding page URL is not sent as the iframe request referrer. Publishers control their copied HTML and may alter that attribute.
+
+Analytics in an embedded Claracle chart starts off. It can be enabled only when you explicitly accept Claracle analytics in the consent controls shown inside the iframe. A choice made on the embedding website is not treated as Claracle consent. Some browsers block third-party storage, so an iframe choice may not persist and the prompt may reappear; storage failure does not turn analytics on.
+
 ### Google Fonts
 
 Claracle loads Inter and JetBrains Mono from Google Fonts. When your browser requests those font files, Google may receive request metadata such as your IP address and user-agent under [Google's Privacy Policy](https://policies.google.com/privacy).
@@ -103,8 +109,9 @@ GitHub and Google may process data in countries outside your own. GA4 data may b
 
 ## Changes to this policy
 
-Last updated: 2026-06-12. Changes are announced through the git history of this page in the public SquadScope repository, so you can review what changed and when.
+Last updated: 2026-08-02. Changes are announced through the git history of this page in the public SquadScope repository, so you can review what changed and when.
 
+**2026-08-02:** Documented the no-referrer iframe snippet and frame-local, explicit analytics consent model.
 **2026-06-12:** Added Signal Check podcast section covering TTS provider, staging storage, and platform disclosures.
 
 ## Contact

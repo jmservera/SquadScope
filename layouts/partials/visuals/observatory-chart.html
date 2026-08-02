@@ -28,7 +28,7 @@
   {{- $sourcePermalink := $page.Permalink -}}
   {{- $embedSnippet := "" -}}
   {{- with $embedURL -}}
-    {{- $embedSnippet = printf `<iframe title="%s" src="%s" width="100%%" height="620" loading="lazy" style="border:0;max-width:100%%;"></iframe>` ($title | htmlEscape) (. | absURL) -}}
+    {{- $embedSnippet = printf `<iframe title="%s" src="%s" width="100%%" height="620" loading="lazy" referrerpolicy="no-referrer" style="border:0;max-width:100%%;"></iframe>` ($title | htmlEscape) (. | absURL) -}}
   {{- end -}}
 <figure class="observatory-chart{{ if $standalone }} observatory-chart--embed{{ end }}" id="{{ $chartID }}" role="group" aria-labelledby="{{ $chartID }}-title" data-observatory-chart-id="{{ $analyticsChartID }}" data-observatory-embed="{{ $standalone }}">
   <div class="observatory-chart__header">

@@ -24,23 +24,21 @@ Owner: jmservera, with Hermes reviewing production consent behavior.
 
 Current evidence:
 
-* Production renders GA configuration without exposing the protected value
+* Production renders secret-backed GA configuration on the main site and standalone embed
 * The `GA_MEASUREMENT_ID` secret name exists
 * Production serves `https://claracle.com/sitemap.xml` as HTTP 200 and `application/xml`
-* GSC verification metadata and the `GSC_SITE_VERIFICATION` secret name are absent
+* jmservera confirmed the intended GA4 stream, verified GSC property, root sitemap submission, and GA4-to-GSC product link on 2026-08-02
+* The root sitemap is one complete `<urlset>` rather than a sitemap index, so there are no child sitemaps to submit
 
 Required actions:
 
-1. Confirm that the deployed GA identifier maps to the intended Claracle property and stream.
-2. Obtain the URL-prefix GSC HTML-tag token and set it through the repository secret path.
-3. Verify the GSC property and submit `https://claracle.com/sitemap.xml`.
-4. Record denied and granted production consent behavior without exposing identifiers.
-5. Confirm GA4 Realtime receipt and capture GA4/GSC values for one explicit date range.
-6. Update the [dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md) with redacted conclusions and actual values.
+1. Record denied and granted production consent behavior without exposing identifiers.
+2. Transcribe the supplied GSC performance export and capture GA4 values for one explicit date range.
+3. Confirm GSC finishes processing the sitemap and review indexed and excluded URL counts.
+4. Update the [dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md) with redacted conclusions and actual values.
 
-Completion evidence: property and stream conclusion, verified GSC property, submitted
-sitemap status, consent observations, Realtime conclusion, baseline date range, and
-reviewer/date.
+Completion evidence still needed: consent observations, processed sitemap conclusion,
+numeric baseline date range, and reviewer/date.
 
 ## Security acceptance
 
@@ -49,9 +47,9 @@ Owners: Hermes, URL, and jmservera.
 Required actions:
 
 1. Hermes records a disposition for SEC-01 through SEC-06 in the [security review](security-review.md).
-2. Resolve the SEC-02 embed referrer and cross-origin consent model.
-3. Approve the SEC-03 public dataset field policy.
-4. Record the SEC-05 accepted-risk rationale for semantic prompt-injection false negatives.
+2. Review the implemented SEC-02 no-referrer and frame-local consent model, including its publisher-markup and third-party-storage limitations.
+3. Approve, reject, or amend the SEC-03 exact public export field and source-path allowlists.
+4. Approve, reject, or require additional controls for the SEC-05 defense-in-depth accepted-risk recommendation; no acceptance is currently recorded.
 5. URL reviews protected workflow and secret scope after the real Podcaster environment change.
 6. jmservera records the production-owner conclusion after external evidence is linked.
 

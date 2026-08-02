@@ -11,14 +11,20 @@ Success: commit `8fddceb` is on the PR branch and both threads are resolved.
 
 Keep both checked-in Hugo defaults empty. Record only presence-level production observations and secret names. Never record the GA identifier or GSC token.
 
-Owner handoff:
+Owner handoff completed on 2026-08-02:
 
-1. Confirm the existing deployed ID maps to the intended Claracle stream.
-2. Obtain the URL-prefix GSC HTML-tag token and set `GSC_SITE_VERIFICATION` privately.
-3. Verify ownership, submit `https://claracle.com/sitemap.xml`, confirm consented GA4 Realtime receipt, and capture a dated baseline.
-4. Update the evidence matrix with redacted conclusions and actual platform values.
+1. The deployed ID maps to the intended Claracle stream.
+2. The GSC property is verified without requiring the optional HTML-tag secret path.
+3. `https://claracle.com/sitemap.xml` was submitted and the GA4 stream was linked to GSC.
+4. GA4 is operational, and a GSC performance export was supplied.
 
-Success: repository evidence is accurate; FR-035 remains partial until the owner handoff is evidenced.
+Remaining evidence work:
+
+1. Transcribe the supplied GSC performance values once the attachment is available as a readable file.
+2. Retain denied and granted production consent observations.
+3. Confirm GSC processing and review indexed and excluded URL counts.
+
+Success: FR-035 connection and submission are complete; baseline transcription and NFR-008 production consent evidence remain open.
 
 ## Phase 3: Refresh Acceptance Evidence
 
@@ -32,6 +38,21 @@ Protected Podcaster sequence:
 4. Run once and retain the approver, week, manifest run, article digest, Actions URL, downstream job ID, and final conclusion.
 
 Success: the acceptance index identifies current automated evidence and exact remaining owner actions.
+
+Repository-executable security closure added on 2026-08-02:
+
+1. SEC-02: generated iframe snippets use `referrerpolicy="no-referrer"`; analytics remains disabled
+   until explicit consent inside the Claracle frame. Tests cover rendered markup, default-off wiring,
+   and the existing browser consent behavior. Publisher edits and third-party storage remain stated
+   limitations.
+2. SEC-03: production export code defines and validates exact CSV, metadata, nested ranking, weekly
+   count, and source-path allowlists. Schema expansion now requires an intentional code and test
+   change.
+3. SEC-05: the record recommends defense-in-depth acceptance for human review while retaining
+   sanitization, fencing, canary, output/frontmatter validation, prompt lint, and red-team controls.
+   Semantic paraphrases remain outside phrase-matching guarantees.
+
+These changes provide implementation evidence only. Hermes, URL, and sponsor sign-off remain pending.
 
 ## Phase 4: Plan Gated Rollouts and Cost Measurement
 

@@ -54,6 +54,15 @@ introduce arbitrary raw HTML through normal rendering.
 Residual risk remains because phrase matching cannot identify every semantic injection. New external
 fields must pass through the same sanitization and boundary path before prompt use.
 
+**SEC-05 recommendation for human decision:** accept the semantic false-negative risk only as a
+defense-in-depth residual risk while retaining input sanitization, untrusted-content fencing, closing
+prompt constraints, canary leak detection, output and frontmatter validation, prompt lint, and the
+red-team corpus. Phrase matching detects known lexical patterns; it cannot reliably identify novel
+wording, translation, encoding, or semantic paraphrases with equivalent intent. The retained controls
+reduce the chance that one miss reaches publication but do not prove semantic detection. This is an
+implementation-supported recommendation, not an accepted risk; Hermes must approve, reject, or
+require an additional semantic classifier.
+
 ### Candidate-title abuse
 
 Candidate discovery combines repository-controlled topics, weekly tags, and analyzed headings.
@@ -88,21 +97,41 @@ weekly observations, topics, derived metrics, and provenance. They must not cont
 private repository data, prompt transcripts, credentials, email addresses, analytics identifiers,
 or local filesystem paths.
 
-Publication is a data-classification boundary. Bender owns a field-level diff for new exports;
-Hermes owns privacy disposition for new fields. Derived output should remain bounded to the minimum
-needed by pages and tools.
+`scripts/export_observatory_dataset.py` now defines exact production allowlists for the CSV,
+top-repository metadata objects, and the metadata document. It also restricts `source_files` to the
+eleven expected checked-in paths under `data/raw/` and
+`data/archive/recovered-W23-W29/`. Runtime validation rejects added or missing keys, keeps
+`metadata.fields` synchronized with the CSV schema, and requires weekly count keys to equal the
+exported week list.
+
+| Classification | Allowed fields |
+| -------------- | -------------- |
+| Public source identity | `repository`, `url`, `primary_language`, `latest_license`, `top_topics` |
+| Public observations | `latest_stars`, `first_observed_stars`, `max_forks_observed`, `seen_in_trending`, `seen_in_new` |
+| Derived public metrics | `rank_by_latest_stars`, `first_seen_week`, `last_seen_week`, `weeks_observed`, `observed_star_change` |
+| Release metadata | Dataset/version/timestamp/source/selection/license, bounded counts and rankings, exact CSV fields, allowlisted source paths, exposure statement |
+
+Publication remains a data-classification boundary. Any new CSV, metadata, or nested-object field
+requires an intentional allowlist change, an exact-schema test update, and Hermes privacy review.
+The executable policy is implementation evidence, not approval.
 
 ### Embed privacy and attribution
 
-Embeddable charts are static Claracle iframe endpoints with visible attribution. The provided snippet
-does not include a sandbox or `referrerpolicy` attribute. Loading the iframe can disclose the
-embedding page through normal request referrer behavior, and the embed page includes the common
-analytics partial. Consent state does not automatically cross site origins.
+Embeddable charts are static Claracle iframe endpoints with visible attribution. The official
+snippet now sets `referrerpolicy="no-referrer"`, so a publisher using it unchanged does not send the
+embedding page URL as the iframe request referrer. Publishers control their own markup and can remove
+or replace this attribute; Claracle cannot enforce the policy after a snippet is copied.
 
-The existing analytics adapter records `chart_embed_view` only when analytics consent is active in
-the frame. Hermes must decide whether embedded endpoints should omit analytics entirely or enforce a
-referrer policy and a documented consent model. Until disposition, embed privacy acceptance is
-pending.
+Analytics inside the iframe is frame-local, default-off, and enabled only after the visitor explicitly
+accepts Claracle analytics in the consent UI rendered inside that frame. Consent collected by the
+embedding site is neither inferred nor transferred. Browser third-party-storage restrictions may
+prevent the Claracle consent choice from persisting, which can cause the frame to ask again, but
+storage failure never enables analytics. The adapter records `chart_embed_view` only after the
+frame-local consent callback enables it.
+
+Rendered-snippet assertions, consent-wiring tests, and the Observatory browser analytics test provide
+repository-executable evidence for this model. Production network/storage behavior and publisher
+modifications remain outside repository control, so Hermes privacy disposition is still pending.
 
 ### Browser tool URL and DOM handling
 
@@ -142,10 +171,10 @@ does not prove protected-environment configuration or a downstream Podcaster run
 | ID     | Finding                                                                                    | Severity      | Owner                 | Disposition                                                                                                 |
 | ------ | ------------------------------------------------------------------------------------------ | ------------- | --------------------- | ----------------------------------------------------------------------------------------------------------- |
 | SEC-01 | Dynamic hub candidate titles require bounded sanitization and structured serialization      | High          | Farnsworth and Hermes | Implemented; adversarial rejection and structured YAML are tested, Hermes verification pending             |
-| SEC-02 | Embed snippets omit an explicit referrer policy and cross-origin consent does not transfer | Medium        | Amy and Hermes        | Open; decide no-analytics embed or explicit privacy policy before acceptance                                |
-| SEC-03 | Public export fields need a documented allowlist to prevent future accidental expansion    | Medium        | Bender and Hermes     | Open; review current schema and add a field-level publication policy                                        |
+| SEC-02 | Embed snippets require an explicit referrer policy and cross-origin consent does not transfer | Medium        | Amy and Hermes        | Implemented and tested: official snippet uses no-referrer; frame-local analytics remains default-off until explicit Claracle consent; Hermes disposition pending |
+| SEC-03 | Public export fields need a documented allowlist to prevent future accidental expansion    | Medium        | Bender and Hermes     | Implemented and tested: exact CSV, metadata, nested-object, and source-path allowlists; Hermes policy approval pending |
 | SEC-04 | Lifecycle deletion depends on manually reviewed overrides                                  | Medium        | Bender and Hermes     | Rename, archive, deletion, retention, expiry, and fail-closed fixtures pass; production-policy disposition pending |
-| SEC-05 | Phrase-based injection detection has known semantic false-negative risk                    | Medium        | Hermes and Farnsworth | Accepted only as defense in depth after Hermes review; retain fencing, canary, output validation, and tests |
+| SEC-05 | Phrase-based injection detection has known semantic false-negative risk                    | Medium        | Hermes and Farnsworth | Defense-in-depth accepted-risk recommendation is documented and executable controls are retained; no risk acceptance has been granted |
 | SEC-06 | GA4, GSC, and Podcaster secret behavior is not proven by repository inspection             | Medium        | URL and jmservera     | External verification pending; never record secret values                                                   |
 | SEC-07 | Browser tool uses safe DOM and a restricted outbound URL policy                            | Informational | Amy                   | Repository control verified; production and accessibility behavior pending                                  |
 | SEC-08 | Raw HTML rendering remains disabled                                                        | Informational | Amy and Hermes        | Repository control verified; Hermes sign-off pending                                                        |

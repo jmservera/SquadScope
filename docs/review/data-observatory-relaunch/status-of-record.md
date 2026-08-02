@@ -63,11 +63,11 @@ Reconciled on 2026-08-02. Release acceptance remains **pending** per the
 | Podcaster release smoke (dry-run gate)  | Done      | Blocking post-deploy gate green (`#636`/`#639`/`#643`/`#645`)                    |
 | FR-041 internal link checking           | Partial   | Satisfied at test level (`tests/test_internal_link_checker.py`); no standalone CI link tool |
 | Hugo/Pagefind timing separation         | Done      | CI records separate report-only Hugo and Pagefind durations; Q-01 workload attribution remains pending |
-| Security sign-off (NFR-004)             | Pending   | Hermes; 2026-07-29 Step 9.2 / 2026-07-30 Step 7.1                                |
+| Security sign-off (NFR-004)             | Pending   | SEC-02 and SEC-03 repository controls are implemented and tested; SEC-05 has a defense-in-depth recommendation; Hermes finding dispositions remain required |
 | Accessibility evidence (NFR-005)        | Pending   | Amy/Fry; 2026-07-30 Step 7.2                                                      |
 | Real Podcaster downstream run (NFR-002 / R-04) | Pending | Protected environment; 2026-07-30 Step 6.3                                    |
 | Refreshed visual acceptance             | Pending   | Screenshot capture checklist                                                      |
-| GA4 + GSC connection + baseline (FR-035) | Partial  | Production renders GA configuration and serves the sitemap; GSC verification, platform receipt, and baseline evidence remain pending |
+| GA4 + GSC connection + baseline (FR-035) | Partial  | Connection complete: GA4 stream confirmed, GSC verified, root sitemap submitted, and products linked; numeric baseline transcription and consent evidence remain pending |
 | Incremental generation cost (Q-01 / NFR-009) | Pending | Design spike required                                                          |
 | `repo_pages` rollout (FR-020-022)       | Deferred  | Flag disabled; needs sponsor approval + own plan                                 |
 | `dynamic_topic_creation` rollout (FR-004) | Deferred | Flag disabled; needs sponsor approval + own plan                                |
@@ -81,7 +81,7 @@ Reconciled on 2026-08-02. Release acceptance remains **pending** per the
 | [#644](https://github.com/jmservera/SquadScope/issues/644) | Deploy Hugo site failed (run 30718600607) | CLOSED — resolved by `#645`/`#646`                                |
 | [#626](https://github.com/jmservera/SquadScope/issues/626) | Lighthouse / performance quality-gate follow-ups | Independent hardening; keep thresholds unchanged          |
 | [#622](https://github.com/jmservera/SquadScope/issues/622) | Post-review UX polish                    | Non-blocking polish; resolve factual questions before final visual recapture |
-| [#599](https://github.com/jmservera/SquadScope/issues/599) | Connect GA4 + Google Search Console (FR-035) | Closed as completed on 2026-08-01; the recorded human actions remain a pending launch gate |
+| [#599](https://github.com/jmservera/SquadScope/issues/599) | Connect GA4 + Google Search Console (FR-035) | Closed; owner confirmed GA4, GSC verification, sitemap submission, and product link on 2026-08-02 |
 
 ## Launch-gate register
 
@@ -91,7 +91,7 @@ holds the platform-level rows; this register adds ownership and sequencing.
 
 | Gate                                       | Owner       | Dependency                                   | Evidence path                                                        |
 | ------------------------------------------ | ----------- | -------------------------------------------- | ------------------------------------------------------------------- |
-| GA4 + GSC connection + dated baseline (FR-035; `#599` closed with human actions outstanding) | jmservera | Google platform access and missing GSC verification token; blocks OBJ-2/OBJ-4 baselines | [Dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md) |
+| GA4 + GSC dated baseline and consent evidence (FR-035/NFR-007/008) | jmservera | Transcribe supplied export and retain production consent observations | [Dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md) |
 | Security sign-off (NFR-004)                | Hermes      | Security review disposition                  | [Security review](security-review.md)                               |
 | Accessibility evidence (NFR-005)           | Amy / Fry   | Production browser and assistive technology  | [Owner action register](owner-action-register.md#accessibility-acceptance) |
 | Real Podcaster downstream run (NFR-002 / R-04) | URL     | Protected environment policy and maintainer authorization | [Owner action register](owner-action-register.md#protected-real-podcaster-run) |
@@ -106,7 +106,7 @@ holds the platform-level rows; this register adds ownership and sequencing.
 These are out of scope for the readiness reconciliation and each needs its own plan
 (see the [reconciliation planning log](../../../.copilot-tracking/plans/logs/2026-08-02/claracle-relaunch-readiness-reconciliation-log.md#suggested-follow-on-work)):
 
-- GA4 + GSC connection implementation (FR-035; continue the human-action checklist recorded on closed issue `#599`)
+- GA4/GSC baseline transcription and production consent evidence (connection and sitemap submission are complete)
 - [`repo_pages` rollout](../../../.copilot-tracking/plans/2026-08-02/claracle-gated-rollout-cost-plan.instructions.md) (requires identity, lifecycle, security, and sponsor approval)
 - [`dynamic_topic_creation` rollout](../../../.copilot-tracking/plans/2026-08-02/claracle-gated-rollout-cost-plan.instructions.md) (requires preview, canary, security, and sponsor approval)
 - [Incremental-generation-cost experiment](../../../.copilot-tracking/plans/2026-08-02/claracle-gated-rollout-cost-plan.instructions.md) (Q-01 / NFR-009)

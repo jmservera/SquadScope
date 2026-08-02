@@ -182,15 +182,61 @@ test('tool interactions use real handlers and bounded fields', async ({ page }, 
   expect(JSON.stringify(events)).not.toContain('token=secret');
 });
 
-test('standalone chart view fires only after UI acceptance', async ({ page }, testInfo) => {
+test('standalone frame uses only its own explicit analytics consent', async ({ page }, testInfo) => {
   desktopOnly(testInfo);
-  await interceptGoogleEndpoints(page);
-  await page.goto('/embeds/fastest-growing-ai-repositories-chart/');
-  await waitForConsentUi(page);
+  const requests = await interceptGoogleEndpoints(page);
+  const embedUrl = new URL(
+    '/embeds/fastest-growing-ai-repositories-chart/',
+    testInfo.project.use.baseURL,
+  );
+  const publisherUrl = new URL('/charts/embeddable-rankings/', embedUrl);
+  publisherUrl.hostname = embedUrl.hostname === 'localhost' ? '127.0.0.1' : 'localhost';
+  expect(publisherUrl.origin).not.toBe(embedUrl.origin);
 
-  expect(await customEvents(page)).toEqual([]);
+  await page.goto(publisherUrl.href);
   await acceptAnalytics(page);
-  expect(await customEvents(page)).toEqual([
+  const parentRequestCount = requests.length;
+  const parentAnalyticsCookies = await analyticsCookies(page);
+  expect(requests.filter(({ kind }) => kind === 'script')).toHaveLength(1);
+  expect(parentAnalyticsCookies).toEqual([]);
+
+  await page.locator('body').evaluate((body, src) => {
+    const iframe = document.createElement('iframe');
+    iframe.title = 'Cross-origin Claracle chart';
+    iframe.src = src;
+    iframe.referrerPolicy = 'no-referrer';
+    body.appendChild(iframe);
+  }, embedUrl.href);
+
+  await expect
+    .poll(() =>
+      page
+        .frames()
+        .some((candidate) =>
+          candidate.url().includes('/embeds/fastest-growing-ai-repositories-chart/'),
+        ),
+    )
+    .toBe(true);
+  const frame = page
+    .frames()
+    .find((candidate) =>
+      candidate.url().includes('/embeds/fastest-growing-ai-repositories-chart/'),
+    );
+  expect(frame).toBeDefined();
+  await waitForConsentUi(frame);
+
+  expect(await customEvents(frame)).toEqual([]);
+  await expect(frame.getByRole('dialog').first()).toBeVisible();
+  await expect(frame.locator(`script[src*="gtag/js?id=${TEST_MEASUREMENT_ID}"]`)).toHaveCount(0);
+  expect(requests.slice(parentRequestCount)).toEqual([]);
+  expect(await analyticsCookies(page)).toEqual(parentAnalyticsCookies);
+
+  await acceptAnalytics(frame);
+  await expect
+    .poll(() => requests.slice(parentRequestCount).filter(({ kind }) => kind === 'collect').length)
+    .toBe(1);
+  expect(requests.slice(parentRequestCount).filter(({ kind }) => kind === 'script')).toHaveLength(1);
+  expect(await customEvents(frame)).toEqual([
     {
       name: 'chart_embed_view',
       payload: {

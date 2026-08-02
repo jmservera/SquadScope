@@ -41,7 +41,7 @@ protected-environment work without treating repository automation as approval ev
 | FR-052 tool selection and architecture rationale          | Complete                    | [Star Velocity Explorer ADR](../../decisions/adr-star-velocity-explorer.md) |
 | Security and privacy surface review                       | Complete with open findings | [Security review](security-review.md)                                       |
 | Hermes security acceptance                                | Pending                     | Security review sign-off table                                              |
-| GA4 and GSC repository wiring                             | Implemented conditionally   | [Dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md)               |
+| GA4 and GSC connection                                   | Complete                    | [Dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md)               |
 | GA4 and GSC external baseline values                      | Pending                     | Dated baseline external evidence matrix                                     |
 | Product delivery and rollout status                       | Pending acceptance          | [PRD](../../prds/claracle-data-observatory-relaunch.md)                     |
 | Sponsor-approved lifecycle state                          | Pending                     | [BRD](../../brds/claracle-data-observatory-relaunch-brd.md)                 |
@@ -52,15 +52,16 @@ protected-environment work without treating repository automation as approval ev
 
 | Gate                                  | Status  | Actor or access needed                              | Required evidence                                          |
 | ------------------------------------- | ------- | --------------------------------------------------- | ---------------------------------------------------------- |
-| GSC property verification             | Pending | jmservera with GSC access                           | Dated verified-property evidence                           |
-| GSC sitemap submission                | Pending | jmservera with GSC access                           | Submitted sitemap target and platform status               |
+| GSC property verification             | Complete | jmservera                                          | Owner confirmed verification on 2026-08-02                 |
+| GSC sitemap submission                | Complete | jmservera                                          | Root `sitemap.xml` submitted on 2026-08-02                 |
 | GA4 consent-denied behavior           | Pending | jmservera and Hermes with production browser access | Network and cookie evidence from a private first visit     |
 | GA4 consent-granted behavior          | Pending | jmservera and Hermes with production browser access | Expected request after consent                             |
-| GA4 Realtime receipt                  | Pending | jmservera with GA4 access                           | Dated Realtime observation correlated to test visit        |
+| GA4 property, stream, and receipt      | Complete by owner attestation | jmservera                              | Intended production stream confirmed operational           |
 | Social preview debuggers              | Pending | Reviewer with external debugger access              | Homepage and article conclusions with retained links       |
 | Rich Results Test                     | Pending | Reviewer with external debugger access              | Article and breadcrumb conclusions with retained links     |
 | Schema.org validator                  | Pending | Reviewer with external debugger access              | Relevant page-type conclusions with retained links         |
-| Production sitemap and feed responses | Pending | jmservera with production access                    | Status, content type, date, and tested target              |
+| Production sitemap response           | Complete | jmservera                                           | HTTP 200 `application/xml` observed on 2026-08-02          |
+| Production feed responses             | Pending | jmservera with production access                    | Status, content type, date, and tested target              |
 | Podcaster downstream run              | Pending | Podcaster maintainer and protected environment      | Successful downstream run conclusion and Actions link      |
 | Accessibility review                  | Pending | Fry and accessibility reviewer                      | Automated results plus keyboard and screen-reader findings |
 | Hermes sign-off                       | Pending | Hermes                                              | Dated disposition of security findings and NFR-004         |

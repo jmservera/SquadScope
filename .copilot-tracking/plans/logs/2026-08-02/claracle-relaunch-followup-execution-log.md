@@ -16,12 +16,22 @@ Execute repository-verifiable work and prepare owner-ready handoffs. Do not hard
 
 ## Deferred Owner Actions
 
-* jmservera: GA4 property mapping, GSC token and verification, sitemap submission, Realtime confirmation, baseline values, and rollout decisions
+* jmservera: GA4/GSC connection actions completed; GSC export transcription, production consent observations, processed sitemap review, and rollout decisions remain
 * Hermes: SEC-01 through SEC-06 dispositions and NFR-004 sign-off
 * URL: protected environment and secret-scope review
 * Podcaster maintainer: idempotency or one-run authorization
 * Fry and accessibility reviewer: manual keyboard and screen-reader record
 * Amy: final visual matrix and acceptance conclusion
+
+## Repository-Executable Security Closure
+
+* SEC-02 implementation evidence is complete: official snippets use no-referrer and iframe analytics
+  requires explicit frame-local Claracle consent. Hermes privacy disposition remains pending.
+* SEC-03 implementation evidence is complete: exact public export and safe source-path allowlists are
+  enforced by production code and tests. Hermes field-policy approval remains pending.
+* SEC-05 has an explicit defense-in-depth recommendation with retained executable controls and stated
+  semantic limitations. No accepted-risk decision has been recorded.
+* Squad agent implemented SEC-02/03/05. Fry rejected the first SEC-02 browser assertion, Hermes tightened the cross-origin default-off proof, and Fry approved the revised executable closure. This is quality approval, not Hermes security sign-off.
 
 ## Safety Decisions
 
