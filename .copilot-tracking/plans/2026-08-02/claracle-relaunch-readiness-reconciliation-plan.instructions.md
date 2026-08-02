@@ -32,7 +32,7 @@ Triage the live deploy failure, reconcile the three relaunch plans and the PRD/B
 * .copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md - Phases 6-8 open
 * .copilot-tracking/plans/2026-07-31/claracle-deploy-hydration-remediation-plan.instructions.md - Phases 2-5 open; Phase 4 shipped but unmarked
 * config/observatory.toml - repo_pages flag disabled (confirmed)
-* hugo.toml - ga_measurement_id empty (GA4 not connected)
+* hugo.toml - fork-safe GA4/GSC defaults are empty; production configuration and platform acceptance require separate evidence
 * docs/review/data-observatory-relaunch/ - bounded acceptance evidence and pending gates
 
 ### References

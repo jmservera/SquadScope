@@ -19,7 +19,7 @@ on 2026-08-02.
 ## Verified findings (evidence)
 
 - Initial blocker: issue #644 "Deploy Hugo site failed (run 30718600607)" was the incident under investigation. Final verification found it closed as completed on 2026-08-01 after #645/#646 restored a green deploy.
-- GA4/GSC NOT connected: hugo.toml `ga_measurement_id = ""`. Issue #599 was closed as completed on 2026-08-01, but its recorded human-action checklist remains outstanding (FR-035/DR-002/NFR-007). Growth KPI baselines (OBJ-2/3/4, G-002/003/004) were not captured.
+- Initial repository-only observation: hugo.toml uses an empty fork-safe GA4 default. Follow-up production verification found secret-backed GA configuration present, while issue #599's recorded GSC, platform-receipt, and baseline actions remain outstanding (FR-035/DR-002/NFR-007). Growth KPI baselines (OBJ-2/3/4, G-002/003/004) were not captured.
 - Repo pages gated off: config/observatory.toml `[repo_pages] enabled = false` and `[repo_pages.lifecycle] enabled = false` (FR-020-022 not live; matches PRD flag `repo_pages`).
 - Internal link checking exists as tests/test_internal_link_checker.py (FR-041 partially satisfied at test level, not a separate CI link tool).
 - Issue dispositions: #644 and #599 closed as completed on 2026-08-01; #626 (Lighthouse follow-ups), #622 (UX polish), and #594 (Epic) remained open at final verification. Closing #599 did not complete its human-action checklist.

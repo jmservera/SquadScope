@@ -37,7 +37,7 @@ Reconciled the Claracle relaunch plans, PRD, BRD, and issue evidence into one st
 
 ## Review Iteration
 
-PR #647 review found that #599 and #644 were described as open after both had closed as completed on 2026-08-01. The research and status-of-record artifacts now show the final dispositions. FR-035 remains pending because #599 closed with a human-action checklist still outstanding and `ga_measurement_id` remains empty.
+PR #647 review found that #599 and #644 were described as open after both had closed as completed on 2026-08-01. The research and status-of-record artifacts now show the final dispositions. FR-035 remains partial because #599 closed with GSC, platform-receipt, and baseline actions still outstanding; later production verification confirmed secret-backed GA configuration is present.
 
 ## Validation
 

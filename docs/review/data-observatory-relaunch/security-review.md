@@ -2,7 +2,7 @@
 title: Data Observatory Relaunch Security Review
 description: Repository security and privacy review of Observatory generation, lifecycle, datasets, embeds, browser tools, analytics, and deployment secrets
 author: SquadScope Squad
-ms.date: 2026-07-30
+ms.date: 2026-08-02
 ms.topic: reference
 keywords:
   - security review
@@ -14,7 +14,7 @@ estimated_reading_time: 10
 
 ## Review status
 
-Repository review is complete as of 2026-07-30. Hermes review and sign-off are pending.
+Repository review was reconciled with current controls on 2026-08-02. Hermes review and sign-off are pending.
 NFR-004 is not accepted, and the relaunch security gate remains open until Hermes records a
 disposition for every open finding.
 
@@ -57,14 +57,13 @@ fields must pass through the same sanitization and boundary path before prompt u
 ### Candidate-title abuse
 
 Candidate discovery combines repository-controlled topics, weekly tags, and analyzed headings.
-Canonical and ignored terms reduce noise, and dynamic creation is disabled. However,
-`manage_topic_hubs.py` constructs generated hub frontmatter and prose from the candidate title with
-quote escaping rather than `sanitize_text()` or structured YAML serialization for the complete
-document.
+Canonical and ignored terms reduce noise, and dynamic creation is disabled. `manage_topic_hubs.py`
+now bounds candidate titles through `sanitize_text()`, rejects line breaks, boundary markers, HTML,
+Markdown syntax, control characters, and known injection phrases, and serializes frontmatter through
+structured YAML. `tests/test_topic_hubs.py` verifies that unsafe titles fail before any mutation.
 
-This path is contained while `topic_hubs.dynamic_creation.enabled = false`. It must remain disabled
-until the title is sanitized, bounded, tested with control characters and Markdown payloads, and
-reviewed by Hermes. Candidate promotion also requires a human diff review of evidence and output.
+The implementation condition for this finding is complete. Dynamic creation remains disabled until
+Hermes verifies the control and a human reviews the evidence and exact output for the approved canary.
 
 ### Lifecycle evidence and deletion
 
@@ -76,6 +75,11 @@ after the configured three-year retention period and only for generator-owned pa
 The remaining risk is operator error in a lifecycle override. Review must pair the override, source
 evidence, ledger diff, aliases, generated page, and any expiry removal. Hermes must review deletion
 evidence policy before NFR-004 acceptance.
+
+`tests/test_observatory_repos.py` now exercises rename aliases, archive evidence, confirmed deletion,
+three-year retention, expiry removal, absence that fails closed, and stable-ID migration. These
+fixtures prove implementation behavior, not that the production corpus contains stable IDs or a
+reviewed lifecycle transition.
 
 ### Public dataset exposure
 
@@ -137,10 +141,10 @@ does not prove protected-environment configuration or a downstream Podcaster run
 
 | ID     | Finding                                                                                    | Severity      | Owner                 | Disposition                                                                                                 |
 | ------ | ------------------------------------------------------------------------------------------ | ------------- | --------------------- | ----------------------------------------------------------------------------------------------------------- |
-| SEC-01 | Dynamic hub candidate titles bypass the standard text sanitizer                            | High          | Farnsworth and Hermes | Open, rollout-blocking; keep dynamic creation off, sanitize and add adversarial tests before review         |
+| SEC-01 | Dynamic hub candidate titles require bounded sanitization and structured serialization      | High          | Farnsworth and Hermes | Implemented; adversarial rejection and structured YAML are tested, Hermes verification pending             |
 | SEC-02 | Embed snippets omit an explicit referrer policy and cross-origin consent does not transfer | Medium        | Amy and Hermes        | Open; decide no-analytics embed or explicit privacy policy before acceptance                                |
 | SEC-03 | Public export fields need a documented allowlist to prevent future accidental expansion    | Medium        | Bender and Hermes     | Open; review current schema and add a field-level publication policy                                        |
-| SEC-04 | Lifecycle deletion depends on manually reviewed overrides                                  | Medium        | Bender and Hermes     | Controlled by disabled flag, persisted evidence, retention, and diff review; Hermes disposition pending     |
+| SEC-04 | Lifecycle deletion depends on manually reviewed overrides                                  | Medium        | Bender and Hermes     | Rename, archive, deletion, retention, expiry, and fail-closed fixtures pass; production-policy disposition pending |
 | SEC-05 | Phrase-based injection detection has known semantic false-negative risk                    | Medium        | Hermes and Farnsworth | Accepted only as defense in depth after Hermes review; retain fencing, canary, output validation, and tests |
 | SEC-06 | GA4, GSC, and Podcaster secret behavior is not proven by repository inspection             | Medium        | URL and jmservera     | External verification pending; never record secret values                                                   |
 | SEC-07 | Browser tool uses safe DOM and a restricted outbound URL policy                            | Informational | Amy                   | Repository control verified; production and accessibility behavior pending                                  |
@@ -149,7 +153,7 @@ does not prove protected-environment configuration or a downstream Podcaster run
 ## Required evidence before acceptance
 
 - Hermes records approval, rejection, or accepted-risk rationale for SEC-01 through SEC-06
-- Candidate-title sanitizer and adversarial tests pass before dynamic topic creation is enabled
+- Hermes verifies the implemented candidate-title sanitizer and adversarial rejection before dynamic topic creation is enabled
 - Embed privacy behavior has a documented and tested disposition
 - Public dataset schema receives a field-level privacy review
 - Lifecycle fixtures demonstrate rename, archive, confirmed deletion, retention, and expiry

@@ -2,7 +2,7 @@
 title: GA4 and GSC Launch Baseline for 2026-07-29
 description: Dated Claracle analytics and search baseline record that separates repository wiring from pending external platform evidence
 author: SquadScope Squad
-ms.date: 2026-07-30
+ms.date: 2026-08-02
 ms.topic: reference
 keywords:
   - google analytics 4
@@ -15,20 +15,29 @@ estimated_reading_time: 6
 ## Baseline status
 
 The 2026-07-29 launch baseline has not been captured from GA4 or Google Search
-Console. No numeric baseline value is asserted in this record. The repository contains
-conditional integration paths, but repository inspection cannot prove property setup,
-secret presence, consent behavior in production, data receipt, verification, sitemap
-submission, or indexing.
+Console. No numeric baseline value is asserted in this record. Credential-free production
+checks on 2026-08-02 confirmed that Claracle renders GA configuration and serves the
+sitemap, but they cannot prove the intended property mapping, consent behavior, data
+receipt, GSC verification, sitemap submission, or indexing.
 
 The configured production target is `https://claracle.com/`, and the expected standard
-sitemap target is `https://claracle.com/sitemap.xml`. Their production responses remain
-unverified for this acceptance record.
+sitemap target is `https://claracle.com/sitemap.xml`.
+
+## Credential-free production observations
+
+| Observation | Result | Date | Acceptance boundary |
+| ----------- | ------ | ---- | ------------------- |
+| GA configuration rendered | Present | 2026-08-02 | Does not reveal or validate the identifier, property, stream, consent behavior, or receipt |
+| GSC verification meta tag | Absent | 2026-08-02 | GSC ownership remains unverified |
+| Sitemap response | HTTP 200, `application/xml` | 2026-08-02 | Does not prove submission or processing in GSC |
+| `GA_MEASUREMENT_ID` secret name | Present | 2026-08-02 | Secret value is not observable and must not be recorded |
+| `GSC_SITE_VERIFICATION` secret name | Absent | 2026-08-02 | Requires a token from the intended GSC property |
 
 ## Repository-verifiable implementation
 
 | Surface                    | Repository status                         | Evidence boundary                                                                               |
 | -------------------------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| GA4 build parameter        | Implemented conditionally                 | `deploy-site.yml` reads `GA_MEASUREMENT_ID`; secret existence and value are not observable      |
+| GA4 build parameter        | Implemented and present in production      | `deploy-site.yml` reads `GA_MEASUREMENT_ID`; public presence does not validate the protected value |
 | GSC verification parameter | Implemented conditionally                 | `deploy-site.yml` reads `GSC_SITE_VERIFICATION`; verification is not observable                 |
 | Fork-safe defaults         | Implemented                               | Hugo parameters default empty, so an unconfigured build does not inherit production identifiers |
 | Analytics consent gate     | Implemented in templates and browser code | Production requests and cookies require browser evidence                                        |
@@ -49,7 +58,7 @@ the secret.
 | GA4 Realtime receipt        | Pending | jmservera            | Dated Realtime evidence correlated to the consented test visit                   |
 | GSC property verification   | Pending | jmservera            | Dated verified-property evidence                                                 |
 | GSC sitemap submission      | Pending | jmservera            | Submission URL, date, and platform status                                        |
-| Production sitemap response | Pending | jmservera            | Dated response status and content-type evidence                                  |
+| Production sitemap response | Complete | jmservera            | HTTP 200 with `application/xml` observed on 2026-08-02                            |
 | Production feed responses   | Pending | jmservera            | Dated site and topic feed response status and content types                      |
 
 ## Baseline values

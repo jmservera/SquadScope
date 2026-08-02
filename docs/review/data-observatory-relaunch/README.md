@@ -2,7 +2,7 @@
 title: Data Observatory Relaunch Acceptance Evidence
 description: Bounded evidence index for repository implementation, external launch gates, security review, and visual acceptance of the Claracle relaunch
 author: SquadScope Squad
-ms.date: 2026-07-30
+ms.date: 2026-08-02
 ms.topic: reference
 keywords:
   - acceptance evidence
@@ -20,6 +20,9 @@ Dynamic topic creation and repository-page creation remain disabled in
 
 External platform, production, cross-repository run, security sign-off, accessibility
 review, and visual acceptance evidence remain pending as listed below.
+
+The [owner action register](owner-action-register.md) sequences the remaining human and
+protected-environment work without treating repository automation as approval evidence.
 
 ## Evidence principles
 
@@ -43,6 +46,7 @@ review, and visual acceptance evidence remain pending as listed below.
 | Product delivery and rollout status                       | Pending acceptance          | [PRD](../../prds/claracle-data-observatory-relaunch.md)                     |
 | Sponsor-approved lifecycle state                          | Pending                     | [BRD](../../brds/claracle-data-observatory-relaunch-brd.md)                 |
 | Visual capture requirements                               | Pending                     | [Screenshot capture checklist](screenshots/README.md)                       |
+| Owner-gated acceptance actions                            | Pending                     | [Owner action register](owner-action-register.md)                           |
 
 ## External acceptance matrix
 
@@ -61,6 +65,11 @@ review, and visual acceptance evidence remain pending as listed below.
 | Accessibility review                  | Pending | Fry and accessibility reviewer                      | Automated results plus keyboard and screen-reader findings |
 | Hermes sign-off                       | Pending | Hermes                                              | Dated disposition of security findings and NFR-004         |
 | Sponsor rollout approval              | Pending | jmservera                                           | Dated approval identifying each flag separately            |
+
+Issue #622 is non-blocking UX polish according to its issue contract. Issue #626 is
+independent quality hardening whose existing thresholds remain unchanged. Both should be
+completed before final visual recapture where their changes affect the rendered result,
+but neither is represented as an unevidenced acceptance approval.
 
 ## Visual evidence status
 
