@@ -81,7 +81,7 @@ Dependencies:
 
 ### Step 2.3: Create one status-of-record reconciling delivered vs pending
 
-Author a single status-of-record (under docs/review/data-observatory-relaunch/ or .copilot-tracking) that maps every relaunch requirement/phase to Done/Pending with evidence, superseding the fragmented view across three plans and covering the open epic issues #644/#626/#622/#599/#594.
+Author a single status-of-record (under docs/review/data-observatory-relaunch/ or .copilot-tracking) that maps every relaunch requirement/phase to Done/Pending with evidence, superseding the fragmented view across three plans and covering the final dispositions of epic issues #644/#626/#622/#599/#594.
 
 Files:
 * docs/review/data-observatory-relaunch/status-of-record.md (new) or an agreed location
@@ -144,7 +144,7 @@ Dependencies:
 ### Step 4.1: Consolidate pending gates into the register
 
 For each pending gate, record owner, dependency, and evidence path:
-* GA4/GSC connection - #599 (jmservera) - blocks OBJ-2/4 baselines
+* GA4/GSC connection - FR-035 and the human actions recorded on closed #599 (jmservera) - blocks OBJ-2/4 baselines
 * NFR-004 security sign-off - Hermes
 * NFR-005 accessibility evidence - Amy/Fry
 * Podcaster downstream run - URL (NFR-002/R-04)

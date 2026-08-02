@@ -18,11 +18,11 @@ on 2026-08-02.
 
 ## Verified findings (evidence)
 
-- LIVE BLOCKER: issue #644 "Deploy Hugo site failed (run 30718600607)" is OPEN (gh issue list). Postdates the 2026-W31 restore run and the #646 merge; not covered by any plan.
-- GA4/GSC NOT connected: hugo.toml `ga_measurement_id = ""`. Issue #599 open (FR-035/DR-002/NFR-007). Growth KPI baselines (OBJ-2/3/4, G-002/003/004) never captured.
+- Initial blocker: issue #644 "Deploy Hugo site failed (run 30718600607)" was the incident under investigation. Final verification found it closed as completed on 2026-08-01 after #645/#646 restored a green deploy.
+- GA4/GSC NOT connected: hugo.toml `ga_measurement_id = ""`. Issue #599 was closed as completed on 2026-08-01, but its recorded human-action checklist remains outstanding (FR-035/DR-002/NFR-007). Growth KPI baselines (OBJ-2/3/4, G-002/003/004) were not captured.
 - Repo pages gated off: config/observatory.toml `[repo_pages] enabled = false` and `[repo_pages.lifecycle] enabled = false` (FR-020-022 not live; matches PRD flag `repo_pages`).
 - Internal link checking exists as tests/test_internal_link_checker.py (FR-041 partially satisfied at test level, not a separate CI link tool).
-- Open issues: #644 (deploy), #626 (Lighthouse follow-ups), #622 (UX polish), #599 (GA4+GSC), #594 (Epic).
+- Issue dispositions: #644 and #599 closed as completed on 2026-08-01; #626 (Lighthouse follow-ups), #622 (UX polish), and #594 (Epic) remained open at final verification. Closing #599 did not complete its human-action checklist.
 
 ## Session work NOT reflected in docs
 
@@ -56,6 +56,6 @@ Single reconciliation plan:
 5. Validate docs (markdown lint, link integrity) + re-review.
 
 Deferred to separate plans (out of scope here):
-- GA4/GSC connection implementation (#599)
+- GA4/GSC connection implementation (FR-035; continue the human-action checklist on closed issue #599)
 - repo_pages rollout + dynamic topic rollout (require sponsor approval)
 - Incremental-generation-cost design spike (Q-01)

@@ -9,7 +9,7 @@ Gaps and differences identified between research findings and the implementation
 
 * DR-01: Full GA4/GSC connection (setting ga_measurement_id, verifying the property, submitting the sitemap, capturing the baseline)
   * Source: research 2026-08-02 (Unmet launch gates); issue #599
-  * Reason: External/human implementation task with its own acceptance surface; this plan only registers and sequences it
+  * Reason: Issue #599 closed as completed on 2026-08-01 with a human-action checklist still outstanding; this plan only registers and sequences that external acceptance work
   * Impact: high (blocks OBJ-2/OBJ-4 baselines)
 * DR-02: repo_pages and dynamic_topic_creation rollout enablement
   * Source: config/observatory.toml flags disabled; PRD section 13
@@ -58,7 +58,7 @@ Gaps and differences identified between research findings and the implementation
 ## Suggested Follow-On Work
 
 * WI-01: GA4 + GSC connection implementation plan (high) - set ga_measurement_id, verify property, submit sitemap, capture dated baseline
-  * Source: research (GA4/GSC); issue #599
+  * Source: research (GA4/GSC); human-action checklist on closed issue #599
   * Dependency: sponsor/platform access
 * WI-02: Deploy failure #644 dedicated fix plan (high) - NOT NEEDED. #644 is CLOSED: root cause was a dangling `source_manifest.path` (`data/candidates/2026-W31/30669054860/publish-manifest.json`) breaking the Podcaster smoke gate; resolved by `#645`/`#646`, deploy-site green since 2026-08-01. No dedicated fix plan required.
   * Source: open issue #644 (now closed)

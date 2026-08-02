@@ -67,13 +67,13 @@ Reconciled on 2026-08-02. Release acceptance remains **pending** per the
 | Accessibility evidence (NFR-005)        | Pending   | Amy/Fry; 2026-07-30 Step 7.2                                                      |
 | Real Podcaster downstream run (NFR-002 / R-04) | Pending | Protected environment; 2026-07-30 Step 6.3                                    |
 | Refreshed visual acceptance             | Pending   | Screenshot capture checklist                                                      |
-| GA4 + GSC connection + baseline (FR-035) | Pending  | `#599`; `ga_measurement_id` empty                                                |
+| GA4 + GSC connection + baseline (FR-035) | Pending  | `#599` is closed, but its human-action checklist remains; `ga_measurement_id` is empty |
 | Incremental generation cost (Q-01 / NFR-009) | Pending | Design spike required                                                          |
 | `repo_pages` rollout (FR-020-022)       | Deferred  | Flag disabled; needs sponsor approval + own plan                                 |
 | `dynamic_topic_creation` rollout (FR-004) | Deferred | Flag disabled; needs sponsor approval + own plan                                |
 | Sponsor rollout approval                | Pending   | jmservera; see [launch-gate register](#launch-gate-register)                     |
 
-## Open epic issues
+## Epic issue dispositions
 
 | Issue                                             | Title                                       | Disposition                                                        |
 | ------------------------------------------------- | ------------------------------------------- | ----------------------------------------------------------------- |
@@ -81,7 +81,7 @@ Reconciled on 2026-08-02. Release acceptance remains **pending** per the
 | [#644](https://github.com/jmservera/SquadScope/issues/644) | Deploy Hugo site failed (run 30718600607) | CLOSED — resolved by `#645`/`#646`                                |
 | [#626](https://github.com/jmservera/SquadScope/issues/626) | Lighthouse / performance quality-gate follow-ups | Readiness scope — see gate register                        |
 | [#622](https://github.com/jmservera/SquadScope/issues/622) | Post-review UX polish                    | Readiness scope — see gate register                               |
-| [#599](https://github.com/jmservera/SquadScope/issues/599) | Connect GA4 + Google Search Console (FR-035) | Deferred to its own implementation plan                        |
+| [#599](https://github.com/jmservera/SquadScope/issues/599) | Connect GA4 + Google Search Console (FR-035) | Closed as completed on 2026-08-01; the recorded human actions remain a pending launch gate |
 
 ## Launch-gate register
 
@@ -91,7 +91,7 @@ holds the platform-level rows; this register adds ownership and sequencing.
 
 | Gate                                       | Owner       | Dependency                                   | Evidence path                                                        |
 | ------------------------------------------ | ----------- | -------------------------------------------- | ------------------------------------------------------------------- |
-| GA4 + GSC connection + dated baseline (`#599`, FR-035) | jmservera | Platform access; blocks OBJ-2/OBJ-4 baselines | [Dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md)     |
+| GA4 + GSC connection + dated baseline (FR-035; `#599` closed with human actions outstanding) | jmservera | Platform access; blocks OBJ-2/OBJ-4 baselines | [Dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md) |
 | Security sign-off (NFR-004)                | Hermes      | Security review disposition                  | [Security review](security-review.md)                               |
 | Accessibility evidence (NFR-005)           | Amy / Fry   | Production browser access                    | Accessibility review record                                         |
 | Real Podcaster downstream run (NFR-002 / R-04) | URL     | Protected environment; passing deploy        | 2026-07-30 Step 6.3 evidence                                        |
@@ -106,7 +106,7 @@ holds the platform-level rows; this register adds ownership and sequencing.
 These are out of scope for the readiness reconciliation and each needs its own plan
 (see the [reconciliation planning log](../../../.copilot-tracking/plans/logs/2026-08-02/claracle-relaunch-readiness-reconciliation-log.md#suggested-follow-on-work)):
 
-- GA4 + GSC connection implementation (`#599`)
+- GA4 + GSC connection implementation (FR-035; continue the human-action checklist recorded on closed issue `#599`)
 - `repo_pages` rollout (requires sponsor approval)
 - `dynamic_topic_creation` rollout (requires sponsor approval)
 - Incremental-generation-cost design spike (Q-01 / NFR-009)

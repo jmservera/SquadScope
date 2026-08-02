@@ -68,7 +68,7 @@ Triage the live deploy failure, reconcile the three relaunch plans and the PRD/B
   * Details: .copilot-tracking/details/2026-08-02/claracle-relaunch-readiness-reconciliation-details.md (Lines 55-67)
 * [x] Step 2.2: Update the 2026-07-29 and 2026-07-30 plan checkboxes for completed Podcaster/smoke/restore work (#639/#643/#640/#646)
   * Details: .copilot-tracking/details/2026-08-02/claracle-relaunch-readiness-reconciliation-details.md (Lines 68-81)
-* [x] Step 2.3: Create one status-of-record reconciling delivered vs pending across all three plans, including open epic issues #644/#626/#622/#599/#594 — docs/review/data-observatory-relaunch/status-of-record.md
+* [x] Step 2.3: Create one status-of-record reconciling delivered vs pending across all three plans, including the final dispositions of epic issues #644/#626/#622/#599/#594 — docs/review/data-observatory-relaunch/status-of-record.md
   * Details: .copilot-tracking/details/2026-08-02/claracle-relaunch-readiness-reconciliation-details.md (Lines 82-94)
 
 ### [x] Implementation Phase 3: Reconcile Product Documents
@@ -86,7 +86,7 @@ Triage the live deploy failure, reconcile the three relaunch plans and the PRD/B
 
 <!-- parallelizable: false -->
 
-* [x] Step 4.1: Consolidate pending gates (GA4/GSC #599, NFR-004 security, NFR-005 a11y, Podcaster run, visuals, Q-01 cost) plus open epic issues #626 (Lighthouse) and #622 (UX polish) into the register with owner, dependency, and evidence path — status-of-record launch-gate register
+* [x] Step 4.1: Consolidate pending gates (GA4/GSC FR-035 with the human actions from closed #599, NFR-004 security, NFR-005 a11y, Podcaster run, visuals, Q-01 cost) plus epic issues #626 (Lighthouse) and #622 (UX polish) into the register with owner, dependency, and evidence path — status-of-record launch-gate register
   * Details: .copilot-tracking/details/2026-08-02/claracle-relaunch-readiness-reconciliation-details.md (Lines 144-164)
 * [x] Step 4.2: Record deferred scope requiring its own plan (GA4/GSC impl, repo_pages rollout, dynamic topic rollout, cost spike) — planning log Suggested Follow-On Work (WI-01/03/04/05)
   * Details: .copilot-tracking/details/2026-08-02/claracle-relaunch-readiness-reconciliation-details.md (Lines 165-181)
