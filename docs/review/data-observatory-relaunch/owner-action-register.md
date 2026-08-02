@@ -103,6 +103,21 @@ light and dark themes, interaction states, and a dated reviewer conclusion.
 Completion evidence: replacement visual matrix with revision metadata and an explicit
 accept or reject conclusion. Screenshots alone are not approval.
 
+## External metadata and feed validation
+
+Owners: Amy for rendered metadata and jmservera for production access.
+
+Required actions:
+
+1. Validate the homepage and one representative article in supported social preview debuggers.
+2. Validate representative article and breadcrumb markup with Google Rich Results Test.
+3. Validate each relevant page type with Schema.org Validator.
+4. Record HTTP status and content type for the site and topic feeds in production.
+5. Retain the tested URLs, revision, tool conclusions, reviewer, and date without exposing credentials.
+
+Completion evidence: dated social preview, structured-data, and production feed
+conclusions with retained links or redacted records.
+
 ## Sponsor rollout decision
 
 Owner: jmservera.

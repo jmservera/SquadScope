@@ -68,6 +68,7 @@ Reconciled on 2026-08-02. Release acceptance remains **pending** per the
 | Real Podcaster downstream run (NFR-002 / R-04) | Pending | Protected environment; 2026-07-30 Step 6.3                                    |
 | Refreshed visual acceptance             | Pending   | Screenshot capture checklist                                                      |
 | GA4 + GSC connection + baseline (FR-035) | Partial  | Connection complete: GA4 stream confirmed, GSC verified, root sitemap submitted, and products linked; numeric baseline transcription and consent evidence remain pending |
+| External metadata and feed validation   | Pending   | Social previews, Rich Results, Schema.org, and production feed responses require retained conclusions |
 | Incremental generation cost (Q-01 / NFR-009) | Pending | Design spike required                                                          |
 | `repo_pages` rollout (FR-020-022)       | Deferred  | Flag disabled; needs sponsor approval + own plan                                 |
 | `dynamic_topic_creation` rollout (FR-004) | Deferred | Flag disabled; needs sponsor approval + own plan                                |
@@ -96,6 +97,7 @@ holds the platform-level rows; this register adds ownership and sequencing.
 | Accessibility evidence (NFR-005)           | Amy / Fry   | Production browser and assistive technology  | [Owner action register](owner-action-register.md#accessibility-acceptance) |
 | Real Podcaster downstream run (NFR-002 / R-04) | URL     | Protected environment policy and maintainer authorization | [Owner action register](owner-action-register.md#protected-real-podcaster-run) |
 | Refreshed visual acceptance                | Amy         | Populated content render                     | [Screenshot capture checklist](screenshots/README.md)               |
+| External metadata and feed validation      | Amy / jmservera | External debugger and production access   | [Owner action register](owner-action-register.md#external-metadata-and-feed-validation) |
 | Incremental generation cost (Q-01 / NFR-009) | URL       | Comparable workload variants and budget owner | [Gated rollout and cost plan](../../../.copilot-tracking/plans/2026-08-02/claracle-gated-rollout-cost-plan.instructions.md) |
 | Lighthouse follow-ups (`#626`)             | Amy / Fry   | None; independent hardening                  | `#626`                                                              |
 | Post-review UX polish (`#622`)             | Amy         | None; non-blocking                           | `#622`                                                              |

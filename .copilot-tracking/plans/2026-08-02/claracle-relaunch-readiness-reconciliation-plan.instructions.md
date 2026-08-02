@@ -86,9 +86,9 @@ Triage the live deploy failure, reconcile the three relaunch plans and the PRD/B
 
 <!-- parallelizable: false -->
 
-* [x] Step 4.1: Consolidate pending gates (GA4/GSC FR-035 with the human actions from closed #599, NFR-004 security, NFR-005 a11y, Podcaster run, visuals, Q-01 cost) plus epic issues #626 (Lighthouse) and #622 (UX polish) into the register with owner, dependency, and evidence path — status-of-record launch-gate register
+* [x] Step 4.1: Consolidate pending gates (GA4/GSC baseline and consent, external metadata and feed validation, NFR-004 security, NFR-005 a11y, Podcaster run, visuals, Q-01 cost) plus epic issues #626 (Lighthouse) and #622 (UX polish) into the register with owner, dependency, and evidence path — status-of-record launch-gate register
   * Details: .copilot-tracking/details/2026-08-02/claracle-relaunch-readiness-reconciliation-details.md (Lines 144-164)
-* [x] Step 4.2: Record deferred scope requiring its own plan (GA4/GSC impl, repo_pages rollout, dynamic topic rollout, cost spike) — planning log Suggested Follow-On Work (WI-01/03/04/05)
+* [x] Step 4.2: Record deferred scope requiring its own plan (GA4/GSC baseline and consent evidence, repo_pages rollout, dynamic topic rollout, cost spike) — planning log Suggested Follow-On Work (WI-01/03/04/05)
   * Details: .copilot-tracking/details/2026-08-02/claracle-relaunch-readiness-reconciliation-details.md (Lines 165-181)
 
 ### [x] Implementation Phase 5: Validation and Re-Review

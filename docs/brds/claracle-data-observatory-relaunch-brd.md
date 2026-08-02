@@ -24,13 +24,13 @@ ms.topic: reference
 |---------|------|--------|---------|
 | 1.0 | 2026-07-29 | BRD Builder (facilitated) | Initial BRD repositioning Claracle into a data observatory |
 | 1.1 | 2026-07-30 | BRD Builder (facilitated) | Reconciled acceptance status with pending security, analytics, production, Podcaster, accessibility, visual, and rollout gates |
-| 1.2 | 2026-08-02 | SquadScope Squad | Added this change history, aligned the PRD cross-reference to the current version, and linked the relaunch status of record |
+| 1.2 | 2026-08-02 | SquadScope Squad | Added this change history, aligned the PRD cross-reference, linked the status of record, and reconciled the completed GA4/GSC connection |
 
 ---
 
 ## Acceptance Status
 
-The business requirements remain approved as requirements, but no repository artifact records sponsor approval to enable either rollout flag. Security sign-off, analytics and search evidence, production responses, Podcaster execution, accessibility review, and refreshed visual acceptance remain pending. Dynamic topic creation and repository-page creation must be approved separately. Current delivered-versus-pending status is tracked in the [relaunch status of record](../review/data-observatory-relaunch/status-of-record.md).
+The business requirements remain approved as requirements, but no repository artifact records sponsor approval to enable either rollout flag. The GA4/GSC connection is complete by owner confirmation; dated baseline values and production consent observations remain pending. Security sign-off, remaining production responses, Podcaster execution, accessibility review, and refreshed visual acceptance also remain pending. Dynamic topic creation and repository-page creation must be approved separately. Current delivered-versus-pending status is tracked in the [relaunch status of record](../review/data-observatory-relaunch/status-of-record.md).
 
 ---
 
@@ -324,7 +324,7 @@ Aligned to the SEO analysis phasing; final sequencing is a delivery decision.
 Resolved in elicitation (2026-07-29):
 
 - ✅ Sponsor and approval authority: **jmservera** (human approval authority).
-- Analytics measurement stack: **GA4 + GSC selected**; property state and numeric baseline remain pending external evidence.
+- ✅ Analytics measurement stack and connection: **GA4 + GSC selected and connected**; the numeric baseline and production consent observations remain pending.
 - ✅ Wave 1 topic hubs: AI Coding Agents, MCP Ecosystem, Open-Source LLMs, Developer Tools, plus one vertical (e.g., AI Agents in Healthcare) — kept **trend-aligned and dynamic** (BR-004).
 - ✅ Dataset licensing: **MIT**, cite all references (BR-050).
 - ✅ Free tool: **client-side-only**, specific tool chosen via design spike (BR-052).
@@ -338,5 +338,5 @@ Still open:
 
 1. Quantify **incremental generation cost/time** for hubs, data, and repository pages.
 2. Record Hermes security sign-off and disposition of open review findings.
-3. Capture GA4, GSC, production, Podcaster, accessibility, and visual acceptance evidence.
+3. Capture the GA4/GSC dated baseline, production consent observations, remaining production responses, Podcaster, accessibility, and visual acceptance evidence.
 4. Obtain separate sponsor approval before enabling dynamic topic creation or repository-page creation.

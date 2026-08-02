@@ -25,7 +25,7 @@ Research shows that the repository implementation is ahead of the acceptance rec
 * [x] Push the active PR branch
 * [x] Resolve both addressed PR #647 review threads
 
-### [x] Phase 2: Reconcile GA4/GSC Evidence
+### [ ] Phase 2: Reconcile GA4/GSC Evidence
 
 <!-- parallelizable: true -->
 
@@ -71,6 +71,6 @@ Research shows that the repository implementation is ahead of the acceptance rec
 ## Success Criteria
 
 * Review corrections are published and review threads resolved.
-* Repository records accurately separate deployed GA4 wiring from missing external GA4/GSC evidence.
+* Repository records accurately separate the completed GA4/GSC connection from pending baseline and production consent evidence.
 * Every acceptance gate has current evidence, a concrete owner action, and no unsupported completion claim.
 * Rollout and cost work is implementation-ready while both flags remain disabled.

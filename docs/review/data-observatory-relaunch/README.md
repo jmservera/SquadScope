@@ -18,8 +18,9 @@ Repository implementation evidence is available, but relaunch acceptance is inco
 Dynamic topic creation and repository-page creation remain disabled in
 `config/observatory.toml`. This index does not authorize either rollout.
 
-External platform, production, cross-repository run, security sign-off, accessibility
-review, and visual acceptance evidence remain pending as listed below.
+External baseline and consent, remaining production responses, cross-repository run,
+security sign-off, accessibility review, and visual acceptance evidence remain pending
+as listed below. The GA4/GSC connection itself is complete.
 
 The [owner action register](owner-action-register.md) sequences the remaining human and
 protected-environment work without treating repository automation as approval evidence.

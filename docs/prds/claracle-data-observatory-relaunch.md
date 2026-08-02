@@ -2,7 +2,7 @@
 title: Claracle Data Observatory Relaunch Product Requirements Document
 description: Product requirements, delivery state, rollout controls, risks, and acceptance gates for the Claracle Data Observatory relaunch
 author: SquadScope Squad
-ms.date: 2026-07-31
+ms.date: 2026-08-02
 ms.topic: reference
 ---
 <!-- markdownlint-disable-file -->
@@ -18,12 +18,12 @@ Version 1.3 | Status Acceptance pending | Owner jmservera | Team SquadScope Squa
 | Requirements | Yes | Incremental generation cost still to quantify | 2026-07-30 |
 | Metrics & Risks | Yes | None | 2026-07-29 |
 | Operationalization | Yes | Star Velocity Explorer selected; production evidence pending | 2026-07-30 |
-| Finalization | No | Security, external platform, Podcaster, accessibility, visual, and sponsor gates remain open | 2026-07-30 |
-Unresolved launch gates: 6 | TBDs: 1 (incremental generation cost)
+| Finalization | No | Security, baseline and consent, Podcaster, accessibility, visual, and sponsor gates remain open | 2026-08-02 |
+Unresolved launch gates: See the launch-gate register | TBDs: 1 (incremental generation cost)
 
 ## Acceptance Status
 
-Repository implementation is present, but GA acceptance is pending. Hermes has not signed NFR-004; GA4/GSC, production responses, external schema and social debuggers, a downstream Podcaster run, accessibility review, and refreshed visual evidence are not recorded. `dynamic_topic_creation` and `repo_pages` remain off and require separate sponsor-approved rollout changes. Delivered-versus-pending status and the launch-gate register are tracked in the [relaunch status of record](../review/data-observatory-relaunch/status-of-record.md).
+Repository implementation is present, and the GA4/GSC connection is complete by owner confirmation. Dated baseline values and production consent observations remain pending. Hermes has not signed NFR-004; remaining production responses, external schema and social debuggers, a downstream Podcaster run, accessibility review, and refreshed visual evidence are not recorded. `dynamic_topic_creation` and `repo_pages` remain off and require separate sponsor-approved rollout changes. Delivered-versus-pending status and the launch-gate register are tracked in the [relaunch status of record](../review/data-observatory-relaunch/status-of-record.md).
 
 Derived from: `docs/brds/claracle-data-observatory-relaunch-brd.md` (BRD-CLARACLE-002, v1.2).
 
@@ -208,7 +208,7 @@ Generated Hugo content: topic hubs (taxonomy terms), data pages, repository page
 | `generate_content.py` | Internal code | High | Farnsworth | Regression on frontmatter | Add `topics` behind tests (FR-002) |
 | Hugo `topic` taxonomy + `layouts/topics` | Platform | High | Amy | Layout gaps | Extend existing templates |
 | SEO partials (`opengraph`, `twitter_cards`, `schema_json`) | Platform | Medium | Amy | Incomplete tags | Close catalogued gaps (FR-032/033) |
-| GA4 + GSC | External | High | jmservera | Access/verification | Verify property early (FR-035) |
+| GA4 + GSC | External | High | jmservera | Baseline and consent evidence | Capture dated values and production consent observations (FR-035, NFR-007/008) |
 | Podcaster handoff contract | Cross-repo | High | URL/Hermes | Contract break | Keep payload unchanged; smoke test |
 | Client-side charting/tool library | External | Medium | Amy | Static-hosting fit | Design spike (FR-051/052) |
 
