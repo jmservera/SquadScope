@@ -17,20 +17,25 @@ async function interceptGoogleEndpoints(page) {
       contentType: 'application/javascript',
       body: `
         window.SquadScopeGA4TestStubLoaded = true;
-        window.gtag = function () {
-          window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push(arguments);
-          if (arguments[0] === 'event') {
-            var params = new URLSearchParams({ en: arguments[1] });
-            Object.keys(arguments[2] || {}).forEach(function (key) {
-              params.set('ep.' + key, arguments[2][key]);
+        function sendEvent(args) {
+          if (args[0] === 'event') {
+            var params = new URLSearchParams({ en: args[1] });
+            Object.keys(args[2] || {}).forEach(function (key) {
+              params.set('ep.' + key, args[2][key]);
             });
             fetch('https://www.google-analytics.com/g/collect?' + params, {
               mode: 'no-cors',
               keepalive: true
             });
           }
+        }
+        var queuedEntries = (window.dataLayer || []).slice();
+        window.gtag = function () {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push(arguments);
+          sendEvent(arguments);
         };
+        queuedEntries.forEach(sendEvent);
       `,
     });
   });
