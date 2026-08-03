@@ -91,7 +91,7 @@ traceability need rework because readiness claims exceed retained acceptance evi
 * `python3 -m pytest -q tests/test_internal_link_checker.py tests/test_embed_sources.py`: passed, 10 tests
 * `git diff --check`: passed
 * Editor diagnostics: no errors in reviewed tracking artifacts
-* PR #647: merged; 16 reported checks successful, including Python, Production site, Ruff, CodeQL, Checkov, Bandit, and Zizmor
+* PR #647: merged; 13 reported checks successful, including Python, Production site, Ruff, CodeQL, Checkov, Bandit, and Zizmor
 * Issues #594, #622, and #626: verified OPEN
 * Issue #644: verified CLOSED with only the automated triage comment
 * Local `hugo --minify`: not rerun because Hugo is unavailable; merged Production site check passed

@@ -77,6 +77,6 @@ evidence is not reconciled at the owning plan.
 * `python3 -m pytest -q tests/test_internal_link_checker.py tests/test_embed_sources.py`: 10 passed
 * `git diff --check`: passed
 * Editor diagnostics: no errors in reviewed tracking artifacts
-* PR #647: merged as `2fdcb0962dad770832b7b6ee4b6807b3b9c721c7`; 16 reported checks successful
+* PR #647: merged as `2fdcb0962dad770832b7b6ee4b6807b3b9c721c7`; 13 reported checks successful
 * Issues #594, #622, and #626: OPEN
 * Issue #644: CLOSED with only the automated triage comment
