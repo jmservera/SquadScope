@@ -33,7 +33,7 @@ Reconciled on 2026-08-02. Release acceptance remains **pending** per the
 | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------------------------- |
 | [2026-07-29 remediation](../../../.copilot-tracking/plans/2026-07-29/claracle-data-observatory-relaunch-remediation-plan.instructions.md) | Core relaunch build (Phases 1-10)        | Phases 1-6, 8 done; 7, 9, 10 open |
 | [2026-07-30 review remediation](../../../.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md) | Post-review corrections (Phases 1-8)     | Phases 1-5 done; 6-8 open     |
-| [2026-07-31 deploy hydration](../../../.copilot-tracking/plans/2026-07-31/claracle-deploy-hydration-remediation-plan.instructions.md) | Deploy/hydration incident (Phases 1-5)   | Phases 1-3 done; 4 partial; 5.3 open |
+| [2026-07-31 deploy hydration](../../../.copilot-tracking/plans/2026-07-31/claracle-deploy-hydration-remediation-plan.instructions.md) | Deploy/hydration incident (Phases 1-5)   | Phases 1-4 done; 5.3 open     |
 
 ## Delivered since the plans were written
 
@@ -43,6 +43,7 @@ Reconciled on 2026-08-02. Release acceptance remains **pending** per the
 | Publish commit stages only existing generated paths | `#634`                                                   | NFR-011, provenance        |
 | Safe hydration guard generalized; `content/data` deploy restored | `#633` → `#637`                                 | NFR-011, NFR-012, R-08     |
 | Embed `source_page` validation before build (CI guard) | `scripts/check_embed_sources.py`, `tests/test_embed_sources.py`, wired in `ci.yml` (`#641`) | NFR-012 |
+| CI reproduces the deploy publish-hydration and validates the promotion record | `scripts/publish_hydration.py`, `tests/test_publish_hydration.py`, `publish-hydration-parity` job in `ci.yml` | NFR-011 |
 | Embeddable-charts demo linked from the data landing page | `#642`                                            | FR-052                     |
 | Podcaster smoke: API key passed to reusable workflow | `#636`                                                 | NFR-002                    |
 | Podcaster smoke: tooling checked out from default branch | `#639` → `#643`                                    | NFR-002, R-04              |
@@ -59,7 +60,7 @@ Reconciled on 2026-08-02. Release acceptance remains **pending** per the
 | Atomic publish transaction              | Partial   | Implementation shipped in 2026-07-29 Phase 4 and restore integrity was hardened by `#640`/`#646`; normal-run, identical-rerun, injected-failure, unchanged-branch, and hydrated-tree acceptance proof remains open in 2026-07-30 Step 6.1 |
 | SEO / rendered link contracts           | Done      | 2026-07-29 Phase 5                                                                |
 | Consent-gated analytics API             | Done      | 2026-07-29 Phase 6                                                                |
-| Deploy / hydration parity + CI guard    | Partial   | Deploy hydration is restored (`#628`/`#632`/`#634`/`#637`) and the `#641` CI guard satisfies NFR-012 reference integrity; CI does not yet reproduce publish hydration as required by NFR-011 |
+| Deploy / hydration parity + CI guard    | Done      | Deploy hydration is restored (`#628`/`#632`/`#634`/`#637`); the `#641` guard satisfies NFR-012 reference integrity; the `publish-hydration-parity` CI job reproduces the deploy publish-hydration and validates the promotion record (`scripts/publish_hydration.py`) for NFR-011 |
 | Podcaster release smoke (dry-run gate)  | Done      | Blocking post-deploy gate green (`#636`/`#639`/`#643`/`#645`)                    |
 | FR-041 internal link checking           | Partial   | Satisfied at test level (`tests/test_internal_link_checker.py`); no standalone CI link tool |
 | Hugo/Pagefind timing separation         | Done      | CI records separate report-only Hugo and Pagefind durations; Q-01 workload attribution remains pending |
