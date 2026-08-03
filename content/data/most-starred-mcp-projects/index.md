@@ -1,17 +1,17 @@
 +++
-title = "Most-starred MCP projects as of 2026-W31"
-date = "2026-07-27T03:52:10Z"
-lastmod = "2026-07-27T03:52:10Z"
+title = "Most-starred MCP projects as of 2026-W32"
+date = "2026-08-03T03:41:45Z"
+lastmod = "2026-08-03T03:41:45Z"
 draft = false
-summary = "Top 72 MCP-related repositories ranked by latest checked-in stars."
-description = "Model Context Protocol projects ranked by latest observed GitHub stars from Claracle raw artifacts as of 2026-W31."
+summary = "Top 78 MCP-related repositories ranked by latest checked-in stars."
+description = "Model Context Protocol projects ranked by latest observed GitHub stars from Claracle raw artifacts as of 2026-W32."
 layout = "single"
 ranking_id = "most-starred-mcp-projects"
 metric_definition = "Latest absolute GitHub stars for repositories with MCP or Model Context Protocol signals."
-as_of = "2026-07-27"
-as_of_week = "2026-W31"
+as_of = "2026-08-03"
+as_of_week = "2026-W32"
 methodology_url = "/methodology/"
-source = "data/archive/recovered-W23-W29/2026-W23/2026-W23.json through data/raw/2026-W31.json (11 weekly raw artifacts)"
+source = "data/archive/recovered-W23-W29/2026-W23/2026-W23.json through data/raw/2026-W32.json (12 weekly raw artifacts)"
 cadence = "Monthly regeneration from checked-in data/raw and recovered archive artifacts."
 categories = ["Data Observatory"]
 tags = ["data-pages", "github-trends", "rankings"]
@@ -24,12 +24,12 @@ repo = "affaan-m/ECC"
 repo_key = "affaan-m/ecc"
 repo_slug = "affaan-m-ecc"
 url = "https://github.com/affaan-m/ECC"
-metric_value = 233714
-metric_label = "233,714 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; JavaScript."
+metric_value = 237110
+metric_label = "237,110 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; JavaScript."
 language = "JavaScript"
-latest_stars = 233714
-last_seen_week = "2026-W31"
+latest_stars = 237110
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 2
@@ -37,12 +37,12 @@ repo = "n8n-io/n8n"
 repo_key = "n8n-io/n8n"
 repo_slug = "n8n-io-n8n"
 url = "https://github.com/n8n-io/n8n"
-metric_value = 198137
-metric_label = "198,137 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; TypeScript."
+metric_value = 199107
+metric_label = "199,107 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; TypeScript."
 language = "TypeScript"
-latest_stars = 198137
-last_seen_week = "2026-W31"
+latest_stars = 199107
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 3
@@ -63,12 +63,12 @@ repo = "Snailclimb/JavaGuide"
 repo_key = "snailclimb/javaguide"
 repo_slug = "snailclimb-javaguide"
 url = "https://github.com/Snailclimb/JavaGuide"
-metric_value = 157321
-metric_label = "157,321 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; JavaScript."
+metric_value = 157481
+metric_label = "157,481 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; JavaScript."
 language = "JavaScript"
-latest_stars = 157321
-last_seen_week = "2026-W31"
+latest_stars = 157481
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 5
@@ -76,12 +76,12 @@ repo = "langgenius/dify"
 repo_key = "langgenius/dify"
 repo_slug = "langgenius-dify"
 url = "https://github.com/langgenius/dify"
-metric_value = 150345
-metric_label = "150,345 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; TypeScript."
+metric_value = 151124
+metric_label = "151,124 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; TypeScript."
 language = "TypeScript"
-latest_stars = 150345
-last_seen_week = "2026-W31"
+latest_stars = 151124
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 6
@@ -89,12 +89,12 @@ repo = "open-webui/open-webui"
 repo_key = "open-webui/open-webui"
 repo_slug = "open-webui-open-webui"
 url = "https://github.com/open-webui/open-webui"
-metric_value = 146851
-metric_label = "146,851 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; Python."
+metric_value = 147657
+metric_label = "147,657 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; Python."
 language = "Python"
-latest_stars = 146851
-last_seen_week = "2026-W31"
+latest_stars = 147657
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 7
@@ -102,12 +102,12 @@ repo = "farion1231/cc-switch"
 repo_key = "farion1231/cc-switch"
 repo_slug = "farion1231-cc-switch"
 url = "https://github.com/farion1231/cc-switch"
-metric_value = 121450
-metric_label = "121,450 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; Rust."
+metric_value = 123661
+metric_label = "123,661 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; Rust."
 language = "Rust"
-latest_stars = 121450
-last_seen_week = "2026-W31"
+latest_stars = 123661
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 8
@@ -115,12 +115,12 @@ repo = "Graphify-Labs/graphify"
 repo_key = "graphify-labs/graphify"
 repo_slug = "graphify-labs-graphify"
 url = "https://github.com/Graphify-Labs/graphify"
-metric_value = 96560
-metric_label = "96,560 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; Python."
+metric_value = 101174
+metric_label = "101,174 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; Python."
 language = "Python"
-latest_stars = 96560
-last_seen_week = "2026-W31"
+latest_stars = 101174
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 9
@@ -128,12 +128,12 @@ repo = "punkpeye/awesome-mcp-servers"
 repo_key = "punkpeye/awesome-mcp-servers"
 repo_slug = "punkpeye-awesome-mcp-servers"
 url = "https://github.com/punkpeye/awesome-mcp-servers"
-metric_value = 91434
-metric_label = "91,434 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; Unknown."
+metric_value = 91743
+metric_label = "91,743 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; Unknown."
 language = "Unknown"
-latest_stars = 91434
-last_seen_week = "2026-W31"
+latest_stars = 91743
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 10
@@ -141,12 +141,12 @@ repo = "modelcontextprotocol/servers"
 repo_key = "modelcontextprotocol/servers"
 repo_slug = "modelcontextprotocol-servers"
 url = "https://github.com/modelcontextprotocol/servers"
-metric_value = 88925
-metric_label = "88,925 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; TypeScript."
+metric_value = 89142
+metric_label = "89,142 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; TypeScript."
 language = "TypeScript"
-latest_stars = 88925
-last_seen_week = "2026-W31"
+latest_stars = 89142
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 11
@@ -154,12 +154,12 @@ repo = "lobehub/lobehub"
 repo_key = "lobehub/lobehub"
 repo_slug = "lobehub-lobehub"
 url = "https://github.com/lobehub/lobehub"
-metric_value = 80838
-metric_label = "80,838 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; TypeScript."
+metric_value = 81134
+metric_label = "81,134 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; TypeScript."
 language = "TypeScript"
-latest_stars = 80838
-last_seen_week = "2026-W31"
+latest_stars = 81134
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 12
@@ -167,12 +167,12 @@ repo = "netdata/netdata"
 repo_key = "netdata/netdata"
 repo_slug = "netdata-netdata"
 url = "https://github.com/netdata/netdata"
-metric_value = 79863
-metric_label = "79,863 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; Go."
+metric_value = 79994
+metric_label = "79,994 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; Go."
 language = "Go"
-latest_stars = 79863
-last_seen_week = "2026-W31"
+latest_stars = 79994
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 13
@@ -180,12 +180,12 @@ repo = "koala73/worldmonitor"
 repo_key = "koala73/worldmonitor"
 repo_slug = "koala73-worldmonitor"
 url = "https://github.com/koala73/worldmonitor"
-metric_value = 74893
-metric_label = "74,893 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; TypeScript."
+metric_value = 78201
+metric_label = "78,201 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; TypeScript."
 language = "TypeScript"
-latest_stars = 74893
-last_seen_week = "2026-W31"
+latest_stars = 78201
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 14
@@ -193,12 +193,12 @@ repo = "D4Vinci/Scrapling"
 repo_key = "d4vinci/scrapling"
 repo_slug = "d4vinci-scrapling"
 url = "https://github.com/D4Vinci/Scrapling"
-metric_value = 71360
-metric_label = "71,360 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; Python."
+metric_value = 72238
+metric_label = "72,238 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; Python."
 language = "Python"
-latest_stars = 71360
-last_seen_week = "2026-W31"
+latest_stars = 72238
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 15
@@ -219,12 +219,12 @@ repo = "headroomlabs-ai/headroom"
 repo_key = "headroomlabs-ai/headroom"
 repo_slug = "headroomlabs-ai-headroom"
 url = "https://github.com/headroomlabs-ai/headroom"
-metric_value = 62632
-metric_label = "62,632 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; Python."
+metric_value = 64115
+metric_label = "64,115 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; Python."
 language = "Python"
-latest_stars = 62632
-last_seen_week = "2026-W31"
+latest_stars = 64115
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 17
@@ -245,15 +245,28 @@ repo = "upstash/context7"
 repo_key = "upstash/context7"
 repo_slug = "upstash-context7"
 url = "https://github.com/upstash/context7"
-metric_value = 59801
-metric_label = "59,801 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; TypeScript."
+metric_value = 60170
+metric_label = "60,170 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; TypeScript."
 language = "TypeScript"
-latest_stars = 59801
-last_seen_week = "2026-W31"
+latest_stars = 60170
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 19
+repo = "MemPalace/mempalace"
+repo_key = "mempalace/mempalace"
+repo_slug = "mempalace-mempalace"
+url = "https://github.com/MemPalace/mempalace"
+metric_value = 57995
+metric_label = "57,995 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; Python."
+language = "Python"
+latest_stars = 57995
+last_seen_week = "2026-W32"
+
+[[ranking]]
+rank = 20
 repo = "sansan0/TrendRadar"
 repo_key = "sansan0/trendradar"
 repo_slug = "sansan0-trendradar"
@@ -266,30 +279,17 @@ latest_stars = 57787
 last_seen_week = "2026-W21"
 
 [[ranking]]
-rank = 20
-repo = "MemPalace/mempalace"
-repo_key = "mempalace/mempalace"
-repo_slug = "mempalace-mempalace"
-url = "https://github.com/MemPalace/mempalace"
-metric_value = 57774
-metric_label = "57,774 stars"
-context = "Matched MCP signal; latest observed in 2026-W31; Python."
-language = "Python"
-latest_stars = 57774
-last_seen_week = "2026-W31"
-
-[[ranking]]
 rank = 21
 repo = "zylon-ai/private-gpt"
 repo_key = "zylon-ai/private-gpt"
 repo_slug = "zylon-ai-private-gpt"
 url = "https://github.com/zylon-ai/private-gpt"
-metric_value = 57342
-metric_label = "57,342 stars"
-context = "Matched MCP signal; latest observed in 2026-W30; Python."
+metric_value = 57396
+metric_label = "57,396 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; Python."
 language = "Python"
-latest_stars = 57342
-last_seen_week = "2026-W30"
+latest_stars = 57396
+last_seen_week = "2026-W32"
 
 [[ranking]]
 rank = 22
@@ -579,6 +579,19 @@ last_seen_week = "2026-W29"
 
 [[ranking]]
 rank = 44
+repo = "opentokenz/mcpx"
+repo_key = "opentokenz/mcpx"
+repo_slug = "opentokenz-mcpx"
+url = "https://github.com/opentokenz/mcpx"
+metric_value = 132
+metric_label = "132 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; Go."
+language = "Go"
+latest_stars = 132
+last_seen_week = "2026-W32"
+
+[[ranking]]
+rank = 45
 repo = "PentHertz/grimoire"
 repo_key = "penthertz/grimoire"
 repo_slug = "penthertz-grimoire"
@@ -591,7 +604,7 @@ latest_stars = 132
 last_seen_week = "2026-W25"
 
 [[ranking]]
-rank = 45
+rank = 46
 repo = "kitforai/kitforai"
 repo_key = "kitforai/kitforai"
 repo_slug = "kitforai-kitforai"
@@ -604,7 +617,20 @@ latest_stars = 131
 last_seen_week = "2026-W29"
 
 [[ranking]]
-rank = 46
+rank = 47
+repo = "qa10devteam/behive"
+repo_key = "qa10devteam/behive"
+repo_slug = "qa10devteam-behive"
+url = "https://github.com/qa10devteam/behive"
+metric_value = 127
+metric_label = "127 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; Python."
+language = "Python"
+latest_stars = 127
+last_seen_week = "2026-W32"
+
+[[ranking]]
+rank = 48
 repo = "PlaceNL2026/okx-agent-trade-kit"
 repo_key = "placenl2026/okx-agent-trade-kit"
 repo_slug = "placenl2026-okx-agent-trade-kit"
@@ -617,7 +643,7 @@ latest_stars = 126
 last_seen_week = "2026-W21"
 
 [[ranking]]
-rank = 47
+rank = 49
 repo = "nhevers/project-r0x"
 repo_key = "nhevers/project-r0x"
 repo_slug = "nhevers-project-r0x"
@@ -630,7 +656,7 @@ latest_stars = 124
 last_seen_week = "2026-W29"
 
 [[ranking]]
-rank = 48
+rank = 50
 repo = "Manavarya09/public-apis-live"
 repo_key = "manavarya09/public-apis-live"
 repo_slug = "manavarya09-public-apis-live"
@@ -643,7 +669,7 @@ latest_stars = 118
 last_seen_week = "2026-W26"
 
 [[ranking]]
-rank = 49
+rank = 51
 repo = "claude-code-ai-anthropic/free-claude-code-ai-desktop-app"
 repo_key = "claude-code-ai-anthropic/free-claude-code-ai-desktop-app"
 repo_slug = "claude-code-ai-anthropic-free-claude-code-ai-desktop-app"
@@ -656,7 +682,7 @@ latest_stars = 113
 last_seen_week = "2026-W25"
 
 [[ranking]]
-rank = 50
+rank = 52
 repo = "cporter202/coreclaw-api-directory"
 repo_key = "cporter202/coreclaw-api-directory"
 repo_slug = "cporter202-coreclaw-api-directory"
@@ -669,7 +695,7 @@ latest_stars = 104
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 51
+rank = 53
 repo = "Aimino-Tech/opendocswork-mcp"
 repo_key = "aimino-tech/opendocswork-mcp"
 repo_slug = "aimino-tech-opendocswork-mcp"
@@ -682,7 +708,7 @@ latest_stars = 102
 last_seen_week = "2026-W23"
 
 [[ranking]]
-rank = 52
+rank = 54
 repo = "michaelshimeles/boring-computers"
 repo_key = "michaelshimeles/boring-computers"
 repo_slug = "michaelshimeles-boring-computers"
@@ -695,7 +721,7 @@ latest_stars = 93
 last_seen_week = "2026-W28"
 
 [[ranking]]
-rank = 53
+rank = 55
 repo = "ruvnet/agent-harness-generator"
 repo_key = "ruvnet/agent-harness-generator"
 repo_slug = "ruvnet-agent-harness-generator"
@@ -708,7 +734,7 @@ latest_stars = 93
 last_seen_week = "2026-W25"
 
 [[ranking]]
-rank = 54
+rank = 56
 repo = "dabberman456/finance-mcp-app"
 repo_key = "dabberman456/finance-mcp-app"
 repo_slug = "dabberman456-finance-mcp-app"
@@ -721,7 +747,7 @@ latest_stars = 91
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 55
+rank = 57
 repo = "JesusRS1/stock-trade-finance-api"
 repo_key = "jesusrs1/stock-trade-finance-api"
 repo_slug = "jesusrs1-stock-trade-finance-api"
@@ -734,7 +760,7 @@ latest_stars = 91
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 56
+rank = 58
 repo = "yc-duan/fastctx"
 repo_key = "yc-duan/fastctx"
 repo_slug = "yc-duan-fastctx"
@@ -747,7 +773,7 @@ latest_stars = 90
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 57
+rank = 59
 repo = "icebird1998/scientific-illustrator"
 repo_key = "icebird1998/scientific-illustrator"
 repo_slug = "icebird1998-scientific-illustrator"
@@ -760,7 +786,7 @@ latest_stars = 87
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 58
+rank = 60
 repo = "marketcaper/mcp"
 repo_key = "marketcaper/mcp"
 repo_slug = "marketcaper-mcp"
@@ -773,7 +799,20 @@ latest_stars = 87
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 59
+rank = 61
+repo = "alxgntv/substack-api-mcp"
+repo_key = "alxgntv/substack-api-mcp"
+repo_slug = "alxgntv-substack-api-mcp"
+url = "https://github.com/alxgntv/substack-api-mcp"
+metric_value = 80
+metric_label = "80 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; Python."
+language = "Python"
+latest_stars = 80
+last_seen_week = "2026-W32"
+
+[[ranking]]
+rank = 62
 repo = "dikurdikur/palmier-pro-windows"
 repo_key = "dikurdikur/palmier-pro-windows"
 repo_slug = "dikurdikur-palmier-pro-windows"
@@ -786,7 +825,7 @@ latest_stars = 79
 last_seen_week = "2026-W26"
 
 [[ranking]]
-rank = 60
+rank = 63
 repo = "PerfectXM/mcp-db-server"
 repo_key = "perfectxm/mcp-db-server"
 repo_slug = "perfectxm-mcp-db-server"
@@ -799,7 +838,20 @@ latest_stars = 77
 last_seen_week = "2026-W26"
 
 [[ranking]]
-rank = 61
+rank = 64
+repo = "bybit-exchange/kaas"
+repo_key = "bybit-exchange/kaas"
+repo_slug = "bybit-exchange-kaas"
+url = "https://github.com/bybit-exchange/kaas"
+metric_value = 76
+metric_label = "76 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; Python."
+language = "Python"
+latest_stars = 76
+last_seen_week = "2026-W32"
+
+[[ranking]]
+rank = 65
 repo = "simonlin1212/Vibe-Research"
 repo_key = "simonlin1212/vibe-research"
 repo_slug = "simonlin1212-vibe-research"
@@ -812,7 +864,20 @@ latest_stars = 76
 last_seen_week = "2026-W28"
 
 [[ranking]]
-rank = 62
+rank = 66
+repo = "talivia-group/agent"
+repo_key = "talivia-group/agent"
+repo_slug = "talivia-group-agent"
+url = "https://github.com/talivia-group/agent"
+metric_value = 71
+metric_label = "71 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; JavaScript."
+language = "JavaScript"
+latest_stars = 71
+last_seen_week = "2026-W32"
+
+[[ranking]]
+rank = 67
 repo = "MegaTroll222/VOX-COLLAGE-BROLL"
 repo_key = "megatroll222/vox-collage-broll"
 repo_slug = "megatroll222-vox-collage-broll"
@@ -825,7 +890,7 @@ latest_stars = 70
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 63
+rank = 68
 repo = "HuolalaTech/huolala-figma-mcp"
 repo_key = "huolalatech/huolala-figma-mcp"
 repo_slug = "huolalatech-huolala-figma-mcp"
@@ -838,7 +903,7 @@ latest_stars = 68
 last_seen_week = "2026-W25"
 
 [[ranking]]
-rank = 64
+rank = 69
 repo = "tonnode/mcp"
 repo_key = "tonnode/mcp"
 repo_slug = "tonnode-mcp"
@@ -851,7 +916,7 @@ latest_stars = 66
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 65
+rank = 70
 repo = "mintdotgg/mint-threejs-skills"
 repo_key = "mintdotgg/mint-threejs-skills"
 repo_slug = "mintdotgg-mint-threejs-skills"
@@ -864,7 +929,7 @@ latest_stars = 65
 last_seen_week = "2026-W29"
 
 [[ranking]]
-rank = 66
+rank = 71
 repo = "wassermanproductions/wassermans-filmmaker-suite"
 repo_key = "wassermanproductions/wassermans-filmmaker-suite"
 repo_slug = "wassermanproductions-wassermans-filmmaker-suite"
@@ -877,7 +942,7 @@ latest_stars = 65
 last_seen_week = "2026-W29"
 
 [[ranking]]
-rank = 67
+rank = 72
 repo = "nextdev-labs/mcp"
 repo_key = "nextdev-labs/mcp"
 repo_slug = "nextdev-labs-mcp"
@@ -890,7 +955,7 @@ latest_stars = 62
 last_seen_week = "2026-W24"
 
 [[ranking]]
-rank = 68
+rank = 73
 repo = "zmustafa/AzureSupportAgent"
 repo_key = "zmustafa/azuresupportagent"
 repo_slug = "zmustafa-azuresupportagent"
@@ -903,7 +968,7 @@ latest_stars = 61
 last_seen_week = "2026-W25"
 
 [[ranking]]
-rank = 69
+rank = 74
 repo = "coleam00/helpline"
 repo_key = "coleam00/helpline"
 repo_slug = "coleam00-helpline"
@@ -916,7 +981,7 @@ latest_stars = 59
 last_seen_week = "2026-W22"
 
 [[ranking]]
-rank = 70
+rank = 75
 repo = "sm18lr88/STT-MCP"
 repo_key = "sm18lr88/stt-mcp"
 repo_slug = "sm18lr88-stt-mcp"
@@ -929,7 +994,7 @@ latest_stars = 56
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 71
+rank = 76
 repo = "vixues/LeAgent"
 repo_key = "vixues/leagent"
 repo_slug = "vixues-leagent"
@@ -942,7 +1007,7 @@ latest_stars = 53
 last_seen_week = "2026-W22"
 
 [[ranking]]
-rank = 72
+rank = 77
 repo = "robzilla1738/Codex-Workflows"
 repo_key = "robzilla1738/codex-workflows"
 repo_slug = "robzilla1738-codex-workflows"
@@ -953,8 +1018,21 @@ context = "Matched MCP signal; latest observed in 2026-W24; TypeScript."
 language = "TypeScript"
 latest_stars = 52
 last_seen_week = "2026-W24"
+
+[[ranking]]
+rank = 78
+repo = "ryan-phq2005h1/github-mcp-server"
+repo_key = "ryan-phq2005h1/github-mcp-server"
+repo_slug = "ryan-phq2005h1-github-mcp-server"
+url = "https://github.com/ryan-phq2005h1/github-mcp-server"
+metric_value = 51
+metric_label = "51 stars"
+context = "Matched MCP signal; latest observed in 2026-W32; Python."
+language = "Python"
+latest_stars = 51
+last_seen_week = "2026-W32"
 +++
 
-Top 72 MCP-related repositories ranked by latest checked-in stars.
+Top 78 MCP-related repositories ranked by latest checked-in stars.
 
 This page is generated from checked-in Claracle artifacts. It does not perform a fresh crawl and can be regenerated with `python3 scripts/generate_data_pages.py`.
