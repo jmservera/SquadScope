@@ -54,7 +54,7 @@ Triage the live deploy failure, reconcile the three relaunch plans and the PRD/B
 
 <!-- parallelizable: false -->
 
-* [x] Step 1.1: Diagnose deploy run 30718600607 and classify the failure — dangling `source_manifest.path` (`data/candidates/2026-W31/30669054860/publish-manifest.json`) broke the Podcaster smoke gate (class b/dangling reference)
+* [x] Step 1.1: Diagnose deploy run 30718600607 and classify the failure — publish hydration omitted the promoted `source_manifest.path` (`data/candidates/2026-W31/30669054860/publish-manifest.json`), breaking the Podcaster smoke gate (class c/publish-main hydration divergence)
   * Details: .copilot-tracking/details/2026-08-02/claracle-relaunch-readiness-reconciliation-details.md (Lines 12-30)
 * [x] Step 1.2: Apply or plan the fix and confirm a green deploy — resolved by already-merged `#645`/`#646`; deploy-site green since 2026-08-01 (runs 30720064394, 30721575540)
   * Details: .copilot-tracking/details/2026-08-02/claracle-relaunch-readiness-reconciliation-details.md (Lines 31-43)
@@ -64,9 +64,9 @@ Triage the live deploy failure, reconcile the three relaunch plans and the PRD/B
 
 <!-- parallelizable: true -->
 
-* [x] Step 2.1: Update the 2026-07-31 deploy-hydration plan checkboxes to match shipped PRs (#628/#632/#634/#637/#641)
+* [x] Step 2.1: Update the 2026-07-31 deploy-hydration plan checkboxes to match shipped PRs (#628/#632/#634/#637/#641), retaining NFR-011 CI hydration parity as open
   * Details: .copilot-tracking/details/2026-08-02/claracle-relaunch-readiness-reconciliation-details.md (Lines 55-67)
-* [x] Step 2.2: Update the 2026-07-29 and 2026-07-30 plan checkboxes for completed Podcaster/smoke/restore work (#639/#643/#640/#646)
+* [x] Step 2.2: Update the 2026-07-29 and 2026-07-30 plan checkboxes for completed Podcaster/smoke/restore work (#639/#643/#640/#646), while keeping atomicity proof and the protected Podcaster run open
   * Details: .copilot-tracking/details/2026-08-02/claracle-relaunch-readiness-reconciliation-details.md (Lines 68-81)
 * [x] Step 2.3: Create one status-of-record reconciling delivered vs pending across all three plans, including the final dispositions of epic issues #644/#626/#622/#599/#594 — docs/review/data-observatory-relaunch/status-of-record.md
   * Details: .copilot-tracking/details/2026-08-02/claracle-relaunch-readiness-reconciliation-details.md (Lines 82-94)
@@ -95,7 +95,7 @@ Triage the live deploy failure, reconcile the three relaunch plans and the PRD/B
 
 <!-- parallelizable: false -->
 
-* [x] Step 5.1: Validate all edited docs (markdown lint, internal link/reference integrity, changelog/version consistency) — `test_internal_link_checker`/`test_embed_sources` green; referenced files verified; no stale version strings
+* [x] Step 5.1: Validate all edited docs (internal link/reference integrity, editor diagnostics, whitespace, changelog/version consistency) — `test_internal_link_checker`/`test_embed_sources` green; editor diagnostics and `git diff --check` clean; no repository Markdown lint command or configuration is available
   * Details: .copilot-tracking/details/2026-08-02/claracle-relaunch-readiness-reconciliation-details.md (Lines 182-192)
 * [x] Step 5.2: Fix minor validation issues — none required
 * [x] Step 5.3: Report blocking issues and hand off deferred plans — no blockers; #644 resolved; RI-001 resolved; PR #647 merged as `2fdcb09`; deferred plans remain in the log
@@ -108,7 +108,6 @@ See .copilot-tracking/plans/logs/2026-08-02/claracle-relaunch-readiness-reconcil
 
 * gh CLI access for #644 diagnosis and issue updates
 * Repository write access for docs/ and .copilot-tracking/ edits
-* Markdown lint tooling per .mega-linter.yml
 * Sponsor (jmservera) input for the approval artifact and gate ownership
 
 ## Success Criteria

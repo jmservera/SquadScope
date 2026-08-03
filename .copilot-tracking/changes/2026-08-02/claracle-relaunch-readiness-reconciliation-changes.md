@@ -23,13 +23,18 @@ Reconciled the Claracle relaunch plans, PRD, BRD, and issue evidence into one st
 * .copilot-tracking/research/2026-08-01/restore-consistency-640-research.md
 * .copilot-tracking/research/2026-08-02/claracle-relaunch-readiness-reconciliation-research.md
 * docs/review/data-observatory-relaunch/status-of-record.md
+* docs/review/data-observatory-relaunch/owner-action-register.md
 
 ### Modified
 
 * .copilot-tracking/plans/2026-07-29/claracle-data-observatory-relaunch-remediation-plan.instructions.md
+* .copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md
 * .copilot-tracking/plans/2026-07-31/claracle-deploy-hydration-remediation-plan.instructions.md
+* .copilot-tracking/details/2026-08-02/claracle-relaunch-readiness-reconciliation-details.md
+* .copilot-tracking/plans/2026-08-02/claracle-relaunch-readiness-reconciliation-plan.instructions.md
 * docs/brds/claracle-data-observatory-relaunch-brd.md
 * docs/prds/claracle-data-observatory-relaunch.md
+* docs/review/data-observatory-relaunch/README.md
 
 ### Removed
 
@@ -46,6 +51,15 @@ PR #647 review found that #599 and #644 were described as open after both had cl
 * Corrected stale GA4/GSC connection language in the planning log
 * Preserved `pr-reference.xml` as an immutable pre-merge diff snapshot
 
+## Review Finding Reconciliation
+
+* Recorded failed deploy run `30718600607`, the class (c) publish-hydration root cause, remediation PRs `#645`/`#646`, and subsequent green deploy evidence
+* Downgraded atomic publish acceptance to Partial until the 2026-07-30 Step 6.1 proof matrix is retained
+* Split deploy parity evidence: NFR-012 reference integrity is delivered by `#641`; NFR-011 CI publish hydration remains open
+* Added `#632` to the deploy-hydration evidence chain and recorded OPEN dispositions for `#622` and `#626`
+* Reconciled `#639`/`#643` and `#640`/`#646` in the July 30 plan without closing atomicity proof or the protected Podcaster run
+* Added the required root-cause and resolution comment to closed issue `#644`
+
 ## Validation
 
 * Focused documentation tests: 10 passed
@@ -53,6 +67,7 @@ PR #647 review found that #599 and #644 were described as open after both had cl
 * PR #647 status checks: 13 passed, 0 failed
 * Editor diagnostics: no errors in the corrected files
 * Git whitespace validation: passed
+* Markdown lint: unavailable because the repository has no Markdown lint command or configuration
 
 ## Release Summary
 

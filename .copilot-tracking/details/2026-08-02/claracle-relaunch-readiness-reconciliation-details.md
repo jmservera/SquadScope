@@ -11,7 +11,7 @@ Sources: .copilot-tracking/research/2026-08-02/claracle-relaunch-readiness-recon
 
 ### Step 1.1: Diagnose deploy run 30718600607 and classify the failure
 
-Pull the failed step logs and classify: is it (a) the 2026-W31 restore interacting with the just-merged #646 preservation, (b) a dangling embed/source_page (the #627 class), (c) a publish/main hydration divergence, or (d) unrelated content.
+Pull the failed step logs and classify: is it (a) the 2026-W31 restore interacting with the just-merged #646 preservation, (b) a dangling embed/source_page, (c) a publish/main hydration divergence such as a missing promoted manifest, or (d) unrelated content.
 
 Commands:
 * `gh run view 30718600607 --log-failed | grep -iE "error|fail|does not exist|errorf|source_page|not found" | head -40`
@@ -181,14 +181,15 @@ Dependencies:
 
 ### Step 5.1: Validate all edited docs
 
-Run markdown lint and verify internal references, version numbers, and changelog consistency across the edited docs and plans.
+Verify internal references, editor diagnostics, version numbers, changelog consistency, and whitespace across the edited docs and plans.
 
 Validation commands:
-* markdown lint per .mega-linter.yml on changed .md files
+* `python3 -m pytest -q tests/test_internal_link_checker.py tests/test_embed_sources.py`
+* `git diff --check`
 * grep for stale version/reference strings (BRD v1.0 vs v1.1; PRD version)
 
 Success criteria:
-* No lint errors; version/reference consistency verified.
+* Focused tests, editor diagnostics, and whitespace validation pass; version/reference consistency is verified. Markdown lint is reported as unavailable unless a repository command and configuration are added.
 
 ### Step 5.2: Fix minor validation issues
 
@@ -202,7 +203,7 @@ completed GA4/GSC connection work from pending baseline and consent evidence.
 
 ## Dependencies
 
-* gh CLI, repository write access, markdown lint tooling, sponsor input.
+* gh CLI, repository write access, and sponsor input.
 
 ## Success Criteria
 
