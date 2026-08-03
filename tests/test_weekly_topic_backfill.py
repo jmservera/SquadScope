@@ -21,6 +21,7 @@ EXPECTED_TOPICS = {
     "W29.md": ["AI Coding Agents", "Developer Tools"],
     "W30.md": ["AI Coding Agents", "Open-Source LLMs"],
     "W31.md": ["AI Coding Agents", "Developer Tools", "AI Agents in Healthcare"],
+    "W32.md": ["AI Coding Agents", "Developer Tools"],
 }
 
 
@@ -65,7 +66,7 @@ def test_backfill_is_idempotent_and_assigns_expected_topics(tmp_path: Path) -> N
     registry.parent.mkdir(parents=True)
     registry.write_bytes((ROOT / "data" / "taxonomy" / "topics.json").read_bytes())
 
-    assert len(backfill_weekly_topics(root=tmp_path)) == 11
+    assert len(backfill_weekly_topics(root=tmp_path)) == 12
     first_bytes = {path.name: path.read_bytes() for path in sorted(weekly_root.glob("W*.md"))}
     assert backfill_weekly_topics(root=tmp_path) == []
     assert first_bytes == {

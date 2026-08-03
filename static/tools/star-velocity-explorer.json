@@ -1,5 +1,5 @@
 {
-  "as_of_week": "2026-W31",
+  "as_of_week": "2026-W32",
   "language_filters": [
     "C",
     "C#",
@@ -24,9 +24,9 @@
       "description": "Skills for Real Engineers. Straight from my .agents directory.",
       "first_observed_stars": 90287,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 189901,
-      "observed_star_change": 99614,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 200114,
+      "observed_star_change": 109827,
       "primary_language": "Shell",
       "repository": "mattpocock/skills",
       "series": [
@@ -73,12 +73,162 @@
         {
           "stars": 189901,
           "week": "2026-W31"
+        },
+        {
+          "stars": 200114,
+          "week": "2026-W32"
         }
       ],
       "slug": "mattpocock-skills",
       "top_topics": [],
       "url": "https://github.com/mattpocock/skills",
-      "weeks_observed": 11
+      "weeks_observed": 12
+    },
+    {
+      "description": "An agentic skills framework & software development methodology that works.",
+      "first_observed_stars": 195828,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 265218,
+      "observed_star_change": 69390,
+      "primary_language": "Shell",
+      "repository": "obra/superpowers",
+      "series": [
+        {
+          "stars": 195828,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 205629,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 214384,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 221069,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 229311,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 235251,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 240826,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 247051,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 256621,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 257651,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 261658,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 265218,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "obra-superpowers",
+      "top_topics": [
+        "ai",
+        "brainstorming",
+        "coding",
+        "obra",
+        "sdlc",
+        "skills",
+        "subagent-driven-development",
+        "superpowers"
+      ],
+      "url": "https://github.com/obra/superpowers",
+      "weeks_observed": 12
+    },
+    {
+      "description": "The agent that grows with you",
+      "first_observed_stars": 155505,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 224399,
+      "observed_star_change": 68894,
+      "primary_language": "Python",
+      "repository": "NousResearch/hermes-agent",
+      "series": [
+        {
+          "stars": 155505,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 166403,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 175420,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 186822,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 194843,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 199213,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 205109,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 209788,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 216436,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 217326,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 221006,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 224399,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "nousresearch-hermes-agent",
+      "top_topics": [
+        "ai",
+        "ai-agent",
+        "ai-agents",
+        "anthropic",
+        "chatgpt",
+        "claude",
+        "claude-code",
+        "clawdbot"
+      ],
+      "url": "https://github.com/NousResearch/hermes-agent",
+      "weeks_observed": 12
     },
     {
       "description": "Self-hosted AI workspace. ",
@@ -166,150 +316,12 @@
       "weeks_observed": 5
     },
     {
-      "description": "An agentic skills framework & software development methodology that works.",
-      "first_observed_stars": 195828,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 261658,
-      "observed_star_change": 65830,
-      "primary_language": "Shell",
-      "repository": "obra/superpowers",
-      "series": [
-        {
-          "stars": 195828,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 205629,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 214384,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 221069,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 229311,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 235251,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 240826,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 247051,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 256621,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 257651,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 261658,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "obra-superpowers",
-      "top_topics": [
-        "ai",
-        "brainstorming",
-        "coding",
-        "obra",
-        "sdlc",
-        "skills",
-        "subagent-driven-development",
-        "superpowers"
-      ],
-      "url": "https://github.com/obra/superpowers",
-      "weeks_observed": 11
-    },
-    {
-      "description": "The agent that grows with you",
-      "first_observed_stars": 155505,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 221006,
-      "observed_star_change": 65501,
-      "primary_language": "Python",
-      "repository": "NousResearch/hermes-agent",
-      "series": [
-        {
-          "stars": 155505,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 166403,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 175420,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 186822,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 194843,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 199213,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 205109,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 209788,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 216436,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 217326,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 221006,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "nousresearch-hermes-agent",
-      "top_topics": [
-        "ai",
-        "ai-agent",
-        "ai-agents",
-        "anthropic",
-        "chatgpt",
-        "claude",
-        "claude-code",
-        "clawdbot"
-      ],
-      "url": "https://github.com/NousResearch/hermes-agent",
-      "weeks_observed": 11
-    },
-    {
       "description": "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Grok Build & Hermes Agent. Only official website: ccswitch.io",
       "first_observed_stars": 74044,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 121450,
-      "observed_star_change": 47406,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 123661,
+      "observed_star_change": 49617,
       "primary_language": "Rust",
       "repository": "farion1231/cc-switch",
       "series": [
@@ -356,6 +368,10 @@
         {
           "stars": 121450,
           "week": "2026-W31"
+        },
+        {
+          "stars": 123661,
+          "week": "2026-W32"
         }
       ],
       "slug": "farion1231-cc-switch",
@@ -370,15 +386,15 @@
         "open-source"
       ],
       "url": "https://github.com/farion1231/cc-switch",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
       "description": "Python tool for converting files and office documents to Markdown.",
       "first_observed_stars": 125043,
       "first_seen_week": "2026-W22",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 169250,
-      "observed_star_change": 44207,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 170908,
+      "observed_star_change": 45865,
       "primary_language": "Python",
       "repository": "microsoft/markitdown",
       "series": [
@@ -405,6 +421,10 @@
         {
           "stars": 169250,
           "week": "2026-W31"
+        },
+        {
+          "stars": 170908,
+          "week": "2026-W32"
         }
       ],
       "slug": "microsoft-markitdown",
@@ -418,15 +438,15 @@
         "pdf"
       ],
       "url": "https://github.com/microsoft/markitdown",
-      "weeks_observed": 6
+      "weeks_observed": 7
     },
     {
       "description": "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond.",
       "first_observed_stars": 191484,
       "first_seen_week": "2026-W22",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 233714,
-      "observed_star_change": 42230,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 237110,
+      "observed_star_change": 45626,
       "primary_language": "JavaScript",
       "repository": "affaan-m/ECC",
       "series": [
@@ -469,6 +489,10 @@
         {
           "stars": 233714,
           "week": "2026-W31"
+        },
+        {
+          "stars": 237110,
+          "week": "2026-W32"
         }
       ],
       "slug": "affaan-m-ecc",
@@ -483,15 +507,15 @@
         "productivity"
       ],
       "url": "https://github.com/affaan-m/ECC",
-      "weeks_observed": 10
+      "weeks_observed": 11
     },
     {
       "description": "\u5229\u7528 AI \u5927\u6a21\u578b\u548c\u81ea\u52a8\u5316\u5de5\u4f5c\u6d41\uff0c\u6839\u636e\u4e3b\u9898\u6216\u5173\u952e\u8bcd\u4e00\u952e\u751f\u6210\u9ad8\u6e05\u77ed\u89c6\u9891\u3002Generate HD short videos from a topic or keyword with an automated AI workflow.",
       "first_observed_stars": 57343,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 99435,
-      "observed_star_change": 42092,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 101233,
+      "observed_star_change": 43890,
       "primary_language": "Python",
       "repository": "harry0703/MoneyPrinterTurbo",
       "series": [
@@ -538,6 +562,10 @@
         {
           "stars": 99435,
           "week": "2026-W31"
+        },
+        {
+          "stars": 101233,
+          "week": "2026-W32"
         }
       ],
       "slug": "harry0703-moneyprinterturbo",
@@ -552,15 +580,15 @@
         "ai-video-generator"
       ],
       "url": "https://github.com/harry0703/MoneyPrinterTurbo",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
       "description": "The API to search, scrape, and interact with the web at scale. \ud83d\udd25",
       "first_observed_stars": 121183,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 156529,
-      "observed_star_change": 35346,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 159608,
+      "observed_star_change": 38425,
       "primary_language": "TypeScript",
       "repository": "firecrawl/firecrawl",
       "series": [
@@ -607,6 +635,10 @@
         {
           "stars": 156529,
           "week": "2026-W31"
+        },
+        {
+          "stars": 159608,
+          "week": "2026-W32"
         }
       ],
       "slug": "firecrawl-firecrawl",
@@ -621,7 +653,7 @@
         "html-to-markdown"
       ],
       "url": "https://github.com/firecrawl/firecrawl",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
       "description": "\ud83e\udea8 why use many token when few token do trick \u2014 Claude Code skill that cuts 65% of tokens by talking like caveman",
@@ -672,9 +704,9 @@
       "description": "\ud83c\udfa8 The open-source Claude Design alternative. \ud83d\udda5\ufe0f Local-first desktop app. \ud83d\uddbc\ufe0f Your coding agent becomes the design engine: prototypes, landing pages, dashboards, slides, images & video \u2014 real files, HTML/PDF/PPTX/MP4 export. \ud83e\udd16 Claude Code / Codex / Cursor / Gemini / OpenCode / Qwen & 20+ CLIs via BYOK.",
       "first_observed_stars": 51653,
       "first_seen_week": "2026-W22",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 81772,
-      "observed_star_change": 30119,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 83243,
+      "observed_star_change": 31590,
       "primary_language": "TypeScript",
       "repository": "nexu-io/open-design",
       "series": [
@@ -717,6 +749,10 @@
         {
           "stars": 81772,
           "week": "2026-W31"
+        },
+        {
+          "stars": 83243,
+          "week": "2026-W32"
         }
       ],
       "slug": "nexu-io-open-design",
@@ -731,63 +767,15 @@
         "design-systems"
       ],
       "url": "https://github.com/nexu-io/open-design",
-      "weeks_observed": 10
-    },
-    {
-      "description": "A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a specialized expert with personality, processes, and proven deliverables.",
-      "first_observed_stars": 108305,
-      "first_seen_week": "2026-W24",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 136923,
-      "observed_star_change": 28618,
-      "primary_language": "Shell",
-      "repository": "msitarzewski/agency-agents",
-      "series": [
-        {
-          "stars": 108305,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 113680,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 114968,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 117832,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 127598,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 132291,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 134093,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 136923,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "msitarzewski-agency-agents",
-      "top_topics": [],
-      "url": "https://github.com/msitarzewski/agency-agents",
-      "weeks_observed": 8
+      "weeks_observed": 11
     },
     {
       "description": "The open source coding agent.",
       "first_observed_stars": 161919,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 189992,
-      "observed_star_change": 28073,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 192478,
+      "observed_star_change": 30559,
       "primary_language": "TypeScript",
       "repository": "anomalyco/opencode",
       "series": [
@@ -834,11 +822,200 @@
         {
           "stars": 189992,
           "week": "2026-W31"
+        },
+        {
+          "stars": 192478,
+          "week": "2026-W32"
         }
       ],
       "slug": "anomalyco-opencode",
       "top_topics": [],
       "url": "https://github.com/anomalyco/opencode",
+      "weeks_observed": 12
+    },
+    {
+      "description": "A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a specialized expert with personality, processes, and proven deliverables.",
+      "first_observed_stars": 108305,
+      "first_seen_week": "2026-W24",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 138222,
+      "observed_star_change": 29917,
+      "primary_language": "Shell",
+      "repository": "msitarzewski/agency-agents",
+      "series": [
+        {
+          "stars": 108305,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 113680,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 114968,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 117832,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 127598,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 132291,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 134093,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 136923,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 138222,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "msitarzewski-agency-agents",
+      "top_topics": [],
+      "url": "https://github.com/msitarzewski/agency-agents",
+      "weeks_observed": 9
+    },
+    {
+      "description": "\u03c0 RuView turns commodity WiFi signals into real-time spatial intelligence, vital sign monitoring, and presence detection \u2014 all without a single pixel of video.",
+      "first_observed_stars": 59429,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 88256,
+      "observed_star_change": 28827,
+      "primary_language": "Rust",
+      "repository": "ruvnet/RuView",
+      "series": [
+        {
+          "stars": 59429,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 65622,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 69709,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 71852,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 74112,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 75000,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 75832,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 76781,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 81017,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 81292,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 86690,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 88256,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "ruvnet-ruview",
+      "top_topics": [
+        "densepose",
+        "esp32",
+        "firmware",
+        "monitoring",
+        "pose-estimation",
+        "rf",
+        "self-learning",
+        "spatial-intelligence"
+      ],
+      "url": "https://github.com/ruvnet/RuView",
+      "weeks_observed": 12
+    },
+    {
+      "description": "AI agent toolkit: unified LLM API, agent loop, TUI, coding agent CLI",
+      "first_observed_stars": 54265,
+      "first_seen_week": "2026-W22",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 82488,
+      "observed_star_change": 28223,
+      "primary_language": "TypeScript",
+      "repository": "earendil-works/pi",
+      "series": [
+        {
+          "stars": 54265,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 58465,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 60828,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 63109,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 64521,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 66287,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 67896,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 72140,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 72869,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 78257,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 82488,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "earendil-works-pi",
+      "top_topics": [],
+      "url": "https://github.com/earendil-works/pi",
       "weeks_observed": 11
     },
     {
@@ -896,73 +1073,53 @@
       "weeks_observed": 9
     },
     {
-      "description": "\u03c0 RuView turns commodity WiFi signals into real-time spatial intelligence, vital sign monitoring, and presence detection \u2014 all without a single pixel of video.",
-      "first_observed_stars": 59429,
+      "description": "A collection of DESIGN.md files analysis by popular brand design systems. Drop one into your project and let coding agents generate a matching UI.",
+      "first_observed_stars": 80584,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 86690,
-      "observed_star_change": 27261,
-      "primary_language": "Rust",
-      "repository": "ruvnet/RuView",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 106061,
+      "observed_star_change": 25477,
+      "primary_language": "Unknown",
+      "repository": "VoltAgent/awesome-design-md",
       "series": [
         {
-          "stars": 59429,
+          "stars": 80584,
           "week": "2026-W21"
         },
         {
-          "stars": 65622,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 69709,
+          "stars": 86337,
           "week": "2026-W23"
         },
         {
-          "stars": 71852,
+          "stars": 88414,
           "week": "2026-W24"
         },
         {
-          "stars": 74112,
+          "stars": 90602,
           "week": "2026-W25"
         },
         {
-          "stars": 75000,
+          "stars": 92098,
           "week": "2026-W26"
         },
         {
-          "stars": 75832,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 76781,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 81017,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 81292,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 86690,
-          "week": "2026-W31"
+          "stars": 106061,
+          "week": "2026-W32"
         }
       ],
-      "slug": "ruvnet-ruview",
+      "slug": "voltagent-awesome-design-md",
       "top_topics": [
-        "densepose",
-        "esp32",
-        "firmware",
-        "monitoring",
-        "pose-estimation",
-        "rf",
-        "self-learning",
-        "spatial-intelligence"
+        "awesome-list",
+        "design-md",
+        "design-system",
+        "design-tokens",
+        "figma",
+        "google-stitch",
+        "landing-page",
+        "vibe-coding"
       ],
-      "url": "https://github.com/ruvnet/RuView",
-      "weeks_observed": 11
+      "url": "https://github.com/VoltAgent/awesome-design-md",
+      "weeks_observed": 6
     },
     {
       "description": "Use Garry Tan's exact Claude Code setup: 23 opinionated tools that serve as CEO, Designer, Eng Manager, Release Manager, Doc Engineer, and QA",
@@ -1017,136 +1174,12 @@
       "weeks_observed": 9
     },
     {
-      "description": "AI agent toolkit: unified LLM API, agent loop, TUI, coding agent CLI",
-      "first_observed_stars": 54265,
-      "first_seen_week": "2026-W22",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 78257,
-      "observed_star_change": 23992,
-      "primary_language": "TypeScript",
-      "repository": "earendil-works/pi",
-      "series": [
-        {
-          "stars": 54265,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 58465,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 60828,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 63109,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 64521,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 66287,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 67896,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 72140,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 72869,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 78257,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "earendil-works-pi",
-      "top_topics": [],
-      "url": "https://github.com/earendil-works/pi",
-      "weeks_observed": 10
-    },
-    {
-      "description": "\ud83d\udcab Toolkit to help you get started with Spec-Driven Development",
-      "first_observed_stars": 101712,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 123965,
-      "observed_star_change": 22253,
-      "primary_language": "Python",
-      "repository": "github/spec-kit",
-      "series": [
-        {
-          "stars": 101712,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 105666,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 107482,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 110377,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 112493,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 114651,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 116214,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 118211,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 121990,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 122394,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 123965,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "github-spec-kit",
-      "top_topics": [
-        "ai",
-        "copilot",
-        "development",
-        "engineering",
-        "prd",
-        "spec",
-        "spec-driven"
-      ],
-      "url": "https://github.com/github/spec-kit",
-      "weeks_observed": 11
-    },
-    {
       "description": "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface",
       "first_observed_stars": 54368,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 74893,
-      "observed_star_change": 20525,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 78201,
+      "observed_star_change": 23833,
       "primary_language": "TypeScript",
       "repository": "koala73/worldmonitor",
       "series": [
@@ -1193,6 +1226,10 @@
         {
           "stars": 74893,
           "week": "2026-W31"
+        },
+        {
+          "stars": 78201,
+          "week": "2026-W32"
         }
       ],
       "slug": "koala73-worldmonitor",
@@ -1207,6 +1244,232 @@
         "palantir"
       ],
       "url": "https://github.com/koala73/worldmonitor",
+      "weeks_observed": 12
+    },
+    {
+      "description": "\ud83d\udcab Toolkit to help you get started with Spec-Driven Development",
+      "first_observed_stars": 101712,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 125067,
+      "observed_star_change": 23355,
+      "primary_language": "Python",
+      "repository": "github/spec-kit",
+      "series": [
+        {
+          "stars": 101712,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 105666,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 107482,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 110377,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 112493,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 114651,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 116214,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 118211,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 121990,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 122394,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 123965,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 125067,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "github-spec-kit",
+      "top_topics": [
+        "ai",
+        "copilot",
+        "development",
+        "engineering",
+        "prd",
+        "spec",
+        "spec-driven"
+      ],
+      "url": "https://github.com/github/spec-kit",
+      "weeks_observed": 12
+    },
+    {
+      "description": "Turn any codebase, with its docs, SQL schemas, configs, and PDFs, into a queryable knowledge graph. A /graphify skill for Claude Code, Cursor, Codex, and Gemini CLI: local deterministic AST parsing, every edge explained, no vector store.",
+      "first_observed_stars": 78234,
+      "first_seen_week": "2026-W28",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 101174,
+      "observed_star_change": 22940,
+      "primary_language": "Python",
+      "repository": "Graphify-Labs/graphify",
+      "series": [
+        {
+          "stars": 78234,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 90184,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 91691,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 96560,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 101174,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "graphify-labs-graphify",
+      "top_topics": [
+        "antigravity",
+        "claude-code",
+        "codex",
+        "gemini",
+        "graphrag",
+        "knowledge-graph",
+        "leiden",
+        "openclaw"
+      ],
+      "url": "https://github.com/Graphify-Labs/graphify",
+      "weeks_observed": 5
+    },
+    {
+      "description": "The open-source CapCut alternative",
+      "first_observed_stars": 58711,
+      "first_seen_week": "2026-W26",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 80574,
+      "observed_star_change": 21863,
+      "primary_language": "TypeScript",
+      "repository": "OpenCut-app/OpenCut",
+      "series": [
+        {
+          "stars": 58711,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 74789,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 75969,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 79079,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 80574,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "opencut-app-opencut",
+      "top_topics": [
+        "editor",
+        "oss",
+        "videoeditor"
+      ],
+      "url": "https://github.com/OpenCut-app/OpenCut",
+      "weeks_observed": 5
+    },
+    {
+      "description": "CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies",
+      "first_observed_stars": 53829,
+      "first_seen_week": "2026-W22",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 74404,
+      "observed_star_change": 20575,
+      "primary_language": "Rust",
+      "repository": "rtk-ai/rtk",
+      "series": [
+        {
+          "stars": 53829,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 57138,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 59985,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 62748,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 64677,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 66812,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 68735,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 71583,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 71900,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 73362,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 74404,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "rtk-ai-rtk",
+      "top_topics": [
+        "agentic-coding",
+        "ai-coding",
+        "anthropic",
+        "claude-code",
+        "cli",
+        "command-line-tool",
+        "cost-reduction",
+        "developer-tools"
+      ],
+      "url": "https://github.com/rtk-ai/rtk",
       "weeks_observed": 11
     },
     {
@@ -1259,40 +1522,68 @@
       "weeks_observed": 6
     },
     {
-      "description": "The open-source CapCut alternative",
-      "first_observed_stars": 58711,
-      "first_seen_week": "2026-W26",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 79079,
-      "observed_star_change": 20368,
-      "primary_language": "TypeScript",
-      "repository": "OpenCut-app/OpenCut",
+      "description": "Lightweight coding agent that runs in your terminal",
+      "first_observed_stars": 83440,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 103392,
+      "observed_star_change": 19952,
+      "primary_language": "Rust",
+      "repository": "openai/codex",
       "series": [
         {
-          "stars": 58711,
+          "stars": 83440,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 85454,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 87544,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 89578,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 91380,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 92572,
           "week": "2026-W26"
         },
         {
-          "stars": 74789,
+          "stars": 94266,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 95703,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 99144,
           "week": "2026-W29"
         },
         {
-          "stars": 75969,
+          "stars": 99760,
           "week": "2026-W30"
         },
         {
-          "stars": 79079,
+          "stars": 101687,
           "week": "2026-W31"
+        },
+        {
+          "stars": 103392,
+          "week": "2026-W32"
         }
       ],
-      "slug": "opencut-app-opencut",
-      "top_topics": [
-        "editor",
-        "oss",
-        "videoeditor"
-      ],
-      "url": "https://github.com/OpenCut-app/OpenCut",
-      "weeks_observed": 4
+      "slug": "openai-codex",
+      "top_topics": [],
+      "url": "https://github.com/openai/codex",
+      "weeks_observed": 12
     },
     {
       "description": "Production-grade engineering skills for AI coding agents.",
@@ -1347,178 +1638,12 @@
       "weeks_observed": 7
     },
     {
-      "description": "CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies",
-      "first_observed_stars": 53829,
-      "first_seen_week": "2026-W22",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 73362,
-      "observed_star_change": 19533,
-      "primary_language": "Rust",
-      "repository": "rtk-ai/rtk",
-      "series": [
-        {
-          "stars": 53829,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 57138,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 59985,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 62748,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 64677,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 66812,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 68735,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 71583,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 71900,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 73362,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "rtk-ai-rtk",
-      "top_topics": [
-        "agentic-coding",
-        "ai-coding",
-        "anthropic",
-        "claude-code",
-        "cli",
-        "command-line-tool",
-        "cost-reduction",
-        "developer-tools"
-      ],
-      "url": "https://github.com/rtk-ai/rtk",
-      "weeks_observed": 10
-    },
-    {
-      "description": "Turn any codebase, with its docs, SQL schemas, configs, and PDFs, into a queryable knowledge graph. A /graphify skill for Claude Code, Cursor, Codex, and Gemini CLI: local deterministic AST parsing, every edge explained, no vector store.",
-      "first_observed_stars": 78234,
-      "first_seen_week": "2026-W28",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 96560,
-      "observed_star_change": 18326,
-      "primary_language": "Python",
-      "repository": "Graphify-Labs/graphify",
-      "series": [
-        {
-          "stars": 78234,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 90184,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 91691,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 96560,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "graphify-labs-graphify",
-      "top_topics": [
-        "antigravity",
-        "claude-code",
-        "codex",
-        "gemini",
-        "graphrag",
-        "knowledge-graph",
-        "leiden",
-        "openclaw"
-      ],
-      "url": "https://github.com/Graphify-Labs/graphify",
-      "weeks_observed": 4
-    },
-    {
-      "description": "Lightweight coding agent that runs in your terminal",
-      "first_observed_stars": 83440,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 101687,
-      "observed_star_change": 18247,
-      "primary_language": "Rust",
-      "repository": "openai/codex",
-      "series": [
-        {
-          "stars": 83440,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 85454,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 87544,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 89578,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 91380,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 92572,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 94266,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 95703,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 99144,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 99760,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 101687,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "openai-codex",
-      "top_topics": [],
-      "url": "https://github.com/openai/codex",
-      "weeks_observed": 11
-    },
-    {
       "description": "Collection of publicly available IPTV channels from all over the world",
       "first_observed_stars": 116498,
       "first_seen_week": "2026-W22",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 134482,
-      "observed_star_change": 17984,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 135013,
+      "observed_star_change": 18515,
       "primary_language": "TypeScript",
       "repository": "iptv-org/iptv",
       "series": [
@@ -1561,6 +1686,10 @@
         {
           "stars": 134482,
           "week": "2026-W31"
+        },
+        {
+          "stars": 135013,
+          "week": "2026-W32"
         }
       ],
       "slug": "iptv-org-iptv",
@@ -1572,7 +1701,113 @@
         "tv"
       ],
       "url": "https://github.com/iptv-org/iptv",
-      "weeks_observed": 10
+      "weeks_observed": 11
+    },
+    {
+      "description": "100+ AI Agents, Agent Skills and RAG Apps - Free and Open Source.",
+      "first_observed_stars": 111694,
+      "first_seen_week": "2026-W22",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 129894,
+      "observed_star_change": 18200,
+      "primary_language": "Python",
+      "repository": "Shubhamsaboo/awesome-llm-apps",
+      "series": [
+        {
+          "stars": 111694,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 112449,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 113811,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 114703,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 123570,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 124631,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 127928,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 129894,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "shubhamsaboo-awesome-llm-apps",
+      "top_topics": [
+        "agents",
+        "llms",
+        "python",
+        "rag"
+      ],
+      "url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
+      "weeks_observed": 8
+    },
+    {
+      "description": "An AI SKILL that provide design intelligence for building professional UI/UX multiple platforms",
+      "first_observed_stars": 94814,
+      "first_seen_week": "2026-W26",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 112750,
+      "observed_star_change": 17936,
+      "primary_language": "Python",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "series": [
+        {
+          "stars": 94814,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 97553,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 101320,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 107006,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 107842,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 110478,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 112750,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "nextlevelbuilder-ui-ux-pro-max-skill",
+      "top_topics": [
+        "ai-skills",
+        "antigravity",
+        "claude",
+        "claude-code",
+        "codex",
+        "command-line",
+        "copilot",
+        "cursor-ai"
+      ],
+      "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "weeks_observed": 7
     },
     {
       "description": "A feature-rich command-line audio/video downloader",
@@ -1746,163 +1981,12 @@
       "weeks_observed": 6
     },
     {
-      "description": "100+ AI Agents, Agent Skills and RAG Apps - Free and Open Source.",
-      "first_observed_stars": 111694,
-      "first_seen_week": "2026-W22",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 127928,
-      "observed_star_change": 16234,
-      "primary_language": "Python",
-      "repository": "Shubhamsaboo/awesome-llm-apps",
-      "series": [
-        {
-          "stars": 111694,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 112449,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 113811,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 114703,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 123570,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 124631,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 127928,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "shubhamsaboo-awesome-llm-apps",
-      "top_topics": [
-        "agents",
-        "llms",
-        "python",
-        "rag"
-      ],
-      "url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
-      "weeks_observed": 7
-    },
-    {
-      "description": "An AI SKILL that provide design intelligence for building professional UI/UX multiple platforms",
-      "first_observed_stars": 94814,
-      "first_seen_week": "2026-W26",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 110478,
-      "observed_star_change": 15664,
-      "primary_language": "Python",
-      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
-      "series": [
-        {
-          "stars": 94814,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 97553,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 101320,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 107006,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 107842,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 110478,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "nextlevelbuilder-ui-ux-pro-max-skill",
-      "top_topics": [
-        "ai-skills",
-        "antigravity",
-        "claude",
-        "claude-code",
-        "codex",
-        "command-line",
-        "copilot",
-        "cursor-ai"
-      ],
-      "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
-      "weeks_observed": 6
-    },
-    {
-      "description": "Graphs that teach > graphs that impress. Turn any code into an interactive knowledge graph you can explore, search, and ask questions about. Works with Claude Code, Codex, Cursor, Copilot, Gemini CLI, and more.",
-      "first_observed_stars": 60972,
-      "first_seen_week": "2026-W25",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 76264,
-      "observed_star_change": 15292,
-      "primary_language": "TypeScript",
-      "repository": "Egonex-AI/Understand-Anything",
-      "series": [
-        {
-          "stars": 60972,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 65577,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 68983,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 71111,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 74904,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 75208,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 76264,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "egonex-ai-understand-anything",
-      "top_topics": [
-        "antigravity-skills",
-        "business-knowledge",
-        "claude-code",
-        "claude-skills",
-        "codebase-analysis",
-        "codex",
-        "codex-skills",
-        "developer-tools-ai-agent"
-      ],
-      "url": "https://github.com/Egonex-AI/Understand-Anything",
-      "weeks_observed": 7
-    },
-    {
       "description": "A list of Free Software network services and web applications which can be hosted on your own servers",
       "first_observed_stars": 293350,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 308557,
-      "observed_star_change": 15207,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 310275,
+      "observed_star_change": 16925,
       "primary_language": "Unknown",
       "repository": "awesome-selfhosted/awesome-selfhosted",
       "series": [
@@ -1949,6 +2033,10 @@
         {
           "stars": 308557,
           "week": "2026-W31"
+        },
+        {
+          "stars": 310275,
+          "week": "2026-W32"
         }
       ],
       "slug": "awesome-selfhosted-awesome-selfhosted",
@@ -1963,15 +2051,15 @@
         "selfhosted"
       ],
       "url": "https://github.com/awesome-selfhosted/awesome-selfhosted",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
       "description": "A modern GUI client based on Tauri, designed to run in Windows, macOS and Linux for tailored proxy experience",
       "first_observed_stars": 118884,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 133929,
-      "observed_star_change": 15045,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 135142,
+      "observed_star_change": 16258,
       "primary_language": "TypeScript",
       "repository": "clash-verge-rev/clash-verge-rev",
       "series": [
@@ -2018,6 +2106,10 @@
         {
           "stars": 133929,
           "week": "2026-W31"
+        },
+        {
+          "stars": 135142,
+          "week": "2026-W32"
         }
       ],
       "slug": "clash-verge-rev-clash-verge-rev",
@@ -2032,7 +2124,125 @@
         "windows"
       ],
       "url": "https://github.com/clash-verge-rev/clash-verge-rev",
-      "weeks_observed": 11
+      "weeks_observed": 12
+    },
+    {
+      "description": "Graphs that teach > graphs that impress. Turn any code into an interactive knowledge graph you can explore, search, and ask questions about. Works with Claude Code, Codex, Cursor, Copilot, Gemini CLI, and more.",
+      "first_observed_stars": 60972,
+      "first_seen_week": "2026-W25",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 77216,
+      "observed_star_change": 16244,
+      "primary_language": "TypeScript",
+      "repository": "Egonex-AI/Understand-Anything",
+      "series": [
+        {
+          "stars": 60972,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 65577,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 68983,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 71111,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 74904,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 75208,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 76264,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 77216,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "egonex-ai-understand-anything",
+      "top_topics": [
+        "antigravity-skills",
+        "business-knowledge",
+        "claude-code",
+        "claude-skills",
+        "codebase-analysis",
+        "codex",
+        "codex-skills",
+        "developer-tools-ai-agent"
+      ],
+      "url": "https://github.com/Egonex-AI/Understand-Anything",
+      "weeks_observed": 8
+    },
+    {
+      "description": "\ud83d\udd77\ufe0f An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl!",
+      "first_observed_stars": 57507,
+      "first_seen_week": "2026-W23",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 72238,
+      "observed_star_change": 14731,
+      "primary_language": "Python",
+      "repository": "D4Vinci/Scrapling",
+      "series": [
+        {
+          "stars": 57507,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 62079,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 65438,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 66881,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 68272,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 69887,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 70203,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 71360,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 72238,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "d4vinci-scrapling",
+      "top_topics": [
+        "ai",
+        "ai-scraping",
+        "automation",
+        "crawler",
+        "crawling",
+        "crawling-python",
+        "data",
+        "data-extraction"
+      ],
+      "url": "https://github.com/D4Vinci/Scrapling",
+      "weeks_observed": 9
     },
     {
       "description": "Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows - all through natural language commands.",
@@ -2095,69 +2305,12 @@
       "weeks_observed": 11
     },
     {
-      "description": "\ud83d\udd77\ufe0f An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl!",
-      "first_observed_stars": 57507,
-      "first_seen_week": "2026-W23",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 71360,
-      "observed_star_change": 13853,
-      "primary_language": "Python",
-      "repository": "D4Vinci/Scrapling",
-      "series": [
-        {
-          "stars": 57507,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 62079,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 65438,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 66881,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 68272,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 69887,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 70203,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 71360,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "d4vinci-scrapling",
-      "top_topics": [
-        "ai",
-        "ai-scraping",
-        "automation",
-        "crawler",
-        "crawling",
-        "crawling-python",
-        "data",
-        "data-extraction"
-      ],
-      "url": "https://github.com/D4Vinci/Scrapling",
-      "weeks_observed": 8
-    },
-    {
-      "description": "\ud83c\udf0a The leading agent meta-harness. Deploy intelligent multi-player swarms, coordinate autonomous workflows, and build conversational AI systems. Features adaptive memory, self-learning intelligence, RAG integration, and native Claude Code / Codex / Hermes and many more Integrated",
+      "description": "\ud83c\udf0a The original agent meta-harness. Deploy intelligent multi-player swarms, coordinate autonomous workflows, and build conversational AI systems. Features adaptive memory, self-learning intelligence, RAG integration, and native Claude Code / Codex / Hermes and many more Integrated",
       "first_observed_stars": 52540,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 66146,
-      "observed_star_change": 13606,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 66879,
+      "observed_star_change": 14339,
       "primary_language": "TypeScript",
       "repository": "ruvnet/ruflo",
       "series": [
@@ -2204,6 +2357,10 @@
         {
           "stars": 66146,
           "week": "2026-W31"
+        },
+        {
+          "stars": 66879,
+          "week": "2026-W32"
         }
       ],
       "slug": "ruvnet-ruflo",
@@ -2218,15 +2375,82 @@
         "autonomous-agents"
       ],
       "url": "https://github.com/ruvnet/ruflo",
+      "weeks_observed": 12
+    },
+    {
+      "description": "An opinionated list of Python frameworks, libraries, tools, and resources",
+      "first_observed_stars": 298288,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 311814,
+      "observed_star_change": 13526,
+      "primary_language": "Python",
+      "repository": "vinta/awesome-python",
+      "series": [
+        {
+          "stars": 298288,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 299477,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 300693,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 301893,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 303168,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 305338,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 306545,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 308736,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 309163,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 310533,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 311814,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "vinta-awesome-python",
+      "top_topics": [
+        "awesome",
+        "collections",
+        "python",
+        "python-frameworks",
+        "python-libraries",
+        "python-tools"
+      ],
+      "url": "https://github.com/vinta/awesome-python",
       "weeks_observed": 11
     },
     {
       "description": "\ud83c\udf10 Make websites accessible for AI agents. Automate tasks online with ease.",
       "first_observed_stars": 94414,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 106930,
-      "observed_star_change": 12516,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 107629,
+      "observed_star_change": 13215,
       "primary_language": "Python",
       "repository": "browser-use/browser-use",
       "series": [
@@ -2273,6 +2497,10 @@
         {
           "stars": 106930,
           "week": "2026-W31"
+        },
+        {
+          "stars": 107629,
+          "week": "2026-W32"
         }
       ],
       "slug": "browser-use-browser-use",
@@ -2286,15 +2514,15 @@
         "python"
       ],
       "url": "https://github.com/browser-use/browser-use",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
       "description": "Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows.",
       "first_observed_stars": 63498,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 75805,
-      "observed_star_change": 12307,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 76582,
+      "observed_star_change": 13084,
       "primary_language": "Python",
       "repository": "opendatalab/MinerU",
       "series": [
@@ -2341,6 +2569,10 @@
         {
           "stars": 75805,
           "week": "2026-W31"
+        },
+        {
+          "stars": 76582,
+          "week": "2026-W32"
         }
       ],
       "slug": "opendatalab-mineru",
@@ -2355,78 +2587,15 @@
         "pdf"
       ],
       "url": "https://github.com/opendatalab/MinerU",
-      "weeks_observed": 11
-    },
-    {
-      "description": "An opinionated list of Python frameworks, libraries, tools, and resources",
-      "first_observed_stars": 298288,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 310533,
-      "observed_star_change": 12245,
-      "primary_language": "Python",
-      "repository": "vinta/awesome-python",
-      "series": [
-        {
-          "stars": 298288,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 299477,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 300693,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 301893,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 303168,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 305338,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 306545,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 308736,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 309163,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 310533,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "vinta-awesome-python",
-      "top_topics": [
-        "awesome",
-        "collections",
-        "python",
-        "python-frameworks",
-        "python-libraries",
-        "python-tools"
-      ],
-      "url": "https://github.com/vinta/awesome-python",
-      "weeks_observed": 10
+      "weeks_observed": 12
     },
     {
       "description": "Persistent Context Across Sessions for Every Agent \u2013  Captures everything your agent does during sessions, compresses it with AI, and injects relevant context back into future sessions. Works with Claude Code, OpenClaw, Codex, Gemini, Hermes, Copilot, OpenCode + More",
       "first_observed_stars": 76464,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 88660,
-      "observed_star_change": 12196,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 89350,
+      "observed_star_change": 12886,
       "primary_language": "JavaScript",
       "repository": "thedotmack/claude-mem",
       "series": [
@@ -2473,6 +2642,10 @@
         {
           "stars": 88660,
           "week": "2026-W31"
+        },
+        {
+          "stars": 89350,
+          "week": "2026-W32"
         }
       ],
       "slug": "thedotmack-claude-mem",
@@ -2487,60 +2660,15 @@
         "claude-agent-sdk"
       ],
       "url": "https://github.com/thedotmack/claude-mem",
-      "weeks_observed": 11
-    },
-    {
-      "description": "A collection of DESIGN.md files analysis by popular brand design systems. Drop one into your project and let coding agents generate a matching UI.",
-      "first_observed_stars": 80584,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W26",
-      "latest_stars": 92098,
-      "observed_star_change": 11514,
-      "primary_language": "Unknown",
-      "repository": "VoltAgent/awesome-design-md",
-      "series": [
-        {
-          "stars": 80584,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 86337,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 88414,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 90602,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 92098,
-          "week": "2026-W26"
-        }
-      ],
-      "slug": "voltagent-awesome-design-md",
-      "top_topics": [
-        "awesome-list",
-        "design-md",
-        "design-system",
-        "design-tokens",
-        "figma",
-        "google-stitch",
-        "landing-page",
-        "vibe-coding"
-      ],
-      "url": "https://github.com/VoltAgent/awesome-design-md",
-      "weeks_observed": 5
+      "weeks_observed": 12
     },
     {
       "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. \ud83e\udd9e ",
       "first_observed_stars": 372819,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 384251,
-      "observed_star_change": 11432,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 384969,
+      "observed_star_change": 12150,
       "primary_language": "TypeScript",
       "repository": "openclaw/openclaw",
       "series": [
@@ -2587,6 +2715,10 @@
         {
           "stars": 384251,
           "week": "2026-W31"
+        },
+        {
+          "stars": 384969,
+          "week": "2026-W32"
         }
       ],
       "slug": "openclaw-openclaw",
@@ -2600,15 +2732,15 @@
         "personal"
       ],
       "url": "https://github.com/openclaw/openclaw",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
       "description": "LLM inference in C/C++",
       "first_observed_stars": 110714,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 121699,
-      "observed_star_change": 10985,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 122478,
+      "observed_star_change": 11764,
       "primary_language": "C++",
       "repository": "ggml-org/llama.cpp",
       "series": [
@@ -2655,6 +2787,10 @@
         {
           "stars": 121699,
           "week": "2026-W31"
+        },
+        {
+          "stars": 122478,
+          "week": "2026-W32"
         }
       ],
       "slug": "ggml-org-llama-cpp",
@@ -2662,125 +2798,15 @@
         "ggml"
       ],
       "url": "https://github.com/ggml-org/llama.cpp",
-      "weeks_observed": 11
-    },
-    {
-      "description": "Taste-Skill - gives your AI good taste. stops the AI from generating boring, generic slop ",
-      "first_observed_stars": 57767,
-      "first_seen_week": "2026-W28",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 67978,
-      "observed_star_change": 10211,
-      "primary_language": "JavaScript",
-      "repository": "Leonxlnx/taste-skill",
-      "series": [
-        {
-          "stars": 57767,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 64591,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 65298,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 67978,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "leonxlnx-taste-skill",
-      "top_topics": [
-        "agent",
-        "ai",
-        "claude",
-        "claude-code",
-        "codex",
-        "coding",
-        "design",
-        "frontend"
-      ],
-      "url": "https://github.com/Leonxlnx/taste-skill",
-      "weeks_observed": 4
-    },
-    {
-      "description": "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations.",
-      "first_observed_stars": 188473,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 198137,
-      "observed_star_change": 9664,
-      "primary_language": "TypeScript",
-      "repository": "n8n-io/n8n",
-      "series": [
-        {
-          "stars": 188473,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 189612,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 190562,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 191584,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 192740,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 193546,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 194413,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 195331,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 196844,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 197094,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 198137,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "n8n-io-n8n",
-      "top_topics": [
-        "ai",
-        "apis",
-        "automation",
-        "cli",
-        "data-flow",
-        "development",
-        "integration-framework",
-        "integrations"
-      ],
-      "url": "https://github.com/n8n-io/n8n",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
       "description": "An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours.",
       "first_observed_stars": 68308,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 77925,
-      "observed_star_change": 9617,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 79013,
+      "observed_star_change": 10705,
       "primary_language": "Python",
       "repository": "bytedance/deer-flow",
       "series": [
@@ -2827,6 +2853,10 @@
         {
           "stars": 77925,
           "week": "2026-W31"
+        },
+        {
+          "stars": 79013,
+          "week": "2026-W32"
         }
       ],
       "slug": "bytedance-deer-flow",
@@ -2841,67 +2871,129 @@
         "harness"
       ],
       "url": "https://github.com/bytedance/deer-flow",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
-      "description": "\ud83d\ude80\ud83e\udd16 Crawl4AI: Open-source LLM Friendly Web Crawler & Scraper. Don't be shy, join here: https://discord.gg/jP8KfhDhyN",
-      "first_observed_stars": 65817,
+      "description": "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations.",
+      "first_observed_stars": 188473,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 75155,
-      "observed_star_change": 9338,
-      "primary_language": "Python",
-      "repository": "unclecode/crawl4ai",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 199107,
+      "observed_star_change": 10634,
+      "primary_language": "TypeScript",
+      "repository": "n8n-io/n8n",
       "series": [
         {
-          "stars": 65817,
+          "stars": 188473,
           "week": "2026-W21"
         },
         {
-          "stars": 66212,
+          "stars": 189612,
           "week": "2026-W22"
         },
         {
-          "stars": 68066,
+          "stars": 190562,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 191584,
           "week": "2026-W24"
         },
         {
-          "stars": 69161,
+          "stars": 192740,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 193546,
           "week": "2026-W26"
         },
         {
-          "stars": 70102,
+          "stars": 194413,
           "week": "2026-W27"
         },
         {
-          "stars": 71086,
+          "stars": 195331,
           "week": "2026-W28"
         },
         {
-          "stars": 73088,
+          "stars": 196844,
           "week": "2026-W29"
         },
         {
-          "stars": 73336,
+          "stars": 197094,
           "week": "2026-W30"
         },
         {
-          "stars": 75155,
+          "stars": 198137,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 199107,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "n8n-io-n8n",
+      "top_topics": [
+        "ai",
+        "apis",
+        "automation",
+        "cli",
+        "data-flow",
+        "development",
+        "integration-framework",
+        "integrations"
+      ],
+      "url": "https://github.com/n8n-io/n8n",
+      "weeks_observed": 12
+    },
+    {
+      "description": "Taste-Skill - gives your AI good taste. stops the AI from generating boring, generic slop ",
+      "first_observed_stars": 57767,
+      "first_seen_week": "2026-W28",
+      "last_seen_week": "2026-W31",
+      "latest_stars": 67978,
+      "observed_star_change": 10211,
+      "primary_language": "JavaScript",
+      "repository": "Leonxlnx/taste-skill",
+      "series": [
+        {
+          "stars": 57767,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 64591,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 65298,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 67978,
           "week": "2026-W31"
         }
       ],
-      "slug": "unclecode-crawl4ai",
-      "top_topics": [],
-      "url": "https://github.com/unclecode/crawl4ai",
-      "weeks_observed": 9
+      "slug": "leonxlnx-taste-skill",
+      "top_topics": [
+        "agent",
+        "ai",
+        "claude",
+        "claude-code",
+        "codex",
+        "coding",
+        "design",
+        "frontend"
+      ],
+      "url": "https://github.com/Leonxlnx/taste-skill",
+      "weeks_observed": 4
     },
     {
       "description": "User-friendly AI Interface (Supports Ollama, OpenAI API, ...)",
       "first_observed_stars": 137561,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 146851,
-      "observed_star_change": 9290,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 147657,
+      "observed_star_change": 10096,
       "primary_language": "Python",
       "repository": "open-webui/open-webui",
       "series": [
@@ -2948,6 +3040,10 @@
         {
           "stars": 146851,
           "week": "2026-W31"
+        },
+        {
+          "stars": 147657,
+          "week": "2026-W32"
         }
       ],
       "slug": "open-webui-open-webui",
@@ -2962,117 +3058,71 @@
         "ollama-webui"
       ],
       "url": "https://github.com/open-webui/open-webui",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
-      "description": "A curated list of awesome Claude Skills, resources, and tools for customizing Claude AI workflows",
-      "first_observed_stars": 61691,
-      "first_seen_week": "2026-W22",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 70950,
-      "observed_star_change": 9259,
-      "primary_language": "Python",
-      "repository": "ComposioHQ/awesome-claude-skills",
-      "series": [
-        {
-          "stars": 61691,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 70950,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "composiohq-awesome-claude-skills",
-      "top_topics": [
-        "agent-skills",
-        "ai-agents",
-        "antigravity",
-        "automation",
-        "claude",
-        "claude-code",
-        "codex",
-        "composio"
-      ],
-      "url": "https://github.com/ComposioHQ/awesome-claude-skills",
-      "weeks_observed": 2
-    },
-    {
-      "description": "#1 PDF Application on GitHub that lets you edit PDFs on any device anywhere",
-      "first_observed_stars": 78881,
+      "description": "\ud83d\ude80\ud83e\udd16 Crawl4AI: Open-source LLM Friendly Web Crawler & Scraper. Don't be shy, join here: https://discord.gg/jP8KfhDhyN",
+      "first_observed_stars": 65817,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 88089,
-      "observed_star_change": 9208,
-      "primary_language": "Java",
-      "repository": "Stirling-Tools/Stirling-PDF",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 75901,
+      "observed_star_change": 10084,
+      "primary_language": "Python",
+      "repository": "unclecode/crawl4ai",
       "series": [
         {
-          "stars": 78881,
+          "stars": 65817,
           "week": "2026-W21"
         },
         {
-          "stars": 79438,
+          "stars": 66212,
           "week": "2026-W22"
         },
         {
-          "stars": 79988,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 80443,
+          "stars": 68066,
           "week": "2026-W24"
         },
         {
-          "stars": 81090,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 82197,
+          "stars": 69161,
           "week": "2026-W26"
         },
         {
-          "stars": 84999,
+          "stars": 70102,
           "week": "2026-W27"
         },
         {
-          "stars": 86208,
+          "stars": 71086,
           "week": "2026-W28"
         },
         {
-          "stars": 87300,
+          "stars": 73088,
           "week": "2026-W29"
         },
         {
-          "stars": 87457,
+          "stars": 73336,
           "week": "2026-W30"
         },
         {
-          "stars": 88089,
+          "stars": 75155,
           "week": "2026-W31"
+        },
+        {
+          "stars": 75901,
+          "week": "2026-W32"
         }
       ],
-      "slug": "stirling-tools-stirling-pdf",
-      "top_topics": [
-        "docker",
-        "hacktoberfest",
-        "java",
-        "pdf",
-        "pdf-converter",
-        "pdf-editor",
-        "pdf-manipulation",
-        "pdf-merger"
-      ],
-      "url": "https://github.com/Stirling-Tools/Stirling-PDF",
-      "weeks_observed": 11
+      "slug": "unclecode-crawl4ai",
+      "top_topics": [],
+      "url": "https://github.com/unclecode/crawl4ai",
+      "weeks_observed": 10
     },
     {
       "description": "The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface.",
       "first_observed_stars": 113372,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 122402,
-      "observed_star_change": 9030,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 123278,
+      "observed_star_change": 9906,
       "primary_language": "Python",
       "repository": "Comfy-Org/ComfyUI",
       "series": [
@@ -3119,6 +3169,10 @@
         {
           "stars": 122402,
           "week": "2026-W31"
+        },
+        {
+          "stars": 123278,
+          "week": "2026-W32"
         }
       ],
       "slug": "comfy-org-comfyui",
@@ -3131,213 +3185,88 @@
         "stable-diffusion"
       ],
       "url": "https://github.com/Comfy-Org/ComfyUI",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
-      "description": "The open-source app everyone uses to manage agents at work",
-      "first_observed_stars": 66196,
+      "description": "#1 PDF Application on GitHub that lets you edit PDFs on any device anywhere",
+      "first_observed_stars": 78881,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 74822,
-      "observed_star_change": 8626,
-      "primary_language": "TypeScript",
-      "repository": "paperclipai/paperclip",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 88611,
+      "observed_star_change": 9730,
+      "primary_language": "Java",
+      "repository": "Stirling-Tools/Stirling-PDF",
       "series": [
         {
-          "stars": 66196,
+          "stars": 78881,
           "week": "2026-W21"
         },
         {
-          "stars": 67528,
+          "stars": 79438,
           "week": "2026-W22"
         },
         {
-          "stars": 68586,
+          "stars": 79988,
           "week": "2026-W23"
         },
         {
-          "stars": 69591,
+          "stars": 80443,
           "week": "2026-W24"
         },
         {
-          "stars": 70592,
+          "stars": 81090,
           "week": "2026-W25"
         },
         {
-          "stars": 71162,
+          "stars": 82197,
           "week": "2026-W26"
         },
         {
-          "stars": 71972,
+          "stars": 84999,
           "week": "2026-W27"
         },
         {
-          "stars": 72804,
+          "stars": 86208,
           "week": "2026-W28"
         },
         {
-          "stars": 74044,
+          "stars": 87300,
           "week": "2026-W29"
         },
         {
-          "stars": 74227,
+          "stars": 87457,
           "week": "2026-W30"
         },
         {
-          "stars": 74822,
+          "stars": 88089,
           "week": "2026-W31"
+        },
+        {
+          "stars": 88611,
+          "week": "2026-W32"
         }
       ],
-      "slug": "paperclipai-paperclip",
-      "top_topics": [],
-      "url": "https://github.com/paperclipai/paperclip",
-      "weeks_observed": 11
-    },
-    {
-      "description": "Build Agentic workflows, RAG pipelines, with rich AI model and tool support on one collaborative workspace. Deploy on cloud, VPC, or self-hosted, so teams move from prototype to production without rebuilding the stack.",
-      "first_observed_stars": 141747,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 150345,
-      "observed_star_change": 8598,
-      "primary_language": "TypeScript",
-      "repository": "langgenius/dify",
-      "series": [
-        {
-          "stars": 141747,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 142557,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 143389,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 144413,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 145436,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 146091,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 146899,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 147817,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 149175,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 149381,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 150345,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "langgenius-dify",
+      "slug": "stirling-tools-stirling-pdf",
       "top_topics": [
-        "agent",
-        "agentic-ai",
-        "agentic-framework",
-        "agentic-workflow",
-        "ai",
-        "automation",
-        "genai",
-        "gpt"
+        "docker",
+        "hacktoberfest",
+        "java",
+        "pdf",
+        "pdf-converter",
+        "pdf-editor",
+        "pdf-manipulation",
+        "pdf-merger"
       ],
-      "url": "https://github.com/langgenius/dify",
-      "weeks_observed": 11
-    },
-    {
-      "description": "omo/lazycodex: The coding agent for tokenmaxxers;the one and only agent harness for complex codebases. For your Codex, for your OpenCode",
-      "first_observed_stars": 58328,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 66631,
-      "observed_star_change": 8303,
-      "primary_language": "TypeScript",
-      "repository": "code-yeongyu/oh-my-openagent",
-      "series": [
-        {
-          "stars": 58328,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 59332,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 60554,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 61498,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 62418,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 63178,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 63999,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 64942,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 66027,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 66196,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 66631,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "code-yeongyu-oh-my-openagent",
-      "top_topics": [
-        "ai",
-        "ai-agents",
-        "anthropic",
-        "chatgpt",
-        "claude",
-        "claude-skills",
-        "cursor",
-        "gemini"
-      ],
-      "url": "https://github.com/code-yeongyu/oh-my-openagent",
-      "weeks_observed": 11
+      "url": "https://github.com/Stirling-Tools/Stirling-PDF",
+      "weeks_observed": 12
     },
     {
       "description": "\ud83d\udc39 Clean, uninstall, analyze, optimize, and monitor your Mac from the terminal.",
       "first_observed_stars": 51725,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 60026,
-      "observed_star_change": 8301,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 61240,
+      "observed_star_change": 9515,
       "primary_language": "Shell",
       "repository": "tw93/Mole",
       "series": [
@@ -3384,6 +3313,10 @@
         {
           "stars": 60026,
           "week": "2026-W31"
+        },
+        {
+          "stars": 61240,
+          "week": "2026-W32"
         }
       ],
       "slug": "tw93-mole",
@@ -3398,15 +3331,218 @@
         "daisydisk"
       ],
       "url": "https://github.com/tw93/Mole",
-      "weeks_observed": 11
+      "weeks_observed": 12
+    },
+    {
+      "description": "Build Agentic workflows, RAG pipelines, with rich AI model and tool support on one collaborative workspace. Deploy on cloud, VPC, or self-hosted, so teams move from prototype to production without rebuilding the stack.",
+      "first_observed_stars": 141747,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 151124,
+      "observed_star_change": 9377,
+      "primary_language": "TypeScript",
+      "repository": "langgenius/dify",
+      "series": [
+        {
+          "stars": 141747,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 142557,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 143389,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 144413,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 145436,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 146091,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 146899,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 147817,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 149175,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 149381,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 150345,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 151124,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "langgenius-dify",
+      "top_topics": [
+        "agent",
+        "agentic-ai",
+        "agentic-framework",
+        "agentic-workflow",
+        "ai",
+        "automation",
+        "genai",
+        "gpt"
+      ],
+      "url": "https://github.com/langgenius/dify",
+      "weeks_observed": 12
+    },
+    {
+      "description": "The open-source app everyone uses to manage agents at work",
+      "first_observed_stars": 66196,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 75459,
+      "observed_star_change": 9263,
+      "primary_language": "TypeScript",
+      "repository": "paperclipai/paperclip",
+      "series": [
+        {
+          "stars": 66196,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 67528,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 68586,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 69591,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 70592,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 71162,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 71972,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 72804,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 74044,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 74227,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 74822,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 75459,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "paperclipai-paperclip",
+      "top_topics": [],
+      "url": "https://github.com/paperclipai/paperclip",
+      "weeks_observed": 12
+    },
+    {
+      "description": "A curated list of awesome Claude Skills, resources, and tools for customizing Claude AI workflows",
+      "first_observed_stars": 61691,
+      "first_seen_week": "2026-W22",
+      "last_seen_week": "2026-W31",
+      "latest_stars": 70950,
+      "observed_star_change": 9259,
+      "primary_language": "Python",
+      "repository": "ComposioHQ/awesome-claude-skills",
+      "series": [
+        {
+          "stars": 61691,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 70950,
+          "week": "2026-W31"
+        }
+      ],
+      "slug": "composiohq-awesome-claude-skills",
+      "top_topics": [
+        "agent-skills",
+        "ai-agents",
+        "antigravity",
+        "automation",
+        "claude",
+        "claude-code",
+        "codex",
+        "composio"
+      ],
+      "url": "https://github.com/ComposioHQ/awesome-claude-skills",
+      "weeks_observed": 2
+    },
+    {
+      "description": ":octocat: \u5206\u4eab GitHub \u4e0a\u6709\u8da3\u3001\u5165\u95e8\u7ea7\u7684\u5f00\u6e90\u9879\u76ee\u3002Share interesting, entry-level open source projects on GitHub.",
+      "first_observed_stars": 159605,
+      "first_seen_week": "2026-W23",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 168769,
+      "observed_star_change": 9164,
+      "primary_language": "Python",
+      "repository": "521xueweihan/HelloGitHub",
+      "series": [
+        {
+          "stars": 159605,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 163106,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 168769,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "521xueweihan-hellogithub",
+      "top_topics": [
+        "awesome",
+        "github",
+        "hellogithub",
+        "python"
+      ],
+      "url": "https://github.com/521xueweihan/HelloGitHub",
+      "weeks_observed": 3
     },
     {
       "description": "\ud83d\ude4c OpenHands: AI-Driven Development",
       "first_observed_stars": 73933,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 82210,
-      "observed_star_change": 8277,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 82920,
+      "observed_star_change": 8987,
       "primary_language": "Python",
       "repository": "OpenHands/OpenHands",
       "series": [
@@ -3453,6 +3589,10 @@
         {
           "stars": 82210,
           "week": "2026-W31"
+        },
+        {
+          "stars": 82920,
+          "week": "2026-W32"
         }
       ],
       "slug": "openhands-openhands",
@@ -3467,7 +3607,443 @@
         "llm"
       ],
       "url": "https://github.com/OpenHands/OpenHands",
-      "weeks_observed": 11
+      "weeks_observed": 12
+    },
+    {
+      "description": "omo/lazycodex: The coding agent for tokenmaxxers;the one and only agent harness for complex codebases. For your Codex, for your OpenCode",
+      "first_observed_stars": 58328,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 67067,
+      "observed_star_change": 8739,
+      "primary_language": "TypeScript",
+      "repository": "code-yeongyu/oh-my-openagent",
+      "series": [
+        {
+          "stars": 58328,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 59332,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 60554,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 61498,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 62418,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 63178,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 63999,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 64942,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 66027,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 66196,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 66631,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 67067,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "code-yeongyu-oh-my-openagent",
+      "top_topics": [
+        "ai",
+        "ai-agents",
+        "anthropic",
+        "chatgpt",
+        "claude",
+        "claude-skills",
+        "cursor",
+        "gemini"
+      ],
+      "url": "https://github.com/code-yeongyu/oh-my-openagent",
+      "weeks_observed": 12
+    },
+    {
+      "description": "High performance self-hosted photo and video management solution.",
+      "first_observed_stars": 100919,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 109576,
+      "observed_star_change": 8657,
+      "primary_language": "TypeScript",
+      "repository": "immich-app/immich",
+      "series": [
+        {
+          "stars": 100919,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 101764,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 102421,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 102861,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 103495,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 104106,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 104626,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 106197,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 107977,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 108201,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 108904,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 109576,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "immich-app-immich",
+      "top_topics": [
+        "backup-tool",
+        "flutter",
+        "google-photos",
+        "google-photos-alternative",
+        "javascript",
+        "mobile-app",
+        "nestjs",
+        "nodejs"
+      ],
+      "url": "https://github.com/immich-app/immich",
+      "weeks_observed": 12
+    },
+    {
+      "description": "A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev",
+      "first_observed_stars": 122433,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 131022,
+      "observed_star_change": 8589,
+      "primary_language": "HTML",
+      "repository": "ripienaar/free-for-dev",
+      "series": [
+        {
+          "stars": 122433,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 122633,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 122845,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 122964,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 123150,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 123294,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 125621,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 128523,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 129630,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 129857,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 130522,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 131022,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "ripienaar-free-for-dev",
+      "top_topics": [
+        "awesome-list",
+        "free-for-developers"
+      ],
+      "url": "https://github.com/ripienaar/free-for-dev",
+      "weeks_observed": 12
+    },
+    {
+      "description": "Open-source AI job search: scan job portals, evaluate listings with a structured A-F rubric into a 1.0-5.0 score, tailor your CV, track applications \u2014 runs locally in your AI coding CLI (Claude Code, Codex, OpenCode, Antigravity\u2026)",
+      "first_observed_stars": 54035,
+      "first_seen_week": "2026-W25",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 62568,
+      "observed_star_change": 8533,
+      "primary_language": "JavaScript",
+      "repository": "santifer/career-ops",
+      "series": [
+        {
+          "stars": 54035,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 55092,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 56429,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 58702,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 60397,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 60628,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 61707,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 62568,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "santifer-career-ops",
+      "top_topics": [
+        "ai-agent",
+        "anthropic",
+        "automation",
+        "career",
+        "careerops",
+        "claude",
+        "claude-code",
+        "cli"
+      ],
+      "url": "https://github.com/santifer/career-ops",
+      "weeks_observed": 8
+    },
+    {
+      "description": "Spec-driven development (SDD) for AI coding assistants.",
+      "first_observed_stars": 55050,
+      "first_seen_week": "2026-W25",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 63527,
+      "observed_star_change": 8477,
+      "primary_language": "TypeScript",
+      "repository": "Fission-AI/OpenSpec",
+      "series": [
+        {
+          "stars": 55050,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 57504,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 58861,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 61383,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 61630,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 62684,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 63527,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "fission-ai-openspec",
+      "top_topics": [
+        "ai",
+        "context-engineering",
+        "engineering",
+        "planning",
+        "prd",
+        "sdd",
+        "sdlc",
+        "spec"
+      ],
+      "url": "https://github.com/Fission-AI/OpenSpec",
+      "weeks_observed": 7
+    },
+    {
+      "description": "Pre-indexed code knowledge graph, auto syncs on code changes, for Claude Code, Codex, Gemini, Cursor, OpenCode, AntiGravity, Kiro, and Hermes Agent \u2014 fewer tokens, fewer tool calls, 100% local",
+      "first_observed_stars": 55761,
+      "first_seen_week": "2026-W27",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 64143,
+      "observed_star_change": 8382,
+      "primary_language": "TypeScript",
+      "repository": "colbymchenry/codegraph",
+      "series": [
+        {
+          "stars": 55761,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 57795,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 60625,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 60972,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 62619,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 64143,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "colbymchenry-codegraph",
+      "top_topics": [],
+      "url": "https://github.com/colbymchenry/codegraph",
+      "weeks_observed": 6
+    },
+    {
+      "description": "freeCodeCamp.org's open-source codebase and curriculum. Learn math, programming, and computer science for free.",
+      "first_observed_stars": 445054,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 453374,
+      "observed_star_change": 8320,
+      "primary_language": "TypeScript",
+      "repository": "freeCodeCamp/freeCodeCamp",
+      "series": [
+        {
+          "stars": 445054,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 445394,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 445744,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 446412,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 448148,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 450112,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 450700,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 451146,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 451969,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 452102,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 452898,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 453374,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "freecodecamp-freecodecamp",
+      "top_topics": [
+        "careers",
+        "certification",
+        "community",
+        "curriculum",
+        "d3",
+        "education",
+        "freecodecamp",
+        "javascript"
+      ],
+      "url": "https://github.com/freeCodeCamp/freeCodeCamp",
+      "weeks_observed": 12
     },
     {
       "description": "Turn any PDF or image document into structured data for your AI. A powerful, lightweight OCR toolkit that bridges the gap between images/PDFs and LLMs. Supports 100+ languages.",
@@ -3535,349 +4111,12 @@
       "weeks_observed": 10
     },
     {
-      "description": "A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev",
-      "first_observed_stars": 122433,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 130522,
-      "observed_star_change": 8089,
-      "primary_language": "HTML",
-      "repository": "ripienaar/free-for-dev",
-      "series": [
-        {
-          "stars": 122433,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 122633,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 122845,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 122964,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 123150,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 123294,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 125621,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 128523,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 129630,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 129857,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 130522,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "ripienaar-free-for-dev",
-      "top_topics": [
-        "awesome-list",
-        "free-for-developers"
-      ],
-      "url": "https://github.com/ripienaar/free-for-dev",
-      "weeks_observed": 11
-    },
-    {
-      "description": "High performance self-hosted photo and video management solution.",
-      "first_observed_stars": 100919,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 108904,
-      "observed_star_change": 7985,
-      "primary_language": "TypeScript",
-      "repository": "immich-app/immich",
-      "series": [
-        {
-          "stars": 100919,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 101764,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 102421,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 102861,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 103495,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 104106,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 104626,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 106197,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 107977,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 108201,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 108904,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "immich-app-immich",
-      "top_topics": [
-        "backup-tool",
-        "flutter",
-        "google-photos",
-        "google-photos-alternative",
-        "javascript",
-        "mobile-app",
-        "nestjs",
-        "nodejs"
-      ],
-      "url": "https://github.com/immich-app/immich",
-      "weeks_observed": 11
-    },
-    {
-      "description": "\ud83d\ude0e Awesome lists about all kinds of interesting topics",
-      "first_observed_stars": 473917,
-      "first_seen_week": "2026-W24",
-      "last_seen_week": "2026-W28",
-      "latest_stars": 481871,
-      "observed_star_change": 7954,
-      "primary_language": "Unknown",
-      "repository": "sindresorhus/awesome",
-      "series": [
-        {
-          "stars": 473917,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 479691,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 481871,
-          "week": "2026-W28"
-        }
-      ],
-      "slug": "sindresorhus-awesome",
-      "top_topics": [
-        "awesome",
-        "awesome-list",
-        "lists",
-        "resources",
-        "unicorns"
-      ],
-      "url": "https://github.com/sindresorhus/awesome",
-      "weeks_observed": 3
-    },
-    {
-      "description": "freeCodeCamp.org's open-source codebase and curriculum. Learn math, programming, and computer science for free.",
-      "first_observed_stars": 445054,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 452898,
-      "observed_star_change": 7844,
-      "primary_language": "TypeScript",
-      "repository": "freeCodeCamp/freeCodeCamp",
-      "series": [
-        {
-          "stars": 445054,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 445394,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 445744,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 446412,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 448148,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 450112,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 450700,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 451146,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 451969,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 452102,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 452898,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "freecodecamp-freecodecamp",
-      "top_topics": [
-        "careers",
-        "certification",
-        "community",
-        "curriculum",
-        "d3",
-        "education",
-        "freecodecamp",
-        "javascript"
-      ],
-      "url": "https://github.com/freeCodeCamp/freeCodeCamp",
-      "weeks_observed": 11
-    },
-    {
-      "description": "Open-source AI job search: scan job portals, evaluate listings with a structured A-F rubric into a 1.0-5.0 score, tailor your CV, track applications \u2014 runs locally in your AI coding CLI (Claude Code, Codex, OpenCode, Antigravity\u2026)",
-      "first_observed_stars": 54035,
-      "first_seen_week": "2026-W25",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 61707,
-      "observed_star_change": 7672,
-      "primary_language": "JavaScript",
-      "repository": "santifer/career-ops",
-      "series": [
-        {
-          "stars": 54035,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 55092,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 56429,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 58702,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 60397,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 60628,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 61707,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "santifer-career-ops",
-      "top_topics": [
-        "ai-agent",
-        "anthropic",
-        "automation",
-        "career",
-        "careerops",
-        "claude",
-        "claude-code",
-        "cli"
-      ],
-      "url": "https://github.com/santifer/career-ops",
-      "weeks_observed": 7
-    },
-    {
-      "description": "Spec-driven development (SDD) for AI coding assistants.",
-      "first_observed_stars": 55050,
-      "first_seen_week": "2026-W25",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 62684,
-      "observed_star_change": 7634,
-      "primary_language": "TypeScript",
-      "repository": "Fission-AI/OpenSpec",
-      "series": [
-        {
-          "stars": 55050,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 57504,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 58861,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 61383,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 61630,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 62684,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "fission-ai-openspec",
-      "top_topics": [
-        "ai",
-        "context-engineering",
-        "engineering",
-        "planning",
-        "prd",
-        "sdd",
-        "sdlc",
-        "spec"
-      ],
-      "url": "https://github.com/Fission-AI/OpenSpec",
-      "weeks_observed": 6
-    },
-    {
       "description": "Interactive roadmaps, guides and other educational content to help developers grow in their careers.",
       "first_observed_stars": 355411,
       "first_seen_week": "2026-W22",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 362794,
-      "observed_star_change": 7383,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 363424,
+      "observed_star_change": 8013,
       "primary_language": "TypeScript",
       "repository": "nilbuild/developer-roadmap",
       "series": [
@@ -3920,6 +4159,10 @@
         {
           "stars": 362794,
           "week": "2026-W31"
+        },
+        {
+          "stars": 363424,
+          "week": "2026-W32"
         }
       ],
       "slug": "nilbuild-developer-roadmap",
@@ -3934,15 +4177,15 @@
         "frontend-roadmap"
       ],
       "url": "https://github.com/nilbuild/developer-roadmap",
-      "weeks_observed": 10
+      "weeks_observed": 11
     },
     {
       "description": "Linux kernel source tree",
       "first_observed_stars": 233559,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 240672,
-      "observed_star_change": 7113,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 241514,
+      "observed_star_change": 7955,
       "primary_language": "C",
       "repository": "torvalds/linux",
       "series": [
@@ -3989,53 +4232,118 @@
         {
           "stars": 240672,
           "week": "2026-W31"
+        },
+        {
+          "stars": 241514,
+          "week": "2026-W32"
         }
       ],
       "slug": "torvalds-linux",
       "top_topics": [],
       "url": "https://github.com/torvalds/linux",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
-      "description": "A Simple and Universal Swarm Intelligence Engine, Predicting Anything. \u7b80\u6d01\u901a\u7528\u7684\u7fa4\u4f53\u667a\u80fd\u5f15\u64ce\uff0c\u9884\u6d4b\u4e07\u7269",
-      "first_observed_stars": 62412,
-      "first_seen_week": "2026-W22",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 69433,
-      "observed_star_change": 7021,
-      "primary_language": "Python",
-      "repository": "666ghj/MiroFish",
+      "description": "\ud83d\ude0e Awesome lists about all kinds of interesting topics",
+      "first_observed_stars": 473917,
+      "first_seen_week": "2026-W24",
+      "last_seen_week": "2026-W28",
+      "latest_stars": 481871,
+      "observed_star_change": 7954,
+      "primary_language": "Unknown",
+      "repository": "sindresorhus/awesome",
       "series": [
         {
-          "stars": 62412,
+          "stars": 473917,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 479691,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 481871,
+          "week": "2026-W28"
+        }
+      ],
+      "slug": "sindresorhus-awesome",
+      "top_topics": [
+        "awesome",
+        "awesome-list",
+        "lists",
+        "resources",
+        "unicorns"
+      ],
+      "url": "https://github.com/sindresorhus/awesome",
+      "weeks_observed": 3
+    },
+    {
+      "description": "\u79d1\u6280\u7231\u597d\u8005\u5468\u520a\uff0c\u6bcf\u5468\u4e94\u53d1\u5e03",
+      "first_observed_stars": 91348,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 99128,
+      "observed_star_change": 7780,
+      "primary_language": "Unknown",
+      "repository": "ruanyf/weekly",
+      "series": [
+        {
+          "stars": 91348,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 91928,
           "week": "2026-W22"
         },
         {
-          "stars": 69433,
+          "stars": 92813,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 93423,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 93928,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 94690,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 95185,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 96971,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 97109,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 98174,
           "week": "2026-W31"
+        },
+        {
+          "stars": 99128,
+          "week": "2026-W32"
         }
       ],
-      "slug": "666ghj-mirofish",
-      "top_topics": [
-        "agent-memory",
-        "financial-forecasting",
-        "future-prediction",
-        "knowledge-graph",
-        "llms",
-        "multi-agent-simulation",
-        "public-opinion-analysis",
-        "python3"
-      ],
-      "url": "https://github.com/666ghj/MiroFish",
-      "weeks_observed": 2
+      "slug": "ruanyf-weekly",
+      "top_topics": [],
+      "url": "https://github.com/ruanyf/weekly",
+      "weeks_observed": 11
     },
     {
       "description": "A high-throughput and memory-efficient inference and serving engine for LLMs",
       "first_observed_stars": 80325,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 87260,
-      "observed_star_change": 6935,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 87994,
+      "observed_star_change": 7669,
       "primary_language": "Python",
       "repository": "vllm-project/vllm",
       "series": [
@@ -4082,6 +4390,10 @@
         {
           "stars": 87260,
           "week": "2026-W31"
+        },
+        {
+          "stars": 87994,
+          "week": "2026-W32"
         }
       ],
       "slug": "vllm-project-vllm",
@@ -4096,107 +4408,93 @@
         "inference"
       ],
       "url": "https://github.com/vllm-project/vllm",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
-      "description": "Pre-indexed code knowledge graph, auto syncs on code changes, for Claude Code, Codex, Gemini, Cursor, OpenCode, AntiGravity, Kiro, and Hermes Agent \u2014 fewer tokens, fewer tool calls, 100% local",
-      "first_observed_stars": 55761,
-      "first_seen_week": "2026-W27",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 62619,
-      "observed_star_change": 6858,
-      "primary_language": "TypeScript",
-      "repository": "colbymchenry/codegraph",
+      "description": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20% fewer tokens for coding agents, 60-95% fewer tokens for JSON, same answers. Library, proxy, MCP server.",
+      "first_observed_stars": 56857,
+      "first_seen_week": "2026-W28",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 64115,
+      "observed_star_change": 7258,
+      "primary_language": "Python",
+      "repository": "headroomlabs-ai/headroom",
       "series": [
         {
-          "stars": 55761,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 57795,
+          "stars": 56857,
           "week": "2026-W28"
         },
         {
-          "stars": 60625,
+          "stars": 59675,
           "week": "2026-W29"
         },
         {
-          "stars": 60972,
+          "stars": 60402,
           "week": "2026-W30"
         },
         {
-          "stars": 62619,
+          "stars": 62632,
           "week": "2026-W31"
+        },
+        {
+          "stars": 64115,
+          "week": "2026-W32"
         }
       ],
-      "slug": "colbymchenry-codegraph",
-      "top_topics": [],
-      "url": "https://github.com/colbymchenry/codegraph",
+      "slug": "headroomlabs-ai-headroom",
+      "top_topics": [
+        "agent",
+        "ai",
+        "anthropic",
+        "claude-code",
+        "compression",
+        "context-engineering",
+        "context-window",
+        "cursor"
+      ],
+      "url": "https://github.com/headroomlabs-ai/headroom",
       "weeks_observed": 5
     },
     {
-      "description": "\u79d1\u6280\u7231\u597d\u8005\u5468\u520a\uff0c\u6bcf\u5468\u4e94\u53d1\u5e03",
-      "first_observed_stars": 91348,
-      "first_seen_week": "2026-W21",
+      "description": "A Simple and Universal Swarm Intelligence Engine, Predicting Anything. \u7b80\u6d01\u901a\u7528\u7684\u7fa4\u4f53\u667a\u80fd\u5f15\u64ce\uff0c\u9884\u6d4b\u4e07\u7269",
+      "first_observed_stars": 62412,
+      "first_seen_week": "2026-W22",
       "last_seen_week": "2026-W31",
-      "latest_stars": 98174,
-      "observed_star_change": 6826,
-      "primary_language": "Unknown",
-      "repository": "ruanyf/weekly",
+      "latest_stars": 69433,
+      "observed_star_change": 7021,
+      "primary_language": "Python",
+      "repository": "666ghj/MiroFish",
       "series": [
         {
-          "stars": 91348,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 91928,
+          "stars": 62412,
           "week": "2026-W22"
         },
         {
-          "stars": 92813,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 93423,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 93928,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 94690,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 95185,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 96971,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 97109,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 98174,
+          "stars": 69433,
           "week": "2026-W31"
         }
       ],
-      "slug": "ruanyf-weekly",
-      "top_topics": [],
-      "url": "https://github.com/ruanyf/weekly",
-      "weeks_observed": 10
+      "slug": "666ghj-mirofish",
+      "top_topics": [
+        "agent-memory",
+        "financial-forecasting",
+        "future-prediction",
+        "knowledge-graph",
+        "llms",
+        "multi-agent-simulation",
+        "public-opinion-analysis",
+        "python3"
+      ],
+      "url": "https://github.com/666ghj/MiroFish",
+      "weeks_observed": 2
     },
     {
       "description": "A curated list of awesome Go frameworks, libraries and software",
       "first_observed_stars": 172948,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 179329,
-      "observed_star_change": 6381,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 179945,
+      "observed_star_change": 6997,
       "primary_language": "Go",
       "repository": "avelino/awesome-go",
       "series": [
@@ -4243,6 +4541,10 @@
         {
           "stars": 179329,
           "week": "2026-W31"
+        },
+        {
+          "stars": 179945,
+          "week": "2026-W32"
         }
       ],
       "slug": "avelino-awesome-go",
@@ -4255,15 +4557,15 @@
         "hacktoberfest"
       ],
       "url": "https://github.com/avelino/awesome-go",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
       "description": "A GUI client for Windows, Linux and macOS, support Xray and sing-box and others",
       "first_observed_stars": 105958,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 112296,
-      "observed_star_change": 6338,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 112881,
+      "observed_star_change": 6923,
       "primary_language": "C#",
       "repository": "2dust/v2rayN",
       "series": [
@@ -4310,6 +4612,10 @@
         {
           "stars": 112296,
           "week": "2026-W31"
+        },
+        {
+          "stars": 112881,
+          "week": "2026-W32"
         }
       ],
       "slug": "2dust-v2rayn",
@@ -4324,15 +4630,15 @@
         "vmess"
       ],
       "url": "https://github.com/2dust/v2rayN",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
       "description": "Universal memory layer for AI Agents",
       "first_observed_stars": 56000,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 61788,
-      "observed_star_change": 5788,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 62345,
+      "observed_star_change": 6345,
       "primary_language": "Python",
       "repository": "mem0ai/mem0",
       "series": [
@@ -4379,6 +4685,10 @@
         {
           "stars": 61788,
           "week": "2026-W31"
+        },
+        {
+          "stars": 62345,
+          "week": "2026-W32"
         }
       ],
       "slug": "mem0ai-mem0",
@@ -4393,56 +4703,15 @@
         "llm"
       ],
       "url": "https://github.com/mem0ai/mem0",
-      "weeks_observed": 11
-    },
-    {
-      "description": "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20% fewer tokens for coding agents, 60-95% fewer tokens for JSON, same answers. Library, proxy, MCP server.",
-      "first_observed_stars": 56857,
-      "first_seen_week": "2026-W28",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 62632,
-      "observed_star_change": 5775,
-      "primary_language": "Python",
-      "repository": "headroomlabs-ai/headroom",
-      "series": [
-        {
-          "stars": 56857,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 59675,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 60402,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 62632,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "headroomlabs-ai-headroom",
-      "top_topics": [
-        "agent",
-        "ai",
-        "anthropic",
-        "claude-code",
-        "compression",
-        "context-engineering",
-        "context-window",
-        "cursor"
-      ],
-      "url": "https://github.com/headroomlabs-ai/headroom",
-      "weeks_observed": 4
+      "weeks_observed": 12
     },
     {
       "description": "The agent engineering platform.",
       "first_observed_stars": 136996,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 142638,
-      "observed_star_change": 5642,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 143264,
+      "observed_star_change": 6268,
       "primary_language": "Python",
       "repository": "langchain-ai/langchain",
       "series": [
@@ -4489,6 +4758,10 @@
         {
           "stars": 142638,
           "week": "2026-W31"
+        },
+        {
+          "stars": 143264,
+          "week": "2026-W32"
         }
       ],
       "slug": "langchain-ai-langchain",
@@ -4503,220 +4776,15 @@
         "framework"
       ],
       "url": "https://github.com/langchain-ai/langchain",
-      "weeks_observed": 11
-    },
-    {
-      "description": "The best-benchmarked open-source AI memory system. And it's free.",
-      "first_observed_stars": 52401,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 57774,
-      "observed_star_change": 5373,
-      "primary_language": "Python",
-      "repository": "MemPalace/mempalace",
-      "series": [
-        {
-          "stars": 52401,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 52798,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 53215,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 54697,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 55706,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 56119,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 56709,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 56999,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 57430,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 57487,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 57774,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "mempalace-mempalace",
-      "top_topics": [
-        "ai",
-        "chromadb",
-        "llm",
-        "mcp",
-        "memory",
-        "python"
-      ],
-      "url": "https://github.com/MemPalace/mempalace",
-      "weeks_observed": 11
-    },
-    {
-      "description": "RAGFlow is a leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context layer for LLMs",
-      "first_observed_stars": 80710,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 86080,
-      "observed_star_change": 5370,
-      "primary_language": "Python",
-      "repository": "infiniflow/ragflow",
-      "series": [
-        {
-          "stars": 80710,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 81190,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 81654,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 82196,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 82900,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 83315,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 83806,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 84359,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 85300,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 85425,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 86080,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "infiniflow-ragflow",
-      "top_topics": [
-        "agentic-ai",
-        "agentic-retrieval",
-        "agentic-search",
-        "ai",
-        "ai-agents",
-        "context-engine",
-        "context-management",
-        "llm-apps"
-      ],
-      "url": "https://github.com/infiniflow/ragflow",
-      "weeks_observed": 11
-    },
-    {
-      "description": "A set of beautifully-designed, accessible components and a code distribution platform. Works with your favorite frameworks. Open Source. Open Code.",
-      "first_observed_stars": 114587,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 119888,
-      "observed_star_change": 5301,
-      "primary_language": "TypeScript",
-      "repository": "shadcn-ui/ui",
-      "series": [
-        {
-          "stars": 114587,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 115002,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 115392,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 115955,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 116701,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 117109,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 117678,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 118183,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 119196,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 119337,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 119888,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "shadcn-ui-ui",
-      "top_topics": [
-        "base-ui",
-        "components",
-        "laravel",
-        "nextjs",
-        "radix-ui",
-        "react",
-        "shadcn",
-        "tailwindcss"
-      ],
-      "url": "https://github.com/shadcn-ui/ui",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
       "description": "Get up and running with Kimi-K2.6, GLM-5.2, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models.",
       "first_observed_stars": 171669,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 176953,
-      "observed_star_change": 5284,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 177629,
+      "observed_star_change": 5960,
       "primary_language": "Go",
       "repository": "ollama/ollama",
       "series": [
@@ -4763,6 +4831,10 @@
         {
           "stars": 176953,
           "week": "2026-W31"
+        },
+        {
+          "stars": 177629,
+          "week": "2026-W32"
         }
       ],
       "slug": "ollama-ollama",
@@ -4777,15 +4849,161 @@
         "llama"
       ],
       "url": "https://github.com/ollama/ollama",
-      "weeks_observed": 11
+      "weeks_observed": 12
+    },
+    {
+      "description": "RAGFlow is a leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context layer for LLMs",
+      "first_observed_stars": 80710,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 86656,
+      "observed_star_change": 5946,
+      "primary_language": "Python",
+      "repository": "infiniflow/ragflow",
+      "series": [
+        {
+          "stars": 80710,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 81190,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 81654,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 82196,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 82900,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 83315,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 83806,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 84359,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 85300,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 85425,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 86080,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 86656,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "infiniflow-ragflow",
+      "top_topics": [
+        "agentic-ai",
+        "agentic-retrieval",
+        "agentic-search",
+        "ai",
+        "ai-agents",
+        "context-engine",
+        "context-management",
+        "llm-apps"
+      ],
+      "url": "https://github.com/infiniflow/ragflow",
+      "weeks_observed": 12
+    },
+    {
+      "description": "A set of beautifully-designed, accessible components and a code distribution platform. Works with your favorite frameworks. Open Source. Open Code.",
+      "first_observed_stars": 114587,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 120364,
+      "observed_star_change": 5777,
+      "primary_language": "TypeScript",
+      "repository": "shadcn-ui/ui",
+      "series": [
+        {
+          "stars": 114587,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 115002,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 115392,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 115955,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 116701,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 117109,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 117678,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 118183,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 119196,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 119337,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 119888,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 120364,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "shadcn-ui-ui",
+      "top_topics": [
+        "base-ui",
+        "components",
+        "laravel",
+        "nextjs",
+        "radix-ui",
+        "react",
+        "shadcn",
+        "tailwindcss"
+      ],
+      "url": "https://github.com/shadcn-ui/ui",
+      "weeks_observed": 12
     },
     {
       "description": "18 Lessons to Get Started Building AI Agents",
       "first_observed_stars": 65420,
       "first_seen_week": "2026-W22",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 70403,
-      "observed_star_change": 4983,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 71014,
+      "observed_star_change": 5594,
       "primary_language": "Jupyter Notebook",
       "repository": "microsoft/ai-agents-for-beginners",
       "series": [
@@ -4816,6 +5034,10 @@
         {
           "stars": 70403,
           "week": "2026-W31"
+        },
+        {
+          "stars": 71014,
+          "week": "2026-W32"
         }
       ],
       "slug": "microsoft-ai-agents-for-beginners",
@@ -4830,84 +5052,130 @@
         "semantic-kernel"
       ],
       "url": "https://github.com/microsoft/ai-agents-for-beginners",
-      "weeks_observed": 7
+      "weeks_observed": 8
     },
     {
-      "description": "Warp is an agentic development environment, born out of the terminal.",
-      "first_observed_stars": 58894,
+      "description": "The best-benchmarked open-source AI memory system. And it's free.",
+      "first_observed_stars": 52401,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 63699,
-      "observed_star_change": 4805,
-      "primary_language": "Rust",
-      "repository": "warpdotdev/warp",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 57995,
+      "observed_star_change": 5594,
+      "primary_language": "Python",
+      "repository": "MemPalace/mempalace",
       "series": [
         {
-          "stars": 58894,
+          "stars": 52401,
           "week": "2026-W21"
         },
         {
-          "stars": 59891,
+          "stars": 52798,
           "week": "2026-W22"
         },
         {
-          "stars": 60772,
+          "stars": 53215,
           "week": "2026-W23"
         },
         {
-          "stars": 61255,
+          "stars": 54697,
           "week": "2026-W24"
         },
         {
-          "stars": 61836,
+          "stars": 55706,
           "week": "2026-W25"
         },
         {
-          "stars": 62152,
+          "stars": 56119,
           "week": "2026-W26"
         },
         {
-          "stars": 62557,
+          "stars": 56709,
           "week": "2026-W27"
         },
         {
-          "stars": 62843,
+          "stars": 56999,
           "week": "2026-W28"
         },
         {
-          "stars": 63301,
+          "stars": 57430,
           "week": "2026-W29"
         },
         {
-          "stars": 63425,
+          "stars": 57487,
           "week": "2026-W30"
         },
         {
-          "stars": 63699,
+          "stars": 57774,
           "week": "2026-W31"
+        },
+        {
+          "stars": 57995,
+          "week": "2026-W32"
         }
       ],
-      "slug": "warpdotdev-warp",
+      "slug": "mempalace-mempalace",
       "top_topics": [
-        "bash",
-        "linux",
-        "macos",
-        "rust",
-        "shell",
-        "terminal",
-        "wasm",
-        "zsh"
+        "ai",
+        "chromadb",
+        "llm",
+        "mcp",
+        "memory",
+        "python"
       ],
-      "url": "https://github.com/warpdotdev/warp",
-      "weeks_observed": 11
+      "url": "https://github.com/MemPalace/mempalace",
+      "weeks_observed": 12
+    },
+    {
+      "description": "LLM \u9a71\u52a8\u7684\u591a\u5e02\u573a\u80a1\u7968\u667a\u80fd\u5206\u6790\u7cfb\u7edf\uff1a\u591a\u6e90\u884c\u60c5\u3001\u5b9e\u65f6\u65b0\u95fb\u3001\u51b3\u7b56\u770b\u677f\u4e0e\u81ea\u52a8\u63a8\u9001\uff0c\u652f\u6301\u96f6\u6210\u672c\u5b9a\u65f6\u8fd0\u884c\u3002  LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs.",
+      "first_observed_stars": 54788,
+      "first_seen_week": "2026-W28",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 59885,
+      "observed_star_change": 5097,
+      "primary_language": "Python",
+      "repository": "ZhuLinsen/daily_stock_analysis",
+      "series": [
+        {
+          "stars": 54788,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 57648,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 57929,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 59105,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 59885,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "zhulinsen-daily-stock-analysis",
+      "top_topics": [
+        "a-stock",
+        "ai-agent",
+        "aigc",
+        "llm",
+        "quant",
+        "quantitative-finance",
+        "quantitative-trading"
+      ],
+      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
+      "weeks_observed": 5
     },
     {
       "description": "An open-source remote desktop application designed for self-hosting, as an alternative to TeamViewer.",
       "first_observed_stars": 114466,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 118927,
-      "observed_star_change": 4461,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 119460,
+      "observed_star_change": 4994,
       "primary_language": "Rust",
       "repository": "rustdesk/rustdesk",
       "series": [
@@ -4954,6 +5222,10 @@
         {
           "stars": 118927,
           "week": "2026-W31"
+        },
+        {
+          "stars": 119460,
+          "week": "2026-W32"
         }
       ],
       "slug": "rustdesk-rustdesk",
@@ -4968,144 +5240,88 @@
         "linux"
       ],
       "url": "https://github.com/rustdesk/rustdesk",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
-      "description": "Virtual whiteboard for sketching hand-drawn like diagrams",
-      "first_observed_stars": 123965,
-      "first_seen_week": "2026-W22",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 128408,
-      "observed_star_change": 4443,
-      "primary_language": "TypeScript",
-      "repository": "excalidraw/excalidraw",
-      "series": [
-        {
-          "stars": 123965,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 124869,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 125433,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 125920,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 126388,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 126850,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 127742,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 127880,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 128408,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "excalidraw-excalidraw",
-      "top_topics": [
-        "canvas",
-        "collaboration",
-        "diagrams",
-        "drawing",
-        "hacktoberfest",
-        "productivity",
-        "whiteboard"
-      ],
-      "url": "https://github.com/excalidraw/excalidraw",
-      "weeks_observed": 9
-    },
-    {
-      "description": "\uf8ff This project is dedicated to collecting high-quality macOS software and organizing them systematically by different categories for easy search and use.",
-      "first_observed_stars": 104281,
+      "description": "Warp is an agentic development environment, born out of the terminal.",
+      "first_observed_stars": 58894,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 108721,
-      "observed_star_change": 4440,
-      "primary_language": "Swift",
-      "repository": "jaywcjlove/awesome-mac",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 63886,
+      "observed_star_change": 4992,
+      "primary_language": "Rust",
+      "repository": "warpdotdev/warp",
       "series": [
         {
-          "stars": 104281,
+          "stars": 58894,
           "week": "2026-W21"
         },
         {
-          "stars": 104641,
+          "stars": 59891,
           "week": "2026-W22"
         },
         {
-          "stars": 105009,
+          "stars": 60772,
           "week": "2026-W23"
         },
         {
-          "stars": 105407,
+          "stars": 61255,
           "week": "2026-W24"
         },
         {
-          "stars": 105829,
+          "stars": 61836,
           "week": "2026-W25"
         },
         {
-          "stars": 106112,
+          "stars": 62152,
           "week": "2026-W26"
         },
         {
-          "stars": 106412,
+          "stars": 62557,
           "week": "2026-W27"
         },
         {
-          "stars": 106770,
+          "stars": 62843,
           "week": "2026-W28"
         },
         {
-          "stars": 108090,
+          "stars": 63301,
           "week": "2026-W29"
         },
         {
-          "stars": 108247,
+          "stars": 63425,
           "week": "2026-W30"
         },
         {
-          "stars": 108721,
+          "stars": 63699,
           "week": "2026-W31"
+        },
+        {
+          "stars": 63886,
+          "week": "2026-W32"
         }
       ],
-      "slug": "jaywcjlove-awesome-mac",
+      "slug": "warpdotdev-warp",
       "top_topics": [
-        "app",
-        "apple",
-        "application",
-        "apps",
-        "awesome",
-        "awesome-list",
-        "awesome-lists",
-        "awesome-mac"
+        "bash",
+        "linux",
+        "macos",
+        "rust",
+        "shell",
+        "terminal",
+        "wasm",
+        "zsh"
       ],
-      "url": "https://github.com/jaywcjlove/awesome-mac",
-      "weeks_observed": 11
+      "url": "https://github.com/warpdotdev/warp",
+      "weeks_observed": 12
     },
     {
-      "description": "Unsloth is a local UI for training and running Gemma 4, Qwen3.6, DeepSeek, Kimi, GLM and other models.",
+      "description": "Unsloth is a local UI for training and running Kimi K3, Gemma 4, Qwen3.6, DeepSeek-V4, GLM and other models.",
       "first_observed_stars": 64501,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 68939,
-      "observed_star_change": 4438,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 69410,
+      "observed_star_change": 4909,
       "primary_language": "Python",
       "repository": "unslothai/unsloth",
       "series": [
@@ -5152,6 +5368,10 @@
         {
           "stars": 68939,
           "week": "2026-W31"
+        },
+        {
+          "stars": 69410,
+          "week": "2026-W32"
         }
       ],
       "slug": "unslothai-unsloth",
@@ -5166,80 +5386,79 @@
         "llama3"
       ],
       "url": "https://github.com/unslothai/unsloth",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
-      "description": "Code at the speed of thought \u2013 Zed is a high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.",
-      "first_observed_stars": 83135,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 87570,
-      "observed_star_change": 4435,
-      "primary_language": "Rust",
-      "repository": "zed-industries/zed",
+      "description": "Virtual whiteboard for sketching hand-drawn like diagrams",
+      "first_observed_stars": 123965,
+      "first_seen_week": "2026-W22",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 128851,
+      "observed_star_change": 4886,
+      "primary_language": "TypeScript",
+      "repository": "excalidraw/excalidraw",
       "series": [
         {
-          "stars": 83135,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 83717,
+          "stars": 123965,
           "week": "2026-W22"
         },
         {
-          "stars": 84236,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 84764,
+          "stars": 124869,
           "week": "2026-W24"
         },
         {
-          "stars": 85323,
+          "stars": 125433,
           "week": "2026-W25"
         },
         {
-          "stars": 85711,
+          "stars": 125920,
           "week": "2026-W26"
         },
         {
-          "stars": 86146,
+          "stars": 126388,
           "week": "2026-W27"
         },
         {
-          "stars": 86530,
+          "stars": 126850,
           "week": "2026-W28"
         },
         {
-          "stars": 87150,
+          "stars": 127742,
           "week": "2026-W29"
         },
         {
-          "stars": 87256,
+          "stars": 127880,
           "week": "2026-W30"
         },
         {
-          "stars": 87570,
+          "stars": 128408,
           "week": "2026-W31"
+        },
+        {
+          "stars": 128851,
+          "week": "2026-W32"
         }
       ],
-      "slug": "zed-industries-zed",
+      "slug": "excalidraw-excalidraw",
       "top_topics": [
-        "gpui",
-        "rust-lang",
-        "text-editor",
-        "zed"
+        "canvas",
+        "collaboration",
+        "diagrams",
+        "drawing",
+        "hacktoberfest",
+        "productivity",
+        "whiteboard"
       ],
-      "url": "https://github.com/zed-industries/zed",
-      "weeks_observed": 11
+      "url": "https://github.com/excalidraw/excalidraw",
+      "weeks_observed": 10
     },
     {
       "description": "Chris Titus Tech's Windows Utility - Install Programs, Tweaks, Fixes, and Updates",
       "first_observed_stars": 54655,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 59058,
-      "observed_star_change": 4403,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 59496,
+      "observed_star_change": 4841,
       "primary_language": "PowerShell",
       "repository": "ChrisTitusTech/winutil",
       "series": [
@@ -5286,60 +5505,166 @@
         {
           "stars": 59058,
           "week": "2026-W31"
+        },
+        {
+          "stars": 59496,
+          "week": "2026-W32"
         }
       ],
       "slug": "christitustech-winutil",
       "top_topics": [],
       "url": "https://github.com/ChrisTitusTech/winutil",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
-      "description": "LLM \u9a71\u52a8\u7684\u591a\u5e02\u573a\u80a1\u7968\u667a\u80fd\u5206\u6790\u7cfb\u7edf\uff1a\u591a\u6e90\u884c\u60c5\u3001\u5b9e\u65f6\u65b0\u95fb\u3001\u51b3\u7b56\u770b\u677f\u4e0e\u81ea\u52a8\u63a8\u9001\uff0c\u652f\u6301\u96f6\u6210\u672c\u5b9a\u65f6\u8fd0\u884c\u3002  LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs.",
-      "first_observed_stars": 54788,
-      "first_seen_week": "2026-W28",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 59105,
-      "observed_star_change": 4317,
-      "primary_language": "Python",
-      "repository": "ZhuLinsen/daily_stock_analysis",
+      "description": "\uf8ff This project is dedicated to collecting high-quality macOS software and organizing them systematically by different categories for easy search and use.",
+      "first_observed_stars": 104281,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 109069,
+      "observed_star_change": 4788,
+      "primary_language": "Swift",
+      "repository": "jaywcjlove/awesome-mac",
       "series": [
         {
-          "stars": 54788,
+          "stars": 104281,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 104641,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 105009,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 105407,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 105829,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 106112,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 106412,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 106770,
           "week": "2026-W28"
         },
         {
-          "stars": 57648,
+          "stars": 108090,
           "week": "2026-W29"
         },
         {
-          "stars": 57929,
+          "stars": 108247,
           "week": "2026-W30"
         },
         {
-          "stars": 59105,
+          "stars": 108721,
           "week": "2026-W31"
+        },
+        {
+          "stars": 109069,
+          "week": "2026-W32"
         }
       ],
-      "slug": "zhulinsen-daily-stock-analysis",
+      "slug": "jaywcjlove-awesome-mac",
       "top_topics": [
-        "a-stock",
-        "ai-agent",
-        "aigc",
-        "llm",
-        "quant",
-        "quantitative-finance",
-        "quantitative-trading"
+        "app",
+        "apple",
+        "application",
+        "apps",
+        "awesome",
+        "awesome-list",
+        "awesome-lists",
+        "awesome-mac"
       ],
-      "url": "https://github.com/ZhuLinsen/daily_stock_analysis",
-      "weeks_observed": 4
+      "url": "https://github.com/jaywcjlove/awesome-mac",
+      "weeks_observed": 12
+    },
+    {
+      "description": "Code at the speed of thought \u2013 Zed is a high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.",
+      "first_observed_stars": 83135,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 87919,
+      "observed_star_change": 4784,
+      "primary_language": "Rust",
+      "repository": "zed-industries/zed",
+      "series": [
+        {
+          "stars": 83135,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 83717,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 84236,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 84764,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 85323,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 85711,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 86146,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 86530,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 87150,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 87256,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 87570,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 87919,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "zed-industries-zed",
+      "top_topics": [
+        "gpui",
+        "rust-lang",
+        "text-editor",
+        "zed"
+      ],
+      "url": "https://github.com/zed-industries/zed",
+      "weeks_observed": 12
     },
     {
       "description": "Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors",
       "first_observed_stars": 55539,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 59801,
-      "observed_star_change": 4262,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 60170,
+      "observed_star_change": 4631,
       "primary_language": "TypeScript",
       "repository": "upstash/context7",
       "series": [
@@ -5386,6 +5711,10 @@
         {
           "stars": 59801,
           "week": "2026-W31"
+        },
+        {
+          "stars": 60170,
+          "week": "2026-W32"
         }
       ],
       "slug": "upstash-context7",
@@ -5396,80 +5725,154 @@
         "vibe-coding"
       ],
       "url": "https://github.com/upstash/context7",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
-      "description": "Playwright is a framework for Web Testing and Automation. It allows testing Chromium, Firefox and WebKit with a single API. ",
-      "first_observed_stars": 89371,
+      "description": ":books: Freely available programming books",
+      "first_observed_stars": 388958,
       "first_seen_week": "2026-W22",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 93525,
-      "observed_star_change": 4154,
-      "primary_language": "TypeScript",
-      "repository": "microsoft/playwright",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 393580,
+      "observed_star_change": 4622,
+      "primary_language": "Python",
+      "repository": "EbookFoundation/free-programming-books",
       "series": [
         {
-          "stars": 89371,
+          "stars": 388958,
           "week": "2026-W22"
         },
         {
-          "stars": 90013,
+          "stars": 389319,
           "week": "2026-W23"
         },
         {
-          "stars": 90514,
+          "stars": 389878,
           "week": "2026-W24"
         },
         {
-          "stars": 91056,
+          "stars": 390337,
           "week": "2026-W25"
         },
         {
-          "stars": 91365,
+          "stars": 390620,
           "week": "2026-W26"
         },
         {
-          "stars": 91833,
+          "stars": 390929,
           "week": "2026-W27"
         },
         {
-          "stars": 92271,
+          "stars": 391344,
           "week": "2026-W28"
         },
         {
-          "stars": 93035,
+          "stars": 392337,
           "week": "2026-W29"
         },
         {
-          "stars": 93126,
+          "stars": 392514,
           "week": "2026-W30"
         },
         {
-          "stars": 93525,
+          "stars": 393091,
           "week": "2026-W31"
+        },
+        {
+          "stars": 393580,
+          "week": "2026-W32"
         }
       ],
-      "slug": "microsoft-playwright",
+      "slug": "ebookfoundation-free-programming-books",
       "top_topics": [
-        "automation",
-        "chrome",
-        "chromium",
-        "e2e-testing",
-        "electron",
-        "end-to-end-testing",
-        "firefox",
-        "javascript"
+        "books",
+        "education",
+        "hacktoberfest",
+        "list",
+        "resource"
       ],
-      "url": "https://github.com/microsoft/playwright",
-      "weeks_observed": 10
+      "url": "https://github.com/EbookFoundation/free-programming-books",
+      "weeks_observed": 11
+    },
+    {
+      "description": "Hunt down social media accounts by username across social networks",
+      "first_observed_stars": 83452,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 88048,
+      "observed_star_change": 4596,
+      "primary_language": "Python",
+      "repository": "sherlock-project/sherlock",
+      "series": [
+        {
+          "stars": 83452,
+          "week": "2026-W21"
+        },
+        {
+          "stars": 83773,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 84327,
+          "week": "2026-W23"
+        },
+        {
+          "stars": 84734,
+          "week": "2026-W24"
+        },
+        {
+          "stars": 85070,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 85274,
+          "week": "2026-W26"
+        },
+        {
+          "stars": 85825,
+          "week": "2026-W27"
+        },
+        {
+          "stars": 86119,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 86706,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 86822,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 87128,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 88048,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "sherlock-project-sherlock",
+      "top_topics": [
+        "cli",
+        "cti",
+        "cybersecurity",
+        "forensics",
+        "hacktoberfest",
+        "information-gathering",
+        "infosec",
+        "linux"
+      ],
+      "url": "https://github.com/sherlock-project/sherlock",
+      "weeks_observed": 12
     },
     {
       "description": "An open-source, self-hostable PaaS alternative to Vercel, Heroku & Netlify that lets you easily deploy static sites, databases, full-stack applications and 280+ one-click services on your own servers.",
       "first_observed_stars": 55469,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 59617,
-      "observed_star_change": 4148,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 60010,
+      "observed_star_change": 4541,
       "primary_language": "PHP",
       "repository": "coollabsio/coolify",
       "series": [
@@ -5516,6 +5919,10 @@
         {
           "stars": 59617,
           "week": "2026-W31"
+        },
+        {
+          "stars": 60010,
+          "week": "2026-W32"
         }
       ],
       "slug": "coollabsio-coolify",
@@ -5530,217 +5937,84 @@
         "mariadb"
       ],
       "url": "https://github.com/coollabsio/coolify",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
-      "description": ":books: Freely available programming books",
-      "first_observed_stars": 388958,
+      "description": "Playwright is a framework for Web Testing and Automation. It allows testing Chromium, Firefox and WebKit with a single API. ",
+      "first_observed_stars": 89371,
       "first_seen_week": "2026-W22",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 393091,
-      "observed_star_change": 4133,
-      "primary_language": "Python",
-      "repository": "EbookFoundation/free-programming-books",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 93863,
+      "observed_star_change": 4492,
+      "primary_language": "TypeScript",
+      "repository": "microsoft/playwright",
       "series": [
         {
-          "stars": 388958,
+          "stars": 89371,
           "week": "2026-W22"
         },
         {
-          "stars": 389319,
+          "stars": 90013,
           "week": "2026-W23"
         },
         {
-          "stars": 389878,
+          "stars": 90514,
           "week": "2026-W24"
         },
         {
-          "stars": 390337,
+          "stars": 91056,
           "week": "2026-W25"
         },
         {
-          "stars": 390620,
+          "stars": 91365,
           "week": "2026-W26"
         },
         {
-          "stars": 390929,
+          "stars": 91833,
           "week": "2026-W27"
         },
         {
-          "stars": 391344,
+          "stars": 92271,
           "week": "2026-W28"
         },
         {
-          "stars": 392337,
+          "stars": 93035,
           "week": "2026-W29"
         },
         {
-          "stars": 392514,
+          "stars": 93126,
           "week": "2026-W30"
         },
         {
-          "stars": 393091,
+          "stars": 93525,
           "week": "2026-W31"
+        },
+        {
+          "stars": 93863,
+          "week": "2026-W32"
         }
       ],
-      "slug": "ebookfoundation-free-programming-books",
+      "slug": "microsoft-playwright",
       "top_topics": [
-        "books",
-        "education",
-        "hacktoberfest",
-        "list",
-        "resource"
+        "automation",
+        "chrome",
+        "chromium",
+        "e2e-testing",
+        "electron",
+        "end-to-end-testing",
+        "firefox",
+        "javascript"
       ],
-      "url": "https://github.com/EbookFoundation/free-programming-books",
-      "weeks_observed": 10
-    },
-    {
-      "description": "Langflow is a powerful tool for building and deploying AI-powered agents and workflows.",
-      "first_observed_stars": 148421,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 152450,
-      "observed_star_change": 4029,
-      "primary_language": "Python",
-      "repository": "langflow-ai/langflow",
-      "series": [
-        {
-          "stars": 148421,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 148734,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 148972,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 149402,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 149728,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 149917,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 150173,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 151208,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 151961,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 152056,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 152450,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "langflow-ai-langflow",
-      "top_topics": [
-        "agents",
-        "chatgpt",
-        "generative-ai",
-        "large-language-models",
-        "multiagent",
-        "react-flow"
-      ],
-      "url": "https://github.com/langflow-ai/langflow",
+      "url": "https://github.com/microsoft/playwright",
       "weeks_observed": 11
-    },
-    {
-      "description": "Display and control your Android device",
-      "first_observed_stars": 141884,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W29",
-      "latest_stars": 145896,
-      "observed_star_change": 4012,
-      "primary_language": "C",
-      "repository": "Genymobile/scrcpy",
-      "series": [
-        {
-          "stars": 141884,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 142343,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 142789,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 144596,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 145166,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 145896,
-          "week": "2026-W29"
-        }
-      ],
-      "slug": "genymobile-scrcpy",
-      "top_topics": [
-        "android",
-        "c",
-        "ffmpeg",
-        "libav",
-        "mirroring",
-        "recording",
-        "screen",
-        "sdl2"
-      ],
-      "url": "https://github.com/Genymobile/scrcpy",
-      "weeks_observed": 6
-    },
-    {
-      "description": "SpaceXAI's coding agent harness and TUI. Fullscreen, mouse interactive, extensible.",
-      "first_observed_stars": 16266,
-      "first_seen_week": "2026-W29",
-      "last_seen_week": "2026-W30",
-      "latest_stars": 20242,
-      "observed_star_change": 3976,
-      "primary_language": "Rust",
-      "repository": "xai-org/grok-build",
-      "series": [
-        {
-          "stars": 16266,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 20242,
-          "week": "2026-W30"
-        }
-      ],
-      "slug": "xai-org-grok-build",
-      "top_topics": [],
-      "url": "https://github.com/xai-org/grok-build",
-      "weeks_observed": 2
     },
     {
       "description": "\ud83d\udc7b Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.",
       "first_observed_stars": 54760,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 58722,
-      "observed_star_change": 3962,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 59112,
+      "observed_star_change": 4352,
       "primary_language": "Zig",
       "repository": "ghostty-org/ghostty",
       "series": [
@@ -5787,199 +6061,207 @@
         {
           "stars": 58722,
           "week": "2026-W31"
+        },
+        {
+          "stars": 59112,
+          "week": "2026-W32"
         }
       ],
       "slug": "ghostty-org-ghostty",
       "top_topics": [],
       "url": "https://github.com/ghostty-org/ghostty",
-      "weeks_observed": 11
+      "weeks_observed": 12
     },
     {
-      "description": "f.k.a. Awesome ChatGPT Prompts. Share, discover, and collect prompts from the community. Free and open source \u2014 self-host for your organization with complete privacy.",
-      "first_observed_stars": 162444,
+      "description": "Langflow is a powerful tool for building and deploying AI-powered agents and workflows.",
+      "first_observed_stars": 148421,
       "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 166403,
-      "observed_star_change": 3959,
-      "primary_language": "HTML",
-      "repository": "f/prompts.chat",
-      "series": [
-        {
-          "stars": 162444,
-          "week": "2026-W21"
-        },
-        {
-          "stars": 162791,
-          "week": "2026-W22"
-        },
-        {
-          "stars": 163147,
-          "week": "2026-W23"
-        },
-        {
-          "stars": 163448,
-          "week": "2026-W24"
-        },
-        {
-          "stars": 163803,
-          "week": "2026-W25"
-        },
-        {
-          "stars": 164062,
-          "week": "2026-W26"
-        },
-        {
-          "stars": 164493,
-          "week": "2026-W27"
-        },
-        {
-          "stars": 164804,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 165911,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 166034,
-          "week": "2026-W30"
-        },
-        {
-          "stars": 166403,
-          "week": "2026-W31"
-        }
-      ],
-      "slug": "f-prompts-chat",
-      "top_topics": [
-        "ai",
-        "artificial-intelligence",
-        "awesome-list",
-        "chatgpt",
-        "chatgpt-prompts",
-        "claude",
-        "gemini",
-        "gpt"
-      ],
-      "url": "https://github.com/f/prompts.chat",
-      "weeks_observed": 11
-    },
-    {
-      "description": "Get your documents ready for gen AI",
-      "first_observed_stars": 59909,
-      "first_seen_week": "2026-W21",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 63815,
-      "observed_star_change": 3906,
+      "last_seen_week": "2026-W32",
+      "latest_stars": 152767,
+      "observed_star_change": 4346,
       "primary_language": "Python",
-      "repository": "docling-project/docling",
+      "repository": "langflow-ai/langflow",
       "series": [
         {
-          "stars": 59909,
+          "stars": 148421,
           "week": "2026-W21"
         },
         {
-          "stars": 60327,
+          "stars": 148734,
           "week": "2026-W22"
         },
         {
-          "stars": 60761,
+          "stars": 148972,
           "week": "2026-W23"
         },
         {
-          "stars": 61179,
+          "stars": 149402,
           "week": "2026-W24"
         },
         {
-          "stars": 61663,
+          "stars": 149728,
           "week": "2026-W25"
         },
         {
-          "stars": 61938,
+          "stars": 149917,
           "week": "2026-W26"
         },
         {
-          "stars": 62321,
+          "stars": 150173,
           "week": "2026-W27"
         },
         {
-          "stars": 62711,
+          "stars": 151208,
           "week": "2026-W28"
         },
         {
-          "stars": 63374,
+          "stars": 151961,
           "week": "2026-W29"
         },
         {
-          "stars": 63472,
+          "stars": 152056,
           "week": "2026-W30"
         },
         {
-          "stars": 63815,
+          "stars": 152450,
           "week": "2026-W31"
+        },
+        {
+          "stars": 152767,
+          "week": "2026-W32"
         }
       ],
-      "slug": "docling-project-docling",
+      "slug": "langflow-ai-langflow",
       "top_topics": [
-        "ai",
-        "convert",
-        "document-parser",
-        "document-parsing",
-        "documents",
-        "docx",
-        "html",
-        "markdown"
+        "agents",
+        "chatgpt",
+        "generative-ai",
+        "large-language-models",
+        "multiagent",
+        "react-flow"
       ],
-      "url": "https://github.com/docling-project/docling",
-      "weeks_observed": 11
+      "url": "https://github.com/langflow-ai/langflow",
+      "weeks_observed": 12
     },
     {
-      "description": "\ud83e\udd31\ud83c\udffb Turn any webpage into a desktop app with one command.",
-      "first_observed_stars": 56406,
-      "first_seen_week": "2026-W26",
-      "last_seen_week": "2026-W31",
-      "latest_stars": 60248,
-      "observed_star_change": 3842,
+      "description": "Unofficial Bitwarden compatible server written in Rust, formerly known as bitwarden_rs",
+      "first_observed_stars": 60509,
+      "first_seen_week": "2026-W21",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 64834,
+      "observed_star_change": 4325,
       "primary_language": "Rust",
-      "repository": "tw93/Pake",
+      "repository": "dani-garcia/vaultwarden",
       "series": [
         {
-          "stars": 56406,
-          "week": "2026-W26"
+          "stars": 60509,
+          "week": "2026-W21"
         },
         {
-          "stars": 58366,
-          "week": "2026-W27"
+          "stars": 62027,
+          "week": "2026-W24"
         },
         {
-          "stars": 59343,
-          "week": "2026-W28"
-        },
-        {
-          "stars": 60002,
-          "week": "2026-W29"
-        },
-        {
-          "stars": 60041,
+          "stars": 63944,
           "week": "2026-W30"
         },
         {
-          "stars": 60248,
+          "stars": 64349,
           "week": "2026-W31"
+        },
+        {
+          "stars": 64834,
+          "week": "2026-W32"
         }
       ],
-      "slug": "tw93-pake",
+      "slug": "dani-garcia-vaultwarden",
       "top_topics": [
-        "chatgpt",
-        "claude",
-        "desktop",
-        "gemini",
-        "hight-performance",
-        "linux",
-        "macos",
-        "no-electron"
+        "bitwarden",
+        "bitwarden-rs",
+        "docker",
+        "rocket",
+        "rust",
+        "vaultwarden"
       ],
-      "url": "https://github.com/tw93/Pake",
-      "weeks_observed": 6
+      "url": "https://github.com/dani-garcia/vaultwarden",
+      "weeks_observed": 5
+    },
+    {
+      "description": "FULL Augment Code, Claude Code, Cluely, CodeBuddy, Comet, Cursor, Devin AI, Junie, Kiro, Leap.new, Lovable, Manus, NotionAI, Orchids.app, Perplexity, Poke, Qoder, Replit, Same.dev, Trae, Traycer AI, VSCode Agent, Warp.dev, Windsurf, Xcode, Z.ai Code, Dia & v0. (And other Open Sourced) System Prompts, Internal Tools & AI Models",
+      "first_observed_stars": 138217,
+      "first_seen_week": "2026-W22",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 142517,
+      "observed_star_change": 4300,
+      "primary_language": "Unknown",
+      "repository": "x1xhlol/system-prompts-and-models-of-ai-tools",
+      "series": [
+        {
+          "stars": 138217,
+          "week": "2026-W22"
+        },
+        {
+          "stars": 140623,
+          "week": "2026-W25"
+        },
+        {
+          "stars": 141573,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 142025,
+          "week": "2026-W29"
+        },
+        {
+          "stars": 142517,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "x1xhlol-system-prompts-and-models-of-ai-tools",
+      "top_topics": [
+        "ai",
+        "bolt",
+        "cluely",
+        "copilot",
+        "cursor",
+        "cursorai",
+        "devin",
+        "github-copilot"
+      ],
+      "url": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+      "weeks_observed": 5
+    },
+    {
+      "description": "\u5c0f\u7ea2\u4e66\u7b14\u8bb0 | \u8bc4\u8bba\u722c\u866b\u3001\u6296\u97f3\u89c6\u9891 | \u8bc4\u8bba\u722c\u866b\u3001\u5feb\u624b\u89c6\u9891 | \u8bc4\u8bba\u722c\u866b\u3001B \u7ad9\u89c6\u9891 \uff5c \u8bc4\u8bba\u722c\u866b\u3001\u5fae\u535a\u5e16\u5b50 \uff5c \u8bc4\u8bba\u722c\u866b\u3001\u767e\u5ea6\u8d34\u5427\u5e16\u5b50 \uff5c \u767e\u5ea6\u8d34\u5427\u8bc4\u8bba\u56de\u590d\u722c\u866b  | \u77e5\u4e4e\u95ee\u7b54\u6587\u7ae0\uff5c\u8bc4\u8bba\u722c\u866b",
+      "first_observed_stars": 55381,
+      "first_seen_week": "2026-W28",
+      "last_seen_week": "2026-W32",
+      "latest_stars": 59654,
+      "observed_star_change": 4273,
+      "primary_language": "Python",
+      "repository": "NanmiCoder/MediaCrawler",
+      "series": [
+        {
+          "stars": 55381,
+          "week": "2026-W28"
+        },
+        {
+          "stars": 56918,
+          "week": "2026-W30"
+        },
+        {
+          "stars": 57803,
+          "week": "2026-W31"
+        },
+        {
+          "stars": 59654,
+          "week": "2026-W32"
+        }
+      ],
+      "slug": "nanmicoder-mediacrawler",
+      "top_topics": [],
+      "url": "https://github.com/NanmiCoder/MediaCrawler",
+      "weeks_observed": 4
     }
   ],
   "repository_count": 100,
@@ -5994,32 +6276,33 @@
     "data/archive/recovered-W23-W29/2026-W28/2026-W28.json",
     "data/raw/2026-W29.json",
     "data/raw/2026-W30.json",
-    "data/raw/2026-W31.json"
+    "data/raw/2026-W31.json",
+    "data/raw/2026-W32.json"
   ],
   "tool": "star-velocity-explorer",
   "topic_filters": [
     "ai",
     "ai-agents",
-    "chatgpt",
     "anthropic",
     "claude-code",
+    "chatgpt",
     "agent",
     "llm",
-    "awesome-list",
-    "agents",
-    "claude",
-    "python",
-    "automation",
-    "awesome",
     "cli",
+    "python",
+    "agents",
+    "awesome",
+    "automation",
+    "claude",
+    "awesome-list",
+    "hacktoberfest",
     "agentic-ai",
     "agentic-framework",
-    "agent-skills",
     "agentic-workflow",
-    "artificial-intelligence",
     "deepseek",
+    "agent-skills",
     "codex",
-    "hacktoberfest",
+    "docker",
     "antigravity",
     "ai-agent"
   ],
@@ -6035,6 +6318,7 @@
     "2026-W28",
     "2026-W29",
     "2026-W30",
-    "2026-W31"
+    "2026-W31",
+    "2026-W32"
   ]
 }
