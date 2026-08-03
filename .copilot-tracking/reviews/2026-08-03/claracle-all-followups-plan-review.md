@@ -51,13 +51,21 @@ browser runtime dependencies are unavailable.
 * `repo_pages.enabled` and `topic_hubs.dynamic_creation.enabled` remain false.
 * Historical topic backfill was not promoted.
 
+## Pull Request
+
+* PR #655: <https://github.com/jmservera/SquadScope/pull/655>
+* Branch: `feat/claracle-acceptance-followups` → `main`
+* Opened to obtain Hugo, Playwright, Lighthouse, and workflow-security CI evidence
+  unavailable in the local environment.
+
 ## Remaining Authority-Bound Work
 
+* Merge PR #655 after CI passes and any reviewer feedback is addressed.
 * Configure and protect the `podcaster-real-generation` GitHub environment.
 * Retain reviewed atomic proof and cost experiment workflow artifacts.
 * Complete Hermes, URL, accessibility, analytics, metadata, visual, and sponsor reviews.
 * Run one exact real Podcaster generation only after maintainer and environment approval.
-* Use PR CI evidence to close #622 and #626.
+* Use PR #655 CI evidence to close #622 and #626.
 
 ## Overall Status
 
