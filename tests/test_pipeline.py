@@ -806,12 +806,13 @@ class WorkflowConfigTests(unittest.TestCase):
         workflow_text = workflow_path.read_text(encoding="utf-8")
         workflow = yaml.safe_load(workflow_text)
 
-        triggers = workflow[True]
+        triggers = workflow.get("on", workflow.get(True))
         self.assertEqual(set(triggers), {"workflow_dispatch"})
         inputs = triggers["workflow_dispatch"]["inputs"]
         self.assertTrue(inputs["publish_run_id"]["required"])
 
         job = workflow["jobs"]["trigger-podcast"]
+        self.assertIn("refs/heads/main", job["if"])
         self.assertEqual(job["environment"]["name"], "podcaster-real-generation")
         self.assertNotEqual(job["environment"]["name"], "podcaster-release-smoke")
         checkout = next(s for s in job["steps"] if _uses_action(s, "actions/checkout"))
@@ -850,7 +851,7 @@ class WorkflowConfigTests(unittest.TestCase):
         workflow_path = Path(".github/workflows/podcaster-handoff-smoke.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
 
-        triggers = workflow[True]
+        triggers = workflow.get("on", workflow.get(True))
         dispatch_inputs = triggers["workflow_dispatch"]["inputs"]
         call_inputs = triggers["workflow_call"]["inputs"]
         expected_inputs = {
@@ -1039,7 +1040,7 @@ class WorkflowConfigTests(unittest.TestCase):
     def test_rerun_mode_inputs_and_guards_are_declared(self) -> None:
         workflow_path = Path(".github/workflows/crawl-and-publish.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
-        inputs = workflow[True]["workflow_dispatch"]["inputs"]
+        inputs = workflow.get("on", workflow.get(True))["workflow_dispatch"]["inputs"]
 
         self.assertEqual(inputs["run_mode"]["default"], "normal")
         self.assertIn("restore", inputs["run_mode"]["options"])

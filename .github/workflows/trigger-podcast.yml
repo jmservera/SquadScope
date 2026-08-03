@@ -26,6 +26,11 @@ concurrency:
 
 jobs:
   trigger-podcast:
+    # Defense-in-depth: the workflow YAML executed for a manual dispatch comes
+    # from the dispatched ref, not from main, even though the job checks out
+    # the default branch. Refuse to run unless dispatched from main so the
+    # environment-scoped secrets are only reachable from the reviewed workflow.
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     environment:
       name: podcaster-real-generation

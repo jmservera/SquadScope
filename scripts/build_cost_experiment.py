@@ -9,7 +9,7 @@ import json
 import re
 import shutil
 import statistics
-import subprocess
+import subprocess  # nosec B404
 import sys
 import tempfile
 import time
@@ -223,7 +223,9 @@ def _tree_metrics(root: Path, pattern: str = "*") -> tuple[int, int]:
 
 def _run_timed(command: list[str], cwd: Path, log_path: Path) -> tuple[int, int, str]:
     started = time.monotonic_ns()
-    result = subprocess.run(command, cwd=cwd, capture_output=True, text=True, check=False)
+    result = subprocess.run(  # nosec B603 - fixed argv built from reviewed tool paths, no shell
+        command, cwd=cwd, capture_output=True, text=True, check=False
+    )
     duration_ms = (time.monotonic_ns() - started) // 1_000_000
     log = result.stdout + result.stderr
     log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -468,7 +470,9 @@ def write_checksums(reports: Path) -> None:
 
 
 def _tool_version(command: list[str]) -> str:
-    result = subprocess.run(command, capture_output=True, text=True, check=True)
+    result = subprocess.run(  # nosec B603 - fixed argv built from reviewed tool paths, no shell
+        command, capture_output=True, text=True, check=True
+    )
     return (result.stdout or result.stderr).strip().splitlines()[0]
 
 

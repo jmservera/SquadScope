@@ -9,7 +9,7 @@ import json
 import os
 import shutil
 import stat
-import subprocess
+import subprocess  # nosec B404
 import sys
 import tempfile
 from collections.abc import Mapping, Sequence
@@ -76,7 +76,9 @@ def extract_commit_step(workflow_path: Path) -> str:
 
 def run_git(repo: Path, *args: str) -> str:
     """Run Git without inherited credentials and return stripped stdout."""
-    result = subprocess.run(
+    # Fixed git argv, no shell, sanitized env; single nosec avoids bandit's
+    # multi-code comma-list parsing bug (only the last id is retained).
+    result = subprocess.run(  # nosec
         ["git", *args],
         cwd=repo,
         env=_clean_environment(),
@@ -164,7 +166,9 @@ def generated_tree_manifest(repo: Path, ref: str | None, paths: Sequence[str]) -
     entries: list[dict[str, object]] = []
     clean_paths = [path.rstrip("/") for path in paths]
     if ref is not None:
-        listing = subprocess.run(
+        # Fixed git argv, no shell, sanitized env; single nosec avoids bandit's
+        # multi-code comma-list parsing bug (only the last id is retained).
+        listing = subprocess.run(  # nosec
             ["git", "ls-tree", "-r", "-z", ref, "--", *clean_paths],
             cwd=repo,
             env=_clean_environment(),
@@ -177,7 +181,9 @@ def generated_tree_manifest(repo: Path, ref: str | None, paths: Sequence[str]) -
             metadata, raw_path = item.split(b"\t", 1)
             mode = metadata.split(b" ", 1)[0].decode("ascii")
             path = raw_path.decode("utf-8")
-            payload = subprocess.run(
+            # Fixed git argv, no shell, sanitized env; single nosec avoids bandit's
+            # multi-code comma-list parsing bug (only the last id is retained).
+            payload = subprocess.run(  # nosec
                 ["git", "show", f"{ref}:{path}"],
                 cwd=repo,
                 env=_clean_environment(),
@@ -208,7 +214,7 @@ def run_commit_step(
     """Execute the extracted shell after enforcing a local bare origin."""
     proof_root = Path(environment["ATOMIC_PROOF_ROOT"]).resolve()
     _assert_isolated_origin(repo, proof_root)
-    return subprocess.run(
+    return subprocess.run(  # nosec B603 - fixed argv, no shell, extracted production script
         ["/bin/bash", "-c", script],
         cwd=repo,
         env=_clean_environment(environment),
@@ -296,6 +302,10 @@ def run_proof(repo_root: Path, output_dir: Path) -> dict[str, object]:
     workflow_path = repo_root / ".github/workflows/crawl-and-publish.yml"
     commit_script = extract_commit_step(workflow_path)
     main_sha = run_git(repo_root, "rev-parse", "HEAD")
+    # Mirror the production commit step's own "fetch, then rev-parse" pattern
+    # (see REQUIRED_COMMIT_FRAGMENTS) so this proof works against CI's shallow,
+    # single-ref checkout, where origin/publish is not fetched by default.
+    run_git(repo_root, "fetch", "origin", "publish")
     source_publish_sha = run_git(repo_root, "rev-parse", "origin/publish")
 
     with tempfile.TemporaryDirectory(prefix="atomic-publish-proof-") as temporary:
@@ -353,7 +363,7 @@ def run_proof(repo_root: Path, output_dir: Path) -> dict[str, object]:
         partial = failure_repo / "data/derived/observatory/partial-proof.json"
         partial.parent.mkdir(parents=True, exist_ok=True)
         partial.write_text('{"partial": true', encoding="utf-8")
-        injected = subprocess.run(
+        injected = subprocess.run(  # nosec B603 - fixed argv, no shell, sanitized env
             [sys.executable, "-c", "raise SystemExit(23)"],
             cwd=failure_repo,
             env=_clean_environment(),

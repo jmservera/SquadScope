@@ -1,8 +1,8 @@
 name: Hugo and Pagefind build-cost experiment
 
-#checkov:skip=CKV_GHA_7: Immutable reviewed SHAs and a constrained 3/5 repetition choice are required evidence inputs.
 on:
   workflow_dispatch:
+    # checkov:skip=CKV_GHA_7:Immutable reviewed SHAs and a constrained 3/5 repetition choice are required evidence inputs; they select which already-reviewed commits and repetition count to measure and cannot alter build output.
     inputs:
       reviewed_main_sha:
         description: Reviewed main commit (exact 40-character lowercase SHA)
