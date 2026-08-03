@@ -190,10 +190,12 @@ docs/
 <!-- parallelizable: false -->
 
 * [ ] Step 6.1: Prove atomic publish behavior
+  * Reconciliation: `#640`/`#646` preserve the published weekly transaction during restore, but do not provide the required normal run, identical rerun, injected failure, unchanged-branch proof, or hydrated-tree comparison. This step remains open.
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 320-336)
 * [x] Step 6.2: Prove all-generator idempotence in isolation
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 338-352)
 * [ ] Step 6.3: Collect timing and protected Podcaster evidence
+  * Reconciliation: `#639`/`#643` hardened smoke tooling checkout and `#645` hydrated its source manifest; these changes support the blocking dry-run gate but do not prove the required protected downstream Podcaster run. This step remains open.
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 354-369)
 
 ### [ ] Implementation Phase 7: Security and External Acceptance

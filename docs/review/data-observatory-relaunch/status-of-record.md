@@ -33,16 +33,16 @@ Reconciled on 2026-08-02. Release acceptance remains **pending** per the
 | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------------------------- |
 | [2026-07-29 remediation](../../../.copilot-tracking/plans/2026-07-29/claracle-data-observatory-relaunch-remediation-plan.instructions.md) | Core relaunch build (Phases 1-10)        | Phases 1-6, 8 done; 7, 9, 10 open |
 | [2026-07-30 review remediation](../../../.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md) | Post-review corrections (Phases 1-8)     | Phases 1-5 done; 6-8 open     |
-| [2026-07-31 deploy hydration](../../../.copilot-tracking/plans/2026-07-31/claracle-deploy-hydration-remediation-plan.instructions.md) | Deploy/hydration incident (Phases 1-5)   | Phases 1-4 done; 5.3 open     |
+| [2026-07-31 deploy hydration](../../../.copilot-tracking/plans/2026-07-31/claracle-deploy-hydration-remediation-plan.instructions.md) | Deploy/hydration incident (Phases 1-5)   | Phases 1-3 done; 4 partial; 5.3 open |
 
 ## Delivered since the plans were written
 
 | Workstream                              | Evidence (merged)                                                | Requirement trace          |
 | --------------------------------------- | ---------------------------------------------------------------- | -------------------------- |
-| Deploy stopped hydrating empty `content/data` | `#627` → `#628` (interim Path B)                            | NFR-011                    |
+| Deploy stopped hydrating empty `content/data` | `#627` → `#628` (interim Path B), with follow-up provenance correction in `#632` | NFR-011                    |
 | Publish commit stages only existing generated paths | `#634`                                                   | NFR-011, provenance        |
 | Safe hydration guard generalized; `content/data` deploy restored | `#633` → `#637`                                 | NFR-011, NFR-012, R-08     |
-| Embed `source_page` validation before build (CI guard) | `scripts/check_embed_sources.py`, `tests/test_embed_sources.py`, wired in `ci.yml` (`#641`) | NFR-011, NFR-012 |
+| Embed `source_page` validation before build (CI guard) | `scripts/check_embed_sources.py`, `tests/test_embed_sources.py`, wired in `ci.yml` (`#641`) | NFR-012 |
 | Embeddable-charts demo linked from the data landing page | `#642`                                            | FR-052                     |
 | Podcaster smoke: API key passed to reusable workflow | `#636`                                                 | NFR-002                    |
 | Podcaster smoke: tooling checked out from default branch | `#639` → `#643`                                    | NFR-002, R-04              |
@@ -56,10 +56,10 @@ Reconciled on 2026-08-02. Release acceptance remains **pending** per the
 | --------------------------------------- | --------- | -------------------------------------------------------------------------------- |
 | Weekly topic through-line               | Done      | 2026-07-29 Phase 2                                                                |
 | Repository lifecycle (identity, retention) | Done   | 2026-07-29 Phase 3                                                                |
-| Atomic publish transaction              | Done      | 2026-07-29 Phase 4; restore integrity hardened by `#640`/`#646`                  |
+| Atomic publish transaction              | Partial   | Implementation shipped in 2026-07-29 Phase 4 and restore integrity was hardened by `#640`/`#646`; normal-run, identical-rerun, injected-failure, unchanged-branch, and hydrated-tree acceptance proof remains open in 2026-07-30 Step 6.1 |
 | SEO / rendered link contracts           | Done      | 2026-07-29 Phase 5                                                                |
 | Consent-gated analytics API             | Done      | 2026-07-29 Phase 6                                                                |
-| Deploy / hydration parity + CI guard    | Done      | 2026-07-31 Phases 1-4 (`#628`/`#634`/`#637`/`#641`)                              |
+| Deploy / hydration parity + CI guard    | Partial   | Deploy hydration is restored (`#628`/`#632`/`#634`/`#637`) and the `#641` CI guard satisfies NFR-012 reference integrity; CI does not yet reproduce publish hydration as required by NFR-011 |
 | Podcaster release smoke (dry-run gate)  | Done      | Blocking post-deploy gate green (`#636`/`#639`/`#643`/`#645`)                    |
 | FR-041 internal link checking           | Partial   | Satisfied at test level (`tests/test_internal_link_checker.py`); no standalone CI link tool |
 | Hugo/Pagefind timing separation         | Done      | CI records separate report-only Hugo and Pagefind durations; Q-01 workload attribution remains pending |
@@ -80,8 +80,8 @@ Reconciled on 2026-08-02. Release acceptance remains **pending** per the
 | ------------------------------------------------- | ------------------------------------------- | ----------------------------------------------------------------- |
 | [#594](https://github.com/jmservera/SquadScope/issues/594) | Epic: Claracle Data Observatory Relaunch | Open — tracks overall relaunch                                    |
 | [#644](https://github.com/jmservera/SquadScope/issues/644) | Deploy Hugo site failed (run 30718600607) | CLOSED — resolved by `#645`/`#646`                                |
-| [#626](https://github.com/jmservera/SquadScope/issues/626) | Lighthouse / performance quality-gate follow-ups | Independent hardening; keep thresholds unchanged          |
-| [#622](https://github.com/jmservera/SquadScope/issues/622) | Post-review UX polish                    | Non-blocking polish; resolve factual questions before final visual recapture |
+| [#626](https://github.com/jmservera/SquadScope/issues/626) | Lighthouse / performance quality-gate follow-ups | OPEN — independent hardening; keep thresholds unchanged          |
+| [#622](https://github.com/jmservera/SquadScope/issues/622) | Post-review UX polish                    | OPEN — non-blocking polish; resolve factual questions before final visual recapture |
 | [#599](https://github.com/jmservera/SquadScope/issues/599) | Connect GA4 + Google Search Console (FR-035) | Closed; owner confirmed GA4, GSC verification, sitemap submission, and product link on 2026-08-02 |
 
 ## Launch-gate register
