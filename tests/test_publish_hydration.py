@@ -122,14 +122,13 @@ def test_dangling_embed_is_reported_in_hydrated_tree() -> None:
 
 def _deploy_hydration_paths() -> list[str]:
     workflow = yaml.safe_load((ROOT / ".github/workflows/deploy-site.yml").read_text("utf-8"))
+    # Locate the hydration list by content so a step rename does not break the guard.
     for job in workflow["jobs"].values():
         for step in job.get("steps", []):
-            if step.get("name") == "Hydrate generated content from publish":
-                run = step["run"]
-                block = re.search(r"GENERATED_PATHS=\((?P<body>.*?)\)", run, re.DOTALL)
-                assert block is not None, "deploy hydration array not found"
+            block = re.search(r"GENERATED_PATHS=\((?P<body>.*?)\)", step.get("run", ""), re.DOTALL)
+            if block is not None:
                 return [line.strip() for line in block.group("body").split("\n") if line.strip()]
-    raise AssertionError("deploy hydration step not found")
+    raise AssertionError("deploy hydration GENERATED_PATHS block not found")
 
 
 def test_generated_paths_match_deploy_workflow() -> None:

@@ -85,7 +85,7 @@ def check_publish_references(root: Path = ROOT) -> list[str]:
 
     try:
         record = json.loads(record_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
         problems.append(f"promotion: {record_path} is not readable JSON: {exc}")
         return problems
 
