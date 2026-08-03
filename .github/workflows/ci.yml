@@ -55,6 +55,50 @@ jobs:
       - name: Validate content images (no hotlinks/secrets)
         run: python scripts/validate_content_images.py
 
+  publish-hydration-parity:
+    name: Publish hydration parity
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Reproduce deploy publish-hydration
+        # NFR-011: mirror deploy-site.yml by hydrating the same generated content
+        # set from the canonical publish branch, so main/publish divergence fails
+        # CI here rather than in the production deploy (issues #627, #644).
+        run: |
+          set -euo pipefail
+          git fetch origin publish
+          # Capture into a var first: process substitution does not fail under set -e.
+          GENERATED_PATHS="$(python3 -m scripts.publish_hydration paths)"
+          while IFS= read -r path; do
+            path="${path%/}"
+            [ -z "$path" ] && continue
+            if [ -n "$(git ls-tree -r --name-only origin/publish -- "$path")" ]; then
+              rm -rf "$path"
+              git checkout origin/publish -- "$path"
+            fi
+          done <<< "$GENERATED_PATHS"
+
+      - name: Validate hydrated references (NFR-011 / NFR-012)
+        run: python3 -m scripts.publish_hydration check
+
   production-site:
     name: Production site
     runs-on: ubuntu-latest
