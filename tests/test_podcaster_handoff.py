@@ -752,6 +752,84 @@ class PodcasterHandoffTests(unittest.TestCase):
         self.assertIn("job_id=podcast-2026-W30-abc12345", notice)
         self.assertIn("status=accepted", notice)
 
+    def test_main_writes_only_safe_action_outputs(self) -> None:
+        response = {"job_id": "podcast%0Ajob", "status": "accepted", "errors": []}
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_path = Path(tmpdir) / "outputs"
+            with (
+                mock.patch.object(podcaster_handoff, "build_payload", return_value={}),
+                mock.patch.object(podcaster_handoff, "post_handoff", return_value=response),
+                mock.patch.dict(
+                    podcaster_handoff.os.environ,
+                    {
+                        "PODCASTER_API_KEY": "super-secret-value",
+                        "GITHUB_OUTPUT": str(output_path),
+                    },
+                ),
+            ):
+                exit_code = podcaster_handoff.main(
+                    [
+                        "--week",
+                        "2026-W30",
+                        "--article-url",
+                        "https://claracle.com/weekly/2026/W30/",
+                        "--article-path",
+                        "content/weekly/2026/W30.md",
+                        "--publish-run-id",
+                        "123456789",
+                        "--endpoint",
+                        "http://localhost:7071/api/generate",
+                    ]
+                )
+
+            self.assertEqual(exit_code, 0)
+            self.assertEqual(
+                output_path.read_text(encoding="utf-8"),
+                "podcaster_job_id=podcast%250Ajob\npodcaster_status=accepted\n",
+            )
+
+    def test_failed_handoff_does_not_write_action_outputs(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_path = Path(tmpdir) / "outputs"
+            with (
+                mock.patch.object(podcaster_handoff, "build_payload", return_value={}),
+                mock.patch.object(
+                    podcaster_handoff,
+                    "post_handoff",
+                    side_effect=podcaster_handoff.PodcasterHandoffError("rejected"),
+                ),
+                mock.patch.dict(
+                    podcaster_handoff.os.environ,
+                    {
+                        "PODCASTER_API_KEY": "super-secret-value",
+                        "GITHUB_OUTPUT": str(output_path),
+                    },
+                ),
+            ):
+                exit_code = podcaster_handoff.main(
+                    [
+                        "--week",
+                        "2026-W30",
+                        "--article-url",
+                        "https://claracle.com/weekly/2026/W30/",
+                        "--article-path",
+                        "content/weekly/2026/W30.md",
+                        "--publish-run-id",
+                        "123456789",
+                        "--endpoint",
+                        "http://localhost:7071/api/generate",
+                    ]
+                )
+
+            self.assertEqual(exit_code, 1)
+            self.assertFalse(output_path.exists())
+
+    def test_action_outputs_are_optional_for_local_cli(self) -> None:
+        with mock.patch.dict(podcaster_handoff.os.environ, {}, clear=True):
+            podcaster_handoff.write_action_outputs(
+                {"job_id": "podcast-2026-W30-abc12345", "status": "accepted"}
+            )
+
     def test_post_handoff_sends_auth_header_without_logging_value(self) -> None:
         response = _FakeHTTPResponse(
             json.dumps(

@@ -60,6 +60,16 @@ def test_publish_sync_stages_before_cached_diff_evaluation() -> None:
     assert workflow.index("git add -A") < workflow.index("if git diff --cached --quiet; then")
 
 
+def test_publish_sync_never_dispatches_podcaster() -> None:
+    workflow = WORKFLOW.read_text(encoding="utf-8")
+
+    assert "Trigger Podcaster" not in workflow
+    assert "PODCASTER_ENDPOINT" not in workflow
+    assert "PODCASTER_API_KEY" not in workflow
+    assert "scripts/podcaster_handoff.py" not in workflow
+    assert "merged=true" not in workflow
+
+
 def test_crawl_workflow_stores_and_restores_source_bound_raw_evidence() -> None:
     workflow = CRAWL_WORKFLOW.read_text(encoding="utf-8")
 

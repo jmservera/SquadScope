@@ -1,7 +1,73 @@
-# QA Gates: Map/Reduce Acceptance Criteria
+---
+title: QA Gates
+description: Automated quality gates for the Claracle site and analysis pipeline
+---
 
-This document describes the automated QA gates that validate matrix crawl and
-map/reduce changes before rollout (see issue #438).
+Automated QA gates cover the rendered site and matrix crawl or map/reduce
+changes before rollout.
+
+## Lighthouse Site Gates
+
+The production-site CI job builds Hugo with minification and serves the output
+through `scripts/serve_static.py`. That server negotiates Brotli or gzip for
+text assets so Lighthouse measures production-like transfer behavior rather
+than an uncompressed development server.
+
+### Route and sampling methodology
+
+`scripts/design/lighthouse-gates.mjs` audits these nine mobile routes:
+
+* `/`
+* `/weekly/2026/w22/`
+* `/monthly/2026/05/`
+* `/yearly/2026/`
+* `/topics/ai-coding-agents/`
+* `/data/fastest-growing-ai-repositories-this-year/`
+* `/repo/anthropics-claude-code/`
+* `/embeds/fastest-growing-ai-repositories-chart/`
+* `/tools/star-velocity-explorer/`
+
+Each route runs three times by default. The gate uses the median score for each
+metric and retains the report whose performance score is closest to the median
+as that route's representative artifact. Pages run with bounded concurrency of
+three by default, while the three samples for one page remain sequential. Use
+`--concurrency` to change the page limit and `--runs` to change sampling for
+diagnostic runs.
+
+### Thresholds and artifacts
+
+The thresholds are unchanged:
+
+| Metric | Passing threshold |
+|--------|-------------------|
+| Performance | At least 90 |
+| Accessibility | At least 95 |
+| Best Practices | At least 95 |
+| Cumulative Layout Shift | At most 0.1 |
+
+CI uploads `screenshots/lighthouse-results/summary.json` and one representative
+JSON report per route from the same directory. Results and the console table
+remain in the route order listed above, regardless of completion order.
+
+### Interpreting failures
+
+A category failure means the median score crossed its threshold, not that every
+sample failed. Inspect the representative route report and compare all three
+samples when runner variance is suspected. For CLS, inspect the
+`cls-culprits-insight` audit and the shifted nodes before changing layout. Do
+not lower a threshold to absorb a regression.
+
+Run the default gate against a production-like local server:
+
+```bash
+node scripts/design/lighthouse-gates.mjs \
+	--base http://127.0.0.1:1313 \
+	--runs 3 \
+	--concurrency 3
+```
+
+The remaining gates validate matrix crawl and map/reduce changes (see issue
+#438).
 
 ## Gate Structure
 

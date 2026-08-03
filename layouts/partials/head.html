@@ -37,7 +37,7 @@
 {{- end }}
 
 {{- /* Styles */}}
-{{- $font_href := "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" }}
+{{- $font_href := "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=optional" }}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="{{ $font_href }}">
@@ -77,9 +77,11 @@
   {{- $stylesheetParts = $stylesheetParts | append . -}}
 {{- end -}}
 {{- $stylesheetParts = $stylesheetParts | append $core -}}
-{{- /* Tool pages don't render article or chart visuals; keep their blocking bundle lean. */ -}}
+{{- /* Lean pages don't render article or chart visuals. */ -}}
 {{- $isTool := eq .Type "tools" -}}
-{{- $excludedExtended := cond $isTool (slice "cookieconsent-theme.css" "article-visuals.css" "observatory-charts.css") (slice "cookieconsent-theme.css") -}}
+{{- $isLeanSection := in (slice "about" "methodology" "privacy") .Section -}}
+{{- $isLeanPage := or $isTool (or (eq .Layout "search") $isLeanSection) -}}
+{{- $excludedExtended := cond $isLeanPage (slice "cookieconsent-theme.css" "article-visuals.css" "observatory-charts.css") (slice "cookieconsent-theme.css") -}}
 {{- with resources.Match "css/extended/*.css" -}}
   {{- $extendedParts := slice -}}
   {{- range . -}}
@@ -88,14 +90,14 @@
     {{- end -}}
   {{- end -}}
   {{- if gt (len $extendedParts) 0 -}}
-    {{- $extendedTarget := cond $isTool "assets/css/extended-tools.css" "assets/css/extended.css" -}}
+    {{- $extendedTarget := cond $isLeanPage "assets/css/extended-tools.css" "assets/css/extended.css" -}}
     {{- $stylesheetParts = $stylesheetParts | append ($extendedParts | resources.Concat $extendedTarget | resources.Minify) -}}
   {{- end -}}
 {{- end -}}
 
 {{- /* bundle all required css */}}
 {{- /* Add extended css after theme style */ -}}
-{{- $stylesheetTarget := cond $isTool "assets/css/stylesheet-tools.css" "assets/css/stylesheet.css" -}}
+{{- $stylesheetTarget := cond $isLeanPage "assets/css/stylesheet-tools.css" "assets/css/stylesheet.css" -}}
 {{- $stylesheet := $stylesheetParts | resources.Concat $stylesheetTarget }}
 
 {{- if not site.Params.assets.disableFingerprinting }}

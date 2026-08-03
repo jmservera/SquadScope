@@ -1,4 +1,7 @@
-# Visual Verification for Design Review
+---
+title: Visual Verification for Design Review
+description: Screenshot and Lighthouse procedures for Claracle design review
+---
 
 > **Why this exists:** SquadScope's 6-phase editorial redesign (issues #170–#177) has shipped; the original proposal is archived at `docs/processed/redesign-proposal-2026-05.md`. Ongoing look-and-feel work continues under the design epic #357 and its children. Layout, token, and typography changes still need regression evidence. This doc explains how Calculon (Designer) catches regressions before they ship.
 
@@ -178,10 +181,13 @@ The design review flow now includes a lightweight gate pass focused on mobile re
 - No horizontal overflow (`document.documentElement.scrollWidth <= document.documentElement.clientWidth`)
 - Tap targets for all visible `<a>` and `<button>` elements are at least `44×44px` unless explicitly marked with `data-small-ok`
 - Home-page pre-content height guard: the main content container (`.main`, `main`, or `#main-content`) must begin within `600px` of the top edge at `320–414px`
-- Lighthouse mobile gates on `/`, `/weekly/2026/w22/`, `/monthly/2026/05/`, and `/yearly/2026/`
+- Lighthouse mobile gates on the nine representative home, weekly, monthly, yearly, topic, data, repository, chart, and tool routes documented in [`docs/qa-gates.md`](../qa-gates.md)
+- Median-of-three scoring per route through the compressed production-like server
+- Bounded page concurrency of three by default, with samples for each page remaining sequential
 
 ### Thresholds
 
+- Performance score ≥ `90`
 - Accessibility score ≥ `95`
 - Best Practices score ≥ `95`
 - CLS ≤ `0.1`

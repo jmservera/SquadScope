@@ -42,7 +42,9 @@ SquadScope, publicly branded as **Claracle**, is an AI-powered GitHub trend obse
 5. **Reskill**  
    Every 5th successful crawl run writes retrospective squad learning to `.squad/reskill/YYYY-WNN.md`.
 6. **Podcaster Handoff**  
-   After publish, the article and podcast config are POSTed to the Podcaster API.
+   Deployment performs an exact-evidence dry-run smoke. Real generation is a
+   separate protected manual workflow after merge, pinned to the exact publish run
+   manifest and verified article digest.
 
 ## Shared Interfaces (with SquadScope-Podcaster)
 
@@ -65,8 +67,10 @@ SquadScope, publicly branded as **Claracle**, is an AI-powered GitHub trend obse
 
 ## Environment Variables / Secrets
 
-- `PODCASTER_ENDPOINT` — Podcaster API URL
-- `PODCASTER_API_KEY` — Podcaster authentication key
+- `PODCASTER_ENDPOINT` — Podcaster API URL scoped to the
+   `podcaster-real-generation` environment for real generation
+- `PODCASTER_API_KEY` — Podcaster authentication key scoped to the
+   `podcaster-real-generation` environment for real generation
 - `GITHUB_TOKEN` — GitHub crawl and workflow access
 - Copilot token/permission via GitHub Actions for Copilot CLI analysis
 
@@ -77,4 +81,5 @@ SquadScope, publicly branded as **Claracle**, is an AI-powered GitHub trend obse
 - Build: `hugo --minify`
 - Crawl: `python3 scripts/crawl.py --as-of YYYY-MM-DD`
 - Generate: `python3 scripts/generate_content.py`
-- Handoff: `python3 scripts/podcaster_handoff.py`
+- Real handoff: manually dispatch `.github/workflows/trigger-podcast.yml` with the
+   exact `week` and `publish_run_id`

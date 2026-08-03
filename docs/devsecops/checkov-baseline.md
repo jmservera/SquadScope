@@ -32,9 +32,9 @@ and attaches the SARIF as a build artifact.
 | 4 | CKV_GHA_7 | `workflow_dispatch` inputs should be empty (SLSA build-integrity) | Justified `# checkov:skip=CKV_GHA_7:...` inline comments |
 
 The four affected workflows are operational/dispatch workflows (not release
-builds); their inputs select an operational target (week, run-id, manifest,
-dry-run toggle) and do not alter published build artifacts, so a justified skip
-is the correct disposition:
+builds); their inputs select retained operational evidence (including the required
+Podcaster publish run ID), a manifest, or a dry-run mode. They do not alter build
+output, so a justified skip is the correct disposition:
 
 - `.github/workflows/restore-publish-backup.yml`
 - `.github/workflows/squad-promote.yml`
@@ -43,6 +43,11 @@ is the correct disposition:
 
 > Each skip carries an inline justification next to the `workflow_dispatch`
 > block. Re-run `checkov` after any workflow change to confirm 0 failures.
+
+The real Podcaster workflow binds credentials to the
+`podcaster-real-generation` environment. Repository administrators must create
+that environment, restrict it to `main`, configure required review and prevent
+self-review, and store the endpoint variable and API key there before dispatch.
 
 ## Running locally
 

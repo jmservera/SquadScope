@@ -2,15 +2,15 @@ name: Trigger podcast generation
 
 on:
   workflow_dispatch:
-    # checkov:skip=CKV_GHA_7:Operational dispatch workflow (not a release build). Inputs select the target week/run-id and optional breaking-news context; they do not alter published build artifacts. Inputs are required for manual operation.
+    # checkov:skip=CKV_GHA_7:Operational dispatch workflow (not a release build). The required run ID selects retained publish evidence and does not alter build output.
     inputs:
       week:
         description: 'Week slug, e.g. 2026-W25'
         required: true
         type: string
       publish_run_id:
-        description: 'Optional: crawl-and-publish workflow run ID that produced the manifest. If omitted, uses the most recent.'
-        required: false
+        description: 'Exact crawl-and-publish workflow run ID that produced the manifest.'
+        required: true
         type: string
       breaking_news:
         description: 'Optional last-moment news or important information to include in this podcast episode.'
@@ -27,6 +27,8 @@ concurrency:
 jobs:
   trigger-podcast:
     runs-on: ubuntu-latest
+    environment:
+      name: podcaster-real-generation
     permissions:
       contents: read
 
@@ -34,6 +36,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10  # v6.0.3
         with:
+          ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
 
       - name: Set up Python
@@ -62,44 +65,51 @@ jobs:
         id: manifest-locate
         env:
           WEEK: ${{ inputs.week }}
-          PUBLISH_RUN_ID_INPUT: ${{ inputs.publish_run_id }}
+          PUBLISH_RUN_ID: ${{ inputs.publish_run_id }}
         run: |
           set -euo pipefail
+          if ! [[ "$PUBLISH_RUN_ID" =~ ^[0-9]+$ ]]; then
+            echo "::error::publish_run_id must be a numeric workflow run ID (got: $PUBLISH_RUN_ID)"
+            exit 1
+          fi
           if ! git fetch origin publish 2>/dev/null; then
             echo "::error::Could not fetch publish branch. Has crawl-and-publish run yet?"
             exit 1
           fi
-          git checkout origin/publish -- data/candidates/ 2>/dev/null || true
-          
-          if [ -n "$PUBLISH_RUN_ID_INPUT" ]; then
-            # Use specified run ID
-            if ! [[ "$PUBLISH_RUN_ID_INPUT" =~ ^[0-9]+$ ]]; then
-              echo "::error::publish_run_id must be a numeric workflow run ID (got: $PUBLISH_RUN_ID_INPUT)"
-              exit 1
-            fi
-            MANIFEST="data/candidates/${WEEK}/${PUBLISH_RUN_ID_INPUT}/publish-manifest.json"
-            if [ ! -f "$MANIFEST" ]; then
-              echo "::error::Manifest not found at $MANIFEST for specified run $PUBLISH_RUN_ID_INPUT"
-              exit 1
-            fi
-            echo "manifest_path=$MANIFEST" >> "$GITHUB_OUTPUT"
-            echo "publish_run_id=$PUBLISH_RUN_ID_INPUT" >> "$GITHUB_OUTPUT"
-            echo "::notice::Using manifest from specified run: $PUBLISH_RUN_ID_INPUT"
-          else
-            # Find the most recent manifest for this week
-            MANIFEST=$(find "data/candidates/${WEEK}" -name 'publish-manifest.json' -type f 2>/dev/null | sort -V | tail -1)
-            if [ -z "$MANIFEST" ]; then
-              echo "::error::No manifest found for week $WEEK in data/candidates/. Has crawl-and-publish completed for this week?"
-              exit 1
-            fi
-            # Extract run ID from path: data/candidates/WEEK/RUN_ID/publish-manifest.json
-            RUN_ID="$(basename "$(dirname "$MANIFEST")")"
-            echo "manifest_path=$MANIFEST" >> "$GITHUB_OUTPUT"
-            echo "publish_run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
-            echo "::notice::Using manifest from most recent run: $RUN_ID"
+          MANIFEST="data/candidates/${WEEK}/${PUBLISH_RUN_ID}/publish-manifest.json"
+          if ! git checkout origin/publish -- "$MANIFEST" 2>/dev/null; then
+            echo "::error::Manifest not found at $MANIFEST for exact run $PUBLISH_RUN_ID"
+            exit 1
           fi
+          python3 - "$MANIFEST" "$WEEK" "$PUBLISH_RUN_ID" <<'PY'
+          import hashlib
+          import json
+          import os
+          import sys
+          from pathlib import Path
+
+          manifest_path = Path(sys.argv[1])
+          requested_week = sys.argv[2]
+          requested_run_id = sys.argv[3]
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          if manifest.get("week") != requested_week:
+              raise SystemExit("::error::Manifest week does not match requested week")
+          if str(manifest.get("run_id")) != requested_run_id:
+              raise SystemExit("::error::Manifest run_id does not match requested publish_run_id")
+          candidate = manifest.get("candidate") or {}
+          article_sha256 = candidate.get("content_sha256")
+          if not isinstance(article_sha256, str) or len(article_sha256) != 64:
+              raise SystemExit("::error::Manifest candidate content_sha256 is missing or invalid")
+          manifest_sha256 = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+          with Path(os.environ["GITHUB_OUTPUT"]).open("a", encoding="utf-8") as output:
+              output.write(f"manifest_path={manifest_path}\n")
+              output.write(f"manifest_sha256={manifest_sha256}\n")
+              output.write(f"article_sha256={article_sha256}\n")
+              output.write(f"publish_run_id={requested_run_id}\n")
+          PY
 
       - name: Trigger podcast generation with existing manifest
+        id: handoff
         env:
           PODCASTER_ENDPOINT: ${{ vars.PODCASTER_ENDPOINT }}
           PODCASTER_API_KEY: ${{ secrets.PODCASTER_API_KEY }}
@@ -117,12 +127,8 @@ jobs:
             exit 1
           fi
           if [ ! -f "$ARTICLE_PATH" ]; then
-            # Article may already be published on the publish branch but not yet
-            # merged into main via the sync PR. Fall back to the publish branch.
-            git checkout origin/publish -- "$ARTICLE_PATH" 2>/dev/null || {
-              echo "::error::Article '$ARTICLE_PATH' does not exist on main or the publish branch."
-              exit 1
-            }
+            echo "::error::Article '$ARTICLE_PATH' is not merged on the default branch."
+            exit 1
           fi
           if [ ! -f "$MANIFEST_FILE" ]; then
             echo "::error::Manifest file not found: $MANIFEST_FILE"
@@ -144,4 +150,36 @@ jobs:
             --publish-mode normal \
             --manifest "$MANIFEST_FILE" \
             --podcast-config config/podcast.json \
+            --require-merged \
             "${BREAKING_ARGS[@]}"
+
+      - name: Retain real generation evidence
+        if: always()
+        env:
+          HANDOFF_OUTCOME: ${{ steps.handoff.outcome }}
+          PODCASTER_JOB_ID: ${{ steps.handoff.outputs.podcaster_job_id }}
+          PODCASTER_STATUS: ${{ steps.handoff.outputs.podcaster_status }}
+          WEEK: ${{ inputs.week }}
+          PUBLISH_RUN_ID: ${{ inputs.publish_run_id }}
+          MANIFEST_PATH: ${{ steps.manifest-locate.outputs.manifest_path }}
+          MANIFEST_SHA256: ${{ steps.manifest-locate.outputs.manifest_sha256 }}
+          ARTICLE_PATH: ${{ steps.derive.outputs.article_path }}
+          ARTICLE_SHA256: ${{ steps.manifest-locate.outputs.article_sha256 }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          DISPATCHER: ${{ github.actor }}
+        run: |
+          {
+            echo "## Podcaster real-generation evidence"
+            echo ""
+            echo "- Workflow conclusion: ${HANDOFF_OUTCOME}"
+            echo "- Dispatcher: ${DISPATCHER}"
+            echo "- Week: ${WEEK}"
+            echo "- Publish run ID: ${PUBLISH_RUN_ID}"
+            echo "- Manifest: ${MANIFEST_PATH}"
+            echo "- Manifest SHA-256: ${MANIFEST_SHA256}"
+            echo "- Article: ${ARTICLE_PATH}"
+            echo "- Article SHA-256: ${ARTICLE_SHA256}"
+            echo "- Podcaster response status: ${PODCASTER_STATUS}"
+            echo "- Podcaster job ID: ${PODCASTER_JOB_ID}"
+            echo "- Actions run: ${RUN_URL}"
+          } >> "$GITHUB_STEP_SUMMARY"

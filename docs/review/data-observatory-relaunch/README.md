@@ -25,6 +25,10 @@ as listed below. The GA4/GSC connection itself is complete.
 The [owner action register](owner-action-register.md) sequences the remaining human and
 protected-environment work without treating repository automation as approval evidence.
 
+The [2026-08-03 automated evidence record](automated-acceptance-evidence-2026-08-03.md)
+retains current-main validation plus public sitemap, feed, metadata, and JSON-LD
+observations without granting human acceptance.
+
 ## Evidence principles
 
 - Repository links prove checked-in implementation, not production behavior
@@ -41,6 +45,7 @@ protected-environment work without treating repository automation as approval ev
 | Observatory operations, recovery, rollback, and ownership | Complete                    | [Data Observatory runbook](../../data-observatory-runbook.md)               |
 | FR-052 tool selection and architecture rationale          | Complete                    | [Star Velocity Explorer ADR](../../decisions/adr-star-velocity-explorer.md) |
 | Security and privacy surface review                       | Complete with open findings | [Security review](security-review.md)                                       |
+| Current-main and public-production automated evidence     | Complete                    | [2026-08-03 automated evidence](automated-acceptance-evidence-2026-08-03.md) |
 | Hermes security acceptance                                | Pending                     | Security review sign-off table                                              |
 | GA4 and GSC connection                                   | Complete                    | [Dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md)               |
 | GA4 and GSC external baseline values                      | Pending                     | Dated baseline external evidence matrix                                     |
@@ -62,7 +67,7 @@ protected-environment work without treating repository automation as approval ev
 | Rich Results Test                     | Pending | Reviewer with external debugger access              | Article and breadcrumb conclusions with retained links     |
 | Schema.org validator                  | Pending | Reviewer with external debugger access              | Relevant page-type conclusions with retained links         |
 | Production sitemap response           | Complete | jmservera                                           | HTTP 200 `application/xml` observed on 2026-08-02          |
-| Production feed responses             | Pending | jmservera with production access                    | Status, content type, date, and tested target              |
+| Production feed responses             | Automated evidence complete; owner review pending | jmservera with production access | [Dated response and XML conclusions](automated-acceptance-evidence-2026-08-03.md#public-discovery-and-xml-evidence) |
 | Podcaster downstream run              | Pending | Podcaster maintainer and protected environment      | Successful downstream run conclusion and Actions link      |
 | Accessibility review                  | Pending | Fry and accessibility reviewer                      | Automated results plus keyboard and screen-reader findings |
 | Hermes sign-off                       | Pending | Hermes                                              | Dated disposition of security findings and NFR-004         |

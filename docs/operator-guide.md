@@ -96,12 +96,36 @@ If `WEBHOOK_URL` is unset, the workflow skips the webhook step automatically.
 
 ### Step 5: Configure optional Podcaster handoff
 
-To ask the separate Podcaster service to generate an episode after a normal weekly article is published and deployed, configure:
+Real episode generation is a separate protected manual action after the weekly
+article is merged to the default branch. It is never triggered by the publish
+sync workflow.
 
-- Actions variable `PODCASTER_ENDPOINT`, for example `https://<function-app-name>.azurewebsites.net/api/generate` or local testing URL `http://localhost:7071/api/generate`
-- Actions secret `PODCASTER_API_KEY`
+Before the first run, a repository administrator must create the
+`podcaster-real-generation` environment and configure:
 
-The workflow sends `week`, `article_url`, `article_path`, `article_sha256` when available, `publish_run_id`, `publish_mode`, and source artifact references after the normal article deploy succeeds. Normal runs and **audited force-replace corrections** — a `force-replace` policy manifest that carries an operator `audit.actor` and `audit.reason` (the same signal that gates promotion) — call Podcaster so a material content correction refreshes the episode. Plain (non-audited) `restore` replays are deliberately excluded and are a clean skip (a notice, exit 0 — not a failure), so replays never spam the Podcaster and never fail the sync job. Dry-run, candidate-only, no-AI, and failed runs also do not call Podcaster. If either endpoint value is missing, the handoff is skipped. The API key is sent only as the `x-podcaster-api-key` header and must not be printed, logged, or committed. Handoff failure is non-critical and does not roll back or block article publication.
+* Required reviewers with prevent self-review enabled
+* A deployment branch restriction for `main`
+* Environment variable `PODCASTER_ENDPOINT`
+* Environment secret `PODCASTER_API_KEY`
+
+Do not dispatch the workflow before these protections exist. Referencing a missing
+environment from a workflow can create it without protection rules or secrets.
+
+To generate an episode, open **Trigger podcast generation** in GitHub Actions and
+provide the exact `week` and numeric `publish_run_id` from the reviewed
+crawl-and-publish evidence. Confirm that the same episode has not already been
+accepted, or obtain explicit authorization for the rerun. The workflow selects only
+`data/candidates/<week>/<publish_run_id>/publish-manifest.json`, verifies the
+manifest identity, and requires the article on the default branch to match the
+manifest digest before contacting Podcaster.
+
+The run summary retains the dispatcher, week, publish run ID, manifest path and
+digest, article path and digest, workflow outcome, Actions URL, and the accepted
+Podcaster status and job ID. It never retains the endpoint, API key, breaking-news
+text, request payload, or response body. An `accepted` status confirms request
+admission only; use the job ID to obtain the downstream generation conclusion from
+the Podcaster maintainer. GitHub deployment history is the authoritative approval
+record.
 
 ### Step 6: Enable GitHub Pages
 

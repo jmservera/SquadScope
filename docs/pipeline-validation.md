@@ -16,7 +16,9 @@ Required secrets/tokens:
 
 - `COPILOT_GH_TOKEN` — fine-grained PAT used as `COPILOT_GITHUB_TOKEN` for Copilot CLI analysis.
 - `GITHUB_TOKEN` — built-in workflow token used for crawling, artifact downloads, commits, token-renewal issue creation, and Pages deployment.
-- Optional Podcaster handoff: Actions variable `PODCASTER_ENDPOINT` and Actions secret `PODCASTER_API_KEY`.
+- Protected real Podcaster generation: environment-scoped variable
+  `PODCASTER_ENDPOINT` and secret `PODCASTER_API_KEY` in
+  `podcaster-real-generation`.
 
 ## Stage-by-stage validation
 
@@ -124,7 +126,14 @@ Required secrets/tokens:
 - `crawl` → later runs: `crawl-cache`
 - `analyze` → `generate`: `analyzed-data`
 - `generate` → `deploy`: `generated-content`
-- Podcaster handoff: triggered from `sync-publish-to-main` only **after** the weekly article is merged into `main`. The handoff runs `scripts/podcaster_handoff.py --require-merged`, which fails closed unless the merged article exists and its sha256 matches the manifest `candidate.content_sha256`. This prevents the prior race where `deploy` (built from artifacts, pre-merge) could trigger the podcaster before the article was merged, producing stub episodes (e.g. W27).
+- Podcaster dry-run smoke: `deploy-site` verifies exact promotion evidence and calls
+  the reusable smoke workflow with `--podcaster-dry-run`; it does not generate an
+  episode.
+- Podcaster real generation: a separate `workflow_dispatch` requires an exact week
+  and publish run ID after merge, waits on the protected
+  `podcaster-real-generation` environment, and runs
+  `scripts/podcaster_handoff.py --require-merged`. Neither crawl nor publish sync
+  can trigger real generation.
 - `crawl` and `analyze` also feed `deploy` so the final build uses the same run's data artifacts
 
 ## Manual validation flow

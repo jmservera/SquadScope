@@ -2,7 +2,7 @@
 title: Data Observatory Relaunch Owner Action Register
 description: Sequenced owner actions and evidence requirements for Claracle relaunch gates that cannot be completed by repository automation
 author: SquadScope Squad
-ms.date: 2026-08-02
+ms.date: 2026-08-03
 ms.topic: reference
 keywords:
   - launch gates
@@ -71,34 +71,83 @@ Required actions:
 Completion evidence: a retained review record combining automated results with keyboard
 and screen-reader conclusions. Automated axe success alone does not close NFR-005.
 
+Current automated evidence: the
+[2026-08-03 automated evidence record](automated-acceptance-evidence-2026-08-03.md#automated-control-evidence)
+ties successful axe, responsive, analytics-contract, Lighthouse, and Python checks to
+the tested current-main revision. Manual keyboard and screen-reader conclusions remain
+required.
+
 ## Protected real Podcaster run
 
 Owners: URL, Hermes, a repository administrator, the Podcaster maintainer, and the
 environment approver.
 
-Current evidence is split: run `30202586031` proves real accepted generation, while run
-`30721575540` proves an environment-bound dry run. The `podcaster-release-smoke`
-environment has no protection rules, and the real workflow is not environment-bound.
+Repository controls now separate the automatic dry-run smoke from real generation. Real
+generation is manual-only, requires an exact retained publish run and merged article,
+and binds to the `podcaster-real-generation` environment. No real workflow was dispatched
+as part of this implementation.
 
 Required actions:
 
-1. Confirm downstream idempotency or authorize one exact eligible week and manifest.
-2. Define required reviewers and branch policy for a real-generation environment.
-3. Bind the real generation job to that environment in a separately reviewed workflow change.
-4. Review secret scope without recording secret values.
-5. Approve and execute one real run.
-6. Retain the approver, week, manifest run ID, article digest, Actions URL, downstream job ID, and final conclusion.
+1. Confirm downstream idempotency or authorize one exact eligible week and publish run ID.
+2. Create or configure the `podcaster-real-generation` environment with required
+  reviewer approval, no self-review, and deployment restricted to `main`.
+3. Configure the environment-scoped endpoint variable and API-key secret without
+  recording their values.
+4. Have URL and Hermes review the environment policy, secret scope, exact-manifest
+  validation, and retained evidence fields.
+5. Approve and dispatch one exact week and publish run ID only after maintainer authorization.
+6. Retain the approver, week, manifest run ID and digest, article digest, Actions URL,
+  downstream job ID, status, and final conclusion.
 
 Completion evidence: one successful real downstream run after environment approval.
+
+## Atomic publish acceptance
+
+Owner: URL, with jmservera reviewing retained evidence.
+
+The repository now includes an isolated proof that executes the production commit step
+against a temporary local bare remote. Local validation passed normal publication,
+byte-identical rerun, injected failure, unchanged-branch, accepted-tree identity, and
+hydrated-tree identity scenarios. The production workflow also detects publish-relative
+no-op state before creating immutable backups.
+
+Required actions:
+
+1. Review the atomic proof workflow and production no-op guard.
+2. Dispatch the manual `Atomic publish proof` workflow for the reviewed revision.
+3. Retain its JSON evidence and tree manifests with the workflow URL and reviewer conclusion.
+
+Completion evidence: a successful retained manual proof artifact for the reviewed revision.
+
+## Incremental generation cost acceptance
+
+Owners: URL and the budget owner.
+
+The report-only experiment now measures cumulative baseline, topic-hub, data-page, and
+repository-page variants from immutable reviewed `main` and `publish` revisions. It does
+not run generators, mutate rollout flags, or enforce a blocking threshold.
+
+Required actions:
+
+1. Review and dispatch the manual experiment with immutable reviewed SHAs.
+2. Retain either three or five repetitions and the generated aggregate report.
+3. Record the budget owner's conclusion before proposing any threshold or rollout.
+
+Completion evidence: retained experiment artifacts and a dated budget-owner conclusion.
 
 ## Visual acceptance
 
 Owner: Amy or another named visual reviewer.
 
-Complete issue #622's factual checks and any layout-affecting #626 work before capture.
-Then follow the [screenshot capture checklist](screenshots/README.md) against the final
-revision with populated content, resolved consent state, desktop and mobile viewports,
-light and dark themes, interaction states, and a dated reviewer conclusion.
+The repository implementation removes Star Velocity clipping, stabilizes its scale across
+filters, clarifies its semantics, adds mobile consent geometry coverage, serves compressed
+static responses, extends lean CSS loading, and bounds Lighthouse concurrency without
+weakening thresholds. Topic aggregation remains correct; historical topic backfill
+promotion to `publish` remains owner-controlled. Follow the
+[screenshot capture checklist](screenshots/README.md) against the final revision with
+populated content, resolved consent state, desktop and mobile viewports, light and dark
+themes, interaction states, and a dated reviewer conclusion.
 
 Completion evidence: replacement visual matrix with revision metadata and an explicit
 accept or reject conclusion. Screenshots alone are not approval.
@@ -107,12 +156,19 @@ accept or reject conclusion. Screenshots alone are not approval.
 
 Owners: Amy for rendered metadata and jmservera for production access.
 
+Current automated evidence: representative production pages have complete and
+internally consistent social metadata and parseable page-specific JSON-LD. The root,
+weekly, and representative topic feeds return 200 `application/xml`, parse as RSS,
+and use absolute Claracle links. See the
+[2026-08-03 automated evidence record](automated-acceptance-evidence-2026-08-03.md).
+
 Required actions:
 
 1. Validate the homepage and one representative article in supported social preview debuggers.
 2. Validate representative article and breadcrumb markup with Google Rich Results Test.
 3. Validate each relevant page type with Schema.org Validator.
-4. Record HTTP status and content type for the site and topic feeds in production.
+4. Review the retained HTTP, media-type, XML, and absolute-link conclusions for the
+  site, weekly, and representative topic feeds.
 5. Retain the tested URLs, revision, tool conclusions, reviewer, and date without exposing credentials.
 
 Completion evidence: dated social preview, structured-data, and production feed

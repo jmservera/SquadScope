@@ -791,32 +791,60 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("📊 **SquadScope Week", webhook_run)
         self.assertIn("Webhook post failed (non-critical)", webhook_run)
 
-    def test_podcaster_handoff_triggers_post_merge_from_sync_not_crawl(self) -> None:
-        # Handoff must fire only AFTER the weekly article is merged to main, so it
-        # lives in sync-publish-to-main (post-merge), not in crawl-and-publish
-        # (which deploys from artifacts before the merge — the W27 stub race).
-        crawl = yaml.safe_load(
-            Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
-        )
-        self.assertNotIn("podcaster-handoff", crawl["jobs"])
-        deploy_job = crawl["jobs"]["deploy"]
-        self.assertEqual(deploy_job["needs"], ["crawl", "analyze", "generate"])
+    def test_real_podcaster_handoff_is_not_automatic(self) -> None:
+        for workflow_path in (
+            Path(".github/workflows/crawl-and-publish.yml"),
+            Path(".github/workflows/sync-publish-to-main.yml"),
+        ):
+            workflow = workflow_path.read_text(encoding="utf-8")
+            self.assertNotIn("PODCASTER_ENDPOINT", workflow)
+            self.assertNotIn("PODCASTER_API_KEY", workflow)
+            self.assertNotIn("scripts/podcaster_handoff.py", workflow)
 
-        sync = yaml.safe_load(
-            Path(".github/workflows/sync-publish-to-main.yml").read_text(encoding="utf-8")
+    def test_real_podcaster_workflow_requires_exact_protected_manual_run(self) -> None:
+        workflow_path = Path(".github/workflows/trigger-podcast.yml")
+        workflow_text = workflow_path.read_text(encoding="utf-8")
+        workflow = yaml.safe_load(workflow_text)
+
+        triggers = workflow[True]
+        self.assertEqual(set(triggers), {"workflow_dispatch"})
+        inputs = triggers["workflow_dispatch"]["inputs"]
+        self.assertTrue(inputs["publish_run_id"]["required"])
+
+        job = workflow["jobs"]["trigger-podcast"]
+        self.assertEqual(job["environment"]["name"], "podcaster-real-generation")
+        self.assertNotEqual(job["environment"]["name"], "podcaster-release-smoke")
+        checkout = next(s for s in job["steps"] if _uses_action(s, "actions/checkout"))
+        self.assertEqual(checkout["with"]["ref"], "${{ github.event.repository.default_branch }}")
+
+        locate = next(s for s in job["steps"] if s.get("id") == "manifest-locate")
+        locate_run = locate["run"]
+        self.assertIn("data/candidates/${WEEK}/${PUBLISH_RUN_ID}/publish-manifest.json", locate_run)
+        self.assertIn('manifest.get("week") != requested_week', locate_run)
+        self.assertIn('str(manifest.get("run_id")) != requested_run_id', locate_run)
+        self.assertNotIn("find ", locate_run)
+        self.assertNotIn("tail -1", locate_run)
+        self.assertNotIn("most recent", locate_run)
+        manifest_script = locate_run.split("<<'PY'\n", 1)[1].rsplit("\nPY", 1)[0]
+        compile(manifest_script, str(workflow_path), "exec")
+
+        handoff = next(s for s in job["steps"] if s.get("id") == "handoff")
+        self.assertIn("--require-merged", handoff["run"])
+        self.assertNotIn("--podcaster-dry-run", handoff["run"])
+        self.assertNotIn("--force", handoff["run"])
+        evidence = next(
+            s for s in job["steps"] if s.get("name") == "Retain real generation evidence"
         )
-        steps = sync["jobs"]["sync"]["steps"]
-        trigger = next((s for s in steps if s.get("name") == "Trigger Podcaster after merge"), None)
-        self.assertIsNotNone(trigger)
-        self.assertEqual(trigger["if"], "${{ steps.sync.outputs.merged == 'true' }}")
-        self.assertEqual(trigger["env"]["PODCASTER_ENDPOINT"], "${{ vars.PODCASTER_ENDPOINT }}")
-        self.assertEqual(trigger["env"]["PODCASTER_API_KEY"], "${{ secrets.PODCASTER_API_KEY }}")
-        run_script = trigger["run"]
-        self.assertIn("scripts/publish_manifest.py assert-eligible", run_script)
-        self.assertIn("scripts/podcaster_handoff.py", run_script)
-        self.assertIn("--require-merged", run_script)
-        self.assertNotIn("--force", run_script)
-        self.assertNotIn("echo $PODCASTER_API_KEY", run_script)
+        self.assertEqual(evidence["if"], "always()")
+        self.assertIn("actions/runs", evidence["env"]["RUN_URL"])
+        for field in (
+            "MANIFEST_PATH",
+            "MANIFEST_SHA256",
+            "ARTICLE_SHA256",
+            "PODCASTER_JOB_ID",
+            "PODCASTER_STATUS",
+        ):
+            self.assertIn(field, evidence["env"])
 
     def test_podcaster_smoke_workflow_exercises_real_weekly_payload_shape(self) -> None:
         workflow_path = Path(".github/workflows/podcaster-handoff-smoke.yml")

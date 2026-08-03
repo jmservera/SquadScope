@@ -1274,6 +1274,26 @@ jobs:
             git fetch origin "$DEFAULT_BRANCH"
             git checkout -f -B "$DATA_BRANCH" "origin/$DEFAULT_BRANCH"
           fi
+          CANDIDATE_STATE_DIR="$(mktemp -d)"
+          tar -xf generated-state.tar -C "$CANDIDATE_STATE_DIR"
+          GENERATED_STATE_CHANGED=false
+          for path in "${GENERATED_PATHS[@]}"; do
+            path="${path%/}"
+            candidate_path="$CANDIDATE_STATE_DIR/$path"
+            if [ -d "$candidate_path" ] && [ -d "$path" ]; then
+              diff -qr --no-dereference "$candidate_path" "$path" >/dev/null || GENERATED_STATE_CHANGED=true
+            elif [ -f "$candidate_path" ] && [ -f "$path" ]; then
+              cmp -s "$candidate_path" "$path" || GENERATED_STATE_CHANGED=true
+            elif [ -e "$candidate_path" ] || [ -e "$path" ]; then
+              GENERATED_STATE_CHANGED=true
+            fi
+          done
+          rm -rf "$CANDIDATE_STATE_DIR"
+          if [ "$GENERATED_STATE_CHANGED" = false ]; then
+            echo "Generated state is byte-identical to publish; no backup or commit required."
+            rm -f generated-state.tar publish-manifest-tool.json publish-safety-tool.py promotion-guard-tool.py
+            exit 0
+          fi
           BACKUP_PATH_ARGS=(
             --path "data/analyzed/${WEEK}-summary.md"
             --path "data/analyzed/${WEEK}-correlations.json"

@@ -2,7 +2,7 @@
 title: Data Observatory Relaunch Status of Record
 description: Single reconciled view of delivered versus pending relaunch work across the three remediation plans, the PRD, and the BRD
 author: SquadScope Squad
-ms.date: 2026-08-02
+ms.date: 2026-08-03
 ms.topic: reference
 keywords:
   - status of record
@@ -24,7 +24,7 @@ gate matrix and the acceptance decision.
 - PRD: [claracle-data-observatory-relaunch.md](../../prds/claracle-data-observatory-relaunch.md)
 - BRD: [claracle-data-observatory-relaunch-brd.md](../../brds/claracle-data-observatory-relaunch-brd.md)
 
-Reconciled on 2026-08-02. Release acceptance remains **pending** per the
+Reconciled through 2026-08-03. Release acceptance remains **pending** per the
 [acceptance decision](README.md#acceptance-decision); both rollout flags stay disabled.
 
 ## Source plans
@@ -57,7 +57,7 @@ Reconciled on 2026-08-02. Release acceptance remains **pending** per the
 | --------------------------------------- | --------- | -------------------------------------------------------------------------------- |
 | Weekly topic through-line               | Done      | 2026-07-29 Phase 2                                                                |
 | Repository lifecycle (identity, retention) | Done   | 2026-07-29 Phase 3                                                                |
-| Atomic publish transaction              | Partial   | Implementation shipped in 2026-07-29 Phase 4 and restore integrity was hardened by `#640`/`#646`; normal-run, identical-rerun, injected-failure, unchanged-branch, and hydrated-tree acceptance proof remains open in 2026-07-30 Step 6.1 |
+| Atomic publish transaction              | Partial   | Isolated local-remote proof passes normal-run, identical-rerun, injected-failure, unchanged-branch, accepted-tree, and hydrated-tree scenarios; retained manual workflow artifact and reviewer conclusion remain pending |
 | SEO / rendered link contracts           | Done      | 2026-07-29 Phase 5                                                                |
 | Consent-gated analytics API             | Done      | 2026-07-29 Phase 6                                                                |
 | Deploy / hydration parity + CI guard    | Done      | Deploy hydration is restored (`#628`/`#632`/`#634`/`#637`); the `#641` guard satisfies NFR-012 reference integrity; the `publish-hydration-parity` CI job reproduces the deploy publish-hydration and validates the promotion record (`scripts/publish_hydration.py`) for NFR-011 |
@@ -66,11 +66,11 @@ Reconciled on 2026-08-02. Release acceptance remains **pending** per the
 | Hugo/Pagefind timing separation         | Done      | CI records separate report-only Hugo and Pagefind durations; Q-01 workload attribution remains pending |
 | Security sign-off (NFR-004)             | Pending   | SEC-02 and SEC-03 repository controls are implemented and tested; SEC-05 has a defense-in-depth recommendation; Hermes finding dispositions remain required |
 | Accessibility evidence (NFR-005)        | Pending   | Amy/Fry; 2026-07-30 Step 7.2                                                      |
-| Real Podcaster downstream run (NFR-002 / R-04) | Pending | Protected environment; 2026-07-30 Step 6.3                                    |
-| Refreshed visual acceptance             | Pending   | Screenshot capture checklist                                                      |
+| Real Podcaster downstream run (NFR-002 / R-04) | Pending | Manual exact-run workflow is bound to `podcaster-real-generation`; environment administration, approval, and one authorized dispatch remain pending |
+| Refreshed visual acceptance             | Pending   | `#622` and `#626` repository hardening is implemented; final browser evidence and named visual review remain pending |
 | GA4 + GSC connection + baseline (FR-035) | Partial  | Connection complete: GA4 stream confirmed, GSC verified, root sitemap submitted, and products linked; numeric baseline transcription and consent evidence remain pending |
-| External metadata and feed validation   | Pending   | Social previews, Rich Results, Schema.org, and production feed responses require retained conclusions |
-| Incremental generation cost (Q-01 / NFR-009) | Pending | Design spike required                                                          |
+| External metadata and feed validation   | Partial   | [Production feed and source-level metadata evidence](automated-acceptance-evidence-2026-08-03.md) is retained; social preview debuggers, Rich Results, Schema.org, and named reviewer conclusions remain pending |
+| Incremental generation cost (Q-01 / NFR-009) | Partial | Report-only cumulative experiment is implemented; retained 3/5-run artifacts and budget-owner conclusion remain pending |
 | `repo_pages` rollout (FR-020-022)       | Deferred  | Flag disabled; needs sponsor approval + own plan                                 |
 | `dynamic_topic_creation` rollout (FR-004) | Deferred | Flag disabled; needs sponsor approval + own plan                                |
 | Sponsor rollout approval                | Pending   | jmservera; see [launch-gate register](#launch-gate-register)                     |
@@ -99,7 +99,7 @@ holds the platform-level rows; this register adds ownership and sequencing.
 | Real Podcaster downstream run (NFR-002 / R-04) | URL     | Protected environment policy and maintainer authorization | [Owner action register](owner-action-register.md#protected-real-podcaster-run) |
 | Refreshed visual acceptance                | Amy         | Populated content render                     | [Screenshot capture checklist](screenshots/README.md)               |
 | External metadata and feed validation      | Amy / jmservera | External debugger and production access   | [Owner action register](owner-action-register.md#external-metadata-and-feed-validation) |
-| Incremental generation cost (Q-01 / NFR-009) | URL       | Comparable workload variants and budget owner | [Gated rollout and cost plan](../../../.copilot-tracking/plans/2026-08-02/claracle-gated-rollout-cost-plan.instructions.md) |
+| Incremental generation cost (Q-01 / NFR-009) | URL       | Dispatch immutable workload variants and obtain budget-owner review | [Owner action register](owner-action-register.md#incremental-generation-cost-acceptance) |
 | Lighthouse follow-ups (`#626`)             | Amy / Fry   | None; independent hardening                  | `#626`                                                              |
 | Post-review UX polish (`#622`)             | Amy         | None; non-blocking                           | `#622`                                                              |
 | Sponsor rollout approval                   | jmservera   | Required gate evidence for each flag         | [Owner action register](owner-action-register.md#sponsor-rollout-decision) |
