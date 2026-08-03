@@ -126,12 +126,12 @@ docs/
 * [x] Step 3.2: Restore the provenance invariant test to require `content/data/` in deploy hydration — `#637`
 * [x] Step 3.3: Confirm a full deploy build succeeds against the hydrated `publish` content set — deploy-site runs green since 2026-08-01
 
-### [ ] Implementation Phase 4: CI Deploy-Parity Guard
+### [x] Implementation Phase 4: CI Deploy-Parity Guard
 
 <!-- parallelizable: true -->
 
-* [x] Step 4.1: Add a CI build that reproduces the deploy publish-hydration (or a lightweight check that every `content/embeds/*` `source_page` resolves to an existing data page in the built content set) — the lightweight `scripts/check_embed_sources.py` alternative shipped in `#641` and satisfies NFR-012, but does not reproduce publish hydration for NFR-011
-* [ ] Step 4.2: Wire the guard into the production-site job so `main`/`publish` divergence fails CI, not the deploy — `#641` wires local embed reference validation into `.github/workflows/ci.yml`; publish/main hydration divergence remains untested
+* [x] Step 4.1: Add a CI build that reproduces the deploy publish-hydration (or a lightweight check that every `content/embeds/*` `source_page` resolves to an existing data page in the built content set) — the lightweight `scripts/check_embed_sources.py` alternative shipped in `#641` and satisfies NFR-012; NFR-011 publish-hydration reproduction now ships as `scripts/publish_hydration.py` with the `publish-hydration-parity` CI job
+* [x] Step 4.2: Wire the guard into the production-site job so `main`/`publish` divergence fails CI, not the deploy — the `publish-hydration-parity` job in `.github/workflows/ci.yml` hydrates the deploy's generated set from `publish` and validates the embed and promotion-record references before deploy
 * [x] Step 4.3: Add or extend tests covering the guard behavior — `tests/test_embed_sources.py` (`#641`)
 
 ### [ ] Implementation Phase 5: Validation and Re-Review
@@ -140,7 +140,7 @@ docs/
 
 * [x] Step 5.1: Run full validation: `pytest tests/`, ruff, zizmor on changed workflows, and a clean Hugo build — validated per PR CI (`#628`/`#634`/`#637`/`#641`)
 * [x] Step 5.2: Confirm the production deploy succeeds end to end and close issue #627 — `#627` CLOSED; deploy-site green
-* [ ] Step 5.3: Reconcile PRD NFR-011/012, R-08, and Q-03 status with the delivered state — the 2026-08-02 relaunch-readiness reconciliation records NFR-012 as delivered and NFR-011 as partial until CI reproduces publish hydration
+* [ ] Step 5.3: Reconcile PRD NFR-011/012, R-08, and Q-03 status with the delivered state — the 2026-08-02 relaunch-readiness reconciliation records NFR-012 as delivered; NFR-011 CI publish-hydration parity is delivered by the `publish-hydration-parity` job
 
 ## Parallelization Summary
 

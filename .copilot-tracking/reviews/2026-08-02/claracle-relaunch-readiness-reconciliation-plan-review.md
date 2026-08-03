@@ -132,7 +132,7 @@ the remaining launch gates.
 | Finding | Resolution | Evidence |
 |---------|------------|----------|
 | REV-MAJ-001 | Closed | Atomic publish is Partial; the July 30 Step 6.1 proof matrix remains open |
-| REV-MAJ-002 | Closed | NFR-012 reference integrity is delivered; NFR-011 CI publish hydration is Partial and open |
+| REV-MAJ-002 | Closed | NFR-012 reference integrity is delivered; NFR-011 CI publish-hydration parity is delivered by the `publish-hydration-parity` job (`scripts/publish_hydration.py`) |
 | REV-MAJ-003 | Closed | Issue #644 now contains the class (c) root cause, #645/#646 remediation, and successful deploy runs |
 | REV-MAJ-004 | Closed | The July 30 plan records #639/#643 and #640/#646 without closing atomicity or the protected Podcaster run |
 | Minor findings | Closed | Taxonomy, #632, issue states, change inventory, and validation provenance are corrected in current owning records |
