@@ -580,7 +580,10 @@ def test_frozen_corpus_lifecycle_seed_has_expected_parity() -> None:
     expected_schema = observatory_repos.lifecycle_ledger_payload({})["schema_version"]
     committed_ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
     assert committed_ledger["schema_version"] == expected_schema
-    assert isinstance(committed_ledger["repositories"], dict)
+    committed_repositories = committed_ledger["repositories"]
+    assert isinstance(committed_repositories, dict)
+    assert len(committed_repositories) >= 2242  # catches an emptied or shrunk ledger
+    assert all(isinstance(entry, dict) for entry in committed_repositories.values())
 
 
 def test_stable_id_absorbs_seeded_fallback_history() -> None:
