@@ -59,6 +59,7 @@ None.
 ### ❌ Rejected / No Action
 
 * Historical research snapshots remain unchanged where they accurately describe evidence available at their original capture time.
+* `pr-reference.xml` remains unchanged as the generated pre-merge diff snapshot.
 * Rollout flags remain disabled; no acceptance or sponsor decision was inferred from repository automation.
 
 ## Action Log
@@ -97,4 +98,4 @@ None.
 * [x] Confirm Hugo, browser, accessibility, and Lighthouse in fresh PR CI
 * [x] Commit and publish synchronization corrections
 * [x] Confirm fresh PR checks and mergeability
-* [ ] Merge PR #647
+* [x] Merge PR #647 as `2fdcb0962dad770832b7b6ee4b6807b3b9c721c7`

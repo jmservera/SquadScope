@@ -7,10 +7,10 @@ Gaps and differences identified between research findings and the implementation
 
 ### Unaddressed Research Items
 
-* DR-01: Full GA4/GSC connection (setting ga_measurement_id, verifying the property, submitting the sitemap, capturing the baseline)
+* DR-01: GA4/GSC baseline, production consent, and sitemap processing evidence
   * Source: research 2026-08-02 (Unmet launch gates); issue #599
-  * Reason: Issue #599 closed as completed on 2026-08-01 with a human-action checklist still outstanding; this plan only registers and sequences that external acceptance work
-  * Impact: high (blocks OBJ-2/OBJ-4 baselines)
+  * Reason: The connection, property verification, root sitemap submission, and product link are complete; this plan only registers and sequences the remaining external evidence work
+  * Impact: high (blocks OBJ-2/OBJ-4 baselines and NFR-008 production acceptance)
 * DR-02: repo_pages and dynamic_topic_creation rollout enablement
   * Source: config/observatory.toml flags disabled; PRD section 13
   * Reason: Requires separate sponsor approval and its own rollout plan
@@ -57,8 +57,8 @@ Gaps and differences identified between research findings and the implementation
 
 ## Suggested Follow-On Work
 
-* WI-01: GA4 + GSC connection implementation plan (high) - set ga_measurement_id, verify property, submit sitemap, capture dated baseline
-  * Source: research (GA4/GSC); human-action checklist on closed issue #599
+* WI-01: GA4/GSC evidence completion plan (high) - transcribe the dated baseline, retain denied/granted consent observations, and review sitemap processing
+  * Source: owner action register; remaining human-action checklist after closed issue #599
   * Dependency: sponsor/platform access
 * WI-02: Deploy failure #644 dedicated fix plan (high) - NOT NEEDED. #644 is CLOSED: root cause was a dangling `source_manifest.path` (`data/candidates/2026-W31/30669054860/publish-manifest.json`) breaking the Podcaster smoke gate; resolved by `#645`/`#646`, deploy-site green since 2026-08-01. No dedicated fix plan required.
   * Source: open issue #644 (now closed)
