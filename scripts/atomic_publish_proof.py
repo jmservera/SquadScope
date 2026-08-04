@@ -301,6 +301,11 @@ def run_proof(repo_root: Path, output_dir: Path) -> dict[str, object]:
     output_dir.mkdir(parents=True, exist_ok=True)
     workflow_path = repo_root / ".github/workflows/crawl-and-publish.yml"
     commit_script = extract_commit_step(workflow_path)
+    # CI's checkout is a shallow, single-ref clone: HEAD's ancestor objects are
+    # missing, so pushing it below would be rejected ("shallow update not
+    # allowed"). Unshallow first so seed_isolated_origin can push full history.
+    if run_git(repo_root, "rev-parse", "--is-shallow-repository") == "true":
+        run_git(repo_root, "fetch", "--unshallow", "origin")
     main_sha = run_git(repo_root, "rev-parse", "HEAD")
     # Mirror the production commit step's own "fetch, then rev-parse" pattern
     # (see REQUIRED_COMMIT_FRAGMENTS) so this proof works against CI's shallow,
