@@ -100,9 +100,12 @@ Required actions:
 3. ~~Configure the environment-scoped endpoint variable and API-key secret without
   recording their values.~~ Done 2026-08-04: `PODCASTER_ENDPOINT` variable and
   `PODCASTER_API_KEY` secret configured on the environment (values not recorded here).
-4. Have URL and Hermes review the environment policy, secret scope, exact-manifest
-  validation, and retained evidence fields. **Not yet done** — see the amended
-  self-review note below; this review should also cover that amendment.
+4. ~~Have Hermes review the environment policy amendment (self-review disablement),
+  exact-manifest validation, and retained evidence fields.~~ Done 2026-08-04: Hermes
+  accepted disabling `prevent_self_review` with compensating conditions; see
+  [SEC-09](security-review.md#findings-and-dispositions). URL's review of the
+  environment's secret scope and workflow/pipeline hardening is a separate portion of
+  this action and remains **not yet done** — it is not covered by Hermes' disposition.
 5. ~~Approve and dispatch one exact week and publish run ID only after maintainer
   authorization.~~ Done 2026-08-04: jmservera dispatched and approved run
   [30908778884](https://github.com/jmservera/SquadScope/actions/runs/30908778884)
@@ -116,8 +119,10 @@ flag was set `true` when only one reviewer (jmservera) was configured, which
 deadlocked approval on the first dispatch (30908570104, cancelled) because the
 same account cannot approve its own run. jmservera authorized disabling
 `prevent_self_review` (reviewer set and `main`-only branch restriction unchanged)
-to unblock the redispatch. This weakens a previously-recorded security control and
-should be included in the pending URL/Hermes environment-policy review (action 4).
+to unblock the redispatch. This weakens a previously-recorded security control.
+Hermes' security disposition for this amendment is recorded as Accept-with-conditions
+in [SEC-09](security-review.md#findings-and-dispositions) (action 4). URL's review of
+the environment's secret scope and workflow/pipeline hardening remains open.
 
 Evidence for the completed run:
 
@@ -133,8 +138,10 @@ Evidence for the completed run:
 | Conclusion | success |
 
 Completion evidence: one successful real downstream run after environment approval —
-satisfied by the run above. Action 4 (URL/Hermes environment-policy review, including
-the self-review amendment) remains open.
+satisfied by the run above. Action 4's Hermes portion (self-review amendment security
+disposition) is satisfied by [SEC-09](security-review.md#findings-and-dispositions).
+Action 4's URL portion (secret scope and workflow/pipeline hardening review) remains
+open.
 
 ## Atomic publish acceptance
 

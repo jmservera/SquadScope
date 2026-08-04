@@ -166,6 +166,45 @@ Secret values must never be copied into evidence, screenshots, command output, f
 datasets. Workflow logs and environment scoping require URL review. A successful repository test
 does not prove protected-environment configuration or a downstream Podcaster run.
 
+### Environment self-review amendment (solo maintainer)
+
+The `podcaster-real-generation` environment's `prevent_self_review` protection rule was disabled on
+2026-08-04 after it deadlocked the first real-generation dispatch: with jmservera as the only
+configured reviewer, `prevent_self_review: true` made `current_user_can_approve` false for
+jmservera's own run, with no second reviewer able to approve it instead.
+
+**SEC-09 disposition:** Accept-with-conditions. Self-review protection exists to stop an author from
+quietly approving their own deployment without independent scrutiny. In this repository the same
+account (jmservera) already holds admin and write access to `main`, the workflow file, and the
+environment's secrets and protection rules, so that independent-scrutiny boundary does not exist
+today regardless of this one flag — an account compromise that could approve a self-dispatched run
+could equally edit the workflow or protection rules directly. Disabling `prevent_self_review` removes
+a deadlock, not an enforceable control. The controls that actually bound residual risk are unrelated
+to reviewer identity: `branch_policy` restricting deployment to `main`, the job's own
+`if: github.ref == 'refs/heads/main'` guard, required exact `week` and `publish_run_id` inputs,
+fail-closed manifest `content_sha256`-versus-merged-article validation (`--require-merged`), no
+secret values ever logged, and the retained per-run evidence step summary. None of these depend on
+who clicks approve.
+
+Because jmservera is currently the only maintainer, adding a second reviewer is not an available fix
+and is not the recommended control. Instead, this disposition requires:
+
+* An environment `wait_timer` so approval cannot happen in the same reflexive action as dispatch.
+  Applied 2026-08-04: `wait_timer` set to 10 minutes on `podcaster-real-generation`.
+* Before approving, cross-check the dispatch inputs (`week`, `publish_run_id`) against a pre-dispatch
+  note of intent, since environment approval currently gates the job before the manifest is fetched
+  or validated.
+* After every run, actually open the retained evidence step summary and confirm the manifest and
+  article SHA-256 values and downstream Podcaster job status, rather than treating retention alone as
+  review.
+* Revert `prevent_self_review` to `true` immediately if a second collaborator with
+  environment-reviewer permissions ever joins the project — the deadlock this amendment fixes only
+  exists for a single reviewer.
+* Revisit this environment's protection rules at the next security-review cycle.
+
+Adding a second human reviewer remains the strongest long-term fix if the team grows, but it is out
+of scope for the solo-maintainer case this disposition covers.
+
 ## Findings and dispositions
 
 | ID     | Finding                                                                                    | Severity      | Owner                 | Disposition                                                                                                 |
@@ -178,6 +217,7 @@ does not prove protected-environment configuration or a downstream Podcaster run
 | SEC-06 | GA4, GSC, and Podcaster secret behavior is not proven by repository inspection             | Medium        | URL and jmservera     | External verification pending; never record secret values                                                   |
 | SEC-07 | Browser tool uses safe DOM and a restricted outbound URL policy                            | Informational | Amy                   | Repository control verified; production and accessibility behavior pending                                  |
 | SEC-08 | Raw HTML rendering remains disabled                                                        | Informational | Amy and Hermes        | Repository control verified; Hermes sign-off pending                                                        |
+| SEC-09 | `prevent_self_review` disabled on `podcaster-real-generation` because the sole reviewer is also the sole dispatcher (solo-maintainer deadlock) | Medium | Hermes | Accept-with-conditions 2026-08-04: no independent-scrutiny boundary existed to lose (same account already admins `main`, the workflow, and secrets); `wait_timer` set to 10 minutes (applied), plus pre-approval input cross-check, mandatory post-run evidence check, and reinstating `prevent_self_review: true` if a second reviewer ever joins |
 
 ## Required evidence before acceptance
 
