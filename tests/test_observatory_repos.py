@@ -699,6 +699,104 @@ def test_two_pass_duplicate_identity_regression() -> None:
         assert migrated.display_name == "test-owner/test-repo"
 
 
+def test_write_repository_pages_raises_on_slug_collision() -> None:
+    """Unit test verifying the slug-collision guard in write_repository_pages().
+
+    The slug-collision guard is a defensive check that ensures no two different
+    repository history keys produce the same output slug/path. This should be
+    unreachable after the identity-merge fix, but the guard catches any future
+    regression before corrupt derived data reaches production.
+    """
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+
+        # Create a minimal config
+        config = observatory_repos.load_config(root)
+
+        # Construct two RepositoryHistory objects that will collide on slug
+        # Both resolve to slug "owner-repo" from their display_name
+        collision_slug = "owner-repo"
+
+        # History 1: numeric key with display name "owner/repo"
+        history1 = observatory_repos.RepositoryHistory(
+            key="123",
+            github_id="123",
+            node_id="R_123",
+            display_name="owner/repo",
+            owner="owner",
+            name="repo",
+            slug=collision_slug,  # Explicitly set to collision slug
+            url="https://github.com/owner/repo",
+            description="First history",
+        )
+
+        # Add observations to make it eligible for page generation
+        history1.observations.append(
+            observatory_repos.RepoObservation(
+                week="2026-W30",
+                source_bucket="trending_repos",
+                owner="owner",
+                name="repo",
+                full_name="owner/repo",
+                url="https://github.com/owner/repo",
+                description="First history",
+                language="Python",
+                stars=100,
+                forks=10,
+                created_at="2026-01-01T00:00:00Z",
+                topics=("ai",),
+                source_path="data/raw/2026-W30.json",
+                github_id="123",
+                node_id="R_123",
+            )
+        )
+
+        # History 2: name-key variant with same slug (crafted to collide)
+        history2 = observatory_repos.RepositoryHistory(
+            key="name:owner/repo-variant",
+            github_id=None,
+            node_id=None,
+            display_name="owner/repo-variant",  # Different display name
+            owner="owner",
+            name="repo-variant",
+            slug=collision_slug,  # Same slug due to Unicode/normalization crafting
+            url="https://github.com/owner/repo-variant",
+            description="Second history (collision)",
+        )
+
+        # Add observations to make it eligible for page generation
+        history2.observations.append(
+            observatory_repos.RepoObservation(
+                week="2026-W30",
+                source_bucket="trending_repos",
+                owner="owner",
+                name="repo-variant",
+                full_name="owner/repo-variant",
+                url="https://github.com/owner/repo-variant",
+                description="Second history",
+                language="Python",
+                stars=50,
+                forks=5,
+                created_at="2026-01-02T00:00:00Z",
+                topics=("ai",),
+                source_path="data/raw/2026-W30.json",
+                github_id=None,
+            )
+        )
+
+        # Mark both as qualified so they will be eligible
+        history1.qualified = True
+        history2.qualified = True
+
+        # Create histories dict with both
+        histories = {history1.key: history1, history2.key: history2}
+
+        # Call write_repository_pages and expect ValueError on slug collision
+        with pytest.raises(ValueError, match="Slug collision detected"):
+            observatory_repos.write_repository_pages(root, histories, config)
+
+
 def test_disabled_repo_generation_preserves_durable_state(
     capsys: pytest.CaptureFixture[str],
 ) -> None:

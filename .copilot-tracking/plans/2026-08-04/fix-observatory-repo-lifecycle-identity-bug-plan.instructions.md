@@ -67,26 +67,26 @@ blocker on the `repo_pages` rollout without changing the production flag itself.
 
 ## Implementation Checklist
 
-### [ ] Implementation Phase 1: Fix the Ledger Identity-Merge Bug
+### [x] Implementation Phase 1: Fix the Ledger Identity-Merge Bug
 
 <!-- parallelizable: false -->
 
-* [ ] Step 1.1: Add a `full_name -> current key` reverse index to `load_repository_histories()`
+* [x] Step 1.1: Add a `full_name -> current key` reverse index to `load_repository_histories()`
   * Details: .copilot-tracking/details/2026-08-04/fix-observatory-repo-lifecycle-identity-bug-details.md (Lines 15-45)
-* [ ] Step 1.2: Keep the reverse index current across migrations within one pass
+* [x] Step 1.2: Keep the reverse index current across migrations within one pass
   * Details: .copilot-tracking/details/2026-08-04/fix-observatory-repo-lifecycle-identity-bug-details.md (Lines 47-60)
-* [ ] Step 1.3: Harden `write_repository_pages()` with a slug-collision guard
+* [x] Step 1.3: Harden `write_repository_pages()` with a slug-collision guard
   * Details: .copilot-tracking/details/2026-08-04/fix-observatory-repo-lifecycle-identity-bug-details.md (Lines 62-78)
 
-### [ ] Implementation Phase 2: Add Regression Coverage and Restore Weakened Assertions
+### [x] Implementation Phase 2: Add Regression Coverage and Restore Weakened Assertions
 
 <!-- parallelizable: false -->
 
-* [ ] Step 2.1: Add a two-pass duplicate-identity regression test
+* [x] Step 2.1: Add a two-pass duplicate-identity regression test
   * Details: .copilot-tracking/details/2026-08-04/fix-observatory-repo-lifecycle-identity-bug-details.md (Lines 82-104)
-* [ ] Step 2.2: Restore strict assertions in `test_frozen_corpus_lifecycle_seed_has_expected_parity`
+* [x] Step 2.2: Restore strict assertions in `test_frozen_corpus_lifecycle_seed_has_expected_parity`
   * Details: .copilot-tracking/details/2026-08-04/fix-observatory-repo-lifecycle-identity-bug-details.md (Lines 106-120)
-* [ ] Step 2.3: Run targeted tests for this phase
+* [x] Step 2.3: Run targeted tests for this phase
   * Details: .copilot-tracking/details/2026-08-04/fix-observatory-repo-lifecycle-identity-bug-details.md (Lines 122-130)
 
 ### [ ] Implementation Phase 3: Regenerate Site Content From Stored Data on a Branch

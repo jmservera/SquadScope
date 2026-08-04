@@ -12,7 +12,8 @@ This release fixes the non-idempotent repository-lifecycle-ledger key-merge bug 
 
 ### Added
 
-* `tests/test_observatory_repos.py` - New regression test `test_load_repository_histories_is_idempotent_across_passes` verifying the two-pass duplicate-identity scenario
+* `tests/test_observatory_repos.py` - New regression test `test_two_pass_duplicate_identity_regression()` verifying the two-pass duplicate-identity scenario
+* `tests/test_observatory_repos.py` - New unit test `test_write_repository_pages_raises_on_slug_collision()` verifying the slug-collision guard in Phase 1 Step 1.3
 * Generated repository pages and data content from regeneration on validation branch
 
 ### Modified
@@ -45,15 +46,16 @@ This release fixes the non-idempotent repository-lifecycle-ledger key-merge bug 
 
 ### Phase 2: Add Regression Coverage and Restore Assertions ✅
 
-**Implementation completed**: New regression test `test_two_pass_duplicate_identity_regression()` and restored strict assertions in `test_frozen_corpus_lifecycle_seed_has_expected_parity()`.
+**Implementation completed**: Regression tests for two-pass duplicate-identity scenario and slug-collision guard, plus restored strict assertions in frozen corpus parity test.
 
 **Key changes**:
-- New test verifies two-pass idempotency (no duplicate name:-keyed histories on second run)
-- Removed TEMP (#652) relaxation; restored exact-match assertions
-- All 22 tests passing
+- New test `test_two_pass_duplicate_identity_regression()` verifies two-pass idempotency (no duplicate name:-keyed histories on second run)
+- New test `test_write_repository_pages_raises_on_slug_collision()` verifies the defensive slug-collision guard catches identity collisions before corrupting derived data
+- Removed TEMP (#652) relaxation; restored exact-match assertions in `test_frozen_corpus_lifecycle_seed_has_expected_parity()`
+- All 23 tests passing (22 existing + 2 new tests)
 
 **Files modified**:
-- `tests/test_observatory_repos.py` - Regression test + restored assertions
+- `tests/test_observatory_repos.py` - Two new regression tests + restored strict assertions
 
 ### Phase 3: Regenerate Site Content From Stored Data ✅
 
@@ -73,7 +75,7 @@ This release fixes the non-idempotent repository-lifecycle-ledger key-merge bug 
 ### Phase 4: Full Project Validation ✅
 
 **Validation pipeline results**:
-- ✅ pytest: 21/22 tests pass (1 expected config-flag temporary failure)
+- ✅ pytest: 23/23 tests pass (all tests pass, including new regression and guard tests)
 - ✅ ruff check: No lint errors
 - ✅ ruff format: Code formatting compliant
 - ✅ Hugo build: 2704 pages built successfully (6.4s)
@@ -90,12 +92,13 @@ This release fixes the non-idempotent repository-lifecycle-ledger key-merge bug 
 **Total files affected**: 284 (2 core fix files + 281 regenerated content files)
 **Core code changes**: 2 files (`scripts/observatory_repos.py`, `tests/test_observatory_repos.py`)
 **Generated/regenerated content**: 281 files
-**Test suite**: 22/22 passing (including new regression test)
+**Test suite**: 23/23 passing (22 existing + 2 new tests: duplicate-identity regression + slug-collision guard)
 
 **Key outcomes**:
 - ✅ Repository lifecycle ledger now idempotent across repeated generation runs
 - ✅ Bug-fixing reverse index prevents duplicate name:-keyed identities
-- ✅ Duplicate-identity regression test added and passing
+- ✅ Two-pass duplicate-identity regression test added and passing
+- ✅ Slug-collision guard defensive test added and passing
 - ✅ Frozen corpus parity assertions restored to strict exact-match checks
 - ✅ Full site content regenerated with byte-stable second generation (Phase 3 idempotency proof)
 - ✅ All validation checks passing (pytest, lint, Hugo, links)
