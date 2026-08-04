@@ -1,8 +1,8 @@
 ---
 title: spring-projects/spring-boot repository trend history
-description: 'Evergreen Claracle Observatory page for spring-projects/spring-boot: 11 weekly appearances, stars, velocity,
+description: 'Evergreen Claracle Observatory page for spring-projects/spring-boot: 12 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -20,8 +20,8 @@ tags:
 - spring
 - spring-boot
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -34,7 +34,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 11
+- data/raw/2026-W32.json
+distinct_weekly_issues: 12
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -73,6 +74,9 @@ star_history:
 - week: 2026-W31
   stars: 81169
   delta: 42
+- week: 2026-W32
+  stars: 81223
+  delta: 54
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -96,6 +100,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: framework
   url: /tags/framework/
@@ -105,11 +111,12 @@ tag_links:
   url: /tags/spring/
 - name: spring-boot
   url: /tags/spring-boot/
+topic_links: []
 related_repos:
 - full_name: spring-projects/spring-framework
   slug: spring-projects-spring-framework
   url: https://github.com/spring-projects/spring-framework
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -123,7 +130,7 @@ related_repos:
 - full_name: elastic/elasticsearch
   slug: elastic-elasticsearch
   url: https://github.com/elastic/elasticsearch
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -136,7 +143,7 @@ related_repos:
 - full_name: fastapi/fastapi
   slug: fastapi-fastapi
   url: https://github.com/fastapi/fastapi
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -149,7 +156,7 @@ related_repos:
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -162,7 +169,7 @@ related_repos:
 - full_name: nuxt/nuxt
   slug: nuxt-nuxt
   url: https://github.com/nuxt/nuxt
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -175,7 +182,7 @@ related_repos:
 - full_name: ocornut/imgui
   slug: ocornut-imgui
   url: https://github.com/ocornut/imgui
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -188,7 +195,7 @@ related_repos:
 - full_name: rails/rails
   slug: rails-rails
   url: https://github.com/rails/rails
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -201,7 +208,7 @@ related_repos:
 - full_name: Stirling-Tools/Stirling-PDF
   slug: stirling-tools-stirling-pdf
   url: https://github.com/Stirling-Tools/Stirling-PDF
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -213,15 +220,20 @@ related_repos:
   - java
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-spring-projects/spring-boot has appeared in 11 Claracle weekly issues.
+spring-projects/spring-boot has appeared in 12 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

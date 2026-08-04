@@ -1,8 +1,8 @@
 ---
 title: awesomedata/awesome-public-datasets repository trend history
-description: 'Evergreen Claracle Observatory page for awesomedata/awesome-public-datasets: 8 weekly appearances, stars, velocity,
+description: 'Evergreen Claracle Observatory page for awesomedata/awesome-public-datasets: 9 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-13'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -19,8 +19,8 @@ tags:
 - datasets
 - opendata
 first_seen_week: 2026-W21
-last_seen_week: 2026-W29
-as_of_week: 2026-W29
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -30,7 +30,8 @@ source_paths:
 - data/raw/2026-W21.json
 - data/raw/2026-W22.json
 - data/raw/2026-W29.json
-distinct_weekly_issues: 8
+- data/raw/2026-W32.json
+distinct_weekly_issues: 9
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -60,6 +61,9 @@ star_history:
 - week: 2026-W29
   stars: 77177
   delta: 1052
+- week: 2026-W32
+  stars: 77907
+  delta: 730
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -77,6 +81,8 @@ weekly_appearances:
   url: /weekly/2026/w27/
 - week: 2026-W29
   url: /weekly/2026/w29/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: aaron-swartz
   url: /tags/aaron-swartz/
@@ -86,11 +92,12 @@ tag_links:
   url: /tags/datasets/
 - name: opendata
   url: /tags/opendata/
+topic_links: []
 related_repos:
 - full_name: 2dust/v2rayN
   slug: 2dust-v2rayn
   url: https://github.com/2dust/v2rayN
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -102,7 +109,7 @@ related_repos:
 - full_name: 2dust/v2rayNG
   slug: 2dust-v2rayng
   url: https://github.com/2dust/v2rayNG
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -114,7 +121,7 @@ related_repos:
 - full_name: abi/screenshot-to-code
   slug: abi-screenshot-to-code
   url: https://github.com/abi/screenshot-to-code
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -126,7 +133,7 @@ related_repos:
 - full_name: angular/angular
   slug: angular-angular
   url: https://github.com/angular/angular
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -138,7 +145,7 @@ related_repos:
 - full_name: anomalyco/opencode
   slug: anomalyco-opencode
   url: https://github.com/anomalyco/opencode
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -150,7 +157,7 @@ related_repos:
 - full_name: ansible/ansible
   slug: ansible-ansible
   url: https://github.com/ansible/ansible
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -162,7 +169,7 @@ related_repos:
 - full_name: ant-design/ant-design
   slug: ant-design-ant-design
   url: https://github.com/ant-design/ant-design
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -171,10 +178,10 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: anthropics/claude-code
-  slug: anthropics-claude-code
-  url: https://github.com/anthropics/claude-code
-  score: 8
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -185,15 +192,20 @@ related_repos:
   shared_topics: []
 lifecycle:
   status: active
-  as_of_week: 2026-W29
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-awesomedata/awesome-public-datasets has appeared in 8 Claracle weekly issues.
+awesomedata/awesome-public-datasets has appeared in 9 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

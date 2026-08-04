@@ -1,8 +1,8 @@
 ---
 title: microsoft/vscode repository trend history
-description: 'Evergreen Claracle Observatory page for microsoft/vscode: 10 weekly appearances, stars, velocity, topics, and
+description: 'Evergreen Claracle Observatory page for microsoft/vscode: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -20,8 +20,8 @@ tags:
 - typescript
 - visual-studio-code
 first_seen_week: 2026-W22
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -33,7 +33,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 10
+- data/raw/2026-W32.json
+distinct_weekly_issues: 11
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -69,6 +70,9 @@ star_history:
 - week: 2026-W31
   stars: 187947
   delta: 244
+- week: 2026-W32
+  stars: 188216
+  delta: 269
 weekly_appearances:
 - week: 2026-W22
   url: /weekly/2026/w22/
@@ -90,6 +94,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: editor
   url: /tags/editor/
@@ -101,11 +107,15 @@ tag_links:
   url: /tags/typescript/
 - name: visual-studio-code
   url: /tags/visual-studio-code/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: toeverything/AFFiNE
   slug: toeverything-affine
   url: https://github.com/toeverything/AFFiNE
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -119,7 +129,7 @@ related_repos:
 - full_name: angular/angular
   slug: angular-angular
   url: https://github.com/angular/angular
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -132,7 +142,7 @@ related_repos:
 - full_name: ant-design/ant-design
   slug: ant-design-ant-design
   url: https://github.com/ant-design/ant-design
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -145,7 +155,7 @@ related_repos:
 - full_name: bytedance/deer-flow
   slug: bytedance-deer-flow
   url: https://github.com/bytedance/deer-flow
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -158,7 +168,7 @@ related_repos:
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -171,7 +181,7 @@ related_repos:
 - full_name: denoland/deno
   slug: denoland-deno
   url: https://github.com/denoland/deno
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -184,7 +194,7 @@ related_repos:
 - full_name: electron/electron
   slug: electron-electron
   url: https://github.com/electron/electron
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -197,7 +207,7 @@ related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -209,15 +219,20 @@ related_repos:
   - typescript
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-microsoft/vscode has appeared in 10 Claracle weekly issues.
+microsoft/vscode has appeared in 11 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

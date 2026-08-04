@@ -1,8 +1,8 @@
 ---
 title: santifer/career-ops repository trend history
-description: 'Evergreen Claracle Observatory page for santifer/career-ops: 7 weekly appearances, stars, velocity, topics,
+description: 'Evergreen Claracle Observatory page for santifer/career-ops: 8 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -28,8 +28,8 @@ tags:
 - job-search
 - open-source
 first_seen_week: 2026-W25
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W25/2026-W25.json
 - data/archive/recovered-W23-W29/2026-W26/2026-W26.json
@@ -38,7 +38,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 7
+- data/raw/2026-W32.json
+distinct_weekly_issues: 8
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -65,6 +66,9 @@ star_history:
 - week: 2026-W31
   stars: 61707
   delta: 1079
+- week: 2026-W32
+  stars: 62568
+  delta: 861
 weekly_appearances:
 - week: 2026-W25
   url: /weekly/2026/w25/
@@ -80,6 +84,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: ai-agent
   url: /tags/ai-agent/
@@ -105,11 +111,21 @@ tag_links:
   url: /tags/job-search/
 - name: open-source
   url: /tags/open-source/
+topic_links:
+- name: AI Coding Agents
+  slug: ai-coding-agents
+  url: /topics/ai-coding-agents/
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
+- name: Open-Source LLMs
+  slug: open-source-llms
+  url: /topics/open-source-llms/
 related_repos:
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -125,7 +141,7 @@ related_repos:
 - full_name: NousResearch/hermes-agent
   slug: nousresearch-hermes-agent
   url: https://github.com/NousResearch/hermes-agent
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -142,7 +158,7 @@ related_repos:
 - full_name: rtk-ai/rtk
   slug: rtk-ai-rtk
   url: https://github.com/rtk-ai/rtk
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -158,7 +174,7 @@ related_repos:
 - full_name: thedotmack/claude-mem
   slug: thedotmack-claude-mem
   url: https://github.com/thedotmack/claude-mem
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -174,7 +190,7 @@ related_repos:
 - full_name: affaan-m/ECC
   slug: affaan-m-ecc
   url: https://github.com/affaan-m/ECC
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -189,7 +205,7 @@ related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -204,7 +220,7 @@ related_repos:
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -219,7 +235,7 @@ related_repos:
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -233,15 +249,20 @@ related_repos:
   - claude
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-santifer/career-ops has appeared in 7 Claracle weekly issues.
+santifer/career-ops has appeared in 8 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

@@ -125,6 +125,7 @@ tag_links:
   url: /tags/video-recording/
 - name: youtube-live
   url: /tags/youtube-live/
+topic_links: []
 related_repos:
 - full_name: FFmpeg/FFmpeg
   slug: ffmpeg-ffmpeg
@@ -236,7 +237,12 @@ lifecycle:
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---

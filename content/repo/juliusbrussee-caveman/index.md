@@ -87,6 +87,13 @@ tag_links:
   url: /tags/skill/
 - name: tokens
   url: /tags/tokens/
+topic_links:
+- name: AI Coding Agents
+  slug: ai-coding-agents
+  url: /topics/ai-coding-agents/
+- name: Open-Source LLMs
+  slug: open-source-llms
+  url: /topics/open-source-llms/
 related_repos:
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
@@ -211,7 +218,12 @@ lifecycle:
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---

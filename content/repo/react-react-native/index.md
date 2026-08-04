@@ -1,8 +1,8 @@
 ---
 title: react/react-native repository trend history
-description: 'Evergreen Claracle Observatory page for react/react-native: 7 weekly appearances, stars, velocity, topics, and
+description: 'Evergreen Claracle Observatory page for react/react-native: 8 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -23,8 +23,8 @@ tags:
 - react
 - react-native
 first_seen_week: 2026-W25
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W25/2026-W25.json
 - data/archive/recovered-W23-W29/2026-W26/2026-W26.json
@@ -33,7 +33,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 7
+- data/raw/2026-W32.json
+distinct_weekly_issues: 8
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -60,6 +61,9 @@ star_history:
 - week: 2026-W31
   stars: 126265
   delta: 29
+- week: 2026-W32
+  stars: 126274
+  delta: 9
 weekly_appearances:
 - week: 2026-W25
   url: /weekly/2026/w25/
@@ -75,6 +79,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: android
   url: /tags/android/
@@ -92,11 +98,12 @@ tag_links:
   url: /tags/react/
 - name: react-native
   url: /tags/react-native/
+topic_links: []
 related_repos:
 - full_name: flutter/flutter
   slug: flutter-flutter
   url: https://github.com/flutter/flutter
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -111,6 +118,59 @@ related_repos:
   - ios
   - mobile
   - mobile-development
+- full_name: rustdesk/rustdesk
+  slug: rustdesk-rustdesk
+  url: https://github.com/rustdesk/rustdesk
+  score: 10
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - android
+  - ios
+- full_name: 2dust/v2rayNG
+  slug: 2dust-v2rayng
+  url: https://github.com/2dust/v2rayNG
+  score: 9
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - android
+- full_name: ant-design/ant-design
+  slug: ant-design-ant-design
+  url: https://github.com/ant-design/ant-design
+  score: 9
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - react
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
+  score: 9
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - react
 - full_name: appwrite/appwrite
   slug: appwrite-appwrite
   url: https://github.com/appwrite/appwrite
@@ -126,63 +186,10 @@ related_repos:
   - ios
   - react
   - react-native
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
-  score: 9
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - android
-  - ios
-- full_name: 2dust/v2rayNG
-  slug: 2dust-v2rayng
-  url: https://github.com/2dust/v2rayNG
-  score: 8
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - android
-- full_name: ant-design/ant-design
-  slug: ant-design-ant-design
-  url: https://github.com/ant-design/ant-design
-  score: 8
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - react
-- full_name: apache/superset
-  slug: apache-superset
-  url: https://github.com/apache/superset
-  score: 8
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - react
 - full_name: facebook/docusaurus
   slug: facebook-docusaurus
   url: https://github.com/facebook/docusaurus
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -195,7 +202,7 @@ related_repos:
 - full_name: freeCodeCamp/freeCodeCamp
   slug: freecodecamp-freecodecamp
   url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -207,15 +214,20 @@ related_repos:
   - react
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-react/react-native has appeared in 7 Claracle weekly issues.
+react/react-native has appeared in 8 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

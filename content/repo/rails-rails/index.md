@@ -1,8 +1,8 @@
 ---
 title: rails/rails repository trend history
-description: 'Evergreen Claracle Observatory page for rails/rails: 11 weekly appearances, stars, velocity, topics, and related
+description: 'Evergreen Claracle Observatory page for rails/rails: 12 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -22,8 +22,8 @@ tags:
 - rails
 - ruby
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -36,7 +36,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 11
+- data/raw/2026-W32.json
+distinct_weekly_issues: 12
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -75,6 +76,9 @@ star_history:
 - week: 2026-W31
   stars: 58645
   delta: 19
+- week: 2026-W32
+  stars: 58664
+  delta: 19
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -98,6 +102,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: activejob
   url: /tags/activejob/
@@ -113,11 +119,12 @@ tag_links:
   url: /tags/rails/
 - name: ruby
   url: /tags/ruby/
+topic_links: []
 related_repos:
 - full_name: docling-project/docling
   slug: docling-project-docling
   url: https://github.com/docling-project/docling
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -130,7 +137,7 @@ related_repos:
 - full_name: electron/electron
   slug: electron-electron
   url: https://github.com/electron/electron
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -143,7 +150,7 @@ related_repos:
 - full_name: fastapi/fastapi
   slug: fastapi-fastapi
   url: https://github.com/fastapi/fastapi
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -156,7 +163,7 @@ related_repos:
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -169,7 +176,7 @@ related_repos:
 - full_name: nuxt/nuxt
   slug: nuxt-nuxt
   url: https://github.com/nuxt/nuxt
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -182,7 +189,7 @@ related_repos:
 - full_name: ocornut/imgui
   slug: ocornut-imgui
   url: https://github.com/ocornut/imgui
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -195,7 +202,7 @@ related_repos:
 - full_name: spring-projects/spring-boot
   slug: spring-projects-spring-boot
   url: https://github.com/spring-projects/spring-boot
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -208,7 +215,7 @@ related_repos:
 - full_name: spring-projects/spring-framework
   slug: spring-projects-spring-framework
   url: https://github.com/spring-projects/spring-framework
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -220,15 +227,20 @@ related_repos:
   - framework
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-rails/rails has appeared in 11 Claracle weekly issues.
+rails/rails has appeared in 12 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

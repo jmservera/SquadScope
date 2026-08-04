@@ -570,19 +570,20 @@ def test_frozen_corpus_lifecycle_seed_has_expected_parity() -> None:
     assert len(qualified_identities) == 263
     assert qualified_identities == page_identities == derived_identities
 
-    # TEMP (#652): while repo_pages is disabled, each crawl grows the corpus and adds
-    # github_id-keyed histories, and the lifecycle ledger is not refreshed, so the exact
-    # corpus size, the all-name-key identity assumption, and the exact ledger match drift
-    # every crawl. They are relaxed to non-regressing checks until the ledger-refresh fix
-    # lands; restore the strict assertions on #652.
-    assert len(histories) >= 2242  # corpus only grows; still catches data loss
+    # After Phase 1 fix (reverse index for full_name->key migration), the ledger
+    # is idempotent across multiple passes. The loaded corpus includes the
+    # committed ledger (2242 name:-keyed repos) plus any migrations to numeric
+    # keys and any new repositories discovered in raw weeks. With Phase 1 fix in
+    # place, re-running load_repository_histories() does not create duplicates
+    # and the total count is stable.
+    assert len(histories) == 2407
     assert all(isinstance(key, str) and key for key in histories)
     expected_schema = observatory_repos.lifecycle_ledger_payload({})["schema_version"]
     committed_ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
     assert committed_ledger["schema_version"] == expected_schema
     committed_repositories = committed_ledger["repositories"]
     assert isinstance(committed_repositories, dict)
-    assert len(committed_repositories) >= 2242  # catches an emptied or shrunk ledger
+    assert len(committed_repositories) == 2242
     assert all(isinstance(entry, dict) for entry in committed_repositories.values())
 
 
@@ -633,6 +634,66 @@ def test_stable_id_absorbs_seeded_fallback_history() -> None:
         assert migrated.prior_full_names == {"old-owner/repo"}
         assert migrated.prior_slugs == {"old-owner-repo"}
         assert {item.week for item in migrated.observations} == {"2026-W25", "2026-W26"}
+
+
+def test_two_pass_duplicate_identity_regression() -> None:
+    """Regression test for two-pass duplicate-identity bug (#652).
+
+    When load_repository_histories() is called twice with raw weeks that mix
+    id-less observations (from static historical files) and id-carrying
+    observations (from recent crawls), the second pass must not mint duplicate
+    name:-keyed histories for repos already migrated to numeric keys in the
+    first pass.
+
+    This exercises the fix in load_repository_histories() that builds and
+    maintains a full_name -> current key reverse index across passes.
+    """
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+
+        # Week 1: id-less observation (simulates static historical raw file)
+        write_week(root, "2026-W30", [repo_record("test-owner/test-repo", 100, github_id=None)])
+
+        # First pass: load from raw weeks, no prior ledger
+        config = observatory_repos.load_config(root)
+        first_histories = observatory_repos.load_repository_histories(root, config.get("lifecycle"))
+
+        # Verify the id-less observation created a name:-keyed history
+        assert "name:test-owner/test-repo" in first_histories
+        first_history = first_histories["name:test-owner/test-repo"]
+        assert len(first_history.observations) == 1
+        assert first_history.observations[0].week == "2026-W30"
+
+        # Persist the ledger as would happen in real usage
+        first_ledger = observatory_repos.lifecycle_ledger_payload(first_histories)
+
+        # Week 2: same repo but now with github_id (simulates recent crawl data)
+        write_week(root, "2026-W31", [repo_record("test-owner/test-repo", 101, github_id=456)])
+
+        # Second pass: reload with the persisted ledger, raw weeks unchanged
+        second_histories = observatory_repos.load_repository_histories(
+            root, config.get("lifecycle"), first_ledger
+        )
+
+        # After the fix, the numeric key should absorb both weeks and no name: duplicate should exist
+        assert "name:test-owner/test-repo" not in second_histories, (
+            "Two-pass bug: name:-keyed duplicate was not migrated away"
+        )
+
+        # The numeric key should be the canonical one
+        assert "456" in second_histories
+        migrated = second_histories["456"]
+
+        # Both weeks should be in the same history
+        assert len(migrated.observations) == 2, (
+            f"Expected 2 observations (both weeks), got {len(migrated.observations)}"
+        )
+        assert {obs.week for obs in migrated.observations} == {"2026-W30", "2026-W31"}
+
+        # Verify the migration happened correctly (github_id is stored as string from JSON)
+        assert migrated.github_id == "456"
+        assert migrated.display_name == "test-owner/test-repo"
 
 
 def test_disabled_repo_generation_preserves_durable_state(

@@ -1,8 +1,8 @@
 ---
 title: VoltAgent/awesome-design-md repository trend history
-description: 'Evergreen Claracle Observatory page for VoltAgent/awesome-design-md: 5 weekly appearances, stars, velocity,
+description: 'Evergreen Claracle Observatory page for VoltAgent/awesome-design-md: 6 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-06-22'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -26,15 +26,16 @@ tags:
 - vibe-design
 - vibecoding
 first_seen_week: 2026-W21
-last_seen_week: 2026-W26
-as_of_week: 2026-W26
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
 - data/archive/recovered-W23-W29/2026-W25/2026-W25.json
 - data/archive/recovered-W23-W29/2026-W26/2026-W26.json
 - data/raw/2026-W21.json
-distinct_weekly_issues: 5
+- data/raw/2026-W32.json
+distinct_weekly_issues: 6
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -55,6 +56,9 @@ star_history:
 - week: 2026-W26
   stars: 92098
   delta: 1496
+- week: 2026-W32
+  stars: 106061
+  delta: 13963
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -66,6 +70,8 @@ weekly_appearances:
   url: /weekly/2026/w25/
 - week: 2026-W26
   url: /weekly/2026/w26/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: awesome-list
   url: /tags/awesome-list/
@@ -87,82 +93,102 @@ tag_links:
   url: /tags/vibe-design/
 - name: vibecoding
   url: /tags/vibecoding/
+topic_links: []
 related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W21
   - 2026-W23
   - 2026-W24
   - 2026-W25
   - 2026-W26
+  - 2026-W32
   shared_topics:
   - awesome-list
 - full_name: awesome-selfhosted/awesome-selfhosted
   slug: awesome-selfhosted-awesome-selfhosted
   url: https://github.com/awesome-selfhosted/awesome-selfhosted
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W21
   - 2026-W23
   - 2026-W24
   - 2026-W25
   - 2026-W26
+  - 2026-W32
   shared_topics:
   - awesome-list
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W21
   - 2026-W23
   - 2026-W24
   - 2026-W25
   - 2026-W26
+  - 2026-W32
   shared_topics:
   - awesome-list
 - full_name: jaywcjlove/awesome-mac
   slug: jaywcjlove-awesome-mac
   url: https://github.com/jaywcjlove/awesome-mac
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W21
   - 2026-W23
   - 2026-W24
   - 2026-W25
   - 2026-W26
+  - 2026-W32
   shared_topics:
   - awesome-list
 - full_name: mui/material-ui
   slug: mui-material-ui
   url: https://github.com/mui/material-ui
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W21
   - 2026-W23
   - 2026-W24
   - 2026-W25
   - 2026-W26
+  - 2026-W32
   shared_topics:
   - design-system
 - full_name: ripienaar/free-for-dev
   slug: ripienaar-free-for-dev
   url: https://github.com/ripienaar/free-for-dev
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W21
   - 2026-W23
   - 2026-W24
   - 2026-W25
   - 2026-W26
+  - 2026-W32
   shared_topics:
   - awesome-list
 - full_name: upstash/context7
   slug: upstash-context7
   url: https://github.com/upstash/context7
+  score: 7
+  shared_weeks:
+  - 2026-W21
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W32
+  shared_topics:
+  - vibe-coding
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 6
   shared_weeks:
   - 2026-W21
@@ -170,30 +196,24 @@ related_repos:
   - 2026-W24
   - 2026-W25
   - 2026-W26
-  shared_topics:
-  - vibe-coding
-- full_name: 2dust/v2rayN
-  slug: 2dust-v2rayn
-  url: https://github.com/2dust/v2rayN
-  score: 5
-  shared_weeks:
-  - 2026-W21
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
+  - 2026-W32
   shared_topics: []
 lifecycle:
   status: active
-  as_of_week: 2026-W26
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-VoltAgent/awesome-design-md has appeared in 5 Claracle weekly issues.
+VoltAgent/awesome-design-md has appeared in 6 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

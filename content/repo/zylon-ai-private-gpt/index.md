@@ -1,8 +1,8 @@
 ---
 title: zylon-ai/private-gpt repository trend history
-description: 'Evergreen Claracle Observatory page for zylon-ai/private-gpt: 7 weekly appearances, stars, velocity, topics,
+description: 'Evergreen Claracle Observatory page for zylon-ai/private-gpt: 8 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-20'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -19,8 +19,8 @@ tags:
 - ai-tools
 - on-premise
 first_seen_week: 2026-W24
-last_seen_week: 2026-W30
-as_of_week: 2026-W30
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
 - data/archive/recovered-W23-W29/2026-W25/2026-W25.json
@@ -29,7 +29,8 @@ source_paths:
 - data/archive/recovered-W23-W29/2026-W28/2026-W28.json
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
-distinct_weekly_issues: 7
+- data/raw/2026-W32.json
+distinct_weekly_issues: 8
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -56,6 +57,9 @@ star_history:
 - week: 2026-W30
   stars: 57342
   delta: 3
+- week: 2026-W32
+  stars: 57396
+  delta: 54
 weekly_appearances:
 - week: 2026-W24
   url: /weekly/2026/w24/
@@ -71,6 +75,8 @@ weekly_appearances:
   url: /weekly/2026/w29/
 - week: 2026-W30
   url: /weekly/2026/w30/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: ai
   url: /tags/ai/
@@ -78,11 +84,12 @@ tag_links:
   url: /tags/ai-tools/
 - name: on-premise
   url: /tags/on-premise/
+topic_links: []
 related_repos:
 - full_name: browser-use/browser-use
   slug: browser-use-browser-use
   url: https://github.com/browser-use/browser-use
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W24
   - 2026-W25
@@ -95,7 +102,7 @@ related_repos:
 - full_name: bytedance/deer-flow
   slug: bytedance-deer-flow
   url: https://github.com/bytedance/deer-flow
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W24
   - 2026-W25
@@ -108,7 +115,7 @@ related_repos:
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W24
   - 2026-W25
@@ -121,7 +128,7 @@ related_repos:
 - full_name: Comfy-Org/ComfyUI
   slug: comfy-org-comfyui
   url: https://github.com/Comfy-Org/ComfyUI
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W24
   - 2026-W25
@@ -134,7 +141,7 @@ related_repos:
 - full_name: docling-project/docling
   slug: docling-project-docling
   url: https://github.com/docling-project/docling
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W24
   - 2026-W25
@@ -147,7 +154,7 @@ related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W24
   - 2026-W25
@@ -160,7 +167,7 @@ related_repos:
 - full_name: farion1231/cc-switch
   slug: farion1231-cc-switch
   url: https://github.com/farion1231/cc-switch
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W24
   - 2026-W25
@@ -173,7 +180,7 @@ related_repos:
 - full_name: firecrawl/firecrawl
   slug: firecrawl-firecrawl
   url: https://github.com/firecrawl/firecrawl
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W24
   - 2026-W25
@@ -185,15 +192,20 @@ related_repos:
   - ai
 lifecycle:
   status: active
-  as_of_week: 2026-W30
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-zylon-ai/private-gpt has appeared in 7 Claracle weekly issues.
+zylon-ai/private-gpt has appeared in 8 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

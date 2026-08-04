@@ -1,8 +1,8 @@
 ---
 title: golang/go repository trend history
-description: 'Evergreen Claracle Observatory page for golang/go: 11 weekly appearances, stars, velocity, topics, and related
+description: 'Evergreen Claracle Observatory page for golang/go: 12 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -19,8 +19,8 @@ tags:
 - language
 - programming-language
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -33,7 +33,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 11
+- data/raw/2026-W32.json
+distinct_weekly_issues: 12
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -72,6 +73,9 @@ star_history:
 - week: 2026-W31
   stars: 135396
   delta: 105
+- week: 2026-W32
+  stars: 135545
+  delta: 149
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -95,6 +99,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: go
   url: /tags/go/
@@ -104,11 +110,15 @@ tag_links:
   url: /tags/language/
 - name: programming-language
   url: /tags/programming-language/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -122,7 +132,7 @@ related_repos:
 - full_name: ollama/ollama
   slug: ollama-ollama
   url: https://github.com/ollama/ollama
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -136,7 +146,7 @@ related_repos:
 - full_name: rclone/rclone
   slug: rclone-rclone
   url: https://github.com/rclone/rclone
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -150,7 +160,7 @@ related_repos:
 - full_name: caddyserver/caddy
   slug: caddyserver-caddy
   url: https://github.com/caddyserver/caddy
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -161,23 +171,10 @@ related_repos:
   shared_topics:
   - go
   - golang
-- full_name: FuelLabs/sway
-  slug: fuellabs-sway
-  url: https://github.com/FuelLabs/sway
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - language
 - full_name: grafana/grafana
   slug: grafana-grafana
   url: https://github.com/grafana/grafana
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -190,7 +187,7 @@ related_repos:
 - full_name: junegunn/fzf
   slug: junegunn-fzf
   url: https://github.com/junegunn/fzf
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -203,7 +200,7 @@ related_repos:
 - full_name: kubernetes/kubernetes
   slug: kubernetes-kubernetes
   url: https://github.com/kubernetes/kubernetes
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -213,17 +210,36 @@ related_repos:
   - 2026-W26
   shared_topics:
   - go
+- full_name: moby/moby
+  slug: moby-moby
+  url: https://github.com/moby/moby
+  score: 13
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - go
+  - golang
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-golang/go has appeared in 11 Claracle weekly issues.
+golang/go has appeared in 12 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

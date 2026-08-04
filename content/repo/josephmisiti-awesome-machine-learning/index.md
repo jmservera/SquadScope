@@ -1,8 +1,8 @@
 ---
 title: josephmisiti/awesome-machine-learning repository trend history
-description: 'Evergreen Claracle Observatory page for josephmisiti/awesome-machine-learning: 6 weekly appearances, stars,
+description: 'Evergreen Claracle Observatory page for josephmisiti/awesome-machine-learning: 7 weekly appearances, stars,
   velocity, topics, and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -15,8 +15,8 @@ repo_description: A curated list of awesome Machine Learning frameworks, librari
 repo_language: Python
 tags: []
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W25/2026-W25.json
 - data/archive/recovered-W23-W29/2026-W26/2026-W26.json
@@ -24,7 +24,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 6
+- data/raw/2026-W32.json
+distinct_weekly_issues: 7
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -48,6 +49,9 @@ star_history:
 - week: 2026-W31
   stars: 73732
   delta: 127
+- week: 2026-W32
+  stars: 73850
+  delta: 118
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -61,12 +65,15 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links: []
+topic_links: []
 related_repos:
 - full_name: 2dust/v2rayN
   slug: 2dust-v2rayn
   url: https://github.com/2dust/v2rayN
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W21
   - 2026-W25
@@ -78,7 +85,7 @@ related_repos:
 - full_name: 2dust/v2rayNG
   slug: 2dust-v2rayng
   url: https://github.com/2dust/v2rayNG
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W21
   - 2026-W25
@@ -90,7 +97,7 @@ related_repos:
 - full_name: abi/screenshot-to-code
   slug: abi-screenshot-to-code
   url: https://github.com/abi/screenshot-to-code
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W21
   - 2026-W25
@@ -102,7 +109,7 @@ related_repos:
 - full_name: angular/angular
   slug: angular-angular
   url: https://github.com/angular/angular
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W21
   - 2026-W25
@@ -114,7 +121,7 @@ related_repos:
 - full_name: anomalyco/opencode
   slug: anomalyco-opencode
   url: https://github.com/anomalyco/opencode
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W21
   - 2026-W25
@@ -126,7 +133,7 @@ related_repos:
 - full_name: ansible/ansible
   slug: ansible-ansible
   url: https://github.com/ansible/ansible
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W21
   - 2026-W25
@@ -138,7 +145,7 @@ related_repos:
 - full_name: ant-design/ant-design
   slug: ant-design-ant-design
   url: https://github.com/ant-design/ant-design
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W21
   - 2026-W25
@@ -147,10 +154,10 @@ related_repos:
   - 2026-W30
   - 2026-W31
   shared_topics: []
-- full_name: anthropics/claude-code
-  slug: anthropics-claude-code
-  url: https://github.com/anthropics/claude-code
-  score: 6
+- full_name: apache/superset
+  slug: apache-superset
+  url: https://github.com/apache/superset
+  score: 7
   shared_weeks:
   - 2026-W21
   - 2026-W25
@@ -161,15 +168,20 @@ related_repos:
   shared_topics: []
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-josephmisiti/awesome-machine-learning has appeared in 6 Claracle weekly issues.
+josephmisiti/awesome-machine-learning has appeared in 7 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

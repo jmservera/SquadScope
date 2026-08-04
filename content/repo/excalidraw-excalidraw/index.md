@@ -1,8 +1,8 @@
 ---
 title: excalidraw/excalidraw repository trend history
-description: 'Evergreen Claracle Observatory page for excalidraw/excalidraw: 9 weekly appearances, stars, velocity, topics,
+description: 'Evergreen Claracle Observatory page for excalidraw/excalidraw: 10 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -22,8 +22,8 @@ tags:
 - productivity
 - whiteboard
 first_seen_week: 2026-W22
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
 - data/archive/recovered-W23-W29/2026-W25/2026-W25.json
@@ -34,7 +34,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 9
+- data/raw/2026-W32.json
+distinct_weekly_issues: 10
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -67,6 +68,9 @@ star_history:
 - week: 2026-W31
   stars: 128408
   delta: 528
+- week: 2026-W32
+  stars: 128851
+  delta: 443
 weekly_appearances:
 - week: 2026-W22
   url: /weekly/2026/w22/
@@ -86,6 +90,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: canvas
   url: /tags/canvas/
@@ -101,11 +107,12 @@ tag_links:
   url: /tags/productivity/
 - name: whiteboard
   url: /tags/whiteboard/
+topic_links: []
 related_repos:
 - full_name: affaan-m/ECC
   slug: affaan-m-ecc
   url: https://github.com/affaan-m/ECC
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W24
@@ -118,7 +125,7 @@ related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W24
@@ -131,7 +138,7 @@ related_repos:
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W24
@@ -144,7 +151,7 @@ related_repos:
 - full_name: EbookFoundation/free-programming-books
   slug: ebookfoundation-free-programming-books
   url: https://github.com/EbookFoundation/free-programming-books
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W24
@@ -157,7 +164,7 @@ related_repos:
 - full_name: facebook/docusaurus
   slug: facebook-docusaurus
   url: https://github.com/facebook/docusaurus
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W24
@@ -170,7 +177,7 @@ related_repos:
 - full_name: git/git
   slug: git-git
   url: https://github.com/git/git
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W24
@@ -183,7 +190,7 @@ related_repos:
 - full_name: grafana/grafana
   slug: grafana-grafana
   url: https://github.com/grafana/grafana
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W24
@@ -196,7 +203,7 @@ related_repos:
 - full_name: home-assistant/core
   slug: home-assistant-core
   url: https://github.com/home-assistant/core
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W24
@@ -208,15 +215,20 @@ related_repos:
   - hacktoberfest
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-excalidraw/excalidraw has appeared in 9 Claracle weekly issues.
+excalidraw/excalidraw has appeared in 10 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

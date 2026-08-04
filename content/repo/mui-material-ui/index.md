@@ -1,8 +1,8 @@
 ---
 title: mui/material-ui repository trend history
-description: 'Evergreen Claracle Observatory page for mui/material-ui: 11 weekly appearances, stars, velocity, topics, and
+description: 'Evergreen Claracle Observatory page for mui/material-ui: 12 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -20,8 +20,8 @@ tags:
 - react
 - react-components
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -34,7 +34,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 11
+- data/raw/2026-W32.json
+distinct_weekly_issues: 12
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -73,6 +74,9 @@ star_history:
 - week: 2026-W31
   stars: 98639
   delta: 22
+- week: 2026-W32
+  stars: 98667
+  delta: 28
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -96,6 +100,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: design-system
   url: /tags/design-system/
@@ -107,11 +113,12 @@ tag_links:
   url: /tags/react/
 - name: react-components
   url: /tags/react-components/
+topic_links: []
 related_repos:
 - full_name: ant-design/ant-design
   slug: ant-design-ant-design
   url: https://github.com/ant-design/ant-design
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -124,7 +131,7 @@ related_repos:
 - full_name: apache/superset
   slug: apache-superset
   url: https://github.com/apache/superset
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -137,7 +144,7 @@ related_repos:
 - full_name: facebook/docusaurus
   slug: facebook-docusaurus
   url: https://github.com/facebook/docusaurus
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -150,7 +157,7 @@ related_repos:
 - full_name: flutter/flutter
   slug: flutter-flutter
   url: https://github.com/flutter/flutter
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -163,7 +170,7 @@ related_repos:
 - full_name: freeCodeCamp/freeCodeCamp
   slug: freecodecamp-freecodecamp
   url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -176,7 +183,7 @@ related_repos:
 - full_name: oven-sh/bun
   slug: oven-sh-bun
   url: https://github.com/oven-sh/bun
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -189,7 +196,7 @@ related_repos:
 - full_name: ruvnet/RuView
   slug: ruvnet-ruview
   url: https://github.com/ruvnet/RuView
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -202,7 +209,7 @@ related_repos:
 - full_name: shadcn-ui/ui
   slug: shadcn-ui-ui
   url: https://github.com/shadcn-ui/ui
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -214,15 +221,20 @@ related_repos:
   - react
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-mui/material-ui has appeared in 11 Claracle weekly issues.
+mui/material-ui has appeared in 12 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

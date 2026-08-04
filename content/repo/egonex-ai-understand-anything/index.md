@@ -1,8 +1,8 @@
 ---
 title: Egonex-AI/Understand-Anything repository trend history
-description: 'Evergreen Claracle Observatory page for Egonex-AI/Understand-Anything: 7 weekly appearances, stars, velocity,
+description: 'Evergreen Claracle Observatory page for Egonex-AI/Understand-Anything: 8 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -28,8 +28,8 @@ tags:
 - knowledge-base
 - knowledge-graph
 first_seen_week: 2026-W25
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W25/2026-W25.json
 - data/archive/recovered-W23-W29/2026-W26/2026-W26.json
@@ -38,7 +38,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 7
+- data/raw/2026-W32.json
+distinct_weekly_issues: 8
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -65,6 +66,9 @@ star_history:
 - week: 2026-W31
   stars: 76264
   delta: 1056
+- week: 2026-W32
+  stars: 77216
+  delta: 952
 weekly_appearances:
 - week: 2026-W25
   url: /weekly/2026/w25/
@@ -80,6 +84,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: antigravity-skills
   url: /tags/antigravity-skills/
@@ -105,11 +111,15 @@ tag_links:
   url: /tags/knowledge-base/
 - name: knowledge-graph
   url: /tags/knowledge-graph/
+topic_links:
+- name: AI Coding Agents
+  slug: ai-coding-agents
+  url: /topics/ai-coding-agents/
 related_repos:
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -121,6 +131,62 @@ related_repos:
   - claude-code
   - claude-skills
   - codex
+- full_name: farion1231/cc-switch
+  slug: farion1231-cc-switch
+  url: https://github.com/farion1231/cc-switch
+  score: 10
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - claude-code
+  - codex
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
+  score: 10
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - claude-code
+  - codex
+- full_name: ruvnet/ruflo
+  slug: ruvnet-ruflo
+  url: https://github.com/ruvnet/ruflo
+  score: 10
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - claude-code
+  - codex
+- full_name: thedotmack/claude-mem
+  slug: thedotmack-claude-mem
+  url: https://github.com/thedotmack/claude-mem
+  score: 10
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - claude-code
+  - claude-skills
 - full_name: addyosmani/agent-skills
   slug: addyosmani-agent-skills
   url: https://github.com/addyosmani/agent-skills
@@ -135,66 +201,10 @@ related_repos:
   shared_topics:
   - claude-code
   - codex
-- full_name: farion1231/cc-switch
-  slug: farion1231-cc-switch
-  url: https://github.com/farion1231/cc-switch
-  score: 9
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - claude-code
-  - codex
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
-  score: 9
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - claude-code
-  - codex
-- full_name: ruvnet/ruflo
-  slug: ruvnet-ruflo
-  url: https://github.com/ruvnet/ruflo
-  score: 9
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - claude-code
-  - codex
-- full_name: thedotmack/claude-mem
-  slug: thedotmack-claude-mem
-  url: https://github.com/thedotmack/claude-mem
-  score: 9
-  shared_weeks:
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - claude-code
-  - claude-skills
 - full_name: affaan-m/ECC
   slug: affaan-m-ecc
   url: https://github.com/affaan-m/ECC
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -207,7 +217,7 @@ related_repos:
 - full_name: lobehub/lobehub
   slug: lobehub-lobehub
   url: https://github.com/lobehub/lobehub
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -219,15 +229,20 @@ related_repos:
   - knowledge-base
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-Egonex-AI/Understand-Anything has appeared in 7 Claracle weekly issues.
+Egonex-AI/Understand-Anything has appeared in 8 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

@@ -1,8 +1,8 @@
 ---
 title: Chalarangelo/30-seconds-of-code repository trend history
-description: 'Evergreen Claracle Observatory page for Chalarangelo/30-seconds-of-code: 5 weekly appearances, stars, velocity,
+description: 'Evergreen Claracle Observatory page for Chalarangelo/30-seconds-of-code: 6 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -27,15 +27,16 @@ tags:
 - nodejs
 - programming
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
 - data/archive/recovered-W23-W29/2026-W25/2026-W25.json
 - data/archive/recovered-W23-W29/2026-W26/2026-W26.json
 - data/raw/2026-W21.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 5
+- data/raw/2026-W32.json
+distinct_weekly_issues: 6
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -56,6 +57,9 @@ star_history:
 - week: 2026-W31
   stars: 128503
   delta: 339
+- week: 2026-W32
+  stars: 128577
+  delta: 74
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -67,6 +71,8 @@ weekly_appearances:
   url: /weekly/2026/w26/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: astro
   url: /tags/astro/
@@ -92,17 +98,22 @@ tag_links:
   url: /tags/nodejs/
 - name: programming
   url: /tags/programming/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: electron/electron
   slug: electron-electron
   url: https://github.com/electron/electron
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W21
   - 2026-W24
   - 2026-W25
   - 2026-W26
   - 2026-W31
+  - 2026-W32
   shared_topics:
   - css
   - html
@@ -111,13 +122,14 @@ related_repos:
 - full_name: freeCodeCamp/freeCodeCamp
   slug: freecodecamp-freecodecamp
   url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W21
   - 2026-W24
   - 2026-W25
   - 2026-W26
   - 2026-W31
+  - 2026-W32
   shared_topics:
   - education
   - javascript
@@ -127,13 +139,14 @@ related_repos:
 - full_name: twbs/bootstrap
   slug: twbs-bootstrap
   url: https://github.com/twbs/bootstrap
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W24
   - 2026-W25
   - 2026-W26
   - 2026-W31
+  - 2026-W32
   shared_topics:
   - css
   - html
@@ -141,79 +154,89 @@ related_repos:
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
-  score: 7
+  score: 8
   shared_weeks:
   - 2026-W21
   - 2026-W24
   - 2026-W25
   - 2026-W26
   - 2026-W31
+  - 2026-W32
   shared_topics:
   - javascript
   - nodejs
 - full_name: immich-app/immich
   slug: immich-app-immich
   url: https://github.com/immich-app/immich
-  score: 7
+  score: 8
   shared_weeks:
   - 2026-W21
   - 2026-W24
   - 2026-W25
   - 2026-W26
   - 2026-W31
+  - 2026-W32
   shared_topics:
   - javascript
   - nodejs
 - full_name: nodejs/node
   slug: nodejs-node
   url: https://github.com/nodejs/node
-  score: 7
+  score: 8
   shared_weeks:
   - 2026-W21
   - 2026-W24
   - 2026-W25
   - 2026-W26
   - 2026-W31
+  - 2026-W32
   shared_topics:
   - javascript
   - nodejs
 - full_name: oven-sh/bun
   slug: oven-sh-bun
   url: https://github.com/oven-sh/bun
-  score: 7
+  score: 8
   shared_weeks:
   - 2026-W21
   - 2026-W24
   - 2026-W25
   - 2026-W26
   - 2026-W31
+  - 2026-W32
   shared_topics:
   - javascript
   - nodejs
 - full_name: strapi/strapi
   slug: strapi-strapi
   url: https://github.com/strapi/strapi
-  score: 7
+  score: 8
   shared_weeks:
   - 2026-W21
   - 2026-W24
   - 2026-W25
   - 2026-W26
   - 2026-W31
+  - 2026-W32
   shared_topics:
   - javascript
   - nodejs
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-Chalarangelo/30-seconds-of-code has appeared in 5 Claracle weekly issues.
+Chalarangelo/30-seconds-of-code has appeared in 6 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

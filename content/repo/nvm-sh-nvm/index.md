@@ -104,6 +104,7 @@ tag_links:
   url: /tags/shell/
 - name: version-manager
   url: /tags/version-manager/
+topic_links: []
 related_repos:
 - full_name: warpdotdev/warp
   slug: warpdotdev-warp
@@ -221,7 +222,12 @@ lifecycle:
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---

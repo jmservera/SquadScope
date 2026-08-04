@@ -1,8 +1,8 @@
 ---
 title: jaywcjlove/awesome-mac repository trend history
-description: 'Evergreen Claracle Observatory page for jaywcjlove/awesome-mac: 11 weekly appearances, stars, velocity, topics,
+description: 'Evergreen Claracle Observatory page for jaywcjlove/awesome-mac: 12 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -28,8 +28,8 @@ tags:
 - desktop-apps
 - list
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -42,7 +42,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 11
+- data/raw/2026-W32.json
+distinct_weekly_issues: 12
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -81,6 +82,9 @@ star_history:
 - week: 2026-W31
   stars: 108721
   delta: 474
+- week: 2026-W32
+  stars: 109069
+  delta: 348
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -104,6 +108,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: app
   url: /tags/app/
@@ -129,11 +135,12 @@ tag_links:
   url: /tags/desktop-apps/
 - name: list
   url: /tags/list/
+topic_links: []
 related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -147,7 +154,7 @@ related_repos:
 - full_name: awesome-selfhosted/awesome-selfhosted
   slug: awesome-selfhosted-awesome-selfhosted
   url: https://github.com/awesome-selfhosted/awesome-selfhosted
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -161,7 +168,7 @@ related_repos:
 - full_name: tw93/Mole
   slug: tw93-mole
   url: https://github.com/tw93/Mole
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -175,7 +182,7 @@ related_repos:
 - full_name: clash-verge-rev/clash-verge-rev
   slug: clash-verge-rev-clash-verge-rev
   url: https://github.com/clash-verge-rev/clash-verge-rev
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -188,7 +195,7 @@ related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -201,7 +208,7 @@ related_repos:
 - full_name: farion1231/cc-switch
   slug: farion1231-cc-switch
   url: https://github.com/farion1231/cc-switch
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -214,7 +221,7 @@ related_repos:
 - full_name: flutter/flutter
   slug: flutter-flutter
   url: https://github.com/flutter/flutter
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -227,7 +234,7 @@ related_repos:
 - full_name: mem0ai/mem0
   slug: mem0ai-mem0
   url: https://github.com/mem0ai/mem0
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -239,15 +246,20 @@ related_repos:
   - application
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-jaywcjlove/awesome-mac has appeared in 11 Claracle weekly issues.
+jaywcjlove/awesome-mac has appeared in 12 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

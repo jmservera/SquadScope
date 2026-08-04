@@ -86,6 +86,7 @@ tag_links:
   url: /tags/typesetting/
 - name: typst
   url: /tags/typst/
+topic_links: []
 related_repos:
 - full_name: FuelLabs/sway
   slug: fuellabs-sway
@@ -193,7 +194,12 @@ lifecycle:
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---

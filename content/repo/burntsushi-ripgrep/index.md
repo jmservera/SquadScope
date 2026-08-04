@@ -1,8 +1,8 @@
 ---
 title: BurntSushi/ripgrep repository trend history
-description: 'Evergreen Claracle Observatory page for BurntSushi/ripgrep: 7 weekly appearances, stars, velocity, topics, and
+description: 'Evergreen Claracle Observatory page for BurntSushi/ripgrep: 8 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -25,8 +25,8 @@ tags:
 - rust
 - search
 first_seen_week: 2026-W23
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -35,7 +35,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 7
+- data/raw/2026-W32.json
+distinct_weekly_issues: 8
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -62,6 +63,9 @@ star_history:
 - week: 2026-W31
   stars: 66552
   delta: 207
+- week: 2026-W32
+  stars: 66904
+  delta: 352
 weekly_appearances:
 - week: 2026-W23
   url: /weekly/2026/w23/
@@ -77,6 +81,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: cli
   url: /tags/cli/
@@ -98,11 +104,15 @@ tag_links:
   url: /tags/rust/
 - name: search
   url: /tags/search/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: rtk-ai/rtk
   slug: rtk-ai-rtk
   url: https://github.com/rtk-ai/rtk
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -117,7 +127,7 @@ related_repos:
 - full_name: denoland/deno
   slug: denoland-deno
   url: https://github.com/denoland/deno
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -130,7 +140,7 @@ related_repos:
 - full_name: farion1231/cc-switch
   slug: farion1231-cc-switch
   url: https://github.com/farion1231/cc-switch
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -143,7 +153,7 @@ related_repos:
 - full_name: google-gemini/gemini-cli
   slug: google-gemini-gemini-cli
   url: https://github.com/google-gemini/gemini-cli
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -156,7 +166,7 @@ related_repos:
 - full_name: jesseduffield/lazygit
   slug: jesseduffield-lazygit
   url: https://github.com/jesseduffield/lazygit
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -169,7 +179,7 @@ related_repos:
 - full_name: junegunn/fzf
   slug: junegunn-fzf
   url: https://github.com/junegunn/fzf
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -182,7 +192,7 @@ related_repos:
 - full_name: meilisearch/meilisearch
   slug: meilisearch-meilisearch
   url: https://github.com/meilisearch/meilisearch
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -195,7 +205,7 @@ related_repos:
 - full_name: microsoft/terminal
   slug: microsoft-terminal
   url: https://github.com/microsoft/terminal
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -207,15 +217,20 @@ related_repos:
   - command-line
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-BurntSushi/ripgrep has appeared in 7 Claracle weekly issues.
+BurntSushi/ripgrep has appeared in 8 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

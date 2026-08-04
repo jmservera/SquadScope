@@ -56,6 +56,7 @@ weekly_appearances:
 - week: 2026-W26
   url: /weekly/2026/w26/
 tag_links: []
+topic_links: []
 related_repos:
 - full_name: 2dust/v2rayN
   slug: 2dust-v2rayn
@@ -151,7 +152,12 @@ lifecycle:
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---

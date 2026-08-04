@@ -1,8 +1,8 @@
 ---
 title: nektos/act repository trend history
-description: 'Evergreen Claracle Observatory page for nektos/act: 4 weekly appearances, stars, velocity, topics, and related
+description: 'Evergreen Claracle Observatory page for nektos/act: 5 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-06'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -19,14 +19,15 @@ tags:
 - github-actions
 - golang
 first_seen_week: 2026-W21
-last_seen_week: 2026-W28
-as_of_week: 2026-W28
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W28/2026-W28.json
 - data/raw/2026-W21.json
 - data/raw/2026-W22.json
-distinct_weekly_issues: 4
+- data/raw/2026-W32.json
+distinct_weekly_issues: 5
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -44,6 +45,9 @@ star_history:
 - week: 2026-W28
   stars: 70959
   delta: 401
+- week: 2026-W32
+  stars: 71302
+  delta: 343
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -53,6 +57,8 @@ weekly_appearances:
   url: /weekly/2026/w23/
 - week: 2026-W28
   url: /weekly/2026/w28/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: ci
   url: /tags/ci/
@@ -62,15 +68,17 @@ tag_links:
   url: /tags/github-actions/
 - name: golang
   url: /tags/golang/
+topic_links: []
 related_repos:
 - full_name: go-gitea/gitea
   slug: go-gitea-gitea
   url: https://github.com/go-gitea/gitea
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W22
   - 2026-W23
   - 2026-W28
+  - 2026-W32
   shared_topics:
   - devops
   - github-actions
@@ -78,91 +86,102 @@ related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
-  score: 5
+  score: 6
   shared_weeks:
   - 2026-W21
   - 2026-W22
   - 2026-W23
   - 2026-W28
+  - 2026-W32
   shared_topics:
   - golang
 - full_name: caddyserver/caddy
   slug: caddyserver-caddy
   url: https://github.com/caddyserver/caddy
-  score: 5
+  score: 6
   shared_weeks:
   - 2026-W21
   - 2026-W22
   - 2026-W23
   - 2026-W28
+  - 2026-W32
   shared_topics:
   - golang
 - full_name: golang/go
   slug: golang-go
   url: https://github.com/golang/go
-  score: 5
+  score: 6
   shared_weeks:
   - 2026-W21
   - 2026-W22
   - 2026-W23
   - 2026-W28
+  - 2026-W32
   shared_topics:
   - golang
 - full_name: netdata/netdata
   slug: netdata-netdata
   url: https://github.com/netdata/netdata
-  score: 5
+  score: 6
   shared_weeks:
   - 2026-W21
   - 2026-W22
   - 2026-W23
   - 2026-W28
+  - 2026-W32
   shared_topics:
   - devops
 - full_name: ollama/ollama
   slug: ollama-ollama
   url: https://github.com/ollama/ollama
-  score: 5
+  score: 6
   shared_weeks:
   - 2026-W21
   - 2026-W22
   - 2026-W23
   - 2026-W28
+  - 2026-W32
   shared_topics:
   - golang
 - full_name: rclone/rclone
   slug: rclone-rclone
   url: https://github.com/rclone/rclone
+  score: 6
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W28
+  - 2026-W32
+  shared_topics:
+  - golang
+- full_name: 2dust/v2rayN
+  slug: 2dust-v2rayn
+  url: https://github.com/2dust/v2rayN
   score: 5
   shared_weeks:
   - 2026-W21
   - 2026-W22
   - 2026-W23
   - 2026-W28
-  shared_topics:
-  - golang
-- full_name: unionlabs/union
-  slug: unionlabs-union
-  url: https://github.com/unionlabs/union
-  score: 5
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W28
-  shared_topics:
-  - golang
+  - 2026-W32
+  shared_topics: []
 lifecycle:
   status: active
-  as_of_week: 2026-W28
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-nektos/act has appeared in 4 Claracle weekly issues.
+nektos/act has appeared in 5 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

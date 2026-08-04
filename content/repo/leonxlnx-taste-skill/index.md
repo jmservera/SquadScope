@@ -86,6 +86,10 @@ tag_links:
   url: /tags/skill/
 - name: skills
   url: /tags/skills/
+topic_links:
+- name: AI Coding Agents
+  slug: ai-coding-agents
+  url: /topics/ai-coding-agents/
 related_repos:
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
@@ -156,6 +160,19 @@ related_repos:
   - claude-code
   - codex
   - skills
+- full_name: asgeirtj/system_prompts_leaks
+  slug: asgeirtj-system-prompts-leaks
+  url: https://github.com/asgeirtj/system_prompts_leaks
+  score: 7
+  shared_weeks:
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - ai
+  - claude
+  - claude-code
+  - codex
 - full_name: farion1231/cc-switch
   slug: farion1231-cc-switch
   url: https://github.com/farion1231/cc-switch
@@ -182,26 +199,18 @@ related_repos:
   - claude-code
   - codex
   - skills
-- full_name: headroomlabs-ai/headroom
-  slug: headroomlabs-ai-headroom
-  url: https://github.com/headroomlabs-ai/headroom
-  score: 7
-  shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - agent
-  - ai
-  - claude-code
 lifecycle:
   status: active
   as_of_week: 2026-W31
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---

@@ -1,8 +1,8 @@
 ---
 title: microsoft/ML-For-Beginners repository trend history
-description: 'Evergreen Claracle Observatory page for microsoft/ML-For-Beginners: 8 weekly appearances, stars, velocity, topics,
+description: 'Evergreen Claracle Observatory page for microsoft/ML-For-Beginners: 9 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -27,8 +27,8 @@ tags:
 - scikit-learn
 - scikit-learn-python
 first_seen_week: 2026-W22
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -38,7 +38,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 8
+- data/raw/2026-W32.json
+distinct_weekly_issues: 9
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -68,6 +69,9 @@ star_history:
 - week: 2026-W31
   stars: 88611
   delta: 273
+- week: 2026-W32
+  stars: 88916
+  delta: 305
 weekly_appearances:
 - week: 2026-W22
   url: /weekly/2026/w22/
@@ -85,6 +89,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: data-science
   url: /tags/data-science/
@@ -110,11 +116,15 @@ tag_links:
   url: /tags/scikit-learn/
 - name: scikit-learn-python
   url: /tags/scikit-learn-python/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: keras-team/keras
   slug: keras-team-keras
   url: https://github.com/keras-team/keras
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -129,7 +139,7 @@ related_repos:
 - full_name: scikit-learn/scikit-learn
   slug: scikit-learn-scikit-learn
   url: https://github.com/scikit-learn/scikit-learn
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -144,7 +154,7 @@ related_repos:
 - full_name: tensorflow/tensorflow
   slug: tensorflow-tensorflow
   url: https://github.com/tensorflow/tensorflow
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -159,7 +169,7 @@ related_repos:
 - full_name: apache/superset
   slug: apache-superset
   url: https://github.com/apache/superset
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -173,7 +183,7 @@ related_repos:
 - full_name: huggingface/transformers
   slug: huggingface-transformers
   url: https://github.com/huggingface/transformers
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -187,7 +197,7 @@ related_repos:
 - full_name: OpenBB-finance/OpenBB
   slug: openbb-finance-openbb
   url: https://github.com/OpenBB-finance/OpenBB
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -201,7 +211,7 @@ related_repos:
 - full_name: pathwaycom/pathway
   slug: pathwaycom-pathway
   url: https://github.com/pathwaycom/pathway
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -215,7 +225,7 @@ related_repos:
 - full_name: pytorch/pytorch
   slug: pytorch-pytorch
   url: https://github.com/pytorch/pytorch
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -228,15 +238,20 @@ related_repos:
   - python
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-microsoft/ML-For-Beginners has appeared in 8 Claracle weekly issues.
+microsoft/ML-For-Beginners has appeared in 9 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

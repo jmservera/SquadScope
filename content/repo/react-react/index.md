@@ -1,8 +1,8 @@
 ---
 title: react/react repository trend history
-description: 'Evergreen Claracle Observatory page for react/react: 7 weekly appearances, stars, velocity, topics, and related
+description: 'Evergreen Claracle Observatory page for react/react: 8 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -21,8 +21,8 @@ tags:
 - react
 - ui
 first_seen_week: 2026-W25
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W25/2026-W25.json
 - data/archive/recovered-W23-W29/2026-W26/2026-W26.json
@@ -31,7 +31,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 7
+- data/raw/2026-W32.json
+distinct_weekly_issues: 8
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -58,6 +59,9 @@ star_history:
 - week: 2026-W31
   stars: 246735
   delta: 148
+- week: 2026-W32
+  stars: 246917
+  delta: 182
 weekly_appearances:
 - week: 2026-W25
   url: /weekly/2026/w25/
@@ -73,6 +77,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: declarative
   url: /tags/declarative/
@@ -86,11 +92,15 @@ tag_links:
   url: /tags/react/
 - name: ui
   url: /tags/ui/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: facebook/docusaurus
   slug: facebook-docusaurus
   url: https://github.com/facebook/docusaurus
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -104,7 +114,7 @@ related_repos:
 - full_name: freeCodeCamp/freeCodeCamp
   slug: freecodecamp-freecodecamp
   url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -118,7 +128,7 @@ related_repos:
 - full_name: ocornut/imgui
   slug: ocornut-imgui
   url: https://github.com/ocornut/imgui
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -132,7 +142,7 @@ related_repos:
 - full_name: oven-sh/bun
   slug: oven-sh-bun
   url: https://github.com/oven-sh/bun
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -146,7 +156,7 @@ related_repos:
 - full_name: shadcn-ui/ui
   slug: shadcn-ui-ui
   url: https://github.com/shadcn-ui/ui
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -160,7 +170,7 @@ related_repos:
 - full_name: angular/angular
   slug: angular-angular
   url: https://github.com/angular/angular
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -173,7 +183,7 @@ related_repos:
 - full_name: ant-design/ant-design
   slug: ant-design-ant-design
   url: https://github.com/ant-design/ant-design
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -186,7 +196,7 @@ related_repos:
 - full_name: apache/superset
   slug: apache-superset
   url: https://github.com/apache/superset
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -198,15 +208,20 @@ related_repos:
   - react
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-react/react has appeared in 7 Claracle weekly issues.
+react/react has appeared in 8 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

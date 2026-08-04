@@ -1,8 +1,8 @@
 ---
 title: rustdesk/rustdesk repository trend history
-description: 'Evergreen Claracle Observatory page for rustdesk/rustdesk: 11 weekly appearances, stars, velocity, topics, and
+description: 'Evergreen Claracle Observatory page for rustdesk/rustdesk: 12 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -27,8 +27,8 @@ tags:
 - rdp
 - remote-control
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -41,7 +41,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 11
+- data/raw/2026-W32.json
+distinct_weekly_issues: 12
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -80,6 +81,9 @@ star_history:
 - week: 2026-W31
   stars: 118927
   delta: 404
+- week: 2026-W32
+  stars: 119460
+  delta: 533
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -103,6 +107,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: android
   url: /tags/android/
@@ -128,11 +134,15 @@ tag_links:
   url: /tags/rdp/
 - name: remote-control
   url: /tags/remote-control/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: flutter/flutter
   slug: flutter-flutter
   url: https://github.com/flutter/flutter
-  score: 15
+  score: 16
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -150,7 +160,7 @@ related_repos:
 - full_name: nodejs/node
   slug: nodejs-node
   url: https://github.com/nodejs/node
-  score: 14
+  score: 15
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -165,7 +175,7 @@ related_repos:
 - full_name: warpdotdev/warp
   slug: warpdotdev-warp
   url: https://github.com/warpdotdev/warp
-  score: 14
+  score: 15
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -180,7 +190,7 @@ related_repos:
 - full_name: clash-verge-rev/clash-verge-rev
   slug: clash-verge-rev-clash-verge-rev
   url: https://github.com/clash-verge-rev/clash-verge-rev
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -194,7 +204,7 @@ related_repos:
 - full_name: oven-sh/bun
   slug: oven-sh-bun
   url: https://github.com/oven-sh/bun
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -208,7 +218,7 @@ related_repos:
 - full_name: toeverything/AFFiNE
   slug: toeverything-affine
   url: https://github.com/toeverything/AFFiNE
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -222,7 +232,7 @@ related_repos:
 - full_name: 2dust/v2rayN
   slug: 2dust-v2rayn
   url: https://github.com/2dust/v2rayN
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -235,7 +245,7 @@ related_repos:
 - full_name: 2dust/v2rayNG
   slug: 2dust-v2rayng
   url: https://github.com/2dust/v2rayNG
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -247,15 +257,20 @@ related_repos:
   - android
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-rustdesk/rustdesk has appeared in 11 Claracle weekly issues.
+rustdesk/rustdesk has appeared in 12 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.
