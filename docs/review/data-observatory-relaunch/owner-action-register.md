@@ -84,8 +84,8 @@ environment approver.
 
 Repository controls now separate the automatic dry-run smoke from real generation. Real
 generation is manual-only, requires an exact retained publish run and merged article,
-and binds to the `podcaster-real-generation` environment. No real workflow was dispatched
-as part of this implementation.
+and binds to the `podcaster-real-generation` environment. One real dispatch has since
+been authorized and completed; see the required actions and evidence table below.
 
 Required actions:
 
@@ -128,8 +128,8 @@ Evidence for the completed run:
 | Manifest run ID | `30782430176` |
 | Manifest path / SHA-256 | `data/candidates/2026-W32/30782430176/publish-manifest.json` / `d5f1e4210e8e23c43970dc2da60552f3ae96e36ea2794a2121b0985078f9df0c` |
 | Article path / SHA-256 | `content/weekly/2026/W32.md` / `b9806f1ff308dd94d8a9c39ab69c7224ccea586628bb49b8c82ded878d17f76b` |
-| Actions run | [30908778884](https://github.com/jmservera/SquadScope/actions/runs/30908778884) |
-| Downstream job ID / status | `podcast-2026-W32-d07bb05dc073` / accepted |
+| Actions run (this repo's `trigger-podcast` job) | [30908778884](https://github.com/jmservera/SquadScope/actions/runs/30908778884), conclusion success |
+| Downstream Podcaster job ID / response status | `podcast-2026-W32-d07bb05dc073` / accepted (external Podcaster service, not this repo's job) |
 | Conclusion | success |
 
 Completion evidence: one successful real downstream run after environment approval —
