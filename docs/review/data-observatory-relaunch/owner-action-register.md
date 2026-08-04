@@ -90,8 +90,10 @@ as part of this implementation.
 Required actions:
 
 1. Confirm downstream idempotency or authorize one exact eligible week and publish run ID.
-2. Create or configure the `podcaster-real-generation` environment with required
-  reviewer approval, no self-review, and deployment restricted to `main`.
+2. ~~Create or configure the `podcaster-real-generation` environment with required
+  reviewer approval, no self-review, and deployment restricted to `main`.~~ Done
+  2026-08-04: environment created with jmservera as required reviewer, self-review
+  prevented, and deployment restricted to `main`.
 3. Configure the environment-scoped endpoint variable and API-key secret without
   recording their values.
 4. Have URL and Hermes review the environment policy, secret scope, exact-manifest
