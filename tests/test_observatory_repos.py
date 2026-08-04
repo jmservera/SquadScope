@@ -567,7 +567,8 @@ def test_frozen_corpus_lifecycle_seed_has_expected_parity() -> None:
     assert config["enabled"] is False
     # Repository-page qualification parity is the real invariant: every qualified
     # history has exactly one page and one derived entry.
-    assert len(qualified_identities) == 263
+    # After Phase 3 regeneration: 263 original + 7 new pages = 270 qualified identities
+    assert len(qualified_identities) == 270
     assert qualified_identities == page_identities == derived_identities
 
     # After Phase 1 fix (reverse index for full_name->key migration), the ledger
@@ -583,7 +584,9 @@ def test_frozen_corpus_lifecycle_seed_has_expected_parity() -> None:
     assert committed_ledger["schema_version"] == expected_schema
     committed_repositories = committed_ledger["repositories"]
     assert isinstance(committed_repositories, dict)
-    assert len(committed_repositories) == 2242
+    # After Phase 3 regeneration, the ledger was updated with the new identities
+    # (2242 original + 165 migrations/new discoveries = 2407 total)
+    assert len(committed_repositories) == 2407
     assert all(isinstance(entry, dict) for entry in committed_repositories.values())
 
 
