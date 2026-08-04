@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 
-import { execSync } from 'node:child_process';
+import { execFile } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { join, resolve } from 'node:path';
+import { promisify } from 'node:util';
+
+const execFileAsync = promisify(execFile);
 
 const args = process.argv.slice(2);
 
@@ -17,14 +21,15 @@ const OUTPUT_DIR = join('screenshots', 'lighthouse-results');
 // Single Lighthouse runs vary by several points on shared CI runners; the median of
 // repeated runs is Lighthouse's recommended stable measurement. Thresholds are unchanged.
 const RUNS = Math.max(1, Number.parseInt(getArg('--runs', '3'), 10) || 3);
-const THRESHOLDS = {
+const CONCURRENCY = Math.max(1, Number.parseInt(getArg('--concurrency', '3'), 10) || 3);
+export const THRESHOLDS = {
   performance: 0.9,
   accessibility: 0.95,
   bestPractices: 0.95,
   cls: 0.1,
 };
 
-const PAGES = [
+export const PAGES = [
   { key: 'home', path: '/' },
   { key: 'weekly', path: '/weekly/2026/w22/' },
   { key: 'monthly', path: '/monthly/2026/05/' },
@@ -44,26 +49,26 @@ function ensureDir(path) {
   return Promise.resolve();
 }
 
-function runLighthouse(url) {
-  const command = [
-    'npx --no-install lighthouse',
-    JSON.stringify(url),
+async function runLighthouse(url) {
+  const lighthouseArgs = [
+    '--no-install',
+    'lighthouse',
+    url,
     '--quiet',
     '--output=json',
     '--output-path=stdout',
     '--only-categories=accessibility,best-practices,performance',
-    '--chrome-flags="--headless --no-sandbox"',
+    '--chrome-flags=--headless --no-sandbox',
     '--form-factor=mobile',
-  ].join(' ');
+  ];
 
-  const output = execSync(command, {
+  const { stdout } = await execFileAsync('npx', lighthouseArgs, {
     cwd: process.cwd(),
     encoding: 'utf8',
     maxBuffer: 20 * 1024 * 1024,
-    stdio: ['ignore', 'pipe', 'pipe'],
   });
 
-  return JSON.parse(output);
+  return JSON.parse(stdout);
 }
 
 function getScores(report) {
@@ -75,7 +80,7 @@ function getScores(report) {
   };
 }
 
-function median(values) {
+export function median(values) {
   const sorted = [...values].sort((a, b) => a - b);
   const mid = Math.floor(sorted.length / 2);
   return sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
@@ -83,11 +88,11 @@ function median(values) {
 
 // Run Lighthouse RUNS times and return the median score per metric plus the report
 // whose performance is closest to the median (kept as the uploaded artifact).
-function runLighthouseMedian(url) {
+async function runLighthouseMedian(url) {
   const runs = [];
 
   for (let attempt = 0; attempt < RUNS; attempt += 1) {
-    const report = runLighthouse(url);
+    const report = await runLighthouse(url);
     runs.push({ report, scores: getScores(report) });
   }
 
@@ -107,7 +112,7 @@ function runLighthouseMedian(url) {
   return { report: representative.report, scores };
 }
 
-function getFailures(scores) {
+export function getFailures(scores) {
   const failures = [];
 
   if (scores.performance < THRESHOLDS.performance) {
@@ -137,14 +142,29 @@ function formatCls(value) {
   return Number.isFinite(value) ? value.toFixed(3) : 'n/a';
 }
 
+export async function mapWithConcurrency(items, concurrency, mapper) {
+  const results = new Array(items.length);
+  let nextIndex = 0;
+
+  async function worker() {
+    while (nextIndex < items.length) {
+      const index = nextIndex;
+      nextIndex += 1;
+      results[index] = await mapper(items[index], index);
+    }
+  }
+
+  const workerCount = Math.min(Math.max(1, concurrency), items.length);
+  await Promise.all(Array.from({ length: workerCount }, () => worker()));
+  return results;
+}
+
 async function main() {
   await ensureDir(OUTPUT_DIR);
 
-  const results = [];
-
-  for (const page of PAGES) {
+  const results = await mapWithConcurrency(PAGES, CONCURRENCY, async (page) => {
     const url = `${BASE_URL}${page.path}`;
-    const { report, scores } = runLighthouseMedian(url);
+    const { report, scores } = await runLighthouseMedian(url);
     const failures = getFailures(scores);
     const result = {
       page: page.key,
@@ -158,13 +178,13 @@ async function main() {
       failures,
     };
 
-    results.push(result);
     await writeFile(join(OUTPUT_DIR, `${page.key}.json`), JSON.stringify(report, null, 2));
-  }
+    return result;
+  });
 
-  await writeFile(join(OUTPUT_DIR, 'summary.json'), JSON.stringify({ baseUrl: BASE_URL, runs: RUNS, thresholds: THRESHOLDS, results }, null, 2));
+  await writeFile(join(OUTPUT_DIR, 'summary.json'), JSON.stringify({ baseUrl: BASE_URL, runs: RUNS, concurrency: CONCURRENCY, thresholds: THRESHOLDS, results }, null, 2));
 
-  console.log(`Lighthouse gates for ${BASE_URL} (median of ${RUNS} run${RUNS === 1 ? '' : 's'})`);
+  console.log(`Lighthouse gates for ${BASE_URL} (median of ${RUNS} run${RUNS === 1 ? '' : 's'}, ${CONCURRENCY} pages at a time)`);
   console.table(results.map(result => ({
     page: result.page,
     performance: formatPercent(result.performance),
@@ -179,7 +199,10 @@ async function main() {
   }
 }
 
-main().catch(error => {
-  console.error(error instanceof Error ? error.message : error);
-  process.exit(1);
-});
+const isMain = process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1]);
+if (isMain) {
+  main().catch(error => {
+    console.error(error instanceof Error ? error.message : error);
+    process.exit(1);
+  });
+}

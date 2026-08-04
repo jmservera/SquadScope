@@ -67,7 +67,16 @@
     return "#";
   }
 
-  function renderRows(root, repositories) {
+  function datasetMaximumStars(repositories) {
+    return Math.max(
+      1,
+      ...asArray(repositories).flatMap((repo) =>
+        asArray(repo.series).map((point) => Number(point.stars) || 0),
+      ),
+    );
+  }
+
+  function renderRows(root, repositories, maximumStars) {
     const list = root.querySelector("[data-trend-results]");
     if (!list) {
       return;
@@ -90,11 +99,14 @@
 
       const sparkline = document.createElement("div");
       sparkline.className = "trend-explorer__sparkline";
-      sparkline.setAttribute("aria-label", "Observed star history");
+      sparkline.setAttribute(
+        "aria-label",
+        `Absolute observed star history, scaled to the dataset maximum of ${metric(maximumStars)} stars`,
+      );
       asArray(repo.series).forEach((point) => {
         const bar = document.createElement("span");
         bar.title = `${point.week}: ${metric(Number(point.stars))} stars`;
-        bar.style.height = `${Math.max(6, Math.min(100, Number(point.stars) / 2500))}%`;
+        bar.style.height = `${Math.max(0, (Number(point.stars) / maximumStars) * 100)}%`;
         sparkline.appendChild(bar);
       });
 
@@ -103,7 +115,7 @@
     });
   }
 
-  function applyFilters(root, payload) {
+  function applyFilters(root, payload, maximumStars) {
     const search = root.querySelector("[data-trend-search]");
     const language = root.querySelector("[data-trend-language]");
     const topic = root.querySelector("[data-trend-topic]");
@@ -122,7 +134,7 @@
       return matchesQuery && matchesLanguage && matchesTopic;
     });
 
-    renderRows(root, repositories);
+    renderRows(root, repositories, maximumStars);
     setStatus(
       root,
       repositories.length
@@ -154,6 +166,7 @@
       }
 
       renderFilters(root, payload);
+      const maximumStars = datasetMaximumStars(payload.repositories);
       const trackedActions = new Set();
       function trackOnce(action) {
         if (!trackedActions.has(action) && trackToolAction(action)) {
@@ -169,7 +182,7 @@
           } else if (event.target.matches("[data-trend-topic]")) {
             trackOnce("topic_filter");
           }
-          applyFilters(root, payload);
+          applyFilters(root, payload, maximumStars);
         });
       });
       root.addEventListener("click", (event) => {
@@ -177,7 +190,7 @@
           trackOnce("repository_open");
         }
       });
-      applyFilters(root, payload);
+      applyFilters(root, payload, maximumStars);
       trackOnce("load");
     } catch (error) {
       setStatus(root, "Trend data could not be loaded. Try again later.");

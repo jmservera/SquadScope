@@ -55,7 +55,7 @@
 
 .trend-explorer__sparkline span {
   background: var(--color-accent, #0066cc);
-  border-radius: 999px 999px 0 0;
+  border-radius: 0.25rem 0.25rem 0 0;
   display: block;
   flex: 1;
   min-width: 0.35rem;

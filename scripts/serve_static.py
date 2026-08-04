@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static file server that gzip-compresses text responses.
+"""Static file server that compresses text responses.
 
 The production site is hosted on GitHub Pages, which serves text assets with
 gzip/brotli compression. A plain ``python -m http.server`` sends everything
@@ -17,6 +17,8 @@ from functools import partial
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import quote, urlsplit, urlunsplit
+
+import brotli
 
 # Content types GitHub Pages compresses. Binary assets (images, fonts) are left
 # untouched because they are already compressed.
@@ -37,8 +39,37 @@ COMPRESSIBLE_TYPES = frozenset(
 )
 
 
-class GzipHandler(SimpleHTTPRequestHandler):
-    """Serve files, gzip-compressing text responses when the client allows it."""
+def accepted_encodings(value: str) -> dict[str, float]:
+    """Parse Accept-Encoding values into normalized quality weights."""
+    encodings: dict[str, float] = {}
+    for item in value.split(","):
+        parts = [part.strip() for part in item.split(";")]
+        encoding = parts[0].lower()
+        if not encoding:
+            continue
+        quality = 1.0
+        for parameter in parts[1:]:
+            if parameter.lower().startswith("q="):
+                try:
+                    quality = max(0.0, min(1.0, float(parameter[2:])))
+                except ValueError:
+                    quality = 0.0
+        encodings[encoding] = quality
+    return encodings
+
+
+def select_encoding(value: str) -> str | None:
+    """Prefer Brotli, then gzip, when the client assigns a positive quality."""
+    encodings = accepted_encodings(value)
+    wildcard = encodings.get("*", 0.0)
+    for encoding in ("br", "gzip"):
+        if encodings.get(encoding, wildcard) > 0:
+            return encoding
+    return None
+
+
+class CompressionHandler(SimpleHTTPRequestHandler):
+    """Serve files with negotiated compression for eligible text responses."""
 
     def do_HEAD(self) -> None:  # noqa: N802 - http.server naming
         self._serve(include_body=False)
@@ -79,16 +110,20 @@ class GzipHandler(SimpleHTTPRequestHandler):
 
         content_type = self.guess_type(path)
         base_type = content_type.split(";", 1)[0].strip()
-        accepts_gzip = "gzip" in self.headers.get("Accept-Encoding", "")
-        use_gzip = accepts_gzip and base_type in COMPRESSIBLE_TYPES
+        encoding = select_encoding(self.headers.get("Accept-Encoding", ""))
+        if base_type not in COMPRESSIBLE_TYPES:
+            encoding = None
 
-        if use_gzip:
+        if encoding == "br":
+            body = brotli.compress(body, quality=5)
+        elif encoding == "gzip":
             body = gzip.compress(body, compresslevel=6)
 
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", content_type)
-        if use_gzip:
-            self.send_header("Content-Encoding", "gzip")
+        if encoding:
+            self.send_header("Content-Encoding", encoding)
+        if base_type in COMPRESSIBLE_TYPES:
             self.send_header("Vary", "Accept-Encoding")
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
@@ -104,7 +139,7 @@ def main() -> None:
     parser.add_argument("--port", type=int, default=1313, help="Port to listen on")
     args = parser.parse_args()
 
-    handler = partial(GzipHandler, directory=args.directory)
+    handler = partial(CompressionHandler, directory=args.directory)
     with ThreadingHTTPServer((args.bind, args.port), handler) as server:
         server.serve_forever()
 

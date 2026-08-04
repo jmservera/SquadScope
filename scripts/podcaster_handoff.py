@@ -979,6 +979,15 @@ def validate_response(payload: Any) -> dict[str, Any]:
     return payload
 
 
+def write_action_outputs(response: dict[str, Any]) -> None:
+    output_path = os.environ.get("GITHUB_OUTPUT")
+    if not output_path:
+        return
+    with Path(output_path).open("a", encoding="utf-8") as output:
+        output.write(f"podcaster_job_id={_escape_gha_data(response['job_id'].strip())}\n")
+        output.write(f"podcaster_status={_escape_gha_data(response['status'])}\n")
+
+
 def post_handoff(
     endpoint: str, api_key: str, payload: dict[str, Any], *, timeout: int = DEFAULT_TIMEOUT_SECONDS
 ) -> dict[str, Any]:
@@ -1107,6 +1116,7 @@ def main(argv: list[str] | None = None) -> int:
                 manifest=manifest,
             )
         response = post_handoff(endpoint, api_key, payload, timeout=args.timeout)
+        write_action_outputs(response)
     except PodcasterHandoffError as exc:
         print(f"::error::Podcaster handoff failed: {exc}")
         return 1

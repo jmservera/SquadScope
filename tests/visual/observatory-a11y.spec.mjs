@@ -98,6 +98,40 @@ test('consent modal traps keyboard focus and restores it when closed', async ({ 
   await expect(manageCookies).toBeFocused();
 });
 
+test('fresh consent stays within the mobile viewport below the page header', async ({ page }, testInfo) => {
+  test.skip(!testInfo.project.name.startsWith('mobile-'), 'Mobile projects cover consent geometry.');
+  await page.context().clearCookies();
+  await page.goto('/topics/ai-coding-agents/');
+
+  const dialog = page.getByRole('dialog').first();
+  await expect(dialog).toBeVisible();
+  for (const name of [/accept all/i, /reject all/i, /customize/i]) {
+    await expect(dialog.getByRole('button', { name })).toBeVisible();
+  }
+
+  const geometry = await dialog.evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    const header = document.querySelector('.post-header');
+    const description = element.querySelector('.cm__desc');
+    return {
+      dialog: { top: bounds.top, right: bounds.right, bottom: bounds.bottom, left: bounds.left },
+      headerBottom: header?.getBoundingClientRect().bottom ?? 0,
+      viewport: { width: window.innerWidth, height: window.innerHeight },
+      descriptionScrollable: description
+        ? description.scrollHeight > description.clientHeight
+          ? ['auto', 'scroll'].includes(getComputedStyle(description).overflowY)
+          : true
+        : false,
+    };
+  });
+
+  expect(geometry.dialog.left).toBeGreaterThanOrEqual(0);
+  expect(geometry.dialog.right).toBeLessThanOrEqual(geometry.viewport.width);
+  expect(geometry.dialog.top).toBeGreaterThanOrEqual(geometry.headerBottom);
+  expect(geometry.dialog.bottom).toBeLessThanOrEqual(geometry.viewport.height);
+  expect(geometry.descriptionScrollable).toBe(true);
+});
+
 test('breadcrumb is unique, semantic, marker-free, and wrapping', async ({ page }) => {
   await page.goto('/topics/ai-coding-agents/');
   await settle(page);

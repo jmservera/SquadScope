@@ -123,13 +123,15 @@ class Element {
     this.attributes = {};
     this.style = {};
     this.className = '';
+    this.listeners = {};
   }
   querySelector(selector) { return this.map[selector] || null; }
   getAttribute(name) { return this.attributes[name] || ''; }
   setAttribute(name, value) { this.attributes[name] = value; }
   appendChild(child) { this.children.push(child); return child; }
   append(...children) { this.children.push(...children); }
-  addEventListener() {}
+  addEventListener(name, listener) { this.listeners[name] = listener; }
+  matches(selector) { return this.selector === selector; }
 }
 
 function rootFor(payload) {
@@ -181,6 +183,49 @@ vm.runInThisContext(script);
   const link = unsafe.map['[data-trend-results]'].children[0].children[0];
   if (link.href !== '#') {
     throw new Error('unsafe repository URL was not sanitized');
+  }
+  const scaled = rootFor({
+    language_filters: ['Python', 'Rust'],
+    topic_filters: [],
+    repositories: [
+      {
+        repository: 'example/scale',
+        url: 'https://github.com/example/scale',
+        primary_language: 'Python',
+        observed_star_change: 75,
+        latest_stars: 100,
+        series: [
+          { week: '2026-W01', stars: 25 },
+          { week: '2026-W02', stars: 50 },
+          { week: '2026-W03', stars: 100 },
+        ],
+      },
+      {
+        repository: 'example/larger',
+        url: 'https://github.com/example/larger',
+        primary_language: 'Rust',
+        observed_star_change: 0,
+        latest_stars: 200,
+        series: [{ week: '2026-W03', stars: 200 }],
+      },
+    ],
+  });
+  await window.initTrendExplorer(scaled);
+  const firstSparkline = scaled.map['[data-trend-results]'].children[0].children[2];
+  const initialHeights = firstSparkline.children.map((bar) => bar.style.height);
+  if (initialHeights.join(',') !== '12.5%,25%,50%') {
+    throw new Error(`dataset scale produced unexpected heights: ${initialHeights}`);
+  }
+  if (!firstSparkline.attributes['aria-label'].includes('dataset maximum of 200 stars')) {
+    throw new Error('sparkline semantics do not describe the dataset scale');
+  }
+  scaled.map['[data-trend-language]'].value = 'Python';
+  scaled.map['[data-trend-language]'].selector = '[data-trend-language]';
+  scaled.listeners.change({ target: scaled.map['[data-trend-language]'] });
+  const filteredHeights = scaled.map['[data-trend-results]'].children[0].children[2].children
+    .map((bar) => bar.style.height);
+  if (filteredHeights.join(',') !== initialHeights.join(',')) {
+    throw new Error('filtering changed the dataset-wide scale');
   }
   console.log('ok');
 })().catch((error) => { console.error(error); process.exit(1); });
