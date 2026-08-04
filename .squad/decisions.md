@@ -52,7 +52,7 @@ run") was completed 2026-08-04; see [SEC-10](../../../../docs/review/data-observ
 
 **What:** Accepted `.github/workflows/trigger-podcast.yml` and the `podcaster-real-generation`
 environment as sufficiently hardened for pipeline/tooling purposes. Recorded as
-[SEC-10](../../../../docs/review/data-observatory-relaunch/security-review.md#findings-and-dispositions)
+[SEC-10](../docs/review/data-observatory-relaunch/security-review.md#findings-and-dispositions)
 (Low severity), closing the DevSecOps half of owner-action-register.md action 4 ("Protected real
 Podcaster run"); the security/threat-modeling half is settled separately by SEC-09 above.
 
@@ -74,7 +74,7 @@ workflow — it was flagged as hygiene, not a blocker.
 **Fixed 2026-08-04** (PR #659): the "Derive paths from week slug" step now rejects `breaking_news`
 over 500 characters or containing control characters, alongside the existing `week` validation.
 
-**Disposition recorded:** [SEC-10](../../../../docs/review/data-observatory-relaunch/security-review.md#findings-and-dispositions),
+**Disposition recorded:** [SEC-10](../docs/review/data-observatory-relaunch/security-review.md#findings-and-dispositions),
 severity Low, owner URL.
 
 **Files edited (PR #659):**
