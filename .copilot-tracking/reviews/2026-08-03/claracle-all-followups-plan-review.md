@@ -6,7 +6,9 @@
 * Plan: `.copilot-tracking/plans/2026-08-03/claracle-all-followups-plan.instructions.md`
 * Reviewer: RPI Agent
 * Date: 2026-08-03
-* Iterations: two implementation corrections during final integration
+* Iterations: two implementation corrections during final integration, plus two CI-discovered
+  fix rounds after PR #655 was opened (shallow-checkout git behavior, Bandit nosec parsing,
+  Checkov skip-comment placement, and automated reviewer feedback)
 
 ## User Request Fulfillment
 
@@ -57,10 +59,37 @@ browser runtime dependencies are unavailable.
 * Branch: `feat/claracle-acceptance-followups` → `main`
 * Opened to obtain Hugo, Playwright, Lighthouse, and workflow-security CI evidence
   unavailable in the local environment.
+* All 16 status checks passing (Python, Ruff, Bandit, Checkov, CodeQL x3, Squad CI,
+  Site Preview, Production site, Publish hydration parity, zizmor, plus informational
+  Bandit/Checkov/CodeQL code-scanning summaries). No approvals required; no changes
+  requested.
+
+### CI-Discovered Fixes (after PR #655 opened)
+
+* `scripts/atomic_publish_proof.py`: CI's shallow, single-ref `actions/checkout` left
+  `origin/publish` unresolved and `HEAD` shallow. Fixed by fetching `origin publish`
+  before the rev-parse, and by running `git fetch --unshallow origin` before seeding
+  the isolated origin so `HEAD`'s full history can be pushed. Reproduced
+  `actions/checkout`'s exact shallow-fetch approach locally against the real GitHub
+  remote to verify both fixes end to end.
+* `scripts/atomic_publish_proof.py` and `scripts/build_cost_experiment.py`: Bandit
+  flagged 12 low-severity subprocess findings, suppressed with `# nosec` following the
+  repo's existing convention. Discovered and worked around a Bandit 1.9.4 nosec parser
+  bug where comma-separated codes (`# nosec B603,B607`) silently drop all but the last
+  code.
+* `.github/workflows/build-cost-experiment.yml`: moved the `CKV_GHA_7` Checkov skip
+  comment inside `workflow_dispatch:` (matching `trigger-podcast.yml`'s placement) so it
+  actually suppresses the finding instead of being ignored.
+* `.github/workflows/trigger-podcast.yml`: added a job-level `if: github.ref ==
+  'refs/heads/main'` guard per automated reviewer feedback, since the dispatched
+  workflow YAML runs from the dispatched ref regardless of which branch is checked out.
+* `tests/test_pipeline.py`: replaced fragile `workflow[True]` YAML-boolean-key indexing
+  with the safer `workflow.get("on", workflow.get(True))` pattern already used elsewhere
+  in the test suite, per automated reviewer feedback.
 
 ## Remaining Authority-Bound Work
 
-* Merge PR #655 after CI passes and any reviewer feedback is addressed.
+* Merge PR #655 (all CI checks passing, no reviewer feedback outstanding).
 * Configure and protect the `podcaster-real-generation` GitHub environment.
 * Retain reviewed atomic proof and cost experiment workflow artifacts.
 * Complete Hermes, URL, accessibility, analytics, metadata, visual, and sponsor reviews.
