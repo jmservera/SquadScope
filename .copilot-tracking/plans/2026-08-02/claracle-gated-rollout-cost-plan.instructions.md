@@ -19,18 +19,25 @@ applyTo: '.copilot-tracking/changes/2026-08-02/claracle-gated-rollout-cost-chang
 
 ## Implementation Checklist
 
-### [ ] Phase 1: Build a Report-Only Cost Experiment
+### [x] Phase 1: Build a Report-Only Cost Experiment
 
 <!-- parallelizable: false -->
 
-* [ ] Add a manually dispatchable experiment that creates clean, isolated workload variants from the same main and publish revisions
-* [ ] Measure baseline, topic hubs, data pages, repository pages, and an optional approved dynamic canary
-* [ ] Record Hugo and Pagefind versions, durations, page counts, indexed counts, output bytes, variant, runner, and both SHAs
-* [ ] Retain at least three comparable runs, preferably five
-* [ ] Aggregate median, nearest-rank p95, absolute delta, percent delta, and marginal milliseconds per added source page
-* [ ] Publish the report without a blocking threshold
+* [x] Add a manually dispatchable experiment that creates clean, isolated workload variants from the same main and publish revisions
+* [x] Measure baseline, topic hubs, data pages, repository pages, and an optional approved dynamic canary
+* [x] Record Hugo and Pagefind versions, durations, page counts, indexed counts, output bytes, variant, runner, and both SHAs
+* [x] Retain at least three comparable runs, preferably five
+* [x] Aggregate median, nearest-rank p95, absolute delta, percent delta, and marginal milliseconds per added source page
+* [x] Publish the report without a blocking threshold
 
 Success: Q-01 has reproducible page-class attribution and an owner-reviewable report.
+
+> Delivered 2026-08-03 under `.copilot-tracking/plans/2026-08-03/claracle-all-followups-plan.instructions.md`
+> as `.github/workflows/build-cost-experiment.yml`, `scripts/build_cost_experiment.py`, and
+> `tests/test_build_cost_experiment.py`. Verified present on `main` as of 2026-08-05; retained
+> 3/5-run artifacts and owner budget conclusion remain pending per
+> [status-of-record.md](../../../docs/review/data-observatory-relaunch/status-of-record.md).
+
 
 ### [ ] Phase 2: Close Repository Identity and Lifecycle Preconditions
 
