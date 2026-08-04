@@ -1,8 +1,8 @@
 ---
 title: tw93/Pake repository trend history
-description: 'Evergreen Claracle Observatory page for tw93/Pake: 6 weekly appearances, stars, velocity, topics, and related
+description: 'Evergreen Claracle Observatory page for tw93/Pake: 7 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -27,8 +27,8 @@ tags:
 - tauri
 - windows
 first_seen_week: 2026-W26
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W26/2026-W26.json
 - data/archive/recovered-W23-W29/2026-W27/2026-W27.json
@@ -36,7 +36,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 6
+- data/raw/2026-W32.json
+distinct_weekly_issues: 7
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -60,6 +61,9 @@ star_history:
 - week: 2026-W31
   stars: 60248
   delta: 207
+- week: 2026-W32
+  stars: 60416
+  delta: 168
 weekly_appearances:
 - week: 2026-W26
   url: /weekly/2026/w26/
@@ -73,6 +77,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: chatgpt
   url: /tags/chatgpt/
@@ -98,11 +104,15 @@ tag_links:
   url: /tags/tauri/
 - name: windows
   url: /tags/windows/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: rustdesk/rustdesk
   slug: rustdesk-rustdesk
   url: https://github.com/rustdesk/rustdesk
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W26
   - 2026-W27
@@ -118,7 +128,7 @@ related_repos:
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W26
   - 2026-W27
@@ -133,7 +143,7 @@ related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W26
   - 2026-W27
@@ -148,7 +158,7 @@ related_repos:
 - full_name: flutter/flutter
   slug: flutter-flutter
   url: https://github.com/flutter/flutter
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W26
   - 2026-W27
@@ -163,7 +173,7 @@ related_repos:
 - full_name: lobehub/lobehub
   slug: lobehub-lobehub
   url: https://github.com/lobehub/lobehub
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W26
   - 2026-W27
@@ -178,7 +188,7 @@ related_repos:
 - full_name: nodejs/node
   slug: nodejs-node
   url: https://github.com/nodejs/node
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W26
   - 2026-W27
@@ -193,7 +203,7 @@ related_repos:
 - full_name: warpdotdev/warp
   slug: warpdotdev-warp
   url: https://github.com/warpdotdev/warp
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W26
   - 2026-W27
@@ -208,7 +218,7 @@ related_repos:
 - full_name: clash-verge-rev/clash-verge-rev
   slug: clash-verge-rev-clash-verge-rev
   url: https://github.com/clash-verge-rev/clash-verge-rev
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W26
   - 2026-W27
@@ -221,15 +231,20 @@ related_repos:
   - windows
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-tw93/Pake has appeared in 6 Claracle weekly issues.
+tw93/Pake has appeared in 7 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

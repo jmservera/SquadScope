@@ -110,6 +110,7 @@ tag_links:
   url: /tags/source-code/
 - name: typewriter-mode
   url: /tags/typewriter-mode/
+topic_links: []
 related_repos:
 - full_name: clash-verge-rev/clash-verge-rev
   slug: clash-verge-rev-clash-verge-rev
@@ -233,7 +234,12 @@ lifecycle:
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---

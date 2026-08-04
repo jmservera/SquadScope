@@ -1,8 +1,8 @@
 ---
 title: moby/moby repository trend history
-description: 'Evergreen Claracle Observatory page for moby/moby: 10 weekly appearances, stars, velocity, topics, and related
+description: 'Evergreen Claracle Observatory page for moby/moby: 11 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -19,8 +19,8 @@ tags:
 - go
 - golang
 first_seen_week: 2026-W22
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -32,7 +32,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 10
+- data/raw/2026-W32.json
+distinct_weekly_issues: 11
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -68,6 +69,9 @@ star_history:
 - week: 2026-W31
   stars: 71910
   delta: 28
+- week: 2026-W32
+  stars: 71953
+  delta: 43
 weekly_appearances:
 - week: 2026-W22
   url: /weekly/2026/w22/
@@ -89,6 +93,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: containers
   url: /tags/containers/
@@ -98,11 +104,15 @@ tag_links:
   url: /tags/go/
 - name: golang
   url: /tags/golang/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: traefik/traefik
   slug: traefik-traefik
   url: https://github.com/traefik/traefik
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -117,7 +127,7 @@ related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -131,7 +141,7 @@ related_repos:
 - full_name: golang/go
   slug: golang-go
   url: https://github.com/golang/go
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -145,7 +155,7 @@ related_repos:
 - full_name: kubernetes/kubernetes
   slug: kubernetes-kubernetes
   url: https://github.com/kubernetes/kubernetes
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -159,7 +169,7 @@ related_repos:
 - full_name: ollama/ollama
   slug: ollama-ollama
   url: https://github.com/ollama/ollama
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -173,7 +183,7 @@ related_repos:
 - full_name: rclone/rclone
   slug: rclone-rclone
   url: https://github.com/rclone/rclone
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -187,7 +197,7 @@ related_repos:
 - full_name: caddyserver/caddy
   slug: caddyserver-caddy
   url: https://github.com/caddyserver/caddy
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -201,7 +211,7 @@ related_repos:
 - full_name: coollabsio/coolify
   slug: coollabsio-coolify
   url: https://github.com/coollabsio/coolify
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -213,15 +223,20 @@ related_repos:
   - docker
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-moby/moby has appeared in 10 Claracle weekly issues.
+moby/moby has appeared in 11 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

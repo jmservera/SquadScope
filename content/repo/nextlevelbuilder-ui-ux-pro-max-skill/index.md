@@ -1,8 +1,8 @@
 ---
 title: nextlevelbuilder/ui-ux-pro-max-skill repository trend history
-description: 'Evergreen Claracle Observatory page for nextlevelbuilder/ui-ux-pro-max-skill: 6 weekly appearances, stars, velocity,
+description: 'Evergreen Claracle Observatory page for nextlevelbuilder/ui-ux-pro-max-skill: 7 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -27,8 +27,8 @@ tags:
 - landing-page
 - mobile-ui
 first_seen_week: 2026-W26
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W26/2026-W26.json
 - data/archive/recovered-W23-W29/2026-W27/2026-W27.json
@@ -36,7 +36,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 6
+- data/raw/2026-W32.json
+distinct_weekly_issues: 7
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -60,6 +61,9 @@ star_history:
 - week: 2026-W31
   stars: 110478
   delta: 2636
+- week: 2026-W32
+  stars: 112750
+  delta: 2272
 weekly_appearances:
 - week: 2026-W26
   url: /weekly/2026/w26/
@@ -73,6 +77,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: ai-skills
   url: /tags/ai-skills/
@@ -98,7 +104,56 @@ tag_links:
   url: /tags/landing-page/
 - name: mobile-ui
   url: /tags/mobile-ui/
+topic_links:
+- name: AI Coding Agents
+  slug: ai-coding-agents
+  url: /topics/ai-coding-agents/
 related_repos:
+- full_name: code-yeongyu/oh-my-openagent
+  slug: code-yeongyu-oh-my-openagent
+  url: https://github.com/code-yeongyu/oh-my-openagent
+  score: 10
+  shared_weeks:
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - claude
+  - claude-code
+  - codex
+- full_name: NousResearch/hermes-agent
+  slug: nousresearch-hermes-agent
+  url: https://github.com/NousResearch/hermes-agent
+  score: 10
+  shared_weeks:
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - claude
+  - claude-code
+  - codex
+- full_name: ruvnet/ruflo
+  slug: ruvnet-ruflo
+  url: https://github.com/ruvnet/ruflo
+  score: 10
+  shared_weeks:
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics:
+  - ai-skills
+  - claude-code
+  - codex
 - full_name: addyosmani/agent-skills
   slug: addyosmani-agent-skills
   url: https://github.com/addyosmani/agent-skills
@@ -114,55 +169,10 @@ related_repos:
   - antigravity
   - claude-code
   - codex
-- full_name: code-yeongyu/oh-my-openagent
-  slug: code-yeongyu-oh-my-openagent
-  url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 9
-  shared_weeks:
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - claude
-  - claude-code
-  - codex
-- full_name: NousResearch/hermes-agent
-  slug: nousresearch-hermes-agent
-  url: https://github.com/NousResearch/hermes-agent
-  score: 9
-  shared_weeks:
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - claude
-  - claude-code
-  - codex
-- full_name: ruvnet/ruflo
-  slug: ruvnet-ruflo
-  url: https://github.com/ruvnet/ruflo
-  score: 9
-  shared_weeks:
-  - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - ai-skills
-  - claude-code
-  - codex
 - full_name: affaan-m/ECC
   slug: affaan-m-ecc
   url: https://github.com/affaan-m/ECC
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W26
   - 2026-W27
@@ -176,7 +186,7 @@ related_repos:
 - full_name: Egonex-AI/Understand-Anything
   slug: egonex-ai-understand-anything
   url: https://github.com/Egonex-AI/Understand-Anything
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W26
   - 2026-W27
@@ -190,7 +200,7 @@ related_repos:
 - full_name: farion1231/cc-switch
   slug: farion1231-cc-switch
   url: https://github.com/farion1231/cc-switch
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W26
   - 2026-W27
@@ -204,7 +214,7 @@ related_repos:
 - full_name: ruvnet/RuView
   slug: ruvnet-ruview
   url: https://github.com/ruvnet/RuView
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W26
   - 2026-W27
@@ -217,15 +227,20 @@ related_repos:
   - react
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-nextlevelbuilder/ui-ux-pro-max-skill has appeared in 6 Claracle weekly issues.
+nextlevelbuilder/ui-ux-pro-max-skill has appeared in 7 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

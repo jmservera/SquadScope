@@ -78,6 +78,10 @@ tag_links:
   url: /tags/aiagentframework/
 - name: llms
   url: /tags/llms/
+topic_links:
+- name: AI Coding Agents
+  slug: ai-coding-agents
+  url: /topics/ai-coding-agents/
 related_repos:
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
@@ -199,7 +203,12 @@ lifecycle:
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---

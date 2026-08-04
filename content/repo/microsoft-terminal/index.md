@@ -1,8 +1,8 @@
 ---
 title: microsoft/terminal repository trend history
-description: 'Evergreen Claracle Observatory page for microsoft/terminal: 10 weekly appearances, stars, velocity, topics,
+description: 'Evergreen Claracle Observatory page for microsoft/terminal: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -26,8 +26,8 @@ tags:
 - windows-terminal
 - wsl
 first_seen_week: 2026-W22
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -39,7 +39,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 10
+- data/raw/2026-W32.json
+distinct_weekly_issues: 11
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -75,6 +76,9 @@ star_history:
 - week: 2026-W31
   stars: 104366
   delta: 155
+- week: 2026-W32
+  stars: 104446
+  delta: 80
 weekly_appearances:
 - week: 2026-W22
   url: /weekly/2026/w22/
@@ -96,6 +100,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: cmd
   url: /tags/cmd/
@@ -119,11 +125,12 @@ tag_links:
   url: /tags/windows-terminal/
 - name: wsl
   url: /tags/wsl/
+topic_links: []
 related_repos:
 - full_name: 2dust/v2rayN
   slug: 2dust-v2rayn
   url: https://github.com/2dust/v2rayN
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -136,7 +143,7 @@ related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -149,7 +156,7 @@ related_repos:
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -162,7 +169,7 @@ related_repos:
 - full_name: clash-verge-rev/clash-verge-rev
   slug: clash-verge-rev-clash-verge-rev
   url: https://github.com/clash-verge-rev/clash-verge-rev
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -175,7 +182,7 @@ related_repos:
 - full_name: EbookFoundation/free-programming-books
   slug: ebookfoundation-free-programming-books
   url: https://github.com/EbookFoundation/free-programming-books
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -188,7 +195,7 @@ related_repos:
 - full_name: facebook/docusaurus
   slug: facebook-docusaurus
   url: https://github.com/facebook/docusaurus
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -201,7 +208,7 @@ related_repos:
 - full_name: flutter/flutter
   slug: flutter-flutter
   url: https://github.com/flutter/flutter
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -214,7 +221,7 @@ related_repos:
 - full_name: git/git
   slug: git-git
   url: https://github.com/git/git
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -226,15 +233,20 @@ related_repos:
   - hacktoberfest
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-microsoft/terminal has appeared in 10 Claracle weekly issues.
+microsoft/terminal has appeared in 11 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

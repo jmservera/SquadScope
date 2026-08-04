@@ -1,8 +1,8 @@
 ---
 title: axios/axios repository trend history
-description: 'Evergreen Claracle Observatory page for axios/axios: 11 weekly appearances, stars, velocity, topics, and related
+description: 'Evergreen Claracle Observatory page for axios/axios: 12 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -20,8 +20,8 @@ tags:
 - nodejs
 - promise
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -34,7 +34,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 11
+- data/raw/2026-W32.json
+distinct_weekly_issues: 12
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -73,6 +74,9 @@ star_history:
 - week: 2026-W31
   stars: 109161
   delta: 37
+- week: 2026-W32
+  stars: 109166
+  delta: 5
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -96,6 +100,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: hacktoberfest
   url: /tags/hacktoberfest/
@@ -107,11 +113,15 @@ tag_links:
   url: /tags/nodejs/
 - name: promise
   url: /tags/promise/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: strapi/strapi
   slug: strapi-strapi
   url: https://github.com/strapi/strapi
-  score: 14
+  score: 15
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -126,7 +136,7 @@ related_repos:
 - full_name: electron/electron
   slug: electron-electron
   url: https://github.com/electron/electron
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -140,7 +150,7 @@ related_repos:
 - full_name: facebook/docusaurus
   slug: facebook-docusaurus
   url: https://github.com/facebook/docusaurus
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -154,7 +164,7 @@ related_repos:
 - full_name: freeCodeCamp/freeCodeCamp
   slug: freecodecamp-freecodecamp
   url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -168,7 +178,7 @@ related_repos:
 - full_name: immich-app/immich
   slug: immich-app-immich
   url: https://github.com/immich-app/immich
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -182,7 +192,7 @@ related_repos:
 - full_name: nestjs/nest
   slug: nestjs-nest
   url: https://github.com/nestjs/nest
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -197,7 +207,7 @@ related_repos:
 - full_name: nodejs/node
   slug: nodejs-node
   url: https://github.com/nodejs/node
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -211,7 +221,7 @@ related_repos:
 - full_name: oven-sh/bun
   slug: oven-sh-bun
   url: https://github.com/oven-sh/bun
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -224,15 +234,20 @@ related_repos:
   - nodejs
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-axios/axios has appeared in 11 Claracle weekly issues.
+axios/axios has appeared in 12 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

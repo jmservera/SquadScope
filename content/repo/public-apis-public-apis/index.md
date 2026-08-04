@@ -116,6 +116,10 @@ tag_links:
   url: /tags/public-apis/
 - name: resources
   url: /tags/resources/
+topic_links:
+- name: Open-Source LLMs
+  slug: open-source-llms
+  url: /topics/open-source-llms/
 related_repos:
 - full_name: jaywcjlove/awesome-mac
   slug: jaywcjlove-awesome-mac
@@ -229,7 +233,12 @@ lifecycle:
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---

@@ -1,8 +1,8 @@
 ---
 title: awesome-selfhosted/awesome-selfhosted repository trend history
-description: 'Evergreen Claracle Observatory page for awesome-selfhosted/awesome-selfhosted: 11 weekly appearances, stars,
+description: 'Evergreen Claracle Observatory page for awesome-selfhosted/awesome-selfhosted: 12 weekly appearances, stars,
   velocity, topics, and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -23,8 +23,8 @@ tags:
 - self-hosted
 - selfhosted
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -37,7 +37,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 11
+- data/raw/2026-W32.json
+distinct_weekly_issues: 12
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -76,6 +77,9 @@ star_history:
 - week: 2026-W31
   stars: 308557
   delta: 1745
+- week: 2026-W32
+  stars: 310275
+  delta: 1718
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -99,6 +103,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: awesome
   url: /tags/awesome/
@@ -116,11 +122,12 @@ tag_links:
   url: /tags/self-hosted/
 - name: selfhosted
   url: /tags/selfhosted/
+topic_links: []
 related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -134,7 +141,7 @@ related_repos:
 - full_name: jaywcjlove/awesome-mac
   slug: jaywcjlove-awesome-mac
   url: https://github.com/jaywcjlove/awesome-mac
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -148,7 +155,7 @@ related_repos:
 - full_name: louislam/uptime-kuma
   slug: louislam-uptime-kuma
   url: https://github.com/louislam/uptime-kuma
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -157,27 +164,12 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics:
-  - self-hosted
-  - selfhosted
-- full_name: appwrite/appwrite
-  slug: appwrite-appwrite
-  url: https://github.com/appwrite/appwrite
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - hosting
   - self-hosted
   - selfhosted
 - full_name: coollabsio/coolify
   slug: coollabsio-coolify
   url: https://github.com/coollabsio/coolify
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -190,7 +182,7 @@ related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -203,7 +195,7 @@ related_repos:
 - full_name: immich-app/immich
   slug: immich-app-immich
   url: https://github.com/immich-app/immich
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -216,7 +208,20 @@ related_repos:
 - full_name: n8n-io/n8n
   slug: n8n-io-n8n
   url: https://github.com/n8n-io/n8n
-  score: 12
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - self-hosted
+- full_name: open-webui/open-webui
+  slug: open-webui-open-webui
+  url: https://github.com/open-webui/open-webui
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -228,15 +233,20 @@ related_repos:
   - self-hosted
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-awesome-selfhosted/awesome-selfhosted has appeared in 11 Claracle weekly issues.
+awesome-selfhosted/awesome-selfhosted has appeared in 12 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

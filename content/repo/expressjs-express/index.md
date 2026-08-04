@@ -1,8 +1,8 @@
 ---
 title: expressjs/express repository trend history
-description: 'Evergreen Claracle Observatory page for expressjs/express: 6 weekly appearances, stars, velocity, topics, and
+description: 'Evergreen Claracle Observatory page for expressjs/express: 7 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-13'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -19,8 +19,8 @@ tags:
 - nodejs
 - server
 first_seen_week: 2026-W21
-last_seen_week: 2026-W29
-as_of_week: 2026-W29
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
 - data/archive/recovered-W23-W29/2026-W25/2026-W25.json
@@ -28,7 +28,8 @@ source_paths:
 - data/archive/recovered-W23-W29/2026-W28/2026-W28.json
 - data/raw/2026-W21.json
 - data/raw/2026-W29.json
-distinct_weekly_issues: 6
+- data/raw/2026-W32.json
+distinct_weekly_issues: 7
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -52,6 +53,9 @@ star_history:
 - week: 2026-W29
   stars: 69223
   delta: -25
+- week: 2026-W32
+  stars: 69290
+  delta: 67
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -65,6 +69,8 @@ weekly_appearances:
   url: /weekly/2026/w28/
 - week: 2026-W29
   url: /weekly/2026/w29/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: express
   url: /tags/express/
@@ -74,11 +80,15 @@ tag_links:
   url: /tags/nodejs/
 - name: server
   url: /tags/server/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W24
@@ -92,7 +102,7 @@ related_repos:
 - full_name: coollabsio/coolify
   slug: coollabsio-coolify
   url: https://github.com/coollabsio/coolify
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W24
@@ -106,7 +116,7 @@ related_repos:
 - full_name: electron/electron
   slug: electron-electron
   url: https://github.com/electron/electron
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W24
@@ -120,7 +130,7 @@ related_repos:
 - full_name: freeCodeCamp/freeCodeCamp
   slug: freecodecamp-freecodecamp
   url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W24
@@ -134,7 +144,7 @@ related_repos:
 - full_name: immich-app/immich
   slug: immich-app-immich
   url: https://github.com/immich-app/immich
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W24
@@ -148,7 +158,7 @@ related_repos:
 - full_name: nodejs/node
   slug: nodejs-node
   url: https://github.com/nodejs/node
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W24
@@ -162,7 +172,7 @@ related_repos:
 - full_name: oven-sh/bun
   slug: oven-sh-bun
   url: https://github.com/oven-sh/bun
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W24
@@ -176,7 +186,7 @@ related_repos:
 - full_name: strapi/strapi
   slug: strapi-strapi
   url: https://github.com/strapi/strapi
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W21
   - 2026-W24
@@ -189,15 +199,20 @@ related_repos:
   - nodejs
 lifecycle:
   status: active
-  as_of_week: 2026-W29
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-expressjs/express has appeared in 6 Claracle weekly issues.
+expressjs/express has appeared in 7 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

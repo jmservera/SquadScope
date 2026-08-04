@@ -1,8 +1,8 @@
 ---
 title: tauri-apps/tauri repository trend history
-description: 'Evergreen Claracle Observatory page for tauri-apps/tauri: 11 weekly appearances, stars, velocity, topics, and
+description: 'Evergreen Claracle Observatory page for tauri-apps/tauri: 12 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -22,8 +22,8 @@ tags:
 - web-frontend
 - webview
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -36,7 +36,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 11
+- data/raw/2026-W32.json
+distinct_weekly_issues: 12
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -75,6 +76,9 @@ star_history:
 - week: 2026-W31
   stars: 109528
   delta: 306
+- week: 2026-W32
+  stars: 109817
+  delta: 289
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -98,6 +102,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: desktop-app
   url: /tags/desktop-app/
@@ -113,11 +119,15 @@ tag_links:
   url: /tags/web-frontend/
 - name: webview
   url: /tags/webview/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: farion1231/cc-switch
   slug: farion1231-cc-switch
   url: https://github.com/farion1231/cc-switch
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -131,7 +141,7 @@ related_repos:
 - full_name: denoland/deno
   slug: denoland-deno
   url: https://github.com/denoland/deno
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -144,7 +154,7 @@ related_repos:
 - full_name: immich-app/immich
   slug: immich-app-immich
   url: https://github.com/immich-app/immich
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -157,7 +167,7 @@ related_repos:
 - full_name: jaywcjlove/awesome-mac
   slug: jaywcjlove-awesome-mac
   url: https://github.com/jaywcjlove/awesome-mac
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -170,7 +180,7 @@ related_repos:
 - full_name: oven-sh/bun
   slug: oven-sh-bun
   url: https://github.com/oven-sh/bun
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -183,7 +193,7 @@ related_repos:
 - full_name: pathwaycom/pathway
   slug: pathwaycom-pathway
   url: https://github.com/pathwaycom/pathway
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -196,7 +206,7 @@ related_repos:
 - full_name: rust-lang/rust
   slug: rust-lang-rust
   url: https://github.com/rust-lang/rust
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -209,7 +219,7 @@ related_repos:
 - full_name: rust-unofficial/awesome-rust
   slug: rust-unofficial-awesome-rust
   url: https://github.com/rust-unofficial/awesome-rust
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -221,15 +231,20 @@ related_repos:
   - rust
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-tauri-apps/tauri has appeared in 11 Claracle weekly issues.
+tauri-apps/tauri has appeared in 12 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

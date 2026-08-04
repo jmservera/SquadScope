@@ -1,8 +1,8 @@
 ---
 title: langflow-ai/langflow repository trend history
-description: 'Evergreen Claracle Observatory page for langflow-ai/langflow: 11 weekly appearances, stars, velocity, topics,
+description: 'Evergreen Claracle Observatory page for langflow-ai/langflow: 12 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -21,8 +21,8 @@ tags:
 - multiagent
 - react-flow
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -35,7 +35,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 11
+- data/raw/2026-W32.json
+distinct_weekly_issues: 12
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -74,6 +75,9 @@ star_history:
 - week: 2026-W31
   stars: 152450
   delta: 394
+- week: 2026-W32
+  stars: 152767
+  delta: 317
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -97,6 +101,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: agents
   url: /tags/agents/
@@ -110,11 +116,12 @@ tag_links:
   url: /tags/multiagent/
 - name: react-flow
   url: /tags/react-flow/
+topic_links: []
 related_repos:
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
-  score: 15
+  score: 16
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -130,7 +137,7 @@ related_repos:
 - full_name: mem0ai/mem0
   slug: mem0ai-mem0
   url: https://github.com/mem0ai/mem0
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -144,7 +151,7 @@ related_repos:
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -157,7 +164,7 @@ related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -170,7 +177,7 @@ related_repos:
 - full_name: harry0703/MoneyPrinterTurbo
   slug: harry0703-moneyprinterturbo
   url: https://github.com/harry0703/MoneyPrinterTurbo
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -183,7 +190,7 @@ related_repos:
 - full_name: hiyouga/LlamaFactory
   slug: hiyouga-llamafactory
   url: https://github.com/hiyouga/LlamaFactory
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -196,7 +203,7 @@ related_repos:
 - full_name: microsoft/generative-ai-for-beginners
   slug: microsoft-generative-ai-for-beginners
   url: https://github.com/microsoft/generative-ai-for-beginners
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -210,7 +217,7 @@ related_repos:
 - full_name: NousResearch/hermes-agent
   slug: nousresearch-hermes-agent
   url: https://github.com/NousResearch/hermes-agent
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -222,15 +229,20 @@ related_repos:
   - chatgpt
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-langflow-ai/langflow has appeared in 11 Claracle weekly issues.
+langflow-ai/langflow has appeared in 12 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

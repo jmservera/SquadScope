@@ -1,8 +1,8 @@
 ---
 title: microsoft/playwright repository trend history
-description: 'Evergreen Claracle Observatory page for microsoft/playwright: 10 weekly appearances, stars, velocity, topics,
+description: 'Evergreen Claracle Observatory page for microsoft/playwright: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -28,8 +28,8 @@ tags:
 - test-automation
 - testing
 first_seen_week: 2026-W22
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -41,7 +41,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 10
+- data/raw/2026-W32.json
+distinct_weekly_issues: 11
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -77,6 +78,9 @@ star_history:
 - week: 2026-W31
   stars: 93525
   delta: 399
+- week: 2026-W32
+  stars: 93863
+  delta: 338
 weekly_appearances:
 - week: 2026-W22
   url: /weekly/2026/w22/
@@ -98,6 +102,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: automation
   url: /tags/automation/
@@ -123,11 +129,15 @@ tag_links:
   url: /tags/test-automation/
 - name: testing
   url: /tags/testing/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: puppeteer/puppeteer
   slug: puppeteer-puppeteer
   url: https://github.com/puppeteer/puppeteer
-  score: 14
+  score: 15
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -145,7 +155,7 @@ related_repos:
 - full_name: electron/electron
   slug: electron-electron
   url: https://github.com/electron/electron
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -160,7 +170,7 @@ related_repos:
 - full_name: gorhill/uBlock
   slug: gorhill-ublock
   url: https://github.com/gorhill/uBlock
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -175,7 +185,7 @@ related_repos:
 - full_name: angular/angular
   slug: angular-angular
   url: https://github.com/angular/angular
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -189,7 +199,7 @@ related_repos:
 - full_name: hoppscotch/hoppscotch
   slug: hoppscotch-hoppscotch
   url: https://github.com/hoppscotch/hoppscotch
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -203,7 +213,7 @@ related_repos:
 - full_name: webpack/webpack
   slug: webpack-webpack
   url: https://github.com/webpack/webpack
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -217,7 +227,7 @@ related_repos:
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -230,7 +240,7 @@ related_repos:
 - full_name: browser-use/browser-use
   slug: browser-use-browser-use
   url: https://github.com/browser-use/browser-use
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -242,15 +252,20 @@ related_repos:
   - playwright
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-microsoft/playwright has appeared in 10 Claracle weekly issues.
+microsoft/playwright has appeared in 11 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

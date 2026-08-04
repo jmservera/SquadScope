@@ -1,8 +1,8 @@
 ---
 title: redis/redis repository trend history
-description: 'Evergreen Claracle Observatory page for redis/redis: 11 weekly appearances, stars, velocity, topics, and related
+description: 'Evergreen Claracle Observatory page for redis/redis: 12 weekly appearances, stars, velocity, topics, and related
   repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -28,8 +28,8 @@ tags:
 - message-queue
 - no-sql
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -42,7 +42,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 11
+- data/raw/2026-W32.json
+distinct_weekly_issues: 12
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -81,6 +82,9 @@ star_history:
 - week: 2026-W31
   stars: 75711
   delta: 120
+- week: 2026-W32
+  stars: 75850
+  delta: 139
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -104,6 +108,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: cache
   url: /tags/cache/
@@ -129,11 +135,15 @@ tag_links:
   url: /tags/message-queue/
 - name: no-sql
   url: /tags/no-sql/
+topic_links:
+- name: Open-Source LLMs
+  slug: open-source-llms
+  url: /topics/open-source-llms/
 related_repos:
 - full_name: meilisearch/meilisearch
   slug: meilisearch-meilisearch
   url: https://github.com/meilisearch/meilisearch
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -147,7 +157,7 @@ related_repos:
 - full_name: coollabsio/coolify
   slug: coollabsio-coolify
   url: https://github.com/coollabsio/coolify
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -160,7 +170,7 @@ related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -173,7 +183,7 @@ related_repos:
 - full_name: facebook/docusaurus
   slug: facebook-docusaurus
   url: https://github.com/facebook/docusaurus
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -186,7 +196,7 @@ related_repos:
 - full_name: farion1231/cc-switch
   slug: farion1231-cc-switch
   url: https://github.com/farion1231/cc-switch
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -199,7 +209,7 @@ related_repos:
 - full_name: fastapi/fastapi
   slug: fastapi-fastapi
   url: https://github.com/fastapi/fastapi
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -212,7 +222,7 @@ related_repos:
 - full_name: godotengine/godot
   slug: godotengine-godot
   url: https://github.com/godotengine/godot
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -225,7 +235,7 @@ related_repos:
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -237,15 +247,20 @@ related_repos:
   - open-source
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-redis/redis has appeared in 11 Claracle weekly issues.
+redis/redis has appeared in 12 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

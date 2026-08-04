@@ -1,8 +1,8 @@
 ---
 title: Snailclimb/JavaGuide repository trend history
-description: 'Evergreen Claracle Observatory page for Snailclimb/JavaGuide: 8 weekly appearances, stars, velocity, topics,
+description: 'Evergreen Claracle Observatory page for Snailclimb/JavaGuide: 9 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -27,8 +27,8 @@ tags:
 - skills
 - springai
 first_seen_week: 2026-W22
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -38,7 +38,8 @@ source_paths:
 - data/raw/2026-W22.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 8
+- data/raw/2026-W32.json
+distinct_weekly_issues: 9
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -68,6 +69,9 @@ star_history:
 - week: 2026-W31
   stars: 157321
   delta: 194
+- week: 2026-W32
+  stars: 157481
+  delta: 160
 weekly_appearances:
 - week: 2026-W22
   url: /weekly/2026/w22/
@@ -85,6 +89,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: agent
   url: /tags/agent/
@@ -110,11 +116,15 @@ tag_links:
   url: /tags/skills/
 - name: springai
   url: /tags/springai/
+topic_links:
+- name: MCP Ecosystem
+  slug: mcp-ecosystem
+  url: /topics/mcp-ecosystem/
 related_repos:
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -130,7 +140,7 @@ related_repos:
 - full_name: lobehub/lobehub
   slug: lobehub-lobehub
   url: https://github.com/lobehub/lobehub
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -147,7 +157,7 @@ related_repos:
 - full_name: hiyouga/LlamaFactory
   slug: hiyouga-llamafactory
   url: https://github.com/hiyouga/LlamaFactory
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -162,7 +172,7 @@ related_repos:
 - full_name: koala73/worldmonitor
   slug: koala73-worldmonitor
   url: https://github.com/koala73/worldmonitor
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -177,7 +187,7 @@ related_repos:
 - full_name: netdata/netdata
   slug: netdata-netdata
   url: https://github.com/netdata/netdata
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -192,7 +202,7 @@ related_repos:
 - full_name: bytedance/deer-flow
   slug: bytedance-deer-flow
   url: https://github.com/bytedance/deer-flow
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -206,7 +216,7 @@ related_repos:
 - full_name: coollabsio/coolify
   slug: coollabsio-coolify
   url: https://github.com/coollabsio/coolify
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -220,7 +230,7 @@ related_repos:
 - full_name: farion1231/cc-switch
   slug: farion1231-cc-switch
   url: https://github.com/farion1231/cc-switch
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -233,15 +243,20 @@ related_repos:
   - skills
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-Snailclimb/JavaGuide has appeared in 8 Claracle weekly issues.
+Snailclimb/JavaGuide has appeared in 9 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

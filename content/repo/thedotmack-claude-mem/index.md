@@ -1,8 +1,8 @@
 ---
 title: thedotmack/claude-mem repository trend history
-description: 'Evergreen Claracle Observatory page for thedotmack/claude-mem: 11 weekly appearances, stars, velocity, topics,
+description: 'Evergreen Claracle Observatory page for thedotmack/claude-mem: 12 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -29,8 +29,8 @@ tags:
 - claude-code-plugin
 - claude-skills
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -43,7 +43,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 11
+- data/raw/2026-W32.json
+distinct_weekly_issues: 12
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -82,6 +83,9 @@ star_history:
 - week: 2026-W31
   stars: 88660
   delta: 771
+- week: 2026-W32
+  stars: 89350
+  delta: 690
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -105,6 +109,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: ai
   url: /tags/ai/
@@ -130,11 +136,15 @@ tag_links:
   url: /tags/claude-code-plugin/
 - name: claude-skills
   url: /tags/claude-skills/
+topic_links:
+- name: AI Coding Agents
+  slug: ai-coding-agents
+  url: /topics/ai-coding-agents/
 related_repos:
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 15
+  score: 16
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -152,7 +162,7 @@ related_repos:
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
-  score: 15
+  score: 16
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -168,7 +178,7 @@ related_repos:
 - full_name: mem0ai/mem0
   slug: mem0ai-mem0
   url: https://github.com/mem0ai/mem0
-  score: 15
+  score: 16
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -184,7 +194,7 @@ related_repos:
 - full_name: NousResearch/hermes-agent
   slug: nousresearch-hermes-agent
   url: https://github.com/NousResearch/hermes-agent
-  score: 15
+  score: 16
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -201,7 +211,7 @@ related_repos:
 - full_name: affaan-m/ECC
   slug: affaan-m-ecc
   url: https://github.com/affaan-m/ECC
-  score: 14
+  score: 15
   shared_weeks:
   - 2026-W22
   - 2026-W23
@@ -217,7 +227,7 @@ related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
-  score: 14
+  score: 15
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -232,7 +242,7 @@ related_repos:
 - full_name: infiniflow/ragflow
   slug: infiniflow-ragflow
   url: https://github.com/infiniflow/ragflow
-  score: 14
+  score: 15
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -247,7 +257,7 @@ related_repos:
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
-  score: 14
+  score: 15
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -261,15 +271,20 @@ related_repos:
   - rag
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-thedotmack/claude-mem has appeared in 11 Claracle weekly issues.
+thedotmack/claude-mem has appeared in 12 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

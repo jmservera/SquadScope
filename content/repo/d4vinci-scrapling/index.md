@@ -1,8 +1,8 @@
 ---
 title: D4Vinci/Scrapling repository trend history
-description: 'Evergreen Claracle Observatory page for D4Vinci/Scrapling: 8 weekly appearances, stars, velocity, topics, and
+description: 'Evergreen Claracle Observatory page for D4Vinci/Scrapling: 9 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -27,8 +27,8 @@ tags:
 - playwright
 - python
 first_seen_week: 2026-W23
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -38,7 +38,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 8
+- data/raw/2026-W32.json
+distinct_weekly_issues: 9
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -68,6 +69,9 @@ star_history:
 - week: 2026-W31
   stars: 71360
   delta: 1157
+- week: 2026-W32
+  stars: 72238
+  delta: 878
 weekly_appearances:
 - week: 2026-W23
   url: /weekly/2026/w23/
@@ -85,6 +89,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: ai
   url: /tags/ai/
@@ -110,11 +116,18 @@ tag_links:
   url: /tags/playwright/
 - name: python
   url: /tags/python/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
+- name: MCP Ecosystem
+  slug: mcp-ecosystem
+  url: /topics/mcp-ecosystem/
 related_repos:
 - full_name: firecrawl/firecrawl
   slug: firecrawl-firecrawl
   url: https://github.com/firecrawl/firecrawl
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -132,7 +145,7 @@ related_repos:
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -148,7 +161,7 @@ related_repos:
 - full_name: n8n-io/n8n
   slug: n8n-io-n8n
   url: https://github.com/n8n-io/n8n
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -164,7 +177,7 @@ related_repos:
 - full_name: harry0703/MoneyPrinterTurbo
   slug: harry0703-moneyprinterturbo
   url: https://github.com/harry0703/MoneyPrinterTurbo
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -179,7 +192,7 @@ related_repos:
 - full_name: koala73/worldmonitor
   slug: koala73-worldmonitor
   url: https://github.com/koala73/worldmonitor
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -194,7 +207,7 @@ related_repos:
 - full_name: MemPalace/mempalace
   slug: mempalace-mempalace
   url: https://github.com/MemPalace/mempalace
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -209,7 +222,7 @@ related_repos:
 - full_name: browser-use/browser-use
   slug: browser-use-browser-use
   url: https://github.com/browser-use/browser-use
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -223,7 +236,7 @@ related_repos:
 - full_name: bytedance/deer-flow
   slug: bytedance-deer-flow
   url: https://github.com/bytedance/deer-flow
-  score: 10
+  score: 11
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -236,15 +249,20 @@ related_repos:
   - python
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-D4Vinci/Scrapling has appeared in 8 Claracle weekly issues.
+D4Vinci/Scrapling has appeared in 9 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

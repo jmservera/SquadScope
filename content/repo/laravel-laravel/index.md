@@ -1,8 +1,8 @@
 ---
 title: laravel/laravel repository trend history
-description: 'Evergreen Claracle Observatory page for laravel/laravel: 10 weekly appearances, stars, velocity, topics, and
+description: 'Evergreen Claracle Observatory page for laravel/laravel: 11 weekly appearances, stars, velocity, topics, and
   related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -19,8 +19,8 @@ tags:
 - laravel
 - php
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -32,7 +32,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 10
+- data/raw/2026-W32.json
+distinct_weekly_issues: 11
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -68,6 +69,9 @@ star_history:
 - week: 2026-W31
   stars: 84679
   delta: 53
+- week: 2026-W32
+  stars: 84739
+  delta: 60
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -89,6 +93,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: framework
   url: /tags/framework/
@@ -96,11 +102,12 @@ tag_links:
   url: /tags/laravel/
 - name: php
   url: /tags/php/
+topic_links: []
 related_repos:
 - full_name: coollabsio/coolify
   slug: coollabsio-coolify
   url: https://github.com/coollabsio/coolify
-  score: 12
+  score: 13
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -114,7 +121,7 @@ related_repos:
 - full_name: fastapi/fastapi
   slug: fastapi-fastapi
   url: https://github.com/fastapi/fastapi
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -127,7 +134,7 @@ related_repos:
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -140,7 +147,7 @@ related_repos:
 - full_name: nuxt/nuxt
   slug: nuxt-nuxt
   url: https://github.com/nuxt/nuxt
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -153,7 +160,7 @@ related_repos:
 - full_name: ocornut/imgui
   slug: ocornut-imgui
   url: https://github.com/ocornut/imgui
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -166,7 +173,7 @@ related_repos:
 - full_name: rails/rails
   slug: rails-rails
   url: https://github.com/rails/rails
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -179,7 +186,7 @@ related_repos:
 - full_name: shadcn-ui/ui
   slug: shadcn-ui-ui
   url: https://github.com/shadcn-ui/ui
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -192,7 +199,7 @@ related_repos:
 - full_name: spring-projects/spring-boot
   slug: spring-projects-spring-boot
   url: https://github.com/spring-projects/spring-boot
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -204,15 +211,20 @@ related_repos:
   - framework
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-laravel/laravel has appeared in 10 Claracle weekly issues.
+laravel/laravel has appeared in 11 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

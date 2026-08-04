@@ -1,8 +1,8 @@
 ---
 title: openinterpreter/openinterpreter repository trend history
-description: 'Evergreen Claracle Observatory page for openinterpreter/openinterpreter: 6 weekly appearances, stars, velocity,
+description: 'Evergreen Claracle Observatory page for openinterpreter/openinterpreter: 7 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -23,8 +23,8 @@ tags:
 - interpreter
 - tui
 first_seen_week: 2026-W25
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W25/2026-W25.json
 - data/archive/recovered-W23-W29/2026-W26/2026-W26.json
@@ -32,7 +32,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 6
+- data/raw/2026-W32.json
+distinct_weekly_issues: 7
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -56,6 +57,9 @@ star_history:
 - week: 2026-W31
   stars: 67321
   delta: 466
+- week: 2026-W32
+  stars: 67517
+  delta: 196
 weekly_appearances:
 - week: 2026-W25
   url: /weekly/2026/w25/
@@ -69,6 +73,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: coding-agent
   url: /tags/coding-agent/
@@ -86,11 +92,15 @@ tag_links:
   url: /tags/interpreter/
 - name: tui
   url: /tags/tui/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: vllm-project/vllm
   slug: vllm-project-vllm
   url: https://github.com/vllm-project/vllm
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -105,7 +115,7 @@ related_repos:
 - full_name: hiyouga/LlamaFactory
   slug: hiyouga-llamafactory
   url: https://github.com/hiyouga/LlamaFactory
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -119,7 +129,7 @@ related_repos:
 - full_name: huggingface/transformers
   slug: huggingface-transformers
   url: https://github.com/huggingface/transformers
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -133,7 +143,7 @@ related_repos:
 - full_name: Mintplex-Labs/anything-llm
   slug: mintplex-labs-anything-llm
   url: https://github.com/Mintplex-Labs/anything-llm
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -147,7 +157,7 @@ related_repos:
 - full_name: ollama/ollama
   slug: ollama-ollama
   url: https://github.com/ollama/ollama
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -161,7 +171,7 @@ related_repos:
 - full_name: unslothai/unsloth
   slug: unslothai-unsloth
   url: https://github.com/unslothai/unsloth
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -175,7 +185,7 @@ related_repos:
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 7
+  score: 8
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -188,7 +198,7 @@ related_repos:
 - full_name: denoland/deno
   slug: denoland-deno
   url: https://github.com/denoland/deno
-  score: 7
+  score: 8
   shared_weeks:
   - 2026-W25
   - 2026-W26
@@ -200,15 +210,20 @@ related_repos:
   - rust
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-openinterpreter/openinterpreter has appeared in 6 Claracle weekly issues.
+openinterpreter/openinterpreter has appeared in 7 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

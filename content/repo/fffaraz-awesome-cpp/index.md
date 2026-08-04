@@ -1,8 +1,8 @@
 ---
 title: fffaraz/awesome-cpp repository trend history
-description: 'Evergreen Claracle Observatory page for fffaraz/awesome-cpp: 5 weekly appearances, stars, velocity, topics,
+description: 'Evergreen Claracle Observatory page for fffaraz/awesome-cpp: 6 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-20'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -28,15 +28,16 @@ tags:
 - programming-tutorial
 - resources
 first_seen_week: 2026-W22
-last_seen_week: 2026-W30
-as_of_week: 2026-W30
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W28/2026-W28.json
 - data/raw/2026-W22.json
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
-distinct_weekly_issues: 5
+- data/raw/2026-W32.json
+distinct_weekly_issues: 6
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -57,6 +58,9 @@ star_history:
 - week: 2026-W30
   stars: 72333
   delta: 49
+- week: 2026-W32
+  stars: 72563
+  delta: 230
 weekly_appearances:
 - week: 2026-W22
   url: /weekly/2026/w22/
@@ -68,6 +72,8 @@ weekly_appearances:
   url: /weekly/2026/w29/
 - week: 2026-W30
   url: /weekly/2026/w30/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: awesome
   url: /tags/awesome/
@@ -93,17 +99,19 @@ tag_links:
   url: /tags/programming-tutorial/
 - name: resources
   url: /tags/resources/
+topic_links: []
 related_repos:
 - full_name: jaywcjlove/awesome-mac
   slug: jaywcjlove-awesome-mac
   url: https://github.com/jaywcjlove/awesome-mac
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W22
   - 2026-W23
   - 2026-W28
   - 2026-W29
   - 2026-W30
+  - 2026-W32
   shared_topics:
   - awesome
   - awesome-list
@@ -111,32 +119,34 @@ related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
-  score: 7
+  score: 8
   shared_weeks:
   - 2026-W22
   - 2026-W23
   - 2026-W28
   - 2026-W29
   - 2026-W30
+  - 2026-W32
   shared_topics:
   - awesome
   - awesome-list
 - full_name: awesome-selfhosted/awesome-selfhosted
   slug: awesome-selfhosted-awesome-selfhosted
   url: https://github.com/awesome-selfhosted/awesome-selfhosted
-  score: 7
+  score: 8
   shared_weeks:
   - 2026-W22
   - 2026-W23
   - 2026-W28
   - 2026-W29
   - 2026-W30
+  - 2026-W32
   shared_topics:
   - awesome
   - awesome-list
-- full_name: obsproject/obs-studio
-  slug: obsproject-obs-studio
-  url: https://github.com/obsproject/obs-studio
+- full_name: bitcoin/bitcoin
+  slug: bitcoin-bitcoin
+  url: https://github.com/bitcoin/bitcoin
   score: 7
   shared_weeks:
   - 2026-W22
@@ -144,68 +154,77 @@ related_repos:
   - 2026-W28
   - 2026-W29
   - 2026-W30
-  shared_topics:
-  - c
-  - c-plus-plus
-- full_name: bitcoin/bitcoin
-  slug: bitcoin-bitcoin
-  url: https://github.com/bitcoin/bitcoin
-  score: 6
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
+  - 2026-W32
   shared_topics:
   - c-plus-plus
 - full_name: EbookFoundation/free-programming-books
   slug: ebookfoundation-free-programming-books
   url: https://github.com/EbookFoundation/free-programming-books
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W22
   - 2026-W23
   - 2026-W28
   - 2026-W29
   - 2026-W30
+  - 2026-W32
   shared_topics:
   - list
 - full_name: electron/electron
   slug: electron-electron
   url: https://github.com/electron/electron
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W22
   - 2026-W23
   - 2026-W28
   - 2026-W29
   - 2026-W30
+  - 2026-W32
   shared_topics:
   - c-plus-plus
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
-  score: 6
+  score: 7
   shared_weeks:
   - 2026-W22
   - 2026-W23
   - 2026-W28
   - 2026-W29
   - 2026-W30
+  - 2026-W32
   shared_topics:
   - awesome-list
+- full_name: FFmpeg/FFmpeg
+  slug: ffmpeg-ffmpeg
+  url: https://github.com/FFmpeg/FFmpeg
+  score: 7
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W32
+  shared_topics:
+  - c
 lifecycle:
   status: active
-  as_of_week: 2026-W30
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-fffaraz/awesome-cpp has appeared in 5 Claracle weekly issues.
+fffaraz/awesome-cpp has appeared in 6 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

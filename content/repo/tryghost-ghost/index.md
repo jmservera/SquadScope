@@ -86,6 +86,10 @@ tag_links:
   url: /tags/publishing/
 - name: web-application
   url: /tags/web-application/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: strapi/strapi
   slug: strapi-strapi
@@ -206,7 +210,12 @@ lifecycle:
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---

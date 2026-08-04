@@ -443,6 +443,10 @@ def load_repository_histories(
     for key, raw in (ledger or {}).get("repositories", {}).items():
         if isinstance(raw, dict) and (history := history_from_ledger(str(key), raw)):
             histories[str(key)] = history
+    # Step 1.1: Build full_name -> current key reverse index to detect migrations across passes
+    full_name_to_key: dict[str, str] = {
+        normalize_full_name(history.display_name): history.key for history in histories.values()
+    }
     current_keys: set[str] = set()
     for path in raw_week_files(root):
         payload = json.loads(path.read_text(encoding="utf-8"))
@@ -460,24 +464,33 @@ def load_repository_histories(
                     history.key = key
                     history.github_id = observation.github_id
                     histories[key] = history
+                    # Step 1.2: Update reverse index when migration happens mid-pass
+                    full_name_to_key[normalize_full_name(observation.full_name)] = key
                 if (key, week) in seen_this_week:
                     continue
                 seen_this_week.add((key, week))
                 current_keys.add(key)
                 history = histories.get(key)
                 if history is None:
-                    history = RepositoryHistory(
-                        key=key,
-                        github_id=observation.github_id,
-                        node_id=observation.node_id,
-                        display_name=observation.full_name,
-                        owner=observation.owner,
-                        name=observation.name,
-                        slug=repo_slug(observation.full_name),
-                        url=observation.url,
-                        description=observation.description,
-                    )
-                    histories[key] = history
+                    # Step 1.1: Check reverse index for a migrated history before minting a duplicate
+                    canonical_key = full_name_to_key.get(normalize_full_name(observation.full_name))
+                    if canonical_key is not None:
+                        history = histories[canonical_key]
+                        current_keys.add(canonical_key)
+                    else:
+                        history = RepositoryHistory(
+                            key=key,
+                            github_id=observation.github_id,
+                            node_id=observation.node_id,
+                            display_name=observation.full_name,
+                            owner=observation.owner,
+                            name=observation.name,
+                            slug=repo_slug(observation.full_name),
+                            url=observation.url,
+                            description=observation.description,
+                        )
+                        histories[key] = history
+                        full_name_to_key[normalize_full_name(observation.full_name)] = key
                 observation_added = add_observation(history, observation)
                 if observation.archived:
                     history.lifecycle.update(
@@ -944,7 +957,16 @@ def write_repository_pages(
     }
     written: list[Path] = []
     derived: list[dict[str, Any]] = []
+    # Step 1.3: Track seen slugs to detect collisions
+    seen_slugs: dict[str, str] = {}
     for history in eligible:
+        # Step 1.3: Raise if two different history keys resolve to the same slug (collision guard)
+        if history.slug in seen_slugs and seen_slugs[history.slug] != history.key:
+            raise ValueError(
+                f"Slug collision detected: both history key {seen_slugs[history.slug]!r} "
+                f"and {history.key!r} produce slug {history.slug!r}"
+            )
+        seen_slugs[history.slug] = history.key
         params = page_params(history, config, aliases, tag_display_names, promoted_topic_aliases)
         output_path = content_repo / history.slug / "index.md"
         frontmatter = yaml.safe_dump(params, sort_keys=False, allow_unicode=True, width=120)

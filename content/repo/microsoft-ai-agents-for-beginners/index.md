@@ -1,8 +1,8 @@
 ---
 title: microsoft/ai-agents-for-beginners repository trend history
-description: 'Evergreen Claracle Observatory page for microsoft/ai-agents-for-beginners: 7 weekly appearances, stars, velocity,
+description: 'Evergreen Claracle Observatory page for microsoft/ai-agents-for-beginners: 8 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -26,8 +26,8 @@ tags:
 - foundry-local
 - microsoft-foundry
 first_seen_week: 2026-W22
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W26/2026-W26.json
 - data/archive/recovered-W23-W29/2026-W27/2026-W27.json
@@ -36,7 +36,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 7
+- data/raw/2026-W32.json
+distinct_weekly_issues: 8
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -63,6 +64,9 @@ star_history:
 - week: 2026-W31
   stars: 70403
   delta: 515
+- week: 2026-W32
+  stars: 71014
+  delta: 611
 weekly_appearances:
 - week: 2026-W22
   url: /weekly/2026/w22/
@@ -78,6 +82,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: agentic-ai
   url: /tags/agentic-ai/
@@ -101,11 +107,15 @@ tag_links:
   url: /tags/foundry-local/
 - name: microsoft-foundry
   url: /tags/microsoft-foundry/
+topic_links:
+- name: AI Coding Agents
+  slug: ai-coding-agents
+  url: /topics/ai-coding-agents/
 related_repos:
 - full_name: ruvnet/ruflo
   slug: ruvnet-ruflo
   url: https://github.com/ruvnet/ruflo
-  score: 11
+  score: 12
   shared_weeks:
   - 2026-W22
   - 2026-W26
@@ -121,7 +131,7 @@ related_repos:
 - full_name: bytedance/deer-flow
   slug: bytedance-deer-flow
   url: https://github.com/bytedance/deer-flow
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W22
   - 2026-W26
@@ -135,7 +145,7 @@ related_repos:
 - full_name: infiniflow/ragflow
   slug: infiniflow-ragflow
   url: https://github.com/infiniflow/ragflow
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W22
   - 2026-W26
@@ -149,7 +159,7 @@ related_repos:
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W22
   - 2026-W26
@@ -163,7 +173,7 @@ related_repos:
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W22
   - 2026-W26
@@ -177,7 +187,7 @@ related_repos:
 - full_name: Mintplex-Labs/anything-llm
   slug: mintplex-labs-anything-llm
   url: https://github.com/Mintplex-Labs/anything-llm
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W22
   - 2026-W26
@@ -191,7 +201,7 @@ related_repos:
 - full_name: nexu-io/open-design
   slug: nexu-io-open-design
   url: https://github.com/nexu-io/open-design
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W22
   - 2026-W26
@@ -205,7 +215,7 @@ related_repos:
 - full_name: affaan-m/ECC
   slug: affaan-m-ecc
   url: https://github.com/affaan-m/ECC
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W22
   - 2026-W26
@@ -217,15 +227,20 @@ related_repos:
   - ai-agents
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-microsoft/ai-agents-for-beginners has appeared in 7 Claracle weekly issues.
+microsoft/ai-agents-for-beginners has appeared in 8 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

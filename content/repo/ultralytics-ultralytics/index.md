@@ -1,8 +1,8 @@
 ---
 title: ultralytics/ultralytics repository trend history
-description: 'Evergreen Claracle Observatory page for ultralytics/ultralytics: 11 weekly appearances, stars, velocity, topics,
+description: 'Evergreen Claracle Observatory page for ultralytics/ultralytics: 12 weekly appearances, stars, velocity, topics,
   and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -28,8 +28,8 @@ tags:
 - segment-anything
 - tracking
 first_seen_week: 2026-W21
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -42,7 +42,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 11
+- data/raw/2026-W32.json
+distinct_weekly_issues: 12
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -81,6 +82,9 @@ star_history:
 - week: 2026-W31
   stars: 59910
   delta: 261
+- week: 2026-W32
+  stars: 60146
+  delta: 236
 weekly_appearances:
 - week: 2026-W21
   url: /weekly/2026/w21/
@@ -104,6 +108,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: computer-vision
   url: /tags/computer-vision/
@@ -129,11 +135,15 @@ tag_links:
   url: /tags/segment-anything/
 - name: tracking
   url: /tags/tracking/
+topic_links:
+- name: Developer Tools
+  slug: developer-tools
+  url: /topics/developer-tools/
 related_repos:
 - full_name: huggingface/transformers
   slug: huggingface-transformers
   url: https://github.com/huggingface/transformers
-  score: 15
+  score: 16
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -149,7 +159,7 @@ related_repos:
 - full_name: keras-team/keras
   slug: keras-team-keras
   url: https://github.com/keras-team/keras
-  score: 15
+  score: 16
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -165,7 +175,7 @@ related_repos:
 - full_name: pytorch/pytorch
   slug: pytorch-pytorch
   url: https://github.com/pytorch/pytorch
-  score: 14
+  score: 15
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -180,7 +190,7 @@ related_repos:
 - full_name: tensorflow/tensorflow
   slug: tensorflow-tensorflow
   url: https://github.com/tensorflow/tensorflow
-  score: 14
+  score: 15
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -195,7 +205,7 @@ related_repos:
 - full_name: Comfy-Org/ComfyUI
   slug: comfy-org-comfyui
   url: https://github.com/Comfy-Org/ComfyUI
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -209,7 +219,7 @@ related_repos:
 - full_name: OpenBB-finance/OpenBB
   slug: openbb-finance-openbb
   url: https://github.com/OpenBB-finance/OpenBB
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -223,7 +233,7 @@ related_repos:
 - full_name: opencv/opencv
   slug: opencv-opencv
   url: https://github.com/opencv/opencv
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -237,7 +247,7 @@ related_repos:
 - full_name: scikit-learn/scikit-learn
   slug: scikit-learn-scikit-learn
   url: https://github.com/scikit-learn/scikit-learn
-  score: 13
+  score: 14
   shared_weeks:
   - 2026-W21
   - 2026-W22
@@ -250,15 +260,20 @@ related_repos:
   - python
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-ultralytics/ultralytics has appeared in 11 Claracle weekly issues.
+ultralytics/ultralytics has appeared in 12 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

@@ -1,8 +1,8 @@
 ---
 title: iluwatar/java-design-patterns repository trend history
-description: 'Evergreen Claracle Observatory page for iluwatar/java-design-patterns: 7 weekly appearances, stars, velocity,
+description: 'Evergreen Claracle Observatory page for iluwatar/java-design-patterns: 8 weekly appearances, stars, velocity,
   topics, and related repos.'
-date: '2026-07-27'
+date: '2026-08-03'
 draft: false
 layout: repo
 generated_by: observatory_repo_pages
@@ -23,8 +23,8 @@ tags:
 - snippets-collection
 - snippets-library
 first_seen_week: 2026-W23
-last_seen_week: 2026-W31
-as_of_week: 2026-W31
+last_seen_week: 2026-W32
+as_of_week: 2026-W32
 source_paths:
 - data/archive/recovered-W23-W29/2026-W23/2026-W23.json
 - data/archive/recovered-W23-W29/2026-W24/2026-W24.json
@@ -33,7 +33,8 @@ source_paths:
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
-distinct_weekly_issues: 7
+- data/raw/2026-W32.json
+distinct_weekly_issues: 8
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
@@ -60,6 +61,9 @@ star_history:
 - week: 2026-W31
   stars: 94246
   delta: 8
+- week: 2026-W32
+  stars: 94511
+  delta: 265
 weekly_appearances:
 - week: 2026-W23
   url: /weekly/2026/w23/
@@ -75,6 +79,8 @@ weekly_appearances:
   url: /weekly/2026/w30/
 - week: 2026-W31
   url: /weekly/2026/w31/
+- week: 2026-W32
+  url: /weekly/2026/w32/
 tag_links:
 - name: awesome-list
   url: /tags/awesome-list/
@@ -92,11 +98,12 @@ tag_links:
   url: /tags/snippets-collection/
 - name: snippets-library
   url: /tags/snippets-library/
+topic_links: []
 related_repos:
 - full_name: avelino/awesome-go
   slug: avelino-awesome-go
   url: https://github.com/avelino/awesome-go
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -110,7 +117,7 @@ related_repos:
 - full_name: Stirling-Tools/Stirling-PDF
   slug: stirling-tools-stirling-pdf
   url: https://github.com/Stirling-Tools/Stirling-PDF
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -124,7 +131,7 @@ related_repos:
 - full_name: TheAlgorithms/Java
   slug: thealgorithms-java
   url: https://github.com/TheAlgorithms/Java
-  score: 9
+  score: 10
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -138,7 +145,7 @@ related_repos:
 - full_name: awesome-selfhosted/awesome-selfhosted
   slug: awesome-selfhosted-awesome-selfhosted
   url: https://github.com/awesome-selfhosted/awesome-selfhosted
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -151,7 +158,7 @@ related_repos:
 - full_name: axios/axios
   slug: axios-axios
   url: https://github.com/axios/axios
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -164,7 +171,7 @@ related_repos:
 - full_name: EbookFoundation/free-programming-books
   slug: ebookfoundation-free-programming-books
   url: https://github.com/EbookFoundation/free-programming-books
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -177,7 +184,7 @@ related_repos:
 - full_name: elastic/elasticsearch
   slug: elastic-elasticsearch
   url: https://github.com/elastic/elasticsearch
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -190,7 +197,7 @@ related_repos:
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
-  score: 8
+  score: 9
   shared_weeks:
   - 2026-W23
   - 2026-W24
@@ -202,15 +209,20 @@ related_repos:
   - awesome-list
 lifecycle:
   status: active
-  as_of_week: 2026-W31
+  as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
   renamed_from: null
+  prior_full_names: []
   renamed_to: null
+  status_evidence: github_observation
+  archived_at: null
+  disabled_at: null
+  deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
 ---
 
-iluwatar/java-design-patterns has appeared in 7 Claracle weekly issues.
+iluwatar/java-design-patterns has appeared in 8 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.
