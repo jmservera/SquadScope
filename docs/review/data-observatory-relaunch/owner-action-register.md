@@ -89,20 +89,52 @@ as part of this implementation.
 
 Required actions:
 
-1. Confirm downstream idempotency or authorize one exact eligible week and publish run ID.
+1. ~~Confirm downstream idempotency or authorize one exact eligible week and publish
+  run ID.~~ Done 2026-08-04: jmservera authorized `2026-W32` / publish run
+  `30782430176`; `candidate.content_sha256` verified to match the merged
+  `content/weekly/2026/W32.md` on `main` before dispatch.
 2. ~~Create or configure the `podcaster-real-generation` environment with required
   reviewer approval, no self-review, and deployment restricted to `main`.~~ Done
   2026-08-04: environment created with jmservera as required reviewer, self-review
   prevented, and deployment restricted to `main`.
-3. Configure the environment-scoped endpoint variable and API-key secret without
-  recording their values.
+3. ~~Configure the environment-scoped endpoint variable and API-key secret without
+  recording their values.~~ Done 2026-08-04: `PODCASTER_ENDPOINT` variable and
+  `PODCASTER_API_KEY` secret configured on the environment (values not recorded here).
 4. Have URL and Hermes review the environment policy, secret scope, exact-manifest
-  validation, and retained evidence fields.
-5. Approve and dispatch one exact week and publish run ID only after maintainer authorization.
-6. Retain the approver, week, manifest run ID and digest, article digest, Actions URL,
-  downstream job ID, status, and final conclusion.
+  validation, and retained evidence fields. **Not yet done** — see the amended
+  self-review note below; this review should also cover that amendment.
+5. ~~Approve and dispatch one exact week and publish run ID only after maintainer
+  authorization.~~ Done 2026-08-04: jmservera dispatched and approved run
+  [30908778884](https://github.com/jmservera/SquadScope/actions/runs/30908778884)
+  for `2026-W32` / `30782430176`.
+6. ~~Retain the approver, week, manifest run ID and digest, article digest, Actions
+  URL, downstream job ID, status, and final conclusion.~~ Done 2026-08-04 (see
+  evidence table below).
 
-Completion evidence: one successful real downstream run after environment approval.
+**Self-review amendment (2026-08-04):** the environment's `prevent_self_review`
+flag was set `true` when only one reviewer (jmservera) was configured, which
+deadlocked approval on the first dispatch (30908570104, cancelled) because the
+same account cannot approve its own run. jmservera authorized disabling
+`prevent_self_review` (reviewer set and `main`-only branch restriction unchanged)
+to unblock the redispatch. This weakens a previously-recorded security control and
+should be included in the pending URL/Hermes environment-policy review (action 4).
+
+Evidence for the completed run:
+
+| Field | Value |
+| --- | --- |
+| Approver / dispatcher | jmservera |
+| Week | `2026-W32` |
+| Manifest run ID | `30782430176` |
+| Manifest path / SHA-256 | `data/candidates/2026-W32/30782430176/publish-manifest.json` / `d5f1e4210e8e23c43970dc2da60552f3ae96e36ea2794a2121b0985078f9df0c` |
+| Article path / SHA-256 | `content/weekly/2026/W32.md` / `b9806f1ff308dd94d8a9c39ab69c7224ccea586628bb49b8c82ded878d17f76b` |
+| Actions run | [30908778884](https://github.com/jmservera/SquadScope/actions/runs/30908778884) |
+| Downstream job ID / status | `podcast-2026-W32-d07bb05dc073` / accepted |
+| Conclusion | success |
+
+Completion evidence: one successful real downstream run after environment approval —
+satisfied by the run above. Action 4 (URL/Hermes environment-policy review, including
+the self-review amendment) remains open.
 
 ## Atomic publish acceptance
 
