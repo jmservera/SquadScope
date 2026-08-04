@@ -70,8 +70,9 @@
 
 * DD-02 (resolved): The runtime slug-collision guard merged without an explicit
   unit test for its diagnostic failure contract.
-  * Resolution: Added a synthetic collision test that verifies both conflicting
-    history keys and the output slug in the raised `ValueError`.
+  * Resolution: Added a synthetic collision test that asserts both conflicting
+    history keys and the output slug appear in the raised `ValueError`, and runs
+    in non-mutating check mode per PR #664 review feedback.
 
 * DD-03: Full validation exposed a pre-existing CSS bundle test mismatch with
   Hugo 0.146 minification and the current article visual selector.

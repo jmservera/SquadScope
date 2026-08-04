@@ -767,13 +767,12 @@ def test_write_repository_pages_raises_on_slug_collision() -> None:
         # Create histories dict with both
         histories = {history1.key: history1, history2.key: history2}
 
-        message = (
-            "Slug collision detected: both history key '123' and "
-            "'name:owner/repo-variant' produce slug 'owner-repo'"
-        )
         with pytest.raises(ValueError) as error:
-            observatory_repos.write_repository_pages(root, histories, config)
-        assert str(error.value) == message
+            observatory_repos.write_repository_pages(root, histories, config, check=True)
+        message = str(error.value)
+        assert history1.key in message
+        assert history2.key in message
+        assert collision_slug in message
 
 
 def test_disabled_repo_generation_preserves_durable_state(
