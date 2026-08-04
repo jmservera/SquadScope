@@ -16,3 +16,10 @@
 ## Establishment (Epic: jmservera/SquadScope-Coordinator#33) — 2026-06-26
 - Phase A baselines landed for ruff (#540), checkov (#541), and zizmor (#542).
 - copilot-instructions guardrail rules and this charter added (#546).
+
+## Cross-agent note — 2026-08-04
+- Hermes reviewed and accepted-with-conditions the `prevent_self_review` amendment on the
+  `podcaster-real-generation` environment (SEC-09, PR #658, merged).
+- URL's half of `owner-action-register.md` action 4 — secret scope and workflow/pipeline
+  hardening review for the protected real Podcaster run — is still open and was not addressed
+  in that session. May come to URL next.

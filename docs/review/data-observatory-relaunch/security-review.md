@@ -205,6 +205,45 @@ and is not the recommended control. Instead, this disposition requires:
 Adding a second human reviewer remains the strongest long-term fix if the team grows, but it is out
 of scope for the solo-maintainer case this disposition covers.
 
+### Protected Podcaster workflow pipeline hardening (URL review)
+
+URL reviewed `.github/workflows/trigger-podcast.yml` and the `podcaster-real-generation`
+environment for secret scope and pipeline hardening, separate from Hermes' SEC-09 self-review
+disposition above.
+
+**SEC-10 disposition:** the workflow's existing controls are sufficient. Top-level and job-level
+`permissions` are `contents: read` only, with no `write` scope anywhere in the file.
+`actions/checkout` and `actions/setup-python` are pinned by full commit SHA with a version
+comment, matching the repository's pinning convention. `PODCASTER_ENDPOINT` and
+`PODCASTER_API_KEY` are only reachable through the `podcaster-real-generation` environment, which
+restricts `branch_policy` to `main`; the job's own `if: github.ref == 'refs/heads/main'` guard is
+redundant defense-in-depth on top of that environment restriction, not a substitute for it, since a
+`workflow_dispatch` run always executes the workflow YAML from the dispatched ref. The
+`PODCASTER_API_KEY` secret is referenced only inside one step's `env:` block, is never echoed, and
+is not written to `$GITHUB_STEP_SUMMARY`; the separate evidence step records only non-secret fields
+(dispatcher, week, run ID, manifest/article paths and hashes, Podcaster status/job ID, run URL).
+All three `workflow_dispatch` inputs (`week`, `publish_run_id`, `breaking_news`) reach `run:` steps
+through `env:` indirection rather than direct `${{ }}` interpolation in the script body, which
+avoids the classic Actions template-injection pattern. `concurrency` with
+`cancel-in-progress: false` prevents overlapping real-generation dispatches for the same ref. The
+`checkov:skip=CKV_GHA_7` comment on the `workflow_dispatch` block remains justified: `week`,
+`publish_run_id`, and `breaking_news` select or annotate already-produced, retained evidence and do
+not alter Hugo build output, consistent with the disposition already recorded for this workflow in
+[the checkov baseline](../../devsecops/checkov-baseline.md). The
+`git checkout origin/publish -- "$MANIFEST"` step cannot be used for path traversal or option
+injection because `$MANIFEST` is built only from `$WEEK` and `$PUBLISH_RUN_ID`, both
+regex-validated (`^[0-9]{4}-W[0-9]{2}$`, `^[0-9]+$`) before use, so neither can start with `-` or
+contain `..`.
+
+One gap: `week` and `publish_run_id` are pattern-validated before use, but the optional
+`breaking_news` free-text input had no length bound or character validation before it is forwarded,
+via `scripts/podcaster_handoff.py`, into the JSON payload sent to the external Podcaster endpoint.
+The dispatch is already gated by required environment reviewer approval, so this was not an
+injection vector inside this workflow, but it was inconsistent with the other two inputs and had no
+bound on what gets sent to a third-party service. Fixed 2026-08-04: the "Derive paths from week
+slug" step now rejects `breaking_news` over 500 characters or containing control characters,
+alongside the existing `week` validation.
+
 ## Findings and dispositions
 
 | ID     | Finding                                                                                    | Severity      | Owner                 | Disposition                                                                                                 |
@@ -218,6 +257,7 @@ of scope for the solo-maintainer case this disposition covers.
 | SEC-07 | Browser tool uses safe DOM and a restricted outbound URL policy                            | Informational | Amy                   | Repository control verified; production and accessibility behavior pending                                  |
 | SEC-08 | Raw HTML rendering remains disabled                                                        | Informational | Amy and Hermes        | Repository control verified; Hermes sign-off pending                                                        |
 | SEC-09 | `prevent_self_review` disabled on `podcaster-real-generation` because the sole reviewer is also the sole dispatcher (solo-maintainer deadlock) | Medium | Hermes | Accept-with-conditions 2026-08-04: no independent-scrutiny boundary existed to lose (same account already admins `main`, the workflow, and secrets); `wait_timer` set to 10 minutes (applied), plus pre-approval input cross-check, mandatory post-run evidence check, and reinstating `prevent_self_review: true` if a second reviewer ever joins |
+| SEC-10 | Optional `breaking_news` `workflow_dispatch` input had no length bound or character validation, unlike `week` and `publish_run_id` | Low | URL | Resolved 2026-08-04: permissions least-privilege, SHA-pinned actions, environment-scoped secrets, branch/ref guard, concurrency control, no secret logging, and `env:` indirection for all inputs were already sufficient; added a 500-character length cap and control-character rejection on `breaking_news` in the same validation step as `week` |
 
 ## Required evidence before acceptance
 
@@ -228,7 +268,7 @@ of scope for the solo-maintainer case this disposition covers.
 - Lifecycle fixtures demonstrate rename, archive, confirmed deletion, retention, and expiry
 - A private first visit proves no analytics request or cookie before consent
 - A consented visit proves only the expected bounded analytics events
-- Workflow review confirms secrets remain scoped and masked
+- Workflow review confirms secrets remain scoped and masked — satisfied by SEC-10
 - Podcaster evidence records a downstream conclusion without exposing its API key
 
 ## Sign-off
@@ -236,7 +276,7 @@ of scope for the solo-maintainer case this disposition covers.
 | Reviewer  | Role                                 | Status  | Date    | Notes                                                     |
 | --------- | ------------------------------------ | ------- | ------- | --------------------------------------------------------- |
 | Hermes    | Security and threat analysis         | Pending | Pending | Required for NFR-004; no sign-off has been supplied       |
-| URL       | DevSecOps workflow and secret review | Pending | Pending | Required for protected workflow and secret-scope evidence |
+| URL       | DevSecOps workflow and secret review | Done    | 2026-08-04 | Protected workflow and secret-scope review complete; see SEC-10. SEC-06's external GA4/GSC/Podcaster verification is separate and remains pending |
 | jmservera | Sponsor and production owner         | Pending | Pending | Required for production rollout acceptance                |
 
 NFR-004 status: **Pending security acceptance**. Repository implementation alone does not close it.
