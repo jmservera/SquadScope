@@ -41,6 +41,20 @@
     WI-03 items.
   * Impact: low — recommend adding to follow-on work (see WI-05)
 
+* DR-04 (resolved): The merged recurrence test initially added the ID-bearing
+  week between loads, stopping at migration instead of reloading an already
+  migrated ledger against unchanged raw files.
+  * Resolution: Both weeks now exist before pass one; pass two consumes the
+    persisted numeric ledger and the same raw files, asserting one identity and
+    two non-duplicated observations.
+  * Impact: high before remediation; resolved by Phase 2 Step 2.1
+
+* DR-05 (resolved): Earlier completion evidence covered only the focused
+  observatory tests rather than the required full `tests/` suite.
+  * Resolution: Final validation completed with 1,456 tests and 34 subtests
+    passing, plus Ruff, Hugo, Pagefind, and internal-link checks.
+  * Impact: medium before remediation; resolved by Phase 4
+
 ### Plan Deviations from Research
 
 * DD-01: Research recommends checking issue #652 directly before finalizing scope;
@@ -53,6 +67,20 @@
   * Rationale: avoids blocking implementation on a low-impact confirmation step;
     Phase 2 Step 2.2 explicitly reconciles with issue #652 by restoring its
     referenced strict assertions
+
+* DD-02 (resolved): The runtime slug-collision guard merged without an explicit
+  unit test for its diagnostic failure contract.
+  * Resolution: Added a synthetic collision test that verifies both conflicting
+    history keys and the output slug in the raised `ValueError`.
+
+* DD-03: Full validation exposed a pre-existing CSS bundle test mismatch with
+  Hugo 0.146 minification and the current article visual selector.
+  * Plan specifies: Fix minor validation issues surfaced by the full suite.
+  * Implementation differs: The test parser now accepts valid quoted or unquoted
+    `href` attributes and asserts `.article-cover`, the selector currently owned
+    by `article-visuals.css`; production templates and CSS remain unchanged.
+  * Rationale: Preserve the bundle-boundary assertion across supported Hugo
+    minification output without weakening the test.
 
 ## Implementation Paths Considered
 

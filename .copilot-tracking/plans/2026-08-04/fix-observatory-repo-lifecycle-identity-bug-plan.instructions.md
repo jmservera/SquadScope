@@ -41,6 +41,16 @@ blocker on the `repo_pages` rollout without changing the production flag itself.
 
 ## Context Summary
 
+### Completion Status
+
+* Core implementation and regenerated content merged through PR #663
+* Follow-on branch `fix/observatory-ledger-validation-coverage` corrects the
+  recurrence fixture, adds slug-collision coverage, and completes full validation
+* All 1,456 tests and 34 subtests pass; Ruff, Hugo, Pagefind, and internal links
+  also pass
+* `repo_pages.enabled` remains `false`; production activation remains separately
+  sponsor-gated
+
 ### Project Files
 
 * scripts/observatory_repos.py - contains the defective `load_repository_histories()`
@@ -89,30 +99,30 @@ blocker on the `repo_pages` rollout without changing the production flag itself.
 * [x] Step 2.3: Run targeted tests for this phase
   * Details: .copilot-tracking/details/2026-08-04/fix-observatory-repo-lifecycle-identity-bug-details.md (Lines 122-130)
 
-### [ ] Implementation Phase 3: Regenerate Site Content From Stored Data on a Branch
+### [x] Implementation Phase 3: Regenerate Site Content From Stored Data on a Branch
 
 <!-- parallelizable: false -->
 
-* [ ] Step 3.1: Create the working branch and enable `repo_pages` locally for validation only
+* [x] Step 3.1: Create the working branch and enable `repo_pages` locally for validation only
   * Details: .copilot-tracking/details/2026-08-04/fix-observatory-repo-lifecycle-identity-bug-details.md (Lines 134-146)
-* [ ] Step 3.2: Refresh taxonomy, topic candidates, data pages, and dataset export
+* [x] Step 3.2: Refresh taxonomy, topic candidates, data pages, and dataset export
   * Details: .copilot-tracking/details/2026-08-04/fix-observatory-repo-lifecycle-identity-bug-details.md (Lines 148-160)
-* [ ] Step 3.3: Run repository-page generation twice and confirm byte-identical output
+* [x] Step 3.3: Run repository-page generation twice and confirm byte-identical output
   * Details: .copilot-tracking/details/2026-08-04/fix-observatory-repo-lifecycle-identity-bug-details.md (Lines 162-178)
-* [ ] Step 3.4: Review the full generated-content diff before any commit decision
+* [x] Step 3.4: Review the full generated-content diff before any commit decision
   * Details: .copilot-tracking/details/2026-08-04/fix-observatory-repo-lifecycle-identity-bug-details.md (Lines 180-190)
 
-### [ ] Implementation Phase 4: Validation
+### [x] Implementation Phase 4: Validation
 
 <!-- parallelizable: false -->
 
-* [ ] Step 4.1: Run full project validation
+* [x] Step 4.1: Run full project validation
   * Execute `python -m pytest tests/`, `ruff check .`, `ruff format --check .`
   * Execute `hugo --minify` and `npx "pagefind@1.5.2" --site public/`
   * Execute `python scripts/check_internal_links.py public --base-url "https://claracle.com/"`
-* [ ] Step 4.2: Fix minor validation issues
+* [x] Step 4.2: Fix minor validation issues
   * Iterate on any lint/test failures surfaced by the fix or regenerated content
-* [ ] Step 4.3: Report the remaining sponsor-gated rollout decision
+* [x] Step 4.3: Report the remaining sponsor-gated rollout decision
   * Document that flipping `repo_pages.enabled = true` on `main` and recording
     Hermes/URL/jmservera sign-off remain a separate, already-tracked decision
     (owner-action-register.md, gated rollout plan Phases 4-5); this plan closes

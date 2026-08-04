@@ -19,7 +19,8 @@ This release fixes the non-idempotent repository-lifecycle-ledger key-merge bug 
 ### Modified
 
 * `scripts/observatory_repos.py` - Fix `load_repository_histories()` with full-name reverse index (Step 1.1-1.2) and harden `write_repository_pages()` with slug-collision guard (Step 1.3)
-* `tests/test_observatory_repos.py` - Restore strict assertions in `test_frozen_corpus_lifecycle_seed_has_expected_parity` per GitHub issue #652
+* `tests/test_observatory_repos.py` - Correct the recurrence fixture, add slug-collision coverage, and retain strict frozen-corpus assertions
+* `tests/test_page_css_bundles.py` - Accept quoted or unquoted minified stylesheet links and assert the current `.article-cover` module selector
 
 ### Removed
 
@@ -27,8 +28,9 @@ This release fixes the non-idempotent repository-lifecycle-ledger key-merge bug 
 
 ## Additional or Deviating Changes
 
-* The branch is kept with `config/observatory.toml` `[repo_pages] enabled = true` for validation and content regeneration only; the flag reverts to `false` before merge to `main` per production governance
-* All validation (pytest, ruff, Hugo build, Pagefind, internal link check) passes on the implementation branch
+* PR #663 temporarily enabled repository pages for corpus validation, then restored `repo_pages.enabled = false` before merge; the follow-on branch keeps it disabled
+* The full suite exposed a stale CSS test that assumed quoted Hugo attributes and the removed `.article-visual` selector; Step 4.2 updated the test without changing production CSS
+* The atomic publish proof failed intermittently twice, passed in isolation, and passed in the final full-suite run; no publish transaction code changed without a reproducible causal defect
 
 ## Release Summary
 
@@ -49,13 +51,13 @@ This release fixes the non-idempotent repository-lifecycle-ledger key-merge bug 
 **Implementation completed**: Regression tests for two-pass duplicate-identity scenario and slug-collision guard, plus restored strict assertions in frozen corpus parity test.
 
 **Key changes**:
-- New test `test_two_pass_duplicate_identity_regression()` verifies two-pass idempotency (no duplicate name:-keyed histories on second run)
+- Corrected `test_two_pass_duplicate_identity_regression()` so both raw weeks exist before pass one and pass two reloads the persisted numeric ledger against unchanged files
 - New test `test_write_repository_pages_raises_on_slug_collision()` verifies the defensive slug-collision guard catches identity collisions before corrupting derived data
 - Removed TEMP (#652) relaxation; restored exact-match assertions in `test_frozen_corpus_lifecycle_seed_has_expected_parity()`
-- All 23 tests passing (22 existing + 2 new tests)
+- All 23 focused observatory tests pass
 
 **Files modified**:
-- `tests/test_observatory_repos.py` - Two new regression tests + restored strict assertions
+- `tests/test_observatory_repos.py` - Corrected recurrence regression and added collision coverage
 
 ### Phase 3: Regenerate Site Content From Stored Data ✅
 
@@ -75,12 +77,12 @@ This release fixes the non-idempotent repository-lifecycle-ledger key-merge bug 
 ### Phase 4: Full Project Validation ✅
 
 **Validation pipeline results**:
-- ✅ pytest: 23/23 tests pass (all tests pass, including new regression and guard tests)
-- ✅ ruff check: No lint errors
-- ✅ ruff format: Code formatting compliant
-- ✅ Hugo build: 2704 pages built successfully (6.4s)
-- ✅ Pagefind: 297 pages indexed (10185 words)
-- ✅ Internal link check: No broken links
+- pytest: 1,456 tests and 34 subtests pass; 2 expected sanitization warnings
+- Targeted pytest: 23 observatory tests pass
+- Ruff 0.15.7 lint and format checks pass across 150 Python files
+- Hugo 0.146.0 builds 2,704 pages successfully
+- Pagefind 1.5.2 indexes 297 pages and 10,185 words
+- Internal link check passes with no broken links
 
 **Configuration note**:
 - `config/observatory.toml` `repo_pages.enabled` reverted to `false` before final commit
@@ -89,10 +91,10 @@ This release fixes the non-idempotent repository-lifecycle-ledger key-merge bug 
 
 ### Summary Statistics
 
-**Total files affected**: 284 (2 core fix files + 281 regenerated content files)
-**Core code changes**: 2 files (`scripts/observatory_repos.py`, `tests/test_observatory_repos.py`)
+**Total files affected by the original implementation**: 284 (core fix, tests, tracking, and regenerated content)
+**Follow-on branch changes**: Test coverage and tracking only; no production activation or generated-content changes
 **Generated/regenerated content**: 281 files
-**Test suite**: 23/23 passing (22 existing + 2 new tests: duplicate-identity regression + slug-collision guard)
+**Test suite**: 1,456 tests and 34 subtests passing
 
 **Key outcomes**:
 - ✅ Repository lifecycle ledger now idempotent across repeated generation runs

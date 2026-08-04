@@ -640,61 +640,36 @@ def test_stable_id_absorbs_seeded_fallback_history() -> None:
 
 
 def test_two_pass_duplicate_identity_regression() -> None:
-    """Regression test for two-pass duplicate-identity bug (#652).
-
-    When load_repository_histories() is called twice with raw weeks that mix
-    id-less observations (from static historical files) and id-carrying
-    observations (from recent crawls), the second pass must not mint duplicate
-    name:-keyed histories for repos already migrated to numeric keys in the
-    first pass.
-
-    This exercises the fix in load_repository_histories() that builds and
-    maintains a full_name -> current key reverse index across passes.
-    """
     tests_root = Path(__file__).resolve().parent
     with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
         root = Path(tmpdir)
-
-        # Week 1: id-less observation (simulates static historical raw file)
         write_week(root, "2026-W30", [repo_record("test-owner/test-repo", 100, github_id=None)])
-
-        # First pass: load from raw weeks, no prior ledger
-        config = observatory_repos.load_config(root)
-        first_histories = observatory_repos.load_repository_histories(root, config.get("lifecycle"))
-
-        # Verify the id-less observation created a name:-keyed history
-        assert "name:test-owner/test-repo" in first_histories
-        first_history = first_histories["name:test-owner/test-repo"]
-        assert len(first_history.observations) == 1
-        assert first_history.observations[0].week == "2026-W30"
-
-        # Persist the ledger as would happen in real usage
-        first_ledger = observatory_repos.lifecycle_ledger_payload(first_histories)
-
-        # Week 2: same repo but now with github_id (simulates recent crawl data)
         write_week(root, "2026-W31", [repo_record("test-owner/test-repo", 101, github_id=456)])
 
-        # Second pass: reload with the persisted ledger, raw weeks unchanged
+        config = observatory_repos.load_config(root)
+        first_histories = observatory_repos.load_repository_histories(root, config.get("lifecycle"))
+        assert "name:test-owner/test-repo" not in first_histories
+        assert set(first_histories) == {"456"}
+        assert {item.week for item in first_histories["456"].observations} == {
+            "2026-W30",
+            "2026-W31",
+        }
+        first_ledger = observatory_repos.lifecycle_ledger_payload(first_histories)
+
         second_histories = observatory_repos.load_repository_histories(
             root, config.get("lifecycle"), first_ledger
         )
-
-        # After the fix, the numeric key should absorb both weeks and no name: duplicate should exist
-        assert "name:test-owner/test-repo" not in second_histories, (
-            "Two-pass bug: name:-keyed duplicate was not migrated away"
-        )
-
-        # The numeric key should be the canonical one
-        assert "456" in second_histories
+        matching = [
+            history
+            for history in second_histories.values()
+            if history.display_name == "test-owner/test-repo"
+        ]
+        assert len(matching) == 1
+        assert set(second_histories) == {"456"}
         migrated = second_histories["456"]
-
-        # Both weeks should be in the same history
-        assert len(migrated.observations) == 2, (
-            f"Expected 2 observations (both weeks), got {len(migrated.observations)}"
-        )
+        assert migrated.distinct_weeks == {"2026-W30", "2026-W31"}
+        assert len(migrated.observations) == 2
         assert {obs.week for obs in migrated.observations} == {"2026-W30", "2026-W31"}
-
-        # Verify the migration happened correctly (github_id is stored as string from JSON)
         assert migrated.github_id == "456"
         assert migrated.display_name == "test-owner/test-repo"
 
@@ -792,9 +767,13 @@ def test_write_repository_pages_raises_on_slug_collision() -> None:
         # Create histories dict with both
         histories = {history1.key: history1, history2.key: history2}
 
-        # Call write_repository_pages and expect ValueError on slug collision
-        with pytest.raises(ValueError, match="Slug collision detected"):
+        message = (
+            "Slug collision detected: both history key '123' and "
+            "'name:owner/repo-variant' produce slug 'owner-repo'"
+        )
+        with pytest.raises(ValueError) as error:
             observatory_repos.write_repository_pages(root, histories, config)
+        assert str(error.value) == message
 
 
 def test_disabled_repo_generation_preserves_durable_state(
