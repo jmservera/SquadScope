@@ -173,7 +173,7 @@ The `podcaster-real-generation` environment's `prevent_self_review` protection r
 configured reviewer, `prevent_self_review: true` made `current_user_can_approve` false for
 jmservera's own run, with no second reviewer able to approve it instead.
 
-**SEC-09 disposition:** accept-with-conditions. Self-review protection exists to stop an author from
+**SEC-09 disposition:** Accept-with-conditions. Self-review protection exists to stop an author from
 quietly approving their own deployment without independent scrutiny. In this repository the same
 account (jmservera) already holds admin and write access to `main`, the workflow file, and the
 environment's secrets and protection rules, so that independent-scrutiny boundary does not exist

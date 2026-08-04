@@ -120,7 +120,7 @@ deadlocked approval on the first dispatch (30908570104, cancelled) because the
 same account cannot approve its own run. jmservera authorized disabling
 `prevent_self_review` (reviewer set and `main`-only branch restriction unchanged)
 to unblock the redispatch. This weakens a previously-recorded security control.
-Hermes' security disposition for this amendment is recorded as accept-with-conditions
+Hermes' security disposition for this amendment is recorded as Accept-with-conditions
 in [SEC-09](security-review.md#findings-and-dispositions) (action 4). URL's review of
 the environment's secret scope and workflow/pipeline hardening remains open.
 
