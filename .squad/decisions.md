@@ -45,3 +45,39 @@ run") was completed 2026-08-04; see [SEC-10](../../../../docs/review/data-observ
 **Files edited:**
 * docs/review/data-observatory-relaunch/security-review.md
 * docs/review/data-observatory-relaunch/owner-action-register.md
+
+### 2026-08-04T00:00:00Z: `trigger-podcast.yml` pipeline hardening review closes action 4 (URL half)
+
+**By:** URL (DevSecOps Specialist)
+
+**What:** Accepted `.github/workflows/trigger-podcast.yml` and the `podcaster-real-generation`
+environment as sufficiently hardened for pipeline/tooling purposes. Recorded as
+[SEC-10](../../../../docs/review/data-observatory-relaunch/security-review.md#findings-and-dispositions)
+(Low severity), closing the DevSecOps half of owner-action-register.md action 4 ("Protected real
+Podcaster run"); the security/threat-modeling half is settled separately by SEC-09 above.
+
+**Why:** Verified directly from the workflow file: `permissions: contents: read` only at both top
+level and job level; `actions/checkout` and `actions/setup-python` pinned by full commit SHA;
+`PODCASTER_ENDPOINT`/`PODCASTER_API_KEY` reachable only through the environment-scoped binding,
+which enforces `branch_policy: main` independently of the job's own `if: github.ref ==
+'refs/heads/main'` guard; the API key is referenced only inside one step's `env:` block, never
+echoed or written to `$GITHUB_STEP_SUMMARY`; all three `workflow_dispatch` inputs reach `run:`
+steps through `env:` indirection rather than direct `${{ }}` interpolation, avoiding template
+injection; and the `git checkout origin/publish -- "$MANIFEST"` step cannot be used for path
+traversal because `$MANIFEST` is built only from regex-validated `$WEEK` and `$PUBLISH_RUN_ID`.
+
+The only inconsistency found: `breaking_news` was free text with no length or character
+validation, unlike `week` and `publish_run_id`. The dispatch is already gated by required
+environment reviewer approval, so this was not an exploitable injection path inside this
+workflow — it was flagged as hygiene, not a blocker.
+
+**Fixed 2026-08-04** (PR #659): the "Derive paths from week slug" step now rejects `breaking_news`
+over 500 characters or containing control characters, alongside the existing `week` validation.
+
+**Disposition recorded:** [SEC-10](../../../../docs/review/data-observatory-relaunch/security-review.md#findings-and-dispositions),
+severity Low, owner URL.
+
+**Files edited (PR #659):**
+* `.github/workflows/trigger-podcast.yml`
+* docs/review/data-observatory-relaunch/security-review.md
+* docs/review/data-observatory-relaunch/owner-action-register.md
