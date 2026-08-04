@@ -50,7 +50,7 @@ This release fixes the non-idempotent repository-lifecycle-ledger key-merge bug 
 **Key changes**:
 - New test verifies two-pass idempotency (no duplicate name:-keyed histories on second run)
 - Removed TEMP (#652) relaxation; restored exact-match assertions
-- All 20 core tests passing (excluding Hugo-related tests)
+- All 22 tests passing
 
 **Files modified**:
 - `tests/test_observatory_repos.py` - Regression test + restored assertions
@@ -90,6 +90,7 @@ This release fixes the non-idempotent repository-lifecycle-ledger key-merge bug 
 **Total files affected**: 284 (2 core fix files + 281 regenerated content files)
 **Core code changes**: 2 files (`scripts/observatory_repos.py`, `tests/test_observatory_repos.py`)
 **Generated/regenerated content**: 281 files
+**Test suite**: 22/22 passing (including new regression test)
 
 **Key outcomes**:
 - ✅ Repository lifecycle ledger now idempotent across repeated generation runs
