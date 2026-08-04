@@ -244,6 +244,23 @@ bound on what gets sent to a third-party service. Fixed 2026-08-04: the "Derive 
 slug" step now rejects `breaking_news` over 500 characters or containing control characters,
 alongside the existing `week` validation.
 
+### SEC-06 repo-side secret and wiring check (URL)
+
+URL performed a repo-side check of the SEC-06 secret and wiring claims (names and behavior only,
+no values recorded): `GA_MEASUREMENT_ID` exists as a repository secret and the GA4 script renders
+in the built site. `PODCASTER_API_KEY` exists at repo level and is correctly scoped to the
+`podcaster-real-generation` environment. `PODCASTER_ENDPOINT` is read as a repo **variable**
+(`vars.PODCASTER_ENDPOINT`) by every workflow that uses it, but a same-named repo **secret** also
+exists and is never referenced by any workflow — orphaned; jmservera should confirm and remove it.
+A `GSC_SITE_VERIFICATION` secret is absent, so this site's own GSC meta-tag verification path is
+currently inactive, even though the 2026-08-02 note in owner-action-register.md records jmservera
+having verified the GSC property by some means — jmservera to confirm whether that used a
+different method (e.g. DNS) or whether this secret is still needed.
+
+This repo-side check does not close SEC-06: external verification (GA4 event receipt, the GSC
+processed-sitemap conclusion, and the Podcaster downstream confirmation) remains pending and out
+of repository-tooling scope.
+
 ## Findings and dispositions
 
 | ID     | Finding                                                                                    | Severity      | Owner                 | Disposition                                                                                                 |
@@ -253,7 +270,7 @@ alongside the existing `week` validation.
 | SEC-03 | Public export fields need a documented allowlist to prevent future accidental expansion    | Medium        | Bender and Hermes     | Implemented and tested: exact CSV, metadata, nested-object, and source-path allowlists; Hermes policy approval pending |
 | SEC-04 | Lifecycle deletion depends on manually reviewed overrides                                  | Medium        | Bender and Hermes     | Rename, archive, deletion, retention, expiry, and fail-closed fixtures pass; production-policy disposition pending |
 | SEC-05 | Phrase-based injection detection has known semantic false-negative risk                    | Medium        | Hermes and Farnsworth | Defense-in-depth accepted-risk recommendation is documented and executable controls are retained; no risk acceptance has been granted |
-| SEC-06 | GA4, GSC, and Podcaster secret behavior is not proven by repository inspection             | Medium        | URL and jmservera     | External verification pending; never record secret values                                                   |
+| SEC-06 | GA4, GSC, and Podcaster secret behavior is not proven by repository inspection             | Medium        | URL and jmservera     | Repo-side wiring check by URL 2026-08-04 (no values recorded); external verification still pending — see [SEC-06 repo-side secret and wiring check](#sec-06-repo-side-secret-and-wiring-check-url) |
 | SEC-07 | Browser tool uses safe DOM and a restricted outbound URL policy                            | Informational | Amy                   | Repository control verified; production and accessibility behavior pending                                  |
 | SEC-08 | Raw HTML rendering remains disabled                                                        | Informational | Amy and Hermes        | Repository control verified; Hermes sign-off pending                                                        |
 | SEC-09 | `prevent_self_review` disabled on `podcaster-real-generation` because the sole reviewer is also the sole dispatcher (solo-maintainer deadlock) | Medium | Hermes | Accept-with-conditions 2026-08-04: no independent-scrutiny boundary existed to lose (same account already admins `main`, the workflow, and secrets); `wait_timer` set to 10 minutes (applied), plus pre-approval input cross-check, mandatory post-run evidence check, and reinstating `prevent_self_review: true` if a second reviewer ever joins |
