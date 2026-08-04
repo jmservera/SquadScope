@@ -53,10 +53,19 @@ jobs:
         id: derive
         env:
           WEEK: ${{ inputs.week }}
+          BREAKING_NEWS: ${{ inputs.breaking_news || '' }}
         run: |
           set -euo pipefail
           if [[ ! "$WEEK" =~ ^[0-9]{4}-W[0-9]{2}$ ]]; then
             echo "::error::week must match YYYY-WNN (two-digit week), e.g. 2026-W25 (got: $WEEK)"
+            exit 1
+          fi
+          if [ "${#BREAKING_NEWS}" -gt 500 ]; then
+            echo "::error::breaking_news must be 500 characters or fewer (got: ${#BREAKING_NEWS})"
+            exit 1
+          fi
+          if [[ "$BREAKING_NEWS" =~ [[:cntrl:]] ]]; then
+            echo "::error::breaking_news must not contain control characters"
             exit 1
           fi
 

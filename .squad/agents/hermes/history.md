@@ -63,3 +63,20 @@
 - **GitHub limitation:** Formal approval rejected due to own-PR token restrictions; unblock comment posted instead
 - **Outcome:** Technical security gate cleared; awaits admin merge due to policy blocker
 
+## `podcaster-real-generation` Self-Review Amendment — SEC-09 (2026-08-04)
+
+- Reviewed jmservera's request to disable `prevent_self_review` on `podcaster-real-generation`
+  now that jmservera is the sole developer and cannot satisfy a second-reviewer requirement.
+- **Disposition:** Accept-with-conditions (severity Medium). The account that could self-approve
+  already has admin/write access to `main`, the workflow, and the environment's protection
+  rules, so reviewer identity was not the binding control — `branch_policy`, the `main`-only
+  `if` guard, exact dispatch-input requirements, and fail-closed manifest SHA validation are.
+- Required compensating controls: `wait_timer` (applied: 10 minutes), pre-approval dispatch-input
+  cross-check, mandatory post-run evidence-summary check, reinstate `prevent_self_review` if a
+  second reviewer joins, revisit at next security cycle.
+- Recorded in `.squad/decisions.md` and `docs/review/data-observatory-relaunch/security-review.md`
+  (SEC-09). Merged via PR #658.
+- **Pattern for future solo-maintainer control gaps:** identify what actually bounds the residual
+  risk (usually a deterministic guard, not human review) before accepting a protection-flag
+  relaxation, and always pair it with a time-based or evidence-based compensating control.
+
