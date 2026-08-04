@@ -40,7 +40,7 @@ severity Medium, owner Hermes.
 **Scope note:** This decision covers only the security disposition of the self-review
 amendment. URL's separate review of the environment's secret scope and workflow/pipeline
 hardening (the other half of owner-action-register.md action 4, "Protected real Podcaster
-run") is still open and was not addressed by this review.
+run") was completed 2026-08-04; see [SEC-10](../../../../docs/review/data-observatory-relaunch/security-review.md#findings-and-dispositions).
 
 **Files edited:**
 * docs/review/data-observatory-relaunch/security-review.md

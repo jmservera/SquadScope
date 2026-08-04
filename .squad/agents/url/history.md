@@ -20,6 +20,7 @@
 ## Cross-agent note — 2026-08-04
 - Hermes reviewed and accepted-with-conditions the `prevent_self_review` amendment on the
   `podcaster-real-generation` environment (SEC-09, PR #658, merged).
-- URL's half of `owner-action-register.md` action 4 — secret scope and workflow/pipeline
-  hardening review for the protected real Podcaster run — is still open and was not addressed
-  in that session. May come to URL next.
+- URL reviewed the environment's secret scope and workflow/pipeline hardening (the other half
+  of `owner-action-register.md` action 4) and found existing controls sufficient (SEC-10,
+  PR #659). Added a length/character bound on the `breaking_news` `workflow_dispatch` input as
+  a low-severity hygiene fix. Action 4 is now fully done.
