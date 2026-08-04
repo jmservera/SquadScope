@@ -84,6 +84,18 @@ pre-commit install --hook-type pre-commit --hook-type pre-push
 local hooks — use only for genuine emergencies and follow up by fixing the
 skipped findings. Never disable the CI gates themselves to land a change.
 
+### Troubleshooting: git/gh auth errors
+
+Multiple `gh` accounts can be logged in on this machine. If the active account
+is not `jmservera`, `git push`, `gh pr create/merge`, `gh api` writes, or
+issue/PR comments can fail with a 403 or a permissions error that looks
+unrelated (e.g. `Permission to jmservera/SquadScope.git denied to <other-user>`,
+or "Must have admin rights to Repository" when touching environments/secrets).
+
+Fix: run `gh auth switch --user jmservera --hostname github.com`, then retry
+the failed command. Run `gh auth status` first if you want to confirm which
+account is active before diagnosing further.
+
 ### Ownership
 
 - **URL** (DevSecOps Specialist) owns the guardrail pipeline, tooling, hooks,
