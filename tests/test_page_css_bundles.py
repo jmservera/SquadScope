@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def stylesheet_path(rendered: str) -> str:
-    match = re.search(r'href="([^"]*/assets/css/stylesheet[^"?]+\.css)"', rendered)
+    match = re.search(r"""href=["']?([^"' >]*/assets/css/stylesheet[^"'? >]+\.css)""", rendered)
     assert match, "rendered page is missing its bundled stylesheet"
     return match.group(1).lstrip("/")
 
@@ -45,14 +45,14 @@ def test_static_routes_share_lean_css_without_article_or_chart_visuals() -> None
         assert len(lean_stylesheets) == 1
 
         lean_css = (destination / lean_stylesheets.pop()).read_text(encoding="utf-8")
-        assert ".article-visual" not in lean_css
+        assert ".article-cover" not in lean_css
         assert ".observatory-chart" not in lean_css
         assert ".search-shell" in lean_css
         assert ".cost-dashboard" in lean_css
 
         weekly = (destination / "weekly/2026/w22/index.html").read_text(encoding="utf-8")
         full_css = (destination / stylesheet_path(weekly)).read_text(encoding="utf-8")
-        assert ".article-visual" in full_css
+        assert ".article-cover" in full_css
         assert ".observatory-chart" in full_css
     finally:
         shutil.rmtree(destination, ignore_errors=True)
