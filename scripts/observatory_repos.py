@@ -92,7 +92,7 @@ class RepositoryHistory:
         # lifecycle_ledger_payload()'s serialization order, so the chosen "latest"
         # observation is stable whether histories are freshly computed from raw
         # weeks or reloaded from a persisted ledger round-trip.
-        return sorted(self.observations, key=lambda item: (item.week, item.source_path))[-1]
+        return max(self.observations, key=lambda item: (item.week, item.source_path))
 
     @property
     def star_history(self) -> list[dict[str, int | str | None]]:
@@ -412,7 +412,7 @@ def history_from_ledger(key: str, raw: dict[str, Any]) -> RepositoryHistory | No
         return None
     # Tie-break same-week observations by source_path, matching latest_observation
     # and lifecycle_ledger_payload()'s serialization order.
-    latest = sorted(observations, key=lambda item: (item.week, item.source_path))[-1]
+    latest = max(observations, key=lambda item: (item.week, item.source_path))
     history = RepositoryHistory(
         key=key,
         github_id=str(raw["github_id"]) if raw.get("github_id") is not None else latest.github_id,
