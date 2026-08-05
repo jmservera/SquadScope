@@ -12,7 +12,10 @@ from pathlib import Path
 def summarize(path: Path) -> str:
     data = json.loads(path.read_text(encoding="utf-8"))
     entries = data.get("entries", {})
-    counts = Counter(entry.get("status") for entry in entries.values())
+    statuses = (
+        entry.get("status") if isinstance(entry, dict) else None for entry in entries.values()
+    )
+    counts = Counter(status if isinstance(status, str) else "unknown" for status in statuses)
     lines = [f"total entries: {len(entries)}"]
     lines.extend(f"{status}: {count}" for status, count in sorted(counts.items()))
     return "\n".join(lines)
