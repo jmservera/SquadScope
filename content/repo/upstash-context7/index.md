@@ -118,6 +118,20 @@ topic_links:
   slug: open-source-llms
   url: /topics/open-source-llms/
 related_repos:
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - llm
+  - mcp
 - full_name: koala73/worldmonitor
   slug: koala73-worldmonitor
   url: https://github.com/koala73/worldmonitor
@@ -199,20 +213,6 @@ related_repos:
   - 2026-W24
   - 2026-W25
   - 2026-W26
-  shared_topics:
-  - llm
-  - mcp
-- full_name: affaan-m/ECC
-  slug: affaan-m-ecc
-  url: https://github.com/affaan-m/ECC
-  score: 13
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
   shared_topics:
   - llm
   - mcp

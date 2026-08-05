@@ -197,6 +197,19 @@ related_repos:
   shared_topics:
   - developer-tools
   - testing
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - developer-tools
 - full_name: angular/angular
   slug: angular-angular
   url: https://github.com/angular/angular
@@ -236,19 +249,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - websocket
-- full_name: meilisearch/meilisearch
-  slug: meilisearch-meilisearch
-  url: https://github.com/meilisearch/meilisearch
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - api
 lifecycle:
   status: active
   as_of_week: 2026-W32

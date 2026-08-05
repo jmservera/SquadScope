@@ -1,6 +1,6 @@
 ---
 title: Graphify-Labs/graphify repository trend history
-description: 'Evergreen Claracle Observatory page for Graphify-Labs/graphify: 5 weekly appearances, stars, velocity, topics,
+description: 'Evergreen Claracle Observatory page for Graphify-Labs/graphify: 11 weekly appearances, stars, velocity, topics,
   and related repos.'
 date: '2026-08-03'
 draft: false
@@ -27,24 +27,48 @@ tags:
 - skills
 - tree-sitter
 - ai-agents
-first_seen_week: 2026-W28
+first_seen_week: 2026-W22
 last_seen_week: 2026-W32
 as_of_week: 2026-W32
 source_paths:
+- data/archive/recovered-W23-W29/2026-W23/2026-W23.json
+- data/archive/recovered-W23-W29/2026-W24/2026-W24.json
+- data/archive/recovered-W23-W29/2026-W25/2026-W25.json
+- data/archive/recovered-W23-W29/2026-W26/2026-W26.json
+- data/archive/recovered-W23-W29/2026-W27/2026-W27.json
 - data/archive/recovered-W23-W29/2026-W28/2026-W28.json
+- data/raw/2026-W22.json
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
 - data/raw/2026-W32.json
-distinct_weekly_issues: 5
+distinct_weekly_issues: 11
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
   minimum_weeks: 4
 star_history:
+- week: 2026-W22
+  stars: 53364
+  delta: null
+- week: 2026-W23
+  stars: 57694
+  delta: 4330
+- week: 2026-W24
+  stars: 62937
+  delta: 5243
+- week: 2026-W25
+  stars: 67868
+  delta: 4931
+- week: 2026-W26
+  stars: 70386
+  delta: 2518
+- week: 2026-W27
+  stars: 73812
+  delta: 3426
 - week: 2026-W28
   stars: 78234
-  delta: null
+  delta: 4422
 - week: 2026-W29
   stars: 90184
   delta: 11950
@@ -58,6 +82,18 @@ star_history:
   stars: 101174
   delta: 4614
 weekly_appearances:
+- week: 2026-W22
+  url: /weekly/2026/w22/
+- week: 2026-W23
+  url: /weekly/2026/w23/
+- week: 2026-W24
+  url: /weekly/2026/w24/
+- week: 2026-W25
+  url: /weekly/2026/w25/
+- week: 2026-W26
+  url: /weekly/2026/w26/
+- week: 2026-W27
+  url: /weekly/2026/w27/
 - week: 2026-W28
   url: /weekly/2026/w28/
 - week: 2026-W29
@@ -110,13 +146,14 @@ related_repos:
 - full_name: affaan-m/ECC
   slug: affaan-m-ecc
   url: https://github.com/affaan-m/ECC
-  score: 9
+  score: 15
   shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  - 2026-W32
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
   shared_topics:
   - ai-agents
   - claude-code
@@ -126,13 +163,14 @@ related_repos:
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
-  score: 9
+  score: 15
   shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  - 2026-W32
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
   shared_topics:
   - ai-agents
   - claude-code
@@ -142,45 +180,31 @@ related_repos:
 - full_name: farion1231/cc-switch
   slug: farion1231-cc-switch
   url: https://github.com/farion1231/cc-switch
-  score: 9
+  score: 15
   shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  - 2026-W32
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
   shared_topics:
   - claude-code
   - codex
   - mcp
   - openclaw
   - skills
-- full_name: headroomlabs-ai/headroom
-  slug: headroomlabs-ai-headroom
-  url: https://github.com/headroomlabs-ai/headroom
-  score: 9
-  shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  - 2026-W32
-  shared_topics:
-  - claude-code
-  - cursor
-  - llm
-  - mcp
-  - rag
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
-  score: 9
+  score: 15
   shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  - 2026-W32
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
   shared_topics:
   - ai-agents
   - gemini
@@ -189,13 +213,14 @@ related_repos:
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
-  score: 9
+  score: 15
   shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  - 2026-W32
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
   shared_topics:
   - gemini
   - llm
@@ -205,13 +230,14 @@ related_repos:
 - full_name: Mintplex-Labs/anything-llm
   slug: mintplex-labs-anything-llm
   url: https://github.com/Mintplex-Labs/anything-llm
-  score: 9
+  score: 15
   shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  - 2026-W32
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
   shared_topics:
   - ai-agents
   - llm
@@ -220,26 +246,44 @@ related_repos:
 - full_name: NousResearch/hermes-agent
   slug: nousresearch-hermes-agent
   url: https://github.com/NousResearch/hermes-agent
-  score: 9
+  score: 15
   shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  - 2026-W32
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
   shared_topics:
   - ai-agents
   - claude-code
   - codex
   - llm
   - openclaw
+- full_name: ruvnet/ruflo
+  slug: ruvnet-ruflo
+  url: https://github.com/ruvnet/ruflo
+  score: 15
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - ai-agents
+  - claude-code
+  - codex
+  - skills
 lifecycle:
   status: active
   as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
-  renamed_from: null
-  prior_full_names: []
+  renamed_from: safishamsi/graphify
+  prior_full_names:
+  - safishamsi/graphify
   renamed_to: null
   status_evidence: github_observation
   archived_at: null
@@ -247,8 +291,10 @@ lifecycle:
   deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
+aliases:
+- /repo/safishamsi-graphify/
 ---
 
-Graphify-Labs/graphify has appeared in 5 Claracle weekly issues.
+Graphify-Labs/graphify has appeared in 11 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

@@ -180,6 +180,20 @@ related_repos:
   shared_topics:
   - api
   - tools
+- full_name: react/react
+  slug: react-react
+  url: https://github.com/react/react
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - library
+  - ui
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
@@ -232,19 +246,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - framework
-- full_name: open-webui/open-webui
-  slug: open-webui-open-webui
-  url: https://github.com/open-webui/open-webui
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ui
 lifecycle:
   status: active
   as_of_week: 2026-W32

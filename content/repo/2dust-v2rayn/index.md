@@ -215,9 +215,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: angular/angular
-  slug: angular-angular
-  url: https://github.com/angular/angular
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
   score: 12
   shared_weeks:
   - 2026-W21
@@ -227,9 +227,9 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
-- full_name: anomalyco/opencode
-  slug: anomalyco-opencode
-  url: https://github.com/anomalyco/opencode
+- full_name: angular/angular
+  slug: angular-angular
+  url: https://github.com/angular/angular
   score: 12
   shared_weeks:
   - 2026-W21

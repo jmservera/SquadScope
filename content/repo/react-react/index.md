@@ -1,6 +1,6 @@
 ---
 title: react/react repository trend history
-description: 'Evergreen Claracle Observatory page for react/react: 8 weekly appearances, stars, velocity, topics, and related
+description: 'Evergreen Claracle Observatory page for react/react: 12 weekly appearances, stars, velocity, topics, and related
   repos.'
 date: '2026-08-03'
 draft: false
@@ -20,27 +20,43 @@ tags:
 - library
 - react
 - ui
-first_seen_week: 2026-W25
+first_seen_week: 2026-W21
 last_seen_week: 2026-W32
 as_of_week: 2026-W32
 source_paths:
+- data/archive/recovered-W23-W29/2026-W23/2026-W23.json
+- data/archive/recovered-W23-W29/2026-W24/2026-W24.json
 - data/archive/recovered-W23-W29/2026-W25/2026-W25.json
 - data/archive/recovered-W23-W29/2026-W26/2026-W26.json
 - data/archive/recovered-W23-W29/2026-W27/2026-W27.json
 - data/archive/recovered-W23-W29/2026-W28/2026-W28.json
+- data/raw/2026-W21.json
+- data/raw/2026-W22.json
 - data/raw/2026-W29.json
 - data/raw/2026-W30.json
 - data/raw/2026-W31.json
 - data/raw/2026-W32.json
-distinct_weekly_issues: 8
+distinct_weekly_issues: 12
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3
   minimum_weeks: 4
 star_history:
+- week: 2026-W21
+  stars: 245093
+  delta: null
+- week: 2026-W22
+  stars: 245259
+  delta: 166
+- week: 2026-W23
+  stars: 245354
+  delta: 95
+- week: 2026-W24
+  stars: 245675
+  delta: 321
 - week: 2026-W25
   stars: 245895
-  delta: null
+  delta: 220
 - week: 2026-W26
   stars: 245995
   delta: 100
@@ -63,6 +79,14 @@ star_history:
   stars: 246917
   delta: 182
 weekly_appearances:
+- week: 2026-W21
+  url: /weekly/2026/w21/
+- week: 2026-W22
+  url: /weekly/2026/w22/
+- week: 2026-W23
+  url: /weekly/2026/w23/
+- week: 2026-W24
+  url: /weekly/2026/w24/
 - week: 2026-W25
   url: /weekly/2026/w25/
 - week: 2026-W26
@@ -100,110 +124,110 @@ related_repos:
 - full_name: facebook/docusaurus
   slug: facebook-docusaurus
   url: https://github.com/facebook/docusaurus
-  score: 10
+  score: 14
   shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
   - 2026-W25
   - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
   shared_topics:
   - javascript
   - react
 - full_name: freeCodeCamp/freeCodeCamp
   slug: freecodecamp-freecodecamp
   url: https://github.com/freeCodeCamp/freeCodeCamp
-  score: 10
+  score: 14
   shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
   - 2026-W25
   - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
   shared_topics:
   - javascript
   - react
 - full_name: ocornut/imgui
   slug: ocornut-imgui
   url: https://github.com/ocornut/imgui
-  score: 10
+  score: 14
   shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
   - 2026-W25
   - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
   shared_topics:
   - library
   - ui
 - full_name: oven-sh/bun
   slug: oven-sh-bun
   url: https://github.com/oven-sh/bun
-  score: 10
+  score: 14
   shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
   - 2026-W25
   - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
   shared_topics:
   - javascript
   - react
 - full_name: shadcn-ui/ui
   slug: shadcn-ui-ui
   url: https://github.com/shadcn-ui/ui
-  score: 10
+  score: 14
   shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
   - 2026-W25
   - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
   shared_topics:
   - react
   - ui
 - full_name: angular/angular
   slug: angular-angular
   url: https://github.com/angular/angular
-  score: 9
+  score: 13
   shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
   - 2026-W25
   - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
   shared_topics:
   - javascript
 - full_name: ant-design/ant-design
   slug: ant-design-ant-design
   url: https://github.com/ant-design/ant-design
-  score: 9
+  score: 13
   shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
   - 2026-W25
   - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
   shared_topics:
   - react
 - full_name: apache/superset
   slug: apache-superset
   url: https://github.com/apache/superset
-  score: 9
+  score: 13
   shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
   - 2026-W25
   - 2026-W26
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
   shared_topics:
   - react
 lifecycle:
@@ -211,8 +235,9 @@ lifecycle:
   as_of_week: 2026-W32
   retention_years: 3
   retained_until: null
-  renamed_from: null
-  prior_full_names: []
+  renamed_from: facebook/react
+  prior_full_names:
+  - facebook/react
   renamed_to: null
   status_evidence: github_observation
   archived_at: null
@@ -220,8 +245,10 @@ lifecycle:
   deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
+aliases:
+- /repo/facebook-react/
 ---
 
-react/react has appeared in 8 Claracle weekly issues.
+react/react has appeared in 12 Claracle weekly issues.
 
 See the generated Observatory sections below for growth history, derived star velocity, weekly appearances, related repositories, and provenance.

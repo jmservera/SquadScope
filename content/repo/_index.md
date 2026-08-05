@@ -2,7 +2,7 @@
 title: Repository Observatory
 description: Evergreen Claracle pages for recurring GitHub repositories tracked across weekly issues.
 generated_by: observatory_repo_pages
-repo_pages_generated: 270
+repo_pages_generated: 266
 recurrence_threshold:
   operator: '>'
   distinct_weekly_issues: 3

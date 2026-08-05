@@ -88,7 +88,11 @@ class RepositoryHistory:
 
     @property
     def latest_observation(self) -> RepoObservation:
-        return sorted(self.observations, key=lambda item: item.week)[-1]
+        # Tie-break same-week observations by source_path, matching
+        # lifecycle_ledger_payload()'s serialization order, so the chosen "latest"
+        # observation is stable whether histories are freshly computed from raw
+        # weeks or reloaded from a persisted ledger round-trip.
+        return sorted(self.observations, key=lambda item: (item.week, item.source_path))[-1]
 
     @property
     def star_history(self) -> list[dict[str, int | str | None]]:
@@ -406,7 +410,9 @@ def history_from_ledger(key: str, raw: dict[str, Any]) -> RepositoryHistory | No
     ]
     if not observations:
         return None
-    latest = sorted(observations, key=lambda item: item.week)[-1]
+    # Tie-break same-week observations by source_path, matching latest_observation
+    # and lifecycle_ledger_payload()'s serialization order.
+    latest = sorted(observations, key=lambda item: (item.week, item.source_path))[-1]
     history = RepositoryHistory(
         key=key,
         github_id=str(raw["github_id"]) if raw.get("github_id") is not None else latest.github_id,
@@ -493,9 +499,13 @@ def consolidate_ledger_duplicate_identities(histories: dict[str, RepositoryHisto
         if len(stable) != 1 or not fallback:
             continue
         canonical = stable[0]
+        previous_display_name = canonical.display_name
+        previous_slug = canonical.slug
         for source in fallback:
             canonical.prior_full_names.update(source.prior_full_names)
             canonical.prior_slugs.update(source.prior_slugs)
+            canonical.prior_full_names.add(source.display_name)
+            canonical.prior_slugs.add(source.slug)
             canonical.qualified = canonical.qualified or source.qualified
             for observation in source.observations:
                 identity = (observation.week, observation.source_path)
@@ -508,11 +518,20 @@ def consolidate_ledger_duplicate_identities(histories: dict[str, RepositoryHisto
                 if observation.language:
                     canonical.languages.update([observation.language])
             histories.pop(source.key, None)
+        canonical.prior_full_names.add(previous_display_name)
+        canonical.prior_slugs.add(previous_slug)
         latest = canonical.latest_observation
         canonical.display_name = latest.full_name
         canonical.owner = latest.owner
         canonical.name = latest.name
         canonical.slug = repo_slug(latest.full_name)
+        canonical.url = latest.url
+        canonical.description = latest.description or canonical.description
+        # The final identity must never also be listed as one of its own priors -
+        # e.g. a merged source's own prior_full_names/prior_slugs can already contain
+        # the value that ends up being the combined history's current name/slug.
+        canonical.prior_full_names.discard(canonical.display_name)
+        canonical.prior_slugs.discard(canonical.slug)
 
 
 def load_repository_histories(

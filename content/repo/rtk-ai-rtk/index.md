@@ -172,6 +172,21 @@ related_repos:
   - claude-code
   - open-source
   - rust
+- full_name: Graphify-Labs/graphify
+  slug: graphify-labs-graphify
+  url: https://github.com/Graphify-Labs/graphify
+  score: 14
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - claude-code
+  - developer-tools
+  - llm
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
@@ -245,20 +260,6 @@ related_repos:
   shared_topics:
   - llm
   - open-source
-- full_name: ohmyzsh/ohmyzsh
-  slug: ohmyzsh-ohmyzsh
-  url: https://github.com/ohmyzsh/ohmyzsh
-  score: 13
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - cli
-  - productivity
 lifecycle:
   status: active
   as_of_week: 2026-W32

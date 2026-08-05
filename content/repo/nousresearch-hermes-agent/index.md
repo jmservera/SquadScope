@@ -142,6 +142,23 @@ topic_links:
   slug: open-source-llms
   url: /topics/open-source-llms/
 related_repos:
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 16
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai-agents
+  - anthropic
+  - claude
+  - claude-code
+  - llm
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
@@ -260,22 +277,6 @@ related_repos:
   - ai-agents
   - claude-code
   - codex
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 16
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - claude
-  - llm
-  - openai
 lifecycle:
   status: active
   as_of_week: 2026-W32

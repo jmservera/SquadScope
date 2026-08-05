@@ -175,6 +175,20 @@ related_repos:
   - ai-agents
   - llm
   - python
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai-agents
+  - llm
 - full_name: firecrawl/firecrawl
   slug: firecrawl-firecrawl
   url: https://github.com/firecrawl/firecrawl
@@ -220,20 +234,6 @@ related_repos:
 - full_name: langgenius/dify
   slug: langgenius-dify
   url: https://github.com/langgenius/dify
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - llm
-  - python
-- full_name: MemPalace/mempalace
-  slug: mempalace-mempalace
-  url: https://github.com/MemPalace/mempalace
   score: 14
   shared_weeks:
   - 2026-W21

@@ -138,6 +138,22 @@ related_repos:
   - flutter
   - ios
   - web
+- full_name: react/react-native
+  slug: react-react-native
+  url: https://github.com/react/react-native
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - android
+  - ios
+  - react
+  - react-native
 - full_name: awesome-selfhosted/awesome-selfhosted
   slug: awesome-selfhosted-awesome-selfhosted
   url: https://github.com/awesome-selfhosted/awesome-selfhosted
@@ -227,20 +243,6 @@ related_repos:
   shared_topics:
   - javascript
   - web
-- full_name: facebook/docusaurus
-  slug: facebook-docusaurus
-  url: https://github.com/facebook/docusaurus
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - javascript
-  - react
 lifecycle:
   status: active
   as_of_week: 2026-W30

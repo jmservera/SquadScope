@@ -169,9 +169,9 @@ related_repos:
   shared_topics:
   - javascript
   - nodejs
-- full_name: oven-sh/bun
-  slug: oven-sh-bun
-  url: https://github.com/oven-sh/bun
+- full_name: openinterpreter/openinterpreter
+  slug: openinterpreter-openinterpreter
+  url: https://github.com/openinterpreter/openinterpreter
   score: 9
   shared_weeks:
   - 2026-W21
@@ -183,9 +183,9 @@ related_repos:
   shared_topics:
   - javascript
   - nodejs
-- full_name: strapi/strapi
-  slug: strapi-strapi
-  url: https://github.com/strapi/strapi
+- full_name: oven-sh/bun
+  slug: oven-sh-bun
+  url: https://github.com/oven-sh/bun
   score: 9
   shared_weeks:
   - 2026-W21

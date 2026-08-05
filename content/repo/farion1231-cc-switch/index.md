@@ -198,6 +198,37 @@ related_repos:
   - codex
   - skills
   - typescript
+- full_name: Graphify-Labs/graphify
+  slug: graphify-labs-graphify
+  url: https://github.com/Graphify-Labs/graphify
+  score: 15
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - claude-code
+  - codex
+  - mcp
+  - openclaw
+  - skills
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - claude-code
+  - mcp
 - full_name: denoland/deno
   slug: denoland-deno
   url: https://github.com/denoland/deno
@@ -240,34 +271,6 @@ related_repos:
   shared_topics:
   - open-source
   - typescript
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - mcp
-  - skills
-- full_name: Mintplex-Labs/anything-llm
-  slug: mintplex-labs-anything-llm
-  url: https://github.com/Mintplex-Labs/anything-llm
-  score: 14
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - hermes-agent
-  - mcp
 lifecycle:
   status: active
   as_of_week: 2026-W32

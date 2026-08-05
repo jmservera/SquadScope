@@ -234,9 +234,9 @@ related_repos:
   - ai
   - llm
   - python
-- full_name: browser-use/browser-use
-  slug: browser-use-browser-use
-  url: https://github.com/browser-use/browser-use
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
   score: 14
   shared_weeks:
   - 2026-W21
@@ -247,7 +247,7 @@ related_repos:
   - 2026-W26
   shared_topics:
   - llm
-  - python
+  - mcp
 lifecycle:
   status: active
   as_of_week: 2026-W32

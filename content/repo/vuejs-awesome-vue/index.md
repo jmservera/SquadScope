@@ -100,6 +100,18 @@ related_repos:
   - 2026-W30
   - 2026-W31
   shared_topics: []
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 6
+  shared_weeks:
+  - 2026-W21
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  - 2026-W31
+  shared_topics: []
 - full_name: angular/angular
   slug: angular-angular
   url: https://github.com/angular/angular
@@ -139,18 +151,6 @@ related_repos:
 - full_name: ant-design/ant-design
   slug: ant-design-ant-design
   url: https://github.com/ant-design/ant-design
-  score: 6
-  shared_weeks:
-  - 2026-W21
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics: []
-- full_name: anthropics/claude-code
-  slug: anthropics-claude-code
-  url: https://github.com/anthropics/claude-code
   score: 6
   shared_weeks:
   - 2026-W21

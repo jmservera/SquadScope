@@ -193,9 +193,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - react
-- full_name: ruvnet/RuView
-  slug: ruvnet-ruview
-  url: https://github.com/ruvnet/RuView
+- full_name: react/react
+  slug: react-react
+  url: https://github.com/react/react
   score: 13
   shared_weeks:
   - 2026-W21
@@ -206,9 +206,9 @@ related_repos:
   - 2026-W26
   shared_topics:
   - react
-- full_name: shadcn-ui/ui
-  slug: shadcn-ui-ui
-  url: https://github.com/shadcn-ui/ui
+- full_name: react/react-native
+  slug: react-react-native
+  url: https://github.com/react/react-native
   score: 13
   shared_weeks:
   - 2026-W21

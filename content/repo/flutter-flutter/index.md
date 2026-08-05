@@ -136,6 +136,24 @@ tag_links:
   url: /tags/macos/
 topic_links: []
 related_repos:
+- full_name: react/react-native
+  slug: react-react-native
+  url: https://github.com/react/react-native
+  score: 16
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - android
+  - app-framework
+  - cross-platform
+  - ios
+  - mobile
+  - mobile-development
 - full_name: rustdesk/rustdesk
   slug: rustdesk-rustdesk
   url: https://github.com/rustdesk/rustdesk
@@ -237,19 +255,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - windows
-- full_name: fastapi/fastapi
-  slug: fastapi-fastapi
-  url: https://github.com/fastapi/fastapi
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - web
 lifecycle:
   status: active
   as_of_week: 2026-W32

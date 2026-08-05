@@ -113,6 +113,21 @@ related_repos:
   - claude-code
   - developer-tools
   - llm
+- full_name: Graphify-Labs/graphify
+  slug: graphify-labs-graphify
+  url: https://github.com/Graphify-Labs/graphify
+  score: 9
+  shared_weeks:
+  - 2026-W25
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - ai-agents
+  - claude-code
+  - developer-tools
+  - llm
 - full_name: NousResearch/hermes-agent
   slug: nousresearch-hermes-agent
   url: https://github.com/NousResearch/hermes-agent
@@ -199,19 +214,6 @@ related_repos:
   - claude-code
   - developer-tools
   - llm
-- full_name: addyosmani/agent-skills
-  slug: addyosmani-agent-skills
-  url: https://github.com/addyosmani/agent-skills
-  score: 7
-  shared_weeks:
-  - 2026-W25
-  - 2026-W27
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  shared_topics:
-  - agent-skills
-  - claude-code
 lifecycle:
   status: active
   as_of_week: 2026-W30

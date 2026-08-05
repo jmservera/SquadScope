@@ -167,6 +167,19 @@ related_repos:
   - 2026-W26
   shared_topics:
   - android
+- full_name: react/react-native
+  slug: react-react-native
+  url: https://github.com/react/react-native
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - android
 - full_name: rustdesk/rustdesk
   slug: rustdesk-rustdesk
   url: https://github.com/rustdesk/rustdesk
@@ -192,6 +205,18 @@ related_repos:
   - 2026-W25
   - 2026-W26
   shared_topics: []
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 12
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics: []
 - full_name: angular/angular
   slug: angular-angular
   url: https://github.com/angular/angular
@@ -207,30 +232,6 @@ related_repos:
 - full_name: anomalyco/opencode
   slug: anomalyco-opencode
   url: https://github.com/anomalyco/opencode
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics: []
-- full_name: ansible/ansible
-  slug: ansible-ansible
-  url: https://github.com/ansible/ansible
-  score: 12
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics: []
-- full_name: ant-design/ant-design
-  slug: ant-design-ant-design
-  url: https://github.com/ant-design/ant-design
   score: 12
   shared_weeks:
   - 2026-W21
