@@ -43,13 +43,21 @@ Success: Q-01 has reproducible page-class attribution and an owner-reviewable re
 
 <!-- parallelizable: true -->
 
-* [ ] Obtain stable GitHub IDs for the production corpus or record an explicit accepted-risk disposition for fallback name identity
+* [x] Obtain stable GitHub IDs for the production corpus or record an explicit accepted-risk disposition for fallback name identity
 * [ ] Hydrate the target publish revision and seed lifecycle parity twice while production generation remains disabled
 * [ ] Require 263 qualified histories, pages, and derived identities, with byte-identical second output
 * [ ] Exercise and review one rename, archive, confirmed deletion, retention, and expiry transition against production-shaped data
 * [ ] Record Hermes and sponsor dispositions for identity and deletion policy
 
 Success: FR-020 through FR-022 have corpus-level identity and lifecycle evidence rather than fixture-only proof.
+
+> Identity backfill completed 2026-08-05 via `scripts/backfill_repo_identity.py`
+> (sponsor decision ID-01): 2,012/2,012 pending repositories checked, 1,241 found,
+> 768 not_found (reviewed deletion evidence), 3 access-blocked (accepted-risk
+> candidates, see WI-05). Applying it to `seed_lifecycle()` surfaced a real
+> rename/consolidation transition affecting 7 existing pages (see DD-03/WI-04) that
+> must be reviewed and regenerated before the remaining Phase 2 checklist items can
+> pass; Hermes disposition also remains outstanding.
 
 ### [ ] Phase 3: Add a Safe Dynamic-Topic Preview and Canary
 

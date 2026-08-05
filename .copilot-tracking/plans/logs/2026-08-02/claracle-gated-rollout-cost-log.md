@@ -22,6 +22,36 @@
     reflecting 7 pages added after the plan was written.
   * Rationale: not corrected in this pass; flagged here so Phase 2 execution reconciles
     against the live test assertion rather than the stale plan figure.
+* DD-03: Applying the completed identity backfill to `seed_lifecycle()` fails the
+  existing byte-for-byte parity check (Phase 2, checklist item 2) by design, not by bug.
+  * Plan specifies: hydrate and seed lifecycle parity twice while production generation
+    remains disabled.
+  * Implementation differs: `python -m scripts.observatory_repos --seed-lifecycle` now
+    raises `Lifecycle seed parity mismatch: qualified=266, pages=270, derived=270` once
+    the completed backfill (`data/derived/observatory/repo-identity-backfill.json`) is
+    merged in. Root cause confirmed via direct inspection (not a defect in
+    `merge_identity_backfill_overrides()`/`load_repository_histories()`): the backfill
+    resolved `github_id`s for repositories previously split across a stale fallback
+    identity and their real, already-tracked numeric-id identity, consolidating each
+    pair into one history under the corrected current `full_name`. This surfaces 7
+    existing pages as stale/duplicate and 3 new identities needing a page:
+    * `react/react` (`react-react`) and `react/react-native` no longer independently
+      qualify; their observations merged into already-existing, already-paged
+      identities (no new page needed for these two).
+    * `Egonex-AI/Understand-Anything` -> `Lum1104/Understand-Anything`
+      (`lum1104-understand-anything`)
+    * `affaan-m/ECC` -> `affaan-m/everything-claude-code`
+      (`affaan-m-everything-claude-code`)
+    * `openinterpreter/openinterpreter` -> `openinterpreter/open-interpreter`
+      (`openinterpreter-open-interpreter`)
+    * `Graphify-Labs/graphify` and `odysseus-dev/odysseus` also merged into other
+      already-qualified identities; no new page needed.
+  * Rationale: not corrected in this pass. Regenerating/renaming/removing
+    `content/repo/*` pages is exactly the reviewed rename/consolidation transition
+    Phase 2's checklist requires exercising, and doing so was intentionally deferred
+    for explicit confirmation rather than mixed into a docs-only PR. `seed_lifecycle()`
+    correctly fails closed (writes nothing) until this is reviewed and the pages are
+    regenerated to match.
 
 ## Suggested Follow-On Work
 
@@ -43,6 +73,23 @@
   * Source: Phases 2 through 5 success criteria; Plan Dependencies.
   * Dependency: `jmservera` sponsor review of
     [owner-action-register.md#sponsor-rollout-decision](../../../../docs/review/data-observatory-relaunch/owner-action-register.md#sponsor-rollout-decision).
+* WI-04: Review and regenerate the 7 stale/duplicate repository pages the completed
+  identity backfill surfaced, so `seed_lifecycle()` parity (Phase 2, checklist item 2)
+  can pass — high priority, blocks the remainder of Phase 2.
+  * Source: DD-03.
+  * Dependency: none technical beyond reviewer confirmation of the 3 rename targets and
+    4 consolidations listed in DD-03; should be done in an isolated checkout per the
+    Repository Activation Contract, not on a docs-only branch.
+* WI-05: Obtain an accepted-risk disposition or broader-scoped token for the 3
+  repositories the backfill could not resolve (access-blocked, not confirmed deleted)
+  — medium priority.
+  * Source: Changes Log Release Summary (`asz798838958/abaiautoplus` HTTP 403 privacy
+    block, `openysmdev/openysm` HTTP 451 DMCA takedown, `powershell/powershell` HTTP 403
+    SAML enforcement). None are deletions; the SAML-blocked one specifically requires
+    `jmservera` to authorize the OAuth token against the PowerShell org, not something
+    resolvable headlessly.
+  * Dependency: sponsor/Hermes disposition, or manual SSO authorization for the one
+    SAML case.
 
 ## User Decisions
 
