@@ -9,9 +9,13 @@
 Reconciled Phase 1 (report-only build-cost experiment) as already delivered and merged
 to `main` under a separate plan. Implemented the sponsor-directed repository identity
 backfill mechanism (Phase 2, Step 1) that resolves stable GitHub IDs for the production
-corpus and treats confirmed-not-found repositories as reviewed deletion evidence. The
+corpus and treats confirmed-not-found repositories as reviewed deletion evidence.
+Validating the completed backfill against `seed_lifecycle()` surfaced a real
+rename/consolidation transition and a pre-existing duplicate-ledger-identity bug, fixed
+separately in [PR #666](https://github.com/jmservera/SquadScope/pull/666). The
 remainder of Phase 2 and all of Phases 3 through 5 remain blocked on pending sponsor and
-Hermes rollout decisions and are not started.
+Hermes rollout decisions, plus a Phase 4-scale content regeneration (~110 files, see the
+Planning Log DD-04/WI-04), and are not started.
 
 ## Changes
 

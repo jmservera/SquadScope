@@ -52,6 +52,26 @@
     for explicit confirmation rather than mixed into a docs-only PR. `seed_lifecycle()`
     correctly fails closed (writes nothing) until this is reviewed and the pages are
     regenerated to match.
+* DD-04: Attempting DD-03's remediation surfaced a genuine, pre-existing bug
+    (independent of the identity backfill feature itself): `write_repository_pages()`
+    raised `Slug collision detected: both history key '1255180606' and
+    'name:pewdiepie-archdaemon/odysseus' produce slug 'pewdiepie-archdaemon-odysseus'`.
+  * Root cause: a `name:`-keyed ledger entry recorded before a repository's `github_id`
+    was known can coexist with a stable-ID ledger entry for the same repository under
+    an earlier name. The reverse-index migration in `load_repository_histories()` only
+    reconciles this during raw-week processing when the stable key isn't already
+    present in `histories`; it was never applied to ledger-preloaded duplicates whose
+    display names only converge after raw-week observations settle.
+  * Fix: `consolidate_ledger_duplicate_identities()`, added and merged as
+    [PR #666](https://github.com/jmservera/SquadScope/pull/666) (based on this branch,
+    since it depends on the identity backfill mechanism). Regression test
+    `test_consolidates_ledger_preloaded_duplicate_after_rename_settles_display_name`
+    reproduces the scenario.
+  * With the fix, `--check` succeeds (no collision) but reports **110 files** would
+    change (page renames/removals plus `related_repos` recalculation across the
+    corpus) — this is Phase 4-scale regeneration, not a single reviewed example.
+    Deliberately not written; `config/observatory.toml` was reverted to
+    `enabled = false` before committing the fix. See WI-04.
 
 ## Suggested Follow-On Work
 
@@ -73,13 +93,18 @@
   * Source: Phases 2 through 5 success criteria; Plan Dependencies.
   * Dependency: `jmservera` sponsor review of
     [owner-action-register.md#sponsor-rollout-decision](../../../../docs/review/data-observatory-relaunch/owner-action-register.md#sponsor-rollout-decision).
-* WI-04: Review and regenerate the 7 stale/duplicate repository pages the completed
-  identity backfill surfaced, so `seed_lifecycle()` parity (Phase 2, checklist item 2)
-  can pass — high priority, blocks the remainder of Phase 2.
-  * Source: DD-03.
-  * Dependency: none technical beyond reviewer confirmation of the 3 rename targets and
-    4 consolidations listed in DD-03; should be done in an isolated checkout per the
-    Repository Activation Contract, not on a docs-only branch.
+* WI-04: Review and regenerate the repository pages affected once the completed
+  identity backfill is applied, so `seed_lifecycle()` parity (Phase 2, checklist item
+  2) can pass — high priority, blocks the remainder of Phase 2.
+  * Source: DD-03, DD-04.
+  * Status: the blocking duplicate-identity bug is now fixed (PR #666), but `--check`
+    shows **110 files** would change corpus-wide (not just the original 7). This is
+    full Phase 4-scale regeneration (page creation/removal, ledger, derived JSON,
+    `related_repos` recalculation across the corpus) and needs its own reviewed PR
+    following the Repository Activation Contract (isolated enabled preflight, two full
+    generations, byte-stable second run, reviewer disposition of every
+    obsolete/expired path) rather than being treated as a quick follow-up.
+  * Dependency: PR #666 merged first; reviewer time to disposition ~110 file changes.
 * WI-05: Obtain an accepted-risk disposition or broader-scoped token for the 3
   repositories the backfill could not resolve (access-blocked, not confirmed deleted)
   — medium priority.
