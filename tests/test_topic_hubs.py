@@ -373,6 +373,105 @@ def test_dynamic_topic_creation_is_threshold_driven_and_additive() -> None:
     assert 'topics: ["Edge AI Workflows"]' in current_week.read_text(encoding="utf-8")
 
 
+def test_preview_dynamic_hubs_reports_without_mutating_and_works_while_disabled() -> None:
+    if WORKSPACE.exists():
+        shutil.rmtree(WORKSPACE)
+    (WORKSPACE / "config").mkdir(parents=True)
+    (WORKSPACE / "content" / "weekly" / "2026").mkdir(parents=True)
+    (WORKSPACE / "content" / "topics" / "quiet-existing").mkdir(parents=True)
+
+    (WORKSPACE / "config" / "observatory.toml").write_text(
+        """[topic_hubs]
+        seed_topics = ["AI Coding Agents"]
+
+        [topic_hubs.dynamic_creation]
+        enabled = false
+        min_weekly_issues = 4
+        lookback_days = 62
+        log_path = "data/topic-hubs/dynamic-topic-creation.log"
+        ignore_topics = ["ignored-candidate"]
+        """,
+        encoding="utf-8",
+    )
+    (WORKSPACE / "data" / "taxonomy").mkdir(parents=True)
+    (WORKSPACE / "content" / "topics" / "quiet-existing" / "_index.md").write_text(
+        '---\ntitle: "Quiet Existing"\n---\n',
+        encoding="utf-8",
+    )
+    (WORKSPACE / "data" / "taxonomy" / "topics.json").write_text(
+        json.dumps({"terms": {}}, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    weeks = ["2026-W28", "2026-W29", "2026-W30", "2026-W31"]
+    _write_candidate_registry(
+        WORKSPACE,
+        {
+            "edge-ai-workflows": _candidate("Edge AI Workflows", weeks),
+            "ignored-candidate": _candidate("Ignored Candidate", weeks),
+            "forked-candidate-source": _candidate(
+                "Forked Candidate Source", ["2026-W31"], eligible=False
+            ),
+            "quiet-existing": _candidate("Quiet Existing", weeks),
+        },
+    )
+    for week in weeks:
+        weekly = WORKSPACE / "content" / "weekly" / "2026" / f"W{week[-2:]}.md"
+        weekly.write_text(
+            f'---\ntitle: "{week}"\ndate: 2026-07-27\nweek: "{week}"\n'
+            'tags: ["edge-ai-workflows"]\ncategories: ["weekly"]\ntopics: []\n---\nBody\n',
+            encoding="utf-8",
+        )
+
+    before = {
+        path: path.read_text(encoding="utf-8") for path in WORKSPACE.rglob("*") if path.is_file()
+    }
+
+    from scripts.manage_topic_hubs import preview_dynamic_hubs
+
+    report = preview_dynamic_hubs(
+        root=WORKSPACE,
+        config_path=WORKSPACE / "config" / "observatory.toml",
+        current_date="2026-07-29T12:57:30Z",
+    )
+    by_slug = {entry["slug"]: entry for entry in report}
+
+    assert by_slug["edge-ai-workflows"]["action"] == "promote"
+    assert (
+        by_slug["edge-ai-workflows"]["proposed_hub_path"]
+        == "content/topics/edge-ai-workflows/_index.md"
+    )
+    assert by_slug["edge-ai-workflows"]["proposed_weekly_assignments"] == [
+        f"content/weekly/2026/W{week[-2:]}.md" for week in weeks
+    ]
+    assert by_slug["edge-ai-workflows"]["registry_effect"] == "create-new-term"
+    assert by_slug["edge-ai-workflows"]["skip_reason"] is None
+    assert by_slug["ignored-candidate"]["action"] == "skip"
+    assert by_slug["ignored-candidate"]["skip_reason"] == "existing-or-ignored"
+    assert by_slug["quiet-existing"]["skip_reason"] == "existing-or-ignored"
+    assert by_slug["forked-candidate-source"]["skip_reason"] == "missing-supporting-evidence"
+
+    # preview must never write anything, even while enabled = false
+    after = {
+        path: path.read_text(encoding="utf-8") for path in WORKSPACE.rglob("*") if path.is_file()
+    }
+    assert before == after
+    assert not (WORKSPACE / "data" / "topic-hubs").exists()
+
+    # create_dynamic_hubs(dry_run=True) must produce the same report and also
+    # write nothing, regardless of the enabled flag.
+    created = create_dynamic_hubs(
+        root=WORKSPACE,
+        config_path=WORKSPACE / "config" / "observatory.toml",
+        current_date="2026-07-29T12:57:30Z",
+        dry_run=True,
+    )
+    assert created == []
+    after_dry_run = {
+        path: path.read_text(encoding="utf-8") for path in WORKSPACE.rglob("*") if path.is_file()
+    }
+    assert before == after_dry_run
+
+
 def test_dynamic_topic_creation_does_not_create_below_threshold() -> None:
     if WORKSPACE.exists():
         shutil.rmtree(WORKSPACE)

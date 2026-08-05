@@ -281,9 +281,9 @@ def add_topic_to_registry(registry_path: Path, slug: str, signal: CandidateSigna
     registry_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def assign_topic_to_weeks(root: Path, signal: CandidateSignal) -> list[Path]:
-    """Add a promoted canonical topic to every evidenced weekly issue."""
-    changed: list[Path] = []
+def proposed_weekly_assignments(root: Path, signal: CandidateSignal) -> list[Path]:
+    """Return weekly issue paths that would gain signal.title, without writing."""
+    proposed: list[Path] = []
     for week in sorted(signal.weeks):
         year, number = week.split("-W", maxsplit=1)
         path = root / "content" / "weekly" / year / f"W{number}.md"
@@ -301,6 +301,24 @@ def assign_topic_to_weeks(root: Path, signal: CandidateSignal) -> list[Path]:
             raise ValueError(f"{path}: topics must be a list of strings")
         if signal.title in topics:
             continue
+        proposed.append(path)
+    return proposed
+
+
+def assign_topic_to_weeks(root: Path, signal: CandidateSignal) -> list[Path]:
+    """Add a promoted canonical topic to every evidenced weekly issue."""
+    changed: list[Path] = []
+    for path in proposed_weekly_assignments(root, signal):
+        document = path.read_text(encoding="utf-8")
+        match = FRONTMATTER_RE.match(document)
+        if not match:
+            raise ValueError(f"{path}: missing YAML frontmatter")
+        frontmatter = yaml.safe_load(match.group(1))
+        if not isinstance(frontmatter, dict):
+            raise ValueError(f"{path}: frontmatter must be a mapping")
+        topics = frontmatter.get("topics", [])
+        if not isinstance(topics, list) or any(not isinstance(topic, str) for topic in topics):
+            raise ValueError(f"{path}: topics must be a list of strings")
         topics_line = (
             "topics: [" + ", ".join(json.dumps(topic) for topic in [*topics, signal.title]) + "]"
         )
@@ -401,6 +419,65 @@ def append_log(config: HubCreationConfig, message: str) -> None:
         handle.write(message.rstrip() + "\n")
 
 
+def preview_dynamic_hubs(
+    *,
+    root: Path = PROJECT_ROOT,
+    config_path: Path = DEFAULT_CONFIG,
+    current_date: str | None = None,
+) -> list[dict[str, Any]]:
+    """Report proposed topic-hub promotions without writing any file.
+
+    Evaluates every candidate through the same eligibility path as
+    create_dynamic_hubs(), but never creates a hub, updates the registry,
+    assigns weekly frontmatter, or appends to the log.
+    """
+    config = load_config(config_path)
+    now = parse_current_date(current_date)
+    candidates = collect_candidates(root, config)
+    existing = existing_hub_keys(root / "content")
+    registry_terms: dict[str, Any] = {}
+    if config.registry_path.exists():
+        payload = json.loads(config.registry_path.read_text(encoding="utf-8"))
+        registry_terms = payload.get("terms", {}) if isinstance(payload, dict) else {}
+
+    report: list[dict[str, Any]] = []
+    for key, signal in sorted(candidates.items()):
+        weekly_count = signal.weekly_issue_count or len(signal.weeks)
+        entry: dict[str, Any] = {
+            "slug": key,
+            "title": signal.title,
+            "evidence_weeks": sorted(signal.weeks),
+            "supporting_sources": sorted(signal.sources),
+            "weekly_issue_count": weekly_count,
+            "action": "skip",
+            "skip_reason": None,
+            "proposed_hub_path": None,
+            "proposed_weekly_assignments": [],
+            "registry_effect": None,
+        }
+        if key in existing or key in config.ignore_topics:
+            entry["skip_reason"] = "existing-or-ignored"
+        elif not signal.eligible or not signal.supporting_signals:
+            entry["skip_reason"] = "missing-supporting-evidence"
+        elif weekly_count < config.min_weekly_issues or not candidate_is_recent(
+            signal, now, config.lookback_days
+        ):
+            entry["skip_reason"] = "below-threshold"
+        else:
+            entry["action"] = "promote"
+            entry["proposed_hub_path"] = str(
+                (root / "content" / "topics" / key / "_index.md").relative_to(root)
+            )
+            entry["proposed_weekly_assignments"] = [
+                str(path.relative_to(root)) for path in proposed_weekly_assignments(root, signal)
+            ]
+            entry["registry_effect"] = (
+                "promote-existing-term" if key in registry_terms else "create-new-term"
+            )
+        report.append(entry)
+    return report
+
+
 def create_dynamic_hubs(
     *,
     root: Path = PROJECT_ROOT,
@@ -410,11 +487,15 @@ def create_dynamic_hubs(
 ) -> list[Path]:
     config = load_config(config_path)
     now = parse_current_date(current_date)
+    if dry_run:
+        # The preview reads candidates and reports proposed changes without writing
+        # anything, so it is safe to run regardless of the enabled flag - this is
+        # exactly how a reviewer evaluates candidates before flipping the flag on.
+        report = preview_dynamic_hubs(root=root, config_path=config_path, current_date=current_date)
+        print(json.dumps({"schema_version": 1, "candidates": report}, indent=2, sort_keys=True))
+        return []
     if not config.enabled:
         print("dynamic-topic-decision enabled=false action=skip reason=disabled", file=sys.stderr)
-        return []
-    if dry_run:
-        print("dynamic-topic-decision enabled=true action=skip reason=dry-run", file=sys.stderr)
         return []
 
     candidates = collect_candidates(root, config)
