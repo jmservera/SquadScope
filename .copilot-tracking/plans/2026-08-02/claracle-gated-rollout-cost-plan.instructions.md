@@ -19,30 +19,45 @@ applyTo: '.copilot-tracking/changes/2026-08-02/claracle-gated-rollout-cost-chang
 
 ## Implementation Checklist
 
-### [ ] Phase 1: Build a Report-Only Cost Experiment
+### [x] Phase 1: Build a Report-Only Cost Experiment
 
 <!-- parallelizable: false -->
 
-* [ ] Add a manually dispatchable experiment that creates clean, isolated workload variants from the same main and publish revisions
-* [ ] Measure baseline, topic hubs, data pages, repository pages, and an optional approved dynamic canary
-* [ ] Record Hugo and Pagefind versions, durations, page counts, indexed counts, output bytes, variant, runner, and both SHAs
-* [ ] Retain at least three comparable runs, preferably five
-* [ ] Aggregate median, nearest-rank p95, absolute delta, percent delta, and marginal milliseconds per added source page
-* [ ] Publish the report without a blocking threshold
+* [x] Add a manually dispatchable experiment that creates clean, isolated workload variants from the same main and publish revisions
+* [x] Measure baseline, topic hubs, data pages, repository pages, and an optional approved dynamic canary
+* [x] Record Hugo and Pagefind versions, durations, page counts, indexed counts, output bytes, variant, runner, and both SHAs
+* [x] Retain at least three comparable runs, preferably five
+* [x] Aggregate median, nearest-rank p95, absolute delta, percent delta, and marginal milliseconds per added source page
+* [x] Publish the report without a blocking threshold
 
 Success: Q-01 has reproducible page-class attribution and an owner-reviewable report.
+
+> Delivered 2026-08-03 under `.copilot-tracking/plans/2026-08-03/claracle-all-followups-plan.instructions.md`
+> as `.github/workflows/build-cost-experiment.yml`, `scripts/build_cost_experiment.py`, and
+> `tests/test_build_cost_experiment.py`. Verified present on `main` as of 2026-08-05; retained
+> 3/5-run artifacts and owner budget conclusion remain pending per
+> [status-of-record.md](../../../docs/review/data-observatory-relaunch/status-of-record.md).
+
 
 ### [ ] Phase 2: Close Repository Identity and Lifecycle Preconditions
 
 <!-- parallelizable: true -->
 
-* [ ] Obtain stable GitHub IDs for the production corpus or record an explicit accepted-risk disposition for fallback name identity
+* [x] Obtain stable GitHub IDs for the production corpus or record an explicit accepted-risk disposition for fallback name identity
 * [ ] Hydrate the target publish revision and seed lifecycle parity twice while production generation remains disabled
 * [ ] Require 263 qualified histories, pages, and derived identities, with byte-identical second output
 * [ ] Exercise and review one rename, archive, confirmed deletion, retention, and expiry transition against production-shaped data
 * [ ] Record Hermes and sponsor dispositions for identity and deletion policy
 
 Success: FR-020 through FR-022 have corpus-level identity and lifecycle evidence rather than fixture-only proof.
+
+> Identity backfill completed 2026-08-05 via `scripts/backfill_repo_identity.py`
+> (sponsor decision ID-01): 2,012/2,012 pending repositories checked, 1,241 found,
+> 768 not_found (reviewed deletion evidence), 3 access-blocked (accepted-risk
+> candidates, see WI-05). Applying it to `seed_lifecycle()` surfaced a real
+> rename/consolidation transition affecting 7 existing pages (see DD-03/WI-04) that
+> must be reviewed and regenerated before the remaining Phase 2 checklist items can
+> pass; Hermes disposition also remains outstanding.
 
 ### [ ] Phase 3: Add a Safe Dynamic-Topic Preview and Canary
 
