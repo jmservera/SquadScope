@@ -1,0 +1,73 @@
+name: Repository identity backfill (resumable)
+
+on:
+  workflow_dispatch:
+    # checkov:skip=CKV_GHA_7:limit only bounds how many pending repositories are checked
+    # in this run (a smoke-test convenience); it cannot alter which repository is checked,
+    # what request is sent, or how a response is interpreted.
+    inputs:
+      limit:
+        description: Check at most this many not-yet-resolved repositories (blank for all)
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: repo-identity-backfill
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    name: Check pending repository identities against the GitHub API
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    env:
+      LIMIT: ${{ inputs.limit }}
+    steps:
+      - name: Check out main
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run resumable identity backfill
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          args=()
+          if [[ -n "${LIMIT}" ]]; then
+            args+=(--limit "${LIMIT}")
+          fi
+          python3 scripts/backfill_repo_identity.py "${args[@]}"
+
+      - name: Add outcome to job summary
+        if: ${{ always() }}
+        run: |
+          set -euo pipefail
+          output='data/derived/observatory/repo-identity-backfill.json'
+          if [[ -f "${output}" ]]; then
+            python3 scripts/summarize_identity_backfill.py "${output}" >> "${GITHUB_STEP_SUMMARY}"
+          else
+            printf '%s\n' 'No identity backfill output was produced.' >> "${GITHUB_STEP_SUMMARY}"
+          fi
+
+      - name: Upload identity backfill result for review
+        if: ${{ always() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: repo-identity-backfill-${{ github.run_id }}-${{ github.run_attempt }}
+          path: data/derived/observatory/repo-identity-backfill.json
+          retention-days: 90
+          if-no-files-found: warn

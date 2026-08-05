@@ -113,7 +113,14 @@ def run_backfill(
 ) -> dict[str, int]:
     pending = collect_pending_full_names(root)
     existing = observatory_repos.load_identity_backfill(output_path)
-    to_check = [name for name in sorted(pending) if name not in existing]
+    # "error" entries (rate limiting, network errors, access blocks) are never
+    # confirmed found/not_found, so they must be retried on a later run rather than
+    # permanently skipped once they appear in the output file.
+    to_check = [
+        name
+        for name in sorted(pending)
+        if name not in existing or existing[name].get("status") == "error"
+    ]
     if limit is not None:
         to_check = to_check[:limit]
 

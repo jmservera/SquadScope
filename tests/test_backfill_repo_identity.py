@@ -196,6 +196,59 @@ def test_run_backfill_skips_already_checked_entries_on_resume() -> None:
         assert entries["octo/new"]["status"] == "found"
 
 
+def test_run_backfill_retries_previously_errored_entries_on_resume() -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        write_week(
+            root,
+            "2026-W30",
+            [
+                repo_record("octo/previously-errored", 10, github_id=None),
+                repo_record("octo/confirmed-not-found", 15, github_id=None),
+            ],
+        )
+        write_config(root)
+        output_path = root / "data/derived/observatory/repo-identity-backfill.json"
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "entries": {
+                        "octo/previously-errored": {
+                            "status": "error",
+                            "checked_at": "2026-08-01",
+                            "detail": "GitHub API request failed with status 403",
+                        },
+                        "octo/confirmed-not-found": {
+                            "status": "not_found",
+                            "checked_at": "2026-08-01",
+                        },
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
+        client = StubGitHubClient(
+            {
+                "octo/previously-errored": SimpleNamespace(
+                    status=200, payload={"id": 555, "node_id": "R_555"}
+                )
+            }
+        )
+
+        counts = backfill.run_backfill(root, output_path, client=client)
+
+        # A confirmed not_found entry is never retried; only the error entry is.
+        assert client.requested_full_names == ["octo/previously-errored"]
+        assert counts["to_check"] == 1
+        entries = json.loads(output_path.read_text())["entries"]
+        assert entries["octo/previously-errored"]["status"] == "found"
+        assert entries["octo/previously-errored"]["github_id"] == "555"
+        assert entries["octo/confirmed-not-found"]["status"] == "not_found"
+
+
 def test_run_backfill_requires_token_when_client_not_provided() -> None:
     tests_root = Path(__file__).resolve().parent
     with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
