@@ -2,7 +2,7 @@
 title: Data Observatory Relaunch Owner Action Register
 description: Sequenced owner actions and evidence requirements for Claracle relaunch gates that cannot be completed by repository automation
 author: SquadScope Squad
-ms.date: 2026-08-03
+ms.date: 2026-08-05
 ms.topic: reference
 keywords:
   - launch gates
@@ -46,12 +46,14 @@ Owners: Hermes, URL, and jmservera.
 
 Required actions:
 
-1. Hermes records a disposition for SEC-01 through SEC-06 in the [security review](security-review.md).
-2. Review the implemented SEC-02 no-referrer and frame-local consent model, including its publisher-markup and third-party-storage limitations.
-3. Approve, reject, or amend the SEC-03 exact public export field and source-path allowlists.
-4. Approve, reject, or require additional controls for the SEC-05 defense-in-depth accepted-risk recommendation; no acceptance is currently recorded.
-5. URL reviews protected workflow and secret scope after the real Podcaster environment change.
-6. jmservera records the production-owner conclusion after external evidence is linked.
+1. ~~Hermes records dispositions for SEC-01 through SEC-05.~~ Done 2026-08-04.
+2. ~~Hermes reviews the SEC-02 no-referrer and frame-local consent model.~~ Done 2026-08-04.
+3. ~~Hermes reviews the SEC-03 public export field and source-path allowlists.~~ Done 2026-08-04.
+4. ~~Hermes records an accepted-risk decision for SEC-05.~~ Done with conditions 2026-08-04.
+5. ~~URL reviews protected workflow and secret scope after the real Podcaster environment change.~~ Done through SEC-10 on 2026-08-04.
+6. Hermes records the remaining SEC-08 disposition after reviewing the disabled raw HTML contract.
+7. jmservera and Hermes retain SEC-06 production consent observations without exposing analytics identifiers.
+8. jmservera records the final production-owner conclusion after external evidence is linked.
 
 Completion evidence: dated sign-off rows with finding-level dispositions and linked test,
 workflow, or production observations.
@@ -159,11 +161,12 @@ no-op state before creating immutable backups.
 
 Required actions:
 
-1. Review the atomic proof workflow and production no-op guard.
-2. Dispatch the manual `Atomic publish proof` workflow for the reviewed revision.
-3. Retain its JSON evidence and tree manifests with the workflow URL and reviewer conclusion.
+1. ~~Review the atomic proof workflow and production no-op guard.~~ Done through PR #655 and the retained run review.
+2. ~~Dispatch the manual `Atomic publish proof` workflow for the reviewed revision.~~ Done 2026-08-05 for `211f0974ce375e427591803cc3f3dfd39e169ead`.
+3. ~~Retain its JSON evidence and tree manifests with the workflow URL and reviewer conclusion.~~ Done in [run 31040602642](https://github.com/jmservera/SquadScope/actions/runs/31040602642). The artifact proves one normal commit, an unchanged identical rerun, an injected failure with unchanged ref, equal candidate and accepted trees, equal accepted and hydrated trees, and no reference problems.
 
-Completion evidence: a successful retained manual proof artifact for the reviewed revision.
+Completion evidence: satisfied by the retained `atomic-publish-proof` artifact from run
+31040602642 and jmservera's 2026-08-05 reconciliation review.
 
 ## Incremental generation cost acceptance
 

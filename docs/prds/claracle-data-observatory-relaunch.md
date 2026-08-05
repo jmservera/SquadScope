@@ -2,12 +2,12 @@
 title: Claracle Data Observatory Relaunch Product Requirements Document
 description: Product requirements, delivery state, rollout controls, risks, and acceptance gates for the Claracle Data Observatory relaunch
 author: SquadScope Squad
-ms.date: 2026-08-02
+ms.date: 2026-08-05
 ms.topic: reference
 ---
 <!-- markdownlint-disable-file -->
 <!-- markdown-table-prettify-ignore-start -->
-Version 1.3 | Status Acceptance pending | Owner jmservera | Team SquadScope Squad | Target Wave 1 (foundation) | Lifecycle Definition
+Version 1.4 | Status Acceptance pending | Owner jmservera | Team SquadScope Squad | Target Wave 1 (foundation) | Lifecycle Definition
 
 ## Progress Tracker
 | Phase | Done | Gaps | Updated |
@@ -18,12 +18,19 @@ Version 1.3 | Status Acceptance pending | Owner jmservera | Team SquadScope Squa
 | Requirements | Yes | Incremental generation cost still to quantify | 2026-07-30 |
 | Metrics & Risks | Yes | None | 2026-07-29 |
 | Operationalization | Yes | Star Velocity Explorer selected; production evidence pending | 2026-07-30 |
-| Finalization | No | Security, baseline and consent, Podcaster, accessibility, visual, and sponsor gates remain open | 2026-08-02 |
+| Finalization | No | Security, baseline and consent, accessibility, timing-budget, and visual gates remain open | 2026-08-05 |
 Unresolved launch gates: See the launch-gate register | TBDs: 1 (incremental generation cost)
 
 ## Acceptance Status
 
-Repository implementation is present, and the GA4/GSC connection is complete by owner confirmation. Dated baseline values and production consent observations remain pending. Hermes has not signed NFR-004; remaining production responses, external schema and social debuggers, a downstream Podcaster run, accessibility review, and refreshed visual evidence are not recorded. `dynamic_topic_creation` and `repo_pages` remain off and require separate sponsor-approved rollout changes. Delivered-versus-pending status and the launch-gate register are tracked in the [relaunch status of record](../review/data-observatory-relaunch/status-of-record.md).
+Repository implementation is present, and the GA4/GSC connection, protected downstream
+Podcaster run, atomic publication proof, and separate sponsor rollout decisions are
+complete. Dated baseline values and production consent observations remain pending.
+NFR-004 final acceptance, remaining production responses, external schema and social
+debuggers, accessibility review, timing-budget approval, and refreshed visual evidence
+are not recorded. `dynamic_topic_creation` and `repo_pages` remain off pending their
+recorded technical conditions and separate activation changes. Delivered-versus-pending
+status and the launch-gate register are tracked in the [relaunch status of record](../review/data-observatory-relaunch/status-of-record.md).
 
 Derived from: `docs/brds/claracle-data-observatory-relaunch-brd.md` (BRD-CLARACLE-002, v1.2).
 
@@ -218,7 +225,7 @@ Generated Hugo content: topic hubs (taxonomy terms), data pages, repository page
 | R-01 | Thin/duplicate evergreen pages harm SEO | High | Medium | Real data + provenance; unique titles/meta; content-quality gate; thresholds gate creation | Amy | Open |
 | R-02 | Static hosting limits interactive tools | Medium | Medium | Constrain to client-side; design spike validates feasibility | Amy | Open |
 | R-03 | Auto-generation breaks internal links | Medium | Medium | CI link-check gate (FR-041) | Fry | Open |
-| R-04 | Cross-repo contract regression (Podcaster) | High | Low | Keep handoff payload unchanged; retain smoke test | URL | Open; downstream run pending |
+| R-04 | Cross-repo contract regression (Podcaster) | High | Low | Keep handoff payload unchanged; retain smoke test | URL | Closed for relaunch evidence; protected run `30908778884` succeeded and downstream returned `accepted` |
 | R-05 | Dataset/tool exposure adds abuse/injection surface | Medium | Low | Hermes review; sanitize inputs; `unsafe=false` | Hermes | Open; sign-off pending |
 | R-06 | Generation cost/time grows unbounded | Medium | Medium | Quantify in design spike; cap/paginate; incremental builds | Leela | Open |
 | R-07 | Over-scoping delays discovery wins | Medium | Medium | Sequence: IA + SEO + linking first, then assets | Leela | Open |
@@ -262,8 +269,8 @@ AI-generated content must not render raw HTML (`unsafe=false`); repo-derived tex
 ### Feature Flags (Conditional)
 | Flag | Purpose | Default | Sunset Criteria |
 |------|---------|--------|----------------|
-| dynamic_topic_creation | Gate auto-creation of new topic hubs | Off; no rollout approval recorded | Separate sponsor approval after security and acceptance evidence |
-| repo_pages | Gate repository-page generation | Off; no rollout approval recorded | Separate sponsor approval after lifecycle and acceptance evidence |
+| dynamic_topic_creation | Gate auto-creation of new topic hubs | Off; sponsor approval in principle recorded | Security disposition and one approved canary before a separate activation change |
+| repo_pages | Gate repository-page generation | Off; sponsor approval recorded | Separate activation transaction after the approved PR #668 evidence |
 
 Owners, dependencies, and evidence paths for every launch gate (including sponsor rollout approval) are consolidated in the [relaunch status of record launch-gate register](../review/data-observatory-relaunch/status-of-record.md#launch-gate-register).
 
@@ -280,6 +287,7 @@ Use the existing per-week distribution playbook (`docs/growth/distribution-strat
 ## 15. Changelog
 | Version | Date | Author | Summary | Type |
 |---------|------|-------|---------|------|
+| 1.4 | 2026-08-05 | SquadScope Squad | Recorded the successful protected Podcaster run, atomic proof, and separate sponsor decisions while preserving open technical and external gates | Updated |
 | 1.3 | 2026-08-02 | SquadScope Squad | Reconciled the #627-#646 workstream: deploy/hydration parity restored and CI embed-source guard shipped (`#634`/`#637`/`#641`), Podcaster smoke hardened (`#636`/`#639`/`#643`/`#645`), restore preserves the published weekly transaction (NFR-002; `#640`/`#646`); recorded FR-041 partial status and linked the status of record | Updated |
 | 1.2 | 2026-07-31 | SquadScope Squad | Recorded the deploy hydration content-provenance failure (issue #627), the interim `content/data` fix, and the deploy/CI parity requirement (NFR-011/012, R-08) | Updated |
 | 1.1 | 2026-07-30 | SquadScope Squad | Reconciled repository delivery with pending external, security, visual, accessibility, Podcaster, and rollout gates | Updated |
