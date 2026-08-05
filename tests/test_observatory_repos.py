@@ -639,6 +639,89 @@ def test_stable_id_absorbs_seeded_fallback_history() -> None:
         assert {item.week for item in migrated.observations} == {"2026-W25", "2026-W26"}
 
 
+def test_consolidates_ledger_preloaded_duplicate_after_rename_settles_display_name() -> None:
+    """Reproduces the pewdiepie-archdaemon/odysseus -> odysseus-dev/odysseus corpus bug.
+
+    A "name:"-keyed ledger entry recorded before a repository's github_id was known can
+    coexist with a stable-ID ledger entry for the same repository under an earlier name.
+    The stable-ID history's display_name only settles to match the fallback entry's name
+    once a later raw-week observation updates it, so the two must still be reconciled
+    after that happens rather than only during raw-week reverse-index migration.
+    """
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        write_week(root, "2026-W40", [repo_record("new-owner/repo", 10, github_id=555)])
+
+        stable = observatory_repos.RepositoryHistory(
+            key="555",
+            github_id="555",
+            node_id="R_555",
+            display_name="old-owner/repo",
+            owner="old-owner",
+            name="repo",
+            slug="old-owner-repo",
+            url="https://github.com/old-owner/repo",
+            observations=[
+                observatory_repos.RepoObservation(
+                    week="2026-W38",
+                    source_bucket="trending_repos",
+                    owner="old-owner",
+                    name="repo",
+                    full_name="old-owner/repo",
+                    url="https://github.com/old-owner/repo",
+                    description=None,
+                    language=None,
+                    stars=5,
+                    forks=0,
+                    created_at="2026-01-01T00:00:00Z",
+                    topics=(),
+                    source_path="data/raw/2026-W38.json",
+                    github_id="555",
+                )
+            ],
+        )
+        fallback = observatory_repos.RepositoryHistory(
+            key="name:new-owner/repo",
+            github_id=None,
+            node_id=None,
+            display_name="new-owner/repo",
+            owner="new-owner",
+            name="repo",
+            slug="new-owner-repo",
+            url="https://github.com/new-owner/repo",
+            observations=[
+                observatory_repos.RepoObservation(
+                    week="2026-W39",
+                    source_bucket="trending_repos",
+                    owner="new-owner",
+                    name="repo",
+                    full_name="new-owner/repo",
+                    url="https://github.com/new-owner/repo",
+                    description=None,
+                    language=None,
+                    stars=6,
+                    forks=0,
+                    created_at="2026-01-01T00:00:00Z",
+                    topics=(),
+                    source_path="data/raw/2026-W39.json",
+                    github_id=None,
+                )
+            ],
+        )
+        ledger = observatory_repos.lifecycle_ledger_payload(
+            {stable.key: stable, fallback.key: fallback}
+        )
+
+        histories = observatory_repos.load_repository_histories(root, ledger=ledger)
+
+        assert set(histories) == {"555"}
+        merged = histories["555"]
+        assert merged.display_name == "new-owner/repo"
+        assert merged.prior_full_names == {"old-owner/repo"}
+        assert {item.week for item in merged.observations} == {"2026-W38", "2026-W39", "2026-W40"}
+
+
 def test_two_pass_duplicate_identity_regression() -> None:
     tests_root = Path(__file__).resolve().parent
     with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:

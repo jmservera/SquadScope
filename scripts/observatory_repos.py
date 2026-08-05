@@ -472,6 +472,49 @@ def apply_configured_renames(histories: dict[str, RepositoryHistory]) -> None:
         histories.pop(source_key, None)
 
 
+def consolidate_ledger_duplicate_identities(histories: dict[str, RepositoryHistory]) -> None:
+    """Merge ledger-preloaded fallback (name:) histories into a stable-ID history sharing the
+    same display_name.
+
+    Identity backfill resolves a fallback observation's github_id at raw-week processing time,
+    but a "name:"-keyed history already committed to the ledger under the same display_name
+    (from before its github_id was known) is never visited by that per-observation logic, so it
+    would otherwise persist as an orphaned duplicate that collides on slug with the resolved
+    stable-ID history once both are eligible.
+    """
+    groups: dict[str, list[RepositoryHistory]] = {}
+    for history in histories.values():
+        groups.setdefault(normalize_full_name(history.display_name), []).append(history)
+    for duplicates in groups.values():
+        if len(duplicates) < 2:
+            continue
+        stable = [history for history in duplicates if not history.key.startswith("name:")]
+        fallback = [history for history in duplicates if history.key.startswith("name:")]
+        if len(stable) != 1 or not fallback:
+            continue
+        canonical = stable[0]
+        for source in fallback:
+            canonical.prior_full_names.update(source.prior_full_names)
+            canonical.prior_slugs.update(source.prior_slugs)
+            canonical.qualified = canonical.qualified or source.qualified
+            for observation in source.observations:
+                identity = (observation.week, observation.source_path)
+                if any(
+                    (item.week, item.source_path) == identity for item in canonical.observations
+                ):
+                    continue
+                canonical.observations.append(observation)
+                canonical.topics.update(observation.topics)
+                if observation.language:
+                    canonical.languages.update([observation.language])
+            histories.pop(source.key, None)
+        latest = canonical.latest_observation
+        canonical.display_name = latest.full_name
+        canonical.owner = latest.owner
+        canonical.name = latest.name
+        canonical.slug = repo_slug(latest.full_name)
+
+
 def load_repository_histories(
     root: Path,
     lifecycle: dict[str, Any] | None = None,
@@ -591,6 +634,12 @@ def load_repository_histories(
     for history in histories.values():
         if history.key in current_keys and not history.lifecycle:
             history.lifecycle = {"status": "active", "status_evidence": "github_observation"}
+    # A ledger-preloaded fallback (name:) history is only visited by the reverse-index
+    # migration above when a raw-week observation drives it; a stable-ID sibling whose
+    # *final* display_name (settled after all observations are applied) matches a
+    # fallback entry that received no new observations this pass would otherwise persist
+    # as an orphaned duplicate, so this runs last, against final state.
+    consolidate_ledger_duplicate_identities(histories)
     apply_configured_renames(histories)
     return histories
 
