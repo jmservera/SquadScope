@@ -7857,8 +7857,10 @@
     },
     "powershell/powershell": {
       "checked_at": "2026-08-05",
-      "detail": "GitHub API request failed with status 403: {\"message\":\"Resource protected by organization SAML enforcement. You must grant your OAuth token access to this organization. The 'PowerShell' organization has enabled or enforced SAML SSO.\\nTo access this repository, visit https://github.com/enterprises/microsoftopensource/sso?authorization_request=AB5KACAMSEYCILVJKSX2UDTKOLYJHA5NMNZGKZDFNZ2GSYLML5UWJUYAAAAACGCXJJ326Y3SMVSGK3TUNFQWYX3UPFYGLK2PMF2XI2CBMNRWK43TV5XXEZ3BNZUXUYLUNFXW4X3JMTJQAAAAAAAK7WI4 and try your request again.\\n\",\"documentation_url\":\"https://docs.github.com/rest/repos/repos#get-a-repository\",\"status\":\"403\"}",
-      "status": "error"
+      "github_id": "49609581",
+      "node_id": "MDEwOlJlcG9zaXRvcnk0OTYwOTU4MQ==",
+      "resolved_full_name": "PowerShell/PowerShell",
+      "status": "found"
     },
     "praetorian-inc/wasmforge": {
       "checked_at": "2026-08-05",
