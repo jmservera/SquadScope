@@ -438,7 +438,8 @@ def preview_dynamic_hubs(
     registry_terms: dict[str, Any] = {}
     if config.registry_path.exists():
         payload = json.loads(config.registry_path.read_text(encoding="utf-8"))
-        registry_terms = payload.get("terms", {}) if isinstance(payload, dict) else {}
+        terms = payload.get("terms") if isinstance(payload, dict) else None
+        registry_terms = terms if isinstance(terms, dict) else {}
 
     report: list[dict[str, Any]] = []
     for key, signal in sorted(candidates.items()):
@@ -465,11 +466,12 @@ def preview_dynamic_hubs(
             entry["skip_reason"] = "below-threshold"
         else:
             entry["action"] = "promote"
-            entry["proposed_hub_path"] = str(
-                (root / "content" / "topics" / key / "_index.md").relative_to(root)
+            entry["proposed_hub_path"] = (
+                (root / "content" / "topics" / key / "_index.md").relative_to(root).as_posix()
             )
             entry["proposed_weekly_assignments"] = [
-                str(path.relative_to(root)) for path in proposed_weekly_assignments(root, signal)
+                path.relative_to(root).as_posix()
+                for path in proposed_weekly_assignments(root, signal)
             ]
             entry["registry_effect"] = (
                 "promote-existing-term" if key in registry_terms else "create-new-term"

@@ -472,6 +472,55 @@ def test_preview_dynamic_hubs_reports_without_mutating_and_works_while_disabled(
     assert before == after_dry_run
 
 
+def test_preview_dynamic_hubs_tolerates_malformed_registry_terms() -> None:
+    if WORKSPACE.exists():
+        shutil.rmtree(WORKSPACE)
+    (WORKSPACE / "config").mkdir(parents=True)
+    (WORKSPACE / "content" / "weekly" / "2026").mkdir(parents=True)
+    (WORKSPACE / "content" / "topics").mkdir(parents=True)
+
+    (WORKSPACE / "config" / "observatory.toml").write_text(
+        """[topic_hubs]
+        seed_topics = ["AI Coding Agents"]
+
+        [topic_hubs.dynamic_creation]
+        enabled = false
+        min_weekly_issues = 4
+        lookback_days = 62
+        log_path = "data/topic-hubs/dynamic-topic-creation.log"
+        ignore_topics = []
+        """,
+        encoding="utf-8",
+    )
+    (WORKSPACE / "data" / "taxonomy").mkdir(parents=True)
+    # A malformed registry (terms is a list, not a mapping) must not crash the preview.
+    (WORKSPACE / "data" / "taxonomy" / "topics.json").write_text(
+        json.dumps({"terms": ["not", "a", "mapping"]}),
+        encoding="utf-8",
+    )
+    weeks = ["2026-W28", "2026-W29", "2026-W30", "2026-W31"]
+    _write_candidate_registry(
+        WORKSPACE, {"edge-ai-workflows": _candidate("Edge AI Workflows", weeks)}
+    )
+    for week in weeks:
+        weekly = WORKSPACE / "content" / "weekly" / "2026" / f"W{week[-2:]}.md"
+        weekly.write_text(
+            f'---\ntitle: "{week}"\ndate: 2026-07-27\nweek: "{week}"\n'
+            'tags: ["edge-ai-workflows"]\ncategories: ["weekly"]\ntopics: []\n---\nBody\n',
+            encoding="utf-8",
+        )
+
+    from scripts.manage_topic_hubs import preview_dynamic_hubs
+
+    report = preview_dynamic_hubs(
+        root=WORKSPACE,
+        config_path=WORKSPACE / "config" / "observatory.toml",
+        current_date="2026-07-29T12:57:30Z",
+    )
+    by_slug = {entry["slug"]: entry for entry in report}
+    assert by_slug["edge-ai-workflows"]["registry_effect"] == "create-new-term"
+
+
 def test_dynamic_topic_creation_does_not_create_below_threshold() -> None:
     if WORKSPACE.exists():
         shutil.rmtree(WORKSPACE)
