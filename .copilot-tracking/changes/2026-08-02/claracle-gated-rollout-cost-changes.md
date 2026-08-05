@@ -1,7 +1,7 @@
 <!-- markdownlint-disable-file -->
 # Release Changes: Claracle Gated Rollouts and Cost Measurement
 
-**Related Plan**: claracle-gated-rollout-cost-plan.instructions.md
+**Related Plan**: [claracle-gated-rollout-cost-plan.instructions.md](../../plans/2026-08-02/claracle-gated-rollout-cost-plan.instructions.md)
 **Implementation Date**: 2026-08-05
 
 ## Summary
@@ -17,21 +17,21 @@ Hermes rollout decisions and are not started.
 
 ### Added
 
-* [scripts/backfill_repo_identity.py](scripts/backfill_repo_identity.py) - new script
-  that checks every repository history lacking a stable GitHub ID against
+* [scripts/backfill_repo_identity.py](../../../scripts/backfill_repo_identity.py) - new
+  script that checks every repository history lacking a stable GitHub ID against
   `GET /repos/{full_name}`, recording `found` (github_id/node_id), `not_found` (a
   confirmed 404), or `error` (any ambiguous outcome, never treated as deletion)
   outcomes to `data/derived/observatory/repo-identity-backfill.json`. Reuses
   `scripts.crawl.GitHubClient` for caching/retry/rate-limit handling and
   `observatory_repos.write_json_atomically()` for checkpointed, resumable writes.
-* [tests/test_backfill_repo_identity.py](tests/test_backfill_repo_identity.py) - unit
-  tests covering pending-repo discovery, dry-run counting, found/not_found/error
+* [tests/test_backfill_repo_identity.py](../../../tests/test_backfill_repo_identity.py) -
+  unit tests covering pending-repo discovery, dry-run counting, found/not_found/error
   outcomes, resume-skips-already-checked behavior, and the missing-token failure mode.
 
 ### Modified
 
-* [.copilot-tracking/plans/2026-08-02/claracle-gated-rollout-cost-plan.instructions.md](.copilot-tracking/plans/2026-08-02/claracle-gated-rollout-cost-plan.instructions.md) - marked Phase 1 checklist items complete with a cross-reference note to the 2026-08-03 delivery.
-* [scripts/observatory_repos.py](scripts/observatory_repos.py) - added
+* [.copilot-tracking/plans/2026-08-02/claracle-gated-rollout-cost-plan.instructions.md](../../plans/2026-08-02/claracle-gated-rollout-cost-plan.instructions.md) - marked Phase 1 checklist items complete with a cross-reference note to the 2026-08-03 delivery.
+* [scripts/observatory_repos.py](../../../scripts/observatory_repos.py) - added
   `load_identity_backfill()` and `merge_identity_backfill_overrides()`; threaded an
   optional `identity_backfill` parameter through `load_repository_histories()` (fills
   `github_id`/`node_id` for observations the crawl never captured); `generate()` and
@@ -40,9 +40,9 @@ Hermes rollout decisions and are not started.
   `status: "deleted"` with `status_evidence: "github_api_404_identity_backfill"`
   unless a manual `[repo_pages.lifecycle]` override for the same repository takes
   precedence.
-* [tests/test_observatory_repos.py](tests/test_observatory_repos.py) - added coverage
-  for stable-ID resolution from the backfill file, not-found-as-deletion-evidence, and
-  manual overrides winning over an automated not-found disposition.
+* [tests/test_observatory_repos.py](../../../tests/test_observatory_repos.py) - added
+  coverage for stable-ID resolution from the backfill file, not-found-as-deletion-
+  evidence, and manual overrides winning over an automated not-found disposition.
 
 ### Removed
 
@@ -78,4 +78,25 @@ Hermes rollout decisions and are not started.
 
 ## Release Summary
 
-Updated after the live identity backfill run completes.
+The live identity backfill run (`scripts/backfill_repo_identity.py`) completed against
+the full production corpus on 2026-08-05: 2,012/2,012 pending repositories checked.
+
+* **found**: 1,241 repositories resolved a stable `github_id`/`node_id`.
+* **not_found**: 768 repositories returned a confirmed HTTP 404, recorded as reviewed
+  deletion evidence per sponsor decision ID-01.
+* **error**: 3 repositories returned an ambiguous, non-404 outcome and were **not**
+  treated as deleted; each is a real, non-deleted repository blocked from anonymous API
+  access, left for a later resumed run:
+  * `asz798838958/abaiautoplus` - HTTP 403, repository access blocked (privacy).
+  * `openysmdev/openysm` - HTTP 451, blocked for a DMCA takedown notice.
+  * `powershell/powershell` - HTTP 403, blocked by organization SAML enforcement.
+
+Output is checkpointed at
+[repo-identity-backfill.json](../../../data/derived/observatory/repo-identity-backfill.json).
+The first Phase 2 checklist item ("Obtain stable GitHub IDs for the production corpus
+or record an explicit accepted-risk disposition for fallback name identity") is
+resolved for all repositories except the 3 access-blocked cases above, which require
+either an authenticated token with the relevant grants or an explicit accepted-risk
+note before Phase 2 can be marked fully complete. Remaining Phase 2 checklist items
+(lifecycle hydration/parity double-run, 263/270 qualified-history validation,
+transition exercises, Hermes disposition) are still not started.
