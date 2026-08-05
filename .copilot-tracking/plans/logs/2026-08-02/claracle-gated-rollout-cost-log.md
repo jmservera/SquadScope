@@ -145,13 +145,18 @@
     SAML enforcement). None are deletions; the SAML-blocked one specifically requires
     `jmservera` to authorize the OAuth token against the PowerShell org, not something
     resolvable headlessly.
-  * Status: **Deferred by sponsor decision (2026-08-05).** `jmservera`'s assessment is
-    that the SAML block is likely an artifact of running the backfill locally with a
-    personal OAuth token (`gh auth token`); a GitHub Actions run against a public repo
-    should not require SSO authorization the same way. Rather than authorize SSO or
-    record an accepted-risk disposition now, wait to see how `powershell/powershell`
-    resolves the next time the backfill runs from a GitHub Action, and only escalate
-    if the same block recurs there.
+  * Status: **Resolved for 1 of 3; 2 confirmed permanent.** Sponsor's 2026-08-05
+    hypothesis was correct: dispatching
+    [.github/workflows/repo-identity-backfill.yml](https://github.com/jmservera/SquadScope/actions/workflows/repo-identity-backfill.yml)
+    (run [31036324856](https://github.com/jmservera/SquadScope/actions/runs/31036324856))
+    with the ephemeral Actions `GITHUB_TOKEN` resolved `powershell/powershell` to
+    `status: "found"` (`github_id: 49609581`) — the SAML block was specific to the
+    personal OAuth token used locally, and did not recur from the Action. The other
+    2 (`asz798838958/abaiautoplus`, `openysmdev/openysm`) remain `error` on retry —
+    HTTP 403 privacy block and HTTP 451 DMCA takedown are account/content-level
+    blocks unrelated to token type, so these are accepted as a permanent, harmless
+    disposition (they are real, non-deleted repositories; `merge_identity_backfill_overrides()`
+    never treats an `error` status as deletion evidence).
 
 ## User Decisions
 

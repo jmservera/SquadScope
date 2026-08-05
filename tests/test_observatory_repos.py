@@ -640,6 +640,7 @@ def test_stable_id_absorbs_seeded_fallback_history() -> None:
         assert migrated.lifecycle == {"status": "active", "note": "seeded"}
         assert migrated.prior_full_names == {"old-owner/repo"}
         assert migrated.prior_slugs == {"old-owner-repo"}
+        assert migrated.node_id == "R_123"
         assert {item.week for item in migrated.observations} == {"2026-W25", "2026-W26"}
 
 

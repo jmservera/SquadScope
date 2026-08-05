@@ -579,6 +579,7 @@ def load_repository_histories(
                     history = histories.pop(legacy_key)
                     history.key = key
                     history.github_id = observation.github_id
+                    history.node_id = observation.node_id or history.node_id
                     histories[key] = history
                     # Step 1.2: Update reverse index when migration happens mid-pass
                     full_name_to_key[normalize_full_name(observation.full_name)] = key
