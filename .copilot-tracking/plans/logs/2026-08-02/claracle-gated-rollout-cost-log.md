@@ -97,23 +97,30 @@
   identity backfill is applied, so `seed_lifecycle()` parity (Phase 2, checklist item
   2) can pass — high priority, blocks the remainder of Phase 2.
   * Source: DD-03, DD-04.
-  * Status: the blocking duplicate-identity bug is fixed and open as
-    [PR #666](https://github.com/jmservera/SquadScope/pull/666) (retargeted to `main`
-    after #665 merged; CI green). `--check` on top of it shows **110 files** would
-    change corpus-wide (not just the original 7). This is full Phase 4-scale
-    regeneration (page creation/removal, ledger, derived JSON, `related_repos`
-    recalculation across the corpus) and needs its own reviewed PR following the
-    Repository Activation Contract rather than being treated as a quick follow-up.
-  * Dependency: PR #666 merged first; reviewer time to disposition ~110 file changes.
-  * Scoping (not yet started, pending PR #666 merge):
-    1. New isolated branch off `main` once #666 merges.
+  * Status: the blocking duplicate-identity bug was fixed and merged as
+    [PR #666](https://github.com/jmservera/SquadScope/pull/666). The full-corpus
+    regeneration itself is implemented and open as
+    [PR #668](https://github.com/jmservera/SquadScope/pull/668): 266 qualified pages
+    (down from 270), byte-identical two-run check, 0 `--seed-lifecycle` mismatches,
+    1459 tests passing, `hugo --minify` and internal-link check both clean. Two more
+    correctness bugs were found and fixed during regeneration: a self-collision
+    where a merged identity's final name could also be listed in its own
+    prior-name set (causing its own page to be deleted right after being written),
+    and non-deterministic same-week observation tie-breaking that made two
+    consecutive `generate()` runs produce different output for consolidated repos.
+    `test_frozen_corpus_lifecycle_seed_has_expected_parity`'s counts were updated
+    (270 -> 266 qualified; 2407 -> 2400 committed ledger entries).
+  * Dependency: PR #668 still needs Hermes and sponsor sign-off per the Approval
+    Contract before merge (see Scoping step 10) — not merged automatically.
+  * Scoping (completed by PR #668, pending approval before merge):
+    1. New isolated branch off `main` once #666 merged.
     2. Temporarily set `config/observatory.toml` `[repo_pages] enabled = true`
        (matching the precedent in #663).
     3. Run `python -m scripts.observatory_repos` (write mode); capture the full diff
        for review — expect renames/removals for the identities in DD-03 plus any
        additional consolidations the corpus-scale fix surfaces beyond the original 7.
-    4. Reviewer dispositions every obsolete/removed path per the Repository Activation
-       Contract ("No removal is accepted from mere crawl absence").
+    4. Reviewer must disposition every obsolete/removed path per the Repository
+       Activation Contract ("No removal is accepted from mere crawl absence").
     5. Run generation a second time; require byte-identical output (idempotence).
     6. Run `python -m scripts.observatory_repos --seed-lifecycle` to confirm parity.
     7. Run `hugo --minify`, Pagefind, `scripts/check_internal_links.py`, and the
