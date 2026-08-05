@@ -7,7 +7,7 @@ import { test, expect } from '@playwright/test';
  * Tests verify rendered breadcrumb, analytics consent UI, responsive behavior, and accessibility.
  * 
  * Execution: npx playwright test --config tests/visual/playwright.config.mjs tests/visual/observatory-visual-regression.spec.mjs
- * Reports: screenshots/visual-regression-*-*.json (metadata), screenshots/visual-regression-*/ (images)
+ * Reports: JSON metadata and screenshots generated to screenshots/visual-regression-{variant}/ folders
  */
 
 // Page routes to capture for visual acceptance
