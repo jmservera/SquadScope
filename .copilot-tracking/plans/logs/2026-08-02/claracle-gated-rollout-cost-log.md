@@ -145,7 +145,7 @@
     SAML enforcement). None are deletions; the SAML-blocked one specifically requires
     `jmservera` to authorize the OAuth token against the PowerShell org, not something
     resolvable headlessly.
-  * Status: **Resolved for 2 of 3; 1 confirmed permanent.** Sponsor's 2026-08-05
+  * Status: **Resolved for 1 of 3; 2 confirmed permanent.** Sponsor's 2026-08-05
     hypothesis was correct: dispatching
     [.github/workflows/repo-identity-backfill.yml](https://github.com/jmservera/SquadScope/actions/workflows/repo-identity-backfill.yml)
     (run [31036324856](https://github.com/jmservera/SquadScope/actions/runs/31036324856))
