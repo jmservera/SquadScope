@@ -10,7 +10,7 @@ import tempfile
 import tomllib
 import unicodedata
 from collections import Counter, defaultdict
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -24,6 +24,7 @@ from scripts import taxonomy_registry
 
 DEFAULT_CONFIG = Path("config/observatory.toml")
 DEFAULT_LIFECYCLE_LEDGER = Path("data/derived/observatory/repository-lifecycle.json")
+DEFAULT_IDENTITY_BACKFILL = Path("data/derived/observatory/repo-identity-backfill.json")
 GENERATED_BY = "observatory_repo_pages"
 LIFECYCLE_SCHEMA_VERSION = 1
 WEEKLY_LINK_PREFIX = "/weekly"
@@ -219,8 +220,45 @@ def load_config(root: Path, config_path: Path | None = None) -> dict[str, Any]:
         "retention_years": int(repo_pages.get("retention_years", 3)),
         "lifecycle": repo_pages.get("lifecycle", {}),
         "ledger_path": root / DEFAULT_LIFECYCLE_LEDGER,
+        "identity_backfill_path": root / DEFAULT_IDENTITY_BACKFILL,
         "topics_registry_path": root / "data" / "taxonomy" / "topics.json",
     }
+
+
+def load_identity_backfill(path: Path) -> dict[str, dict[str, Any]]:
+    """Load reviewed GitHub-API identity check results keyed by normalized full_name.
+
+    Entries carry status "found" (resolved github_id/node_id) or "not_found" (a
+    verified 404 from the GitHub API, treated as reviewed deletion evidence).
+    """
+    if not path.exists():
+        return {}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    entries = payload.get("entries")
+    if not isinstance(entries, dict):
+        raise ValueError("Repository identity backfill entries must be an object")
+    return {str(key): value for key, value in entries.items() if isinstance(value, dict)}
+
+
+def merge_identity_backfill_overrides(
+    lifecycle: dict[str, Any] | None, identity_backfill: dict[str, dict[str, Any]]
+) -> dict[str, Any]:
+    """Fold confirmed-not-found identity backfill entries in as deletion overrides.
+
+    A verified GitHub API 404 is reviewed deletion evidence, the same as a manual
+    override. Manual `[repo_pages.lifecycle]` overrides always win when both exist
+    for the same repository, so a human reviewer can supersede the automated check.
+    """
+    merged: dict[str, Any] = {}
+    for full_name, entry in identity_backfill.items():
+        if entry.get("status") == "not_found":
+            merged[full_name] = {
+                "status": "deleted",
+                "deletion_confirmed_at": entry.get("checked_at"),
+                "status_evidence": "github_api_404_identity_backfill",
+            }
+    merged.update(lifecycle or {})
+    return merged
 
 
 def raw_week_files(root: Path) -> list[Path]:
@@ -438,7 +476,9 @@ def load_repository_histories(
     root: Path,
     lifecycle: dict[str, Any] | None = None,
     ledger: dict[str, Any] | None = None,
+    identity_backfill: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, RepositoryHistory]:
+    identity_backfill = identity_backfill or {}
     histories: dict[str, RepositoryHistory] = {}
     for key, raw in (ledger or {}).get("repositories", {}).items():
         if isinstance(raw, dict) and (history := history_from_ledger(str(key), raw)):
@@ -457,6 +497,20 @@ def load_repository_histories(
                 observation = observation_from_record(week, bucket, record, path, root)
                 if observation is None:
                     continue
+                if observation.github_id is None:
+                    backfilled = identity_backfill.get(normalize_full_name(observation.full_name))
+                    if (
+                        backfilled
+                        and backfilled.get("status") == "found"
+                        and backfilled.get("github_id")
+                    ):
+                        observation = replace(
+                            observation,
+                            github_id=str(backfilled["github_id"]),
+                            node_id=str(backfilled["node_id"])
+                            if backfilled.get("node_id")
+                            else observation.node_id,
+                        )
                 key = repository_key(observation.github_id, observation.full_name)
                 legacy_key = f"name:{normalize_full_name(observation.full_name)}"
                 if key != legacy_key and key not in histories and legacy_key in histories:
@@ -839,13 +893,15 @@ def seed_lifecycle(
     if config["enabled"] and config_path is None:
         raise ValueError("Lifecycle seed requires repo_pages.enabled = false")
     effective_as_of = as_of or date.today()
+    identity_backfill = load_identity_backfill(config["identity_backfill_path"])
+    effective_lifecycle = merge_identity_backfill_overrides(config["lifecycle"], identity_backfill)
     validate_lifecycle_overrides(
-        config["lifecycle"],
+        effective_lifecycle,
         as_of=effective_as_of,
         retention_years=config["retention_years"],
     )
     ledger = load_lifecycle_ledger(config["ledger_path"])
-    histories = load_repository_histories(root, config["lifecycle"], ledger)
+    histories = load_repository_histories(root, effective_lifecycle, ledger, identity_backfill)
     for history in histories.values():
         if len(history.distinct_weeks) >= config["minimum_weeks"]:
             history.qualified = True
@@ -1031,13 +1087,15 @@ def generate(
         )
         return []
     effective_as_of = as_of or date.today()
+    identity_backfill = load_identity_backfill(config["identity_backfill_path"])
+    effective_lifecycle = merge_identity_backfill_overrides(config["lifecycle"], identity_backfill)
     validate_lifecycle_overrides(
-        config["lifecycle"],
+        effective_lifecycle,
         as_of=effective_as_of,
         retention_years=config["retention_years"],
     )
     ledger = load_lifecycle_ledger(config["ledger_path"])
-    histories = load_repository_histories(root, config["lifecycle"], ledger)
+    histories = load_repository_histories(root, effective_lifecycle, ledger, identity_backfill)
     expired = reconcile_lifecycle(histories, config, effective_as_of)
     return write_repository_pages(root, histories, config, check=check, expired=expired)
 

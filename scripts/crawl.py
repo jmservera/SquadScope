@@ -30,6 +30,7 @@ from scripts.topic_paths import cache_dir, raw_dir, snapshots_dir
 API_ROOT = "https://api.github.com"
 SEARCH_REPOSITORIES = f"{API_ROOT}/search/repositories"
 _JITTER_RANDOM = secrets.SystemRandom()
+_REPO_DETAIL_URL_RE = re.compile(r"https://api\.github\.com/repos/[^/]+/[^/]+$")
 CACHE_ROOT = Path("data/cache")
 RAW_ROOT = Path("data/raw")
 SNAPSHOT_ROOT = Path("data/snapshots")
@@ -428,7 +429,14 @@ class GitHubClient:
         time.sleep(delay)
 
     def _respect_min_interval(self, url: str) -> None:
-        minimum_interval = 0.35 if url.endswith("/readme") else 0.0
+        if url.endswith("/readme"):
+            minimum_interval = 0.35
+        elif _REPO_DETAIL_URL_RE.match(url):
+            # Paces rapid sequential single-repo lookups (e.g. identity backfill)
+            # to reduce the odds of tripping GitHub's secondary rate limit.
+            minimum_interval = 0.35
+        else:
+            minimum_interval = 0.0
         if minimum_interval <= 0:
             return
         elapsed = time.monotonic() - self._last_request_at

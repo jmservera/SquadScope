@@ -29,6 +29,10 @@ __pycache__/
 .mypy_cache/
 .test-workspaces/
 
+# GitHub API response cache (scripts/crawl.py GitHubClient) — thousands of small
+# files easily reconstructed by re-running the crawler; never commit.
+data/cache/
+
 # Secrets / environment files
 .env
 .env.*

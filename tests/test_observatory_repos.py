@@ -844,3 +844,102 @@ def test_hugo_build_renders_generated_repo_pages() -> None:
     )
     assert result.returncode == 0, result.stderr + result.stdout
     assert (REPO_ROOT / "public" / "repo" / "anthropics-claude-code" / "index.html").exists()
+
+
+def write_identity_backfill(root: Path, entries: dict[str, dict[str, object]]) -> Path:
+    path = root / "data" / "derived" / "observatory" / "repo-identity-backfill.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps({"schema_version": 1, "entries": entries}, indent=2),
+        encoding="utf-8",
+    )
+    return path
+
+
+def test_identity_backfill_resolves_stable_id_for_fallback_history() -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        for index, week in enumerate(("2026-W21", "2026-W22", "2026-W23", "2026-W24")):
+            write_week(root, week, [repo_record("octo/fallback", 20 + index, github_id=None)])
+        config_dir = root / "config"
+        config_dir.mkdir()
+        (config_dir / "observatory.toml").write_text(
+            "[repo_pages]\nenabled = true\n", encoding="utf-8"
+        )
+        write_identity_backfill(
+            root,
+            {
+                "octo/fallback": {
+                    "status": "found",
+                    "github_id": "555",
+                    "node_id": "R_555",
+                    "checked_at": "2026-08-05",
+                }
+            },
+        )
+
+        observatory_repos.generate(root)
+
+        page = root / "content/repo/octo-fallback/index.md"
+        assert page.exists()
+        ledger = json.loads(
+            (root / "data/derived/observatory/repository-lifecycle.json").read_text()
+        )
+        assert "555" in ledger["repositories"]
+        assert "name:octo/fallback" not in ledger["repositories"]
+
+
+def test_identity_backfill_not_found_is_treated_as_deletion_evidence() -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        for index, week in enumerate(("2026-W21", "2026-W22", "2026-W23", "2026-W24")):
+            write_week(root, week, [repo_record("octo/vanished", 20 + index, github_id=None)])
+        config_dir = root / "config"
+        config_dir.mkdir()
+        (config_dir / "observatory.toml").write_text(
+            "[repo_pages]\nenabled = true\nretention_years = 3\n", encoding="utf-8"
+        )
+        write_identity_backfill(
+            root,
+            {"octo/vanished": {"status": "not_found", "checked_at": "2026-07-01"}},
+        )
+
+        observatory_repos.generate(root, as_of=observatory_repos.date(2026, 7, 2))
+
+        page_path = root / "content/repo/octo-vanished/index.md"
+        page = read_frontmatter(page_path)
+        assert page["lifecycle"]["status"] == "deleted"
+        assert page["lifecycle"]["status_evidence"] == "github_api_404_identity_backfill"
+        assert page["lifecycle"]["retained_until"] == "2029-07-01"
+
+
+def test_manual_lifecycle_override_wins_over_identity_backfill_not_found() -> None:
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        for index, week in enumerate(("2026-W21", "2026-W22", "2026-W23", "2026-W24")):
+            write_week(root, week, [repo_record("octo/reviewed", 20 + index, github_id=None)])
+        config_dir = root / "config"
+        config_dir.mkdir()
+        (config_dir / "observatory.toml").write_text(
+            """
+[repo_pages]
+enabled = true
+retention_years = 3
+
+[repo_pages.lifecycle."octo/reviewed"]
+status = "archived"
+""".strip(),
+            encoding="utf-8",
+        )
+        write_identity_backfill(
+            root,
+            {"octo/reviewed": {"status": "not_found", "checked_at": "2026-07-01"}},
+        )
+
+        observatory_repos.generate(root, as_of=observatory_repos.date(2026, 7, 2))
+
+        page = read_frontmatter(root / "content/repo/octo-reviewed/index.md")
+        assert page["lifecycle"]["status"] == "archived"

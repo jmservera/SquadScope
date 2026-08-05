@@ -1,0 +1,1048 @@
+{
+  "entries": {
+    "001tmf/harness-forge": {
+      "checked_at": "2026-08-05",
+      "github_id": "1268804183",
+      "node_id": "R_kgDOS6BqVw",
+      "resolved_full_name": "001TMF/harness-forge",
+      "status": "found"
+    },
+    "0xdeadbeefnetwork/ssh-keysign-pwn": {
+      "checked_at": "2026-08-05",
+      "github_id": "1239240779",
+      "node_id": "R_kgDOSd1QSw",
+      "resolved_full_name": "0xdeadbeefnetwork/ssh-keysign-pwn",
+      "status": "found"
+    },
+    "0xhype/hyperliquid-tracker": {
+      "checked_at": "2026-08-05",
+      "github_id": "1307786942",
+      "node_id": "R_kgDOTfM-vg",
+      "resolved_full_name": "0xhype/hyperliquid-tracker",
+      "status": "found"
+    },
+    "0xsero/codex-shim": {
+      "checked_at": "2026-08-05",
+      "github_id": "1246440630",
+      "node_id": "R_kgDOSksstg",
+      "resolved_full_name": "sybil-solutions/codex-shim",
+      "status": "found"
+    },
+    "0xsero/glm-5.2-sm120": {
+      "checked_at": "2026-08-05",
+      "github_id": "1273059507",
+      "node_id": "R_kgDOS-FYsw",
+      "resolved_full_name": "0xSero/glm-5.2-sm120",
+      "status": "found"
+    },
+    "0xshug0/audio.cpp": {
+      "checked_at": "2026-08-05",
+      "github_id": "1278235302",
+      "node_id": "R_kgDOTDBSpg",
+      "resolved_full_name": "0xShug0/audio.cpp",
+      "status": "found"
+    },
+    "0xsufi/fable-jailbreak": {
+      "checked_at": "2026-08-05",
+      "github_id": "1265633087",
+      "node_id": "R_kgDOS3AHPw",
+      "resolved_full_name": "0xSufi/fable-jailbreak",
+      "status": "found"
+    },
+    "0xwilliamortiz/andrej-karpathy-skills": {
+      "checked_at": "2026-08-05",
+      "github_id": "1308175488",
+      "node_id": "R_kgDOTfksgA",
+      "resolved_full_name": "0xwilliamortiz/andrej-karpathy-skills",
+      "status": "found"
+    },
+    "0xwilliamortiz/openclaude-improved": {
+      "checked_at": "2026-08-05",
+      "github_id": "1313191574",
+      "node_id": "R_kgDOTkW2lg",
+      "resolved_full_name": "0xwilliamortiz/openclaude-improved",
+      "status": "found"
+    },
+    "0xwilliamortiz/yoinks": {
+      "checked_at": "2026-08-05",
+      "github_id": "1307908587",
+      "node_id": "R_kgDOTfUZ6w",
+      "resolved_full_name": "0xwilliamortiz/yoinks",
+      "status": "found"
+    },
+    "0xxyc/splinter": {
+      "checked_at": "2026-08-05",
+      "github_id": "1275372378",
+      "node_id": "R_kgDOTASjWg",
+      "resolved_full_name": "JakeSwiz/splinter",
+      "status": "found"
+    },
+    "100yenadmin/fable-token-saving-skills-orchestrator": {
+      "checked_at": "2026-08-05",
+      "github_id": "1289101885",
+      "node_id": "R_kgDOTNYiPQ",
+      "resolved_full_name": "100yenadmin/fable-token-saving-skills-orchestrator",
+      "status": "found"
+    },
+    "1061700625/github_vps": {
+      "checked_at": "2026-08-05",
+      "github_id": "1243715905",
+      "node_id": "R_kgDOSiGZQQ",
+      "resolved_full_name": "1061700625/github_vps",
+      "status": "found"
+    },
+    "12britz/awesome-free-models": {
+      "checked_at": "2026-08-05",
+      "github_id": "1261170027",
+      "node_id": "R_kgDOSyvtaw",
+      "resolved_full_name": "12britz/awesome-free-models",
+      "status": "found"
+    },
+    "1786329860/deep-teach": {
+      "checked_at": "2026-08-05",
+      "github_id": "1236677779",
+      "node_id": "R_kgDOSbY0kw",
+      "resolved_full_name": "1786329860/deep-teach",
+      "status": "found"
+    },
+    "2417467487-hub/worldcuproi": {
+      "checked_at": "2026-08-05",
+      "github_id": "1256946355",
+      "node_id": "R_kgDOSut6sw",
+      "resolved_full_name": "2417467487-hub/WorldCupROI",
+      "status": "found"
+    },
+    "2508965-ship-it/harmonist-orchestral": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "25ds1000041-ship-it/yt-to-raw-audio": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "29-cu/ruota-della-fortuna": {
+      "checked_at": "2026-08-05",
+      "github_id": "1258875741",
+      "node_id": "R_kgDOSwjrXQ",
+      "resolved_full_name": "29-Cu/Ruota-della-Fortuna",
+      "status": "found"
+    },
+    "2arons/duel-agents": {
+      "checked_at": "2026-08-05",
+      "github_id": "1252258448",
+      "node_id": "R_kgDOSqPykA",
+      "resolved_full_name": "2aronS/Duel-Agents",
+      "status": "found"
+    },
+    "2latemc/justanothermusicclient": {
+      "checked_at": "2026-08-05",
+      "github_id": "1266529781",
+      "node_id": "R_kgDOS3219Q",
+      "resolved_full_name": "2latemc/JustAnotherMusicClient",
+      "status": "found"
+    },
+    "477-mortal-chief/unicore-star-rail": {
+      "checked_at": "2026-08-05",
+      "github_id": "1307560019",
+      "node_id": "R_kgDOTe_IUw",
+      "resolved_full_name": "477-Mortal-Chief/Unicore-Star-Rail",
+      "status": "found"
+    },
+    "5-m0cftvuvif/stake-monthly": {
+      "checked_at": "2026-08-05",
+      "github_id": "1250579204",
+      "node_id": "R_kgDOSopTBA",
+      "resolved_full_name": "5-m0cftvuvif/stake-monthly",
+      "status": "found"
+    },
+    "514-labs/dnsglobe": {
+      "checked_at": "2026-08-05",
+      "github_id": "1289604542",
+      "node_id": "R_kgDOTN3Nvg",
+      "resolved_full_name": "514-labs/dnsglobe",
+      "status": "found"
+    },
+    "577206/knowledge-forge": {
+      "checked_at": "2026-08-05",
+      "github_id": "1259353141",
+      "node_id": "R_kgDOSxA0NQ",
+      "resolved_full_name": "577206/knowledge-forge",
+      "status": "found"
+    },
+    "666ghj/mirofish": {
+      "checked_at": "2026-08-05",
+      "github_id": "1104332987",
+      "node_id": "R_kgDOQdLIuw",
+      "resolved_full_name": "666ghj/MiroFish",
+      "status": "found"
+    },
+    "863401402/image-provenance": {
+      "checked_at": "2026-08-05",
+      "github_id": "1236154506",
+      "node_id": "R_kgDOSa44ig",
+      "resolved_full_name": "863401402/image-provenance",
+      "status": "found"
+    },
+    "a2328275243/mempalace-evolve": {
+      "checked_at": "2026-08-05",
+      "github_id": "1250258692",
+      "node_id": "R_kgDOSoVvBA",
+      "resolved_full_name": "a2328275243/mempalace-evolve",
+      "status": "found"
+    },
+    "aaromanov1985/audio-cassette-simulation": {
+      "checked_at": "2026-08-05",
+      "github_id": "1309187090",
+      "node_id": "R_kgDOTgicEg",
+      "resolved_full_name": "AARomanov1985/Audio-Cassette-Simulation",
+      "status": "found"
+    },
+    "aaviasulin123-design/kms-pico-latest-m6": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "aayan555/ds4windows": {
+      "checked_at": "2026-08-05",
+      "github_id": "1246869984",
+      "node_id": "R_kgDOSlG54A",
+      "resolved_full_name": "aayan555/DS4Windows",
+      "status": "found"
+    },
+    "abdelrahamn-fawzy-kaoud/fc26-mod-organizer-plus": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "abeehive/annado": {
+      "checked_at": "2026-08-05",
+      "github_id": "1267693102",
+      "node_id": "R_kgDOS492Lg",
+      "resolved_full_name": "ABeehive/Annado",
+      "status": "found"
+    },
+    "abhi01k/gemini-desktop": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "abhishek-dungen/007-first-light-trainer-and-optimizer": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "abirami-19/taskloom-kanban": {
+      "checked_at": "2026-08-05",
+      "github_id": "1248317082",
+      "node_id": "R_kgDOSmfOmg",
+      "resolved_full_name": "Abirami-19/taskloom-kanban",
+      "status": "found"
+    },
+    "abullaisi/upwork-skills": {
+      "checked_at": "2026-08-05",
+      "github_id": "1308813487",
+      "node_id": "R_kgDOTgLorw",
+      "resolved_full_name": "abullaisi/upwork-skills",
+      "status": "found"
+    },
+    "abundantbeing/hermes-browser-extension": {
+      "checked_at": "2026-08-05",
+      "github_id": "1278668528",
+      "node_id": "R_kgDOTDbu8A",
+      "resolved_full_name": "abundantbeing/hermes-browser-extension",
+      "status": "found"
+    },
+    "academiasd/academiasd_loralab-krea2": {
+      "checked_at": "2026-08-05",
+      "github_id": "1309135468",
+      "node_id": "R_kgDOTgfSbA",
+      "resolved_full_name": "AcademiaSD/AcademiaSD_LoRAlab-Krea2",
+      "status": "found"
+    },
+    "ace-trump-tech/deltaforce-obs-locker": {
+      "checked_at": "2026-08-05",
+      "github_id": "1249866465",
+      "node_id": "R_kgDOSn9y4Q",
+      "resolved_full_name": "ace-trump-tech/DeltaForce-OBS-Locker",
+      "status": "found"
+    },
+    "actuallyaridan/linux-devmgmt": {
+      "checked_at": "2026-08-05",
+      "github_id": "1250647330",
+      "node_id": "R_kgDOSotdIg",
+      "resolved_full_name": "actuallyaridan/linux-devmgmt",
+      "status": "found"
+    },
+    "adamallcock/codex-chatgpt-control": {
+      "checked_at": "2026-08-05",
+      "github_id": "1261555327",
+      "node_id": "R_kgDOSzHOfw",
+      "resolved_full_name": "adamallcock/codex-chatgpt-control",
+      "status": "found"
+    },
+    "addyosmani/agent-skills": {
+      "checked_at": "2026-08-05",
+      "github_id": "1158722119",
+      "node_id": "R_kgDORRCyRw",
+      "resolved_full_name": "addyosmani/agent-skills",
+      "status": "found"
+    },
+    "adenilsonpfe/geometry-dash-decompiled": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "adilmir1433/dbd-autogrind-trainer-2026": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "adilmir1433/dbd-autogrind-trainer-2026-elite": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "adilmir1433/dbd-autogrind-trainer-2026-extreme": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "adilmir1433/dbd-autogrind-trainer-2026-max": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "adilmir1433/dbd-autogrind-trainer-2026-mega": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "adilmir1433/dbd-autogrind-trainer-2026-plus": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "adilmir1433/dbd-autogrind-trainer-2026-ultra": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "adilmir1433/dbd-autogrind-trainer-2026-x": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "aditlfp/hydralauncher-desktop-installer": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "adtyahac/acrobat-editor": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "advocatearouse/davinci-resolve-studio-2026": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "aevella/polaris-local-first": {
+      "checked_at": "2026-08-05",
+      "github_id": "1286279483",
+      "node_id": "R_kgDOTKsROw",
+      "resolved_full_name": "Aevella/polaris-local-first",
+      "status": "found"
+    },
+    "affaan-m/everything-claude-code": {
+      "checked_at": "2026-08-05",
+      "github_id": "1136590548",
+      "node_id": "R_kgDOQ77-1A",
+      "resolved_full_name": "affaan-m/ECC",
+      "status": "found"
+    },
+    "afghan127/palworld-extreme-cheat": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "afumu/openteam": {
+      "checked_at": "2026-08-05",
+      "github_id": "1244564263",
+      "node_id": "R_kgDOSi6LJw",
+      "resolved_full_name": "afumu/openteam",
+      "status": "found"
+    },
+    "ageitgey/face_recognition": {
+      "checked_at": "2026-08-05",
+      "github_id": "83844720",
+      "node_id": "MDEwOlJlcG9zaXRvcnk4Mzg0NDcyMA==",
+      "resolved_full_name": "ageitgey/face_recognition",
+      "status": "found"
+    },
+    "agentara/skills": {
+      "checked_at": "2026-08-05",
+      "github_id": "1236310444",
+      "node_id": "R_kgDOSbCZrA",
+      "resolved_full_name": "agentara/skills",
+      "status": "found"
+    },
+    "agentic-commerce-lab/pawl": {
+      "checked_at": "2026-08-05",
+      "github_id": "1299377596",
+      "node_id": "R_kgDOTXLtvA",
+      "resolved_full_name": "agentic-commerce-lab/pawl",
+      "status": "found"
+    },
+    "agentic-in/elephant-agent": {
+      "checked_at": "2026-08-05",
+      "github_id": "1239522492",
+      "node_id": "R_kgDOSeGcvA",
+      "resolved_full_name": "agentic-in/elephant-agent",
+      "status": "found"
+    },
+    "agiwhitelist/tokdiet": {
+      "checked_at": "2026-08-05",
+      "github_id": "1271461350",
+      "node_id": "R_kgDOS8j15g",
+      "resolved_full_name": "agiwhitelist/tokdiet",
+      "status": "found"
+    },
+    "agutinbaigo28/financial-agent-api": {
+      "checked_at": "2026-08-05",
+      "github_id": "1300144318",
+      "node_id": "R_kgDOTX6gvg",
+      "resolved_full_name": "agutinbaigo28/financial-agent-api",
+      "status": "found"
+    },
+    "agutinbaigo28/trading-backtest-kit": {
+      "checked_at": "2026-08-05",
+      "github_id": "1300134200",
+      "node_id": "R_kgDOTX55OA",
+      "resolved_full_name": "agutinbaigo28/trading-backtest-kit",
+      "status": "found"
+    },
+    "ahammadmejbah/awesome-datasets-hub": {
+      "checked_at": "2026-08-05",
+      "github_id": "1239898419",
+      "node_id": "R_kgDOSedZMw",
+      "resolved_full_name": "ahammadmejbah/Awesome-Datasets-Hub",
+      "status": "found"
+    },
+    "ahmadalalibz2006-stack/calibr-zoom": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "ahmadzakiyox/gopay-api-gateaway": {
+      "checked_at": "2026-08-05",
+      "github_id": "1307825686",
+      "node_id": "R_kgDOTfPWFg",
+      "resolved_full_name": "ahmadzakiyox/gopay-api-gateaway",
+      "status": "found"
+    },
+    "ahmednasser04/honkaistarrailexternal-2": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "ahouseofbards/bonfire-jellyprofiles": {
+      "checked_at": "2026-08-05",
+      "github_id": "1266529660",
+      "node_id": "R_kgDOS321fA",
+      "resolved_full_name": "AHouseOfBards/Bonfire-JellyProfiles",
+      "status": "found"
+    },
+    "ai-best-tools/ai-image-video-gen": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "ai272/speaker": {
+      "checked_at": "2026-08-05",
+      "github_id": "1258221473",
+      "node_id": "R_kgDOSv7voQ",
+      "resolved_full_name": "AI272/speaker",
+      "status": "found"
+    },
+    "ai4s-research/open-science": {
+      "checked_at": "2026-08-05",
+      "github_id": "1288102626",
+      "node_id": "R_kgDOTMbi4g",
+      "resolved_full_name": "ai4s-research/open-science",
+      "status": "found"
+    },
+    "aichovy/vibe-observer": {
+      "checked_at": "2026-08-05",
+      "github_id": "1241232092",
+      "node_id": "R_kgDOSfuy3A",
+      "resolved_full_name": "AIchovy/vibe-observer",
+      "status": "found"
+    },
+    "aidenybai/cnfast": {
+      "checked_at": "2026-08-05",
+      "github_id": "1274697585",
+      "node_id": "R_kgDOS_pXcQ",
+      "resolved_full_name": "aidenybai/cnfast",
+      "status": "found"
+    },
+    "aimer-zero/redforge-ai": {
+      "checked_at": "2026-08-05",
+      "github_id": "1252093552",
+      "node_id": "R_kgDOSqFucA",
+      "resolved_full_name": "Aimer-zero/redforge-ai",
+      "status": "found"
+    },
+    "aimino-tech/opendocswork-mcp": {
+      "checked_at": "2026-08-05",
+      "github_id": "1250280866",
+      "node_id": "R_kgDOSoXFog",
+      "resolved_full_name": "Aimino-Tech/opendocswork-mcp",
+      "status": "found"
+    },
+    "aitabby/opencodex": {
+      "checked_at": "2026-08-05",
+      "github_id": "1253638707",
+      "node_id": "R_kgDOSrkCMw",
+      "resolved_full_name": "AITabby/opencodex",
+      "status": "found"
+    },
+    "akash190104/kolkata-bus-route": {
+      "checked_at": "2026-08-05",
+      "github_id": "1247568300",
+      "node_id": "R_kgDOSlxhrA",
+      "resolved_full_name": "Akash190104/kolkata-travel-router",
+      "status": "found"
+    },
+    "akii-technologies-ltd/akii-seo-ai-search-optimizer": {
+      "checked_at": "2026-08-05",
+      "github_id": "1244375832",
+      "node_id": "R_kgDOSiurGA",
+      "resolved_full_name": "akii-technologies-ltd/akii-seo-ai-search-optimizer",
+      "status": "found"
+    },
+    "akitaonrails/ai-memory": {
+      "checked_at": "2026-08-05",
+      "github_id": "1246148135",
+      "node_id": "R_kgDOSka2Jw",
+      "resolved_full_name": "akitaonrails/ai-memory",
+      "status": "found"
+    },
+    "akseolabs-seo/fable-soul": {
+      "checked_at": "2026-08-05",
+      "github_id": "1287966278",
+      "node_id": "R_kgDOTMTORg",
+      "resolved_full_name": "akseolabs-seo/fable-soul",
+      "status": "found"
+    },
+    "akuma815/windowsdelta": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alacritty/alacritty": {
+      "checked_at": "2026-08-05",
+      "github_id": "51980455",
+      "node_id": "MDEwOlJlcG9zaXRvcnk1MTk4MDQ1NQ==",
+      "resolved_full_name": "alacritty/alacritty",
+      "status": "found"
+    },
+    "alayalab/alayarenderer-flash": {
+      "checked_at": "2026-08-05",
+      "github_id": "1308415175",
+      "node_id": "R_kgDOTfzUxw",
+      "resolved_full_name": "AlayaLab/AlayaRenderer-Flash",
+      "status": "found"
+    },
+    "albert-weasker/niubi_guard": {
+      "checked_at": "2026-08-05",
+      "github_id": "1258389924",
+      "node_id": "R_kgDOSwGBpA",
+      "resolved_full_name": "Albert-Weasker/niubi_guard",
+      "status": "found"
+    },
+    "alchaincyf/fanbox": {
+      "checked_at": "2026-08-05",
+      "github_id": "1264531337",
+      "node_id": "R_kgDOS183iQ",
+      "resolved_full_name": "alchaincyf/fanbox",
+      "status": "found"
+    },
+    "alchaincyf/loop-engineering-orange-book": {
+      "checked_at": "2026-08-05",
+      "github_id": "1269794613",
+      "node_id": "R_kgDOS6-HNQ",
+      "resolved_full_name": "alchaincyf/loop-engineering-orange-book",
+      "status": "found"
+    },
+    "aleclindz/seo-skill-bench": {
+      "checked_at": "2026-08-05",
+      "github_id": "1287525386",
+      "node_id": "R_kgDOTL4UCg",
+      "resolved_full_name": "aleclindz/seo-skill-bench",
+      "status": "found"
+    },
+    "alemtuzlak/kiira": {
+      "checked_at": "2026-08-05",
+      "github_id": "1260200602",
+      "node_id": "R_kgDOSx0img",
+      "resolved_full_name": "AlemTuzlak/kiira",
+      "status": "found"
+    },
+    "alex-carneiro/dbd-autogrind-trainer-2026": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alex-carneiro/dbd-autogrind-trainer-2026-elite": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alex-carneiro/dbd-autogrind-trainer-2026-extreme": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alex-carneiro/dbd-autogrind-trainer-2026-max": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alex-carneiro/dbd-autogrind-trainer-2026-mega": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alex-carneiro/dbd-autogrind-trainer-2026-plus": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alex-carneiro/dbd-autogrind-trainer-2026-pro": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alex-carneiro/dbd-autogrind-trainer-2026-turbo": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alex-carneiro/dbd-autogrind-trainer-2026-x": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alex-carneiro/deltarune-chapter5-trainer-client": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alex-carneiro/deltarune-chapter5-trainer-external": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alex-shayo/bakkes-mod-install": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alexaloneboy1-droid/invincible-vs-showdown-desktop": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alexandrosgounis/pdfx": {
+      "checked_at": "2026-08-05",
+      "github_id": "1279161472",
+      "node_id": "R_kgDOTD50gA",
+      "resolved_full_name": "AlexandrosGounis/pdfx",
+      "status": "found"
+    },
+    "alfhamdy515-svg/monkemodmanager-windows-installer-2": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "ali-vilab/diffusionopd": {
+      "checked_at": "2026-08-05",
+      "github_id": "1250127700",
+      "node_id": "R_kgDOSoNvVA",
+      "resolved_full_name": "ali-vilab/DiffusionOPD",
+      "status": "found"
+    },
+    "alicankiraz1/codexqb": {
+      "checked_at": "2026-08-05",
+      "github_id": "1268809523",
+      "node_id": "R_kgDOS6B_Mw",
+      "resolved_full_name": "alicankiraz1/CodexQB",
+      "status": "found"
+    },
+    "aliencodingjava/universal-fps-tweak-26": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alinebm17/finance-api-tool": {
+      "checked_at": "2026-08-05",
+      "github_id": "1300158305",
+      "node_id": "R_kgDOTX7XYQ",
+      "resolved_full_name": "Alinebm17/finance-api-tool",
+      "status": "found"
+    },
+    "alinebm17/trade-backtesting-engine": {
+      "checked_at": "2026-08-05",
+      "github_id": "1300153599",
+      "node_id": "R_kgDOTX7E_w",
+      "resolved_full_name": "Alinebm17/trade-backtesting-engine",
+      "status": "found"
+    },
+    "alkhudarigroupuae/pumpfun-trainer_v1": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alkih/nightlight-game-launcher": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "allanlv5324f/lossless-scaling-github": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alpacahq/alpaca-skills": {
+      "checked_at": "2026-08-05",
+      "github_id": "1271379258",
+      "node_id": "R_kgDOS8e1Og",
+      "resolved_full_name": "alpacahq/alpaca-skills",
+      "status": "found"
+    },
+    "alpha-vector-core/polymarket-arbitrage-trading-bot": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alpha-vector-core/polymarket-trading-bot": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "alpunlu12-commits/jarvis": {
+      "checked_at": "2026-08-05",
+      "github_id": "1238608979",
+      "node_id": "R_kgDOSdOsUw",
+      "resolved_full_name": "alpunlu12-commits/jarvis",
+      "status": "found"
+    },
+    "aluccard992ad/twitchdropminer-desktop-setup": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "amanayayatu-tech/alaya": {
+      "checked_at": "2026-08-05",
+      "github_id": "1258044709",
+      "node_id": "R_kgDOSvw9JQ",
+      "resolved_full_name": "amanayayatu-tech/Alaya",
+      "status": "found"
+    },
+    "amber82120/discord-webhook-orchestrator": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "ambrosex/larksnap": {
+      "checked_at": "2026-08-05",
+      "github_id": "1285957532",
+      "node_id": "R_kgDOTKYnnA",
+      "resolved_full_name": "AmbroseX/larksnap",
+      "status": "found"
+    },
+    "amelnagdy/delegate-skills": {
+      "checked_at": "2026-08-05",
+      "github_id": "1269124956",
+      "node_id": "R_kgDOS6VPXA",
+      "resolved_full_name": "amElnagdy/delegate-skills",
+      "status": "found"
+    },
+    "amelnagdy/guard-skills": {
+      "checked_at": "2026-08-05",
+      "github_id": "1261422007",
+      "node_id": "R_kgDOSy_Ftw",
+      "resolved_full_name": "amElnagdy/guard-skills",
+      "status": "found"
+    },
+    "amet2901/asterdex-trading-bot": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "aminmgmt/backpack": {
+      "checked_at": "2026-08-05",
+      "github_id": "1297852328",
+      "node_id": "R_kgDOTVunqA",
+      "resolved_full_name": "AminMGMT/BackPack",
+      "status": "found"
+    },
+    "amirmushichge/cinematic-scroll-prompt-kit": {
+      "checked_at": "2026-08-05",
+      "github_id": "1304359065",
+      "node_id": "R_kgDOTb7wmQ",
+      "resolved_full_name": "amirmushichge/cinematic-scroll-prompt-kit",
+      "status": "found"
+    },
+    "amirmushichge/world-cup-letter-flags": {
+      "checked_at": "2026-08-05",
+      "github_id": "1300894448",
+      "node_id": "R_kgDOTYoS8A",
+      "resolved_full_name": "amirmushichge/world-cup-letter-flags",
+      "status": "found"
+    },
+    "ammaarreshi/generals-mac-ios-ipad": {
+      "checked_at": "2026-08-05",
+      "github_id": "1288835164",
+      "node_id": "R_kgDOTNIQXA",
+      "resolved_full_name": "ammaarreshi/Generals-Mac-iOS-iPad",
+      "status": "found"
+    },
+    "amnotyoung/slide-meme-inserter": {
+      "checked_at": "2026-08-05",
+      "github_id": "1310594307",
+      "node_id": "R_kgDOTh4VAw",
+      "resolved_full_name": "amnotyoung/slide-meme-inserter",
+      "status": "found"
+    },
+    "amplifthq/opentag": {
+      "checked_at": "2026-08-05",
+      "github_id": "1278926400",
+      "node_id": "R_kgDOTDreQA",
+      "resolved_full_name": "amplifthq/opentag",
+      "status": "found"
+    },
+    "amyxvalen/flash-usdt-sender": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "an0nud4y/offensive-com": {
+      "checked_at": "2026-08-05",
+      "github_id": "1305042813",
+      "node_id": "R_kgDOTclffQ",
+      "resolved_full_name": "An0nUD4Y/Offensive-COM",
+      "status": "found"
+    },
+    "anahitam1991/exodus-fake-balance": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "anasu1/text-humanizer": {
+      "checked_at": "2026-08-05",
+      "github_id": "1271455382",
+      "node_id": "R_kgDOS8jelg",
+      "resolved_full_name": "anasu1/text-humanizer",
+      "status": "found"
+    },
+    "andralien/synapse-exec": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "anduin2017/howtocook": {
+      "checked_at": "2026-08-05",
+      "github_id": "243950408",
+      "node_id": "MDEwOlJlcG9zaXRvcnkyNDM5NTA0MDg=",
+      "resolved_full_name": "Anduin2017/HowToCook",
+      "status": "found"
+    },
+    "andyhuo520/maccheck": {
+      "checked_at": "2026-08-05",
+      "github_id": "1300603925",
+      "node_id": "R_kgDOTYWkFQ",
+      "resolved_full_name": "andyhuo520/MacCheck",
+      "status": "found"
+    },
+    "andyhuo520/ppocrv6-studio": {
+      "checked_at": "2026-08-05",
+      "github_id": "1271192519",
+      "node_id": "R_kgDOS8Tbxw",
+      "resolved_full_name": "andyhuo520/ppocrv6-studio",
+      "status": "found"
+    },
+    "andyhuo520/tang-changan": {
+      "checked_at": "2026-08-05",
+      "github_id": "1252980831",
+      "node_id": "R_kgDOSq74Xw",
+      "resolved_full_name": "andyhuo520/tang-changan",
+      "status": "found"
+    },
+    "angelonfira/weblings": {
+      "checked_at": "2026-08-05",
+      "github_id": "1308881993",
+      "node_id": "R_kgDOTgP0SQ",
+      "resolved_full_name": "AngelOnFira/weblings",
+      "status": "found"
+    },
+    "angelosdimakos1/faceit-match-tracker": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "aniqfakhrul/cve-2026-54121": {
+      "checked_at": "2026-08-05",
+      "github_id": "1310272941",
+      "node_id": "R_kgDOThktrQ",
+      "resolved_full_name": "aniqfakhrul/CVE-2026-54121",
+      "status": "found"
+    },
+    "anosu/abyssmod": {
+      "checked_at": "2026-08-05",
+      "github_id": "1267329183",
+      "node_id": "R_kgDOS4nonw",
+      "resolved_full_name": "anosu/AbyssMod",
+      "status": "found"
+    },
+    "anthropics/claude-code": {
+      "checked_at": "2026-08-05",
+      "github_id": "937253475",
+      "node_id": "R_kgDON91aYw",
+      "resolved_full_name": "anthropics/claude-code",
+      "status": "found"
+    },
+    "anthropics/launch-your-agent": {
+      "checked_at": "2026-08-05",
+      "github_id": "1271323125",
+      "node_id": "R_kgDOS8bZ9Q",
+      "resolved_full_name": "anthropics/launch-your-agent",
+      "status": "found"
+    },
+    "anthropics/skills": {
+      "checked_at": "2026-08-05",
+      "github_id": "1061953414",
+      "node_id": "R_kgDOP0wfhg",
+      "resolved_full_name": "anthropics/skills",
+      "status": "found"
+    },
+    "antiwork/chromeless": {
+      "checked_at": "2026-08-05",
+      "github_id": "1288610962",
+      "node_id": "R_kgDOTM6kkg",
+      "resolved_full_name": "antiwork/chromeless",
+      "status": "found"
+    },
+    "anton-hq96g4/meccha-medusa": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "anvia-hq/lexa": {
+      "checked_at": "2026-08-05",
+      "github_id": "1257420150",
+      "node_id": "R_kgDOSvK1dg",
+      "resolved_full_name": "anvia-hq/lexa",
+      "status": "found"
+    },
+    "apex-dao/limitless-trading-bot": {
+      "checked_at": "2026-08-05",
+      "github_id": "1253254432",
+      "node_id": "R_kgDOSrMlIA",
+      "resolved_full_name": "apex-dao/limitless-trading-bot",
+      "status": "found"
+    },
+    "appflowy-io/appflowy": {
+      "checked_at": "2026-08-05",
+      "github_id": "377496562",
+      "node_id": "MDEwOlJlcG9zaXRvcnkzNzc0OTY1NjI=",
+      "resolved_full_name": "AppFlowy-IO/AppFlowy",
+      "status": "found"
+    },
+    "apple/corecrypto": {
+      "checked_at": "2026-08-05",
+      "github_id": "1246797971",
+      "node_id": "R_kgDOSlCgkw",
+      "resolved_full_name": "apple/corecrypto",
+      "status": "found"
+    },
+    "appwrite/appwrite": {
+      "checked_at": "2026-08-05",
+      "github_id": "180190854",
+      "node_id": "MDEwOlJlcG9zaXRvcnkxODAxOTA4NTQ=",
+      "resolved_full_name": "appwrite/appwrite",
+      "status": "found"
+    },
+    "ar9av/gemini-nano-chrome": {
+      "checked_at": "2026-08-05",
+      "github_id": "1272068997",
+      "node_id": "R_kgDOS9I7hQ",
+      "resolved_full_name": "Ar9av/gemini-nano-chrome",
+      "status": "found"
+    },
+    "arbitragebot-group/polymarket-trading-bot": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "arccalc/dwmfix": {
+      "checked_at": "2026-08-05",
+      "github_id": "1243331900",
+      "node_id": "R_kgDOShu9PA",
+      "resolved_full_name": "Arccalc/Dwmfix",
+      "status": "found"
+    },
+    "archeb/peer.as": {
+      "checked_at": "2026-08-05",
+      "github_id": "1255166391",
+      "node_id": "R_kgDOStBRtw",
+      "resolved_full_name": "Archeb/peer.as",
+      "status": "found"
+    },
+    "archive228/loopkit": {
+      "checked_at": "2026-08-05",
+      "github_id": "1284845470",
+      "node_id": "R_kgDOTJUvng",
+      "resolved_full_name": "Archive228/loopkit",
+      "status": "found"
+    },
+    "arcships/light-ocr": {
+      "checked_at": "2026-08-05",
+      "github_id": "1299885911",
+      "node_id": "R_kgDOTXqvVw",
+      "resolved_full_name": "arcships/light-ocr",
+      "status": "found"
+    },
+    "aref-vc/tufte-claude-skill": {
+      "checked_at": "2026-08-05",
+      "github_id": "1247336503",
+      "node_id": "R_kgDOSljYNw",
+      "resolved_full_name": "aref-vc/tufte-claude-skill",
+      "status": "found"
+    },
+    "arenaasd/dbd-autogrind-trainer-2026": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "arenaasd/dbd-autogrind-trainer-2026-elite": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "arenaasd/dbd-autogrind-trainer-2026-extreme": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "arenaasd/dbd-autogrind-trainer-2026-pro": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "aresleboss2005/solara-exec": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "areslevrai/celestial-launcher-releases": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "aresyn/codex-control-plane-mcp": {
+      "checked_at": "2026-08-05",
+      "github_id": "1272121729",
+      "node_id": "R_kgDOS9MJgQ",
+      "resolved_full_name": "aresyn/codex-control-plane-mcp",
+      "status": "found"
+    },
+    "ariefcahyasubagja/subnautica-csharp-toolkit": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "armourinfosec/enterprise-windows-infrastructure-security": {
+      "checked_at": "2026-08-05",
+      "github_id": "1308592681",
+      "node_id": "R_kgDOTf-KKQ",
+      "resolved_full_name": "armourinfosec/Enterprise-Windows-Infrastructure-Security",
+      "status": "found"
+    },
+    "arnabbagxd/brand-building-skills": {
+      "checked_at": "2026-08-05",
+      "github_id": "1265853198",
+      "node_id": "R_kgDOS3NjDg",
+      "resolved_full_name": "arnabbagxd/Brand-building-skills",
+      "status": "found"
+    },
+    "articulite/bettercopy": {
+      "checked_at": "2026-08-05",
+      "github_id": "1299852262",
+      "node_id": "R_kgDOTXor5g",
+      "resolved_full_name": "articulite/BetterCopy",
+      "status": "found"
+    },
+    "aryanzzzz25/f95-zone-sync-manager": {
+      "checked_at": "2026-08-05",
+      "github_id": "1239200930",
+      "node_id": "R_kgDOSdy0og",
+      "resolved_full_name": "Aryanzzzz25/f95-zone-sync-manager",
+      "status": "found"
+    },
+    "aryapoetraramadhani/mii-island-dreamscape-pc": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    },
+    "astraltenprosper/uncensored-ai-image-video-generator": {
+      "checked_at": "2026-08-05",
+      "status": "not_found"
+    }
+  },
+  "schema_version": 1,
+  "source": "scripts/backfill_repo_identity.py"
+}
