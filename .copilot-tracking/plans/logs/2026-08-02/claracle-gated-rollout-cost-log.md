@@ -91,28 +91,33 @@
 * WI-03: Record the sponsor rollout decision for `dynamic_topic_creation` and
   `repo_pages` separately — high priority, blocks Phases 2 through 5.
   * Source: Phases 2 through 5 success criteria; Plan Dependencies.
-  * Dependency: `jmservera` sponsor review of
+  * Status: **Resolved.** Both flags recorded as Approved by `jmservera` on
+    2026-08-05 in
     [owner-action-register.md#sponsor-rollout-decision](../../../../docs/review/data-observatory-relaunch/owner-action-register.md#sponsor-rollout-decision).
+    See ID-02. `repo_pages` is fully unblocked (its stated condition, stable
+    identity/lifecycle evidence, is satisfied by PR #668). `dynamic_topic_creation`
+    is sponsor-approved in principle, but its stated conditions (Hermes security
+    disposition and an approved canary) are not yet satisfied — Phase 3 (the
+    dynamic-topic preview and canary) has not started.
 * WI-04: Review and regenerate the repository pages affected once the completed
   identity backfill is applied, so `seed_lifecycle()` parity (Phase 2, checklist item
   2) can pass — high priority, blocks the remainder of Phase 2.
   * Source: DD-03, DD-04.
-  * Status: the blocking duplicate-identity bug was fixed and merged as
-    [PR #666](https://github.com/jmservera/SquadScope/pull/666). The full-corpus
-    regeneration itself is implemented and open as
-    [PR #668](https://github.com/jmservera/SquadScope/pull/668): 266 qualified pages
-    (down from 270), byte-identical two-run check, 0 `--seed-lifecycle` mismatches,
-    1459 tests passing, `hugo --minify` and internal-link check both clean. Two more
-    correctness bugs were found and fixed during regeneration: a self-collision
-    where a merged identity's final name could also be listed in its own
-    prior-name set (causing its own page to be deleted right after being written),
-    and non-deterministic same-week observation tie-breaking that made two
-    consecutive `generate()` runs produce different output for consolidated repos.
-    `test_frozen_corpus_lifecycle_seed_has_expected_parity`'s counts were updated
-    (270 -> 266 qualified; 2407 -> 2400 committed ledger entries).
-  * Dependency: PR #668 still needs Hermes and sponsor sign-off per the Approval
-    Contract before merge (see Scoping step 10) — not merged automatically.
-  * Scoping (completed by PR #668, pending approval before merge):
+  * Status: **Resolved and merged** as [PR #666](https://github.com/jmservera/SquadScope/pull/666)
+    (duplicate-identity fix) and [PR #668](https://github.com/jmservera/SquadScope/pull/668)
+    (corpus regeneration). 266 qualified pages (down from 270), byte-identical
+    two-run check, 0 `--seed-lifecycle` mismatches, 1459 tests passing, `hugo
+    --minify` and internal-link check both clean. Two more correctness bugs were
+    found and fixed during regeneration: a self-collision where a merged identity's
+    final name could also be listed in its own prior-name set (causing its own page
+    to be deleted right after being written), and non-deterministic same-week
+    observation tie-breaking that made two consecutive `generate()` runs produce
+    different output for consolidated repos. `test_frozen_corpus_lifecycle_seed_has_expected_parity`'s
+    counts were updated (270 -> 266 qualified; 2407 -> 2400 committed ledger
+    entries). Per sponsor decision (see ID-02), PR #668 was merged directly on the
+    strength of this validation evidence rather than waiting for a formal Hermes
+    review pass.
+  * Scoping (completed and merged via PR #668):
     1. New isolated branch off `main` once #666 merged.
     2. Temporarily set `config/observatory.toml` `[repo_pages] enabled = true`
        (matching the precedent in #663).
@@ -140,8 +145,13 @@
     SAML enforcement). None are deletions; the SAML-blocked one specifically requires
     `jmservera` to authorize the OAuth token against the PowerShell org, not something
     resolvable headlessly.
-  * Dependency: sponsor/Hermes disposition, or manual SSO authorization for the one
-    SAML case.
+  * Status: **Deferred by sponsor decision (2026-08-05).** `jmservera`'s assessment is
+    that the SAML block is likely an artifact of running the backfill locally with a
+    personal OAuth token (`gh auth token`); a GitHub Actions run against a public repo
+    should not require SSO authorization the same way. Rather than authorize SSO or
+    record an accepted-risk disposition now, wait to see how `powershell/powershell`
+    resolves the next time the backfill runs from a GitHub Action, and only escalate
+    if the same block recurs there.
 
 ## User Decisions
 
@@ -161,3 +171,20 @@
     and `merge_identity_backfill_overrides()` in `scripts/observatory_repos.py`, threaded
     through `generate()` and `seed_lifecycle()`. See the Changes Log for the live corpus
     run outcome.
+* ID-02: Rollout, merge-gate, and WI-05 dispositions.
+  * `repo_pages`: Approved. Stable identity/lifecycle evidence condition satisfied by
+    PR #668; recorded in owner-action-register.md.
+  * `dynamic_topic_creation`: Approved in principle, conditional on Phase 3 (security
+    disposition + approved canary) still being completed before activation; recorded
+    in owner-action-register.md.
+  * PR #668 merge gate: merge on the strength of the automated validation evidence
+    (tests, byte-identical idempotence check, `--seed-lifecycle` parity, Hugo build,
+    internal-link check) rather than waiting for a separate formal Hermes review pass.
+  * WI-05 (3 access-blocked identities): deferred rather than resolved now. Sponsor's
+    assessment is that the `powershell/powershell` SAML block is likely specific to
+    running the backfill locally with a personal OAuth token, and may not recur when
+    run from a GitHub Action against a public repository; re-evaluate only if the same
+    block recurs there, rather than authorizing SSO or recording an accepted-risk note
+    preemptively.
+  * Decision by: jmservera (sponsor), recorded 2026-08-05.
+

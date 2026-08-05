@@ -227,8 +227,8 @@ Record a separate decision for each flag. Do not use one blanket approval.
 
 | Flag | Decision | Reviewed revision and evidence | Conditions | Date |
 | ---- | -------- | ------------------------------ | ---------- | ---- |
-| `dynamic_topic_creation` | Pending | Pending | Security disposition and approved canary required | Pending |
-| `repo_pages` | Pending | Pending | Stable identity and lifecycle evidence required | Pending |
+| `dynamic_topic_creation` | Approved (sponsor); technical preconditions outstanding | See Planning Log WI-03 for status | Security disposition and approved canary still required before activation (Phase 3 not yet started) | 2026-08-05 |
+| `repo_pages` | Approved | [PR #668](https://github.com/jmservera/SquadScope/pull/668) - identity backfill, duplicate-identity consolidation, and corpus regeneration; 266 qualified pages, 0 `--seed-lifecycle` mismatches, byte-identical two-run check, 1459 tests passing | Stable identity and lifecycle evidence required (satisfied by PR #668) | 2026-08-05 |
 
 Completion evidence: dated approve, reject, or defer decisions identifying the exact
 revision, evidence, conditions, and rollback owner for each flag.

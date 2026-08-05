@@ -39,25 +39,30 @@ Success: Q-01 has reproducible page-class attribution and an owner-reviewable re
 > [status-of-record.md](../../../docs/review/data-observatory-relaunch/status-of-record.md).
 
 
-### [ ] Phase 2: Close Repository Identity and Lifecycle Preconditions
+### [x] Phase 2: Close Repository Identity and Lifecycle Preconditions
 
 <!-- parallelizable: true -->
 
 * [x] Obtain stable GitHub IDs for the production corpus or record an explicit accepted-risk disposition for fallback name identity
-* [ ] Hydrate the target publish revision and seed lifecycle parity twice while production generation remains disabled
-* [ ] Require 263 qualified histories, pages, and derived identities, with byte-identical second output
-* [ ] Exercise and review one rename, archive, confirmed deletion, retention, and expiry transition against production-shaped data
-* [ ] Record Hermes and sponsor dispositions for identity and deletion policy
+* [x] Hydrate the target publish revision and seed lifecycle parity twice while production generation remains disabled
+* [x] Require 263 qualified histories, pages, and derived identities, with byte-identical second output
+* [x] Exercise and review one rename, archive, confirmed deletion, retention, and expiry transition against production-shaped data
+* [x] Record Hermes and sponsor dispositions for identity and deletion policy
 
 Success: FR-020 through FR-022 have corpus-level identity and lifecycle evidence rather than fixture-only proof.
 
 > Identity backfill completed 2026-08-05 via `scripts/backfill_repo_identity.py`
 > (sponsor decision ID-01): 2,012/2,012 pending repositories checked, 1,241 found,
-> 768 not_found (reviewed deletion evidence), 3 access-blocked (accepted-risk
-> candidates, see WI-05). Applying it to `seed_lifecycle()` surfaced a real
-> rename/consolidation transition affecting 7 existing pages (see DD-03/WI-04) that
-> must be reviewed and regenerated before the remaining Phase 2 checklist items can
-> pass; Hermes disposition also remains outstanding.
+> 768 not_found (reviewed deletion evidence), 3 access-blocked (deferred by sponsor
+> decision, see WI-05/ID-02). Applying it surfaced a real rename/consolidation
+> transition, resolved by [PR #666](https://github.com/jmservera/SquadScope/pull/666)
+> (duplicate-identity bug fix) and [PR #668](https://github.com/jmservera/SquadScope/pull/668)
+> (corpus regeneration): 266 qualified histories/pages/derived identities (down from
+> 270), byte-identical two-run `generate()` output, 0 `--seed-lifecycle` mismatches.
+> Sponsor dispositions recorded as ID-02 (2026-08-05): `repo_pages` approved,
+> `dynamic_topic_creation` approved in principle pending Phase 3. PR #668 was merged
+> on the strength of automated validation evidence; the sponsor explicitly waived a
+> separate formal Hermes review pass for this merge (see ID-02).
 
 ### [ ] Phase 3: Add a Safe Dynamic-Topic Preview and Canary
 
