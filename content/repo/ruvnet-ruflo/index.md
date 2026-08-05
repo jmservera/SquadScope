@@ -245,6 +245,22 @@ related_repos:
   - npm
   - skills
   - typescript
+- full_name: Graphify-Labs/graphify
+  slug: graphify-labs-graphify
+  url: https://github.com/Graphify-Labs/graphify
+  score: 15
+  shared_weeks:
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  shared_topics:
+  - ai-agents
+  - claude-code
+  - codex
+  - skills
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain
@@ -260,21 +276,6 @@ related_repos:
   - agents
   - ai-agents
   - typescript
-- full_name: Significant-Gravitas/AutoGPT
-  slug: significant-gravitas-autogpt
-  url: https://github.com/Significant-Gravitas/AutoGPT
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - agentic-ai
-  - agents
-  - autonomous-agents
 lifecycle:
   status: active
   as_of_week: 2026-W32

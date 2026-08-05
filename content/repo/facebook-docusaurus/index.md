@@ -180,6 +180,20 @@ related_repos:
   shared_topics:
   - javascript
   - react
+- full_name: react/react
+  slug: react-react
+  url: https://github.com/react/react
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - javascript
+  - react
 - full_name: strapi/strapi
   slug: strapi-strapi
   url: https://github.com/strapi/strapi
@@ -210,19 +224,6 @@ related_repos:
 - full_name: ant-design/ant-design
   slug: ant-design-ant-design
   url: https://github.com/ant-design/ant-design
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - react
-- full_name: apache/superset
-  slug: apache-superset
-  url: https://github.com/apache/superset
   score: 13
   shared_weeks:
   - 2026-W21

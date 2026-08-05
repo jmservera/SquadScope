@@ -139,6 +139,18 @@ related_repos:
   - 2026-W32
   shared_topics:
   - docker
+- full_name: openinterpreter/openinterpreter
+  slug: openinterpreter-openinterpreter
+  url: https://github.com/openinterpreter/openinterpreter
+  score: 6
+  shared_weeks:
+  - 2026-W21
+  - 2026-W24
+  - 2026-W30
+  - 2026-W31
+  - 2026-W32
+  shared_topics:
+  - rust
 - full_name: oven-sh/bun
   slug: oven-sh-bun
   url: https://github.com/oven-sh/bun
@@ -154,18 +166,6 @@ related_repos:
 - full_name: pathwaycom/pathway
   slug: pathwaycom-pathway
   url: https://github.com/pathwaycom/pathway
-  score: 6
-  shared_weeks:
-  - 2026-W21
-  - 2026-W24
-  - 2026-W30
-  - 2026-W31
-  - 2026-W32
-  shared_topics:
-  - rust
-- full_name: rust-lang/rust
-  slug: rust-lang-rust
-  url: https://github.com/rust-lang/rust
   score: 6
   shared_weeks:
   - 2026-W21

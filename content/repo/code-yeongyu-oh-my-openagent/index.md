@@ -143,6 +143,22 @@ topic_links:
   slug: developer-tools
   url: /topics/developer-tools/
 related_repos:
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 16
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai-agents
+  - anthropic
+  - claude
+  - claude-code
 - full_name: f/prompts.chat
   slug: f-prompts-chat
   url: https://github.com/f/prompts.chat
@@ -264,22 +280,6 @@ related_repos:
   - claude
   - claude-code
   - claude-skills
-- full_name: affaan-m/ECC
-  slug: affaan-m-ecc
-  url: https://github.com/affaan-m/ECC
-  score: 15
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
-  - ai-agents
-  - anthropic
-  - claude
-  - claude-code
 lifecycle:
   status: active
   as_of_week: 2026-W32

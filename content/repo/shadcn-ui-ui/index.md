@@ -163,6 +163,20 @@ related_repos:
   shared_topics:
   - laravel
   - nextjs
+- full_name: react/react
+  slug: react-react
+  url: https://github.com/react/react
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - react
+  - ui
 - full_name: ant-design/ant-design
   slug: ant-design-ant-design
   url: https://github.com/ant-design/ant-design
@@ -228,19 +242,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - react
-- full_name: langgenius/dify
-  slug: langgenius-dify
-  url: https://github.com/langgenius/dify
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - nextjs
 lifecycle:
   status: active
   as_of_week: 2026-W32

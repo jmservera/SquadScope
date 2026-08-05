@@ -227,6 +227,21 @@ related_repos:
   - kimi
   - llm
   - qwen3
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 15
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai-agents
+  - llm
+  - mcp
 - full_name: firecrawl/firecrawl
   slug: firecrawl-firecrawl
   url: https://github.com/firecrawl/firecrawl
@@ -242,35 +257,21 @@ related_repos:
   - ai-agents
   - llm
   - web-scraping
-- full_name: hiyouga/LlamaFactory
-  slug: hiyouga-llamafactory
-  url: https://github.com/hiyouga/LlamaFactory
+- full_name: Graphify-Labs/graphify
+  slug: graphify-labs-graphify
+  url: https://github.com/Graphify-Labs/graphify
   score: 15
   shared_weeks:
-  - 2026-W21
   - 2026-W22
   - 2026-W23
   - 2026-W24
   - 2026-W25
   - 2026-W26
-  shared_topics:
-  - deepseek
-  - llama3
-  - llm
-- full_name: langchain-ai/langchain
-  slug: langchain-ai-langchain
-  url: https://github.com/langchain-ai/langchain
-  score: 15
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
+  - 2026-W27
   shared_topics:
   - ai-agents
   - llm
+  - mcp
   - rag
 lifecycle:
   status: active

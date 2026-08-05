@@ -141,6 +141,22 @@ topic_links:
   slug: ai-coding-agents
   url: /topics/ai-coding-agents/
 related_repos:
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 16
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai-agents
+  - anthropic
+  - claude
+  - claude-code
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
@@ -204,22 +220,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - ai
-  - ai-agents
-  - anthropic
-  - claude
-  - claude-code
-- full_name: affaan-m/ECC
-  slug: affaan-m-ecc
-  url: https://github.com/affaan-m/ECC
-  score: 15
-  shared_weeks:
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  - 2026-W27
-  shared_topics:
   - ai-agents
   - anthropic
   - claude

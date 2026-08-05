@@ -95,6 +95,21 @@ topic_links:
   slug: open-source-llms
   url: /topics/open-source-llms/
 related_repos:
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 9
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W25
+  - 2026-W28
+  - 2026-W31
+  shared_topics:
+  - anthropic
+  - claude
+  - claude-code
+  - llm
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
@@ -156,20 +171,6 @@ related_repos:
   - anthropic
   - claude
   - claude-code
-- full_name: affaan-m/ECC
-  slug: affaan-m-ecc
-  url: https://github.com/affaan-m/ECC
-  score: 8
-  shared_weeks:
-  - 2026-W22
-  - 2026-W25
-  - 2026-W28
-  - 2026-W31
-  shared_topics:
-  - anthropic
-  - claude
-  - claude-code
-  - llm
 - full_name: langchain-ai/langchain
   slug: langchain-ai-langchain
   url: https://github.com/langchain-ai/langchain

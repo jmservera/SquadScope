@@ -166,9 +166,9 @@ related_repos:
   shared_topics:
   - agent
   - llm
-- full_name: browser-use/browser-use
-  slug: browser-use-browser-use
-  url: https://github.com/browser-use/browser-use
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
   score: 7
   shared_weeks:
   - 2026-W21
@@ -179,9 +179,9 @@ related_repos:
   - 2026-W30
   shared_topics:
   - llm
-- full_name: f/prompts.chat
-  slug: f-prompts-chat
-  url: https://github.com/f/prompts.chat
+- full_name: browser-use/browser-use
+  slug: browser-use-browser-use
+  url: https://github.com/browser-use/browser-use
   score: 7
   shared_weeks:
   - 2026-W21

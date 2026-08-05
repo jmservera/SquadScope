@@ -198,6 +198,19 @@ related_repos:
   shared_topics:
   - oh-my-zsh
   - zsh
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 13
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - productivity
 - full_name: git/git
   slug: git-git
   url: https://github.com/git/git
@@ -227,19 +240,6 @@ related_repos:
 - full_name: n8n-io/n8n
   slug: n8n-io-n8n
   url: https://github.com/n8n-io/n8n
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - cli
-- full_name: OpenHands/OpenHands
-  slug: openhands-openhands
-  url: https://github.com/OpenHands/OpenHands
   score: 13
   shared_weeks:
   - 2026-W21

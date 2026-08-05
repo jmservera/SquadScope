@@ -130,6 +130,18 @@ related_repos:
   - 2026-W25
   - 2026-W27
   shared_topics: []
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W27
+  shared_topics: []
 - full_name: angular/angular
   slug: angular-angular
   url: https://github.com/angular/angular
@@ -169,18 +181,6 @@ related_repos:
 - full_name: ant-design/ant-design
   slug: ant-design-ant-design
   url: https://github.com/ant-design/ant-design
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W27
-  shared_topics: []
-- full_name: apache/superset
-  slug: apache-superset
-  url: https://github.com/apache/superset
   score: 11
   shared_weeks:
   - 2026-W21

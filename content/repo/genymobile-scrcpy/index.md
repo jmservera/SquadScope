@@ -181,9 +181,9 @@ related_repos:
   - 2026-W29
   shared_topics:
   - c
-- full_name: rustdesk/rustdesk
-  slug: rustdesk-rustdesk
-  url: https://github.com/rustdesk/rustdesk
+- full_name: react/react-native
+  slug: react-react-native
+  url: https://github.com/react/react-native
   score: 7
   shared_weeks:
   - 2026-W21

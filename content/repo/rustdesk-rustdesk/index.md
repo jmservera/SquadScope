@@ -215,6 +215,20 @@ related_repos:
   shared_topics:
   - rust
   - rust-lang
+- full_name: react/react-native
+  slug: react-react-native
+  url: https://github.com/react/react-native
+  score: 14
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - android
+  - ios
 - full_name: toeverything/AFFiNE
   slug: toeverything-affine
   url: https://github.com/toeverything/AFFiNE
@@ -242,19 +256,6 @@ related_repos:
   - 2026-W26
   shared_topics:
   - windows
-- full_name: 2dust/v2rayNG
-  slug: 2dust-v2rayng
-  url: https://github.com/2dust/v2rayNG
-  score: 13
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - android
 lifecycle:
   status: active
   as_of_week: 2026-W32

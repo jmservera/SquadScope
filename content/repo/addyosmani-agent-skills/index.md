@@ -94,6 +94,23 @@ topic_links:
   slug: ai-coding-agents
   url: /topics/ai-coding-agents/
 related_repos:
+- full_name: Graphify-Labs/graphify
+  slug: graphify-labs-graphify
+  url: https://github.com/Graphify-Labs/graphify
+  score: 11
+  shared_weeks:
+  - 2026-W25
+  - 2026-W26
+  - 2026-W27
+  - 2026-W28
+  - 2026-W29
+  - 2026-W30
+  shared_topics:
+  - antigravity
+  - claude-code
+  - codex
+  - cursor
+  - skills
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
@@ -195,21 +212,6 @@ related_repos:
   - 2026-W30
   shared_topics:
   - claude-code
-- full_name: Graphify-Labs/graphify
-  slug: graphify-labs-graphify
-  url: https://github.com/Graphify-Labs/graphify
-  score: 8
-  shared_weeks:
-  - 2026-W28
-  - 2026-W29
-  - 2026-W30
-  - 2026-W31
-  shared_topics:
-  - antigravity
-  - claude-code
-  - codex
-  - cursor
-  - skills
 lifecycle:
   status: active
   as_of_week: 2026-W31

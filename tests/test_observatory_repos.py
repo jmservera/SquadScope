@@ -567,16 +567,19 @@ def test_frozen_corpus_lifecycle_seed_has_expected_parity() -> None:
     assert config["enabled"] is False
     # Repository-page qualification parity is the real invariant: every qualified
     # history has exactly one page and one derived entry.
-    # After Phase 3 regeneration: 263 original + 7 new pages = 270 qualified identities
-    assert len(qualified_identities) == 270
+    # After the identity backfill + rename-consolidation regeneration: 270 - 7 stale
+    # + 3 consolidated-elsewhere = 266 qualified identities (some renames/ownership
+    # transfers merged into an already-existing identity rather than needing a new one).
+    assert len(qualified_identities) == 266
     assert qualified_identities == page_identities == derived_identities
 
     # After Phase 1 fix (reverse index for full_name->key migration), the ledger
     # is idempotent across multiple passes. The loaded corpus includes the
-    # committed ledger (2242 name:-keyed repos) plus any migrations to numeric
-    # keys and any new repositories discovered in raw weeks. With Phase 1 fix in
-    # place, re-running load_repository_histories() does not create duplicates
-    # and the total count is stable.
+    # committed ledger plus any migrations to numeric keys and any new repositories
+    # discovered in raw weeks. Re-running load_repository_histories() without
+    # identity_backfill still reconciles to the same qualified/page/derived parity,
+    # even though it recreates transient fallback entries for prior names still
+    # present in raw crawl data.
     assert len(histories) == 2407
     assert all(isinstance(key, str) and key for key in histories)
     expected_schema = observatory_repos.lifecycle_ledger_payload({})["schema_version"]
@@ -584,9 +587,10 @@ def test_frozen_corpus_lifecycle_seed_has_expected_parity() -> None:
     assert committed_ledger["schema_version"] == expected_schema
     committed_repositories = committed_ledger["repositories"]
     assert isinstance(committed_repositories, dict)
-    # After Phase 3 regeneration, the ledger was updated with the new identities
-    # (2242 original + 165 migrations/new discoveries = 2407 total)
-    assert len(committed_repositories) == 2407
+    # The persisted ledger reflects the identity-backfill-consolidated corpus (fewer
+    # entries than the freshly-recomputed histories above, since the committed ledger
+    # has already merged the renamed/consolidated identities into single entries).
+    assert len(committed_repositories) == 2400
     assert all(isinstance(entry, dict) for entry in committed_repositories.values())
 
 
@@ -720,6 +724,89 @@ def test_consolidates_ledger_preloaded_duplicate_after_rename_settles_display_na
         assert merged.display_name == "new-owner/repo"
         assert merged.prior_full_names == {"old-owner/repo"}
         assert {item.week for item in merged.observations} == {"2026-W38", "2026-W39", "2026-W40"}
+
+
+def test_consolidation_never_leaves_final_identity_in_its_own_prior_names() -> None:
+    """Reproduces a self-collision: the merged final display_name/slug must never also
+    appear in prior_full_names/prior_slugs, or write_repository_pages() would delete the
+    page it just wrote (its current slug is also treated as an obsolete prior one).
+    """
+    tests_root = Path(__file__).resolve().parent
+    with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:
+        root = Path(tmpdir)
+        write_week(root, "2026-W50", [repo_record("unrelated/other", 1, github_id=999)])
+
+        stable = observatory_repos.RepositoryHistory(
+            key="777",
+            github_id="777",
+            node_id="R_777",
+            display_name="new-owner/repo",
+            owner="new-owner",
+            name="repo",
+            slug="new-owner-repo",
+            url="https://github.com/new-owner/repo",
+            observations=[
+                observatory_repos.RepoObservation(
+                    week="2026-W38",
+                    source_bucket="trending_repos",
+                    owner="new-owner",
+                    name="repo",
+                    full_name="new-owner/repo",
+                    url="https://github.com/new-owner/repo",
+                    description=None,
+                    language=None,
+                    stars=5,
+                    forks=0,
+                    created_at="2026-01-01T00:00:00Z",
+                    topics=(),
+                    source_path="data/raw/2026-W38.json",
+                    github_id="777",
+                )
+            ],
+        )
+        # This fallback's own prior_full_names/prior_slugs already list the exact
+        # name/slug the merge settles on, simulating stale prior-identity data
+        # recorded before the fallback entry was last updated.
+        fallback = observatory_repos.RepositoryHistory(
+            key="name:new-owner/repo",
+            github_id=None,
+            node_id=None,
+            display_name="new-owner/repo",
+            owner="new-owner",
+            name="repo",
+            slug="new-owner-repo",
+            url="https://github.com/new-owner/repo",
+            prior_full_names={"new-owner/repo"},
+            prior_slugs={"new-owner-repo"},
+            observations=[
+                observatory_repos.RepoObservation(
+                    week="2026-W39",
+                    source_bucket="trending_repos",
+                    owner="new-owner",
+                    name="repo",
+                    full_name="new-owner/repo",
+                    url="https://github.com/new-owner/repo",
+                    description=None,
+                    language=None,
+                    stars=6,
+                    forks=0,
+                    created_at="2026-01-01T00:00:00Z",
+                    topics=(),
+                    source_path="data/raw/2026-W39.json",
+                    github_id=None,
+                )
+            ],
+        )
+        ledger = observatory_repos.lifecycle_ledger_payload(
+            {stable.key: stable, fallback.key: fallback}
+        )
+
+        histories = observatory_repos.load_repository_histories(root, ledger=ledger)
+
+        merged = histories["777"]
+        assert merged.display_name == "new-owner/repo"
+        assert merged.slug not in merged.prior_slugs
+        assert merged.display_name not in merged.prior_full_names
 
 
 def test_two_pass_duplicate_identity_regression() -> None:

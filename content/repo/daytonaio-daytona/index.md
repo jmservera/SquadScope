@@ -127,6 +127,20 @@ related_repos:
   - agentic-workflow
   - ai
   - ai-agents
+- full_name: affaan-m/ECC
+  slug: affaan-m-ecc
+  url: https://github.com/affaan-m/ECC
+  score: 11
+  shared_weeks:
+  - 2026-W21
+  - 2026-W22
+  - 2026-W23
+  - 2026-W24
+  - 2026-W25
+  - 2026-W26
+  shared_topics:
+  - ai-agents
+  - developer-tools
 - full_name: code-yeongyu/oh-my-openagent
   slug: code-yeongyu-oh-my-openagent
   url: https://github.com/code-yeongyu/oh-my-openagent
@@ -211,20 +225,6 @@ related_repos:
   shared_topics:
   - agentic-workflow
   - ai
-- full_name: mem0ai/mem0
-  slug: mem0ai-mem0
-  url: https://github.com/mem0ai/mem0
-  score: 11
-  shared_weeks:
-  - 2026-W21
-  - 2026-W22
-  - 2026-W23
-  - 2026-W24
-  - 2026-W25
-  - 2026-W26
-  shared_topics:
-  - ai
-  - ai-agents
 lifecycle:
   status: active
   as_of_week: 2026-W31
