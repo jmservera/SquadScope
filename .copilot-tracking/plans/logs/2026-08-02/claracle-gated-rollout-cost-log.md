@@ -97,14 +97,34 @@
   identity backfill is applied, so `seed_lifecycle()` parity (Phase 2, checklist item
   2) can pass — high priority, blocks the remainder of Phase 2.
   * Source: DD-03, DD-04.
-  * Status: the blocking duplicate-identity bug is now fixed (PR #666), but `--check`
-    shows **110 files** would change corpus-wide (not just the original 7). This is
-    full Phase 4-scale regeneration (page creation/removal, ledger, derived JSON,
-    `related_repos` recalculation across the corpus) and needs its own reviewed PR
-    following the Repository Activation Contract (isolated enabled preflight, two full
-    generations, byte-stable second run, reviewer disposition of every
-    obsolete/expired path) rather than being treated as a quick follow-up.
+  * Status: the blocking duplicate-identity bug is fixed and open as
+    [PR #666](https://github.com/jmservera/SquadScope/pull/666) (retargeted to `main`
+    after #665 merged; CI green). `--check` on top of it shows **110 files** would
+    change corpus-wide (not just the original 7). This is full Phase 4-scale
+    regeneration (page creation/removal, ledger, derived JSON, `related_repos`
+    recalculation across the corpus) and needs its own reviewed PR following the
+    Repository Activation Contract rather than being treated as a quick follow-up.
   * Dependency: PR #666 merged first; reviewer time to disposition ~110 file changes.
+  * Scoping (not yet started, pending PR #666 merge):
+    1. New isolated branch off `main` once #666 merges.
+    2. Temporarily set `config/observatory.toml` `[repo_pages] enabled = true`
+       (matching the precedent in #663).
+    3. Run `python -m scripts.observatory_repos` (write mode); capture the full diff
+       for review — expect renames/removals for the identities in DD-03 plus any
+       additional consolidations the corpus-scale fix surfaces beyond the original 7.
+    4. Reviewer dispositions every obsolete/removed path per the Repository Activation
+       Contract ("No removal is accepted from mere crawl absence").
+    5. Run generation a second time; require byte-identical output (idempotence).
+    6. Run `python -m scripts.observatory_repos --seed-lifecycle` to confirm parity.
+    7. Run `hugo --minify`, Pagefind, `scripts/check_internal_links.py`, and the
+       existing Python/ruff validation commands from the plan's Validation Commands
+       section.
+    8. Revert `enabled` back to `false` before merging (keep the generated content
+       and ledger changes, matching the #663 precedent).
+    9. Update `test_frozen_corpus_lifecycle_seed_has_expected_parity`'s qualified/page
+       counts to the new totals.
+    10. Obtain Hermes and sponsor sign-off per the Approval Contract before this can
+        be considered a closed Phase 2 precondition.
 * WI-05: Obtain an accepted-risk disposition or broader-scoped token for the 3
   repositories the backfill could not resolve (access-blocked, not confirmed deleted)
   — medium priority.
