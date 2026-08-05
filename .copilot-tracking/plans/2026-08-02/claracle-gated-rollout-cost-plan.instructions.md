@@ -82,14 +82,30 @@ Success: one bounded candidate can be promoted without exposing all eligible can
 
 <!-- parallelizable: false -->
 
-* [ ] Enable the existing repository config only in an isolated checkout at the unchanged recurrence threshold
-* [ ] Run enabled `--check`, then two full generations
-* [ ] Review every created, rewritten, obsolete, and expired path
-* [ ] Require byte-stable second generation and no unapproved removals
+* [x] Enable the existing repository config only in an isolated checkout at the unchanged recurrence threshold
+* [x] Run enabled `--check`, then two full generations
+* [x] Review every created, rewritten, obsolete, and expired path
+* [x] Require byte-stable second generation and no unapproved removals
 * [ ] Run Hugo, pinned Pagefind, rendered metadata, internal links, axe, Lighthouse, and the cost experiment
 * [ ] Obtain Hermes, URL, and sponsor approval for the exact activation revision
 
 Success: the first production run is a reviewed 263-page regeneration transaction with known cost and rollback.
+
+> The isolated-checkout preflight (items 1-4) was substantially completed by
+> [PR #668](https://github.com/jmservera/SquadScope/pull/668) (WI-04): enabled
+> `[repo_pages]` in an isolated branch at the unchanged threshold, ran two full
+> `generate()` passes (byte-identical), and reviewed every created/removed path
+> (4 confirmed prior-name removals, all merged into an already-existing
+> identity). `hugo --minify` and `scripts/check_internal_links.py` both ran
+> clean; Pagefind, axe, Lighthouse, and the cost experiment were not run
+> locally (no browser tooling in that environment) - CI covers Hugo/lint/tests
+> but not axe/Lighthouse for this specific content, so those remain open.
+> Sponsor approved `repo_pages` (ID-02) and explicitly waived a separate
+> Hermes pass for that merge; URL (workflow/secret-scope) approval has not
+> been sought. `config/observatory.toml [repo_pages] enabled` is still `false`
+> in `main` - #668 only regenerated content to match what the flag *would*
+> produce, matching the #663 precedent, deliberately not flipping the flag.
+> Flipping it for real is Phase 5's job.
 
 ### [ ] Phase 5: Execute and Observe Rollouts
 
