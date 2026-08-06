@@ -147,8 +147,8 @@ Based on single baseline run and Phase 7.3 historical context, proposed timing b
 **Status**: ⏳ **PROVISIONAL APPROVAL** — Both metrics within budget even with Run 2 anomaly; awaiting Run 3 for statistical validity
 
 **Rationale**:
-- Hugo p95 (max of Runs 1-2): 15,339 ms ✅ (budget: 20,000 ms; margin: 23%)
-- Pagefind p95 (max of Runs 1-2): 2,448 ms ✅ (budget: 2,500 ms; margin: 2%)
+- Hugo p95 (max of Runs 1-2, proxy for percentile): 15,339 ms ✅ (budget: 20,000 ms; margin: 23%)
+- Pagefind p95 (max of Runs 1-2, proxy for percentile): 2,448 ms ✅ (budget: 2,500 ms; margin: 2%)
 - Run 2 flagged as anomaly (80% faster Hugo); awaiting context clarification and Run 3 for trend analysis
 
 **Condition**: Update budget approval status to **APPROVED** after Run 3 collected and validates similar performance to Run 1 OR after CI logs confirm Run 2 context (cache, partial build, etc.)

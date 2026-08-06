@@ -28,7 +28,7 @@ Reconciled through 2026-08-06. Release acceptance remains **pending** per the
 [acceptance decision](README.md#acceptance-decision); both rollout flags stay disabled.
 
 **Phase 7 Acceptance Gates** (tracking PR #677):
-- Phase 7.1 Timing: ✅ Provisional approval (2/3 runs captured: Hugo p95 15,339ms within 20,000ms budget ✅; Pagefind p95 2,448ms within 2,500ms budget ✅; awaiting Run 3 for validation)
+- Phase 7.1 Timing: ✅ Provisional approval (2/3 runs captured: Hugo max 15,339ms within 20,000ms budget ✅; Pagefind max 2,448ms within 2,500ms budget ✅; awaiting Run 3 for validation)
 - Phase 7.2 Security: ✅ **NFR-004 APPROVED** (all 10 findings approved by Hermes/URL; sponsor final acceptance recorded 2026-08-06)
 - Phase 7.3 Visual: ⏳ Baseline capture ready for execution (awaits PR #677 merge to main → automatic CI execution)
 - **Critical Path**: Phase 7.3 visual baseline capture (visual evidence awaits execution)
@@ -128,12 +128,12 @@ Phase 7 consolidates final acceptance evidence and execution workflows across th
 | Gate                                       | Owner       | Status | Evidence/Timeline |
 | ------------------------------------------ | ----------- | ------ | -------- |
 | Visual test suite infrastructure           | jmservera   | ✅ Merged | PR #676: 389-line ESM module, 54 visual variants |
-| Baseline snapshot capture (all 54 variants) | jmservera   | ⏳ Executing | CI run 31096448763 (in progress); capture in progress |
-| Visual evidence compilation                | Amy, Fry    | ⏳ Pending | After baseline capture completes (~30 min from CI end) |
+| Baseline snapshot capture (all 54 variants) | jmservera   | ⏳ Ready for execution | Awaits PR #677 merge to main; automatic CI trigger post-merge |
+| Visual evidence compilation                | Amy, Fry    | ⏳ Pending | After baseline capture completes (~45 min post-merge) |
 | Visual regression approval sign-off        | Amy, Fry    | ⏳ Pending | After visual-evidence.md created; expected 1-2 hours |
 
-**Status**: Baseline capture executing NOW (CI run in progress)  
-**Timeline**: Expected completion 2026-08-06 (~30 min from now)  
+**Status**: Baseline capture ready for execution (awaits PR #677 merge to main)  
+**Timeline**: ~45 min post-merge for baseline generation; 1-2 hours additional for design review  
 **Tracking**: [visual-regression-execution-guide.md](./visual-regression-execution-guide.md) and `.copilot-tracking/plans/2026-08-06/phase-7-3-visual-baseline-capture-workflow.md`
 
 ### Phase 7 Critical Path

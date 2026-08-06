@@ -17,9 +17,7 @@
 ```
 Hi Hermes,
 
-Two security items need your disposition to close NFR-004 (security gate for the 
-Data Observatory relaunch). Both are low-risk findings with controls already in p
-lace; we need your sign-off confirming stability and external config.
+Two security items need your disposition to close NFR-004 (security gate for the Data Observatory relaunch). Both are low-risk findings with controls already in place; we need your sign-off confirming stability and external config.
 
 SEC-06: Repository-Side Secret and Wiring Verification
 - Repository controls: verified ✅ (GitHub Actions secrets for GA_MEASUREMENT_ID,
@@ -41,8 +39,8 @@ atory-relaunch/security-sign-off-checklist.md#sec-08
 
 Current disposition status: 8/10 findings approved, 2 pending (these two + sponsor conclusion).
 
-Please reply with your disposition (approved or accepted-with-conditions) and evidence link to: https://github.com/jmservera/SquadScope/blob/main/docs/review/data-observatory-relaunch/security-sign-off-checklist.md#sec-08
-ence link.
+Please reply with your disposition (approved or accepted-with-conditions) and evidence link to:
+https://github.com/jmservera/SquadScope/blob/main/docs/review/data-observatory-relaunch/security-sign-off-checklist.md
 
 Thanks!
 jmservera

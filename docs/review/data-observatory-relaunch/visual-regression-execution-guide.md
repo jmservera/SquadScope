@@ -26,12 +26,16 @@ Phase 7.3 visual regression test infrastructure has been **successfully delivere
 
 ### Option 1: CI Environment (Recommended)
 
-The `.github/workflows/ci.yml` includes necessary system dependencies and Playwright configuration. Baseline capture will execute automatically on the next successful CI run:
+The `.github/workflows/ci.yml` includes necessary system dependencies and Playwright configuration. For baseline capture (initial test infrastructure setup):
 
 ```bash
-# CI automatically runs:
+# CI baseline generation (one-time):
 npx playwright test --config tests/visual/playwright.config.mjs \
-  --update-snapshots  # Generate initial baseline
+  --update-snapshots  # Create initial baseline snapshots
+
+# CI regression validation (normal usage, after baselines created):
+npx playwright test --config tests/visual/playwright.config.mjs
+  # Compare renders against baseline; fail on visual differences
 ```
 
 **Artifacts Generated**:
@@ -169,7 +173,7 @@ Each visual variant records:
   "timestamp": "ISO 8601 datetime",
   "browserName": "chromium | firefox | webkit",
   "playwrightVersion": "1.54.2",
-  "testDate": "test/visual/observatory-visual-regression.spec.mjs",
+  "testFile": "tests/visual/observatory-visual-regression.spec.mjs",
   "executionTime": "ms (test duration)",
   "viewport": "375x812 | 768x1024 | 1440x900",
   "theme": "light | dark",
@@ -223,8 +227,8 @@ Each visual variant records:
 
 - **Test File**: [tests/visual/observatory-visual-regression.spec.mjs](../../tests/visual/observatory-visual-regression.spec.mjs)
 - **Playwright Config**: [tests/visual/playwright.config.mjs](../../tests/visual/playwright.config.mjs)
-- **Phase 6 Evidence**: [docs/review/data-observatory-relaunch/phase-6-runtime-evidence.md](../review/data-observatory-relaunch/phase-6-runtime-evidence.md)
-- **Status of Record**: [docs/review/data-observatory-relaunch/status-of-record.md](../review/data-observatory-relaunch/status-of-record.md)
+- **Phase 6 Evidence**: [phase-6-runtime-evidence.md](./phase-6-runtime-evidence.md)
+- **Status of Record**: [status-of-record.md](./status-of-record.md)
 
 ---
 
