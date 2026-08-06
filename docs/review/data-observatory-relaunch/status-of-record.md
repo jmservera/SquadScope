@@ -28,11 +28,11 @@ Reconciled through 2026-08-06. Release acceptance remains **pending** per the
 [acceptance decision](README.md#acceptance-decision); both rollout flags stay disabled.
 
 **Phase 7 Acceptance Gates** (tracking PR #677):
-- Phase 7.1 Timing: ✅ Provisional approval (2/3 runs captured: Hugo max 15,339ms within 20,000ms budget ✅; Pagefind max 2,448ms within 2,500ms budget ✅; awaiting Run 3 for validation)
+- Phase 7.1 Timing: ⏳ Data collection complete (three production `main` runs; Hugo p95 3,058 ms, Pagefind p95 2,707 ms). The earlier provisional approval is withdrawn because it was based on an incorrect Run 1 baseline and a non-comparable PR-branch run; revised thresholds await timing-budget owner approval
 - Phase 7.2 Security: ✅ **NFR-004 APPROVED** (all 10 findings approved by Hermes/URL; sponsor final acceptance recorded 2026-08-06)
-- Phase 7.3 Visual: ⏳ Baseline capture ready for execution (requires a manual Playwright `--update-snapshots` run or a dedicated CI step/workflow; the current `ci.yml` runs only a11y/analytics specs and does not auto-generate visual baselines on merge)
-- **Critical Path**: Phase 7.3 visual baseline capture (visual evidence awaits execution)
-- **Expected Release Readiness**: 2026-08-08/09 (Phase 7.3 baseline 30-45 min post-merge, Phase 7.1 Run 3 1-2 days)
+- Phase 7.3 Visual: ⏳ Evidence capture now runs automatically in `ci.yml` and uploads to the `production-quality-reports` artifact; named visual review by Amy and Fry remains open
+- **Critical Path**: Timing-budget owner approval and named visual review
+- **Expected Release Readiness**: Gated on human sign-off rather than on further automation
 
 ## Source plans
 
@@ -100,13 +100,16 @@ Phase 7 consolidates final acceptance evidence and execution workflows across th
 
 | Gate                                       | Owner       | Status | Evidence/Timeline |
 | ------------------------------------------ | ----------- | ------ | -------- |
-| Hugo build duration baseline               | jmservera   | ✅ Done | Run 1 captured 2026-08-05: 15,339 ms |
-| Pagefind indexing duration baseline        | jmservera   | ✅ Done | Run 1 captured 2026-08-05: 1,631 ms |
-| Runs 2-3 timing collection                 | jmservera   | ⏳ In Progress | Run 2 captured from PR CI 31095474806 (PR #677 branch); Run 3 pending next production `main` build |
-| Budget threshold approval (p95)            | jmservera   | ⏳ Pending | After Run 3 collected; thresholds: Hugo ≤ 20,000 ms, Pagefind ≤ 2,500 ms |
+| Hugo build duration baseline               | jmservera   | ✅ Done | Run 1 (`31039618366`, 2026-08-05): 2,822 ms |
+| Pagefind indexing duration baseline        | jmservera   | ✅ Done | Run 1 (`31039618366`, 2026-08-05): 2,707 ms |
+| Runs 2-3 timing collection                 | jmservera   | ✅ Done | Run 2 (`31079871801`) and Run 3 (`31081291997`), both production `main` builds, transcribed from retained artifacts |
+| Median and p95 calculation                 | jmservera   | ✅ Done | Hugo median 2,822 ms / p95 3,058 ms; Pagefind median 2,316 ms / p95 2,707 ms |
+| Budget threshold approval (p95)            | jmservera   | ⏳ Pending | Revised proposal: Hugo ≤ 6,000 ms, Pagefind ≤ 5,500 ms. Prior 20,000 / 2,500 ms proposal superseded; the 2,500 ms Pagefind figure would already have been breached by the corrected Run 1 value |
 
-**Tracking**: [timing-analysis.md](./timing-analysis.md) and Phase 7.1 monitoring workflow  
-**Next**: Download Run 2 timing artifact within 24 hours of CI completion
+**Correction (2026-08-06)**: The previously recorded Run 1 figures (Hugo 15,339 ms, Pagefind 1,631 ms) did not match the retained `build-timing.json` artifact, and the previously recorded Run 2 was a `pull_request` build rather than a production `main` build. Both are corrected in [timing-analysis.md](./timing-analysis.md), and the provisional approval that depended on them is withdrawn.
+
+**Tracking**: [timing-analysis.md](./timing-analysis.md)  
+**Next**: Timing-budget owner reviews the revised thresholds
 
 ### Phase 7.2: Security Dispositions Escalation
 
@@ -127,14 +130,15 @@ Phase 7 consolidates final acceptance evidence and execution workflows across th
 
 | Gate                                       | Owner       | Status | Evidence/Timeline |
 | ------------------------------------------ | ----------- | ------ | -------- |
-| Visual test suite infrastructure           | jmservera   | ✅ Merged | PR #676: 389-line ESM module, 54 visual variants |
-| Baseline snapshot capture (all 54 variants) | jmservera   | ⏳ Ready for execution | Requires manual Playwright `--update-snapshots` run or dedicated CI step; not auto-triggered by merge |
-| Visual evidence compilation                | Amy, Fry    | ⏳ Pending | After baseline capture completes (~45 min post-merge) |
-| Visual regression approval sign-off        | Amy, Fry    | ⏳ Pending | After visual-evidence.md created; expected 1-2 hours |
+| Visual test suite infrastructure           | jmservera   | ✅ Merged | Suite resolves its route matrix from the built `sitemap.xml`, so dated weekly and monthly editions no longer rot |
+| Evidence capture wired into CI             | jmservera   | ✅ Done | `ci.yml` runs the suite after the a11y and analytics gates; output uploads under `screenshots/visual-regression/` in the `production-quality-reports` artifact |
+| Evidence matrix coverage                   | jmservera   | ✅ Done | 10 routes x 4 projects (desktop/mobile x light/dark) = 40 screenshots plus per-project `metadata.json` tagged with revision, branch, run ID, viewport, and Playwright version |
+| Visual evidence compilation                | Amy, Fry    | ⏳ Pending | Download the artifact from a `main` CI run and compile the acceptance matrix |
+| Visual regression approval sign-off        | Amy, Fry    | ⏳ Pending | After evidence compilation |
 
-**Status**: Baseline capture ready for execution (requires manual Playwright run or dedicated CI step)  
-**Timeline**: ~45 min for baseline generation once triggered; 1-2 hours additional for design review  
-**Tracking**: [visual-regression-execution-guide.md](./visual-regression-execution-guide.md) and `.copilot-tracking/plans/2026-08-06/phase-7-3-visual-baseline-capture-workflow.md`
+**Status**: Capture is automated and passing; named visual review remains outstanding  
+**Note**: The suite captures revision-tagged evidence and asserts breadcrumb structure and absence of horizontal overflow. It does not perform pixel-diff comparison against committed baselines; regression detection is by named review of the per-revision matrix.  
+**Tracking**: [visual-regression-execution-guide.md](./visual-regression-execution-guide.md)
 
 ### Phase 7 Critical Path
 
@@ -143,20 +147,21 @@ Security Dispositions (7.2) ←── ✅ CLEARED (NFR-004 approved 2026-08-06)
     ├─ SEC-06 (Hermes + URL) [approved 2026-08-06]
     └─ SEC-08 (Hermes) [approved 2026-08-06]
 
-Timing Collection (7.1) ←── Non-blocking (Run 3 pending on production main)
-Timing Analysis (7.1) ←── Non-blocking (provisional p95 approved; awaiting Run 3)
+Timing Collection (7.1)  ←── ✅ CLEARED (3 production main runs transcribed)
+Timing Approval  (7.1)   ←── ⏳ OPEN (timing-budget owner; revised thresholds)
 
-Visual Regression (7.3) ←── Non-blocking (baseline capture pending manual/dedicated CI run)
+Visual Capture   (7.3)   ←── ✅ CLEARED (automated in ci.yml, artifact-retained)
+Visual Review    (7.3)   ←── ⏳ OPEN (Amy, Fry; named review of the matrix)
 
            ↓
-    Release Readiness Decision (Expected 2026-08-09)
+    Release Readiness Decision (gated on the two open human sign-offs)
 ```
 
 **Next Immediate Actions**:
-1. Send security escalation messages (Item 1, today)
-2. Trigger Phase 7.3 CI workflow (Item 2, auto or manual)
-3. Monitor Phase 7.1 timing data (Item 3, passive)
-4. Update status-of-record.md (Item 4, after progress)
+
+1. Timing-budget owner reviews the revised thresholds in [timing-analysis.md](./timing-analysis.md).
+2. Amy and Fry download `production-quality-reports` from a `main` CI run and compile the visual acceptance matrix.
+3. Record both dispositions here and in the launch-gate register.
 
 ## Launch-gate register
 
