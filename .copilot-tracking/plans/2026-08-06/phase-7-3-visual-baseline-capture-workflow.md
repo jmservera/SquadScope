@@ -4,7 +4,7 @@
 
 **Date**: 2026-08-06  
 **Status**: Implementation in progress  
-**Objective**: Capture visual baseline for all 54 variants (9 routes × 3 viewports × 2 themes)  
+**Objective**: Capture visual baseline across the configured Chromium projects (desktop/mobile × light/dark) for the key site routes  
 
 ---
 
@@ -15,7 +15,7 @@
 - ✅ Font rendering consistency (same environment as CI tests)
 - ✅ No sudo or Docker complexity
 - ✅ Automatic artifact storage (30-day retention)
-- ✅ Parallel browser testing (Chromium, Firefox, WebKit)
+- ✅ Consistent Chromium rendering across the 4 configured projects (desktop/mobile × light/dark)
 
 **Timeline**: ~30-45 minutes for baseline capture and report generation
 
@@ -50,24 +50,18 @@ gh run list --workflow ci.yml --limit 1
 - **Routes**: 9 (/, /about/, /dashboard/, /repo/trending/, /topics/ai/, /weekly/2026-W32/, /monthly/2026-07/, /charts/explore/, /search/)
 - **Viewports**: 3 (mobile 375×812, tablet 768×1024, desktop 1440×900)
 - **Themes**: 2 (light, dark)
-- **Browsers**: 3 per CI (Chromium, Firefox, WebKit) = 54 variants per browser
-- **Total Snapshots**: 162 (54 × 3 browsers)
+- **Browsers**: Chromium only — `tests/visual/playwright.config.mjs` defines 4 Chromium projects (`desktop-light`, `desktop-dark`, `mobile-light`, `mobile-dark`); no Firefox/WebKit projects are configured
+- **Snapshot scope**: The `observatory-visual-regression` evidence suite writes flat per-variant PNGs to `screenshots/` via `page.screenshot()`; `toHaveScreenshot()`-based baselines under `tests/visual/snapshots/` come from the 4 Chromium projects only
 
 ### Expected Artifacts
 **Snapshots directory**: `tests/visual/snapshots/`
 ```
 snapshots/
-├── chromium/
-│   ├── mobile-light-*.png (9 routes)
-│   ├── mobile-dark-*.png (9 routes)
-│   ├── tablet-light-*.png (9 routes)
-│   ├── tablet-dark-*.png (9 routes)
-│   ├── desktop-light-*.png (9 routes)
-│   └── desktop-dark-*.png (9 routes)
-├── firefox/
-│   └── [same structure]
-└── webkit/
-    └── [same structure]
+└── chromium/  (Chromium-only; config defines desktop/mobile × light/dark projects)
+    ├── desktop-light-*.png
+    ├── desktop-dark-*.png
+    ├── mobile-light-*.png
+    └── mobile-dark-*.png
 ```
 
 **Report**: `screenshots/playwright-report/index.html` (HTML test report with screenshots)
@@ -97,7 +91,7 @@ Contents:
 - **Commit**: 353b147
 - **Playwright Version**: 1.54.2
 - **Test Duration**: [From CI report]
-- **Snapshot Count**: 162 (54 variants × 3 browsers)
+- **Snapshot Count**: Chromium-only, per the 4 configured projects (desktop/mobile × light/dark)
 
 ## Visual Variants Matrix
 
@@ -156,7 +150,7 @@ git add screenshots/playwright-report/
 git commit -m "refactor(visual): add baseline snapshots for visual regression suite
 
 - Captures 54 visual variants (9 routes × 3 viewports × 2 themes)
-- Baseline across Chromium, Firefox, WebKit browsers
+- Baseline across the 4 configured Chromium projects (desktop/mobile × light/dark)
 - Snapshot tolerance: maxDiffPixels 150 per config
 - Metadata includes revision SHA, test duration, Playwright version
 - Enables automated visual regression detection on future commits
@@ -210,7 +204,7 @@ docker run --rm -v $(pwd):/workspace -w /workspace \
 
 - [x] Test suite merged and infrastructure ready
 - [ ] Baseline captured (Option 1 recommended)
-- [ ] All 54 variants have snapshots
+- [ ] All configured Chromium project variants (desktop/mobile × light/dark) have snapshots
 - [ ] Playwright report generated
 - [ ] visual-evidence.md created and linked
 - [ ] Snapshots committed to main

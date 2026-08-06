@@ -168,24 +168,23 @@ Each visual variant records:
 
 ```json
 {
-  "revision": "git SHA from GITHUB_SHA",
-  "branch": "git branch from GITHUB_REF_NAME",
+  "revision": "git SHA from GITHUB_SHA (falls back to 'local-dev')",
+  "branch": "git branch from GITHUB_REF_NAME (falls back to 'local')",
   "timestamp": "ISO 8601 datetime",
-  "browserName": "chromium | firefox | webkit",
+  "browserName": "chromium",
   "playwrightVersion": "1.54.2",
-  "testFile": "tests/visual/observatory-visual-regression.spec.mjs",
-  "executionTime": "ms (test duration)",
-  "viewport": "375x812 | 768x1024 | 1440x900",
-  "theme": "light | dark",
-  "route": "/ | /about/ | ... (9 routes)"
+  "testDate": "tests/visual/observatory-visual-regression.spec.mjs (from testInfo.file)",
+  "executionTime": "ms (testInfo.duration)"
 }
 ```
+
+> Note: The metadata JSON does not include `viewport`, `theme`, or `route` fields — those attributes are encoded in each per-variant screenshot filename (e.g. `screenshots/visual-regression-<browser>-<route>-<viewport>.png`), not in the metadata file.
 
 ---
 
 ## Acceptance Checklist for Phase 7.3
 
-- [ ] Baseline snapshots captured for all 54 variants (9 routes × 3 viewports × 2 themes)
+- [ ] Baseline snapshots captured across the configured Chromium projects (desktop/mobile × light/dark)
 - [ ] Metadata JSON includes revision SHA and timestamp
 - [ ] Baseline committed to `tests/visual/snapshots/` on main
 - [ ] HTML report reviewed; no unexpected rendering issues

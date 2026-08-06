@@ -56,8 +56,8 @@ test.describe('Observatory Visual Regression Suite', () => {
   // Common visual checks for all pages
   test.describe('Common Visual Patterns', () => {
     VISUAL_ROUTES.forEach(route => {
-      test(`${route.name}: Desktop Light - Breadcrumb and Navigation`, async ({ page, context, browserName }) => {
-        const viewport = context.viewport;
+      test(`${route.name}: Desktop Light - Breadcrumb and Navigation`, async ({ page, browserName }) => {
+        const viewport = page.viewportSize() ?? { width: 1280, height: 800 };
         const ctx = getPageContext(browserName, viewport);
         
         // Navigate to page
