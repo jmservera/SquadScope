@@ -28,11 +28,11 @@ Reconciled through 2026-08-06. Release acceptance remains **pending** per the
 [acceptance decision](README.md#acceptance-decision); both rollout flags stay disabled.
 
 **Phase 7 Acceptance Gates** (tracking PR #677):
-- Phase 7.1 Timing: ⏳ Actively monitoring (1/3 runs captured 2026-08-05; current CI run 31096448763 in progress)
-- Phase 7.2 Security: ✅ Technical dispositions complete (9/10 findings approved as of 2026-08-06); sponsor approval pending
-- Phase 7.3 Visual: ⏳ Baseline capture ready (current CI run 31096448763 will trigger execution)
-- **Critical Path**: Phase 7.2 sponsor acceptance (last blocker for NFR-004)
-- **Expected Release Readiness**: 2026-08-09
+- Phase 7.1 Timing: ✅ Provisional approval (2/3 runs captured: Hugo p95 15,339ms within 20,000ms budget ✅; Pagefind p95 2,448ms within 2,500ms budget ✅; awaiting Run 3 for validation)
+- Phase 7.2 Security: ✅ **NFR-004 APPROVED** (all 10 findings approved by Hermes/URL; sponsor final acceptance recorded 2026-08-06)
+- Phase 7.3 Visual: ⏳ Baseline capture ready for execution (awaits PR #677 merge to main → automatic CI execution)
+- **Critical Path**: Phase 7.3 visual baseline capture (visual evidence awaits execution)
+- **Expected Release Readiness**: 2026-08-08/09 (Phase 7.3 baseline 30-45 min post-merge, Phase 7.1 Run 3 1-2 days)
 
 ## Source plans
 
