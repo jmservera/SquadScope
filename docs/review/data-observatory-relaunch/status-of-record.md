@@ -2,7 +2,7 @@
 title: Data Observatory Relaunch Status of Record
 description: Single reconciled view of delivered versus pending relaunch work across the three remediation plans, the PRD, and the BRD
 author: SquadScope Squad
-ms.date: 2026-08-05
+ms.date: 2026-08-06
 ms.topic: reference
 keywords:
   - status of record
@@ -24,8 +24,15 @@ gate matrix and the acceptance decision.
 - PRD: [claracle-data-observatory-relaunch.md](../../prds/claracle-data-observatory-relaunch.md)
 - BRD: [claracle-data-observatory-relaunch-brd.md](../../brds/claracle-data-observatory-relaunch-brd.md)
 
-Reconciled through 2026-08-05. Release acceptance remains **pending** per the
+Reconciled through 2026-08-06. Release acceptance remains **pending** per the
 [acceptance decision](README.md#acceptance-decision); both rollout flags stay disabled.
+
+**Phase 7 Acceptance Gates** (tracking PR #677):
+- Phase 7.1 Timing: ⏳ In progress (1/3 runs captured, 2-3 pending from CI)
+- Phase 7.2 Security: ⏳ In progress (8/10 approvals, escalation messages ready)
+- Phase 7.3 Visual: ⏳ Ready to execute (infrastructure merged, CI trigger pending)
+- **Critical Path**: Phase 7.2 security dispositions (blocks NFR-004)
+- **Expected Release Readiness**: 2026-08-09
 
 ## Source plans
 
@@ -84,6 +91,69 @@ Reconciled through 2026-08-05. Release acceptance remains **pending** per the
 | [#626](https://github.com/jmservera/SquadScope/issues/626) | Lighthouse / performance quality-gate follow-ups | CLOSED — repository hardening completed 2026-08-04; final visual acceptance remains separate |
 | [#622](https://github.com/jmservera/SquadScope/issues/622) | Post-review UX polish                    | CLOSED — repository work completed 2026-08-04; final visual acceptance remains separate |
 | [#599](https://github.com/jmservera/SquadScope/issues/599) | Connect GA4 + Google Search Console (FR-035) | Closed; owner confirmed GA4, GSC verification, sitemap submission, and product link on 2026-08-02 |
+
+## Phase 7 Acceptance Gates
+
+Phase 7 consolidates final acceptance evidence and execution workflows across three parallel tracks (timing, security, visual). All work documented in PR #677 with execution planned for 2026-08-06 through 2026-08-09.
+
+### Phase 7.1: Timing Evidence Collection
+
+| Gate                                       | Owner       | Status | Evidence/Timeline |
+| ------------------------------------------ | ----------- | ------ | -------- |
+| Hugo build duration baseline               | jmservera   | ✅ Done | Run 1 captured 2026-08-05: 15,339 ms |
+| Pagefind indexing duration baseline        | jmservera   | ✅ Done | Run 1 captured 2026-08-05: 1,631 ms |
+| Runs 2-3 timing collection                 | jmservera   | ⏳ In Progress | Awaiting next 2 CI builds; download within 24 hours (30-day retention) |
+| Budget threshold approval (p95)            | jmservera   | ⏳ Pending | Hugo ≤ 20,000 ms, Pagefind ≤ 2,500 ms |
+
+**Tracking**: [timing-analysis.md](./timing-analysis.md) and `.copilot-tracking/plans/2026-08-06/phase-7-1-timing-collection-monitoring.md`
+
+### Phase 7.2: Security Dispositions Escalation
+
+| Gate                                       | Owner       | Status | Evidence/Timeline |
+| ------------------------------------------ | ----------- | ------ | -------- |
+| SEC-01 through SEC-05                      | Hermes      | ✅ Approved | Dispositions recorded 2026-08-04 |
+| SEC-07                                     | URL         | ✅ Approved | Disposition recorded 2026-08-06 |
+| SEC-09, SEC-10                             | Hermes, URL | ✅ Approved | Dispositions recorded 2026-08-04/06 |
+| SEC-06 (GA4/GSC config + environment)      | Hermes, URL | ⏳ Pending | Escalation message ready (PR #677); expected 1-3 business days |
+| SEC-08 (Raw HTML disabled)                 | Hermes      | ⏳ Pending | Escalation message ready (PR #677); expected 1-3 business days |
+| NFR-004 Security Acceptance                | jmservera   | ⏳ Pending | After SEC-06, SEC-08 dispositions received |
+
+**Status**: 8/10 findings approved; 3 items pending (SEC-06, SEC-08, sponsor conclusion)  
+**Tracking**: [security-sign-off-checklist.md](./security-sign-off-checklist.md) and `.copilot-tracking/reviews/2026-08-06/security-escalation-messages.md`
+
+### Phase 7.3: Visual Regression Baseline Capture
+
+| Gate                                       | Owner       | Status | Evidence/Timeline |
+| ------------------------------------------ | ----------- | ------ | -------- |
+| Visual test suite infrastructure           | jmservera   | ✅ Merged | PR #676: 389-line ESM module, 54 visual variants |
+| Baseline snapshot capture (all 54 variants) | jmservera   | ⏳ Ready | CI Option 1A automatic OR manual trigger via workflow |
+| Visual evidence compilation                | Amy, Fry    | ⏳ Pending | After baseline capture; expected ~30 min from CI trigger |
+| Visual regression approval sign-off        | Amy, Fry    | ⏳ Pending | After visual-evidence.md created; expected 1-2 hours |
+
+**Status**: Infrastructure ready; baseline capture ready to execute  
+**Tracking**: [visual-regression-execution-guide.md](./visual-regression-execution-guide.md) and `.copilot-tracking/plans/2026-08-06/phase-7-3-visual-baseline-capture-workflow.md`
+
+### Phase 7 Critical Path
+
+```
+Security Dispositions (7.2) ←── BLOCKING (1-3 days)
+    ├─ SEC-06 (Hermes + URL) [awaiting escalation responses]
+    └─ SEC-08 (Hermes) [awaiting escalation responses]
+
+Timing Collection (7.1) ←── Non-blocking (1-2 days, CI-dependent)
+Timing Analysis (7.1) ←── Non-blocking (awaiting Runs 2-3)
+
+Visual Regression (7.3) ←── Non-blocking (30 min from CI trigger)
+
+           ↓
+    Release Readiness Decision (Expected 2026-08-09)
+```
+
+**Next Immediate Actions**:
+1. Send security escalation messages (Item 1, today)
+2. Trigger Phase 7.3 CI workflow (Item 2, auto or manual)
+3. Monitor Phase 7.1 timing data (Item 3, passive)
+4. Update status-of-record.md (Item 4, after progress)
 
 ## Launch-gate register
 
