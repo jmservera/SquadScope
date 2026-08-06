@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { execFileSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -33,6 +34,23 @@ function readPlaywrightVersion() {
 }
 
 const playwrightVersion = readPlaywrightVersion();
+
+// Local runs must still be tied to a revision: reviewers verify that the captured
+// metadata matches the revision under review.
+function gitOutput(args) {
+  try {
+    return execFileSync('git', args, { cwd: repoRoot, encoding: 'utf-8' }).trim() || null;
+  } catch {
+    return null;
+  }
+}
+
+const revision = process.env.GITHUB_SHA ?? gitOutput(['rev-parse', 'HEAD']) ?? 'unknown';
+const branch =
+  process.env.GITHUB_REF_NAME ?? gitOutput(['rev-parse', '--abbrev-ref', 'HEAD']) ?? 'unknown';
+const origin = process.env.GITHUB_RUN_ID ? 'ci' : 'local';
+// A dirty tree means the screenshots do not correspond to the recorded revision alone.
+const workingTreeClean = gitOutput(['status', '--porcelain']) === null;
 
 /**
  * Reads rendered site paths from the built sitemap so the evidence matrix does
@@ -141,8 +159,10 @@ test.describe('Observatory visual regression evidence', () => {
     await page.goto('/');
 
     const metadata = {
-      revision: process.env.GITHUB_SHA ?? 'local',
-      branch: process.env.GITHUB_REF_NAME ?? 'local',
+      revision,
+      branch,
+      origin,
+      workingTreeClean,
       runId: process.env.GITHUB_RUN_ID ?? null,
       timestamp: new Date().toISOString(),
       project: projectName,

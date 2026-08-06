@@ -46,9 +46,25 @@ async function interceptGoogleEndpoints(page) {
   return requests;
 }
 
+// These helpers also run against cross-origin subframes, where waitForFunction can bind
+// to the frame's pre-navigation execution context and never resolve. expect.poll calls
+// evaluate again on each attempt, so it always targets the frame's current context.
 async function waitForConsentUi(page) {
-  await page.waitForFunction(() => window.CookieConsent && window.ObservatoryAnalytics);
+  await expect
+    .poll(
+      () => page.evaluate(() => Boolean(window.CookieConsent && window.ObservatoryAnalytics)),
+      { timeout: 15000 },
+    )
+    .toBe(true);
   return page.getByRole('dialog').first();
+}
+
+async function waitForGa4Stub(page) {
+  await expect
+    .poll(() => page.evaluate(() => window.SquadScopeGA4TestStubLoaded === true), {
+      timeout: 15000,
+    })
+    .toBe(true);
 }
 
 async function acceptAnalytics(page) {
@@ -59,7 +75,7 @@ async function acceptAnalytics(page) {
   await expect
     .poll(() => page.locator(`script[src*="gtag/js?id=${TEST_MEASUREMENT_ID}"]`).count())
     .toBe(1);
-  await page.waitForFunction(() => window.SquadScopeGA4TestStubLoaded === true);
+  await waitForGa4Stub(page);
 }
 
 async function customEvents(page) {
@@ -242,7 +258,7 @@ test('standalone frame uses only its own explicit analytics consent', async ({ p
   await expect
     .poll(() => frame.locator(`script[src*="gtag/js?id=${TEST_MEASUREMENT_ID}"]`).count())
     .toBe(1);
-  await frame.waitForFunction(() => window.SquadScopeGA4TestStubLoaded === true);
+  await waitForGa4Stub(frame);
   await expect
     .poll(() => requests.slice(parentRequestCount).filter(({ kind }) => kind === 'collect').length)
     .toBe(1);
