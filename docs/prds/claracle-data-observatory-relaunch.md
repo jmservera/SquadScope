@@ -25,7 +25,7 @@ Unresolved launch gates: See the launch-gate register | TBDs: 1 (incremental gen
 
 Repository implementation is present, and the GA4/GSC connection, protected downstream
 Podcaster run, atomic publication proof, and separate sponsor rollout decisions are
-complete. Dated baseline values and production consent observations remain pending.
+complete. Dated baseline values and production consent observations remain pending.3
 NFR-004 final acceptance, remaining production responses, external schema and social
 debuggers, accessibility review, timing-budget approval, and refreshed visual evidence
 are not recorded. `dynamic_topic_creation` and `repo_pages` remain off pending their
