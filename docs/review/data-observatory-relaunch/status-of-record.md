@@ -29,9 +29,9 @@ Reconciled through 2026-08-06. Release acceptance remains **pending** per the
 
 **Phase 7 Acceptance Gates** (tracking PR #677):
 - Phase 7.1 Timing: ⏳ In progress (1/3 runs captured, 2-3 pending from CI)
-- Phase 7.2 Security: ⏳ In progress (8/10 approvals, escalation messages ready)
+- Phase 7.2 Security: ✅ Technical dispositions complete (9/10 findings approved), ⏳ sponsor acceptance pending
 - Phase 7.3 Visual: ⏳ Ready to execute (infrastructure merged, CI trigger pending)
-- **Critical Path**: Phase 7.2 security dispositions (blocks NFR-004)
+- **Critical Path**: Phase 7.2 sponsor acceptance (blocks NFR-004)
 - **Expected Release Readiness**: 2026-08-09
 
 ## Source plans
@@ -114,11 +114,12 @@ Phase 7 consolidates final acceptance evidence and execution workflows across th
 | SEC-01 through SEC-05                      | Hermes      | ✅ Approved | Dispositions recorded 2026-08-04 |
 | SEC-07                                     | URL         | ✅ Approved | Disposition recorded 2026-08-06 |
 | SEC-09, SEC-10                             | Hermes, URL | ✅ Approved | Dispositions recorded 2026-08-04/06 |
-| SEC-06 (GA4/GSC config + environment)      | Hermes, URL | ⏳ Pending | Escalation message ready (PR #677); expected 1-3 business days |
-| SEC-08 (Raw HTML disabled)                 | Hermes      | ⏳ Pending | Escalation message ready (PR #677); expected 1-3 business days |
-| NFR-004 Security Acceptance                | jmservera   | ⏳ Pending | After SEC-06, SEC-08 dispositions received |
+| SEC-06 (GA4/GSC config + environment)      | Hermes, URL | ✅ Approved | Messages sent 2026-08-06; Hermes + URL approved same day |
+| SEC-08 (Raw HTML disabled)                 | Hermes      | ✅ Approved | Messages sent 2026-08-06; Hermes approved same day |
+| NFR-004 Security Acceptance                | jmservera   | ⏳ Pending | All technical dispositions complete; awaiting sponsor conclusion |
 
-**Status**: 8/10 findings approved; 3 items pending (SEC-06, SEC-08, sponsor conclusion)  
+**Status**: 9/10 findings approved; 1 pending (sponsor final acceptance)  
+**Timeline**: Technical dispositions complete 2026-08-06; awaiting sponsor approval  
 **Tracking**: [security-sign-off-checklist.md](./security-sign-off-checklist.md) and `.copilot-tracking/reviews/2026-08-06/security-escalation-messages.md`
 
 ### Phase 7.3: Visual Regression Baseline Capture
