@@ -79,6 +79,7 @@ Output is uploaded under `screenshots/visual-regression/` inside the
 ### Local
 
 ```bash
+export HUGO_PARAMS_GA_MEASUREMENT_ID=G-TEST-OBSERVATORY
 hugo --minify --baseURL "http://127.0.0.1:1313/"
 python3 scripts/serve_static.py --directory public --bind 127.0.0.1 --port 1313 &
 
@@ -89,6 +90,14 @@ BASE_URL=http://127.0.0.1:1313 npx --no-install playwright test \
   --config tests/visual/playwright.config.mjs \
   tests/visual/observatory-visual-regression.spec.mjs
 ```
+
+Set `HUGO_PARAMS_GA_MEASUREMENT_ID` as shown; the checked-in default is empty for
+forks, and the analytics gate in the same suite requires the test measurement ID.
+
+A local capture records the git HEAD and branch in `metadata.json` so it can still be
+tied to a revision. See the
+[2026-08-06 local acceptance evidence](local-acceptance-evidence-2026-08-06.md) for a
+worked example.
 
 On Debian and Ubuntu hosts, Chromium additionally requires `libnspr4` and
 `libnss3`. `playwright install --with-deps` installs them; otherwise the browser
@@ -112,8 +121,10 @@ Each `metadata.json` records the provenance needed to tie evidence to a revision
 
 ```json
 {
-  "revision": "<GITHUB_SHA or 'local'>",
-  "branch": "<GITHUB_REF_NAME or 'local'>",
+  "revision": "<GITHUB_SHA, else local git HEAD>",
+  "branch": "<GITHUB_REF_NAME, else local git branch>",
+  "origin": "ci | local",
+  "workingTreeClean": true,
   "runId": "<GITHUB_RUN_ID or null>",
   "timestamp": "<ISO 8601>",
   "project": "desktop-light",
@@ -130,8 +141,11 @@ These paths are gitignored. Evidence lives in CI artifacts, not in the tree.
 
 For a named reviewer (Amy for visual design, Fry for QA):
 
-- [ ] Download `production-quality-reports` from a successful `main` CI run.
+- [ ] Obtain the evidence set: download `production-quality-reports` from a successful
+  `main` CI run, or use a local capture when CI is unavailable.
 - [ ] Confirm `metadata.json` revision matches the revision under review.
+- [ ] For a local capture, confirm `workingTreeClean` is `true`; a dirty tree means the
+  screenshots do not correspond to the recorded revision alone.
 - [ ] Confirm all four project directories are present and populated.
 - [ ] Review each route across light and dark at desktop and mobile.
 - [ ] Confirm breadcrumbs render as chevron-separated links with no list markers.

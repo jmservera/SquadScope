@@ -69,13 +69,14 @@ Execute Phase 7 acceptance gate infrastructure in parallel:
 
 ### Phase 7.3: Visual Regression Test Execution ✅ Ready Now
 <!-- parallelizable: true -->
-- [ ] Step 1: Start Hugo server on localhost:1313
-- [ ] Step 2: Verify Playwright test suite syntax and ESM imports
-- [ ] Step 3: Run baseline capture (generate-snapshots): `npx playwright test --config tests/visual/playwright.config.mjs --update-snapshots`
-- [ ] Step 4: Capture metadata for desktop/mobile/light/dark variants
-- [ ] Step 5: Document visual acceptance matrix in Phase 7 evidence file
-- [ ] Step 6: Commit visual regression baseline to repo
-- [ ] Step 7: Create visual-evidence.md with acceptance sign-off checklist
+- [x] Step 1: Start Hugo server on localhost:1313
+- [x] Step 2: Verify Playwright test suite syntax and ESM imports
+- [x] Step 3: Run the capture. The suite has no `toHaveScreenshot()` assertions, so
+  `--update-snapshots` has no effect: `npx --no-install playwright test --config tests/visual/playwright.config.mjs tests/visual/observatory-visual-regression.spec.mjs`
+- [x] Step 4: Capture metadata for desktop/mobile/light/dark variants
+- [x] Step 5: Document visual acceptance matrix in Phase 7 evidence file
+- [x] Step 6: Baseline is gitignored evidence, not committed output
+- [x] Step 7: Record the capture in `docs/review/data-observatory-relaunch/local-acceptance-evidence-2026-08-06.md`
 
 **Ownership**: jmservera (execution)  
 **Timeline**: ~30 minutes for local test run + documentation  

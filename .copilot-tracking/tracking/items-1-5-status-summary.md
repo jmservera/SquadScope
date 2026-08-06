@@ -25,11 +25,11 @@
 
 | Item | Requirement | Status | Blocker | Timeline |
 |------|-------------|--------|---------|----------|
-| **1** | Merge PR #678 to main | ⏳ AWAITING APPROVAL | External | 5-10 min |
-| **2** | Visual baseline capture | 🔴 BLOCKED by Item 1 | Item 1 merge | 45 min |
-| **3** | Visual evidence review | 🔴 BLOCKED by Item 2 | Item 2 complete | 1-2 hrs |
-| **4** | Phase 7.1 Run 3 monitoring | 🔴 BLOCKED by Item 1 | Item 1 merge | 1-2 days |
-| **5** | Release decision document | 🔴 BLOCKED by Items 2-4 | Items 2,3,4 | 15 min |
+| **1** | Merge PR #678 to main | ✅ DONE | — | merged as `6f20b26` |
+| **2** | Visual baseline capture | ✅ DONE | — | captured locally 2026-08-06 at `16923f6`, 40 screenshots + 4 metadata |
+| **3** | Visual evidence review | ⏳ PENDING | Amy + Fry named review | evidence ready |
+| **4** | Phase 7.1 Run 3 monitoring | ✅ DONE | — | three production `main` runs transcribed; budget approval still open |
+| **5** | Release decision document | 🔴 BLOCKED by Item 3 | visual + timing sign-off | after dispositions |
 
 ---
 

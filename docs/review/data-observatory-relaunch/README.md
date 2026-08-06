@@ -46,6 +46,7 @@ observations without granting human acceptance.
 | FR-052 tool selection and architecture rationale          | Complete                    | [Star Velocity Explorer ADR](../../decisions/adr-star-velocity-explorer.md) |
 | Security and privacy surface review                       | Complete with open findings | [Security review](security-review.md)                                       |
 | Current-main and public-production automated evidence     | Complete                    | [2026-08-03 automated evidence](automated-acceptance-evidence-2026-08-03.md) |
+| Local production-equivalent validation and visual capture | Complete                    | [2026-08-06 local evidence](local-acceptance-evidence-2026-08-06.md)        |
 | Atomic publish runtime proof                              | Complete                    | [Actions run 31040602642](https://github.com/jmservera/SquadScope/actions/runs/31040602642) |
 | Hermes security acceptance                                | Pending                     | Security review sign-off table                                              |
 | GA4 and GSC connection                                   | Complete                    | [Dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md)               |
