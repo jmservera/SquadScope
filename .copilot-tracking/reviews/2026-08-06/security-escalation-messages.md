@@ -39,10 +39,9 @@ SEC-08: Raw HTML Rendering Disabled
 - Link: https://github.com/jmservera/SquadScope/blob/main/docs/review/data-observ
 atory-relaunch/security-sign-off-checklist.md#sec-08
 
-Current disposition status: 8/10 findings approved, 2 pending (these two + sponsor
- conclusion).
+Current disposition status: 8/10 findings approved, 2 pending (these two + sponsor conclusion).
 
-Please reply with your disposition (approved or accepted-with-conditions) + evid
+Please reply with your disposition (approved or accepted-with-conditions) and evidence link to: https://github.com/jmservera/SquadScope/blob/main/docs/review/data-observatory-relaunch/security-sign-off-checklist.md#sec-08
 ence link.
 
 Thanks!
@@ -61,13 +60,10 @@ iew Needed
 ```
 Hi URL,
 
-SEC-06 (GA4/GSC repository-side secrets and wiring) needs environment security r
-eview to close NFR-004. The repository controls are in place; we need your confi
-rmation on workflow and environment security.
+SEC-06 (GA4/GSC repository-side secrets and wiring) needs environment security review to close NFR-004. The repository controls are in place; we need your confirmation on workflow and environment security.
 
 SEC-06: Repository-Side Secret and Wiring Verification
-- Repository controls: GitHub Actions secrets for GA_MEASUREMENT_ID, GSC_SITE_VE
-RIFICATION ✅
+- Repository controls: GitHub Actions secrets for GA_MEASUREMENT_ID, GSC_SITE_VERIFICATION ✅
 - Deployment: deploy-site.yml injects via secrets only; no credentials in code ✅
 - Forks: Don't inherit secrets (GitHub default behavior) ✅
 - Action: Confirm environment and workflow security controls

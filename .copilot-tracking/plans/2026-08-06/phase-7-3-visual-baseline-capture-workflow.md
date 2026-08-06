@@ -143,8 +143,8 @@ Update `docs/review/data-observatory-relaunch/status-of-record.md`:
 
 - **Status**: ✅ Complete
 - **Completion Date**: 2026-08-06 or [CI capture date]
-- **Evidence**: [visual-regression-evidence.md](./visual-regression-evidence.md)
-- **Artifacts**: [Playwright Report](../../screenshots/playwright-report/index.html)
+- **Evidence**: [visual-evidence.md](./visual-evidence.md)
+- **Artifacts**: [Playwright Report](../../../screenshots/playwright-report/index.html)
 - **Approvals**: Amy (visual design), Fry (QA)
 ```
 

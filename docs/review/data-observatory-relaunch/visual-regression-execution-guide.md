@@ -110,44 +110,51 @@ docker run -e CI=true squadscope-test npx playwright test --config tests/visual/
 
 ### Expected Report Structure
 
+After visual regression tests complete, evidence is written to:
+
 ```
 screenshots/
-├── playwright-report/              # HTML report (open in browser)
-├── playwright-output/
-│   ├── test-results-index.json
+├── visual-regression-chromium-home-desktop-light.png
+├── visual-regression-chromium-home-desktop-dark.png
+├── visual-regression-chromium-home-mobile-light.png
+├── visual-regression-chromium-about-desktop-light.png
+├── visual-regression-firefox-home-desktop-light.png
+├── visual-regression-webkit-home-desktop-light.png
+├── visual-regression-metadata-chromium.json     # Metadata per browser
+├── visual-regression-metadata-firefox.json
+├── visual-regression-metadata-webkit.json
+├── playwright-report/                           # HTML report
 │   ├── index.html
-│   └── ...
-├── visual-regression-chromium/     # Captured artifacts per browser
-├── visual-regression-firefox/
-├── visual-regression-webkit/
-└── playwright-report.json          # CI summary
+│   └── trace.zip
+└── playwright-output/
+    ├── test-results-index.json
+    └── index.html
 ```
 
-### Baseline Snapshots Location
-
-```
-tests/visual/snapshots/
-├── observatory-visual-regression.spec.mjs-snapshots/
-│   ├── home-desktop-light-1.png
-│   ├── home-desktop-dark-1.png
-│   ├── home-mobile-light-1.png
-│   ├── about-desktop-light-1.png
-│   └── ... (54 variants total per browser)
-```
+**Note**: Baseline snapshots are stored in `tests/visual/snapshots/` (committed to repo).
+Evidence and reports are generated to `screenshots/` during CI execution.
 
 ---
 
-## Regression Detection Workflow
+## Evidence Collection Workflow
 
-After baseline is committed to repo, subsequent PR branches will compare visual output:
+The visual regression test (`tests/visual/observatory-visual-regression.spec.mjs`) collects evidence by:
 
-```bash
-# On PR branch (no --update-snapshots):
-npx playwright test --config tests/visual/playwright.config.mjs
+1. Navigating to each route in VISUAL_ROUTES
+2. Waiting for network idle (all resources loaded)
+3. Taking full-page screenshots via `page.screenshot()`
+4. Writing evidence to `screenshots/visual-regression-{browser}-{route}-{viewport}-{theme}.png`
+5. Generating metadata JSON files with execution details
 
-# Exit code 1 if visual diff detected, 0 if matches baseline
-# Diffs highlighted in HTML report
-```
+### Verification Steps for Amy/Fry
+
+After baseline capture completes (post-PR-merge, post-CI):
+
+1. Download CI artifacts from GitHub Actions run
+2. Review `screenshots/playwright-report/index.html` in browser
+3. Compare visual render against design specification
+4. Verify all 162 variants rendered correctly (9 routes × 3 browsers × 2 themes × 3 viewports)
+5. Sign off in `docs/review/data-observatory-relaunch/visual-evidence.md`
 
 ---
 
