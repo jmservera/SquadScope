@@ -4,7 +4,11 @@
 
 **Date**: 2026-08-06  
 **Initiated**: After PR #677 creation (Phase 5 discovery completion)  
-**Status**: IN PROGRESS  
+**Status**: ITEM 1 ✅ COMPLETE; Items 2-4 IN PROGRESS; Item 5 DEFERRED  
+
+**Critical Path Breakthrough**: SEC-06 + SEC-08 approvals received from Hermes and URL (2026-08-06). NFR-004 now unblocked; only sponsor final acceptance remains.
+
+---  
 
 ---
 
@@ -38,18 +42,32 @@
 
 ---
 
-## Item 2: Trigger Phase 7.3 Visual Regression CI Workflow ⏳ READY
+## Item 2: Trigger Phase 7.3 Visual Regression CI Workflow ⏳ IN PROGRESS
 
-**Status**: Workflow and execution options documented; manual dispatch unavailable (no workflow_dispatch trigger)  
-**Effort**: Automatic on next push OR 2 minutes trigger + 30 minutes CI execution  
-**Owner**: jmservera (monitor), Amy + Fry (review)  
-**Timeline**: Automatic on next main build OR ~30 minutes from manual trigger  
+**Status**: Infrastructure ready; automatic CI execution activated (Option 1A)  
+**Effort**: Automatic on next main push (~30 min for CI to complete)  
+**Owner**: jmservera (monitor), Amy + Fry (visual review)  
+**Timeline**: Baseline capture + visual evidence compilation: ~2 hours total  
 
-**Note**: GitHub Actions CI workflow does not have manual dispatch enabled (HTTP 422: Workflow does not have 'workflow_dispatch' trigger). Will proceed via Option 1A (automatic on next build) documented in Phase 7.3 workflow guide.
+**Execution Options**:
+- Option 1A (ACTIVE): Automatic CI on next main build — monitor GitHub Actions
+- Option 1B: Manual push to main → triggers CI automatically
+- Option 2: Local execution (requires libnspr4, libnss3)
+- Option 3: Docker execution
 
 **Completion Steps**:
-- [x] Verified: `gh workflow run` not available; proceeding with Option 1A (automatic)
-- [ ] Monitor: GitHub Actions > CI > Production site job (on next main build)
+- [x] Verified: `gh workflow run` not available; proceeding with automatic CI (Option 1A)
+- [ ] Monitor: GitHub Actions > CI > Production site job for visual baseline capture
+- [ ] Collect: All 54 variant snapshots (9 routes × 3 viewports × 2 themes)
+- [ ] Create: visual-evidence.md deliverable with metadata and screenshot gallery
+- [ ] Review: Assign to Amy (visual design) + Fry (QA) for visual acceptance
+
+**Evidence Paths**:
+- Execution guide: `.copilot-tracking/plans/2026-08-06/phase-7-3-visual-baseline-capture-workflow.md`
+- Infrastructure: `tests/visual/observatory-visual-regression.spec.mjs` (PR #676, merged)
+- Output: GitHub Actions > CI workflow > visual-baseline artifacts
+
+**Next Step**: Monitor GitHub Actions for baseline capture completion (watch for next CI build)
 - [ ] When complete: Download artifacts (screenshots/playwright-report/)
 - [ ] Create: visual-evidence.md deliverable
 - [ ] Link: Update status-of-record.md
