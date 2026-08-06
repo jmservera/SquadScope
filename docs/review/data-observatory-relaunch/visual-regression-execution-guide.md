@@ -16,7 +16,7 @@ Phase 7.3 visual regression test infrastructure has been **successfully delivere
 
 **Current State**: 
 - ✅ Test file syntax validated (`observatory-visual-regression.spec.mjs`)
-- ✅ Hugo server verified operational (0.146.0)
+- ✅ Hugo server verified operational (CI pins Hugo 0.161.1)
 - ✅ Playwright installation confirmed (1.54.2)
 - ⏳ Baseline capture blocked on system-level Playwright dependencies (requires `libnspr4`, `libnss3`)
 
