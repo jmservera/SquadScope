@@ -118,7 +118,7 @@ NFR-004 (Security Acceptance) requires disposition and named reviewer sign-off f
 | **External Evidence Required** | Production GA4 stream operation, GSC verification, sitemap submission, root endpoint linkage (owned by external platforms, not repository code) |
 | **Hermes Disposition** | ⏳ **Pending** - Repository controls verified; external production configuration requires independent confirmation |
 | **URL Disposition** | ⏳ **Pending** - Awaiting environment and workflow security review conclusion |
-| **Evidence Slot** | [docs/growth/ga4-gsc-baseline-2026-07-29.md](../growth/ga4-gsc-baseline-2026-07-29.md) (external configuration confirmation) |
+| **Evidence Slot** | [docs/growth/ga4-gsc-baseline-2026-07-29.md](../../growth/ga4-gsc-baseline-2026-07-29.md) (external configuration confirmation) |
 | **Sign-Off Gate** | ⏳ Awaiting Hermes and URL sign-off (repository portion ready, external confirmation pending) |
 | **NFR-004 Contribution** | ⏳ **Blocked** on external verification (repository code portion does not block) |
 
@@ -134,7 +134,7 @@ NFR-004 (Security Acceptance) requires disposition and named reviewer sign-off f
 | **Implementation** | ✅ Complete - Phase 5 remediation: job-level `contents: write` scoping, `persist-credentials: false` on checkout steps that don't push, explicit authentication only at authorized push points |
 | **Tests** | ✅ Complete - Checkov and Zizmor scans pass |
 | **URL Disposition** | ✅ **Approved** (via Phase 5 workflow remediation acceptance) |
-| **Evidence** | [`.github/workflows/`](../../.github/workflows/) - all squad workflows reviewed and scoped |
+| **Evidence** | [`.github/workflows/`](../../../.github/workflows/) - all squad workflows reviewed and scoped |
 | **Sign-Off Gate** | ✅ URL approved (repository-wide Zizmor cleanup included) |
 | **NFR-004 Contribution** | ✅ Satisfied |
 
@@ -180,7 +180,7 @@ NFR-004 (Security Acceptance) requires disposition and named reviewer sign-off f
 | **Owned by** | URL (CI/CD infrastructure) |
 | **Status** | ✅ **Approved** (via existing controls) |
 | **Controls** | Top-level `permissions: contents: read` with job-level `contents: write` only where needed; GITHUB_TOKEN scope limited to each job; no long-lived PATs in workflows |
-| **Evidence** | [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) top-level permissions |
+| **Evidence** | [`.github/workflows/ci.yml`](../../../.github/workflows/ci.yml) top-level permissions |
 | **Sign-Off Gate** | ✅ URL approved (Phase 5 remediation validated) |
 | **NFR-004 Contribution** | ✅ Satisfied |
 

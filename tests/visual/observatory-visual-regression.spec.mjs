@@ -1,4 +1,19 @@
 import { test, expect } from '@playwright/test';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Get package.json for version info
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const pkgPath = path.join(__dirname, '../../node_modules/@playwright/test/package.json');
+let playwrightVersionStr = '1.54.2'; // fallback version
+try {
+  const pkgContent = fs.readFileSync(pkgPath, 'utf-8');
+  const pkg = JSON.parse(pkgContent);
+  playwrightVersionStr = pkg.version;
+} catch (e) {
+  // Use fallback if version cannot be read
+}
 
 /**
  * Visual Regression Tests for Data Observatory Relaunch (Phase 7.3)
@@ -25,16 +40,16 @@ const VISUAL_ROUTES = [
 
 // Visual regression test matrix
 test.describe('Observatory Visual Regression Suite', () => {
-  // Extract page name from URL context
-  const getPageContext = (context) => {
-    const ua = context.userAgent;
-    const isMobile = ua.includes('Mobile') || ua.includes('Android');
+  // Extract page context from browser and viewport info
+  const getPageContext = (browserName, viewport) => {
+    const isMobile = viewport.width <= 768;
     const isDark = false; // Playwright default is light theme
     return {
       isMobile,
       isDark,
-      viewport: isMobile ? '375x812' : '1440x900',
-      label: isMobile ? 'mobile' : 'desktop'
+      viewport: `${viewport.width}x${viewport.height}`,
+      label: isMobile ? 'mobile' : 'desktop',
+      browser: browserName
     };
   };
 
@@ -42,7 +57,8 @@ test.describe('Observatory Visual Regression Suite', () => {
   test.describe('Common Visual Patterns', () => {
     VISUAL_ROUTES.forEach(route => {
       test(`${route.name}: Desktop Light - Breadcrumb and Navigation`, async ({ page, context, browserName }) => {
-        const ctx = getPageContext(context);
+        const viewport = context.viewport;
+        const ctx = getPageContext(browserName, viewport);
         
         // Navigate to page
         await page.goto(`http://127.0.0.1:1313${route.path}`);
@@ -326,15 +342,12 @@ test.describe('Observatory Visual Regression Suite', () => {
         branch: branchName,
         timestamp,
         browserName,
-        playwrightVersion: require('@playwright/test/package.json').version,
+        playwrightVersion: playwrightVersionStr,
         testDate: testInfo.file,
         executionTime: testInfo.duration,
       };
 
       // Write metadata alongside screenshots
-      const fs = require('fs');
-      const path = require('path');
-      
       if (!fs.existsSync('screenshots')) {
         fs.mkdirSync('screenshots', { recursive: true });
       }
