@@ -21,12 +21,10 @@
 
 ### Commit Verification
 
-**Run 2 Commit**: `109cc89920769d931ab2503c86b31619e3db7357`  
-**Status**: ❌ NOT FOUND in local repo (checked via `git log`)  
-**Implication**: Either:
-1. Commit from a different repo/fork
-2. Artifact mislabeling
-3. Shallow clone artifact from CI (actions/checkout limitation)
+**Run 2 Commit**: `c2584030f0332758312bed4dfeff954a986ee034`  
+**Event**: `pull_request` (PR #677, branch `docs/phase-7-acceptance-gates`)  
+**Status**: ✅ Verified — head SHA of PR #677 CI run 31095474806  
+**Implication**: Run 2 is a PR CI build, not a production `main` build, so the faster timing partly reflects a different build context/branch rather than a regression. A production `main` Run 3 is still required for a valid p95 series.
 
 ### Possible Root Causes
 

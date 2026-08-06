@@ -30,7 +30,7 @@ Reconciled through 2026-08-06. Release acceptance remains **pending** per the
 **Phase 7 Acceptance Gates** (tracking PR #677):
 - Phase 7.1 Timing: ✅ Provisional approval (2/3 runs captured: Hugo max 15,339ms within 20,000ms budget ✅; Pagefind max 2,448ms within 2,500ms budget ✅; awaiting Run 3 for validation)
 - Phase 7.2 Security: ✅ **NFR-004 APPROVED** (all 10 findings approved by Hermes/URL; sponsor final acceptance recorded 2026-08-06)
-- Phase 7.3 Visual: ⏳ Baseline capture ready for execution (awaits PR #677 merge to main → automatic CI execution)
+- Phase 7.3 Visual: ⏳ Baseline capture ready for execution (requires a manual Playwright `--update-snapshots` run or a dedicated CI step/workflow; the current `ci.yml` runs only a11y/analytics specs and does not auto-generate visual baselines on merge)
 - **Critical Path**: Phase 7.3 visual baseline capture (visual evidence awaits execution)
 - **Expected Release Readiness**: 2026-08-08/09 (Phase 7.3 baseline 30-45 min post-merge, Phase 7.1 Run 3 1-2 days)
 
@@ -102,7 +102,7 @@ Phase 7 consolidates final acceptance evidence and execution workflows across th
 | ------------------------------------------ | ----------- | ------ | -------- |
 | Hugo build duration baseline               | jmservera   | ✅ Done | Run 1 captured 2026-08-05: 15,339 ms |
 | Pagefind indexing duration baseline        | jmservera   | ✅ Done | Run 1 captured 2026-08-05: 1,631 ms |
-| Runs 2-3 timing collection                 | jmservera   | ⏳ In Progress | Run 2 data available after CI 31096448763 completes (~30 min) |
+| Runs 2-3 timing collection                 | jmservera   | ⏳ In Progress | Run 2 captured from PR CI 31095474806 (PR #677 branch); Run 3 pending next production `main` build |
 | Budget threshold approval (p95)            | jmservera   | ⏳ Pending | After Run 3 collected; thresholds: Hugo ≤ 20,000 ms, Pagefind ≤ 2,500 ms |
 
 **Tracking**: [timing-analysis.md](./timing-analysis.md) and Phase 7.1 monitoring workflow  
@@ -117,10 +117,10 @@ Phase 7 consolidates final acceptance evidence and execution workflows across th
 | SEC-09, SEC-10                             | Hermes, URL | ✅ Approved | Dispositions recorded 2026-08-04/06 |
 | SEC-06 (GA4/GSC config + environment)      | Hermes, URL | ✅ Approved | Messages sent 2026-08-06; Hermes + URL approved same day |
 | SEC-08 (Raw HTML disabled)                 | Hermes      | ✅ Approved | Messages sent 2026-08-06; Hermes approved same day |
-| NFR-004 Security Acceptance                | jmservera   | ⏳ Pending | All technical dispositions complete; awaiting sponsor conclusion |
+| NFR-004 Security Acceptance                | jmservera   | ✅ Approved | Sponsor acceptance recorded 2026-08-06; all technical dispositions complete |
 
-**Status**: 9/10 findings approved; 1 pending (sponsor final acceptance)  
-**Timeline**: Technical dispositions complete 2026-08-06; awaiting sponsor approval  
+**Status**: 10/10 findings approved; NFR-004 sponsor acceptance recorded 2026-08-06  
+**Timeline**: Technical dispositions complete 2026-08-06; sponsor approval recorded 2026-08-06  
 **Tracking**: [security-sign-off-checklist.md](./security-sign-off-checklist.md) and `.copilot-tracking/reviews/2026-08-06/security-escalation-messages.md`
 
 ### Phase 7.3: Visual Regression Baseline Capture
@@ -128,25 +128,25 @@ Phase 7 consolidates final acceptance evidence and execution workflows across th
 | Gate                                       | Owner       | Status | Evidence/Timeline |
 | ------------------------------------------ | ----------- | ------ | -------- |
 | Visual test suite infrastructure           | jmservera   | ✅ Merged | PR #676: 389-line ESM module, 54 visual variants |
-| Baseline snapshot capture (all 54 variants) | jmservera   | ⏳ Ready for execution | Awaits PR #677 merge to main; automatic CI trigger post-merge |
+| Baseline snapshot capture (all 54 variants) | jmservera   | ⏳ Ready for execution | Requires manual Playwright `--update-snapshots` run or dedicated CI step; not auto-triggered by merge |
 | Visual evidence compilation                | Amy, Fry    | ⏳ Pending | After baseline capture completes (~45 min post-merge) |
 | Visual regression approval sign-off        | Amy, Fry    | ⏳ Pending | After visual-evidence.md created; expected 1-2 hours |
 
-**Status**: Baseline capture ready for execution (awaits PR #677 merge to main)  
-**Timeline**: ~45 min post-merge for baseline generation; 1-2 hours additional for design review  
+**Status**: Baseline capture ready for execution (requires manual Playwright run or dedicated CI step)  
+**Timeline**: ~45 min for baseline generation once triggered; 1-2 hours additional for design review  
 **Tracking**: [visual-regression-execution-guide.md](./visual-regression-execution-guide.md) and `.copilot-tracking/plans/2026-08-06/phase-7-3-visual-baseline-capture-workflow.md`
 
 ### Phase 7 Critical Path
 
 ```
-Security Dispositions (7.2) ←── BLOCKING (1-3 days)
-    ├─ SEC-06 (Hermes + URL) [awaiting escalation responses]
-    └─ SEC-08 (Hermes) [awaiting escalation responses]
+Security Dispositions (7.2) ←── ✅ CLEARED (NFR-004 approved 2026-08-06)
+    ├─ SEC-06 (Hermes + URL) [approved 2026-08-06]
+    └─ SEC-08 (Hermes) [approved 2026-08-06]
 
-Timing Collection (7.1) ←── Non-blocking (1-2 days, CI-dependent)
-Timing Analysis (7.1) ←── Non-blocking (awaiting Runs 2-3)
+Timing Collection (7.1) ←── Non-blocking (Run 3 pending on production main)
+Timing Analysis (7.1) ←── Non-blocking (provisional p95 approved; awaiting Run 3)
 
-Visual Regression (7.3) ←── Non-blocking (30 min from CI trigger)
+Visual Regression (7.3) ←── Non-blocking (baseline capture pending manual/dedicated CI run)
 
            ↓
     Release Readiness Decision (Expected 2026-08-09)

@@ -26,22 +26,24 @@ Phase 7.3 visual regression test infrastructure has been **successfully delivere
 
 ### Option 1: CI Environment (Recommended)
 
-The `.github/workflows/ci.yml` includes necessary system dependencies and Playwright configuration. For baseline capture (initial test infrastructure setup):
+The `.github/workflows/ci.yml` includes the necessary system dependencies and Playwright configuration, but it currently runs only the a11y/analytics specs (`a11y-perf`, `observatory-a11y`, `observatory-analytics`) — it does **not** run the visual snapshot spec and does **not** generate baselines automatically on merge. Baseline capture must be invoked manually (or via a dedicated CI step/workflow) using the `--update-snapshots` flag:
 
 ```bash
-# CI baseline generation (one-time):
+# Baseline generation (one-time, run manually or via a dedicated CI step):
 npx playwright test --config tests/visual/playwright.config.mjs \
-  --update-snapshots  # Create initial baseline snapshots
+  tests/visual/observatory-visual-regression.spec.mjs
 
-# CI regression validation (normal usage, after baselines created):
+# Regression validation for toHaveScreenshot()-based specs (after baselines exist):
 npx playwright test --config tests/visual/playwright.config.mjs
   # Compare renders against baseline; fail on visual differences
 ```
 
 **Artifacts Generated**:
-- `screenshots/playwright-output/` — JSON report + HTML report
-- `screenshots/visual-regression-*/` — Variant folders with metadata
-- `tests/visual/snapshots/` — Baseline image files for regression detection
+- `screenshots/visual-regression-<browser>-<variant>.png` — flat per-variant evidence screenshots (written by `page.screenshot()`)
+- `screenshots/visual-regression-metadata-<browser>.json` — revision-tagged capture metadata
+- Playwright HTML/JSON report per `tests/visual/playwright.config.mjs`
+
+> Note: `tests/visual/snapshots/` is only populated by specs that use `expect(...).toHaveScreenshot()` (e.g. `tests/visual/visual.spec.mjs`), not by the `observatory-visual-regression` evidence suite, which uses `page.screenshot()`.
 
 ### Option 2: Local Execution (Linux/macOS with sudo)
 
@@ -52,14 +54,16 @@ sudo npx playwright install-deps
 # Step 2: Start Hugo server (in background)
 hugo server -D --bind 0.0.0.0 --port 1313 &
 
-# Step 3: Generate baseline snapshots
+# Step 3: Capture visual evidence screenshots
 npx playwright test --config tests/visual/playwright.config.mjs \
-  --update-snapshots
+  tests/visual/observatory-visual-regression.spec.mjs
 
 # Step 4: Review captured variants
-ls -la screenshots/visual-regression-*/
+ls -la screenshots/visual-regression-*.png
 
-# Step 5: Commit baseline snapshots to repo
+# Step 5: (Optional) Commit toHaveScreenshot() baselines, if running the snapshot spec
+#   Note: the observatory-visual-regression evidence suite writes to screenshots/,
+#   not tests/visual/snapshots/. Only expect(...).toHaveScreenshot() specs populate snapshots/.
 git add tests/visual/snapshots/
 git commit -m "feat(visual): capture baseline snapshots for regression detection"
 ```
@@ -90,8 +94,8 @@ docker run -e CI=true squadscope-test npx playwright test --config tests/visual/
 | `/dashboard/` | Dashboard | Interactive elements, responsive grid |
 | `/repo/trending/` | Trending Repos | Content card rendering |
 | `/topics/ai/` | Topic Hub | Topic-specific styling |
-| `/weekly/2026-W32/` | Weekly Edition | Archive navigation, pagination |
-| `/monthly/2026-07/` | Monthly Summary | Multi-section layout |
+| `/weekly/2026/w32/` | Weekly Edition | Archive navigation, pagination |
+| `/monthly/2026/07/` | Monthly Summary | Multi-section layout |
 | `/charts/explore/` | Charts Explorer | Chart rendering, interactions |
 | `/search/` | Search | Form styling, results layout |
 

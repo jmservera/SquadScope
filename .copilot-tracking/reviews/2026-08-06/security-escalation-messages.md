@@ -106,9 +106,9 @@ jmservera
 
 - [x] Message 1 (Hermes) — Sent 2026-08-06 ✅
 - [x] Message 2 (URL) — Sent 2026-08-06 ✅
-- [x] Message 3 (jmservera self-action) — Awaiting sponsor conclusion
+- [x] Message 3 (jmservera self-action) — Sponsor conclusion recorded 2026-08-06 ✅
 - [x] Security dispositions recorded (SEC-06 Hermes, SEC-06 URL, SEC-08 Hermes - 2026-08-06)
-- [ ] NFR-004 marked closed (awaiting sponsor final acceptance)
+- [x] NFR-004 marked closed (sponsor final acceptance recorded 2026-08-06)
 
 ---
 
@@ -116,7 +116,7 @@ jmservera
 
 - Send messages: 2026-08-06
 - Responses expected: 2026-08-07 to 2026-08-08 (1-2 business days)
-- NFR-004 closure: 2026-08-08 or 2026-08-09
+- NFR-004 closure: Recorded 2026-08-06 (responses and sponsor conclusion received same day)
 
 ---
 
@@ -142,5 +142,5 @@ jmservera
 
 ### Next Action
 
-- [ ] jmservera records final security acceptance (NFR-004 sponsor conclusion)
+- [x] jmservera recorded final security acceptance (NFR-004 sponsor conclusion, 2026-08-06)
 

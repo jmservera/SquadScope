@@ -66,11 +66,12 @@ Captured timing:
 
 Artifact location: [GitHub Actions run 31039618366](https://github.com/jmservera/SquadScope/actions/runs/31039618366)
 
-### Run 2: Production CI (2026-08-06)
+### Run 2: PR CI (2026-08-06)
 
 **Run ID**: `31095474806`
-**Commit**: `109cc89920769d931ab2503c86b31619e3db7357`
-**Branch**: `main`
+**Event**: `pull_request` (PR #677 CI, not a production `main` build)
+**Commit**: `c2584030f0332758312bed4dfeff954a986ee034`
+**Branch**: `docs/phase-7-acceptance-gates`
 **Date**: 2026-08-06 (10:59:57 UTC)
 **Status**: ✅ Captured
 
@@ -81,7 +82,7 @@ Captured timing:
 
 Artifact location: [GitHub Actions run 31095474806](https://github.com/jmservera/SquadScope/actions/runs/31095474806)
 
-**⚠️ Note**: Timing significantly faster than Run 1. Verify production-site job context and scope (possible partial build, cache hit, or different conditions). Flagged for clarification before p95 approval.
+**⚠️ Note**: This run is a `pull_request` CI build (PR #677 branch), not a production `main` build, so it is not directly comparable to the Run 1 production baseline. Timing is also significantly faster than Run 1 (possible partial build, cache hit, or different conditions). A production `main` Run 3 is required before p95 approval.
 
 ### Run 3: [Pending — Next CI Build]
 
