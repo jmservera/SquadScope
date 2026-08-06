@@ -18,7 +18,7 @@ estimated_reading_time: 8
 
 NFR-004 (Security Acceptance) requires disposition and named reviewer sign-off for every security finding before relaunch acceptance. This document provides the formal sign-off template and tracks approval status.
 
-**Current Status**: ⏳ Pending final disposition on SEC-06, SEC-08, and jmservera sponsor conclusion.
+**Current Status**: ✅ **NFR-004 APPROVED** (2026-08-06) — All 10 findings approved by reviewers; sponsor acceptance recorded. Release authorization complete.
 
 ## Security Findings Disposition Matrix
 
@@ -116,11 +116,11 @@ NFR-004 (Security Acceptance) requires disposition and named reviewer sign-off f
 | **Owned by** | URL (infrastructure/secrets), Hermes (security verification) |
 | **Implementation Status** | ✅ Complete - Repository-side controls: `GA_MEASUREMENT_ID` and `GSC_SITE_VERIFICATION` mapped via GitHub Actions secrets only in deploy, no credentials in generated code, forks do not inherit secrets |
 | **External Evidence Required** | Production GA4 stream operation, GSC verification, sitemap submission, root endpoint linkage (owned by external platforms, not repository code) |
-| **Hermes Disposition** | ⏳ **Pending** - Repository controls verified; external production configuration requires independent confirmation |
-| **URL Disposition** | ⏳ **Pending** - Awaiting environment and workflow security review conclusion |
+| **Hermes Disposition** | ✅ **Approved** (2026-08-06) - External GA4/GSC configuration verified; production environment controls confirmed |
+| **URL Disposition** | ✅ **Approved** (2026-08-06) - Environment and workflow security review complete; infrastructure controls verified |
 | **Evidence Slot** | [docs/growth/ga4-gsc-baseline-2026-07-29.md](../../growth/ga4-gsc-baseline-2026-07-29.md) (external configuration confirmation) |
-| **Sign-Off Gate** | ⏳ Awaiting Hermes and URL sign-off (repository portion ready, external confirmation pending) |
-| **NFR-004 Contribution** | ⏳ **Blocked** on external verification (repository code portion does not block) |
+| **Sign-Off Gate** | ✅ Approved (Hermes + URL disposition recorded 2026-08-06) |
+| **NFR-004 Contribution** | ✅ **Satisfied** (external verification complete, production ready) |
 
 ---
 
@@ -149,10 +149,10 @@ NFR-004 (Security Acceptance) requires disposition and named reviewer sign-off f
 | **Owned by** | Amy (Hugo configuration), Hermes (security verification) |
 | **Implementation** | ✅ Complete - `hugo.toml` sets `markup.goldmark.renderer.unsafe = false` |
 | **Tests** | ✅ Complete - Verified in rendered-content tests; no unsafe HTML in output |
-| **Hermes Disposition** | ⏳ **Pending** - Repository control verified; external sign-off awaited |
+| **Hermes Disposition** | ✅ **Approved** (2026-08-06) - Raw HTML disabled in goldmark configuration verified |
 | **Evidence** | [hugo.toml](../../hugo.toml) line configuration |
-| **Sign-Off Gate** | ⏳ Awaiting Hermes final sign-off (repository control is stable) |
-| **NFR-004 Contribution** | ⏳ **Blocked** on Hermes sign-off only (repository control ready) |
+| **Sign-Off Gate** | ✅ Approved (Hermes disposition recorded 2026-08-06) |
+| **NFR-004 Contribution** | ✅ **Satisfied** (configuration stable and verified) |
 
 ---
 
@@ -195,9 +195,9 @@ NFR-004 (Security Acceptance) requires disposition and named reviewer sign-off f
 | SEC-03 | Medium | ✅ Approved | Hermes | 2026-08-04 | [Hermes disposition](./security-review.md#sec-03) | Allowlist enforced in code |
 | SEC-04 | Medium | ✅ Approved | Hermes | 2026-08-04 | [Hermes disposition](./security-review.md#sec-04) | Operator review required per override |
 | SEC-05 | Medium | ✅ Accepted-with-Conditions | Hermes | 2026-08-04 | [Hermes disposition](./security-review.md#sec-05) | PR-review, red-team, auto-publish gate |
-| SEC-06 | Medium | ⏳ Pending | Hermes, URL | TBD | Awaiting sign-off | External config confirmation needed |
+| SEC-06 | Medium | ✅ Approved | Hermes, URL | 2026-08-06 | [Security sign-off checklist](./security-sign-off-checklist.md#sec-06) | External config confirmed; production ready |
 | SEC-07 | Medium | ✅ Approved | URL | 2026-08-06 | [Phase 5 remediation](../../.github/workflows/) | Workflow permissions scoped |
-| SEC-08 | Informational | ⏳ Pending Sign-Off | Hermes | TBD | Awaiting sign-off | Repository control verified |
+| SEC-08 | Informational | ✅ Approved | Hermes | 2026-08-06 | [Security sign-off checklist](./security-sign-off-checklist.md#sec-08) | Repository control verified and approved |
 | SEC-09 | Medium | ✅ Accepted-with-Conditions | Hermes | 2026-08-04 | [Hermes disposition](./security-review.md#sec-09) | Conditions: wait_timer, input check, evidence check |
 | SEC-10 | Medium | ✅ Approved | URL | 2026-08-06 | [Phase 5 remediation](../../.github/workflows/) | Token management controls enforced |
 
@@ -205,23 +205,21 @@ NFR-004 (Security Acceptance) requires disposition and named reviewer sign-off f
 
 ## NFR-004 Acceptance Gate
 
-**NFR-004 Status**: ⏳ **Pending Final Disposition**
+**NFR-004 Status**: ✅ **APPROVED** (2026-08-06) — All security findings approved; relaunch authorized by sponsor
 
 **Currently Satisfied**:
-- SEC-01, SEC-02, SEC-03, SEC-04, SEC-05, SEC-07, SEC-09, SEC-10 have dated Hermes or URL dispositions ✅
-
-**Outstanding**:
-- SEC-06 production analytics evidence (Hermes + URL) ⏳
-- SEC-08 Hermes sign-off ⏳
-- jmservera sponsor security acceptance ⏳
+- All 10 findings (SEC-01 through SEC-10) have dated Hermes or URL dispositions ✅
+- SEC-06 Hermes + URL approvals recorded (2026-08-06) ✅
+- SEC-08 Hermes approval recorded (2026-08-06) ✅
+- jmservera sponsor final security acceptance recorded (2026-08-06) ✅
 
 **Acceptance Criteria**:
-- [ ] SEC-06 Hermes disposition recorded with evidence
-- [ ] SEC-06 URL disposition recorded with evidence
-- [ ] SEC-08 Hermes sign-off recorded
-- [ ] jmservera records final security acceptance
-- [ ] All 10 findings have dispositions (approved or accepted-with-conditions)
-- [ ] All conditions are enforced or documented as process controls
+- [x] SEC-06 Hermes disposition recorded with evidence (2026-08-06)
+- [x] SEC-06 URL disposition recorded with evidence (2026-08-06)
+- [x] SEC-08 Hermes sign-off recorded (2026-08-06)
+- [x] jmservera records final security acceptance (2026-08-06)
+- [x] All 10 findings have dispositions (approved or accepted-with-conditions)
+- [x] All conditions are enforced or documented as process controls
 
 ---
 
