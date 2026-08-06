@@ -196,10 +196,10 @@ NFR-004 (Security Acceptance) requires disposition and named reviewer sign-off f
 | SEC-04 | Medium | ✅ Approved | Hermes | 2026-08-04 | [Hermes disposition](./security-review.md#sec-04) | Operator review required per override |
 | SEC-05 | Medium | ✅ Accepted-with-Conditions | Hermes | 2026-08-04 | [Hermes disposition](./security-review.md#sec-05) | PR-review, red-team, auto-publish gate |
 | SEC-06 | Medium | ✅ Approved | Hermes, URL | 2026-08-06 | [Security sign-off checklist](./security-sign-off-checklist.md#sec-06) | External config confirmed; production ready |
-| SEC-07 | Medium | ✅ Approved | URL | 2026-08-06 | [Phase 5 remediation](../../.github/workflows/) | Workflow permissions scoped |
+| SEC-07 | Medium | ✅ Approved | URL | 2026-08-06 | [Phase 5 remediation](../../../.github/workflows/) | Workflow permissions scoped |
 | SEC-08 | Informational | ✅ Approved | Hermes | 2026-08-06 | [Security sign-off checklist](./security-sign-off-checklist.md#sec-08) | Repository control verified and approved |
 | SEC-09 | Medium | ✅ Accepted-with-Conditions | Hermes | 2026-08-04 | [Hermes disposition](./security-review.md#sec-09) | Conditions: wait_timer, input check, evidence check |
-| SEC-10 | Medium | ✅ Approved | URL | 2026-08-06 | [Phase 5 remediation](../../.github/workflows/) | Token management controls enforced |
+| SEC-10 | Medium | ✅ Approved | URL | 2026-08-06 | [Phase 5 remediation](../../../.github/workflows/) | Token management controls enforced |
 
 ---
 

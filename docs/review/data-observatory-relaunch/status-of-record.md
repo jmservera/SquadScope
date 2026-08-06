@@ -117,10 +117,10 @@ Phase 7 consolidates final acceptance evidence and execution workflows across th
 | SEC-09, SEC-10                             | Hermes, URL | ✅ Approved | Dispositions recorded 2026-08-04/06 |
 | SEC-06 (GA4/GSC config + environment)      | Hermes, URL | ✅ Approved | Messages sent 2026-08-06; Hermes + URL approved same day |
 | SEC-08 (Raw HTML disabled)                 | Hermes      | ✅ Approved | Messages sent 2026-08-06; Hermes approved same day |
-| NFR-004 Security Acceptance                | jmservera   | ⏳ Pending | All technical dispositions complete; awaiting sponsor conclusion |
+| NFR-004 Security Acceptance                | jmservera   | ✅ Approved | All 10 findings approved by reviewers; sponsor acceptance recorded 2026-08-06 |
 
-**Status**: 9/10 findings approved; 1 pending (sponsor final acceptance)  
-**Timeline**: Technical dispositions complete 2026-08-06; awaiting sponsor approval  
+**Status**: ✅ 10/10 findings approved; sponsor acceptance recorded  
+**Timeline**: All approvals complete as of 2026-08-06  
 **Tracking**: [security-sign-off-checklist.md](./security-sign-off-checklist.md) and `.copilot-tracking/reviews/2026-08-06/security-escalation-messages.md`
 
 ### Phase 7.3: Visual Regression Baseline Capture
@@ -128,7 +128,7 @@ Phase 7 consolidates final acceptance evidence and execution workflows across th
 | Gate                                       | Owner       | Status | Evidence/Timeline |
 | ------------------------------------------ | ----------- | ------ | -------- |
 | Visual test suite infrastructure           | jmservera   | ✅ Merged | PR #676: 389-line ESM module, 54 visual variants |
-| Baseline snapshot capture (all 54 variants) | jmservera   | ⏳ Ready for execution | Awaits PR #677 merge to main; automatic CI trigger post-merge |
+| Baseline snapshot capture (all 162 variants) | jmservera   | ⏳ Ready for execution | Awaits PR #678 merge to main; manual or automatic CI trigger post-merge |
 | Visual evidence compilation                | Amy, Fry    | ⏳ Pending | After baseline capture completes (~45 min post-merge) |
 | Visual regression approval sign-off        | Amy, Fry    | ⏳ Pending | After visual-evidence.md created; expected 1-2 hours |
 

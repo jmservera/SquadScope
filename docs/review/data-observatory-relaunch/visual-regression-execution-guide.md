@@ -24,12 +24,12 @@ Phase 7.3 visual regression test infrastructure has been **successfully delivere
 
 ## Execution Requirements
 
-### Option 1: CI Environment (Recommended)
+### Option 1: CI Environment (When CI is Configured)
 
-The `.github/workflows/ci.yml` includes necessary system dependencies and Playwright configuration. For baseline capture (initial test infrastructure setup):
+The `.github/workflows/ci.yml` includes necessary system dependencies and Playwright configuration. Note: baseline capture currently requires local execution with `--update-snapshots` flag. To enable CI-based baseline generation in future:
 
 ```bash
-# CI baseline generation (one-time):
+# CI baseline generation (one-time, requires workflow modification):
 npx playwright test --config tests/visual/playwright.config.mjs \
   --update-snapshots  # Create initial baseline snapshots
 
@@ -225,8 +225,8 @@ Each visual variant records:
 
 ## References
 
-- **Test File**: [tests/visual/observatory-visual-regression.spec.mjs](../../tests/visual/observatory-visual-regression.spec.mjs)
-- **Playwright Config**: [tests/visual/playwright.config.mjs](../../tests/visual/playwright.config.mjs)
+- **Test File**: [tests/visual/observatory-visual-regression.spec.mjs](../../../tests/visual/observatory-visual-regression.spec.mjs)
+- **Playwright Config**: [tests/visual/playwright.config.mjs](../../../tests/visual/playwright.config.mjs)
 - **Phase 6 Evidence**: [phase-6-runtime-evidence.md](./phase-6-runtime-evidence.md)
 - **Status of Record**: [status-of-record.md](./status-of-record.md)
 

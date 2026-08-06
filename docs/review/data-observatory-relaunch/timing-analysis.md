@@ -69,8 +69,8 @@ Artifact location: [GitHub Actions run 31039618366](https://github.com/jmservera
 ### Run 2: Production CI (2026-08-06)
 
 **Run ID**: `31095474806`
-**Commit**: `109cc89920769d931ab2503c86b31619e3db7357`
-**Branch**: `main`
+**Commit**: `c2584030f0332758312bed4dfeff954a986ee034`
+**Branch**: `docs/phase-7-acceptance-gates`
 **Date**: 2026-08-06 (10:59:57 UTC)
 **Status**: ✅ Captured
 

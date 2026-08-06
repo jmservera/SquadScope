@@ -20,22 +20,16 @@ Hi Hermes,
 Two security items need your disposition to close NFR-004 (security gate for the Data Observatory relaunch). Both are low-risk findings with controls already in place; we need your sign-off confirming stability and external config.
 
 SEC-06: Repository-Side Secret and Wiring Verification
-- Repository controls: verified ✅ (GitHub Actions secrets for GA_MEASUREMENT_ID,
- GSC_SITE_VERIFICATION)
-- Deployment: Secrets injected via deploy-site.yml only; no credentials in code
-✅
+- Repository controls: verified ✅ (GitHub Actions secrets for GA_MEASUREMENT_ID, GSC_SITE_VERIFICATION)
+- Deployment: Secrets injected via deploy-site.yml only; no credentials in code ✅
 - External GA4/GSC production config: Needs your confirmation
-- Evidence: docs/growth/ga4-gsc-baseline-2026-07-29.md (links to analytics confi
-g)
-- Link: https://github.com/jmservera/SquadScope/blob/main/docs/review/data-observ
-atory-relaunch/security-sign-off-checklist.md#sec-06
-
+- Evidence: docs/growth/ga4-gsc-baseline-2026-07-29.md (links to analytics config)
+- Link: https://github.com/jmservera/SquadScope/blob/main/docs/review/data-observatory-relaunch/security-sign-off-checklist.md#sec-06
 SEC-08: Raw HTML Rendering Disabled
 - Repository control: hugo.toml `markup.goldmark.renderer.unsafe = false` ✅
 - Tests: rendered-content suite validates no unsafe HTML is rendered ✅
 - Status: Control is stable; needs your sign-off
-- Link: https://github.com/jmservera/SquadScope/blob/main/docs/review/data-observ
-atory-relaunch/security-sign-off-checklist.md#sec-08
+- Link: https://github.com/jmservera/SquadScope/blob/main/docs/review/data-observatory-relaunch/security-sign-off-checklist.md#sec-08
 
 Current disposition status: 8/10 findings approved, 2 pending (these two + sponsor conclusion).
 
@@ -50,8 +44,7 @@ jmservera
 
 ## Message 2: To URL (DevSecOps Specialist)
 
-**Subject**: Data Observatory Relaunch — SEC-06 Workflow/Environment Security Rev
-iew Needed
+**Subject**: Data Observatory Relaunch — SEC-06 Workflow/Environment Security Review Needed
 
 **Body**:
 
@@ -71,11 +64,9 @@ Evidence:
 - docs/review/data-observatory-relaunch/security-sign-off-checklist.md#sec-06 (full context)
 - .github/workflows/deploy-site.yml (deployment workflow)
 
-Link: https://github.com/jmservera/SquadScope/blob/main/docs/review/data-observat
-ory-relaunch/security-sign-off-checklist.md#sec-06
+Link: https://github.com/jmservera/SquadScope/blob/main/docs/review/data-observatory-relaunch/security-sign-off-checklist.md#sec-06
 
-This is the last outstanding security gate (8/10 approvals done). Please reply w
-ith your disposition (approved or accepted-with-conditions) + evidence link.
+This is the last outstanding security gate (8/10 approvals done). Please reply with your disposition (approved or accepted-with-conditions) + evidence link.
 
 Thanks!
 jmservera
@@ -96,8 +87,7 @@ jmservera
    - SEC-06 URL: [Disposition]
    - SEC-08 Hermes: [Disposition]
    - Sponsor (jmservera): [Approved]
-3. Update `status-of-record.md`: NFR-004 security acceptance column → "Closed: 20
-26-08-0X"
+3. Update `status-of-record.md`: NFR-004 security acceptance column → "Closed: 2026-08-06"
 4. Move NFR-004 from "In Progress" to "Closed" in PRD Acceptance Status
 
 ---
