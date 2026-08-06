@@ -25,14 +25,14 @@ Unresolved launch gates: See the launch-gate register | TBDs: 1 (incremental gen
 
 Repository implementation is present, and the GA4/GSC connection, protected downstream
 Podcaster run, atomic publication proof, and separate sponsor rollout decisions are
-complete. Dated baseline values and production consent observations remain pending.3
+complete. Dated baseline values and production consent observations remain pending.
 NFR-004 final acceptance, remaining production responses, external schema and social
 debuggers, accessibility review, timing-budget approval, and refreshed visual evidence
 are not recorded. `dynamic_topic_creation` and `repo_pages` remain off pending their
 recorded technical conditions and separate activation changes. Delivered-versus-pending
 status and the launch-gate register are tracked in the [relaunch status of record](../review/data-observatory-relaunch/status-of-record.md).
 
-Derived from: `docs/brds/claracle-data-observatory-relaunch-brd.md` (BRD-CLARACLE-002, v1.2).
+Derived from: `docs/brds/claracle-data-observatory-relaunch-brd.md` (BRD-CLARACLE-002, v1.3).
 
 ## 1. Executive Summary
 ### Context
