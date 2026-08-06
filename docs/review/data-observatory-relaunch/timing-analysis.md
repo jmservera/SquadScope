@@ -66,13 +66,26 @@ Captured timing:
 
 Artifact location: [GitHub Actions run 31039618366](https://github.com/jmservera/SquadScope/actions/runs/31039618366)
 
-### Run 2: [Pending collection]
+### Run 2: Production CI (2026-08-06)
 
-**Status**: ⏳ Awaiting next successful Production CI run
+**Run ID**: `31095474806`
+**Commit**: `109cc89920769d931ab2503c86b31619e3db7357`
+**Branch**: `main`
+**Date**: 2026-08-06 (10:59:57 UTC)
+**Status**: ✅ Captured
 
-### Run 3: [Pending collection]
+Captured timing:
+- Hugo: `3,015` ms (0.161.1)
+- Pagefind: `2,448` ms (1.5.2)
+- **Total build**: `5,463` ms
 
-**Status**: ⏳ Awaiting third successful Production CI run
+Artifact location: [GitHub Actions run 31095474806](https://github.com/jmservera/SquadScope/actions/runs/31095474806)
+
+**⚠️ Note**: Timing significantly faster than Run 1. Verify production-site job context and scope (possible partial build, cache hit, or different conditions). Flagged for clarification before p95 approval.
+
+### Run 3: [Pending — Next CI Build]
+
+**Status**: ⏳ Awaiting third successful Production CI run (expected 2026-08-07 or later)
 
 ## Baseline Analysis
 
