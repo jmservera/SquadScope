@@ -189,13 +189,13 @@ docs/
 
 <!-- parallelizable: false -->
 
-* [ ] Step 6.1: Prove atomic publish behavior
-  * Reconciliation: `#640`/`#646` preserve the published weekly transaction during restore, but do not provide the required normal run, identical rerun, injected failure, unchanged-branch proof, or hydrated-tree comparison. This step remains open.
+* [x] Step 6.1: Prove atomic publish behavior
+  * Reconciliation: Run `31040602642` passed against `211f0974ce375e427591803cc3f3dfd39e169ead` on 2026-08-05. The retained `atomic-publish-proof` artifact records one normal commit, an unchanged identical rerun, injected-failure exit `23` with an unchanged ref, equal candidate and accepted digests, equal accepted and hydrated digests, and no reference problems. jmservera reviewed the artifact during this reconciliation.
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 320-336)
 * [x] Step 6.2: Prove all-generator idempotence in isolation
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 338-352)
 * [ ] Step 6.3: Collect timing and protected Podcaster evidence
-  * Reconciliation: `#639`/`#643` hardened smoke tooling checkout and `#645` hydrated its source manifest; these changes support the blocking dry-run gate but do not prove the required protected downstream Podcaster run. This step remains open.
+  * Reconciliation: The protected downstream portion is complete. Run `30908778884` succeeded for `2026-W32` and publish run `30782430176`; downstream job `podcast-2026-W32-d07bb05dc073` returned `accepted`, with Hermes and URL dispositions retained by `#658` and `#659`. Timing remains open because three comparable retained reports, median and p95 calculations, and budget-owner approval are absent.
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 354-369)
 
 ### [ ] Implementation Phase 7: Security and External Acceptance
@@ -203,21 +203,26 @@ docs/
 <!-- parallelizable: false -->
 
 * [ ] Step 7.1: Close security findings and sign-off
+  * Reconciliation: SEC-01 through SEC-05, SEC-09, and SEC-10 have dated Hermes or URL dispositions. SEC-06 production analytics evidence, SEC-08 Hermes sign-off, and the final jmservera production-owner conclusion remain open, so NFR-004 is not accepted.
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 375-389)
 * [ ] Step 7.2: Gather platform and accessibility evidence
+  * Reconciliation: Current-main CI run `31039618366` passed production Hugo, Pagefind, rendered metadata and links, browser accessibility and analytics contracts, and Lighthouse. GA4 stream operation, GSC verification, root sitemap submission, and the GA4-to-GSC link are owner-confirmed. Live denied and granted consent observations, GSC processing and baseline values, external debugger conclusions, and named keyboard and screen-reader review remain open.
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 391-404)
 * [ ] Step 7.3: Replace visuals and obtain rollout approvals
+  * Reconciliation: `#669` records separate sponsor decisions: `repo_pages` is approved and `dynamic_topic_creation` is approved in principle subject to security disposition and an approved canary. The revision-tagged desktop, mobile, light, dark, and interaction visual matrix plus named visual acceptance remain open; neither flag is enabled by this plan.
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 406-424)
 
 ### [ ] Implementation Phase 8: Final Validation and Re-Review
 
 <!-- parallelizable: false -->
 
-* [ ] Step 8.1: Run full repository validation
+* [x] Step 8.1: Run full repository validation
+  * Reconciliation: Exact-main run `31039618366` passed Python, publish-hydration parity, Hugo, Pagefind, rendered metadata and links, internal links, Playwright accessibility and analytics, and Lighthouse. Ruff run `31039618827`, Checkov run `31039617650`, security-scanning run `31039617802`, and deploy plus dry-run Podcaster run `31039617808` also passed for `211f0974ce375e427591803cc3f3dfd39e169ead`.
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 430-444)
 * [x] Step 8.2: Repair and rerun validation failures
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 446-456)
 * [ ] Step 8.3: Revalidate every review finding
+  * Reconciliation: Later reviews close the repository-executable portions of CR-01 through CR-05 and MAJ-01 through MAJ-03, plus the protected Podcaster portion of CR-06. Final disposition remains open for the atomic artifact review, timing and budget evidence, SEC-06 and SEC-08 acceptance, platform and accessibility observations, visual acceptance, and immutable traceability for the remaining external portions.
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 458-473)
 * [x] Step 8.4: Report blocking issues
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 475-485)

@@ -13,7 +13,7 @@
 
 Repository remediation is implemented for lifecycle safety, exact-content Podcaster verification, breadcrumbs, analytics privacy coverage, browser-project parity, dynamic-topic sanitization, dataset reporting, and workflow security. Both rollout flags remain disabled.
 
-Runtime publication proofs, protected Podcaster execution, hosted browser and Lighthouse results for the candidate revision, external platform evidence, reviewer sign-off, refreshed visual evidence, and sponsor approval remain open.
+Atomic publication proof, protected Podcaster execution, hosted browser and Lighthouse validation, and separate sponsor decisions are complete. Timing-budget approval, production analytics and GSC baseline evidence, final security and accessibility sign-off, external debugger conclusions, and refreshed visual acceptance remain open.
 
 ## Added
 
@@ -48,6 +48,11 @@ Runtime publication proofs, protected Podcaster execution, hosted browser and Li
 * `.github/workflows/security-scanning.yml`, `.github/workflows/crawl-and-publish.yml`, `.github/workflows/sync-squad-labels.yml`, and ten `.github/workflows/squad-*.yml` files - aligned Zizmor scope, least privilege, disabled checkout credential persistence, and explicit push authentication
 * `docs/devsecops/zizmor-baseline.md` - pinned version, full workflow scope, and narrow low-severity package disposition
 
+### Acceptance Reconciliation
+
+* `docs/review/data-observatory-relaunch/README.md`, `status-of-record.md`, and `owner-action-register.md` - retained the successful atomic proof and corrected stale Podcaster, sponsor, security, and validation status
+* `docs/prds/claracle-data-observatory-relaunch.md` and `docs/brds/claracle-data-observatory-relaunch-brd.md` - recorded protected Podcaster completion and separate sponsor decisions without enabling either rollout flag or closing remaining external gates
+
 ## Validation
 
 | Check | Result |
@@ -66,12 +71,13 @@ Runtime publication proofs, protected Podcaster execution, hosted browser and Li
 | Zizmor 1.27.0 full workflow scope | 0 high, 0 medium, 1 documented low finding |
 | Git diff check | Passed |
 | Local base URL | Generated HTML contains no `claracle.com` links; internal absolute URLs use `http://127.0.0.1:1313/` |
+| Current-main hosted validation | Run `31039618366` passed Python, hydration parity, Hugo, Pagefind, rendered metadata and links, internal links, Playwright, and Lighthouse at `211f0974ce375e427591803cc3f3dfd39e169ead` |
+| Atomic publish proof | Run `31040602642` passed normal commit, identical no-op rerun, injected failure with unchanged ref, accepted-tree identity, and hydrated-tree identity |
+| Protected Podcaster | Run `30908778884` succeeded for `2026-W32` / publish run `30782430176`; downstream job `podcast-2026-W32-d07bb05dc073` returned `accepted` |
 
 ## Open Evidence
 
-* Local Playwright and Lighthouse could not launch because the host lacks required browser shared libraries. No elevated installation was attempted.
-* PR #623 currently reports 15 passing checks and one stale failed Production site check from the prior revision. A refreshed hosted run is required after push.
-* Controlled publication success, identical no-op rerun, injected failure, and deployment-tree identity are pending.
-* Three comparable hosted timing reports, approved budgets, and protected exact-content Podcaster execution are pending.
-* GA4, GSC, social/schema debugger, production endpoint, screen-reader, visual, Hermes, URL, and sponsor evidence is pending.
+* Local Playwright and Lighthouse remain unavailable because the host lacks required browser shared libraries; exact-current-main hosted validation passed instead.
+* Three comparable timing reports, median and p95 calculations, and budget-owner approval are pending.
+* Production denied and granted analytics observations, GSC processing and numeric baseline values, social and schema debugger conclusions, keyboard and screen-reader review, refreshed visuals, SEC-08 disposition, and production-owner acceptance are pending.
 * Both `dynamic_topics.enabled` and `repo_pages.enabled` remain `false`.

@@ -15,7 +15,7 @@
 
 | Request | Status | Evidence |
 |---|---|---|
-| Implement the review-remediation plan | Partial | Repository phases 1 through 5 and deterministic Step 6.2 are complete; protected runtime and external phases remain open |
+| Implement the review-remediation plan | Partial | Repository phases 1 through 5, atomic proof Step 6.1, deterministic Step 6.2, protected Podcaster execution, and full validation are complete; timing and named external acceptance remain open |
 | Render a real breadcrumb using the existing construct | Complete | Existing partial retained; marker-free chevrons, wrapping, accessibility, and single schema ownership pass rendered tests |
 | Generate a PR or parallel PRs | Complete | Existing PR #623 owns the branch; one PR preserves the coupled remediation and validation history |
 | Keep rollout controls disabled until approval | Complete | Both production flags remain false |
@@ -25,13 +25,13 @@
 
 * CR-01 is resolved in repository code: deletion confirmation is required, validated, non-future, and cannot shorten configured retention.
 * CR-02 is resolved in repository code: exact article content is opt-in, byte-hashed, verified before transport, and invoked by checked-in workflow logic.
-* CR-03 repository corrections are complete: the browser matrix is four Chromium projects, analytics privacy is blocking, and local-baseURL navigation is fixed. Hosted browser and Lighthouse execution remains pending.
+* CR-03 is resolved: current-main run `31039618366` passed the blocking browser, analytics privacy, and Lighthouse jobs.
 * CR-04 is resolved at blocking severity: full-scope Zizmor reports zero high and medium findings. One pinned-package low finding has a narrow documented disposition.
-* CR-05 repository sanitization is resolved. Hermes, URL, and owner acceptance remains pending.
-* CR-06 remains open because external platform, production endpoint, accessibility, and downstream evidence requires protected access and named actors.
-* CR-07 remains open because separate sponsor approval for both rollout flags is absent.
+* CR-05 repository sanitization is resolved. SEC-01 through SEC-05, SEC-09, and SEC-10 have dated dispositions; SEC-06 production analytics evidence, SEC-08, and production-owner acceptance remain pending.
+* CR-06 is resolved for the protected Podcaster run and repository automation. External platform, accessibility, and visual evidence remains open because it requires protected access and named actors.
+* CR-07 sponsor decisions are resolved: repository pages are approved, and dynamic topic creation is approved in principle subject to security disposition and an approved canary. Both flags correctly remain disabled.
 * MAJ-01 through MAJ-03 and the external dataset-path defect are resolved in repository code and tests.
-* MAJ-04 through MAJ-08 remain partially open where they require hosted runtime, timing, visual, immutable run, or external acceptance evidence.
+* MAJ-04 is resolved by run `31040602642`. MAJ-05 and MAJ-07 remain open for timing-budget and visual acceptance. MAJ-06 is resolved. MAJ-08 remains partial until all external evidence is immutable and directly linked.
 
 ## Validation Review
 
@@ -41,7 +41,9 @@
 * Hugo, Pagefind, and internal-link validation passed on one isolated artifact.
 * Checkov passed with 724 checks and no failures.
 * Zizmor has zero high or medium findings across `.github/workflows/`.
-* Local Playwright and Lighthouse are blocked before browser launch by missing host shared libraries. Hosted CI is the required next evidence source.
+* Exact-current-main hosted run `31039618366` passed Python, publish hydration parity, Hugo, Pagefind, rendered metadata and links, internal links, Playwright accessibility and analytics, and Lighthouse.
+* Atomic proof run `31040602642` passed and retained the reviewed JSON and tree manifests.
+* Protected Podcaster run `30908778884` succeeded with downstream status `accepted`.
 
 ## Placement and Quality
 
@@ -53,13 +55,10 @@ No rollout flag, threshold, assertion, or security scan scope was weakened to ob
 
 | Blocker | Owner or access | Required next action |
 |---|---|---|
-| Hosted Production site browser and Lighthouse result | GitHub Actions | Push candidate revision and retain successful run plus report artifact |
-| Atomic publish and failure rollback proof | Workflow operator | Run controlled normal, no-op, and injected-failure scenarios |
-| Protected exact-content Podcaster result | Podcaster maintainer and protected environment | Execute designated promotion after deployment |
 | Three-run timing and approved budgets | Timing owner | Retain three comparable reports and approve median/p95 budgets |
-| Platform and accessibility evidence | GA4/GSC actors and accessibility reviewer | Record dated observations and retained links |
-| Security and workflow-owner sign-off | Hermes and URL | Close or accept all named findings |
-| Visual and rollout approval | Sponsor | Accept refreshed matrix and approve each flag separately |
+| Platform and accessibility evidence | GA4/GSC actors and accessibility reviewer | Record dated analytics, search, debugger, keyboard, and screen-reader observations |
+| Final security acceptance | Hermes and jmservera | Close SEC-08, retain SEC-06 production observations, and record the production-owner conclusion |
+| Visual acceptance | Amy or named visual reviewer | Capture and accept the revision-tagged visual matrix |
 
 ## Overall Status
 

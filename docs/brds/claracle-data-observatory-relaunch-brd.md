@@ -2,7 +2,7 @@
 title: "Claracle Data Observatory Relaunch — Business Requirements Document"
 description: "BRD for the next version of the Claracle site, repositioning it from weekly AI-generated summaries into a discoverable, linkable public database of GitHub technology trends to solve the discovery/SEO problem."
 author: "BRD Builder (facilitated)"
-ms.date: 2026-08-02
+ms.date: 2026-08-05
 ms.topic: reference
 ---
 
@@ -11,11 +11,11 @@ ms.topic: reference
 | Field | Value |
 |-------|-------|
 | BRD ID | BRD-CLARACLE-002 |
-| Status | Acceptance and sponsor approval pending |
-| Version | 1.2 |
+| Status | Acceptance pending; sponsor decisions recorded with conditions |
+| Version | 1.3 |
 | Author | BRD Builder (facilitated) |
 | Sponsor | jmservera (also the human approval authority) |
-| Last updated | 2026-08-02 |
+| Last updated | 2026-08-05 |
 | Related repositories | SquadScope, SquadScope-Podcaster, SquadScope-Coordinator |
 
 ### Change History
@@ -25,12 +25,20 @@ ms.topic: reference
 | 1.0 | 2026-07-29 | BRD Builder (facilitated) | Initial BRD repositioning Claracle into a data observatory |
 | 1.1 | 2026-07-30 | BRD Builder (facilitated) | Reconciled acceptance status with pending security, analytics, production, Podcaster, accessibility, visual, and rollout gates |
 | 1.2 | 2026-08-02 | SquadScope Squad | Added this change history, aligned the PRD cross-reference, linked the status of record, and reconciled the completed GA4/GSC connection |
+| 1.3 | 2026-08-05 | SquadScope Squad | Recorded the protected Podcaster result and separate sponsor decisions while preserving their technical conditions and open acceptance gates |
 
 ---
 
 ## Acceptance Status
 
-The business requirements remain approved as requirements, but no repository artifact records sponsor approval to enable either rollout flag. The GA4/GSC connection is complete by owner confirmation; dated baseline values and production consent observations remain pending. Security sign-off, remaining production responses, Podcaster execution, accessibility review, and refreshed visual acceptance also remain pending. Dynamic topic creation and repository-page creation must be approved separately. Current delivered-versus-pending status is tracked in the [relaunch status of record](../review/data-observatory-relaunch/status-of-record.md).
+The business requirements remain approved as requirements. Separate sponsor decisions
+are recorded for both rollout flags: repository pages are approved, and dynamic topic
+creation is approved in principle subject to security disposition and an approved
+canary. The protected downstream Podcaster run is complete. The GA4/GSC connection is
+complete by owner confirmation, while dated baseline values and production consent
+observations remain pending. Final security acceptance, remaining production responses,
+accessibility review, timing-budget approval, and refreshed visual acceptance also
+remain pending. Current delivered-versus-pending status is tracked in the [relaunch status of record](../review/data-observatory-relaunch/status-of-record.md).
 
 ---
 
@@ -338,5 +346,5 @@ Still open:
 
 1. Quantify **incremental generation cost/time** for hubs, data, and repository pages.
 2. Record Hermes security sign-off and disposition of open review findings.
-3. Capture the GA4/GSC dated baseline, production consent observations, remaining production responses, Podcaster, accessibility, and visual acceptance evidence.
-4. Obtain separate sponsor approval before enabling dynamic topic creation or repository-page creation.
+3. Capture the GA4/GSC dated baseline, production consent observations, remaining production responses, accessibility, timing-budget, and visual acceptance evidence.
+4. Satisfy the recorded technical conditions and use a separate activation change before enabling either approved flag.

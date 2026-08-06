@@ -2,7 +2,7 @@
 title: Data Observatory Relaunch Acceptance Evidence
 description: Bounded evidence index for repository implementation, external launch gates, security review, and visual acceptance of the Claracle relaunch
 author: SquadScope Squad
-ms.date: 2026-08-02
+ms.date: 2026-08-05
 ms.topic: reference
 keywords:
   - acceptance evidence
@@ -18,9 +18,9 @@ Repository implementation evidence is available, but relaunch acceptance is inco
 Dynamic topic creation and repository-page creation remain disabled in
 `config/observatory.toml`. This index does not authorize either rollout.
 
-External baseline and consent, remaining production responses, cross-repository run,
-security sign-off, accessibility review, and visual acceptance evidence remain pending
-as listed below. The GA4/GSC connection itself is complete.
+External baseline and consent, remaining production responses, final security sign-off,
+accessibility review, timing-budget approval, and visual acceptance evidence remain
+pending as listed below. The GA4/GSC connection and protected Podcaster run are complete.
 
 The [owner action register](owner-action-register.md) sequences the remaining human and
 protected-environment work without treating repository automation as approval evidence.
@@ -46,11 +46,12 @@ observations without granting human acceptance.
 | FR-052 tool selection and architecture rationale          | Complete                    | [Star Velocity Explorer ADR](../../decisions/adr-star-velocity-explorer.md) |
 | Security and privacy surface review                       | Complete with open findings | [Security review](security-review.md)                                       |
 | Current-main and public-production automated evidence     | Complete                    | [2026-08-03 automated evidence](automated-acceptance-evidence-2026-08-03.md) |
+| Atomic publish runtime proof                              | Complete                    | [Actions run 31040602642](https://github.com/jmservera/SquadScope/actions/runs/31040602642) |
 | Hermes security acceptance                                | Pending                     | Security review sign-off table                                              |
 | GA4 and GSC connection                                   | Complete                    | [Dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md)               |
 | GA4 and GSC external baseline values                      | Pending                     | Dated baseline external evidence matrix                                     |
-| Product delivery and rollout status                       | Pending acceptance          | [PRD](../../prds/claracle-data-observatory-relaunch.md)                     |
-| Sponsor-approved lifecycle state                          | Pending                     | [BRD](../../brds/claracle-data-observatory-relaunch-brd.md)                 |
+| Product delivery and rollout status                       | Partial acceptance          | [PRD](../../prds/claracle-data-observatory-relaunch.md)                     |
+| Sponsor rollout decisions                                 | Complete with conditions    | [Owner action register](owner-action-register.md#sponsor-rollout-decision)  |
 | Visual capture requirements                               | Pending                     | [Screenshot capture checklist](screenshots/README.md)                       |
 | Owner-gated acceptance actions                            | Pending                     | [Owner action register](owner-action-register.md)                           |
 
@@ -68,10 +69,10 @@ observations without granting human acceptance.
 | Schema.org validator                  | Pending | Reviewer with external debugger access              | Relevant page-type conclusions with retained links         |
 | Production sitemap response           | Complete | jmservera                                           | HTTP 200 `application/xml` observed on 2026-08-02          |
 | Production feed responses             | Automated evidence complete; owner review pending | jmservera with production access | [Dated response and XML conclusions](automated-acceptance-evidence-2026-08-03.md#public-discovery-and-xml-evidence) |
-| Podcaster downstream run              | Pending | Podcaster maintainer and protected environment      | Successful downstream run conclusion and Actions link      |
+| Podcaster downstream run              | Complete | Podcaster maintainer and protected environment     | [Run 30908778884](https://github.com/jmservera/SquadScope/actions/runs/30908778884); downstream status `accepted` |
 | Accessibility review                  | Pending | Fry and accessibility reviewer                      | Automated results plus keyboard and screen-reader findings |
 | Hermes sign-off                       | Pending | Hermes                                              | Dated disposition of security findings and NFR-004         |
-| Sponsor rollout approval              | Pending | jmservera                                           | Dated approval identifying each flag separately            |
+| Sponsor rollout approval              | Complete with conditions | jmservera                           | Separate dated decisions in the owner action register      |
 
 Issue #622 is non-blocking UX polish according to its issue contract. Issue #626 is
 independent quality hardening whose existing thresholds remain unchanged. Both should be
@@ -104,6 +105,7 @@ Do not use the gallery as proof of:
 
 ## Acceptance decision
 
-Release acceptance is **pending**. Keep both rollout flags disabled until the named actors
-provide the missing evidence and the PRD, BRD, security review, and this index all agree on
-the approved state.
+Release acceptance is **pending**. Sponsor decisions do not override the remaining
+flag-specific technical conditions or relaunch gates. Keep both rollout flags disabled
+until the named actors provide the missing evidence and the PRD, BRD, security review,
+and this index all agree on the approved state.
