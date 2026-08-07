@@ -2,12 +2,23 @@
 
 import { execFile } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
+import { existsSync, mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
-import { join, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { promisify } from 'node:util';
 
 const execFileAsync = promisify(execFile);
+
+const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
+const LIGHTHOUSE_BIN = join(REPO_ROOT, 'node_modules', '.bin', 'lighthouse');
+
+// Under WSL, chrome-launcher rewrites TEMP to a Windows-style path and then mkdirs
+// it with a relative join, creating a literal 'C:\\Users\\...' directory in the
+// child's working directory. Running from a scratch directory keeps that out of the
+// repository; TMPDIR does not help because that code path never reads it.
+const CHILD_CWD = mkdtempSync(join(tmpdir(), 'lighthouse-cwd-'));
+process.on('exit', () => rmSync(CHILD_CWD, { recursive: true, force: true }));
 
 const args = process.argv.slice(2);
 
@@ -50,9 +61,14 @@ function ensureDir(path) {
 }
 
 async function runLighthouse(url) {
+  if (!existsSync(LIGHTHOUSE_BIN)) {
+    throw new Error(
+      `Lighthouse binary not found at ${LIGHTHOUSE_BIN}. Install it first, for example ` +
+        'npm install --no-save --no-package-lock lighthouse@12.8.2',
+    );
+  }
+
   const lighthouseArgs = [
-    '--no-install',
-    'lighthouse',
     url,
     '--quiet',
     '--output=json',
@@ -62,8 +78,8 @@ async function runLighthouse(url) {
     '--form-factor=mobile',
   ];
 
-  const { stdout } = await execFileAsync('npx', lighthouseArgs, {
-    cwd: process.cwd(),
+  const { stdout } = await execFileAsync(LIGHTHOUSE_BIN, lighthouseArgs, {
+    cwd: CHILD_CWD,
     encoding: 'utf8',
     maxBuffer: 20 * 1024 * 1024,
   });

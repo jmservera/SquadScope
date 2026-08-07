@@ -8,10 +8,13 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
 def test_header_brand_uses_claracle_image_asset() -> None:
-    """Header brand mark must render the Claracle image through Hugo resources."""
+    """Header brand mark must render a resized Claracle image through Hugo resources."""
     header = (REPO_ROOT / "layouts" / "partials" / "header.html").read_text(encoding="utf-8")
     assert 'resources.Get "images/claracle.jpeg"' in header
-    assert '<img src="{{ .RelPermalink }}" width="32" height="32" alt="">' in header
+    # The mark renders at ~22 CSS px. Serving the original shipped 240 KiB per page
+    # and dropped the weekly Lighthouse performance gate below its threshold.
+    assert '.Fill "64x64 webp"' in header
+    assert '<img src="{{ $mark.RelPermalink }}" width="32" height="32" alt="">' in header
     assert (
         "<svg" not in header.split('<span class="site-brand__text">Claracle</span>', maxsplit=1)[0]
     )
