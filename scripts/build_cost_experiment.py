@@ -25,7 +25,7 @@ SUMMARY_SCHEMA = "claracle_build_cost_summary_v1"
 SHA_PATTERN = re.compile(r"^[0-9a-f]{40}$")
 PAGEFIND_FILES_PATTERN = re.compile(r"Found\s+([\d,]+)\s+files?\b", re.IGNORECASE)
 PAGEFIND_PAGES_PATTERN = re.compile(r"Indexed\s+([\d,]+)\s+pages?\b", re.IGNORECASE)
-EXPECTED_CLASS_COUNTS = {"topic_hubs": 5, "data_pages": 3, "repository_pages": 263}
+EXPECTED_CLASS_COUNTS = {"topic_hubs": 5, "data_pages": 3, "repository_pages": 266}
 CLASS_PATTERNS = {
     "topic_hubs": "content/topics/*/_index.md",
     "data_pages": "content/data/*/index.md",
@@ -60,7 +60,7 @@ VARIANTS = (
     Variant(
         "repository_pages",
         ("topic_hubs", "data_pages", "repository_pages"),
-        263,
+        266,
     ),
 )
 

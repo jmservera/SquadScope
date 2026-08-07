@@ -2,7 +2,7 @@
 title: "Claracle Data Observatory Relaunch — Business Requirements Document"
 description: "BRD for the next version of the Claracle site, repositioning it from weekly AI-generated summaries into a discoverable, linkable public database of GitHub technology trends to solve the discovery/SEO problem."
 author: "BRD Builder (facilitated)"
-ms.date: 2026-08-05
+ms.date: 2026-08-07
 ms.topic: reference
 ---
 
@@ -12,10 +12,10 @@ ms.topic: reference
 |-------|-------|
 | BRD ID | BRD-CLARACLE-002 |
 | Status | Acceptance pending; sponsor decisions recorded with conditions |
-| Version | 1.3 |
+| Version | 1.4 |
 | Author | BRD Builder (facilitated) |
 | Sponsor | jmservera (also the human approval authority) |
-| Last updated | 2026-08-05 |
+| Last updated | 2026-08-07 |
 | Related repositories | SquadScope, SquadScope-Podcaster, SquadScope-Coordinator |
 
 ### Change History
@@ -26,6 +26,7 @@ ms.topic: reference
 | 1.1 | 2026-07-30 | BRD Builder (facilitated) | Reconciled acceptance status with pending security, analytics, production, Podcaster, accessibility, visual, and rollout gates |
 | 1.2 | 2026-08-02 | SquadScope Squad | Added this change history, aligned the PRD cross-reference, linked the status of record, and reconciled the completed GA4/GSC connection |
 | 1.3 | 2026-08-05 | SquadScope Squad | Recorded the protected Podcaster result and separate sponsor decisions while preserving their technical conditions and open acceptance gates |
+| 1.4 | 2026-08-07 | SquadScope Squad | Recorded completed security acceptance, aligned with PRD v1.5 risk reconciliation, and noted the bounded dynamic-topic canary control |
 
 ---
 
@@ -34,11 +35,14 @@ ms.topic: reference
 The business requirements remain approved as requirements. Separate sponsor decisions
 are recorded for both rollout flags: repository pages are approved, and dynamic topic
 creation is approved in principle subject to security disposition and an approved
-canary. The protected downstream Podcaster run is complete. The GA4/GSC connection is
-complete by owner confirmation, while dated baseline values and production consent
-observations remain pending. Final security acceptance, remaining production responses,
-accessibility review, timing-budget approval, and refreshed visual acceptance also
-remain pending. Current delivered-versus-pending status is tracked in the [relaunch status of record](../review/data-observatory-relaunch/status-of-record.md).
+canary. A bounded canary is now expressible through the `allow_topics` allowlist, which
+restricts a promotion transaction to explicitly reviewed slugs. The protected downstream
+Podcaster run is complete. The GA4/GSC connection is complete by owner confirmation, while
+dated baseline values and production consent observations remain pending. Security
+acceptance is complete: all ten findings and the sponsor conclusion are dated 2026-08-06.
+Remaining production responses, accessibility review, timing-budget approval, and refreshed
+visual acceptance remain pending. Current delivered-versus-pending status is tracked in the
+[relaunch status of record](../review/data-observatory-relaunch/status-of-record.md).
 
 ---
 
