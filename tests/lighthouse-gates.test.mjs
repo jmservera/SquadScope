@@ -25,7 +25,21 @@ test('median and thresholds retain the quality-gate contract', () => {
       .map((failure) => failure.category),
     ['performance', 'accessibility', 'best-practices', 'cumulative-layout-shift'],
   );
-  assert.equal(PAGES.length, 9);
+  assert.deepEqual(
+    PAGES.map((page) => page.key),
+    [
+      'home',
+      'about',
+      'weekly',
+      'monthly',
+      'yearly',
+      'topic',
+      'data',
+      'repository',
+      'chart',
+      'tool',
+    ],
+  );
 });
 
 test('bounded page work preserves input order', async () => {

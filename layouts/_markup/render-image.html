@@ -1,0 +1,18 @@
+{{- /* Content images are pipeline-generated: resize local assets so a full-size
+       original can never ship into the content column. */ -}}
+{{- $destination := .Destination -}}
+{{- $maxWidth := 800 -}}
+{{- $asset := "" -}}
+{{- if not (urls.Parse $destination).Scheme -}}
+  {{- $asset = resources.Get (strings.TrimPrefix "/" $destination) -}}
+{{- end -}}
+{{- with $asset -}}
+  {{- $image := . -}}
+  {{- /* Skip SVG (no raster size) and GIF (resizing drops animation). */ -}}
+  {{- if and (in (slice "jpeg" "png") .MediaType.SubType) (gt .Width $maxWidth) -}}
+    {{- $image = .Resize (printf "%dx webp" $maxWidth) -}}
+  {{- end -}}
+  <img src="{{ $image.RelPermalink }}" alt="{{ $.Text }}" width="{{ $image.Width }}" height="{{ $image.Height }}"{{ with $.Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">
+{{- else -}}
+  <img src="{{ $destination | safeURL }}" alt="{{ .Text }}"{{ with .Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">
+{{- end -}}

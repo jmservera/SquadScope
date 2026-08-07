@@ -281,7 +281,7 @@ python3 -m pytest tests/test_observatory_repos.py tests/test_podcaster_handoff.p
 
 ## Cross-References
 
-- Remediation plan: [`.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md`](../../.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md) (Step 6)
-- Implementation details: [`.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md`](../../.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md)
-- Changes log: [`.copilot-tracking/changes/2026-07-30/claracle-data-observatory-relaunch-remediation-changes.md`](../../.copilot-tracking/changes/2026-07-30/claracle-data-observatory-relaunch-remediation-changes.md)
+- Remediation plan: [`.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md`](../../../.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md) (Step 6)
+- Implementation details: [`.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md`](../../../.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md)
+- Changes log: [`.copilot-tracking/changes/2026-07-30/claracle-data-observatory-relaunch-review-remediation-changes.md`](../../../.copilot-tracking/changes/2026-07-30/claracle-data-observatory-relaunch-review-remediation-changes.md)
 - Evidence index: [docs/review/data-observatory-relaunch/README.md](./README.md)

@@ -59,56 +59,81 @@ Each `reports/build-timing.json` captured by `.github/workflows/ci.yml` contains
 **Date**: 2026-08-05
 **Status**: ✅ Passed
 
-Captured timing:
-- Hugo: `15,339` ms (0.161.1)
-- Pagefind: `1,631` ms (1.5.2)
-- **Total build**: `16,970` ms
+Captured timing (transcribed from `reports/build-timing.json`):
+
+- Hugo: `2,822` ms (0.161.1)
+- Pagefind: `2,707` ms (1.5.2)
+- **Total build**: `5,529` ms
 
 Artifact location: [GitHub Actions run 31039618366](https://github.com/jmservera/SquadScope/actions/runs/31039618366)
 
-### Run 2: PR CI (2026-08-06)
+### Run 2: Production `main` CI (2026-08-06)
 
-**Run ID**: `31095474806`
-**Event**: `pull_request` (PR #677 CI, not a production `main` build)
-**Commit**: `c2584030f0332758312bed4dfeff954a986ee034`
-**Branch**: `docs/phase-7-acceptance-gates`
-**Date**: 2026-08-06 (10:59:57 UTC)
-**Status**: ✅ Captured
+**Run ID**: `31079871801`
+**Event**: `push` to `main`
+**Commit**: `f5c2be46fa598c1593c91c9dba6c39d98b0e347c`
+**Branch**: `main`
+**Date**: 2026-08-06 (07:09:54 UTC)
+**Status**: ✅ Passed
 
-Captured timing:
-- Hugo: `3,015` ms (0.161.1)
-- Pagefind: `2,448` ms (1.5.2)
-- **Total build**: `5,463` ms
+Captured timing (transcribed from `reports/build-timing.json`):
 
-Artifact location: [GitHub Actions run 31095474806](https://github.com/jmservera/SquadScope/actions/runs/31095474806)
+- Hugo: `2,456` ms (0.161.1)
+- Pagefind: `2,255` ms (1.5.2)
+- **Total build**: `4,711` ms
 
-**⚠️ Note**: This run is a `pull_request` CI build (PR #677 branch), not a production `main` build, so it is not directly comparable to the Run 1 production baseline. Timing is also significantly faster than Run 1 (possible partial build, cache hit, or different conditions). A production `main` Run 3 is required before p95 approval.
+Artifact location: [GitHub Actions run 31079871801](https://github.com/jmservera/SquadScope/actions/runs/31079871801)
 
-### Run 3: [Pending — Next CI Build]
+### Run 3: Production `main` CI (2026-08-06)
 
-**Status**: ⏳ Awaiting third successful Production CI run (expected 2026-08-07 or later)
+**Run ID**: `31081291997`
+**Event**: `push` to `main`
+**Commit**: `353b147ec1e8e0c9572a1d1d2ab4da2a94923b9d`
+**Branch**: `main`
+**Date**: 2026-08-06 (07:32:06 UTC)
+**Status**: ✅ Passed
 
-## Baseline Analysis
+Captured timing (transcribed from `reports/build-timing.json`):
 
-### Single Measurement (Run 1)
+- Hugo: `3,058` ms (0.161.1)
+- Pagefind: `2,316` ms (1.5.2)
+- **Total build**: `5,374` ms
 
-| Component | Duration (ms) | Relative | Status |
-|-----------|---------------|----------|--------|
-| Hugo 0.161.1 | 15,339 | Baseline | ✅ |
-| Pagefind 1.5.2 | 1,631 | Baseline | ✅ |
-| **Total** | **16,970** | **Baseline** | ✅ |
+Artifact location: [GitHub Actions run 31081291997](https://github.com/jmservera/SquadScope/actions/runs/31081291997)
+
+### Correction Notice (2026-08-06)
+
+An earlier revision of this document recorded Run 1 as Hugo `15,339` ms and Pagefind `1,631` ms, and recorded a PR-branch build as Run 2. Both entries were wrong:
+
+- The Run 1 figures did not match the retained `build-timing.json` artifact for run `31039618366`, which reports Hugo `2,822` ms and Pagefind `2,707` ms.
+- The former Run 2 was a `pull_request` build on the PR #677 branch, which is not comparable to a production `main` build.
+
+All three runs above are now `push`-to-`main` production builds, each transcribed directly from its retained artifact. The "Run 2 anomaly" previously flagged does not exist: Hugo durations across the three production runs fall within a 602 ms spread.
+
+## Statistical Analysis
+
+### Three Production `main` Measurements
+
+| Component | Run 1 (211f0974) | Run 2 (f5c2be46) | Run 3 (353b147e) | Median | p95 (nearest-rank) |
+|---------------|------------------|------------------|------------------|--------|--------------------|
+| Hugo 0.161.1  | 2,822 ms         | 2,456 ms         | 3,058 ms         | 2,822 ms | 3,058 ms         |
+| Pagefind 1.5.2 | 2,707 ms        | 2,255 ms         | 2,316 ms         | 2,316 ms | 2,707 ms         |
+
+With three samples, the nearest-rank p95 (`ceil(0.95 x 3) = 3`) resolves to the maximum observed value for each component. Treat these percentiles as an upper bound from a small sample rather than a stable long-run estimate.
 
 ### Proposed Budget Thresholds (Pending Approval)
 
-Based on single baseline run and Phase 7.3 historical context, proposed timing budgets (to be reviewed and approved):
+The previously proposed thresholds (Hugo 20,000 ms, Pagefind 2,500 ms) are superseded because they were derived from the incorrect Run 1 baseline. The Pagefind threshold in particular would already have been breached by the corrected Run 1 value of 2,707 ms.
 
-| Component | Proposed Threshold | Rationale | Status |
-|-----------|-------------------|-----------|--------|
-| Hugo build | 20,000 ms | 30% margin above baseline | Proposed |
-| Pagefind index | 2,500 ms | 50% margin above baseline | Proposed |
-| Total CI time | 25,000 ms | Combined threshold | Proposed |
+Revised proposal, sized at approximately twice the observed p95 to absorb GitHub-hosted runner variance:
 
-**Note**: Thresholds require review by timing-budget owner before enforcement. Current measurements are report-only; no blocking gate is active.
+| Component | Observed p95 | Proposed Threshold | Headroom over p95 | Status |
+|-----------|--------------|--------------------|-------------------|--------|
+| Hugo build | 3,058 ms | 6,000 ms | ~96% | Proposed |
+| Pagefind index | 2,707 ms | 5,500 ms | ~103% | Proposed |
+| Total build | 5,529 ms | 11,500 ms | ~108% | Proposed |
+
+**Note**: Thresholds require review by the timing-budget owner before enforcement. Current measurements remain report-only (`blocking_threshold_ms: null`); no blocking gate is active.
 
 ## Collection Workflow
 
@@ -142,19 +167,19 @@ Based on single baseline run and Phase 7.3 historical context, proposed timing b
 - **Sign-off Required**: Yes
 - **Status**: ⏳ Pending
 
-### Provisional Approval (Pending Run 3 Verification)
+### Data Collection Status
 
-**Decision Date**: 2026-08-06  
-**Status**: ⏳ **PROVISIONAL APPROVAL** — Both metrics within budget even with Run 2 anomaly; awaiting Run 3 for statistical validity
+**Status Date**: 2026-08-06
+**Collection**: ✅ **COMPLETE** — three comparable production `main` runs transcribed from retained artifacts
+**Approval**: ⏳ **PENDING** — awaiting timing-budget owner decision on the revised thresholds
 
-**Rationale**:
-- Hugo p95 (max of Runs 1-2, proxy for percentile): 15,339 ms ✅ (budget: 20,000 ms; margin: 23%)
-- Pagefind p95 (max of Runs 1-2, proxy for percentile): 2,448 ms ✅ (budget: 2,500 ms; margin: 2%)
-- Run 2 flagged as anomaly (80% faster Hugo); awaiting context clarification and Run 3 for trend analysis
+The prior provisional approval is withdrawn. It relied on the incorrect Run 1 baseline and on a non-comparable PR-branch measurement, so its margin calculations were invalid. No provisional or implied approval carries forward; the revised thresholds require a fresh decision.
 
-**Condition**: Update budget approval status to **APPROVED** after Run 3 collected and validates similar performance to Run 1 OR after CI logs confirm Run 2 context (cache, partial build, etc.)
+**What the owner is asked to decide**:
 
-**Timeline**: Run 3 expected 2026-08-07 or later (CI-dependent)
+1. Accept or adjust the proposed thresholds (Hugo 6,000 ms, Pagefind 5,500 ms).
+2. Confirm whether three samples are sufficient, or require a larger collection window before enforcement.
+3. Confirm the report-only posture remains in place until enforcement is separately approved.
 
 ## Implementation Notes
 
@@ -167,10 +192,13 @@ Based on single baseline run and Phase 7.3 historical context, proposed timing b
 
 ### Page Volume at Baseline
 
-**2026-08-05 production build**:
-- Total site pages: ~2,800 (including archives, topics, weekly, monthly, yearly, categories)
-- Total content files: ~18,000+ Markdown files
-- Output HTML: ~850+ MB (pre-Lighthouse before cleanup)
+**Measured on the 2026-08-06 `main` working tree after a full `hugo --minify` build**:
+
+- Content source files: 313 Markdown files under `content/`
+- Hugo page count reported by the build: 2,700
+- Rendered output: 1,503 HTML files, 49 MB total under `public/`
+
+An earlier revision recorded ~18,000+ Markdown files and ~850+ MB of output. Those figures did not match the repository and are corrected above. Re-measure with `find content -name '*.md' | wc -l`, `find public -name '*.html' | wc -l`, and `du -sh public` when refreshing this section.
 
 Budget adjustments may be needed if page volume changes materially (>20% growth).
 
@@ -183,16 +211,16 @@ Budget adjustments may be needed if page volume changes materially (>20% growth)
 
 ## Pending Deliverables
 
-- [ ] Collection of Run 2 timing data
-- [ ] Collection of Run 3 timing data
-- [ ] Median and p95 calculation
-- [ ] Timing budget owner review and approval
+- [x] Collection of Run 2 timing data (production `main` run `31079871801`)
+- [x] Collection of Run 3 timing data (production `main` run `31081291997`)
+- [x] Median and p95 calculation
+- [ ] Timing budget owner review and approval of the revised thresholds
 - [ ] Infrastructure owner (URL) sign-off
 - [ ] Production owner (jmservera) acceptance
 - [ ] Enforcement gate activation in CI workflow
 
 ## Cross-References
 
-- Plan: [`.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md`](.../../../.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md) (Step 6.3)
+- Plan: [`.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md`](../../../.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md) (Step 6.3)
 - Evidence index: [`docs/review/data-observatory-relaunch/README.md`](./README.md)
 - CI workflow: [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml)

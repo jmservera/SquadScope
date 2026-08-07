@@ -29,6 +29,17 @@ __pycache__/
 .mypy_cache/
 .test-workspaces/
 
+# Generated CI evidence — uploaded as workflow artifacts, never committed
+reports/
+screenshots/lighthouse-results/
+screenshots/playwright-output*/
+screenshots/playwright-report*/
+screenshots/playwright-report*.json
+screenshots/visual-regression/
+screenshots/visual-regression-chromium/
+screenshots/visual-regression-firefox/
+screenshots/visual-regression-webkit/
+
 # GitHub API response cache (scripts/crawl.py GitHubClient) — thousands of small
 # files easily reconstructed by re-running the crawler; never commit.
 data/cache/
