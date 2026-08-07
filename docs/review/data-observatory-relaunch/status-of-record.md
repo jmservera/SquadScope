@@ -132,9 +132,9 @@ Phase 7 consolidates final acceptance evidence and execution workflows across th
 | ------------------------------------------ | ----------- | ------ | -------- |
 | Visual test suite infrastructure           | jmservera   | ✅ Merged | Suite resolves its route matrix from the built `sitemap.xml`, so dated weekly and monthly editions no longer rot |
 | Evidence capture wired into CI             | jmservera   | ✅ Done | `ci.yml` runs the suite after the a11y and analytics gates; output uploads under `screenshots/visual-regression/` in the `production-quality-reports` artifact |
-| Evidence matrix coverage                   | jmservera   | ✅ Done | 10 routes x 4 projects (desktop/mobile x light/dark) = 40 screenshots plus per-project `metadata.json` tagged with revision, branch, run ID, viewport, and Playwright version |
-| Visual evidence compilation                | Amy, Fry    | ⏳ Pending | Download the artifact from a `main` CI run, or use the revision-tagged [2026-08-06 local capture](local-acceptance-evidence-2026-08-06.md) |
-| Visual regression approval sign-off        | Amy, Fry    | ⏳ Pending | After evidence compilation |
+| Evidence matrix coverage                   | jmservera   | ✅ Done | 15 routes plus a consent capture x 4 projects (desktop/mobile x light/dark) = 64 screenshots plus per-project `metadata.json` tagged with revision, branch, run ID, viewport, and Playwright version |
+| Visual evidence compilation                | Amy, Fry    | ⏳ Pending | Handed off: [2026-08-07 visual review handoff](visual-review-handoff-2026-08-07.md) |
+| Visual regression approval sign-off        | Amy, Fry    | ⏳ Pending | Record the disposition in the handoff record and here |
 
 **Status**: Capture is automated and passing; named visual review remains outstanding  
 **Note**: The suite captures revision-tagged evidence and asserts breadcrumb structure and absence of horizontal overflow. It does not perform pixel-diff comparison against committed baselines; regression detection is by named review of the per-revision matrix.  
@@ -160,7 +160,7 @@ Visual Review    (7.3)   ←── ⏳ OPEN (Amy, Fry; named review of the matri
 **Next Immediate Actions**:
 
 1. Timing-budget owner reviews the revised thresholds in [timing-analysis.md](./timing-analysis.md).
-2. Amy and Fry compile the visual acceptance matrix from `production-quality-reports` on a `main` CI run, or from the [2026-08-06 local capture](local-acceptance-evidence-2026-08-06.md) while CI is unavailable.
+2. Amy and Fry complete the review described in the [2026-08-07 visual review handoff](visual-review-handoff-2026-08-07.md).
 3. Record both dispositions here and in the launch-gate register.
 
 ## Launch-gate register

@@ -40,9 +40,20 @@ dated sections do not rot as weekly and monthly editions roll over.
 | `charts` | `/charts/` |
 | `repo-index` | `/repo/` |
 | `repo-detail` | first `/repo/<slug>/` in sitemap order |
+| `topics-index` | `/topics/` |
 | `topic` | first `/topics/<slug>/` in sitemap order |
+| `data-detail` | first `/data/<slug>/` in sitemap order |
+| `state-of` | first `/state-of/<slug>/` in sitemap order |
+| `embed` | first `/embeds/<slug>/` in sitemap order; captured without site chrome |
+| `tool` | first `/tools/<slug>/` in sitemap order |
 | `weekly` | most recent `/weekly/<yyyy>/w<ww>/` |
 | `monthly` | most recent `/monthly/<yyyy>/<mm>/` |
+| `home-consent` | `/` with the consent decision deliberately left undecided |
+
+Every route except `home-consent` rejects the consent banner before capture. The
+[capture checklist](screenshots/README.md) rejects feature evidence that the banner
+obscures, and rejecting keeps the captures free of analytics network activity.
+The `home-consent` capture is the banner-specific evidence that checklist also requires.
 
 Any candidate route absent from the sitemap is skipped rather than failing the
 run. If the sitemap is unavailable, the suite falls back to `/` alone.
@@ -56,10 +67,15 @@ The Playwright config defines four projects, all Chromium-based:
 | `mobile-light` | Pixel 5 | light |
 | `mobile-dark` | Pixel 5 | dark |
 
-With 10 resolved routes this yields **40 screenshots plus 4 metadata files**
-per run. Firefox and WebKit are not configured; earlier revisions of this guide
-claimed a three-browser, 162-variant matrix that the configuration never
+With 15 resolved routes plus the consent capture this yields **64 screenshots plus 4
+metadata files** per run. Firefox and WebKit are not configured; earlier revisions of
+this guide claimed a three-browser, 162-variant matrix that the configuration never
 supported.
+
+The suite captures default page state only. The interaction states the
+[capture checklist](screenshots/README.md) requires, such as tool filter combinations,
+expanded lifecycle detail, and keyboard focus on the internal-link block, remain a
+manual reviewer step.
 
 ## Execution
 
@@ -71,6 +87,9 @@ the axe and responsive gates and against the same served production build:
 ```yaml
 - name: Capture visual regression evidence
   run: npx --no-install playwright test --config tests/visual/playwright.config.mjs tests/visual/observatory-visual-regression.spec.mjs
+
+- name: Build visual evidence review index
+  run: python scripts/design/build_visual_evidence_index.py
 ```
 
 Output is uploaded under `screenshots/visual-regression/` inside the
@@ -89,6 +108,8 @@ npx playwright install --with-deps chromium
 BASE_URL=http://127.0.0.1:1313 npx --no-install playwright test \
   --config tests/visual/playwright.config.mjs \
   tests/visual/observatory-visual-regression.spec.mjs
+
+python3 scripts/design/build_visual_evidence_index.py
 ```
 
 Set `HUGO_PARAMS_GA_MEASUREMENT_ID` as shown; the checked-in default is empty for
@@ -107,8 +128,10 @@ fails to launch.
 
 ```text
 screenshots/visual-regression/
+├── index.html            # generated review page: every route with its four variants
 ├── desktop-light/
 │   ├── home.png
+│   ├── home-consent.png
 │   ├── about.png
 │   ├── ... (one per resolved route)
 │   └── metadata.json
@@ -116,6 +139,10 @@ screenshots/visual-regression/
 ├── mobile-light/
 └── mobile-dark/
 ```
+
+Open `index.html` to review. It groups each route with its desktop and mobile,
+light and dark variants side by side, and it flags a capture that mixes revisions or
+that came from a dirty working tree.
 
 Each `metadata.json` records the provenance needed to tie evidence to a revision:
 
@@ -143,11 +170,13 @@ For a named reviewer (Amy for visual design, Fry for QA):
 
 - [ ] Obtain the evidence set: download `production-quality-reports` from a successful
   `main` CI run, or use a local capture when CI is unavailable.
+- [ ] Open `index.html` from the evidence set.
 - [ ] Confirm `metadata.json` revision matches the revision under review.
 - [ ] For a local capture, confirm `workingTreeClean` is `true`; a dirty tree means the
   screenshots do not correspond to the recorded revision alone.
 - [ ] Confirm all four project directories are present and populated.
 - [ ] Review each route across light and dark at desktop and mobile.
+- [ ] Confirm no capture other than `home-consent` is obscured by the consent banner.
 - [ ] Confirm breadcrumbs render as chevron-separated links with no list markers.
 - [ ] Confirm no clipped, overlapping, or overflowing content.
 - [ ] Record the disposition in [status-of-record.md](./status-of-record.md).

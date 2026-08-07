@@ -73,6 +73,13 @@ Conclusion: the evidence matrix is complete and revision-tagged. Named visual re
 Amy and Fry remains outstanding; see the
 [visual regression execution guide](visual-regression-execution-guide.md).
 
+**Superseded on 2026-08-07.** This capture left the consent banner undismissed, so
+several feature captures were obscured, repeating the defect that caused the 2026-07-30
+visual set to be rejected. The suite now resolves consent before capturing, adds a
+banner-specific capture, and covers five further page classes. The replacement capture
+and its reviewer handoff are recorded in the
+[2026-08-07 visual review handoff](visual-review-handoff-2026-08-07.md).
+
 ## Lighthouse observations
 
 Thresholds are unchanged: performance 0.90, accessibility 0.95, best practices 0.95.

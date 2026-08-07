@@ -91,7 +91,18 @@ function selectVisualRoutes() {
     { name: 'charts', label: 'Charts index', path: '/charts/' },
     { name: 'repo-index', label: 'Repository index', path: '/repo/' },
     { name: 'repo-detail', label: 'Repository page', path: first(/^\/repo\/[^/]+\/$/) },
+    { name: 'topics-index', label: 'Topics index', path: '/topics/' },
     { name: 'topic', label: 'Topic hub', path: first(/^\/topics\/[^/]+\/$/) },
+    { name: 'data-detail', label: 'Data ranking', path: first(/^\/data\/[^/]+\/$/) },
+    { name: 'state-of', label: 'State-of report', path: first(/^\/state-of\/[^/]+\/$/) },
+    {
+      name: 'embed',
+      label: 'Embeddable chart',
+      path: first(/^\/embeds\/[^/]+\/$/),
+      // A standalone embed renders without site chrome, so it has no breadcrumb.
+      chrome: false,
+    },
+    { name: 'tool', label: 'Star Velocity Explorer', path: first(/^\/tools\/[^/]+\/$/) },
     { name: 'weekly', label: 'Weekly edition', path: latest(/^\/weekly\/\d{4}\/w\d{2}\/$/) },
     { name: 'monthly', label: 'Monthly summary', path: latest(/^\/monthly\/\d{4}\/\d{2}\/$/) },
   ];
@@ -111,14 +122,27 @@ function evidencePath(projectName, name) {
   return path.join(evidenceDir, projectName, `${name}.png`);
 }
 
+/**
+ * The capture checklist rejects feature evidence that the consent banner obscures, so
+ * every route except the dedicated consent capture resolves the decision first.
+ * Rejecting keeps the captures free of analytics network activity.
+ */
+async function rejectConsent(page) {
+  const dialog = page.getByRole('dialog').first();
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole('button', { name: /reject all/i }).click();
+  await expect(dialog).toBeHidden();
+}
+
 test.describe('Observatory visual regression evidence', () => {
   for (const route of VISUAL_ROUTES) {
     test(`${route.name}: renders and captures evidence`, async ({ page }, testInfo) => {
       const response = await page.goto(route.path);
       expect(response?.status(), `${route.path} should render`).toBeLessThan(400);
       await page.waitForLoadState('networkidle');
+      await rejectConsent(page);
 
-      if (route.path !== '/') {
+      if (route.path !== '/' && route.chrome !== false) {
         const breadcrumbNav = page.locator('nav.breadcrumbs');
         await expect(breadcrumbNav).toBeVisible();
 
@@ -154,6 +178,17 @@ test.describe('Observatory visual regression evidence', () => {
     });
   }
 
+  test('consent: captures the undecided banner state', async ({ page }, testInfo) => {
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    await expect(page.getByRole('dialog').first()).toBeVisible();
+
+    await page.screenshot({
+      path: evidencePath(testInfo.project.name, 'home-consent'),
+      fullPage: true,
+    });
+  });
+
   test('records evidence metadata for the revision under test', async ({ page }, testInfo) => {
     const projectName = testInfo.project.name;
     await page.goto('/');
@@ -169,7 +204,10 @@ test.describe('Observatory visual regression evidence', () => {
       colorScheme: testInfo.project.use.colorScheme ?? 'light',
       viewport: page.viewportSize(),
       playwrightVersion,
-      routes: VISUAL_ROUTES.map((route) => ({ name: route.name, path: route.path })),
+      routes: [
+        ...VISUAL_ROUTES.map((route) => ({ name: route.name, path: route.path })),
+        { name: 'home-consent', path: '/ (undecided consent banner)' },
+      ],
     };
 
     const target = path.join(evidenceDir, projectName, 'metadata.json');

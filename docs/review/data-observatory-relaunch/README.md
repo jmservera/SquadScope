@@ -47,6 +47,7 @@ observations without granting human acceptance.
 | Security and privacy surface review                       | Complete with open findings | [Security review](security-review.md)                                       |
 | Current-main and public-production automated evidence     | Complete                    | [2026-08-03 automated evidence](automated-acceptance-evidence-2026-08-03.md) |
 | Local production-equivalent validation and visual capture | Complete                    | [2026-08-06 local evidence](local-acceptance-evidence-2026-08-06.md)        |
+| Visual review handoff to named reviewers                  | Pending review              | [2026-08-07 visual review handoff](visual-review-handoff-2026-08-07.md)     |
 | Atomic publish runtime proof                              | Complete                    | [Actions run 31040602642](https://github.com/jmservera/SquadScope/actions/runs/31040602642) |
 | Hermes security acceptance                                | Pending                     | Security review sign-off table                                              |
 | GA4 and GSC connection                                   | Complete                    | [Dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md)               |

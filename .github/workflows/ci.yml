@@ -244,6 +244,9 @@ jobs:
       - name: Capture visual regression evidence
         run: npx --no-install playwright test --config tests/visual/playwright.config.mjs tests/visual/observatory-visual-regression.spec.mjs
 
+      - name: Build visual evidence review index
+        run: python scripts/design/build_visual_evidence_index.py
+
       - name: Upload production quality reports
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
