@@ -133,13 +133,27 @@ function evidencePath(projectName, name) {
 }
 
 /**
+ * Consent bootstraps asynchronously, so waiting on the dialog alone would rely on
+ * the 5s default expect timeout. The analytics gate already polls for bootstrap on a
+ * 15s budget; this matches that strategy. It polls for `CookieConsent` only, because
+ * the dialog is its object and not every captured route loads the analytics module.
+ */
+async function waitForConsentDialog(page) {
+  await expect
+    .poll(() => page.evaluate(() => Boolean(window.CookieConsent)), { timeout: 15000 })
+    .toBe(true);
+  const dialog = page.getByRole('dialog').first();
+  await expect(dialog).toBeVisible();
+  return dialog;
+}
+
+/**
  * The capture checklist rejects feature evidence that the consent banner obscures, so
  * every route except the dedicated consent capture resolves the decision first.
  * Rejecting keeps the captures free of analytics network activity.
  */
 async function rejectConsent(page) {
-  const dialog = page.getByRole('dialog').first();
-  await expect(dialog).toBeVisible();
+  const dialog = await waitForConsentDialog(page);
   await dialog.getByRole('button', { name: /reject all/i }).click();
   await expect(dialog).toBeHidden();
 }
@@ -191,7 +205,7 @@ test.describe('Observatory visual regression evidence', () => {
   test('consent: captures the undecided banner state', async ({ page }, testInfo) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
-    await expect(page.getByRole('dialog').first()).toBeVisible();
+    await waitForConsentDialog(page);
 
     await page.screenshot({
       path: evidencePath(testInfo.project.name, 'home-consent'),
