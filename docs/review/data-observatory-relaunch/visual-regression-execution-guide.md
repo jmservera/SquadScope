@@ -9,14 +9,22 @@
 
 ## What this suite does
 
-`tests/visual/observatory-visual-regression.spec.mjs` captures revision-tagged
-visual evidence for the Data Observatory relaunch and asserts two structural
-invariants the relaunch review depends on:
+`tests/visual/observatory-visual-regression.spec.mjs` is both a blocking gate and
+the producer of the visual evidence matrix. Calling it "evidence collection" alone
+understates it: a structural failure fails the build.
 
-- Every non-home route renders a real breadcrumb: a `nav.breadcrumbs` element
-  containing an `ol` with `list-style-type: none`, a flex or grid layout, and a
-  terminal `[aria-current="page"]` label.
+As a gate it asserts:
+
+- Every route returns an HTTP status below 400.
+- Every non-home route with site chrome renders a real breadcrumb: a
+  `nav.breadcrumbs` element containing an `ol` with `list-style-type: none`, a flex
+  or grid layout, and a terminal `[aria-current="page"]` label.
 - No route overflows horizontally at any viewport in the matrix.
+- The consent banner is present on an undecided first visit.
+
+As an evidence producer it writes one screenshot per route per project plus a
+per-project `metadata.json`, and `scripts/design/build_visual_evidence_index.py`
+turns that into a single review page.
 
 It does **not** perform pixel-diff comparison against committed baselines. There
 are no `toHaveScreenshot()` assertions and no `snapshots/` directory to update,
@@ -85,12 +93,19 @@ manual reviewer step.
 the axe and responsive gates and against the same served production build:
 
 ```yaml
-- name: Capture visual regression evidence
+- name: Run visual structure gate and capture evidence
+  if: ${{ !cancelled() }}
   run: npx --no-install playwright test --config tests/visual/playwright.config.mjs tests/visual/observatory-visual-regression.spec.mjs
 
 - name: Build visual evidence review index
+  if: ${{ !cancelled() }}
   run: python scripts/design/build_visual_evidence_index.py
 ```
+
+Both steps run even after an earlier gate fails, because a failing build is when
+the visual evidence is most worth having. They are skipped only on cancellation.
+If the serve step itself failed they will fail too, which is noise on an already
+red job rather than a lost signal.
 
 Output is uploaded under `screenshots/visual-regression/` inside the
 `production-quality-reports` artifact (30-day retention).

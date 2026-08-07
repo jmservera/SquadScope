@@ -30,7 +30,7 @@ Reconciled through 2026-08-06. Release acceptance remains **pending** per the
 **Phase 7 Acceptance Gates** (tracking PR #677):
 - Phase 7.1 Timing: ⏳ Data collection complete (three production `main` runs; Hugo p95 3,058 ms, Pagefind p95 2,707 ms). The earlier provisional approval is withdrawn because it was based on an incorrect Run 1 baseline and a non-comparable PR-branch run; revised thresholds await timing-budget owner approval
 - Phase 7.2 Security: ✅ **NFR-004 APPROVED** (all 10 findings approved by Hermes/URL; sponsor final acceptance recorded 2026-08-06)
-- Phase 7.3 Visual: ⏳ Evidence capture now runs automatically in `ci.yml` and uploads to the `production-quality-reports` artifact; named visual review by Amy and Fry remains open
+- Phase 7.3 Visual: ⏳ A blocking structure gate now runs in `ci.yml` and also uploads the evidence matrix to the `production-quality-reports` artifact; named visual review by Amy and Fry remains open
 - **Critical Path**: Timing-budget owner approval and named visual review
 - **Expected Release Readiness**: Gated on human sign-off rather than on further automation
 
@@ -131,13 +131,13 @@ Phase 7 consolidates final acceptance evidence and execution workflows across th
 | Gate                                       | Owner       | Status | Evidence/Timeline |
 | ------------------------------------------ | ----------- | ------ | -------- |
 | Visual test suite infrastructure           | jmservera   | ✅ Merged | Suite resolves its route matrix from the built `sitemap.xml`, so dated weekly and monthly editions no longer rot |
-| Evidence capture wired into CI             | jmservera   | ✅ Done | `ci.yml` runs the suite after the a11y and analytics gates, then builds a review index; output uploads under `screenshots/visual-regression/` in the `production-quality-reports` artifact. Confirmed producing 64 screenshots plus `index.html` in [run 31160859598](https://github.com/jmservera/SquadScope/actions/runs/31160859598) |
+| Gate and evidence capture wired into CI    | jmservera   | ✅ Done | `ci.yml` runs the suite after the a11y and analytics gates, then builds a review index; both steps run unless the job is cancelled, so evidence survives an earlier gate failure. Output uploads under `screenshots/visual-regression/` in the `production-quality-reports` artifact. Confirmed producing 64 screenshots plus `index.html` in [run 31160859598](https://github.com/jmservera/SquadScope/actions/runs/31160859598) |
 | Evidence matrix coverage                   | jmservera   | ✅ Done | 15 routes plus a consent capture x 4 projects (desktop/mobile x light/dark) = 64 screenshots plus per-project `metadata.json` tagged with revision, branch, run ID, viewport, and Playwright version |
 | Visual evidence compilation                | Amy, Fry    | ⏳ Pending | Handed off: [2026-08-07 visual review handoff](visual-review-handoff-2026-08-07.md) |
 | Visual regression approval sign-off        | Amy, Fry    | ⏳ Pending | Record the disposition in the handoff record and here |
 
-**Status**: Capture is automated and passing; named visual review remains outstanding  
-**Note**: The suite captures revision-tagged evidence, resolves the consent banner before every feature capture, and asserts breadcrumb structure and absence of horizontal overflow. It does not perform pixel-diff comparison against committed baselines; regression detection is by named review of the per-revision matrix.  
+**Status**: The gate passes and the evidence matrix is produced automatically; named visual review remains outstanding  
+**Note**: The suite is a blocking gate as well as the evidence producer. It asserts route status, breadcrumb structure, and absence of horizontal overflow, resolves the consent banner before every feature capture, and writes the revision-tagged matrix. It does not perform pixel-diff comparison against committed baselines; regression detection is by named review of the per-revision matrix.  
 **Tracking**: [visual-regression-execution-guide.md](./visual-regression-execution-guide.md) and [2026-08-07 visual review handoff](./visual-review-handoff-2026-08-07.md)
 
 ### Phase 7 Critical Path
