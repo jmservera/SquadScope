@@ -42,6 +42,7 @@ export const THRESHOLDS = {
 
 export const PAGES = [
   { key: 'home', path: '/' },
+  { key: 'about', path: '/about/' },
   { key: 'weekly', path: '/weekly/2026/w22/' },
   { key: 'monthly', path: '/monthly/2026/05/' },
   { key: 'yearly', path: '/yearly/2026/' },

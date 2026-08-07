@@ -157,4 +157,7 @@ textarea:-webkit-autofill {
 img {
     display: block;
     max-width: 100%;
+    /* Paired with max-width so width/height attributes size the box for CLS
+       without squashing the image once the width is constrained. */
+    height: auto;
 }
