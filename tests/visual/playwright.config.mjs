@@ -23,8 +23,10 @@ export default defineConfig({
   snapshotDir: 'snapshots',
   outputDir: '../../screenshots/playwright-output',
 
-  // Retry once on CI to reduce font-rendering flakiness
+  // Retry once on CI to reduce font-rendering flakiness, but never let a retried
+  // pass count as green: a retry once hid a real cross-origin consent defect.
   retries: process.env.CI ? 1 : 0,
+  failOnFlakyTests: !!process.env.CI,
 
   // Run tests sequentially — Hugo is on localhost, parallelism adds noise
   workers: 1,

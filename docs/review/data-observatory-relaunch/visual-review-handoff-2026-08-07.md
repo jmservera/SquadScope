@@ -15,21 +15,30 @@ estimated_reading_time: 5
 ## Purpose
 
 This hands the captured visual evidence to Amy and Fry so the visual acceptance gate can
-proceed while GitHub Actions is unavailable. It is a handoff, not an approval. Screenshots
-alone are not acceptance; the gate closes only on a dated reviewer conclusion recorded in
-the [status of record](status-of-record.md).
+proceed. It is a handoff, not an approval. Screenshots alone are not acceptance; the gate
+closes only on a dated reviewer conclusion recorded in the
+[status of record](status-of-record.md).
 
 ## Evidence under review
 
-| Field | Value |
-| ----- | ----- |
-| Revision | `fix/phase-7-timing-and-visual-evidence` at the commit recorded in each `metadata.json` |
-| Origin | Local capture; `workingTreeClean` recorded per project |
-| Build | Hugo Extended 0.161.1, Pagefind 1.5.2, served by `scripts/serve_static.py` |
-| Browser | Chromium via Playwright 1.54.2 |
-| Location | `screenshots/visual-regression/` on the capturing workstation (gitignored) |
-| Entry point | `screenshots/visual-regression/index.html` |
-| Size | 64 screenshots plus 4 `metadata.json` files |
+GitHub Actions recovered on 2026-08-07 and now produces this evidence itself. Prefer the
+CI artifact; the local capture is the fallback for another outage.
+
+| Field | CI capture (preferred) | Local capture (fallback) |
+| ----- | ---------------------- | ------------------------ |
+| Source | `production-quality-reports` artifact, [run 31160859598](https://github.com/jmservera/SquadScope/actions/runs/31160859598) | `screenshots/visual-regression/` on the capturing workstation |
+| Revision | `93ffa62e3359d49bcabc65423087fa54add11455` | Commit recorded in each `metadata.json` |
+| Branch field | `679/merge` | `fix/phase-7-timing-and-visual-evidence` |
+| Origin | `ci` | `local` |
+| Entry point | `screenshots/visual-regression/index.html` | Same |
+| Size | 64 screenshots plus 4 `metadata.json` files | Same |
+
+Build and browser for both: Hugo Extended 0.161.1, Pagefind 1.5.2, served by
+`scripts/serve_static.py`, Chromium via Playwright 1.54.2.
+
+On a `pull_request` run the recorded revision is GitHub's merge commit rather than a
+branch commit, which is why the branch field reads `679/merge`. Final acceptance should
+cite a `main` run so the revision is one that actually ships.
 
 Open `index.html`. It groups each route with its desktop and mobile, light and dark
 variants side by side, and it warns when a capture mixes revisions or came from a dirty
@@ -83,6 +92,9 @@ These were noticed while capturing and are offered as starting points, not findi
   overlay begins, for example `NousResearch/hermes-a…` and `harry0703/MoneyPrinte…`.
   Confirm whether that truncation is acceptable for a syndicated embed, where the label
   is the only identification of the ranked repository.
+- Lighthouse on the same run scores the `weekly` page at exactly the 0.90 performance
+  threshold and 0.96 accessibility, the tightest margins in the matrix. Every other page
+  scores 0.93 or better on performance and 1.00 on accessibility.
 
 ## Disposition
 

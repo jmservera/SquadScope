@@ -221,6 +221,6 @@ Budget adjustments may be needed if page volume changes materially (>20% growth)
 
 ## Cross-References
 
-- Plan: [`.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md`](.../../../.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md) (Step 6.3)
+- Plan: [`.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md`](../../../.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md) (Step 6.3)
 - Evidence index: [`docs/review/data-observatory-relaunch/README.md`](./README.md)
 - CI workflow: [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml)

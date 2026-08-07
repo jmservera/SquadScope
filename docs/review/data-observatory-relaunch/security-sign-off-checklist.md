@@ -246,4 +246,4 @@ NFR-004 (Security Acceptance) requires disposition and named reviewer sign-off f
 
 - Primary security review: [docs/review/data-observatory-relaunch/security-review.md](./security-review.md)
 - Evidence index: [docs/review/data-observatory-relaunch/README.md](./README.md)
-- Implementation plan: [`.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md`](../../.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md)
+- Implementation plan: [`.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md`](../../../.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md)
