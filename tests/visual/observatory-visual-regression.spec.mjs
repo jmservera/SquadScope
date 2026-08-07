@@ -36,21 +36,25 @@ function readPlaywrightVersion() {
 const playwrightVersion = readPlaywrightVersion();
 
 // Local runs must still be tied to a revision: reviewers verify that the captured
-// metadata matches the revision under review.
+// metadata matches the revision under review. Returns null only when git itself
+// fails, so an empty result stays distinguishable from an unavailable one.
 function gitOutput(args) {
   try {
-    return execFileSync('git', args, { cwd: repoRoot, encoding: 'utf-8' }).trim() || null;
+    return execFileSync('git', args, { cwd: repoRoot, encoding: 'utf-8' }).trim();
   } catch {
     return null;
   }
 }
 
-const revision = process.env.GITHUB_SHA ?? gitOutput(['rev-parse', 'HEAD']) ?? 'unknown';
+const isCi = Boolean(process.env.CI);
+const revision = process.env.GITHUB_SHA || gitOutput(['rev-parse', 'HEAD']) || 'unknown';
 const branch =
-  process.env.GITHUB_REF_NAME ?? gitOutput(['rev-parse', '--abbrev-ref', 'HEAD']) ?? 'unknown';
+  process.env.GITHUB_REF_NAME || gitOutput(['rev-parse', '--abbrev-ref', 'HEAD']) || 'unknown';
 const origin = process.env.GITHUB_RUN_ID ? 'ci' : 'local';
-// A dirty tree means the screenshots do not correspond to the recorded revision alone.
-const workingTreeClean = gitOutput(['status', '--porcelain']) === null;
+const porcelain = gitOutput(['status', '--porcelain']);
+// null means git could not answer. Reporting that as clean would overstate the
+// provenance of screenshots that may not match the recorded revision.
+const workingTreeClean = porcelain === null ? null : porcelain === '';
 
 /**
  * Reads rendered site paths from the built sitemap so the evidence matrix does
@@ -109,8 +113,14 @@ function selectVisualRoutes() {
 
   const routes = candidates.filter((route) => route.path && available.has(route.path));
   if (routes.length === 0) {
-    // Sitemap unavailable, for example on a partial local build: fall back to the
-    // one route present in every build so the suite still produces evidence.
+    if (isCi) {
+      // Falling back here would silently shrink a blocking gate to a single route.
+      throw new Error(
+        'No visual routes resolved from public/sitemap.xml. Build the site before running this gate.',
+      );
+    }
+    // Partial local build: fall back to the one route present in every build so
+    // the suite still produces evidence.
     return [{ name: 'home', label: 'Homepage', path: '/' }];
   }
   return routes;

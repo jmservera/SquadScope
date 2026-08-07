@@ -13,7 +13,7 @@ def _capture(
     *,
     projects: tuple[str, ...] = ("desktop-light", "mobile-dark"),
     revision: str = "abc123",
-    working_tree_clean: bool = True,
+    working_tree_clean: bool | None = True,
     routes: list[dict] | None = None,
     with_screenshots: bool = True,
 ) -> Path:
@@ -41,7 +41,8 @@ def _capture(
         )
         if with_screenshots:
             for route in routes:
-                (directory / f"{route['name']}.png").write_bytes(b"")
+                if "name" in route:
+                    (directory / f"{route['name']}.png").write_bytes(b"")
     return root
 
 
@@ -79,7 +80,37 @@ def test_dirty_tree_is_called_out(tmp_path: Path) -> None:
 
     html = build_index(tmp_path).read_text(encoding="utf-8")
 
-    assert "dirty working tree" in html
+    assert "dirty" in html
+
+
+def test_unknown_tree_state_is_called_out(tmp_path: Path) -> None:
+    _capture(tmp_path, working_tree_clean=None)
+
+    html = build_index(tmp_path).read_text(encoding="utf-8")
+
+    assert "could not be determined" in html
+    assert "<dd>unknown</dd>" in html
+
+
+def test_route_name_with_path_separator_is_skipped(tmp_path: Path) -> None:
+    _capture(
+        tmp_path,
+        routes=[{"name": "../../etc/passwd", "path": "/"}],
+        with_screenshots=False,
+    )
+
+    html = build_index(tmp_path).read_text(encoding="utf-8")
+
+    assert "unsafe name" in html
+    assert "etc/passwd" not in html
+
+
+def test_malformed_route_entries_are_ignored(tmp_path: Path) -> None:
+    _capture(tmp_path, routes=[{"path": "/no-name/"}, {"name": "home", "path": "/"}])
+
+    html = build_index(tmp_path).read_text(encoding="utf-8")
+
+    assert "<h2>home</h2>" in html
 
 
 def test_route_values_are_escaped(tmp_path: Path) -> None:

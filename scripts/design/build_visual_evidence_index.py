@@ -61,12 +61,33 @@ def _ordered_projects(names: list[str]) -> list[str]:
     return known + sorted(name for name in names if name not in PROJECT_ORDER)
 
 
+def _is_safe_name(name: object) -> bool:
+    """Reject names that could escape the evidence directory.
+
+    The index is opened in a browser, and metadata.json is only as trustworthy as
+    the directory it came from.
+    """
+    if not isinstance(name, str) or not name or name in {".", ".."}:
+        return False
+    return not set(name) & {"/", "\\", "\x00"}
+
+
 def _routes(projects: dict[str, dict]) -> list[dict]:
     seen: dict[str, dict] = {}
     for metadata in projects.values():
         for route in metadata.get("routes", []):
-            seen.setdefault(route["name"], route)
+            if isinstance(route, dict) and "name" in route:
+                seen.setdefault(str(route["name"]), route)
     return list(seen.values())
+
+
+def _tree_state(metadata: dict) -> str:
+    clean = metadata.get("workingTreeClean")
+    if clean is True:
+        return "yes"
+    if clean is False:
+        return "no"
+    return "unknown"
 
 
 def _meta_rows(projects: dict[str, dict]) -> list[tuple[str, str]]:
@@ -79,7 +100,7 @@ def _meta_rows(projects: dict[str, dict]) -> list[tuple[str, str]]:
         ("Revision", str(reference.get("revision", "unknown"))),
         ("Branch", str(reference.get("branch", "unknown"))),
         ("Origin", str(reference.get("origin", "unknown"))),
-        ("Working tree clean", str(reference.get("workingTreeClean", "unknown"))),
+        ("Working tree clean", _tree_state(reference)),
         ("Run ID", str(reference.get("runId") or "none")),
         ("Captured", str(reference.get("timestamp", "unknown"))),
         ("Playwright", str(reference.get("playwrightVersion", "unknown"))),
@@ -111,16 +132,22 @@ def render_index(evidence_dir: Path, projects: dict[str, dict]) -> str:
             f"<p class='warning'>Mixed revisions in one capture: {listed}. "
             "This evidence set cannot be tied to a single revision.</p>"
         )
-    if any(metadata.get("workingTreeClean") is False for metadata in projects.values()):
+    if any(metadata.get("workingTreeClean") is not True for metadata in projects.values()):
         parts.append(
-            "<p class='warning'>Captured from a dirty working tree. The screenshots "
-            "do not correspond to the recorded revision alone.</p>"
+            "<p class='warning'>Working tree was dirty or could not be determined. "
+            "The screenshots may not correspond to the recorded revision alone.</p>"
         )
 
     for route in _routes(projects):
+        if not _is_safe_name(route.get("name")):
+            parts.append(
+                "<section><p class='warning'>Skipped a route with an unsafe name in "
+                "metadata.json.</p></section>"
+            )
+            continue
         parts.append("<section>")
         parts.append(f"<h2>{escape(route['name'])}</h2>")
-        parts.append(f"<p><code>{escape(route['path'])}</code></p>")
+        parts.append(f"<p><code>{escape(str(route.get('path', 'unknown')))}</code></p>")
         parts.append("<div class='variants'>")
         for name in names:
             image = Path(name) / f"{route['name']}.png"

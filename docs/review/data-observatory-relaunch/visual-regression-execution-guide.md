@@ -64,7 +64,10 @@ obscures, and rejecting keeps the captures free of analytics network activity.
 The `home-consent` capture is the banner-specific evidence that checklist also requires.
 
 Any candidate route absent from the sitemap is skipped rather than failing the
-run. If the sitemap is unavailable, the suite falls back to `/` alone.
+run. If no route resolves at all, behaviour depends on where it runs: locally the
+suite falls back to `/` alone so a partial build still produces something, and on
+CI it fails immediately. Falling back on CI would silently shrink a blocking gate
+to a single route.
 
 The Playwright config defines four projects, all Chromium-based:
 
@@ -95,12 +98,19 @@ the axe and responsive gates and against the same served production build:
 ```yaml
 - name: Run visual structure gate and capture evidence
   if: ${{ !cancelled() }}
+  env:
+    PLAYWRIGHT_REPORT_SUFFIX: -visual
   run: npx --no-install playwright test --config tests/visual/playwright.config.mjs tests/visual/observatory-visual-regression.spec.mjs
 
 - name: Build visual evidence review index
   if: ${{ !cancelled() }}
   run: python scripts/design/build_visual_evidence_index.py
 ```
+
+`PLAYWRIGHT_REPORT_SUFFIX` is required whenever a job invokes this config more than
+once. Without it the second run overwrites the first run's
+`screenshots/playwright-report*` and `screenshots/playwright-output`, and the axe,
+analytics, and responsive reports are lost from the artifact.
 
 Both steps run even after an earlier gate fails, because a failing build is when
 the visual evidence is most worth having. They are skipped only on cancellation.

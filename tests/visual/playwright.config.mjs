@@ -18,10 +18,14 @@
 
 import { defineConfig, devices } from '@playwright/test';
 
+// Several CI steps invoke this config in the same job. Without a distinct suffix
+// each run would overwrite the previous run's reports and output directory.
+const suffix = process.env.PLAYWRIGHT_REPORT_SUFFIX ?? '';
+
 export default defineConfig({
   testDir: '.',          // relative to this config file: tests/visual/
   snapshotDir: 'snapshots',
-  outputDir: '../../screenshots/playwright-output',
+  outputDir: `../../screenshots/playwright-output${suffix}`,
 
   // Retry once on CI to reduce font-rendering flakiness, but never let a retried
   // pass count as green: a retry once hid a real cross-origin consent defect.
@@ -34,8 +38,8 @@ export default defineConfig({
   reporter: process.env.CI
     ? [
         ['line'],
-        ['json', { outputFile: '../../screenshots/playwright-report.json' }],
-        ['html', { outputFolder: '../../screenshots/playwright-report', open: 'never' }],
+        ['json', { outputFile: `../../screenshots/playwright-report${suffix}.json` }],
+        ['html', { outputFolder: `../../screenshots/playwright-report${suffix}`, open: 'never' }],
       ]
     : 'line',
 

@@ -32,9 +32,9 @@ __pycache__/
 # Generated CI evidence — uploaded as workflow artifacts, never committed
 reports/
 screenshots/lighthouse-results/
-screenshots/playwright-output/
-screenshots/playwright-report/
-screenshots/playwright-report.json
+screenshots/playwright-output*/
+screenshots/playwright-report*/
+screenshots/playwright-report*.json
 screenshots/visual-regression/
 screenshots/visual-regression-chromium/
 screenshots/visual-regression-firefox/
