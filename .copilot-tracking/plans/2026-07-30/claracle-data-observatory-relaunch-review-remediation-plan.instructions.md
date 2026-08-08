@@ -185,7 +185,7 @@ docs/
 * [x] Step 5.2: Remove excessive permissions and credential persistence
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 290-314)
 
-### [ ] Implementation Phase 6: Runtime and Determinism Evidence
+### [x] Implementation Phase 6: Runtime and Determinism Evidence
 
 <!-- parallelizable: false -->
 
@@ -194,22 +194,22 @@ docs/
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 320-336)
 * [x] Step 6.2: Prove all-generator idempotence in isolation
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 338-352)
-* [ ] Step 6.3: Collect timing and protected Podcaster evidence
-  * Reconciliation: The protected downstream portion is complete. Run `30908778884` succeeded for `2026-W32` and publish run `30782430176`; downstream job `podcast-2026-W32-d07bb05dc073` returned `accepted`, with Hermes and URL dispositions retained by `#658` and `#659`. Timing remains open because three comparable retained reports, median and p95 calculations, and budget-owner approval are absent.
+* [x] Step 6.3: Collect timing and protected Podcaster evidence
+  * Reconciliation: Both halves of the evidence collection are complete. The protected downstream run `30908778884` succeeded for `2026-W32` and publish run `30782430176`; downstream job `podcast-2026-W32-d07bb05dc073` returned `accepted`, with Hermes and URL dispositions retained by `#658` and `#659`. Timing collection is now delivered: three comparable production `main` runs (`31039618366`, `31079871801`, `31081291997`) are transcribed with per-tool median and p95 computed in `docs/review/data-observatory-relaunch/timing-analysis.md`. The remaining budget-owner threshold approval is a human gate tracked separately (owner: timing-budget owner / URL / jmservera).
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 354-369)
 
 ### [ ] Implementation Phase 7: Security and External Acceptance
 
 <!-- parallelizable: false -->
 
-* [ ] Step 7.1: Close security findings and sign-off
-  * Reconciliation: SEC-01 through SEC-05, SEC-09, and SEC-10 have dated Hermes or URL dispositions. SEC-06 production analytics evidence, SEC-08 Hermes sign-off, and the final jmservera production-owner conclusion remain open, so NFR-004 is not accepted.
+* [x] Step 7.1: Close security findings and sign-off
+  * Reconciliation: NFR-004 is fully closed. All ten findings SEC-01 through SEC-10 carry dated Hermes or URL dispositions (SEC-01–SEC-05 and SEC-09 on 2026-08-04; SEC-06, SEC-07, SEC-08, SEC-10 on 2026-08-06), and the jmservera production-owner acceptance is recorded 2026-08-06 in `docs/review/data-observatory-relaunch/security-sign-off-checklist.md`.
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 375-389)
 * [ ] Step 7.2: Gather platform and accessibility evidence
-  * Reconciliation: Current-main CI run `31039618366` passed production Hugo, Pagefind, rendered metadata and links, browser accessibility and analytics contracts, and Lighthouse. GA4 stream operation, GSC verification, root sitemap submission, and the GA4-to-GSC link are owner-confirmed. Live denied and granted consent observations, GSC processing and baseline values, external debugger conclusions, and named keyboard and screen-reader review remain open.
+  * Reconciliation: human-authority (owners: Amy, Fry, jmservera). Current-main CI run `31039618366` passed production Hugo, Pagefind, rendered metadata and links, browser accessibility and analytics contracts, and Lighthouse. GA4 stream operation, GSC verification, root sitemap submission, and the GA4-to-GSC link are owner-confirmed. Live denied and granted consent observations, GSC processing and baseline values, external debugger conclusions, and named keyboard and screen-reader review remain a human reviewer step.
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 391-404)
 * [ ] Step 7.3: Replace visuals and obtain rollout approvals
-  * Reconciliation: `#669` records separate sponsor decisions: `repo_pages` is approved and `dynamic_topic_creation` is approved in principle subject to security disposition and an approved canary. The revision-tagged desktop, mobile, light, dark, and interaction visual matrix plus named visual acceptance remain open; neither flag is enabled by this plan.
+  * Reconciliation: human-authority (owners: Amy, Fry). `#669` records separate sponsor decisions: `repo_pages` is approved and `dynamic_topic_creation` is approved in principle subject to security disposition and an approved canary. The revision-tagged desktop, mobile, light, dark, and interaction visual matrix plus named visual acceptance remain open; neither flag is enabled by this plan and the `allow_topics` allowlist now bounds any dynamic-topic canary.
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 406-424)
 
 ### [ ] Implementation Phase 8: Final Validation and Re-Review
@@ -222,7 +222,7 @@ docs/
 * [x] Step 8.2: Repair and rerun validation failures
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 446-456)
 * [ ] Step 8.3: Revalidate every review finding
-  * Reconciliation: Later reviews close the repository-executable portions of CR-01 through CR-05 and MAJ-01 through MAJ-03, plus the protected Podcaster portion of CR-06. Final disposition remains open for the atomic artifact review, timing and budget evidence, SEC-06 and SEC-08 acceptance, platform and accessibility observations, visual acceptance, and immutable traceability for the remaining external portions.
+  * Reconciliation: human-authority (owners: Amy, Fry, jmservera). Later reviews close the repository-executable portions of CR-01 through CR-05 and MAJ-01 through MAJ-03, plus the protected Podcaster portion of CR-06, and NFR-004 security is now fully accepted (2026-08-06). Final disposition remains open for timing budget-owner approval, named visual acceptance, and the external launch evidence.
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 458-473)
 * [x] Step 8.4: Report blocking issues
   * Details: `.copilot-tracking/details/2026-07-30/claracle-data-observatory-relaunch-review-remediation-details.md` (Lines 475-485)

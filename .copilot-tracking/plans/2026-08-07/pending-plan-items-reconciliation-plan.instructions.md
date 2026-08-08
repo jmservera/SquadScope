@@ -25,48 +25,48 @@ This plan closes classes 1 and 2 and records class 3 with named owners.
 
 ## Implementation Checklist
 
-### [ ] Phase 1: Bound the Dynamic-Topic Canary
+### [x] Phase 1: Bound the Dynamic-Topic Canary
 
 <!-- parallelizable: false -->
 
-* [ ] Step 1.1: Add an `allow_topics` allowlist to `[topic_hubs.dynamic_creation]`
+* [x] Step 1.1: Add an `allow_topics` allowlist to `[topic_hubs.dynamic_creation]`
   that, when non-empty, restricts promotion to exactly those slugs
-* [ ] Step 1.2: Apply the allowlist in both `preview_dynamic_hubs()` and
+* [x] Step 1.2: Apply the allowlist in both `preview_dynamic_hubs()` and
   `create_dynamic_hubs()` with a `not-in-allowlist` skip reason
-* [ ] Step 1.3: Add tests proving the allowlist bounds promotion and that an
+* [x] Step 1.3: Add tests proving the allowlist bounds promotion and that an
   empty allowlist preserves current behavior
 
-### [ ] Phase 2: Unblock the Cost Experiment
+### [x] Phase 2: Unblock the Cost Experiment
 
 <!-- parallelizable: true -->
 
-* [ ] Step 2.1: Correct `EXPECTED_CLASS_COUNTS` and the `repository_pages`
+* [x] Step 2.1: Correct `EXPECTED_CLASS_COUNTS` and the `repository_pages`
   variant from the stale 263 to the regenerated corpus size
-* [ ] Step 2.2: Confirm the guard still rejects a mismatched corpus
+* [x] Step 2.2: Confirm the guard still rejects a mismatched corpus
 
-### [ ] Phase 3: Reconcile Product Documents
-
-<!-- parallelizable: true -->
-
-* [ ] Step 3.1: Correct the stale R-08, R-05, and R-03 risk statuses in the PRD
-* [ ] Step 3.2: Record NFR-011/NFR-012 delivery status
-* [ ] Step 3.3: Bump PRD and BRD versions with changelog entries
-
-### [ ] Phase 4: Reconcile Plan Checkboxes
+### [x] Phase 3: Reconcile Product Documents
 
 <!-- parallelizable: true -->
 
-* [ ] Step 4.1: Tick delivered items across the 07-29, 07-30, 07-31, 08-02, and
+* [x] Step 3.1: Correct the stale R-08, R-05, and R-03 risk statuses in the PRD
+* [x] Step 3.2: Record NFR-011/NFR-012 delivery status
+* [x] Step 3.3: Bump PRD and BRD versions with changelog entries
+
+### [x] Phase 4: Reconcile Plan Checkboxes
+
+<!-- parallelizable: true -->
+
+* [x] Step 4.1: Tick delivered items across the 07-29, 07-30, 07-31, 08-02, and
   08-06 plans with reconciliation notes citing evidence
-* [ ] Step 4.2: Leave human-authority items unticked with named owners
+* [x] Step 4.2: Leave human-authority items unticked with named owners
 
-### [ ] Phase 5: Validation
+### [x] Phase 5: Validation
 
 <!-- parallelizable: false -->
 
-* [ ] Step 5.1: Run `pytest tests/`, `ruff check .`, `ruff format --check .`
-* [ ] Step 5.2: Run `hugo --minify` and `scripts/check_internal_links.py`
-* [ ] Step 5.3: Report the remaining human-gated items
+* [x] Step 5.1: Run `pytest tests/`, `ruff check .`, `ruff format --check .`
+* [x] Step 5.2: Run `hugo --minify` and `scripts/check_internal_links.py`
+* [x] Step 5.3: Report the remaining human-gated items
 
 ## Dependencies
 

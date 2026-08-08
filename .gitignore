@@ -84,3 +84,4 @@ data/metrics/observability/
 .ralph_tick.log
 .squad/ralph-circuit-breaker.json
 .squad/.watch-pids
+.tmp

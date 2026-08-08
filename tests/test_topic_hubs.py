@@ -629,6 +629,21 @@ def test_allowlist_bounds_the_enabled_promotion_transaction() -> None:
     assert "allowlist=['quantum-tooling']" in log
 
 
+def test_shipped_config_never_enables_unbounded_dynamic_creation() -> None:
+    # Live guard: enabling dynamic creation with an empty allowlist would promote every
+    # eligible candidate (~1000+) in a single transaction. Keep the canary bounded.
+    raw = tomllib.loads((ROOT / "config" / "observatory.toml").read_text(encoding="utf-8"))
+    dynamic = raw["topic_hubs"]["dynamic_creation"]
+    allow_topics = dynamic.get("allow_topics", [])
+    assert isinstance(allow_topics, list)
+    assert all(isinstance(slug, str) and slug for slug in allow_topics)
+    if dynamic.get("enabled", False):
+        assert allow_topics, (
+            "dynamic_creation.enabled is true but allow_topics is empty; this would "
+            "promote every eligible candidate in one transaction"
+        )
+
+
 def test_dynamic_topic_creation_does_not_create_below_threshold() -> None:
     if WORKSPACE.exists():
         shutil.rmtree(WORKSPACE)

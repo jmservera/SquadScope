@@ -68,13 +68,13 @@ Success: FR-020 through FR-022 have corpus-level identity and lifecycle evidence
 
 <!-- parallelizable: true -->
 
-* [ ] Change `--dry-run` from an early exit into a non-mutating proposed-change report, or add an equivalent preview command
-* [ ] Test that preview reads candidates but writes no hub, registry, weekly frontmatter, taxonomy, or log changes
-* [ ] Review the five currently eligible candidates and choose one unambiguous canary
-* [ ] Add all non-canary candidates to `ignore_topics` as explicit temporary deferrals
-* [ ] Generate and review the exact canary transaction in an isolated checkout
-* [ ] Validate sanitization, structured YAML, evidence-backed assignments, taxonomy, logging, rendering, and disabled rollback
-* [ ] Obtain Hermes and sponsor approval for the exact canary revision
+* [x] Change `--dry-run` from an early exit into a non-mutating proposed-change report, or add an equivalent preview command — delivered in `e3a00a6` (`#670`): `scripts/manage_topic_hubs.py::preview_dynamic_hubs` reports proposed promotions as JSON and runs while `enabled = false`
+* [x] Test that preview reads candidates but writes no hub, registry, weekly frontmatter, taxonomy, or log changes — delivered: `tests/test_topic_hubs.py` snapshots every file before/after and asserts byte equality plus that `data/topic-hubs/` is never created (`test_preview_dynamic_hubs_reports_without_mutating_and_works_while_disabled`, `test_preview_dynamic_hubs_tolerates_malformed_registry_terms`)
+* [ ] Review the five currently eligible candidates and choose one unambiguous canary — human-authority (owners: Amy, Hermes, jmservera); the evidence window now yields ~1,051 eligible candidates, so a naive activation is unsafe. Selecting the canary slug is a human decision recorded via the `allow_topics` allowlist
+* [ ] Add all non-canary candidates to `ignore_topics` as explicit temporary deferrals — superseded by the `allow_topics` allowlist (added 2026-08-07): a non-empty allowlist restricts promotion to exactly the reviewed slugs, so blocklisting ~1,050 candidates is no longer required; the remaining action is the human populating `allow_topics`
+* [ ] Generate and review the exact canary transaction in an isolated checkout — human-authority (owner: Amy)
+* [ ] Validate sanitization, structured YAML, evidence-backed assignments, taxonomy, logging, rendering, and disabled rollback — human-authority (owners: Amy, Hermes)
+* [ ] Obtain Hermes and sponsor approval for the exact canary revision — human-authority (owners: Hermes, jmservera)
 
 Success: one bounded candidate can be promoted without exposing all eligible candidates to the same transaction.
 
@@ -86,8 +86,8 @@ Success: one bounded candidate can be promoted without exposing all eligible can
 * [x] Run enabled `--check`, then two full generations
 * [x] Review every created, rewritten, obsolete, and expired path
 * [x] Require byte-stable second generation and no unapproved removals
-* [ ] Run Hugo, pinned Pagefind, rendered metadata, internal links, axe, Lighthouse, and the cost experiment
-* [ ] Obtain Hermes, URL, and sponsor approval for the exact activation revision
+* [ ] Run Hugo, pinned Pagefind, rendered metadata, internal links, axe, Lighthouse, and the cost experiment — partial: Hugo and internal links run clean; the cost experiment is now unblocked (its corpus guard was corrected to 266 on 2026-08-07) but produces admissible evidence only via the `build-cost-experiment.yml` `workflow_dispatch` on `main` with reviewed SHAs; axe/Lighthouse for this specific content remain a dispatched-run step (owner: URL)
+* [ ] Obtain Hermes, URL, and sponsor approval for the exact activation revision — human-authority (owners: Hermes, URL, jmservera)
 
 Success: the first production run is a reviewed 263-page regeneration transaction with known cost and rollback.
 
@@ -111,12 +111,12 @@ Success: the first production run is a reviewed 263-page regeneration transactio
 
 <!-- parallelizable: false -->
 
-* [ ] Enable only the separately approved flag and run one publish transaction
-* [ ] Inspect the committed generated-state diff before deployment
-* [ ] Confirm production rendering, lifecycle, telemetry, and downstream smoke
-* [ ] For rollback, disable the flag and revert the generated transaction; disabling alone does not undo durable mutations
-* [ ] Expand dynamic candidates one reviewed item at a time
-* [ ] Add blocking budgets only after the report-only observation window and explicit owner approval
+* [ ] Enable only the separately approved flag and run one publish transaction — human-authority (owner: jmservera); both rollout flags remain `false`
+* [ ] Inspect the committed generated-state diff before deployment — human-authority (owner: URL)
+* [ ] Confirm production rendering, lifecycle, telemetry, and downstream smoke — human-authority (owners: Amy, URL)
+* [ ] For rollback, disable the flag and revert the generated transaction; disabling alone does not undo durable mutations — human-authority (owner: URL)
+* [ ] Expand dynamic candidates one reviewed item at a time — human-authority (owner: Amy); bounded by the `allow_topics` allowlist
+* [ ] Add blocking budgets only after the report-only observation window and explicit owner approval — human-authority (owners: timing-budget owner, jmservera)
 
 Success: each rollout is independently approved, observable, and reversible.
 

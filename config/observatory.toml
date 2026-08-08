@@ -29,7 +29,9 @@ log_path = "data/topic-hubs/dynamic-topic-creation.log"
 # The stored corpus currently spans four weeks, so min_weekly_issues = 4 filters
 # nothing and 1051 candidates qualify. List the reviewed canary slugs here before
 # enabling the flag; promotion is then restricted to exactly those entries.
-allow_topics = []
+# Staged 2026-08-08 for the first bounded canary (pending Hermes + sponsor approval;
+# enabled stays false until the exact revision is approved). See owner-action-register.
+allow_topics = ["local-first"]
 ignore_topics = [
   "ai",
   "artificial intelligence",

@@ -178,29 +178,29 @@ echo "Hugo P95: $P95_HUGO ms"
 ## Execution Checklist
 
 ### Run 2 Capture
-- [ ] CI workflow completes successfully on main
-- [ ] Navigate to GitHub Actions > CI > [Latest Run]
-- [ ] Confirm `production-site` job succeeded
-- [ ] Download artifact: `production-quality-reports`
-- [ ] Extract `reports/build-timing.json`
-- [ ] Record Hugo + Pagefind durations in timing-analysis.md
-- [ ] Commit update to main
+- [x] CI workflow completes successfully on main — run `31079871801`
+- [x] Navigate to GitHub Actions > CI > [Latest Run]
+- [x] Confirm `production-site` job succeeded
+- [x] Download artifact: `production-quality-reports`
+- [x] Extract `reports/build-timing.json`
+- [x] Record Hugo + Pagefind durations in timing-analysis.md — Hugo 2,456 / Pagefind 2,255 ms
+- [x] Commit update to main
 
 **Expected**: 2026-08-07
 
 ### Run 3 Capture
-- [ ] Next CI workflow completes successfully on main
-- [ ] Repeat Steps 1-6 from Run 2 Capture
-- [ ] Calculate median and p95 across all 3 runs
-- [ ] Update timing-analysis.md "Timing Statistics" section
+- [x] Next CI workflow completes successfully on main — run `31081291997`
+- [x] Repeat Steps 1-6 from Run 2 Capture
+- [x] Calculate median and p95 across all 3 runs — medians Hugo 2,822 / Pagefind 2,316 ms; p95 Hugo 3,058 / Pagefind 2,707 ms
+- [x] Update timing-analysis.md "Timing Statistics" section
 
 **Expected**: 2026-08-08 or 2026-08-09
 
 ### Approval & Closure
-- [ ] Prepare budget approval summary
-- [ ] Submit to jmservera for sign-off
-- [ ] Record approval in status-of-record.md
-- [ ] Mark Phase 7.1 as complete
+- [x] Prepare budget approval summary — proposed budgets and Approval Chain documented in `timing-analysis.md`
+- [ ] Submit to jmservera for sign-off — human-authority (owners: timing-budget owner, URL, jmservera)
+- [ ] Record approval in status-of-record.md — human-authority; awaits sign-off
+- [ ] Mark Phase 7.1 as complete — human-authority; awaits sign-off
 
 **Expected**: 2026-08-09
 

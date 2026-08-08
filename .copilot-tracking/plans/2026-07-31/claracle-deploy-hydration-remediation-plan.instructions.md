@@ -134,13 +134,13 @@ docs/
 * [x] Step 4.2: Wire the guard into the production-site job so `main`/`publish` divergence fails CI, not the deploy — the `publish-hydration-parity` job in `.github/workflows/ci.yml` hydrates the deploy's generated set from `publish` and validates the embed and promotion-record references before deploy
 * [x] Step 4.3: Add or extend tests covering the guard behavior — `tests/test_embed_sources.py` (`#641`)
 
-### [ ] Implementation Phase 5: Validation and Re-Review
+### [x] Implementation Phase 5: Validation and Re-Review
 
 <!-- parallelizable: false -->
 
 * [x] Step 5.1: Run full validation: `pytest tests/`, ruff, zizmor on changed workflows, and a clean Hugo build — validated per PR CI (`#628`/`#634`/`#637`/`#641`)
 * [x] Step 5.2: Confirm the production deploy succeeds end to end and close issue #627 — `#627` CLOSED; deploy-site green
-* [ ] Step 5.3: Reconcile PRD NFR-011/012, R-08, and Q-03 status with the delivered state — the 2026-08-02 relaunch-readiness reconciliation records NFR-012 as delivered; NFR-011 CI publish-hydration parity is delivered by the `publish-hydration-parity` job
+* [x] Step 5.3: Reconcile PRD NFR-011/012, R-08, and Q-03 status with the delivered state — reconciled 2026-08-07 in PRD 1.5: NFR-011/012 marked Delivered, R-08 and Q-03 closed on the `publish-hydration-parity` job, `scripts/publish_hydration.py`, and the `#641` embed-source guard
 
 ## Parallelization Summary
 
