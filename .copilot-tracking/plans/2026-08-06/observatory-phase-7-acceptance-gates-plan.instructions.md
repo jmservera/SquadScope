@@ -2,6 +2,11 @@
 
 # Data Observatory Phase 7 Acceptance Gates — Execution Plan
 
+> **STATUS — CLOSED 2026-08-08.** Phase 7.1 timing approval (Steps 6-7) is complete — jmservera
+> approved the budgets and CI enforcement is live (see `timing-analysis.md`). Phase 7.2 security
+> is closed; Phase 7.3 visual dispositions are recorded with the named-review remainder migrated to
+> [BRD-CLARACLE-003 §3](../../../docs/brds/claracle-post-relaunch-consolidation-brd.md#3-carried-over-requirements-remaining-relaunch-work) (CR-02). Do not resume here.
+
 **Date**: 2026-08-06  
 **Session**: Continue-all (post-PR merge)  
 **Prior State**: PR #675 and PR #676 successfully merged to main

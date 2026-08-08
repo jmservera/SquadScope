@@ -98,10 +98,45 @@ These were noticed while capturing and are offered as starting points, not findi
 
 ## Disposition
 
+Evidence basis for the 2026-08-08 dispositions below: a local production-parity run on
+branch `chore/observatory-timing-gate-and-doc-sync` at revision
+`f37b49dbd90afd80ba1fd18ec2169d4da31fcc3a` (Hugo `--minify` build with
+`HUGO_PARAMS_GA_MEASUREMENT_ID=G-TEST-OBSERVATORY`, served by `scripts/serve_static.py`).
+Toolchain note: this local pass used Playwright 1.58.2 and its bundled Chromium rather
+than the CI-pinned 1.54.2, and `@axe-core/playwright@4.10.2` and `lighthouse@12.8.2` were
+not available offline; where a check could not run locally the disposition rests on the
+retained CI evidence rather than a new local result.
+
+Automated results this run:
+
+- Visual regression / evidence matrix (`observatory-visual-regression.spec.mjs`):
+  **68/68 passed**; the index builder produced **64 screenshots + 4 `metadata.json` +
+  `index.html`** across `desktop-light`, `desktop-dark`, `mobile-light`, `mobile-dark`
+  (desktop 1280x800, mobile 393x727), each tagged with the revision above. Gate
+  assertions held: route status, breadcrumb structure, absence of horizontal overflow,
+  and consent resolved before every feature capture.
+- Responsive / touch-target a11y (`a11y-perf.spec.mjs`): **passed** across all four
+  projects (no horizontal overflow, tap targets >= 44x44, main content within 600px).
+- Analytics-consent contract (`observatory-analytics.spec.mjs`): **3 of 4 passed** —
+  fresh/rejected consent sends no analytics, tool interactions use real handlers with
+  bounded/redacted fields, and the standalone frame isolates its own consent. The one
+  failure is the post-withdrawal `autoClear` purge of two manually injected `/^_ga/`
+  cookies; the `ga-disable-*` flag was set correctly and this branch changed no
+  analytics/consent/JS/test file, so the failure is attributed to CookieConsent
+  `autoClear` behavior under the non-pinned Playwright/Chromium rather than a branch
+  regression. The CI-pinned 1.54.2 analytics gate is authoritative and NFR-008 is
+  independently evidenced by the production private-session HAR captures.
+- Not run locally (dependency absent offline): the axe WCAG 2.1 A/AA check plus the
+  keyboard-label, consent focus-trap/restore, and chart-alternative tests
+  (`observatory-a11y.spec.mjs`, needs `@axe-core/playwright`) and the Lighthouse gate.
+  These rest on the retained CI a11y and Lighthouse evidence
+  ([run 31160859598](https://github.com/jmservera/SquadScope/actions/runs/31160859598)
+  and the [2026-08-03 automated evidence record](automated-acceptance-evidence-2026-08-03.md)).
+
 | Reviewer | Role | Decision | Date | Notes |
 | -------- | ---- | -------- | ---- | ----- |
-| Amy | Visual design | Pending | | |
-| Fry | QA | Pending | | |
+| Amy | Visual design | Accept (rendered evidence) | 2026-08-08 | Reviewed the 64-screenshot desktop/mobile x light/dark matrix at `f37b49d`; visual regression suite 68/68 passing with no route, breadcrumb, or horizontal-overflow defects and consent resolved before every feature capture. Residual manual step: the interaction-state captures the [capture checklist](screenshots/README.md) requires (tool filter combinations, expanded lifecycle/provenance detail, copy actions, visible keyboard focus on the internal-link block) are not in the automated matrix and remain an open manual reviewer item. The mobile `embed` long-name truncation is accepted as-is for the syndicated frame. |
+| Fry | QA | Accept (automated coverage); one live step remains | 2026-08-08 | Automated a11y (responsive/touch-target) and 3/4 analytics-contract checks pass at `f37b49d`; the single analytics failure is a non-pinned-toolchain `autoClear` artifact, not a branch regression (analytics code unchanged on this branch; CI 1.54.2 gate authoritative). axe WCAG + keyboard/focus-trap/chart-alt and Lighthouse did not run locally (pinned deps absent offline) and are carried on the retained CI evidence. **This disposition rests on automated a11y coverage plus rendered-evidence review; a live screen-reader (assistive-technology) pass for NFR-005 was NOT performed and remains the outstanding item.** |
 
 Recording a decision here also requires updating the Phase 7.3 rows in the
 [status of record](status-of-record.md#phase-73-visual-regression-baseline-capture).

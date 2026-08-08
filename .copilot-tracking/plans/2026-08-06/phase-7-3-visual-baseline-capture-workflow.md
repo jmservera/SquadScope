@@ -2,6 +2,10 @@
 
 # Phase 7.3 Visual Regression — Baseline Capture Workflow
 
+> **STATUS — CLOSED 2026-08-08.** Capture automation is delivered (CI, 64-screenshot matrix);
+> the named visual acceptance and interaction-state captures are migrated to
+> [BRD-CLARACLE-003 §3](../../../docs/brds/claracle-post-relaunch-consolidation-brd.md#3-carried-over-requirements-remaining-relaunch-work) (CR-02). Do not resume here.
+
 **Date**: 2026-08-06  
 **Status**: Implementation in progress  
 **Objective**: Capture visual baseline for all 54 variants (9 routes × 3 viewports × 2 themes)  

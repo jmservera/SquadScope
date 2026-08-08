@@ -4,6 +4,8 @@ applyTo: '.copilot-tracking/changes/2026-07-30/claracle-data-observatory-relaunc
 <!-- markdownlint-disable-file -->
 # Implementation Plan: Claracle Data Observatory Relaunch Review Remediation
 
+> **STATUS — DONE / CLOSED 2026-08-08.** All items delivered. Retired per [BRD-CLARACLE-003](../../../docs/brds/claracle-post-relaunch-consolidation-brd.md).
+
 ## Overview
 
 Correct PR #623's repository defects, render the existing breadcrumb construct as an accessible visual breadcrumb, restore blocking quality and security gates, and complete the evidence required for a defensible relaunch decision.

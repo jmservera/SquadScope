@@ -2,7 +2,7 @@
 title: Data Observatory Relaunch Status of Record
 description: Single reconciled view of delivered versus pending relaunch work across the three remediation plans, the PRD, and the BRD
 author: SquadScope Squad
-ms.date: 2026-08-07
+ms.date: 2026-08-08
 ms.topic: reference
 keywords:
   - status of record
@@ -24,14 +24,14 @@ gate matrix and the acceptance decision.
 - PRD: [claracle-data-observatory-relaunch.md](../../prds/claracle-data-observatory-relaunch.md)
 - BRD: [claracle-data-observatory-relaunch-brd.md](../../brds/claracle-data-observatory-relaunch-brd.md)
 
-Reconciled through 2026-08-07. Release acceptance remains **pending** per the
+Reconciled through 2026-08-08. Release acceptance remains **pending** per the
 [acceptance decision](README.md#acceptance-decision); both rollout flags stay disabled.
 
 **Phase 7 Acceptance Gates** (tracking PR #677):
-- Phase 7.1 Timing: ⏳ Data collection complete (three production `main` runs; Hugo p95 3,058 ms, Pagefind p95 2,707 ms). The earlier provisional approval is withdrawn because it was based on an incorrect Run 1 baseline and a non-comparable PR-branch run; revised thresholds await timing-budget owner approval
+- Phase 7.1 Timing: ✅ **APPROVED 2026-08-08** — data collection complete (three production `main` runs; Hugo p95 3,058 ms, Pagefind p95 2,707 ms); jmservera accepted the revised thresholds (Hugo 6,000 / Pagefind 5,500 / total 11,500 ms) and the enforcement gate is live in `ci.yml`
 - Phase 7.2 Security: ✅ **NFR-004 APPROVED** (all 10 findings approved by Hermes/URL; sponsor final acceptance recorded 2026-08-06)
-- Phase 7.3 Visual: ⏳ A blocking structure gate now runs in `ci.yml` and also uploads the evidence matrix to the `production-quality-reports` artifact; named visual review by Amy and Fry remains open
-- **Critical Path**: Timing-budget owner approval and named visual review
+- Phase 7.3 Visual: 🟡 Named review recorded 2026-08-08 — Amy accepts the rendered visual matrix (64 screenshots, `observatory-visual-regression.spec.mjs` 68/68 at `f37b49d`) and Fry accepts the automated a11y/analytics coverage; both dispositions carry residual manual steps (visual interaction-state captures; NFR-005 live screen-reader pass). See the [visual review handoff](visual-review-handoff-2026-08-07.md#disposition)
+- **Critical Path**: Named visual review and the NFR-005 live screen-reader pass (timing budget approved and enforced 2026-08-08)
 - **Expected Release Readiness**: Gated on human sign-off rather than on further automation
 
 **Remaining human gates** (single release-readiness view; details in [owner-action-register.md](owner-action-register.md)):
@@ -39,11 +39,10 @@ Reconciled through 2026-08-07. Release acceptance remains **pending** per the
 | Gate | Owner(s) | Evidence path |
 | ---- | -------- | ------------- |
 | Timing budget approval | timing-budget owner, URL, jmservera | [timing-analysis.md](timing-analysis.md#approval-chain) |
-| Visual evidence disposition + interaction captures | Amy, Fry | [visual-review-handoff-2026-08-07.md](visual-review-handoff-2026-08-07.md) |
-| Accessibility (NFR-005) keyboard + screen-reader review | Amy, Fry | [owner-action-register.md](owner-action-register.md#accessibility-acceptance) |
+| Visual evidence disposition + interaction captures | Amy, Fry | [visual-review-handoff-2026-08-07.md](visual-review-handoff-2026-08-07.md) — Amy accepted the rendered matrix 2026-08-08; interaction-state captures remain the open manual step |
+| Accessibility (NFR-005) keyboard + screen-reader review | Amy, Fry | [owner-action-register.md](owner-action-register.md#accessibility-acceptance) — automated axe/keyboard/focus-trap/responsive coverage accepted 2026-08-08 (Fry); live screen-reader (AT) pass remains outstanding |
 | Dynamic-topic canary (`local-first`) approval | Hermes, jmservera | [owner-action-register.md](owner-action-register.md#proposed-dynamic-topic-canary-2026-08-08) |
 | Cost experiment dispatch (Q-01 / NFR-009) | URL, budget owner | [owner-action-register.md](owner-action-register.md#incremental-generation-cost-acceptance) |
-| External metadata + feed validation | Amy, jmservera | [owner-action-register.md](owner-action-register.md#external-metadata-and-feed-validation) |
 | `repo_pages` / dynamic activation transactions | jmservera | [owner-action-register.md](owner-action-register.md#sponsor-rollout-decision) |
 
 Analytics and search (FR-035 / NFR-007 / NFR-008) closed 2026-08-08; the `local-first`
@@ -87,9 +86,9 @@ canary revision is staged (`allow_topics`, `enabled = false`) pending approval.
 | FR-041 internal link checking           | Done      | `.github/workflows/ci.yml` runs `scripts/check_internal_links.py public --base-url "https://claracle.com/"` in the `production-site` job, in addition to test-level coverage (`tests/test_internal_link_checker.py`); PRD R-03 reconciled Closed |
 | Hugo/Pagefind timing separation         | Done      | CI records separate report-only Hugo and Pagefind durations; Q-01 workload attribution remains pending |
 | Security sign-off (NFR-004)             | Done      | All ten findings SEC-01 through SEC-10 carry dated dispositions (2026-08-04 and 2026-08-06); sponsor (jmservera) acceptance recorded 2026-08-06 in `security-sign-off-checklist.md` |
-| Accessibility evidence (NFR-005)        | Pending   | Amy/Fry; 2026-07-30 Step 7.2                                                      |
+| Accessibility evidence (NFR-005)        | Partial   | Fry accepted automated axe/keyboard/focus-trap/responsive coverage 2026-08-08 (a11y-perf passing locally at `f37b49d`; axe + keyboard via retained CI run 31160859598); live screen-reader (AT) pass remains outstanding — see [owner-action-register.md](owner-action-register.md#accessibility-acceptance) |
 | Real Podcaster downstream run (NFR-002 / R-04) | Done | jmservera authorized and dispatched `2026-W32` / publish run `30782430176` on 2026-08-04 ([Actions run 30908778884](https://github.com/jmservera/SquadScope/actions/runs/30908778884), conclusion success; downstream job `podcast-2026-W32-d07bb05dc073`, response status `accepted`); Hermes and URL accepted the environment amendment and workflow controls in SEC-09 and SEC-10 |
-| Refreshed visual acceptance             | Pending   | `#622` and `#626` repository hardening is implemented and both issues are closed (2026-08-04); final browser evidence and named visual review remain pending |
+| Refreshed visual acceptance             | Partial   | Amy accepted the rendered visual matrix 2026-08-08 (64 screenshots at `f37b49d`, `observatory-visual-regression.spec.mjs` 68/68); `#622`/`#626` hardening closed 2026-08-04; manual interaction-state captures remain the open step — see [visual-review-handoff-2026-08-07.md](visual-review-handoff-2026-08-07.md#disposition) |
 | GA4 + GSC connection + baseline (FR-035) | Done     | Connection complete; numeric baseline transcribed 2026-08-08 (NFR-007: 51 GA4 sessions, 149 GSC impressions, 294 indexed pages); NFR-008 denied/granted production consent observations captured 2026-08-08 via private-session HAR |
 | External metadata and feed validation   | Partial   | [Production feed and source-level metadata evidence](automated-acceptance-evidence-2026-08-03.md) is retained; social preview debuggers, Rich Results, Schema.org, and named reviewer conclusions remain pending |
 | Incremental generation cost (Q-01 / NFR-009) | Partial | Report-only cumulative experiment is implemented; retained 3/5-run artifacts and budget-owner conclusion remain pending |
@@ -148,8 +147,8 @@ Phase 7 consolidates final acceptance evidence and execution workflows across th
 | Visual test suite infrastructure           | jmservera   | ✅ Merged | Suite resolves its route matrix from the built `sitemap.xml`, so dated weekly and monthly editions no longer rot |
 | Gate and evidence capture wired into CI    | jmservera   | ✅ Done | `ci.yml` runs the suite after the a11y and analytics gates, then builds a review index; both steps run unless the job is cancelled, so evidence survives an earlier gate failure. Output uploads under `screenshots/visual-regression/` in the `production-quality-reports` artifact. Confirmed producing 64 screenshots plus `index.html` in [run 31160859598](https://github.com/jmservera/SquadScope/actions/runs/31160859598) |
 | Evidence matrix coverage                   | jmservera   | ✅ Done | 15 routes plus a consent capture x 4 projects (desktop/mobile x light/dark) = 64 screenshots plus per-project `metadata.json` tagged with revision, branch, run ID, viewport, and Playwright version |
-| Visual evidence compilation                | Amy, Fry    | ⏳ Pending | Handed off: [2026-08-07 visual review handoff](visual-review-handoff-2026-08-07.md) |
-| Visual regression approval sign-off        | Amy, Fry    | ⏳ Pending | Record the disposition in the handoff record and here |
+| Visual evidence compilation                | Amy, Fry    | 🟡 Recorded 2026-08-08 | Amy accepted the rendered matrix (64 screenshots at `f37b49d`); interaction-state captures remain manual. See [handoff disposition](visual-review-handoff-2026-08-07.md#disposition) |
+| Visual regression approval sign-off        | Amy, Fry    | 🟡 Recorded 2026-08-08 | Accept on rendered evidence + automated a11y/analytics coverage; residual = visual interaction captures and NFR-005 live screen-reader pass |
 
 **Status**: The gate passes and the evidence matrix is produced automatically; named visual review remains outstanding  
 **Note**: The suite is a blocking gate as well as the evidence producer. It asserts route status, breadcrumb structure, and absence of horizontal overflow, resolves the consent banner before every feature capture, and writes the revision-tagged matrix. It does not perform pixel-diff comparison against committed baselines; regression detection is by named review of the per-revision matrix.  
@@ -163,10 +162,11 @@ Security Dispositions (7.2) ←── ✅ CLEARED (NFR-004 approved 2026-08-06)
     └─ SEC-08 (Hermes) [approved 2026-08-06]
 
 Timing Collection (7.1)  ←── ✅ CLEARED (3 production main runs transcribed)
-Timing Approval  (7.1)   ←── ⏳ OPEN (timing-budget owner; revised thresholds)
+Timing Approval  (7.1)   ←── ✅ APPROVED 2026-08-08 (jmservera; enforced in ci.yml)
 
 Visual Capture   (7.3)   ←── ✅ CLEARED (automated in ci.yml, artifact-retained)
-Visual Review    (7.3)   ←── ⏳ OPEN (Amy, Fry; named review of the matrix)
+Visual Review    (7.3)   ←── 🟡 RECORDED 2026-08-08 (Amy accept rendered matrix; interaction captures remain)
+Accessibility    (NFR-005) ←─ 🟡 RECORDED 2026-08-08 (Fry accept automated coverage; live screen-reader pass remains)
 
            ↓
     Release Readiness Decision (gated on the two open human sign-offs)

@@ -4,6 +4,8 @@ applyTo: '.copilot-tracking/changes/2026-08-02/claracle-relaunch-followup-execut
 <!-- markdownlint-disable-file -->
 # Implementation Plan: Claracle Relaunch Follow-Up Execution
 
+> **STATUS — DONE / CLOSED 2026-08-08.** All items delivered. Retired per [BRD-CLARACLE-003](../../../docs/brds/claracle-post-relaunch-consolidation-brd.md).
+
 ## User Requests
 
 * Publish review corrections: commit, push, and resolve PR threads

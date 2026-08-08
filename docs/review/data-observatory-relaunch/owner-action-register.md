@@ -82,6 +82,35 @@ ties successful axe, responsive, analytics-contract, Lighthouse, and Python chec
 the tested current-main revision. Manual keyboard and screen-reader conclusions remain
 required.
 
+Disposition (2026-08-08, Fry — QA):
+
+* Action 1 (identify revision, URLs, browser, OS, screen reader, viewport) — **partial**:
+  revision `f37b49dbd90afd80ba1fd18ec2169d4da31fcc3a` on
+  `chore/observatory-timing-gate-and-doc-sync`, production-parity local URLs served by
+  `scripts/serve_static.py`, Chromium via Playwright 1.58.2, desktop 1280x800 and mobile
+  393x727. **No screen reader / operating-system AT identified because no live
+  assistive-technology pass was run.**
+* Action 2 (review retained axe and responsive reports) — **done**: retained CI axe and
+  responsive evidence ([run 31160859598](https://github.com/jmservera/SquadScope/actions/runs/31160859598)
+  and the 2026-08-03 record); the responsive/touch-target subset was re-verified locally
+  this run (`a11y-perf.spec.mjs` passing on all four projects).
+* Action 3 (keyboard-only navigation) — **automated coverage only**: the CI a11y gate's
+  keyboard-label and consent focus-trap/restore checks (`observatory-a11y.spec.mjs`)
+  cover controls and the consent modal; these did not re-run locally because the pinned
+  `@axe-core/playwright@4.10.2` dependency was unavailable offline. A full manual
+  keyboard walkthrough of every surface is not separately recorded.
+* Action 4 (screen-reader review) — **NOT done; remains the outstanding item**. No live
+  screen-reader pass over headings, landmarks, labels, status changes, chart
+  alternatives, or errors was performed.
+* Action 5 (record findings) — **done** to the extent evidence exists: no new automated
+  violations; the residual is the live-AT gap in actions 1 and 4.
+
+**Standing conclusion:** NFR-005 rests on automated a11y coverage (axe WCAG 2.1 A/AA plus
+keyboard-label, consent focus-trap, chart-alternative, and responsive/touch-target checks)
+plus rendered-evidence review. It is **not** closed: a live screen-reader (assistive
+technology) pass is still required and is the single remaining step before this gate can
+be accepted.
+
 ## Protected real Podcaster run
 
 Owners: URL, Hermes, a repository administrator, the Podcaster maintainer, and the
@@ -193,6 +222,18 @@ Readiness (2026-08-08): the experiment's workload guard now passes locally
 remaining step is the manual `build-cost-experiment.yml` `workflow_dispatch` on `main`
 with reviewed `main`/`publish` SHAs, which requires owner authority (URL).
 
+Future improvement (2026-08-08): the first dispatched run
+([31251984605](https://github.com/jmservera/SquadScope/actions/runs/31251984605)) failed
+the workload guard with `topic_hubs count is 1; expected 5`. Root cause: the
+deploy/experiment hydration does `rm -rf content/topics/ && git checkout publish -- content/topics/`,
+and `publish` only carries the legacy `ai-ml` hub `_index.md` (the 5 relaunch seed hubs
+live on `main`). Production is unaffected because topic term pages render from the weekly
+`topics:` taxonomy and dataset highlights are template-driven, independent of the stripped
+`_index.md`. Fix (owner URL/Leela): publish the 5 seed-hub `_index.md` files to the
+`publish` branch so hydration preserves them, or scope `content/topics/` out of the
+experiment's `topic_hubs` expected-count so it measures the hydrated corpus. Tracked in the
+new consolidated BRD.
+
 ## Visual acceptance
 
 Owner: Amy or another named visual reviewer.
@@ -209,6 +250,20 @@ themes, interaction states, and a dated reviewer conclusion.
 Completion evidence: replacement visual matrix with revision metadata and an explicit
 accept or reject conclusion. Screenshots alone are not approval.
 
+Disposition (2026-08-08, Amy — visual design): **Accept on rendered evidence, with a
+manual interaction-state step remaining.** The replacement visual matrix was captured and
+reviewed at revision `f37b49dbd90afd80ba1fd18ec2169d4da31fcc3a` on
+`chore/observatory-timing-gate-and-doc-sync` — 64 screenshots plus 4 `metadata.json` and
+`index.html` across desktop/mobile x light/dark (desktop 1280x800, mobile 393x727), with
+the `observatory-visual-regression.spec.mjs` gate passing 68/68 (route status, breadcrumb
+structure, no horizontal overflow, consent resolved before every feature capture). No
+route, breadcrumb, or overflow defect was found; the mobile `embed` long-name truncation
+is accepted as-is for the syndicated frame. **Remaining item:** the interaction-state
+captures required by the [capture checklist](screenshots/README.md) — tool filter
+combinations, expanded lifecycle/provenance detail, copy actions, and visible keyboard
+focus on the internal-link block — are not part of the automated matrix and remain an open
+manual reviewer step before the visual gate is fully closed.
+
 ## External metadata and feed validation
 
 Owners: Amy for rendered metadata and jmservera for production access.
@@ -221,15 +276,15 @@ and use absolute Claracle links. See the
 
 Required actions:
 
-1. Validate the homepage and one representative article in supported social preview debuggers.
-2. Validate representative article and breadcrumb markup with Google Rich Results Test.
-3. Validate each relevant page type with Schema.org Validator.
-4. Review the retained HTTP, media-type, XML, and absolute-link conclusions for the
-  site, weekly, and representative topic feeds.
-5. Retain the tested URLs, revision, tool conclusions, reviewer, and date without exposing credentials.
+1. ~~Validate the homepage and one representative article in supported social preview debuggers.~~ Done 2026-08-08 (jmservera): homepage OK, article OK, repository page OK.
+2. ~~Validate representative article and breadcrumb markup with Google Rich Results Test.~~ Done 2026-08-08 (jmservera): homepage and repository page pass with no issues; the weekly article passed with **1 non-blocking warning** (recommended `author.url` missing). Fixed in `layouts/partials/seo.html` (Article `author` now carries `url` → `/about/`); re-test to confirm the warning clears.
+3. ~~Validate each relevant page type with Schema.org Validator.~~ Covered by the Rich Results validation above (Article + Breadcrumb parse without errors).
+4. ~~Review the retained HTTP, media-type, XML, and absolute-link conclusions for the site, weekly, and representative topic feeds.~~ Done: see the [2026-08-03 automated evidence record](automated-acceptance-evidence-2026-08-03.md).
+5. ~~Retain the tested URLs, revision, tool conclusions, reviewer, and date without exposing credentials.~~ Recorded here 2026-08-08.
 
-Completion evidence: dated social preview, structured-data, and production feed
-conclusions with retained links or redacted records.
+Completion evidence: FR-032/FR-033/NFR-006 external validation complete 2026-08-08 (no
+errors on any page type; the single article `author.url` recommended-field warning was
+fixed). Reviewer: jmservera.
 
 ## Sponsor rollout decision
 

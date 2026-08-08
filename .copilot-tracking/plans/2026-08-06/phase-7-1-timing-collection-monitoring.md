@@ -2,6 +2,9 @@
 
 # Phase 7.1 Timing Collection — CI Monitoring Workflow
 
+> **STATUS — DONE / CLOSED 2026-08-08.** Three production runs collected, median/p95 computed,
+> budgets approved and enforced in CI. Retired per [BRD-CLARACLE-003](../../../docs/brds/claracle-post-relaunch-consolidation-brd.md).
+
 **Date**: 2026-08-06  
 **Status**: Awaiting natural CI pipeline execution  
 **Objective**: Collect Hugo and Pagefind duration data from next 2 CI builds; calculate p95 budgets  

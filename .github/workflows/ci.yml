@@ -206,17 +206,33 @@ jobs:
           finished_at="$(date +%s%N)"
           echo "duration_ms=$(( (finished_at - started_at) / 1000000 ))" >> "${GITHUB_OUTPUT}"
 
-      - name: Write report-only build timing
+      - name: Write build timing and enforce budgets
         env:
           COMMIT_SHA: ${{ github.sha }}
           HUGO_DURATION_MS: ${{ steps.hugo-build.outputs.duration_ms }}
           PAGEFIND_DURATION_MS: ${{ steps.pagefind-build.outputs.duration_ms }}
+          HUGO_BUDGET_MS: '6000'
+          PAGEFIND_BUDGET_MS: '5500'
+          TOTAL_BUDGET_MS: '11500'
         run: |
           set -euo pipefail
           mkdir -p reports
-          printf '{\n  "commit": "%s",\n  "mode": "report-only",\n  "hugo": {"version": "%s", "duration_ms": %s},\n  "pagefind": {"version": "%s", "duration_ms": %s},\n  "blocking_threshold_ms": null\n}\n' \
-            "${COMMIT_SHA}" "${HUGO_VERSION}" "${HUGO_DURATION_MS}" \
-            "${PAGEFIND_VERSION}" "${PAGEFIND_DURATION_MS}" > reports/build-timing.json
+          total_ms=$(( HUGO_DURATION_MS + PAGEFIND_DURATION_MS ))
+          printf '{\n  "commit": "%s",\n  "mode": "blocking",\n  "hugo": {"version": "%s", "duration_ms": %s, "budget_ms": %s},\n  "pagefind": {"version": "%s", "duration_ms": %s, "budget_ms": %s},\n  "total_ms": %s,\n  "blocking_threshold_ms": %s\n}\n' \
+            "${COMMIT_SHA}" "${HUGO_VERSION}" "${HUGO_DURATION_MS}" "${HUGO_BUDGET_MS}" \
+            "${PAGEFIND_VERSION}" "${PAGEFIND_DURATION_MS}" "${PAGEFIND_BUDGET_MS}" \
+            "${total_ms}" "${TOTAL_BUDGET_MS}" > reports/build-timing.json
+          fail=0
+          if [ "${HUGO_DURATION_MS}" -gt "${HUGO_BUDGET_MS}" ]; then
+            echo "::error::Hugo build ${HUGO_DURATION_MS}ms exceeds budget ${HUGO_BUDGET_MS}ms"; fail=1
+          fi
+          if [ "${PAGEFIND_DURATION_MS}" -gt "${PAGEFIND_BUDGET_MS}" ]; then
+            echo "::error::Pagefind index ${PAGEFIND_DURATION_MS}ms exceeds budget ${PAGEFIND_BUDGET_MS}ms"; fail=1
+          fi
+          if [ "${total_ms}" -gt "${TOTAL_BUDGET_MS}" ]; then
+            echo "::error::Total build ${total_ms}ms exceeds budget ${TOTAL_BUDGET_MS}ms"; fail=1
+          fi
+          [ "${fail}" -eq 0 ] || exit 1
 
       - name: Run rendered SEO and link contracts
         run: |

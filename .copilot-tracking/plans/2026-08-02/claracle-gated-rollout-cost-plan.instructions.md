@@ -4,6 +4,9 @@ applyTo: '.copilot-tracking/changes/2026-08-02/claracle-gated-rollout-cost-chang
 <!-- markdownlint-disable-file -->
 # Implementation Plan: Claracle Gated Rollouts and Cost Measurement
 
+> **STATUS — CLOSED 2026-08-08.** Delivered items complete; the remaining sponsor-gated rollout
+> and cost items are migrated to [BRD-CLARACLE-003 §3](../../../docs/brds/claracle-post-relaunch-consolidation-brd.md#3-carried-over-requirements-remaining-relaunch-work) (CR-04 dynamic-topic canary, CR-05 repo_pages activation, CR-06 cost-experiment fix). The `ignore_topics` blocklist step is superseded by the `allow_topics` allowlist. Do not resume here.
+
 ## User Requests
 
 * Plan the `repo_pages` rollout

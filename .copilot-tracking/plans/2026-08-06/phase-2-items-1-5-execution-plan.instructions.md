@@ -1,6 +1,11 @@
 <!-- markdownlint-disable-file -->
 # Phase 2 Plan: Items 1-5 Execution Sequence
 
+> **STATUS — CLOSED 2026-08-08.** The PR #677 merge blocker is long resolved and Items 2-5
+> (visual capture/review, timing monitoring, release decision) are superseded by the Phase 7
+> dispositions; the remaining named-review and GO/NO-GO items are migrated to
+> [BRD-CLARACLE-003 §3](../../../docs/brds/claracle-post-relaunch-consolidation-brd.md#3-carried-over-requirements-remaining-relaunch-work) (CR-02/CR-03). Do not resume here.
+
 **Date**: 2026-08-06 15:20 UTC  
 **Status**: Plan created; decision required before Phase 3 execution  
 
