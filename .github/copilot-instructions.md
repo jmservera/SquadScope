@@ -114,3 +114,5 @@ Multiple GitHub CLI accounts may be configured on this machine. If a push,
 `gh` write, or environment operation fails with an unexpected permission error,
 run `gh auth status`. Switch to the repository owner account with
 `gh auth switch --user jmservera --hostname github.com` when needed.
+
+# Notes: RPI in this context refers to the "Review, Plan, Implement" workflow in HVE used for managing changes and ensuring proper review and approval processes are followed.
