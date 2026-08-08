@@ -280,7 +280,7 @@ Use the existing per-week distribution playbook (`docs/growth/distribution-strat
 ## 14. Open Questions
 | Q ID | Question | Owner | Deadline | Status |
 |------|----------|-------|---------|--------|
-| Q-01 | Quantify incremental generation cost/time for hubs, data, and repo pages | Leela | Design spike | In progress: the report-only experiment was dispatched on `main` 2026-08-08 ([run 31251984605](https://github.com/jmservera/SquadScope/actions/runs/31251984605)) after the corpus guard was corrected to 266; the retained artifacts and budget-owner conclusion follow the run |
+| Q-01 | Quantify incremental generation cost/time for hubs, data, and repo pages | Leela | Design spike | In progress: the report-only experiment was dispatched on `main` 2026-08-08 ([run 31251984605](https://github.com/jmservera/SquadScope/actions/runs/31251984605)) but failed the workload guard (`topic_hubs count is 1; expected 5`). Root cause: `publish_hydration` hydrates `content/topics/` from `publish`, whose topics are stale (only the legacy `ai-ml` hub); the live deploy overlay is additive so production keeps all 5 hubs. Needs a publish `content/topics/` sync or an experiment hydration-path fix before a clean run |
 | Q-02 | Which client-side tool to build first (FR-052) | Amy | 2026-07-30 | Resolved: Star Velocity Explorer; see ADR |
 | Q-03 | When can `content/data/` deploy hydration be restored (once the crawl reliably publishes observatory pages to `publish`)? | Bender | Post-#627 crawl run | Resolved: hydration restored via `#637` after the crawl repopulated `publish`; CI embed-source guard (`#641`) prevents recurrence |
 
