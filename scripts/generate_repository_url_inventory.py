@@ -35,7 +35,8 @@ def load_frontmatter(path: Path) -> dict[str, Any]:
 
 
 def normalized_url(value: str) -> str:
-    return f"/{value.strip('/')} /".replace(" /", "/")
+    stripped = value.strip().strip("/")
+    return f"/{stripped}/" if stripped else "/"
 
 
 def evidence_placeholders() -> dict[str, dict[str, str]]:

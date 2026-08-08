@@ -8,6 +8,12 @@ import pytest
 from scripts import generate_repository_url_inventory as inventory
 
 
+def test_normalized_url_collapses_root_and_trailing_slashes() -> None:
+    assert inventory.normalized_url("/") == "/"
+    assert inventory.normalized_url("/repo/alpha-old/") == "/repo/alpha-old/"
+    assert inventory.normalized_url("repo/alpha-old") == "/repo/alpha-old/"
+
+
 def _write_page(path: Path, *, aliases: list[str] | None = None) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     alias_lines = ""

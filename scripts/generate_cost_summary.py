@@ -125,7 +125,12 @@ def build_projection(
         }
         for record in accepted
     ]
-    total_cost = round(sum(float(record.get("cost_usd") or 0) for record in billable), 6)
+    unpriced = [record for record in billable if record.get("cost_usd") is None]
+    if unpriced:
+        raise ValueError(
+            f"{len(unpriced)} billable accepted records lack a reconciled cost_usd value"
+        )
+    total_cost = round(sum(float(record["cost_usd"]) for record in billable), 6)
     return {
         "schema_version": SCHEMA_VERSION,
         "generated_at": generated_at.astimezone(UTC).isoformat().replace("+00:00", "Z"),

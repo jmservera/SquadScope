@@ -44,6 +44,9 @@ def build_yearly_evidence_pack(year: int, month_packs: list[dict[str, Any]]) -> 
             if source_id in seen_sources:
                 raise ValueError(f"Duplicate yearly source: {source_id}")
             seen_sources.add(source_id)
+            tags = week.get("tags", [])
+            if not isinstance(tags, list):
+                raise ValueError(f"Invalid tags for {week_slug} in {month}")
             sources.append(
                 {
                     "source_id": source_id,
@@ -51,7 +54,7 @@ def build_yearly_evidence_pack(year: int, month_packs: list[dict[str, Any]]) -> 
                     "week": week_slug,
                     "title": str(week.get("title", "")),
                     "top_repo": str(week.get("top_repo", "")),
-                    "tags": [str(tag) for tag in week.get("tags", [])],
+                    "tags": [str(tag) for tag in tags],
                 }
             )
             for field in CLAIM_FIELDS:

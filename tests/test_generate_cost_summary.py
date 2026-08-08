@@ -88,6 +88,14 @@ def test_projection_rejects_stale_input() -> None:
         )
 
 
+def test_projection_fails_closed_on_unpriced_billable_record() -> None:
+    with pytest.raises(ValueError, match="lack a reconciled cost_usd value"):
+        summary.build_projection(
+            [_record(cost=None)],
+            generated_at=datetime(2026, 8, 8, tzinfo=UTC),
+        )
+
+
 def test_projection_is_deterministic() -> None:
     generated_at = datetime(2026, 8, 8, tzinfo=UTC)
     first = summary.build_projection([_record()], generated_at=generated_at)

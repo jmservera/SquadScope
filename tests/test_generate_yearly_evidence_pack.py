@@ -49,6 +49,14 @@ def test_evidence_pack_rejects_duplicate_week_sources() -> None:
         evidence.build_yearly_evidence_pack(2026, [_pack(), _pack()])
 
 
+def test_evidence_pack_rejects_non_list_tags() -> None:
+    pack = _pack()
+    pack["weeks"][0]["tags"] = None
+
+    with pytest.raises(ValueError, match="Invalid tags"):
+        evidence.build_yearly_evidence_pack(2026, [pack])
+
+
 def test_writer_is_deterministic(tmp_path: Path) -> None:
     analyzed = tmp_path / "data" / "analyzed"
     output = tmp_path / "data" / "derived" / "yearly"
