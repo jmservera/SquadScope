@@ -1,106 +1,111 @@
 # Copilot Instructions for SquadScope
 
-This repository uses the **Squad agent** as the default for all AI-assisted work.
+## Project Context
 
-## Default Agent
+* SquadScope, publicly branded as Claracle, analyzes GitHub trends and publishes
+  a Hugo site.
+* Use the Squad agent as the default for AI-assisted work. When using Copilot
+  CLI, pass `--agent squad`.
+* Read `architecture.md` for system boundaries and `.squad/team.md` plus
+  `.squad/routing.md` for current ownership.
+* Pipeline code lives in `scripts/`, tests in `tests/`, Hugo content in
+  `content/`, and templates and assets in `layouts/` and `assets/`.
 
-Always use `--agent squad` when running Copilot CLI on this repository.
+## Branch and Pull Request Workflow
 
-## Repository Context
+All changes must use a branch and a pull request. Never commit directly to
+`main` or bypass branch protection.
 
-- **Project:** SquadScope (public brand: Claracle) — AI-powered GitHub trend analysis
-- **Architecture:** See `architecture.md` in repo root
-- **Squad team:** See `.squad/team.md` for current roster
+1. Start from current `main` in a clean, dedicated worktree and create a focused
+   branch. Use the repository prefixes such as `feat/`, `fix/`, `docs/`,
+   `data/`, or `squad/`.
+2. Keep each PR to one concern. Separate product or code changes,
+   generated-data updates, and infrastructure changes.
+3. Run the checks relevant to the changed files before pushing. Do not weaken,
+   skip, or make a real gate non-blocking to obtain a green result.
+4. Push the branch, open a PR, and ensure the automatic Copilot review starts.
+   Request Copilot review if automation does not start it.
+5. Wait until Copilot has finished reviewing the latest commit. A completed
+   review may have no comments when the change is acceptable. Do not treat a
+   pending review or the absence of comments before completion as approval.
+6. Inspect every failed check and every comment from Copilot or another
+   reviewer. Fix valid findings, push the fixes, and reply with rationale when a
+   suggested change is not appropriate.
+7. Resolve each review thread only after its fix or documented disposition is
+   visible on the PR. Unresolved threads block merge.
+8. After every substantive push, wait for checks and Copilot review to finish
+   again against the new head commit. Reinspect comments because the new review
+   may produce additional findings.
+9. If GitHub reports that the branch is behind or the PR is stale, update the
+   branch from current `main`, resolve conflicts, push, and repeat the complete
+   checks and review cycle.
+10. Merge only when the latest head commit is current with `main`, all required
+    checks pass, Copilot has finished reviewing that commit, and no review
+    threads remain unresolved. Automated PRs still require human review.
 
-## Key Conventions
+The most common merge blockers are failed checks, unresolved review comments,
+and a branch that needs an update from `main`. Diagnose and correct the cause;
+do not bypass the protection.
 
-- All pipeline scripts are in `scripts/` (Python)
-- Content is Hugo markdown in `content/`
-- Config shared with Podcaster lives in `config/podcast.json`
-- Changes to `config/podcast.json` MUST be coordinated with SquadScope-Podcaster repo
-- Never commit secrets; use GitHub environment secrets
-- PRs required for `main` branch (branch protection enabled)
-- CI must be correct, not just green — verify rendered output for site changes
+For stacked PRs, document the base and merge order. Merge the base first,
+retarget the dependent PR to `main`, update it, and repeat checks and review.
 
-## Cross-Repo Impact
+## Validation
 
-Changes to these files affect the Podcaster repo:
+Run the smallest relevant checks while developing, then run all affected gates
+before pushing:
 
-- `config/podcast.json` — Podcaster reads this config for episode generation
-- `scripts/podcaster_handoff.py` — defines the handoff payload contract
+* Python: `ruff check .`, `ruff format --check .`, and `pytest tests/`
+* Hugo or content: `hugo --minify`, followed by inspection of rendered output
+  for user-facing changes
+* Workflow, IaC, or container configuration: the blocking Checkov scan defined
+  in `docs/devsecops/checkov-baseline.md`
+* GitHub Actions workflows: the pinned Zizmor command defined in
+  `docs/devsecops/zizmor-baseline.md`
+* Dockerfile or Containerfile changes: a local `docker build`
+* Podcast handoff changes: the tests and smoke workflow associated with
+  `.github/workflows/podcaster-handoff-smoke.yml`
 
-## Testing
+Local hooks in `.pre-commit-config.yaml` mirror the core CI gates. Keep tool
+versions synchronized with CI and the baseline documents. A local emergency
+hook bypass does not justify skipping or weakening CI.
 
-- Run `pytest tests/` for unit tests
-- Hugo build: `hugo --minify` must succeed
-- Handoff smoke: `.github/workflows/podcaster-handoff-smoke.yml`
+## Generated Content and Data
 
-## DevSecOps Guardrails
+* Treat checked-in crawl artifacts as source data. Regenerate derived content
+  with its owning script instead of editing generated output by hand.
+* Review lifecycle state, generated content, taxonomy registries, manifests,
+  and checksums as one transaction when the pipeline updates them together.
+* Keep generated-data PRs limited to generated files and their corresponding
+  metadata. Do not mix them with source, template, or documentation changes.
+* Do not commit local Hugo output or transient evidence under `public/`,
+  `resources/_gen/`, reports, or ignored screenshot result directories.
+* Follow `docs/data-observatory-runbook.md` for observatory operations and
+  `docs/branch-pr-hygiene.md` for branch and generated-data rules.
 
-Part of the DevSecOps Guardrails epic (jmservera/SquadScope-Coordinator#33).
-Baselines and per-tool docs live in `docs/devsecops/`. Phase A tooling is
-**warning-only / non-blocking** today; do not weaken or skip a real gate to make
-CI pass — CI must be correct, not just green.
+## Security and Review Ownership
 
-### Before you push (always)
+* Never commit secrets. Use GitHub environment secrets and least-privilege,
+  job-level workflow permissions.
+* Route architecture and final code review to Leela, testing to Fry, CI and
+  guardrail changes to URL, and security review to Hermes.
+* Workflow, infrastructure, Dockerfile, and Containerfile changes require both
+  URL pipeline review and Hermes security review.
+* Changes to prompts, imported external text, generated AI content, or
+  user-facing AI output require Nibbler review for prompt injection and AI
+  safety concerns.
 
-- Run the local tests: `pytest tests/`.
-- If you changed a `Dockerfile`/`Containerfile`: run `docker build` locally.
-- Lint/format Python with **ruff**.
-- If you changed IaC or container files: run **checkov**.
-- If you changed anything under `.github/workflows/`: run **zizmor**.
+## Cross-Repository Contracts
 
-### Tooling (run manually)
+Changes to `config/podcast.json` or `scripts/podcaster_handoff.py` affect
+SquadScope-Podcaster. Coordinate those changes with that repository and verify
+the handoff contract before merge. SquadScope owns the stable post-publication
+handoff; podcast generation remains outside this repository's critical
+publishing path.
 
-```bash
-# Python lint/format — ruff (config in pyproject.toml; see docs/devsecops/ruff-baseline.md)
-pip install ruff==0.15.7
-ruff check .            # lint (report)
-ruff check . --fix      # apply safe fixes
-ruff format .           # format
+## Authentication Troubleshooting
 
-# IaC / container / Actions scan — checkov (see docs/devsecops/checkov-baseline.md)
-pip install checkov==3.2.533
-checkov --directory . --framework github_actions dockerfile secrets \
-  --skip-path node_modules --skip-path .venv --compact --soft-fail
-
-# GitHub Actions security — zizmor (see docs/devsecops/zizmor-baseline.md)
-pipx install zizmor
-zizmor .github/workflows/
-```
-
-### Git hooks
-
-Local pre-commit/pre-push hooks live in `.pre-commit-config.yaml` (ruff,
-checkov, pytest, docker build). Install them once and keep tool versions in
-sync with CI — see `docs/devsecops/pre-commit.md`:
-
-```bash
-pip install pre-commit
-pre-commit install --hook-type pre-commit --hook-type pre-push
-```
-
-**Emergency skip:** `git commit --no-verify` / `git push --no-verify` bypasses
-local hooks — use only for genuine emergencies and follow up by fixing the
-skipped findings. Never disable the CI gates themselves to land a change.
-
-### Troubleshooting: git/gh auth errors
-
-Multiple `gh` accounts can be logged in on this machine. If the active account
-is not `jmservera`, `git push`, `gh pr create/merge`, `gh api` writes, or
-issue/PR comments can fail with a 403 or a permissions error that looks
-unrelated (e.g. `Permission to jmservera/SquadScope.git denied to <other-user>`,
-or "Must have admin rights to Repository" when touching environments/secrets).
-
-Fix: run `gh auth switch --user jmservera --hostname github.com`, then retry
-the failed command. Run `gh auth status` first if you want to confirm which
-account is active before diagnosing further.
-
-### Ownership
-
-- **URL** (DevSecOps Specialist) owns the guardrail pipeline, tooling, hooks,
-  dependency scanning, and secret detection.
-- **Hermes** (Security & Threat Analyst) owns security review, threat modeling,
-  and alert triage.
-- Infra, `Dockerfile`/`Containerfile`, and workflow changes should be reviewed by
-  URL (pipeline impact) and Hermes (security).
+Multiple GitHub CLI accounts may be configured on this machine. If a push,
+`gh` write, or environment operation fails with an unexpected permission error,
+run `gh auth status`. Switch to the repository owner account with
+`gh auth switch --user jmservera --hostname github.com` when needed.
