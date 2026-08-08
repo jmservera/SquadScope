@@ -4,6 +4,10 @@ applyTo: '.copilot-tracking/changes/2026-07-29/claracle-data-observatory-relaunc
 <!-- markdownlint-disable-file -->
 # Implementation Plan: Claracle Data Observatory Relaunch Remediation
 
+> **STATUS — CLOSED 2026-08-08.** Delivered items complete; the remaining human-gated items
+> (Steps 9.3 external launch evidence and 9.4 visual/interaction acceptance) are migrated to
+> [BRD-CLARACLE-003 §3](../../../docs/brds/claracle-post-relaunch-consolidation-brd.md#3-carried-over-requirements-remaining-relaunch-work) (CR-01/CR-02/CR-03). Do not resume here.
+
 ## Overview
 
 Operationalize the existing Claracle Data Observatory implementation, close every critical and major review finding, and gather evidence required for an honest relaunch decision.

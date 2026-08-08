@@ -4,6 +4,8 @@ applyTo: '.copilot-tracking/changes/2026-07-31/claracle-deploy-hydration-remedia
 <!-- markdownlint-disable-file -->
 # Implementation Plan: Claracle Deploy Hydration Remediation
 
+> **STATUS — DONE / CLOSED 2026-08-08.** All items delivered. Retired per [BRD-CLARACLE-003](../../../docs/brds/claracle-post-relaunch-consolidation-brd.md).
+
 ## Overview
 
 Resolve the production deploy failure introduced by PR #623 (issue #627), where the deploy hydrates `content/data/` from the `publish` branch that does not yet contain those pages, deleting the committed data pages that `content/embeds/` depends on and aborting the Hugo build. Ship an interim unblock, regenerate the observatory content onto `publish`, restore consistent hydration, and add a CI guard so this class of `main`/`publish` divergence fails CI rather than the deploy.

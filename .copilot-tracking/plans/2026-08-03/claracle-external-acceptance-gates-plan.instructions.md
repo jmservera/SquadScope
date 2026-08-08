@@ -4,6 +4,8 @@ applyTo: '.copilot-tracking/changes/2026-08-03/claracle-external-acceptance-gate
 <!-- markdownlint-disable-file -->
 # Implementation Plan: Claracle External Acceptance Gates
 
+> **STATUS — DONE / CLOSED 2026-08-08.** All items delivered. Retired per [BRD-CLARACLE-003](../../../docs/brds/claracle-post-relaunch-consolidation-brd.md).
+
 ## User Requests
 
 * Continue Suggested Next Work item 1: close external acceptance gates

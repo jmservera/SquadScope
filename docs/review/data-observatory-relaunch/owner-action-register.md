@@ -222,6 +222,18 @@ Readiness (2026-08-08): the experiment's workload guard now passes locally
 remaining step is the manual `build-cost-experiment.yml` `workflow_dispatch` on `main`
 with reviewed `main`/`publish` SHAs, which requires owner authority (URL).
 
+Future improvement (2026-08-08): the first dispatched run
+([31251984605](https://github.com/jmservera/SquadScope/actions/runs/31251984605)) failed
+the workload guard with `topic_hubs count is 1; expected 5`. Root cause: the
+deploy/experiment hydration does `rm -rf content/topics/ && git checkout publish -- content/topics/`,
+and `publish` only carries the legacy `ai-ml` hub `_index.md` (the 5 relaunch seed hubs
+live on `main`). Production is unaffected because topic term pages render from the weekly
+`topics:` taxonomy and dataset highlights are template-driven, independent of the stripped
+`_index.md`. Fix (owner URL/Leela): publish the 5 seed-hub `_index.md` files to the
+`publish` branch so hydration preserves them, or scope `content/topics/` out of the
+experiment's `topic_hubs` expected-count so it measures the hydrated corpus. Tracked in the
+new consolidated BRD.
+
 ## Visual acceptance
 
 Owner: Amy or another named visual reviewer.

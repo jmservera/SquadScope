@@ -2,6 +2,10 @@
 
 # Phase 7 Acceptance Gates Execution Summary — 2026-08-06
 
+> **STATUS — CLOSED 2026-08-08.** Historical dashboard superseded by the live
+> [status of record](../../../docs/review/data-observatory-relaunch/status-of-record.md); remaining
+> gates tracked in [BRD-CLARACLE-003](../../../docs/brds/claracle-post-relaunch-consolidation-brd.md).
+
 **Date**: 2026-08-06  
 **Status**: In Progress (RPI Phase 5: Discover)  
 **Prior State**: PR #675, #676 merged to main; infrastructure ready  
