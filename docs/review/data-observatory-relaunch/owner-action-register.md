@@ -82,6 +82,35 @@ ties successful axe, responsive, analytics-contract, Lighthouse, and Python chec
 the tested current-main revision. Manual keyboard and screen-reader conclusions remain
 required.
 
+Disposition (2026-08-08, Fry — QA):
+
+* Action 1 (identify revision, URLs, browser, OS, screen reader, viewport) — **partial**:
+  revision `f37b49dbd90afd80ba1fd18ec2169d4da31fcc3a` on
+  `chore/observatory-timing-gate-and-doc-sync`, production-parity local URLs served by
+  `scripts/serve_static.py`, Chromium via Playwright 1.58.2, desktop 1280x800 and mobile
+  393x727. **No screen reader / operating-system AT identified because no live
+  assistive-technology pass was run.**
+* Action 2 (review retained axe and responsive reports) — **done**: retained CI axe and
+  responsive evidence ([run 31160859598](https://github.com/jmservera/SquadScope/actions/runs/31160859598)
+  and the 2026-08-03 record); the responsive/touch-target subset was re-verified locally
+  this run (`a11y-perf.spec.mjs` passing on all four projects).
+* Action 3 (keyboard-only navigation) — **automated coverage only**: the CI a11y gate's
+  keyboard-label and consent focus-trap/restore checks (`observatory-a11y.spec.mjs`)
+  cover controls and the consent modal; these did not re-run locally because the pinned
+  `@axe-core/playwright@4.10.2` dependency was unavailable offline. A full manual
+  keyboard walkthrough of every surface is not separately recorded.
+* Action 4 (screen-reader review) — **NOT done; remains the outstanding item**. No live
+  screen-reader pass over headings, landmarks, labels, status changes, chart
+  alternatives, or errors was performed.
+* Action 5 (record findings) — **done** to the extent evidence exists: no new automated
+  violations; the residual is the live-AT gap in actions 1 and 4.
+
+**Standing conclusion:** NFR-005 rests on automated a11y coverage (axe WCAG 2.1 A/AA plus
+keyboard-label, consent focus-trap, chart-alternative, and responsive/touch-target checks)
+plus rendered-evidence review. It is **not** closed: a live screen-reader (assistive
+technology) pass is still required and is the single remaining step before this gate can
+be accepted.
+
 ## Protected real Podcaster run
 
 Owners: URL, Hermes, a repository administrator, the Podcaster maintainer, and the
@@ -208,6 +237,20 @@ themes, interaction states, and a dated reviewer conclusion.
 
 Completion evidence: replacement visual matrix with revision metadata and an explicit
 accept or reject conclusion. Screenshots alone are not approval.
+
+Disposition (2026-08-08, Amy — visual design): **Accept on rendered evidence, with a
+manual interaction-state step remaining.** The replacement visual matrix was captured and
+reviewed at revision `f37b49dbd90afd80ba1fd18ec2169d4da31fcc3a` on
+`chore/observatory-timing-gate-and-doc-sync` — 64 screenshots plus 4 `metadata.json` and
+`index.html` across desktop/mobile x light/dark (desktop 1280x800, mobile 393x727), with
+the `observatory-visual-regression.spec.mjs` gate passing 68/68 (route status, breadcrumb
+structure, no horizontal overflow, consent resolved before every feature capture). No
+route, breadcrumb, or overflow defect was found; the mobile `embed` long-name truncation
+is accepted as-is for the syndicated frame. **Remaining item:** the interaction-state
+captures required by the [capture checklist](screenshots/README.md) — tool filter
+combinations, expanded lifecycle/provenance detail, copy actions, and visible keyboard
+focus on the internal-link block — are not part of the automated matrix and remain an open
+manual reviewer step before the visual gate is fully closed.
 
 ## External metadata and feed validation
 
