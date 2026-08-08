@@ -12,10 +12,10 @@ ms.topic: reference
 |-------|-------|
 | BRD ID | BRD-CLARACLE-002 |
 | Status | Acceptance pending; sponsor decisions recorded with conditions |
-| Version | 1.4 |
+| Version | 1.5 |
 | Author | BRD Builder (facilitated) |
 | Sponsor | jmservera (also the human approval authority) |
-| Last updated | 2026-08-07 |
+| Last updated | 2026-08-08 |
 | Related repositories | SquadScope, SquadScope-Podcaster, SquadScope-Coordinator |
 
 ### Change History
@@ -27,6 +27,7 @@ ms.topic: reference
 | 1.2 | 2026-08-02 | SquadScope Squad | Added this change history, aligned the PRD cross-reference, linked the status of record, and reconciled the completed GA4/GSC connection |
 | 1.3 | 2026-08-05 | SquadScope Squad | Recorded the protected Podcaster result and separate sponsor decisions while preserving their technical conditions and open acceptance gates |
 | 1.4 | 2026-08-07 | SquadScope Squad | Recorded completed security acceptance, aligned with PRD v1.5 risk reconciliation, and noted the bounded dynamic-topic canary control |
+| 1.5 | 2026-08-08 | SquadScope Squad | Captured the dated GA4/GSC launch baseline (OBJ-1/2/4, DR-002) and recorded the timing budget approval |
 
 ---
 
@@ -85,14 +86,16 @@ Claracle's content and information architecture optimize for a weekly publishing
 
 ## 3. Business Objectives and Success Metrics
 
-> Numeric baselines have not been captured from **Google Analytics 4 (GA4)** or **Google Search Console (GSC)**. Targets remain unchanged, but baseline values stay pending until dated platform evidence exists.
+> A dated GA4/GSC launch baseline was captured on 2026-08-08 (GA4 window 2026-07-11 to
+> 2026-08-07; GSC last-28-day window ending 2026-08-05). Baseline values below are filled
+> from `docs/growth/ga4-gsc-baseline-2026-07-29.md`. Targets remain unchanged.
 
 | ID | Objective | KPI | Baseline | Target | Timeframe |
 |----|-----------|-----|----------|--------|-----------|
-| OBJ-1 | Establish durable, topic-aligned discovery surface | Number of evergreen topic/data/repository pages indexed by Google | ~0 (weekly-only) | ≥ 40 evergreen pages indexed | 3 months post-launch |
-| OBJ-2 | Grow organic search discovery | Organic sessions / month (GA4 + GSC) | Pending platform capture | ≥ 250 organic sessions / month | 6 months post-launch |
+| OBJ-1 | Establish durable, topic-aligned discovery surface | Number of evergreen topic/data/repository pages indexed by Google | 294 pages indexed (GSC, 2026-08-05); evergreen surface now live | ≥ 40 evergreen pages indexed | 3 months post-launch |
+| OBJ-2 | Grow organic search discovery | Organic sessions / month (GA4 + GSC) | 0 organic-search sessions (GA4, 2026-07-11 to 2026-08-07) | ≥ 250 organic sessions / month | 6 months post-launch |
 | OBJ-3 | Turn the dataset into a linkable asset | Number of external backlinks to data/dataset/chart/tool pages | ~0 | ≥ 25 referring domains | 6 months post-launch |
-| OBJ-4 | Rank for target head/mid-tail queries | Queries with impressions in GSC; count in top 20 | Pending platform capture | ≥ 15 queries in top 20 | 6 months post-launch |
+| OBJ-4 | Rank for target head/mid-tail queries | Queries with impressions in GSC; count in top 20 | 8 of 17 impression-bearing queries in top 20 (GSC, ending 2026-08-05) | ≥ 15 queries in top 20 | 6 months post-launch |
 | OBJ-5 | Improve technical SEO completeness | On-page SEO checklist coverage (titles, meta, canonical, OG, Twitter, Article + Breadcrumb schema, sitemaps, RSS) | Partial (see §7) | 100% of checklist items met and validated | At launch |
 | OBJ-6 | Preserve pipeline integrity and cross-repo contracts | Weekly pipeline success rate; Podcaster handoff smoke pass rate | Current (assumed passing) | No regression | Ongoing |
 
@@ -284,7 +287,9 @@ Claracle's content and information architecture optimize for a weekly publishing
 | DR-002 | Discovery and ranking performance shall be measurable via **Google Analytics 4 and Google Search Console**; a dated baseline shall be captured and both properties shall be connected or verified for the production domain. | OBJ-2, OBJ-4 | Must |
 | DR-003 | Published rankings and datasets shall carry provenance (source, "as of" date, methodology link) consistent with the existing methodology and corrections policy. | OBJ-5 | Must |
 
-- **DR-002 note:** The selected analytics stack is GA4 + GSC. The baseline remains pending; capture a dated snapshot of sessions, sources, and query impressions at launch to anchor the KPI trend line.
+- **DR-002 note:** The selected analytics stack is GA4 + GSC. The dated baseline was
+  captured 2026-08-08 (0 organic-search sessions, 149 GSC impressions, 8 of 17 queries in
+  top 20, 294 indexed pages); see `docs/growth/ga4-gsc-baseline-2026-07-29.md`.
 
 ---
 
