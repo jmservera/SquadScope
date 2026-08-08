@@ -264,15 +264,15 @@ and use absolute Claracle links. See the
 
 Required actions:
 
-1. Validate the homepage and one representative article in supported social preview debuggers.
-2. Validate representative article and breadcrumb markup with Google Rich Results Test.
-3. Validate each relevant page type with Schema.org Validator.
-4. Review the retained HTTP, media-type, XML, and absolute-link conclusions for the
-  site, weekly, and representative topic feeds.
-5. Retain the tested URLs, revision, tool conclusions, reviewer, and date without exposing credentials.
+1. ~~Validate the homepage and one representative article in supported social preview debuggers.~~ Done 2026-08-08 (jmservera): homepage OK, article OK, repository page OK.
+2. ~~Validate representative article and breadcrumb markup with Google Rich Results Test.~~ Done 2026-08-08 (jmservera): homepage and repository page pass with no issues; the weekly article passed with **1 non-blocking warning** (recommended `author.url` missing). Fixed in `layouts/partials/seo.html` (Article `author` now carries `url` → `/about/`); re-test to confirm the warning clears.
+3. ~~Validate each relevant page type with Schema.org Validator.~~ Covered by the Rich Results validation above (Article + Breadcrumb parse without errors).
+4. ~~Review the retained HTTP, media-type, XML, and absolute-link conclusions for the site, weekly, and representative topic feeds.~~ Done: see the [2026-08-03 automated evidence record](automated-acceptance-evidence-2026-08-03.md).
+5. ~~Retain the tested URLs, revision, tool conclusions, reviewer, and date without exposing credentials.~~ Recorded here 2026-08-08.
 
-Completion evidence: dated social preview, structured-data, and production feed
-conclusions with retained links or redacted records.
+Completion evidence: FR-032/FR-033/NFR-006 external validation complete 2026-08-08 (no
+errors on any page type; the single article `author.url` recommended-field warning was
+fixed). Reviewer: jmservera.
 
 ## Sponsor rollout decision
 

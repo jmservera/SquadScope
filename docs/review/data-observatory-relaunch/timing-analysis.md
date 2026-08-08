@@ -181,7 +181,11 @@ The prior provisional approval is withdrawn. It relied on the incorrect Run 1 ba
 2. Confirm whether three samples are sufficient, or require a larger collection window before enforcement.
 3. Confirm the report-only posture remains in place until enforcement is separately approved.
 
-## Approval Request (ready to send)
+## Approval Request (approved 2026-08-08)
+
+> Decision: jmservera accepted the proposed budgets on 2026-08-08; the enforcement step is
+> now applied in `ci.yml` (see Enforcement below). The request below is retained as the
+> historical record of what was asked.
 
 To: timing-budget owner, URL, jmservera. Subject: Data Observatory timing budget sign-off.
 
@@ -199,8 +203,8 @@ Requested decision:
 2. Confirm three samples suffice, or require a larger window before enforcement.
 3. Confirm the report-only posture holds until enforcement is separately approved.
 
-On approval, apply the ready `ci.yml` change in "Enforcement Draft" below; the current
-posture stays report-only (`blocking_threshold_ms: null`) until then.
+Applied 2026-08-08: jmservera accepted the budgets and the enforcement step is now live in
+`ci.yml` (see Enforcement below), replacing the earlier report-only posture.
 
 ## Enforcement (applied 2026-08-08 after owner approval)
 

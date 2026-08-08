@@ -28,10 +28,10 @@ Reconciled through 2026-08-08. Release acceptance remains **pending** per the
 [acceptance decision](README.md#acceptance-decision); both rollout flags stay disabled.
 
 **Phase 7 Acceptance Gates** (tracking PR #677):
-- Phase 7.1 Timing: ⏳ Data collection complete (three production `main` runs; Hugo p95 3,058 ms, Pagefind p95 2,707 ms). The earlier provisional approval is withdrawn because it was based on an incorrect Run 1 baseline and a non-comparable PR-branch run; revised thresholds await timing-budget owner approval
+- Phase 7.1 Timing: ✅ **APPROVED 2026-08-08** — data collection complete (three production `main` runs; Hugo p95 3,058 ms, Pagefind p95 2,707 ms); jmservera accepted the revised thresholds (Hugo 6,000 / Pagefind 5,500 / total 11,500 ms) and the enforcement gate is live in `ci.yml`
 - Phase 7.2 Security: ✅ **NFR-004 APPROVED** (all 10 findings approved by Hermes/URL; sponsor final acceptance recorded 2026-08-06)
 - Phase 7.3 Visual: 🟡 Named review recorded 2026-08-08 — Amy accepts the rendered visual matrix (64 screenshots, `observatory-visual-regression.spec.mjs` 68/68 at `f37b49d`) and Fry accepts the automated a11y/analytics coverage; both dispositions carry residual manual steps (visual interaction-state captures; NFR-005 live screen-reader pass). See the [visual review handoff](visual-review-handoff-2026-08-07.md#disposition)
-- **Critical Path**: Timing-budget owner approval and named visual review
+- **Critical Path**: Named visual review and the NFR-005 live screen-reader pass (timing budget approved and enforced 2026-08-08)
 - **Expected Release Readiness**: Gated on human sign-off rather than on further automation
 
 **Remaining human gates** (single release-readiness view; details in [owner-action-register.md](owner-action-register.md)):
@@ -43,7 +43,6 @@ Reconciled through 2026-08-08. Release acceptance remains **pending** per the
 | Accessibility (NFR-005) keyboard + screen-reader review | Amy, Fry | [owner-action-register.md](owner-action-register.md#accessibility-acceptance) — automated axe/keyboard/focus-trap/responsive coverage accepted 2026-08-08 (Fry); live screen-reader (AT) pass remains outstanding |
 | Dynamic-topic canary (`local-first`) approval | Hermes, jmservera | [owner-action-register.md](owner-action-register.md#proposed-dynamic-topic-canary-2026-08-08) |
 | Cost experiment dispatch (Q-01 / NFR-009) | URL, budget owner | [owner-action-register.md](owner-action-register.md#incremental-generation-cost-acceptance) |
-| External metadata + feed validation | Amy, jmservera | [owner-action-register.md](owner-action-register.md#external-metadata-and-feed-validation) |
 | `repo_pages` / dynamic activation transactions | jmservera | [owner-action-register.md](owner-action-register.md#sponsor-rollout-decision) |
 
 Analytics and search (FR-035 / NFR-007 / NFR-008) closed 2026-08-08; the `local-first`
@@ -163,7 +162,7 @@ Security Dispositions (7.2) ←── ✅ CLEARED (NFR-004 approved 2026-08-06)
     └─ SEC-08 (Hermes) [approved 2026-08-06]
 
 Timing Collection (7.1)  ←── ✅ CLEARED (3 production main runs transcribed)
-Timing Approval  (7.1)   ←── ⏳ OPEN (timing-budget owner; revised thresholds)
+Timing Approval  (7.1)   ←── ✅ APPROVED 2026-08-08 (jmservera; enforced in ci.yml)
 
 Visual Capture   (7.3)   ←── ✅ CLEARED (automated in ci.yml, artifact-retained)
 Visual Review    (7.3)   ←── 🟡 RECORDED 2026-08-08 (Amy accept rendered matrix; interaction captures remain)
