@@ -49,6 +49,9 @@ class HubCreationConfig:
     ignore_topics: frozenset[str]
     registry_path: Path
     candidates_path: Path
+    # Empty means "no allowlist"; a non-empty set restricts promotion to exactly
+    # those slugs so a canary cannot promote the whole eligible corpus at once.
+    allow_topics: frozenset[str] = frozenset()
 
 
 @dataclass
@@ -86,6 +89,9 @@ def load_config(path: Path = DEFAULT_CONFIG) -> HubCreationConfig:
         ),
         registry_path=config_root / "data" / "taxonomy" / "topics.json",
         candidates_path=config_root / "data" / "taxonomy" / "topic-candidates.json",
+        allow_topics=frozenset(
+            normalized_key(str(item)) for item in dynamic.get("allow_topics", [])
+        ),
     )
 
 
@@ -458,6 +464,8 @@ def preview_dynamic_hubs(
         }
         if key in existing or key in config.ignore_topics:
             entry["skip_reason"] = "existing-or-ignored"
+        elif config.allow_topics and key not in config.allow_topics:
+            entry["skip_reason"] = "not-in-allowlist"
         elif not signal.eligible or not signal.supporting_signals:
             entry["skip_reason"] = "missing-supporting-evidence"
         elif weekly_count < config.min_weekly_issues or not candidate_is_recent(
@@ -504,7 +512,8 @@ def create_dynamic_hubs(
     append_log(
         config,
         f"dynamic-topic-check enabled=true threshold={config.min_weekly_issues} "
-        f"lookback_days={config.lookback_days} current_date={now.isoformat()}",
+        f"lookback_days={config.lookback_days} current_date={now.isoformat()} "
+        f"allowlist={sorted(config.allow_topics) or 'none'}",
     )
     existing = existing_hub_keys(root / "content")
     created: list[Path] = []
@@ -513,6 +522,9 @@ def create_dynamic_hubs(
         weekly_count = signal.weekly_issue_count or len(signal.weeks)
         if key in existing or key in config.ignore_topics:
             skipped[key] = "existing-or-ignored"
+            continue
+        if config.allow_topics and key not in config.allow_topics:
+            skipped[key] = "not-in-allowlist"
             continue
         if not signal.eligible or not signal.supporting_signals:
             skipped[key] = "missing-supporting-evidence"

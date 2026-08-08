@@ -14,6 +14,14 @@ estimated_reading_time: 10
 
 ## Review status
 
+> Reconciliation (2026-08-07): the findings below capture the 2026-08-02 through
+> 2026-08-04 review-pass state and are retained as the historical record. NFR-004
+> was subsequently **approved on 2026-08-06** — all ten findings (SEC-01 through
+> SEC-10) carry dated dispositions and jmservera recorded sponsor acceptance. The
+> authoritative disposition surface is
+> [security-sign-off-checklist.md](security-sign-off-checklist.md); see also the
+> [status of record](status-of-record.md).
+
 Repository review was reconciled with current controls on 2026-08-02. Hermes has now verified and
 dispositioned SEC-01 through SEC-05 (2026-08-04): SEC-01 through SEC-04 are approved, and SEC-05 is
 accepted with conditions rather than a plain accept. SEC-08's Hermes sign-off and jmservera's sponsor

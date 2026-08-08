@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "record": "claracle-launch-analytics-baseline",
+  "generated": "2026-08-08",
+  "owner": "jmservera",
+  "source_of_truth": "docs/growth/ga4-gsc-baseline-2026-07-29.md",
+  "notes": "NFR-007 launch baseline transcribed from the GA4 report snapshot and GSC Performance/Coverage exports. Raw exports are retained outside the repository (not committed). No analytics measurement identifier is stored here.",
+  "ga4": {
+    "window_start": "2026-07-11",
+    "window_end": "2026-08-07",
+    "total_sessions": 51,
+    "organic_search_sessions": 0,
+    "referral_sessions": 33,
+    "referral_sessions_external": 18,
+    "referral_sessions_local_dev": 15,
+    "direct_sessions": 15,
+    "paid_search_sessions": 2,
+    "active_users": 10,
+    "new_users": 7,
+    "avg_engagement_seconds": 294.6
+  },
+  "gsc_performance": {
+    "window_start": "2026-07-09",
+    "window_end": "2026-08-05",
+    "window_label": "last 28 days",
+    "search_impressions": 149,
+    "search_clicks": 0,
+    "ctr": 0.0,
+    "queries_with_impressions": 17,
+    "impressions_desktop": 127,
+    "impressions_mobile": 22,
+    "avg_position_desktop": 12.07,
+    "avg_position_mobile": 8.36
+  },
+  "gsc_coverage": {
+    "as_of": "2026-08-05",
+    "indexed_pages": 294,
+    "not_indexed_pages": 1190,
+    "discovered_not_indexed": 1182,
+    "crawled_not_indexed": 2,
+    "redirect": 3,
+    "not_found_404": 2,
+    "excluded_noindex": 1
+  },
+  "nfr_008_consent": {
+    "status": "confirmed",
+    "captured": "2026-08-08",
+    "denied_behavior": "no gtag/js, no g/collect, no Google host before consent (private-session HAR)",
+    "granted_behavior": "gtag/js loaded and two g/collect beacons fired after Accept all; anonymize_ip true",
+    "note": "Raw HAR files retained outside the repository; not committed."
+  }
+}

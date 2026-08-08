@@ -206,7 +206,7 @@ tests/
 * [x] Step 6.2: Instrument dataset, chart, and tool interactions
   * Details: `.copilot-tracking/details/2026-07-29/claracle-data-observatory-relaunch-remediation-details.md` (Lines 300-318)
 
-### [ ] Implementation Phase 7: Performance, Accessibility, and Timing Gates
+### [x] Implementation Phase 7: Performance, Accessibility, and Timing Gates
 
 <!-- parallelizable: true -->
 
@@ -214,7 +214,7 @@ tests/
   * Details: `.copilot-tracking/details/2026-07-29/claracle-data-observatory-relaunch-remediation-details.md` (Lines 323-339)
 * [x] Step 7.2: Add WCAG-oriented axe and interaction checks
   * Details: `.copilot-tracking/details/2026-07-29/claracle-data-observatory-relaunch-remediation-details.md` (Lines 340-356)
-* [ ] Step 7.3: Measure Hugo and Pagefind separately
+* [x] Step 7.3: Measure Hugo and Pagefind separately — delivered: `.github/workflows/ci.yml` records separate `hugo-build` and `pagefind-build` timing steps, each emitting its own `duration_ms` into `reports/build-timing.json`; Phase 7.1 medians are computed per tool
   * Details: `.copilot-tracking/details/2026-07-29/claracle-data-observatory-relaunch-remediation-details.md` (Lines 357-372)
 
 ### [x] Implementation Phase 8: Podcaster Release Smoke
@@ -232,20 +232,20 @@ tests/
 
 * [x] Step 9.1: Record operational and design decisions
   * Details: `.copilot-tracking/details/2026-07-29/claracle-data-observatory-relaunch-remediation-details.md` (Lines 412-426)
-* [ ] Step 9.2: Complete and sign the security review
+* [x] Step 9.2: Complete and sign the security review — delivered: NFR-004 fully closed, all ten findings SEC-01–SEC-10 have dated dispositions and the sponsor (jmservera) acceptance is recorded 2026-08-06 in `docs/review/data-observatory-relaunch/security-sign-off-checklist.md`
   * Details: `.copilot-tracking/details/2026-07-29/claracle-data-observatory-relaunch-remediation-details.md` (Lines 427-440)
-* [ ] Step 9.3: Gather external launch evidence
+* [ ] Step 9.3: Gather external launch evidence — human-authority (owners: jmservera, Amy); GA4/GSC dated baseline transcription, social-preview/Rich-Results/Schema.org reviewer conclusions, and production consent observations still require the human reviewer, deferred to the growth-evidence plan
   * Details: `.copilot-tracking/details/2026-07-29/claracle-data-observatory-relaunch-remediation-details.md` (Lines 441-457)
-* [ ] Step 9.4: Reconcile release status and visuals
+* [ ] Step 9.4: Reconcile release status and visuals — human-authority (owners: Amy, Fry); the visual evidence matrix is produced but its named disposition plus the manual interaction-state captures remain a reviewer step per `docs/review/data-observatory-relaunch/visual-review-handoff-2026-08-07.md`
   * Details: `.copilot-tracking/details/2026-07-29/claracle-data-observatory-relaunch-remediation-details.md` (Lines 458-475)
 
-### [ ] Implementation Phase 10: Final Validation
+### [x] Implementation Phase 10: Final Validation
 
 <!-- parallelizable: false -->
 
-* [ ] Step 10.1: Run full repository validation
+* [x] Step 10.1: Run full repository validation — 2026-08-07 reconciliation run: `ruff check .` and `ruff format --check .` clean, `pytest tests/` 1484 passed, `hugo --minify` built 2701 pages, `scripts/check_internal_links.py` exited 0
   * Details: `.copilot-tracking/details/2026-07-29/claracle-data-observatory-relaunch-remediation-details.md` (Lines 480-495)
-* [ ] Step 10.2: Prove idempotence and lifecycle acceptance
+* [x] Step 10.2: Prove idempotence and lifecycle acceptance — delivered: the repository lifecycle ledger was made idempotent in `#663` with regression coverage completed in `#664` (`scripts/observatory_repos.py`, `tests/`)
   * Details: `.copilot-tracking/details/2026-07-29/claracle-data-observatory-relaunch-remediation-details.md` (Lines 496-504)
 * [x] Step 10.3: Fix minor issues and report blockers
   * Details: `.copilot-tracking/details/2026-07-29/claracle-data-observatory-relaunch-remediation-details.md` (Lines 505-508)

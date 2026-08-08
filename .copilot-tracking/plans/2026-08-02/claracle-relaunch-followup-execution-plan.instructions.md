@@ -25,7 +25,7 @@ Research shows that the repository implementation is ahead of the acceptance rec
 * [x] Push the active PR branch
 * [x] Resolve both addressed PR #647 review threads
 
-### [ ] Phase 2: Reconcile GA4/GSC Evidence
+### [x] Phase 2: Reconcile GA4/GSC Evidence
 
 <!-- parallelizable: true -->
 
@@ -33,7 +33,7 @@ Research shows that the repository implementation is ahead of the acceptance rec
 * [x] Correct the baseline and status of record to distinguish deployed wiring from external acceptance
 * [x] Clarify that production GA configuration is injected through an Actions secret
 * [x] Complete Google property verification, sitemap submission, Realtime confirmation, and product link (owner-confirmed by jmservera on 2026-08-02)
-* [ ] Transcribe the supplied GSC performance export and retain production consent observations
+* [x] Transcribe the supplied GSC performance export and retain production consent observations — done 2026-08-08: the GSC Performance/Coverage export and GA4 values were transcribed into the [dated baseline](../../../docs/growth/ga4-gsc-baseline-2026-07-29.md) (NFR-007), and denied/granted production consent observations were captured via private-session HAR (NFR-008)
 
 ### [x] Phase 3: Refresh Acceptance Evidence
 

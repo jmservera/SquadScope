@@ -521,6 +521,129 @@ def test_preview_dynamic_hubs_tolerates_malformed_registry_terms() -> None:
     assert by_slug["edge-ai-workflows"]["registry_effect"] == "create-new-term"
 
 
+def _write_allowlist_workspace(allow_topics: list[str], *, enabled: bool) -> list[str]:
+    if WORKSPACE.exists():
+        shutil.rmtree(WORKSPACE)
+    (WORKSPACE / "config").mkdir(parents=True)
+    (WORKSPACE / "content" / "weekly" / "2026").mkdir(parents=True)
+    (WORKSPACE / "content" / "topics").mkdir(parents=True)
+    (WORKSPACE / "data" / "taxonomy").mkdir(parents=True)
+
+    (WORKSPACE / "config" / "observatory.toml").write_text(
+        f"""[topic_hubs]
+        seed_topics = ["AI Coding Agents"]
+
+        [topic_hubs.dynamic_creation]
+        enabled = {str(enabled).lower()}
+        min_weekly_issues = 4
+        lookback_days = 62
+        log_path = "data/topic-hubs/dynamic-topic-creation.log"
+        allow_topics = {json.dumps(allow_topics)}
+        ignore_topics = []
+        """,
+        encoding="utf-8",
+    )
+    (WORKSPACE / "data" / "taxonomy" / "topics.json").write_text(
+        json.dumps({"terms": {}}, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    weeks = ["2026-W28", "2026-W29", "2026-W30", "2026-W31"]
+    _write_candidate_registry(
+        WORKSPACE,
+        {
+            "edge-ai-workflows": _candidate("Edge AI Workflows", weeks),
+            "quantum-tooling": _candidate("Quantum Tooling", weeks),
+            "wasm-runtimes": _candidate("Wasm Runtimes", weeks),
+        },
+    )
+    for week in weeks:
+        weekly = WORKSPACE / "content" / "weekly" / "2026" / f"W{week[-2:]}.md"
+        weekly.write_text(
+            f'---\ntitle: "{week}"\ndate: 2026-07-27\nweek: "{week}"\n'
+            'tags: ["edge-ai-workflows", "quantum-tooling", "wasm-runtimes"]\n'
+            'categories: ["weekly"]\ntopics: []\n---\nBody\n',
+            encoding="utf-8",
+        )
+    return weeks
+
+
+def test_empty_allowlist_leaves_every_eligible_candidate_promotable() -> None:
+    _write_allowlist_workspace([], enabled=False)
+
+    from scripts.manage_topic_hubs import preview_dynamic_hubs
+
+    report = preview_dynamic_hubs(
+        root=WORKSPACE,
+        config_path=WORKSPACE / "config" / "observatory.toml",
+        current_date="2026-07-29T12:57:30Z",
+    )
+    promoted = sorted(entry["slug"] for entry in report if entry["action"] == "promote")
+    assert promoted == ["edge-ai-workflows", "quantum-tooling", "wasm-runtimes"]
+
+
+def test_allowlist_bounds_preview_to_the_reviewed_canary() -> None:
+    _write_allowlist_workspace(["quantum-tooling"], enabled=False)
+
+    from scripts.manage_topic_hubs import preview_dynamic_hubs
+
+    report = preview_dynamic_hubs(
+        root=WORKSPACE,
+        config_path=WORKSPACE / "config" / "observatory.toml",
+        current_date="2026-07-29T12:57:30Z",
+    )
+    by_slug = {entry["slug"]: entry for entry in report}
+    assert by_slug["quantum-tooling"]["action"] == "promote"
+    assert by_slug["edge-ai-workflows"]["action"] == "skip"
+    assert by_slug["edge-ai-workflows"]["skip_reason"] == "not-in-allowlist"
+    assert by_slug["wasm-runtimes"]["skip_reason"] == "not-in-allowlist"
+
+
+def test_allowlist_bounds_the_enabled_promotion_transaction() -> None:
+    _write_allowlist_workspace(["quantum-tooling"], enabled=True)
+
+    created = create_dynamic_hubs(
+        root=WORKSPACE,
+        config_path=WORKSPACE / "config" / "observatory.toml",
+        current_date="2026-07-29T12:57:30Z",
+    )
+
+    assert [path.parent.name for path in created] == ["quantum-tooling"]
+    assert (WORKSPACE / "content" / "topics" / "quantum-tooling" / "_index.md").exists()
+    assert not (WORKSPACE / "content" / "topics" / "edge-ai-workflows").exists()
+    assert not (WORKSPACE / "content" / "topics" / "wasm-runtimes").exists()
+
+    registry = json.loads(
+        (WORKSPACE / "data" / "taxonomy" / "topics.json").read_text(encoding="utf-8")
+    )
+    assert "quantum-tooling" in registry["terms"]
+    assert "edge-ai-workflows" not in registry["terms"]
+    assert "wasm-runtimes" not in registry["terms"]
+
+    weekly = (WORKSPACE / "content" / "weekly" / "2026" / "W28.md").read_text(encoding="utf-8")
+    assert "Quantum Tooling" in weekly
+    assert "Edge AI Workflows" not in weekly
+
+    log = (WORKSPACE / "data" / "topic-hubs" / "dynamic-topic-creation.log").read_text(
+        encoding="utf-8"
+    )
+    assert "allowlist=['quantum-tooling']" in log
+
+
+def test_shipped_config_never_enables_unbounded_dynamic_creation() -> None:
+    # Live guard: enabling dynamic creation with an empty allowlist would promote every
+    # eligible candidate (~1000+) in a single transaction. Keep the canary bounded.
+    raw = tomllib.loads((ROOT / "config" / "observatory.toml").read_text(encoding="utf-8"))
+    dynamic = raw["topic_hubs"]["dynamic_creation"]
+    allow_topics = dynamic.get("allow_topics", [])
+    assert isinstance(allow_topics, list)
+    assert all(isinstance(slug, str) and slug for slug in allow_topics)
+    if dynamic.get("enabled", False):
+        assert allow_topics, (
+            "dynamic_creation.enabled is true but allow_topics is empty; this would "
+            "promote every eligible candidate in one transaction"
+        )
+
+
 def test_dynamic_topic_creation_does_not_create_below_threshold() -> None:
     if WORKSPACE.exists():
         shutil.rmtree(WORKSPACE)

@@ -2,7 +2,7 @@
 title: Data Observatory Relaunch Owner Action Register
 description: Sequenced owner actions and evidence requirements for Claracle relaunch gates that cannot be completed by repository automation
 author: SquadScope Squad
-ms.date: 2026-08-05
+ms.date: 2026-08-08
 ms.topic: reference
 keywords:
   - launch gates
@@ -32,13 +32,14 @@ Current evidence:
 
 Required actions:
 
-1. Record denied and granted production consent behavior without exposing identifiers.
-2. Transcribe the supplied GSC performance export and capture GA4 values for one explicit date range.
-3. Confirm GSC finishes processing the sitemap and review indexed and excluded URL counts.
-4. Update the [dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md) with redacted conclusions and actual values.
+1. ~~Record denied and granted production consent behavior without exposing identifiers.~~ Done 2026-08-08: private-session HAR captures confirm no analytics before consent and `gtag/js` + `g/collect` after consent; see the [dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md#production-consent-observations-nfr-008).
+2. ~~Transcribe the supplied GSC performance export and capture GA4 values for one explicit date range.~~ Done 2026-08-08; see the [dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md#baseline-values).
+3. ~~Confirm GSC finishes processing the sitemap and review indexed and excluded URL counts.~~ Done 2026-08-08: 294 indexed, 1190 not indexed (as of 2026-08-05).
+4. ~~Update the [dated baseline](../../growth/ga4-gsc-baseline-2026-07-29.md) with redacted conclusions and actual values.~~ Done 2026-08-08.
 
-Completion evidence still needed: consent observations, processed sitemap conclusion,
-numeric baseline date range, and reviewer/date.
+Completion evidence: recorded as of 2026-08-08. NFR-007 numeric baseline, processed-sitemap
+conclusion, and NFR-008 denied/granted consent observations are all captured in the dated
+baseline; the analytics and search acceptance gate is fully evidenced.
 
 ## Security acceptance
 
@@ -51,12 +52,14 @@ Required actions:
 3. ~~Hermes reviews the SEC-03 public export field and source-path allowlists.~~ Done 2026-08-04.
 4. ~~Hermes records an accepted-risk decision for SEC-05.~~ Done with conditions 2026-08-04.
 5. ~~URL reviews protected workflow and secret scope after the real Podcaster environment change.~~ Done through SEC-10 on 2026-08-04.
-6. Hermes records the remaining SEC-08 disposition after reviewing the disabled raw HTML contract.
-7. jmservera and Hermes retain SEC-06 production consent observations without exposing analytics identifiers.
-8. jmservera records the final production-owner conclusion after external evidence is linked.
+6. ~~Hermes records the remaining SEC-08 disposition after reviewing the disabled raw HTML contract.~~ Done 2026-08-06; see [security-sign-off-checklist.md](security-sign-off-checklist.md).
+7. ~~jmservera and Hermes retain SEC-06 production consent observations without exposing analytics identifiers.~~ Done 2026-08-06; see [security-sign-off-checklist.md](security-sign-off-checklist.md).
+8. ~~jmservera records the final production-owner conclusion after external evidence is linked.~~ Done 2026-08-06: NFR-004 approved, sponsor acceptance recorded.
 
 Completion evidence: dated sign-off rows with finding-level dispositions and linked test,
-workflow, or production observations.
+workflow, or production observations. **NFR-004 is fully accepted as of 2026-08-06** (all
+ten findings dispositioned); the authoritative surface is
+[security-sign-off-checklist.md](security-sign-off-checklist.md).
 
 ## Accessibility acceptance
 
@@ -184,6 +187,12 @@ Required actions:
 
 Completion evidence: retained experiment artifacts and a dated budget-owner conclusion.
 
+Readiness (2026-08-08): the experiment's workload guard now passes locally
+(`EXPECTED_CLASS_COUNTS` corrected to `topic_hubs` 5, `data_pages` 3,
+`repository_pages` 266; `discover_workload()` returns without raising). The only
+remaining step is the manual `build-cost-experiment.yml` `workflow_dispatch` on `main`
+with reviewed `main`/`publish` SHAs, which requires owner authority (URL).
+
 ## Visual acceptance
 
 Owner: Amy or another named visual reviewer.
@@ -230,8 +239,58 @@ Record a separate decision for each flag. Do not use one blanket approval.
 
 | Flag | Decision | Reviewed revision and evidence | Conditions | Date |
 | ---- | -------- | ------------------------------ | ---------- | ---- |
-| `dynamic_topic_creation` | Approved (sponsor); technical preconditions outstanding | See Planning Log WI-03 for status | Security disposition and approved canary still required before activation (Phase 3 not yet started) | 2026-08-05 |
+| `dynamic_topic_creation` | Approved (sponsor); technical preconditions outstanding | See Planning Log WI-03 for status | Non-mutating preview (`--dry-run`, `#670`) and the `allow_topics` allowlist now exist; a reviewed canary slug plus Hermes and sponsor approval of the exact revision are still required before activation | 2026-08-05 |
 | `repo_pages` | Approved | [PR #668](https://github.com/jmservera/SquadScope/pull/668) - identity backfill, duplicate-identity consolidation, and corpus regeneration; 266 qualified pages, 0 `--seed-lifecycle` mismatches, byte-identical two-run check, 1459 tests passing | Stable identity and lifecycle evidence required (satisfied by PR #668) | 2026-08-05 |
 
 Completion evidence: dated approve, reject, or defer decisions identifying the exact
 revision, evidence, conditions, and rollback owner for each flag.
+
+### Proposed dynamic-topic canary (2026-08-08)
+
+A `--dry-run` preview (`scripts/manage_topic_hubs.py`, current date 2026-08-08) reports
+1,051 eligible candidates, most at the `min_weekly_issues = 4` floor and dominated by
+noise (`agent`, `agents`, `agentic`, `acme`, `acp`, `activejob`, `activerecord`). A naive
+activation would create ~1,051 hubs, so a bounded canary is required.
+
+Recommended single canary: **`local-first`** — the strongest, least ambiguous candidate.
+
+* Weekly issue count 7 (highest), across 7 evidence weeks (`2026-W24`, `W27`, `W28`,
+  `W29`, `W30`, `W31`, `W32`) with 9 supporting sources.
+* Real, durable topic already drawing search demand: GSC shows `/tags/local-first/` with
+  13 impressions in the launch baseline window.
+* `registry_effect: create-new-term`; proposed hub `content/topics/local-first/_index.md`;
+  7 proposed weekly assignments. Not an existing hub and not in `ignore_topics`.
+
+Proposed activation shape: set `allow_topics = ["local-first"]` in
+`config/observatory.toml` `[topic_hubs.dynamic_creation]`, keep `enabled = false` until
+Hermes and the sponsor approve the exact revision, then flip `enabled = true` for that one
+allowlisted slug and review the resulting transaction before expanding.
+
+**Staged 2026-08-08**: `allow_topics = ["local-first"]` is set in `config/observatory.toml`
+with `enabled = false`. A `--dry-run` against this revision promotes exactly one slug
+(`local-first`) and skips the other 2,500 candidates with `not-in-allowlist`; both rollout
+flags remain disabled. This is the exact revision for Hermes and sponsor review; enabling
+requires their approval.
+
+### Staged repo_pages activation (2026-08-08)
+
+`repo_pages` is sponsor-approved (ID-02) and its content is already regenerated to match
+what the flag would produce (PR #668: 266 qualified pages, byte-identical two-run check).
+The flag `[repo_pages] enabled` remains `false` in `config/observatory.toml`, so the
+cost-experiment `assert_rollouts_disabled` invariant still holds.
+
+Activation transaction (not yet applied; keeps the "both flags disabled" invariant until
+executed under review):
+
+1. URL reviews the workflow and secret scope for the activation run (not yet sought).
+2. Set `[repo_pages] enabled = true` in `config/observatory.toml` on a reviewed branch.
+3. Run one publish transaction and inspect the committed generated-state diff before deploy.
+4. Confirm production rendering and lifecycle; retain the diff and run evidence.
+5. Rollback: set `enabled = false` and revert the generated transaction (disabling alone
+   does not undo durable mutations).
+
+Owner: jmservera (execution), URL (workflow/secret review).
+
+Required actions: Hermes reviews the exact canary transaction (sanitization, YAML,
+evidence-backed weekly assignments, taxonomy, logging, rendering, disabled rollback);
+jmservera records sponsor approval of the exact revision.

@@ -2,12 +2,12 @@
 title: Claracle Data Observatory Relaunch Product Requirements Document
 description: Product requirements, delivery state, rollout controls, risks, and acceptance gates for the Claracle Data Observatory relaunch
 author: SquadScope Squad
-ms.date: 2026-08-05
+ms.date: 2026-08-07
 ms.topic: reference
 ---
 <!-- markdownlint-disable-file -->
 <!-- markdown-table-prettify-ignore-start -->
-Version 1.4 | Status Acceptance pending | Owner jmservera | Team SquadScope Squad | Target Wave 1 (foundation) | Lifecycle Definition
+Version 1.5 | Status Acceptance pending | Owner jmservera | Team SquadScope Squad | Target Wave 1 (foundation) | Lifecycle Definition
 
 ## Progress Tracker
 | Phase | Done | Gaps | Updated |
@@ -181,8 +181,8 @@ Discovery engine
 | NFR-008 | Privacy | Analytics respects existing consent | GA4 gated by existing cookie consent | Must | `data/cookieconsent.json` flow | |
 | NFR-009 | Scalability | Generation scales with dataset growth | Full build time stays within CI budget as pages grow | Should | Build timing in CI | Ties to open cost question |
 | NFR-010 | Portability | Everything runs within Hugo static build | No server dependency introduced | Must | Build/deploy on GitHub Pages | |
-| NFR-011 | Reliability | Deploy and CI build the same hydrated content set | CI reproduces the publish-hydration that deploy performs, so generated-content divergence between `main` and `publish` fails CI rather than the production deploy | Must | CI deploy-parity build; `test_pipeline.py` provenance invariant | Root cause of the 2026-07-31 deploy failure (issue #627) |
-| NFR-012 | Reliability | Embedded charts never break the site build | Every `content/embeds/*` `source_page` resolves to an existing data page in the built content set | Must | Build-time reference check | The dangling embed reference aborted the 2026-07-31 deploy |
+| NFR-011 | Reliability | Deploy and CI build the same hydrated content set | CI reproduces the publish-hydration that deploy performs, so generated-content divergence between `main` and `publish` fails CI rather than the production deploy | Must | CI deploy-parity build; `test_pipeline.py` provenance invariant | Delivered: the `publish-hydration-parity` job runs `scripts/publish_hydration.py` before deploy. Root cause of the 2026-07-31 deploy failure (issue #627) |
+| NFR-012 | Reliability | Embedded charts never break the site build | Every `content/embeds/*` `source_page` resolves to an existing data page in the built content set | Must | Build-time reference check | Delivered: `scripts/check_embed_sources.py` with `tests/test_embed_sources.py` (`#641`). The dangling embed reference aborted the 2026-07-31 deploy |
 
 ## 8. Data & Analytics (Conditional)
 ### Inputs
@@ -224,12 +224,12 @@ Generated Hugo content: topic hubs (taxonomy terms), data pages, repository page
 |---------|-------------|---------|-----------|-----------|-------|--------|
 | R-01 | Thin/duplicate evergreen pages harm SEO | High | Medium | Real data + provenance; unique titles/meta; content-quality gate; thresholds gate creation | Amy | Open |
 | R-02 | Static hosting limits interactive tools | Medium | Medium | Constrain to client-side; design spike validates feasibility | Amy | Open |
-| R-03 | Auto-generation breaks internal links | Medium | Medium | CI link-check gate (FR-041) | Fry | Open |
+| R-03 | Auto-generation breaks internal links | Medium | Medium | CI link-check gate (FR-041) | Fry | Closed; `scripts/check_internal_links.py` runs in the CI production-site job |
 | R-04 | Cross-repo contract regression (Podcaster) | High | Low | Keep handoff payload unchanged; retain smoke test | URL | Closed for relaunch evidence; protected run `30908778884` succeeded and downstream returned `accepted` |
-| R-05 | Dataset/tool exposure adds abuse/injection surface | Medium | Low | Hermes review; sanitize inputs; `unsafe=false` | Hermes | Open; sign-off pending |
+| R-05 | Dataset/tool exposure adds abuse/injection surface | Medium | Low | Hermes review; sanitize inputs; `unsafe=false` | Hermes | Closed; all ten SEC findings and the sponsor conclusion are dated 2026-08-06 in the security sign-off checklist |
 | R-06 | Generation cost/time grows unbounded | Medium | Medium | Quantify in design spike; cap/paginate; incremental builds | Leela | Open |
 | R-07 | Over-scoping delays discovery wins | Medium | Medium | Sequence: IA + SEO + linking first, then assets | Leela | Open |
-| R-08 | Deploy hydration wipes committed pages referenced by non-hydrated content, breaking the production build while CI stays green | High | Medium | Keep generated-content sources consistent across `main` and `publish`; add a CI deploy-parity build; validate every `content/embeds/*` `source_page` resolves | URL | Open; interim fix ships `content/data` pages from `main` until the crawl publishes them (issue #627) |
+| R-08 | Deploy hydration wipes committed pages referenced by non-hydrated content, breaking the production build while CI stays green | High | Medium | Keep generated-content sources consistent across `main` and `publish`; add a CI deploy-parity build; validate every `content/embeds/*` `source_page` resolves | URL | Closed; hydration restored (`#637`), embed-source guard shipped (`#641`), and the `publish-hydration-parity` CI job reproduces deploy hydration |
 
 ## 11. Privacy, Security & Compliance
 ### Data Classification
@@ -280,13 +280,14 @@ Use the existing per-week distribution playbook (`docs/growth/distribution-strat
 ## 14. Open Questions
 | Q ID | Question | Owner | Deadline | Status |
 |------|----------|-------|---------|--------|
-| Q-01 | Quantify incremental generation cost/time for hubs, data, and repo pages | Leela | Design spike | Open |
+| Q-01 | Quantify incremental generation cost/time for hubs, data, and repo pages | Leela | Design spike | Open; tooling ready (`scripts/build_cost_experiment.py`, `build-cost-experiment.yml`) and the stale 263-page corpus guard corrected to 266, so the experiment now runs. Retained runs and the budget conclusion are pending |
 | Q-02 | Which client-side tool to build first (FR-052) | Amy | 2026-07-30 | Resolved: Star Velocity Explorer; see ADR |
 | Q-03 | When can `content/data/` deploy hydration be restored (once the crawl reliably publishes observatory pages to `publish`)? | Bender | Post-#627 crawl run | Resolved: hydration restored via `#637` after the crawl repopulated `publish`; CI embed-source guard (`#641`) prevents recurrence |
 
 ## 15. Changelog
 | Version | Date | Author | Summary | Type |
 |---------|------|-------|---------|------|
+| 1.5 | 2026-08-07 | SquadScope Squad | Reconciled stale risk statuses (R-03, R-05, R-08 closed on delivered evidence), recorded NFR-011/012 delivery, and unblocked Q-01 by correcting the cost-experiment corpus guard and bounding the dynamic-topic canary with an `allow_topics` allowlist | Updated |
 | 1.4 | 2026-08-05 | SquadScope Squad | Recorded the successful protected Podcaster run, atomic proof, and separate sponsor decisions while preserving open technical and external gates | Updated |
 | 1.3 | 2026-08-02 | SquadScope Squad | Reconciled the #627-#646 workstream: deploy/hydration parity restored and CI embed-source guard shipped (`#634`/`#637`/`#641`), Podcaster smoke hardened (`#636`/`#639`/`#643`/`#645`), restore preserves the published weekly transaction (NFR-002; `#640`/`#646`); recorded FR-041 partial status and linked the status of record | Updated |
 | 1.2 | 2026-07-31 | SquadScope Squad | Recorded the deploy hydration content-provenance failure (issue #627), the interim `content/data` fix, and the deploy/CI parity requirement (NFR-011/012, R-08) | Updated |

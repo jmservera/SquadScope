@@ -181,6 +181,67 @@ The prior provisional approval is withdrawn. It relied on the incorrect Run 1 ba
 2. Confirm whether three samples are sufficient, or require a larger collection window before enforcement.
 3. Confirm the report-only posture remains in place until enforcement is separately approved.
 
+## Approval Request (ready to send)
+
+To: timing-budget owner, URL, jmservera. Subject: Data Observatory timing budget sign-off.
+
+Three comparable production `main` CI runs were collected and transcribed:
+
+| Component | Median | p95 (nearest-rank) | Proposed budget | Headroom over p95 |
+| --------- | ------ | ------------------ | --------------- | ----------------- |
+| Hugo 0.161.1 | 2,822 ms | 3,058 ms | 6,000 ms | ~96% |
+| Pagefind 1.5.2 | 2,316 ms | 2,707 ms | 5,500 ms | ~103% |
+| Total | 5,138 ms | 5,529 ms | 11,500 ms | ~108% |
+
+Requested decision:
+
+1. Accept or adjust the proposed budgets (sized at ~2x observed p95 for runner variance).
+2. Confirm three samples suffice, or require a larger window before enforcement.
+3. Confirm the report-only posture holds until enforcement is separately approved.
+
+On approval, apply the ready `ci.yml` change in "Enforcement Draft" below; the current
+posture stays report-only (`blocking_threshold_ms: null`) until then.
+
+## Enforcement Draft (apply only after owner approval)
+
+The following replaces the "Write report-only build timing" step in
+`.github/workflows/ci.yml`. Do not apply it until the timing-budget owner accepts the
+proposed thresholds; it is recorded here so the exact change is ready.
+
+```yaml
+      - name: Write build timing and enforce budgets
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+          HUGO_DURATION_MS: ${{ steps.hugo-build.outputs.duration_ms }}
+          PAGEFIND_DURATION_MS: ${{ steps.pagefind-build.outputs.duration_ms }}
+          HUGO_BUDGET_MS: '6000'
+          PAGEFIND_BUDGET_MS: '5500'
+          TOTAL_BUDGET_MS: '11500'
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          total_ms=$(( HUGO_DURATION_MS + PAGEFIND_DURATION_MS ))
+          printf '{\n  "commit": "%s",\n  "mode": "blocking",\n  "hugo": {"version": "%s", "duration_ms": %s, "budget_ms": %s},\n  "pagefind": {"version": "%s", "duration_ms": %s, "budget_ms": %s},\n  "total_ms": %s,\n  "blocking_threshold_ms": %s\n}\n' \
+            "${COMMIT_SHA}" "${HUGO_VERSION}" "${HUGO_DURATION_MS}" "${HUGO_BUDGET_MS}" \
+            "${PAGEFIND_VERSION}" "${PAGEFIND_DURATION_MS}" "${PAGEFIND_BUDGET_MS}" \
+            "${total_ms}" "${TOTAL_BUDGET_MS}" > reports/build-timing.json
+          fail=0
+          if [ "${HUGO_DURATION_MS}" -gt "${HUGO_BUDGET_MS}" ]; then
+            echo "::error::Hugo build ${HUGO_DURATION_MS}ms exceeds budget ${HUGO_BUDGET_MS}ms"; fail=1
+          fi
+          if [ "${PAGEFIND_DURATION_MS}" -gt "${PAGEFIND_BUDGET_MS}" ]; then
+            echo "::error::Pagefind ${PAGEFIND_DURATION_MS}ms exceeds budget ${PAGEFIND_BUDGET_MS}ms"; fail=1
+          fi
+          if [ "${total_ms}" -gt "${TOTAL_BUDGET_MS}" ]; then
+            echo "::error::Total build ${total_ms}ms exceeds budget ${TOTAL_BUDGET_MS}ms"; fail=1
+          fi
+          [ "${fail}" -eq 0 ] || exit 1
+```
+
+Activation checklist: (1) timing-budget owner accepts or adjusts the budgets above;
+(2) URL confirms methodology and artifact durability; (3) jmservera confirms the
+enforcement mechanism and rollback (revert this step to the report-only version).
+
 ## Implementation Notes
 
 ### Measurement Integrity

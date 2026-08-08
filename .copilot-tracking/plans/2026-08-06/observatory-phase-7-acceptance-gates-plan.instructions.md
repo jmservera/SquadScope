@@ -38,13 +38,13 @@ Execute Phase 7 acceptance gate infrastructure in parallel:
 
 ### Phase 7.1: Timing Evidence Collection
 <!-- parallelizable: false -->
-- [ ] Step 1: Await next scheduled CI build on main (monitor GitHub Actions)
-- [ ] Step 2: Extract timing artifacts (Hugo ms, Pagefind ms from workflow logs)
-- [ ] Step 3: Record Run 2 in timing-analysis.md
-- [ ] Step 4: Await third CI run completion
-- [ ] Step 5: Record Run 3 and compute median/p95
-- [ ] Step 6: Submit to timing-budget owner for approval (jmservera)
-- [ ] Step 7: Document final approval in status-of-record.md
+- [x] Step 1: Await next scheduled CI build on main (monitor GitHub Actions) — delivered: production `main` runs `31079871801` and `31081291997` captured (2026-08-06)
+- [x] Step 2: Extract timing artifacts (Hugo ms, Pagefind ms from workflow logs) — delivered: per-tool durations transcribed from retained `production-quality-reports` artifacts
+- [x] Step 3: Record Run 2 in timing-analysis.md — delivered: Run 2 `31079871801` (Hugo 2,456 / Pagefind 2,255) recorded
+- [x] Step 4: Await third CI run completion — delivered: run `31081291997`
+- [x] Step 5: Record Run 3 and compute median/p95 — delivered: Run 3 `31081291997` (Hugo 3,058 / Pagefind 2,316); medians Hugo 2,822 / Pagefind 2,316, p95 Hugo 3,058 / Pagefind 2,707 recorded in `timing-analysis.md`
+- [ ] Step 6: Submit to timing-budget owner for approval (jmservera) — human-authority (owners: timing-budget owner, URL, jmservera)
+- [ ] Step 7: Document final approval in status-of-record.md — human-authority; awaits Step 6
 
 **Ownership**: jmservera (timing-budget owner)  
 **Timeline**: Depends on CI execution (2-3 business days for 2 builds)  
@@ -54,12 +54,12 @@ Execute Phase 7 acceptance gate infrastructure in parallel:
 
 ### Phase 7.2: Security Dispositions Escalation
 <!-- parallelizable: false -->
-- [ ] Step 1: Prepare escalation message with SEC-06, SEC-08, sponsor conclusion references
-- [ ] Step 2: Send message to Hermes (SEC-06: GA4/GSC consent, SEC-08: raw HTML disabled) 
-- [ ] Step 3: Send message to jmservera (sponsor conclusion for NFR-004 closure)
-- [ ] Step 4: Log disposition timestamps when received
-- [ ] Step 5: Update security-sign-off-checklist.md with final approvals
-- [ ] Step 6: Mark NFR-004 as closed in status-of-record.md
+- [x] Step 1: Prepare escalation message with SEC-06, SEC-08, sponsor conclusion references — delivered
+- [x] Step 2: Send message to Hermes (SEC-06: GA4/GSC consent, SEC-08: raw HTML disabled) — delivered: SEC-06 and SEC-08 dispositioned 2026-08-06
+- [x] Step 3: Send message to jmservera (sponsor conclusion for NFR-004 closure) — delivered
+- [x] Step 4: Log disposition timestamps when received — delivered: all ten SEC dispositions dated (2026-08-04 and 2026-08-06)
+- [x] Step 5: Update security-sign-off-checklist.md with final approvals — delivered: every acceptance-criteria checkbox is `[x]`
+- [x] Step 6: Mark NFR-004 as closed in status-of-record.md — delivered: status-of-record records NFR-004 APPROVED, sponsor acceptance 2026-08-06
 
 **Ownership**: jmservera (initiator), Hermes (SEC-06/08 reviewer), jmservera (sponsor)  
 **Timeline**: Unknown (reviewer availability dependent, typically 1-3 business days)  

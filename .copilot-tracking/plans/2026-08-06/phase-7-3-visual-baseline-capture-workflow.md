@@ -125,9 +125,9 @@ Contents:
 
 ## Regression Approval Checklist
 
-- [ ] Amy (squad:amy) — Visual design approval
-- [ ] Fry (squad:fry) — QA sign-off
-- [ ] jmservera — Sponsor approval
+- [ ] Amy (squad:amy) — Visual design approval — human-authority
+- [ ] Fry (squad:fry) — QA sign-off — human-authority
+- [ ] jmservera — Sponsor approval — human-authority
 
 ## References
 
@@ -208,13 +208,22 @@ docker run --rm -v $(pwd):/workspace -w /workspace \
 
 ## Success Criteria
 
+> Reconciliation (2026-08-07): the committed 54-variant baseline-snapshot approach
+> below was superseded by the sitemap-driven visual evidence capture wired into
+> `.github/workflows/ci.yml` (run `31160859598` produced 64 screenshots plus
+> `index.html`, with per-project `metadata.json` tagged by revision, branch, run ID,
+> and viewport). No baseline is committed under `tests/visual/snapshots/`; the live
+> evidence surface is `docs/review/data-observatory-relaunch/visual-review-handoff-2026-08-07.md`.
+> The remaining items are the named human visual disposition (owners: Amy, Fry) plus
+> the manual interaction-state captures the handoff carves out.
+
 - [x] Test suite merged and infrastructure ready
-- [ ] Baseline captured (Option 1 recommended)
-- [ ] All 54 variants have snapshots
-- [ ] Playwright report generated
-- [ ] visual-evidence.md created and linked
-- [ ] Snapshots committed to main
-- [ ] Amy + Fry approvals recorded
+- [ ] Baseline captured (Option 1 recommended) — superseded by sitemap-driven CI evidence capture (run `31160859598`)
+- [ ] All 54 variants have snapshots — superseded; the CI suite captures 15 routes plus a consent view across four projects
+- [ ] Playwright report generated — delivered per run as a CI artifact (not committed to the repo)
+- [ ] visual-evidence.md created and linked — superseded by `visual-review-handoff-2026-08-07.md` and the CI-built visual evidence index
+- [ ] Snapshots committed to main — intentionally not committed under the superseded approach
+- [ ] Amy + Fry approvals recorded — human-authority (owners: Amy, Fry)
 
 ---
 

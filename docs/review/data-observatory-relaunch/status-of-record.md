@@ -2,7 +2,7 @@
 title: Data Observatory Relaunch Status of Record
 description: Single reconciled view of delivered versus pending relaunch work across the three remediation plans, the PRD, and the BRD
 author: SquadScope Squad
-ms.date: 2026-08-06
+ms.date: 2026-08-07
 ms.topic: reference
 keywords:
   - status of record
@@ -24,7 +24,7 @@ gate matrix and the acceptance decision.
 - PRD: [claracle-data-observatory-relaunch.md](../../prds/claracle-data-observatory-relaunch.md)
 - BRD: [claracle-data-observatory-relaunch-brd.md](../../brds/claracle-data-observatory-relaunch-brd.md)
 
-Reconciled through 2026-08-06. Release acceptance remains **pending** per the
+Reconciled through 2026-08-07. Release acceptance remains **pending** per the
 [acceptance decision](README.md#acceptance-decision); both rollout flags stay disabled.
 
 **Phase 7 Acceptance Gates** (tracking PR #677):
@@ -34,13 +34,28 @@ Reconciled through 2026-08-06. Release acceptance remains **pending** per the
 - **Critical Path**: Timing-budget owner approval and named visual review
 - **Expected Release Readiness**: Gated on human sign-off rather than on further automation
 
+**Remaining human gates** (single release-readiness view; details in [owner-action-register.md](owner-action-register.md)):
+
+| Gate | Owner(s) | Evidence path |
+| ---- | -------- | ------------- |
+| Timing budget approval | timing-budget owner, URL, jmservera | [timing-analysis.md](timing-analysis.md#approval-chain) |
+| Visual evidence disposition + interaction captures | Amy, Fry | [visual-review-handoff-2026-08-07.md](visual-review-handoff-2026-08-07.md) |
+| Accessibility (NFR-005) keyboard + screen-reader review | Amy, Fry | [owner-action-register.md](owner-action-register.md#accessibility-acceptance) |
+| Dynamic-topic canary (`local-first`) approval | Hermes, jmservera | [owner-action-register.md](owner-action-register.md#proposed-dynamic-topic-canary-2026-08-08) |
+| Cost experiment dispatch (Q-01 / NFR-009) | URL, budget owner | [owner-action-register.md](owner-action-register.md#incremental-generation-cost-acceptance) |
+| External metadata + feed validation | Amy, jmservera | [owner-action-register.md](owner-action-register.md#external-metadata-and-feed-validation) |
+| `repo_pages` / dynamic activation transactions | jmservera | [owner-action-register.md](owner-action-register.md#sponsor-rollout-decision) |
+
+Analytics and search (FR-035 / NFR-007 / NFR-008) closed 2026-08-08; the `local-first`
+canary revision is staged (`allow_topics`, `enabled = false`) pending approval.
+
 ## Source plans
 
 | Plan                                                                                                                          | Scope                                    | Reconciled state              |
 | --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------------------------- |
-| [2026-07-29 remediation](../../../.copilot-tracking/plans/2026-07-29/claracle-data-observatory-relaunch-remediation-plan.instructions.md) | Core relaunch build (Phases 1-10)        | Phases 1-6, 8 done; 7, 9, 10 open |
-| [2026-07-30 review remediation](../../../.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md) | Post-review corrections (Phases 1-8)     | Phases 1-5 done; 6-8 open     |
-| [2026-07-31 deploy hydration](../../../.copilot-tracking/plans/2026-07-31/claracle-deploy-hydration-remediation-plan.instructions.md) | Deploy/hydration incident (Phases 1-5)   | Phases 1-4 done; 5.3 open     |
+| [2026-07-29 remediation](../../../.copilot-tracking/plans/2026-07-29/claracle-data-observatory-relaunch-remediation-plan.instructions.md) | Core relaunch build (Phases 1-10)        | Phases 1-8, 10 done; 9 open (external launch evidence + visual) |
+| [2026-07-30 review remediation](../../../.copilot-tracking/plans/2026-07-30/claracle-data-observatory-relaunch-review-remediation-plan.instructions.md) | Post-review corrections (Phases 1-8)     | Phases 1-6 done; 7-8 open (timing/visual/external human gates) |
+| [2026-07-31 deploy hydration](../../../.copilot-tracking/plans/2026-07-31/claracle-deploy-hydration-remediation-plan.instructions.md) | Deploy/hydration incident (Phases 1-5)   | All phases done (5.3 reconciled 2026-08-07) |
 
 ## Delivered since the plans were written
 
@@ -69,13 +84,13 @@ Reconciled through 2026-08-06. Release acceptance remains **pending** per the
 | Consent-gated analytics API             | Done      | 2026-07-29 Phase 6                                                                |
 | Deploy / hydration parity + CI guard    | Done      | Deploy hydration is restored (`#628`/`#632`/`#634`/`#637`); the `#641` guard satisfies NFR-012 reference integrity; the `publish-hydration-parity` CI job reproduces the deploy publish-hydration and validates the promotion record (`scripts/publish_hydration.py`) for NFR-011 |
 | Podcaster release smoke (dry-run gate)  | Done      | Blocking post-deploy gate green (`#636`/`#639`/`#643`/`#645`)                    |
-| FR-041 internal link checking           | Partial   | Satisfied at test level (`tests/test_internal_link_checker.py`); no standalone CI link tool |
+| FR-041 internal link checking           | Done      | `.github/workflows/ci.yml` runs `scripts/check_internal_links.py public --base-url "https://claracle.com/"` in the `production-site` job, in addition to test-level coverage (`tests/test_internal_link_checker.py`); PRD R-03 reconciled Closed |
 | Hugo/Pagefind timing separation         | Done      | CI records separate report-only Hugo and Pagefind durations; Q-01 workload attribution remains pending |
-| Security sign-off (NFR-004)             | Pending   | SEC-01 through SEC-05, SEC-09, and SEC-10 have dated dispositions; SEC-06 production analytics evidence, SEC-08 Hermes sign-off, and production-owner acceptance remain open |
+| Security sign-off (NFR-004)             | Done      | All ten findings SEC-01 through SEC-10 carry dated dispositions (2026-08-04 and 2026-08-06); sponsor (jmservera) acceptance recorded 2026-08-06 in `security-sign-off-checklist.md` |
 | Accessibility evidence (NFR-005)        | Pending   | Amy/Fry; 2026-07-30 Step 7.2                                                      |
 | Real Podcaster downstream run (NFR-002 / R-04) | Done | jmservera authorized and dispatched `2026-W32` / publish run `30782430176` on 2026-08-04 ([Actions run 30908778884](https://github.com/jmservera/SquadScope/actions/runs/30908778884), conclusion success; downstream job `podcast-2026-W32-d07bb05dc073`, response status `accepted`); Hermes and URL accepted the environment amendment and workflow controls in SEC-09 and SEC-10 |
 | Refreshed visual acceptance             | Pending   | `#622` and `#626` repository hardening is implemented and both issues are closed (2026-08-04); final browser evidence and named visual review remain pending |
-| GA4 + GSC connection + baseline (FR-035) | Partial  | Connection complete: GA4 stream confirmed, GSC verified, root sitemap submitted, and products linked; numeric baseline transcription and consent evidence remain pending |
+| GA4 + GSC connection + baseline (FR-035) | Done     | Connection complete; numeric baseline transcribed 2026-08-08 (NFR-007: 51 GA4 sessions, 149 GSC impressions, 294 indexed pages); NFR-008 denied/granted production consent observations captured 2026-08-08 via private-session HAR |
 | External metadata and feed validation   | Partial   | [Production feed and source-level metadata evidence](automated-acceptance-evidence-2026-08-03.md) is retained; social preview debuggers, Rich Results, Schema.org, and named reviewer conclusions remain pending |
 | Incremental generation cost (Q-01 / NFR-009) | Partial | Report-only cumulative experiment is implemented; retained 3/5-run artifacts and budget-owner conclusion remain pending |
 | `repo_pages` rollout (FR-020-022)       | Approved, not enabled | Sponsor approved after PR #668 evidence; flag remains disabled pending a separate activation transaction |
