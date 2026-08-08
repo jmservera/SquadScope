@@ -5,11 +5,14 @@
 * SquadScope, publicly branded as Claracle, analyzes GitHub trends and publishes
   a Hugo site.
 * Use the Squad agent as the default for AI-assisted work. When using Copilot
-  CLI, pass `--agent squad`.
+  CLI, pass `--agent squad`. When using Squad from the RPI agent, remember to send work to the Squad agent for review and approval when the RPI workflow needs it.
 * Read `architecture.md` for system boundaries and `.squad/team.md` plus
   `.squad/routing.md` for current ownership.
 * Pipeline code lives in `scripts/`, tests in `tests/`, Hugo content in
   `content/`, and templates and assets in `layouts/` and `assets/`.
+* When using the RPI agent, follow the RPI workflow in `.copilot-tracking/plans/` and
+`.copilot-tracking/reviews/` for traceable planning, review, and change control.
+* When work can be parallelized, use the RPI workflow to sequence lanes and avoid merge conflicts.
 
 ## Branch and Pull Request Workflow
 

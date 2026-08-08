@@ -562,7 +562,15 @@ def trim_words(text: str, limit: int) -> str:
     words = text.split()
     if len(words) <= limit:
         return text.strip()
-    return " ".join(words[:limit]).rstrip(",;:.") + "…"
+    sentences = re.split(r"(?<=[.!?])\s+", text.strip())
+    selected: list[str] = []
+    for sentence in sentences:
+        if selected and word_count(" ".join([*selected, sentence])) > limit:
+            break
+        selected.append(sentence)
+        if word_count(" ".join(selected)) >= limit:
+            break
+    return " ".join(selected).strip()
 
 
 def compress_phrase(text: str, limit: int = 24) -> str:
@@ -790,16 +798,8 @@ def build_prediction_review(arcs: dict[str, list[str]]) -> str:
 
 
 def compress_narrative(paragraphs: list[str], max_words: int = 500) -> str:
-    text = "\n\n".join(paragraph.strip() for paragraph in paragraphs if paragraph.strip())
-    if word_count(text) <= max_words:
-        return text
-    compressed = text
-    for limit in (480, 460, 430, 400, 360):
-        words = compressed.split()
-        if len(words) <= max_words:
-            break
-        compressed = " ".join(words[:limit]).rstrip(",;:.") + "…"
-    return compressed
+    del max_words
+    return "\n\n".join(paragraph.strip() for paragraph in paragraphs if paragraph.strip())
 
 
 def synthesize_year(months: list[MonthSnapshot]) -> str:
@@ -810,7 +810,30 @@ def synthesize_year(months: list[MonthSnapshot]) -> str:
         build_pattern_paragraph(arcs),
         build_prediction_review(arcs),
     ]
-    return compress_narrative(paragraphs)
+    narrative = compress_narrative(paragraphs)
+    for month in months:
+        chapter_paragraphs = [
+            paragraph.strip() for paragraph in month.yearly_source_paragraphs if paragraph.strip()
+        ]
+        if not chapter_paragraphs:
+            continue
+        chapter = f"### {month.month_name}\n\n" + "\n\n".join(chapter_paragraphs)
+        if word_count(f"{narrative}\n\n{chapter}") <= 1800:
+            narrative = f"{narrative}\n\n{chapter}"
+            continue
+        heading = f"### {month.month_name}"
+        if word_count(f"{narrative}\n\n{heading}") > 1800:
+            break
+        accepted = [heading]
+        for paragraph in chapter_paragraphs:
+            candidate = "\n\n".join([narrative, *accepted, paragraph])
+            if word_count(candidate) > 1800:
+                break
+            accepted.append(paragraph)
+        if len(accepted) > 1:
+            narrative = "\n\n".join([narrative, *accepted])
+        break
+    return narrative
 
 
 def generate_yearly_title(year: int, arcs: dict[str, list[str]]) -> str:

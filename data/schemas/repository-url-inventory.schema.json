@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://claracle.com/schemas/repository-url-inventory.schema.json",
+  "title": "Claracle Repository URL Inventory",
+  "type": "object",
+  "required": ["schema_version", "generated_from", "evidence_requirements", "counts", "records"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "generated_from": { "const": "content/repo/" },
+    "evidence_requirements": {
+      "type": "array",
+      "minItems": 8,
+      "uniqueItems": true,
+      "items": { "type": "string" }
+    },
+    "counts": {
+      "type": "object",
+      "required": ["index", "canonical", "alias", "total"],
+      "properties": {
+        "index": { "type": "integer", "minimum": 1 },
+        "canonical": { "type": "integer", "minimum": 0 },
+        "alias": { "type": "integer", "minimum": 0 },
+        "total": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "url",
+          "url_type",
+          "repository_id",
+          "canonical_url",
+          "source_path",
+          "source_checksum",
+          "differentiated_content",
+          "destination_candidate",
+          "proposed_disposition",
+          "approval_status",
+          "evidence"
+        ],
+        "properties": {
+          "url": { "type": "string", "pattern": "^/repo(?:/[a-z0-9-]+)?/$" },
+          "url_type": { "enum": ["index", "canonical", "alias"] },
+          "repository_id": { "type": ["string", "null"] },
+          "canonical_url": { "type": "string", "pattern": "^/repo(?:/[a-z0-9-]+)?/$" },
+          "source_path": { "type": "string", "pattern": "^content/repo/" },
+          "source_checksum": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "differentiated_content": { "enum": ["pending_review", "yes", "no"] },
+          "destination_candidate": { "type": "string" },
+          "proposed_disposition": { "enum": ["pending", "keep", "merge", "redirect", "retire"] },
+          "approval_status": { "enum": ["pending", "approved", "rejected"] },
+          "evidence": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": ["status", "source", "window"],
+              "properties": {
+                "status": { "enum": ["not_collected", "observed", "not_observed", "ambiguous"] },
+                "source": { "type": "string" },
+                "window": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

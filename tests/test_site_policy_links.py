@@ -1,6 +1,17 @@
+import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_primary_navigation_begins_with_weekly_monthly_yearly() -> None:
+    with (ROOT / "hugo.toml").open("rb") as handle:
+        config = tomllib.load(handle)
+
+    menu = sorted(config["menu"]["main"], key=lambda item: item["weight"])
+    assert [item["identifier"] for item in menu[:3]] == ["weekly", "monthly", "yearly"]
+    assert [item["name"] for item in menu[:3]] == ["Weekly", "Monthly", "Yearly"]
+    assert [item["url"] for item in menu[:3]] == ["/weekly/", "/monthly/", "/yearly/"]
 
 
 def test_weekly_article_footer_has_prefilled_correction_report_link() -> None:

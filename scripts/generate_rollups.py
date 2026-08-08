@@ -26,6 +26,7 @@ if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import scripts.analysis_gate as analysis_gate
+from scripts.generate_yearly_evidence_pack import write_yearly_evidence_packs
 from scripts.generate_yearly_narrative import build_yearly_narrative_pages
 from scripts.month_synthesis import ensure_month_synthesis
 
@@ -526,6 +527,8 @@ def generate_rollups(analyzed_dir: Path, content_root: Path) -> list[Path]:
     for page in monthly_pages:
         write_rollup(page)
         written.append(page.path)
+
+    write_yearly_evidence_packs(analyzed_dir, analyzed_dir.parent / "derived" / "yearly")
 
     for page in build_yearly_pages(summaries, content_root):
         write_rollup(page)

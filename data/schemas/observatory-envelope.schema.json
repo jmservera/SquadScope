@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://claracle.com/schemas/observatory-envelope.schema.json",
+  "title": "Claracle Observatory Artifact Envelope",
+  "description": "Shared metadata for versioned repository and ranking artifacts.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "generated_at",
+    "covered_period",
+    "provenance",
+    "records"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "artifact_type": {
+      "enum": ["repositories", "ranking"]
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "covered_period": {
+      "type": "object",
+      "required": ["start", "end", "label"],
+      "properties": {
+        "start": { "type": "string", "format": "date" },
+        "end": { "type": "string", "format": "date" },
+        "label": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["generator", "source_paths", "methodology_url"],
+      "properties": {
+        "generator": { "type": "string", "minLength": 1 },
+        "source_paths": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^(?!https?://|//|/)(?!.*\\.\\.)[\\w./-]+$"
+          }
+        },
+        "methodology_url": { "const": "/methodology/" },
+        "source_checksum": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      },
+      "additionalProperties": false
+    },
+    "records": {
+      "type": "array"
+    }
+  },
+  "additionalProperties": false
+}

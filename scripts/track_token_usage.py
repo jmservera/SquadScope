@@ -59,6 +59,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--usage-file", type=Path, default=DEFAULT_USAGE_FILE, help="JSONL path for usage ledger."
     )
+    parser.add_argument("--workflow-run-id", help="GitHub Actions workflow run ID.")
+    parser.add_argument("--run-attempt", type=int, help="GitHub Actions workflow run attempt.")
     return parser.parse_args(argv)
 
 
@@ -158,6 +160,12 @@ def parse_api_response(path: Path) -> tuple[int, int] | None:
 def build_record(args: argparse.Namespace) -> dict[str, object]:
     parsed_datetime = parse_datetime(args.current_datetime).astimezone(UTC)
     week = args.week or week_slug(parsed_datetime)
+    workflow_run_id = getattr(args, "workflow_run_id", None)
+    run_attempt = getattr(args, "run_attempt", None)
+    if (workflow_run_id is None) != (run_attempt is None):
+        raise ValueError("workflow run ID and run attempt must be provided together")
+    if run_attempt is not None and run_attempt < 1:
+        raise ValueError("run attempt must be at least 1")
 
     # Priority: 1) explicit flags, 2) transcript/api-response, 3) file-size estimate
     estimated = True
@@ -204,6 +212,9 @@ def build_record(args: argparse.Namespace) -> dict[str, object]:
         "cost_usd": cost,
         "estimated": estimated,
     }
+    if workflow_run_id is not None:
+        record["workflow_run_id"] = str(workflow_run_id)
+        record["run_attempt"] = run_attempt
     validation = validate_input_manifest(args.input_manifest, input_tokens)
     if validation is not None:
         record["input_manifest_validation"] = validation

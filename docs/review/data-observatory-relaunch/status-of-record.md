@@ -24,26 +24,30 @@ gate matrix and the acceptance decision.
 - PRD: [claracle-data-observatory-relaunch.md](../../prds/claracle-data-observatory-relaunch.md)
 - BRD: [claracle-data-observatory-relaunch-brd.md](../../brds/claracle-data-observatory-relaunch-brd.md)
 
-Reconciled through 2026-08-08. Release acceptance remains **pending** per the
-[acceptance decision](README.md#acceptance-decision); both rollout flags stay disabled.
+Reconciled through 2026-08-08. Sponsor decision: **NO-GO / SUPERSEDED** at the
+immutable visual-review revision `f37b49d`. The feature-complete relaunch did not
+receive final release acceptance. Its evidence is frozen as the historical baseline,
+and the remaining interaction and live assistive-technology findings carry forward to
+BRD-CLARACLE-003. Both rollout flags stay disabled; repository-page activation is
+cancelled in favor of the consolidated repository migration.
 
 **Phase 7 Acceptance Gates** (tracking PR #677):
 - Phase 7.1 Timing: ✅ **APPROVED 2026-08-08** — data collection complete (three production `main` runs; Hugo p95 3,058 ms, Pagefind p95 2,707 ms); jmservera accepted the revised thresholds (Hugo 6,000 / Pagefind 5,500 / total 11,500 ms) and the enforcement gate is live in `ci.yml`
 - Phase 7.2 Security: ✅ **NFR-004 APPROVED** (all 10 findings approved by Hermes/URL; sponsor final acceptance recorded 2026-08-06)
 - Phase 7.3 Visual: 🟡 Named review recorded 2026-08-08 — Amy accepts the rendered visual matrix (64 screenshots, `observatory-visual-regression.spec.mjs` 68/68 at `f37b49d`) and Fry accepts the automated a11y/analytics coverage; both dispositions carry residual manual steps (visual interaction-state captures; NFR-005 live screen-reader pass). See the [visual review handoff](visual-review-handoff-2026-08-07.md#disposition)
-- **Critical Path**: Named visual review and the NFR-005 live screen-reader pass (timing budget approved and enforced 2026-08-08)
-- **Expected Release Readiness**: Gated on human sign-off rather than on further automation
+- **Historical acceptance disposition**: NO-GO / SUPERSEDED 2026-08-08; the open visual-interaction and NFR-005 live screen-reader findings are redesigned-release gates
+- **Successor requirements**: [BRD-CLARACLE-003](../../brds/claracle-post-relaunch-consolidation-brd.md)
 
 **Remaining human gates** (single release-readiness view; details in [owner-action-register.md](owner-action-register.md)):
 
 | Gate | Owner(s) | Evidence path |
 | ---- | -------- | ------------- |
-| Timing budget approval | timing-budget owner, URL, jmservera | [timing-analysis.md](timing-analysis.md#approval-chain) |
-| Visual evidence disposition + interaction captures | Amy, Fry | [visual-review-handoff-2026-08-07.md](visual-review-handoff-2026-08-07.md) — Amy accepted the rendered matrix 2026-08-08; interaction-state captures remain the open manual step |
-| Accessibility (NFR-005) keyboard + screen-reader review | Amy, Fry | [owner-action-register.md](owner-action-register.md#accessibility-acceptance) — automated axe/keyboard/focus-trap/responsive coverage accepted 2026-08-08 (Fry); live screen-reader (AT) pass remains outstanding |
+| Timing budget approval | timing-budget owner, URL, jmservera | Approved 2026-08-08 and enforced in `ci.yml`; see [timing-analysis.md](timing-analysis.md#approval-chain) |
+| Visual interaction captures | Amy, Fry | Carried forward to BRD-CLARACLE-003; see [visual review handoff](visual-review-handoff-2026-08-07.md) |
+| Accessibility (NFR-005) live screen-reader review | Amy, Fry | Carried forward to BRD-CLARACLE-003; see [owner action register](owner-action-register.md#accessibility-acceptance) |
 | Dynamic-topic canary (`local-first`) approval | Hermes, jmservera | [owner-action-register.md](owner-action-register.md#proposed-dynamic-topic-canary-2026-08-08) |
 | Cost experiment dispatch (Q-01 / NFR-009) | URL, budget owner | [owner-action-register.md](owner-action-register.md#incremental-generation-cost-acceptance) |
-| `repo_pages` / dynamic activation transactions | jmservera | [owner-action-register.md](owner-action-register.md#sponsor-rollout-decision) |
+| Dynamic activation transaction | jmservera | [owner-action-register.md](owner-action-register.md#sponsor-rollout-decision); repository-page activation is superseded and remains disabled |
 
 Analytics and search (FR-035 / NFR-007 / NFR-008) closed 2026-08-08; the `local-first`
 canary revision is staged (`allow_topics`, `enabled = false`) pending approval.
@@ -92,7 +96,7 @@ canary revision is staged (`allow_topics`, `enabled = false`) pending approval.
 | GA4 + GSC connection + baseline (FR-035) | Done     | Connection complete; numeric baseline transcribed 2026-08-08 (NFR-007: 51 GA4 sessions, 149 GSC impressions, 294 indexed pages); NFR-008 denied/granted production consent observations captured 2026-08-08 via private-session HAR |
 | External metadata and feed validation   | Partial   | [Production feed and source-level metadata evidence](automated-acceptance-evidence-2026-08-03.md) is retained; social preview debuggers, Rich Results, Schema.org, and named reviewer conclusions remain pending |
 | Incremental generation cost (Q-01 / NFR-009) | Partial | Report-only cumulative experiment is implemented; retained 3/5-run artifacts and budget-owner conclusion remain pending |
-| `repo_pages` rollout (FR-020-022)       | Approved, not enabled | Sponsor approved after PR #668 evidence; flag remains disabled pending a separate activation transaction |
+| `repo_pages` rollout (FR-020-022)       | Superseded, not enabled | Activation cancelled 2026-08-08 by BRD-CLARACLE-003 BR-003; identity, lifecycle, alias, and rollback evidence remains migration input |
 | `dynamic_topic_creation` rollout (FR-004) | Approved in principle, not enabled | Security disposition and one approved canary remain required before activation |
 | Sponsor rollout approval                | Done with conditions | Separate decisions recorded on 2026-08-05; see [owner action register](owner-action-register.md#sponsor-rollout-decision) |
 
@@ -118,12 +122,12 @@ Phase 7 consolidates final acceptance evidence and execution workflows across th
 | Pagefind indexing duration baseline        | jmservera   | ✅ Done | Run 1 (`31039618366`, 2026-08-05): 2,707 ms |
 | Runs 2-3 timing collection                 | jmservera   | ✅ Done | Run 2 (`31079871801`) and Run 3 (`31081291997`), both production `main` builds, transcribed from retained artifacts |
 | Median and p95 calculation                 | jmservera   | ✅ Done | Hugo median 2,822 ms / p95 3,058 ms; Pagefind median 2,316 ms / p95 2,707 ms |
-| Budget threshold approval (p95)            | jmservera   | ⏳ Pending | Revised proposal: Hugo ≤ 6,000 ms, Pagefind ≤ 5,500 ms. Prior 20,000 / 2,500 ms proposal superseded; the 2,500 ms Pagefind figure would already have been breached by the corrected Run 1 value |
+| Budget threshold approval (p95)            | jmservera   | ✅ Approved | Approved 2026-08-08: Hugo ≤ 6,000 ms, Pagefind ≤ 5,500 ms, total ≤ 11,500 ms; enforcement is live in `ci.yml` |
 
 **Correction (2026-08-06)**: The previously recorded Run 1 figures (Hugo 15,339 ms, Pagefind 1,631 ms) did not match the retained `build-timing.json` artifact, and the previously recorded Run 2 was a `pull_request` build rather than a production `main` build. Both are corrected in [timing-analysis.md](./timing-analysis.md), and the provisional approval that depended on them is withdrawn.
 
 **Tracking**: [timing-analysis.md](./timing-analysis.md)  
-**Next**: Timing-budget owner reviews the revised thresholds
+**Next**: No timing approval action remains; retain enforcement and evidence.
 
 ### Phase 7.2: Security Dispositions Escalation
 
@@ -150,7 +154,7 @@ Phase 7 consolidates final acceptance evidence and execution workflows across th
 | Visual evidence compilation                | Amy, Fry    | 🟡 Recorded 2026-08-08 | Amy accepted the rendered matrix (64 screenshots at `f37b49d`); interaction-state captures remain manual. See [handoff disposition](visual-review-handoff-2026-08-07.md#disposition) |
 | Visual regression approval sign-off        | Amy, Fry    | 🟡 Recorded 2026-08-08 | Accept on rendered evidence + automated a11y/analytics coverage; residual = visual interaction captures and NFR-005 live screen-reader pass |
 
-**Status**: The gate passes and the evidence matrix is produced automatically; named visual review remains outstanding  
+**Status**: The gate passes and the evidence matrix is produced automatically; the rendered matrix received named review, while manual interaction and live assistive-technology findings carry into BRD-CLARACLE-003
 **Note**: The suite is a blocking gate as well as the evidence producer. It asserts route status, breadcrumb structure, and absence of horizontal overflow, resolves the consent banner before every feature capture, and writes the revision-tagged matrix. It does not perform pixel-diff comparison against committed baselines; regression detection is by named review of the per-revision matrix.  
 **Tracking**: [visual-regression-execution-guide.md](./visual-regression-execution-guide.md) and [2026-08-07 visual review handoff](./visual-review-handoff-2026-08-07.md)
 
@@ -168,15 +172,16 @@ Visual Capture   (7.3)   ←── ✅ CLEARED (automated in ci.yml, artifact-re
 Visual Review    (7.3)   ←── 🟡 RECORDED 2026-08-08 (Amy accept rendered matrix; interaction captures remain)
 Accessibility    (NFR-005) ←─ 🟡 RECORDED 2026-08-08 (Fry accept automated coverage; live screen-reader pass remains)
 
-           ↓
-    Release Readiness Decision (gated on the two open human sign-offs)
+              ↓
+            Historical Decision: NO-GO / SUPERSEDED 2026-08-08
+            Open findings carried to BRD-CLARACLE-003
 ```
 
 **Next Immediate Actions**:
 
-1. Timing-budget owner reviews the revised thresholds in [timing-analysis.md](./timing-analysis.md).
-2. Amy and Fry complete the review described in the [2026-08-07 visual review handoff](visual-review-handoff-2026-08-07.md).
-3. Record both dispositions here and in the launch-gate register.
+1. Preserve the accepted timing and historical visual evidence against revision `f37b49d`.
+2. Carry the manual interaction and live screen-reader findings into the redesigned-release acceptance plan.
+3. Keep repository-page generation disabled and use its retained evidence for BR-003 migration planning.
 
 ## Launch-gate register
 

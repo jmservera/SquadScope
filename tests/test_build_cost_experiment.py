@@ -224,6 +224,9 @@ def test_workflow_admits_only_immutable_reviewed_inputs() -> None:
     assert "reviewed_main_sha must equal" in text
     assert "merge-base --is-ancestor" in text
     assert 'git checkout "${REVIEWED_PUBLISH_SHA}"' in text
+    topic_exclusion = "if [[ \"${path}\" == 'content/topics' ]]"
+    assert topic_exclusion in text
+    assert text.index(topic_exclusion) < text.index('rm -rf -- "${path}"')
     assert "scripts.publish_hydration paths" in text
     assert "scripts.publish_hydration check" in text
 

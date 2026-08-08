@@ -108,6 +108,14 @@ class GenerateRollupsTests(unittest.TestCase):
             monthly_path = content_root / "monthly" / "2026" / "05.md"
             yearly_path = content_root / "yearly" / "2026.md"
             self.assertEqual(written, [monthly_path, yearly_path])
+            synthesis_pack = analyzed_dir / "2026-05-month-synthesis-pack.json"
+            self.assertTrue(synthesis_pack.exists())
+            self.assertIn('"conclusion": "The strongest projects', synthesis_pack.read_text())
+            evidence_pack = base / "data" / "derived" / "yearly" / "2026-evidence-pack.json"
+            self.assertTrue(evidence_pack.exists())
+            evidence_payload = evidence_pack.read_text(encoding="utf-8")
+            self.assertIn('"claim_id": "CLM-2026-W21-SUMMARY"', evidence_payload)
+            self.assertIn('"source_id": "SRC-2026-W21"', evidence_payload)
 
             monthly = monthly_path.read_text(encoding="utf-8")
             self.assertIn("Define the Month — May 2026", monthly)
@@ -128,6 +136,46 @@ class GenerateRollupsTests(unittest.TestCase):
             self.assertIn("## Year in Review", yearly)
             self.assertIn("Practical agent tooling led the week.", yearly)
             self.assertNotIn("## Arc", yearly)
+
+    def test_yearly_narrative_does_not_clip_long_paragraphs(self) -> None:
+        paragraphs = [
+            " ".join(f"evidence-{index}-{word}" for word in range(180)) for index in range(4)
+        ]
+
+        narrative = generate_yearly_narrative.compress_narrative(paragraphs)
+
+        self.assertIn("evidence-3-179", narrative)
+        self.assertNotIn("…", narrative)
+        self.assertEqual(generate_yearly_narrative.word_count(narrative), 720)
+
+    def test_full_year_publication_stays_in_acceptance_range_without_clipping(self) -> None:
+        months = []
+        for month in range(1, 13):
+            evidence_paragraph = " ".join(f"month-{month}-evidence-{word}." for word in range(105))
+            months.append(
+                generate_yearly_narrative.MonthSnapshot(
+                    path=Path(f"2026-{month:02d}.md"),
+                    year=2026,
+                    month=month,
+                    title=f"Month {month}",
+                    date=f"2026-{month:02d}-28",
+                    summaries=(),
+                    themes=(),
+                    signals=(),
+                    noise=(),
+                    gaps=(),
+                    closing_reads=(),
+                    synthesis_paragraphs=(evidence_paragraph,),
+                )
+            )
+
+        narrative = generate_yearly_narrative.synthesize_year(months)
+        count = generate_yearly_narrative.word_count(narrative)
+
+        self.assertGreaterEqual(count, 1200)
+        self.assertLessEqual(count, 1800)
+        self.assertNotIn("…", narrative)
+        self.assertFalse(narrative.rstrip().endswith((",", ";", ":")))
 
     def test_generate_rollups_is_append_only_for_existing_pages(self) -> None:
         with temporary_workspace() as tmpdir:
