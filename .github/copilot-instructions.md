@@ -24,7 +24,8 @@ All changes must use a branch and a pull request. Never commit directly to
 3. Run the checks relevant to the changed files before pushing. Do not weaken,
    skip, or make a real gate non-blocking to obtain a green result.
 4. Push the branch, open a PR, and ensure the automatic Copilot review starts.
-   Request Copilot review if automation does not start it.
+   If automation does not start it, add GitHub Copilot as a reviewer through the
+   PR's Reviewers control when Copilot review is enabled for the repository.
 5. Wait until Copilot has finished reviewing the latest commit. A completed
    review may have no comments when the change is acceptable. Do not treat a
    pending review or the absence of comments before completion as approval.
@@ -66,9 +67,10 @@ before pushing:
 * Podcast handoff changes: the tests and smoke workflow associated with
   `.github/workflows/podcaster-handoff-smoke.yml`
 
-Local hooks in `.pre-commit-config.yaml` mirror the core CI gates. Keep tool
-versions synchronized with CI and the baseline documents. A local emergency
-hook bypass does not justify skipping or weakening CI.
+Local hooks in `.pre-commit-config.yaml` cover Ruff, Checkov, pytest, and Docker
+build checks. Run Zizmor separately for workflow changes. Keep tool versions
+synchronized with CI and the baseline documents. A local emergency hook bypass
+does not justify skipping or weakening CI.
 
 ## Generated Content and Data
 
