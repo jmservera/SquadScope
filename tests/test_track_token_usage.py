@@ -7,6 +7,33 @@ import scripts.track_token_usage as track_token_usage
 
 
 class TrackTokenUsageTests(unittest.TestCase):
+    def test_record_includes_workflow_run_identity(self) -> None:
+        args = track_token_usage.parse_args(
+            [
+                "--stage",
+                "analysis",
+                "--source",
+                "test",
+                "--model",
+                "none",
+                "--current-datetime",
+                "2026-08-08T00:00:00Z",
+                "--input-tokens",
+                "0",
+                "--output-tokens",
+                "0",
+                "--workflow-run-id",
+                "12345",
+                "--run-attempt",
+                "2",
+            ]
+        )
+
+        record = track_token_usage.build_record(args)
+
+        self.assertEqual(record["workflow_run_id"], "12345")
+        self.assertEqual(record["run_attempt"], 2)
+
     def test_main_estimates_tokens_and_appends_record(self) -> None:
         tests_root = Path(__file__).resolve().parent
         with tempfile.TemporaryDirectory(dir=tests_root) as tmpdir:

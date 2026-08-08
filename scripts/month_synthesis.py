@@ -37,7 +37,7 @@ MONTH_NAMES = {
 
 SECTION_PATTERN = re.compile(r"(?m)^##\s+(.+?)\s*$")
 WORD_PATTERN = re.compile(r"\S+")
-SYNTHESIS_VERSION = 2
+SYNTHESIS_VERSION = 3
 
 
 @dataclass(frozen=True)
@@ -198,6 +198,17 @@ def synthesis_path(analyzed_dir: Path, year: int, month: int) -> Path:
     return analyzed_dir / f"{year}-{month:02d}-month-synthesis.md"
 
 
+def synthesis_pack_path(analyzed_dir: Path, year: int, month: int) -> Path:
+    return analyzed_dir / f"{year}-{month:02d}-month-synthesis-pack.json"
+
+
+def write_month_synthesis_pack(pack: str, analyzed_dir: Path, year: int, month: int) -> None:
+    path = synthesis_pack_path(analyzed_dir, year, month)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    parsed = json.loads(pack)
+    path.write_text(json.dumps(parsed, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
 def _theme_trajectory(
     items: list[Any],
 ) -> tuple[list[str], list[str], list[str], list[str], list[str]]:
@@ -245,14 +256,8 @@ def _word_count(text: str) -> int:
 
 
 def _trim_to_range(text: str, *, minimum: int = 200, maximum: int = 350) -> str:
+    del minimum, maximum
     cleaned = "\n\n".join(part.strip() for part in text.split("\n\n") if part.strip())
-    count = _word_count(cleaned)
-    if count <= maximum:
-        return cleaned
-    words = cleaned.split()
-    trimmed = " ".join(words[:maximum]).rstrip(",;:.") + "…"
-    if _word_count(trimmed) >= minimum:
-        return trimmed
     return cleaned
 
 
@@ -457,6 +462,7 @@ def ensure_month_synthesis(items: list[Any], analyzed_dir: Path) -> MonthSynthes
     if not items:
         raise ValueError("Cannot synthesize an empty month")
     pack = build_month_synthesis_pack(items)
+    write_month_synthesis_pack(pack, analyzed_dir, items[0].year, items[0].month)
     checksum = source_checksum(pack)
     path = synthesis_path(analyzed_dir, items[0].year, items[0].month)
     if path.exists():

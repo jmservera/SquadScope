@@ -729,6 +729,8 @@ jobs:
               --model "$ANALYSIS_MODEL" \
               --current-datetime "$CURRENT_DATETIME" \
               --week "$WEEK" \
+              --workflow-run-id "${GITHUB_RUN_ID}" \
+              --run-attempt "${GITHUB_RUN_ATTEMPT}" \
               --prompt-file "$PROMPT_FILE" \
               --output-file "$OUTPUT_FILE" \
               --input-manifest "$PREFLIGHT_REPORT_JSON"
@@ -897,6 +899,8 @@ jobs:
             --model "$ANALYSIS_MODEL" \
             --current-datetime "$CURRENT_DATETIME" \
             --week "$WEEK" \
+            --workflow-run-id "${GITHUB_RUN_ID}" \
+            --run-attempt "${GITHUB_RUN_ATTEMPT}" \
             --prompt-file "$PROMPT_FILE" \
             --output-file "$OUTPUT_FILE" \
             --input-manifest "$PREFLIGHT_REPORT_JSON" \

@@ -1,0 +1,98 @@
+{
+  "brdFile": "docs/brds/claracle-post-relaunch-consolidation-brd.md",
+  "lastAccessed": "2026-08-08T00:00:00Z",
+  "currentPhase": "v1.1-approved-business-baseline",
+  "questionsAsked": [
+    "post-relaunch-experience-requirements",
+    "release-disposition",
+    "objective-contracts",
+    "homepage-direction",
+    "repository-explorer-contract",
+    "data-and-chart-scope",
+    "yearly-editorial-contract",
+    "embed-summary-contract",
+    "cost-source-and-freshness",
+    "v1-meaning",
+    "formal-approval-record",
+    "change-control-policy",
+    "release-severity-policy",
+    "repository-retention-criteria",
+    "redirect-mechanism",
+    "chart-comprehension-participants",
+    "cost-record-identity",
+    "risk-posture",
+    "v1-governance-prerequisites",
+    "repository-direct-404-policy"
+  ],
+  "answeredQuestions": {
+    "post-relaunch-experience-requirements": "Redesign the Hugo experience and homepage; consolidate low-value repository pages into an interactive JSON-backed summary; add JSON-backed interaction to data pages; replace ineffective bar charts; repair and improve the yearly editorial summary and SEO; enhance embeds with repository links and summaries; prioritize weekly, monthly, and yearly navigation; and make About-page cost data current and traceable.",
+    "release-disposition": "Supersede the unaccepted relaunch and CR-05; preserve historical evidence and carry open interaction and accessibility findings into the redesigned release.",
+    "objective-contracts": "Approve the proposed owners, baselines, targets, sources, and observation windows, including the inherited six-month SEO targets.",
+    "homepage-direction": "Primary audience is technology decision-makers; the homepage explains what is changing in open-source technology and leads readers to the strongest current evidence.",
+    "repository-explorer-contract": "Search; topic, language, status, and period filters; recent momentum default sort; URL-persisted state; sanitized generated-context summaries; direct GitHub links; URL-level keep, merge, or retire migration.",
+    "data-and-chart-scope": "All three generated ranking pages; compare dot plots, slope or trend views, and ranked-table treatments against each analytical question; require correct inference from at least four of five representative readers.",
+    "yearly-editorial-contract": "Annual 1,200-1,800-word analytical journalistic article using monthly evidence; Farnsworth accountable; jmservera final editor; every substantive claim traceable.",
+    "embed-summary-contract": "Direct GitHub links with sanitized generated-context summaries of approximately 160 characters available through hover, focus, touch, and assistive technology.",
+    "cost-source-and-freshness": "Use data/metrics/token-usage.jsonl; count accepted stages once; exclude retries and model:none billing; fail publication after 30 days stale; jmservera approves pricing-basis changes and exceptions.",
+    "v1-meaning": "Version 1.0 is the approved business baseline. Planning, designs, schemas, migration evidence, implementation, and release evidence remain delivery work.",
+    "formal-approval-record": "Record approval directly in the BRD with jmservera, approval date 2026-08-08, approved scope, version, and change-control rule.",
+    "change-control-policy": "Material changes to scope, objectives, targets, priorities, owners, policies, acceptance, severity, or governance require sponsor reapproval; implementation details use normal review.",
+    "release-severity-policy": "Severity 1 and 2 visual, accessibility, security, data-integrity, or SEO migration findings block release; lower severities require an owner and due date.",
+    "repository-retention-criteria": "Retain a repository profile only when differentiated content plus GSC demand or a known inbound link exists; otherwise merge to an equivalent explorer state or retire.",
+    "redirect-mechanism": "Use a one-hop hosting-layer 301/308 redirect only for an exceptional genuine replacement that preserves repository-specific intent; do not use Hugo meta refresh as the production mechanism.",
+    "chart-comprehension-participants": "Use an internal five-member squad proxy for initial comprehension testing and production evidence for the external outcome check.",
+    "cost-record-identity": "Use workflow run ID, stage, and attempt; include only the accepted attempt per stage.",
+    "risk-posture": "Approve SEO migration, accessibility, generated-content accuracy, stale or incorrect data, and progressive-enhancement failure risk classes with owners, gates, rollback, and exception paths.",
+    "v1-governance-prerequisites": "Reconcile the relaunch status of record before labeling the BRD version 1.0.",
+    "repository-direct-404-policy": "Approve version 1.1. Permit direct HTTP 404 retirement when named URL-level evidence finds no observed search or link value, no differentiated content, and no genuine replacement. HTTP 410 is optional. Redirect-capable hosting is required only if the final map contains a genuine-equivalent redirect."
+  },
+  "referencesProcessed": [
+    {
+      "file": ".github/skills/frontend-design/SKILL.md",
+      "status": "analyzed",
+      "keyFindings": "Design must be grounded in Claracle's subject, audience, and page job; define visual tokens, layout concept, and one distinctive signature; critique before implementation; preserve responsive, focus, reduced-motion, and accessibility behavior."
+    },
+    {
+      "file": "https://claracle.com/yearly/2026/",
+      "status": "user-reported",
+      "keyFindings": "The yearly summary is poorly formatted and visibly truncated with an ellipsis marker; generation and SEO need review."
+    },
+    {
+      "file": ".copilot-tracking/research/2026-08-08/claracle-post-relaunch-experience-research.md",
+      "status": "analyzed-and-approved",
+      "keyFindings": "Selected server-rendered Hugo with progressive enhancement, URL-level repository migration, evidence-gated direct HTTP 404 retirement, conditional redirects for genuine equivalents, explicit relaunch supersession, measurable objective contracts, accountable ownership, and phased binary delivery gates."
+    }
+  ],
+  "nextActions": [
+    "Export per-URL URL Inspection, Search Analytics, sampled link, available first-party referral, deployed status, canonical, internal-link, and sitemap evidence for repository migration",
+    "Reconcile canonical, alias, production-only, and live repository URL counts and approve every keep, merge, redirect, or retire disposition",
+    "Decompose BR-001 through BR-009 into independently deliverable epics and stories using the approved owners and evidence classes",
+    "Capture manual JavaScript-disabled, keyboard, screen-reader, touch, zoom, reduced-motion, embed, and production-performance evidence during delivery"
+  ],
+  "qualityChecks": [
+    "objectives-defined",
+    "scope-clarified",
+    "requirements-linked-to-objectives",
+    "stakeholders-documented",
+    "acceptance-criteria-defined",
+    "constraints-documented",
+    "business-decisions-approved",
+    "accountable-owners-assigned",
+    "objective-measures-approved",
+    "conflicts-resolved",
+    "ready-for-implementation-planning",
+    "risks-and-mitigations-approved",
+    "delivery-scope-defined",
+    "traceability-complete",
+    "formal-approval-recorded",
+    "change-control-defined",
+    "status-of-record-reconciled",
+    "v1-approved",
+    "v1.1-approved",
+    "repository-direct-404-policy-approved"
+  ],
+  "userPreferences": {
+    "detail-level": "comprehensive",
+    "question-style": "structured"
+  }
+}

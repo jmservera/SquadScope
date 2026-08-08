@@ -62,7 +62,7 @@ rssLimit = 52
 [menu]
   [[menu.main]]
     identifier = 'weekly'
-    name = 'All weeks'
+    name = 'Weekly'
     url = '/weekly/'
     weight = 10
 
@@ -70,13 +70,13 @@ rssLimit = 52
     identifier = 'topics'
     name = 'Topics'
     url = '/topics/'
-    weight = 20
+    weight = 40
 
   [[menu.main]]
     identifier = 'monthly'
     name = 'Monthly'
     url = '/monthly/'
-    weight = 30
+    weight = 20
 
   [[menu.main]]
     identifier = 'data'
@@ -94,7 +94,7 @@ rssLimit = 52
     identifier = 'yearly'
     name = 'Yearly'
     url = '/yearly/'
-    weight = 40
+    weight = 30
 
   [[menu.main]]
     identifier = 'search'

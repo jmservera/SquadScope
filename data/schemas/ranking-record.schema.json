@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://claracle.com/schemas/ranking-record.schema.json",
+  "title": "Claracle Ranking Record",
+  "type": "object",
+  "required": [
+    "rank",
+    "repository_id",
+    "full_name",
+    "github_url",
+    "metric_key",
+    "metric_value",
+    "metric_label"
+  ],
+  "properties": {
+    "rank": { "type": "integer", "minimum": 1 },
+    "repository_id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "full_name": { "type": "string", "pattern": "^[^/]+/[^/]+$" },
+    "github_url": {
+      "type": "string",
+      "pattern": "^https://github\\.com/[^/]+/[^/]+/?$"
+    },
+    "metric_key": {
+      "enum": ["stars", "star_velocity", "period_growth"]
+    },
+    "metric_value": { "type": "number" },
+    "metric_label": { "type": "string", "minLength": 1 },
+    "comparison_value": { "type": ["number", "null"] },
+    "comparison_label": { "type": ["string", "null"] },
+    "context_summary": { "type": "string", "maxLength": 240 }
+  },
+  "additionalProperties": false
+}
