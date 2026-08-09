@@ -12,7 +12,10 @@
   `content/`, and templates and assets in `layouts/` and `assets/`.
 * When using the RPI agent, follow the RPI workflow in `.copilot-tracking/plans/` and
 `.copilot-tracking/reviews/` for traceable planning, review, and change control.
-* When work can be parallelized, use the RPI workflow to sequence lanes and avoid merge conflicts.
+* For parallel work that edits files, agents must use dedicated `git worktree`s per
+  issue or branch to avoid collisions. Agents may share the same issue worktree
+  only when editing different files. Parallel read-only tasks do not require
+  worktrees. Use the RPI workflow to sequence mutating work.
 
 ## Branch and Pull Request Workflow
 
