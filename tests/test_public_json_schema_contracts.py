@@ -31,7 +31,9 @@ def _load_schema(name: str) -> dict[str, Any]:
 
 
 def _validate(payload: dict[str, Any], schema: dict[str, Any]) -> None:
-    Draft202012Validator(schema).validate(payload)
+    Draft202012Validator(schema, format_checker=Draft202012Validator.FORMAT_CHECKER).validate(
+        payload
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -113,6 +115,16 @@ def test_cost_summary_rejects_future_schema_version() -> None:
     schema = _load_schema("cost-summary.schema.json")
     payload = _cost_summary_fixture()
     payload["schema_version"] = "1.1.0"
+
+    with pytest.raises(ValidationError):
+        _validate(payload, schema)
+
+
+def test_cost_summary_rejects_non_rfc3339_generated_at() -> None:
+    """Guards against Draft202012Validator silently skipping "format" checks."""
+    schema = _load_schema("cost-summary.schema.json")
+    payload = _cost_summary_fixture()
+    payload["generated_at"] = "not-a-timestamp"
 
     with pytest.raises(ValidationError):
         _validate(payload, schema)
