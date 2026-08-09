@@ -143,18 +143,20 @@ def test_materialize_variant_drops_data_dependent_pages_without_data(tmp_path: P
     source = _sized_corpus(tmp_path / "src", topics=5, data=3, repos=3)
     _write(source / "content/embeds/_index.md", "embeds\n")
     _write(source / "content/embeds/chart-a/index.md", "embed\n")
+    _write(source / "content/embeds/chart-a/thumb.png", "png\n")
     _write(source / "content/charts/_index.md", "charts\n")
     _write(source / "content/charts/rankings/index.md", "chart\n")
 
-    baseline = tmp_path / "baseline"
-    experiment.materialize_variant(source, baseline, "baseline", enforce_expected_counts=False)
-    assert not (baseline / "content/embeds/chart-a/index.md").exists()
-    assert not (baseline / "content/charts/rankings/index.md").exists()
-
-    full = tmp_path / "full"
-    experiment.materialize_variant(source, full, "data_pages", enforce_expected_counts=False)
-    assert (full / "content/embeds/chart-a/index.md").exists()
-    assert (full / "content/charts/rankings/index.md").exists()
+    # Dependents are excluded from every variant so the divisor stays consistent.
+    for variant in ("baseline", "data_pages", "repository_pages"):
+        dest = tmp_path / variant
+        experiment.materialize_variant(source, dest, variant, enforce_expected_counts=False)
+        assert not (dest / "content/embeds/chart-a/index.md").exists()
+        assert not (dest / "content/charts/rankings/index.md").exists()
+        # Section indexes and sibling assets survive the leaf pruning.
+        assert (dest / "content/embeds/_index.md").exists()
+        assert (dest / "content/charts/_index.md").exists()
+        assert (dest / "content/embeds/chart-a/thumb.png").exists()
 
 
 def test_tree_metrics_count_full_hugo_output(tmp_path: Path) -> None:
