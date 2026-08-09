@@ -1,0 +1,30 @@
+{{- /*
+  Evidence ruler (BR-001 signature element): a static, no-JavaScript timeline
+  showing the covered period, observation density, current point, and
+  freshness boundary for a surface's evidence. Inputs:
+    current: the current/latest page (required)
+    history: chronological pages feeding the ruler, oldest first (required)
+    id: unique id prefix for this ruler instance (required)
+*/ -}}
+{{- $current := .current -}}
+{{- $history := .history | default slice -}}
+{{- $id := .id -}}
+{{- if and $current (gt (len $history) 0) -}}
+{{- $ordered := $history.ByDate -}}
+{{- $first := index $ordered 0 -}}
+{{- $last := index $ordered (sub (len $ordered) 1) -}}
+{{- $periodLabel := printf "%s to %s" ($first.Date.Format "Jan 2, 2006") ($last.Date.Format "Jan 2, 2006") -}}
+<figure class="evidence-ruler" aria-labelledby="{{ $id }}-title" aria-describedby="{{ $id }}-desc">
+  <figcaption id="{{ $id }}-title" class="evidence-ruler__title">Evidence covered: {{ $periodLabel }}</figcaption>
+  <ol class="evidence-ruler__track">
+    {{- range $ordered -}}
+    {{- $isCurrent := eq .RelPermalink $current.RelPermalink -}}
+    <li class="evidence-ruler__point{{ if $isCurrent }} evidence-ruler__point--current{{ end }}"{{ if $isCurrent }} aria-current="date"{{ end }}>
+      <span class="evidence-ruler__marker" aria-hidden="true"></span>
+      <span class="evidence-ruler__label">{{ .Params.week | default (.Date.Format "Jan 2") }}</span>
+    </li>
+    {{- end -}}
+  </ol>
+  <p id="{{ $id }}-desc" class="evidence-ruler__desc">{{ len $ordered }} observed weeks from {{ $periodLabel }}, current through {{ $last.Date.Format "Jan 2, 2006" }}.</p>
+</figure>
+{{- end -}}

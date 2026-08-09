@@ -1,26 +1,42 @@
-/* SquadScope design tokens — Editorial Trend Report, 2026-05-25 */
+/* Claracle design tokens — Field Notebook direction (BR-001, approved 2026-08-09).
+   Font webface loading is deferred pending the licensing/performance review the
+   design brief itself calls out; fallbacks below are the active rendering. */
 :root {
   color-scheme: light dark;
 
-  --color-bg: #FAFAFA;
-  --color-surface: #FFFFFF;
-  --color-text: #1A1A1A;
-  --color-text-muted: #5C5C5C;
-  --color-accent: #0066CC;
-  --color-accent-hover: #004C99;
-  --color-accent-muted: #E6F0FA;
-  --color-border: #E0E0E0;
-  --color-danger: #CC3300;
-  --color-success: #1A8754;
-  --color-code-bg: #F5F5F5;
+  /* Field Notebook palette: paper/ink surfaces plus four semantic accents. */
+  --claracle-paper: #F7F6F2;
+  --claracle-paper-surface: #FFFFFF;
+  --claracle-ink: #18201F;
+  --claracle-ink-muted: #4B524F;
+  --claracle-signal: #006B5F;
+  --claracle-signal-hover: #00544A;
+  --claracle-alert: #B33A2B;
+  --claracle-cobalt: #275DAD;
+  --claracle-gold: #8A5C00;
+  --claracle-border: #DDD9D0;
+
+  --color-bg: var(--claracle-paper);
+  --color-surface: var(--claracle-paper-surface);
+  --color-text: var(--claracle-ink);
+  --color-text-muted: var(--claracle-ink-muted);
+  --color-accent: var(--claracle-signal);
+  --color-accent-hover: var(--claracle-signal-hover);
+  --color-accent-muted: #E1EEEC;
+  --color-accent-secondary: var(--claracle-cobalt);
+  --color-review: var(--claracle-gold);
+  --color-border: var(--claracle-border);
+  --color-danger: var(--claracle-alert);
+  --color-success: var(--claracle-signal);
+  --color-code-bg: #EFEDE6;
   --color-code-block-bg: #1A1D21;
   --color-code-text: #E8E8E8;
   --color-copy-text: #FFFFFFCC;
   --color-copy-bg: #4E4E4ECC;
 
-  --font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", monospace;
+  --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-body: "Atkinson Hyperlegible Next", Verdana, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "SF Mono", "Cascadia Code", monospace;
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
@@ -49,8 +65,8 @@
   --space-16: 13rem;
 
   --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --radius-md: 6px;
+  --radius-lg: 6px;
   --radius-full: 9999px;
 
   --size-header-height: 4rem;
@@ -79,16 +95,29 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --color-bg: #0D0D0D;
-    --color-surface: #1A1A1A;
-    --color-text: #E8E8E8;
-    --color-text-muted: #9C9C9C;
-    --color-accent: #4DA3FF;
-    --color-accent-hover: #80BFFF;
-    --color-accent-muted: #1A2633;
-    --color-border: #2E2E2E;
-    --color-danger: #FF6B4A;
-    --color-success: #4ADE80;
+    --claracle-paper: #14181A;
+    --claracle-paper-surface: #1C2124;
+    --claracle-ink: #ECEAE4;
+    --claracle-ink-muted: #B7BAB6;
+    --claracle-signal: #3DD9C2;
+    --claracle-signal-hover: #6EE5D3;
+    --claracle-alert: #FF8F78;
+    --claracle-cobalt: #7FB0FF;
+    --claracle-gold: #E0AB3D;
+    --claracle-border: #2E3436;
+
+    --color-bg: var(--claracle-paper);
+    --color-surface: var(--claracle-paper-surface);
+    --color-text: var(--claracle-ink);
+    --color-text-muted: var(--claracle-ink-muted);
+    --color-accent: var(--claracle-signal);
+    --color-accent-hover: var(--claracle-signal-hover);
+    --color-accent-muted: #1B2B29;
+    --color-accent-secondary: var(--claracle-cobalt);
+    --color-review: var(--claracle-gold);
+    --color-border: var(--claracle-border);
+    --color-danger: var(--claracle-alert);
+    --color-success: var(--claracle-signal);
     --color-code-bg: #24262B;
     --color-code-block-bg: #1A1A1A;
     --color-code-text: #E8E8E8;
@@ -101,16 +130,29 @@
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --color-bg: #0D0D0D;
-  --color-surface: #1A1A1A;
-  --color-text: #E8E8E8;
-  --color-text-muted: #9C9C9C;
-  --color-accent: #4DA3FF;
-  --color-accent-hover: #80BFFF;
-  --color-accent-muted: #1A2633;
-  --color-border: #2E2E2E;
-  --color-danger: #FF6B4A;
-  --color-success: #4ADE80;
+  --claracle-paper: #14181A;
+  --claracle-paper-surface: #1C2124;
+  --claracle-ink: #ECEAE4;
+  --claracle-ink-muted: #B7BAB6;
+  --claracle-signal: #3DD9C2;
+  --claracle-signal-hover: #6EE5D3;
+  --claracle-alert: #FF8F78;
+  --claracle-cobalt: #7FB0FF;
+  --claracle-gold: #E0AB3D;
+  --claracle-border: #2E3436;
+
+  --color-bg: var(--claracle-paper);
+  --color-surface: var(--claracle-paper-surface);
+  --color-text: var(--claracle-ink);
+  --color-text-muted: var(--claracle-ink-muted);
+  --color-accent: var(--claracle-signal);
+  --color-accent-hover: var(--claracle-signal-hover);
+  --color-accent-muted: #1B2B29;
+  --color-accent-secondary: var(--claracle-cobalt);
+  --color-review: var(--claracle-gold);
+  --color-border: var(--claracle-border);
+  --color-danger: var(--claracle-alert);
+  --color-success: var(--claracle-signal);
   --color-code-bg: #24262B;
   --color-code-block-bg: #1A1A1A;
   --color-code-text: #E8E8E8;
@@ -118,6 +160,7 @@
   --shadow-md: 0 4px 6px rgb(0 0 0 / 0.3);
   --shadow-lg: 0 10px 15px rgb(0 0 0 / 0.3);
 }
+
 
 [data-theme="light"] {
   color-scheme: light;

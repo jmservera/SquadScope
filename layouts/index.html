@@ -1,8 +1,12 @@
 {{- define "main" -}}
 {{- $weeklyPages := (where site.RegularPages "Type" "weekly").ByDate.Reverse -}}
 {{- $latest := cond (gt (len $weeklyPages) 0) (index $weeklyPages 0) nil -}}
+{{- $monthlyPages := (where site.RegularPages "Type" "monthly").ByDate.Reverse -}}
+{{- $yearlyPages := (where (where site.RegularPages "Type" "yearly") "Params.format" "narrative").ByDate.Reverse -}}
 {{- $topTopics := first 6 site.Taxonomies.topics.ByCount -}}
 {{- $topicRegistry := site.Data.taxonomy.topics.terms -}}
+{{- $repositoryRecords := site.Data.observatory.repository_summary.records | default slice -}}
+{{- $rankingPages := site.Data.observatory.ranking_summary.records | default slice -}}
 
 <div class="home-shell">
   <section class="home-hero home-hero--minimal" aria-labelledby="home-title">
@@ -20,6 +24,7 @@
     <h2 id="latest-report-heading"><a href="{{ $latest.RelPermalink }}">{{ $latest.Title }}</a></h2>
     <p class="home-latest-hook">{{ $latest.Params.summary | default $latest.Summary }}</p>
     {{ partial "report-metrics.html" $latest }}
+    {{ partial "evidence-ruler.html" (dict "current" $latest "history" (first 8 $weeklyPages).ByDate "id" "home-latest-ruler") }}
     <div class="home-actions">
       <a class="home-action-primary" href="{{ $latest.RelPermalink }}">Read full analysis</a>
       <a class="home-action-secondary" href="{{ `weekly/` | absLangURL }}">View all weeks</a>
@@ -34,6 +39,7 @@
   {{- end -}}
 
   <div class="home-content-grid">
+    <div class="home-main-column">
     {{- if gt (len $weeklyPages) 0 -}}
     <section class="home-recent" aria-labelledby="recent-reports-heading">
       <div class="section-heading-row">
@@ -61,6 +67,47 @@
     </section>
     {{- end -}}
 
+    {{- if gt (len $monthlyPages) 0 -}}
+    <section class="home-recent home-rollup-recent" aria-labelledby="monthly-rollups-heading">
+      <div class="section-heading-row">
+        <div>
+          <div class="section-topline">Bigger picture</div>
+          <h2 id="monthly-rollups-heading">Monthly rollups</h2>
+        </div>
+        <a href="{{ `monthly/` | absLangURL }}">View all months</a>
+      </div>
+      <div class="home-rollup-list">
+        {{- range first 5 $monthlyPages -}}
+        <article class="home-rollup-card">
+          <a class="home-report-title" href="{{ .RelPermalink }}"><span>{{ .Title }}</span></a>
+          <p>{{ .Params.summary | default .Summary }}</p>
+        </article>
+        {{- end -}}
+      </div>
+    </section>
+    {{- end -}}
+
+    {{- if gt (len $yearlyPages) 0 -}}
+    <section class="home-recent home-rollup-recent" aria-labelledby="yearly-rollups-heading">
+      <div class="section-heading-row">
+        <div>
+          <div class="section-topline">Long-term pattern</div>
+          <h2 id="yearly-rollups-heading">Yearly rollups</h2>
+        </div>
+        <a href="{{ `yearly/` | absLangURL }}">View all years</a>
+      </div>
+      <div class="home-rollup-list">
+        {{- range first 3 $yearlyPages -}}
+        <article class="home-rollup-card">
+          <a class="home-report-title" href="{{ .RelPermalink }}"><span>{{ .Title }}</span></a>
+          <p>{{ .Params.summary | default .Summary }}</p>
+        </article>
+        {{- end -}}
+      </div>
+    </section>
+    {{- end -}}
+    </div>
+
     <aside class="home-rail" aria-labelledby="home-rail-heading">
       {{- if $topTopics -}}
       <section class="home-topic-rail" aria-labelledby="home-rail-heading">
@@ -84,6 +131,37 @@
       </section>
       {{- end -}}
 
+      {{- if gt (len $repositoryRecords) 0 -}}
+      <section class="home-topic-rail home-evidence-rail" aria-labelledby="home-repo-evidence-heading">
+        <div class="section-topline">Repository evidence</div>
+        <h2 id="home-repo-evidence-heading">Momentum to watch</h2>
+        <div class="home-topic-list home-evidence-list">
+          {{- range first 6 $repositoryRecords -}}
+          <a class="home-topic-card" href="{{ .github_url }}">
+            <span>{{ .full_name }}</span>
+            <small>{{ .recent_momentum }}</small>
+          </a>
+          {{- end -}}
+        </div>
+        <a href="{{ `repo/` | absLangURL }}">Browse the repository summary</a>
+      </section>
+      {{- end -}}
+
+      {{- if gt (len $rankingPages) 0 -}}
+      <section class="home-topic-rail home-evidence-rail" aria-labelledby="home-data-evidence-heading">
+        <div class="section-topline">Data evidence</div>
+        <h2 id="home-data-evidence-heading">Rankings to explore</h2>
+        <div class="home-topic-list home-evidence-list">
+          {{- range first 6 $rankingPages -}}
+          <a class="home-topic-card" href="{{ .github_url }}">
+            <span>{{ .full_name }}</span>
+            <small>{{ .metric_label }}</small>
+          </a>
+          {{- end -}}
+        </div>
+      </section>
+      {{- end -}}
+
       <nav class="home-quick-links" aria-labelledby="quick-links-heading">
         <div class="section-topline">Quick links</div>
         <h2 id="quick-links-heading">Move through the report</h2>
@@ -98,3 +176,4 @@
   </div>
 </div>
 {{- end -}}
+
