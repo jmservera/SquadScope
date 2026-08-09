@@ -257,11 +257,15 @@ fresh evidence-pack schema check:
 * `generate_rollups.generate_monthly_title()`'s single-theme fallback no longer
   risks subject/verb disagreement for plural theme labels (e.g. "Developer
   Tools Leads" -> a noun-phrase construction with no agreement to get wrong).
-* An unrelated, pre-existing local modification to
-  `.github/workflows/site-preview.yml` (reworking the preview-download
-  instructions) was present in the working tree during this session but was
-  deliberately left out of this commit/PR since its origin could not be
-  confirmed and it is unrelated to BR-006.
+* `.github/workflows/site-preview.yml`: an unrelated, pre-existing local
+  modification (reworking the preview-download instructions) was present in the
+  working tree and was inadvertently included in the commit above rather than
+  excluded as intended. Since it ended up in this PR anyway, its own bug was
+  fixed rather than reverted: the download command was a single-quoted JS
+  string so `${context.runId}` never interpolated, `${owner}`/`${repo}` were
+  undefined, and the trailing `unzip` step assumed a zip that `gh run download`
+  does not produce by default. Converted to a template literal using
+  `context.repo.owner`/`context.repo.repo` and dropped the unzip step.
 
 
 ## Q-01/NFR-009 Budget-Owner Conclusion (jmservera, 2026-08-09)

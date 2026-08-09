@@ -179,7 +179,7 @@ jobs:
               'Download it, then serve and open it locally:',
               '',
               '```bash',
-              'gh run download ${context.runId} --repo ${owner}/${repo} --name site-preview --dir site-preview && unzip site-preview.zip -d site-preview && cd site-preview',
+              `gh run download ${context.runId} --repo ${context.repo.owner}/${context.repo.repo} --name site-preview --dir site-preview && cd site-preview`,
               'python3 -m http.server 8080   # then open http://localhost:8080/',
               '```',
               '',
