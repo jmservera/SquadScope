@@ -20,7 +20,10 @@
 ## Branch and Pull Request Workflow
 
 All changes must use a branch and a pull request. Never commit directly to
-`main` or bypass branch protection.
+`main` or bypass branch protection. When the RPI agent is doing the work, see
+"RPI Workflow Discipline" below for exactly when in the phase sequence a branch
+must exist and when a PR must be open; that section does not relax this rule,
+it only says when to apply it.
 
 1. Start from current `main` in a clean, dedicated worktree and create a focused
    branch. Use the repository prefixes such as `feat/`, `fix/`, `docs/`,
@@ -125,6 +128,26 @@ When using the RPI agent with multi-phase planning, follow strict phase sequenci
 * **Iteration Within Phase**: Rework and iteration happen within the current
   phase. Only after the current phase is complete can the workflow advance or
   restart to an earlier phase if new findings warrant it.
+* **Branch Before Implementing**: Before Phase 3 (Implement) makes its first
+  file edit, create a dedicated branch per "Branch and Pull Request Workflow"
+  above. Never edit tracked repository files, including `.copilot-tracking/`
+  artifacts, documentation, or config, directly against a `main` working tree.
+  Reuse the same phase branch for later steps of the same phase; only start a
+  new branch when the plan marks the next phase `parallelizable: true` and it
+  is reviewable independently of the current branch's PR.
+* **Commit Instead Of Leaving Work Uncommitted**: If a turn ends mid-phase,
+  commit the in-progress work to the phase branch instead of leaving it as
+  uncommitted changes. Presenting a suggested commit message is not a
+  substitute for committing it; only skip committing when the user has not yet
+  confirmed they want a branch created for this work.
+* **Push And PR Before Declaring A Phase Complete**: Phase 4 (Review) cannot
+  reach "Complete" status until the branch is pushed and a pull request is open
+  and taken through the full Branch and Pull Request Workflow (Copilot review
+  finished, checks green, threads resolved). Pushing and merging still need the
+  user's explicit go-ahead under this repository's operational safety rules;
+  while that confirmation is pending, report the reviewable branch name and
+  diff rather than ending the turn with unpushed or uncommitted changes on
+  `main`.
 
 This discipline ensures traceable decision-making and prevents partially
 completed phases from creating ambiguity or rework later.
@@ -136,4 +159,8 @@ Multiple GitHub CLI accounts may be configured on this machine. If a push,
 run `gh auth status`. Switch to the repository owner account with
 `gh auth switch --user jmservera --hostname github.com` when needed.
 
-# Notes: RPI in this context refers to the "Review, Plan, Implement" workflow in HVE used for managing changes and ensuring proper review and approval processes are followed.
+# Notes: RPI here refers to the RPI Agent chat mode's five-phase workflow
+# (Research -> Plan -> Implement -> Review -> Discover; see "RPI Workflow
+# Discipline" above), not the separate Researcher/Planner/Implementor/Reviewer
+# subagents shipped by the HVE-core extension, which this repository does not
+# use by default.
