@@ -241,6 +241,28 @@ was only 540 words with several unfinished sentences.
   2026-06 needed full regeneration versus a narrower Month Synthesis-only
   refresh.
 
+### PR #692 Review Follow-Ups (2026-08-09)
+
+Three further fixes landed on the same branch/PR in response to Copilot review
+comments, all re-validated with the full test suite, `hugo --minify`, and a
+fresh evidence-pack schema check:
+
+* `trim_words()` now falls back to the full original text when even the first
+  sentence alone exceeds the word budget, instead of silently dropping every
+  sentence after it.
+* `generate_yearly_narrative.load_month_synthesis_paragraphs()` dedupes prose
+  paragraphs; the standalone monthly synthesis file's "Prediction Review"
+  section was restating its "Month Synthesis" narrative's own closing
+  paragraph, which showed up as a repeated paragraph in each yearly chapter.
+* `generate_rollups.generate_monthly_title()`'s single-theme fallback no longer
+  risks subject/verb disagreement for plural theme labels (e.g. "Developer
+  Tools Leads" -> a noun-phrase construction with no agreement to get wrong).
+* An unrelated, pre-existing local modification to
+  `.github/workflows/site-preview.yml` (reworking the preview-download
+  instructions) was present in the working tree during this session but was
+  deliberately left out of this commit/PR since its origin could not be
+  confirmed and it is unrelated to BR-006.
+
 
 ## Q-01/NFR-009 Budget-Owner Conclusion (jmservera, 2026-08-09)
 
