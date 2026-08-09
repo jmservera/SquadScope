@@ -21,7 +21,7 @@ seed_topics = [
 ]
 
 [topic_hubs.dynamic_creation]
-enabled = false
+enabled = true
 min_weekly_issues = 4
 lookback_days = 62
 log_path = "data/topic-hubs/dynamic-topic-creation.log"
