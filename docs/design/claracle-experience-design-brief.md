@@ -14,8 +14,10 @@ estimated_reading_time: 7
 
 ## Approval Status
 
-Pending Calculon and sponsor approval. This brief defines the implementation
-candidate for BR-001; it does not authorize a visual rollout.
+Approved by sponsor jmservera on 2026-08-09, as-is. This brief satisfies the
+BR-001 design-brief approval requirement; it does not by itself authorize the
+Phase 2 visual rollout, which still requires the representative mobile/desktop
+views and accessibility/visual gates in "Representative Acceptance Views."
 
 ## Subject, Audience, And Job
 
@@ -58,14 +60,14 @@ fail to load.
 
 ## Color Tokens
 
-| Token | Proposed value | Purpose |
-|-------|----------------|---------|
-| `--claracle-paper` | `#f7f6f2` | Primary reading surface |
-| `--claracle-ink` | `#18201f` | Primary text and structural rules |
-| `--claracle-signal` | `#006b5f` | Current evidence, links, and selected state |
-| `--claracle-alert` | `#b33a2b` | Material decline, stale state, and errors |
-| `--claracle-cobalt` | `#275dad` | Comparative series and secondary actions |
-| `--claracle-gold` | `#b47a00` | Provisional or review-required evidence |
+| Token | Swatch | Proposed value | Purpose |
+|-------|--------|----------------|---------|
+| `--claracle-paper` | 🟪 | `#f7f6f2` | Primary reading surface |
+| `--claracle-ink` | ⬛ | `#18201f` | Primary text and structural rules |
+| `--claracle-signal` | 🟩 | `#006b5f` | Current evidence, links, and selected state |
+| `--claracle-alert` | 🟥 | `#b33a2b` | Material decline, stale state, and errors |
+| `--claracle-cobalt` | 🟦 | `#275dad` | Comparative series and secondary actions |
+| `--claracle-gold` | 🟨 | `#b47a00` | Provisional or review-required evidence |
 
 The palette combines neutral reading surfaces with green, red, blue, and gold
 semantic roles. Every state also uses text, shape, or position so color is never

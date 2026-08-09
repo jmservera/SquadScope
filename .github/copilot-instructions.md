@@ -111,6 +111,24 @@ the handoff contract before merge. SquadScope owns the stable post-publication
 handoff; podcast generation remains outside this repository's critical
 publishing path.
 
+## RPI Workflow Discipline
+
+When using the RPI agent with multi-phase planning, follow strict phase sequencing:
+
+* **Sequential Execution**: Complete each phase fully before moving to the next.
+  Phases must execute in order: Research → Plan → Implement → Review → Discover.
+* **No Phase Skipping**: Do not start a later phase until the current phase is
+  complete. If early investigation suggests a later phase is needed, complete
+  the current phase first, then advance.
+* **Phase Completion Criteria**: Each phase is complete when its outputs are
+  finalized and any artifacts are created and persisted to `.copilot-tracking/`.
+* **Iteration Within Phase**: Rework and iteration happen within the current
+  phase. Only after the current phase is complete can the workflow advance or
+  restart to an earlier phase if new findings warrant it.
+
+This discipline ensures traceable decision-making and prevents partially
+completed phases from creating ambiguity or rework later.
+
 ## Authentication Troubleshooting
 
 Multiple GitHub CLI accounts may be configured on this machine. If a push,

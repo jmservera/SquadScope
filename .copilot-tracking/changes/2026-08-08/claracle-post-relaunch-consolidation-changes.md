@@ -83,3 +83,151 @@ None.
 The selected local implementation slices pass affected automated checks. Cost
 publication, repository migration, named acceptance, production rollout, and
 outcome measurement remain blocked or future work under the controlling plan.
+
+## CR-06 Harness Repair And Experiment Execution (2026-08-09)
+
+Three cascading build-cost harness defects were repaired through separate
+reviewed pull requests, each with 4/4 Squad approval, then the official
+report-only experiment was dispatched and completed cleanly.
+
+* PR #686 (merged `67045a3`): `discover_workload`/`run_experiment` derive the
+  `repository_pages` count from the reviewed publish tree via
+  `--expected-repository-pages` and `build_variants()`, removing the hardcoded
+  266-page guard that conflicted with the 263-page publish corpus.
+* PR #687 (merged `38c51ca`): `_tool_version` and `_run_timed` invoke `pagefind`
+  directly instead of `npx --no-install pagefind`, matching the global install.
+* PR #689 (merged `8f680f4`): `materialize_variant` removes
+  `content/embeds/*/index.md` and `content/charts/*/index.md` from every variant
+  so dependent leaves cannot orphan removed data pages; `_index.md` and sibling
+  assets are retained.
+* Experiment run `31305223877` on main `8f680f4`, publish `4120078d`, 3
+  repetitions, report-only mode completed all jobs successfully. Evidence
+  (`summary.md`, `summary.json`, `manifest.json`, per-sample JSON, per-variant
+  logs, `SHA256SUMS`) is retained as the run artifact.
+* Official medians and marginal cost over the reviewed 266-page repository
+  corpus:
+  * Hugo `repository_pages`: median 3116 ms, p95 3156 ms, marginal 8.776 ms/page
+  * Pagefind `repository_pages`: median 803 ms, p95 979 ms, marginal 2.414 ms/page
+  * Hugo `topic_hubs` 0.400 ms/page and `data_pages` 0.667 ms/page marginal;
+    Pagefind `data_pages` 5.000 ms/page marginal
+
+Only the dated Q-01/NFR-009 budget-owner conclusion by jmservera remains open
+for CR-06.
+
+## Phase 1 Continuation: BR-007 Contract, Public Schema Fixtures, BR-002 Draft (2026-08-09)
+
+Closed both Phase 1 items that did not require a pending human approval, and
+drafted the remaining BR-002 candidate for sponsor review.
+
+### Added
+
+* `data/schemas/embed-summary.schema.json`: BR-007's sanitized-summary and
+  safe-GitHub-link data contract (schema-versioned, 160-character display cap,
+  always-complete accessible text)
+* `docs/design/claracle-embed-summary-contract.md`: the BR-007 sanitization
+  pipeline, safe-link rule, and the interaction requirements deferred to Phase 4
+* `docs/design/claracle-homepage-module-hierarchy.md`: the BR-002 candidate
+  module order, per-module selection/freshness/ownership/fallback rules, the
+  empty-module rule, and two open questions, pending Leela/sponsor approval
+* `tests/test_public_json_schema_contracts.py`: 23 tests validating a
+  representative fixture, one malformed variant, and (where applicable) one
+  future-schema-version variant for all seven public JSON contracts
+  (repository-url-inventory, cost-summary, yearly-evidence-pack,
+  observatory-envelope, ranking-record, repository-record, embed-summary)
+  against their `data/schemas/*.json` files using `jsonschema`
+
+### Modified
+
+* `requirements.txt`: added `jsonschema>=4.0,<5.0` as a test dependency
+
+### Deviations
+
+* Repaired a pre-existing broken `idna` install in the local `.venv` (blocked
+  `jsonschema`'s format-checker import with `AttributeError: module 'idna' has
+  no attribute 'IDNAError'`) via `pip install --force-reinstall --no-deps idna`.
+  This is a local environment fix, not a repository change, and is unrelated to
+  this plan's scope.
+* BR-001 and BR-002 remain unchecked. Both require named sponsor (and
+  Calculon/Leela) approval of a design candidate per the BRD acceptance
+  criteria; that approval cannot be inferred and was requested from jmservera
+  rather than assumed. BR-001's brief was already drafted; BR-002's hierarchy is
+  now drafted alongside it.
+
+Full test suite: 1538 passed (`pytest tests/`). Ruff check and format check pass
+for the new test file.
+
+## BR-001 And BR-002 Sponsor Approval (2026-08-09)
+
+Sponsor jmservera approved both remaining Phase 1 design candidates in this
+session, closing Phase 1 (Shared Contracts And Design Foundation).
+
+* BR-001: approved as-is. `docs/design/claracle-experience-design-brief.md`
+  Approval Status updated; the Field Notebook direction, tokens, and layout
+  concept stand as written.
+* BR-002: approved with two revisions, applied to
+  `docs/design/claracle-homepage-module-hierarchy.md`: the repository and data
+  evidence modules scale their item count with viewport width instead of a
+  fixed count, and the monthly and yearly modules show a short list (three to
+  five months, two to three years) instead of a single entry.
+* Neither approval authorizes the Phase 2 homepage/shell build by itself; both
+  documents still gate on their own representative-view and accessibility
+  verification during implementation.
+
+
+## Q-01/NFR-009 Budget-Owner Conclusion (jmservera, 2026-08-09)
+
+Report-only; no blocking build-cost budget is set. Per run `31305223877` (main
+`8f680f4`, publish `4120078d`, 3 repetitions), the only material generation cost
+is the `repository_pages` corpus (Hugo median 3116 ms, marginal ~8.8 ms/page;
+Pagefind median 803 ms, marginal ~2.4 ms/page). `topic_hubs` and `data_pages`
+are negligible (sub-millisecond to low-single-digit ms/page). That corpus is the
+low-information repository detail set targeted for removal or reduction under the
+consolidation BRD Phase 3 migration; CR-05 keeps `repo_pages` disabled so it is
+not regenerated. Build cost is therefore dismissed as a launch gate. Re-evaluate
+only if Phase 3 retains or regenerates a repository-page corpus of meaningful
+size. The rollout flags were confirmed disabled during measurement, so this
+conclusion also clears the sequencing precondition for CR-04.
+
+## CR-04 Dynamic-Topic Canary Activation (2026-08-09)
+
+Activated the first bounded dynamic-topic canary through PR #684 (squash merge
+`bd1cf04`).
+
+* `config/observatory.toml`: `topic_hubs.dynamic_creation.enabled` flipped to
+  `true`, bounded by `allow_topics = ["local-first"]` so promotion is restricted
+  to exactly the one reviewed slug even though the four-week corpus qualifies many
+  candidates by threshold. `ignore_topics` deferrals retained. `[repo_pages]
+  enabled` stays `false` (CR-05 invariant preserved).
+* Gates cleared: Hermes re-review found the security/config boundary sound; URL
+  re-review found the pipeline clear. Both lifted their prior CR-06-sequencing
+  `REQUEST_CHANGES` against the exact head `72782f5`. All CI checks passed.
+  Sponsor jmservera approved the exact revision.
+* Rollback owner jmservera. Rollback is two-part: disable the flag and revert the
+  generated promotion transaction (hub page, taxonomy promotion, weekly
+  assignments, registries, log); disabling alone does not undo committed mutation.
+* Observation: promotion executes on the next scheduled crawl-and-publish run.
+  Inspect the committed generated-state diff and rendered `local-first` hub before
+  relying on it; keep the tested disabled-rollback ready.
+
+## External-Metadata Delivery-Statement Reconciliation (2026-08-09)
+
+Closed the final Phase 0 item as an evidence reconciliation, not a new business
+decision, without reopening approved V1.1 scope.
+
+* The BRD baseline's "external metadata delivered" statement maps to delivered
+  repository implementation: OG/Twitter cards (FR-032), Schema.org structured
+  data (FR-033), and sitemap/RSS (FR-034) emitted through
+  `layouts/partials/seo.html` and `head.html`, covered by
+  `tests/test_rendered_seo_metadata.py`, plus retained production and
+  source-level metadata evidence.
+* The narrower remaining evidence — Facebook/X social-preview debuggers, Google
+  Rich Results Test, Schema.org Validator, and named-reviewer production-feed
+  conclusions — remains partial and owner-gated (Amy/jmservera). It is already
+  tracked as the "External metadata and feed validation" launch gate
+  (`docs/review/data-observatory-relaunch/status-of-record.md`, Partial) and the
+  owner-action-register external-metadata section.
+* Reconciliation outcome: implementation-delivered and external-validation-pending
+  are distinct states; the published Partial status is consistent with the BRD
+  baseline. No product-doc change or V1.1 scope reopening was required.
+
+This completes Phase 0 (Governance And Independent Operations).
