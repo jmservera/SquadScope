@@ -325,3 +325,61 @@ decision, without reopening approved V1.1 scope.
   baseline. No product-doc change or V1.1 scope reopening was required.
 
 This completes Phase 0 (Governance And Independent Operations).
+
+## Phase 2: BR-001 Design Tokens And BR-002 Homepage Hierarchy (2026-08-09)
+
+Implemented both Phase 2 items whose approved BR-001/BR-002 briefs (from the
+Phase 1 continuation above) had no remaining human-approval gate, via PR #695.
+
+* `assets/css/tokens.css`: replaced color and font tokens with the approved
+  Field Notebook palette (paper, ink, signal, alert, cobalt, gold) and
+  typography fallback stacks for light and dark mode; reduced `--radius-md`
+  and `--radius-lg` to 6px. Every new color pair verified against WCAG AA
+  contrast with a luminance-ratio script (gold darkened from the brief's
+  proposed value to clear AA). Propagates automatically through
+  `assets/css/core/theme-vars.css` and `reset.css` to every page.
+* `layouts/partials/evidence-ruler.html` (new): static, no-JavaScript
+  Evidence Ruler signature element showing the covered report period and
+  current point; zero-animation by design, so `prefers-reduced-motion`
+  compliance is automatic.
+* `layouts/index.html`: added Monthly and Yearly rollup sections in the
+  approved hierarchy order, plus Repository/Data evidence rail stubs reading
+  `site.Data.observatory.repository_summary`/`.ranking_summary`. Both rail
+  sections correctly render nothing today (empty-module rule) since the
+  Phase 3/4 versioned artifacts do not exist yet; forward-compatible once
+  BR-003/BR-004 land. Wrapped main-column sections in a `home-main-column`
+  div to fix a CSS grid regression from the added sections.
+* `assets/css/extended/squadscope.css`: added Evidence Ruler, rollup-card,
+  and evidence-rail styles; fixed a mobile-viewport label-overflow issue on
+  the Evidence Ruler's current-week marker.
+* `scripts/generate_rollups.py` / `tests/test_generate_rollups.py`: fixed a
+  subject/verb agreement bug in `generate_monthly_title()` for the
+  single-accelerating-theme and single-theme-fallback cases, with regression
+  tests.
+* Validated with `pytest tests/` (1546 passed), `ruff check`/`ruff format
+  --check` on changed Python files, a full `hugo --minify` build (2701
+  pages), `scripts/check_internal_links` (no new regressions), and Playwright
+  visual verification across the homepage (light/dark/mobile), a weekly
+  article page, About, a Data listing page, and a repository summary page
+  (dark mode).
+* Deviation: font assets remain on system fallback stacks; self-hosting the
+  licensed Field Notebook fonts is a distinct follow-up, consistent with the
+  design brief's own note that licensing and performance review is separate.
+* Named sponsor/editorial acceptance of representative homepage, article,
+  repository summary, and data-page views remains a distinct, still-open
+  state from this implementation, matching the plan's approval-state
+  philosophy applied to BR-006 above.
+* PR review follow-up (2026-08-09): the "Production site" CI gate failed on
+  a tap-target size violation from the new monthly/yearly rollup card
+  links (670×26.4px at 768px, below the 44×44 minimum); fixed by giving
+  `.home-rollup-card .home-report-title` `min-height: var(--size-touch-target)`,
+  matching the existing `.home-quick-links a` pattern. Copilot review also
+  flagged: a missing regression test for the `>70`-char truncation fallback
+  in the accelerating-theme branch (added); unguarded `.github_url` hrefs in
+  the evidence rail cards (restricted to `https://github.com/` via
+  `hasPrefix` and piped through `safeURL`, matching
+  `layouts/_markup/render-link.html`); a missing `$id` check in
+  `evidence-ruler.html`'s render guard (added, so the partial fails closed);
+  and unsafe dot-chain traversal of `site.Data.observatory.*` (switched to
+  `index` for safe nested lookup). All four review threads replied to and
+  resolved; full validation (pytest, ruff, `hugo --minify`) re-run clean.

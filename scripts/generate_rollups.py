@@ -148,9 +148,9 @@ def generate_monthly_title(synthesis: Any, month: int, year: int) -> str:
     if len(accel) >= 2:
         title = f"{accel[0]} and {accel[1]} Surge — {month_year}"
     elif accel and weak:
-        title = f"{accel[0]} Surges While {weak[0]} Fades — {month_year}"
+        title = f"{accel[0]} Rising, {weak[0]} Fading — {month_year}"
     elif accel:
-        title = f"{accel[0]} Takes Center Stage — {month_year}"
+        title = f"{accel[0]}: This Month's Center of Gravity — {month_year}"
     elif len(themes) >= 2:
         title = f"{themes[0]} and {themes[1]} Define the Month — {month_year}"
     elif themes:
@@ -160,7 +160,7 @@ def generate_monthly_title(synthesis: Any, month: int, year: int) -> str:
 
     if len(title) > 70:
         if accel:
-            title = f"{accel[0]} Surges — {month_year}"
+            title = f"{accel[0]}: Top Theme — {month_year}"
         elif themes:
             title = f"{themes[0]}: Defining Theme — {month_year}"
         if len(title) > 70:

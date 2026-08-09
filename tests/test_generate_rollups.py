@@ -3,6 +3,7 @@ import tempfile
 import unittest
 from datetime import UTC, datetime
 from pathlib import Path
+from types import SimpleNamespace
 from unittest import mock
 
 import scripts.generate_rollups as generate_rollups
@@ -630,6 +631,59 @@ class ExtractSummaryTests(unittest.TestCase):
         result = generate_yearly_narrative._extract_summary(long, max_length=30)
         self.assertLessEqual(len(result), 30)
         self.assertTrue(result.endswith("…"))
+
+
+class GenerateMonthlyTitleTests(unittest.TestCase):
+    """No branch should conjugate a verb to agree with an arbitrary theme label,
+    since labels like "Developer Tools" are plural and "AI" is singular."""
+
+    def _synthesis(
+        self,
+        *,
+        accelerating_themes: tuple[str, ...] = (),
+        weakening_themes: tuple[str, ...] = (),
+        themes: tuple[str, ...] = (),
+    ) -> SimpleNamespace:
+        return SimpleNamespace(
+            accelerating_themes=accelerating_themes,
+            weakening_themes=weakening_themes,
+            themes=themes,
+        )
+
+    def test_single_accelerating_theme_uses_no_conjugated_verb(self) -> None:
+        synthesis = self._synthesis(accelerating_themes=("developer-tooling",))
+
+        title = generate_rollups.generate_monthly_title(synthesis, 5, 2026)
+
+        self.assertEqual(title, "Developer Tooling: This Month's Center of Gravity — May 2026")
+
+    def test_accelerating_and_weakening_theme_uses_no_conjugated_verb(self) -> None:
+        synthesis = self._synthesis(
+            accelerating_themes=("developer-tooling",), weakening_themes=("ai",)
+        )
+
+        title = generate_rollups.generate_monthly_title(synthesis, 5, 2026)
+
+        self.assertEqual(title, "Developer Tooling Rising, AI Fading — May 2026")
+
+    def test_single_theme_fallback_uses_no_conjugated_verb(self) -> None:
+        synthesis = self._synthesis(themes=("developer-tooling",))
+
+        title = generate_rollups.generate_monthly_title(synthesis, 5, 2026)
+
+        self.assertEqual(title, "Developer Tooling: The Month's Defining Theme — May 2026")
+
+    def test_long_accelerating_theme_truncation_fallback_uses_no_conjugated_verb(
+        self,
+    ) -> None:
+        synthesis = self._synthesis(
+            accelerating_themes=("developer-tooling-and-cloud-infrastructure",)
+        )
+
+        title = generate_rollups.generate_monthly_title(synthesis, 5, 2026)
+
+        self.assertEqual(title, "Developer Tooling And Cloud Infrastructure: Top Theme — May 2026")
+        self.assertLessEqual(len(title), 70)
 
 
 class MonthSynthesisTrimWordsTests(unittest.TestCase):

@@ -818,6 +818,7 @@ summary:focus-visible,
 }
 
 .home-content-grid,
+.home-main-column,
 .home-rail,
 .home-quick-links,
 .home-topic-rail,
@@ -826,6 +827,10 @@ summary:focus-visible,
 .weekly-archive-list {
   display: grid;
   gap: var(--space-3);
+}
+
+.home-main-column {
+  gap: var(--space-5);
 }
 
 .home-tag-strip {
@@ -964,6 +969,99 @@ summary:focus-visible,
   text-transform: uppercase;
 }
 
+/* Evidence ruler (BR-001 signature element): static, no-JavaScript timeline. */
+.evidence-ruler {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.evidence-ruler__title {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--tracking-nav);
+  text-transform: uppercase;
+}
+
+.evidence-ruler__track {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  border-block-end: var(--size-border-thin) solid var(--color-border);
+  list-style: none;
+}
+
+.evidence-ruler__point {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  padding-block-end: var(--space-2);
+}
+
+.evidence-ruler__marker {
+  inline-size: var(--size-border-thin);
+  block-size: var(--space-3);
+  background: var(--color-border);
+}
+
+.evidence-ruler__point--current .evidence-ruler__marker {
+  inline-size: var(--space-1);
+  background: var(--color-accent);
+}
+
+.evidence-ruler__label {
+  overflow: hidden;
+  max-inline-size: 100%;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.evidence-ruler__point--current .evidence-ruler__label {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.evidence-ruler__desc {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+/* Monthly/yearly rollup short lists (BR-002 homepage modules). */
+.home-rollup-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.home-rollup-card .home-report-title {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
+}
+
+.home-rollup-card p {
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-muted);
+}
+
+/* Repository/data evidence rail modules (BR-002); populated once Phase 3/4
+   publish site.Data.observatory.repository_summary / ranking_summary. */
+.home-evidence-rail {
+  margin-top: var(--space-3);
+}
+
+.home-evidence-list {
+  gap: var(--space-1);
+}
+
 @media (min-width: 769px) {
   .home-content-grid {
     grid-template-columns: minmax(0, 2fr) minmax(calc(var(--space-16) + var(--space-10)), 1fr);
@@ -1004,6 +1102,25 @@ summary:focus-visible,
   .home-topic-rail,
   .post-tags__topic {
     display: none;
+  }
+
+  /* Keep the ruler legible on narrow viewports: markers stay, only the
+     current point keeps a visible label. The full period is still available
+     via the ruler's aria-describedby paragraph regardless. */
+  .evidence-ruler__point:not(.evidence-ruler__point--current) .evidence-ruler__label {
+    display: none;
+  }
+
+  .evidence-ruler__point--current {
+    position: relative;
+  }
+
+  .evidence-ruler__point--current .evidence-ruler__label {
+    position: absolute;
+    inset-inline-end: 0;
+    overflow: visible;
+    max-inline-size: none;
+    white-space: nowrap;
   }
 
   .table-scroll table {

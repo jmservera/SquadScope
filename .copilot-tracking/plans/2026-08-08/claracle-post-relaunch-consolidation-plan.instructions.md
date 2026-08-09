@@ -133,10 +133,34 @@ genuine-equivalent 301/308 row.
 
 <!-- parallelizable: true -->
 
-* [ ] BR-001: implement the approved shared Hugo shell and token system with
-  responsive, focus, reduced-motion, contrast, and no-JavaScript behavior
-* [ ] BR-002: implement crawlable homepage summaries and links for weekly,
-  monthly, yearly, topic, repository, and data coverage with empty-module removal
+* [x] BR-001: implement the approved shared Hugo shell and token system with
+  responsive, focus, reduced-motion, contrast, and no-JavaScript behavior.
+  Applied the Field Notebook palette and typography fallback stacks in
+  `assets/css/tokens.css` (propagates through `theme-vars.css` and
+  `reset.css` to every page), reduced card radius to 6px, and added the
+  static, no-JS Evidence Ruler signature element
+  (`layouts/partials/evidence-ruler.html`). All new color pairs verified
+  against WCAG AA contrast via a luminance-ratio script in both light and
+  dark mode. Font assets remain on system fallback stacks; self-hosting
+  licensed webfonts is a distinct follow-up per the design brief's own note.
+  Visually verified via Playwright across homepage (light/dark/mobile), a
+  weekly article, About, a Data listing, and a repository summary page
+  (dark mode). Implementation, automated checks, and self-review complete;
+  named sponsor/editorial acceptance of representative views is a separate,
+  still-open state
+* [x] BR-002: implement crawlable homepage summaries and links for weekly,
+  monthly, yearly, topic, repository, and data coverage with empty-module removal.
+  Added Monthly and Yearly rollup sections to `layouts/index.html` in the
+  approved hierarchy order below the weekly archive, and Repository/Data
+  evidence rail stubs wired to `site.Data.observatory.repository_summary`
+  and `.ranking_summary`. Both rail sections currently render nothing
+  (correctly, per the empty-module rule) because the Phase 3/4 versioned
+  artifacts they depend on do not exist yet; they are forward-compatible
+  and will populate automatically once BR-003/BR-004 data lands. Fixed a
+  CSS grid regression from the added sections and a mobile label-overflow
+  issue on the Evidence Ruler. Implementation and automated checks
+  complete; named sponsor/editorial acceptance is a separate, still-open
+  state
 * [x] BR-008: order Weekly, Monthly, and Yearly first across desktop, mobile,
   keyboard, and accessibility-tree navigation while preserving all destinations
 * [x] BR-006: remove cumulative clipping and generate a complete 1,200-1,800-word
