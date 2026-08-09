@@ -11,6 +11,7 @@
 <div class="home-shell">
   <section class="home-hero home-hero--minimal" aria-labelledby="home-title">
     <p class="home-eyebrow">{{ .Params.description | default site.Params.homeInfoParams.Title | default "Weekly tech signal from GitHub" }}</p>
+    <h1 id="home-title">{{ .Title }}</h1>
   </section>
 
   {{- if $latest -}}
