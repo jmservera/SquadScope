@@ -99,6 +99,13 @@ def test_pagefind_log_parser_is_fail_closed() -> None:
         experiment.parse_pagefind_log("Indexed 12 pages")
 
 
+def test_pagefind_is_invoked_directly_not_via_npx() -> None:
+    source = Path("scripts/build_cost_experiment.py").read_text(encoding="utf-8")
+    assert "npx" not in source
+    assert '"pagefind", "--version"' in source
+    assert '"pagefind", "--site", "public/"' in source
+
+
 def test_tree_metrics_count_full_hugo_output(tmp_path: Path) -> None:
     _write(tmp_path / "index.html", "html")
     _write(tmp_path / "assets/site.css", "css")

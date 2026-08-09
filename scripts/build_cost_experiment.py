@@ -294,7 +294,7 @@ def build_sample(
     index_bytes = 0
     if hugo_exit == 0:
         pagefind_ms, pagefind_exit, pagefind_output = _run_timed(
-            ["npx", "--no-install", "pagefind", "--site", "public/"], corpus, pagefind_log
+            ["pagefind", "--site", "public/"], corpus, pagefind_log
         )
         try:
             scanned, indexed = parse_pagefind_log(pagefind_output)
@@ -542,7 +542,7 @@ def run_experiment(args: argparse.Namespace) -> None:
     }
     tools = {
         "hugo": _tool_version(["hugo", "version"]),
-        "pagefind": _tool_version(["npx", "--no-install", "pagefind", "--version"]),
+        "pagefind": _tool_version(["pagefind", "--version"]),
         "node": _tool_version(["node", "--version"]),
         "python": sys.version.split()[0],
     }
