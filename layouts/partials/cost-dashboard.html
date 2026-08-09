@@ -8,7 +8,7 @@
 {{- $data := index .Site.Data "metrics" "cost-summary" -}}
 {{- $requiredKeys := slice "schema_version" "generated_at" "currency" "pricing_basis" "provenance" "covered_period" "accepted_identities" "exclusions" "reconciliation" "totals" -}}
 {{- $valid := true -}}
-{{- if not $data -}}
+{{- if or (not $data) (not (reflect.IsMap $data)) -}}
   {{- $valid = false -}}
 {{- else -}}
   {{- range $requiredKeys -}}
@@ -19,12 +19,15 @@
   {{- if $valid -}}
     {{- /* Guard nested fields too: a top-level key can exist while its required
        sub-fields are missing, which would otherwise render a fabricated
-       "0.00" or "<no value>" instead of the unavailable state. */ -}}
+       "0.00" or "<no value>" instead of the unavailable state. Only fields
+       rendered without a "| default" fallback are listed here;
+       provenance.maximum_age_days is intentionally excluded because its own
+       default (30) below already covers absence per the schema. */ -}}
     {{- $nestedRequired := slice
       (dict "key" "totals" "subkeys" (slice "cost" "input_tokens" "output_tokens"))
       (dict "key" "reconciliation" "subkeys" (slice "status" "input_records" "accepted_records" "billable_records"))
       (dict "key" "exclusions" "subkeys" (slice "legacy_unidentified" "superseded_attempts" "model_none"))
-      (dict "key" "provenance" "subkeys" (slice "ledger" "maximum_age_days"))
+      (dict "key" "provenance" "subkeys" (slice "ledger"))
       (dict "key" "covered_period" "subkeys" (slice "start" "end"))
     -}}
     {{- range $nestedRequired -}}
@@ -38,22 +41,40 @@
       {{- end -}}
     {{- end -}}
   {{- end -}}
+  {{- if $valid -}}
+    {{- /* Each accepted identity is rendered without a default fallback, so a
+       malformed entry must fail closed rather than show "<no value>". */ -}}
+    {{- $identityKeys := slice "week" "stage" "model" "workflow_run_id" "run_attempt" -}}
+    {{- range ($data.accepted_identities | default (slice)) -}}
+      {{- if not (reflect.IsMap .) -}}
+        {{- $valid = false -}}
+      {{- else -}}
+        {{- $identity := . -}}
+        {{- range $identityKeys -}}
+          {{- if not (isset $identity .) -}}{{- $valid = false -}}{{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
 {{- $generatedTime := now -}}
 {{- $maxAgeDays := 30 -}}
 {{- if $valid -}}
   {{- $maxAgeDays = int ($data.provenance.maximum_age_days | default 30) -}}
   {{- $isoPattern := `^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$` -}}
-  {{- if not (findRE $isoPattern $data.generated_at) -}}
+  {{- $generatedAtText := string $data.generated_at -}}
+  {{- if not (findRE $isoPattern $generatedAtText) -}}
     {{- $valid = false -}}
   {{- else -}}
-    {{- $generatedTime = time.AsTime $data.generated_at -}}
+    {{- $generatedTime = time.AsTime $generatedAtText -}}
   {{- end -}}
 {{- end -}}
 {{- $ageDays := 0.0 -}}
 {{- if $valid -}}
   {{- $ageDays = div (now.Sub $generatedTime).Hours 24.0 -}}
-  {{- if gt $ageDays (float $maxAgeDays) -}}{{- $valid = false -}}{{- end -}}
+  {{- /* A negative age means generated_at is in the future: not a valid
+     freshness signal (clock skew or malformed data), so fail closed. */ -}}
+  {{- if or (lt $ageDays 0.0) (gt $ageDays (float $maxAgeDays)) -}}{{- $valid = false -}}{{- end -}}
 {{- end -}}
 {{- if not $valid -}}
 <section class="cost-dashboard cost-dashboard--unavailable" aria-labelledby="cost-dashboard-title">

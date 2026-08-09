@@ -434,8 +434,10 @@ maintained total.
 
 ### Validation
 
-* `pytest tests/test_cost_dashboard_rendering.py` -> 4 passed (missing file,
-  valid fixture, legacy schema, stale timestamp)
+* `pytest tests/test_cost_dashboard_rendering.py` -> 4 passed at the time of
+  this entry (missing file, valid fixture, legacy schema, stale timestamp);
+  see the PR #697 review-fixes section below for the count after later
+  regression tests were added
 * `pytest tests/` -> 1551 passed
 * `ruff check` / `ruff format --check` clean on the new test file
 * `hugo --minify` built the full site successfully with the placeholder
@@ -467,7 +469,8 @@ maintained total.
   out of scope for this rendering-focused change and needs its own review.
   BR-009 remains open; the ledger commit-path fix is tracked as follow-up
   work rather than guessed at here
-## Phase 2: BR-009 PR #697 Copilot Review Fixes (2026-08-10)
+
+## Phase 2: BR-009 PR #697 Copilot Review Fixes, Round 1 (2026-08-10)
 
 Addressed the two findings from the automated Copilot review of PR #697
 (commit `5cd7db8`). Both threads are now resolved.
@@ -506,3 +509,63 @@ Addressed the two findings from the automated Copilot review of PR #697
   both Copilot review threads resolved via
   `mcp_github_mcp_se_pull_request_review_write` (`resolve_thread`); a fresh
   Copilot review was requested on the new head commit
+* Also confirmed `tests/test_atomic_publish_proof.py::test_atomic_publish_proof_integration`
+  failing once in CI (`Python` job, commit `ea5126a`) is a pre-existing,
+  unrelated flake: it passes locally, and the same "Normal publication did
+  not advance isolated publish" failure previously occurred on `main` itself
+  (run 31306032999, 2026-08-09) before this session's changes existed. Not
+  modified as part of this PR; see `/memories/repo/squadscope.md` for detail
+
+## Phase 2: BR-009 PR #697 Copilot Review Fixes, Round 2 (2026-08-10)
+
+The ruleset on `main` requires Copilot review on every push and all review
+threads resolved before merge. Round 1's push triggered a second automated
+review pass that found one real defect (an unresolved thread) plus three
+suppressed-but-valid comments; all are fixed here.
+
+### Modified (Review Fixes Round 2)
+
+* `layouts/partials/cost-dashboard.html`:
+  * Added a `reflect.IsMap $data` guard alongside the existing `not $data`
+    check before iterating required top-level keys, so a present-but-wrongly-
+    shaped root payload (e.g. a JSON array or scalar) fails closed instead of
+    risking a template error from `isset` on a non-map value
+  * Removed `maximum_age_days` from `provenance`'s required nested sub-keys:
+    it already has its own `| default 30` fallback at the point of use, so
+    requiring it made that default unreachable and rejected otherwise-valid
+    payloads that omit it (Copilot correctly flagged this as inconsistent
+    with the header comment)
+  * `generated_at` is now coerced with `string $data.generated_at` before the
+    `findRE`/`time.AsTime` calls, so a malformed non-string value (e.g. a
+    JSON number) fails closed instead of risking a template type error
+  * Added per-item validation of `accepted_identities` (`reflect.IsMap` plus
+    `week`/`stage`/`model`/`workflow_run_id`/`run_attempt` presence), so a
+    malformed identity entry fails closed instead of rendering `<no value>`
+    in the accepted-attempts table
+  * A `generated_at` in the future (negative age) now also fails closed;
+    previously only staleness (age beyond `maximum_age_days`) was checked,
+    so a clock-skewed or malformed future timestamp would have rendered as
+    valid
+* `.copilot-tracking/changes/2026-08-08/claracle-post-relaunch-consolidation-changes.md`:
+  corrected an earlier entry that said the initial rendering test run was
+  "4 passed" without noting the count changed as later regression tests
+  were added
+
+### Added (Review Fixes Round 2)
+
+* `test_about_page_shows_unavailable_for_future_generated_at`
+* `test_about_page_shows_unavailable_for_non_string_generated_at`
+* `test_about_page_shows_unavailable_when_accepted_identity_malformed`
+* `test_about_page_shows_unavailable_when_root_is_not_an_object`
+* `cost_summary_fixture`'s payload type widened from `dict[str, object] | None`
+  to `object | None` so the new array-root test can express a non-object
+  fixture payload without a special-case code path
+
+### Validation (Review Fixes Round 2)
+
+* `pytest tests/test_cost_dashboard_rendering.py` -> 9 passed
+* `pytest tests/` -> 1556 passed
+* `ruff check` / `ruff format --check` clean
+* `hugo --minify` full-site build succeeds; `/about/` and `/dashboard/` both
+  still render the unavailable state against real (file-absent) repository
+  data

@@ -57,7 +57,7 @@ LEGACY_SUMMARY = {
 
 
 @contextmanager
-def cost_summary_fixture(payload: dict[str, object] | None) -> Iterator[None]:
+def cost_summary_fixture(payload: object | None) -> Iterator[None]:
     """Temporarily replace data/metrics/cost-summary.json, restoring its prior state afterward."""
     original = COST_SUMMARY_PATH.read_bytes() if COST_SUMMARY_PATH.exists() else None
     if payload is not None:
@@ -151,3 +151,53 @@ def test_about_page_shows_unavailable_when_nested_field_missing(tmp_path: Path) 
     assert "Cost data is not currently available" in rendered
     assert "<no value>" not in rendered
     assert "0.00" not in rendered
+
+
+def test_about_page_shows_unavailable_for_future_generated_at(tmp_path: Path) -> None:
+    """A future generated_at is not a valid freshness signal and must fail closed."""
+    future = datetime.now(UTC).replace(microsecond=0) + timedelta(days=1)
+    payload = json.loads(json.dumps(VALID_SUMMARY))
+    payload["generated_at"] = future.isoformat().replace("+00:00", "Z")
+    payload["covered_period"]["latest_record_at"] = future.isoformat().replace("+00:00", "Z")
+
+    with cost_summary_fixture(payload):
+        rendered = _build_about_page(tmp_path / "public")
+
+    assert "Cost data is not currently available" in rendered
+    assert "0.42" not in rendered
+
+
+def test_about_page_shows_unavailable_for_non_string_generated_at(tmp_path: Path) -> None:
+    """A malformed (non-string) generated_at must fail closed, not error the build."""
+    payload = json.loads(json.dumps(VALID_SUMMARY))
+    payload["generated_at"] = 12345
+    payload["covered_period"]["latest_record_at"] = 12345
+
+    with cost_summary_fixture(payload):
+        rendered = _build_about_page(tmp_path / "public")
+
+    assert "Cost data is not currently available" in rendered
+    assert "0.42" not in rendered
+
+
+def test_about_page_shows_unavailable_when_accepted_identity_malformed(tmp_path: Path) -> None:
+    """An accepted identity missing a required key must fail closed, not render <no value>."""
+    now = datetime.now(UTC).replace(microsecond=0)
+    payload = json.loads(json.dumps(VALID_SUMMARY))
+    payload["generated_at"] = now.isoformat().replace("+00:00", "Z")
+    payload["covered_period"]["latest_record_at"] = now.isoformat().replace("+00:00", "Z")
+    del payload["accepted_identities"][0]["model"]
+
+    with cost_summary_fixture(payload):
+        rendered = _build_about_page(tmp_path / "public")
+
+    assert "Cost data is not currently available" in rendered
+    assert "<no value>" not in rendered
+
+
+def test_about_page_shows_unavailable_when_root_is_not_an_object(tmp_path: Path) -> None:
+    """A malformed (non-object) root payload must fail closed, not error the build."""
+    with cost_summary_fixture([1, 2, 3]):
+        rendered = _build_about_page(tmp_path / "public")
+
+    assert "Cost data is not currently available" in rendered
