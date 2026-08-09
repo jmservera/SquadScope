@@ -359,6 +359,7 @@ def aggregate_samples(samples: list[dict[str, Any]]) -> dict[str, Any]:
         raise ExperimentError("samples must contain three or five contiguous repetitions")
     seen: set[tuple[int, str]] = set()
     manifests: dict[str, str] = {}
+    added_pages_by_variant: dict[str, int] = {}
     for sample in samples:
         pair = (sample["experiment"]["repetition"], sample["variant"]["name"])
         if pair in seen:
@@ -376,6 +377,10 @@ def aggregate_samples(samples: list[dict[str, Any]]) -> dict[str, Any]:
         if name in manifests and manifests[name] != manifest_sha:
             raise ExperimentError(f"mixed variant manifest for {name}")
         manifests[name] = manifest_sha
+        added = sample["variant"]["source_pages_added"]
+        if name in added_pages_by_variant and added_pages_by_variant[name] != added:
+            raise ExperimentError(f"mixed source_pages_added for {name}")
+        added_pages_by_variant[name] = added
     required_pairs = {(rep, name) for rep in repetitions for name in expected_names}
     if seen != required_pairs:
         raise ExperimentError("samples contain missing or unknown variants")
@@ -389,6 +394,7 @@ def aggregate_samples(samples: list[dict[str, Any]]) -> dict[str, Any]:
         predecessor: str | None = None
         for variant in VARIANTS:
             values = [by_pair[(rep, variant.name)][stage]["duration_ms"] for rep in repetitions]
+            added_pages = added_pages_by_variant[variant.name]
             metrics: dict[str, Any] = {"variant": variant.name, **_stats(values)}
             if predecessor is None:
                 metrics.update(
@@ -417,7 +423,9 @@ def aggregate_samples(samples: list[dict[str, Any]]) -> dict[str, Any]:
                         "percent_delta": None
                         if previous_median == 0
                         else 100 * delta / previous_median,
-                        "marginal_ms_per_added_page": delta / variant.source_pages_added,
+                        "marginal_ms_per_added_page": (
+                            None if not added_pages else delta / added_pages
+                        ),
                         "paired_delta_median_ms": paired_stats["median_ms"],
                         "paired_delta_p95_ms": paired_stats["p95_ms"],
                         "paired_deltas_ms": paired,
