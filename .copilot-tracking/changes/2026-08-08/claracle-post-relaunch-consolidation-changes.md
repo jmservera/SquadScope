@@ -449,10 +449,21 @@ maintained total.
   satisfied at the pipeline layer (`generate_cost_summary.py` already raises
   on all of these, from Phase 1) but intentionally NOT wired into
   `crawl-and-publish.yml` or as a Hugo build-time `errorf` in this slice.
-  Doing so today would either require unilaterally choosing a legacy-row
-  policy the BRD reserves for sponsor approval, or would fail every future
-  crawl-and-publish run outright (all current ledger rows predate workflow
-  identity). The renderer instead degrades to a clearly labeled unavailable
-  state so `hugo --minify` keeps working as the validation gate every other
-  phase in this plan depends on. BR-009 remains open pending that sponsor
-  decision; see the plan's BR-009 checklist item for the specific question
+  The renderer instead degrades to a clearly labeled unavailable state so
+  `hugo --minify` keeps working as the validation gate every other phase in
+  this plan depends on.
+* Sponsor jmservera approved the legacy-row exclusion policy in this session
+  (2026-08-10): `--legacy-policy exclude-unidentified`, permanently excluding
+  pre-2026-08-09 ledger rows from the reconciled total. That question is
+  resolved, but wiring the generator into CI surfaced a separate, previously
+  undocumented gap: `track_token_usage.py` runs only in the `analyze` job and
+  that job never commits its `data/metrics/token-usage.jsonl` append; the
+  downstream `generate` job re-hydrates `data/metrics/` from `origin/publish`
+  (the prior run's committed state) before any cost-generation step would
+  run, so the current run's fresh row would be silently discarded. Wiring the
+  generator into the workflow now, without fixing this commit-path gap first,
+  would either always operate on stale data or require a broader workflow
+  change touching job boundaries and artifact/commit ordering that is
+  out of scope for this rendering-focused change and needs its own review.
+  BR-009 remains open; the ledger commit-path fix is tracked as follow-up
+  work rather than guessed at here
