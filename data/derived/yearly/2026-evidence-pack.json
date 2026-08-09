@@ -1,0 +1,545 @@
+{
+  "artifact_type": "yearly-evidence-pack",
+  "claims": [
+    {
+      "claim_id": "CLM-2026-W21-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W21",
+      "status": "resolved",
+      "text": "Week 21 shows real demand for agent infrastructure, but the trend data still lacks the baseline needed to separate momentum from popularity."
+    },
+    {
+      "claim_id": "CLM-2026-W21-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W21",
+      "status": "resolved",
+      "text": "The durable signal is the shift from general AI enthusiasm toward operational tooling. The top shared topics \u2014 **python**, **ai**, **llm**, **typescript**, **nodejs**, and **javascript** \u2014 reinforce that the center of gravity is still developer-facing AI, but the better projects are focused on workflow reliability, packaging, and execution discipline. This is a healthier pattern than pure demo-driven hype because it implies the ecosystem is starting to care about how agent systems are run, maintained, and trusted."
+    },
+    {
+      "claim_id": "CLM-2026-W21-NOISE",
+      "claim_type": "noise",
+      "source_id": "SRC-2026-W21",
+      "status": "resolved",
+      "text": "The weak signal is the amount of off-mission and exploit-heavy material that still clears the crawler. Security appears often, but too much of that volume is bypass, exploit, or cheat-oriented rather than defensive engineering. There is also obvious repetition in the agent category: many launches gesture at automation without much evidence of differentiation. That means the week is loud, but not all of that loudness deserves equal editorial weight."
+    },
+    {
+      "claim_id": "CLM-2026-W21-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W21",
+      "status": "resolved",
+      "text": "The biggest missing piece is trustworthy momentum data. Without historical star snapshots, the analyzer cannot distinguish what is newly accelerating from what is simply already famous. The second gap is stronger quality filtering: exploit repositories, cheat tooling, and other off-mission projects still distort the weekly picture. The third is ecosystem balance. There is plenty of heat around AI builders, but much less visible energy around defensive security tooling, testing infrastructure for agents, and pragmatic maintenance tools that help teams run these systems safely at scale."
+    },
+    {
+      "claim_id": "CLM-2026-W21-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W21",
+      "status": "resolved",
+      "text": "Week 21 matters because it shows where the GitHub conversation is maturing: away from generic AI excitement and toward tooling that makes agent workflows usable. But it also shows why the analyzer contract has to be strict. Until the pipeline has real trend baselines and better filtering, the right editorial stance is confident about the signal, skeptical about the noise, and explicit about the gaps."
+    },
+    {
+      "claim_id": "CLM-2026-W22-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W22",
+      "status": "resolved",
+      "text": "Week 22 delivers the clearest defensive-security signal of the year alongside a crystallising agent-skills economy \u2014 both nearly buried under the most concentrated coordinated star-farming campaign the crawl has caught."
+    },
+    {
+      "claim_id": "CLM-2026-W22-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W22",
+      "status": "resolved",
+      "text": "The durable signal this week is concentrated and coherent across four categories: defensive security tooling ([perplexityai/bumblebee](https://github.com/perplexityai/bumblebee), [apple/corecrypto](https://github.com/apple/corecrypto)), agent skills as distribution mechanism ([open-gsd/get-shit-done-redux](https://github.com/open-gsd/get-shit-done-redux), [aref-vc/tufte-claude-skill](https://github.com/aref-vc/tufte-claude-skill), [kingbootoshi/directional-prompting](https://github.com/kingbootoshi/directional-prompting)), memory and observability as infrastructure ([akitaonrails/ai-memory](https://github.com/akitaonrails/ai-memory), [NanoFlow-io/engram](https://github.com/NanoFlow-io/engram), [jianshuo/ccglass](https://github.com/jianshuo/ccglass)), and model routing/standards ([0xSero/codex-shim](https://github.com/0xSero/codex-shim), [workos/auth.md](https://github.com/workos/auth.md)). Each cluster has the hallmarks of real ecosystem movement: multiple independent teams, specific problem statements, non-zero fork activity. MoonshotAI's entry with [MoonshotAI/kimi-code](https://github.com/MoonshotAI/kimi-code) (343 \u2b50) also registers as a geopolitical signal \u2014 a Chinese AI lab making a direct public bid for the coding-agent space is worth tracking regardless of the repo's current depth. The noise this week is not background hum \u2014 it is an active manipulation campaign. The 421\u2013429 star cluster is unambiguous coordination: identical star counts, zero forks, creation timestamps within minutes of each other, heterogeneous content (emulators, unlockers, hack clients) mixed with Claude-branded repos using the same technique. Polymarket trading bots with copy-paste, keyword-stuffed descriptions represent a separate spam vector. Stars_gained data remained absent for trending repos, so the trending list continues to function as a popularity catalog rather than a momentum leaderboard \u2014 the caveat from W21 persists. The temptation to read the `claude-code: 19` topic count in signals as agent-ecosystem momentum should be resisted: a significant share of that count comes from the spam cluster using Claude branding, not from genuine tooling."
+    },
+    {
+      "claim_id": "CLM-2026-W22-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W22",
+      "status": "resolved",
+      "text": "The most consequential gap is agent execution security. [nkzw-tech/cloudsail](https://github.com/nkzw-tech/cloudsail) (90 \u2b50) is the week's sole attempt at self-hosted agent sandboxing on Cloudflare, but it is isolated and under-resourced relative to the problem. As coding agents are routinely granted shell access, filesystem permissions, and API credentials, the blast radius of an agent error or compromise is expanding rapidly. There is no emergent category of runtime permission scoping, agent isolation, or behavioral boundary enforcement in this week's data \u2014 and no press narrative drawing attention to the gap. [scheidydude/codeindex](https://github.com/scheidydude/codeindex) (158 \u2b50) hints at blast-radius analysis for AI-assisted development but is an analysis tool, not a runtime control. The second gap is agent behavior testing. There is no shortage of tools to help agents write code, route to models, or persist memory. There is almost nothing in this week's crawl for verifying that agent actions are correct, bounded, and reproducible under varying inputs. Until agent behavior testing becomes a first-class category, production reliability claims for agent-built systems will remain assertions rather than verifiable properties."
+    },
+    {
+      "claim_id": "CLM-2026-W22-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W22",
+      "status": "resolved",
+      "text": "The skills and memory infrastructure trends are in active acceleration and unlikely to peak next week. Watch for domain-specific skill packages proliferating on the model of [aref-vc/tufte-claude-skill](https://github.com/aref-vc/tufte-claude-skill), and for early integrations between the memory layer ([NanoFlow-io/engram](https://github.com/NanoFlow-io/engram), [MemPalace/mempalace](https://github.com/MemPalace/mempalace)) and the observability layer ([jianshuo/ccglass](https://github.com/jianshuo/ccglass)). The coordinated star-farming surge either subsides as GitHub responds or intensifies and forces a pipeline filtering upgrade \u2014 next week's data will be diagnostic. The BYOK routing and agent-protocol work initiated by [0xSero/codex-shim](https://github.com/0xSero/codex-shim) and [workos/auth.md](https://github.com/workos/auth.md) will attract fast-follower implementations if either gains traction in practitioner communities over the coming days."
+    },
+    {
+      "claim_id": "CLM-2026-W23-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W23",
+      "status": "resolved",
+      "text": "Week 23 amplifies two W22 trends \u2014 agent memory infrastructure and skills verticalization \u2014 while a suspicious 56k-star self-hosted AI workspace, a coordinated Russian censorship-bypass wave, and the heaviest offensive-security agent activity of the year reshape what noise looks like at scale."
+    },
+    {
+      "claim_id": "CLM-2026-W23-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W23",
+      "status": "resolved",
+      "text": "The durable signal this week clusters coherently across three infrastructure families. The agent memory and control layer \u2014 [ClaudioDrews/memory-os](https://github.com/ClaudioDrews/memory-os), [zaydmulani09/mnemo](https://github.com/zaydmulani09/mnemo), [duncatzat/vigils](https://github.com/duncatzat/vigils), [chaitanyagiri/munder-difflin](https://github.com/chaitanyagiri/munder-difflin) \u2014 continues the W22 pattern with new architectures rather than clones; fork counts and topic specificity confirm genuine practitioner engagement. The skills verticalization cluster \u2014 [openai/role-specific-plugins](https://github.com/openai/role-specific-plugins), [cellebrite-labs/ghidra-rpc](https://github.com/cellebrite-labs/ghidra-rpc), [razr001/align-dev](https://github.com/razr001/align-dev) \u2014 represents domain deepening, not mere repackaging. And the hardware-adjacent hobbyist tier \u2014 [cpaczek/skylight](https://github.com/cpaczek/skylight), [MatixYo/ESP32-Plane-Radar](https://github.com/MatixYo/ESP32-Plane-Radar) \u2014 is technically earnest, with rich topic sets and fork activity. The noise floor is heavier than W22. [pewdiepie-archdaemon/odysseus](https://github.com/pewdiepie-archdaemon/odysseus) demands scrutiny: 56,488 stars in under a week, zero topics, a one-sentence description, and an account name with no visible prior project history. Its `stars_gained` equals its total star count \u2014 meaning all stars arrived in this single crawl window. Fork count (6,748) is not implausible but the velocity pattern echoes the coordinated star-farming clusters flagged in W22. The repository may eventually justify its star count; it does not today. Separately, the crack/activator cluster (KMS Tools, Acrobat Pro, Lossless Scaling, Soundpad, CapCut Pro) clusters at 181\u2013200 stars with zero forks \u2014 identical coordination signature to W22's spam wave. Polymarket trading bots with copy-paste, keyword-repetition descriptions reappear. Hardware spoofer repos with valorant and HWID topics pad the count further. `stars_gained` is populated for only one repo across all 235 trending entries, meaning the trending list functions as a popularity catalog rather than a momentum leaderboard \u2014 the W22 caveat persists."
+    },
+    {
+      "claim_id": "CLM-2026-W23-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W23",
+      "status": "resolved",
+      "text": "Neither press nor developers are addressing **agent behavior testing** with any seriousness. The skills economy, memory layer, and control planes are advancing in parallel, but no repo this week is building the infrastructure to verify that agent actions are correct, bounded, or reproducible under varying inputs. Production reliability claims for agent-built systems are assertions; a testability layer would make them properties. Second, **enterprise-grade AI governance tooling** is entirely absent \u2014 no policy-as-code for agent permissions, no audit trails that satisfy SOC2 or ISO 27001, no jurisdiction-aware content filtering. The NSA Mythos story tells you institutional AI deployment is happening; the developer feed tells you compliance infrastructure for that deployment does not exist yet. Third, the censorship-bypass surge reveals a third gap: **no defensive tooling for the AI access fracture**. As state-level restrictions fragment who can access which models from which jurisdictions, there is no infrastructure for monitoring or bridging that fracture programmatically."
+    },
+    {
+      "claim_id": "CLM-2026-W23-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W23",
+      "status": "resolved",
+      "text": "The local-sovereignty infrastructure trend is in active acceleration with no sign of peaking \u2014 expect additional memory, control-plane, and sandboxing releases as the odysseus star count (whatever its provenance) validates demand for the category. The offensive security and agent crossover ([PentesterFlow/agent](https://github.com/PentesterFlow/agent), [Arenbai/SecSkills](https://github.com/Arenbai/SecSkills)) is early but directional; watch for detection tooling and blue-team responses emerging within the next two weeks. The DPI bypass cluster will either sustain as a recurring geopolitical readout or consolidate \u2014 next week's crawl will be diagnostic. GitHub Universe's institutional framing and Anthropic's approaching IPO will continue to amplify enterprise AI narratives; the open question is whether that institutional momentum catalyzes developer-side compliance and governance tooling, which remains the week's most conspicuous gap."
+    },
+    {
+      "claim_id": "CLM-2026-W24-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W24",
+      "status": "resolved",
+      "text": "Week 24 deepens two W23 patterns \u2014 agent skills verticalization and local-sovereignty tooling \u2014 while a high-star hardware-crossover project (skylight) anchors the week's legitimate creativity and a heavier-than-usual noise floor of coordinated spam, activator repos, and crypto fraud tools demands editorial filtering."
+    },
+    {
+      "claim_id": "CLM-2026-W24-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W24",
+      "status": "resolved",
+      "text": "The durable signal this week clusters in three families. The agent skills verticalization cluster \u2014 [amElnagdy/guard-skills](https://github.com/amElnagdy/guard-skills), [razr001/align-dev](https://github.com/razr001/align-dev), [JimLiu/baoyu-design](https://github.com/JimLiu/baoyu-design), [openai/role-specific-plugins](https://github.com/openai/role-specific-plugins), [Forsy-AI/forsy-trace-skill](https://github.com/Forsy-AI/forsy-trace-skill) \u2014 passes the key tests: domain specificity, non-trivial implementations, active fork counts, and topic sets that indicate practitioner rather than hype-driven audiences. The local-sovereignty cluster \u2014 [tastyeffectco/sandboxd](https://github.com/tastyeffectco/sandboxd), [zaydmulani09/mnemo](https://github.com/zaydmulani09/mnemo), [NoopApp/noop](https://github.com/NoopApp/noop), [mysk-research/loupe](https://github.com/mysk-research/loupe) \u2014 is technically earnest with specific problem scopes and real fork activity. The hardware crossover tier \u2014 [cpaczek/skylight](https://github.com/cpaczek/skylight), [torvalds/ScrollWheel](https://github.com/torvalds/ScrollWheel) \u2014 has the authentic signals of genuine creative work: rich topic sets, unusual technical specificity, and star velocity that looks like genuine discovery rather than coordination. The noise floor this week is heavier than W23 and follows several distinct patterns. The most transparent is the Polymarket trading bot wave: [Trade-of-Economics-in-Warsaw/polymarket-signal-arbitrage-trading-bot](https://github.com/Trade-of-Economics-in-Warsaw/polymarket-signal-arbitrage-trading-bot) (172\u2605, 3,088 forks \u2014 the fork count is implausibly inflated), [VoidSignals/Polymarket-trading-bot](https://github.com/VoidSignals/Polymarket-trading-bot) (166\u2605, 348 forks), and [Obsidian-Trades/polymarket-copy-trading-bot](https://github.com/Obsidian-Trades/polymarket-copy-trading-bot) (144\u2605, 455 forks) all have keyword-repetition descriptions. A second cluster of game cheat and activator repos appeared with suspiciously uniform star counts \u2014 multiple repos at exactly 75\u2605 or exactly 65\u2605 within hours of each other, authored by newly created accounts. [Unicornronote/Microsoft-Office-Activated](https://github.com/Unicornronote/Microsoft-Office-Activated) (150\u2605), [aaviasulin123-design/kms-pico-latest-m6](https://github.com/aaviasulin123-design/kms-pico-latest-m6) (126\u2605), and [biplobroy01/kmspisco-v2-portable](https://github.com/biplobroy01/kmspisco-v2-portable) (65\u2605) follow the coordinated-activation pattern from W22 and W23. [amyxvalen/Flash-USDT-Sender](https://github.com/amyxvalen/Flash-USDT-Sender) (66\u2605) explicitly lists \"fake-btc-transaction\" and \"wallet-spoofer\" as topics \u2014 not ambiguous. Filter and move on."
+    },
+    {
+      "claim_id": "CLM-2026-W24-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W24",
+      "status": "resolved",
+      "text": "Neither press nor developers are addressing **agent skills supply chain security**. Skills packs are now a genuine distribution format \u2014 anthropics/skills at 147,856\u2605 in the trending list, dozens of new community packs shipping weekly \u2014 but no tooling exists to audit what a SKILL.md file actually does when an agent executes it, whether it phones home, or whether a given skill's instructions can be hijacked by upstream changes. The guard-skills repo (412\u2605) catches bugs in AI-generated code; it does not address the trust model of the skill distribution layer itself. This is an infrastructure gap that will become exploitable before it becomes visible to most practitioners. Second, **prompt injection defense tooling is conspicuously absent from developer activity**, despite OpenAI making it a product-level announcement (Lockdown Mode). The press story frames prompt injection as a vendor responsibility; developers are building more agent capabilities, not hardening them. The gap between institutional security posture and practitioner tooling for agent integrity is widening: the attack surface for prompt-injected agent actions is growing faster than the defensive repertoire. Third, agent skills packs from this week \u2014 particularly in the Chinese ecosystem \u2014 have no **localization and compliance layer**: no jurisdiction-aware content filtering, no audit trail for model routing, no tooling for verifying that domestic model proxies are behaving consistently with their advertised capabilities. The market is building fast; the governance infrastructure for it does not exist."
+    },
+    {
+      "claim_id": "CLM-2026-W24-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W24",
+      "status": "resolved",
+      "text": "The agent skills verticalization trend is in active acceleration with no plateau signal \u2014 expect domain-specific packs for legal, medical, finance, and education practitioner communities to follow the security and design verticals visible this week. The Chinese coding agent ecosystem is early but directional; watch for tooling that lets domestic developers contribute skills packs upstream to Claude Code and Codex environments without model-switching friction. Hardware-adjacent hobbyist work ([cpaczek/skylight](https://github.com/cpaczek/skylight)) is approaching a level of community engagement that suggests a \"weekend RTL-SDR project\" category may crystallize. The noise floor \u2014 coordinated game-cheat star farms, Polymarket bot spam \u2014 shows no sign of self-correcting; if anything W24's count is higher than W23's. The platform's filtering job is getting harder, not easier."
+    },
+    {
+      "claim_id": "CLM-2026-W25-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W25",
+      "status": "resolved",
+      "text": "Week 25 marks the first real Fable ecosystem eruption on GitHub \u2014 a clustered developer response to Anthropic's Fable tier \u2014 while the deeper story is practitioners pairing model hype with cost discipline, a live AUR supply-chain attack driving genuine defensive tooling, and Apple Intelligence generating real access-circumvention repos for mainland China."
+    },
+    {
+      "claim_id": "CLM-2026-W25-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W25",
+      "status": "resolved",
+      "text": "The durable signal clusters around three things: Fable procedure, model-spend discipline, and live security response. [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) is enormous for a new skills repo and its YAGNI-flavored framing is unusually specific, though its velocity should be watched rather than blindly trusted. [shadcn/improve](https://github.com/shadcn/improve) is more strategically important because it encodes a workflow many teams will copy: reserve frontier models for planning and review, then route implementation to cheaper agents. [lenucksi/aur-malware-check](https://github.com/lenucksi/aur-malware-check), [nightdevil00/AUR-Malware](https://github.com/nightdevil00/AUR-Malware), and [jestasecurity/thumper](https://github.com/jestasecurity/thumper) also pass the usefulness test because they are keyed to concrete incidents rather than abstract security branding. The noise is equally explicit. [Open-Builders/pumpfun-bundler-pump.fun-bundler-solana-token-bundler-bot](https://github.com/Open-Builders/pumpfun-bundler-pump.fun-bundler-solana-token-bundler-bot) is keyword-stuffed crypto automation with a 170-star/320-fork ratio that fits the rotating manipulation patterns from W23 and W24. [ninaantonov/Flash-USDT-Sender](https://github.com/ninaantonov/Flash-USDT-Sender) and [kaor333/Exodus-Fake-Balance](https://github.com/kaor333/Exodus-Fake-Balance) advertise fake-balance and wallet-spoofing topics directly. [MSNightmare/GreatXML](https://github.com/MSNightmare/GreatXML) may be security-relevant, but the sparse \"BitLocker bypass\" framing and high fork count make it exploit-churn rather than a clean defensive signal. Several high-star access and emulator-adjacent repos also need filtering before they are mistaken for ecosystem momentum."
+    },
+    {
+      "claim_id": "CLM-2026-W25-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W25",
+      "status": "resolved",
+      "text": "The missing category is **agent authorization infrastructure**. Developers are building better skills and more elaborate harnesses, but almost nothing in the new-repo set defines who an agent is allowed to act as, what it can spend, which files or services it can touch, or how those decisions are audited. That absence is stark given the press focus on agent identity. The second gap is **skills supply-chain verification**. The ecosystem now treats SKILL.md-style packages as executable operational guidance, yet there is little visible tooling for linting, provenance, signing, revocation, or malicious-instruction detection. Finally, Apple Intelligence access work is energetic, but there is almost no compliance or safety layer around regional enablement, model routing, or Private Cloud Compute trust assumptions."
+    },
+    {
+      "claim_id": "CLM-2026-W25-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W25",
+      "status": "resolved",
+      "text": "Expect the Fable imitation wave to split into two tracks: serious harness optimization and disposable prompt cosplay. The serious side will look like [shadcn/improve](https://github.com/shadcn/improve) and [vitaliikapliuk/modelharness](https://github.com/vitaliikapliuk/modelharness): measurable, cost-aware, and model-agnostic. Watch for AUR and npm incident tooling to broaden into general supply-chain tripwires, and for Apple Intelligence enablement repos to attract both legitimate regional-access work and risky bypass clones."
+    },
+    {
+      "claim_id": "CLM-2026-W26-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W26",
+      "status": "resolved",
+      "text": "Week 26 turns agent tooling into product infrastructure while fork-inflated crypto spam and free-Claude bait distort the leaderboard."
+    },
+    {
+      "claim_id": "CLM-2026-W26-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W26",
+      "status": "resolved",
+      "text": "The strongest signal is the convergence of agent framework, skill, and control-plane work. [vercel/eve](https://github.com/vercel/eve) has enough stars and enough platform credibility to matter, but the broader pattern is more persuasive than the launch itself: [Plaer1/junction](https://github.com/Plaer1/junction) brings local agents into the editor, [aresyn/codex-control-plane-mcp](https://github.com/aresyn/codex-control-plane-mcp) treats long-running agent work as durable orchestration, and [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill) shows that skills can encode verifiable security procedure. [Forsy-AI/agent-apprenticeship](https://github.com/Forsy-AI/agent-apprenticeship) is interesting but less proven: its one-fork, 616-star profile and broad \"agent economy\" language make it a watch item rather than a confirmed foundation. The noise is unusually easy to name. [MstKail/polymarket-trading-bot-services-polyedge365](https://github.com/MstKail/polymarket-trading-bot-services-polyedge365) has 383 stars against 710 forks and a description that repeats trading-bot keywords like an SEO landing page; [MstKail/wc2026-crypto-sportsbook](https://github.com/MstKail/wc2026-crypto-sportsbook) pushes the same fork-inflation pattern harder at 330 stars and 1,295 forks. [eooce/transfer-api](https://github.com/eooce/transfer-api) and [ReulgeApmpetty0O/Back-End-Developer-Interview-Questions](https://github.com/ReulgeApmpetty0O/Back-End-Developer-Interview-Questions) also have fork ratios that should not be read as organic developer demand. [Sorathiya123/claude-ai-free-desktop-app](https://github.com/Sorathiya123/claude-ai-free-desktop-app) is the Fable-aftershock at its lowest quality: free-Claude and leaked-Claude keyword bait rather than credible tooling."
+    },
+    {
+      "claim_id": "CLM-2026-W26-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W26",
+      "status": "resolved",
+      "text": "The missing category is still **agent authorization and spending governance**. This week produced frameworks, skills, sidebars, and MCP servers, but almost nothing that defines what an agent may spend, which services it may call, how credentials are scoped, or how a human audits those decisions after the fact. That absence is glaring because the press conversation around MosaicLeaks and export controls is implicitly about trust boundaries. There is also little serious work on **skills supply-chain integrity**. [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill) improves audit procedure, but the broader ecosystem lacks signing, provenance, dependency review, and sandbox policy for the skills themselves. As skills become institutional workflow packages, unaudited installation and execution become the next obvious failure mode."
+    },
+    {
+      "claim_id": "CLM-2026-W26-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W26",
+      "status": "resolved",
+      "text": "Watch whether [vercel/eve](https://github.com/vercel/eve) attracts plugins, adapters, and real examples, or whether it behaves like a high-attention launch that plateaus. The more durable story may be MCP-based control planes: [rebel0789/codexpro](https://github.com/rebel0789/codexpro) and [aresyn/codex-control-plane-mcp](https://github.com/aresyn/codex-control-plane-mcp) are closer to daily developer pain than another general agent manifesto. If next week brings authorization, sandbox, or provenance tools around these workflows, the ecosystem will finally start closing the trust gap it keeps widening."
+    },
+    {
+      "claim_id": "CLM-2026-W27-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W27",
+      "status": "resolved",
+      "text": "Week 27 shifts from agent packaging toward measurable inference, evaluation, and security while crypto and bypass bait keep rising."
+    },
+    {
+      "claim_id": "CLM-2026-W27-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W27",
+      "status": "resolved",
+      "text": "The strongest signal is the pairing of performance infrastructure with agent operational discipline. [deepseek-ai/DeepSpec](https://github.com/deepseek-ai/DeepSpec) anchors the week because speculative decoding is a concrete answer to cost and latency pressure, not a branding exercise. [benchflow-ai/awesome-evals](https://github.com/benchflow-ai/awesome-evals), [amplifthq/opentag](https://github.com/amplifthq/opentag), and [0xShug0/audio.cpp](https://github.com/0xShug0/audio.cpp) reinforce that serious work is clustering around measurement, routing, and runtime efficiency. The trending list is useful as ecosystem context rather than momentum proof because star-gain fields were not available; old giants such as [n8n-io/n8n](https://github.com/n8n-io/n8n), [anomalyco/opencode](https://github.com/anomalyco/opencode), and [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) still explain the background, but not this week's velocity. The noise is louder in security, crypto, and access-bypass categories. [bikini/exploitarium](https://github.com/bikini/exploitarium) may contain real vulnerability research, but its framing as an archive of unreported exploit PoCs makes it an exploitation-risk signal more than a healthy security-tools launch. [goehou/tabbit-toy](https://github.com/goehou/tabbit-toy) has 383 stars against 760 forks and describes model access through cookie extraction, which fits the fork-inflation and access-bait pattern from prior weeks. [winsznx/theeleven](https://github.com/winsznx/theeleven), [playPlumtown/Plumtown](https://github.com/playPlumtown/Plumtown), and [xxniiinxx/coinflip-casino-game](https://github.com/xxniiinxx/coinflip-casino-game) add the usual crypto-gaming and prediction-market fog: technically built enough to appear credible, but not strong evidence of durable developer demand."
+    },
+    {
+      "claim_id": "CLM-2026-W27-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W27",
+      "status": "resolved",
+      "text": "The missing category is still agent governance at the point of action. This week produced routing, skills, eval resources, and local interfaces, but very little about permission scopes, credential boundaries, spend limits, or auditable human approvals. That gap matters more as agents move into Slack, GitHub, browsers, and security workflows where a mistaken action can become operational damage. There is also not enough defensive treatment of skills supply chains. [uphiago/recon-skills](https://github.com/uphiago/recon-skills) demonstrates how powerful a reusable skill pack can become, but the crawl did not surface matching energy around signing, provenance, sandbox policy, or review workflows for skills themselves. Evaluation is improving, but trust in the artifact being evaluated remains underbuilt."
+    },
+    {
+      "claim_id": "CLM-2026-W27-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W27",
+      "status": "resolved",
+      "text": "Watch whether [deepseek-ai/DeepSpec](https://github.com/deepseek-ai/DeepSpec) attracts implementations, benchmarks, and integration work beyond launch-week stars. The next useful agent wave should connect [benchflow-ai/awesome-evals](https://github.com/benchflow-ai/awesome-evals)-style measurement to [amplifthq/opentag](https://github.com/amplifthq/opentag)-style routing and real permission controls. If the ecosystem cannot close that loop, the week ahead will keep producing impressive agent surfaces with thin governance underneath."
+    },
+    {
+      "claim_id": "CLM-2026-W28-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W28",
+      "status": "resolved",
+      "text": "Week 28 turns agent work toward cost control, scientific workbenches, and offensive automation while spam keeps gaming discovery."
+    },
+    {
+      "claim_id": "CLM-2026-W28-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W28",
+      "status": "resolved",
+      "text": "The strongest signal is the convergence of agent operating discipline with specialized work surfaces. [Kulaxyz/token-diet](https://github.com/Kulaxyz/token-diet) is small but pointed because cost reduction is a real buyer problem; [KorroAi/onklaud-5](https://github.com/KorroAi/onklaud-5) and [aleclindz/seo-skill-bench](https://github.com/aleclindz/seo-skill-bench) add a verification and benchmark layer; [ai4s-research/open-science](https://github.com/ai4s-research/open-science) and [HUANGCHIHHUNGLeo/claude-real-video](https://github.com/HUANGCHIHHUNGLeo/claude-real-video) show applied multimodal and research workflows that solve bounded problems. [michaelshimeles/boring-computers](https://github.com/michaelshimeles/boring-computers) is especially worth watching because Firecracker-backed computers for agents address the execution-boundary gap that previous weeks kept exposing. The noise floor is still high and now looks more industrialized. [CalmNoteDepot/MECCHA-VISION-ULTIMATE](https://github.com/CalmNoteDepot/MECCHA-VISION-ULTIMATE), [mixedsocialanger/MECCHA-VISION-PRO](https://github.com/mixedsocialanger/MECCHA-VISION-PRO), [buildsbyShlok/Berry_Avenue_RP_-_Auto-Farm___Money_Hack](https://github.com/buildsbyShlok/Berry_Avenue_RP_-_Auto-Farm___Money_Hack), and [Het-soni556/Blue-Lock-Rivals-Toolkit](https://github.com/Het-soni556/Blue-Lock-Rivals-Toolkit) fit the game-cheat, zero-fork, keyword-stuffed pattern. [rolekkona/bghira-bark](https://github.com/rolekkona/bghira-bark) and [frecodecasti/gem5-branchpred](https://github.com/frecodecasti/gem5-branchpred) show extreme fork-to-star ratios that look more like mirror or fork inflation than fresh demand. [Novajosky5/Seed-Generator](https://github.com/Novajosky5/Seed-Generator), [tonydev09/walletgen](https://github.com/tonydev09/walletgen), and [ylvachifu1992/Silent-Crypto-Miner](https://github.com/ylvachifu1992/Silent-Crypto-Miner) keep crypto abuse visible without proving healthy ecosystem growth."
+    },
+    {
+      "claim_id": "CLM-2026-W28-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W28",
+      "status": "resolved",
+      "text": "The biggest absence is trusted skill distribution. The week produced many skills and harnesses, but little visible work on signing, provenance, sandbox policy, revocation, or review pipelines for skill packs. That matters because skills are becoming the packaging format for expert behavior while their supply chain remains mostly informal. Agent permissioning is still underbuilt. [michaelshimeles/boring-computers](https://github.com/michaelshimeles/boring-computers) gestures toward safer execution, but the crawl has little on spend limits, credential boundaries, auditable approvals, or policy enforcement across agent tools. There is also not enough defensive parity for the offensive-security wave: exploit and audit automation is easier to find than reusable blue-team containment, triage, and remediation workflow."
+    },
+    {
+      "claim_id": "CLM-2026-W28-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W28",
+      "status": "resolved",
+      "text": "Watch whether cost-control tools like [Kulaxyz/token-diet](https://github.com/Kulaxyz/token-diet) turn into measured benchmarks or remain prompt-level folklore. The science-workbench cluster should keep growing if Claude Science attention continues, but the decisive test is whether [ai4s-research/open-science](https://github.com/ai4s-research/open-science) and peers produce reproducible workflows rather than branded shells. Security will be the pressure point: the next valuable wave should pair [elder-plinius/T3MP3ST](https://github.com/elder-plinius/T3MP3ST)-style offensive harnesses with hard execution boundaries and defensible audit trails."
+    },
+    {
+      "claim_id": "CLM-2026-W29-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W29",
+      "status": "resolved",
+      "text": "Agent tooling moved from experiments to packaged products while spam and abuse campaigns kept gaming GitHub discovery."
+    },
+    {
+      "claim_id": "CLM-2026-W29-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W29",
+      "status": "resolved",
+      "text": "The strongest signal is the agent operations stack. [xai-org/grok-build](https://github.com/xai-org/grok-build) has enough attention to anchor the week, but [vshulcz/deja-vu](https://github.com/vshulcz/deja-vu), [sandbaseai/managed-agents](https://github.com/sandbaseai/managed-agents), [zjp1997720/codex-model-routing-team](https://github.com/zjp1997720/codex-model-routing-team), [blitzdotdev/blitzos](https://github.com/blitzdotdev/blitzos), and [agentic-commerce-lab/pawl](https://github.com/agentic-commerce-lab/pawl) are more revealing because they address persistence, orchestration, verification, and operational cost. The skill economy also remains real when repos solve bounded jobs rather than advertising generic \"AI agent\" branding. The noise is not subtle. [Stormeye85/robinhood-token-bundler](https://github.com/Stormeye85/robinhood-token-bundler), [Stormeye85/robinhood-token-launcher](https://github.com/Stormeye85/robinhood-token-launcher), [pueschel88/Tradingview-MCP](https://github.com/pueschel88/Tradingview-MCP), [dabberman456/coinbase-trading-api](https://github.com/dabberman456/coinbase-trading-api), and several finance-agent repos show extreme fork-to-star ratios or keyword-stuffed positioning that look more like manipulation than demand. The coordinated cheat cluster around MECCHA CHAMELEON, Palworld, Call of Duty, Rocket League, Rainbow Six, and FIFA/FC26 is even clearer: many repos land near identical 69-71 star bands, often with zero forks and templated descriptions. Those are discovery pollution, not ecosystem direction."
+    },
+    {
+      "claim_id": "CLM-2026-W29-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W29",
+      "status": "resolved",
+      "text": "Trusted skill distribution is still the missing layer. The crawl has many skills, themes, and workbenches, but little visible work on signing, provenance, revocation, sandbox policy, dependency review, or marketplace governance for agent behavior packages. [agentic-commerce-lab/pawl](https://github.com/agentic-commerce-lab/pawl) is notable precisely because registry-backed verification is rare. Agent permissioning also remains underrepresented. There is activity around memory and routing, but not enough on spend limits, credential scoping, human approval checkpoints, audit logs, or policy enforcement across tools. Defensive blue-team workflow is thinner than offensive and exploit-adjacent automation, and evaluation remains fragmented outside specific benchmarks such as [Nexis-AI/NexBench](https://github.com/Nexis-AI/NexBench)."
+    },
+    {
+      "claim_id": "CLM-2026-W29-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W29",
+      "status": "resolved",
+      "text": "Watch whether the agent-workbench surge produces durable maintenance or fades into branded shells. The most important next movement would pair [xai-org/grok-build](https://github.com/xai-org/grok-build)-style usability with [agentic-commerce-lab/pawl](https://github.com/agentic-commerce-lab/pawl)-style verification and [vshulcz/deja-vu](https://github.com/vshulcz/deja-vu)-style context discipline. If the noise campaigns keep rotating from stars to forks and timestamp clusters, discovery quality will become part of the AI tooling story rather than a background annoyance."
+    },
+    {
+      "claim_id": "CLM-2026-W30-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W30",
+      "status": "resolved",
+      "text": "Agent tooling kept hardening into products while security, robotics, media skills, and coordinated discovery spam accelerated."
+    },
+    {
+      "claim_id": "CLM-2026-W30-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W30",
+      "status": "resolved",
+      "text": "The strongest signal is the agent operations stack. [xai-org/grok-build](https://github.com/xai-org/grok-build) has the attention, but [vshulcz/deja-vu](https://github.com/vshulcz/deja-vu), [PromptPartner/agentsmith](https://github.com/PromptPartner/agentsmith), [yc-duan/fastctx](https://github.com/yc-duan/fastctx), [MemTensor/memmy-agent](https://github.com/MemTensor/memmy-agent), and [Codesteward/codesteward](https://github.com/Codesteward/codesteward) better explain where durable value is forming: context compression, shared memory, harness setup, review gates, and lower-friction local workflows. Skill repos are also credible when they encode bounded work, as with [pyang5166/gbro-collage-broll](https://github.com/pyang5166/gbro-collage-broll) and [yuwen-cool/yuwen-publish-precheck](https://github.com/yuwen-cool/yuwen-publish-precheck), rather than advertising generic agent magic. The noise is large enough to distort the week if taken literally. [robinhood-ape/robinhood-sniper-bot](https://github.com/robinhood-ape/robinhood-sniper-bot), [robinhood-ape/robinhood-noxa-bundler](https://github.com/robinhood-ape/robinhood-noxa-bundler), [contatomegasign/finance-account-tool](https://github.com/contatomegasign/finance-account-tool), [Bananefre/finance-budget-api-agent](https://github.com/Bananefre/finance-budget-api-agent), and [dabberman456/coinbase-trading-api](https://github.com/dabberman456/coinbase-trading-api) show suspicious fork-heavy or keyword-stuffed finance patterns. The game-cheat cluster is even clearer: [floorspinnerrevive/MecchaVertex](https://github.com/floorspinnerrevive/MecchaVertex), [afghan127/Palworld-Extreme-Cheat](https://github.com/afghan127/Palworld-Extreme-Cheat), [Catchamongjoint/COD-Nova-X](https://github.com/Catchamongjoint/COD-Nova-X), and many 70-71-star Python repos look coordinated, templated, and low-signal. Grok account automation such as [HSJ-BanFan/grok-register-web](https://github.com/HSJ-BanFan/grok-register-web) and [SunkenCost/grok-regkit](https://github.com/SunkenCost/grok-regkit) is useful evidence of abuse pressure, not ecosystem health."
+    },
+    {
+      "claim_id": "CLM-2026-W30-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W30",
+      "status": "resolved",
+      "text": "Trusted skill distribution remains the missing layer. There are many skills, skins, and harnesses, but little visible work on signing, provenance, revocation, permission scopes, dependency review, or marketplace governance for executable agent behavior. That gap matters more as skills move into finance, compliance, media, and account automation. Agent safety is still skewed toward labs, demos, and offensive curiosity rather than operational controls. The crawl has red-team training and vulnerability disclosures, but not enough policy engines, audit logs, spend controls, credential boundaries, or sandbox enforcement. Robotics repos are visible, yet simulation-to-real evaluation, safety cases, and deployment telemetry are thin compared with model and demo releases."
+    },
+    {
+      "claim_id": "CLM-2026-W30-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W30",
+      "status": "resolved",
+      "text": "Watch whether the workbench layer consolidates around a few usable conventions or keeps splintering into branded shells. The most meaningful next step would combine [xai-org/grok-build](https://github.com/xai-org/grok-build)-level UX, [vshulcz/deja-vu](https://github.com/vshulcz/deja-vu)-style memory, and [Codesteward/codesteward](https://github.com/Codesteward/codesteward)-style review control. If the fork-inflated finance and game-cheat clusters keep rotating tactics, discovery quality will become a first-order AI tooling problem, not a side annoyance."
+    },
+    {
+      "claim_id": "CLM-2026-W31-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W31",
+      "status": "resolved",
+      "text": "Agent tooling kept moving into workbenches, skills, and local controls while exploit and automation noise exposed a missing trust layer."
+    },
+    {
+      "claim_id": "CLM-2026-W31-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W31",
+      "status": "resolved",
+      "text": "The durable signal is the agent operations stack. [mikehasa/agentacct](https://github.com/mikehasa/agentacct), [pc-style/skill-view](https://github.com/pc-style/skill-view), [earendil-works/pi-review-loop](https://github.com/earendil-works/pi-review-loop), [finna/Finn-loop](https://github.com/finna/Finn-loop), [surya-koritala/sigbound](https://github.com/surya-koritala/sigbound), and [cocofhu/approving](https://github.com/cocofhu/approving) are valuable because they treat agents as systems that need review, state, rollback, and human merge points. The media and creator skills are also meaningful when they encode repeatable production constraints, as with [gnipbao/story-to-handdrawn-video](https://github.com/gnipbao/story-to-handdrawn-video), [amnotyoung/slide-meme-inserter](https://github.com/amnotyoung/slide-meme-inserter), and [icebird1998/scientific-illustrator](https://github.com/icebird1998/scientific-illustrator). The noise is too large to ignore. [berabuddies/redis-poc](https://github.com/berabuddies/redis-poc), [aniqfakhrul/CVE-2026-54121](https://github.com/aniqfakhrul/CVE-2026-54121), [lingbol088-spec/5.6-JAILBREAK-NERV-codex-instruct-5.6](https://github.com/lingbol088-spec/5.6-JAILBREAK-NERV-codex-instruct-5.6), and [Noz2/RootHound](https://github.com/Noz2/RootHound) show the exploit and bypass side of the same automation market. [dr-Crimson-Smoke39/Discord-Nitro-Generator](https://github.com/dr-Crimson-Smoke39/Discord-Nitro-Generator), [477-Mortal-Chief/Unicore-Star-Rail](https://github.com/477-Mortal-Chief/Unicore-Star-Rail), [anton-hq96g4/Meccha-Medusa](https://github.com/anton-hq96g4/Meccha-Medusa), [rustyharbor308774/Ethereum-bot](https://github.com/rustyharbor308774/Ethereum-bot), and [kingenbomb/Nodes](https://github.com/kingenbomb/Nodes) should be treated as abuse pressure and discovery pollution, not healthy adoption. The recurring pattern is not just bad repos; it is the ease with which agent, finance, account, and gaming keywords can be used to launder low-trust attention into trending visibility."
+    },
+    {
+      "claim_id": "CLM-2026-W31-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W31",
+      "status": "resolved",
+      "text": "Trusted skill distribution remains the biggest absence. The crawl has many skills and inspectors, but little visible work on signing, permission scopes, revocation, sandbox policy, dependency attestations, or marketplace governance for executable agent behavior. That matters because skills increasingly touch files, credentials, media pipelines, client documents, and financial workflows; without verifiable provenance, the same packaging layer that makes agents useful also makes malicious or sloppy automation easier to install. Evaluation and rollback are also underrepresented. There are promising review loops, but few repos focus on reproducible agent benchmarks, audit-grade logs, spend limits, incident response, or safe undo beyond local developer experiments. Press coverage stresses AI factories and transparency, while developer activity stresses workbenches; the missing middle is operational assurance for teams that must prove what an agent did, why it did it, and how to reverse it."
+    },
+    {
+      "claim_id": "CLM-2026-W31-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W31",
+      "status": "resolved",
+      "text": "Watch whether the workbench layer consolidates around observable, policy-aware agent execution or keeps splintering into branded shells. The most useful projects next week will connect [makecindy/cindy](https://github.com/makecindy/cindy)-style usability with [mikehasa/agentacct](https://github.com/mikehasa/agentacct)-style accountability and [surya-koritala/sigbound](https://github.com/surya-koritala/sigbound)-style safe merging. If exploit, account-generation, and trading-bot clusters keep rotating, discovery quality will become an infrastructure problem for the AI tooling ecosystem, not just a moderation annoyance."
+    },
+    {
+      "claim_id": "CLM-2026-W32-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W32",
+      "status": "resolved",
+      "text": "Agent tools moved deeper into work while security, local inference, and discovery noise exposed the missing trust layer."
+    },
+    {
+      "claim_id": "CLM-2026-W32-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W32",
+      "status": "resolved",
+      "text": "The durable signal is clustered, practical, and multi-surface. Agent orchestration in [yc-software/qm](https://github.com/yc-software/qm), business-system embedding in [trycompai/crm](https://github.com/trycompai/crm), workflow capture in [microsoft/skill-recorder](https://github.com/microsoft/skill-recorder), rule checking in [0xwilliamortiz/ratchet](https://github.com/0xwilliamortiz/ratchet), and local inference in [sqliteai/waste](https://github.com/sqliteai/waste) form a coherent stack: plan the work, record the work, run it locally when needed, and verify whether the agent complied. That is a stronger signal than any single launch because it repeats across independent owners and languages. The noise is also obvious. [WilonityDev/WilonityLoader](https://github.com/WilonityDev/WilonityLoader) and [WilonityBooster/Wilonity-GameFPS-Booster](https://github.com/WilonityBooster/Wilonity-GameFPS-Booster) carry the familiar cheat/optimizer pattern with zero forks or keyword-heavy positioning, which should be treated as discovery pollution rather than developer demand. [lij768423-svg/grok-register-panel](https://github.com/lij768423-svg/grok-register-panel) sits in a similarly low-trust automation category. Some AI-skill repos, including [0xwilliamortiz/ponytail-improved](https://github.com/0xwilliamortiz/ponytail-improved), may still prove useful, but the category now attracts lightweight prompt packaging as well as real tooling."
+    },
+    {
+      "claim_id": "CLM-2026-W32-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W32",
+      "status": "resolved",
+      "text": "The biggest missing category is mature agent permissioning. This week has harnesses, skill capture, and rule checks, but little evidence of signed skills, policy attestation, sandboxing, or enterprise-grade audit trails becoming mainstream developer projects. Robotics and edge AI also look underrepresented relative to the press emphasis on Jetson and physical AI; [H-EmbodVis/TurboVLA](https://github.com/H-EmbodVis/TurboVLA) is notable, but not enough to call a broad wave. Finally, supply-chain security appears mostly as press context rather than new developer tooling, even though agent automation will make dependency provenance, npm safety, and GitHub Actions hardening more urgent."
+    },
+    {
+      "claim_id": "CLM-2026-W32-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W32",
+      "status": "resolved",
+      "text": "Watch whether agent harnesses start adding explicit governance instead of more orchestration surfaces. The next credible projects will likely combine skills, session replay, scoped permissions, and local execution into reviewable workflows. Local Kimi-style inference should keep attracting attention if it proves useful for coding agents rather than just benchmark theater. Noise will remain high around AI branding, account automation, and game tooling, so fork quality and substantive code should matter more than stars."
+    }
+  ],
+  "counts": {
+    "claims": 49,
+    "sources": 12
+  },
+  "months_covered": [
+    "2026-05",
+    "2026-06",
+    "2026-07",
+    "2026-08"
+  ],
+  "schema_version": "1.0.0",
+  "sources": [
+    {
+      "month": "2026-05",
+      "source_id": "SRC-2026-W21",
+      "tags": [
+        "ai",
+        "agents",
+        "developer-tooling",
+        "security",
+        "open-source"
+      ],
+      "title": "Week 21, 2026 Analysis",
+      "top_repo": "vercel-labs/zero",
+      "week": "2026-W21"
+    },
+    {
+      "month": "2026-05",
+      "source_id": "SRC-2026-W22",
+      "tags": [
+        "supply-chain-security",
+        "agent-skills",
+        "ai-memory",
+        "coding-agents",
+        "developer-tooling",
+        "noise-amplification",
+        "open-source"
+      ],
+      "title": "Supply-Chain Scanners, Skills Economies, and GitHub's Star-Farm Flood",
+      "top_repo": "perplexityai/bumblebee",
+      "week": "2026-W22"
+    },
+    {
+      "month": "2026-06",
+      "source_id": "SRC-2026-W23",
+      "tags": [
+        "self-hosted",
+        "agent-skills",
+        "ai-memory",
+        "coding-agents",
+        "censorship-bypass",
+        "offensive-security",
+        "exploit-churn"
+      ],
+      "title": "Sovereignty Streak, Agent Skills Go Vertical, and GitHub's DPI-Bypass Flood",
+      "top_repo": "pewdiepie-archdaemon/odysseus",
+      "week": "2026-W23"
+    },
+    {
+      "month": "2026-06",
+      "source_id": "SRC-2026-W24",
+      "tags": [
+        "agent-skills",
+        "coding-agents",
+        "hardware-adjacent",
+        "local-first",
+        "noise-floor",
+        "chinese-developer-ecosystem",
+        "ai-security"
+      ],
+      "title": "Skills Go Vertical, Hardware Gets Smart, and the Spam Floor Gets Louder",
+      "top_repo": "cpaczek/skylight",
+      "week": "2026-W24"
+    },
+    {
+      "month": "2026-06",
+      "source_id": "SRC-2026-W25",
+      "tags": [
+        "fable",
+        "agent-skills",
+        "ai-costs",
+        "supply-chain-security",
+        "apple-intelligence",
+        "local-ai",
+        "noise-floor"
+      ],
+      "title": "Fable Fever Meets Cost Discipline and Supply-Chain Reality",
+      "top_repo": "DietrichGebert/ponytail",
+      "week": "2026-W25"
+    },
+    {
+      "month": "2026-06",
+      "source_id": "SRC-2026-W26",
+      "tags": [
+        "agent-frameworks",
+        "mcp",
+        "agent-skills",
+        "security",
+        "model-routing",
+        "noise-floor"
+      ],
+      "title": "Agent Frameworks Meet the Noise Machine",
+      "top_repo": "vercel/eve",
+      "week": "2026-W26"
+    },
+    {
+      "month": "2026-06",
+      "source_id": "SRC-2026-W27",
+      "tags": [
+        "speculative-decoding",
+        "ai-agents",
+        "agent-skills",
+        "evals",
+        "security",
+        "local-first"
+      ],
+      "title": "Inference Work Gets Real While Agents Sprawl",
+      "top_repo": "deepseek-ai/DeepSpec",
+      "week": "2026-W27"
+    },
+    {
+      "month": "2026-07",
+      "source_id": "SRC-2026-W28",
+      "tags": [
+        "ai-agents",
+        "agent-skills",
+        "security",
+        "local-first",
+        "ai-science",
+        "inference"
+      ],
+      "title": "Agents Get Cheaper, Riskier, and More Specialized",
+      "top_repo": "elder-plinius/T3MP3ST",
+      "week": "2026-W28"
+    },
+    {
+      "month": "2026-07",
+      "source_id": "SRC-2026-W29",
+      "tags": [
+        "ai-agents",
+        "agent-skills",
+        "security",
+        "local-first",
+        "developer-tools",
+        "spam"
+      ],
+      "title": "Agents Became Products, and Spam Followed",
+      "top_repo": "xai-org/grok-build",
+      "week": "2026-W29"
+    },
+    {
+      "month": "2026-07",
+      "source_id": "SRC-2026-W30",
+      "tags": [
+        "ai-agents",
+        "agent-skills",
+        "local-ai",
+        "security",
+        "robotics",
+        "discovery-noise"
+      ],
+      "title": "Agents Got Interfaces, Memory, and Abuse",
+      "top_repo": "xai-org/grok-build",
+      "week": "2026-W30"
+    },
+    {
+      "month": "2026-07",
+      "source_id": "SRC-2026-W31",
+      "tags": [
+        "ai-agents",
+        "agent-skills",
+        "local-first",
+        "security",
+        "developer-tools",
+        "discovery-noise"
+      ],
+      "title": "Agent Workbenches Met the Trust Gap",
+      "top_repo": "makecindy/cindy",
+      "week": "2026-W31"
+    },
+    {
+      "month": "2026-08",
+      "source_id": "SRC-2026-W32",
+      "tags": [
+        "ai-agents",
+        "agent-skills",
+        "local-llm",
+        "supply-chain-security",
+        "developer-tools",
+        "discovery-noise"
+      ],
+      "title": "Agent Harnesses Hit the Trust Wall",
+      "top_repo": "yc-software/qm",
+      "week": "2026-W32"
+    }
+  ],
+  "year": 2026
+}

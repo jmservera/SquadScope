@@ -1,0 +1,34 @@
+{
+  "month": "2026-08",
+  "synthesis_version": 3,
+  "weeks": [
+    {
+      "conclusion": "Watch whether agent harnesses start adding explicit governance instead of more orchestration surfaces. The next credible projects will likely combine skills, session replay, scoped permissions, and local execution into reviewable workflows. Local Kimi-style inference should keep attracting attention if it proves useful for coding agents rather than just benchmark theater. Noise will remain high around AI branding, account automation, and game tooling, so fork quality and substantive code should matter more than stars.",
+      "featured_repos": [
+        "yc-software/qm",
+        "microsoft/skill-recorder",
+        "0xwilliamortiz/ratchet",
+        "trycompai/crm",
+        "DannyMac180/sol-advisor"
+      ],
+      "gaps": "The biggest missing category is mature agent permissioning. This week has harnesses, skill capture, and rule checks, but little evidence of signed skills, policy attestation, sandboxing, or enterprise-grade audit trails becoming mainstream developer projects. Robotics and edge AI also look underrepresented relative to the press emphasis on Jetson and physical AI; [H-EmbodVis/TurboVLA](https://github.com/H-EmbodVis/TurboVLA) is notable, but not enough to call a broad wave. Finally, supply-chain security appears mostly as press context rather than new developer tooling, even though agent automation will make dependency provenance, npm safety, and GitHub Actions hardening more urgent.",
+      "noise": "",
+      "signal": "The durable signal is clustered, practical, and multi-surface. Agent orchestration in [yc-software/qm](https://github.com/yc-software/qm), business-system embedding in [trycompai/crm](https://github.com/trycompai/crm), workflow capture in [microsoft/skill-recorder](https://github.com/microsoft/skill-recorder), rule checking in [0xwilliamortiz/ratchet](https://github.com/0xwilliamortiz/ratchet), and local inference in [sqliteai/waste](https://github.com/sqliteai/waste) form a coherent stack: plan the work, record the work, run it locally when needed, and verify whether the agent complied. That is a stronger signal than any single launch because it repeats across independent owners and languages. The noise is also obvious. [WilonityDev/WilonityLoader](https://github.com/WilonityDev/WilonityLoader) and [WilonityBooster/Wilonity-GameFPS-Booster](https://github.com/WilonityBooster/Wilonity-GameFPS-Booster) carry the familiar cheat/optimizer pattern with zero forks or keyword-heavy positioning, which should be treated as discovery pollution rather than developer demand. [lij768423-svg/grok-register-panel](https://github.com/lij768423-svg/grok-register-panel) sits in a similarly low-trust automation category. Some AI-skill repos, including [0xwilliamortiz/ponytail-improved](https://github.com/0xwilliamortiz/ponytail-improved), may still prove useful, but the category now attracts lightweight prompt packaging as well as real tooling.",
+      "summary": "Agent tools moved deeper into work while security, local inference, and discovery noise exposed the missing trust layer.",
+      "tags": [
+        "ai-agents",
+        "agent-skills",
+        "local-llm",
+        "supply-chain-security",
+        "developer-tools",
+        "discovery-noise"
+      ],
+      "title": "Agent Harnesses Hit the Trust Wall",
+      "top_repo": "yc-software/qm",
+      "week": "2026-W32"
+    }
+  ],
+  "weeks_covered": [
+    "2026-W32"
+  ]
+}

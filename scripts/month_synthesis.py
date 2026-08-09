@@ -115,10 +115,27 @@ def strip_markdown(value: str) -> str:
 
 
 def trim_words(text: str, limit: int) -> str:
+    """Trim to complete sentences within limit words, never clipping mid-sentence.
+
+    Falls back to the full original text when no prefix of complete sentences
+    fits the budget (e.g. the first sentence alone exceeds it), rather than
+    silently dropping the remaining sentences.
+    """
     words = text.split()
     if len(words) <= limit:
         return text.strip()
-    return " ".join(words[:limit]).rstrip(",;:.") + "…"
+    sentences = re.split(r"(?<=[.!?])\s+", text.strip())
+    selected: list[str] = []
+    for sentence in sentences:
+        if selected and _word_count(" ".join([*selected, sentence])) > limit:
+            break
+        selected.append(sentence)
+        if _word_count(" ".join(selected)) >= limit:
+            break
+    trimmed = " ".join(selected).strip()
+    if len(selected) < len(sentences) and _word_count(trimmed) > limit:
+        return text.strip()
+    return trimmed
 
 
 def dedupe(values: list[str]) -> list[str]:
@@ -279,7 +296,9 @@ def synthesize_month(
     accelerating_labels = [tag_label(tag) for tag in (emerging + accelerating)[:3]]
     weakening_labels = [tag_label(tag) for tag in weakening[:3]]
 
-    summaries = [trim_words(strip_markdown(item.summary), 24) for item in items if item.summary]
+    summaries = [
+        trim_words(strip_markdown(item.summary), 24).rstrip(".") for item in items if item.summary
+    ]
     signals = top_sentences([item.signal for item in items if item.signal], limit=2, words=22)
     noise = top_sentences([item.noise for item in items if item.noise], limit=2, words=18)
     gaps = top_sentences([item.gaps for item in items if item.gaps], limit=3, words=18)

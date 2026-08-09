@@ -1,11 +1,13 @@
 import io
 import tempfile
 import unittest
+from datetime import UTC, datetime
 from pathlib import Path
 from unittest import mock
 
 import scripts.generate_rollups as generate_rollups
 import scripts.generate_yearly_narrative as generate_yearly_narrative
+import scripts.month_synthesis as month_synthesis
 
 WORKSPACE_ROOT = Path(".test-workspaces")
 
@@ -628,6 +630,111 @@ class ExtractSummaryTests(unittest.TestCase):
         result = generate_yearly_narrative._extract_summary(long, max_length=30)
         self.assertLessEqual(len(result), 30)
         self.assertTrue(result.endswith("…"))
+
+
+class MonthSynthesisTrimWordsTests(unittest.TestCase):
+    def test_trim_words_stops_at_a_sentence_boundary_without_ellipsis(self) -> None:
+        text = (
+            "The trend data still lacks the baseline needed to separate momentum. "
+            "A second, unrelated sentence follows after that one."
+        )
+
+        result = month_synthesis.trim_words(text, 12)
+
+        self.assertEqual(
+            result, "The trend data still lacks the baseline needed to separate momentum."
+        )
+        self.assertNotIn("…", result)
+
+    def test_trim_words_returns_full_text_when_first_sentence_alone_exceeds_the_limit(
+        self,
+    ) -> None:
+        """When no prefix of complete sentences fits, keep every sentence rather than
+        silently dropping the ones after an over-budget first sentence."""
+        text = (
+            "This first sentence alone already runs well past the twenty word trim "
+            "budget because it keeps going and going. Second short sentence."
+        )
+
+        result = month_synthesis.trim_words(text, 12)
+
+        self.assertEqual(result, text)
+        self.assertNotIn("…", result)
+
+    def test_trim_words_returns_full_text_when_no_sentence_fits_the_limit(self) -> None:
+        text = "one two three four five six seven eight nine ten eleven twelve."
+
+        result = month_synthesis.trim_words(text, 3)
+
+        self.assertEqual(result, text)
+        self.assertNotIn("…", result)
+
+    def _weekly_summary(
+        self,
+        *,
+        week: str,
+        top_repo: str,
+        summary: str,
+        signal: str,
+        noise: str,
+        gaps: str,
+        conclusion: str,
+    ) -> generate_rollups.WeeklySummary:
+        year = int(week[:4])
+        week_number = int(week[-2:])
+        date = datetime.fromisocalendar(year, week_number, 5).replace(tzinfo=UTC)
+        return generate_rollups.WeeklySummary(
+            source_path=Path(f"{week}-summary.md"),
+            title=f"Week {week_number}, {year} Analysis",
+            date=date,
+            week=week,
+            year=year,
+            month=date.month,
+            tags=("ai", "agents"),
+            repos_featured=10,
+            top_repo=top_repo,
+            featured_repos=(top_repo,),
+            summary=summary,
+            signal=signal,
+            noise=noise,
+            gaps=gaps,
+            conclusion=conclusion,
+        )
+
+    def test_synthesize_month_narrative_never_clips_mid_sentence(self) -> None:
+        long_gap = (
+            "The biggest missing piece is trustworthy momentum data, and without historical "
+            "star snapshots the analyzer cannot separate what is durable from what is merely popular this week."
+        )
+        items = [
+            self._weekly_summary(
+                week="2026-W21",
+                top_repo="vercel-labs/zero",
+                summary="Week 21 shows real demand for agent infrastructure, but the trend data still lacks the baseline needed to separate momentum from popularity.",
+                signal="The durable signal is the shift from general AI enthusiasm toward operational tooling across every top shared topic this week.",
+                noise="Coordinated star-farming distorted discovery across several repositories this week alone.",
+                gaps=long_gap,
+                conclusion="Week 21 matters because it shows where the GitHub conversation is maturing away from generic AI excitement.",
+            ),
+            self._weekly_summary(
+                week="2026-W22",
+                top_repo="perplexityai/bumblebee",
+                summary="Week 22 delivers the clearest defensive-security signal of the year alongside a crystallising agent-skills economy.",
+                signal="The durable signal this week is concentrated and coherent across four categories including agent skills as a distribution mechanism.",
+                noise="The weak signal is the amount of off-mission and exploit-heavy material that still clears the crawler this week.",
+                gaps="The most consequential gap is agent execution security, and the week's sole attempt at self-hosted defenses barely registered.",
+                conclusion="The skills and memory infrastructure trends are in active acceleration and unlikely to peak next week.",
+            ),
+        ]
+
+        synthesis = month_synthesis.synthesize_month(items, Path("data/analyzed"))
+
+        self.assertNotIn("…", synthesis.narrative)
+        self.assertNotIn("…", synthesis.summary)
+        self.assertNotIn("…", synthesis.trend_arc)
+        self.assertNotIn("…", synthesis.prediction_review)
+        for sentence in synthesis.narrative.split(". "):
+            self.assertTrue(sentence.strip())
 
 
 if __name__ == "__main__":
