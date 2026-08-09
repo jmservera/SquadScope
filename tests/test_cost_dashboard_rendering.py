@@ -201,3 +201,28 @@ def test_about_page_shows_unavailable_when_root_is_not_an_object(tmp_path: Path)
         rendered = _build_about_page(tmp_path / "public")
 
     assert "Cost data is not currently available" in rendered
+
+
+def test_about_page_shows_unavailable_for_non_numeric_maximum_age_days(tmp_path: Path) -> None:
+    """A non-numeric maximum_age_days must fail closed, not error int() and the build."""
+    now = datetime.now(UTC).replace(microsecond=0)
+    payload = json.loads(json.dumps(VALID_SUMMARY))
+    payload["generated_at"] = now.isoformat().replace("+00:00", "Z")
+    payload["covered_period"]["latest_record_at"] = now.isoformat().replace("+00:00", "Z")
+    payload["provenance"]["maximum_age_days"] = "not-a-number"
+
+    with cost_summary_fixture(payload):
+        rendered = _build_about_page(tmp_path / "public")
+
+    assert "Cost data is not currently available" in rendered
+
+
+def test_about_page_shows_unavailable_when_generated_at_is_an_object(tmp_path: Path) -> None:
+    """A generated_at shaped as an object must fail closed, not error string() and the build."""
+    payload = json.loads(json.dumps(VALID_SUMMARY))
+    payload["generated_at"] = {"unexpected": "shape"}
+
+    with cost_summary_fixture(payload):
+        rendered = _build_about_page(tmp_path / "public")
+
+    assert "Cost data is not currently available" in rendered

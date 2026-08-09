@@ -387,11 +387,12 @@ Phase 1 continuation above) had no remaining human-approval gate, via PR #695.
 ## Phase 2: BR-009 Cost Dashboard Rendering (2026-08-10)
 
 Implemented the unblocked rendering half of BR-009. Activation (wiring
-`scripts/generate_cost_summary.py` into the live pipeline) remains blocked on
-the sponsor's legacy-row exclusion policy decision, per BRD ("jmservera
-approves pricing-basis changes and exceptions"); this slice only changes what
-the site renders and stops it from consuming the old independently
-maintained total.
+`scripts/generate_cost_summary.py` into the live pipeline) was blocked on the
+sponsor's legacy-row exclusion policy decision at the start of this slice; that
+decision was approved later in this same session (see Deviations below), and
+the current, up-to-date blocker is the ledger commit-path gap documented
+there. This slice only changes what the site renders and stops it from
+consuming the old independently maintained total.
 
 ### Added
 
@@ -566,6 +567,45 @@ suppressed-but-valid comments; all are fixed here.
 * `pytest tests/test_cost_dashboard_rendering.py` -> 9 passed
 * `pytest tests/` -> 1556 passed
 * `ruff check` / `ruff format --check` clean
+* `hugo --minify` full-site build succeeds; `/about/` and `/dashboard/` both
+  still render the unavailable state against real (file-absent) repository
+  data
+
+## Phase 2: BR-009 PR #697 Copilot Review Fixes, Round 3 (2026-08-10)
+
+Round 2's push triggered a third automated review pass, which generated no
+new blocking threads but flagged three more suppressed-but-valid concerns.
+All are fixed here.
+
+### Modified (Review Fixes Round 3)
+
+* `layouts/partials/cost-dashboard.html`:
+  * `provenance.maximum_age_days` and `generated_at` are now each guarded
+    with a `reflect.IsMap`/`reflect.IsSlice` check, then (for
+    `maximum_age_days`) a `^\d+(\.\d+)?$` regex check on its stringified form,
+    before calling `int`/`string`/`time.AsTime` on them. Locally reproduced
+    that Hugo's `int` and `string` conversion functions raise a
+    build-aborting template execution error (not a per-page skip) on a
+    map/slice input (e.g. `int` on `{"a":1}` fails the entire `hugo` build),
+    so a malformed `maximum_age_days` or `generated_at` needed this guard
+    before, not after, the unsafe conversion call
+  * Fixed the intro paragraph of the original BR-009 rendering changelog
+    entry above, which Copilot correctly flagged as stale: it still framed
+    activation as blocked solely on the sponsor policy decision after a
+    later entry in the same file recorded that decision as approved
+
+### Added (Review Fixes Round 3)
+
+* `test_about_page_shows_unavailable_for_non_numeric_maximum_age_days`
+* `test_about_page_shows_unavailable_when_generated_at_is_an_object`
+
+### Validation (Review Fixes Round 3)
+
+* `pytest tests/test_cost_dashboard_rendering.py` -> 11 passed
+* `pytest tests/` -> 1558 passed
+* `ruff check` / `ruff format --check` clean on the Python test file (ruff is
+  never invoked against the `.html` partial directly; it misparses `.html`
+  files as Python and produces hundreds of spurious errors)
 * `hugo --minify` full-site build succeeds; `/about/` and `/dashboard/` both
   still render the unavailable state against real (file-absent) repository
   data
