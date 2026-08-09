@@ -510,7 +510,10 @@ def load_month_synthesis_paragraphs(path: Path) -> tuple[str, ...]:
         _, body = analysis_gate.extract_frontmatter(text)
     except ValueError:
         body = text
-    return extract_prose_paragraphs(body)
+    # "Prediction Review" restates the narrative's own closing paragraph(s) in
+    # the standalone monthly synthesis file; dedupe (keeping the first, earlier
+    # occurrence from "Month Synthesis") so the yearly chapter doesn't repeat it.
+    return tuple(dedupe_preserving_order(extract_prose_paragraphs(body)))
 
 
 def load_month_snapshot_with_preference(path: Path, content_root: Path) -> MonthSnapshot:

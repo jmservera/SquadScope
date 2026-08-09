@@ -4,10 +4,10 @@ date: "2026-05-25T11:56:08+00:00"
 month: "2026-05"
 weeks_covered: ["2026-W21", "2026-W22"]
 categories: ["monthly-synthesis"]
-summary: "May 2026 was defined by open source, developer tooling, and ai. Later in the month, agent skills, ai memory, and coding agents gathered pace."
+summary: "May 2026 was defined by open source, developer tooling, and security. Later in the month, agent skills, ai memory, and coding agents gathered pace."
 status: "generated"
 source_checksum: "sha256:2b62f45e574bbc2396fa2c34f8d2abd167f8a6c079892a54f39a44ace3f9d6a2"
-themes: ["open-source", "developer-tooling", "ai", "agents", "security"]
+themes: ["open-source", "developer-tooling", "security", "agents", "ai"]
 persistent_themes: ["developer-tooling", "open-source"]
 accelerating_themes: ["agent-skills", "ai-memory", "coding-agents", "noise-amplification", "supply-chain-security", "developer-tooling", "open-source"]
 weakening_themes: ["agents", "ai", "security"]

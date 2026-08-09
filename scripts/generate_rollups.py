@@ -154,7 +154,7 @@ def generate_monthly_title(synthesis: Any, month: int, year: int) -> str:
     elif len(themes) >= 2:
         title = f"{themes[0]} and {themes[1]} Define the Month — {month_year}"
     elif themes:
-        title = f"{themes[0]} Leads the Month — {month_year}"
+        title = f"{themes[0]}: The Month's Defining Theme — {month_year}"
     else:
         title = f"Trends Shift and Settle — {month_year}"
 
@@ -162,7 +162,7 @@ def generate_monthly_title(synthesis: Any, month: int, year: int) -> str:
         if accel:
             title = f"{accel[0]} Surges — {month_year}"
         elif themes:
-            title = f"{themes[0]} Leads — {month_year}"
+            title = f"{themes[0]}: Defining Theme — {month_year}"
         if len(title) > 70:
             title = title[:67] + "…"
 
