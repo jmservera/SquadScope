@@ -84,8 +84,13 @@ def run_git(repo: Path, *args: str) -> str:
         env=_clean_environment(),
         capture_output=True,
         text=True,
-        check=True,
+        check=False,
     )
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"git {' '.join(args)} failed in {repo} (exit {result.returncode}):\n"
+            f"stdout:\n{result.stdout}\nstderr:\n{result.stderr}"
+        )
     return result.stdout.strip()
 
 
