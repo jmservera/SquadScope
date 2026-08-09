@@ -196,6 +196,195 @@ def test_reports_and_checksums_are_stable(tmp_path: Path) -> None:
     assert lines == sorted(lines, key=lambda line: line.split("  ", maxsplit=1)[1])
 
 
+def _sized_corpus(root: Path, *, topics: int, data: int, repos: int) -> Path:
+    _write(
+        root / "config/observatory.toml",
+        "[repo_pages]\nenabled = false\n[topic_hubs.dynamic_creation]\nenabled = false\n",
+    )
+    for class_root in ("topics", "data", "repo"):
+        _write(root / f"content/{class_root}/_index.md", f"root {class_root}\n")
+    for index in range(topics):
+        _write(root / f"content/topics/topic-{index}/_index.md", f"topic {index}\n")
+    for index in range(data):
+        _write(root / f"content/data/data-{index}/index.md", f"data {index}\n")
+    for index in range(repos):
+        _write(root / f"content/repo/repo-{index}/index.md", f"repo {index}\n")
+    _write(root / "hugo.toml", "baseURL = 'https://example.test/'\n")
+    return root
+
+
+def _experiment_args(source: Path, reports: Path, expected_repository_pages: str) -> object:
+    return experiment.create_parser().parse_args(
+        [
+            "--source",
+            str(source),
+            "--reports",
+            str(reports),
+            "--repetitions",
+            "3",
+            "--main-sha",
+            "a" * 40,
+            "--publish-sha",
+            "b" * 40,
+            "--workflow-sha",
+            "a" * 40,
+            "--run-id",
+            "1",
+            "--run-attempt",
+            "1",
+            "--runner-os",
+            "Linux",
+            "--runner-arch",
+            "X64",
+            "--image-os",
+            "ubuntu24",
+            "--image-version",
+            "1",
+            "--expected-repository-pages",
+            expected_repository_pages,
+        ]
+    )
+
+
+def test_parser_expected_repository_pages_defaults_none_and_parses_int() -> None:
+    base = [
+        "--source",
+        "/tmp/x",
+        "--reports",
+        "/tmp/r",
+        "--repetitions",
+        "3",
+        "--main-sha",
+        "a" * 40,
+        "--publish-sha",
+        "b" * 40,
+        "--workflow-sha",
+        "a" * 40,
+        "--run-id",
+        "1",
+        "--run-attempt",
+        "1",
+        "--runner-os",
+        "Linux",
+        "--runner-arch",
+        "X64",
+        "--image-os",
+        "ubuntu24",
+        "--image-version",
+        "1",
+    ]
+    assert experiment.create_parser().parse_args(base).expected_repository_pages is None
+    parsed = experiment.create_parser().parse_args(base + ["--expected-repository-pages", "263"])
+    assert parsed.expected_repository_pages == 263
+
+
+def test_run_experiment_rejects_mismatched_expected_repository_pages(tmp_path: Path) -> None:
+    source = _sized_corpus(tmp_path / "src", topics=5, data=3, repos=3)
+    args = _experiment_args(source, tmp_path / "reports", "5")
+    with pytest.raises(experiment.ExperimentError, match="repository_pages count is 3; expected 5"):
+        experiment.run_experiment(args)
+
+
+def test_run_experiment_rejects_non_positive_expected_repository_pages(tmp_path: Path) -> None:
+    source = _sized_corpus(tmp_path / "src", topics=5, data=3, repos=3)
+    args = _experiment_args(source, tmp_path / "reports", "0")
+    with pytest.raises(experiment.ExperimentError, match="positive integer"):
+        experiment.run_experiment(args)
+
+
+def test_discover_workload_merges_partial_expected_counts(tmp_path: Path) -> None:
+    _corpus(tmp_path)
+    with pytest.raises(experiment.ExperimentError, match="topic_hubs count is 2; expected 5"):
+        experiment.discover_workload(tmp_path, expected_counts={"repository_pages": 3})
+
+
+def test_aggregation_uses_derived_repository_denominator() -> None:
+    variants = experiment.build_variants(263)
+    durations = {"baseline": 100, "topic_hubs": 110, "data_pages": 120, "repository_pages": 400}
+    samples = [
+        _sample(repetition, variant, durations[variant.name])
+        for repetition in range(1, 4)
+        for variant in variants
+    ]
+    summary = experiment.aggregate_samples(samples)
+    repository = next(
+        row for row in summary["stages"]["hugo"] if row["variant"] == "repository_pages"
+    )
+    assert repository["marginal_ms_per_added_page"] == pytest.approx((400 - 120) / 263)
+
+
+def test_run_experiment_propagates_parsed_count_end_to_end(tmp_path: Path, monkeypatch) -> None:
+    source = _sized_corpus(tmp_path / "src", topics=5, data=3, repos=4)
+    reports = tmp_path / "reports"
+    args = _experiment_args(source, reports, "4")
+    sample_schema = experiment.SAMPLE_SCHEMA
+    durations = {"baseline": 100, "topic_hubs": 110, "data_pages": 120, "repository_pages": 400}
+
+    def fake_build_sample(
+        corpus,
+        out_reports,
+        variant_data,
+        *,
+        repetition,
+        execution_position,
+        provenance,
+        runner,
+        tools,
+        experiment,
+    ):
+        duration = durations[variant_data["name"]]
+        return {
+            "schema_version": sample_schema,
+            "mode": "report-only",
+            "blocking_threshold_ms": None,
+            "experiment": {
+                "run_id": experiment["run_id"],
+                "run_attempt": experiment["run_attempt"],
+                "repetition": repetition,
+                "execution_position": execution_position,
+            },
+            "provenance": provenance,
+            "runner": runner,
+            "tools": tools,
+            "variant": {
+                "name": variant_data["name"],
+                "included_classes": variant_data["included_classes"],
+                "source_pages_total": variant_data["source_pages_total"],
+                "source_pages_added": variant_data["source_pages_added"],
+                "source_bytes_total": variant_data["source_bytes_total"],
+                "manifest_sha256": variant_data["manifest_sha256"],
+            },
+            "hugo": {
+                "duration_ms": duration,
+                "rendered_html_files": 1,
+                "output_bytes": 1,
+                "exit_code": 0,
+            },
+            "pagefind": {
+                "duration_ms": duration * 2,
+                "html_files_scanned": 1,
+                "indexed_pages": 1,
+                "index_bytes": 1,
+                "exit_code": 0,
+            },
+            "status": "passed",
+        }
+
+    monkeypatch.setattr(experiment, "_tool_version", lambda *args, **kwargs: "stub")
+    monkeypatch.setattr(experiment, "build_sample", fake_build_sample)
+
+    experiment.run_experiment(args)
+
+    manifest = json.loads((reports / "manifest.json").read_text(encoding="utf-8"))
+    repo_variant = next(v for v in manifest["variants"] if v["name"] == "repository_pages")
+    assert repo_variant["source_pages_added"] == 4
+    summary = json.loads((reports / "summary.json").read_text(encoding="utf-8"))
+    repo_row = next(
+        row for row in summary["stages"]["hugo"] if row["variant"] == "repository_pages"
+    )
+    assert repo_row["marginal_ms_per_added_page"] == pytest.approx((400 - 120) / 4)
+
+
 def test_workflow_is_manual_read_only_and_pinned() -> None:
     path = Path(".github/workflows/build-cost-experiment.yml")
     text = path.read_text(encoding="utf-8")
@@ -229,6 +418,35 @@ def test_workflow_admits_only_immutable_reviewed_inputs() -> None:
     assert text.index(topic_exclusion) < text.index('rm -rf -- "${path}"')
     assert "scripts.publish_hydration paths" in text
     assert "scripts.publish_hydration check" in text
+    assert "--expected-repository-pages" in text
+    assert 'git ls-tree -r --name-only "${REVIEWED_PUBLISH_SHA}" -- content/repo' in text
+
+
+def test_discover_workload_uses_provided_expected_counts(tmp_path: Path) -> None:
+    _corpus(tmp_path)
+    workload = experiment.discover_workload(
+        tmp_path,
+        expected_counts={"topic_hubs": 2, "data_pages": 1, "repository_pages": 3},
+    )
+    assert len(workload["repository_pages"]) == 3
+
+    with pytest.raises(experiment.ExperimentError, match="repository_pages count is 3; expected 5"):
+        experiment.discover_workload(
+            tmp_path,
+            expected_counts={"topic_hubs": 2, "data_pages": 1, "repository_pages": 5},
+        )
+
+
+def test_build_variants_uses_reviewed_repository_count() -> None:
+    variants = experiment.build_variants(263)
+    repository = next(variant for variant in variants if variant.name == "repository_pages")
+    assert repository.source_pages_added == 263
+    assert [variant.name for variant in variants] == [
+        "baseline",
+        "topic_hubs",
+        "data_pages",
+        "repository_pages",
+    ]
 
 
 def test_workflow_is_report_only_isolated_and_has_no_generators() -> None:

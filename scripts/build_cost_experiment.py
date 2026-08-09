@@ -65,6 +65,20 @@ VARIANTS = (
 )
 
 
+def build_variants(repository_pages: int) -> tuple[Variant, ...]:
+    """Return cumulative variants using the reviewed repository-page count."""
+    return (
+        Variant("baseline", (), 0),
+        Variant("topic_hubs", ("topic_hubs",), 5),
+        Variant("data_pages", ("topic_hubs", "data_pages"), 3),
+        Variant(
+            "repository_pages",
+            ("topic_hubs", "data_pages", "repository_pages"),
+            repository_pages,
+        ),
+    )
+
+
 class ExperimentError(RuntimeError):
     """Raised when experiment evidence is unsafe or internally inconsistent."""
 
@@ -126,7 +140,10 @@ def validate_corpus_symlinks(root: Path) -> None:
 
 
 def discover_workload(
-    root: Path, *, enforce_expected_counts: bool = True
+    root: Path,
+    *,
+    enforce_expected_counts: bool = True,
+    expected_counts: dict[str, int] | None = None,
 ) -> dict[str, list[dict[str, Any]]]:
     """Classify source leaves and return their stable hash manifest."""
     resolved_root = root.resolve(strict=True)
@@ -148,9 +165,14 @@ def discover_workload(
                     "sha256": _sha256_bytes(payload),
                 }
             )
-        if enforce_expected_counts and len(entries) != EXPECTED_CLASS_COUNTS[class_name]:
+        counts = (
+            EXPECTED_CLASS_COUNTS
+            if expected_counts is None
+            else {**EXPECTED_CLASS_COUNTS, **expected_counts}
+        )
+        if enforce_expected_counts and len(entries) != counts[class_name]:
             raise ExperimentError(
-                f"{class_name} count is {len(entries)}; expected {EXPECTED_CLASS_COUNTS[class_name]}"
+                f"{class_name} count is {len(entries)}; expected {counts[class_name]}"
             )
         discovered[class_name] = entries
     return discovered
@@ -180,13 +202,19 @@ def materialize_variant(
     variant_name: str,
     *,
     enforce_expected_counts: bool = True,
+    expected_counts: dict[str, int] | None = None,
+    variants: tuple[Variant, ...] = VARIANTS,
 ) -> dict[str, Any]:
     """Copy the canonical corpus and remove workload leaves excluded by a variant."""
-    variant = next((item for item in VARIANTS if item.name == variant_name), None)
+    variant = next((item for item in variants if item.name == variant_name), None)
     if variant is None:
         raise ExperimentError(f"unknown variant: {variant_name}")
     validate_corpus_symlinks(source)
-    workload = discover_workload(source, enforce_expected_counts=enforce_expected_counts)
+    workload = discover_workload(
+        source,
+        enforce_expected_counts=enforce_expected_counts,
+        expected_counts=expected_counts,
+    )
     if destination.exists():
         raise ExperimentError(f"destination already exists: {destination}")
     shutil.copytree(source, destination, symlinks=True, ignore=_copy_ignore)
@@ -335,6 +363,7 @@ def aggregate_samples(samples: list[dict[str, Any]]) -> dict[str, Any]:
         raise ExperimentError("samples must contain three or five contiguous repetitions")
     seen: set[tuple[int, str]] = set()
     manifests: dict[str, str] = {}
+    added_pages_by_variant: dict[str, int] = {}
     for sample in samples:
         pair = (sample["experiment"]["repetition"], sample["variant"]["name"])
         if pair in seen:
@@ -352,6 +381,10 @@ def aggregate_samples(samples: list[dict[str, Any]]) -> dict[str, Any]:
         if name in manifests and manifests[name] != manifest_sha:
             raise ExperimentError(f"mixed variant manifest for {name}")
         manifests[name] = manifest_sha
+        added = sample["variant"]["source_pages_added"]
+        if name in added_pages_by_variant and added_pages_by_variant[name] != added:
+            raise ExperimentError(f"mixed source_pages_added for {name}")
+        added_pages_by_variant[name] = added
     required_pairs = {(rep, name) for rep in repetitions for name in expected_names}
     if seen != required_pairs:
         raise ExperimentError("samples contain missing or unknown variants")
@@ -365,6 +398,7 @@ def aggregate_samples(samples: list[dict[str, Any]]) -> dict[str, Any]:
         predecessor: str | None = None
         for variant in VARIANTS:
             values = [by_pair[(rep, variant.name)][stage]["duration_ms"] for rep in repetitions]
+            added_pages = added_pages_by_variant[variant.name]
             metrics: dict[str, Any] = {"variant": variant.name, **_stats(values)}
             if predecessor is None:
                 metrics.update(
@@ -393,7 +427,9 @@ def aggregate_samples(samples: list[dict[str, Any]]) -> dict[str, Any]:
                         "percent_delta": None
                         if previous_median == 0
                         else 100 * delta / previous_median,
-                        "marginal_ms_per_added_page": delta / variant.source_pages_added,
+                        "marginal_ms_per_added_page": (
+                            None if not added_pages else delta / added_pages
+                        ),
                         "paired_delta_median_ms": paired_stats["median_ms"],
                         "paired_delta_p95_ms": paired_stats["p95_ms"],
                         "paired_deltas_ms": paired,
@@ -484,7 +520,14 @@ def run_experiment(args: argparse.Namespace) -> None:
         raise ExperimentError(f"reports directory already exists: {reports}")
     reports.mkdir(parents=True)
     assert_rollouts_disabled(source)
-    workload = discover_workload(source)
+    repository_pages = getattr(args, "expected_repository_pages", None)
+    if repository_pages is None:
+        repository_pages = EXPECTED_CLASS_COUNTS["repository_pages"]
+    if repository_pages < 1:
+        raise ExperimentError("expected repository pages must be a positive integer")
+    expected_counts = {**EXPECTED_CLASS_COUNTS, "repository_pages": repository_pages}
+    variants = build_variants(repository_pages)
+    workload = discover_workload(source, expected_counts=expected_counts)
     validate_corpus_symlinks(source)
     provenance = {
         "main_sha": validate_sha(args.main_sha, "main_sha"),
@@ -505,8 +548,8 @@ def run_experiment(args: argparse.Namespace) -> None:
     }
     orders = []
     for repetition in range(1, args.repetitions + 1):
-        offset = (repetition - 1) % len(VARIANTS)
-        orders.append([item.name for item in VARIANTS[offset:] + VARIANTS[:offset]])
+        offset = (repetition - 1) % len(variants)
+        orders.append([item.name for item in variants[offset:] + variants[:offset]])
     manifest = {
         "schema_version": "claracle_build_cost_manifest_v1",
         "mode": "report-only",
@@ -520,7 +563,7 @@ def run_experiment(args: argparse.Namespace) -> None:
         "runner": runner,
         "tools": tools,
         "execution_orders": orders,
-        "variants": [variant_manifest(workload, variant) for variant in VARIANTS],
+        "variants": [variant_manifest(workload, variant) for variant in variants],
     }
     _write_json(reports / "manifest.json", manifest)
     samples: list[dict[str, Any]] = []
@@ -530,7 +573,13 @@ def run_experiment(args: argparse.Namespace) -> None:
             for repetition, order in enumerate(orders, start=1):
                 for position, name in enumerate(order, start=1):
                     corpus = temporary_root / f"r{repetition}-{name}"
-                    variant_data = materialize_variant(source, corpus, name)
+                    variant_data = materialize_variant(
+                        source,
+                        corpus,
+                        name,
+                        expected_counts=expected_counts,
+                        variants=variants,
+                    )
                     samples.append(
                         build_sample(
                             corpus,
@@ -567,6 +616,7 @@ def create_parser() -> argparse.ArgumentParser:
     parser.add_argument("--runner-arch", required=True)
     parser.add_argument("--image-os", required=True)
     parser.add_argument("--image-version", required=True)
+    parser.add_argument("--expected-repository-pages", type=int, default=None)
     return parser
 
 
