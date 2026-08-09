@@ -369,3 +369,17 @@ Phase 1 continuation above) had no remaining human-approval gate, via PR #695.
   repository summary, and data-page views remains a distinct, still-open
   state from this implementation, matching the plan's approval-state
   philosophy applied to BR-006 above.
+* PR review follow-up (2026-08-09): the "Production site" CI gate failed on
+  a tap-target size violation from the new monthly/yearly rollup card
+  links (670×26.4px at 768px, below the 44×44 minimum); fixed by giving
+  `.home-rollup-card .home-report-title` `min-height: var(--size-touch-target)`,
+  matching the existing `.home-quick-links a` pattern. Copilot review also
+  flagged: a missing regression test for the `>70`-char truncation fallback
+  in the accelerating-theme branch (added); unguarded `.github_url` hrefs in
+  the evidence rail cards (restricted to `https://github.com/` via
+  `hasPrefix` and piped through `safeURL`, matching
+  `layouts/_markup/render-link.html`); a missing `$id` check in
+  `evidence-ruler.html`'s render guard (added, so the partial fails closed);
+  and unsafe dot-chain traversal of `site.Data.observatory.*` (switched to
+  `index` for safe nested lookup). All four review threads replied to and
+  resolved; full validation (pytest, ruff, `hugo --minify`) re-run clean.
