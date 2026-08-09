@@ -176,7 +176,26 @@ genuine-equivalent 301/308 row.
   and added regression tests. Named editorial review by Farnsworth/jmservera is
   still open; automated completeness and range checks pass
 * [ ] BR-009: generate the reconciled public cost projection, fail publication
-  on invalid or stale input, and render current provenance on About
+  on invalid or stale input, and render current provenance on About.
+  Rendering is done (2026-08-10): `layouts/partials/cost-dashboard.html` now
+  consumes only the new BR-009 `cost-summary.json` schema (currency, pricing
+  basis, provenance, covered period, generation timestamp, reconciliation, and
+  exclusions) and shows an honest "not currently available" state on missing,
+  malformed, wrong-schema-version, or >30-day-stale data instead of a
+  fabricated or outdated figure; the old hand-authored
+  `data/metrics/cost-summary.json` placeholder is removed, so About "no longer
+  consumes an independently maintained total." Sponsor jmservera approved the
+  legacy-row exclusion policy on 2026-08-10 (`--legacy-policy
+  exclude-unidentified`: pre-2026-08-09 ledger rows without workflow identity
+  are permanently excluded from the reconciled total). Wiring
+  `scripts/generate_cost_summary.py` into `crawl-and-publish.yml` is still not
+  done: investigation found `data/metrics/token-usage.jsonl`'s per-run append
+  (`track_token_usage.py`, called only in the `analyze` job) is never
+  committed by that job, and the downstream `generate` job re-hydrates
+  `data/metrics/` from the `origin/publish` branch before it would run cost
+  generation, discarding the current run's fresh ledger row. This ledger
+  commit-path gap (independent of the now-resolved policy question) needs its
+  own investigation and fix before cost generation can be safely wired in
 * [ ] Retain Calculon, Fry, Farnsworth, Zapp, Nibbler, URL, and sponsor evidence
   only from the roles routed to each acceptance surface
 

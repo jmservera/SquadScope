@@ -383,3 +383,229 @@ Phase 1 continuation above) had no remaining human-approval gate, via PR #695.
   and unsafe dot-chain traversal of `site.Data.observatory.*` (switched to
   `index` for safe nested lookup). All four review threads replied to and
   resolved; full validation (pytest, ruff, `hugo --minify`) re-run clean.
+
+## Phase 2: BR-009 Cost Dashboard Rendering (2026-08-10)
+
+Implemented the unblocked rendering half of BR-009. Activation (wiring
+`scripts/generate_cost_summary.py` into the live pipeline) was blocked on the
+sponsor's legacy-row exclusion policy decision at the start of this slice; that
+decision was approved later in this same session (see Deviations below), and
+the current, up-to-date blocker is the ledger commit-path gap documented
+there. This slice only changes what the site renders and stops it from
+consuming the old independently maintained total.
+
+### Added
+
+* `tests/test_cost_dashboard_rendering.py`: builds the real Hugo site against
+  fixture `cost-summary.json` payloads and asserts the About page (a) shows
+  the reconciled total, currency, covered period, generation timestamp,
+  pricing basis, ledger provenance, and accepted-identity table when given a
+  valid, fresh BR-009 record; and (b) shows an honest "not currently
+  available" state, never the old placeholder or a stale figure, when the
+  file is missing, in the pre-BR-009 legacy shape, or more than 30 days stale
+
+### Modified
+
+* `layouts/partials/cost-dashboard.html`: rewritten to consume only the
+  BR-009 `cost-summary.json` contract (`schema_version`, `generated_at`,
+  `currency`, `pricing_basis`, `provenance`, `covered_period`,
+  `accepted_identities`, `exclusions`, `reconciliation`, `totals`) instead of
+  the old ad-hoc weekly/budget shape. Validates required keys,
+  `schema_version == "1.0.0"`, a non-empty `accepted_identities`, an
+  ISO-8601 `generated_at` (guarded with `findRE` before `time.AsTime` so a
+  malformed timestamp cannot fail the whole `hugo` build), and a
+  `provenance.maximum_age_days` (default 30) freshness gate. Renders total
+  cost/currency, covered period, generation timestamp (`.cost-dashboard__date`,
+  already anticipated by the visual-regression date-hiding selectors),
+  pricing basis, source ledger, reconciliation counts, exclusion counts, and
+  an accepted-workflow-attempts table. Any invalid case renders a plain
+  "Cost data is not currently available" state instead of a stale or
+  fabricated number
+* `assets/css/common/cost-dashboard.css`: removed rules for the retired
+  trend chart, budget meter, and per-week/model-breakdown tables; added
+  `.cost-dashboard__meta` (provenance grid) and unavailable-state styling
+
+### Removed
+
+* `data/metrics/cost-summary.json`: the hand-authored placeholder
+  (`weeks`/`cumulative_cost`/`budget_limit`) that predated the BR-009
+  contract. BR-009's acceptance criteria require the About page to "no
+  longer consume an independently maintained total"; the file is not
+  regenerated here because production activation is blocked (see below)
+
+### Validation
+
+* `pytest tests/test_cost_dashboard_rendering.py` -> 4 passed at the time of
+  this entry (missing file, valid fixture, legacy schema, stale timestamp);
+  see the PR #697 review-fixes section below for the count after later
+  regression tests were added
+* `pytest tests/` -> 1551 passed
+* `ruff check` / `ruff format --check` clean on the new test file
+* `hugo --minify` built the full site successfully with the placeholder
+  removed; both `/about/` and `/dashboard/` correctly render the
+  "not currently available" state against real repository data
+
+### Deviations
+
+* BR-009's "the owning pipeline and site build fail when required data is
+  missing, malformed, unreconciled, or more than 30 days stale" criterion is
+  satisfied at the pipeline layer (`generate_cost_summary.py` already raises
+  on all of these, from Phase 1) but intentionally NOT wired into
+  `crawl-and-publish.yml` or as a Hugo build-time `errorf` in this slice.
+  The renderer instead degrades to a clearly labeled unavailable state so
+  `hugo --minify` keeps working as the validation gate every other phase in
+  this plan depends on.
+* Sponsor jmservera approved the legacy-row exclusion policy in this session
+  (2026-08-10): `--legacy-policy exclude-unidentified`, permanently excluding
+  pre-2026-08-09 ledger rows from the reconciled total. That question is
+  resolved, but wiring the generator into CI surfaced a separate, previously
+  undocumented gap: `track_token_usage.py` runs only in the `analyze` job and
+  that job never commits its `data/metrics/token-usage.jsonl` append; the
+  downstream `generate` job re-hydrates `data/metrics/` from `origin/publish`
+  (the prior run's committed state) before any cost-generation step would
+  run, so the current run's fresh row would be silently discarded. Wiring the
+  generator into the workflow now, without fixing this commit-path gap first,
+  would either always operate on stale data or require a broader workflow
+  change touching job boundaries and artifact/commit ordering that is
+  out of scope for this rendering-focused change and needs its own review.
+  BR-009 remains open; the ledger commit-path fix is tracked as follow-up
+  work rather than guessed at here
+
+## Phase 2: BR-009 PR #697 Copilot Review Fixes, Round 1 (2026-08-10)
+
+Addressed the two findings from the automated Copilot review of PR #697
+(commit `5cd7db8`). Both threads are now resolved.
+
+### Modified (Review Fixes)
+
+* `layouts/partials/cost-dashboard.html`: added a nested-field validation
+  pass so a present-but-incomplete `totals`, `reconciliation`, `exclusions`,
+  `provenance`, or `covered_period` object (using `reflect.IsMap` plus
+  `isset` per required sub-key) now falls back to the unavailable state
+  instead of rendering a fabricated `0.00 USD` or a literal `<no value>`
+* `tests/test_cost_dashboard_rendering.py`: `cost_summary_fixture` now
+  snapshots any pre-existing `data/metrics/cost-summary.json` bytes and
+  restores them in `finally`, instead of hard-asserting the file does not
+  exist. The old assertion would fail every run once the pipeline (or a
+  developer) commits the real BR-009 artifact locally
+
+### Added (Review Fixes)
+
+* `test_about_page_shows_unavailable_when_nested_field_missing`: regression
+  test covering a valid top-level schema with a deleted `totals.cost`
+  sub-field, asserting the unavailable state renders and neither
+  `<no value>` nor a fabricated `0.00` appears
+
+### Validation (Review Fixes)
+
+* `pytest tests/test_cost_dashboard_rendering.py` -> 5 passed
+* `pytest tests/` -> 1552 passed
+* `ruff check` / `ruff format --check` clean (test file reformatted by ruff)
+* `hugo --minify` full-site build succeeds; `/about/` still renders the
+  unavailable state against real (file-absent) repository data
+* Verified `reflect.IsMap`/`reflect.IsSlice` are available in both the local
+  Hugo version (0.147.9) and are documented Hugo template functions expected
+  in CI's 0.161.1
+* Committed as `ea5126a`, pushed to `feat/br009-cost-dashboard-rendering`;
+  both Copilot review threads resolved via
+  `mcp_github_mcp_se_pull_request_review_write` (`resolve_thread`); a fresh
+  Copilot review was requested on the new head commit
+* Also confirmed `tests/test_atomic_publish_proof.py::test_atomic_publish_proof_integration`
+  failing once in CI (`Python` job, commit `ea5126a`) is a pre-existing,
+  unrelated flake: it passes locally, and the same "Normal publication did
+  not advance isolated publish" failure previously occurred on `main` itself
+  (run 31306032999, 2026-08-09) before this session's changes existed. Not
+  modified as part of this PR; see `/memories/repo/squadscope.md` for detail
+
+## Phase 2: BR-009 PR #697 Copilot Review Fixes, Round 2 (2026-08-10)
+
+The ruleset on `main` requires Copilot review on every push and all review
+threads resolved before merge. Round 1's push triggered a second automated
+review pass that found one real defect (an unresolved thread) plus three
+suppressed-but-valid comments; all are fixed here.
+
+### Modified (Review Fixes Round 2)
+
+* `layouts/partials/cost-dashboard.html`:
+  * Added a `reflect.IsMap $data` guard alongside the existing `not $data`
+    check before iterating required top-level keys, so a present-but-wrongly-
+    shaped root payload (e.g. a JSON array or scalar) fails closed instead of
+    risking a template error from `isset` on a non-map value
+  * Removed `maximum_age_days` from `provenance`'s required nested sub-keys:
+    it already has its own `| default 30` fallback at the point of use, so
+    requiring it made that default unreachable and rejected otherwise-valid
+    payloads that omit it (Copilot correctly flagged this as inconsistent
+    with the header comment)
+  * `generated_at` is now coerced with `string $data.generated_at` before the
+    `findRE`/`time.AsTime` calls, so a malformed non-string value (e.g. a
+    JSON number) fails closed instead of risking a template type error
+  * Added per-item validation of `accepted_identities` (`reflect.IsMap` plus
+    `week`/`stage`/`model`/`workflow_run_id`/`run_attempt` presence), so a
+    malformed identity entry fails closed instead of rendering `<no value>`
+    in the accepted-attempts table
+  * A `generated_at` in the future (negative age) now also fails closed;
+    previously only staleness (age beyond `maximum_age_days`) was checked,
+    so a clock-skewed or malformed future timestamp would have rendered as
+    valid
+* `.copilot-tracking/changes/2026-08-08/claracle-post-relaunch-consolidation-changes.md`:
+  corrected an earlier entry that said the initial rendering test run was
+  "4 passed" without noting the count changed as later regression tests
+  were added
+
+### Added (Review Fixes Round 2)
+
+* `test_about_page_shows_unavailable_for_future_generated_at`
+* `test_about_page_shows_unavailable_for_non_string_generated_at`
+* `test_about_page_shows_unavailable_when_accepted_identity_malformed`
+* `test_about_page_shows_unavailable_when_root_is_not_an_object`
+* `cost_summary_fixture`'s payload type widened from `dict[str, object] | None`
+  to `object | None` so the new array-root test can express a non-object
+  fixture payload without a special-case code path
+
+### Validation (Review Fixes Round 2)
+
+* `pytest tests/test_cost_dashboard_rendering.py` -> 9 passed
+* `pytest tests/` -> 1556 passed
+* `ruff check` / `ruff format --check` clean
+* `hugo --minify` full-site build succeeds; `/about/` and `/dashboard/` both
+  still render the unavailable state against real (file-absent) repository
+  data
+
+## Phase 2: BR-009 PR #697 Copilot Review Fixes, Round 3 (2026-08-10)
+
+Round 2's push triggered a third automated review pass, which generated no
+new blocking threads but flagged three more suppressed-but-valid concerns.
+All are fixed here.
+
+### Modified (Review Fixes Round 3)
+
+* `layouts/partials/cost-dashboard.html`:
+  * `provenance.maximum_age_days` and `generated_at` are now each guarded
+    with a `reflect.IsMap`/`reflect.IsSlice` check, then (for
+    `maximum_age_days`) a `^\d+(\.\d+)?$` regex check on its stringified form,
+    before calling `int`/`string`/`time.AsTime` on them. Locally reproduced
+    that Hugo's `int` and `string` conversion functions raise a
+    build-aborting template execution error (not a per-page skip) on a
+    map/slice input (e.g. `int` on `{"a":1}` fails the entire `hugo` build),
+    so a malformed `maximum_age_days` or `generated_at` needed this guard
+    before, not after, the unsafe conversion call
+  * Fixed the intro paragraph of the original BR-009 rendering changelog
+    entry above, which Copilot correctly flagged as stale: it still framed
+    activation as blocked solely on the sponsor policy decision after a
+    later entry in the same file recorded that decision as approved
+
+### Added (Review Fixes Round 3)
+
+* `test_about_page_shows_unavailable_for_non_numeric_maximum_age_days`
+* `test_about_page_shows_unavailable_when_generated_at_is_an_object`
+
+### Validation (Review Fixes Round 3)
+
+* `pytest tests/test_cost_dashboard_rendering.py` -> 11 passed
+* `pytest tests/` -> 1558 passed
+* `ruff check` / `ruff format --check` clean on the Python test file (ruff is
+  never invoked against the `.html` partial directly; it misparses `.html`
+  files as Python and produces hundreds of spurious errors)
+* `hugo --minify` full-site build succeeds; `/about/` and `/dashboard/` both
+  still render the unavailable state against real (file-absent) repository
+  data
