@@ -186,3 +186,37 @@
   short list rather than one entry) in this session. Both design documents were
   updated accordingly and both checklist items are now complete. Phase 1 is
   complete.
+
+## Phase 2: BR-006 Root Cause And Fix (2026-08-09)
+
+* Started Phase 2 with BR-006 (annual article clipping) rather than BR-001/002
+  because it was fully specified, had no external human/production blocker
+  (unlike BR-009's cost activation, which is genuinely blocked on a fresh
+  identified ledger record), and the Phase 0 changes log's claim that clipping
+  was "corrected" turned out to be inaccurate on inspection of the actual
+  committed content, which was worth verifying before trusting it further.
+* Discovery path: `content/yearly/2026.md` was 540 words (target 1,200-1,800)
+  full of mid-sentence "…" fragments. Traced this to
+  `data/analyzed/2026-05-month-synthesis.md`, which was ALSO still clipped, even
+  though `scripts/generate_yearly_narrative.py`'s own `trim_words()` was already
+  sentence-safe. Root cause: `scripts/month_synthesis.py` defines its own,
+  separate `trim_words()` that the Phase 0 fix never touched.
+* Selected approach: fix `month_synthesis.py`'s `trim_words()` to match the
+  already-correct sentence-safe version rather than introduce a third
+  implementation or share one across files (kept the diff minimal and
+  consistent with the existing per-module helper pattern).
+* Fixed a second, related bug the sentence-safe change exposed: `synthesize_month`
+  embeds trimmed weekly summaries as bare clauses inside a larger sentence
+  ("opened with X and ended with Y"); once `trim_words` legitimately preserves a
+  short sentence's own terminal period, that period broke the enclosing
+  sentence. Added `.rstrip(".")`, matching what `top_sentences()` already did
+  for its own callers.
+* Regenerated all four monthly pages (not just Month Synthesis) for May and
+  June, because `generate_rollups`'s append-only merge only replaces the
+  "Month Synthesis" section by marker; other sections keep pre-existing,
+  already-clipped entries once their week marker is present. July and August
+  were already clean from an earlier partial fix, so only May and June needed a
+  full delete-and-regenerate.
+* Deferred BR-001 (shell), BR-002 (homepage), and BR-009 (cost) to follow-up
+  turns as independently deliverable Phase 2 stories, per the plan's own
+  guidance to split Phase 2 into separate slices.

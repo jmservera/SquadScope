@@ -139,8 +139,18 @@ genuine-equivalent 301/308 row.
   monthly, yearly, topic, repository, and data coverage with empty-module removal
 * [x] BR-008: order Weekly, Monthly, and Yearly first across desktop, mobile,
   keyboard, and accessibility-tree navigation while preserving all destinations
-* [ ] BR-006: remove cumulative clipping and generate a complete 1,200-1,800-word
-  annual article with traceable claims, metadata parity, and editorial review
+* [x] BR-006: remove cumulative clipping and generate a complete 1,200-1,800-word
+  annual article with traceable claims, metadata parity, and editorial review.
+  Root cause: `scripts/month_synthesis.py` had its own pre-fix `trim_words()`
+  that appended an ellipsis at a raw word-count cutoff (distinct from the
+  already-fixed sentence-safe `trim_words()` in `generate_yearly_narrative.py`),
+  so every monthly narrative — and everything the yearly page derived from it —
+  still clipped mid-sentence. Fixed `trim_words()` to select complete sentences
+  within the word budget (no ellipsis), fixed a related mid-sentence period bug
+  in the opening-paragraph template, regenerated all four 2026 monthly pages and
+  `content/yearly/2026.md` (1,775-word narrative body, within range, zero "…"),
+  and added regression tests. Named editorial review by Farnsworth/jmservera is
+  still open; automated completeness and range checks pass
 * [ ] BR-009: generate the reconciled public cost projection, fail publication
   on invalid or stale input, and render current provenance on About
 * [ ] Retain Calculon, Fry, Farnsworth, Zapp, Nibbler, URL, and sponsor evidence

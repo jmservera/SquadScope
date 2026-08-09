@@ -174,6 +174,73 @@ session, closing Phase 1 (Shared Contracts And Design Foundation).
   documents still gate on their own representative-view and accessibility
   verification during implementation.
 
+## Phase 2: BR-006 Monthly/Yearly Narrative Clipping Fix (2026-08-09)
+
+Root-caused and fixed the actual BR-006 defect. The Phase 0 changes log had
+claimed clipping was "corrected across monthly and yearly generation," but that
+fix only reached `scripts/generate_yearly_narrative.py`'s local `trim_words()`.
+`scripts/month_synthesis.py` had its own, separate, pre-fix `trim_words()` that
+still truncated at a raw word count and appended an ellipsis, so every
+committed `data/analyzed/*-month-synthesis.md` (and the yearly page derived from
+it) was still clipped mid-sentence, and the published `content/yearly/2026.md`
+was only 540 words with several unfinished sentences.
+
+### Modified
+
+* `scripts/month_synthesis.py`: `trim_words()` now selects complete sentences
+  within the word budget instead of appending "…" at a raw cutoff (mirrors the
+  already-correct version in `generate_yearly_narrative.py`); the `summaries`
+  list in `synthesize_month()` now strips a stray trailing period so embedding
+  a short complete sentence as a mid-sentence clause (`"opened with X and ended
+  with Y"`) no longer produces a false sentence break
+* `tests/test_generate_rollups.py`: added `MonthSynthesisTrimWordsTests`
+  covering sentence-boundary trimming, the no-fitting-sentence fallback (full
+  text, still no ellipsis), and an end-to-end `synthesize_month()` check that no
+  part of the narrative/summary/trend-arc/prediction-review contains "…"
+
+### Regenerated (derived content, not hand-edited)
+
+* `data/analyzed/2026-0{5,6,7,8}-month-synthesis.md`: deleted the stale
+  pre-fix files and regenerated via `python -m scripts.generate_rollups`
+* `data/analyzed/2026-0{5,6,7,8}-month-synthesis-pack.json`: new BR-006
+  evidence-pack artifacts (complete, untruncated weekly text), validated against
+  `data/schemas/yearly-evidence-pack.schema.json`'s source shape
+* `content/monthly/2026/{05,06,07,08}.md`: deleted and fully regenerated (the
+  append-only merge otherwise preserves already-published per-week entries, so
+  a partial regeneration would have left months 05-06's older, still-clipped
+  Month Overview/Trends/Key Takeaways bullets in place)
+* `content/yearly/2026.md`: regenerated; narrative body is 1,775 words (within
+  the 1,200-1,800 acceptance range; the 1,839 raw `wc -w` figure includes
+  frontmatter), zero "…" anywhere in the file
+* `data/derived/yearly/2026-evidence-pack.json`: new BR-006 evidence pack (12
+  sources, 49 claims), validated against
+  `data/schemas/yearly-evidence-pack.schema.json` with `jsonschema`
+
+### Validation
+
+* `pytest tests/` -> 1542 passed (up from 1539; 3 new regression tests)
+* `ruff check` / `ruff format --check` clean on `scripts/month_synthesis.py`
+  and `tests/test_generate_rollups.py`
+* `hugo --minify` built 2,701 pages successfully; `check_internal_links.py`
+  found only the two pre-existing, unrelated missing `pagefind/*` assets (no
+  Pagefind index built in this ad-hoc check)
+* `tests/test_rendered_seo_metadata.py` passes against the regenerated content
+* Real `data/derived/yearly/2026-evidence-pack.json` validated against its
+  schema with `jsonschema` (not just the test fixture)
+
+### Deviations
+
+* This closes only the BR-006 checklist item within Phase 2. BR-001 (shell),
+  BR-002 (homepage), BR-009 (cost display), and the evidence-retention item
+  remain open as independently deliverable Phase 2 stories.
+* Named editorial review of the regenerated 2026 yearly article (Farnsworth
+  accountable, jmservera final editor per the BRD) has not occurred; only
+  automated completeness, range, and metadata checks are represented here.
+* Monthly pages for 2026-07 and 2026-08 already had zero ellipsis before this
+  change (they were generated after an earlier partial fix); only 2026-05 and
+  2026-06 needed full regeneration versus a narrower Month Synthesis-only
+  refresh.
+
 
 ## Q-01/NFR-009 Budget-Owner Conclusion (jmservera, 2026-08-09)
 
