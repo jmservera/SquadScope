@@ -229,6 +229,35 @@ def test_workflow_admits_only_immutable_reviewed_inputs() -> None:
     assert text.index(topic_exclusion) < text.index('rm -rf -- "${path}"')
     assert "scripts.publish_hydration paths" in text
     assert "scripts.publish_hydration check" in text
+    assert "--expected-repository-pages" in text
+    assert 'git ls-tree -r --name-only "${REVIEWED_PUBLISH_SHA}" -- content/repo' in text
+
+
+def test_discover_workload_uses_provided_expected_counts(tmp_path: Path) -> None:
+    _corpus(tmp_path)
+    workload = experiment.discover_workload(
+        tmp_path,
+        expected_counts={"topic_hubs": 2, "data_pages": 1, "repository_pages": 3},
+    )
+    assert len(workload["repository_pages"]) == 3
+
+    with pytest.raises(experiment.ExperimentError, match="repository_pages count is 3; expected 5"):
+        experiment.discover_workload(
+            tmp_path,
+            expected_counts={"topic_hubs": 2, "data_pages": 1, "repository_pages": 5},
+        )
+
+
+def test_build_variants_uses_reviewed_repository_count() -> None:
+    variants = experiment.build_variants(263)
+    repository = next(variant for variant in variants if variant.name == "repository_pages")
+    assert repository.source_pages_added == 263
+    assert [variant.name for variant in variants] == [
+        "baseline",
+        "topic_hubs",
+        "data_pages",
+        "repository_pages",
+    ]
 
 
 def test_workflow_is_report_only_isolated_and_has_no_generators() -> None:

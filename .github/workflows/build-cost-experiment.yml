@@ -145,6 +145,7 @@ jobs:
       - name: Run isolated report-only experiment
         run: |
           set -euo pipefail
+          expected_repository_pages="$(git ls-tree -r --name-only "${REVIEWED_PUBLISH_SHA}" -- content/repo | grep -c '/index.md$' || true)"
           python3 -m scripts.build_cost_experiment \
             --source . \
             --reports reports/build-cost-experiment \
@@ -157,7 +158,8 @@ jobs:
             --runner-os "${RUNNER_OS}" \
             --runner-arch "${RUNNER_ARCH}" \
             --image-os "${ImageOS:-ubuntu24}" \
-            --image-version "${ImageVersion:-unknown}"
+            --image-version "${ImageVersion:-unknown}" \
+            --expected-repository-pages "${expected_repository_pages}"
 
       - name: Add report to job summary
         if: ${{ always() }}
