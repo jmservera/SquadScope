@@ -84,8 +84,13 @@ def run_git(repo: Path, *args: str) -> str:
         env=_clean_environment(),
         capture_output=True,
         text=True,
-        check=True,
+        check=False,
     )
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"{['git', *args]} failed in {repo} (exit {result.returncode}):\n"
+            f"stdout:\n{result.stdout}\nstderr:\n{result.stderr}"
+        )
     return result.stdout.strip()
 
 
@@ -332,7 +337,10 @@ def run_proof(repo_root: Path, output_dir: Path) -> dict[str, object]:
             raise RuntimeError(f"Normal publication failed: {normal.stderr}\n{normal.stdout}")
         accepted_sha = run_git(origin, "rev-parse", "refs/heads/publish")
         if accepted_sha == source_publish_sha:
-            raise RuntimeError("Normal publication did not advance isolated publish")
+            raise RuntimeError(
+                "Normal publication did not advance isolated publish\n"
+                f"commit-step stdout:\n{normal.stdout}\ncommit-step stderr:\n{normal.stderr}"
+            )
         if (
             int(run_git(origin, "rev-list", "--count", f"{source_publish_sha}..{accepted_sha}"))
             != 1
