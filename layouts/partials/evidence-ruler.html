@@ -9,7 +9,7 @@
 {{- $current := .current -}}
 {{- $history := .history | default slice -}}
 {{- $id := .id -}}
-{{- if and $current (gt (len $history) 0) -}}
+{{- if and $current $id (gt (len $history) 0) -}}
 {{- $ordered := $history.ByDate -}}
 {{- $first := index $ordered 0 -}}
 {{- $last := index $ordered (sub (len $ordered) 1) -}}

@@ -1041,6 +1041,12 @@ summary:focus-visible,
   gap: var(--space-3);
 }
 
+.home-rollup-card .home-report-title {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
+}
+
 .home-rollup-card p {
   margin: var(--space-1) 0 0;
   color: var(--color-text-muted);

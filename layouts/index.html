@@ -5,13 +5,12 @@
 {{- $yearlyPages := (where (where site.RegularPages "Type" "yearly") "Params.format" "narrative").ByDate.Reverse -}}
 {{- $topTopics := first 6 site.Taxonomies.topics.ByCount -}}
 {{- $topicRegistry := site.Data.taxonomy.topics.terms -}}
-{{- $repositoryRecords := site.Data.observatory.repository_summary.records | default slice -}}
-{{- $rankingPages := site.Data.observatory.ranking_summary.records | default slice -}}
+{{- $repositoryRecords := index site.Data "observatory" "repository_summary" "records" | default slice -}}
+{{- $rankingPages := index site.Data "observatory" "ranking_summary" "records" | default slice -}}
 
 <div class="home-shell">
   <section class="home-hero home-hero--minimal" aria-labelledby="home-title">
     <p class="home-eyebrow">{{ .Params.description | default site.Params.homeInfoParams.Title | default "Weekly tech signal from GitHub" }}</p>
-    <h1 id="home-title">{{ .Title }}</h1>
   </section>
 
   {{- if $latest -}}
@@ -137,10 +136,12 @@
         <h2 id="home-repo-evidence-heading">Momentum to watch</h2>
         <div class="home-topic-list home-evidence-list">
           {{- range first 6 $repositoryRecords -}}
-          <a class="home-topic-card" href="{{ .github_url }}">
+          {{- if hasPrefix .github_url "https://github.com/" -}}
+          <a class="home-topic-card" href="{{ .github_url | safeURL }}">
             <span>{{ .full_name }}</span>
             <small>{{ .recent_momentum }}</small>
           </a>
+          {{- end -}}
           {{- end -}}
         </div>
         <a href="{{ `repo/` | absLangURL }}">Browse the repository summary</a>
@@ -153,10 +154,12 @@
         <h2 id="home-data-evidence-heading">Rankings to explore</h2>
         <div class="home-topic-list home-evidence-list">
           {{- range first 6 $rankingPages -}}
-          <a class="home-topic-card" href="{{ .github_url }}">
+          {{- if hasPrefix .github_url "https://github.com/" -}}
+          <a class="home-topic-card" href="{{ .github_url | safeURL }}">
             <span>{{ .full_name }}</span>
             <small>{{ .metric_label }}</small>
           </a>
+          {{- end -}}
           {{- end -}}
         </div>
       </section>

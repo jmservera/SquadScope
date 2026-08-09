@@ -673,6 +673,18 @@ class GenerateMonthlyTitleTests(unittest.TestCase):
 
         self.assertEqual(title, "Developer Tooling: The Month's Defining Theme — May 2026")
 
+    def test_long_accelerating_theme_truncation_fallback_uses_no_conjugated_verb(
+        self,
+    ) -> None:
+        synthesis = self._synthesis(
+            accelerating_themes=("developer-tooling-and-cloud-infrastructure",)
+        )
+
+        title = generate_rollups.generate_monthly_title(synthesis, 5, 2026)
+
+        self.assertEqual(title, "Developer Tooling And Cloud Infrastructure: Top Theme — May 2026")
+        self.assertLessEqual(len(title), 70)
+
 
 class MonthSynthesisTrimWordsTests(unittest.TestCase):
     def test_trim_words_stops_at_a_sentence_boundary_without_ellipsis(self) -> None:
