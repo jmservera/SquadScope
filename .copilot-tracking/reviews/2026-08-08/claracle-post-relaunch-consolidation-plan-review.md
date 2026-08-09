@@ -63,3 +63,72 @@ Complete for the five selected locally actionable slices. Their affected
 automated gates pass, and the implementation fails closed where sponsor or
 external evidence is absent. The broader controlling plan remains in progress;
 no claim is made that Claracle is accepted, migrated, activated, or release-ready.
+
+## CR-06 Harness Repair Review (Iteration 3, 2026-08-09)
+
+| Field | Value |
+|-------|-------|
+| Scope | CR-06 build-cost experiment harness repair and official execution |
+| Reviewer | GitHub Copilot, RPI Agent |
+| Iteration | 3 |
+| Overall status | Complete; only the dated budget-owner conclusion remains |
+
+### User Request Fulfillment
+
+| Request | Status | Evidence |
+|---------|--------|----------|
+| CR-06 option 1 (derive repository count) | Complete | PR #686 `67045a3` derives the count from the reviewed publish tree; 26 unit tests pass |
+| Use worktrees for parallel work | Complete | Isolated lanes at `/home/jmservera/source/sqs-*`; each fix on its own branch/PR |
+| Establish a faster local test loop | Complete | `python3 -m scripts.build_cost_experiment ...` full 3-rep run in ~22 s versus multi-minute CI |
+| Merge each fix on explicit go-ahead | Complete | PRs #686, #687, #689 merged `--squash --admin` after 4/4 Squad approvals |
+
+### Executive Findings
+
+* Three cascading defects were each isolated with the local loop before any fix,
+  which prevented masking and produced minimal, reviewable diffs.
+* Fix placement is correct: count derivation lives in `discover_workload`/
+  `run_experiment`; tool invocation in `_tool_version`/`_run_timed`; dependent-leaf
+  exclusion in `materialize_variant`. No generated output was edited.
+* Leela's review overturned the agent's initial option-1 recommendation for the
+  embed/chart defect because that divisor would be contaminated. Option 2
+  (consistent exclusion from every variant) was adopted, preserving a clean
+  marginal denominator.
+* Official run `31305223877` (main `8f680f4`, publish `4120078d`, 3 reps,
+  report-only) completed cleanly with retained evidence. Report-only mode defines
+  no blocking threshold and authorizes no rollout.
+* `assert_rollouts_disabled` verified both `repo_pages.enabled` and
+  `topic_hubs.dynamic_creation.enabled` were false during the measured run, so the
+  CR-05 invariant held and CR-04 remains correctly sequenced after this evidence.
+
+### Validation Results (Iteration 3)
+
+* 26 build-cost unit tests pass; `ruff check` and `ruff format --check` clean
+* Official experiment produced valid `summary.json`, `manifest.json`, per-sample
+  JSON, per-variant logs, and `SHA256SUMS`
+
+### Overall Status
+
+Complete. Only the dated Q-01/NFR-009 budget-owner conclusion by jmservera and
+the subsequent CR-04 canary activation remain in Phase 0.
+
+### Q-01/NFR-009 Budget Conclusion (2026-08-09)
+
+jmservera recorded the dated conclusion: report-only, no blocking budget. The
+only material cost (`repository_pages`, Hugo ~8.8 ms/page, Pagefind ~2.4 ms/page)
+is the low-information corpus slated for removal/reduction under Phase 3; CR-05
+keeps `repo_pages` disabled. Cost is dismissed as a launch gate, to be
+re-evaluated only if Phase 3 retains a meaningful repo-page corpus. CR-06 is now
+fully closed. Rollout flags were disabled during measurement, clearing the CR-04
+sequencing precondition.
+
+### Phase 0 Completion (2026-08-09)
+
+Phase 0 (Governance And Independent Operations) is complete. All six items are
+closed: CR-01/CR-02 finding map, CR-03 supersession, CR-05 invariant, CR-06
+repair/execute plus dated budget conclusion, CR-04 canary activation (PR #684,
+merge `bd1cf04`, bounded to `local-first`, rollback owner jmservera), and the
+external-metadata delivery-statement reconciliation (evidence clarification; the
+narrower external debugger and named-review conclusions remain owner-gated in the
+existing launch-gate register). No release, rollout beyond the bounded canary, or
+named human acceptance is claimed. CR-04 promotion executes on the next
+crawl-and-publish; observe that run and keep the tested disabled-rollback ready.

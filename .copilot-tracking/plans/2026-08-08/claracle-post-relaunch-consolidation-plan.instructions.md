@@ -63,7 +63,7 @@ genuine-equivalent 301/308 row.
 
 ## Implementation Checklist
 
-### [ ] Phase 0: Governance And Independent Operations
+### [x] Phase 0: Governance And Independent Operations
 
 <!-- parallelizable: true -->
 
@@ -73,23 +73,47 @@ genuine-equivalent 301/308 row.
   that historical evidence is unchanged
 * [x] Preserve the CR-05 invariant: `[repo_pages] enabled` remains `false`, and
   no story activates the low-information detail corpus
-* [ ] Execute CR-04 only as an independent, sponsor-gated dynamic-topic canary
-  transaction with exact-revision approval, review, observation, and rollback
-* [ ] Repair and execute CR-06 with retained artifacts and a dated Q-01/NFR-009
+* [x] Execute CR-04 only as an independent, sponsor-gated dynamic-topic canary
+  transaction with exact-revision approval, review, observation, and rollback.
+  Activated via PR #684 (merge `bd1cf04`) on 2026-08-09: `dynamic_creation.enabled`
+  flipped true bounded by `allow_topics = ["local-first"]`; `repo_pages` stays
+  false. Hermes (security boundary sound) and URL (pipeline) re-reviewed the exact
+  head `72782f5` and lifted their CR-06-sequencing REQUEST_CHANGES; sponsor
+  jmservera approved. Rollback owner: jmservera — disable the flag AND revert the
+  generated promotion transaction. Promotion executes on the next crawl-and-publish;
+  observe that run and keep rollback ready
+* [x] Repair and execute CR-06 with retained artifacts and a dated Q-01/NFR-009
   budget-owner conclusion. The hydration defect and its contract test are
-  repaired; workflow execution, retained run artifacts, and the owner conclusion
-  remain open
-* [ ] Reconcile the narrower external-metadata delivery statement against the
-  remaining external debugger and named-review evidence without reopening V1.1
+  repaired; workflow dispatch (run 31305223877 on main `8f680f4`, publish
+  `4120078d`, 3 repetitions, report-only) completed cleanly and its evidence is
+  retained. Dated budget-owner conclusion recorded by jmservera on 2026-08-09:
+  report-only, no blocking budget. The only material cost is `repository_pages`
+  (Hugo ~8.8 ms/page, Pagefind ~2.4 ms/page); hubs and data pages are
+  negligible. That corpus is the low-information detail set targeted for
+  removal/reduction under Phase 3 migration (CR-05 keeps `repo_pages` disabled),
+  so cost is dismissed as a launch gate. Re-evaluate only if Phase 3 retains or
+  regenerates a repository-page corpus of meaningful size
+* [x] Reconcile the narrower external-metadata delivery statement against the
+  remaining external debugger and named-review evidence without reopening V1.1.
+  Reconciled 2026-08-09 as evidence clarification, not a new business decision:
+  the BRD "delivered" claim maps to delivered repository implementation of
+  FR-032/033/034 (`layouts/partials/seo.html`, `head.html`; covered by
+  `tests/test_rendered_seo_metadata.py`) plus retained production and
+  source-level metadata evidence. The narrower remaining evidence — social-preview
+  debuggers, Google Rich Results, Schema.org Validator, and named-reviewer feed
+  conclusions — stays partial and owner-gated (Amy/jmservera), already tracked as
+  the "External metadata and feed validation" launch gate in the status-of-record
+  register and owner-action-register. Implementation-delivered and
+  external-validation-pending are distinct states; V1.1 scope is unchanged
 
-### [ ] Phase 1: Shared Contracts And Design Foundation
+### [x] Phase 1: Shared Contracts And Design Foundation
 
 <!-- parallelizable: true -->
 
-* [ ] BR-001: approve a Claracle design brief covering audience, page jobs,
+* [x] BR-001: approve a Claracle design brief covering audience, page jobs,
   typography, color, spacing, motion, focus, reduced motion, contrast, tokens,
   layout concept, signature element, and self-critique
-* [ ] BR-002: approve the homepage module hierarchy with selection, freshness,
+* [x] BR-002: approve the homepage module hierarchy with selection, freshness,
   ownership, fallback, metadata, structured-data, and no-JavaScript rules
 * [x] BR-003: define the versioned repository artifact, normalized record,
   compatibility, provenance, freshness, filter, sort, search, sanitization,
@@ -98,11 +122,11 @@ genuine-equivalent 301/308 row.
   ranking pages, including provenance, downloads, state, and interaction budgets
 * [x] BR-006: define the annual evidence-pack and claim-to-source contracts,
   keeping bounded model input separate from complete published prose
-* [ ] BR-007: define the generated-context sanitization, approximately
+* [x] BR-007: define the generated-context sanitization, approximately
   160-character display, complete accessible text, and safe GitHub-link contract
 * [x] BR-009: define accepted-attempt resolution, retry and `model: none`
   exclusion, pricing basis, reconciliation, provenance, and 30-day freshness
-* [ ] Add documented schemas, representative fixtures, deterministic-generation
+* [x] Add documented schemas, representative fixtures, deterministic-generation
   checks, and future-version rejection for every public JSON contract
 
 ### [ ] Phase 2: Experience Shell, Homepage, Navigation, Editorial, And Cost

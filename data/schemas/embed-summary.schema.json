@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://claracle.com/schemas/embed-summary.schema.json",
+  "title": "Claracle Embed Sanitized Summary",
+  "description": "Sanitized generated-context summary and safe GitHub link contract for embeddable reports (BR-007).",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "repository_id",
+    "full_name",
+    "github_url",
+    "sanitized_summary",
+    "accessible_text",
+    "sanitization_source"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "repository_id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "full_name": { "type": "string", "pattern": "^[^/]+/[^/]+$" },
+    "github_url": {
+      "type": "string",
+      "pattern": "^https://github\\.com/[^/]+/[^/]+/?$"
+    },
+    "sanitized_summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160,
+      "description": "Display-truncated to approximately 160 characters at a word boundary."
+    },
+    "accessible_text": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Complete sanitized text exposed to the accessibility tree; never truncated below sanitized_summary."
+    },
+    "sanitization_source": {
+      "const": "scripts.sanitize_repo_content.sanitize_text"
+    }
+  },
+  "additionalProperties": false
+}
