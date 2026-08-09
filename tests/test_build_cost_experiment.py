@@ -300,6 +300,78 @@ def test_aggregation_uses_derived_repository_denominator() -> None:
     assert repository["marginal_ms_per_added_page"] == pytest.approx((400 - 120) / 263)
 
 
+def test_run_experiment_propagates_parsed_count_end_to_end(tmp_path: Path, monkeypatch) -> None:
+    source = _sized_corpus(tmp_path / "src", topics=5, data=3, repos=4)
+    reports = tmp_path / "reports"
+    args = _experiment_args(source, reports, "4")
+    sample_schema = experiment.SAMPLE_SCHEMA
+    durations = {"baseline": 100, "topic_hubs": 110, "data_pages": 120, "repository_pages": 400}
+
+    def fake_build_sample(
+        corpus,
+        out_reports,
+        variant_data,
+        *,
+        repetition,
+        execution_position,
+        provenance,
+        runner,
+        tools,
+        experiment,
+    ):
+        duration = durations[variant_data["name"]]
+        return {
+            "schema_version": sample_schema,
+            "mode": "report-only",
+            "blocking_threshold_ms": None,
+            "experiment": {
+                "run_id": experiment["run_id"],
+                "run_attempt": experiment["run_attempt"],
+                "repetition": repetition,
+                "execution_position": execution_position,
+            },
+            "provenance": provenance,
+            "runner": runner,
+            "tools": tools,
+            "variant": {
+                "name": variant_data["name"],
+                "included_classes": variant_data["included_classes"],
+                "source_pages_total": variant_data["source_pages_total"],
+                "source_pages_added": variant_data["source_pages_added"],
+                "source_bytes_total": variant_data["source_bytes_total"],
+                "manifest_sha256": variant_data["manifest_sha256"],
+            },
+            "hugo": {
+                "duration_ms": duration,
+                "rendered_html_files": 1,
+                "output_bytes": 1,
+                "exit_code": 0,
+            },
+            "pagefind": {
+                "duration_ms": duration * 2,
+                "html_files_scanned": 1,
+                "indexed_pages": 1,
+                "index_bytes": 1,
+                "exit_code": 0,
+            },
+            "status": "passed",
+        }
+
+    monkeypatch.setattr(experiment, "_tool_version", lambda *args, **kwargs: "stub")
+    monkeypatch.setattr(experiment, "build_sample", fake_build_sample)
+
+    experiment.run_experiment(args)
+
+    manifest = json.loads((reports / "manifest.json").read_text(encoding="utf-8"))
+    repo_variant = next(v for v in manifest["variants"] if v["name"] == "repository_pages")
+    assert repo_variant["source_pages_added"] == 4
+    summary = json.loads((reports / "summary.json").read_text(encoding="utf-8"))
+    repo_row = next(
+        row for row in summary["stages"]["hugo"] if row["variant"] == "repository_pages"
+    )
+    assert repo_row["marginal_ms_per_added_page"] == pytest.approx((400 - 120) / 4)
+
+
 def test_workflow_is_manual_read_only_and_pinned() -> None:
     path = Path(".github/workflows/build-cost-experiment.yml")
     text = path.read_text(encoding="utf-8")
