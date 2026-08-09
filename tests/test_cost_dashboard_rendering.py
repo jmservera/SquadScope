@@ -58,14 +58,19 @@ LEGACY_SUMMARY = {
 
 @contextmanager
 def cost_summary_fixture(payload: dict[str, object] | None) -> Iterator[None]:
-    """Temporarily replace data/metrics/cost-summary.json, restoring absence afterward."""
-    assert not COST_SUMMARY_PATH.exists(), "unexpected pre-existing cost-summary.json"
+    """Temporarily replace data/metrics/cost-summary.json, restoring its prior state afterward."""
+    original = COST_SUMMARY_PATH.read_bytes() if COST_SUMMARY_PATH.exists() else None
     if payload is not None:
         COST_SUMMARY_PATH.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    else:
+        COST_SUMMARY_PATH.unlink(missing_ok=True)
     try:
         yield
     finally:
-        COST_SUMMARY_PATH.unlink(missing_ok=True)
+        if original is not None:
+            COST_SUMMARY_PATH.write_bytes(original)
+        else:
+            COST_SUMMARY_PATH.unlink(missing_ok=True)
 
 
 def _build_about_page(destination: Path) -> str:
@@ -130,3 +135,19 @@ def test_about_page_shows_unavailable_for_stale_generated_at(tmp_path: Path) -> 
 
     assert "Cost data is not currently available" in rendered
     assert "0.42" not in rendered
+
+
+def test_about_page_shows_unavailable_when_nested_field_missing(tmp_path: Path) -> None:
+    """A present top-level key with a missing required sub-field must fail closed too."""
+    now = datetime.now(UTC).replace(microsecond=0)
+    payload = json.loads(json.dumps(VALID_SUMMARY))
+    payload["generated_at"] = now.isoformat().replace("+00:00", "Z")
+    payload["covered_period"]["latest_record_at"] = now.isoformat().replace("+00:00", "Z")
+    del payload["totals"]["cost"]
+
+    with cost_summary_fixture(payload):
+        rendered = _build_about_page(tmp_path / "public")
+
+    assert "Cost data is not currently available" in rendered
+    assert "<no value>" not in rendered
+    assert "0.00" not in rendered
