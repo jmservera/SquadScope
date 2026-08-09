@@ -467,3 +467,42 @@ maintained total.
   out of scope for this rendering-focused change and needs its own review.
   BR-009 remains open; the ledger commit-path fix is tracked as follow-up
   work rather than guessed at here
+## Phase 2: BR-009 PR #697 Copilot Review Fixes (2026-08-10)
+
+Addressed the two findings from the automated Copilot review of PR #697
+(commit `5cd7db8`). Both threads are now resolved.
+
+### Modified (Review Fixes)
+
+* `layouts/partials/cost-dashboard.html`: added a nested-field validation
+  pass so a present-but-incomplete `totals`, `reconciliation`, `exclusions`,
+  `provenance`, or `covered_period` object (using `reflect.IsMap` plus
+  `isset` per required sub-key) now falls back to the unavailable state
+  instead of rendering a fabricated `0.00 USD` or a literal `<no value>`
+* `tests/test_cost_dashboard_rendering.py`: `cost_summary_fixture` now
+  snapshots any pre-existing `data/metrics/cost-summary.json` bytes and
+  restores them in `finally`, instead of hard-asserting the file does not
+  exist. The old assertion would fail every run once the pipeline (or a
+  developer) commits the real BR-009 artifact locally
+
+### Added (Review Fixes)
+
+* `test_about_page_shows_unavailable_when_nested_field_missing`: regression
+  test covering a valid top-level schema with a deleted `totals.cost`
+  sub-field, asserting the unavailable state renders and neither
+  `<no value>` nor a fabricated `0.00` appears
+
+### Validation (Review Fixes)
+
+* `pytest tests/test_cost_dashboard_rendering.py` -> 5 passed
+* `pytest tests/` -> 1552 passed
+* `ruff check` / `ruff format --check` clean (test file reformatted by ruff)
+* `hugo --minify` full-site build succeeds; `/about/` still renders the
+  unavailable state against real (file-absent) repository data
+* Verified `reflect.IsMap`/`reflect.IsSlice` are available in both the local
+  Hugo version (0.147.9) and are documented Hugo template functions expected
+  in CI's 0.161.1
+* Committed as `ea5126a`, pushed to `feat/br009-cost-dashboard-rendering`;
+  both Copilot review threads resolved via
+  `mcp_github_mcp_se_pull_request_review_write` (`resolve_thread`); a fresh
+  Copilot review was requested on the new head commit
