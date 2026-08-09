@@ -285,6 +285,19 @@ def test_run_experiment_rejects_mismatched_expected_repository_pages(tmp_path: P
         experiment.run_experiment(args)
 
 
+def test_run_experiment_rejects_non_positive_expected_repository_pages(tmp_path: Path) -> None:
+    source = _sized_corpus(tmp_path / "src", topics=5, data=3, repos=3)
+    args = _experiment_args(source, tmp_path / "reports", "0")
+    with pytest.raises(experiment.ExperimentError, match="positive integer"):
+        experiment.run_experiment(args)
+
+
+def test_discover_workload_merges_partial_expected_counts(tmp_path: Path) -> None:
+    _corpus(tmp_path)
+    with pytest.raises(experiment.ExperimentError, match="topic_hubs count is 2; expected 5"):
+        experiment.discover_workload(tmp_path, expected_counts={"repository_pages": 3})
+
+
 def test_aggregation_uses_derived_repository_denominator() -> None:
     variants = experiment.build_variants(263)
     durations = {"baseline": 100, "topic_hubs": 110, "data_pages": 120, "repository_pages": 400}

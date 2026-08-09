@@ -145,7 +145,7 @@ jobs:
       - name: Run isolated report-only experiment
         run: |
           set -euo pipefail
-          expected_repository_pages="$(git ls-tree -r --name-only "${REVIEWED_PUBLISH_SHA}" -- content/repo | grep -c '/index.md$' || true)"
+          expected_repository_pages="$(git ls-tree -r --name-only "${REVIEWED_PUBLISH_SHA}" -- content/repo | grep -c '/index\.md$' || true)"
           python3 -m scripts.build_cost_experiment \
             --source . \
             --reports reports/build-cost-experiment \

@@ -165,7 +165,11 @@ def discover_workload(
                     "sha256": _sha256_bytes(payload),
                 }
             )
-        counts = expected_counts or EXPECTED_CLASS_COUNTS
+        counts = (
+            EXPECTED_CLASS_COUNTS
+            if expected_counts is None
+            else {**EXPECTED_CLASS_COUNTS, **expected_counts}
+        )
         if enforce_expected_counts and len(entries) != counts[class_name]:
             raise ExperimentError(
                 f"{class_name} count is {len(entries)}; expected {counts[class_name]}"
@@ -519,6 +523,8 @@ def run_experiment(args: argparse.Namespace) -> None:
     repository_pages = getattr(args, "expected_repository_pages", None)
     if repository_pages is None:
         repository_pages = EXPECTED_CLASS_COUNTS["repository_pages"]
+    if repository_pages < 1:
+        raise ExperimentError("expected repository pages must be a positive integer")
     expected_counts = {**EXPECTED_CLASS_COUNTS, "repository_pages": repository_pages}
     variants = build_variants(repository_pages)
     workload = discover_workload(source, expected_counts=expected_counts)
