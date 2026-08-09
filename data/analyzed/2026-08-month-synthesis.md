@@ -4,10 +4,10 @@ date: "2026-08-03T03:46:47+00:00"
 month: "2026-08"
 weeks_covered: ["2026-W32"]
 categories: ["monthly-synthesis"]
-summary: "August 2026 was defined by ai agents, agent skills, and supply chain security."
+summary: "August 2026 was defined by developer tools, supply chain security, and agent skills."
 status: "generated"
 source_checksum: "sha256:6eea1ce41e7aebd6adffa815c2d53b6872a7c10632c5c18eac811c5a7807fb89"
-themes: ["ai-agents", "agent-skills", "supply-chain-security", "discovery-noise", "local-llm"]
+themes: ["developer-tools", "supply-chain-security", "agent-skills", "local-llm", "ai-agents"]
 persistent_themes: []
 accelerating_themes: []
 weakening_themes: []

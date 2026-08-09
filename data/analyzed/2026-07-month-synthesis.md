@@ -4,10 +4,10 @@ date: "2026-07-31T22:10:40+00:00"
 month: "2026-07"
 weeks_covered: ["2026-W28", "2026-W29", "2026-W30", "2026-W31"]
 categories: ["monthly-synthesis"]
-summary: "July 2026 was defined by ai agents, agent skills, and security. Later in the month, discovery noise, local ai, and robotics gathered pace."
+summary: "July 2026 was defined by agent skills, ai agents, and security. Later in the month, discovery noise, local ai, and robotics gathered pace."
 status: "generated"
 source_checksum: "sha256:4992d0a046434edbbed4545fc78c675234006be001503d10a0cf321f92ce7533"
-themes: ["ai-agents", "agent-skills", "security", "local-first", "developer-tools"]
+themes: ["agent-skills", "ai-agents", "security", "local-first", "developer-tools"]
 persistent_themes: ["agent-skills", "ai-agents", "security", "local-first", "developer-tools", "discovery-noise"]
 accelerating_themes: ["discovery-noise", "local-ai", "robotics", "agent-skills", "ai-agents", "security", "local-first", "developer-tools"]
 weakening_themes: ["ai-science", "inference", "spam"]

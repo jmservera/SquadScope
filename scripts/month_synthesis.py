@@ -115,7 +115,12 @@ def strip_markdown(value: str) -> str:
 
 
 def trim_words(text: str, limit: int) -> str:
-    """Trim to complete sentences within limit words, never clipping mid-sentence."""
+    """Trim to complete sentences within limit words, never clipping mid-sentence.
+
+    Falls back to the full original text when no prefix of complete sentences
+    fits the budget (e.g. the first sentence alone exceeds it), rather than
+    silently dropping the remaining sentences.
+    """
     words = text.split()
     if len(words) <= limit:
         return text.strip()
@@ -127,7 +132,10 @@ def trim_words(text: str, limit: int) -> str:
         selected.append(sentence)
         if _word_count(" ".join(selected)) >= limit:
             break
-    return " ".join(selected).strip()
+    trimmed = " ".join(selected).strip()
+    if len(selected) < len(sentences) and _word_count(trimmed) > limit:
+        return text.strip()
+    return trimmed
 
 
 def dedupe(values: list[str]) -> list[str]:

@@ -635,17 +635,30 @@ class ExtractSummaryTests(unittest.TestCase):
 class MonthSynthesisTrimWordsTests(unittest.TestCase):
     def test_trim_words_stops_at_a_sentence_boundary_without_ellipsis(self) -> None:
         text = (
-            "The trend data still lacks the baseline needed to separate momentum from "
-            "popularity this month. A second, unrelated sentence follows after that one."
+            "The trend data still lacks the baseline needed to separate momentum. "
+            "A second, unrelated sentence follows after that one."
         )
 
         result = month_synthesis.trim_words(text, 12)
 
         self.assertEqual(
-            result,
-            "The trend data still lacks the baseline needed to separate momentum from "
-            "popularity this month.",
+            result, "The trend data still lacks the baseline needed to separate momentum."
         )
+        self.assertNotIn("…", result)
+
+    def test_trim_words_returns_full_text_when_first_sentence_alone_exceeds_the_limit(
+        self,
+    ) -> None:
+        """When no prefix of complete sentences fits, keep every sentence rather than
+        silently dropping the ones after an over-budget first sentence."""
+        text = (
+            "This first sentence alone already runs well past the twenty word trim "
+            "budget because it keeps going and going. Second short sentence."
+        )
+
+        result = month_synthesis.trim_words(text, 12)
+
+        self.assertEqual(result, text)
         self.assertNotIn("…", result)
 
     def test_trim_words_returns_full_text_when_no_sentence_fits_the_limit(self) -> None:
