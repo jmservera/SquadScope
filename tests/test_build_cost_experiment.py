@@ -99,11 +99,44 @@ def test_pagefind_log_parser_is_fail_closed() -> None:
         experiment.parse_pagefind_log("Indexed 12 pages")
 
 
-def test_pagefind_is_invoked_directly_not_via_npx() -> None:
-    source = Path("scripts/build_cost_experiment.py").read_text(encoding="utf-8")
-    assert "npx" not in source
-    assert '"pagefind", "--version"' in source
-    assert '"pagefind", "--site", "public/"' in source
+def test_build_sample_invokes_pagefind_binary_directly(tmp_path: Path, monkeypatch) -> None:
+    commands: list[list[str]] = []
+
+    def fake_run_timed(command, cwd, log_path):
+        commands.append(command)
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+        log_path.write_text("log", encoding="utf-8")
+        if command[0] == "hugo":
+            (cwd / "public").mkdir(exist_ok=True)
+            (cwd / "public" / "index.html").write_text("<html></html>", encoding="utf-8")
+            return 10, 0, "hugo ok"
+        return 20, 0, "Found 1 files\nIndexed 1 pages"
+
+    monkeypatch.setattr(experiment, "_run_timed", fake_run_timed)
+    corpus = tmp_path / "corpus"
+    corpus.mkdir()
+    variant_data = {
+        "name": "baseline",
+        "included_classes": [],
+        "source_pages_total": 0,
+        "source_pages_added": 0,
+        "source_bytes_total": 0,
+        "manifest_sha256": "x",
+    }
+    experiment.build_sample(
+        corpus,
+        tmp_path / "reports",
+        variant_data,
+        repetition=1,
+        execution_position=1,
+        provenance={"main_sha": "a" * 40, "publish_sha": "b" * 40, "workflow_sha": "a" * 40},
+        runner={"os": "Linux", "arch": "X64", "image_os": "ubuntu24", "image_version": "1"},
+        tools={"hugo": "v", "pagefind": "v", "node": "v", "python": "3.12"},
+        experiment={"run_id": "1", "run_attempt": 1},
+    )
+
+    assert ["pagefind", "--site", "public/"] in commands
+    assert not any(command[0] == "npx" for command in commands)
 
 
 def test_tree_metrics_count_full_hugo_output(tmp_path: Path) -> None:
@@ -377,10 +410,18 @@ def test_run_experiment_propagates_parsed_count_end_to_end(tmp_path: Path, monke
             "status": "passed",
         }
 
-    monkeypatch.setattr(experiment, "_tool_version", lambda *args, **kwargs: "stub")
+    tool_calls: list[list[str]] = []
+
+    def fake_tool_version(command):
+        tool_calls.append(command)
+        return "stub"
+
+    monkeypatch.setattr(experiment, "_tool_version", fake_tool_version)
     monkeypatch.setattr(experiment, "build_sample", fake_build_sample)
 
     experiment.run_experiment(args)
+
+    assert ["pagefind", "--version"] in tool_calls
 
     manifest = json.loads((reports / "manifest.json").read_text(encoding="utf-8"))
     repo_variant = next(v for v in manifest["variants"] if v["name"] == "repository_pages")
