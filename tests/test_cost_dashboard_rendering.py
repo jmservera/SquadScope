@@ -1,0 +1,132 @@
+"""BR-009: About page cost-dashboard rendering against the reconciled schema."""
+
+from __future__ import annotations
+
+import json
+import shutil
+import subprocess
+from contextlib import contextmanager
+from datetime import UTC, datetime, timedelta
+from pathlib import Path
+from typing import Iterator
+
+import pytest
+
+ROOT = Path(__file__).resolve().parents[1]
+COST_SUMMARY_PATH = ROOT / "data/metrics/cost-summary.json"
+
+VALID_SUMMARY = {
+    "schema_version": "1.0.0",
+    "generated_at": "REPLACED",
+    "currency": "USD",
+    "pricing_basis": "scripts.track_token_usage.MODEL_PRICING_USD_PER_MILLION",
+    "provenance": {
+        "ledger": "data/metrics/token-usage.jsonl",
+        "legacy_policy": "exclude-unidentified",
+        "maximum_age_days": 30,
+    },
+    "covered_period": {
+        "start": "2026-W31",
+        "end": "2026-W32",
+        "latest_record_at": "REPLACED",
+    },
+    "accepted_identities": [
+        {
+            "workflow_run_id": "998877",
+            "stage": "analysis",
+            "run_attempt": 2,
+            "week": "2026-W32",
+            "model": "gpt-5-mini",
+        }
+    ],
+    "exclusions": {"legacy_unidentified": 12, "superseded_attempts": 1, "model_none": 0},
+    "reconciliation": {
+        "status": "reconciled",
+        "input_records": 14,
+        "accepted_records": 1,
+        "billable_records": 1,
+    },
+    "totals": {"cost": 0.42, "input_tokens": 12345, "output_tokens": 678},
+}
+
+LEGACY_SUMMARY = {
+    "weeks": [{"week": "2026-W19", "cost": 0.32, "tokens_in": 82000, "tokens_out": 3500}],
+    "cumulative_cost": 0.95,
+    "budget_limit": 10.0,
+}
+
+
+@contextmanager
+def cost_summary_fixture(payload: dict[str, object] | None) -> Iterator[None]:
+    """Temporarily replace data/metrics/cost-summary.json, restoring absence afterward."""
+    assert not COST_SUMMARY_PATH.exists(), "unexpected pre-existing cost-summary.json"
+    if payload is not None:
+        COST_SUMMARY_PATH.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    try:
+        yield
+    finally:
+        COST_SUMMARY_PATH.unlink(missing_ok=True)
+
+
+def _build_about_page(destination: Path) -> str:
+    result = subprocess.run(
+        ["hugo", "--minify", "--quiet", "--destination", str(destination)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr
+    return (destination / "about/index.html").read_text(encoding="utf-8")
+
+
+@pytest.fixture(autouse=True)
+def _require_hugo() -> None:
+    if shutil.which("hugo") is None:
+        pytest.skip("Hugo binary is required to render the cost dashboard")
+
+
+def test_about_page_shows_unavailable_when_cost_summary_missing(tmp_path: Path) -> None:
+    with cost_summary_fixture(None):
+        rendered = _build_about_page(tmp_path / "public")
+    assert "Cost data is not currently available" in rendered
+    assert "cumulative_cost" not in rendered
+    assert "budget_limit" not in rendered
+
+
+def test_about_page_renders_reconciled_summary_when_valid(tmp_path: Path) -> None:
+    now = datetime.now(UTC).replace(microsecond=0)
+    payload = json.loads(json.dumps(VALID_SUMMARY))
+    payload["generated_at"] = now.isoformat().replace("+00:00", "Z")
+    payload["covered_period"]["latest_record_at"] = now.isoformat().replace("+00:00", "Z")
+
+    with cost_summary_fixture(payload):
+        rendered = _build_about_page(tmp_path / "public")
+
+    assert "Cost data is not currently available" not in rendered
+    assert "0.42" in rendered
+    assert "USD" in rendered
+    assert "2026-W31" in rendered and "2026-W32" in rendered
+    assert "exclude-unidentified" not in rendered  # internal policy value, not user-facing copy
+    assert "data/metrics/token-usage.jsonl" in rendered
+    assert "gpt-5-mini" in rendered
+    assert "998877" in rendered
+
+
+def test_about_page_shows_unavailable_for_legacy_schema(tmp_path: Path) -> None:
+    with cost_summary_fixture(LEGACY_SUMMARY):
+        rendered = _build_about_page(tmp_path / "public")
+    assert "Cost data is not currently available" in rendered
+
+
+def test_about_page_shows_unavailable_for_stale_generated_at(tmp_path: Path) -> None:
+    stale = datetime.now(UTC).replace(microsecond=0) - timedelta(days=45)
+    payload = json.loads(json.dumps(VALID_SUMMARY))
+    payload["generated_at"] = stale.isoformat().replace("+00:00", "Z")
+    payload["covered_period"]["latest_record_at"] = stale.isoformat().replace("+00:00", "Z")
+
+    with cost_summary_fixture(payload):
+        rendered = _build_about_page(tmp_path / "public")
+
+    assert "Cost data is not currently available" in rendered
+    assert "0.42" not in rendered

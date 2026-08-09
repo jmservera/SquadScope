@@ -176,7 +176,20 @@ genuine-equivalent 301/308 row.
   and added regression tests. Named editorial review by Farnsworth/jmservera is
   still open; automated completeness and range checks pass
 * [ ] BR-009: generate the reconciled public cost projection, fail publication
-  on invalid or stale input, and render current provenance on About
+  on invalid or stale input, and render current provenance on About.
+  Rendering is done (2026-08-10): `layouts/partials/cost-dashboard.html` now
+  consumes only the new BR-009 `cost-summary.json` schema (currency, pricing
+  basis, provenance, covered period, generation timestamp, reconciliation, and
+  exclusions) and shows an honest "not currently available" state on missing,
+  malformed, wrong-schema-version, or >30-day-stale data instead of a
+  fabricated or outdated figure; the old hand-authored
+  `data/metrics/cost-summary.json` placeholder is removed, so About "no longer
+  consumes an independently maintained total." Generation/activation remains
+  blocked: wiring `scripts/generate_cost_summary.py` into
+  `crawl-and-publish.yml` requires the sponsor's legacy-row exclusion/cutover
+  policy decision (`jmservera approves pricing-basis changes and exceptions`
+  per the BRD), since the ledger's historical rows lack workflow identity
+  permanently unless that policy is set
 * [ ] Retain Calculon, Fry, Farnsworth, Zapp, Nibbler, URL, and sponsor evidence
   only from the roles routed to each acceptance surface
 

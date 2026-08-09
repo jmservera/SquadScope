@@ -383,3 +383,76 @@ Phase 1 continuation above) had no remaining human-approval gate, via PR #695.
   and unsafe dot-chain traversal of `site.Data.observatory.*` (switched to
   `index` for safe nested lookup). All four review threads replied to and
   resolved; full validation (pytest, ruff, `hugo --minify`) re-run clean.
+
+## Phase 2: BR-009 Cost Dashboard Rendering (2026-08-10)
+
+Implemented the unblocked rendering half of BR-009. Activation (wiring
+`scripts/generate_cost_summary.py` into the live pipeline) remains blocked on
+the sponsor's legacy-row exclusion policy decision, per BRD ("jmservera
+approves pricing-basis changes and exceptions"); this slice only changes what
+the site renders and stops it from consuming the old independently
+maintained total.
+
+### Added
+
+* `tests/test_cost_dashboard_rendering.py`: builds the real Hugo site against
+  fixture `cost-summary.json` payloads and asserts the About page (a) shows
+  the reconciled total, currency, covered period, generation timestamp,
+  pricing basis, ledger provenance, and accepted-identity table when given a
+  valid, fresh BR-009 record; and (b) shows an honest "not currently
+  available" state, never the old placeholder or a stale figure, when the
+  file is missing, in the pre-BR-009 legacy shape, or more than 30 days stale
+
+### Modified
+
+* `layouts/partials/cost-dashboard.html`: rewritten to consume only the
+  BR-009 `cost-summary.json` contract (`schema_version`, `generated_at`,
+  `currency`, `pricing_basis`, `provenance`, `covered_period`,
+  `accepted_identities`, `exclusions`, `reconciliation`, `totals`) instead of
+  the old ad-hoc weekly/budget shape. Validates required keys,
+  `schema_version == "1.0.0"`, a non-empty `accepted_identities`, an
+  ISO-8601 `generated_at` (guarded with `findRE` before `time.AsTime` so a
+  malformed timestamp cannot fail the whole `hugo` build), and a
+  `provenance.maximum_age_days` (default 30) freshness gate. Renders total
+  cost/currency, covered period, generation timestamp (`.cost-dashboard__date`,
+  already anticipated by the visual-regression date-hiding selectors),
+  pricing basis, source ledger, reconciliation counts, exclusion counts, and
+  an accepted-workflow-attempts table. Any invalid case renders a plain
+  "Cost data is not currently available" state instead of a stale or
+  fabricated number
+* `assets/css/common/cost-dashboard.css`: removed rules for the retired
+  trend chart, budget meter, and per-week/model-breakdown tables; added
+  `.cost-dashboard__meta` (provenance grid) and unavailable-state styling
+
+### Removed
+
+* `data/metrics/cost-summary.json`: the hand-authored placeholder
+  (`weeks`/`cumulative_cost`/`budget_limit`) that predated the BR-009
+  contract. BR-009's acceptance criteria require the About page to "no
+  longer consume an independently maintained total"; the file is not
+  regenerated here because production activation is blocked (see below)
+
+### Validation
+
+* `pytest tests/test_cost_dashboard_rendering.py` -> 4 passed (missing file,
+  valid fixture, legacy schema, stale timestamp)
+* `pytest tests/` -> 1551 passed
+* `ruff check` / `ruff format --check` clean on the new test file
+* `hugo --minify` built the full site successfully with the placeholder
+  removed; both `/about/` and `/dashboard/` correctly render the
+  "not currently available" state against real repository data
+
+### Deviations
+
+* BR-009's "the owning pipeline and site build fail when required data is
+  missing, malformed, unreconciled, or more than 30 days stale" criterion is
+  satisfied at the pipeline layer (`generate_cost_summary.py` already raises
+  on all of these, from Phase 1) but intentionally NOT wired into
+  `crawl-and-publish.yml` or as a Hugo build-time `errorf` in this slice.
+  Doing so today would either require unilaterally choosing a legacy-row
+  policy the BRD reserves for sponsor approval, or would fail every future
+  crawl-and-publish run outright (all current ledger rows predate workflow
+  identity). The renderer instead degrades to a clearly labeled unavailable
+  state so `hugo --minify` keeps working as the validation gate every other
+  phase in this plan depends on. BR-009 remains open pending that sponsor
+  decision; see the plan's BR-009 checklist item for the specific question
