@@ -682,14 +682,14 @@ class MonthSynthesisTrimWordsTests(unittest.TestCase):
     ) -> generate_rollups.WeeklySummary:
         year = int(week[:4])
         week_number = int(week[-2:])
-        month = 1 if week_number <= 4 else 2
+        date = datetime.fromisocalendar(year, week_number, 5).replace(tzinfo=UTC)
         return generate_rollups.WeeklySummary(
             source_path=Path(f"{week}-summary.md"),
             title=f"Week {week_number}, {year} Analysis",
-            date=datetime(year, month, min(week_number * 7, 28), tzinfo=UTC),
+            date=date,
             week=week,
             year=year,
-            month=month,
+            month=date.month,
             tags=("ai", "agents"),
             repos_featured=10,
             top_repo=top_repo,
