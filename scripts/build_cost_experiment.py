@@ -229,6 +229,14 @@ def materialize_variant(
             while parent != class_root and not any(parent.iterdir()):
                 parent.rmdir()
                 parent = parent.parent
+    # Chart and embed pages reference data pages 1:1 but are not a measured workload class.
+    # Exclude their leaf pages from every variant so their fixed render cost never
+    # contaminates the per-page marginal accounting; section indexes and assets are kept.
+    for dependent_root in ("content/embeds", "content/charts"):
+        for leaf in sorted((destination / dependent_root).glob("*/index.md")):
+            leaf.unlink()
+            if not any(leaf.parent.iterdir()):
+                leaf.parent.rmdir()
     return variant_manifest(workload, variant)
 
 
