@@ -63,9 +63,12 @@ current-week feature as the entry point, since it is the freshest evidence:
 
 No module renders an empty section wrapper, a placeholder card, or a loading
 state in server-rendered HTML. A module either renders its real content or is
-skipped entirely, matching the current weekly-archive pattern already used in
-`layouts/index.html`. This avoids the layout shift and empty optional module
-that BR-002 explicitly disallows.
+skipped entirely. `layouts/index.html` already skips its weekly-archive section
+when zero weekly pages exist (`{{- if gt (len $weeklyPages) 0 -}}`); this
+document extends that same all-or-nothing pattern to every module and tightens
+the weekly archive's own threshold to two pages, since it must exclude the
+currently featured week (Phase 2 work, not yet implemented). This avoids the
+layout shift and empty optional module that BR-002 explicitly disallows.
 
 ## Metadata And Structured Data
 

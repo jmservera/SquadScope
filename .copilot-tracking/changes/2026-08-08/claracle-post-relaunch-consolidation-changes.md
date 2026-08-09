@@ -111,8 +111,9 @@ report-only experiment was dispatched and completed cleanly.
   * Hugo `topic_hubs` 0.400 ms/page and `data_pages` 0.667 ms/page marginal;
     Pagefind `data_pages` 5.000 ms/page marginal
 
-Only the dated Q-01/NFR-009 budget-owner conclusion by jmservera remains open
-for CR-06.
+Only the dated Q-01/NFR-009 budget-owner conclusion by jmservera remained open
+for CR-06 as of the harness repair above; see "Q-01/NFR-009 Budget-Owner
+Conclusion" below, where that conclusion is recorded and CR-06 is closed.
 
 ## Phase 1 Continuation: BR-007 Contract, Public Schema Fixtures, BR-002 Draft (2026-08-09)
 
