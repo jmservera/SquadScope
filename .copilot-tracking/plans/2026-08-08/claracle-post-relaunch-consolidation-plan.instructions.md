@@ -187,15 +187,14 @@ genuine-equivalent 301/308 row.
   consumes an independently maintained total." Sponsor jmservera approved the
   legacy-row exclusion policy on 2026-08-10 (`--legacy-policy
   exclude-unidentified`: pre-2026-08-09 ledger rows without workflow identity
-  are permanently excluded from the reconciled total). Wiring
+  are permanently excluded from the reconciled total). The ledger commit-path
+  gap is now fixed (2026-08-10): `analyze` job uploads
+  `data/metrics/token-usage.jsonl` as an artifact (`token-usage-ledger`), and
+  `generate` job downloads it right after the publish-branch hydration,
+  overlaying this run's fresh row instead of discarding it. Wiring
   `scripts/generate_cost_summary.py` into `crawl-and-publish.yml` is still not
-  done: investigation found `data/metrics/token-usage.jsonl`'s per-run append
-  (`track_token_usage.py`, called only in the `analyze` job) is never
-  committed by that job, and the downstream `generate` job re-hydrates
-  `data/metrics/` from the `origin/publish` branch before it would run cost
-  generation, discarding the current run's fresh ledger row. This ledger
-  commit-path gap (independent of the now-resolved policy question) needs its
-  own investigation and fix before cost generation can be safely wired in
+  done — that remains the last step for BR-009 activation, now unblocked by
+  this fix and the resolved sponsor policy question
 * [x] Retain Calculon, Fry, Farnsworth, Zapp, Nibbler, URL, and sponsor evidence
   only from the roles routed to each acceptance surface. For the BR-009 cost
   dashboard surface (PR #697, merged `9af3026d`), ran all six roles in
