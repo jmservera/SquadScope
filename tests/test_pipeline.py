@@ -567,11 +567,19 @@ class WorkflowConfigTests(unittest.TestCase):
 
         generate_job = workflow["jobs"]["generate"]
         step_names = [s.get("name") for s in generate_job["steps"]]
+        for step_name in (
+            "Hydrate prior generated state from publish",
+            "Download token usage ledger artifact",
+            "Commit generated content to data branch",
+        ):
+            self.assertIn(step_name, step_names)
         hydrate_index = step_names.index("Hydrate prior generated state from publish")
         download_index = step_names.index("Download token usage ledger artifact")
+        commit_index = step_names.index("Commit generated content to data branch")
         # The ledger download must happen after the publish hydration overwrites
-        # data/metrics/, so it overlays this run's row rather than being clobbered.
+        # data/metrics/ and before the commit persists this run's generated state.
         self.assertGreater(download_index, hydrate_index)
+        self.assertLess(download_index, commit_index)
 
         download_step = generate_job["steps"][download_index]
         self.assertTrue(_uses_action(download_step, "actions/download-artifact"))

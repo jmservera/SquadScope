@@ -33,8 +33,8 @@ workflow (BR-009 activation remains a separate follow-up, gated on this fix).
     `analysis-prompt-*.md`) into the committed `publish` branch, which is not
     the current behavior and was not the scope of this fix
   * `generate` job: added a "Download token usage ledger artifact" step
-    (`continue-on-error: true`, since a dry-run/candidate-only analyze run
-    never uploads it) right after the existing "Download analyzed data
+    (`continue-on-error: true`, because `if-no-files-found: warn` can leave no
+    artifact to download) right after the existing "Download analyzed data
     artifact" step, downloading into `data/metrics/`, overlaying this run's
     fresh ledger row on top of the publish-branch hydration that ran earlier
     in the same job. This mirrors the existing, already-tested pattern used
@@ -49,7 +49,7 @@ workflow (BR-009 activation remains a separate follow-up, gated on this fix).
 * `tests/test_pipeline.py`: added
   `test_analyze_job_uploads_token_usage_ledger_for_generate_job`, asserting
   the upload step's name/artifact-name/path/`if: always()`, and that the
-  download step in `generate` runs after the publish hydration step
+  download step in `generate` runs after publish hydration and before commit
 
 ## Validation
 

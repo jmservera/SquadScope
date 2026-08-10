@@ -32,7 +32,7 @@
   - `actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1` — identical SHA to 9 other `download-artifact` call sites already in this file (lines 145, 155, 165, 362, 1102, 1120, 1126, 1448, 1454, 1460, 1530, 1535).
   - Both are pinned to a full 40-character commit SHA with a version comment, matching this repo's established convention for every third-party action in the file (checkout, github-script, setup-node, setup-python, configure-pages, deploy-pages, etc. are all SHA-pinned).
 - Neither new step declares its own `permissions:` block — they inherit the job-level `permissions` (`analyze`: `actions: read, contents: write, issues: write, models: read`; `generate`: `actions: read, contents: write`). `actions: read` is the minimum required scope for `download-artifact`/`upload-artifact` and was already present in both jobs before this PR (needed by the pre-existing `raw-data` and `analyzed-data`/`analysis-candidate` artifact steps). **No new permission was added or requested** by this change.
-- `continue-on-error: true` on the download step is a resiliency choice (tolerates a `dry-run`/`candidate-only` `analyze` run that never produced the artifact, per the inline comment at lines ~1108-1112), not a security-relevant permission relaxation.
+- `continue-on-error: true` on the download step is a resiliency choice for a missing artifact when `if-no-files-found: warn` finds no ledger to upload. The following step emits an explicit warning. This is not a security-relevant permission relaxation.
 
 ### 4. zizmor results
 
