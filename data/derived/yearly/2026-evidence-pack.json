@@ -343,11 +343,39 @@
       "source_id": "SRC-2026-W32",
       "status": "resolved",
       "text": "Watch whether agent harnesses start adding explicit governance instead of more orchestration surfaces. The next credible projects will likely combine skills, session replay, scoped permissions, and local execution into reviewable workflows. Local Kimi-style inference should keep attracting attention if it proves useful for coding agents rather than just benchmark theater. Noise will remain high around AI branding, account automation, and game tooling, so fork quality and substantive code should matter more than stars."
+    },
+    {
+      "claim_id": "CLM-2026-W33-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W33",
+      "status": "resolved",
+      "text": "Agent skills spread into real workflows while security, reviewability, and discovery noise became the week\u2019s hard constraints."
+    },
+    {
+      "claim_id": "CLM-2026-W33-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W33",
+      "status": "resolved",
+      "text": "The durable signal is clustered around execution discipline. [AMAP-ML/LongHorizon-Harness](https://github.com/AMAP-ML/LongHorizon-Harness) is the clearest new anchor because it names the hard problems directly: long-running tasks, durable state, auditing, recovery, and integration with multiple coding agents. [KKKKhazix/human-writing](https://github.com/KKKKhazix/human-writing) and [eternityspring/shuohao-skills](https://github.com/eternityspring/shuohao-skills) add an important geographic and linguistic expansion signal: Chinese-language agent skills are not peripheral wrappers, they are part of the same skills-economy arc that has been building for several weeks. The noise sits where agent packaging meets questionable incentives. [mikiarlo3/awesome-growth-hacking-skills](https://github.com/mikiarlo3/awesome-growth-hacking-skills) may be useful as a directory, but its growth-hacking framing is exactly the kind of category that can turn skills into spam infrastructure. [sv-number/mcp-server](https://github.com/sv-number/mcp-server) has technically legible MCP positioning, yet private-number and SMS-verification automation is a high-risk trust signal. [Sateezg/codex-bridge](https://github.com/Sateezg/codex-bridge) and [oil-oil/codex-deepseek-subagent](https://github.com/oil-oil/codex-deepseek-subagent) are worth watching, but API-key avoidance and subagent routing should be evaluated for policy, provenance, and maintainability before being treated as durable tooling."
+    },
+    {
+      "claim_id": "CLM-2026-W33-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W33",
+      "status": "resolved",
+      "text": "The missing category is governance for skills themselves. The week produced writing skills, slide skills, character-generation skills, offensive-security skills, and growth-hacking skills, but little visible work on signed skill manifests, sandboxed execution policies, dependency scanning for prompts and tools, or standardized audit logs. Another gap is evaluation for long-horizon agent work. [AMAP-ML/LongHorizon-Harness](https://github.com/AMAP-ML/LongHorizon-Harness) and [waiterve/wai-play](https://github.com/waiterve/wai-play) point in the right direction, yet there is no broad surge in benchmarks that measure whether agents preserve intent, avoid reward hacking, or recover safely after partial failure. Physical AI is also underrepresented relative to press intensity; robotics, simulation assets, and autonomous-vehicle tooling did not show the same open-source breadth as agent workflows."
+    },
+    {
+      "claim_id": "CLM-2026-W33-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W33",
+      "status": "resolved",
+      "text": "Watch whether agent skills consolidate into trusted registries or keep spreading as ad hoc folders, prompt packs, and plugin bridges. Long-horizon harnesses should draw more attention if developers keep pushing agents into phones, browsers, office suites, and CLIs. The key question for next week is whether the ecosystem starts building the boring controls \u2014 signing, permissions, review units, and test harnesses \u2014 quickly enough to keep the skills economy from becoming another supply-chain mess."
     }
   ],
   "counts": {
-    "claims": 49,
-    "sources": 12
+    "claims": 53,
+    "sources": 13
   },
   "months_covered": [
     "2026-05",
@@ -539,6 +567,21 @@
       "title": "Agent Harnesses Hit the Trust Wall",
       "top_repo": "yc-software/qm",
       "week": "2026-W32"
+    },
+    {
+      "month": "2026-08",
+      "source_id": "SRC-2026-W33",
+      "tags": [
+        "ai-agents",
+        "agent-skills",
+        "developer-tools",
+        "ai-safety",
+        "supply-chain-security",
+        "video-generation"
+      ],
+      "title": "Agent Skills Became the New Attack Surface",
+      "top_repo": "AMAP-ML/LongHorizon-Harness",
+      "week": "2026-W33"
     }
   ],
   "year": 2026
