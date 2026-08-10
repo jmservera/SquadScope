@@ -1,0 +1,1346 @@
+{
+  "schema_version": 2,
+  "week": "2026-W33",
+  "source": "external_news",
+  "crawled_at": "2026-08-10T02:28:09.217169Z",
+  "crawl_window": {
+    "since": "2026-08-03T00:00:00Z",
+    "until": "2026-08-10T00:00:00Z"
+  },
+  "articles": [
+    {
+      "source": "techcrunch",
+      "title": "Embattled hedge fund Situational Awareness invests $400M in chip startup Source Foundry",
+      "url": "https://techcrunch.com/2026/08/09/embattled-hedge-fund-situational-awareness-invests-400m-in-chip-startup-source-foundry/",
+      "published_at": "2026-08-09T20:35:17Z",
+      "categories": [
+        "AI",
+        "Fundraising",
+        "situational awareness"
+      ],
+      "summary": "The AI-focused hedge fund is still making some big bets.",
+      "github_links": [],
+      "entities": [
+        "Embattled",
+        "Situational",
+        "Awareness",
+        "Source",
+        "Foundry"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Anthropic is turning Claude Code’s auto mode on by default",
+      "url": "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/",
+      "published_at": "2026-08-09T19:20:32Z",
+      "categories": [
+        "AI",
+        "Enterprise",
+        "Anthropic",
+        "claude code"
+      ],
+      "summary": "Programming with Claude Code will soon require even less human oversight.",
+      "github_links": [],
+      "entities": [
+        "Anthropic",
+        "Claude",
+        "Code"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "TechCrunch Mobility: Zoox prepares for launch and Uber’s AV empire",
+      "url": "https://techcrunch.com/2026/08/09/techcrunch-mobility-zoox-prepares-for-launch-and-ubers-av-empire/",
+      "published_at": "2026-08-09T16:05:00Z",
+      "categories": [
+        "Transportation",
+        "Elon Musk",
+        "Tesla",
+        "zoox",
+        "techcrunch mobility"
+      ],
+      "summary": "Welcome back to TechCrunch Mobility, your hub for the future of transportation and now, more than ever, the role AI is playing in it.",
+      "github_links": [],
+      "entities": [
+        "TechCrunch",
+        "Mobility",
+        "Zoox",
+        "Uber",
+        "AV"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Historian Jill Lepore says Silicon Valley misreads science fiction and undermines democracy",
+      "url": "https://techcrunch.com/2026/08/09/historian-jill-lepore-says-the-tech-industry-is-led-by-bad-readers-who-are-undermining-democracy/",
+      "published_at": "2026-08-09T15:00:00Z",
+      "categories": [
+        "AI",
+        "Government & Policy",
+        "Media & Entertainment",
+        "AI policy",
+        "AI regulation",
+        "Elon Musk",
+        "Equity podcast",
+        "Jill Lepore",
+        "sam altman"
+      ],
+      "summary": "On the latest episode of Equity, we spoke to Jill Lepore about \"government by machines\" and why Elon Musk is a bad science fiction reader.",
+      "github_links": [],
+      "entities": [
+        "Historian",
+        "Jill",
+        "Lepore",
+        "Silicon",
+        "Valley"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "The AI safety test is becoming a safety risk",
+      "url": "https://techcrunch.com/2026/08/09/the-ai-safety-test-is-becoming-a-safety-risk/",
+      "published_at": "2026-08-09T14:30:00Z",
+      "categories": [
+        "Security",
+        "AI",
+        "Meta",
+        "cybersecurity",
+        "moonshot",
+        "OpenAI",
+        "Hugging Face",
+        "Anthropic"
+      ],
+      "summary": "AI agents are escaping cybersecurity testing environments and reaching real-world systems, raising questions about whether safety infrastructure, industry standards and regulation can keep pace with increasingly powerful models.",
+      "github_links": [],
+      "entities": [
+        "AI"
+      ],
+      "relevance_score": 0.8,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "This ‘adversarial’ pattern can prevent surveillance cameras from detecting you",
+      "url": "https://techcrunch.com/2026/08/09/this-adversarial-pattern-can-prevent-surveillance-cameras-from-detecting-you/",
+      "published_at": "2026-08-09T14:00:00Z",
+      "categories": [
+        "Security",
+        "privacy",
+        "facial recognition",
+        "cybersecurity"
+      ],
+      "summary": "A security researcher has designed an algorithm that can create computer-generated patterns capable of hiding people, faces, and vehicles from detection by surveillance cameras.",
+      "github_links": [],
+      "entities": [],
+      "relevance_score": 0.0,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "This former notorious red-light district is now one of the world’s top AI hubs",
+      "url": "https://techcrunch.com/2026/08/09/this-former-notorious-red-light-district-is-now-one-of-the-worlds-top-ai-hubs/",
+      "published_at": "2026-08-09T13:00:00Z",
+      "categories": [
+        "Startups",
+        "Venture",
+        "UK"
+      ],
+      "summary": "More than 20 years ago, King's Cross was one of the seediest area's in London. Now it's sprouting something new.",
+      "github_links": [],
+      "entities": [
+        "AI"
+      ],
+      "relevance_score": 0.6,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Planned Amazon data center could become the biggest climate polluter in the U.S.",
+      "url": "https://techcrunch.com/2026/08/08/planned-amazon-data-center-could-become-the-biggest-climate-polluter-in-the-u-s/",
+      "published_at": "2026-08-08T21:24:02Z",
+      "categories": [
+        "AI",
+        "Climate",
+        "Amazon"
+      ],
+      "summary": "As part of a planned Texas data center, Amazon is investing in an on-site power plant that could reportedly become the largest source of climate pollution in the United States.",
+      "github_links": [],
+      "entities": [
+        "Planned",
+        "Amazon",
+        "U.S"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "OpenAI acquires presentation startup NextSlide",
+      "url": "https://techcrunch.com/2026/08/08/openai-acquires-presentation-startup-nextslide/",
+      "published_at": "2026-08-08T19:41:13Z",
+      "categories": [
+        "AI",
+        "Startups",
+        "OpenAI"
+      ],
+      "summary": "NextSlide says its team members are now working on ChatGPT.",
+      "github_links": [],
+      "entities": [
+        "OpenAI",
+        "NextSlide"
+      ],
+      "relevance_score": 0.6,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "X replaces ‘misaligned’ revenue sharing program with Original Content Rewards",
+      "url": "https://techcrunch.com/2026/08/08/x-replaces-misaligned-revenue-sharing-program-with-original-content-rewards/",
+      "published_at": "2026-08-08T16:34:22Z",
+      "categories": [
+        "Media & Entertainment",
+        "Social",
+        "X"
+      ],
+      "summary": "X is winding down its existing Revenue Sharing program.",
+      "github_links": [],
+      "entities": [
+        "Original",
+        "Content",
+        "Rewards"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "The Kindle Scribe Colorsoft is a lot of fun, but it’s not a must-have",
+      "url": "https://techcrunch.com/2026/08/08/the-kindle-scribe-colorsoft-is-a-lot-of-fun-but-its-not-a-must-have/",
+      "published_at": "2026-08-08T16:00:00Z",
+      "categories": [
+        "Hardware",
+        "Gadgets",
+        "Kindle"
+      ],
+      "summary": "While the device is pretty and lightweight, it’s not something the everyday person needs due to its hefty price tag and size.",
+      "github_links": [],
+      "entities": [
+        "Kindle",
+        "Scribe",
+        "Colorsoft"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Google’s top hacker hunter explains why hacking groups get codenames",
+      "url": "https://techcrunch.com/2026/08/08/googles-top-hacker-hunter-explains-why-hacking-groups-get-codenames/",
+      "published_at": "2026-08-08T15:00:00Z",
+      "categories": [
+        "Security",
+        "advanced persistent threat",
+        "apt",
+        "cybercrime",
+        "cybersecurity",
+        "Google",
+        "hackers",
+        "Mandiant"
+      ],
+      "summary": "Google recently changed how it refers and assigns names to hacking groups. TechCrunch spoke with one of the world’s foremost experts on tracking hackers to understand why companies give hackers codenames.",
+      "github_links": [],
+      "entities": [
+        "Google"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "Firebird Launches CIS Region’s Largest AI Factory in Armenia",
+      "url": "https://blogs.nvidia.com/blog/firebird-ai-factory-armenia-blackwell-rubin-dsx/",
+      "published_at": "2026-08-08T10:24:54Z",
+      "categories": [
+        "AI",
+        "NVIDIA Blackwell",
+        "NVIDIA DSX",
+        "NVIDIA Rubin"
+      ],
+      "summary": "The global buildout of AI infrastructure reached a new milestone today — Firebird, an emerging AI cloud, launched the CIS region’s largest AI factory in Armenia, establishing a new AI computing hub powered by NVIDIA accelerated computing and Dell Technologies high-performance AI infrastructure.  Nikol Pashinyan, prime minister of the Republic of Armenia; Zhaslan Madiyev, deputy [&#8230;]",
+      "github_links": [],
+      "entities": [
+        "Firebird",
+        "CIS",
+        "Region",
+        "Largest",
+        "AI",
+        "Factory",
+        "Armenia"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "OpenAI says it slowed Astra model development over security concerns",
+      "url": "https://techcrunch.com/2026/08/07/openai-says-it-slowed-astra-model-development-over-security-concerns/",
+      "published_at": "2026-08-07T22:48:24Z",
+      "categories": [
+        "AI",
+        "OpenAI"
+      ],
+      "summary": "OpenAI said this model, which is still in development, reached its \"critical cybersecurity threshold,\" meaning it could independently identify and carry out cyberattacks against traditionally well-protected real-world systems.",
+      "github_links": [],
+      "entities": [
+        "OpenAI",
+        "Astra"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "After Rippling blew millions on AI in months, it built an employee ROI tool",
+      "url": "https://techcrunch.com/2026/08/07/after-rippling-blew-millions-on-ai-in-months-it-built-an-employee-roi-tool/",
+      "published_at": "2026-08-07T21:30:11Z",
+      "categories": [
+        "AI",
+        "Enterprise",
+        "Rippling"
+      ],
+      "summary": "After its own AI usage wake-up call, Rippling this week unveiled AI Spend Console, a product that tracks individual and team employee AI spending.",
+      "github_links": [],
+      "entities": [
+        "Rippling",
+        "AI",
+        "ROI"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Wacom’s MovinkPad 11 is a fun, midpriced entry point for digital artists",
+      "url": "https://techcrunch.com/2026/08/07/wacoms-movinkpad-11-is-a-fun-and-mid-priced-entry-point-for-digital-artists/",
+      "published_at": "2026-08-07T21:20:00Z",
+      "categories": [
+        "Hardware",
+        "digital art",
+        "Wacom"
+      ],
+      "summary": "The MovinkPad 11 a versatile little graphics tablet that can help make your wildest digital art dreams come true.",
+      "github_links": [],
+      "entities": [
+        "Wacom",
+        "MovinkPad"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Security researchers scanned the Polish web and found courts, hospitals, and airports at risk of hacks",
+      "url": "https://techcrunch.com/2026/08/07/security-researchers-scanned-the-polish-web-and-found-courts-hospitals-and-airports-at-risk-of-hacks/",
+      "published_at": "2026-08-07T21:00:08Z",
+      "categories": [
+        "Security",
+        "cybersecurity",
+        "poland"
+      ],
+      "summary": "Researchers found common points of failure, like software used to organize and display web content, could have allowed hackers to run riot through government websites.",
+      "github_links": [],
+      "entities": [
+        "Security",
+        "Polish"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "TutorMoments: Do AI tutors know when to help and when to hold back?",
+      "url": "https://huggingface.co/blog/allenai/tutormoments",
+      "published_at": "2026-08-07T17:53:32Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "TutorMoments",
+        "AI"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Cloudflare launches Kitesurf, a browser built for AI agents",
+      "url": "https://techcrunch.com/2026/08/07/cloudflare-launches-kitesurf-a-browser-built-for-ai-agents/",
+      "published_at": "2026-08-07T16:16:09Z",
+      "categories": [
+        "AI",
+        "Apps",
+        "AI agents",
+        "cloudflare"
+      ],
+      "summary": "Kitesurf is a cloud-hosted browser designed for AI agents instead of people. It uses less computing power than Chromium for common automation tasks, helping developers build browser-based AI agents more efficiently.",
+      "github_links": [],
+      "entities": [
+        "Cloudflare",
+        "Kitesurf",
+        "AI"
+      ],
+      "relevance_score": 0.8,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Computer maker Framework notifies ‘all customers’ of a data breach",
+      "url": "https://techcrunch.com/2026/08/07/computer-maker-framework-notifies-all-customers-of-a-data-breach/",
+      "published_at": "2026-08-07T16:09:04Z",
+      "categories": [
+        "Security",
+        "cyberattack",
+        "cybersecurity",
+        "data breach",
+        "framework",
+        "hackers",
+        "In Brief"
+      ],
+      "summary": "Framework told \"all\" of its customers that hackers accessed their names, email addresses, phone numbers, and physical addresses in a data breach.",
+      "github_links": [],
+      "entities": [
+        "Computer",
+        "Framework"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Today’s the last day to get up to $400 off your TechCrunch Disrupt 2026 ticket",
+      "url": "https://techcrunch.com/2026/08/07/todays-the-last-day-to-get-up-to-400-off-your-techcrunch-disrupt-2026-ticket/",
+      "published_at": "2026-08-07T15:52:33Z",
+      "categories": [
+        "Startups",
+        "TechCrunch Disrupt"
+      ],
+      "summary": "Starting today, you can take an additional $100 off your founder, investor, or attendee TechCrunch Disrupt 2026 pass, which is a nice bonus on top of our current discounted pricing.",
+      "github_links": [],
+      "entities": [
+        "Today",
+        "TechCrunch",
+        "Disrupt"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Trump administration has spent nearly $4B to cancel offshore wind farms",
+      "url": "https://techcrunch.com/2026/08/07/trump-administration-has-spent-nearly-4b-to-cancel-offshore-wind-farms/",
+      "published_at": "2026-08-07T15:11:03Z",
+      "categories": [
+        "Climate",
+        "Government & Policy",
+        "In Brief",
+        "offshore wind",
+        "Trump Administration"
+      ],
+      "summary": "The Trump administration has now convinced developers to abandon 12 offshore wind leases. The latest will cost taxpayers $1.2 billion.",
+      "github_links": [],
+      "entities": [
+        "Trump"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "The Download: a censorship conspiracy theory and the first virus created by AI",
+      "url": "https://www.technologyreview.com/2026/08/07/1141389/the-download-censorship-conspiracy-theory-first-ai-virus/",
+      "published_at": "2026-08-07T14:20:00Z",
+      "categories": [
+        "The Download"
+      ],
+      "summary": "This is today&#8217;s edition of The Download, our weekday newsletter that provides a daily dose of what&#8217;s going on in the world of technology. How ideas of a vast censorship network moved from the online fringe to Trump policy For years, narratives about a “censorship-industrial complex” spread in right-wing circles. The theory claimed that, under&#8230;",
+      "github_links": [],
+      "entities": [
+        "Download",
+        "AI"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "How ideas of a vast censorship network moved from the online fringe to Trump policy",
+      "url": "https://www.technologyreview.com/2026/08/07/1141105/how-ideas-of-a-vast-censorship-network-moved-from-the-online-fringe-to-trump-policy/",
+      "published_at": "2026-08-07T14:00:00Z",
+      "categories": [
+        "Policy",
+        "Tech Policy"
+      ],
+      "summary": "This article was produced in partnership with Type Investigations, with support from the Wayne Barrett Project. One morning in April 2025, employees of a small office in the US State Department got the email many of them had been dreading.&#160; For months, Elon Musk’s Department of Government Efficiency had been cutting a wide swath through&#8230;",
+      "github_links": [],
+      "entities": [
+        "Trump"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "github_blog",
+      "title": "A guide to slash commands in the GitHub Copilot app",
+      "url": "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/",
+      "published_at": "2026-08-06T19:49:34Z",
+      "categories": [
+        "AI & ML",
+        "GitHub Copilot",
+        "GitHub Copilot app",
+        "slash commands"
+      ],
+      "summary": "Go beyond chat in the GitHub Copilot app with these slash commands. They'll help you plan, collaborate, automate, and customize your dev workflow.\nThe post A guide to slash commands in the GitHub Copilot app appeared first on The GitHub Blog.",
+      "github_links": [
+        "https://github.com/features/ai"
+      ],
+      "entities": [
+        "GitHub",
+        "Copilot"
+      ],
+      "relevance_score": 0.8,
+      "sources": [
+        "github_blog"
+      ]
+    },
+    {
+      "source": "github_blog",
+      "title": "How we took malware advisories beyond npm",
+      "url": "https://github.blog/security/supply-chain-security/how-we-took-malware-advisories-beyond-npm/",
+      "published_at": "2026-08-06T16:51:12Z",
+      "categories": [
+        "Security",
+        "Supply chain security",
+        "GitHub Advisory Database",
+        "malware",
+        "npm",
+        "open source",
+        "supply chain security"
+      ],
+      "summary": "GitHub malware advisories no longer stop at npm. Here's how we wired OpenSSF's malicious-packages data into the Advisory Database, and why we built the pipeline paranoid.\nThe post How we took malware advisories beyond npm appeared first on The GitHub Blog.",
+      "github_links": [
+        "https://github.com/ossf/malicious-packages"
+      ],
+      "entities": [],
+      "relevance_score": 1.0,
+      "sources": [
+        "github_blog"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "GeForce NOW Shakes Up August With 26 New Games",
+      "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-august-2026-games-list/",
+      "published_at": "2026-08-06T13:00:11Z",
+      "categories": [
+        "Gaming",
+        "Cloud Gaming",
+        "GeForce NOW"
+      ],
+      "summary": "August is here, bringing 26 new games for GeForce NOW members.  Command the seas in World of Warships: Legends and discover what’s next in the GeForce NOW library, starting with the eight newly added games this week.  In addition, GeForce NOW is at the QuakeCon gaming conference this week in Grapevine, Texas, with hands-on experiences [&#8230;]",
+      "github_links": [],
+      "entities": [
+        "GeForce",
+        "Shakes",
+        "August",
+        "Games"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "Into the Omniverse: How Open World Models Push the Frontier of Physical AI",
+      "url": "https://blogs.nvidia.com/blog/open-world-models-physical-ai/",
+      "published_at": "2026-08-06T13:00:00Z",
+      "categories": [
+        "AI",
+        "Robotics",
+        "Artificial Intelligence",
+        "Cosmos",
+        "Digital Twin",
+        "Into the Omniverse",
+        "Isaac",
+        "Metropolis",
+        "Omniverse",
+        "Open Source",
+        "Physical AI",
+        "Simulation and Design",
+        "Synthetic Data Generation",
+        "Universal Scene Description"
+      ],
+      "summary": "In July, NVIDIA joined more than 200 companies and organizations in signing “Open Weights and American AI Leadership,” an open letter arguing that AI leadership will be measured not by any single frontier model but by whether an open ecosystem reaches every sector.",
+      "github_links": [],
+      "entities": [
+        "Omniverse",
+        "Open",
+        "World",
+        "Models",
+        "Push",
+        "Frontier",
+        "Physical",
+        "AI"
+      ],
+      "relevance_score": 0.6,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "The Download: Google’s AI shake-up and Meta’s rogue model",
+      "url": "https://www.technologyreview.com/2026/08/06/1141278/the-download-google-ai-shake-up-meta-rogue-model/",
+      "published_at": "2026-08-06T12:10:00Z",
+      "categories": [
+        "The Download"
+      ],
+      "summary": "This is today&#8217;s edition of The Download, our weekday newsletter that provides a daily dose of what&#8217;s going on in the world of technology. Google’s AI empire is being reshaped. Here’s what’s changed. After a wave of painful losses in the tech talent wars, delays to its next flagship model, and murmurings of poor morale,&#8230;",
+      "github_links": [],
+      "entities": [
+        "Download",
+        "Google",
+        "AI",
+        "Meta"
+      ],
+      "relevance_score": 0.6,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "Baseten on Hugging Face Inference Providers 🔥",
+      "url": "https://huggingface.co/blog/baseten",
+      "published_at": "2026-08-06T00:00:00Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "Baseten",
+        "Hugging",
+        "Face",
+        "Inference",
+        "Providers"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "Puzzle Corner",
+      "url": "https://www.technologyreview.com/2026/08/05/1141230/puzzle-corner-84/",
+      "published_at": "2026-08-05T14:56:29Z",
+      "categories": [
+        "MIT Alumni News"
+      ],
+      "summary": "Ready for a fresh set of puzzles? Click here for the September/October 2026 Puzzle Corner, brought to you by Michael S. Branicky, ScD ’95, of the Puzzle Corner Puzzle Crew (aka PC2), which also includes Edward Faulkner ’03, MEng ’04, and Abe Kunin ’03. This column includes solutions to the May/June issue. Send problems, solutions (by October&#8230;",
+      "github_links": [],
+      "entities": [
+        "Puzzle",
+        "Corner"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "NVIDIA and Partners Build in America, for America",
+      "url": "https://blogs.nvidia.com/blog/nvidia-and-partners-build-in-america-for-america/",
+      "published_at": "2026-08-05T13:00:47Z",
+      "categories": [
+        "AI",
+        "Corporate",
+        "Artificial Intelligence",
+        "Economic Development",
+        "Healthcare and Life Sciences",
+        "Industrial and Manufacturing",
+        "Public Sector",
+        "Science",
+        "Simulation and Design"
+      ],
+      "summary": "NVIDIA and its partners are investing in American manufacturing, supply chains, energy grids and skilled workforces so the U.S. can produce the infrastructure needed for better healthcare, breakthrough scientific discovery, stronger industrial productivity and global technology leadership.",
+      "github_links": [],
+      "entities": [
+        "NVIDIA",
+        "Partners",
+        "Build",
+        "America"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "The Download: NASA’s new telescope and Chinese tech import curbs",
+      "url": "https://www.technologyreview.com/2026/08/05/1141212/the-download-nasa-telescope-chinese-tech-import-curbs/",
+      "published_at": "2026-08-05T12:10:00Z",
+      "categories": [
+        "The Download"
+      ],
+      "summary": "This is today&#8217;s edition of The Download, our weekday newsletter that provides a daily dose of what&#8217;s going on in the world of technology. NASA’s new dark energy space telescope can also detect killer asteroids   At the end of August, NASA is set to launch the Nancy Grace Roman Space Telescope from Kennedy Space&#8230;",
+      "github_links": [],
+      "entities": [
+        "Download",
+        "NASA",
+        "Chinese"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "NASA’s new dark-energy space telescope can also detect killer asteroids",
+      "url": "https://www.technologyreview.com/2026/08/05/1141200/nasas-roman-telescope-detect-asteroids/",
+      "published_at": "2026-08-05T08:06:40Z",
+      "categories": [
+        "Space",
+        "App",
+        "Summary"
+      ],
+      "summary": "At the end of August, NASA is set to launch the Nancy Grace Roman Space Telescope from Kennedy Space Center in Florida. Its goal is to help us better understand how the universe works, from the glue-like dark matter that keeps galaxies together to the elusive dark energy that drives the expansion of the cosmos.&#8230;",
+      "github_links": [],
+      "entities": [
+        "NASA"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "github_blog",
+      "title": "How the GitHub legal team used Copilot CLI to streamline their workflows",
+      "url": "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows/",
+      "published_at": "2026-08-04T19:02:34Z",
+      "categories": [
+        "AI & ML",
+        "GitHub Copilot",
+        "GitHub Copilot CLI"
+      ],
+      "summary": "Learn how to build tools to simplify how you work—without writing a single line of code.\nThe post How the GitHub legal team used Copilot CLI to streamline their workflows appeared first on The GitHub Blog.",
+      "github_links": [
+        "https://github.com/features/copilot",
+        "https://github.com/nkasuku/terms-ai",
+        "http://github.com/dvelton/eyeball"
+      ],
+      "entities": [
+        "GitHub",
+        "Copilot",
+        "CLI"
+      ],
+      "relevance_score": 0.8,
+      "sources": [
+        "github_blog"
+      ]
+    },
+    {
+      "source": "github_blog",
+      "title": "Turn one giant AI-generated pull request to a reviewable stack",
+      "url": "https://github.blog/engineering/turn-one-giant-ai-generated-pull-request-to-a-reviewable-stack/",
+      "published_at": "2026-08-04T16:47:18Z",
+      "categories": [
+        "Engineering",
+        "stacked pull requests"
+      ],
+      "summary": "Instead of one huge, un-reviewable pull request, teach coding agents to decompose work into a clean, ordered stack with GitHub stacked pull requests.\nThe post Turn one giant AI-generated pull request to a reviewable stack appeared first on The GitHub Blog.",
+      "github_links": [],
+      "entities": [
+        "Turn",
+        "AI"
+      ],
+      "relevance_score": 0.6,
+      "sources": [
+        "github_blog"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "NVIDIA Joins NSF State and Regional AI Hubs Program to Expand AI Research and Education Across the US",
+      "url": "https://blogs.nvidia.com/blog/nsf-state-regional-ai-hub-program/",
+      "published_at": "2026-08-04T16:00:56Z",
+      "categories": [
+        "AI",
+        "AI Infrastructure",
+        "Corporate",
+        "Economic Development",
+        "Education"
+      ],
+      "summary": "NVIDIA is participating in the U.S. National Science Foundation’s (NSF) State and Regional Artificial Intelligence Infrastructure Hubs program, an effort launching today to expand access to the advanced computing, data, software and expertise needed for AI-enabled research and education. Consistent with the aims of the Genesis Mission, the program will support state and multistate groups [&#8230;]",
+      "github_links": [],
+      "entities": [
+        "NVIDIA",
+        "Joins",
+        "NSF",
+        "State",
+        "Regional",
+        "AI",
+        "Hubs",
+        "Program",
+        "Expand",
+        "Research",
+        "Education",
+        "Across",
+        "US"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "NVIDIA Alpamayo 2 Super, the Frontier Open Model for Robotaxis and Autonomous Vehicles, Now Available for Commercial Use",
+      "url": "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/",
+      "published_at": "2026-08-04T15:00:49Z",
+      "categories": [
+        "Driving",
+        "Artificial Intelligence",
+        "Computer Vision",
+        "Mobility",
+        "NVIDIA Halos",
+        "Open Source",
+        "Physical AI",
+        "Synthetic Data Generation"
+      ],
+      "summary": "For robotaxis and other autonomous vehicles (AVs), the hardest problems aren’t the everyday scenarios. They’re the rare, complex situations that are difficult to anticipate and train for. Handling these long‑tail events takes more than just object detection and motion prediction. AVs must understand the situation, reason about cause and effect, choose the right action and [&#8230;]",
+      "github_links": [],
+      "entities": [
+        "NVIDIA",
+        "Alpamayo",
+        "Super",
+        "Frontier",
+        "Open",
+        "Model",
+        "Robotaxis",
+        "Autonomous",
+        "Vehicles",
+        "Available",
+        "Commercial"
+      ],
+      "relevance_score": 0.6,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "As AI Increases Demands on Memory, Storage Steps Up",
+      "url": "https://blogs.nvidia.com/blog/ai-storage-fms/",
+      "published_at": "2026-08-04T15:00:47Z",
+      "categories": [
+        "AI Infrastructure",
+        "Agentic AI",
+        "AI Factory",
+        "Artificial Intelligence",
+        "Cybersecurity",
+        "Events",
+        "Hardware",
+        "NVIDIA BlueField",
+        "NVIDIA Rubin",
+        "NVIDIA Spectrum-X Ethernet",
+        "NVIDIA Vera",
+        "Open Source"
+      ],
+      "summary": "Surging AI demands are driving the need for massive datasets and context windows that burst past the confines of system memory.  But rising needs aren’t met by simply adding more storage capacity. What’s needed is useful, grounded insights from AI factories and efficient, secure storage architectures that enable those insights.  At this week’s Future of [&#8230;]",
+      "github_links": [],
+      "entities": [
+        "As",
+        "AI",
+        "Increases",
+        "Demands",
+        "Memory",
+        "Storage",
+        "Steps"
+      ],
+      "relevance_score": 0.8,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "Deploy local agents everywhere with LFM2.5-2.6B",
+      "url": "https://huggingface.co/blog/LiquidAI/lfm2-5-2-6b",
+      "published_at": "2026-08-04T13:58:29Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "Deploy",
+        "LFM2"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "AI Leaders Propose SAFE Guidelines for Cybersecurity Transparency",
+      "url": "https://blogs.nvidia.com/blog/open-secure-ai-alliance-contributions/",
+      "published_at": "2026-08-04T13:00:47Z",
+      "categories": [
+        "AI",
+        "Corporate",
+        "Open Source"
+      ],
+      "summary": "Members of the Open Secure AI Alliance — now more than 120 organizations strong — are developing new guidelines to strengthen agentic AI cybersecurity as the annual Black Hat conference begins in Las Vegas today.  The Linux Foundation today shared a Request for Comments on Shared AI Findings Exchange (SAFE), a proposed set of guidelines [&#8230;]",
+      "github_links": [
+        "https://github.com/OpenSecureAIAlliance/RFCs",
+        "https://github.com/NVIDIA-NeMo/labs-OO-Agents",
+        "https://github.com/NVIDIA/garak",
+        "https://github.com/cyberark/agent-guard",
+        "https://github.com/cyberark/agentwatch",
+        "https://github.com/capitalone/vulnhunter",
+        "https://github.com/microsoft/PyRIT",
+        "https://github.com/responsibleai/ASSERT"
+      ],
+      "entities": [
+        "AI",
+        "Leaders",
+        "Propose",
+        "SAFE",
+        "Guidelines",
+        "Cybersecurity",
+        "Transparency"
+      ],
+      "relevance_score": 0.8,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "The Download: US robot restrictions and ICE’s DNA grab",
+      "url": "https://www.technologyreview.com/2026/08/04/1141098/the-download-robot-restrictions-ice-dna/",
+      "published_at": "2026-08-04T12:14:00Z",
+      "categories": [
+        "The Download"
+      ],
+      "summary": "This is today&#8217;s edition of The Download, our weekday newsletter that provides a daily dose of what&#8217;s going on in the world of technology. Trump’s AI protectionism has come for robotics   —James O’Donnell&#160; Humanoid robots usually elicit more cringe than awe: They&#160;stumble,&#160;kick children, and despite advances are still worse at&#160;using their hands&#160;than my toddler. It’s&#8230;",
+      "github_links": [],
+      "entities": [
+        "Download",
+        "US",
+        "ICE",
+        "DNA"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "Trump’s AI protectionism has come for robotics",
+      "url": "https://www.technologyreview.com/2026/08/03/1141056/trumps-ai-protectionism-has-come-for-robotics/",
+      "published_at": "2026-08-03T18:43:30Z",
+      "categories": [
+        "Artificial intelligence",
+        "App",
+        "artificial intelligence",
+        "The Algorithm"
+      ],
+      "summary": "This story originally appeared in The Algorithm, our weekly newsletter on AI. To get stories like this in your inbox first,&#160;sign up here. Humanoid robots usually elicit more cringe than awe: They stumble, kick children, and despite advances are still worse at using their hands than my toddler. It’s a nascent industry, and such robots&#8230;",
+      "github_links": [],
+      "entities": [
+        "Trump",
+        "AI"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "The Download: reward hacking explained and suspected Iranian cyberattacks",
+      "url": "https://www.technologyreview.com/2026/08/03/1141039/the-download-reward-hacking-water-cyberattacks/",
+      "published_at": "2026-08-03T12:08:00Z",
+      "categories": [
+        "The Download"
+      ],
+      "summary": "This is today&#8217;s edition of The Download, our weekday newsletter that provides a daily dose of what&#8217;s going on in the world of technology. Here’s why AI agents lie and cheat to reach their goals When two OpenAI models hacked into Hugging Face last month, they weren’t trying to make money or commit sabotage—they were&#8230;",
+      "github_links": [],
+      "entities": [
+        "Download",
+        "Iranian"
+      ],
+      "relevance_score": 0.6,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "Here’s why AI agents lie and cheat to reach their goals",
+      "url": "https://www.technologyreview.com/2026/08/03/1141009/heres-why-ai-agents-lie-and-cheat-to-reach-their-goals/",
+      "published_at": "2026-08-03T08:30:05Z",
+      "categories": [
+        "Artificial intelligence",
+        "App",
+        "MIT Technology Review Explains",
+        "Summary"
+      ],
+      "summary": "MIT Technology Review Explains: Let our writers untangle the complex, messy world of technology to help you understand what’s coming next. You can read more from the series here. When two OpenAI models hacked into the website Hugging Face in July, they weren’t trying to make money or commit sabotage—they were just looking for answers&#8230;",
+      "github_links": [],
+      "entities": [
+        "AI"
+      ],
+      "relevance_score": 0.6,
+      "sources": [
+        "mit_technology_review"
+      ]
+    }
+  ],
+  "metadata": {
+    "run_id": "31349687108",
+    "source_count": 5,
+    "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+    "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+    "sources_requested": [
+      "github_blog",
+      "hugging_face_blog",
+      "mit_technology_review",
+      "nvidia_blog",
+      "techcrunch"
+    ],
+    "sources_succeeded": [
+      "github_blog",
+      "hugging_face_blog",
+      "mit_technology_review",
+      "nvidia_blog",
+      "techcrunch"
+    ],
+    "sources_failed": [],
+    "source_status": [
+      {
+        "source": "github_blog",
+        "host": "github.blog",
+        "started_at": "2026-08-10T02:28:09.240698Z",
+        "timeout_seconds": 15,
+        "attempts": 1,
+        "total_articles": 4,
+        "relevant_articles": 4,
+        "github_links_found": 5,
+        "success": true,
+        "error_class": "",
+        "error_message": "",
+        "ended_at": "2026-08-10T02:28:09.457589Z",
+        "duration_seconds": 0.217
+      },
+      {
+        "source": "hugging_face_blog",
+        "host": "huggingface.co",
+        "started_at": "2026-08-10T02:28:09.235909Z",
+        "timeout_seconds": 15,
+        "attempts": 1,
+        "total_articles": 3,
+        "relevant_articles": 0,
+        "github_links_found": 0,
+        "success": true,
+        "error_class": "",
+        "error_message": "",
+        "ended_at": "2026-08-10T02:28:09.902552Z",
+        "duration_seconds": 0.667
+      },
+      {
+        "source": "mit_technology_review",
+        "host": "www.technologyreview.com",
+        "started_at": "2026-08-10T02:28:09.236607Z",
+        "timeout_seconds": 15,
+        "attempts": 1,
+        "total_articles": 10,
+        "relevant_articles": 3,
+        "github_links_found": 0,
+        "success": true,
+        "error_class": "",
+        "error_message": "",
+        "ended_at": "2026-08-10T02:28:09.593817Z",
+        "duration_seconds": 0.357
+      },
+      {
+        "source": "nvidia_blog",
+        "host": "blogs.nvidia.com",
+        "started_at": "2026-08-10T02:28:09.235055Z",
+        "timeout_seconds": 15,
+        "attempts": 1,
+        "total_articles": 8,
+        "relevant_articles": 6,
+        "github_links_found": 8,
+        "success": true,
+        "error_class": "",
+        "error_message": "",
+        "ended_at": "2026-08-10T02:28:09.908722Z",
+        "duration_seconds": 0.674
+      },
+      {
+        "source": "techcrunch",
+        "host": "techcrunch.com",
+        "started_at": "2026-08-10T02:28:09.234136Z",
+        "timeout_seconds": 15,
+        "attempts": 1,
+        "total_articles": 20,
+        "relevant_articles": 7,
+        "github_links_found": 0,
+        "success": true,
+        "error_class": "",
+        "error_message": "",
+        "ended_at": "2026-08-10T02:28:09.341839Z",
+        "duration_seconds": 0.108
+      }
+    ],
+    "source_reuse_summary": [
+      {
+        "source": "github_blog",
+        "action": "refreshed",
+        "reused": false,
+        "refreshed": true,
+        "reasons": []
+      },
+      {
+        "source": "hugging_face_blog",
+        "action": "refreshed",
+        "reused": false,
+        "refreshed": true,
+        "reasons": []
+      },
+      {
+        "source": "mit_technology_review",
+        "action": "refreshed",
+        "reused": false,
+        "refreshed": true,
+        "reasons": []
+      },
+      {
+        "source": "nvidia_blog",
+        "action": "refreshed",
+        "reused": false,
+        "refreshed": true,
+        "reasons": []
+      },
+      {
+        "source": "techcrunch",
+        "action": "refreshed",
+        "reused": false,
+        "refreshed": true,
+        "reasons": []
+      }
+    ],
+    "source_artifact_provenance": [
+      {
+        "source_id": "github_blog",
+        "action": "refreshed",
+        "artifact_path": "data/raw/2026-W33-external-news.json",
+        "original_run_id": "31349687108",
+        "original_crawled_at": "2026-08-10T02:28:09.217169Z",
+        "evaluated_at": "2026-08-10T02:28:09.217169Z",
+        "date": "2026-08-10",
+        "week": "2026-W33",
+        "crawl_window": {
+          "since": "2026-08-03T00:00:00Z",
+          "until": "2026-08-10T00:00:00Z"
+        },
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "artifact_checksum": "ce49ad760bbc547ba8c4ede512ce129c1ee578c994c61d92e96997d9b3d83ffc",
+        "content_checksum": "de4b31e02abcd106cb01e3ee50ccb3ed56fd9abdb1d36b028d3cad19f40aae48",
+        "reasons": []
+      },
+      {
+        "source_id": "hugging_face_blog",
+        "action": "refreshed",
+        "artifact_path": "data/raw/2026-W33-external-news.json",
+        "original_run_id": "31349687108",
+        "original_crawled_at": "2026-08-10T02:28:09.217169Z",
+        "evaluated_at": "2026-08-10T02:28:09.217169Z",
+        "date": "2026-08-10",
+        "week": "2026-W33",
+        "crawl_window": {
+          "since": "2026-08-03T00:00:00Z",
+          "until": "2026-08-10T00:00:00Z"
+        },
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "artifact_checksum": "ce49ad760bbc547ba8c4ede512ce129c1ee578c994c61d92e96997d9b3d83ffc",
+        "content_checksum": "658b79e237b6fd3c48f767a8ab4b3dcd788e93f93d2f2b64f701b4663e172d8f",
+        "reasons": []
+      },
+      {
+        "source_id": "mit_technology_review",
+        "action": "refreshed",
+        "artifact_path": "data/raw/2026-W33-external-news.json",
+        "original_run_id": "31349687108",
+        "original_crawled_at": "2026-08-10T02:28:09.217169Z",
+        "evaluated_at": "2026-08-10T02:28:09.217169Z",
+        "date": "2026-08-10",
+        "week": "2026-W33",
+        "crawl_window": {
+          "since": "2026-08-03T00:00:00Z",
+          "until": "2026-08-10T00:00:00Z"
+        },
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "artifact_checksum": "ce49ad760bbc547ba8c4ede512ce129c1ee578c994c61d92e96997d9b3d83ffc",
+        "content_checksum": "a15b1ff4e4740785f5327b00999f48b1204dee8e6851adac3733691b145ae71b",
+        "reasons": []
+      },
+      {
+        "source_id": "nvidia_blog",
+        "action": "refreshed",
+        "artifact_path": "data/raw/2026-W33-external-news.json",
+        "original_run_id": "31349687108",
+        "original_crawled_at": "2026-08-10T02:28:09.217169Z",
+        "evaluated_at": "2026-08-10T02:28:09.217169Z",
+        "date": "2026-08-10",
+        "week": "2026-W33",
+        "crawl_window": {
+          "since": "2026-08-03T00:00:00Z",
+          "until": "2026-08-10T00:00:00Z"
+        },
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "artifact_checksum": "ce49ad760bbc547ba8c4ede512ce129c1ee578c994c61d92e96997d9b3d83ffc",
+        "content_checksum": "f3760ba4f2346677d6db09c93e730ee3602060dc8d31efae443d78e0e82bcc03",
+        "reasons": []
+      },
+      {
+        "source_id": "techcrunch",
+        "action": "refreshed",
+        "artifact_path": "data/raw/2026-W33-external-news.json",
+        "original_run_id": "31349687108",
+        "original_crawled_at": "2026-08-10T02:28:09.217169Z",
+        "evaluated_at": "2026-08-10T02:28:09.217169Z",
+        "date": "2026-08-10",
+        "week": "2026-W33",
+        "crawl_window": {
+          "since": "2026-08-03T00:00:00Z",
+          "until": "2026-08-10T00:00:00Z"
+        },
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "artifact_checksum": "ce49ad760bbc547ba8c4ede512ce129c1ee578c994c61d92e96997d9b3d83ffc",
+        "content_checksum": "c9683ea895901773941baf410cdf4ecf9b64b30afcb8b5aa6e28627dc770f31e",
+        "reasons": []
+      }
+    ],
+    "sources_with_articles": {
+      "github_blog": 4,
+      "hugging_face_blog": 3,
+      "mit_technology_review": 10,
+      "nvidia_blog": 8,
+      "techcrunch": 20
+    },
+    "total_articles": 45,
+    "relevant_articles": 20,
+    "github_links_found": 13,
+    "dedupe_count": 0,
+    "errors": [],
+    "artifact_checksum": "5818c31c08210d35854ccc5a47b768d8cb9dd366be54b5b44ac12d3c72732c42",
+    "same_day_reuse": "not_reused",
+    "source_refresh_policy": "reuse-same-day",
+    "source_reuse_decisions": [
+      {
+        "source": "github_blog",
+        "decision": "refresh",
+        "reasons": []
+      },
+      {
+        "source": "hugging_face_blog",
+        "decision": "refresh",
+        "reasons": []
+      },
+      {
+        "source": "mit_technology_review",
+        "decision": "refresh",
+        "reasons": []
+      },
+      {
+        "source": "nvidia_blog",
+        "decision": "refresh",
+        "reasons": []
+      },
+      {
+        "source": "techcrunch",
+        "decision": "refresh",
+        "reasons": []
+      }
+    ],
+    "crawler_code_sha": "bf098e5f1a01d6cd3bbcda3f235f7265fbeeac22e1d064a19a330e463509ad10"
+  }
+}
