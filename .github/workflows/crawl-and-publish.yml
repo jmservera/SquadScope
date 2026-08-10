@@ -1048,7 +1048,7 @@ jobs:
         with:
           name: token-usage-ledger
           path: data/metrics/token-usage.jsonl
-          if-no-files-found: warn
+          if-no-files-found: error
 
   generate:
     needs: analyze
@@ -1122,22 +1122,11 @@ jobs:
       - name: Download token usage ledger artifact
         # Overlays the analyze job's freshly appended ledger row on top of the
         # publish-branch hydration above, so it is not lost before this job's
-        # commit step. continue-on-error tolerates a missing ledger file because
-        # the upload uses if-no-files-found: warn; in that case no artifact exists
-        # to download and the following step emits an explicit warning.
-        id: download-ledger
+        # cost projection and commit steps.
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        continue-on-error: true
         with:
           name: token-usage-ledger
           path: data/metrics/
-
-      - name: Warn if ledger artifact was unavailable
-        # Surfaces a silently-skipped ledger sync in run logs; continue-on-error
-        # above swallows the failure otherwise, which would regress to the
-        # exact "row lost" bug this fix addresses without any visibility.
-        if: steps.download-ledger.outcome != 'success'
-        run: echo "::warning::token-usage-ledger artifact was unavailable; data/metrics/ falls back to the publish-branch hydration for this run."
 
       - name: Download analysis candidate artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
@@ -1158,6 +1147,14 @@ jobs:
 
       - name: Install Python dependencies
         run: pip install -r requirements.txt
+
+      - name: Generate reconciled cost summary
+        env:
+          CURRENT_DATETIME: ${{ needs.analyze.outputs.current_datetime }}
+        run: |
+          python3 scripts/generate_cost_summary.py \
+            --generated-at "$CURRENT_DATETIME" \
+            --legacy-policy exclude-unidentified
 
       - name: Generate weekly content candidate
         id: generate-content
@@ -1313,6 +1310,7 @@ jobs:
             data/taxonomy/
             data/topic-hubs/
             data/derived/observatory/
+            data/metrics/cost-summary.json
             static/datasets/open-source-ai-github-projects-2026/
             static/tools/star-velocity-explorer.json
           )
@@ -1445,6 +1443,7 @@ jobs:
             data/taxonomy/
             data/topic-hubs/
             data/derived/observatory/
+            data/metrics/cost-summary.json
             static/datasets/open-source-ai-github-projects-2026/
             static/tools/star-velocity-explorer.json
           if-no-files-found: warn
@@ -1495,12 +1494,18 @@ jobs:
           name: promoted-analyzed-data
           path: data/analyzed/
 
+      - name: Remove checked-in cost summary
+        run: rm -f data/metrics/cost-summary.json
+
       - name: Download generated content artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: generated-content
           path: ./
           merge-multiple: true
+
+      - name: Verify generated cost summary
+        run: test -s data/metrics/cost-summary.json
 
       # Deploy builds from artifacts — no dependency on PR merges to main.
       - name: Configure GitHub Pages

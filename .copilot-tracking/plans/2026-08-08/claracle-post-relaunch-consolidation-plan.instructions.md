@@ -175,7 +175,7 @@ genuine-equivalent 301/308 row.
   `content/yearly/2026.md` (1,775-word narrative body, within range, zero "…"),
   and added regression tests. Named editorial review by Farnsworth/jmservera is
   still open; automated completeness and range checks pass
-* [ ] BR-009: generate the reconciled public cost projection, fail publication
+* [x] BR-009: generate the reconciled public cost projection, fail publication
   on invalid or stale input, and render current provenance on About.
   Rendering is done (2026-08-10): `layouts/partials/cost-dashboard.html` now
   consumes only the new BR-009 `cost-summary.json` schema (currency, pricing
@@ -191,10 +191,19 @@ genuine-equivalent 301/308 row.
   gap is now fixed (2026-08-10): `analyze` job uploads
   `data/metrics/token-usage.jsonl` as an artifact (`token-usage-ledger`), and
   `generate` job downloads it right after the publish-branch hydration,
-  overlaying this run's fresh row instead of discarding it. Wiring
-  `scripts/generate_cost_summary.py` into `crawl-and-publish.yml` is still not
-  done — that remains the last step for BR-009 activation, now unblocked by
-  this fix and the resolved sponsor policy question
+  overlaying this run's fresh row instead of discarding it. Activation is
+  complete (2026-08-10): `generate` now requires that artifact and runs
+  `scripts/generate_cost_summary.py` before content promotion with the workflow's
+  canonical timestamp and the sponsor-approved `--legacy-policy
+  exclude-unidentified`. Missing ledger transport, malformed or stale input,
+  unreconciled identities, and unpriced billable rows fail the owning pipeline.
+  An identified `model: none` run remains valid and emits an honest reconciled
+  zero-cost summary, preserving crawl continuity when the no-AI fallback is the
+  accepted attempt. The public summary is included in the same-run deployment
+  artifact; deploy removes the checked-in copy before artifact extraction and
+  fails if the restored current-run summary is absent or empty. Workflow
+  ordering, generator boundaries, public schema, renderer behavior, security
+  scans, and the Hugo build pass
 * [x] Retain Calculon, Fry, Farnsworth, Zapp, Nibbler, URL, and sponsor evidence
   only from the roles routed to each acceptance surface. For the BR-009 cost
   dashboard surface (PR #697, merged `9af3026d`), ran all six roles in
