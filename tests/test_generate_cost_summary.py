@@ -72,6 +72,72 @@ def test_projection_can_record_explicit_legacy_exclusion() -> None:
     assert projection["exclusions"]["legacy_unidentified"] == 1
 
 
+def test_projection_rejects_when_legacy_exclusion_leaves_no_identified_records() -> None:
+    legacy = _record()
+    del legacy["workflow_run_id"]
+    del legacy["run_attempt"]
+
+    with pytest.raises(ValueError, match="No identified accepted records"):
+        summary.build_projection(
+            [legacy],
+            generated_at=datetime(2026, 8, 8, tzinfo=UTC),
+            legacy_policy="exclude-unidentified",
+        )
+
+
+def test_projection_records_zero_cost_when_only_identified_record_uses_model_none() -> None:
+    projection = summary.build_projection(
+        [_record(model="none", cost=None)],
+        generated_at=datetime(2026, 8, 8, tzinfo=UTC),
+    )
+
+    assert projection["totals"] == {"cost": 0, "input_tokens": 0, "output_tokens": 0}
+    assert projection["reconciliation"]["accepted_records"] == 1
+    assert projection["reconciliation"]["billable_records"] == 0
+    assert projection["exclusions"]["model_none"] == 1
+
+
+def test_projection_excludes_historical_legacy_rows_when_first_identified_run_uses_model_none() -> (
+    None
+):
+    legacy = _record(timestamp="2026-05-25T11:56:08Z")
+    del legacy["workflow_run_id"]
+    del legacy["run_attempt"]
+
+    projection = summary.build_projection(
+        [legacy, _record(model="none", cost=None)],
+        generated_at=datetime(2026, 8, 8, tzinfo=UTC),
+        legacy_policy="exclude-unidentified",
+    )
+
+    assert projection["totals"] == {"cost": 0, "input_tokens": 0, "output_tokens": 0}
+    assert projection["reconciliation"]["accepted_records"] == 1
+    assert projection["exclusions"]["legacy_unidentified"] == 1
+    assert projection["exclusions"]["model_none"] == 1
+
+
+def test_main_rejects_malformed_ledger_without_writing_output(tmp_path) -> None:
+    ledger = tmp_path / "token-usage.jsonl"
+    output = tmp_path / "cost-summary.json"
+    ledger.write_text("{not-json}\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="Malformed ledger row 1"):
+        summary.main(
+            [
+                "--ledger",
+                str(ledger),
+                "--output",
+                str(output),
+                "--generated-at",
+                "2026-08-08T00:00:00Z",
+                "--legacy-policy",
+                "exclude-unidentified",
+            ]
+        )
+
+    assert not output.exists()
+
+
 def test_projection_rejects_duplicate_accepted_identity() -> None:
     with pytest.raises(ValueError, match="Duplicate accepted identity"):
         summary.build_projection(
