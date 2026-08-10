@@ -727,6 +727,18 @@ class WorkflowConfigTests(unittest.TestCase):
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
 
         sync_job = workflow["jobs"]["sync"]
+        setup_python = next(
+            (s for s in sync_job["steps"] if _uses_action(s, "actions/setup-python")), None
+        )
+        self.assertIsNotNone(setup_python)
+        self.assertEqual(setup_python["with"]["python-version"], "3.12")
+        install = next(
+            (s for s in sync_job["steps"] if s.get("name") == "Install Python dependencies"),
+            None,
+        )
+        self.assertIsNotNone(install)
+        self.assertEqual(install["run"], "pip install -r requirements.txt")
+
         sync_step = next(
             (s for s in sync_job["steps"] if s.get("name") == "Sync data from publish"), None
         )
