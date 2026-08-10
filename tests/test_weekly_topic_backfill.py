@@ -13,15 +13,21 @@ EXPECTED_TOPICS = {
     "W21.md": ["AI Coding Agents", "MCP Ecosystem"],
     "W22.md": ["AI Coding Agents", "Open-Source LLMs", "Developer Tools"],
     "W23.md": ["AI Coding Agents"],
-    "W24.md": ["AI Coding Agents"],
+    "W24.md": ["AI Coding Agents", "Local First"],
     "W25.md": ["AI Coding Agents", "Open-Source LLMs"],
     "W26.md": ["AI Coding Agents", "MCP Ecosystem", "Open-Source LLMs"],
-    "W27.md": ["AI Coding Agents"],
-    "W28.md": ["AI Coding Agents"],
-    "W29.md": ["AI Coding Agents", "Developer Tools"],
+    "W27.md": ["AI Coding Agents", "Local First"],
+    "W28.md": ["AI Coding Agents", "Local First"],
+    "W29.md": ["AI Coding Agents", "Developer Tools", "Local First"],
     "W30.md": ["AI Coding Agents", "Open-Source LLMs"],
-    "W31.md": ["AI Coding Agents", "Developer Tools", "AI Agents in Healthcare"],
+    "W31.md": [
+        "AI Coding Agents",
+        "Developer Tools",
+        "AI Agents in Healthcare",
+        "Local First",
+    ],
     "W32.md": ["AI Coding Agents", "Developer Tools"],
+    "W33.md": ["AI Coding Agents", "Developer Tools"],
 }
 
 
@@ -45,7 +51,9 @@ def test_backfill_document_preserves_body_and_unrelated_frontmatter() -> None:
     assert original_match.group(2) == updated_match.group(2)
     assert (
         updated.replace(
-            'topics: ["AI Coding Agents", "Developer Tools", "AI Agents in Healthcare"]\n', ""
+            'topics: ["AI Coding Agents", "Developer Tools", '
+            '"AI Agents in Healthcare", "Local First"]\n',
+            "",
         )
         == original
     )
@@ -66,7 +74,7 @@ def test_backfill_is_idempotent_and_assigns_expected_topics(tmp_path: Path) -> N
     registry.parent.mkdir(parents=True)
     registry.write_bytes((ROOT / "data" / "taxonomy" / "topics.json").read_bytes())
 
-    assert len(backfill_weekly_topics(root=tmp_path)) == 12
+    assert len(backfill_weekly_topics(root=tmp_path)) == 13
     first_bytes = {path.name: path.read_bytes() for path in sorted(weekly_root.glob("W*.md"))}
     assert backfill_weekly_topics(root=tmp_path) == []
     assert first_bytes == {

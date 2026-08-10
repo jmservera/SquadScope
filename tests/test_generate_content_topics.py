@@ -107,7 +107,7 @@ def test_transform_summary_keeps_legacy_inputs_without_topic_signals_working() -
                 "chinese-developer-ecosystem",
                 "ai-security",
             ],
-            ["AI Coding Agents"],
+            ["AI Coding Agents", "Local First"],
         ),
         (
             [
@@ -134,15 +134,15 @@ def test_transform_summary_keeps_legacy_inputs_without_topic_signals_working() -
                 "security",
                 "local-first",
             ],
-            ["AI Coding Agents"],
+            ["AI Coding Agents", "Local First"],
         ),
         (
             ["ai-agents", "agent-skills", "security", "local-first", "ai-science", "inference"],
-            ["AI Coding Agents"],
+            ["AI Coding Agents", "Local First"],
         ),
         (
             ["ai-agents", "agent-skills", "security", "local-first", "developer-tools", "spam"],
-            ["AI Coding Agents", "Developer Tools"],
+            ["AI Coding Agents", "Developer Tools", "Local First"],
         ),
         (
             ["ai-agents", "agent-skills", "local-ai", "security", "robotics", "discovery-noise"],
@@ -157,7 +157,12 @@ def test_transform_summary_keeps_legacy_inputs_without_topic_signals_working() -
                 "security",
                 "simulation",
             ],
-            ["AI Coding Agents", "Developer Tools", "AI Agents in Healthcare"],
+            [
+                "AI Coding Agents",
+                "Developer Tools",
+                "AI Agents in Healthcare",
+                "Local First",
+            ],
         ),
     ],
 )

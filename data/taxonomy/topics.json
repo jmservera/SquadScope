@@ -30,16 +30,16 @@
         "openai",
         "openhands"
       ],
-      "count": 12,
+      "count": 13,
       "display_name": "AI Coding Agents",
       "first_seen": "2026-05-21",
       "is_hub": true,
-      "last_used": "2026-08-03",
+      "last_used": "2026-08-10",
       "order": 0,
       "promoted": true,
       "slug": "ai-coding-agents",
-      "times_used": 12,
-      "weekly_issue_count": 12
+      "times_used": 13,
+      "weekly_issue_count": 13
     },
     "developer-tools": {
       "aliases": [
@@ -55,16 +55,30 @@
         "testing",
         "typescript"
       ],
-      "count": 4,
+      "count": 5,
       "display_name": "Developer Tools",
       "first_seen": "2026-05-25",
       "is_hub": true,
-      "last_used": "2026-08-03",
+      "last_used": "2026-08-10",
       "order": 3,
       "promoted": true,
       "slug": "developer-tools",
-      "times_used": 4,
-      "weekly_issue_count": 4
+      "times_used": 5,
+      "weekly_issue_count": 5
+    },
+    "local-first": {
+      "aliases": [
+        "local-first"
+      ],
+      "count": 9,
+      "display_name": "Local First",
+      "first_seen": "2026-05-25",
+      "is_hub": true,
+      "last_used": "2026-08-10",
+      "promoted": true,
+      "slug": "local-first",
+      "times_used": 9,
+      "weekly_issue_count": 9
     },
     "mcp-ecosystem": {
       "aliases": [
