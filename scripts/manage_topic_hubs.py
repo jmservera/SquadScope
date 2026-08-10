@@ -38,6 +38,10 @@ BOLD_HEADING_RE = re.compile(r"^\*\*(?P<title>[^*]+)\*\*", re.MULTILINE)
 WEEK_RE = re.compile(r"(?P<year>\d{4})-W(?P<week>\d{2})")
 SLUG_RE = re.compile(r"[^a-z0-9]+")
 TITLE_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9 .&+(),/-]*")
+# Benign noun phrases that collide with INJECTION_PHRASES substring matching.
+# Only an EXACT full-title match is allowed: "System Prompts" is a real, high
+# signal GitHub topic, while "ignore the system prompt" stays rejected.
+SAFE_TITLE_ALLOWLIST = frozenset({"system prompt", "system prompts"})
 
 
 @dataclass(frozen=True)
@@ -120,16 +124,20 @@ def safe_candidate_title(value: object) -> str | None:
     if not isinstance(value, str):
         return None
     stripped = value.strip()
-    sanitized = sanitize_text(stripped, max_length=80, label="candidate title")
-    if sanitized != stripped or any(character in value for character in "\r\n"):
+    if any(character in value for character in "\r\n"):
         return None
     title = " ".join(stripped.split())
+    lowered = title.lower()
+    allowlisted = lowered in SAFE_TITLE_ALLOWLIST
+    if not allowlisted:
+        sanitized = sanitize_text(stripped, max_length=80, label="candidate title")
+        if sanitized != stripped:
+            return None
     if len(title) < 3 or len(title) > 80:
         return None
-    lowered = title.lower()
     if lowered.startswith(("http://", "https://")):
         return None
-    if any(phrase in lowered for phrase in INJECTION_PHRASES):
+    if not allowlisted and any(phrase in lowered for phrase in INJECTION_PHRASES):
         return None
     if "developer message" in lowered or "---" in title or not TITLE_RE.fullmatch(title):
         return None

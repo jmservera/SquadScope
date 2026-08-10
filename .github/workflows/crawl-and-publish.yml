@@ -1158,6 +1158,12 @@ jobs:
             mv "${log}.tmp" "$log"
           done
 
+      - name: Refresh topic candidates after promotion
+        # Promotion mutates data/taxonomy/topics.json, which is an input to
+        # candidate discovery. Re-run discovery so the committed registry is a
+        # fixed point and the freshness check below is stable.
+        run: python3 scripts/discover_topic_candidates.py
+
       - name: Rehash and promote final weekly content
         env:
           WEEK: ${{ needs.analyze.outputs.week }}

@@ -90258,6 +90258,120 @@
       "supporting_signals": [],
       "weekly_issue_count": 1
     },
+    "system-prompt": {
+      "aliases": [
+        "system-prompt"
+      ],
+      "display_name": "System Prompt",
+      "eligible": true,
+      "evidence_weeks": [
+        "2026-W29",
+        "2026-W30",
+        "2026-W31",
+        "2026-W32"
+      ],
+      "first_seen_week": "2026-W29",
+      "last_seen_week": "2026-W32",
+      "slug": "system-prompt",
+      "sources": [
+        {
+          "signal": "system-prompt",
+          "source_path": "data/raw/2026-W29.json",
+          "source_type": "raw_repo_topic",
+          "week": "2026-W29"
+        },
+        {
+          "signal": "system-prompt",
+          "source_path": "data/raw/2026-W30.json",
+          "source_type": "raw_repo_topic",
+          "week": "2026-W30"
+        },
+        {
+          "signal": "system-prompt",
+          "source_path": "data/raw/2026-W31.json",
+          "source_type": "raw_repo_topic",
+          "week": "2026-W31"
+        },
+        {
+          "signal": "system-prompt",
+          "source_path": "data/raw/2026-W32.json",
+          "source_type": "raw_repo_topic",
+          "week": "2026-W32"
+        }
+      ],
+      "supporting_signals": [
+        {
+          "detail": "asgeirtj/system_prompts_leaks",
+          "evidence_weeks": [
+            "2026-W29",
+            "2026-W30",
+            "2026-W31",
+            "2026-W32"
+          ],
+          "source_path": "data/raw/2026-W32.json",
+          "support_type": "recurring-repository-cluster",
+          "week": "2026-W32"
+        }
+      ],
+      "weekly_issue_count": 4
+    },
+    "system-prompts": {
+      "aliases": [
+        "system-prompts"
+      ],
+      "display_name": "System Prompts",
+      "eligible": true,
+      "evidence_weeks": [
+        "2026-W29",
+        "2026-W30",
+        "2026-W31",
+        "2026-W32"
+      ],
+      "first_seen_week": "2026-W29",
+      "last_seen_week": "2026-W32",
+      "slug": "system-prompts",
+      "sources": [
+        {
+          "signal": "system-prompts",
+          "source_path": "data/raw/2026-W29.json",
+          "source_type": "raw_repo_topic",
+          "week": "2026-W29"
+        },
+        {
+          "signal": "system-prompts",
+          "source_path": "data/raw/2026-W30.json",
+          "source_type": "raw_repo_topic",
+          "week": "2026-W30"
+        },
+        {
+          "signal": "system-prompts",
+          "source_path": "data/raw/2026-W31.json",
+          "source_type": "raw_repo_topic",
+          "week": "2026-W31"
+        },
+        {
+          "signal": "system-prompts",
+          "source_path": "data/raw/2026-W32.json",
+          "source_type": "raw_repo_topic",
+          "week": "2026-W32"
+        }
+      ],
+      "supporting_signals": [
+        {
+          "detail": "asgeirtj/system_prompts_leaks",
+          "evidence_weeks": [
+            "2026-W29",
+            "2026-W30",
+            "2026-W31",
+            "2026-W32"
+          ],
+          "source_path": "data/raw/2026-W32.json",
+          "support_type": "recurring-repository-cluster",
+          "week": "2026-W32"
+        }
+      ],
+      "weekly_issue_count": 4
+    },
     "systemd": {
       "aliases": [
         "systemd"
