@@ -35,14 +35,21 @@ cast aborts the whole `hugo` build, not just the page, on a map/slice input).
     `totals.cost`/`input_tokens`/`output_tokens` before their `float`/`int`
     casts later in the partial, matching the pattern already used for
     `provenance.maximum_age_days`
+  * Round 2 (Copilot review on this PR): guarded `reconciliation.status`
+    itself against a map/slice value before comparing it, converting via
+    `string` rather than raw `eq`/`ne` on an untrusted shape — locally
+    confirmed this Hugo version's `eq`/`ne` do not error on map/slice
+    comparisons, but the guard matches this file's established defense-in-depth
+    convention and removes any dependency on that specific behavior
 * `tests/test_cost_dashboard_rendering.py`: added
-  `test_about_page_shows_unavailable_when_reconciliation_is_not_reconciled`
-  and `test_about_page_shows_unavailable_when_totals_field_is_non_numeric`
+  `test_about_page_shows_unavailable_when_reconciliation_is_not_reconciled`,
+  `test_about_page_shows_unavailable_when_totals_field_is_non_numeric`, and
+  `test_about_page_shows_unavailable_when_reconciliation_status_is_an_object`
 
 ## Validation
 
-* `pytest tests/test_cost_dashboard_rendering.py` -> 13 passed
-* `pytest tests/` -> 1560 passed
+* `pytest tests/test_cost_dashboard_rendering.py` -> 14 passed
+* `pytest tests/` -> 1561 passed
 * `ruff check` / `ruff format --check` clean
 * `hugo --minify` full-site build succeeds; `/about/` and `/dashboard/` both
   still render the unavailable state against real (file-absent) repository

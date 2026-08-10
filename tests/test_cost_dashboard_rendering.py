@@ -255,3 +255,19 @@ def test_about_page_shows_unavailable_when_totals_field_is_non_numeric(tmp_path:
         rendered = _build_about_page(tmp_path / "public")
 
     assert "Cost data is not currently available" in rendered
+
+
+def test_about_page_shows_unavailable_when_reconciliation_status_is_an_object(
+    tmp_path: Path,
+) -> None:
+    """A reconciliation.status shaped as an object must fail closed, not error the build."""
+    now = datetime.now(UTC).replace(microsecond=0)
+    payload = json.loads(json.dumps(VALID_SUMMARY))
+    payload["generated_at"] = now.isoformat().replace("+00:00", "Z")
+    payload["covered_period"]["latest_record_at"] = now.isoformat().replace("+00:00", "Z")
+    payload["reconciliation"]["status"] = {"unexpected": "shape"}
+
+    with cost_summary_fixture(payload):
+        rendered = _build_about_page(tmp_path / "public")
+
+    assert "Cost data is not currently available" in rendered

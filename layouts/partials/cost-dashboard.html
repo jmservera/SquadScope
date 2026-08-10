@@ -45,8 +45,13 @@
   {{- if $valid -}}
     {{- /* A structurally-complete but unreconciled record (e.g. "partial",
        "unreconciled") must fail closed per BR-009's acceptance criteria: the
-       presence check above only confirms the key exists, not its value. */ -}}
-    {{- if ne ($data.reconciliation.status | default "") "reconciled" -}}
+       presence check above only confirms the key exists, not its value. Guard
+       against a map/slice status the same way as the numeric fields below,
+       comparing via string rather than raw eq/ne on an untrusted shape. */ -}}
+    {{- $statusRaw := $data.reconciliation.status -}}
+    {{- if or (reflect.IsMap $statusRaw) (reflect.IsSlice $statusRaw) -}}
+      {{- $valid = false -}}
+    {{- else if ne (string ($statusRaw | default "")) "reconciled" -}}
       {{- $valid = false -}}
     {{- end -}}
   {{- end -}}
