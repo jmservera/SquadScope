@@ -22,6 +22,7 @@ EXPECTED_TOPICS = {
     "W30.md": ["AI Coding Agents", "Open-Source LLMs"],
     "W31.md": ["AI Coding Agents", "Developer Tools", "AI Agents in Healthcare"],
     "W32.md": ["AI Coding Agents", "Developer Tools"],
+    "W33.md": ["AI Coding Agents", "Developer Tools"],
 }
 
 
@@ -66,7 +67,7 @@ def test_backfill_is_idempotent_and_assigns_expected_topics(tmp_path: Path) -> N
     registry.parent.mkdir(parents=True)
     registry.write_bytes((ROOT / "data" / "taxonomy" / "topics.json").read_bytes())
 
-    assert len(backfill_weekly_topics(root=tmp_path)) == 12
+    assert len(backfill_weekly_topics(root=tmp_path)) == 13
     first_bytes = {path.name: path.read_bytes() for path in sorted(weekly_root.glob("W*.md"))}
     assert backfill_weekly_topics(root=tmp_path) == []
     assert first_bytes == {
@@ -100,3 +101,43 @@ def test_check_reports_stale_without_mutating(tmp_path: Path) -> None:
 
     assert backfill_weekly_topics(root=tmp_path, check=True) == [target]
     assert target.read_bytes() == before
+
+
+def test_backfill_restores_seed_topics_and_keeps_promoted_dynamic_topic(tmp_path: Path) -> None:
+    weekly = tmp_path / "content" / "weekly" / "2026" / "W22.md"
+    weekly.parent.mkdir(parents=True)
+    weekly.write_text(
+        '---\ntitle: "2026-W22"\ndate: 2026-05-25\nweek: "2026-W22"\n'
+        'tags: ["agent-skills", "open-source", "developer-tooling", "local-first"]\n'
+        'categories: ["weekly"]\ntopics: ["Local First"]\n---\nBody\n',
+        encoding="utf-8",
+    )
+    for slug, title in (
+        ("ai-coding-agents", "AI Coding Agents"),
+        ("open-source-llms", "Open-Source LLMs"),
+        ("developer-tools", "Developer Tools"),
+        ("local-first", "Local First"),
+    ):
+        hub = tmp_path / "content" / "topics" / slug / "_index.md"
+        hub.parent.mkdir(parents=True, exist_ok=True)
+        hub.write_text(f'---\ntitle: "{title}"\n---\n', encoding="utf-8")
+    registry = tmp_path / "data" / "taxonomy" / "topics.json"
+    registry.parent.mkdir(parents=True)
+    source_registry = json.loads((ROOT / "data" / "taxonomy" / "topics.json").read_text())
+    source_registry["terms"]["local-first"] = {
+        "aliases": ["local-first"],
+        "display_name": "Local First",
+        "is_hub": True,
+        "promoted": True,
+        "slug": "local-first",
+    }
+    registry.write_text(json.dumps(source_registry), encoding="utf-8")
+
+    changed = backfill_weekly_topics(root=tmp_path)
+
+    assert changed == [weekly]
+    assert (
+        'topics: ["AI Coding Agents", "Open-Source LLMs", "Developer Tools", "Local First"]'
+        in weekly.read_text(encoding="utf-8")
+    )
+    assert backfill_weekly_topics(root=tmp_path) == []

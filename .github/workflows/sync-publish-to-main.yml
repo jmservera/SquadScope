@@ -46,16 +46,46 @@ jobs:
           git checkout -B "$SYNC_BRANCH" origin/main
 
           # Wipe target generated dirs so deletions on publish propagate to main
-          rm -rf data/raw data/analyzed data/metrics content/weekly content/monthly content/yearly
+          rm -rf \
+            data/raw \
+            data/analyzed \
+            data/metrics \
+            data/topic-hubs \
+            content/weekly \
+            content/monthly \
+            content/yearly
 
           # REQUIRED — these must exist on publish; fail loudly if not
           git checkout origin/publish -- \
             data/raw/ \
             data/analyzed/ \
             data/metrics/ \
+            data/taxonomy/tags.json \
+            data/taxonomy/topic-candidates.json \
+            data/topic-hubs/ \
             content/weekly/ \
             content/monthly/ \
             content/yearly/
+
+          # Preserve curated seed hubs from main and carry only hubs explicitly
+          # created by the dynamic lifecycle on publish.
+          while IFS= read -r hub; do
+            publish_frontmatter="$(git show "origin/publish:${hub}" | sed -n '1,/^---$/! { /^---$/q; p; }')"
+            current_frontmatter=""
+            if [ -f "$hub" ]; then
+              current_frontmatter="$(sed -n '1,/^---$/! { /^---$/q; p; }' "$hub")"
+            fi
+            if grep -q '^  dynamic_topic: true$' <<< "$publish_frontmatter" \
+              && { [ ! -f "$hub" ] || grep -q '^  dynamic_topic: true$' <<< "$current_frontmatter"; }; then
+              git checkout origin/publish -- "$hub"
+            fi
+          done < <(git ls-tree -r --name-only origin/publish -- content/topics | grep '/_index.md$')
+
+          # Rebuild topics.json from main's seed hubs, synced dynamic hubs, and
+          # the reconciled weekly corpus. Importing publish's whole registry can
+          # retain stale static hubs that are intentionally absent from main.
+          python3 scripts/taxonomy_registry.py
+          python3 scripts/discover_topic_candidates.py
 
           # Rebuild rollups from the synced analyzed summaries so monthly/yearly
           # pages cannot drift from the weekly content in the generated sync PR.
@@ -103,14 +133,16 @@ jobs:
           - \`data/raw/\` — raw crawl data
           - \`data/analyzed/\` — weekly analysis summaries
           - \`data/metrics/\` — token usage metrics
+          - \`data/taxonomy/\`, \`data/topic-hubs/\` — canonical and dynamic topic state
           - \`content/weekly/\`, \`content/monthly/\`, \`content/yearly/\` — generated Hugo pages
+          - \`content/topics/\` — dynamic topic hubs overlaid onto durable seed hubs
 
           **Explicitly NOT synced:**
           - \`.squad/**\` — Squad memory, decisions, run counters, skills, logs, and agent histories are not authoritative on publish.
 
           **Notes:**
-          - Publish is authoritative for synced paths. Hand-edits on main to these paths WILL be overwritten.
-          - Deletions on publish propagate to main (target dirs are wiped before checkout).
+          - Publish is authoritative for replaced synced paths. Hand-edits on main to these paths WILL be overwritten.
+          - Topic hubs are overlaid so durable seed pages absent from publish are preserved.
 
           Safe to merge — contains only generated data, no code changes." \
               --label "squad"

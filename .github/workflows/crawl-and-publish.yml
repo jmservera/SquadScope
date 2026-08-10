@@ -1078,8 +1078,23 @@ jobs:
             # Only mirror paths present on publish; otherwise keep main's committed
             # version so generated content not yet on publish is not deleted (issue #627).
             if [ -n "$(git ls-tree -r --name-only origin/publish -- "$path")" ]; then
-              rm -rf "$path"
-              git checkout origin/publish -- "$path"
+              if [ "$path" = "content/topics" ]; then
+                # Keep main's curated seed hubs and hydrate only durable dynamic hubs.
+                while IFS= read -r hub; do
+                  publish_frontmatter="$(git show "origin/publish:${hub}" | sed -n '1,/^---$/! { /^---$/q; p; }')"
+                  current_frontmatter=""
+                  if [ -f "$hub" ]; then
+                    current_frontmatter="$(sed -n '1,/^---$/! { /^---$/q; p; }' "$hub")"
+                  fi
+                  if grep -q '^  dynamic_topic: true$' <<< "$publish_frontmatter" \
+                    && { [ ! -f "$hub" ] || grep -q '^  dynamic_topic: true$' <<< "$current_frontmatter"; }; then
+                    git checkout origin/publish -- "$hub"
+                  fi
+                done < <(git ls-tree -r --name-only origin/publish -- "$path" | grep '/_index.md$')
+              else
+                rm -rf "$path"
+                git checkout origin/publish -- "$path"
+              fi
             fi
           done
 
@@ -1158,6 +1173,12 @@ jobs:
             mv "${log}.tmp" "$log"
           done
 
+      - name: Reconcile weekly topic frontmatter
+        # Publish hydration can contain historical pages created before canonical
+        # topic frontmatter existed. Reconcile after dynamic promotion so both
+        # seed and newly promoted topics are present before manifest rehashing.
+        run: python3 scripts/backfill_weekly_topics.py
+
       - name: Rehash and promote final weekly content
         env:
           WEEK: ${{ needs.analyze.outputs.week }}
@@ -1218,6 +1239,7 @@ jobs:
       - name: Verify generated content freshness
         run: |
           set -euo pipefail
+          python3 scripts/backfill_weekly_topics.py --check
           python3 scripts/discover_topic_candidates.py --check
           python3 scripts/observatory_repos.py --check
           python3 scripts/generate_data_pages.py --check
