@@ -579,8 +579,9 @@ def test_frozen_corpus_lifecycle_seed_has_expected_parity() -> None:
     # discovered in raw weeks. Re-running load_repository_histories() without
     # identity_backfill still reconciles to the same qualified/page/derived parity,
     # even though it recreates transient fallback entries for prior names still
-    # present in raw crawl data.
-    assert len(histories) == 2407
+    # present in raw crawl data. This count grows as new weekly crawls add raw
+    # data (2407 -> 2601 after week 2026-W33 synced to main on 2026-08-10).
+    assert len(histories) == 2601
     assert all(isinstance(key, str) and key for key in histories)
     expected_schema = observatory_repos.lifecycle_ledger_payload({})["schema_version"]
     committed_ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
