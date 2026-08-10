@@ -1,8 +1,8 @@
-<!-- markdownlint-disable-file -->
 ---
 description: Repair historical topic frontmatter without breaking weekly crawl convergence
-applyTo: '**'
+applyTo: '.copilot-tracking/changes/2026-08-10/topic-history-crawl-continuity-changes.md'
 ---
+<!-- markdownlint-disable-file -->
 
 # Topic History Crawl Continuity Plan
 

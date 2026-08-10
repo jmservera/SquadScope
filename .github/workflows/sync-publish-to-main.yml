@@ -89,7 +89,7 @@ jobs:
               && { [ ! -f "$hub" ] || grep -q '^  dynamic_topic: true$' <<< "$current_frontmatter"; }; then
               git checkout origin/publish -- "$hub"
             fi
-          done < <(git ls-tree -r --name-only origin/publish -- content/topics | grep '/_index.md$')
+          done < <(git ls-tree -r --name-only origin/publish -- content/topics | grep '/_index.md$' || true)
 
           # Rebuild topics.json from main's seed hubs, synced dynamic hubs, and
           # the reconciled weekly corpus. Importing publish's whole registry can

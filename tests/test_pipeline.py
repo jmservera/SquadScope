@@ -691,6 +691,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertNotIn('git checkout origin/publish -- "$path" 2>/dev/null || true', hydrate)
         self.assertIn('if [ "$path" = "content/topics" ]; then', hydrate)
         self.assertIn("dynamic_topic: true", hydrate)
+        self.assertIn("grep '/_index.md$' || true", hydrate)
         self.assertIn('current_frontmatter=""', hydrate)
         self.assertIn('[ ! -f "$hub" ]', hydrate)
 
@@ -760,6 +761,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("data/taxonomy/tags.json", sync_run)
         self.assertIn("data/taxonomy/topic-candidates.json", sync_run)
         self.assertIn("dynamic_topic: true", sync_run)
+        self.assertIn("grep '/_index.md$' || true", sync_run)
         self.assertIn("python3 scripts/taxonomy_registry.py", sync_run)
         self.assertIn("python3 scripts/discover_topic_candidates.py", sync_run)
         self.assertLess(
