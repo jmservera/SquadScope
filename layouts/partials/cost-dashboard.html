@@ -8,6 +8,7 @@
 {{- $data := index .Site.Data "metrics" "cost-summary" -}}
 {{- $requiredKeys := slice "schema_version" "generated_at" "currency" "pricing_basis" "provenance" "covered_period" "accepted_identities" "exclusions" "reconciliation" "totals" -}}
 {{- $valid := true -}}
+{{- $scalarPattern := `^\d+(\.\d+)?$` -}}
 {{- if or (not $data) (not (reflect.IsMap $data)) -}}
   {{- $valid = false -}}
 {{- else -}}
@@ -42,6 +43,30 @@
     {{- end -}}
   {{- end -}}
   {{- if $valid -}}
+    {{- /* A structurally-complete but unreconciled record (e.g. "partial",
+       "unreconciled") must fail closed per BR-009's acceptance criteria: the
+       presence check above only confirms the key exists, not its value. Guard
+       against a map/slice status the same way as the numeric fields below,
+       comparing via string rather than raw eq/ne on an untrusted shape. */ -}}
+    {{- $statusRaw := $data.reconciliation.status -}}
+    {{- if or (reflect.IsMap $statusRaw) (reflect.IsSlice $statusRaw) -}}
+      {{- $valid = false -}}
+    {{- else if ne (string ($statusRaw | default "")) "reconciled" -}}
+      {{- $valid = false -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $valid -}}
+    {{- /* totals.* are cast with float/int below; a map/slice or non-numeric
+       string value would abort the whole hugo build (same class of bug fixed
+       for maximum_age_days), so validate each is scalar-numeric text first. */ -}}
+    {{- range slice "cost" "input_tokens" "output_tokens" -}}
+      {{- $value := index $data.totals . -}}
+      {{- if or (reflect.IsMap $value) (reflect.IsSlice $value) (not (findRE $scalarPattern (string $value))) -}}
+        {{- $valid = false -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $valid -}}
     {{- /* Each accepted identity is rendered without a default fallback, so a
        malformed entry must fail closed rather than show "<no value>". */ -}}
     {{- $identityKeys := slice "week" "stage" "model" "workflow_run_id" "run_attempt" -}}
@@ -59,7 +84,6 @@
 {{- end -}}
 {{- $generatedTime := now -}}
 {{- $maxAgeDays := 30 -}}
-{{- $scalarPattern := `^\d+(\.\d+)?$` -}}
 {{- if $valid -}}
   {{- /* Numeric conversions (int/string) error the whole hugo build on a
      map/slice input, so rule those out before touching maximum_age_days or

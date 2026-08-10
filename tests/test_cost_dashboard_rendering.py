@@ -226,3 +226,48 @@ def test_about_page_shows_unavailable_when_generated_at_is_an_object(tmp_path: P
         rendered = _build_about_page(tmp_path / "public")
 
     assert "Cost data is not currently available" in rendered
+
+
+def test_about_page_shows_unavailable_when_reconciliation_is_not_reconciled(tmp_path: Path) -> None:
+    """A structurally-complete but unreconciled record must fail closed per BR-009."""
+    now = datetime.now(UTC).replace(microsecond=0)
+    payload = json.loads(json.dumps(VALID_SUMMARY))
+    payload["generated_at"] = now.isoformat().replace("+00:00", "Z")
+    payload["covered_period"]["latest_record_at"] = now.isoformat().replace("+00:00", "Z")
+    payload["reconciliation"]["status"] = "partial"
+
+    with cost_summary_fixture(payload):
+        rendered = _build_about_page(tmp_path / "public")
+
+    assert "Cost data is not currently available" in rendered
+    assert "0.42" not in rendered
+
+
+def test_about_page_shows_unavailable_when_totals_field_is_non_numeric(tmp_path: Path) -> None:
+    """A non-numeric totals.cost must fail closed, not error float() and the build."""
+    now = datetime.now(UTC).replace(microsecond=0)
+    payload = json.loads(json.dumps(VALID_SUMMARY))
+    payload["generated_at"] = now.isoformat().replace("+00:00", "Z")
+    payload["covered_period"]["latest_record_at"] = now.isoformat().replace("+00:00", "Z")
+    payload["totals"]["cost"] = {"unexpected": "shape"}
+
+    with cost_summary_fixture(payload):
+        rendered = _build_about_page(tmp_path / "public")
+
+    assert "Cost data is not currently available" in rendered
+
+
+def test_about_page_shows_unavailable_when_reconciliation_status_is_an_object(
+    tmp_path: Path,
+) -> None:
+    """A reconciliation.status shaped as an object must fail closed, not error the build."""
+    now = datetime.now(UTC).replace(microsecond=0)
+    payload = json.loads(json.dumps(VALID_SUMMARY))
+    payload["generated_at"] = now.isoformat().replace("+00:00", "Z")
+    payload["covered_period"]["latest_record_at"] = now.isoformat().replace("+00:00", "Z")
+    payload["reconciliation"]["status"] = {"unexpected": "shape"}
+
+    with cost_summary_fixture(payload):
+        rendered = _build_about_page(tmp_path / "public")
+
+    assert "Cost data is not currently available" in rendered
