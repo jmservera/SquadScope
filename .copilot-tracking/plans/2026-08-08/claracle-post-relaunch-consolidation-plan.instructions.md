@@ -196,8 +196,20 @@ genuine-equivalent 301/308 row.
   generation, discarding the current run's fresh ledger row. This ledger
   commit-path gap (independent of the now-resolved policy question) needs its
   own investigation and fix before cost generation can be safely wired in
-* [ ] Retain Calculon, Fry, Farnsworth, Zapp, Nibbler, URL, and sponsor evidence
-  only from the roles routed to each acceptance surface
+* [x] Retain Calculon, Fry, Farnsworth, Zapp, Nibbler, URL, and sponsor evidence
+  only from the roles routed to each acceptance surface. For the BR-009 cost
+  dashboard surface (PR #697, merged `9af3026d`), ran all six roles in
+  parallel: Fry (QA, ACCEPT WITH FOLLOW-UPS), Calculon (design, ACCEPT WITH
+  FOLLOW-UPS), Farnsworth (editorial, NOT APPLICABLE — correctly out of
+  scope, no editorial content on this surface), Zapp (SEO, ACCEPT WITH
+  FOLLOW-UPS, no structured-data/heading-hierarchy impact), Nibbler (RAI/
+  safety, ACCEPT WITH FOLLOW-UPS), URL (DevSecOps, ACCEPT WITH FOLLOW-UPS,
+  confirmed zero pipeline/CI-tooling scope in this PR). Full findings in
+  `.copilot-tracking/reviews/2026-08-10/br-009-squad-acceptance-review.md`.
+  Fry and Nibbler independently converged on the same real gap (fixed in a
+  fast-follow, see that review doc for detail): `reconciliation.status` was
+  checked for presence but never validated to equal `"reconciled"`, a named
+  BRD fail-closed criterion left untested and unguarded
 
 ### [ ] Phase 3: Repository Inventory And Migration Candidate
 
