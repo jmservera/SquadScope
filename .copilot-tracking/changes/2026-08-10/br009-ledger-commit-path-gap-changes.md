@@ -40,6 +40,12 @@ workflow (BR-009 activation remains a separate follow-up, gated on this fix).
     in the same job. This mirrors the existing, already-tested pattern used
     for `data/analyzed/` (hydrate-from-publish, then overlay this run's
     artifact)
+  * `generate` job (round 2, URL squad review): gave the download step an
+    `id` and added a "Warn if ledger artifact was unavailable" step that
+    emits a `::warning::` annotation when the download did not succeed, so a
+    silently-skipped ledger sync (tolerated by `continue-on-error`) is
+    visible in run logs instead of regressing to the exact "row lost" bug
+    this fix addresses with zero visibility
 * `tests/test_pipeline.py`: added
   `test_analyze_job_uploads_token_usage_ledger_for_generate_job`, asserting
   the upload step's name/artifact-name/path/`if: always()`, and that the
@@ -48,13 +54,18 @@ workflow (BR-009 activation remains a separate follow-up, gated on this fix).
 ## Validation
 
 * `python3 -c "import yaml; yaml.safe_load(...)"` -> workflow YAML parses
-* `pytest tests/test_pipeline.py tests/test_atomic_publish_proof.py tests/test_sync_publish_workflow.py tests/test_publish_hydration.py` -> 52 passed, 19 subtests passed
-* `pytest tests/` -> 1561 passed (unchanged count; this PR adds one test but
-  the prior full-suite run already reflected round-3 fixes)
+* `pytest tests/test_pipeline.py tests/test_atomic_publish_proof.py tests/test_sync_publish_workflow.py tests/test_publish_hydration.py` -> 53 passed, 19 subtests passed
+* `pytest tests/` -> 1562 passed
 * `zizmor --persona=regular .github/workflows/crawl-and-publish.yml` -> same
   3 pre-existing medium `secrets-outside-env` findings, all at unrelated
   lines (COPILOT_GITHUB_TOKEN, WEBHOOK_URL); no new findings introduced by
-  the two added artifact steps
+  the added artifact/warning steps
+* Squad acceptance review per `.squad/routing.md` (workflow changes route to
+  URL + Hermes): URL — ACCEPT WITH FOLLOW-UPS (confirmed scope, job
+  ordering, commit-step compatibility, zizmor clean; recommended the
+  visibility warning implemented above); Hermes — ACCEPT (confirmed no
+  fork-reachable trigger, no sensitive data in the ledger file, correct
+  action pinning, zizmor identical before/after)
 
 ## Deviations
 
