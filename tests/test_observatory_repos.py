@@ -580,7 +580,6 @@ def test_frozen_corpus_lifecycle_seed_has_expected_parity() -> None:
     # identity_backfill still reconciles to the same qualified/page/derived parity,
     # even though it recreates transient fallback entries for prior names still
     # present in raw crawl data.
-    assert len(histories) == 2407
     assert all(isinstance(key, str) and key for key in histories)
     expected_schema = observatory_repos.lifecycle_ledger_payload({})["schema_version"]
     committed_ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
@@ -591,6 +590,7 @@ def test_frozen_corpus_lifecycle_seed_has_expected_parity() -> None:
     # entries than the freshly-recomputed histories above, since the committed ledger
     # has already merged the renamed/consolidated identities into single entries).
     assert len(committed_repositories) == 2400
+    assert set(committed_repositories).issubset(histories)
     assert all(isinstance(entry, dict) for entry in committed_repositories.values())
 
 

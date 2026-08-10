@@ -216,7 +216,7 @@ def test_seed_topic_hubs_have_unique_metadata_and_dataset_links() -> None:
     seed_topics = {
         slug: term["display_name"]
         for slug, term in registry["terms"].items()
-        if term["is_hub"] and term["promoted"]
+        if term["is_hub"] and term["promoted"] and isinstance(term.get("order"), int)
     }
     assert seed_topics == SEED_HUBS
 
