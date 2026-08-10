@@ -547,6 +547,37 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIsNotNone(promoted_upload)
         self.assertEqual(promoted_upload["with"]["name"], "promoted-analyzed-data")
 
+    def test_analyze_job_uploads_token_usage_ledger_for_generate_job(self) -> None:
+        """The generate job's publish hydration discards data/metrics/ unless the
+        analyze job's freshly appended ledger row is passed forward via artifact
+        (see the ledger commit-path gap fixed alongside this test)."""
+        workflow_path = Path(".github/workflows/crawl-and-publish.yml")
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+
+        analyze_job = workflow["jobs"]["analyze"]
+        upload_step = next(
+            (s for s in analyze_job["steps"] if s.get("name") == "Upload token usage ledger"),
+            None,
+        )
+        self.assertIsNotNone(upload_step)
+        self.assertTrue(_uses_action(upload_step, "actions/upload-artifact"))
+        self.assertEqual(upload_step["with"]["name"], "token-usage-ledger")
+        self.assertEqual(upload_step["with"]["path"], "data/metrics/token-usage.jsonl")
+        self.assertEqual(upload_step.get("if"), "always()")
+
+        generate_job = workflow["jobs"]["generate"]
+        step_names = [s.get("name") for s in generate_job["steps"]]
+        hydrate_index = step_names.index("Hydrate prior generated state from publish")
+        download_index = step_names.index("Download token usage ledger artifact")
+        # The ledger download must happen after the publish hydration overwrites
+        # data/metrics/, so it overlays this run's row rather than being clobbered.
+        self.assertGreater(download_index, hydrate_index)
+
+        download_step = generate_job["steps"][download_index]
+        self.assertTrue(_uses_action(download_step, "actions/download-artifact"))
+        self.assertEqual(download_step["with"]["name"], "token-usage-ledger")
+        self.assertEqual(download_step["with"]["path"], "data/metrics/")
+
     def test_production_quality_build_uses_local_server_base_url(self) -> None:
         workflow_path = Path(".github/workflows/ci.yml")
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
