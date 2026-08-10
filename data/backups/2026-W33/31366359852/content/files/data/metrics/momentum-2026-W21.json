@@ -1,0 +1,706 @@
+{
+  "week": "2026-W21",
+  "tracked_repos": [
+    {
+      "repo": "microsoft/vscode",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "microsoft/PowerToys",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "microsoft/generative-ai-for-beginners",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "microsoft/TypeScript",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "microsoft/terminal",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "microsoft/playwright",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "openai/codex",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "microsoft/ai-agents-for-beginners",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "starship/starship",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "AbhishekK130804/Claude-Mythos-AI-Anthropic-App",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "suyancc/openai-plus-vxt",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "ip-arch/NESLab",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "deepakness/google-ai-search-optimization",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "aqua5230/usage",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "OpenYSMDev/OpenYSM",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "wanshuiyin/ARIS-in-AI-Offer",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "Pythonation/AI-Text-Humanizer-Protocol",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "Yuvan-x/Pneumonia-Detection-With-Explainable-AI",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "openclaw/openclaw",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "open-webui/open-webui",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "x1xhlol/system-prompts-and-models-of-ai-tools",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "electron/electron",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "nodejs/node",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "tauri-apps/tauri",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "gohugoio/hugo",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "opencv/opencv",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "OpenHands/OpenHands",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "base/node",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "OpenBB-finance/OpenBB",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "JuliusBrussee/caveman",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "commaai/openpilot",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "virattt/ai-hedge-fund",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "sharkdp/bat",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "rclone/rclone",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "go-gitea/gitea",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "typst/typst",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "DenisSergeevitch/agents-best-practices",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "LiuMengxuan04/shushu-internship-tool",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "agent-quality-controls/slopless",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "Klotzkette/claude-fuer-deutsches-recht",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "basionwang-bot/HermesPet",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "gazelleandrewrasmussenmouj2/Windows-Activator",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "jigripokri/POHA",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "Helvesec/rmux",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "JSingletonAI/dejavu",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "joeseesun/qiaomu-userscripts",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "not-manu/filemention.nvim",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "n8n-io/n8n",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "affaan-m/ECC",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "Significant-Gravitas/AutoGPT",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "f/prompts.chat",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "NousResearch/hermes-agent",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "langflow-ai/langflow",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "langgenius/dify",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "langchain-ai/langchain",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "firecrawl/firecrawl",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "Comfy-Org/ComfyUI",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "jaywcjlove/awesome-mac",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "google-gemini/gemini-cli",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "github/spec-kit",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "hacksider/Deep-Live-Cam",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "ChatGPTNextWeb/NextChat",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "sherlock-project/sherlock",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "infiniflow/ragflow",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "vllm-project/vllm",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "netdata/netdata",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "lobehub/lobehub",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "thedotmack/claude-mem",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "caddyserver/caddy",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "daytonaio/daytona",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "hiyouga/LlamaFactory",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "bytedance/deer-flow",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "xtekky/gpt4free",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "unslothai/unsloth",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "openinterpreter/open-interpreter",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "ComposioHQ/awesome-claude-skills",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "docling-project/docling",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "code-yeongyu/oh-my-openagent",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "meilisearch/meilisearch",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "harry0703/MoneyPrinterTurbo",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "mem0ai/mem0",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "koala73/worldmonitor",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "WerWolv/ImHex",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "FlowiseAI/Flowise",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "MemPalace/mempalace",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "D4Vinci/Scrapling",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    },
+    {
+      "repo": "rtk-ai/rtk",
+      "initial_stars_gained": 0,
+      "week2_stars_gained": null,
+      "week4_stars_gained": null,
+      "classification": "faded",
+      "decay_rate": 0.0
+    }
+  ],
+  "summary": {
+    "total": 87,
+    "sustained": 0,
+    "faded": 87
+  }
+}

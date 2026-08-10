@@ -1,0 +1,53 @@
+{
+  "analysis_file": "data/candidates/2026-W31/30669054860/2026-W31-summary.md",
+  "errors_after_repair": [
+    "## Blind Spots must explain why the pattern matters, not only name it."
+  ],
+  "errors_before_repair": [
+    "## Blind Spots must explain why the pattern matters, not only name it."
+  ],
+  "failure_class": "editorial_quality",
+  "failure_summary": {
+    "error_count": 1,
+    "failure_categories": [
+      "editorial_quality"
+    ],
+    "failure_class": "editorial_quality",
+    "retryable": true
+  },
+  "gates": {
+    "ai_provenance": {
+      "errors": [],
+      "passed": true
+    },
+    "editorial_quality": {
+      "errors": [
+        "## Blind Spots must explain why the pattern matters, not only name it."
+      ],
+      "passed": false
+    },
+    "evidence_citation": {
+      "errors": [],
+      "passed": true
+    },
+    "structural_schema": {
+      "errors": [],
+      "passed": true
+    }
+  },
+  "model": "copilot-default",
+  "passed": false,
+  "quality_breakdown": {
+    "base": 60,
+    "depth": 15,
+    "evidence": 10,
+    "press": 15,
+    "press_available": true,
+    "press_citations": 5,
+    "repo_citations": 46,
+    "words": 1635
+  },
+  "repair_actions": [],
+  "source": "copilot-cli",
+  "word_count": 1635
+}

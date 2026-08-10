@@ -1,0 +1,7 @@
+Farnsworth is on it — reading the analysis prompt and writing the weekly summary.
+
+The file is large. Let me spawn Farnsworth to handle the full task.
+
+Farnsworth is on it — reading the 2026-W25 analysis prompt (it's a large file at 320KB), processing the weekly data, and writing the summary to `data/candidates/2026-W25/27541542758/2026-W25-summary.md`. I'll report back when it's done.
+
+Now let me read the large analysis prompt file in sections to extract the actual JSON data:

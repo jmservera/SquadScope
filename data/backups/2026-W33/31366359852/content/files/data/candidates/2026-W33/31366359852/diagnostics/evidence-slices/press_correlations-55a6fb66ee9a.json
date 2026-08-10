@@ -1,0 +1,1496 @@
+{
+  "checksum_sha256": "55a6fb66ee9a172a5616be1856f32374ca8299ed919f54bbf2c2d590cb0da665",
+  "component": "press_correlations",
+  "provenance": {
+    "sources": {
+      "correlations": {
+        "bytes": 175036,
+        "path": "data/analyzed/2026-W33-correlations.json",
+        "sha256": "f5700f6634298a76bfe93120eb8d39f9f2227724388058cce337e136d7cccb8b"
+      },
+      "external_news": {
+        "bytes": 48689,
+        "path": "data/raw/2026-W33-external-news.json",
+        "sha256": "6abd96a798aa046253f0847f5ee0d5477191eb10a33c6321d3fc4cb1bf896d15"
+      },
+      "press_context": {
+        "bytes": 14255,
+        "path": "data/analyzed/2026-W33-press-context.md",
+        "sha256": "f4043ad0bdcf9d0e11f6374f0e5edeac54d93c58229f6e81b973357d50597742"
+      },
+      "raw_json": {
+        "bytes": 387561,
+        "path": "data/raw/2026-W33.json",
+        "sha256": "3c6d36b012dc3b6219151fad82a473c56c02dd049f2a2b433832a7c26376e6e0"
+      }
+    },
+    "week": "2026-W33"
+  },
+  "records": [
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-06T19:49:34Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "A guide to slash commands in the GitHub Copilot app",
+          "url": "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/"
+        },
+        {
+          "published_at": "2026-08-04T19:02:34Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How the GitHub legal team used Copilot CLI to streamline their workflows",
+          "url": "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/",
+        "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows/"
+      ],
+      "repo": "github/spec-kit"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-08T19:41:13Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI acquires presentation startup NextSlide",
+          "url": "https://techcrunch.com/2026/08/08/openai-acquires-presentation-startup-nextslide/"
+        },
+        {
+          "published_at": "2026-08-07T22:48:24Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI says it slowed Astra model development over security concerns",
+          "url": "https://techcrunch.com/2026/08/07/openai-says-it-slowed-astra-model-development-over-security-concerns/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/08/openai-acquires-presentation-startup-nextslide/",
+        "https://techcrunch.com/2026/08/07/openai-says-it-slowed-astra-model-development-over-security-concerns/"
+      ],
+      "repo": "openai/codex"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-09T19:20:32Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Anthropic is turning Claude Code’s auto mode on by default",
+          "url": "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+        },
+        {
+          "published_at": "2026-08-07T16:16:09Z",
+          "relevance_score": 0.8,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Cloudflare launches Kitesurf, a browser built for AI agents",
+          "url": "https://techcrunch.com/2026/08/07/cloudflare-launches-kitesurf-a-browser-built-for-ai-agents/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/",
+        "https://techcrunch.com/2026/08/07/cloudflare-launches-kitesurf-a-browser-built-for-ai-agents/"
+      ],
+      "repo": "0xwilliamortiz/claude-red"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-05T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: NASA’s new telescope and Chinese tech import curbs",
+          "url": "https://www.technologyreview.com/2026/08/05/1141212/the-download-nasa-telescope-chinese-tech-import-curbs/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/08/05/1141212/the-download-nasa-telescope-chinese-tech-import-curbs/"
+      ],
+      "repo": "1c7/chinese-independent-developer"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-06T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Baseten on Hugging Face Inference Providers 🔥",
+          "url": "https://huggingface.co/blog/baseten"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/baseten"
+      ],
+      "repo": "3241288994/PasteLens"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-05T13:00:47Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and Partners Build in America, for America",
+          "url": "https://blogs.nvidia.com/blog/nvidia-and-partners-build-in-america-for-america/"
+        },
+        {
+          "published_at": "2026-08-04T15:00:49Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Alpamayo 2 Super, the Frontier Open Model for Robotaxis and Autonomous Vehicles, Now Available for Commercial Use",
+          "url": "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-and-partners-build-in-america-for-america/",
+        "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+      ],
+      "repo": "BOMWiki/partmode"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-06T13:00:00Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Into the Omniverse: How Open World Models Push the Frontier of Physical AI",
+          "url": "https://blogs.nvidia.com/blog/open-world-models-physical-ai/"
+        },
+        {
+          "published_at": "2026-08-04T15:00:49Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Alpamayo 2 Super, the Frontier Open Model for Robotaxis and Autonomous Vehicles, Now Available for Commercial Use",
+          "url": "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/open-world-models-physical-ai/",
+        "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+      ],
+      "repo": "Binaryify/open-kimi-ppt-skill"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-09T19:20:32Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Anthropic is turning Claude Code’s auto mode on by default",
+          "url": "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+      ],
+      "repo": "BreezeSolicitorMap/NodeTopicss"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-09T19:20:32Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Anthropic is turning Claude Code’s auto mode on by default",
+          "url": "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+      ],
+      "repo": "Chalarangelo/30-seconds-of-code"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-07T21:30:11Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "After Rippling blew millions on AI in months, it built an employee ROI tool",
+          "url": "https://techcrunch.com/2026/08/07/after-rippling-blew-millions-on-ai-in-months-it-built-an-employee-roi-tool/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/07/after-rippling-blew-millions-on-ai-in-months-it-built-an-employee-roi-tool/"
+      ],
+      "repo": "D4Vinci/Scrapling"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-07T15:52:33Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Today’s the last day to get up to $400 off your TechCrunch Disrupt 2026 ticket",
+          "url": "https://techcrunch.com/2026/08/07/todays-the-last-day-to-get-up-to-400-off-your-techcrunch-disrupt-2026-ticket/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/07/todays-the-last-day-to-get-up-to-400-off-your-techcrunch-disrupt-2026-ticket/"
+      ],
+      "repo": "Eugeny/tabby"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-06T13:00:00Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Into the Omniverse: How Open World Models Push the Frontier of Physical AI",
+          "url": "https://blogs.nvidia.com/blog/open-world-models-physical-ai/"
+        },
+        {
+          "published_at": "2026-08-04T15:00:49Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Alpamayo 2 Super, the Frontier Open Model for Robotaxis and Autonomous Vehicles, Now Available for Commercial Use",
+          "url": "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/open-world-models-physical-ai/",
+        "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+      ],
+      "repo": "Fission-AI/OpenSpec"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-08T21:24:02Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Planned Amazon data center could become the biggest climate polluter in the U.S.",
+          "url": "https://techcrunch.com/2026/08/08/planned-amazon-data-center-could-become-the-biggest-climate-polluter-in-the-u-s/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/08/planned-amazon-data-center-could-become-the-biggest-climate-polluter-in-the-u-s/"
+      ],
+      "repo": "JuliusBrussee/caveman"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-09T19:20:32Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Anthropic is turning Claude Code’s auto mode on by default",
+          "url": "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+      ],
+      "repo": "Kuberwastaken/cookie"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-08T19:41:13Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI acquires presentation startup NextSlide",
+          "url": "https://techcrunch.com/2026/08/08/openai-acquires-presentation-startup-nextslide/"
+        },
+        {
+          "published_at": "2026-08-07T22:48:24Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI says it slowed Astra model development over security concerns",
+          "url": "https://techcrunch.com/2026/08/07/openai-says-it-slowed-astra-model-development-over-security-concerns/"
+        },
+        {
+          "published_at": "2026-08-06T13:00:00Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Into the Omniverse: How Open World Models Push the Frontier of Physical AI",
+          "url": "https://blogs.nvidia.com/blog/open-world-models-physical-ai/"
+        },
+        {
+          "published_at": "2026-08-04T15:00:49Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Alpamayo 2 Super, the Frontier Open Model for Robotaxis and Autonomous Vehicles, Now Available for Commercial Use",
+          "url": "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/08/openai-acquires-presentation-startup-nextslide/",
+        "https://techcrunch.com/2026/08/07/openai-says-it-slowed-astra-model-development-over-security-concerns/",
+        "https://blogs.nvidia.com/blog/open-world-models-physical-ai/",
+        "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+      ],
+      "repo": "OpenCut-app/OpenCut"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-08T19:41:13Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI acquires presentation startup NextSlide",
+          "url": "https://techcrunch.com/2026/08/08/openai-acquires-presentation-startup-nextslide/"
+        },
+        {
+          "published_at": "2026-08-07T22:48:24Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI says it slowed Astra model development over security concerns",
+          "url": "https://techcrunch.com/2026/08/07/openai-says-it-slowed-astra-model-development-over-security-concerns/"
+        },
+        {
+          "published_at": "2026-08-06T13:00:00Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Into the Omniverse: How Open World Models Push the Frontier of Physical AI",
+          "url": "https://blogs.nvidia.com/blog/open-world-models-physical-ai/"
+        },
+        {
+          "published_at": "2026-08-04T15:00:49Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Alpamayo 2 Super, the Frontier Open Model for Robotaxis and Autonomous Vehicles, Now Available for Commercial Use",
+          "url": "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+        },
+        {
+          "published_at": "2026-08-04T15:00:47Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "As AI Increases Demands on Memory, Storage Steps Up",
+          "url": "https://blogs.nvidia.com/blog/ai-storage-fms/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/08/openai-acquires-presentation-startup-nextslide/",
+        "https://techcrunch.com/2026/08/07/openai-says-it-slowed-astra-model-development-over-security-concerns/",
+        "https://blogs.nvidia.com/blog/open-world-models-physical-ai/",
+        "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/",
+        "https://blogs.nvidia.com/blog/ai-storage-fms/"
+      ],
+      "repo": "OpenHands/OpenHands"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-04T15:00:47Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "As AI Increases Demands on Memory, Storage Steps Up",
+          "url": "https://blogs.nvidia.com/blog/ai-storage-fms/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/ai-storage-fms/"
+      ],
+      "repo": "TanShilongMario/visual-memory-translator-SKILL"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-09T16:05:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "TechCrunch Mobility: Zoox prepares for launch and Uber’s AV empire",
+          "url": "https://techcrunch.com/2026/08/09/techcrunch-mobility-zoox-prepares-for-launch-and-ubers-av-empire/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/09/techcrunch-mobility-zoox-prepares-for-launch-and-ubers-av-empire/"
+      ],
+      "repo": "TheAlgorithms/Java"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-07T22:48:24Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI says it slowed Astra model development over security concerns",
+          "url": "https://techcrunch.com/2026/08/07/openai-says-it-slowed-astra-model-development-over-security-concerns/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/07/openai-says-it-slowed-astra-model-development-over-security-concerns/"
+      ],
+      "repo": "amiralibg/unstream"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-09T19:20:32Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Anthropic is turning Claude Code’s auto mode on by default",
+          "url": "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+        },
+        {
+          "published_at": "2026-08-06T13:00:00Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Into the Omniverse: How Open World Models Push the Frontier of Physical AI",
+          "url": "https://blogs.nvidia.com/blog/open-world-models-physical-ai/"
+        },
+        {
+          "published_at": "2026-08-04T15:00:49Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Alpamayo 2 Super, the Frontier Open Model for Robotaxis and Autonomous Vehicles, Now Available for Commercial Use",
+          "url": "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/",
+        "https://blogs.nvidia.com/blog/open-world-models-physical-ai/",
+        "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+      ],
+      "repo": "anomalyco/opencode"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-08T16:00:00Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The Kindle Scribe Colorsoft is a lot of fun, but it’s not a must-have",
+          "url": "https://techcrunch.com/2026/08/08/the-kindle-scribe-colorsoft-is-a-lot-of-fun-but-its-not-a-must-have/"
+        },
+        {
+          "published_at": "2026-08-04T15:00:49Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Alpamayo 2 Super, the Frontier Open Model for Robotaxis and Autonomous Vehicles, Now Available for Commercial Use",
+          "url": "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/08/the-kindle-scribe-colorsoft-is-a-lot-of-fun-but-its-not-a-must-have/",
+        "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+      ],
+      "repo": "ansible/ansible"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-09T19:20:32Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Anthropic is turning Claude Code’s auto mode on by default",
+          "url": "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+      ],
+      "repo": "anthropics/claude-code"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-09T15:00:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Historian Jill Lepore says Silicon Valley misreads science fiction and undermines democracy",
+          "url": "https://techcrunch.com/2026/08/09/historian-jill-lepore-says-the-tech-industry-is-led-by-bad-readers-who-are-undermining-democracy/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/09/historian-jill-lepore-says-the-tech-industry-is-led-by-bad-readers-who-are-undermining-democracy/"
+      ],
+      "repo": "anthropics/skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-04T15:00:49Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Alpamayo 2 Super, the Frontier Open Model for Robotaxis and Autonomous Vehicles, Now Available for Commercial Use",
+          "url": "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+      ],
+      "repo": "apache/superset"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-05T14:56:29Z",
+          "relevance_score": 0.0,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Puzzle Corner",
+          "url": "https://www.technologyreview.com/2026/08/05/1141230/puzzle-corner-84/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/08/05/1141230/puzzle-corner-84/"
+      ],
+      "repo": "bakrianoo/cohereX"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-09T15:00:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Historian Jill Lepore says Silicon Valley misreads science fiction and undermines democracy",
+          "url": "https://techcrunch.com/2026/08/09/historian-jill-lepore-says-the-tech-industry-is-led-by-bad-readers-who-are-undermining-democracy/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/09/historian-jill-lepore-says-the-tech-industry-is-led-by-bad-readers-who-are-undermining-democracy/"
+      ],
+      "repo": "bitcoin/bitcoin"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-09T19:20:32Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Anthropic is turning Claude Code’s auto mode on by default",
+          "url": "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+        },
+        {
+          "published_at": "2026-08-09T14:30:00Z",
+          "relevance_score": 0.8,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The AI safety test is becoming a safety risk",
+          "url": "https://techcrunch.com/2026/08/09/the-ai-safety-test-is-becoming-a-safety-risk/"
+        },
+        {
+          "published_at": "2026-08-09T13:00:00Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "This former notorious red-light district is now one of the world’s top AI hubs",
+          "url": "https://techcrunch.com/2026/08/09/this-former-notorious-red-light-district-is-now-one-of-the-worlds-top-ai-hubs/"
+        },
+        {
+          "published_at": "2026-08-08T10:24:54Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Firebird Launches CIS Region’s Largest AI Factory in Armenia",
+          "url": "https://blogs.nvidia.com/blog/firebird-ai-factory-armenia-blackwell-rubin-dsx/"
+        },
+        {
+          "published_at": "2026-08-07T21:30:11Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "After Rippling blew millions on AI in months, it built an employee ROI tool",
+          "url": "https://techcrunch.com/2026/08/07/after-rippling-blew-millions-on-ai-in-months-it-built-an-employee-roi-tool/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/",
+        "https://techcrunch.com/2026/08/09/the-ai-safety-test-is-becoming-a-safety-risk/",
+        "https://techcrunch.com/2026/08/09/this-former-notorious-red-light-district-is-now-one-of-the-worlds-top-ai-hubs/",
+        "https://blogs.nvidia.com/blog/firebird-ai-factory-armenia-blackwell-rubin-dsx/",
+        "https://techcrunch.com/2026/08/07/after-rippling-blew-millions-on-ai-in-months-it-built-an-employee-roi-tool/"
+      ],
+      "repo": "claude-mythos5/Claude-Mythos5-AI-Free-desktop"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-05T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: NASA’s new telescope and Chinese tech import curbs",
+          "url": "https://www.technologyreview.com/2026/08/05/1141212/the-download-nasa-telescope-chinese-tech-import-curbs/"
+        },
+        {
+          "published_at": "2026-08-04T19:02:34Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How the GitHub legal team used Copilot CLI to streamline their workflows",
+          "url": "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/08/05/1141212/the-download-nasa-telescope-chinese-tech-import-curbs/",
+        "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows/"
+      ],
+      "repo": "cline/cline"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-09T19:20:32Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Anthropic is turning Claude Code’s auto mode on by default",
+          "url": "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+      ],
+      "repo": "coder/code-server"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-09T19:20:32Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Anthropic is turning Claude Code’s auto mode on by default",
+          "url": "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+      ],
+      "repo": "colbymchenry/codegraph"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-08T19:41:13Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI acquires presentation startup NextSlide",
+          "url": "https://techcrunch.com/2026/08/08/openai-acquires-presentation-startup-nextslide/"
+        },
+        {
+          "published_at": "2026-08-07T22:48:24Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI says it slowed Astra model development over security concerns",
+          "url": "https://techcrunch.com/2026/08/07/openai-says-it-slowed-astra-model-development-over-security-concerns/"
+        },
+        {
+          "published_at": "2026-08-06T19:49:34Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "A guide to slash commands in the GitHub Copilot app",
+          "url": "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/"
+        },
+        {
+          "published_at": "2026-08-06T13:00:00Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Into the Omniverse: How Open World Models Push the Frontier of Physical AI",
+          "url": "https://blogs.nvidia.com/blog/open-world-models-physical-ai/"
+        },
+        {
+          "published_at": "2026-08-04T19:02:34Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How the GitHub legal team used Copilot CLI to streamline their workflows",
+          "url": "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/08/openai-acquires-presentation-startup-nextslide/",
+        "https://techcrunch.com/2026/08/07/openai-says-it-slowed-astra-model-development-over-security-concerns/",
+        "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/",
+        "https://blogs.nvidia.com/blog/open-world-models-physical-ai/",
+        "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows/"
+      ],
+      "repo": "commaai/openpilot"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-04T19:02:34Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How the GitHub legal team used Copilot CLI to streamline their workflows",
+          "url": "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows/"
+      ],
+      "repo": "coollabsio/coolify"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-08T16:34:22Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "X replaces ‘misaligned’ revenue sharing program with Original Content Rewards",
+          "url": "https://techcrunch.com/2026/08/08/x-replaces-misaligned-revenue-sharing-program-with-original-content-rewards/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/08/x-replaces-misaligned-revenue-sharing-program-with-original-content-rewards/"
+      ],
+      "repo": "crewAIInc/crewAI"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-09T20:35:17Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Embattled hedge fund Situational Awareness invests $400M in chip startup Source Foundry",
+          "url": "https://techcrunch.com/2026/08/09/embattled-hedge-fund-situational-awareness-invests-400m-in-chip-startup-source-foundry/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/09/embattled-hedge-fund-situational-awareness-invests-400m-in-chip-startup-source-foundry/"
+      ],
+      "repo": "dani-garcia/vaultwarden"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-07T21:00:08Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Security researchers scanned the Polish web and found courts, hospitals, and airports at risk of hacks",
+          "url": "https://techcrunch.com/2026/08/07/security-researchers-scanned-the-polish-web-and-found-courts-hospitals-and-airports-at-risk-of-hacks/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/07/security-researchers-scanned-the-polish-web-and-found-courts-hospitals-and-airports-at-risk-of-hacks/"
+      ],
+      "repo": "danielmiessler/SecLists"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-04T16:00:56Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Joins NSF State and Regional AI Hubs Program to Expand AI Research and Education Across the US",
+          "url": "https://blogs.nvidia.com/blog/nsf-state-regional-ai-hub-program/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nsf-state-regional-ai-hub-program/"
+      ],
+      "repo": "darama22/Malware-Research-Hub"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-06T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Baseten on Hugging Face Inference Providers 🔥",
+          "url": "https://huggingface.co/blog/baseten"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/baseten"
+      ],
+      "repo": "deepfakes/faceswap"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-04T13:58:29Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Deploy local agents everywhere with LFM2.5-2.6B",
+          "url": "https://huggingface.co/blog/LiquidAI/lfm2-5-2-6b"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/LiquidAI/lfm2-5-2-6b"
+      ],
+      "repo": "denoland/deno"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-04T19:02:34Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How the GitHub legal team used Copilot CLI to streamline their workflows",
+          "url": "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows/"
+      ],
+      "repo": "docling-project/docling"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-04T16:00:56Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Joins NSF State and Regional AI Hubs Program to Expand AI Research and Education Across the US",
+          "url": "https://blogs.nvidia.com/blog/nsf-state-regional-ai-hub-program/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nsf-state-regional-ai-hub-program/"
+      ],
+      "repo": "elastic/elasticsearch"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-08T15:00:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Google’s top hacker hunter explains why hacking groups get codenames",
+          "url": "https://techcrunch.com/2026/08/08/googles-top-hacker-hunter-explains-why-hacking-groups-get-codenames/"
+        },
+        {
+          "published_at": "2026-08-06T12:10:00Z",
+          "relevance_score": 0.6,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Google’s AI shake-up and Meta’s rogue model",
+          "url": "https://www.technologyreview.com/2026/08/06/1141278/the-download-google-ai-shake-up-meta-rogue-model/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/08/googles-top-hacker-hunter-explains-why-hacking-groups-get-codenames/",
+        "https://www.technologyreview.com/2026/08/06/1141278/the-download-google-ai-shake-up-meta-rogue-model/"
+      ],
+      "repo": "erikfiala/google-maps-scraper"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-07T22:48:24Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI says it slowed Astra model development over security concerns",
+          "url": "https://techcrunch.com/2026/08/07/openai-says-it-slowed-astra-model-development-over-security-concerns/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/07/openai-says-it-slowed-astra-model-development-over-security-concerns/"
+      ],
+      "repo": "fastapi/fastapi"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-07T16:16:09Z",
+          "relevance_score": 0.8,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Cloudflare launches Kitesurf, a browser built for AI agents",
+          "url": "https://techcrunch.com/2026/08/07/cloudflare-launches-kitesurf-a-browser-built-for-ai-agents/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/07/cloudflare-launches-kitesurf-a-browser-built-for-ai-agents/"
+      ],
+      "repo": "forever94yu/icloud-prime"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-08T10:24:54Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Firebird Launches CIS Region’s Largest AI Factory in Armenia",
+          "url": "https://blogs.nvidia.com/blog/firebird-ai-factory-armenia-blackwell-rubin-dsx/"
+        },
+        {
+          "published_at": "2026-08-06T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Baseten on Hugging Face Inference Providers 🔥",
+          "url": "https://huggingface.co/blog/baseten"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/firebird-ai-factory-armenia-blackwell-rubin-dsx/",
+        "https://huggingface.co/blog/baseten"
+      ],
+      "repo": "gin-gonic/gin"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-06T19:49:34Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "A guide to slash commands in the GitHub Copilot app",
+          "url": "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/"
+        },
+        {
+          "published_at": "2026-08-04T19:02:34Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How the GitHub legal team used Copilot CLI to streamline their workflows",
+          "url": "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/",
+        "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows/"
+      ],
+      "repo": "git/git"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-04T19:02:34Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How the GitHub legal team used Copilot CLI to streamline their workflows",
+          "url": "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/how-the-github-legal-team-used-copilot-cli-to-streamline-their-workflows/"
+      ],
+      "repo": "google-gemini/gemini-cli"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-08T15:00:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Google’s top hacker hunter explains why hacking groups get codenames",
+          "url": "https://techcrunch.com/2026/08/08/googles-top-hacker-hunter-explains-why-hacking-groups-get-codenames/"
+        },
+        {
+          "published_at": "2026-08-06T12:10:00Z",
+          "relevance_score": 0.6,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: Google’s AI shake-up and Meta’s rogue model",
+          "url": "https://www.technologyreview.com/2026/08/06/1141278/the-download-google-ai-shake-up-meta-rogue-model/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/08/googles-top-hacker-hunter-explains-why-hacking-groups-get-codenames/",
+        "https://www.technologyreview.com/2026/08/06/1141278/the-download-google-ai-shake-up-meta-rogue-model/"
+      ],
+      "repo": "googlegeminiapp/Google-Gemini-Desktop"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-08T10:24:54Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Firebird Launches CIS Region’s Largest AI Factory in Armenia",
+          "url": "https://blogs.nvidia.com/blog/firebird-ai-factory-armenia-blackwell-rubin-dsx/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/firebird-ai-factory-armenia-blackwell-rubin-dsx/"
+      ],
+      "repo": "hiyouga/LlamaFactory"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-09T19:20:32Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Anthropic is turning Claude Code’s auto mode on by default",
+          "url": "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/"
+        },
+        {
+          "published_at": "2026-08-09T15:00:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Historian Jill Lepore says Silicon Valley misreads science fiction and undermines democracy",
+          "url": "https://techcrunch.com/2026/08/09/historian-jill-lepore-says-the-tech-industry-is-led-by-bad-readers-who-are-undermining-democracy/"
+        },
+        {
+          "published_at": "2026-08-08T16:00:00Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The Kindle Scribe Colorsoft is a lot of fun, but it’s not a must-have",
+          "url": "https://techcrunch.com/2026/08/08/the-kindle-scribe-colorsoft-is-a-lot-of-fun-but-its-not-a-must-have/"
+        },
+        {
+          "published_at": "2026-08-05T14:56:29Z",
+          "relevance_score": 0.0,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Puzzle Corner",
+          "url": "https://www.technologyreview.com/2026/08/05/1141230/puzzle-corner-84/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/",
+        "https://techcrunch.com/2026/08/09/historian-jill-lepore-says-the-tech-industry-is-led-by-bad-readers-who-are-undermining-democracy/",
+        "https://techcrunch.com/2026/08/08/the-kindle-scribe-colorsoft-is-a-lot-of-fun-but-its-not-a-must-have/",
+        "https://www.technologyreview.com/2026/08/05/1141230/puzzle-corner-84/"
+      ],
+      "repo": "home-assistant/core"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-08-06T13:00:00Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Into the Omniverse: How Open World Models Push the Frontier of Physical AI",
+          "url": "https://blogs.nvidia.com/blog/open-world-models-physical-ai/"
+        },
+        {
+          "published_at": "2026-08-04T15:00:49Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Alpamayo 2 Super, the Frontier Open Model for Robotaxis and Autonomous Vehicles, Now Available for Commercial Use",
+          "url": "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/open-world-models-physical-ai/",
+        "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/"
+      ],
+      "repo": "jinwyp/open-ppt-skill"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "press_correlations"
+}

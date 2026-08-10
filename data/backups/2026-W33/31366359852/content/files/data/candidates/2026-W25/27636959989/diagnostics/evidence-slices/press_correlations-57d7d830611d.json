@@ -1,0 +1,1887 @@
+{
+  "checksum_sha256": "57d7d830611df5bf1be89a56f00e71cef6fcfbe2e931d9a6335141b33b630288",
+  "component": "press_correlations",
+  "provenance": {
+    "sources": {
+      "correlations": {
+        "bytes": 187932,
+        "path": "data/analyzed/2026-W25-correlations.json",
+        "sha256": "7068935e955b1bb99c887f18efb85df513d03e00a2128eace0ec81c29ed269a0"
+      },
+      "external_news": {
+        "bytes": 48500,
+        "path": "data/raw/2026-W25-external-news.json",
+        "sha256": "a8eabfebf1215679d49ed303540efd514d0bbc37cb288c2cc1107ed30ca5d82d"
+      },
+      "raw_json": {
+        "bytes": 262150,
+        "path": "data/raw/2026-W25.json",
+        "sha256": "6711eda46f3f7c58e501aee36acd803de89ebd3aae80c65ef4b7a7220c354c50"
+      }
+    },
+    "week": "2026-W25"
+  },
+  "records": [
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T18:30:58Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Meta’s new ‘AI Mode’ on Facebook pulls from public info across its platforms",
+          "url": "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/"
+      ],
+      "repo": "facebook/docusaurus"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        },
+        {
+          "published_at": "2026-06-12T22:26:23Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How we made GitHub Copilot CLI more selective about delegation",
+          "url": "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/"
+        },
+        {
+          "published_at": "2026-06-11T21:30:15Z",
+          "relevance_score": 0.6,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub availability report: May 2026",
+          "url": "https://github.blog/news-insights/company-news/github-availability-report-may-2026/"
+        },
+        {
+          "published_at": "2026-06-10T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Give GitHub Copilot CLI real code intelligence with language servers",
+          "url": "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/"
+        },
+        {
+          "published_at": "2026-06-09T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "From one-off prompts to workflows: How to use custom agents in GitHub Copilot CLI",
+          "url": "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+        "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/",
+        "https://github.blog/news-insights/company-news/github-availability-report-may-2026/",
+        "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/",
+        "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+      ],
+      "repo": "github/spec-kit"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-11T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Profiling in PyTorch (Part 2): From nn.Linear to a Fused MLP",
+          "url": "https://huggingface.co/blog/torch-mlp-fusion"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/torch-mlp-fusion"
+      ],
+      "repo": "pytorch/pytorch"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T14:34:45Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Salesforce acquires AI customer service platform Fin for $3.6B",
+          "url": "https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b/"
+      ],
+      "repo": "001TMF/harness-forge"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-09T22:34:27Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Confidential Computing to Help Expand Apple’s Private Cloud Compute",
+          "url": "https://blogs.nvidia.com/blog/nvidia-confidential-computing-apple-private-cloud-compute/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-confidential-computing-apple-private-cloud-compute/"
+      ],
+      "repo": "Comfy-Org/ComfyUI"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: cutting AC emissions, and nature’s drug designer",
+          "url": "https://www.technologyreview.com/2026/06/15/1138948/the-download-solid-state-air-conditioning-animal-drugs/"
+        },
+        {
+          "published_at": "2026-06-12T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: “reprogramming” aging, and the hidden sense of interoception",
+          "url": "https://www.technologyreview.com/2026/06/12/1138899/the-download-reprogramming-reverse-aging-interoception/"
+        },
+        {
+          "published_at": "2026-06-11T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: soccer’s data renaissance and China’s big nuclear plans",
+          "url": "https://www.technologyreview.com/2026/06/11/1138809/the-download-soccer-football-data-analytics-china-nuclear-power/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/06/15/1138948/the-download-solid-state-air-conditioning-animal-drugs/",
+        "https://www.technologyreview.com/2026/06/12/1138899/the-download-reprogramming-reverse-aging-interoception/",
+        "https://www.technologyreview.com/2026/06/11/1138809/the-download-soccer-football-data-analytics-china-nuclear-power/"
+      ],
+      "repo": "EEliberto/IPA-Download"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T14:34:45Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Salesforce acquires AI customer service platform Fin for $3.6B",
+          "url": "https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b/"
+      ],
+      "repo": "FeijiangHan/PaperForge"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T13:00:00Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "As AI agents become employees, NewCore emerges with $66M to give them identities",
+          "url": "https://techcrunch.com/2026/06/15/ai-agents-are-becoming-employees-newcore-emerges-with-66m-to-give-them-identities/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/ai-agents-are-becoming-employees-newcore-emerges-with-66m-to-give-them-identities/"
+      ],
+      "repo": "FuelLabs/fuel-core"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-10T19:00:12Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "For Robotaxis, Safety Must Be Built In, Not Bolted On",
+          "url": "https://blogs.nvidia.com/blog/halos-os-robotaxi-safety/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/halos-os-robotaxi-safety/"
+      ],
+      "repo": "FuelLabs/sway"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        },
+        {
+          "published_at": "2026-06-12T22:26:23Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How we made GitHub Copilot CLI more selective about delegation",
+          "url": "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/"
+        },
+        {
+          "published_at": "2026-06-11T21:30:15Z",
+          "relevance_score": 0.6,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub availability report: May 2026",
+          "url": "https://github.blog/news-insights/company-news/github-availability-report-may-2026/"
+        },
+        {
+          "published_at": "2026-06-10T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Give GitHub Copilot CLI real code intelligence with language servers",
+          "url": "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/"
+        },
+        {
+          "published_at": "2026-06-09T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "From one-off prompts to workflows: How to use custom agents in GitHub Copilot CLI",
+          "url": "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+        "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/",
+        "https://github.blog/news-insights/company-news/github-availability-report-may-2026/",
+        "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/",
+        "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+      ],
+      "repo": "Jia-Ethan/github-solution-research"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+      ],
+      "repo": "MunGell/awesome-for-beginners"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-14T21:55:34Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Startup CEO Charlie Javice is reportedly angling for a Trump pardon",
+          "url": "https://techcrunch.com/2026/06/14/startup-ceo-charlie-javice-is-reportedly-angling-for-a-trump-pardon/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/14/startup-ceo-charlie-javice-is-reportedly-angling-for-a-trump-pardon/"
+      ],
+      "repo": "Nanako0129/coralline"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-09T10:46:19Z",
+          "relevance_score": 0.4,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "How an Agent Built a 3D Paris Gallery by Chaining Two Hugging Face Spaces",
+          "url": "https://huggingface.co/blog/mishig/spaces-agents-md"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/mishig/spaces-agents-md"
+      ],
+      "repo": "NousResearch/hermes-agent"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T18:46:08Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Why do South Koreans love AI so much?",
+          "url": "https://www.technologyreview.com/2026/06/15/1138983/why-do-south-koreans-love-ai-so-much/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/06/15/1138983/why-do-south-koreans-love-ai-so-much/"
+      ],
+      "repo": "OpenHands/OpenHands"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+      ],
+      "repo": "Orange-3DV-Team/MoVerse"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        },
+        {
+          "published_at": "2026-06-12T22:26:23Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How we made GitHub Copilot CLI more selective about delegation",
+          "url": "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/"
+        },
+        {
+          "published_at": "2026-06-11T21:30:15Z",
+          "relevance_score": 0.6,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub availability report: May 2026",
+          "url": "https://github.blog/news-insights/company-news/github-availability-report-may-2026/"
+        },
+        {
+          "published_at": "2026-06-10T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Give GitHub Copilot CLI real code intelligence with language servers",
+          "url": "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/"
+        },
+        {
+          "published_at": "2026-06-09T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "From one-off prompts to workflows: How to use custom agents in GitHub Copilot CLI",
+          "url": "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+        "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/",
+        "https://github.blog/news-insights/company-news/github-availability-report-may-2026/",
+        "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/",
+        "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+      ],
+      "repo": "SGmetro/Lossless-Scaling-Latest-Github-PC-3"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-14T21:55:34Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Startup CEO Charlie Javice is reportedly angling for a Trump pardon",
+          "url": "https://techcrunch.com/2026/06/14/startup-ceo-charlie-javice-is-reportedly-angling-for-a-trump-pardon/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/14/startup-ceo-charlie-javice-is-reportedly-angling-for-a-trump-pardon/"
+      ],
+      "repo": "Snailclimb/JavaGuide"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        },
+        {
+          "published_at": "2026-06-12T22:26:23Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How we made GitHub Copilot CLI more selective about delegation",
+          "url": "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/"
+        },
+        {
+          "published_at": "2026-06-10T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Give GitHub Copilot CLI real code intelligence with language servers",
+          "url": "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/"
+        },
+        {
+          "published_at": "2026-06-09T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "From one-off prompts to workflows: How to use custom agents in GitHub Copilot CLI",
+          "url": "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+        "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/",
+        "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/",
+        "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+      ],
+      "repo": "TestSprite/testsprite-cli"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T23:51:44Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Sundar Pichai faces boos, walkout at Stanford graduation ceremony over Google’s Israel, ICE ties",
+          "url": "https://techcrunch.com/2026/06/15/sundar-pichai-faces-boos-walkout-at-stanford-graduation-ceremony-over-googles-israel-ice-ties/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/sundar-pichai-faces-boos-walkout-at-stanford-graduation-ceremony-over-googles-israel-ice-ties/"
+      ],
+      "repo": "Textualize/rich"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T13:46:08Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Sarvam becomes India’s newest AI unicorn with $234 million funding round led by HCLTech",
+          "url": "https://techcrunch.com/2026/06/15/sarvam-becomes-indias-newest-ai-unicorn-with-234-million-funding-round-led-by-hcltech/"
+        },
+        {
+          "published_at": "2026-06-14T21:55:34Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Startup CEO Charlie Javice is reportedly angling for a Trump pardon",
+          "url": "https://techcrunch.com/2026/06/14/startup-ceo-charlie-javice-is-reportedly-angling-for-a-trump-pardon/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/sarvam-becomes-indias-newest-ai-unicorn-with-234-million-funding-round-led-by-hcltech/",
+        "https://techcrunch.com/2026/06/14/startup-ceo-charlie-javice-is-reportedly-angling-for-a-trump-pardon/"
+      ],
+      "repo": "TheAlgorithms/Java"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T21:50:21Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The US government’s Anthropic models ban was never about an AI jailbreak",
+          "url": "https://techcrunch.com/2026/06/15/the-us-governments-anthropic-models-ban-was-never-about-an-ai-jailbreak/"
+        },
+        {
+          "published_at": "2026-06-15T19:17:30Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Accelerating researchers and developers building multilingual AI with a new open dataset",
+          "url": "https://github.blog/ai-and-ml/llms/accelerating-researchers-and-developers-building-multilingual-ai-with-a-new-open-dataset/"
+        },
+        {
+          "published_at": "2026-06-15T18:46:08Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Why do South Koreans love AI so much?",
+          "url": "https://www.technologyreview.com/2026/06/15/1138983/why-do-south-koreans-love-ai-so-much/"
+        },
+        {
+          "published_at": "2026-06-15T18:30:58Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Meta’s new ‘AI Mode’ on Facebook pulls from public info across its platforms",
+          "url": "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/"
+        },
+        {
+          "published_at": "2026-06-15T14:34:45Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Salesforce acquires AI customer service platform Fin for $3.6B",
+          "url": "https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/the-us-governments-anthropic-models-ban-was-never-about-an-ai-jailbreak/",
+        "https://github.blog/ai-and-ml/llms/accelerating-researchers-and-developers-building-multilingual-ai-with-a-new-open-dataset/",
+        "https://www.technologyreview.com/2026/06/15/1138983/why-do-south-koreans-love-ai-so-much/",
+        "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/",
+        "https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b/"
+      ],
+      "repo": "YannGotti/NS-FW-AI-Adult-Gen"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T21:50:21Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The US government’s Anthropic models ban was never about an AI jailbreak",
+          "url": "https://techcrunch.com/2026/06/15/the-us-governments-anthropic-models-ban-was-never-about-an-ai-jailbreak/"
+        },
+        {
+          "published_at": "2026-06-15T19:17:30Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Accelerating researchers and developers building multilingual AI with a new open dataset",
+          "url": "https://github.blog/ai-and-ml/llms/accelerating-researchers-and-developers-building-multilingual-ai-with-a-new-open-dataset/"
+        },
+        {
+          "published_at": "2026-06-15T18:46:08Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Why do South Koreans love AI so much?",
+          "url": "https://www.technologyreview.com/2026/06/15/1138983/why-do-south-koreans-love-ai-so-much/"
+        },
+        {
+          "published_at": "2026-06-15T18:30:58Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Meta’s new ‘AI Mode’ on Facebook pulls from public info across its platforms",
+          "url": "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/"
+        },
+        {
+          "published_at": "2026-06-15T14:34:45Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Salesforce acquires AI customer service platform Fin for $3.6B",
+          "url": "https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/the-us-governments-anthropic-models-ban-was-never-about-an-ai-jailbreak/",
+        "https://github.blog/ai-and-ml/llms/accelerating-researchers-and-developers-building-multilingual-ai-with-a-new-open-dataset/",
+        "https://www.technologyreview.com/2026/06/15/1138983/why-do-south-koreans-love-ai-so-much/",
+        "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/",
+        "https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b/"
+      ],
+      "repo": "ZettaChann/Hent-AI-Generator-2026"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-12T21:00:08Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Blackwell Leads on First Agentic AI Infrastructure Benchmark",
+          "url": "https://blogs.nvidia.com/blog/nvidia-blackwell-agentperf-artificial-analysis/"
+        },
+        {
+          "published_at": "2026-06-09T10:46:19Z",
+          "relevance_score": 0.4,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "How an Agent Built a 3D Paris Gallery by Chaining Two Hugging Face Spaces",
+          "url": "https://huggingface.co/blog/mishig/spaces-agents-md"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-blackwell-agentperf-artificial-analysis/",
+        "https://huggingface.co/blog/mishig/spaces-agents-md"
+      ],
+      "repo": "addyosmani/agent-skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T13:43:05Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Fox to acquire Roku in $22B deal",
+          "url": "https://techcrunch.com/2026/06/15/fox-to-acquire-roku-in-22-billion-deal/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/fox-to-acquire-roku-in-22-billion-deal/"
+      ],
+      "repo": "alchaincyf/fanbox"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-12T09:00:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Inside interoception: The hidden sense of how you feel inside",
+          "url": "https://www.technologyreview.com/2026/06/12/1138833/inside-interoception-brain-body/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/06/12/1138833/inside-interoception-brain-body/"
+      ],
+      "repo": "ansible/ansible"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-09T22:34:27Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Confidential Computing to Help Expand Apple’s Private Cloud Compute",
+          "url": "https://blogs.nvidia.com/blog/nvidia-confidential-computing-apple-private-cloud-compute/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-confidential-computing-apple-private-cloud-compute/"
+      ],
+      "repo": "appwrite/appwrite"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-09T10:46:19Z",
+          "relevance_score": 0.4,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "How an Agent Built a 3D Paris Gallery by Chaining Two Hugging Face Spaces",
+          "url": "https://huggingface.co/blog/mishig/spaces-agents-md"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/mishig/spaces-agents-md"
+      ],
+      "repo": "axios/axios"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T18:30:58Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Meta’s new ‘AI Mode’ on Facebook pulls from public info across its platforms",
+          "url": "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/"
+        },
+        {
+          "published_at": "2026-06-12T09:00:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Inside interoception: The hidden sense of how you feel inside",
+          "url": "https://www.technologyreview.com/2026/06/12/1138833/inside-interoception-brain-body/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/",
+        "https://www.technologyreview.com/2026/06/12/1138833/inside-interoception-brain-body/"
+      ],
+      "repo": "base/node"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T04:01:00Z",
+          "relevance_score": 0.8,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Orbio raises $21 million to automate hiring and onboarding for frontline workers",
+          "url": "https://techcrunch.com/2026/06/14/orbio-raises-21-million-to-automate-hiring-and-onboarding-for-frontline-workers/"
+        },
+        {
+          "published_at": "2026-06-11T13:00:17Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Save Big and Play Bigger: GeForce NOW Summer Sale Brings Major Membership Savings",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-summer-sale-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/14/orbio-raises-21-million-to-automate-hiring-and-onboarding-for-frontline-workers/",
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-summer-sale-2026/"
+      ],
+      "repo": "bingook/bingo"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-14T21:55:34Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Startup CEO Charlie Javice is reportedly angling for a Trump pardon",
+          "url": "https://techcrunch.com/2026/06/14/startup-ceo-charlie-javice-is-reportedly-angling-for-a-trump-pardon/"
+        },
+        {
+          "published_at": "2026-06-12T09:00:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Inside interoception: The hidden sense of how you feel inside",
+          "url": "https://www.technologyreview.com/2026/06/12/1138833/inside-interoception-brain-body/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/14/startup-ceo-charlie-javice-is-reportedly-angling-for-a-trump-pardon/",
+        "https://www.technologyreview.com/2026/06/12/1138833/inside-interoception-brain-body/"
+      ],
+      "repo": "bitoceango/civideo"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        },
+        {
+          "published_at": "2026-06-12T22:26:23Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How we made GitHub Copilot CLI more selective about delegation",
+          "url": "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/"
+        },
+        {
+          "published_at": "2026-06-10T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Give GitHub Copilot CLI real code intelligence with language servers",
+          "url": "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/"
+        },
+        {
+          "published_at": "2026-06-09T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "From one-off prompts to workflows: How to use custom agents in GitHub Copilot CLI",
+          "url": "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+        "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/",
+        "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/",
+        "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+      ],
+      "repo": "bjarneo/kli"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-10T16:15:20Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Accelerates Google DeepMind’s DiffusionGemma for Local AI",
+          "url": "https://blogs.nvidia.com/blog/rtx-ai-garage-local-gemma-diffusion/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/rtx-ai-garage-local-gemma-diffusion/"
+      ],
+      "repo": "chen150450/local-multimodal-rag"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-09T22:34:27Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Confidential Computing to Help Expand Apple’s Private Cloud Compute",
+          "url": "https://blogs.nvidia.com/blog/nvidia-confidential-computing-apple-private-cloud-compute/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-confidential-computing-apple-private-cloud-compute/"
+      ],
+      "repo": "chen2he/orange-cloud"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T21:50:21Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The US government’s Anthropic models ban was never about an AI jailbreak",
+          "url": "https://techcrunch.com/2026/06/15/the-us-governments-anthropic-models-ban-was-never-about-an-ai-jailbreak/"
+        },
+        {
+          "published_at": "2026-06-15T19:17:30Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Accelerating researchers and developers building multilingual AI with a new open dataset",
+          "url": "https://github.blog/ai-and-ml/llms/accelerating-researchers-and-developers-building-multilingual-ai-with-a-new-open-dataset/"
+        },
+        {
+          "published_at": "2026-06-15T18:46:08Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Why do South Koreans love AI so much?",
+          "url": "https://www.technologyreview.com/2026/06/15/1138983/why-do-south-koreans-love-ai-so-much/"
+        },
+        {
+          "published_at": "2026-06-15T18:30:58Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Meta’s new ‘AI Mode’ on Facebook pulls from public info across its platforms",
+          "url": "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/"
+        },
+        {
+          "published_at": "2026-06-15T14:34:45Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Salesforce acquires AI customer service platform Fin for $3.6B",
+          "url": "https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/the-us-governments-anthropic-models-ban-was-never-about-an-ai-jailbreak/",
+        "https://github.blog/ai-and-ml/llms/accelerating-researchers-and-developers-building-multilingual-ai-with-a-new-open-dataset/",
+        "https://www.technologyreview.com/2026/06/15/1138983/why-do-south-koreans-love-ai-so-much/",
+        "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/",
+        "https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b/"
+      ],
+      "repo": "claude-code-ai-anthropic/free-claude-code-ai-desktop-app"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        },
+        {
+          "published_at": "2026-06-14T21:55:34Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Startup CEO Charlie Javice is reportedly angling for a Trump pardon",
+          "url": "https://techcrunch.com/2026/06/14/startup-ceo-charlie-javice-is-reportedly-angling-for-a-trump-pardon/"
+        },
+        {
+          "published_at": "2026-06-12T22:26:23Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How we made GitHub Copilot CLI more selective about delegation",
+          "url": "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/"
+        },
+        {
+          "published_at": "2026-06-11T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: soccer’s data renaissance and China’s big nuclear plans",
+          "url": "https://www.technologyreview.com/2026/06/11/1138809/the-download-soccer-football-data-analytics-china-nuclear-power/"
+        },
+        {
+          "published_at": "2026-06-11T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Profiling in PyTorch (Part 2): From nn.Linear to a Fused MLP",
+          "url": "https://huggingface.co/blog/torch-mlp-fusion"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+        "https://techcrunch.com/2026/06/14/startup-ceo-charlie-javice-is-reportedly-angling-for-a-trump-pardon/",
+        "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/",
+        "https://www.technologyreview.com/2026/06/11/1138809/the-download-soccer-football-data-analytics-china-nuclear-power/",
+        "https://huggingface.co/blog/torch-mlp-fusion"
+      ],
+      "repo": "cline/cline"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        },
+        {
+          "published_at": "2026-06-12T22:26:23Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How we made GitHub Copilot CLI more selective about delegation",
+          "url": "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/"
+        },
+        {
+          "published_at": "2026-06-10T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Give GitHub Copilot CLI real code intelligence with language servers",
+          "url": "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/"
+        },
+        {
+          "published_at": "2026-06-09T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "From one-off prompts to workflows: How to use custom agents in GitHub Copilot CLI",
+          "url": "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+        "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/",
+        "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/",
+        "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+      ],
+      "repo": "commaai/openpilot"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        },
+        {
+          "published_at": "2026-06-12T22:26:23Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How we made GitHub Copilot CLI more selective about delegation",
+          "url": "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/"
+        },
+        {
+          "published_at": "2026-06-10T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Give GitHub Copilot CLI real code intelligence with language servers",
+          "url": "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/"
+        },
+        {
+          "published_at": "2026-06-09T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "From one-off prompts to workflows: How to use custom agents in GitHub Copilot CLI",
+          "url": "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+        "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/",
+        "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/",
+        "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+      ],
+      "repo": "coollabsio/coolify"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T09:00:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "These new solid-state ACs promise a cool future. Scientists aren’t so sure.",
+          "url": "https://www.technologyreview.com/2026/06/15/1138552/solid-state-acs-promise-cool-future/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/06/15/1138552/solid-state-acs-promise-cool-future/"
+      ],
+      "repo": "danielmiessler/SecLists"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        },
+        {
+          "published_at": "2026-06-12T22:26:23Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How we made GitHub Copilot CLI more selective about delegation",
+          "url": "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/"
+        },
+        {
+          "published_at": "2026-06-11T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Making secret scanning more trustworthy: Reducing false positives at scale",
+          "url": "https://github.blog/security/making-secret-scanning-more-trustworthy-reducing-false-positives-at-scale/"
+        },
+        {
+          "published_at": "2026-06-11T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Profiling in PyTorch (Part 2): From nn.Linear to a Fused MLP",
+          "url": "https://huggingface.co/blog/torch-mlp-fusion"
+        },
+        {
+          "published_at": "2026-06-10T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Give GitHub Copilot CLI real code intelligence with language servers",
+          "url": "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+        "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/",
+        "https://github.blog/security/making-secret-scanning-more-trustworthy-reducing-false-positives-at-scale/",
+        "https://huggingface.co/blog/torch-mlp-fusion",
+        "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/"
+      ],
+      "repo": "docling-project/docling"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T21:50:21Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The US government’s Anthropic models ban was never about an AI jailbreak",
+          "url": "https://techcrunch.com/2026/06/15/the-us-governments-anthropic-models-ban-was-never-about-an-ai-jailbreak/"
+        },
+        {
+          "published_at": "2026-06-15T19:17:30Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Accelerating researchers and developers building multilingual AI with a new open dataset",
+          "url": "https://github.blog/ai-and-ml/llms/accelerating-researchers-and-developers-building-multilingual-ai-with-a-new-open-dataset/"
+        },
+        {
+          "published_at": "2026-06-15T18:46:08Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Why do South Koreans love AI so much?",
+          "url": "https://www.technologyreview.com/2026/06/15/1138983/why-do-south-koreans-love-ai-so-much/"
+        },
+        {
+          "published_at": "2026-06-15T18:30:58Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Meta’s new ‘AI Mode’ on Facebook pulls from public info across its platforms",
+          "url": "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/"
+        },
+        {
+          "published_at": "2026-06-15T14:34:45Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Salesforce acquires AI customer service platform Fin for $3.6B",
+          "url": "https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/the-us-governments-anthropic-models-ban-was-never-about-an-ai-jailbreak/",
+        "https://github.blog/ai-and-ml/llms/accelerating-researchers-and-developers-building-multilingual-ai-with-a-new-open-dataset/",
+        "https://www.technologyreview.com/2026/06/15/1138983/why-do-south-koreans-love-ai-so-much/",
+        "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/",
+        "https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b/"
+      ],
+      "repo": "eadmin2/jarvis_ai"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        },
+        {
+          "published_at": "2026-06-12T22:26:23Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How we made GitHub Copilot CLI more selective about delegation",
+          "url": "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/"
+        },
+        {
+          "published_at": "2026-06-11T21:30:15Z",
+          "relevance_score": 0.6,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub availability report: May 2026",
+          "url": "https://github.blog/news-insights/company-news/github-availability-report-may-2026/"
+        },
+        {
+          "published_at": "2026-06-10T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Give GitHub Copilot CLI real code intelligence with language servers",
+          "url": "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/"
+        },
+        {
+          "published_at": "2026-06-09T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "From one-off prompts to workflows: How to use custom agents in GitHub Copilot CLI",
+          "url": "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+        "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/",
+        "https://github.blog/news-insights/company-news/github-availability-report-may-2026/",
+        "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/",
+        "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+      ],
+      "repo": "git/git"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-14T16:05:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "TechCrunch Mobility: SpaceX rockets past Tesla",
+          "url": "https://techcrunch.com/2026/06/14/techcrunch-mobility-spacex-rockets-past-tesla/"
+        },
+        {
+          "published_at": "2026-06-10T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Give GitHub Copilot CLI real code intelligence with language servers",
+          "url": "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/14/techcrunch-mobility-spacex-rockets-past-tesla/",
+        "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/"
+      ],
+      "repo": "go-gitea/gitea"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T20:15:31Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+          "url": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/"
+        },
+        {
+          "published_at": "2026-06-12T22:26:23Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "How we made GitHub Copilot CLI more selective about delegation",
+          "url": "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/"
+        },
+        {
+          "published_at": "2026-06-10T16:00:00Z",
+          "relevance_score": 0.8,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Give GitHub Copilot CLI real code intelligence with language servers",
+          "url": "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/"
+        },
+        {
+          "published_at": "2026-06-09T16:00:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "From one-off prompts to workflows: How to use custom agents in GitHub Copilot CLI",
+          "url": "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+        "https://github.blog/ai-and-ml/how-we-made-github-copilot-cli-more-selective-about-delegation/",
+        "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/",
+        "https://github.blog/ai-and-ml/github-copilot/from-one-off-prompts-to-workflows-how-to-use-custom-agents-in-github-copilot-cli/"
+      ],
+      "repo": "google-gemini/gemini-cli"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T13:00:00Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "As AI agents become employees, NewCore emerges with $66M to give them identities",
+          "url": "https://techcrunch.com/2026/06/15/ai-agents-are-becoming-employees-newcore-emerges-with-66m-to-give-them-identities/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/ai-agents-are-becoming-employees-newcore-emerges-with-66m-to-give-them-identities/"
+      ],
+      "repo": "home-assistant/core"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T23:51:44Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Sundar Pichai faces boos, walkout at Stanford graduation ceremony over Google’s Israel, ICE ties",
+          "url": "https://techcrunch.com/2026/06/15/sundar-pichai-faces-boos-walkout-at-stanford-graduation-ceremony-over-googles-israel-ice-ties/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/sundar-pichai-faces-boos-walkout-at-stanford-graduation-ceremony-over-googles-israel-ice-ties/"
+      ],
+      "repo": "huggingface/transformers"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-14T21:55:34Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Startup CEO Charlie Javice is reportedly angling for a Trump pardon",
+          "url": "https://techcrunch.com/2026/06/14/startup-ceo-charlie-javice-is-reportedly-angling-for-a-trump-pardon/"
+        },
+        {
+          "published_at": "2026-06-11T13:00:17Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Save Big and Play Bigger: GeForce NOW Summer Sale Brings Major Membership Savings",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-summer-sale-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/14/startup-ceo-charlie-javice-is-reportedly-angling-for-a-trump-pardon/",
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-summer-sale-2026/"
+      ],
+      "repo": "jestasecurity/thumper"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T21:50:21Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "The US government’s Anthropic models ban was never about an AI jailbreak",
+          "url": "https://techcrunch.com/2026/06/15/the-us-governments-anthropic-models-ban-was-never-about-an-ai-jailbreak/"
+        },
+        {
+          "published_at": "2026-06-15T19:17:30Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Accelerating researchers and developers building multilingual AI with a new open dataset",
+          "url": "https://github.blog/ai-and-ml/llms/accelerating-researchers-and-developers-building-multilingual-ai-with-a-new-open-dataset/"
+        },
+        {
+          "published_at": "2026-06-15T18:46:08Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Why do South Koreans love AI so much?",
+          "url": "https://www.technologyreview.com/2026/06/15/1138983/why-do-south-koreans-love-ai-so-much/"
+        },
+        {
+          "published_at": "2026-06-15T18:30:58Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Meta’s new ‘AI Mode’ on Facebook pulls from public info across its platforms",
+          "url": "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/"
+        },
+        {
+          "published_at": "2026-06-15T14:34:45Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Salesforce acquires AI customer service platform Fin for $3.6B",
+          "url": "https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/the-us-governments-anthropic-models-ban-was-never-about-an-ai-jailbreak/",
+        "https://github.blog/ai-and-ml/llms/accelerating-researchers-and-developers-building-multilingual-ai-with-a-new-open-dataset/",
+        "https://www.technologyreview.com/2026/06/15/1138983/why-do-south-koreans-love-ai-so-much/",
+        "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/",
+        "https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b/"
+      ],
+      "repo": "joeseesun/qiaomu-ai-prd"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T18:30:58Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Meta’s new ‘AI Mode’ on Facebook pulls from public info across its platforms",
+          "url": "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/"
+      ],
+      "repo": "joeseesun/qiaomu-goal-meta-skill"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-09T22:34:27Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Confidential Computing to Help Expand Apple’s Private Cloud Compute",
+          "url": "https://blogs.nvidia.com/blog/nvidia-confidential-computing-apple-private-cloud-compute/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-confidential-computing-apple-private-cloud-compute/"
+      ],
+      "repo": "jonathan-pyt/pepite"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-15T18:46:08Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Why do South Koreans love AI so much?",
+          "url": "https://www.technologyreview.com/2026/06/15/1138983/why-do-south-koreans-love-ai-so-much/"
+        },
+        {
+          "published_at": "2026-06-12T21:00:08Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Blackwell Leads on First Agentic AI Infrastructure Benchmark",
+          "url": "https://blogs.nvidia.com/blog/nvidia-blackwell-agentperf-artificial-analysis/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/06/15/1138983/why-do-south-koreans-love-ai-so-much/",
+        "https://blogs.nvidia.com/blog/nvidia-blackwell-agentperf-artificial-analysis/"
+      ],
+      "repo": "keras-team/keras"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "press_correlations"
+}
