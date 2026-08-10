@@ -677,7 +677,6 @@ class WorkflowConfigTests(unittest.TestCase):
             "data/taxonomy/",
             "data/topic-hubs/",
             "data/derived/observatory/",
-            "data/metrics/",
             "static/datasets/open-source-ai-github-projects-2026/",
             "static/tools/star-velocity-explorer.json",
         )
@@ -722,6 +721,12 @@ class WorkflowConfigTests(unittest.TestCase):
                 self.assertIn(path, upload)
                 self.assertIn(path, deploy_hydrate)
 
+            self.assertIn("data/metrics/", hydrate)
+            self.assertIn("data/metrics/", commit)
+            self.assertIn("data/metrics/", deploy_hydrate)
+            self.assertNotIn("data/metrics/\n", upload)
+            self.assertIn("data/metrics/cost-summary.json", upload)
+
         # Deploy hydration guards each path with git ls-tree so committed content
         # absent from publish is preserved rather than deleted (issues #627, #633).
         self.assertIn('git ls-tree -r --name-only origin/publish -- "$path"', deploy_hydrate)
@@ -732,7 +737,6 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("--force-with-lease", commit)
         self.assertIn("git diff --cached --quiet && exit 0", commit)
         self.assertEqual(inline_deploy_download["with"]["path"], "./")
-        self.assertIn("data/metrics/cost-summary.json", upload)
         deploy_positions = {step.get("name"): index for index, step in enumerate(deploy_steps)}
         self.assertLess(
             deploy_positions["Remove checked-in cost summary"],

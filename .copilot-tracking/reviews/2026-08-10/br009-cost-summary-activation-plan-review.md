@@ -30,6 +30,12 @@ Hermes then found that the checked-in summary could satisfy the verification if
 artifact transport regressed. The deployment now removes that copy before
 download. The workflow contract enforces remove, download, and verify ordering.
 
+Copilot's PR review found that the workflow contract grouped `data/metrics/`
+with directories uploaded in full, even though the artifact intentionally
+contains only the public `cost-summary.json`. The corrected contract checks the
+metrics directory at hydration and commit boundaries, rejects a whole-directory
+artifact upload, and requires the single public summary file.
+
 ## Final Dispositions
 
 * URL: Accept
@@ -48,10 +54,12 @@ download. The workflow contract enforces remove, download, and verify ordering.
 * Zizmor 1.27.0: no medium or high findings
 * Checkov GitHub Actions scan: 894 passed, 0 failed
 * Hugo 0.147.9: 2,707 pages and 8 aliases
+* Initial PR head checks: 14 passed
+* Copilot PR comments: 1 addressed, 0 remaining after thread resolution
 
 ## Completion
 
 * User request fulfillment: 100%
 * Code and test review: 100%
 * Local validation: 100%
-* Overall status: Complete locally; remote PR checks remain pending
+* Overall status: Follow-up fix validated locally; latest-head PR checks pending
