@@ -611,8 +611,10 @@ class WorkflowConfigTests(unittest.TestCase):
             "Generate weekly content candidate",
             "Discover topic candidates",
             "Promote and assign topic hubs",
+            "Reconcile weekly topic frontmatter",
             "Rehash and promote final weekly content",
             "Refresh taxonomy registries",
+            "Refresh topic candidates after taxonomy updates",
             "Generate rollups",
             "Generate repository pages",
             "Generate data pages",
@@ -637,6 +639,11 @@ class WorkflowConfigTests(unittest.TestCase):
             rehash.index('manifest["candidate"]["content_sha256"]'),
             rehash.index("scripts/promotion_guard.py"),
         )
+
+        reconcile = steps[positions["Reconcile weekly topic frontmatter"]]["run"]
+        self.assertEqual(reconcile, "python3 scripts/backfill_weekly_topics.py")
+        freshness = steps[positions["Verify generated content freshness"]]["run"]
+        self.assertIn("python3 scripts/backfill_weekly_topics.py --check", freshness)
 
     def test_publish_transaction_carries_every_generated_path(self) -> None:
         generated_paths = (
@@ -713,6 +720,10 @@ class WorkflowConfigTests(unittest.TestCase):
         # not yet on publish (e.g. data/taxonomy/topics.json) are preserved (issue #627).
         self.assertIn('git ls-tree -r --name-only origin/publish -- "$path"', hydrate)
         self.assertNotIn('git checkout origin/publish -- "$path" 2>/dev/null || true', hydrate)
+        self.assertIn('if [ "$path" = "content/topics" ]; then', hydrate)
+        self.assertIn("dynamic_topic: true", hydrate)
+        self.assertIn('current_frontmatter=""', hydrate)
+        self.assertIn('[ ! -f "$hub" ]', hydrate)
 
     def test_data_page_schedule_is_read_only_freshness_check(self) -> None:
         workflow = yaml.safe_load(
@@ -747,6 +758,18 @@ class WorkflowConfigTests(unittest.TestCase):
         workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
 
         sync_job = workflow["jobs"]["sync"]
+        setup_python = next(
+            (s for s in sync_job["steps"] if _uses_action(s, "actions/setup-python")), None
+        )
+        self.assertIsNotNone(setup_python)
+        self.assertEqual(setup_python["with"]["python-version"], "3.12")
+        install = next(
+            (s for s in sync_job["steps"] if s.get("name") == "Install Python dependencies"),
+            None,
+        )
+        self.assertIsNotNone(install)
+        self.assertEqual(install["run"], "pip install -r requirements.txt")
+
         sync_step = next(
             (s for s in sync_job["steps"] if s.get("name") == "Sync data from publish"), None
         )
@@ -757,11 +780,26 @@ class WorkflowConfigTests(unittest.TestCase):
             "data/raw/",
             "data/analyzed/",
             "data/metrics/",
+            "data/topic-hubs/",
             "content/weekly/",
             "content/monthly/",
             "content/yearly/",
+            "content/topics/",
         ):
             self.assertIn(generated_path, sync_run)
+
+        self.assertIn("data/taxonomy/tags.json", sync_run)
+        self.assertIn("data/taxonomy/topic-candidates.json", sync_run)
+        self.assertIn("dynamic_topic: true", sync_run)
+        self.assertIn("python3 scripts/taxonomy_registry.py", sync_run)
+        self.assertIn("python3 scripts/discover_topic_candidates.py", sync_run)
+        self.assertLess(
+            sync_run.index("python3 scripts/taxonomy_registry.py"),
+            sync_run.index("python3 scripts/discover_topic_candidates.py"),
+        )
+        self.assertIn('current_frontmatter=""', sync_run)
+        self.assertIn('[ ! -f "$hub" ]', sync_run)
+        self.assertNotIn("rm -rf content/topics", sync_run)
 
         self.assertIn("python3 scripts/generate_rollups.py", sync_run)
         self.assertLess(
