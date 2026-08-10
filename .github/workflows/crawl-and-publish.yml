@@ -1226,6 +1226,15 @@ jobs:
       - name: Refresh taxonomy registries
         run: python3 scripts/taxonomy_registry.py
 
+      - name: Refresh topic candidates after taxonomy updates
+        # Both scripts/manage_topic_hubs.py and scripts/taxonomy_registry.py
+        # rewrite data/taxonomy/topics.json (is_hub, promoted, display_name,
+        # aliases), which is an input to candidate discovery via
+        # canonical_keys(). Discovery must therefore run again after the last
+        # topics.json mutation so the committed registry is a fixed point and
+        # the freshness check below is stable.
+        run: python3 scripts/discover_topic_candidates.py
+
       - name: Generate rollups
         run: python3 scripts/generate_rollups.py
 
