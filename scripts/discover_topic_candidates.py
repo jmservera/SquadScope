@@ -91,11 +91,11 @@ def _label_to_display_name(label: str) -> str:
 
 def _safe_display_name(labels: set[str], max_attempts: int = MAX_TITLE_ATTEMPTS) -> str | None:
     """Return the first safe display name derived from the shortest labels."""
-    ordered = sorted(labels, key=lambda value: (len(value), value.lower()))
+    ordered = sorted(labels, key=lambda value: (len(value), value.lower(), value))
     for label in ordered[:max_attempts]:
-        display_name = _label_to_display_name(label)
-        if safe_candidate_title(display_name):
-            return display_name
+        safe_name = safe_candidate_title(_label_to_display_name(label))
+        if safe_name:
+            return safe_name
     return None
 
 
@@ -301,7 +301,7 @@ def discover_candidates(
         candidates[slug] = {
             "display_name": display_name,
             "slug": slug,
-            "aliases": sorted(candidate.labels, key=str.lower),
+            "aliases": sorted(candidate.labels, key=lambda value: (value.lower(), value)),
             "first_seen_week": min(candidate.weeks),
             "last_seen_week": max(candidate.weeks),
             "weekly_issue_count": len(candidate.weeks),
