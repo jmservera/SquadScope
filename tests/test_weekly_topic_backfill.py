@@ -130,7 +130,9 @@ def test_backfill_restores_seed_topics_and_keeps_promoted_dynamic_topic(tmp_path
         hub.write_text(f'---\ntitle: "{title}"\n---\n', encoding="utf-8")
     registry = tmp_path / "data" / "taxonomy" / "topics.json"
     registry.parent.mkdir(parents=True)
-    source_registry = json.loads((ROOT / "data" / "taxonomy" / "topics.json").read_text())
+    source_registry = json.loads(
+        (ROOT / "data" / "taxonomy" / "topics.json").read_text(encoding="utf-8")
+    )
     source_registry["terms"]["local-first"] = {
         "aliases": ["local-first"],
         "display_name": "Local First",
