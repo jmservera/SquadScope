@@ -176,6 +176,41 @@ def test_candidate_registry_is_auditable_filtered_and_byte_stable(tmp_path: Path
     assert output.read_text(encoding="utf-8") == "{}\n"
 
 
+def test_candidate_registry_converges_after_promotion_mutates_topics(tmp_path: Path) -> None:
+    _write_candidate_fixture(tmp_path)
+    config_path = tmp_path / "config" / "observatory.toml"
+    config_path.write_text(
+        config_path.read_text(encoding="utf-8").replace("enabled = false", "enabled = true"),
+        encoding="utf-8",
+    )
+    (tmp_path / "content" / "topics").mkdir(parents=True, exist_ok=True)
+
+    assert update_candidate_registry(root=tmp_path) is True
+
+    created = create_dynamic_hubs(
+        root=tmp_path,
+        config_path=config_path,
+        current_date="2026-08-05T12:00:00Z",
+    )
+    assert created == [tmp_path / "content" / "topics" / "edge-ai" / "_index.md"]
+
+    registry = json.loads(
+        (tmp_path / "data" / "taxonomy" / "topics.json").read_text(encoding="utf-8")
+    )
+    assert registry["terms"]["edge-ai"]["promoted"] is True
+
+    # Promotion changed discovery input, so the registry is stale until refreshed.
+    assert update_candidate_registry(root=tmp_path, check=True) is True
+    assert update_candidate_registry(root=tmp_path) is True
+
+    output = tmp_path / "data" / "taxonomy" / "topic-candidates.json"
+    refreshed = output.read_bytes()
+    assert "edge-ai" not in json.loads(refreshed)["candidates"]
+    assert update_candidate_registry(root=tmp_path, check=True) is False
+    assert update_candidate_registry(root=tmp_path) is False
+    assert output.read_bytes() == refreshed
+
+
 def test_seed_topic_hubs_have_unique_metadata_and_dataset_links() -> None:
     registry = json.loads((ROOT / "data" / "taxonomy" / "topics.json").read_text(encoding="utf-8"))
     seed_topics = {

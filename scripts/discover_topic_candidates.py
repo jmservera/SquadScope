@@ -27,6 +27,7 @@ DEFAULT_OUTPUT = PROJECT_ROOT / "data" / "taxonomy" / "topic-candidates.json"
 WEEK_RE = re.compile(r"(?P<year>\d{4})-W(?P<week>\d{2})")
 FRONTMATTER_RE = re.compile(r"\A---\n(?P<frontmatter>.*?)\n---\n", re.DOTALL)
 BOLD_HEADING_RE = re.compile(r"^\*\*(?P<title>[^*]+)\*\*", re.MULTILINE)
+MAX_TITLE_ATTEMPTS = 3
 
 
 @dataclass
@@ -80,13 +81,22 @@ def canonical_keys(registry_path: Path) -> set[str]:
     return keys
 
 
-def _display_name(labels: set[str]) -> str:
-    label = sorted(labels, key=lambda value: (len(value), value.lower()))[0]
+def _label_to_display_name(label: str) -> str:
     if "-" not in label and "_" not in label:
         return label
     words = re.split(r"[-_]+", label)
     abbreviations = {"ai": "AI", "llm": "LLM", "mcp": "MCP", "api": "API"}
     return " ".join(abbreviations.get(word.lower(), word.capitalize()) for word in words)
+
+
+def _safe_display_name(labels: set[str], max_attempts: int = MAX_TITLE_ATTEMPTS) -> str | None:
+    """Return the first safe display name derived from the shortest labels."""
+    ordered = sorted(labels, key=lambda value: (len(value), value.lower(), value))
+    for label in ordered[:max_attempts]:
+        safe_name = safe_candidate_title(_label_to_display_name(label))
+        if safe_name:
+            return safe_name
+    return None
 
 
 def _record(
@@ -285,13 +295,13 @@ def discover_candidates(
             candidate.support.values(),
             key=lambda item: (item["week"], item["support_type"], item["source_path"]),
         )
-        display_name = _display_name(candidate.labels)
-        if not safe_candidate_title(display_name):
+        display_name = _safe_display_name(candidate.labels)
+        if display_name is None:
             continue
         candidates[slug] = {
             "display_name": display_name,
             "slug": slug,
-            "aliases": sorted(candidate.labels, key=str.lower),
+            "aliases": sorted(candidate.labels, key=lambda value: (value.lower(), value)),
             "first_seen_week": min(candidate.weeks),
             "last_seen_week": max(candidate.weeks),
             "weekly_issue_count": len(candidate.weeks),
