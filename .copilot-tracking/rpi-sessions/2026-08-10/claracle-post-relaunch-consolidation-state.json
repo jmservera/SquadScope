@@ -59,6 +59,11 @@
       "decision": "Cloudflare Pages Direct Upload is the selected redirect-capable production boundary; local migration behavior and required owner reviews are complete.",
       "status": "confirmed",
       "evidence": ".copilot-tracking/changes/2026-08-08/claracle-post-relaunch-consolidation-changes.md"
+    },
+    {
+      "decision": "The implementation branch is pushed and pull request jmservera/SquadScope#710 is open against main.",
+      "status": "confirmed",
+      "evidence": "https://github.com/jmservera/SquadScope/pull/710"
     }
   ],
   "blockers": [

@@ -327,6 +327,9 @@ the resulting per-URL disposition map.
   ID and scoped API token, project creation, custom-domain attachment,
   Namecheap-to-Cloudflare nameserver cutover, TLS, live probes, and preserved
   rollback evidence. Phase 4 remains gated.
+* Review handoff: branch `feat/repository-migration-phase3` is pushed and
+  `jmservera/SquadScope#710` is open against `main`; hosted CI and review are in
+  progress.
 
 ## CR-06 Harness Repair And Experiment Execution (2026-08-09)
 
