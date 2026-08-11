@@ -16,6 +16,8 @@ import argparse
 import re
 import sys
 from dataclasses import dataclass
+from html import unescape
+from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -23,6 +25,7 @@ if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import scripts.analysis_gate as analysis_gate
+from scripts.sanitize_repo_content import INJECTION_PHRASES
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_CONTENT_ROOT = PROJECT_ROOT / "content"
@@ -31,6 +34,11 @@ WEEK_BLOCK_PATTERN = re.compile(r"(?ms)^###\s+.+?\s*$\n(.*?)(?=^###\s+|\Z)")
 LINK_PATTERN = re.compile(r"\[([^\]]+)\]\([^)]+\)")
 WORD_PATTERN = re.compile(r"\S+")
 HEADING_LINE_PATTERN = re.compile(r"(?m)^#+\s+")
+HUGO_SHORTCODE_PATTERN = re.compile(r"\{\{[<%].*?[>%]\}\}", re.DOTALL)
+ACTIVE_MARKUP_PATTERN = re.compile(
+    r"<\s*/?\s*(?:script|iframe|object|embed|style|link|meta)\b|javascript\s*:|\{\{[<%]",
+    re.IGNORECASE,
+)
 
 MONTH_NAMES = {
     1: "January",
@@ -79,6 +87,15 @@ STOPWORDS = {
 }
 
 
+class _PlainTextHTMLParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.parts: list[str] = []
+
+    def handle_data(self, data: str) -> None:
+        self.parts.append(data)
+
+
 @dataclass(frozen=True)
 class MonthSnapshot:
     path: Path
@@ -109,7 +126,8 @@ class MonthSnapshot:
     @property
     def text_blob(self) -> str:
         return " ".join(
-            [
+            filtered
+            for value in [
                 self.title,
                 *self.synthesis_paragraphs,
                 *self.summaries,
@@ -119,6 +137,7 @@ class MonthSnapshot:
                 *self.gaps,
                 *self.closing_reads,
             ]
+            if (filtered := strip_markdown(value))
         )
 
     @property
@@ -358,9 +377,33 @@ def render_frontmatter(frontmatter: dict[str, Any]) -> str:
 
 
 def strip_markdown(text: str) -> str:
-    cleaned = LINK_PATTERN.sub(r"\1", text)
-    cleaned = cleaned.replace("**", "").replace("*", "").replace("`", "")
-    return re.sub(r"\s+", " ", cleaned).strip()
+    cleaned = text
+    while True:
+        previous = cleaned
+        while True:
+            expanded = unescape(cleaned)
+            if expanded == cleaned:
+                break
+            cleaned = expanded
+        lowered = cleaned.lower()
+        if any(phrase.lower() in lowered for phrase in INJECTION_PHRASES):
+            return ""
+        cleaned = HUGO_SHORTCODE_PATTERN.sub("", cleaned)
+        cleaned = LINK_PATTERN.sub(r"\1", cleaned)
+        parser = _PlainTextHTMLParser()
+        parser.feed(cleaned)
+        parser.close()
+        cleaned = " ".join(parser.parts)
+        cleaned = cleaned.replace("**", "").replace("*", "").replace("`", "")
+        cleaned = re.sub(r"\s+", " ", cleaned).strip()
+        if cleaned == previous:
+            break
+    lowered = cleaned.lower()
+    if any(phrase.lower() in lowered for phrase in INJECTION_PHRASES):
+        return ""
+    if ACTIVE_MARKUP_PATTERN.search(cleaned):
+        return ""
+    return cleaned
 
 
 def split_sections(body: str) -> dict[str, str]:
@@ -432,8 +475,9 @@ def load_month_snapshot(path: Path) -> MonthSnapshot:
     sections = split_sections(body)
     month_synthesis = strip_markdown(sections.get("Month Synthesis", ""))
     if month_synthesis:
+        weekly_summaries = extract_labeled_values(sections.get("Month Overview", ""), "Summary")
         summaries = dedupe_preserving_order(
-            [str(frontmatter.get("summary", "")).strip(), month_synthesis]
+            [str(frontmatter.get("summary", "")).strip(), *weekly_summaries]
         )
         themes = dedupe_preserving_order(
             frontmatter_list(frontmatter, "themes")
@@ -442,7 +486,7 @@ def load_month_snapshot(path: Path) -> MonthSnapshot:
             + frontmatter_list(frontmatter, "weakening_themes")
         )
         signals = dedupe_preserving_order(
-            [strip_markdown(sections.get("Trend Arc", ""))]
+            extract_labeled_values(sections.get("Trends Observed", ""), "Signal")
             + [
                 theme.replace("-", " ")
                 for theme in frontmatter_list(frontmatter, "accelerating_themes")
@@ -453,16 +497,24 @@ def load_month_snapshot(path: Path) -> MonthSnapshot:
             ]
         )
         noise = tuple(
-            theme.replace("-", " ") for theme in frontmatter_list(frontmatter, "weakening_themes")
+            dedupe_preserving_order(
+                extract_labeled_values(sections.get("Trends Observed", ""), "Noise")
+                + [
+                    theme.replace("-", " ")
+                    for theme in frontmatter_list(frontmatter, "weakening_themes")
+                ]
+            )
         )
-        gaps = tuple(frontmatter_list(frontmatter, "key_gaps"))
+        gaps = tuple(
+            dedupe_preserving_order(
+                frontmatter_list(frontmatter, "key_gaps")
+                + extract_labeled_values(sections.get("Key Takeaways", ""), "Gap to watch")
+            )
+        )
         closing_reads = tuple(
-            value
-            for value in [
-                strip_markdown(sections.get("Prediction Review", "")),
-                str(frontmatter.get("summary", "")).strip(),
-            ]
-            if value
+            dedupe_preserving_order(
+                extract_labeled_values(sections.get("Key Takeaways", ""), "Closing read")
+            )
         )
         return MonthSnapshot(
             path=path,
@@ -526,13 +578,16 @@ def load_month_snapshot_with_preference(path: Path, content_root: Path) -> Month
     synthesis_paragraphs = load_month_synthesis_paragraphs(synthesis_path)
     if not synthesis_paragraphs:
         return snapshot
+    summaries = snapshot.summaries
+    if len(summaries) <= 1:
+        summaries = (synthesis_paragraphs[0],)
     return MonthSnapshot(
         path=snapshot.path,
         year=snapshot.year,
         month=snapshot.month,
         title=snapshot.title,
         date=snapshot.date,
-        summaries=snapshot.summaries,
+        summaries=summaries,
         themes=snapshot.themes,
         signals=snapshot.signals,
         noise=snapshot.noise,
@@ -642,8 +697,14 @@ def build_theme_sentence(year: int, arcs: dict[str, list[str]]) -> str:
 
 
 def summarize_month(month: MonthSnapshot) -> str:
-    if month.synthesis_paragraphs:
-        return trim_words(strip_markdown(month.synthesis_paragraphs[0]), 40)
+    for candidate in month.summaries:
+        summary = strip_markdown(candidate)
+        if not summary:
+            continue
+        prefix = f"{month.month_name} {month.year} was "
+        if summary.startswith(prefix):
+            summary = summary[len(prefix) :]
+        return summary
     month_arcs = {family.key: detect_family_arc([month], family) for family in TREND_FAMILIES}
     parts: list[str] = []
 
@@ -679,10 +740,10 @@ def summarize_month(month: MonthSnapshot) -> str:
             else parts[0]
         )
 
-    source = (
-        month.yearly_source_paragraphs[0] if month.yearly_source_paragraphs else month.text_blob
-    )
-    return trim_words(strip_markdown(source), 32)
+    for source in month.yearly_source_paragraphs:
+        if cleaned := strip_markdown(source):
+            return trim_words(cleaned, 32)
+    return "the available structured record remained limited"
 
 
 def build_month_bridge(month: MonthSnapshot, position: int, total: int) -> str:
@@ -706,7 +767,9 @@ def build_opening_paragraph(months: list[MonthSnapshot], arcs: dict[str, list[st
     if arcs.get("agent-skills"):
         durable_categories.append("agent skills as a real distribution layer")
     if arcs.get("self-hosted-ai"):
-        durable_categories.append("local and self-hosted execution as a durable buyer priority")
+        durable_categories.append(
+            "local and self-hosted execution as a recurring operational concern"
+        )
     if arcs.get("security-gap"):
         durable_categories.append("agent security as the main unresolved infrastructure gap")
     if not durable_categories:
@@ -720,82 +783,103 @@ def build_opening_paragraph(months: list[MonthSnapshot], arcs: dict[str, list[st
 def build_evolution_paragraph(months: list[MonthSnapshot]) -> str:
     if not months:
         return ""
-    fragments = [
-        f"{build_month_bridge(month, index, len(months))} when {summarize_month(month).rstrip('.')}"
-        for index, month in enumerate(months)
-    ]
-    if len(fragments) == 1:
-        body = fragments[0]
-    else:
-        body = "; ".join(fragments[:-1]) + f"; {fragments[-1]}"
+    fragments = []
+    for index, month in enumerate(months):
+        summary = summarize_month(month).rstrip(".")
+        lowered_summary = summary.lower()
+        if lowered_summary.startswith(("defined by ", "marked by ", "shaped by ")):
+            predicate = f"was {summary}"
+        else:
+            predicate = f"showed that {summary[0].lower() + summary[1:]}"
+        if index == 0:
+            fragments.append(
+                f"{month.month_name} set the initial tone, and its record {predicate}."
+            )
+        elif index == len(months) - 1:
+            fragments.append(f"By {month.month_name}, the record {predicate}.")
+        else:
+            fragments.append(f"In {month.month_name}, the record {predicate}.")
     return (
-        f"The monthly progression is clear: {body}. Taken together, those shifts show a market moving from experimentation toward packaging, distribution, and operating discipline. "
+        f"The monthly progression is clear. {' '.join(fragments)} Across the record, attention moved from experimentation toward packaging, distribution, and operating discipline. "
         "Even when the surface story changes from one month to the next, the deeper motion is cumulative rather than episodic."
     )
 
 
 def build_pattern_paragraph(arcs: dict[str, list[str]]) -> str:
     sentences: list[str] = []
-    agent_arc = arcs.get("agent-skills", [])
-    if agent_arc:
-        if "verticalization" in agent_arc or "globalization" in agent_arc:
-            sentences.append(
-                "The category that hardened fastest was agent skills: what began as infrastructure and workflow plumbing started behaving like a market, then spread into more specific geographies, languages, and job-shaped use cases."
-            )
-        else:
-            sentences.append(
-                "The clearest durable category was agent skills, which stopped looking like a novelty and started looking like shared infrastructure."
-            )
-    local_arc = arcs.get("self-hosted-ai", [])
-    if local_arc:
+    if arcs.get("agent-skills"):
         sentences.append(
-            "Self-hosted and local-first tooling also matured from a cost or billing workaround into a control story about sovereignty, reliability, and execution on hardware teams already own."
+            "Agent skills recurred as infrastructure, packaging, and workflow components rather than as a single launch cycle."
         )
-    platform_arc = arcs.get("platform-gaming", [])
-    if platform_arc:
+    if arcs.get("self-hosted-ai"):
         sentences.append(
-            "The pattern that mutated instead of fading was platform gaming: the noise never really disappeared, it simply changed tactics from star-farming to fork inflation and then into more industrialized spam, fraud, and activator-style clutter."
+            "Local and self-hosted execution also remained visible where teams were weighing cost, control, and operational fit."
         )
-    security_arc = arcs.get("security-gap", [])
-    if security_arc:
+    if arcs.get("platform-gaming"):
         sentences.append(
-            "The prediction that capability would outrun trust was confirmed every month, because nothing in the visible tooling stack closed the gaps around agent isolation, prompt injection defense, or skills supply-chain auditing."
+            "Discovery abuse changed tactics across the period, moving from coordinated star patterns toward fork inflation and other repeated spam signals."
+        )
+    if arcs.get("security-gap"):
+        sentences.append(
+            "The monthly gap reports repeatedly returned to permissioning, trusted skill distribution, behavior testing, and reliable momentum measurement."
         )
     return " ".join(sentences)
 
 
-def build_prediction_review(arcs: dict[str, list[str]]) -> str:
-    confirmations: list[str] = []
-    if "globalization" in arcs.get("agent-skills", []):
-        confirmations.append("skills did globalize")
-    if "verticalization" in arcs.get("agent-skills", []):
-        confirmations.append("skills also verticalized quickly")
-    if len(arcs.get("platform-gaming", [])) >= 2:
-        confirmations.append("discovery-layer abuse mutated instead of self-correcting")
-    if arcs.get("self-hosted-ai"):
-        confirmations.append(
-            "local and self-hosted AI kept becoming a category rather than a workaround"
+def build_interaction_paragraph(arcs: dict[str, list[str]]) -> str:
+    observations: list[str] = []
+    if arcs.get("agent-skills") and arcs.get("security-gap"):
+        observations.append(
+            "The skills and security records developed together: reports that described more specialized workflows also kept naming permissioning, behavior testing, and trusted distribution as open work."
         )
+    if arcs.get("self-hosted-ai") and arcs.get("platform-gaming"):
+        observations.append(
+            "Local execution and discovery quality pulled in different directions. The former appeared in discussions of control and operational fit, while the latter remained difficult to interpret because repeated manipulation distorted repository-level popularity signals."
+        )
+    if arcs.get("agent-skills") and arcs.get("platform-gaming"):
+        observations.append(
+            "That contrast changes how the annual record should be read. Recurrence across independent monthly reports carries more weight than a single leaderboard position, but recurrence still identifies attention rather than adoption or commercial validation."
+        )
+    if not observations:
+        observations.append(
+            "The strongest annual comparisons come from themes that recur across independent monthly reports. Those repetitions identify sustained attention, while the recorded gaps define what the available evidence cannot establish."
+        )
+    observations.append(
+        "The useful conclusion is therefore comparative: capability themes appeared repeatedly, measurement remained contested, and control questions followed the same categories across the covered period."
+    )
+    return " ".join(observations)
+
+
+def build_prediction_review(arcs: dict[str, list[str]]) -> str:
+    recurring_evidence: list[str] = []
+    if arcs.get("agent-skills"):
+        recurring_evidence.append("agent skills remained a recurring infrastructure theme")
+    if len(arcs.get("platform-gaming", [])) >= 2:
+        recurring_evidence.append("discovery-layer abuse changed tactics")
+    if arcs.get("self-hosted-ai"):
+        recurring_evidence.append("local and self-hosted execution remained visible")
     if arcs.get("security-gap"):
-        confirmations.append("the trust and security gap remained open")
+        recurring_evidence.append("trust and security gaps recurred")
     weakened: list[str] = []
     if arcs.get("platform-gaming"):
         weakened.append("the hope that GitHub discovery noise would self-correct")
     if arcs.get("security-gap"):
         weakened.append("the idea that trust tooling would catch up on its own")
-    if "verticalization" in arcs.get("agent-skills", []):
-        weakened.append(
-            "the simpler thesis that one general-purpose agent workflow would dominate everything"
-        )
-    if not confirmations and not weakened:
+    if not recurring_evidence and not weakened:
         return "The running predictions stayed directionally useful: the biggest structural questions still look unresolved."
     sentences: list[str] = []
-    if confirmations:
-        sentences.append(f"What was confirmed: {join_phrases(confirmations)}.")
+    if recurring_evidence:
+        sentences.append(f"What recurred in the evidence: {join_phrases(recurring_evidence)}.")
     if weakened:
         sentences.append(f"What weakened: {join_phrases(weakened)}.")
     sentences.append(
         "That leaves the main story of the year intact: builders are getting more serious about packaging and operating agents, while the trust, filtering, and governance layers remain conspicuously behind."
+    )
+    sentences.append(
+        "Across the covered months, the durable evidence is repetition rather than certainty: practical agent tooling kept returning in different forms, discovery quality remained contested, and each apparent gain in capability arrived with an unresolved question about control or measurement. That is enough to establish direction without turning an incomplete year into a settled forecast."
+    )
+    sentences.append(
+        "The distinction matters for a partial-year review. A repeated theme can justify continued attention without proving market maturity, and a visible gap can shape the editorial outlook without proving that no solution exists. The evidence supports a cautious account of where developer attention clustered, which constraints followed it, and which questions the next monthly reports must test."
     )
     return " ".join(sentences)
 
@@ -805,38 +889,178 @@ def compress_narrative(paragraphs: list[str], max_words: int = 500) -> str:
     return "\n\n".join(paragraph.strip() for paragraph in paragraphs if paragraph.strip())
 
 
+def complete_sentences(values: Iterable[str], word_limit: int) -> list[str]:
+    selected: list[str] = []
+    used = 0
+    for value in values:
+        for sentence in re.split(r"(?<=[.!?])\s+", strip_markdown(value)):
+            sentence = sentence.strip()
+            count = word_count(sentence)
+            if not sentence or count == 0 or used + count > word_limit or sentence[-1] not in ".!?":
+                continue
+            selected.append(sentence)
+            used += count
+    return selected
+
+
+def short_labels(values: Iterable[str], limit: int = 4) -> list[str]:
+    labels = []
+    for value in values:
+        cleaned = strip_markdown(value).replace("-", " ").strip().rstrip(".")
+        if cleaned and word_count(cleaned) <= 5:
+            labels.append(cleaned)
+    return dedupe_preserving_order(labels)[:limit]
+
+
+def sentence_case(text: str) -> str:
+    if not text or text[:2].isupper():
+        return text
+    return text[0].upper() + text[1:]
+
+
+def build_month_chapter(month: MonthSnapshot, word_limit: int) -> str:
+    paragraphs: list[str] = []
+    style = (month.month - 1) % 4
+    summaries = complete_sentences(month.summaries, min(85, word_limit // 2))
+    if summaries:
+        opening_templates = (
+            f"{month.month_name} opened with a clear baseline: {{summary}}",
+            f"The first useful reading of {month.month_name} was direct: {{summary}}",
+            f"In {month.month_name}, the monthly record began here: {{summary}}",
+            f"{month.month_name}'s reports initially pointed to one conclusion: {{summary}}",
+        )
+        opening = opening_templates[style].format(summary=summaries[0])
+        if len(summaries) > 1:
+            transitions = (
+                "The final weekly report sharpened that picture:",
+                "By month end, the emphasis had shifted:",
+                "The closing report changed the balance:",
+                "The last weekly read made the constraint clearer:",
+            )
+            opening += f" {transitions[style]} {summaries[-1]}"
+        paragraphs.append(opening)
+
+    themes = short_labels(month.themes)
+    context = ""
+    if themes:
+        theme_values = join_phrases(themes)
+        context_templates = (
+            "Across the month, {values} remained visible in separate weekly samples.",
+            "The reports moved between {values} without reducing the month to one repository.",
+            "{values} supplied context for the month's more specific evidence.",
+            "Viewed together, the reports connected {values}.",
+        )
+        if style == 2:
+            theme_values = sentence_case(theme_values)
+        context = context_templates[style].format(values=theme_values)
+
+    evidence_sentences = complete_sentences(month.signals, min(75, word_limit // 3))
+    if evidence_sentences:
+        supported_evidence = [
+            sentence
+            for sentence in evidence_sentences
+            if not re.search(
+                r"\b(adoption|buyer|confirm|confirms|confirmed|prove|proves|proven|reinforce|reinforces|establish|establishes|demonstrate|demonstrates)\b",
+                sentence,
+                flags=re.IGNORECASE,
+            )
+            and "real ecosystem movement" not in sentence.lower()
+        ]
+        evidence_intros = (
+            "The weekly evidence made the direction concrete: ",
+            "One signal supplied the clearest supporting detail: ",
+            "The strongest weekly observation was more specific: ",
+            "The underlying reports gave that trend practical form: ",
+        )
+        evidence = (
+            evidence_intros[style] + " ".join(supported_evidence[:2]) if supported_evidence else ""
+        )
+    else:
+        evidence = ""
+
+    gaps = complete_sentences(month.gaps, min(65, word_limit // 3))
+    noise = short_labels(month.noise, limit=3)
+    risk = ""
+    if gaps or noise:
+        noise_values = join_phrases(noise)
+        punctuated_gaps = [gap if gap.endswith((".", "!", "?")) else f"{gap}." for gap in gaps]
+        gap_values = " ".join(punctuated_gaps[:2])
+        risk_parts = []
+        if style == 0:
+            if noise:
+                risk_parts.append(f"Discovery noise centered on {noise_values}.")
+            if gaps:
+                risk_parts.append(f"Open questions remained: {gap_values}")
+        elif style == 1:
+            if noise:
+                risk_parts.append(f"Noise around {noise_values} complicated that reading.")
+            if gaps:
+                risk_parts.append(
+                    f"The clearest unresolved issue was recorded directly: {gap_values}"
+                )
+        elif style == 2:
+            if noise:
+                risk_parts.append(f"Against that movement, {noise_values} remained noisy.")
+            if gaps:
+                risk_parts.append(f"The reports left one constraint unresolved: {gap_values}")
+        else:
+            if noise:
+                risk_parts.append(f"The period still carried noise from {noise_values}.")
+            if gaps:
+                risk_parts.append(f"It closed with concrete gaps: {gap_values}")
+        risk = " ".join(risk_parts) + " The annual interpretation therefore remains provisional."
+
+    opening = paragraphs[0] if paragraphs else ""
+    if style == 0:
+        paragraphs = [opening, " ".join(part for part in (context, evidence) if part), risk]
+    elif style == 1:
+        paragraphs = [
+            " ".join(part for part in (opening, risk) if part),
+            " ".join(part for part in (evidence, context) if part),
+        ]
+    elif style == 2:
+        paragraphs = [opening, evidence, " ".join(part for part in (context, risk) if part)]
+    else:
+        paragraphs = [
+            " ".join(part for part in (opening, evidence) if part),
+            " ".join(part for part in (context, risk) if part),
+        ]
+    paragraphs = [paragraph for paragraph in paragraphs if paragraph]
+
+    if not paragraphs and month.yearly_source_paragraphs:
+        paragraphs = complete_sentences(month.yearly_source_paragraphs, word_limit)
+
+    accepted: list[str] = []
+    used = word_count(f"### {month.month_name}")
+    for paragraph in paragraphs:
+        count = word_count(paragraph)
+        if used + count > word_limit:
+            continue
+        accepted.append(paragraph)
+        used += count
+    if not accepted:
+        accepted.append(
+            f"{month.month_name} remains part of the covered evidence period, but its available structured record does not support a longer synthesis."
+        )
+    return f"### {month.month_name}\n\n" + "\n\n".join(accepted)
+
+
 def synthesize_year(months: list[MonthSnapshot]) -> str:
     arcs = {family.key: detect_family_arc(months, family) for family in TREND_FAMILIES}
     paragraphs = [
         build_opening_paragraph(months, arcs),
         build_evolution_paragraph(months),
         build_pattern_paragraph(arcs),
+        build_interaction_paragraph(arcs),
         build_prediction_review(arcs),
     ]
     narrative = compress_narrative(paragraphs)
-    for month in months:
-        chapter_paragraphs = [
-            paragraph.strip() for paragraph in month.yearly_source_paragraphs if paragraph.strip()
-        ]
-        if not chapter_paragraphs:
-            continue
-        chapter = f"### {month.month_name}\n\n" + "\n\n".join(chapter_paragraphs)
-        if word_count(f"{narrative}\n\n{chapter}") <= 1800:
-            narrative = f"{narrative}\n\n{chapter}"
-            continue
-        heading = f"### {month.month_name}"
-        if word_count(f"{narrative}\n\n{heading}") > 1800:
-            break
-        accepted = [heading]
-        for paragraph in chapter_paragraphs:
-            candidate = "\n\n".join([narrative, *accepted, paragraph])
-            if word_count(candidate) > 1800:
-                break
-            accepted.append(paragraph)
-        if len(accepted) > 1:
-            narrative = "\n\n".join([narrative, *accepted])
-        break
-    return narrative
+    if not months:
+        return narrative
+    available = max(1, 1800 - word_count(narrative))
+    chapter_budget = max(45, available // len(months))
+    chapters = [build_month_chapter(month, chapter_budget) for month in months]
+    return "\n\n".join([narrative, *chapters])
 
 
 def generate_yearly_title(year: int, arcs: dict[str, list[str]]) -> str:

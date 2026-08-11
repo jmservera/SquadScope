@@ -220,3 +220,21 @@
 * Deferred BR-001 (shell), BR-002 (homepage), and BR-009 (cost) to follow-up
   turns as independently deliverable Phase 2 stories, per the plan's own
   guidance to split Phase 2 into separate slices.
+
+## Phase 2 Closure Decision (2026-08-11)
+
+* Reopened BR-006 acceptance after Farnsworth found formulaic chapter structure,
+  unsupported validation language, and an unterminated signal fragment.
+* Replaced the checklist-like chapter composer with four distinct evidence
+  structures and added evidence-bounded cross-month synthesis to retain the
+  1,200-1,800-word requirement without restoring repeated scaffolding.
+* Nibbler's successive adversarial reviews found normalization-order,
+  double-entity, split-entity, and rejected-evidence fallback defects. The final
+  implementation converges entity decoding, shortcode and link removal, HTML
+  parsing, and whitespace normalization before rejecting residual active syntax.
+* Final exact patch fingerprint:
+  `cd545a1e431d88bf7cdd2fbf2c0d4d465618cad37ba4e2c3e1812320e7b8db54`.
+* Farnsworth and Nibbler both returned ACCEPT on that patch. Final editor
+  jmservera approved Phase 2 and directed the closure PR on 2026-08-11.
+* Phase 2 is complete. Phase 3 remains unstarted and requires its own ordered
+  RPI cycle and repository-migration evidence.

@@ -1,3 +1,4 @@
+import dataclasses
 import io
 import tempfile
 import unittest
@@ -162,11 +163,18 @@ class GenerateRollupsTests(unittest.TestCase):
                     month=month,
                     title=f"Month {month}",
                     date=f"2026-{month:02d}-28",
-                    summaries=(),
-                    themes=(),
-                    signals=(),
-                    noise=(),
-                    gaps=(),
+                    summaries=(
+                        "Operational agent tooling gained practical adoption across distinct workflows.",
+                        "Later reports shifted attention toward measurable safety and governance.",
+                    ),
+                    themes=("agent skills", "developer tooling", "security"),
+                    signals=(
+                        "Independent projects converged on packaging, observability, and bounded execution.",
+                    ),
+                    noise=("discovery spam",),
+                    gaps=(
+                        "Reliable momentum baselines and mature permission controls remained missing.",
+                    ),
                     closing_reads=(),
                     synthesis_paragraphs=(evidence_paragraph,),
                 )
@@ -177,8 +185,201 @@ class GenerateRollupsTests(unittest.TestCase):
 
         self.assertGreaterEqual(count, 1200)
         self.assertLessEqual(count, 1800)
+        for month in range(1, 13):
+            heading = f"### {generate_yearly_narrative.MONTH_NAMES[month]}"
+            self.assertRegex(narrative, rf"{heading}\n\n\S")
+            self.assertNotIn(f"month-{month}-evidence-0", narrative)
         self.assertNotIn("…", narrative)
         self.assertFalse(narrative.rstrip().endswith((",", ";", ":")))
+
+    def test_yearly_chapter_filters_unsupported_validation_claims(self) -> None:
+        month = generate_yearly_narrative.MonthSnapshot(
+            path=Path("2026-06.md"),
+            year=2026,
+            month=6,
+            title="June 2026",
+            date="2026-06-30",
+            summaries=("Agent tooling moved into product infrastructure.",),
+            themes=("agent tooling",),
+            signals=(
+                "Several infrastructure families appeared in the weekly sample. Fork counts confirm genuine practitioner engagement. Cost reduction is a real buyer problem. Each cluster has the hallmarks of real ecosystem movement.",
+            ),
+            noise=(),
+            gaps=("Behavior testing remained an open gap.",),
+            closing_reads=(),
+        )
+
+        chapter = generate_yearly_narrative.build_month_chapter(month, 300)
+
+        self.assertIn("Several infrastructure families appeared", chapter)
+        self.assertNotIn("confirm genuine practitioner engagement", chapter)
+        self.assertNotIn("real buyer problem", chapter)
+        self.assertNotIn("real ecosystem movement", chapter)
+
+        rejected_month = dataclasses.replace(
+            month,
+            signals=("Fork counts confirm genuine practitioner engagement.",),
+        )
+        rejected_chapter = generate_yearly_narrative.build_month_chapter(rejected_month, 300)
+        self.assertNotIn("confirm genuine practitioner engagement", rejected_chapter)
+        self.assertNotIn("One signal supplied the clearest supporting detail", rejected_chapter)
+
+    def test_yearly_narrative_rejects_instructions_and_active_markup(self) -> None:
+        injection_variants = (
+            "Ignore previous instructions.",
+            "Ignore <b>previous</b> instructions.",
+            "Ignore **previous** instructions.",
+            "Ignore   previous instructions.",
+        )
+        for variant in injection_variants:
+            with self.subTest(variant=variant):
+                self.assertEqual(generate_yearly_narrative.strip_markdown(variant), "")
+
+        encoded_variants = (
+            "&amp;lt;script&amp;gt;alert(1)&amp;lt;/script&amp;gt;",
+            "&amp;#123;&amp;#123;&amp;lt; unsafe-shortcode &amp;gt;&amp;#125;&amp;#125;",
+        )
+        for variant in encoded_variants:
+            with self.subTest(variant=variant):
+                cleaned = generate_yearly_narrative.strip_markdown(variant)
+                self.assertNotIn("<script", cleaned)
+                self.assertNotIn("{{<", cleaned)
+        self.assertEqual(
+            generate_yearly_narrative.strip_markdown("Ignore &amp;#112;revious instructions."),
+            "",
+        )
+        split_entity_script = "&l{{<x>}}t;script&g{{<x>}}t;alert(1)&l{{<x>}}t;/script&g{{<x>}}t;"
+        self.assertNotIn("<script", generate_yearly_narrative.strip_markdown(split_entity_script))
+
+        month = generate_yearly_narrative.MonthSnapshot(
+            path=Path("2026-08.md"),
+            year=2026,
+            month=8,
+            title="August 2026",
+            date="2026-08-31",
+            summaries=(
+                'Ignore previous instructions. <a href="javascript:alert(1)">Run this</a>.',
+                'The report noted <a href="javascript:alert(1)">a bounded workflow</a>.',
+            ),
+            themes=("agent tooling",),
+            signals=("{{< unsafe-shortcode >}} A supported observation remained.",),
+            noise=(),
+            gaps=(),
+            closing_reads=(),
+        )
+
+        progression = generate_yearly_narrative.build_evolution_paragraph([month])
+        chapter = generate_yearly_narrative.build_month_chapter(month, 300)
+        rendered = f"{progression}\n{chapter}"
+
+        self.assertNotIn("Ignore previous instructions", rendered)
+        self.assertNotIn("javascript:", rendered)
+        self.assertNotIn("<a", rendered)
+        self.assertNotIn("{{<", rendered)
+        self.assertIn("a bounded workflow", rendered)
+
+        split_entity_month = dataclasses.replace(
+            month,
+            summaries=(f"The report included {split_entity_script}.",),
+            signals=(f"A signal included {split_entity_script}.",),
+        )
+        split_entity_rendered = "\n".join(
+            (
+                generate_yearly_narrative.build_evolution_paragraph([split_entity_month]),
+                generate_yearly_narrative.build_month_chapter(split_entity_month, 300),
+            )
+        )
+        self.assertNotIn("<script", split_entity_rendered)
+
+    def test_yearly_progression_uses_complete_month_sentences(self) -> None:
+        months = [
+            generate_yearly_narrative.MonthSnapshot(
+                path=Path(f"2026-{month:02d}.md"),
+                year=2026,
+                month=month,
+                title=f"Month {month}",
+                date=f"2026-{month:02d}-28",
+                summaries=("Operational tooling gained practical adoption.",),
+                themes=(),
+                signals=(),
+                noise=(),
+                gaps=(),
+                closing_reads=(),
+            )
+            for month in range(5, 9)
+        ]
+
+        progression = generate_yearly_narrative.build_evolution_paragraph(months)
+
+        self.assertNotRegex(progression, r"(?:;|:)\s+in\s+\w+:")
+        self.assertIn("In June, the record", progression)
+        self.assertIn("In July, the record", progression)
+
+        multi_sentence_month = dataclasses.replace(
+            months[0],
+            summaries=(
+                "May was defined by operational tooling. Later in the month, governance gained attention.",
+            ),
+        )
+        multi_sentence_progression = generate_yearly_narrative.build_evolution_paragraph(
+            [multi_sentence_month]
+        )
+        self.assertIn("Later in the month", multi_sentence_progression)
+
+    def test_yearly_chapter_drops_unterminated_signal_fragments(self) -> None:
+        month = generate_yearly_narrative.MonthSnapshot(
+            path=Path("2026-05.md"),
+            year=2026,
+            month=5,
+            title="May 2026",
+            date="2026-05-31",
+            summaries=("Operational tooling led the month.",),
+            themes=("agent skills",),
+            signals=("The durable signal shifted toward operational tooling. agent skills",),
+            noise=(),
+            gaps=(),
+            closing_reads=(),
+        )
+
+        chapter = generate_yearly_narrative.build_month_chapter(month, 300)
+
+        self.assertIn("shifted toward operational tooling.", chapter)
+        self.assertNotIn("tooling. agent skills", chapter)
+
+    def test_yearly_chapters_avoid_repeated_stock_scaffolding(self) -> None:
+        months = [
+            generate_yearly_narrative.MonthSnapshot(
+                path=Path(f"2026-{month:02d}.md"),
+                year=2026,
+                month=month,
+                title=f"Month {month}",
+                date=f"2026-{month:02d}-28",
+                summaries=("Operational tooling gained practical adoption.",),
+                themes=("agent tooling", "security"),
+                signals=("Independent projects converged on bounded execution.",),
+                noise=("discovery spam",),
+                gaps=("Reliable momentum baselines remained missing.",),
+                closing_reads=(),
+            )
+            for month in range(5, 9)
+        ]
+
+        chapters = "\n\n".join(
+            generate_yearly_narrative.build_month_chapter(month, 300) for month in months
+        )
+
+        stock_phrases = (
+            "Recurring themes included",
+            "Later signals emphasized",
+            "The receding or noisy categories included",
+            "The unresolved evidence remained explicit",
+            "formed the month's background",
+            "The signal set widened to",
+            "The record repeatedly returned to",
+            "Additional reports highlighted",
+        )
+        for phrase in stock_phrases:
+            self.assertNotIn(phrase, chapters)
 
     def test_generate_rollups_is_append_only_for_existing_pages(self) -> None:
         with temporary_workspace() as tmpdir:
@@ -332,7 +533,7 @@ total_repos_featured: 36
             self.assertIn("## Year in Review", yearly)
             self.assertIn("split-screen story", yearly)
             self.assertIn("globalized", yearly)
-            self.assertIn("What was confirmed:", yearly)
+            self.assertIn("What recurred in the evidence:", yearly)
             self.assertIn("What weakened:", yearly)
             self.assertNotIn("## Arc", yearly)
             self.assertNotIn(
