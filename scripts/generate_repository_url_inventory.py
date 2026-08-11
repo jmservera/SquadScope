@@ -11,9 +11,10 @@ from typing import Any
 
 import yaml
 
-SCHEMA_VERSION = "1.1.0"
+SCHEMA_VERSION = "1.2.0"
 PRODUCTION_SNAPSHOT = Path("data/derived/observatory/repository-production-snapshot.json")
 EXTERNAL_EVIDENCE = Path("data/derived/observatory/repository-external-evidence.json")
+URL_INSPECTION = Path("data/derived/observatory/repository-url-inspection.json")
 EVIDENCE_REQUIREMENTS = (
     "url_inspection",
     "search_analytics",
@@ -103,6 +104,16 @@ def load_external_evidence(root: Path) -> dict[str, Any] | None:
     return loaded
 
 
+def load_url_inspection(root: Path) -> dict[str, Any] | None:
+    path = root / URL_INSPECTION
+    if not path.exists():
+        return None
+    loaded = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(loaded, dict):
+        raise ValueError(f"Invalid URL Inspection snapshot: {path}")
+    return loaded
+
+
 def build_inventory(root: Path) -> dict[str, Any]:
     repo_root = root / "content/repo"
     records: list[dict[str, Any]] = [
@@ -139,7 +150,9 @@ def build_inventory(root: Path) -> dict[str, Any]:
     }
     snapshot = load_production_snapshot(root)
     external = load_external_evidence(root)
+    inspection = load_url_inspection(root)
     production_by_url = {record["url"]: record for record in (snapshot or {}).get("records", [])}
+    inspection_by_url = {record["url"]: record for record in (inspection or {}).get("records", [])}
     for record in records:
         production = production_by_url.get(record["url"])
         if production:
@@ -187,6 +200,20 @@ def build_inventory(root: Path) -> dict[str, Any]:
                 "referral_sessions": None,
                 "sampled_inbound_link": None,
             }
+        inspected = inspection_by_url.get(record["url"])
+        if inspected:
+            record["evidence"]["url_inspection"] = {
+                "status": "observed",
+                "source": URL_INSPECTION.as_posix(),
+                "window": (inspection or {}).get("captured_at", ""),
+            }
+        record["inspection"] = {
+            "verdict": (inspected or {}).get("verdict"),
+            "coverage_state": (inspected or {}).get("coverage_state"),
+            "last_crawl_time": (inspected or {}).get("last_crawl_time"),
+            "google_canonical": (inspected or {}).get("google_canonical"),
+            "user_canonical": (inspected or {}).get("user_canonical"),
+        }
     production_counts = (snapshot or {}).get("counts", {})
     counts.update(
         {
@@ -207,6 +234,11 @@ def build_inventory(root: Path) -> dict[str, Any]:
         "external_evidence": {
             "path": EXTERNAL_EVIDENCE.as_posix(),
             "schema_version": (external or {}).get("schema_version", ""),
+        },
+        "url_inspection": {
+            "path": URL_INSPECTION.as_posix(),
+            "captured_at": (inspection or {}).get("captured_at", ""),
+            "site_url": (inspection or {}).get("site_url", ""),
         },
         "evidence_requirements": list(EVIDENCE_REQUIREMENTS),
         "counts": counts,

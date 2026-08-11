@@ -60,6 +60,13 @@ def test_build_inventory_includes_index_canonicals_and_aliases(tmp_path: Path) -
         "referral_sessions": None,
         "sampled_inbound_link": None,
     }
+    assert alias["inspection"] == {
+        "verdict": None,
+        "coverage_state": None,
+        "last_crawl_time": None,
+        "google_canonical": None,
+        "user_canonical": None,
+    }
     assert set(alias["evidence"]) == set(inventory.EVIDENCE_REQUIREMENTS)
     assert all(item["status"] == "not_collected" for item in alias["evidence"].values())
 
@@ -234,6 +241,44 @@ def test_build_inventory_joins_external_evidence(tmp_path: Path) -> None:
         "referral_sessions": None,
         "sampled_inbound_link": None,
     }
+
+
+def test_build_inventory_joins_url_inspection(tmp_path: Path) -> None:
+    _write_page(tmp_path / "content/repo/_index.md")
+    _write_page(tmp_path / "content/repo/alpha/index.md")
+    inspection_path = tmp_path / inventory.URL_INSPECTION
+    inspection_path.parent.mkdir(parents=True, exist_ok=True)
+    inspection_path.write_text(
+        json.dumps(
+            {
+                "schema_version": "1.0.0",
+                "captured_at": "2026-08-11T09:04:05+00:00",
+                "site_url": "sc-domain:claracle.com",
+                "records": [
+                    {
+                        "url": "/repo/alpha/",
+                        "verdict": "PASS",
+                        "coverage_state": "Submitted and indexed",
+                        "last_crawl_time": "2026-08-03T02:11:09Z",
+                        "google_canonical": "https://claracle.com/repo/alpha/",
+                        "user_canonical": "https://claracle.com/repo/alpha/",
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    records = inventory.build_inventory(tmp_path)["records"]
+    alpha = next(record for record in records if record["url"] == "/repo/alpha/")
+
+    assert alpha["evidence"]["url_inspection"] == {
+        "status": "observed",
+        "source": "data/derived/observatory/repository-url-inspection.json",
+        "window": "2026-08-11T09:04:05+00:00",
+    }
+    assert alpha["inspection"]["verdict"] == "PASS"
+    assert alpha["inspection"]["coverage_state"] == "Submitted and indexed"
 
 
 def test_schema_blocks_retirement_without_collected_evidence(tmp_path: Path) -> None:

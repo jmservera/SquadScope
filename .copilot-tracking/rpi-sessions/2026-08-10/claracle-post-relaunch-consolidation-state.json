@@ -39,24 +39,29 @@
       "decision": "The imported Search Analytics export records 51 impressions across 10 exact repository URLs; blanket no-indexing or retirement is unsupported.",
       "status": "confirmed",
       "evidence": "data/derived/observatory/repository-external-evidence.json"
+    },
+    {
+      "decision": "URL Inspection covers all 274 rows: 15 indexed, 99 discovered but not indexed, and 160 unknown to Google.",
+      "status": "confirmed",
+      "evidence": "data/derived/observatory/repository-url-inspection.json"
     }
   ],
   "blockers": [
     {
       "id": "phase3-external-url-evidence",
-      "summary": "URL Inspection remains unavailable, and content, destination-equivalence, and named disposition approval are incomplete, so 264 live URLs cannot receive approved dispositions.",
-      "resolution": "Supply URL Inspection evidence or formally amend the approved evidence policy, complete the remaining reviews, and approve the per-URL keep, merge, redirect, or retire map."
+      "summary": "Content differentiation, destination-equivalence, and named disposition approval are incomplete, so 264 live URLs cannot receive approved dispositions.",
+      "resolution": "Complete the remaining reviews and approve the per-URL keep, merge, redirect, or retire map."
     }
   ],
   "next_action": {
     "phase": "Implement",
-    "action": "Wait for URL Inspection evidence or a formal policy amendment and named disposition approval; do not start Phase 4."
+    "action": "Complete content and destination-equivalence review and obtain named disposition approval; do not start Phase 4."
   },
   "prioritized_follow_ups": [
     {
       "rank": 1,
-      "task": "Resolve the URL Inspection policy gate and approve all repository dispositions.",
-      "rationale": "The practical exports are imported; this and the remaining content/equivalence reviews now block the detail-removal migration transaction.",
+      "task": "Complete content/equivalence review and approve all repository dispositions.",
+      "rationale": "All external URL evidence is collected; these remaining reviews now block the detail-removal migration transaction.",
       "evidence": ".copilot-tracking/plans/2026-08-08/claracle-post-relaunch-consolidation-plan.instructions.md"
     },
     {

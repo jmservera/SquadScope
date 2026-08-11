@@ -140,9 +140,9 @@ record; all routed automated and named reviews are retained.
   and these current RPI records.
 * Live production evidence currently reconciles 264 `/repo/` sitemap URLs
   against 274 local URL forms. Ten local URLs are absent from the sitemap.
-* Exact-page Search Analytics, sampled backlink, and first-party referral
-  exports are imported. URL Inspection remains unavailable. Missing rows are
-  recorded only as not observed in the named export, never as historical zero.
+* Exact-page Search Analytics, sampled backlink, first-party referral, and URL
+  Inspection evidence are imported. Missing export rows are recorded only as
+  not observed in the named export, never as historical zero.
 * First execution boundary: create a deterministic evidence snapshot and
   versioned repository summary, then render the authoritative no-JavaScript
   explorer before deciding whether the removal gate has sufficient evidence.
@@ -168,13 +168,16 @@ record; all routed automated and named reviews are retained.
 * External evidence import records 51 impressions and zero clicks across 10
   exact repository URLs for 2026-07-27..2026-08-09. No repository target is
   observed in the sampled backlink export, and the 2026-07-27..2026-08-11 GA4
-  export contains no referral rows. URL Inspection remains uncollected.
+  export contains no referral rows.
+* URL Inspection covers all 274 rows through `sc-domain:claracle.com`: 15 are
+  submitted and indexed, 99 are discovered but not indexed, and 160 are unknown
+  to Google. Every impression-bearing URL is in the indexed set.
 * All 274 dispositions and approvals remain pending; no details were deleted
   and no redirect was generated.
 
 ### Phase 3 Validation Result
 
-* `pytest tests/`: 1,604 passed, two expected warnings after evidence import.
+* `pytest tests/`: 1,608 passed, two expected warnings after URL Inspection.
 * Evidence import, inventory, and public schema contracts: 37 focused tests
   passed.
 * `ruff check .` and `ruff format --check .`: passed.
@@ -185,6 +188,8 @@ record; all routed automated and named reviews are retained.
 * Installed Zizmor 1.25.2: no medium/high findings. The repository-pinned
   1.27.0 binary was unavailable locally, so the pinned-version CI gate remains
   authoritative for the workflow diff.
+* Checkov 3.2.533: 894 passed, zero failed, six skipped after adding URL
+  Inspection freshness checks to both publishing workflows.
 
 ### Steps And File Operations
 

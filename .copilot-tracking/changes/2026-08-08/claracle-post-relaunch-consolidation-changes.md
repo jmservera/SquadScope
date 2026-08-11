@@ -185,12 +185,12 @@ outcome measurement remain blocked or future work under the controlling plan.
 
 ### Phase 3 Blocker
 
-URL Inspection remains unavailable. Without that source, content and
-destination-equivalence review, and named approval, the 264 live repository
-URLs cannot receive defensible keep/merge/redirect/retire dispositions and the
-low-information detail corpus cannot be removed. The clearing action is to
-supply URL Inspection evidence or formally amend the approved evidence policy,
-then approve the resulting per-URL disposition map.
+URL Inspection is now collected for all rows. Content and
+destination-equivalence review and named approval remain incomplete, so the 264
+live repository URLs cannot yet receive defensible
+keep/merge/redirect/retire dispositions and the low-information detail corpus
+cannot be removed. The clearing action is to complete those reviews and approve
+the resulting per-URL disposition map.
 
 ### External Evidence Import (2026-08-11)
 
@@ -222,6 +222,37 @@ then approve the resulting per-URL disposition map.
   metadata, and Search Console filters fail closed; source windows derive from
   the supplied metadata. Focused tests cover malformed headers, legitimate
   metadata-only GA4 output, and an incorrectly scoped Search Console export.
+
+### URL Inspection Capture (2026-08-11)
+
+* Related phase: Phase 3
+* Files: `scripts/capture_repository_url_inspection.py`,
+  `data/derived/observatory/repository-url-inspection.json`,
+  `scripts/generate_repository_url_inventory.py`,
+  `data/derived/observatory/repository-url-inventory.json`,
+  `data/schemas/repository-url-inventory.schema.json`,
+  `.github/workflows/crawl-and-publish.yml`,
+  `.github/workflows/generate-data-pages.yml`
+* What changed and why: discovered the owner-level Search Console property
+  `sc-domain:claracle.com`, captured URL Inspection results for every inventory
+  row with bounded retries and concurrency, and joined verdict, coverage,
+  crawl, and canonical evidence into inventory schema 1.2.0.
+* Evidence result: 15 URLs are submitted and indexed, 99 are discovered but not
+  indexed, and 160 are unknown to Google. All 10 URLs with Search Analytics
+  impressions are among the indexed URLs.
+* Safety result: the token is read only from the ignored temporary file and is
+  never persisted in repository artifacts. The snapshot contains no credential.
+* Remaining gate: URL Inspection is complete. Content differentiation,
+  destination equivalence, and named disposition approval remain incomplete,
+  so all 274 rows remain pending and no redirect or retirement is authorized.
+* Validation: full Ruff check and format check passed; URL Inspection and
+  inventory freshness checks passed; 1,608 tests passed with two expected
+  warnings; Checkov 3.2.533 reported 894 passed, zero failed, and six skipped;
+  installed Zizmor 1.25.2 reported no medium/high findings, with pinned 1.27.0
+  remaining authoritative in CI.
+* Review disposition: Squad approved the slice and identified only a test gap
+  around authenticated transient retries. A focused regression test now covers
+  bearer-header construction, timeout retry, and successful recovery.
 
 ## CR-06 Harness Repair And Experiment Execution (2026-08-09)
 

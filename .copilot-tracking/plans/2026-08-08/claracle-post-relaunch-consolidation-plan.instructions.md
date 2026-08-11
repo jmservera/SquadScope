@@ -218,9 +218,10 @@ Implementation resumed 2026-08-10 on `feat/repository-migration-phase3`.
 Production reconciliation is available from the live sitemap and direct HTTP
 checks. Search Analytics, sampled backlink, and first-party referral exports
 were imported 2026-08-11 without converting omitted rows into historical zero.
-URL Inspection remains unavailable and explicitly uncollected. The
-implementation therefore retains the deterministic explorer and a conservative
-no-redirect migration candidate; the detail-removal gate cannot close.
+URL Inspection was captured 2026-08-11 for all 274 inventory rows using the
+verified `sc-domain:claracle.com` property. The implementation retains the
+deterministic explorer and a conservative no-redirect migration candidate;
+content, destination-equivalence, and approval gates still prevent removal.
 
 * [x] Reconcile 266 records, 267 source pages, 274 local rendered URLs, seven
   aliases, the live-count discrepancy, and any production-only repository URLs.
@@ -233,7 +234,8 @@ no-redirect migration candidate; the detail-removal gate cannot close.
   export observes 51 impressions across 10 exact repository URLs and zero
   clicks; the sampled backlink export observes no repository targets; the
   2026-07-27..2026-08-11 GA4 export contains no referral rows. URL Inspection
-  remains unavailable and explicitly uncollected
+  observes 15 submitted-and-indexed URLs, 99 discovered-but-not-indexed URLs,
+  and 160 URLs unknown to Google; all 10 impression-bearing URLs are indexed
 * [ ] Record an approved keep, merge, redirect, or retire disposition for every
   canonical, alias, and production-only URL; ambiguous evidence blocks retirement
 * [ ] Retain individual profiles only for differentiated content plus observed
@@ -253,10 +255,9 @@ no-redirect migration candidate; the detail-removal gate cannot close.
 Phase 3 implementation status (2026-08-11): partial and blocked at the
 externally owned disposition/removal gate. All locally actionable inventory,
 artifact, explorer, evidence-import, freshness, and validation work is complete.
-The remaining items cannot be responsibly completed until URL Inspection is
-supplied or the approved policy is formally amended, content and equivalence
-reviews are completed, and named per-URL dispositions are approved. All 274
-rows therefore remain `pending`; no redirect or retirement is claimed.
+The remaining items cannot be responsibly completed until content and
+equivalence reviews are completed and named per-URL dispositions are approved.
+All 274 rows therefore remain `pending`; no redirect or retirement is claimed.
 
 ### [ ] Phase 4: Ranking Data, Visualization Selection, And Embeds
 
