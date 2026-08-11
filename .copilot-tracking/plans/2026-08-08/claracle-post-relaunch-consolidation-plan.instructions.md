@@ -254,38 +254,38 @@ approved migration transaction. Production cutover evidence remains external.
   differentiated content, and destination equivalence for all 274 rows
 * [x] Record an approved keep, merge, redirect, or retire disposition for every
   canonical, alias, and production-only URL; ambiguous evidence blocks retirement
-  The immutable approved map records 11 keeps, one redirect, and 262 retirements
-  against candidate commit `05433d5`
-* [x] Retain individual profiles only for differentiated content plus observed
-  GSC demand or a known inbound link
-* [x] Select a redirect-capable host only if the approved map contains a genuine
+  The candidate remains immutable; the sponsor-approved override records one
+  keep, zero redirects, and 273 retirements against candidate commit `05433d5`
+* [x] Retain only the consolidated `/repo/` explorer; the sponsor explicitly
+  retired every individual repository profile regardless of former links
+* [ ] Select a redirect-capable host only if the approved map contains a genuine
   equivalent; otherwise prove absent paths return direct HTTP 404 on the current host
-  Both production workflows now use pinned Wrangler Direct Upload to the
-  `claracle` Cloudflare Pages project
+  The sponsor withdrew all individual repository routes on 2026-08-11 and
+  selected GitHub Pages direct 404 behavior with no redirect layer
 * [x] Implement deterministic BR-003 artifact generation, authoritative Hugo
   summary and links, search/filter/sort enhancement, URL state, and empty/error states.
   The crawl-derived artifact contains 269 records, defaults to recent momentum,
-  validates GitHub origins, renders the complete no-JavaScript index, and
-  exposes enhancement-only controls with shareable browser history
+  validates GitHub origins, loads from `/data/repositories.json`, and exposes
+  client-side controls with shareable browser history and an explicit load-error state
 * [ ] Generate redirects only from approved exceptional rows and verify one-hop,
   atomic deployment, sitemap, canonical, internal-link, custom-404, and rollback behavior
-  Generation, clean rendering, local Cloudflare 301/200/404 emulation, sitemap,
-  canonical, internal-link, custom-404, and rollback checks pass. Atomic
-  production deployment and live probes await Cloudflare provisioning and DNS
+  The final map contains no exceptional rows. Clean GitHub Pages rendering
+  contains only `/repo/`, its JSON dataset, no individual sitemap entries, and
+  no redirect artifact. Atomic production deployment and live 404 probes await
+  the latest PR head and required human review
 * [x] Remove low-information details only in the same reviewed migration
   transaction; never enable CR-05 as an intermediate step
 
-Phase 3 implementation status (2026-08-11): locally complete and blocked at the
-external production boundary. Sponsor approval is persisted in
-`data/migrations/repository-approved-dispositions.json`; 256 retired canonical
-sources are removed, 10 retained profiles plus the explorer remain, the Hugo
-alias is removed, and the exceptional redirect is emitted in `static/_redirects`.
-Both production workflows are migrated to Cloudflare Pages and publish hydration
-cannot restore retired profiles. Clean Hugo and local Wrangler Pages validation
-prove the intended sitemap, internal-link, custom-404, retained-200,
-one-hop-301, and retired-404 behavior. Phase 3 remains unchecked until the
-Cloudflare project, secrets, custom domains, Namecheap-to-Cloudflare DNS cutover,
-TLS, atomic deployment, live probes, and rollback evidence are complete.
+Phase 3 implementation status (2026-08-11): the final explorer-only transaction
+is locally complete. Sponsor approval is persisted in
+`data/migrations/repository-approved-dispositions.json`; the original
+11-keep/one-redirect/262-retire map is being superseded by the final explicit
+explorer-only override: one keep, zero redirects, and 273 direct-404 retirements.
+Publish hydration remains unable to restore retired profiles. Local evidence
+includes 1,631 passing tests, clean Ruff/Hugo, JSON browser loading, Checkov,
+Zizmor, Bandit, and required Squad perspectives. Phase 3 remains unchecked
+until the revised head is pushed, hosted checks and Copilot review finish, and
+required human review plus post-deployment live probes pass.
 
 ### [ ] Phase 4: Ranking Data, Visualization Selection, And Embeds
 

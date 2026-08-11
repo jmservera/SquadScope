@@ -19,8 +19,13 @@ def _write_inputs(root: Path) -> None:
             disposition = "redirect"
         else:
             disposition = "retire"
-        url = "/repo/" if index == 0 else f"/repo/project-{index}/"
-        destination = "/repo/project-1/" if disposition == "redirect" else ""
+        if index == 10:
+            url = "/repo/odysseus-dev-odysseus/"
+        elif index == 11:
+            url = "/repo/pewdiepie-archdaemon-odysseus/"
+        else:
+            url = "/repo/" if index == 0 else f"/repo/project-{index}/"
+        destination = "/repo/odysseus-dev-odysseus/" if disposition == "redirect" else ""
         records.append(
             {
                 "url": url,
@@ -38,7 +43,11 @@ def _write_inputs(root: Path) -> None:
                 "source_path": (
                     "content/repo/_index.md"
                     if index == 0
-                    else f"content/repo/project-{index}/index.md"
+                    else (
+                        "content/repo/odysseus-dev-odysseus/index.md"
+                        if index in {10, 11}
+                        else f"content/repo/project-{index}/index.md"
+                    )
                 ),
                 "source_checksum": hashlib.sha256(url.encode()).hexdigest(),
                 "candidate_disposition": disposition,
@@ -59,9 +68,10 @@ def test_build_records_exact_approved_map(tmp_path: Path) -> None:
 
     result = approved.build(tmp_path)
 
-    assert result["counts"] == {"keep": 11, "redirect": 1, "retire": 262, "total": 274}
+    assert result["counts"] == {"keep": 1, "redirect": 0, "retire": 273, "total": 274}
     assert result["approval"]["approver"] == "jmservera"
     assert result["approval"]["gate_waiver"] is False
+    assert result["approval"]["hosting_decision"] == "github_pages_explorer_only"
     assert all(record["approval_status"] == "approved" for record in result["records"])
 
 

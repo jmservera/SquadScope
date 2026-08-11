@@ -213,11 +213,7 @@ def test_rendered_page_classes_emit_appropriate_schema(rendered_site: Path) -> N
             "ItemList",
             "BreadcrumbList",
         },
-        "repo/odysseus-dev-odysseus/index.html": {
-            "WebPage",
-            "SoftwareSourceCode",
-            "BreadcrumbList",
-        },
+        "repo/index.html": {"BreadcrumbList"},
     }
     for relative_path, expected in expected_types.items():
         _, parser = _parse_html(rendered_site / relative_path)
@@ -226,7 +222,7 @@ def test_rendered_page_classes_emit_appropriate_schema(rendered_site: Path) -> N
 
     for relative_path in (
         "data/most-starred-mcp-projects/index.html",
-        "repo/odysseus-dev-odysseus/index.html",
+        "repo/index.html",
     ):
         _, parser = _parse_html(rendered_site / relative_path)
         assert "Article" not in {document["@type"] for document in parser.json_ld}

@@ -17,6 +17,12 @@ DEFAULT_OUTPUT = Path("data/migrations/repository-approved-dispositions.json")
 APPROVER = "jmservera"
 APPROVED_AT = "2026-08-11"
 APPROVED_COMMIT = "05433d5"
+# The source changed when the prior alias was removed; bind the approved post-removal state.
+POST_REDIRECT_REMOVAL_CHECKSUMS = {
+    "/repo/odysseus-dev-odysseus/": (
+        "d5be6c41c0545477baa5a3c627229ad8618de41039177021293396782aae2770"
+    ),
+}
 
 
 def sha256(path: Path) -> str:
@@ -54,16 +60,27 @@ def build(root: Path) -> dict[str, Any]:
         inventory_record = inventory_by_url[url]
         if inventory_record["candidate_disposition"] != disposition:
             raise ValueError(f"Candidate drift for {url}")
+        destination = candidate_record["destination_candidate"]
+        rationale = candidate_record["rationale"]
+        source_checksum = inventory_record["source_checksum"]
+        if url != "/repo/":
+            disposition = "retire"
+            destination = ""
+            rationale = (
+                "Retired by the sponsor's explorer-only decision; repository "
+                "data remains available through the JSON-backed /repo/ index."
+            )
+            source_checksum = POST_REDIRECT_REMOVAL_CHECKSUMS.get(url, source_checksum)
         records.append(
             {
                 "url": url,
                 "url_type": candidate_record["url_type"],
                 "canonical_url": candidate_record["canonical_url"],
                 "source_path": inventory_record["source_path"],
-                "source_checksum": inventory_record["source_checksum"],
+                "source_checksum": source_checksum,
                 "disposition": disposition,
-                "destination": candidate_record["destination_candidate"],
-                "rationale": candidate_record["rationale"],
+                "destination": destination,
+                "rationale": rationale,
                 "approval_status": "approved",
             }
         )
@@ -73,11 +90,11 @@ def build(root: Path) -> dict[str, Any]:
         for name in ("keep", "redirect", "retire")
     }
     counts["total"] = len(records)
-    if counts != {"keep": 11, "redirect": 1, "retire": 262, "total": 274}:
+    if counts != {"keep": 1, "redirect": 0, "retire": 273, "total": 274}:
         raise ValueError(f"Unexpected approved counts: {counts}")
 
     return {
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "approval": {
             "status": "approved",
             "approver": APPROVER,
@@ -92,6 +109,12 @@ def build(root: Path) -> dict[str, Any]:
                 "Approve and go for Phase 4, once finished you can move to Phase 5 "
                 "without asking, but only if all Phase 4 is finished."
             ),
+            "hosting_decision": "github_pages_explorer_only",
+            "hosting_statement": (
+                "Keep only the JSON-backed /repo/ explorer on GitHub Pages and "
+                "retire every individual repository URL without redirects."
+            ),
+            "supersedes_commit": "c5dcb5f",
         },
         "inputs": {
             CANDIDATE.as_posix(): sha256(candidate_path),

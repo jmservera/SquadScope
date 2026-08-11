@@ -37,7 +37,7 @@ def test_repository_summary_is_current_and_schema_valid() -> None:
         validator.validate(record)
 
 
-def test_repository_page_renders_complete_no_javascript_index() -> None:
+def test_repository_page_loads_the_versioned_json_dataset() -> None:
     if shutil.which("hugo") is None:
         pytest.skip("hugo binary is not installed in this test environment")
 
@@ -53,14 +53,13 @@ def test_repository_page_renders_complete_no_javascript_index() -> None:
     try:
         assert result.returncode == 0, result.stderr
         rendered = (destination / "repo/index.html").read_text(encoding="utf-8")
-        payload = json.loads(
-            (ROOT / "data/observatory/repository_summary.json").read_text(encoding="utf-8")
-        )
-        assert rendered.count("data-repo-record") == len(payload["records"])
+        assert "data-repo-record" not in rendered
         assert "data-repository-explorer" in rendered
+        assert "data-repository-data-url=/data/repositories.json" in rendered
         assert "Download the versioned repository dataset" in rendered
-        assert "https://github.com/2dust/v2rayN" in rendered
         assert "repository-explorer.min." in rendered
+        script = (ROOT / "assets/js/repository-explorer.js").read_text(encoding="utf-8")
+        assert "await fetch(root.getAttribute" in script
     finally:
         shutil.rmtree(destination, ignore_errors=True)
 

@@ -23,7 +23,7 @@ than an uncompressed development server.
 * `/yearly/2026/`
 * `/topics/ai-coding-agents/`
 * `/data/fastest-growing-ai-repositories-this-year/`
-* `/repo/odysseus-dev-odysseus/`
+* `/repo/`
 * `/embeds/fastest-growing-ai-repositories-chart/`
 * `/tools/star-velocity-explorer/`
 

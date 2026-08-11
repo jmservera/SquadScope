@@ -5,7 +5,7 @@
   "type": "object",
   "required": ["schema_version", "approval", "inputs", "counts", "records"],
   "properties": {
-    "schema_version": { "const": "1.0.0" },
+    "schema_version": { "const": "1.1.0" },
     "approval": {
       "type": "object",
       "required": [
@@ -15,7 +15,10 @@
         "approved_commit",
         "gate_waiver",
         "authorized_sequence",
-        "statement"
+        "statement",
+        "hosting_decision",
+        "hosting_statement",
+        "supersedes_commit"
       ],
       "properties": {
         "status": { "const": "approved" },
@@ -24,7 +27,10 @@
         "approved_commit": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" },
         "gate_waiver": { "const": false },
         "authorized_sequence": { "type": "string", "minLength": 1 },
-        "statement": { "type": "string", "minLength": 1 }
+        "statement": { "type": "string", "minLength": 1 },
+        "hosting_decision": { "const": "github_pages_explorer_only" },
+        "hosting_statement": { "type": "string", "minLength": 1 },
+        "supersedes_commit": { "const": "c5dcb5f" }
       },
       "additionalProperties": false
     },
@@ -50,9 +56,9 @@
       "type": "object",
       "required": ["keep", "redirect", "retire", "total"],
       "properties": {
-        "keep": { "const": 11 },
-        "redirect": { "const": 1 },
-        "retire": { "const": 262 },
+        "keep": { "const": 1 },
+        "redirect": { "const": 0 },
+        "retire": { "const": 273 },
         "total": { "const": 274 }
       },
       "additionalProperties": false

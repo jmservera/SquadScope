@@ -29,11 +29,14 @@ def _record(
 
 
 def _migration_data(root: Path) -> dict[str, object]:
-    target_content = "---\naliases:\n- /repo/old/\n---\n"
+    retained_content = "---\ntitle: retained\n---\n"
+    target_content = "---\ntitle: target\n---\n"
     retired_content = "---\ntitle: retired\n---\n"
+    retained_path = "content/repo/retained/index.md"
     target_path = "content/repo/target/index.md"
     retired_path = "content/repo/retired/index.md"
     for relative, content in (
+        (retained_path, retained_content),
         (target_path, target_content),
         (retired_path, retired_content),
     ):
@@ -46,21 +49,21 @@ def _migration_data(root: Path) -> dict[str, object]:
     return {
         "approval": {"approved_commit": "abc123"},
         "records": [
-            _record("/repo/target/", "keep", target_path, target_content),
+            _record("/repo/retained/", "keep", retained_path, retained_content),
             _record(
                 "/repo/old/",
-                "redirect",
+                "retire",
                 target_path,
                 target_content,
                 url_type="alias",
-                destination="/repo/target/",
             ),
+            _record("/repo/target/", "retire", target_path, target_content),
             _record("/repo/retired/", "retire", retired_path, retired_content),
         ],
     }
 
 
-def test_apply_removes_source_alias_and_writes_rollback(
+def test_apply_removes_retired_sources_and_writes_rollback(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     data = _migration_data(tmp_path)
@@ -70,8 +73,9 @@ def test_apply_removes_source_alias_and_writes_rollback(
     migration.check(tmp_path)
 
     assert not (tmp_path / "content/repo/retired/index.md").exists()
-    assert "/repo/old/" not in (tmp_path / "content/repo/target/index.md").read_text()
-    assert (tmp_path / migration.REDIRECTS).read_text() == ("/repo/old/ /repo/target/ 301\n")
+    assert not (tmp_path / "content/repo/target/index.md").exists()
+    assert not (tmp_path / "static/_redirects").exists()
+    assert (tmp_path / "content/repo/retained/index.md").exists()
     assert (tmp_path / migration.ROLLBACK_MANIFEST).exists()
 
 

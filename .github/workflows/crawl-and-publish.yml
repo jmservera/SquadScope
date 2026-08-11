@@ -1465,12 +1465,14 @@ jobs:
     permissions:
       actions: read
       contents: read
+      pages: write
+      id-token: write
     concurrency:
-      group: cloudflare-pages
-      cancel-in-progress: false
+      group: pages
+      cancel-in-progress: true
     environment:
-      name: cloudflare-pages
-      url: ${{ steps.deployment.outputs.deployment-url }}
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     env:
       HUGO_VERSION: 0.161.1
 
@@ -1508,6 +1510,9 @@ jobs:
       - name: Verify generated cost summary
         run: test -s data/metrics/cost-summary.json
 
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
+
       - name: Install Hugo
         run: |
           set -euo pipefail
@@ -1540,14 +1545,14 @@ jobs:
       - name: Build search index
         run: npx pagefind --site public/
 
-      - name: Deploy to Cloudflare Pages
-        id: deployment
-        uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: '4.120.1'
-          command: pages deploy public --project-name=claracle --branch=main
+          path: ./public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
 
       - name: Verify production migration behavior
         run: python3 scripts/verify_repository_migration_http.py --attempts 12 --delay 10

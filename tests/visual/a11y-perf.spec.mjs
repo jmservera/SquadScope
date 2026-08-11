@@ -24,7 +24,7 @@ const PAGES = [
   { key: 'yearly', label: 'yearly', path: '/yearly/2026/' },
   { key: 'topic', label: 'topic', path: '/topics/ai-coding-agents/' },
   { key: 'data', label: 'data', path: '/data/fastest-growing-ai-repositories-this-year/' },
-  { key: 'repository', label: 'repository', path: '/repo/odysseus-dev-odysseus/' },
+  { key: 'repository', label: 'repository', path: '/repo/' },
   { key: 'chart', label: 'chart', path: '/embeds/fastest-growing-ai-repositories-chart/' },
   { key: 'tool', label: 'tool', path: '/tools/star-velocity-explorer/' },
 ];

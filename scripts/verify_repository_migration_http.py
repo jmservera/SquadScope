@@ -9,32 +9,17 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urlsplit
 
 APPROVED_MAP = Path("data/migrations/repository-approved-dispositions.json")
 
 
-class NoRedirect(urllib.request.HTTPRedirectHandler):
-    def redirect_request(
-        self,
-        req: urllib.request.Request,
-        fp: Any,
-        code: int,
-        msg: str,
-        headers: Any,
-        newurl: str,
-    ) -> None:
-        return None
-
-
-def response_for(url: str, *, follow_redirects: bool = True) -> Any:
-    opener = (
-        urllib.request.build_opener()
-        if follow_redirects
-        else urllib.request.build_opener(NoRedirect())
-    )
+def response_for(url: str) -> Any:
+    parsed = urlsplit(url)
+    if parsed.scheme != "https" or parsed.netloc != "claracle.com":
+        raise ValueError(f"Production checks require https://claracle.com: {url}")
     try:
-        return opener.open(url, timeout=30)
+        return urllib.request.urlopen(url, timeout=30)  # nosec B310 - exact HTTPS origin above
     except urllib.error.HTTPError as error:
         return error
 
@@ -47,26 +32,22 @@ def verify_once(root: Path, origin: str) -> list[str]:
         for record in records
         if record["disposition"] == "keep" and record["url_type"] == "canonical"
     )
-    retired = next(
-        record
-        for record in records
-        if record["disposition"] == "retire" and record["url_type"] == "canonical"
+    # The clean artifact check covers every route; production probes sample both a
+    # formerly retained canonical URL and the former alias to catch stale deployment.
+    required_retirements = (
+        "/repo/ruvnet-ruflo/",
+        "/repo/pewdiepie-archdaemon-odysseus/",
     )
-    redirected = next(record for record in records if record["disposition"] == "redirect")
+    retired_urls = {record["url"] for record in records if record["disposition"] == "retire"}
+    missing = set(required_retirements) - retired_urls
+    if missing:
+        raise ValueError(f"Required direct-404 retirements are missing: {sorted(missing)}")
     problems = []
-    for record, expected in ((retained, 200), (retired, 404)):
-        response = response_for(origin + record["url"])
+    checks = ((retained["url"], 200), *((url, 404) for url in required_retirements))
+    for url, expected in checks:
+        response = response_for(origin + url)
         if response.status != expected:
-            problems.append(f"{record['url']}: expected {expected}, got {response.status}")
-    response = response_for(origin + redirected["url"], follow_redirects=False)
-    expected_location = origin + redirected["destination"]
-    location = response.headers.get("Location")
-    resolved_location = urljoin(origin + redirected["url"], location or "")
-    if response.status != 301 or resolved_location != expected_location:
-        problems.append(
-            f"{redirected['url']}: expected 301 to {expected_location}, "
-            f"got {response.status} to {location}"
-        )
+            problems.append(f"{url}: expected {expected}, got {response.status}")
     return problems
 
 

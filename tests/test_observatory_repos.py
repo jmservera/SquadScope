@@ -1099,14 +1099,15 @@ deletion_confirmed_at = "2026-07-01"
 @pytest.mark.skipif(shutil.which("hugo") is None, reason="hugo binary is not installed")
 def test_hugo_build_renders_generated_repo_pages() -> None:
     result = subprocess.run(
-        ["hugo", "--minify"],
+        ["hugo", "--minify", "--cleanDestinationDir"],
         cwd=REPO_ROOT,
         check=False,
         text=True,
         capture_output=True,
     )
     assert result.returncode == 0, result.stderr + result.stdout
-    assert (REPO_ROOT / "public" / "repo" / "odysseus-dev-odysseus" / "index.html").exists()
+    assert (REPO_ROOT / "public" / "repo" / "index.html").exists()
+    assert not any(path.is_dir() for path in (REPO_ROOT / "public" / "repo").iterdir())
 
 
 def write_identity_backfill(root: Path, entries: dict[str, dict[str, object]]) -> Path:

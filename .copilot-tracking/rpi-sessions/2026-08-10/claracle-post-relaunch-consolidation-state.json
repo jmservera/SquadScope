@@ -4,8 +4,8 @@
   "parent_task": null,
   "mode": "manual",
   "active_phase": "Implement",
-  "status": "blocked",
-  "session_status": "stopped",
+  "status": "active",
+  "session_status": "running",
   "artifact_paths": {
     "research": ".copilot-tracking/research/2026-08-08/claracle-post-relaunch-experience-research.md",
     "plan": ".copilot-tracking/plans/2026-08-08/claracle-post-relaunch-consolidation-plan.instructions.md",
@@ -74,30 +74,33 @@
       "decision": "All hosted checks pass on PR head 4f91f87, Copilot reviewed the latest head, and every review thread is resolved.",
       "status": "confirmed",
       "evidence": "https://github.com/jmservera/SquadScope/pull/710"
-    }
-  ],
-  "blockers": [
+    },
     {
-      "id": "phase3-cloudflare-production-boundary",
-      "summary": "The approved migration is locally complete, but the Cloudflare account, project, secrets, custom domains, DNS cutover, TLS, live deployment probes, and rollback evidence are unavailable.",
-      "resolution": "Provision the claracle Cloudflare Pages project, configure CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID, attach claracle.com and www.claracle.com, cut Namecheap nameservers to Cloudflare, deploy the reviewed revision, and pass live 200/301/404 plus rollback checks."
+      "decision": "Keep production on GitHub Pages, retire the legacy Odysseus alias and redirect-only destination as direct 404 URLs, and do not provision Cloudflare.",
+      "status": "confirmed",
+      "evidence": "User input: \"I don't want to use cloudflare, I'd rather keep the pages directly on github.io, I don't care if repo pages give an error when not existing, it's not the main purpose of the website and nobody is using it anyway.\""
+    },
+    {
+      "decision": "Retain only the JSON-backed /repo/ explorer and retire every individual /repo/<slug>/ page without redirects.",
+      "status": "confirmed",
+      "evidence": "User input: \"I just want to get rid of the /repo/ pages, just keep them in a single page that loads a json file, as we specified, don't care about any former link to them, they don't exist.\""
+    },
+    {
+      "decision": "The explorer-only implementation passed 1,631 tests, Ruff, clean Hugo rendering, browser JSON loading, Checkov, Zizmor, Bandit, and required Squad review with no release-blocking findings.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/changes/2026-08-08/claracle-post-relaunch-consolidation-changes.md"
     }
   ],
+  "blockers": [],
   "next_action": {
     "phase": "Implement",
-    "action": "Clear the Phase 3 Cloudflare production-boundary blocker and complete the reviewed PR/deployment cycle; do not start Phase 4."
+    "action": "Commit and push the sponsor-approved explorer-only 1/0/273 migration to PR 710, then complete the latest-head hosted review cycle; do not start Phase 4."
   },
   "prioritized_follow_ups": [
     {
       "rank": 1,
-      "task": "Provision and cut over the Cloudflare Pages production boundary.",
-      "rationale": "This is the only remaining Phase 3 behavior gate and is externally owned.",
-      "evidence": "docs/deployment/cloudflare-pages.md"
-    },
-    {
-      "rank": 2,
-      "task": "Obtain required human review after Cloudflare provisioning evidence is attached.",
-      "rationale": "Hosted CI, Copilot review, and thread resolution are complete; human review and the external production boundary remain.",
+      "task": "Complete the revised explorer-only GitHub Pages PR checks, Copilot review, direct-404 production evidence, and required human review.",
+      "rationale": "Every individual repository profile is now explicitly retired; the current PR must be reconciled to the final sponsor decision.",
       "evidence": ".copilot-tracking/plans/2026-08-08/claracle-post-relaunch-consolidation-plan.instructions.md"
     }
   ]

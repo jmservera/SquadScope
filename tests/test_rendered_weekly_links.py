@@ -89,19 +89,9 @@ def _required_links(weekly_path: Path) -> tuple[set[str], set[str], set[str]]:
                 if (ROOT / "content/topics" / canonical_slug / "_index.md").exists():
                     canonical_topics.add(f"/topics/{canonical_slug}/")
 
-    content = weekly_path.read_text(encoding="utf-8")
-    repositories: set[str] = set()
-    for owner, name in re.findall(
-        r"https://github\.com/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)", content
-    ):
-        repository_slug = _urlize(f"{owner}-{name}")
-        if (ROOT / "content/repo" / repository_slug / "index.md").exists():
-            repositories.add(f"/repo/{repository_slug}/")
-
     assert chronological
     assert canonical_topics
-    assert repositories
-    return chronological, canonical_topics, repositories
+    return chronological, canonical_topics, set()
 
 
 def _missing_required_links(required: set[str], actual: set[str]) -> set[str]:

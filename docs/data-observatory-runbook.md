@@ -226,8 +226,8 @@ hub content, and creation log state from the same reviewed revision. For a bad r
 change, restore the prior override, lifecycle ledger, aliases, derived dataset, and generated page
 together. Rebuild and rerun links after either rollback.
 
-Production rollback uses the Cloudflare Pages procedure in
-`docs/deployment/cloudflare-pages.md`. Preserve the failed run URL and the corrective deployment
+Production rollback uses the GitHub Pages procedure in
+`docs/deployment/github-pages.md`. Preserve the failed run URL and the corrective deployment
 URL in acceptance evidence. If rollback would alter
 `config/podcast.json` or `scripts/podcaster_handoff.py`, stop and coordinate with the
 SquadScope-Podcaster repository first.

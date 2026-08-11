@@ -1,6 +1,6 @@
 {
   "approved_map": "data/migrations/repository-approved-dispositions.json",
-  "approved_map_sha256": "bcaa97509bf4fe81e51c9884ed9befb73244202d057e40252658c4100670edfc",
+  "approved_map_sha256": "5cc577f8977a343ec97f566b1d9bd68218e3ce8a09d5d18e9719545851a1f65e",
   "pre_migration_commit": "05433d5",
   "removed_sources": [
     {
@@ -116,6 +116,10 @@
       "sha256": "5e8ee896a73547de2d9b88de270bac933f76e4218f6a8a6fecfc9f89816206d3"
     },
     {
+      "path": "content/repo/burntsushi-ripgrep/index.md",
+      "sha256": "d0ce96b07eb8c095a4a433acce86cf92c68cc8082664b523b687c49347c5ead4"
+    },
+    {
       "path": "content/repo/bytedance-deer-flow/index.md",
       "sha256": "83004c0a23e008585d51d53f9afd4854fc1d6cf1d5708ab0f8c90728514b00a8"
     },
@@ -158,6 +162,10 @@
     {
       "path": "content/repo/commaai-openpilot/index.md",
       "sha256": "81fe11caa9039d0395b09c03fafc97fd6f36bb21be043dcb9c669ec5eff2b650"
+    },
+    {
+      "path": "content/repo/coollabsio-coolify/index.md",
+      "sha256": "6bf8cb71b3c5f8bb859142f589a9a21ae402cc03687c888242b1b38b8c553783"
     },
     {
       "path": "content/repo/crewaiinc-crewai/index.md",
@@ -214,6 +222,10 @@
     {
       "path": "content/repo/electron-electron/index.md",
       "sha256": "44c9f75eb524926e52338fbc50f769dbfe6e58a6b1ab8de34be186177537a1a2"
+    },
+    {
+      "path": "content/repo/eugeny-tabby/index.md",
+      "sha256": "5d4e0cb03784257d8f945dcee54b114f8b806dabe90c64742c00e0ca9d05b585"
     },
     {
       "path": "content/repo/excalidraw-excalidraw/index.md",
@@ -294,6 +306,10 @@
     {
       "path": "content/repo/ggml-org-llama-cpp/index.md",
       "sha256": "3ed257d56fc71226f8b18d07cdc6fbf8bf72ec2170d003b15b8933d29e339cbd"
+    },
+    {
+      "path": "content/repo/ghostty-org-ghostty/index.md",
+      "sha256": "70a441616d0e0c5208854f32861ade85724b6b5e26e5a2e39fe1e785134ea185"
     },
     {
       "path": "content/repo/gin-gonic-gin/index.md",
@@ -464,6 +480,10 @@
       "sha256": "9431cada5656bbf5e56831d6e0cf64e3e14c85b79be511210c23dacd6ff21547"
     },
     {
+      "path": "content/repo/marktext-marktext/index.md",
+      "sha256": "2dd5ba37d7fb81f6bf9e467df2864c79e362e6b3ad3370abed782d4ecf8478b9"
+    },
+    {
       "path": "content/repo/mattpocock-skills/index.md",
       "sha256": "6393fc2940267b4be7cc240975ab8c0eafb24aec410e91b47c6317789673c4ec"
     },
@@ -620,6 +640,10 @@
       "sha256": "e585e7b1ed69e55adc3aa96337c9ae73bb7560a8424bc1e40c34912e048e0bbb"
     },
     {
+      "path": "content/repo/odysseus-dev-odysseus/index.md",
+      "sha256": "52508fe9c1d867c2441c6ac4ae3d3a26c855e7a6b001eb69df4cb27f8a43a993"
+    },
+    {
       "path": "content/repo/ohmyzsh-ohmyzsh/index.md",
       "sha256": "deb2bbe6b476603bfa1dd5736d7e3ce2753e59e2a9d8b8b537a4126e672868c4"
     },
@@ -634,6 +658,10 @@
     {
       "path": "content/repo/openai-codex/index.md",
       "sha256": "a43561ced2ede3a03a11d8e9aacdc4dfb67274de231a02bb24d9cee25ad63b87"
+    },
+    {
+      "path": "content/repo/openbb-finance-openbb/index.md",
+      "sha256": "82d79e62fb7d383c95f36787ab7ab60266b531230ec88f7920a79b4f3d64d99e"
     },
     {
       "path": "content/repo/openclaw-openclaw/index.md",
@@ -780,6 +808,10 @@
       "sha256": "a85e5243654e4f2e80736f0d864c8c0d84d9d9572fb9591ef00c04a89be2d2af"
     },
     {
+      "path": "content/repo/ruvnet-ruflo/index.md",
+      "sha256": "bed03f94594d033672fa61b5a767018365f74eee2cd151ff8ff915124dde61e3"
+    },
+    {
       "path": "content/repo/ruvnet-ruview/index.md",
       "sha256": "4ef601ddaf056ba882ccd3a52dd774ba8651d1915f4db0d880a741aedd1942ce"
     },
@@ -920,6 +952,10 @@
       "sha256": "056b196f84aa88ebd606ee8ad1b2b6f449dac0af92ee80cb31108d2c61f767ea"
     },
     {
+      "path": "content/repo/tw93-pake/index.md",
+      "sha256": "9433cf5914eb2b02fdceed72ac759df443847bd79db6d675266269c1167a519c"
+    },
+    {
       "path": "content/repo/twbs-bootstrap/index.md",
       "sha256": "47c1869d0b74ccad0a01a415de2d239b5f8050d00d03b942d2af70730ceab8d7"
     },
@@ -1016,6 +1052,10 @@
       "sha256": "54ced80b36b1d1213f4d28fb1c0c8ae9a386eb9d40a77916c06cbf08482fe985"
     },
     {
+      "path": "content/repo/yt-dlp-yt-dlp/index.md",
+      "sha256": "fbbd2b29d4d5680b7ff395d46440a7ae4cc7ac1ece786ef356b0c87eee3e6ab6"
+    },
+    {
       "path": "content/repo/zed-industries-zed/index.md",
       "sha256": "a951a6999e3fdaee68a3130528519014e18176b0aab67bff2379ac7800b36177"
     },
@@ -1028,6 +1068,6 @@
       "sha256": "b4d95ff2dbc747a494d6165e820c22c267ec99804b03c2eb1237b3c02afbc5d7"
     }
   ],
-  "rollback": "Restore listed files and content/repo/odysseus-dev-odysseus/index.md from pre_migration_commit, remove static/_redirects, rebuild, and redeploy.",
+  "rollback": "Restore the listed files from pre_migration_commit, rebuild, and redeploy through GitHub Pages.",
   "schema_version": "1.0.0"
 }

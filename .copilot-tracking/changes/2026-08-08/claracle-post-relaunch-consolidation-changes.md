@@ -340,6 +340,45 @@ the resulting per-URL disposition map.
   clean and remains unmerged pending Cloudflare production-boundary provisioning
   and required human review.
 
+### Sponsor GitHub Pages Override (2026-08-11)
+
+* Classification: material user-owned hosting and URL-disposition decision.
+* Decision: retain GitHub Pages and accept direct 404 behavior for retired
+  repository profiles; do not provision Cloudflare.
+* Migration effect: supersede the exceptional redirect, retire both the legacy
+  Odysseus alias and its redirect-only destination, and revise the authoritative
+  map to 10 keeps, zero redirects, and 264 retirements.
+* Active work: restore both production workflows to GitHub Pages, remove
+  Cloudflare configuration and redirect artifacts, delete the now-unneeded
+  destination profile, update validators/tests/docs, and rerun the PR review
+  cycle before completing Phase 3.
+
+### Explorer-Only Repository Decision (2026-08-11)
+
+* Classification: final material sponsor decision for the repository URL surface.
+* Decision: retain only the JSON-backed `/repo/` explorer and remove every
+  individual `/repo/<slug>/` source and route, without redirects or legacy-link
+  preservation.
+* Migration effect: supersede all prior per-profile keep decisions and revise
+  the authoritative map to one keep, zero redirects, and 273 retirements.
+* Active work: remove the remaining nine profile sources, move profile-specific
+  QA coverage to the explorer, regenerate migration and rollback artifacts, and
+  complete the GitHub Pages PR review cycle before Phase 3 can finish.
+* Implemented outcome: removed all individual repository sources, retained
+  `content/repo/_index.md`, changed the explorer to fetch the versioned
+  `/data/repositories.json` artifact, and regenerated the approved map and
+  rollback manifest at one keep, zero redirects, and 273 retirements.
+* Hosting outcome: restored both production workflows to commit-pinned GitHub
+  Pages actions and removed Cloudflare workflow, documentation, secret, and
+  redirect dependencies while preserving the publish-hydration exclusion.
+* Validation: 1,631 tests pass in the complete phase environment; Ruff, clean
+  Hugo rendering, Checkov (902 passed, zero failed), Zizmor (no medium/high
+  findings), and changed-script Bandit pass. Browser evidence records a 200 for
+  `/data/repositories.json`, 269 rendered records, and no console errors.
+* Review: Squad routed the diff through Leela, Amy, URL, Hermes, and Fry and
+  approved it with no release-blocking findings. Production smoke sampling and
+  fail-closed dataset URL validation were confirmed as intentional.
+
 ## CR-06 Harness Repair And Experiment Execution (2026-08-09)
 
 Three cascading build-cost harness defects were repaired through separate
