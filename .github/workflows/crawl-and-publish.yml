@@ -1076,7 +1076,6 @@ jobs:
             content/monthly/
             content/yearly/
             content/topics/
-            content/repo/
             content/data/
             data/analyzed/
             data/raw/
@@ -1281,10 +1280,8 @@ jobs:
           python3 scripts/discover_topic_candidates.py --check
           python3 scripts/observatory_repos.py --check
           python3 scripts/generate_repository_summary.py --from-crawl --check
-          python3 scripts/capture_repository_production_snapshot.py --check
-          python3 scripts/capture_repository_url_inspection.py --check
-          python3 scripts/generate_repository_disposition_candidate.py --check
-          python3 scripts/generate_repository_url_inventory.py --check
+          python3 scripts/generate_repository_approved_dispositions.py --check
+          python3 scripts/apply_repository_migration.py --check
           python3 scripts/generate_data_pages.py --check
           python3 scripts/export_observatory_dataset.py --check
           python3 scripts/export_trend_explorer_data.py --check
@@ -1312,7 +1309,6 @@ jobs:
             content/monthly/
             content/yearly/
             content/topics/
-            content/repo/
             content/data/
             data/analyzed/
             data/candidates/
@@ -1448,7 +1444,6 @@ jobs:
             content/monthly/
             content/yearly/
             content/topics/
-            content/repo/
             content/data/
             data/taxonomy/
             data/topic-hubs/
@@ -1471,14 +1466,12 @@ jobs:
     permissions:
       actions: read
       contents: read
-      pages: write
-      id-token: write
     concurrency:
-      group: pages
-      cancel-in-progress: true
+      group: cloudflare-pages
+      cancel-in-progress: false
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      name: cloudflare-pages
+      url: ${{ steps.deployment.outputs.deployment-url }}
     env:
       HUGO_VERSION: 0.161.1
 
@@ -1509,10 +1502,6 @@ jobs:
           name: generated-content
           path: ./
           merge-multiple: true
-
-      # Deploy builds from artifacts — no dependency on PR merges to main.
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
 
       - name: Install Hugo
         run: |
@@ -1546,14 +1535,17 @@ jobs:
       - name: Build search index
         run: npx pagefind --site public/
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
-        with:
-          path: ./public
-
-      - name: Deploy to GitHub Pages
+      - name: Deploy to Cloudflare Pages
         id: deployment
-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
+        uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4.120.1'
+          command: pages deploy public --project-name=claracle --branch=main
+
+      - name: Verify production migration behavior
+        run: python3 scripts/verify_repository_migration_http.py --attempts 12 --delay 10
 
   # NOTE: The Podcaster handoff intentionally lives in sync-publish-to-main.yml,
   # which fires only AFTER the weekly article is merged into main. Triggering it
@@ -1639,7 +1631,7 @@ jobs:
         run: |
           SUMMARY=$(ls -t data/analyzed/*-summary.md | head -1)
           WEEK=$(basename "$SUMMARY" | sed 's/-summary.md//')
-          SITE_URL="https://jmservera.github.io/SquadScope/weekly/$(echo "$WEEK" | tr '-' '/' | sed 's/W/w/')/"
+          SITE_URL="https://claracle.com/weekly/$(echo "$WEEK" | tr '-' '/' | sed 's/W/w/')/"
 
           # Build JSON payload with jq to prevent injection via WEEK or SITE_URL
           PAYLOAD=$(jq -n \

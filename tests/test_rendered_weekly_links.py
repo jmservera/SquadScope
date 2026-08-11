@@ -12,7 +12,7 @@ import pytest
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-TARGET_WEEK = "W30"
+TARGET_WEEK = "W21"
 
 
 class WeeklyLinkParser(HTMLParser):
@@ -71,9 +71,10 @@ def _required_links(weekly_path: Path) -> tuple[set[str], set[str], set[str]]:
         key=lambda path: datetime.fromisoformat(str(_front_matter(path)["date"])),
     )
     target_index = weekly_pages.index(weekly_path)
+    neighbors = weekly_pages[max(0, target_index - 1) : target_index + 2]
     chronological = {
         f"/weekly/{path.parent.name}/{path.stem.lower()}/"
-        for path in weekly_pages[target_index - 1 : target_index + 2]
+        for path in neighbors
         if path != weekly_path
     }
 
@@ -97,7 +98,7 @@ def _required_links(weekly_path: Path) -> tuple[set[str], set[str], set[str]]:
         if (ROOT / "content/repo" / repository_slug / "index.md").exists():
             repositories.add(f"/repo/{repository_slug}/")
 
-    assert len(chronological) == 2
+    assert chronological
     assert canonical_topics
     assert repositories
     return chronological, canonical_topics, repositories

@@ -46,34 +46,44 @@
       "evidence": "data/derived/observatory/repository-url-inspection.json"
     },
     {
-      "decision": "The evidence-complete candidate recommends 11 keeps, one identity-equivalent redirect, and 262 retirements; sponsor approval remains pending.",
-      "status": "pending",
-      "evidence": "data/derived/observatory/repository-disposition-candidate.json"
+      "decision": "The exact 11-keep, one-redirect, 262-retire candidate is sponsor approved against commit 05433d5.",
+      "status": "confirmed",
+      "evidence": "data/migrations/repository-approved-dispositions.json"
+    },
+    {
+      "decision": "Phase 4 may begin only after every Phase 3 exit gate passes; Phase 5 may then begin only after every Phase 4 exit gate passes. No production, security, or review gate is waived.",
+      "status": "confirmed",
+      "evidence": "User input: \"Approve and go for Phase 4, once finished you can move to Phase 5 without asking, but only if all Phase 4 is finished\""
+    },
+    {
+      "decision": "Cloudflare Pages Direct Upload is the selected redirect-capable production boundary; local migration behavior and required owner reviews are complete.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/changes/2026-08-08/claracle-post-relaunch-consolidation-changes.md"
     }
   ],
   "blockers": [
     {
-      "id": "phase3-external-url-evidence",
-      "summary": "All evidence and reviews are complete, but named sponsor approval is pending for the exact 11-keep, one-redirect, 262-retire candidate.",
-      "resolution": "Approve or reject the exact candidate. Approval authorizes the redirect-capable host migration, internal-link cleanup, and atomic detail removal transaction."
+      "id": "phase3-cloudflare-production-boundary",
+      "summary": "The approved migration is locally complete, but the Cloudflare account, project, secrets, custom domains, DNS cutover, TLS, live deployment probes, and rollback evidence are unavailable.",
+      "resolution": "Provision the claracle Cloudflare Pages project, configure CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID, attach claracle.com and www.claracle.com, cut Namecheap nameservers to Cloudflare, deploy the reviewed revision, and pass live 200/301/404 plus rollback checks."
     }
   ],
   "next_action": {
     "phase": "Implement",
-    "action": "Obtain sponsor approval for data/derived/observatory/repository-disposition-candidate.json; do not start Phase 4."
+    "action": "Clear the Phase 3 Cloudflare production-boundary blocker and complete the reviewed PR/deployment cycle; do not start Phase 4."
   },
   "prioritized_follow_ups": [
     {
       "rank": 1,
-      "task": "Approve or reject the complete repository disposition candidate.",
-      "rationale": "All evidence and reviews are complete; named approval is the only gate before the migration transaction.",
-      "evidence": ".copilot-tracking/plans/2026-08-08/claracle-post-relaunch-consolidation-plan.instructions.md"
+      "task": "Provision and cut over the Cloudflare Pages production boundary.",
+      "rationale": "This is the only remaining Phase 3 behavior gate and is externally owned.",
+      "evidence": "docs/deployment/cloudflare-pages.md"
     },
     {
       "rank": 2,
-      "task": "Run the pinned Zizmor 1.27.0 workflow gate in CI.",
-      "rationale": "Local Zizmor was 1.25.2; the repository-pinned CI version remains authoritative.",
-      "evidence": "docs/devsecops/zizmor-baseline.md"
+      "task": "Complete the branch PR, pinned CI, Copilot review, and unresolved-thread gates.",
+      "rationale": "Repository policy requires the reviewed latest head before production deployment.",
+      "evidence": ".copilot-tracking/plans/2026-08-08/claracle-post-relaunch-consolidation-plan.instructions.md"
     }
   ]
 }

@@ -179,8 +179,37 @@ record; all routed automated and named reviews are retained.
   identity-equivalent URL. Its destination is currently HTTP 404, so approval
   requires retaining the destination and migrating to the selected
   redirect-capable hosting boundary.
-* All 274 approvals remain pending; no details were deleted and no redirect was
-  generated.
+* The pending candidate state above is preserved as historical evidence and was
+  superseded by the sponsor-approved migration result below.
+
+### Phase 3 Approved Migration Result (2026-08-11)
+
+* `data/migrations/repository-approved-dispositions.json` preserves the sponsor's
+  exact approval, binds the immutable candidate and inventory hashes, records
+  `05433d5` as the approved candidate commit, and explicitly preserves all phase,
+  security, review, and production gates.
+* The reviewed transaction removes 256 retired canonical source files, retains
+  10 differentiated profiles plus `/repo/`, removes the Odysseus Hugo alias, and
+  emits the sole approved one-hop 301 rule in `static/_redirects`.
+* Repository source is no longer hydrated from `publish`; disabled generation
+  cannot restore retired pages. Related-profile links use direct GitHub URLs.
+* Both production workflows deploy the complete Hugo build and redirects
+  atomically to the `claracle` Cloudflare Pages project through commit-pinned
+  Wrangler Action and Wrangler 4.120.1. Their shared concurrency group serializes
+  rather than cancels production deploys.
+* The migration validator fails on approval/count drift, changed source bytes,
+  redirect loops or missing targets, retained-source absence, alias re-emission,
+  redirect drift, or missing rollback evidence.
+* A clean Hugo build contains exactly 10 retained profiles plus the explorer,
+  omits retired and redirect-source URLs from sitemap and internal links, emits
+  the custom 404, and copies the exact redirect rule. Wrangler Pages local
+  emulation returns retained HTTP 200, legacy HTTP 301, and retired HTTP 404.
+* BR-003 publication-scope retirement is documented as a checksum-bound,
+  sponsor-approved exception distinct from SEC-04 upstream-deletion lifecycle
+  handling; checked-in crawl history remains intact.
+* Production completion remains blocked until the Cloudflare project, scoped
+  secrets, custom domains, Namecheap nameserver cutover, TLS, live probes, and
+  rollback evidence exist. Phase 4 cannot start before those gates pass.
 
 ### Phase 3 Validation Result
 

@@ -221,7 +221,8 @@ were imported 2026-08-11 without converting omitted rows into historical zero.
 URL Inspection was captured 2026-08-11 for all 274 inventory rows using the
 verified `sc-domain:claracle.com` property. The implementation retains the
 deterministic explorer and a conservative no-redirect migration candidate;
-content, destination-equivalence, and approval gates still prevent removal.
+content, destination-equivalence, and approval gates were completed before the
+approved migration transaction. Production cutover evidence remains external.
 
 * [x] Reconcile 266 records, 267 source pages, 274 local rendered URLs, seven
   aliases, the live-count discrepancy, and any production-only repository URLs.
@@ -238,12 +239,16 @@ content, destination-equivalence, and approval gates still prevent removal.
   and 160 URLs unknown to Google; all 10 impression-bearing URLs are indexed.
   The 2026-08-11 rendered-site review records current internal-link counts,
   differentiated content, and destination equivalence for all 274 rows
-* [ ] Record an approved keep, merge, redirect, or retire disposition for every
+* [x] Record an approved keep, merge, redirect, or retire disposition for every
   canonical, alias, and production-only URL; ambiguous evidence blocks retirement
-* [ ] Retain individual profiles only for differentiated content plus observed
+  The immutable approved map records 11 keeps, one redirect, and 262 retirements
+  against candidate commit `05433d5`
+* [x] Retain individual profiles only for differentiated content plus observed
   GSC demand or a known inbound link
-* [ ] Select a redirect-capable host only if the approved map contains a genuine
+* [x] Select a redirect-capable host only if the approved map contains a genuine
   equivalent; otherwise prove absent paths return direct HTTP 404 on the current host
+  Both production workflows now use pinned Wrangler Direct Upload to the
+  `claracle` Cloudflare Pages project
 * [x] Implement deterministic BR-003 artifact generation, authoritative Hugo
   summary and links, search/filter/sort enhancement, URL state, and empty/error states.
   The crawl-derived artifact contains 269 records, defaults to recent momentum,
@@ -251,19 +256,23 @@ content, destination-equivalence, and approval gates still prevent removal.
   exposes enhancement-only controls with shareable browser history
 * [ ] Generate redirects only from approved exceptional rows and verify one-hop,
   atomic deployment, sitemap, canonical, internal-link, custom-404, and rollback behavior
-* [ ] Remove low-information details only in the same reviewed migration
+  Generation, clean rendering, local Cloudflare 301/200/404 emulation, sitemap,
+  canonical, internal-link, custom-404, and rollback checks pass. Atomic
+  production deployment and live probes await Cloudflare provisioning and DNS
+* [x] Remove low-information details only in the same reviewed migration
   transaction; never enable CR-05 as an intermediate step
 
-Phase 3 implementation status (2026-08-11): partial and blocked at the
-externally owned disposition/removal gate. All locally actionable inventory,
-artifact, explorer, evidence-import, freshness, and validation work is complete.
-The evidence-complete candidate recommends 11 keeps, one identity-equivalent
-redirect, and 262 direct-404 retirements. All 274 approvals remain `pending`.
-The exceptional indexed and impression-bearing legacy
-`/repo/pewdiepie-archdaemon-odysseus/` URL maps to the currently absent
-`/repo/odysseus-dev-odysseus/` canonical, so approval would require retaining
-that destination and using a redirect-capable host. No redirect or retirement
-is claimed until the sponsor approves this exact map.
+Phase 3 implementation status (2026-08-11): locally complete and blocked at the
+external production boundary. Sponsor approval is persisted in
+`data/migrations/repository-approved-dispositions.json`; 256 retired canonical
+sources are removed, 10 retained profiles plus the explorer remain, the Hugo
+alias is removed, and the exceptional redirect is emitted in `static/_redirects`.
+Both production workflows are migrated to Cloudflare Pages and publish hydration
+cannot restore retired profiles. Clean Hugo and local Wrangler Pages validation
+prove the intended sitemap, internal-link, custom-404, retained-200,
+one-hop-301, and retired-404 behavior. Phase 3 remains unchecked until the
+Cloudflare project, secrets, custom domains, Namecheap-to-Cloudflare DNS cutover,
+TLS, atomic deployment, live probes, and rollback evidence are complete.
 
 ### [ ] Phase 4: Ranking Data, Visualization Selection, And Embeds
 

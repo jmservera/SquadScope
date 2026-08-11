@@ -199,8 +199,6 @@ lifecycle:
   deletion_confirmed_at: null
   note: ''
 methodology_url: /methodology/
-aliases:
-- /repo/pewdiepie-archdaemon-odysseus/
 ---
 
 odysseus-dev/odysseus has appeared in 10 Claracle weekly issues.

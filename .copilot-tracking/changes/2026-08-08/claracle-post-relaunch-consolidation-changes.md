@@ -286,6 +286,47 @@ the resulting per-URL disposition map.
   per-row invariants, exact rationale and redirect checks, and SHA-256 bindings
   to production, external-export, and URL Inspection evidence now fail closed.
 
+### Approved Repository Migration Transaction (2026-08-11)
+
+* Related phase: Phase 3
+* Approval: `jmservera` approved the exact 11-keep, one-redirect, 262-retire
+  candidate and authorized Phase 4 only after Phase 3 completion and Phase 5
+  only after Phase 4 completion. The approved artifact records that this
+  sequencing authorization waives no production, security, or review gate.
+* Evidence: `data/migrations/repository-approved-dispositions.json` binds the
+  candidate and inventory SHA-256 values and approved commit `05433d5`.
+  `data/migrations/repository-migration-rollback.json` binds every removed source
+  checksum and the pre-migration revision.
+* Source transaction: removed 256 retired canonical profile files, retained 10
+  canonical profiles plus `/repo/`, removed the Odysseus Hugo alias, emitted the
+  sole approved 301 in `static/_redirects`, and moved related-profile links to
+  safe direct GitHub destinations.
+* Regeneration safety: removed `content/repo/` from deploy, crawl, freshness, and
+  publish-hydration path sets. `repo_pages.enabled` remains false, so neither the
+  publish branch nor routine generation can restore retired profiles.
+* Hosting boundary: replaced both GitHub Pages deployment paths with
+  commit-pinned Cloudflare Wrangler Direct Upload to project `claracle`, pinned
+  Wrangler 4.120.1, serialized the shared production deployment boundary, added
+  a custom 404, and added approved-map-driven live 200/301/404 probes.
+* Security reconciliation: documented BR-003 publication-scope retirement as a
+  sponsor-approved, checksum-verified deletion authority that preserves crawl
+  history and does not change SEC-04 upstream-deletion lifecycle behavior.
+* Review correction: Squad found stale Anthropic profile QA fixtures and the
+  implicit SEC-04 conflict. Fixtures now use retained Odysseus or the approved
+  map; the security exception is explicit; the weekly webhook uses
+  `https://claracle.com`; and cross-workflow deploys serialize without
+  cancellation.
+* Local evidence: clean Hugo output contains 10 retained profiles plus the
+  explorer, no retired sitemap entries or internal links, an exact redirect
+  rule, and `404.html`. Wrangler Pages emulation returned retained 200,
+  one-hop 301, and retired 404. Checkov 3.2.533 reported 902 passed, zero failed,
+  six skipped; Zizmor 1.25.2 reported no medium/high findings on changed
+  workflows.
+* External blocker: production completion still requires the Cloudflare account
+  ID and scoped API token, project creation, custom-domain attachment,
+  Namecheap-to-Cloudflare nameserver cutover, TLS, live probes, and preserved
+  rollback evidence. Phase 4 remains gated.
+
 ## CR-06 Harness Repair And Experiment Execution (2026-08-09)
 
 Three cascading build-cost harness defects were repaired through separate

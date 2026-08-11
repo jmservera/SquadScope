@@ -46,7 +46,6 @@ GENERATED_PATHS: list[str] = [
     "content/monthly/",
     "content/yearly/",
     "content/topics/",
-    "content/repo/",
     "content/data/",
     "data/analyzed/",
     "data/raw/",

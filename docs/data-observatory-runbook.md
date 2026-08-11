@@ -26,6 +26,19 @@ Two creation controls are intentionally disabled in `config/observatory.toml`:
 Do not enable either control as part of routine recovery. Each requires a separate approved
 rollout change after its acceptance evidence is complete.
 
+### Repository URL retirement authority
+
+SEC-04 governs lifecycle deletion when crawl evidence indicates that a GitHub repository was
+deleted or became inaccessible. BR-003 repository URL retirement is a separate publication-scope
+decision: it removes a redundant Claracle page while preserving the checked-in crawl history and
+does not assert that the upstream GitHub repository was deleted.
+
+A BR-003 retirement may bypass SEC-04's `deletion_confirmed_at` retention clock only when every URL
+is present in the immutable sponsor-approved map, the source checksum matches that map, the
+approved-map generator and migration validator pass, and the rollback manifest identifies the
+exact pre-migration commit. This authority cannot be inferred from a recommendation or pending
+candidate and does not change the SEC-04 behavior in `scripts/observatory_repos.py`.
+
 ## Ownership and escalation
 
 | Surface                                                                | Primary owner                    | Review or escalation owner |
@@ -213,8 +226,9 @@ hub content, and creation log state from the same reviewed revision. For a bad r
 change, restore the prior override, lifecycle ledger, aliases, derived dataset, and generated page
 together. Rebuild and rerun links after either rollback.
 
-Production rollback uses the normal Git and GitHub Pages deployment path. Preserve the failed run
-URL and the corrective deployment URL in acceptance evidence. If rollback would alter
+Production rollback uses the Cloudflare Pages procedure in
+`docs/deployment/cloudflare-pages.md`. Preserve the failed run URL and the corrective deployment
+URL in acceptance evidence. If rollback would alter
 `config/podcast.json` or `scripts/podcaster_handoff.py`, stop and coordinate with the
 SquadScope-Podcaster repository first.
 

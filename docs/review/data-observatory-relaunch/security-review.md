@@ -365,6 +365,16 @@ dedicated tests, and repository-page creation is confirmed disabled today. The r
 operator-error risk this doc already calls out is a process risk, not a code gap; carrying it forward
 as a review-discipline condition is reasonable rather than a blocker.
 
+#### BR-003 publication-scope retirement exception
+
+The approved repository migration introduces a separate deletion authority for redundant Claracle
+URL surfaces. It does not classify an upstream GitHub repository as deleted and does not remove the
+checked-in crawl history, so SEC-04's `deletion_confirmed_at` clock does not apply. The exception is
+fail closed: all 274 URLs must appear in the sponsor-approved map; its candidate and inventory hashes
+must match; every deleted source must match its approved checksum; and the rollback manifest must
+name the exact pre-migration commit. A pending recommendation cannot authorize deletion. SEC-04
+continues to govern lifecycle-driven deletion in `scripts/observatory_repos.py`.
+
 ### SEC-05 phrase-based injection detection risk assessment (Hermes)
 
 Hermes verified `scripts/sanitize_repo_content.py`, the prompt-assembly and output-validation code in

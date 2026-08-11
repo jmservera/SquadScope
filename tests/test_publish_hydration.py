@@ -63,6 +63,7 @@ def test_repository_paths_command_lists_generated_paths() -> None:
     assert "content/data/" in GENERATED_PATHS
     assert "data/candidates/" in GENERATED_PATHS
     assert "data/published/" in GENERATED_PATHS
+    assert "content/repo/" not in GENERATED_PATHS
 
 
 def test_consistent_release_passes() -> None:

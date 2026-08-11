@@ -656,7 +656,6 @@ class WorkflowConfigTests(unittest.TestCase):
     def test_publish_transaction_carries_every_generated_path(self) -> None:
         generated_paths = (
             "content/topics/",
-            "content/repo/",
             "content/data/",
             "data/taxonomy/",
             "data/topic-hubs/",
@@ -864,7 +863,7 @@ class WorkflowConfigTests(unittest.TestCase):
 
         webhook_run = webhook_step["run"]
         self.assertIn('curl -s -X POST "$WEBHOOK_URL"', webhook_run)
-        self.assertIn("https://jmservera.github.io/SquadScope/weekly/", webhook_run)
+        self.assertIn("https://claracle.com/weekly/", webhook_run)
         # JSON is now built with jq to prevent injection — check for jq invocation
         self.assertIn("jq -n", webhook_run)
         self.assertIn("📊 **SquadScope Week", webhook_run)

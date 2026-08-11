@@ -565,13 +565,29 @@ def test_frozen_corpus_lifecycle_seed_has_expected_parity() -> None:
         REPO_ROOT
     )
     assert config["enabled"] is False
-    # Repository-page qualification parity is the real invariant: every qualified
-    # history has exactly one page and one derived entry.
+    # Derived history retains every qualified repository, while BR-003 limits the
+    # published profile surface to sponsor-approved canonical keeps.
     # After the identity backfill + rename-consolidation regeneration: 270 - 7 stale
     # + 3 consolidated-elsewhere = 266 qualified identities (some renames/ownership
     # transfers merged into an already-existing identity rather than needing a new one).
     assert len(qualified_identities) == 266
-    assert qualified_identities == page_identities == derived_identities
+    assert qualified_identities == derived_identities
+    approved = json.loads(
+        (REPO_ROOT / "data/migrations/repository-approved-dispositions.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    retained_slugs = {
+        record["url"].removeprefix("/repo/").removesuffix("/")
+        for record in approved["records"]
+        if record["url_type"] == "canonical" and record["disposition"] == "keep"
+    }
+    retained_identities = {
+        (history.display_name, history.slug)
+        for history in histories.values()
+        if history.slug in retained_slugs
+    }
+    assert page_identities == retained_identities
 
     # After Phase 1 fix (reverse index for full_name->key migration), the ledger
     # is idempotent across multiple passes. The loaded corpus includes the
@@ -1090,7 +1106,7 @@ def test_hugo_build_renders_generated_repo_pages() -> None:
         capture_output=True,
     )
     assert result.returncode == 0, result.stderr + result.stdout
-    assert (REPO_ROOT / "public" / "repo" / "anthropics-claude-code" / "index.html").exists()
+    assert (REPO_ROOT / "public" / "repo" / "odysseus-dev-odysseus" / "index.html").exists()
 
 
 def write_identity_backfill(root: Path, entries: dict[str, dict[str, object]]) -> Path:
