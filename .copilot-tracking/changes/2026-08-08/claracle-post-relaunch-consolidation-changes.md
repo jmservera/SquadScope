@@ -321,7 +321,7 @@ the resulting per-URL disposition map.
   rule, and `404.html`. Wrangler Pages emulation returned retained 200,
   one-hop 301, and retired 404. Checkov 3.2.533 reported 902 passed, zero failed,
   six skipped; Zizmor 1.25.2 reported no medium/high findings on changed
-  workflows. After merging current `main`, full Ruff and 1,629 pytest checks
+  workflows. After merging current `main`, full Ruff and 1,631 pytest checks
   passed with two expected sanitization warnings.
 * External blocker: production completion still requires the Cloudflare account
   ID and scoped API token, project creation, custom-domain attachment,
@@ -330,6 +330,11 @@ the resulting per-URL disposition map.
 * Review handoff: branch `feat/repository-migration-phase3` is pushed and
   `jmservera/SquadScope#710` is open against `main`; hosted CI and review are in
   progress.
+* PR security remediation: replaced standard-library XML parsing with
+  `defusedxml`, restricted production snapshot requests to
+  `https://claracle.com`, restricted URL Inspection requests to Google's exact
+  HTTPS API endpoint, and added rejection tests for unapproved URL schemes and
+  authorities. Targeted Bandit and eight capture tests pass.
 
 ## CR-06 Harness Repair And Experiment Execution (2026-08-09)
 

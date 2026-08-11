@@ -19,6 +19,8 @@ artifacts were reviewed directly during implementation.
   `/repo/` explorer, and replaced the legacy Hugo alias with one Cloudflare 301.
 * Added checksum-bound apply/check tooling, strict schemas, rollback evidence,
   and production HTTP verification.
+* Hardened external evidence capture with `defusedxml` and exact HTTPS
+  authority/path allowlists after PR security review.
 * Prevented publish hydration and disabled generation from restoring retired
   repository pages.
 * Replaced both GitHub Pages deployment paths with pinned Cloudflare Pages
@@ -31,7 +33,7 @@ artifacts were reviewed directly during implementation.
 ## Validation
 
 * Ruff check and format check passed.
-* Full pytest suite passed: 1,629 tests, with two expected sanitization warnings.
+* Full pytest suite passed: 1,631 tests, with two expected sanitization warnings.
 * Clean Hugo output contains the explorer and exactly 10 retained profiles.
 * Retired and redirect-source URLs are absent from sitemap and internal links.
 * Local Wrangler Pages emulation returned retained HTTP 200, redirect HTTP 301,
@@ -54,6 +56,8 @@ evidence, required CI, Copilot review, and human review gates are complete.
 * Cloudflare credentials remain GitHub environment secrets and are not stored in
   the repository.
 * Evidence and source checksums fail closed before migration changes are applied.
+* Sitemap and URL Inspection network requests reject unapproved schemes,
+  authorities, ports, credentials, and endpoint paths.
 * Squad architecture, testing, pipeline, security, and responsible-AI
   perspectives reviewed the migration. Review corrections were applied before
   PR generation.

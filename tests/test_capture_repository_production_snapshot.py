@@ -82,3 +82,18 @@ def test_validate_snapshot_rejects_unavailable_http_evidence() -> None:
 
     with pytest.raises(ValueError, match="unavailable HTTP evidence"):
         snapshot.validate_snapshot(payload, _inventory())
+
+
+def test_build_snapshot_rejects_unapproved_origin() -> None:
+    with pytest.raises(ValueError, match="must be https://claracle.com"):
+        snapshot.build_snapshot(
+            _inventory(),
+            site_origin="http://localhost",
+            captured_at=date(2026, 8, 10),
+            sitemap_data=_sitemap("/repo/"),
+        )
+
+
+def test_http_status_rejects_unapproved_url() -> None:
+    with pytest.raises(ValueError, match="must use https://claracle.com"):
+        snapshot._http_status("file:///etc/passwd")

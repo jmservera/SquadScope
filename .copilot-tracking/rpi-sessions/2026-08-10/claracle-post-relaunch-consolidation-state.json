@@ -64,6 +64,11 @@
       "decision": "The implementation branch is pushed and pull request jmservera/SquadScope#710 is open against main.",
       "status": "confirmed",
       "evidence": "https://github.com/jmservera/SquadScope/pull/710"
+    },
+    {
+      "decision": "PR security findings for sitemap XML parsing and unrestricted URL opening were remediated with hardened parsers, exact HTTPS allowlists, and regression tests.",
+      "status": "confirmed",
+      "evidence": "https://github.com/jmservera/SquadScope/pull/710"
     }
   ],
   "blockers": [

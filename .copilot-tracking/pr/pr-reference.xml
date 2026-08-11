@@ -8,6 +8,14 @@ feat/repository-migration-phase3
   </base_branch>
 
   <commits>
+<commit hash="5c695ae" date="2026-08-11"><message><subject><\![CDATA[docs(rpi): record migration pull request]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
+]]></body></message></commit>
+<commit hash="b408344" date="2026-08-11"><message><subject><\![CDATA[docs(pr): prepare repository migration review]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
+]]></body></message></commit>
 <commit hash="25bd41a" date="2026-08-11"><message><subject><\![CDATA[docs(rpi): record migration validation]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
 
 Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
@@ -39,6 +47,61 @@ Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
 ]]></body></message></commit>  </commits>
 
   <full_diff>
+diff --git a/.copilot-tracking/pr/pr-reference.xml b/.copilot-tracking/pr/pr-reference.xml
+new file mode 100644
+index 0000000..261c6f7
+--- /dev/null
++++ b/.copilot-tracking/pr/pr-reference.xml
+@@ -0,0 +1,49 @@
++<commit_history>
++  <current_branch>
++feat/repository-migration-phase3
++  </current_branch>
++
++  <base_branch>
++    origin/main
++  </base_branch>
++
++  <commits>
++<commit hash="5c695ae" date="2026-08-11"><message><subject><\![CDATA[docs(rpi): record migration pull request]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="b408344" date="2026-08-11"><message><subject><\![CDATA[docs(pr): prepare repository migration review]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="25bd41a" date="2026-08-11"><message><subject><\![CDATA[docs(rpi): record migration validation]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="685352f" date="2026-08-11"><message><subject><\![CDATA[Merge remote-tracking branch 'origin/main' into feat/repository-migration-phase3]]></subject><body><\![CDATA[]]></body></message></commit>
++<commit hash="6b949c9" date="2026-08-11"><message><subject><\![CDATA[feat(repositories): execute approved URL migration]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="05433d5" date="2026-08-11"><message><subject><\![CDATA[data(repositories): propose migration dispositions]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="c081b06" date="2026-08-11"><message><subject><\![CDATA[data(repositories): capture URL inspection evidence]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="f79467a" date="2026-08-11"><message><subject><\![CDATA[data(repositories): import migration evidence]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="e267247" date="2026-08-11"><message><subject><\![CDATA[docs(rpi): record Phase 3 evidence blocker]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="353c7c3" date="2026-08-11"><message><subject><\![CDATA[feat(repositories): build migration evidence explorer]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>  </commits>
++
++  <full_diff>
 diff --git a/.github/workflows/crawl-and-publish.yml b/.github/workflows/crawl-and-publish.yml
 index 0541273..756721b 100644
 --- a/.github/workflows/crawl-and-publish.yml
@@ -54,13 +117,13 @@ index 0541273..756721b 100644
 @@ -1259,6 +1258,9 @@ jobs:
        - name: Generate repository pages
          run: python3 scripts/observatory_repos.py
- 
+
 +      - name: Generate repository explorer data
 +        run: python3 scripts/generate_repository_summary.py --from-crawl
 +
        - name: Generate data pages
          run: python3 scripts/generate_data_pages.py
- 
+
 @@ -1274,6 +1276,9 @@ jobs:
            python3 scripts/backfill_weekly_topics.py --check
            python3 scripts/discover_topic_candidates.py --check
@@ -105,11 +168,11 @@ index 0541273..756721b 100644
 +      url: ${{ steps.deployment.outputs.deployment-url }}
      env:
        HUGO_VERSION: 0.161.1
- 
+
 @@ -1507,10 +1508,6 @@ jobs:
        - name: Verify generated cost summary
          run: test -s data/metrics/cost-summary.json
- 
+
 -      # Deploy builds from artifacts — no dependency on PR merges to main.
 -      - name: Configure GitHub Pages
 -        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
@@ -120,7 +183,7 @@ index 0541273..756721b 100644
 @@ -1543,14 +1540,17 @@ jobs:
        - name: Build search index
          run: npx pagefind --site public/
- 
+
 -      - name: Upload Pages artifact
 -        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
 +      - name: Deploy to Cloudflare Pages
@@ -132,13 +195,13 @@ index 0541273..756721b 100644
 +          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 +          wranglerVersion: '4.120.1'
 +          command: pages deploy public --project-name=claracle --branch=main
- 
+
 -      - name: Deploy to GitHub Pages
 -        id: deployment
 -        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
 +      - name: Verify production migration behavior
 +        run: python3 scripts/verify_repository_migration_http.py --attempts 12 --delay 10
- 
+
    # NOTE: The Podcaster handoff intentionally lives in sync-publish-to-main.yml,
    # which fires only AFTER the weekly article is merged into main. Triggering it
 @@ -1636,7 +1636,7 @@ jobs:
@@ -147,7 +210,7 @@ index 0541273..756721b 100644
            WEEK=$(basename "$SUMMARY" | sed 's/-summary.md//')
 -          SITE_URL="https://jmservera.github.io/SquadScope/weekly/$(echo "$WEEK" | tr '-' '/' | sed 's/W/w/')/"
 +          SITE_URL="https://claracle.com/weekly/$(echo "$WEEK" | tr '-' '/' | sed 's/W/w/')/"
- 
+
            # Build JSON payload with jq to prevent injection via WEEK or SITE_URL
            PAYLOAD=$(jq -n \
 diff --git a/.github/workflows/deploy-site.yml b/.github/workflows/deploy-site.yml
@@ -156,13 +219,13 @@ index dc2ecba..fdc7da7 100644
 +++ b/.github/workflows/deploy-site.yml
 @@ -16,8 +16,8 @@ permissions:
    contents: read
- 
+
  concurrency:
 -  group: pages
 -  cancel-in-progress: true
 +  group: cloudflare-pages
 +  cancel-in-progress: false
- 
+
  jobs:
    build:
 @@ -28,7 +28,6 @@ jobs:
@@ -176,7 +239,7 @@ index dc2ecba..fdc7da7 100644
 @@ -64,9 +63,6 @@ jobs:
            echo "::error::PaperMod submodule initialization failed after ${attempts} attempts" >&2
            exit 1
- 
+
 -      - name: Configure GitHub Pages
 -        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
 -
@@ -194,7 +257,7 @@ index dc2ecba..fdc7da7 100644
 @@ -197,24 +192,45 @@ jobs:
        - name: Build Pagefind index
          run: npx pagefind --site public/
- 
+
 -      - name: Upload Pages artifact
 -        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
 +      - name: Upload site artifact
@@ -204,7 +267,7 @@ index dc2ecba..fdc7da7 100644
            path: ./public
 +          if-no-files-found: error
 +          retention-days: 1
- 
+
    deploy:
      needs: build
      runs-on: ubuntu-latest
@@ -242,7 +305,7 @@ index dc2ecba..fdc7da7 100644
 +
 +      - name: Verify production migration behavior
 +        run: python3 scripts/verify_repository_migration_http.py --attempts 12 --delay 10
- 
+
    podcaster-release-smoke:
      needs: [build, deploy]
 diff --git a/.github/workflows/generate-data-pages.yml b/.github/workflows/generate-data-pages.yml
@@ -569,7 +632,7 @@ index a5eb209..5614b0c 100644
 @@ -84,6 +84,12 @@ rssLimit = 52
      url = '/data/'
      weight = 35
- 
+
 +  [[menu.main]]
 +    identifier = 'repositories'
 +    name = 'Repositories'
@@ -761,6 +824,18 @@ index 80e8450..d8544d9 100644
          {{- with .shared_topics }} — shared topics: {{ delimit . ", " }}{{ end }}
        </li>
        {{- end }}
+diff --git a/requirements.txt b/requirements.txt
+index e0fc178..228705c 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -3,6 +3,7 @@ pydantic>=2.0,<3.0
+ pyyaml>=6.0,<7.0
+ feedparser>=6.0,<7.0
+ brotli>=1.1,<2.0
++defusedxml>=0.7,<1.0
+
+ # Test dependencies
+ jsonschema[format]>=4.0,<5.0
 diff --git a/scripts/apply_repository_migration.py b/scripts/apply_repository_migration.py
 new file mode 100644
 index 0000000..ad4c1da
@@ -935,10 +1010,10 @@ index 0000000..ad4c1da
 +    raise SystemExit(main())
 diff --git a/scripts/capture_repository_production_snapshot.py b/scripts/capture_repository_production_snapshot.py
 new file mode 100644
-index 0000000..7f89391
+index 0000000..7d95655
 --- /dev/null
 +++ b/scripts/capture_repository_production_snapshot.py
-@@ -0,0 +1,152 @@
+@@ -0,0 +1,172 @@
 +"""Capture the live repository URL surface for BR-003 migration review."""
 +
 +from __future__ import annotations
@@ -947,15 +1022,29 @@ index 0000000..7f89391
 +import json
 +import urllib.error
 +import urllib.request
-+import xml.etree.ElementTree as ET
 +from concurrent.futures import ThreadPoolExecutor
 +from datetime import date
 +from pathlib import Path
 +from typing import Any
++from urllib.parse import urlsplit
++
++from defusedxml import ElementTree as ET
 +
 +SCHEMA_VERSION = "1.0.0"
 +INVENTORY_PATH = Path("data/derived/observatory/repository-url-inventory.json")
 +OUTPUT_PATH = Path("data/derived/observatory/repository-production-snapshot.json")
++SITE_ORIGIN = "https://claracle.com"
++
++
++def _validated_url(url: str, *, expected_path: str | None = None) -> str:
++    parsed = urlsplit(url)
++    if parsed.scheme != "https" or parsed.hostname != "claracle.com":
++        raise ValueError(f"Production evidence URL must use https://claracle.com: {url}")
++    if parsed.username or parsed.password or parsed.port:
++        raise ValueError(f"Production evidence URL contains forbidden authority data: {url}")
++    if expected_path is not None and parsed.path != expected_path:
++        raise ValueError(f"Production evidence URL must use path {expected_path}: {url}")
++    return url
 +
 +
 +def _sitemap_paths(data: bytes, site_origin: str) -> set[str]:
@@ -969,9 +1058,11 @@ index 0000000..7f89391
 +
 +
 +def _http_status(url: str) -> int:
++    _validated_url(url)
 +    request = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "Claracle/BR-003"})
 +    try:
-+        with urllib.request.urlopen(request, timeout=20) as response:
++        # URL authority and scheme are restricted above.
++        with urllib.request.urlopen(request, timeout=20) as response:  # nosec B310
 +            return int(response.status)
 +    except urllib.error.HTTPError as error:
 +        return int(error.code)
@@ -987,6 +1078,8 @@ index 0000000..7f89391
 +    sitemap_data: bytes,
 +    status_getter: Any = _http_status,
 +) -> dict[str, Any]:
++    if site_origin != SITE_ORIGIN:
++        raise ValueError(f"Production snapshot origin must be {SITE_ORIGIN}")
 +    sitemap_url = f"{site_origin}/sitemap.xml"
 +    sitemap_paths = _sitemap_paths(sitemap_data, site_origin)
 +    urls = [record["url"] for record in inventory["records"]]
@@ -1056,7 +1149,7 @@ index 0000000..7f89391
 +def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 +    parser = argparse.ArgumentParser(description=__doc__)
 +    parser.add_argument("--root", type=Path, default=Path.cwd())
-+    parser.add_argument("--site-origin", default="https://claracle.com")
++    parser.add_argument("--site-origin", default=SITE_ORIGIN)
 +    parser.add_argument("--captured-at", type=date.fromisoformat)
 +    parser.add_argument("--check", action="store_true")
 +    return parser.parse_args(argv)
@@ -1075,7 +1168,9 @@ index 0000000..7f89391
 +    if args.captured_at is None:
 +        raise SystemExit("--captured-at is required when capturing production evidence")
 +    sitemap_url = f"{args.site_origin}/sitemap.xml"
-+    with urllib.request.urlopen(sitemap_url, timeout=30) as response:
++    _validated_url(sitemap_url, expected_path="/sitemap.xml")
++    # URL authority and scheme are restricted above.
++    with urllib.request.urlopen(sitemap_url, timeout=30) as response:  # nosec B310
 +        sitemap_data = response.read()
 +    snapshot = build_snapshot(
 +        inventory,
@@ -1093,10 +1188,10 @@ index 0000000..7f89391
 +    raise SystemExit(main())
 diff --git a/scripts/capture_repository_url_inspection.py b/scripts/capture_repository_url_inspection.py
 new file mode 100644
-index 0000000..762d51e
+index 0000000..e076538
 --- /dev/null
 +++ b/scripts/capture_repository_url_inspection.py
-@@ -0,0 +1,175 @@
+@@ -0,0 +1,188 @@
 +"""Capture Search Console URL Inspection evidence for repository URLs."""
 +
 +from __future__ import annotations
@@ -1111,11 +1206,23 @@ index 0000000..762d51e
 +from datetime import datetime, timezone
 +from pathlib import Path
 +from typing import Any, Callable
++from urllib.parse import urlsplit
 +
 +SCHEMA_VERSION = "1.0.0"
 +INVENTORY_PATH = Path("data/derived/observatory/repository-url-inventory.json")
 +OUTPUT_PATH = Path("data/derived/observatory/repository-url-inspection.json")
 +ENDPOINT = "https://searchconsole.googleapis.com/v1/urlInspection/index:inspect"
++
++
++def _validated_endpoint() -> str:
++    parsed = urlsplit(ENDPOINT)
++    if (
++        parsed.scheme != "https"
++        or parsed.hostname != "searchconsole.googleapis.com"
++        or parsed.path != "/v1/urlInspection/index:inspect"
++    ):
++        raise ValueError("URL Inspection endpoint is not the approved Google HTTPS endpoint")
++    return ENDPOINT
 +
 +
 +def inspect_url(
@@ -1133,7 +1240,7 @@ index 0000000..762d51e
 +        }
 +    ).encode()
 +    request = urllib.request.Request(
-+        ENDPOINT,
++        _validated_endpoint(),
 +        data=body,
 +        method="POST",
 +        headers={
@@ -1144,7 +1251,8 @@ index 0000000..762d51e
 +    )
 +    for attempt in range(attempts):
 +        try:
-+            with urllib.request.urlopen(request, timeout=30) as response:
++            # Endpoint authority, scheme, and path are restricted above.
++            with urllib.request.urlopen(request, timeout=30) as response:  # nosec B310
 +                return json.loads(response.read())
 +        except urllib.error.HTTPError as error:
 +            if error.code not in {429, 500, 502, 503, 504} or attempt == attempts - 1:
@@ -2006,16 +2114,16 @@ index d63717c..2a861c0 100644
 +++ b/scripts/generate_repository_url_inventory.py
 @@ -3,6 +3,7 @@
  from __future__ import annotations
- 
+
  import argparse
 +import copy
  import hashlib
  import json
  from pathlib import Path
 @@ -10,7 +11,11 @@ from typing import Any
- 
+
  import yaml
- 
+
 -SCHEMA_VERSION = "1.0.0"
 +SCHEMA_VERSION = "1.3.0"
 +PRODUCTION_SNAPSHOT = Path("data/derived/observatory/repository-production-snapshot.json")
@@ -2039,8 +2147,8 @@ index d63717c..2a861c0 100644
                  "canonical_url": canonical_url,
 @@ -79,6 +85,46 @@ def canonical_record(root: Path, page: Path) -> tuple[dict[str, Any], list[dict[
      return record, aliases
- 
- 
+
+
 +def load_production_snapshot(root: Path) -> dict[str, Any] | None:
 +    path = root / PRODUCTION_SNAPSHOT
 +    if not path.exists():
@@ -2692,10 +2800,10 @@ index 0000000..c90b529
 +        migration.apply(tmp_path)
 diff --git a/tests/test_capture_repository_production_snapshot.py b/tests/test_capture_repository_production_snapshot.py
 new file mode 100644
-index 0000000..3bfbe6c
+index 0000000..c565590
 --- /dev/null
 +++ b/tests/test_capture_repository_production_snapshot.py
-@@ -0,0 +1,84 @@
+@@ -0,0 +1,99 @@
 +from __future__ import annotations
 +
 +from datetime import date
@@ -2780,6 +2888,21 @@ index 0000000..3bfbe6c
 +
 +    with pytest.raises(ValueError, match="unavailable HTTP evidence"):
 +        snapshot.validate_snapshot(payload, _inventory())
++
++
++def test_build_snapshot_rejects_unapproved_origin() -> None:
++    with pytest.raises(ValueError, match="must be https://claracle.com"):
++        snapshot.build_snapshot(
++            _inventory(),
++            site_origin="http://localhost",
++            captured_at=date(2026, 8, 10),
++            sitemap_data=_sitemap("/repo/"),
++        )
++
++
++def test_http_status_rejects_unapproved_url() -> None:
++    with pytest.raises(ValueError, match="must use https://claracle.com"):
++        snapshot._http_status("file:///etc/passwd")
 diff --git a/tests/test_capture_repository_url_inspection.py b/tests/test_capture_repository_url_inspection.py
 new file mode 100644
 index 0000000..5e0c57a
@@ -3314,16 +3437,16 @@ index 3d0ac64..807dd4e 100644
 +++ b/tests/test_generate_repository_url_inventory.py
 @@ -4,6 +4,7 @@ import json
  from pathlib import Path
- 
+
  import pytest
 +from jsonschema import Draft202012Validator, ValidationError
- 
+
  from scripts import generate_repository_url_inventory as inventory
- 
+
 @@ -29,7 +30,16 @@ def test_build_inventory_includes_index_canonicals_and_aliases(tmp_path: Path) -
- 
+
      payload = inventory.build_inventory(tmp_path)
- 
+
 -    assert payload["counts"] == {"index": 1, "canonical": 2, "alias": 1, "total": 4}
 +    assert payload["counts"] == {
 +        "index": 1,
@@ -3365,9 +3488,9 @@ index 3d0ac64..807dd4e 100644
 +    }
      assert set(alias["evidence"]) == set(inventory.EVIDENCE_REQUIREMENTS)
      assert all(item["status"] == "not_collected" for item in alias["evidence"].values())
- 
+
 @@ -72,3 +103,236 @@ def test_rendered_inventory_is_deterministic(tmp_path: Path) -> None:
- 
+
      assert first == second
      assert json.loads(first)["counts"]["total"] == 3
 +
@@ -3771,7 +3894,7 @@ index 596922a..a8aeec4 100644
 +        if history.slug in retained_slugs
 +    }
 +    assert page_identities == retained_identities
- 
+
      # After Phase 1 fix (reverse index for full_name->key migration), the ledger
      # is idempotent across multiple passes. The loaded corpus includes the
 @@ -1090,7 +1106,7 @@ def test_hugo_build_renders_generated_repo_pages() -> None:
@@ -3780,8 +3903,8 @@ index 596922a..a8aeec4 100644
      assert result.returncode == 0, result.stderr + result.stdout
 -    assert (REPO_ROOT / "public" / "repo" / "anthropics-claude-code" / "index.html").exists()
 +    assert (REPO_ROOT / "public" / "repo" / "odysseus-dev-odysseus" / "index.html").exists()
- 
- 
+
+
  def write_identity_backfill(root: Path, entries: dict[str, dict[str, object]]) -> Path:
 diff --git a/tests/test_pipeline.py b/tests/test_pipeline.py
 index 3c393d0..bb28572 100644
@@ -3796,7 +3919,7 @@ index 3c393d0..bb28572 100644
              "data/taxonomy/",
              "data/topic-hubs/",
 @@ -904,7 +903,7 @@ class WorkflowConfigTests(unittest.TestCase):
- 
+
          webhook_run = webhook_step["run"]
          self.assertIn('curl -s -X POST "$WEBHOOK_URL"', webhook_run)
 -        self.assertIn("https://jmservera.github.io/SquadScope/weekly/", webhook_run)
@@ -3813,8 +3936,8 @@ index b44f203..2f941fe 100644
      assert "data/candidates/" in GENERATED_PATHS
      assert "data/published/" in GENERATED_PATHS
 +    assert "content/repo/" not in GENERATED_PATHS
- 
- 
+
+
  def test_consistent_release_passes() -> None:
 diff --git a/tests/test_rendered_seo_metadata.py b/tests/test_rendered_seo_metadata.py
 index 3ad896c..e91e46d 100644
@@ -3830,7 +3953,7 @@ index 3ad896c..e91e46d 100644
              "SoftwareSourceCode",
              "BreadcrumbList",
 @@ -226,7 +226,7 @@ def test_rendered_page_classes_emit_appropriate_schema(rendered_site: Path) -> N
- 
+
      for relative_path in (
          "data/most-starred-mcp-projects/index.html",
 -        "repo/anthropics-claude-code/index.html",
@@ -3844,12 +3967,12 @@ index 364ad00..c9a237d 100644
 +++ b/tests/test_rendered_weekly_links.py
 @@ -12,7 +12,7 @@ import pytest
  import yaml
- 
+
  ROOT = Path(__file__).resolve().parents[1]
 -TARGET_WEEK = "W30"
 +TARGET_WEEK = "W21"
- 
- 
+
+
  class WeeklyLinkParser(HTMLParser):
 @@ -71,9 +71,10 @@ def _required_links(weekly_path: Path) -> tuple[set[str], set[str], set[str]]:
          key=lambda path: datetime.fromisoformat(str(_front_matter(path)["date"])),
@@ -3862,11 +3985,11 @@ index 364ad00..c9a237d 100644
 +        for path in neighbors
          if path != weekly_path
      }
- 
+
 @@ -97,7 +98,7 @@ def _required_links(weekly_path: Path) -> tuple[set[str], set[str], set[str]]:
          if (ROOT / "content/repo" / repository_slug / "index.md").exists():
              repositories.add(f"/repo/{repository_slug}/")
- 
+
 -    assert len(chronological) == 2
 +    assert chronological
      assert canonical_topics

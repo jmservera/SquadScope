@@ -6,15 +6,29 @@ import argparse
 import json
 import urllib.error
 import urllib.request
-import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
+
+from defusedxml import ElementTree as ET
 
 SCHEMA_VERSION = "1.0.0"
 INVENTORY_PATH = Path("data/derived/observatory/repository-url-inventory.json")
 OUTPUT_PATH = Path("data/derived/observatory/repository-production-snapshot.json")
+SITE_ORIGIN = "https://claracle.com"
+
+
+def _validated_url(url: str, *, expected_path: str | None = None) -> str:
+    parsed = urlsplit(url)
+    if parsed.scheme != "https" or parsed.hostname != "claracle.com":
+        raise ValueError(f"Production evidence URL must use https://claracle.com: {url}")
+    if parsed.username or parsed.password or parsed.port:
+        raise ValueError(f"Production evidence URL contains forbidden authority data: {url}")
+    if expected_path is not None and parsed.path != expected_path:
+        raise ValueError(f"Production evidence URL must use path {expected_path}: {url}")
+    return url
 
 
 def _sitemap_paths(data: bytes, site_origin: str) -> set[str]:
@@ -28,9 +42,11 @@ def _sitemap_paths(data: bytes, site_origin: str) -> set[str]:
 
 
 def _http_status(url: str) -> int:
+    _validated_url(url)
     request = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "Claracle/BR-003"})
     try:
-        with urllib.request.urlopen(request, timeout=20) as response:
+        # URL authority and scheme are restricted above.
+        with urllib.request.urlopen(request, timeout=20) as response:  # nosec B310
             return int(response.status)
     except urllib.error.HTTPError as error:
         return int(error.code)
@@ -46,6 +62,8 @@ def build_snapshot(
     sitemap_data: bytes,
     status_getter: Any = _http_status,
 ) -> dict[str, Any]:
+    if site_origin != SITE_ORIGIN:
+        raise ValueError(f"Production snapshot origin must be {SITE_ORIGIN}")
     sitemap_url = f"{site_origin}/sitemap.xml"
     sitemap_paths = _sitemap_paths(sitemap_data, site_origin)
     urls = [record["url"] for record in inventory["records"]]
@@ -115,7 +133,7 @@ def validate_snapshot(snapshot: dict[str, Any], inventory: dict[str, Any]) -> No
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path.cwd())
-    parser.add_argument("--site-origin", default="https://claracle.com")
+    parser.add_argument("--site-origin", default=SITE_ORIGIN)
     parser.add_argument("--captured-at", type=date.fromisoformat)
     parser.add_argument("--check", action="store_true")
     return parser.parse_args(argv)
@@ -134,7 +152,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.captured_at is None:
         raise SystemExit("--captured-at is required when capturing production evidence")
     sitemap_url = f"{args.site_origin}/sitemap.xml"
-    with urllib.request.urlopen(sitemap_url, timeout=30) as response:
+    _validated_url(sitemap_url, expected_path="/sitemap.xml")
+    # URL authority and scheme are restricted above.
+    with urllib.request.urlopen(sitemap_url, timeout=30) as response:  # nosec B310
         sitemap_data = response.read()
     snapshot = build_snapshot(
         inventory,

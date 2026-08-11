@@ -12,11 +12,23 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
+from urllib.parse import urlsplit
 
 SCHEMA_VERSION = "1.0.0"
 INVENTORY_PATH = Path("data/derived/observatory/repository-url-inventory.json")
 OUTPUT_PATH = Path("data/derived/observatory/repository-url-inspection.json")
 ENDPOINT = "https://searchconsole.googleapis.com/v1/urlInspection/index:inspect"
+
+
+def _validated_endpoint() -> str:
+    parsed = urlsplit(ENDPOINT)
+    if (
+        parsed.scheme != "https"
+        or parsed.hostname != "searchconsole.googleapis.com"
+        or parsed.path != "/v1/urlInspection/index:inspect"
+    ):
+        raise ValueError("URL Inspection endpoint is not the approved Google HTTPS endpoint")
+    return ENDPOINT
 
 
 def inspect_url(
@@ -34,7 +46,7 @@ def inspect_url(
         }
     ).encode()
     request = urllib.request.Request(
-        ENDPOINT,
+        _validated_endpoint(),
         data=body,
         method="POST",
         headers={
@@ -45,7 +57,8 @@ def inspect_url(
     )
     for attempt in range(attempts):
         try:
-            with urllib.request.urlopen(request, timeout=30) as response:
+            # Endpoint authority, scheme, and path are restricted above.
+            with urllib.request.urlopen(request, timeout=30) as response:  # nosec B310
                 return json.loads(response.read())
         except urllib.error.HTTPError as error:
             if error.code not in {429, 500, 502, 503, 504} or attempt == attempts - 1:
