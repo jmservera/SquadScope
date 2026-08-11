@@ -378,6 +378,12 @@ the resulting per-URL disposition map.
 * Review: Squad routed the diff through Leela, Amy, URL, Hermes, and Fry and
   approved it with no release-blocking findings. Production smoke sampling and
   fail-closed dataset URL validation were confirmed as intentional.
+* Hosted evidence: every check passed on source head `70e42cd` and all review
+  threads are resolved. Copilot completed its latest-head review attempt but
+  reported that the cumulative PR exceeds its 300-file review limit.
+* Remaining blocker: qualified human review and merge authorization are required
+  before GitHub Pages can deploy the final artifact and the workflow can capture
+  production `/repo/` 200 and retired-route 404 evidence.
 
 ## CR-06 Harness Repair And Experiment Execution (2026-08-09)
 

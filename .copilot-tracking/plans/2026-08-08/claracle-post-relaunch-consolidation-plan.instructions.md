@@ -284,8 +284,10 @@ explorer-only override: one keep, zero redirects, and 273 direct-404 retirements
 Publish hydration remains unable to restore retired profiles. Local evidence
 includes 1,631 passing tests, clean Ruff/Hugo, JSON browser loading, Checkov,
 Zizmor, Bandit, and required Squad perspectives. Phase 3 remains unchecked
-until the revised head is pushed, hosted checks and Copilot review finish, and
-required human review plus post-deployment live probes pass.
+until required human review, merge authorization, and post-deployment live
+probes pass. All hosted checks passed on source head `70e42cd`; no review
+threads remain unresolved. Copilot completed its latest-head attempt but could
+not review the PR because the cumulative change exceeds its 300-file limit.
 
 ### [ ] Phase 4: Ranking Data, Visualization Selection, And Embeds
 
