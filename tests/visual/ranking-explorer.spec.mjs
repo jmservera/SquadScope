@@ -5,28 +5,50 @@ const records = [
   {
     rank: 1,
     full_name: 'example/alpha',
+    repository_id: 'example-alpha',
     github_url: 'https://github.com/example/alpha',
+    metric_key: 'period_growth',
     metric_value: 20,
     metric_label: '+20 stars',
     comparison_label: '10 → 30 stars',
     language: 'Python',
     context_summary: 'Alpha summary for accessible disclosure.',
+    context_accessible_text: 'Alpha summary for accessible disclosure.',
   },
   {
     rank: 2,
     full_name: 'example/beta',
+    repository_id: 'example-beta',
     github_url: 'https://github.com/example/beta',
+    metric_key: 'period_growth',
     metric_value: 10,
     metric_label: '+10 stars',
     comparison_label: '5 → 15 stars',
     language: 'TypeScript',
     context_summary: 'Beta summary for accessible disclosure.',
+    context_accessible_text: 'Beta summary for accessible disclosure.',
   },
 ];
 
 function payload(overrides = {}) {
   return {
     schema_version: '1.0.0',
+    artifact_type: 'ranking',
+    ranking_id: 'fastest-growing-ai-repositories-this-year',
+    metric_label: 'Star growth',
+    metric_definition: 'Derived star gain during the covered period.',
+    generated_at: '2026-08-10T07:34:14Z',
+    covered_period: {
+      start: '2026-01-01',
+      end: '2026-08-10',
+      label: '2026-W33',
+    },
+    provenance: {
+      generator: 'scripts/generate_ranking_artifacts.py',
+      source_paths: ['data/raw/2026-W33.json'],
+      methodology_url: '/methodology/',
+      source_checksum: '0'.repeat(64),
+    },
     records,
     ...overrides,
   };

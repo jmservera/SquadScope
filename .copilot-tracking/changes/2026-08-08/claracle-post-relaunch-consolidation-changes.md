@@ -1036,6 +1036,8 @@ assertion finding. All were corrected before merge:
 * Client-side GitHub URL validation now matches the server boundary: exact
   HTTPS host, no credentials/query/fragment, and exactly `owner/repo` path
   segments. Browser coverage rejects each malformed or unsafe URL shape.
+* Ranking explorer browser fixtures now use the complete public envelope and
+  record contract, keeping interaction tests representative of published JSON.
 
 Targeted validation passed: 24 Python tests, Ruff check/format, Hugo production
 build, and three active desktop-light ranking explorer browser tests.
