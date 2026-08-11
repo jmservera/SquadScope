@@ -185,12 +185,43 @@ outcome measurement remain blocked or future work under the controlling plan.
 
 ### Phase 3 Blocker
 
-URL Inspection, exact-page Search Analytics, sampled backlink, and available
-first-party referral exports are not present in the repository or execution
-environment. Without those sources and named approval, the 264 live repository
+URL Inspection remains unavailable. Without that source, content and
+destination-equivalence review, and named approval, the 264 live repository
 URLs cannot receive defensible keep/merge/redirect/retire dispositions and the
 low-information detail corpus cannot be removed. The clearing action is to
-supply the named exports and approve the resulting per-URL disposition map.
+supply URL Inspection evidence or formally amend the approved evidence policy,
+then approve the resulting per-URL disposition map.
+
+### External Evidence Import (2026-08-11)
+
+* Related phase: Phase 3
+* Files: `scripts/import_repository_external_evidence.py`,
+  `data/derived/observatory/repository-external-evidence.json`,
+  `scripts/generate_repository_url_inventory.py`,
+  `data/derived/observatory/repository-url-inventory.json`,
+  `data/schemas/repository-url-inventory.schema.json`
+* What changed and why: normalized the supplied localized Search Console and
+  GA4 exports into a versioned artifact, joined exact observations and metrics
+  to all 274 URL rows, and retained source-specific windows. Omitted rows are
+  represented as not observed in the named export, not as historical zero.
+* Evidence result: Search Analytics observes 51 impressions and zero clicks
+  across 10 exact repository URLs for 2026-07-27..2026-08-09. The sampled
+  backlink export contains no repository targets. The
+  2026-07-27..2026-08-11 GA4 export contains no referral data rows.
+* Policy result: the Search Analytics observations disprove a blanket
+  no-indexing assumption. URL Inspection remains uncollected for all 274 rows,
+  so all dispositions remain pending and no retirement is authorized.
+* Validation: 37 focused import, inventory, and public schema-contract tests
+  passed; the full suite passed with 1,604 tests and two expected warnings;
+  full Ruff check and format check passed. Generated inventory counts confirm
+  10 observed and 264 not-observed Search Analytics rows, zero observed sampled
+  links or referrals, and 274 uncollected URL Inspection rows.
+* Review disposition: Squad initially blocked on zero-shaped omitted metrics,
+  permissive malformed-export handling, and missing `Filtres.csv` provenance.
+  Omitted metrics now remain `null`; required headers, repository paths, GA4
+  metadata, and Search Console filters fail closed; source windows derive from
+  the supplied metadata. Focused tests cover malformed headers, legitimate
+  metadata-only GA4 output, and an incorrectly scoped Search Console export.
 
 ## CR-06 Harness Repair And Experiment Execution (2026-08-09)
 

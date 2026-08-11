@@ -11,8 +11,9 @@ from typing import Any
 
 import yaml
 
-SCHEMA_VERSION = "1.0.0"
+SCHEMA_VERSION = "1.1.0"
 PRODUCTION_SNAPSHOT = Path("data/derived/observatory/repository-production-snapshot.json")
+EXTERNAL_EVIDENCE = Path("data/derived/observatory/repository-external-evidence.json")
 EVIDENCE_REQUIREMENTS = (
     "url_inspection",
     "search_analytics",
@@ -92,6 +93,16 @@ def load_production_snapshot(root: Path) -> dict[str, Any] | None:
     return loaded
 
 
+def load_external_evidence(root: Path) -> dict[str, Any] | None:
+    path = root / EXTERNAL_EVIDENCE
+    if not path.exists():
+        return None
+    loaded = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(loaded, dict):
+        raise ValueError(f"Invalid external evidence: {path}")
+    return loaded
+
+
 def build_inventory(root: Path) -> dict[str, Any]:
     repo_root = root / "content/repo"
     records: list[dict[str, Any]] = [
@@ -127,6 +138,7 @@ def build_inventory(root: Path) -> dict[str, Any]:
         "total": len(records),
     }
     snapshot = load_production_snapshot(root)
+    external = load_external_evidence(root)
     production_by_url = {record["url"]: record for record in (snapshot or {}).get("records", [])}
     for record in records:
         production = production_by_url.get(record["url"])
@@ -145,6 +157,36 @@ def build_inventory(root: Path) -> dict[str, Any]:
                 "sitemap_status": "not_collected",
                 "http_status": None,
             }
+        if external:
+            search = external["search_analytics"].get(record["url"])
+            linked = record["url"] in external["sampled_link_paths"]
+            referral_sessions = external["first_party_referrals"].get(record["url"])
+            for key, observed in (
+                ("search_analytics", search is not None),
+                ("sampled_links", linked),
+                ("first_party_referrals", referral_sessions is not None),
+            ):
+                source = external["sources"][key]
+                record["evidence"][key] = {
+                    "status": "observed" if observed else "not_observed",
+                    "source": source["file"],
+                    "window": source["window"],
+                }
+            record["external_metrics"] = {
+                "search_clicks": (search or {}).get("clicks"),
+                "search_impressions": (search or {}).get("impressions"),
+                "search_position": (search or {}).get("position"),
+                "referral_sessions": referral_sessions,
+                "sampled_inbound_link": True if linked else None,
+            }
+        else:
+            record["external_metrics"] = {
+                "search_clicks": None,
+                "search_impressions": None,
+                "search_position": None,
+                "referral_sessions": None,
+                "sampled_inbound_link": None,
+            }
     production_counts = (snapshot or {}).get("counts", {})
     counts.update(
         {
@@ -161,6 +203,10 @@ def build_inventory(root: Path) -> dict[str, Any]:
             "path": PRODUCTION_SNAPSHOT.as_posix(),
             "captured_at": (snapshot or {}).get("captured_at", ""),
             "site_origin": (snapshot or {}).get("site_origin", ""),
+        },
+        "external_evidence": {
+            "path": EXTERNAL_EVIDENCE.as_posix(),
+            "schema_version": (external or {}).get("schema_version", ""),
         },
         "evidence_requirements": list(EVIDENCE_REQUIREMENTS),
         "counts": counts,

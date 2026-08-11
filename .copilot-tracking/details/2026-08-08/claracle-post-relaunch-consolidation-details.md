@@ -140,9 +140,9 @@ record; all routed automated and named reviews are retained.
   and these current RPI records.
 * Live production evidence currently reconciles 264 `/repo/` sitemap URLs
   against 274 local URL forms. Ten local URLs are absent from the sitemap.
-* Exact GSC URL Inspection and Search Analytics exports, sampled backlink
-  exports, and first-party referral exports are unavailable. Their state remains
-  unknown; no per-URL zero-demand or no-link conclusion is authorized.
+* Exact-page Search Analytics, sampled backlink, and first-party referral
+  exports are imported. URL Inspection remains unavailable. Missing rows are
+  recorded only as not observed in the named export, never as historical zero.
 * First execution boundary: create a deterministic evidence snapshot and
   versioned repository summary, then render the authoritative no-JavaScript
   explorer before deciding whether the removal gate has sufficient evidence.
@@ -165,12 +165,18 @@ record; all routed automated and named reviews are retained.
 * Snapshot capture fails closed on unavailable HTTP evidence. Pipeline freshness
   checks validate the repository artifact, retained production snapshot, and
   joined URL inventory.
-* External evidence remains unavailable. All 274 dispositions and approvals are
-  pending; no details were deleted and no redirect was generated.
+* External evidence import records 51 impressions and zero clicks across 10
+  exact repository URLs for 2026-07-27..2026-08-09. No repository target is
+  observed in the sampled backlink export, and the 2026-07-27..2026-08-11 GA4
+  export contains no referral rows. URL Inspection remains uncollected.
+* All 274 dispositions and approvals remain pending; no details were deleted
+  and no redirect was generated.
 
 ### Phase 3 Validation Result
 
-* `pytest tests/`: 1,599 passed, two expected warnings.
+* `pytest tests/`: 1,604 passed, two expected warnings after evidence import.
+* Evidence import, inventory, and public schema contracts: 37 focused tests
+  passed.
 * `ruff check .` and `ruff format --check .`: passed.
 * Hugo: 2,707 pages and eight aliases built.
 * Pagefind 1.5.2: completed; rendered internal-link check passed.
@@ -187,7 +193,8 @@ record; all routed automated and named reviews are retained.
    canonical targets, and production-only discoveries.
 2. Import URL Inspection, exact-page Search Analytics for the recorded window,
    sampled link evidence, and available first-party referral evidence without
-   converting missing observations into zero.
+   converting missing observations into zero. Search Analytics, sampled links,
+   and referral exports are complete; URL Inspection remains outstanding.
 3. Add content differentiation and destination-equivalence review. Require named
    approval for each keep, merge, redirect, or retire row.
 4. Determine the hosting boundary only after disposition approval. If no redirect

@@ -53,6 +53,13 @@ def test_build_inventory_includes_index_canonicals_and_aliases(tmp_path: Path) -
         "sitemap_status": "not_collected",
         "http_status": None,
     }
+    assert alias["external_metrics"] == {
+        "search_clicks": None,
+        "search_impressions": None,
+        "search_position": None,
+        "referral_sessions": None,
+        "sampled_inbound_link": None,
+    }
     assert set(alias["evidence"]) == set(inventory.EVIDENCE_REQUIREMENTS)
     assert all(item["status"] == "not_collected" for item in alias["evidence"].values())
 
@@ -172,6 +179,61 @@ def test_alias_and_canonical_evidence_are_isolated(tmp_path: Path) -> None:
 
     assert canonical["evidence"]["sitemap"]["status"] == "observed"
     assert alias["evidence"]["sitemap"]["status"] == "not_observed"
+
+
+def test_build_inventory_joins_external_evidence(tmp_path: Path) -> None:
+    _write_page(tmp_path / "content/repo/_index.md")
+    _write_page(tmp_path / "content/repo/alpha/index.md")
+    external_path = tmp_path / inventory.EXTERNAL_EVIDENCE
+    external_path.parent.mkdir(parents=True, exist_ok=True)
+    external_path.write_text(
+        json.dumps(
+            {
+                "schema_version": "1.0.0",
+                "sources": {
+                    "search_analytics": {
+                        "file": "Pages.csv",
+                        "window": "2026-07-27..2026-08-09",
+                    },
+                    "sampled_links": {
+                        "file": "gsc-top-linked-pages.csv",
+                        "window": "exported 2026-08-10",
+                    },
+                    "first_party_referrals": {
+                        "file": "ga4-repo-referrals.csv",
+                        "window": "2026-07-27..2026-08-11",
+                    },
+                },
+                "search_analytics": {
+                    "/repo/alpha/": {
+                        "clicks": 0,
+                        "impressions": 12,
+                        "position": 7.5,
+                    }
+                },
+                "sampled_link_paths": [],
+                "first_party_referrals": {},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    records = inventory.build_inventory(tmp_path)["records"]
+    alpha = next(record for record in records if record["url"] == "/repo/alpha/")
+
+    assert alpha["evidence"]["search_analytics"] == {
+        "status": "observed",
+        "source": "Pages.csv",
+        "window": "2026-07-27..2026-08-09",
+    }
+    assert alpha["evidence"]["sampled_links"]["status"] == "not_observed"
+    assert alpha["external_metrics"] == {
+        "search_clicks": 0,
+        "search_impressions": 12,
+        "search_position": 7.5,
+        "referral_sessions": None,
+        "sampled_inbound_link": None,
+    }
 
 
 def test_schema_blocks_retirement_without_collected_evidence(tmp_path: Path) -> None:

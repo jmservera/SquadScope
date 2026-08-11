@@ -25,9 +25,9 @@
       "additionalProperties": false
     }
   },
-  "required": ["schema_version", "generated_from", "production_snapshot", "evidence_requirements", "counts", "records"],
+  "required": ["schema_version", "generated_from", "production_snapshot", "external_evidence", "evidence_requirements", "counts", "records"],
   "properties": {
-    "schema_version": { "const": "1.0.0" },
+    "schema_version": { "const": "1.1.0" },
     "generated_from": { "const": "content/repo/" },
     "production_snapshot": {
       "type": "object",
@@ -36,6 +36,15 @@
         "path": { "const": "data/derived/observatory/repository-production-snapshot.json" },
         "captured_at": { "type": "string" },
         "site_origin": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "external_evidence": {
+      "type": "object",
+      "required": ["path", "schema_version"],
+      "properties": {
+        "path": { "const": "data/derived/observatory/repository-external-evidence.json" },
+        "schema_version": { "type": "string" }
       },
       "additionalProperties": false
     },
@@ -76,6 +85,7 @@
           "proposed_disposition",
           "approval_status",
           "production",
+          "external_metrics",
           "evidence"
         ],
         "properties": {
@@ -101,6 +111,24 @@
                 "minimum": 0,
                 "maximum": 599
               }
+            },
+            "additionalProperties": false
+          },
+          "external_metrics": {
+            "type": "object",
+            "required": [
+              "search_clicks",
+              "search_impressions",
+              "search_position",
+              "referral_sessions",
+              "sampled_inbound_link"
+            ],
+            "properties": {
+              "search_clicks": { "type": ["integer", "null"], "minimum": 0 },
+              "search_impressions": { "type": ["integer", "null"], "minimum": 0 },
+              "search_position": { "type": ["number", "null"], "minimum": 0 },
+              "referral_sessions": { "type": ["integer", "null"], "minimum": 0 },
+              "sampled_inbound_link": { "type": ["boolean", "null"] }
             },
             "additionalProperties": false
           },

@@ -29,24 +29,34 @@
       "decision": "Phase 3 locally actionable implementation is committed; Phase 4 must not start until the user explicitly continues.",
       "status": "confirmed",
       "evidence": "User input: \"Deliver Phase 3, don't stop until done, once finished wait until I say the word for continuing on Phase 4\""
+    },
+    {
+      "decision": "Import the uploaded Search Console, backlink, and GA4 exports; URL Inspection remains unavailable.",
+      "status": "confirmed",
+      "evidence": "User input: \"I've uploaded the files into /tmp/claraclegsc, I downloaded everything except the URL Inspection results\""
+    },
+    {
+      "decision": "The imported Search Analytics export records 51 impressions across 10 exact repository URLs; blanket no-indexing or retirement is unsupported.",
+      "status": "confirmed",
+      "evidence": "data/derived/observatory/repository-external-evidence.json"
     }
   ],
   "blockers": [
     {
       "id": "phase3-external-url-evidence",
-      "summary": "URL Inspection, exact-page Search Analytics, sampled backlink, and available first-party referral exports are unavailable, so 264 live URLs cannot receive approved dispositions.",
-      "resolution": "Supply the named exports and approve the resulting per-URL keep, merge, redirect, or retire map."
+      "summary": "URL Inspection remains unavailable, and content, destination-equivalence, and named disposition approval are incomplete, so 264 live URLs cannot receive approved dispositions.",
+      "resolution": "Supply URL Inspection evidence or formally amend the approved evidence policy, complete the remaining reviews, and approve the per-URL keep, merge, redirect, or retire map."
     }
   ],
   "next_action": {
     "phase": "Implement",
-    "action": "Resume Phase 3 at the per-URL evidence and disposition gate after the required external exports are supplied; do not start Phase 4."
+    "action": "Wait for URL Inspection evidence or a formal policy amendment and named disposition approval; do not start Phase 4."
   },
   "prioritized_follow_ups": [
     {
       "rank": 1,
-      "task": "Import URL-level external evidence and approve all repository dispositions.",
-      "rationale": "This is the only blocker to the reviewed detail-removal migration transaction.",
+      "task": "Resolve the URL Inspection policy gate and approve all repository dispositions.",
+      "rationale": "The practical exports are imported; this and the remaining content/equivalence reviews now block the detail-removal migration transaction.",
       "evidence": ".copilot-tracking/plans/2026-08-08/claracle-post-relaunch-consolidation-plan.instructions.md"
     },
     {
