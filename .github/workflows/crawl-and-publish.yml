@@ -1262,6 +1262,9 @@ jobs:
       - name: Generate repository pages
         run: python3 scripts/observatory_repos.py
 
+      - name: Generate repository explorer data
+        run: python3 scripts/generate_repository_summary.py --from-crawl
+
       - name: Generate data pages
         run: python3 scripts/generate_data_pages.py
 
@@ -1277,6 +1280,9 @@ jobs:
           python3 scripts/backfill_weekly_topics.py --check
           python3 scripts/discover_topic_candidates.py --check
           python3 scripts/observatory_repos.py --check
+          python3 scripts/generate_repository_summary.py --from-crawl --check
+          python3 scripts/capture_repository_production_snapshot.py --check
+          python3 scripts/generate_repository_url_inventory.py --check
           python3 scripts/generate_data_pages.py --check
           python3 scripts/export_observatory_dataset.py --check
           python3 scripts/export_trend_explorer_data.py --check

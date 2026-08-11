@@ -214,23 +214,47 @@ genuine-equivalent 301/308 row.
 
 <!-- parallelizable: false -->
 
-* [ ] Reconcile 266 records, 267 source pages, 274 local rendered URLs, seven
-  aliases, the live-count discrepancy, and any production-only repository URLs
+Implementation resumed 2026-08-10 on `feat/repository-migration-phase3`.
+Production reconciliation is available from the live sitemap and direct HTTP
+checks. Exact URL Inspection, Search Analytics, sampled backlink, and
+first-party referral exports are not available in the execution environment;
+those fields must remain explicitly uncollected or ambiguous and must never be
+converted to zero. The implementation will complete the deterministic explorer
+and a conservative no-redirect migration candidate before evaluating whether
+the detail-removal gate can close.
+
+* [x] Reconcile 266 records, 267 source pages, 274 local rendered URLs, seven
+  aliases, the live-count discrepancy, and any production-only repository URLs.
+  Captured 2026-08-10: 274 local URL forms, 264 sitemap and HTTP-200 URLs,
+  10 true HTTP 404 URLs, and zero production-only URLs
 * [ ] Collect URL Inspection, exact-page Search Analytics, sampled link,
   available first-party referral, internal-link, sitemap, canonical, content,
-  and destination-equivalence evidence for every URL
+  and destination-equivalence evidence for every URL. Sitemap and direct HTTP
+  evidence are retained; URL Inspection, Search Analytics, sampled links, and
+  first-party referrals remain unavailable and explicitly uncollected
 * [ ] Record an approved keep, merge, redirect, or retire disposition for every
   canonical, alias, and production-only URL; ambiguous evidence blocks retirement
 * [ ] Retain individual profiles only for differentiated content plus observed
   GSC demand or a known inbound link
 * [ ] Select a redirect-capable host only if the approved map contains a genuine
   equivalent; otherwise prove absent paths return direct HTTP 404 on the current host
-* [ ] Implement deterministic BR-003 artifact generation, authoritative Hugo
-  summary and links, search/filter/sort enhancement, URL state, and empty/error states
+* [x] Implement deterministic BR-003 artifact generation, authoritative Hugo
+  summary and links, search/filter/sort enhancement, URL state, and empty/error states.
+  The crawl-derived artifact contains 269 records, defaults to recent momentum,
+  validates GitHub origins, renders the complete no-JavaScript index, and
+  exposes enhancement-only controls with shareable browser history
 * [ ] Generate redirects only from approved exceptional rows and verify one-hop,
   atomic deployment, sitemap, canonical, internal-link, custom-404, and rollback behavior
 * [ ] Remove low-information details only in the same reviewed migration
   transaction; never enable CR-05 as an intermediate step
+
+Phase 3 implementation status (2026-08-11): partial and blocked at the
+externally owned disposition/removal gate. All locally actionable inventory,
+artifact, explorer, freshness, and validation work is complete. The remaining
+items cannot be responsibly completed until URL Inspection, exact-page Search
+Analytics, sampled backlink, and available referral evidence are supplied and
+named per-URL dispositions are approved. All 274 rows therefore remain
+`pending`; no redirect or retirement is claimed.
 
 ### [ ] Phase 4: Ranking Data, Visualization Selection, And Embeds
 

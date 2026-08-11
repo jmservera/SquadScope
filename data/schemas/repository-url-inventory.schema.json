@@ -3,10 +3,42 @@
   "$id": "https://claracle.com/schemas/repository-url-inventory.schema.json",
   "title": "Claracle Repository URL Inventory",
   "type": "object",
-  "required": ["schema_version", "generated_from", "evidence_requirements", "counts", "records"],
+  "$defs": {
+    "evidenceItem": {
+      "type": "object",
+      "required": ["status", "source", "window"],
+      "properties": {
+        "status": { "enum": ["not_collected", "observed", "not_observed", "ambiguous"] },
+        "source": { "type": "string" },
+        "window": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "collectedEvidenceItem": {
+      "type": "object",
+      "required": ["status", "source", "window"],
+      "properties": {
+        "status": { "enum": ["observed", "not_observed"] },
+        "source": { "type": "string", "minLength": 1 },
+        "window": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["schema_version", "generated_from", "production_snapshot", "evidence_requirements", "counts", "records"],
   "properties": {
     "schema_version": { "const": "1.0.0" },
     "generated_from": { "const": "content/repo/" },
+    "production_snapshot": {
+      "type": "object",
+      "required": ["path", "captured_at", "site_origin"],
+      "properties": {
+        "path": { "const": "data/derived/observatory/repository-production-snapshot.json" },
+        "captured_at": { "type": "string" },
+        "site_origin": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
     "evidence_requirements": {
       "type": "array",
       "minItems": 8,
@@ -15,12 +47,16 @@
     },
     "counts": {
       "type": "object",
-      "required": ["index", "canonical", "alias", "total"],
+      "required": ["index", "canonical", "alias", "total", "production_sitemap", "production_http_200", "production_http_404", "production_only"],
       "properties": {
         "index": { "type": "integer", "minimum": 1 },
         "canonical": { "type": "integer", "minimum": 0 },
         "alias": { "type": "integer", "minimum": 0 },
-        "total": { "type": "integer", "minimum": 1 }
+        "total": { "type": "integer", "minimum": 1 },
+        "production_sitemap": { "type": ["integer", "null"], "minimum": 0 },
+        "production_http_200": { "type": ["integer", "null"], "minimum": 0 },
+        "production_http_404": { "type": ["integer", "null"], "minimum": 0 },
+        "production_only": { "type": ["integer", "null"], "minimum": 0 }
       },
       "additionalProperties": false
     },
@@ -39,6 +75,7 @@
           "destination_candidate",
           "proposed_disposition",
           "approval_status",
+          "production",
           "evidence"
         ],
         "properties": {
@@ -52,21 +89,90 @@
           "destination_candidate": { "type": "string" },
           "proposed_disposition": { "enum": ["pending", "keep", "merge", "redirect", "retire"] },
           "approval_status": { "enum": ["pending", "approved", "rejected"] },
+          "production": {
+            "type": "object",
+            "required": ["sitemap_status", "http_status"],
+            "properties": {
+              "sitemap_status": {
+                "enum": ["not_collected", "observed", "not_observed"]
+              },
+              "http_status": {
+                "type": ["integer", "null"],
+                "minimum": 0,
+                "maximum": 599
+              }
+            },
+            "additionalProperties": false
+          },
           "evidence": {
             "type": "object",
-            "additionalProperties": {
-              "type": "object",
-              "required": ["status", "source", "window"],
-              "properties": {
-                "status": { "enum": ["not_collected", "observed", "not_observed", "ambiguous"] },
-                "source": { "type": "string" },
-                "window": { "type": "string" }
-              },
-              "additionalProperties": false
-            }
+            "required": [
+              "url_inspection",
+              "search_analytics",
+              "sampled_links",
+              "first_party_referrals",
+              "internal_links",
+              "sitemap",
+              "content_review",
+              "destination_equivalence"
+            ],
+            "properties": {
+              "url_inspection": { "$ref": "#/$defs/evidenceItem" },
+              "search_analytics": { "$ref": "#/$defs/evidenceItem" },
+              "sampled_links": { "$ref": "#/$defs/evidenceItem" },
+              "first_party_referrals": { "$ref": "#/$defs/evidenceItem" },
+              "internal_links": { "$ref": "#/$defs/evidenceItem" },
+              "sitemap": { "$ref": "#/$defs/evidenceItem" },
+              "content_review": { "$ref": "#/$defs/evidenceItem" },
+              "destination_equivalence": { "$ref": "#/$defs/evidenceItem" }
+            },
+            "additionalProperties": false
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "proposed_disposition": {
+                  "enum": ["keep", "merge", "redirect", "retire"]
+                }
+              },
+              "required": ["proposed_disposition"]
+            },
+            "then": {
+              "properties": {
+                "approval_status": { "const": "approved" }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "proposed_disposition": {
+                  "enum": ["redirect", "retire"]
+                }
+              },
+              "required": ["proposed_disposition"]
+            },
+            "then": {
+              "properties": {
+                "evidence": {
+                  "properties": {
+                    "url_inspection": { "$ref": "#/$defs/collectedEvidenceItem" },
+                    "search_analytics": { "$ref": "#/$defs/collectedEvidenceItem" },
+                    "sampled_links": { "$ref": "#/$defs/collectedEvidenceItem" },
+                    "first_party_referrals": { "$ref": "#/$defs/collectedEvidenceItem" },
+                    "internal_links": { "$ref": "#/$defs/collectedEvidenceItem" },
+                    "sitemap": { "$ref": "#/$defs/collectedEvidenceItem" },
+                    "content_review": { "$ref": "#/$defs/collectedEvidenceItem" },
+                    "destination_equivalence": { "$ref": "#/$defs/collectedEvidenceItem" }
+                  }
+                }
+              }
+            }
+          }
+        ]
       }
     }
   },

@@ -84,6 +84,114 @@ The selected local implementation slices pass affected automated checks. Cost
 publication, repository migration, named acceptance, production rollout, and
 outcome measurement remain blocked or future work under the controlling plan.
 
+## Phase 3 Repository Migration Implementation (2026-08-10)
+
+### Execution State
+
+* Related phase: Phase 3
+* Declared scope: Repository Inventory And Migration Candidate
+* Branch: `feat/repository-migration-phase3`
+* Status: In progress
+* First execution boundary: reconcile local, rendered, sitemap, HTTP, canonical,
+  alias, internal-link, and content evidence; then generate the BR-003 artifact
+  and authoritative explorer.
+* Validation intent: focused generator/schema/rendering tests, Ruff, full
+  affected pytest, Hugo, internal-link checks, and direct production HTTP
+  verification.
+
+### External Evidence Boundary
+
+* Related phase: Phase 3
+* Triggering evidence: the live sitemap contains 264 `/repo/` URLs while the
+  checked-in inventory contains 274 URL forms; direct checks show both live
+  repository pages and already-absent paths returning true HTTP 404.
+* Current-state update: production sitemap and HTTP evidence can be captured,
+  while exact URL Inspection, Search Analytics, sampled backlink, and
+  first-party referral exports are unavailable in this environment.
+* Decision: preserve unavailable evidence as uncollected or ambiguous. Do not
+  infer zero demand, no indexing, or no inbound links.
+* Planning and critique state: approved intent remains current; this narrows the
+  evidence implementation without changing the V1.1 retirement policy.
+
+### Production URL Reconciliation
+
+* Related phase: Phase 3
+* Files: `scripts/capture_repository_production_snapshot.py`,
+  `data/derived/observatory/repository-production-snapshot.json`,
+  `scripts/generate_repository_url_inventory.py`,
+  `data/derived/observatory/repository-url-inventory.json`,
+  `data/schemas/repository-url-inventory.schema.json`
+* What changed and why: captured the live sitemap and fail-closed direct HTTP
+  status for every local URL, joined the evidence into the versioned inventory,
+  isolated alias evidence, and encoded approval and evidence gates so ambiguous
+  rows cannot validate as redirect or retire decisions.
+* Completion evidence: 274 local URL forms reconcile to 264 sitemap/HTTP-200
+  URLs, 10 HTTP-404 URLs, and zero production-only URLs. All 274 dispositions
+  and approvals remain pending.
+* Validation: focused inventory, snapshot, schema, and alias-isolation tests
+  passed; all freshness checks are byte-current.
+
+### BR-003 Repository Explorer
+
+* Related phase: Phase 3
+* Files: `scripts/generate_repository_summary.py`,
+  `data/observatory/repository_summary.json`,
+  `static/data/repositories.json`, `layouts/repo/list.html`,
+  `assets/js/repository-explorer.js`,
+  `assets/css/extended/repository-explorer.css`, `content/repo/_index.md`,
+  `hugo.toml`
+* What changed and why: generated a versioned crawl-derived repository artifact
+  without enabling CR-05, added Repositories to navigation, and replaced the
+  legacy alphabetical list with a complete evidence index. The index defaults
+  to recent momentum and links directly to GitHub. Scoped enhancement provides
+  filters, sorting, reset, URL persistence, browser history, and empty states;
+  no-JavaScript output remains complete and useful.
+* Completion evidence: 269 repository records render in authoritative HTML and
+  the public JSON download; unsafe non-GitHub origins fail generation.
+* Validation: repository explorer, no-JavaScript rendering, URL-state, default
+  ordering, malformed/empty, schema, and workflow regression tests passed.
+
+### Pipeline Freshness
+
+* Related phase: Phase 3
+* Files: `.github/workflows/crawl-and-publish.yml`,
+  `.github/workflows/generate-data-pages.yml`
+* What changed and why: generate the repository summary from current crawl
+  evidence and require byte-current summary, production snapshot, and joined
+  URL inventory during generated-content freshness checks.
+* Validation: affected pipeline tests passed; Checkov 3.2.533 reported 894
+  passed, zero failed, six skipped; installed Zizmor 1.25.2 reported no
+  medium/high findings. The pinned Zizmor 1.27.0 CI gate remains required.
+
+### Phase 3 Validation Record
+
+| Check | Scope | Status | Evidence or reason |
+|---|---|---|---|
+| pytest | Full repository | Passed | 1,599 passed; two expected warnings |
+| Ruff | Full repository | Passed | Check and format check clean |
+| Hugo | Production render | Passed | 2,707 pages, eight aliases |
+| Pagefind and links | Rendered site | Passed | Index completed; internal links clean |
+| Repository freshness | Summary, snapshot, inventory | Passed | All three checks byte-current |
+| Checkov 3.2.533 | Workflow/security config | Passed | 894 passed, zero failed, six skipped |
+| Zizmor 1.25.2 | Workflows | Passed with version caveat | No medium/high findings; pinned 1.27.0 unavailable locally |
+
+### Phase 3 Pre-Review Reconciliation
+
+* Plan markers and phase details: current.
+* Completed-work evidence and handoff prose: current.
+* Validation, blockers, remaining work, and follow-up items: current.
+* Review readiness: implementation slice is reviewable; Phase 3 as a whole
+  remains blocked at the external evidence and named disposition gate.
+
+### Phase 3 Blocker
+
+URL Inspection, exact-page Search Analytics, sampled backlink, and available
+first-party referral exports are not present in the repository or execution
+environment. Without those sources and named approval, the 264 live repository
+URLs cannot receive defensible keep/merge/redirect/retire dispositions and the
+low-information detail corpus cannot be removed. The clearing action is to
+supply the named exports and approve the resulting per-URL disposition map.
+
 ## CR-06 Harness Repair And Experiment Execution (2026-08-09)
 
 Three cascading build-cost harness defects were repaired through separate

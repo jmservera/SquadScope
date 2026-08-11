@@ -3,6 +3,10 @@
     "alias": 7,
     "canonical": 266,
     "index": 1,
+    "production_http_200": 264,
+    "production_http_404": 10,
+    "production_only": 0,
+    "production_sitemap": 264,
     "total": 274
   },
   "evidence_requirements": [
@@ -16,6 +20,11 @@
     "destination_equivalence"
   ],
   "generated_from": "content/repo/",
+  "production_snapshot": {
+    "captured_at": "2026-08-10",
+    "path": "data/derived/observatory/repository-production-snapshot.json",
+    "site_origin": "https://claracle.com"
+  },
   "records": [
     {
       "approval_status": "pending",
@@ -54,9 +63,9 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
@@ -64,9 +73,13 @@
           "window": ""
         }
       },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
+      },
       "proposed_disposition": "pending",
       "repository_id": null,
-      "source_checksum": "c4192bf1e55ee839195f3ef085a261fa7c3d091c6c42900e043d8995d7da411d",
+      "source_checksum": "5fce030a49cfd47159e436a7f50c26412e278fc72e8fbcd48c9b51b456133c64",
       "source_path": "content/repo/_index.md",
       "url": "/repo/",
       "url_type": "index"
@@ -108,15 +121,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "not_observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 404,
+        "sitemap_status": "not_observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "1c7-chinese-independent-developer",
@@ -162,15 +179,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "2dust-v2rayn",
@@ -216,15 +237,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "2dust-v2rayng",
@@ -270,15 +295,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "not_observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 404,
+        "sitemap_status": "not_observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "3b1b-manim",
@@ -324,15 +353,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "abi-screenshot-to-code",
@@ -378,15 +411,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "addyosmani-agent-skills",
@@ -432,15 +469,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "affaan-m-ecc",
@@ -486,15 +527,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "not_observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 404,
+        "sitemap_status": "not_observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "affaan-m-ecc",
@@ -540,15 +585,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "alacritty-alacritty",
@@ -594,15 +643,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "anduin2017-howtocook",
@@ -648,15 +701,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "angular-angular",
@@ -702,15 +759,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "anomalyco-opencode",
@@ -756,15 +817,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ansible-ansible",
@@ -810,15 +875,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ant-design-ant-design",
@@ -864,15 +933,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "anthropics-claude-code",
@@ -918,15 +991,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "anthropics-skills",
@@ -972,15 +1049,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "apache-echarts",
@@ -1026,15 +1107,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "apache-superset",
@@ -1080,15 +1165,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "appflowy-io-appflowy",
@@ -1134,15 +1223,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "appwrite-appwrite",
@@ -1188,15 +1281,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "not_observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 404,
+        "sitemap_status": "not_observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "asgeirtj-system-prompts-leaks",
@@ -1242,15 +1339,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "astral-sh-uv",
@@ -1296,15 +1397,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "avelino-awesome-go",
@@ -1350,15 +1455,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "awesome-selfhosted-awesome-selfhosted",
@@ -1404,15 +1513,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "awesomedata-awesome-public-datasets",
@@ -1458,15 +1571,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "axios-axios",
@@ -1512,15 +1629,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "base-node",
@@ -1566,15 +1687,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "bitcoin-bitcoin",
@@ -1620,15 +1745,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "browser-use-browser-use",
@@ -1674,15 +1803,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "burntsushi-ripgrep",
@@ -1728,15 +1861,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "bytedance-deer-flow",
@@ -1782,15 +1919,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "caddyserver-caddy",
@@ -1836,15 +1977,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "chalarangelo-30-seconds-of-code",
@@ -1890,15 +2035,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "christitustech-winutil",
@@ -1944,15 +2093,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "clash-verge-rev-clash-verge-rev",
@@ -1998,15 +2151,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "cline-cline",
@@ -2052,15 +2209,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "code-yeongyu-oh-my-openagent",
@@ -2106,15 +2267,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "coder-code-server",
@@ -2160,15 +2325,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "colbymchenry-codegraph",
@@ -2214,15 +2383,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "comfy-org-comfyui",
@@ -2268,15 +2441,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "commaai-openpilot",
@@ -2322,15 +2499,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "coollabsio-coolify",
@@ -2376,15 +2557,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "crewaiinc-crewai",
@@ -2430,15 +2615,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "d4vinci-scrapling",
@@ -2484,15 +2673,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "dani-garcia-vaultwarden",
@@ -2538,15 +2731,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "danielmiessler-seclists",
@@ -2592,15 +2789,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "daytonaio-daytona",
@@ -2646,15 +2847,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "deepfakes-faceswap",
@@ -2700,15 +2905,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "denoland-deno",
@@ -2754,15 +2963,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "dietrichgebert-ponytail",
@@ -2808,15 +3021,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "docling-project-docling",
@@ -2862,15 +3079,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "earendil-works-pi",
@@ -2916,15 +3137,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ebookfoundation-free-programming-books",
@@ -2970,15 +3195,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "egonex-ai-understand-anything",
@@ -3024,15 +3253,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "elastic-elasticsearch",
@@ -3078,15 +3311,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "electron-electron",
@@ -3132,15 +3369,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "eugeny-tabby",
@@ -3186,15 +3427,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "excalidraw-excalidraw",
@@ -3240,15 +3485,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "expressjs-express",
@@ -3294,15 +3543,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "f-prompts-chat",
@@ -3348,15 +3601,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "facebook-docusaurus",
@@ -3402,15 +3659,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "react-react-native",
@@ -3456,15 +3717,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "react-react",
@@ -3510,15 +3775,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "farion1231-cc-switch",
@@ -3564,15 +3833,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "fastapi-fastapi",
@@ -3618,15 +3891,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "fatedier-frp",
@@ -3672,15 +3949,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "fffaraz-awesome-cpp",
@@ -3726,15 +4007,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ffmpeg-ffmpeg",
@@ -3780,15 +4065,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "firecrawl-firecrawl",
@@ -3834,15 +4123,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "fission-ai-openspec",
@@ -3888,15 +4181,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "flowiseai-flowise",
@@ -3942,15 +4239,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "flutter-flutter",
@@ -3996,15 +4297,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "freecodecamp-freecodecamp",
@@ -4050,15 +4355,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "fuellabs-fuel-core",
@@ -4104,15 +4413,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "fuellabs-sway",
@@ -4158,15 +4471,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "garrytan-gstack",
@@ -4212,15 +4529,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "gatsbyjs-gatsby",
@@ -4266,15 +4587,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "genymobile-scrcpy",
@@ -4320,15 +4645,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ggml-org-llama-cpp",
@@ -4374,15 +4703,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ghostty-org-ghostty",
@@ -4428,15 +4761,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "gin-gonic-gin",
@@ -4482,15 +4819,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "git-git",
@@ -4536,15 +4877,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "github-spec-kit",
@@ -4590,15 +4935,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "go-gitea-gitea",
@@ -4644,15 +4993,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "godotengine-godot",
@@ -4698,15 +5051,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "gohugoio-hugo",
@@ -4752,15 +5109,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "golang-go",
@@ -4806,15 +5167,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "google-gemini-gemini-cli",
@@ -4860,15 +5225,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "gorhill-ublock",
@@ -4914,15 +5283,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "grafana-grafana",
@@ -4968,15 +5341,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "graphify-labs-graphify",
@@ -5022,15 +5399,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "hacksider-deep-live-cam",
@@ -5076,15 +5457,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "harry0703-moneyprinterturbo",
@@ -5130,15 +5515,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "headroomlabs-ai-headroom",
@@ -5184,15 +5573,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "hiyouga-llamafactory",
@@ -5238,15 +5631,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "home-assistant-core",
@@ -5292,15 +5689,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "hoppscotch-hoppscotch",
@@ -5346,15 +5747,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "huggingface-transformers",
@@ -5400,15 +5805,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "iluwatar-java-design-patterns",
@@ -5454,15 +5863,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "immich-app-immich",
@@ -5508,15 +5921,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "infiniflow-ragflow",
@@ -5562,15 +5979,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "iptv-org-iptv",
@@ -5616,15 +6037,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "jaywcjlove-awesome-mac",
@@ -5670,15 +6095,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "jesseduffield-lazygit",
@@ -5724,15 +6153,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "jgraph-drawio-desktop",
@@ -5778,15 +6211,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "josephmisiti-awesome-machine-learning",
@@ -5832,15 +6269,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "jquery-jquery",
@@ -5886,15 +6327,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "juliusbrussee-caveman",
@@ -5940,15 +6385,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "junegunn-fzf",
@@ -5994,15 +6443,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "keras-team-keras",
@@ -6048,15 +6501,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "koala73-worldmonitor",
@@ -6102,15 +6559,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "kubernetes-kubernetes",
@@ -6156,15 +6617,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ladybirdbrowser-ladybird",
@@ -6210,15 +6675,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "langchain-ai-langchain",
@@ -6264,15 +6733,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "langflow-ai-langflow",
@@ -6318,15 +6791,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "langgenius-dify",
@@ -6372,15 +6849,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "laravel-laravel",
@@ -6426,15 +6907,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "laurent22-joplin",
@@ -6480,15 +6965,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "leonxlnx-taste-skill",
@@ -6534,15 +7023,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "lobehub-lobehub",
@@ -6588,15 +7081,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "localsend-localsend",
@@ -6642,15 +7139,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "louislam-uptime-kuma",
@@ -6696,15 +7197,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "not_observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 404,
+        "sitemap_status": "not_observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "egonex-ai-understand-anything",
@@ -6750,15 +7255,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "marktext-marktext",
@@ -6804,15 +7313,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "mattpocock-skills",
@@ -6858,15 +7371,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "meilisearch-meilisearch",
@@ -6912,15 +7429,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "mem0ai-mem0",
@@ -6966,15 +7487,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "mempalace-mempalace",
@@ -7020,15 +7545,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "mermaid-js-mermaid",
@@ -7074,15 +7603,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "microsoft-ai-agents-for-beginners",
@@ -7128,15 +7661,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "microsoft-generative-ai-for-beginners",
@@ -7182,15 +7719,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "microsoft-markitdown",
@@ -7236,15 +7777,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "microsoft-ml-for-beginners",
@@ -7290,15 +7835,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "microsoft-playwright",
@@ -7344,15 +7893,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "microsoft-powertoys",
@@ -7398,15 +7951,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "microsoft-terminal",
@@ -7452,15 +8009,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "microsoft-typescript",
@@ -7506,15 +8067,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "microsoft-vscode",
@@ -7560,15 +8125,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "mintplex-labs-anything-llm",
@@ -7614,15 +8183,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "moby-moby",
@@ -7668,15 +8241,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "modelcontextprotocol-servers",
@@ -7722,15 +8299,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "mrdoob-three-js",
@@ -7776,15 +8357,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "msitarzewski-agency-agents",
@@ -7830,15 +8415,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "mui-material-ui",
@@ -7884,15 +8473,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "n8n-io-n8n",
@@ -7938,15 +8531,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "not_observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 404,
+        "sitemap_status": "not_observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "nanmicoder-mediacrawler",
@@ -7992,15 +8589,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "nationalsecurityagency-ghidra",
@@ -8046,15 +8647,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "nektos-act",
@@ -8100,15 +8705,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "neovim-neovim",
@@ -8154,15 +8763,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "nestjs-nest",
@@ -8208,15 +8821,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "netdata-netdata",
@@ -8262,15 +8879,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "nextlevelbuilder-ui-ux-pro-max-skill",
@@ -8316,15 +8937,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "nexu-io-open-design",
@@ -8370,15 +8995,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ngosang-trackerslist",
@@ -8424,15 +9053,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "nilbuild-developer-roadmap",
@@ -8478,15 +9111,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "nocodb-nocodb",
@@ -8532,15 +9169,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "nodejs-node",
@@ -8586,15 +9227,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "nousresearch-hermes-agent",
@@ -8640,15 +9285,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "nuxt-nuxt",
@@ -8694,15 +9343,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "nvm-sh-nvm",
@@ -8748,15 +9401,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "obra-superpowers",
@@ -8802,15 +9459,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "obsproject-obs-studio",
@@ -8856,15 +9517,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ocornut-imgui",
@@ -8910,15 +9575,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "not_observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 404,
+        "sitemap_status": "not_observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "odysseus-dev-odysseus",
@@ -8964,15 +9633,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ohmyzsh-ohmyzsh",
@@ -9018,15 +9691,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ollama-ollama",
@@ -9072,15 +9749,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "open-webui-open-webui",
@@ -9126,15 +9807,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "openai-codex",
@@ -9180,15 +9865,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "openbb-finance-openbb",
@@ -9234,15 +9923,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "openclaw-openclaw",
@@ -9288,15 +9981,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "opencut-app-opencut",
@@ -9342,15 +10039,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "opencv-opencv",
@@ -9396,15 +10097,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "opendatalab-mineru",
@@ -9450,15 +10155,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "openhands-openhands",
@@ -9504,15 +10213,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "not_observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 404,
+        "sitemap_status": "not_observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "openinterpreter-openinterpreter",
@@ -9558,15 +10271,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "openinterpreter-openinterpreter",
@@ -9612,15 +10329,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "oven-sh-bun",
@@ -9666,15 +10387,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "paddlepaddle-paddleocr",
@@ -9720,15 +10445,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "not_observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 404,
+        "sitemap_status": "not_observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "pallets-flask",
@@ -9774,15 +10503,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "paperclipai-paperclip",
@@ -9828,15 +10561,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "pathwaycom-pathway",
@@ -9882,15 +10619,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "odysseus-dev-odysseus",
@@ -9936,15 +10677,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "pi-hole-pi-hole",
@@ -9990,15 +10735,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "pmndrs-zustand",
@@ -10044,15 +10793,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "pocketbase-pocketbase",
@@ -10098,15 +10851,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "powershell-powershell",
@@ -10152,15 +10909,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "prometheus-prometheus",
@@ -10206,15 +10967,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "protocolbuffers-protobuf",
@@ -10260,15 +11025,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "psf-requests",
@@ -10314,15 +11083,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "public-apis-public-apis",
@@ -10368,15 +11141,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "punkpeye-awesome-mcp-servers",
@@ -10422,15 +11199,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "puppeteer-puppeteer",
@@ -10476,15 +11257,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "python-cpython",
@@ -10530,15 +11315,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "pytorch-pytorch",
@@ -10584,15 +11373,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "rails-rails",
@@ -10638,15 +11431,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "rclone-rclone",
@@ -10692,15 +11489,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "react-react-native",
@@ -10746,15 +11547,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "react-react",
@@ -10800,15 +11605,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "redis-redis",
@@ -10854,15 +11663,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "reduxjs-redux",
@@ -10908,15 +11721,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "remix-run-react-router",
@@ -10962,15 +11779,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ripienaar-free-for-dev",
@@ -11016,15 +11837,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "rtk-ai-rtk",
@@ -11070,15 +11895,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ruanyf-weekly",
@@ -11124,15 +11953,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "rust-lang-rust",
@@ -11178,15 +12011,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "rust-unofficial-awesome-rust",
@@ -11232,15 +12069,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "rustdesk-rustdesk",
@@ -11286,15 +12127,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ruvnet-ruflo",
@@ -11340,15 +12185,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ruvnet-ruview",
@@ -11394,15 +12243,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "graphify-labs-graphify",
@@ -11448,15 +12301,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "santifer-career-ops",
@@ -11502,15 +12359,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "scikit-learn-scikit-learn",
@@ -11556,15 +12417,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "scrapy-scrapy",
@@ -11610,15 +12475,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "shadcn-ui-ui",
@@ -11664,15 +12533,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "sharkdp-bat",
@@ -11718,15 +12591,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "sherlock-project-sherlock",
@@ -11772,15 +12649,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "shubhamsaboo-awesome-llm-apps",
@@ -11826,15 +12707,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "significant-gravitas-autogpt",
@@ -11880,15 +12765,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "snailclimb-javaguide",
@@ -11934,15 +12823,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "socketio-socket-io",
@@ -11988,15 +12881,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "spring-projects-spring-boot",
@@ -12042,15 +12939,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "spring-projects-spring-framework",
@@ -12096,15 +12997,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "starship-starship",
@@ -12150,15 +13055,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "stirling-tools-stirling-pdf",
@@ -12204,15 +13113,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "strapi-strapi",
@@ -12258,15 +13171,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "swiftlang-swift",
@@ -12312,15 +13229,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "swisskyrepo-payloadsallthethings",
@@ -12366,15 +13287,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "syncthing-syncthing",
@@ -12420,15 +13345,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "tailwindlabs-tailwindcss",
@@ -12474,15 +13403,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "tauri-apps-tauri",
@@ -12528,15 +13461,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "tauricresearch-tradingagents",
@@ -12582,15 +13519,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "tensorflow-tensorflow",
@@ -12636,15 +13577,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "termux-termux-app",
@@ -12690,15 +13635,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "tesseract-ocr-tesseract",
@@ -12744,15 +13693,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "thealgorithms-java",
@@ -12798,15 +13751,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "thealgorithms-python",
@@ -12852,15 +13809,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "thedotmack-claude-mem",
@@ -12906,15 +13867,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "toeverything-affine",
@@ -12960,15 +13925,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "not_observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 404,
+        "sitemap_status": "not_observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "topjohnwu-magisk",
@@ -13014,15 +13983,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "torvalds-linux",
@@ -13068,15 +14041,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "traefik-traefik",
@@ -13122,15 +14099,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "trekhleb-javascript-algorithms",
@@ -13176,15 +14157,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "tryghost-ghost",
@@ -13230,15 +14215,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "tw93-mole",
@@ -13284,15 +14273,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "tw93-pake",
@@ -13338,15 +14331,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "twbs-bootstrap",
@@ -13392,15 +14389,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "typst-typst",
@@ -13446,15 +14447,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ultralytics-ultralytics",
@@ -13500,15 +14505,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ultralytics-yolov5",
@@ -13554,15 +14563,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "ultraworkers-claw-code",
@@ -13608,15 +14621,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "unclecode-crawl4ai",
@@ -13662,15 +14679,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "unionlabs-union",
@@ -13716,15 +14737,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "unslothai-unsloth",
@@ -13770,15 +14795,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "upstash-context7",
@@ -13824,15 +14853,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "usememos-memos",
@@ -13878,15 +14911,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "vercel-next-js",
@@ -13932,15 +14969,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "vinta-awesome-python",
@@ -13986,15 +15027,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "virattt-ai-hedge-fund",
@@ -14040,15 +15085,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "vitejs-vite",
@@ -14094,15 +15143,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "vllm-project-vllm",
@@ -14148,15 +15201,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "voltagent-awesome-design-md",
@@ -14202,15 +15259,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "vuejs-awesome-vue",
@@ -14256,15 +15317,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "vuejs-core",
@@ -14310,15 +15375,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "warpdotdev-warp",
@@ -14364,15 +15433,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "webpack-webpack",
@@ -14418,15 +15491,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "werwolv-imhex",
@@ -14472,15 +15549,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "withastro-astro",
@@ -14526,15 +15607,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "x1xhlol-system-prompts-and-models-of-ai-tools",
@@ -14580,15 +15665,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "xtekky-gpt4free",
@@ -14634,15 +15723,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "yt-dlp-yt-dlp",
@@ -14688,15 +15781,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "zed-industries-zed",
@@ -14742,15 +15839,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "zhulinsen-daily-stock-analysis",
@@ -14796,15 +15897,19 @@
           "window": ""
         },
         "sitemap": {
-          "source": "",
-          "status": "not_collected",
-          "window": ""
+          "source": "https://claracle.com/sitemap.xml",
+          "status": "observed",
+          "window": "2026-08-10"
         },
         "url_inspection": {
           "source": "",
           "status": "not_collected",
           "window": ""
         }
+      },
+      "production": {
+        "http_status": 200,
+        "sitemap_status": "observed"
       },
       "proposed_disposition": "pending",
       "repository_id": "zylon-ai-private-gpt",

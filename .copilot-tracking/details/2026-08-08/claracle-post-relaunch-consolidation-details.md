@@ -131,6 +131,55 @@ record; all routed automated and named reviews are retained.
 
 ## Phase 3 Details: Repository Inventory And Migration Candidate
 
+### Current Implementation State (2026-08-10)
+
+* Declared scope is Phase 3 only.
+* The approved write boundary includes the URL inventory and evidence snapshot,
+  BR-003 repository artifact generator, `/repo/` Hugo template, scoped
+  enhancement JavaScript and CSS, navigation, generated repository data, tests,
+  and these current RPI records.
+* Live production evidence currently reconciles 264 `/repo/` sitemap URLs
+  against 274 local URL forms. Ten local URLs are absent from the sitemap.
+* Exact GSC URL Inspection and Search Analytics exports, sampled backlink
+  exports, and first-party referral exports are unavailable. Their state remains
+  unknown; no per-URL zero-demand or no-link conclusion is authorized.
+* First execution boundary: create a deterministic evidence snapshot and
+  versioned repository summary, then render the authoritative no-JavaScript
+  explorer before deciding whether the removal gate has sufficient evidence.
+
+### Phase 3 Implementation Result (2026-08-11)
+
+* Production reconciliation is complete: 274 local URL forms, 264 sitemap and
+  HTTP-200 URLs, 10 direct HTTP 404 URLs, and zero production-only URLs.
+* The deterministic BR-003 artifact is generated from the crawl corpus even
+  while `repo_pages.enabled` remains false. It contains 269 current records,
+  validates GitHub origins, retains provenance, and defaults to recent momentum.
+* `/repo/` renders the complete server-side evidence index with direct GitHub
+  links and a public download. JavaScript adds search, topic, language, status,
+  period, sort, reset, URL persistence, browser history, and empty-result
+  guidance; without JavaScript the full momentum-sorted index remains useful.
+* Inventory aliases have isolated evidence objects. The schema requires every
+  evidence field, approved status for non-pending dispositions, and collected,
+  non-ambiguous evidence with named sources and windows before redirect or
+  retirement can validate.
+* Snapshot capture fails closed on unavailable HTTP evidence. Pipeline freshness
+  checks validate the repository artifact, retained production snapshot, and
+  joined URL inventory.
+* External evidence remains unavailable. All 274 dispositions and approvals are
+  pending; no details were deleted and no redirect was generated.
+
+### Phase 3 Validation Result
+
+* `pytest tests/`: 1,599 passed, two expected warnings.
+* `ruff check .` and `ruff format --check .`: passed.
+* Hugo: 2,707 pages and eight aliases built.
+* Pagefind 1.5.2: completed; rendered internal-link check passed.
+* Repository summary, production snapshot, and URL inventory checks: passed.
+* Checkov 3.2.533: 894 passed, zero failed, six skipped.
+* Installed Zizmor 1.25.2: no medium/high findings. The repository-pinned
+  1.27.0 binary was unavailable locally, so the pinned-version CI gate remains
+  authoritative for the workflow diff.
+
 ### Steps And File Operations
 
 1. Produce one versioned URL inventory joining source records, generated pages,

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 from pathlib import Path
@@ -11,6 +12,7 @@ from typing import Any
 import yaml
 
 SCHEMA_VERSION = "1.0.0"
+PRODUCTION_SNAPSHOT = Path("data/derived/observatory/repository-production-snapshot.json")
 EVIDENCE_REQUIREMENTS = (
     "url_inspection",
     "search_analytics",
@@ -67,9 +69,10 @@ def canonical_record(root: Path, page: Path) -> tuple[dict[str, Any], list[dict[
     }
     aliases = []
     for alias in params.get("aliases", []):
+        alias_record = copy.deepcopy(record)
         aliases.append(
             {
-                **record,
+                **alias_record,
                 "url": normalized_url(str(alias)),
                 "url_type": "alias",
                 "canonical_url": canonical_url,
@@ -77,6 +80,16 @@ def canonical_record(root: Path, page: Path) -> tuple[dict[str, Any], list[dict[
             }
         )
     return record, aliases
+
+
+def load_production_snapshot(root: Path) -> dict[str, Any] | None:
+    path = root / PRODUCTION_SNAPSHOT
+    if not path.exists():
+        return None
+    loaded = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(loaded, dict):
+        raise ValueError(f"Invalid production snapshot: {path}")
+    return loaded
 
 
 def build_inventory(root: Path) -> dict[str, Any]:
@@ -113,9 +126,42 @@ def build_inventory(root: Path) -> dict[str, Any]:
         "alias": sum(item["url_type"] == "alias" for item in records),
         "total": len(records),
     }
+    snapshot = load_production_snapshot(root)
+    production_by_url = {record["url"]: record for record in (snapshot or {}).get("records", [])}
+    for record in records:
+        production = production_by_url.get(record["url"])
+        if production:
+            record["production"] = {
+                "sitemap_status": "observed" if production["in_sitemap"] else "not_observed",
+                "http_status": production["http_status"],
+            }
+            record["evidence"]["sitemap"] = {
+                "status": "observed" if production["in_sitemap"] else "not_observed",
+                "source": (snapshot or {}).get("sources", {}).get("sitemap", ""),
+                "window": (snapshot or {}).get("captured_at", ""),
+            }
+        else:
+            record["production"] = {
+                "sitemap_status": "not_collected",
+                "http_status": None,
+            }
+    production_counts = (snapshot or {}).get("counts", {})
+    counts.update(
+        {
+            "production_sitemap": production_counts.get("sitemap_urls"),
+            "production_http_200": production_counts.get("http_200"),
+            "production_http_404": production_counts.get("http_404"),
+            "production_only": production_counts.get("production_only"),
+        }
+    )
     return {
         "schema_version": SCHEMA_VERSION,
         "generated_from": "content/repo/",
+        "production_snapshot": {
+            "path": PRODUCTION_SNAPSHOT.as_posix(),
+            "captured_at": (snapshot or {}).get("captured_at", ""),
+            "site_origin": (snapshot or {}).get("site_origin", ""),
+        },
         "evidence_requirements": list(EVIDENCE_REQUIREMENTS),
         "counts": counts,
         "records": records,

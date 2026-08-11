@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 import pytest
+from jsonschema import Draft202012Validator, ValidationError
 
 from scripts import generate_repository_url_inventory as inventory
 
@@ -29,7 +30,16 @@ def test_build_inventory_includes_index_canonicals_and_aliases(tmp_path: Path) -
 
     payload = inventory.build_inventory(tmp_path)
 
-    assert payload["counts"] == {"index": 1, "canonical": 2, "alias": 1, "total": 4}
+    assert payload["counts"] == {
+        "index": 1,
+        "canonical": 2,
+        "alias": 1,
+        "total": 4,
+        "production_sitemap": None,
+        "production_http_200": None,
+        "production_http_404": None,
+        "production_only": None,
+    }
     assert [record["url"] for record in payload["records"]] == [
         "/repo/",
         "/repo/alpha-old/",
@@ -39,6 +49,10 @@ def test_build_inventory_includes_index_canonicals_and_aliases(tmp_path: Path) -
     alias = next(record for record in payload["records"] if record["url_type"] == "alias")
     assert alias["canonical_url"] == "/repo/alpha/"
     assert alias["proposed_disposition"] == "pending"
+    assert alias["production"] == {
+        "sitemap_status": "not_collected",
+        "http_status": None,
+    }
     assert set(alias["evidence"]) == set(inventory.EVIDENCE_REQUIREMENTS)
     assert all(item["status"] == "not_collected" for item in alias["evidence"].values())
 
@@ -72,3 +86,105 @@ def test_rendered_inventory_is_deterministic(tmp_path: Path) -> None:
 
     assert first == second
     assert json.loads(first)["counts"]["total"] == 3
+
+
+def test_build_inventory_joins_production_snapshot(tmp_path: Path) -> None:
+    _write_page(tmp_path / "content/repo/_index.md")
+    _write_page(tmp_path / "content/repo/alpha/index.md")
+    snapshot_path = tmp_path / inventory.PRODUCTION_SNAPSHOT
+    snapshot_path.parent.mkdir(parents=True, exist_ok=True)
+    snapshot_path.write_text(
+        json.dumps(
+            {
+                "captured_at": "2026-08-10",
+                "site_origin": "https://claracle.com",
+                "sources": {"sitemap": "https://claracle.com/sitemap.xml"},
+                "counts": {
+                    "sitemap_urls": 1,
+                    "http_200": 1,
+                    "http_404": 1,
+                    "production_only": 0,
+                },
+                "records": [
+                    {
+                        "url": "/repo/",
+                        "in_sitemap": True,
+                        "http_status": 200,
+                    },
+                    {
+                        "url": "/repo/alpha/",
+                        "in_sitemap": False,
+                        "http_status": 404,
+                    },
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    payload = inventory.build_inventory(tmp_path)
+
+    alpha = next(record for record in payload["records"] if record["url"] == "/repo/alpha/")
+    assert alpha["production"] == {
+        "sitemap_status": "not_observed",
+        "http_status": 404,
+    }
+    assert alpha["evidence"]["sitemap"] == {
+        "status": "not_observed",
+        "source": "https://claracle.com/sitemap.xml",
+        "window": "2026-08-10",
+    }
+
+
+def test_alias_and_canonical_evidence_are_isolated(tmp_path: Path) -> None:
+    _write_page(tmp_path / "content/repo/_index.md")
+    _write_page(
+        tmp_path / "content/repo/alpha/index.md",
+        aliases=["/repo/alpha-old/"],
+    )
+    snapshot_path = tmp_path / inventory.PRODUCTION_SNAPSHOT
+    snapshot_path.parent.mkdir(parents=True, exist_ok=True)
+    snapshot_path.write_text(
+        json.dumps(
+            {
+                "captured_at": "2026-08-10",
+                "site_origin": "https://claracle.com",
+                "sources": {"sitemap": "https://claracle.com/sitemap.xml"},
+                "counts": {
+                    "sitemap_urls": 2,
+                    "http_200": 2,
+                    "http_404": 1,
+                    "production_only": 0,
+                },
+                "records": [
+                    {"url": "/repo/", "in_sitemap": True, "http_status": 200},
+                    {"url": "/repo/alpha/", "in_sitemap": True, "http_status": 200},
+                    {"url": "/repo/alpha-old/", "in_sitemap": False, "http_status": 404},
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    records = inventory.build_inventory(tmp_path)["records"]
+    canonical = next(record for record in records if record["url"] == "/repo/alpha/")
+    alias = next(record for record in records if record["url"] == "/repo/alpha-old/")
+
+    assert canonical["evidence"]["sitemap"]["status"] == "observed"
+    assert alias["evidence"]["sitemap"]["status"] == "not_observed"
+
+
+def test_schema_blocks_retirement_without_collected_evidence(tmp_path: Path) -> None:
+    _write_page(tmp_path / "content/repo/_index.md")
+    payload = inventory.build_inventory(tmp_path)
+    payload["records"][0]["proposed_disposition"] = "retire"
+    payload["records"][0]["approval_status"] = "approved"
+    schema = json.loads(
+        (
+            Path(__file__).resolve().parents[1]
+            / "data/schemas/repository-url-inventory.schema.json"
+        ).read_text(encoding="utf-8")
+    )
+
+    with pytest.raises(ValidationError):
+        Draft202012Validator(schema).validate(payload)

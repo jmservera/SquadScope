@@ -1,12 +1,7 @@
 ---
 title: Repository Observatory
-description: Evergreen Claracle pages for recurring GitHub repositories tracked across weekly issues.
-generated_by: observatory_repo_pages
-repo_pages_generated: 266
-recurrence_threshold:
-  operator: '>'
-  distinct_weekly_issues: 3
-  minimum_weeks: 4
+description: A searchable evidence index of recurring GitHub repositories observed across Claracle reports.
+generated_by: repository_summary
 ---
 
-Claracle generates repository pages only after a project appears in more than three distinct weekly issues.
+The index consolidates recurring repository evidence into one crawlable page with direct GitHub links, transparent observation periods, and a downloadable versioned dataset.

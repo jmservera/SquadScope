@@ -1,18 +1,135 @@
 {{- define "main" }}
-<article class="repo-list page" data-pagefind-body>
+{{- $artifact := site.Data.observatory.repository_summary -}}
+{{- $records := $artifact.records | default slice -}}
+{{- $latestPeriod := "" -}}
+{{- $observedPeriods := slice -}}
+{{- range $records -}}
+  {{- if gt .last_seen_period $latestPeriod }}{{ $latestPeriod = .last_seen_period }}{{ end -}}
+  {{- $observedPeriods = $observedPeriods | append .last_seen_period -}}
+{{- end -}}
+{{- $recentPeriods := first 4 (sort (uniq $observedPeriods) "value" "desc") -}}
+{{- $languages := slice -}}
+{{- $topics := slice -}}
+{{- range $records -}}
+  {{- with .language }}{{ $languages = $languages | append . }}{{ end -}}
+  {{- range .topics }}{{ $topics = $topics | append . }}{{ end -}}
+{{- end -}}
+{{- $languages = uniq (sort $languages) -}}
+{{- $topics = uniq (sort $topics) -}}
+<article
+  class="repo-list page repository-explorer"
+  data-pagefind-body
+  data-repository-explorer
+  data-latest-period="{{ $latestPeriod }}"
+>
   {{ partial "breadcrumbs.html" . }}
   <header class="page-header">
     <h1>{{ .Title }}</h1>
     {{ with .Description }}<p>{{ . }}</p>{{ end }}
-    <p>Generated pages: {{ .Params.repo_pages_generated }}. Threshold: more than {{ .Params.recurrence_threshold.distinct_weekly_issues }} distinct weekly issues.</p>
   </header>
+
+  <section class="repository-explorer__thesis" aria-labelledby="repository-index-heading">
+    <div class="section-topline">Evidence index · {{ $artifact.covered_period.label }}</div>
+    <h2 id="repository-index-heading">Follow the repositories that keep returning</h2>
+    <p>Search Claracle&rsquo;s recurring GitHub evidence by language, topic, lifecycle, and observation period. Every result links directly to the source repository; the index remains complete and useful without JavaScript.</p>
+    <p><a href="/data/repositories.json" download>Download the versioned repository dataset</a> · <a href="{{ $artifact.provenance.methodology_url }}">Read the methodology</a></p>
+  </section>
+
+  <div class="repository-explorer__controls" aria-label="Repository filters">
+    <label>
+      Search
+      <input type="search" data-repo-search placeholder="Repository or summary">
+    </label>
+    <label>
+      Language
+      <select data-repo-language>
+        <option value="">All languages</option>
+        {{- range $languages }}<option value="{{ . }}">{{ . }}</option>{{ end }}
+      </select>
+    </label>
+    <label>
+      Topic
+      <select data-repo-topic>
+        <option value="">All topics</option>
+        {{- range $topics }}<option value="{{ . }}">{{ . }}</option>{{ end }}
+      </select>
+    </label>
+    <label>
+      Status
+      <select data-repo-status>
+        <option value="">All statuses</option>
+        <option value="active">Active</option>
+        <option value="archived">Archived</option>
+        <option value="disabled">Disabled</option>
+        <option value="deleted">Deleted</option>
+        <option value="renamed">Renamed</option>
+        <option value="retained">Retained</option>
+      </select>
+    </label>
+    <label>
+      Observation period
+      <select data-repo-period>
+        <option value="all">All history</option>
+        <option value="current">Seen in {{ $latestPeriod }}</option>
+        <option value="recent">Seen in the latest four weeks</option>
+      </select>
+    </label>
+    <label>
+      Sort
+      <select data-repo-sort>
+        <option value="momentum">Recent momentum</option>
+        <option value="stars">Latest stars</option>
+        <option value="appearances">Weekly appearances</option>
+        <option value="name">Repository name</option>
+      </select>
+    </label>
+    <button class="repository-explorer__reset" type="button" data-repo-reset>Reset filters</button>
+  </div>
+  <noscript>
+    <style>.repository-explorer__controls { display: none; }</style>
+    <p class="repository-explorer__status">Filters require JavaScript. The complete index remains available below, sorted by recent momentum.</p>
+  </noscript>
+
+  <p class="repository-explorer__status" data-repo-result-status aria-live="polite">Showing all {{ len $records }} repositories.</p>
+
   <div class="post-content">
     {{ .Content }}
-    <ul>
-      {{- range .Pages.ByTitle }}
-      <li><a href="{{ .RelPermalink }}">{{ .Params.repo_full_name }}</a> — {{ .Params.distinct_weekly_issues }} weekly appearances</li>
+    <ol class="repository-index" data-repo-results>
+      {{- range $records }}
+      {{- $latest := cond (gt (len .star_history) 0) (index .star_history (sub (len .star_history) 1)) (dict "stars" 0) -}}
+      <li
+        class="repository-index__record"
+        data-repo-record
+        data-name="{{ lower .full_name }}"
+        data-search="{{ lower (printf "%s %s %s" .full_name .context_summary (delimit .topics " ")) }}"
+        data-language="{{ lower (.language | default "") }}"
+        data-topics="{{ lower (delimit .topics "|") }}"
+        data-status="{{ .status }}"
+        data-last-period="{{ .last_seen_period }}"
+        data-recent="{{ if in $recentPeriods .last_seen_period }}true{{ else }}false{{ end }}"
+        data-momentum="{{ .recent_momentum | default 0 }}"
+        data-stars="{{ $latest.stars | default 0 }}"
+        data-appearances="{{ len .star_history }}"
+      >
+        <div>
+          <h3 class="repository-index__heading"><a href="{{ .github_url }}" rel="noopener">{{ .full_name }}</a></h3>
+          <p class="repository-index__summary">{{ .context_summary }}</p>
+          <p class="repository-index__evidence">
+            <span>{{ .language | default "Language unavailable" }}</span>
+            <span>{{ .status }}</span>
+            <span>{{ .first_seen_period }}–{{ .last_seen_period }}</span>
+            <span>{{ len .star_history }} weekly observations</span>
+          </p>
+        </div>
+        <div class="repository-index__signal" aria-label="{{ .recent_momentum | default 0 }} stars of recent observed momentum">
+          <strong>{{ if ge (.recent_momentum | default 0) 0 }}+{{ end }}{{ lang.FormatNumber 0 (.recent_momentum | default 0) }}</strong>
+          <span>4-week signal</span>
+        </div>
+      </li>
       {{- end }}
-    </ul>
+    </ol>
   </div>
+  {{- $script := resources.Get "js/repository-explorer.js" | js.Build | resources.Minify | fingerprint }}
+  <script defer src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}"></script>
 </article>
 {{- end }}

@@ -85,6 +85,12 @@ rssLimit = 52
     weight = 35
 
   [[menu.main]]
+    identifier = 'repositories'
+    name = 'Repositories'
+    url = '/repo/'
+    weight = 34
+
+  [[menu.main]]
     identifier = 'tools'
     name = 'Tools'
     url = '/tools/star-velocity-explorer/'
@@ -133,6 +139,9 @@ ignoreFiles = ['data/analyzed/.*\\.md$', 'data/metrics/.*\\.md$', 'data/metrics/
   [[module.mounts]]
     source = 'data/taxonomy'
     target = 'data/taxonomy'
+  [[module.mounts]]
+    source = 'data/observatory'
+    target = 'data/observatory'
   [[module.mounts]]
     source = 'content'
     target = 'content'
