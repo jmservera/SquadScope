@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://claracle.com/schemas/repository-disposition-candidate.schema.json",
+  "title": "Claracle Repository Disposition Candidate",
+  "type": "object",
+  "required": ["schema_version", "reviewed_at", "reviewer", "approval_authority", "approval_status", "inputs", "inventory_url_set_sha256", "counts", "records"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "reviewed_at": { "type": "string", "format": "date" },
+    "reviewer": { "const": "SquadScope automated evidence review" },
+    "approval_authority": { "const": "jmservera" },
+    "approval_status": { "const": "pending" },
+    "inputs": {
+      "type": "object",
+      "required": [
+        "data/derived/observatory/repository-production-snapshot.json",
+        "data/derived/observatory/repository-external-evidence.json",
+        "data/derived/observatory/repository-url-inspection.json",
+        "inventory_evidence_sha256"
+      ],
+      "properties": {
+        "inventory_evidence_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      },
+      "additionalProperties": false,
+      "patternProperties": {
+        "^data/derived/observatory/": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "inventory_url_set_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "counts": {
+      "type": "object",
+      "required": ["total", "keep", "redirect", "retire", "pending_approval"],
+      "properties": {
+        "total": { "type": "integer", "minimum": 1 },
+        "keep": { "type": "integer", "minimum": 1 },
+        "redirect": { "type": "integer", "minimum": 0 },
+        "retire": { "type": "integer", "minimum": 0 },
+        "pending_approval": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["url", "url_type", "canonical_url", "candidate_disposition", "destination_candidate", "destination_equivalence", "differentiated_content", "internal_link_count", "inspection_verdict", "coverage_state", "search_impressions", "sampled_inbound_link", "referral_sessions", "approval_status", "rationale"],
+        "properties": {
+          "url": { "type": "string", "pattern": "^/repo(?:/[a-z0-9-]+)?/$" },
+          "url_type": { "enum": ["index", "canonical", "alias"] },
+          "canonical_url": { "type": "string", "pattern": "^/repo(?:/[a-z0-9-]+)?/$" },
+          "candidate_disposition": { "enum": ["keep", "redirect", "retire"] },
+          "destination_candidate": { "type": "string" },
+          "destination_equivalence": { "enum": ["not_applicable", "equivalent", "none"] },
+          "differentiated_content": { "type": "boolean" },
+          "internal_link_count": { "type": "integer", "minimum": 0 },
+          "inspection_verdict": { "enum": ["PASS", "NEUTRAL"] },
+          "coverage_state": { "type": "string", "minLength": 1 },
+          "search_impressions": { "type": ["integer", "null"], "minimum": 0 },
+          "sampled_inbound_link": { "type": ["boolean", "null"] },
+          "referral_sessions": { "type": ["integer", "null"], "minimum": 0 },
+          "approval_status": { "const": "pending" },
+          "rationale": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

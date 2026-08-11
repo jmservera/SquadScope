@@ -254,6 +254,38 @@ the resulting per-URL disposition map.
   around authenticated transient retries. A focused regression test now covers
   bearer-header construction, timeout retry, and successful recovery.
 
+### Repository Disposition Candidate (2026-08-11)
+
+* Related phase: Phase 3
+* Files: `scripts/generate_repository_disposition_candidate.py`,
+  `data/derived/observatory/repository-disposition-candidate.json`,
+  `scripts/generate_repository_url_inventory.py`,
+  `data/derived/observatory/repository-url-inventory.json`,
+  `data/schemas/repository-url-inventory.schema.json`
+* What changed and why: captured 8,024 current rendered internal links, reviewed
+  repository-specific trend differentiation, joined all external evidence, and
+  produced a complete 274-row candidate without forging sponsor approval.
+* Candidate result: 11 keeps, one redirect, and 262 retirements. Nine canonical
+  detail URLs have observed demand; the consolidated explorer is retained; and
+  the currently absent Odysseus canonical is retained as the equivalent target
+  for its indexed, impression-bearing legacy alias.
+* Hosting result: the one exceptional redirect makes redirect-capable hosting
+  necessary if the exact candidate is approved. GitHub Pages cannot emit the
+  required one-hop hosting-layer 301/308.
+* Approval boundary: every candidate row remains pending under the named
+  `jmservera` approval authority. No source page, sitemap entry, internal link,
+  hosting configuration, or production URL was changed.
+* Validation: full Ruff check and format check passed; inspection, candidate,
+  and inventory freshness passed; 1,612 tests passed with two expected warnings;
+  Checkov 3.2.533 reported 894 passed, zero failed, and six skipped; installed
+  Zizmor 1.25.2 reported no medium/high findings, with pinned 1.27.0 remaining
+  authoritative in CI.
+* Review correction: Squad blocked indexation being treated as demand and weak
+  candidate freshness. The final policy uses impressions, sampled links, or
+  referrals as value signals; indexation remains context only. A strict schema,
+  per-row invariants, exact rationale and redirect checks, and SHA-256 bindings
+  to production, external-export, and URL Inspection evidence now fail closed.
+
 ## CR-06 Harness Repair And Experiment Execution (2026-08-09)
 
 Three cascading build-cost harness defects were repaired through separate

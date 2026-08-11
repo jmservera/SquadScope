@@ -172,12 +172,19 @@ record; all routed automated and named reviews are retained.
 * URL Inspection covers all 274 rows through `sc-domain:claracle.com`: 15 are
   submitted and indexed, 99 are discovered but not indexed, and 160 are unknown
   to Google. Every impression-bearing URL is in the indexed set.
-* All 274 dispositions and approvals remain pending; no details were deleted
-  and no redirect was generated.
+* Rendered internal links, content differentiation, and destination equivalence
+  are reviewed for all 274 rows. The pending candidate recommends 11 keeps, one
+  redirect, and 262 retirements.
+* The redirect candidate is the indexed legacy Odysseus alias to its canonical
+  identity-equivalent URL. Its destination is currently HTTP 404, so approval
+  requires retaining the destination and migrating to the selected
+  redirect-capable hosting boundary.
+* All 274 approvals remain pending; no details were deleted and no redirect was
+  generated.
 
 ### Phase 3 Validation Result
 
-* `pytest tests/`: 1,608 passed, two expected warnings after URL Inspection.
+* `pytest tests/`: 1,612 passed, two expected warnings after disposition review.
 * Evidence import, inventory, and public schema contracts: 37 focused tests
   passed.
 * `ruff check .` and `ruff format --check .`: passed.

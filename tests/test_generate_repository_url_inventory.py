@@ -49,6 +49,9 @@ def test_build_inventory_includes_index_canonicals_and_aliases(tmp_path: Path) -
     alias = next(record for record in payload["records"] if record["url_type"] == "alias")
     assert alias["canonical_url"] == "/repo/alpha/"
     assert alias["proposed_disposition"] == "pending"
+    assert alias["candidate_disposition"] == "pending"
+    assert alias["candidate_rationale"] == ""
+    assert alias["internal_link_count"] is None
     assert alias["production"] == {
         "sitemap_status": "not_collected",
         "http_status": None,
@@ -279,6 +282,44 @@ def test_build_inventory_joins_url_inspection(tmp_path: Path) -> None:
     }
     assert alpha["inspection"]["verdict"] == "PASS"
     assert alpha["inspection"]["coverage_state"] == "Submitted and indexed"
+
+
+def test_build_inventory_joins_pending_disposition_candidate(tmp_path: Path) -> None:
+    _write_page(tmp_path / "content/repo/_index.md")
+    _write_page(tmp_path / "content/repo/alpha/index.md")
+    candidate_path = tmp_path / inventory.DISPOSITION_CANDIDATE
+    candidate_path.parent.mkdir(parents=True, exist_ok=True)
+    candidate_path.write_text(
+        json.dumps(
+            {
+                "reviewed_at": "2026-08-11",
+                "approval_status": "pending",
+                "records": [
+                    {
+                        "url": "/repo/alpha/",
+                        "candidate_disposition": "retire",
+                        "rationale": "No observed value.",
+                        "internal_link_count": 3,
+                        "differentiated_content": True,
+                        "destination_candidate": "",
+                        "destination_equivalence": "none",
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    records = inventory.build_inventory(tmp_path)["records"]
+    alpha = next(record for record in records if record["url"] == "/repo/alpha/")
+
+    assert alpha["candidate_disposition"] == "retire"
+    assert alpha["proposed_disposition"] == "pending"
+    assert alpha["approval_status"] == "pending"
+    assert alpha["internal_link_count"] == 3
+    assert alpha["evidence"]["internal_links"]["status"] == "observed"
+    assert alpha["evidence"]["content_review"]["status"] == "observed"
+    assert alpha["evidence"]["destination_equivalence"]["status"] == "not_observed"
 
 
 def test_schema_blocks_retirement_without_collected_evidence(tmp_path: Path) -> None:

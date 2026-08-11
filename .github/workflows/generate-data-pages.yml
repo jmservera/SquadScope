@@ -66,6 +66,7 @@ jobs:
           python3 scripts/generate_repository_summary.py --from-crawl --check
           python3 scripts/capture_repository_production_snapshot.py --check
           python3 scripts/capture_repository_url_inspection.py --check
+          python3 scripts/generate_repository_disposition_candidate.py --check
           python3 scripts/generate_repository_url_inventory.py --check
           python3 scripts/generate_data_pages.py --check
           python3 scripts/export_observatory_dataset.py --check

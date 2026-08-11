@@ -227,7 +227,7 @@ content, destination-equivalence, and approval gates still prevent removal.
   aliases, the live-count discrepancy, and any production-only repository URLs.
   Captured 2026-08-10: 274 local URL forms, 264 sitemap and HTTP-200 URLs,
   10 true HTTP 404 URLs, and zero production-only URLs
-* [ ] Collect URL Inspection, exact-page Search Analytics, sampled link,
+* [x] Collect URL Inspection, exact-page Search Analytics, sampled link,
   available first-party referral, internal-link, sitemap, canonical, content,
   and destination-equivalence evidence for every URL. Sitemap and direct HTTP
   evidence are retained. The imported 2026-07-27..2026-08-09 Search Analytics
@@ -235,7 +235,9 @@ content, destination-equivalence, and approval gates still prevent removal.
   clicks; the sampled backlink export observes no repository targets; the
   2026-07-27..2026-08-11 GA4 export contains no referral rows. URL Inspection
   observes 15 submitted-and-indexed URLs, 99 discovered-but-not-indexed URLs,
-  and 160 URLs unknown to Google; all 10 impression-bearing URLs are indexed
+  and 160 URLs unknown to Google; all 10 impression-bearing URLs are indexed.
+  The 2026-08-11 rendered-site review records current internal-link counts,
+  differentiated content, and destination equivalence for all 274 rows
 * [ ] Record an approved keep, merge, redirect, or retire disposition for every
   canonical, alias, and production-only URL; ambiguous evidence blocks retirement
 * [ ] Retain individual profiles only for differentiated content plus observed
@@ -255,9 +257,13 @@ content, destination-equivalence, and approval gates still prevent removal.
 Phase 3 implementation status (2026-08-11): partial and blocked at the
 externally owned disposition/removal gate. All locally actionable inventory,
 artifact, explorer, evidence-import, freshness, and validation work is complete.
-The remaining items cannot be responsibly completed until content and
-equivalence reviews are completed and named per-URL dispositions are approved.
-All 274 rows therefore remain `pending`; no redirect or retirement is claimed.
+The evidence-complete candidate recommends 11 keeps, one identity-equivalent
+redirect, and 262 direct-404 retirements. All 274 approvals remain `pending`.
+The exceptional indexed and impression-bearing legacy
+`/repo/pewdiepie-archdaemon-odysseus/` URL maps to the currently absent
+`/repo/odysseus-dev-odysseus/` canonical, so approval would require retaining
+that destination and using a redirect-capable host. No redirect or retirement
+is claimed until the sponsor approves this exact map.
 
 ### [ ] Phase 4: Ranking Data, Visualization Selection, And Embeds
 

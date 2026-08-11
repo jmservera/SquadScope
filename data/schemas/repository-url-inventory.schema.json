@@ -25,9 +25,9 @@
       "additionalProperties": false
     }
   },
-  "required": ["schema_version", "generated_from", "production_snapshot", "external_evidence", "url_inspection", "evidence_requirements", "counts", "records"],
+  "required": ["schema_version", "generated_from", "production_snapshot", "external_evidence", "url_inspection", "disposition_candidate", "evidence_requirements", "counts", "records"],
   "properties": {
-    "schema_version": { "const": "1.2.0" },
+    "schema_version": { "const": "1.3.0" },
     "generated_from": { "const": "content/repo/" },
     "production_snapshot": {
       "type": "object",
@@ -55,6 +55,16 @@
         "path": { "const": "data/derived/observatory/repository-url-inspection.json" },
         "captured_at": { "type": "string" },
         "site_url": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "disposition_candidate": {
+      "type": "object",
+      "required": ["path", "reviewed_at", "approval_status"],
+      "properties": {
+        "path": { "const": "data/derived/observatory/repository-disposition-candidate.json" },
+        "reviewed_at": { "type": "string" },
+        "approval_status": { "type": "string" }
       },
       "additionalProperties": false
     },
@@ -92,11 +102,14 @@
           "source_checksum",
           "differentiated_content",
           "destination_candidate",
+          "candidate_disposition",
+          "candidate_rationale",
           "proposed_disposition",
           "approval_status",
           "production",
           "external_metrics",
           "inspection",
+          "internal_link_count",
           "evidence"
         ],
         "properties": {
@@ -108,6 +121,8 @@
           "source_checksum": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
           "differentiated_content": { "enum": ["pending_review", "yes", "no"] },
           "destination_candidate": { "type": "string" },
+          "candidate_disposition": { "enum": ["pending", "keep", "merge", "redirect", "retire"] },
+          "candidate_rationale": { "type": "string" },
           "proposed_disposition": { "enum": ["pending", "keep", "merge", "redirect", "retire"] },
           "approval_status": { "enum": ["pending", "approved", "rejected"] },
           "production": {
@@ -161,6 +176,7 @@
             },
             "additionalProperties": false
           },
+          "internal_link_count": { "type": ["integer", "null"], "minimum": 0 },
           "evidence": {
             "type": "object",
             "required": [

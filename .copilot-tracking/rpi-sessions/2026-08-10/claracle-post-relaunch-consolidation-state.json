@@ -44,24 +44,29 @@
       "decision": "URL Inspection covers all 274 rows: 15 indexed, 99 discovered but not indexed, and 160 unknown to Google.",
       "status": "confirmed",
       "evidence": "data/derived/observatory/repository-url-inspection.json"
+    },
+    {
+      "decision": "The evidence-complete candidate recommends 11 keeps, one identity-equivalent redirect, and 262 retirements; sponsor approval remains pending.",
+      "status": "pending",
+      "evidence": "data/derived/observatory/repository-disposition-candidate.json"
     }
   ],
   "blockers": [
     {
       "id": "phase3-external-url-evidence",
-      "summary": "Content differentiation, destination-equivalence, and named disposition approval are incomplete, so 264 live URLs cannot receive approved dispositions.",
-      "resolution": "Complete the remaining reviews and approve the per-URL keep, merge, redirect, or retire map."
+      "summary": "All evidence and reviews are complete, but named sponsor approval is pending for the exact 11-keep, one-redirect, 262-retire candidate.",
+      "resolution": "Approve or reject the exact candidate. Approval authorizes the redirect-capable host migration, internal-link cleanup, and atomic detail removal transaction."
     }
   ],
   "next_action": {
     "phase": "Implement",
-    "action": "Complete content and destination-equivalence review and obtain named disposition approval; do not start Phase 4."
+    "action": "Obtain sponsor approval for data/derived/observatory/repository-disposition-candidate.json; do not start Phase 4."
   },
   "prioritized_follow_ups": [
     {
       "rank": 1,
-      "task": "Complete content/equivalence review and approve all repository dispositions.",
-      "rationale": "All external URL evidence is collected; these remaining reviews now block the detail-removal migration transaction.",
+      "task": "Approve or reject the complete repository disposition candidate.",
+      "rationale": "All evidence and reviews are complete; named approval is the only gate before the migration transaction.",
       "evidence": ".copilot-tracking/plans/2026-08-08/claracle-post-relaunch-consolidation-plan.instructions.md"
     },
     {
