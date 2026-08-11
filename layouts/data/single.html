@@ -50,7 +50,7 @@
   <section class="data-page__ranking" aria-labelledby="data-page-ranking">
     <div class="data-page__ranking-header">
       <h2 id="data-page-ranking">Ranking</h2>
-      <a class="data-page__download" href="/data/rankings/{{ $.Params.ranking_id }}.json" download>Download JSON</a>
+      <a class="data-page__download" href="/data/rankings/{{ $rankingID }}.json" download>Download JSON</a>
     </div>
 
     {{- partial "visuals/ranking-visualization.html" (dict
@@ -62,7 +62,7 @@
     <div
       class="ranking-explorer"
       data-ranking-explorer
-      data-ranking-id="{{ $.Params.ranking_id }}"
+      data-ranking-id="{{ $rankingID }}"
       data-visualization-type="{{ $visualizationType }}"
     >
       <div class="ranking-explorer__controls" aria-label="Ranking filters">
@@ -124,9 +124,9 @@
                       class="ranking-table__repo-link"
                       data-repo-name="{{ .repo }}"
                       data-context-summary="{{ .context_summary | htmlEscape }}"
-                      aria-describedby="ctx-{{ $.Params.ranking_id }}-{{ .rank }}"
+                      aria-describedby="ctx-{{ $rankingID }}-{{ .rank }}"
                     >{{ .repo }}</a>
-                    <span id="ctx-{{ $.Params.ranking_id }}-{{ .rank }}" role="tooltip" class="ranking-table__context-tooltip"><span aria-hidden="true">{{ .context_summary }}</span><span class="visually-hidden">{{ .context_accessible_text | default .context_summary }}</span></span>
+                    <span id="ctx-{{ $rankingID }}-{{ .rank }}" role="tooltip" class="ranking-table__context-tooltip"><span aria-hidden="true">{{ .context_summary }}</span><span class="visually-hidden">{{ .context_accessible_text | default .context_summary }}</span></span>
                   </span>
                   <div class="data-page__repo-meta">last seen {{ .last_seen_week }}</div>
                 </td>

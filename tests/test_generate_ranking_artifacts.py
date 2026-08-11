@@ -191,7 +191,9 @@ def test_ranking_artifact_github_url_validated() -> None:
             metric_label="42 stars",
         )
     except ValueError as error:
-        assert "https://github.com" in str(error)
+        assert str(error) == (
+            "Repository URL must use https://github.com: https://example.com/not-github"
+        )
     else:
         raise AssertionError("expected GitHub URL validation to fail")
 

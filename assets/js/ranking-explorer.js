@@ -50,6 +50,7 @@
     }
     search.value = next.q;
     language.value = next.lang;
+    next.lang = language.value;
     sort.value = next.sort;
     return next;
   }

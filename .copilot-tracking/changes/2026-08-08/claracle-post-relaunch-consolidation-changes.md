@@ -1010,3 +1010,23 @@ embed disclosures, responsive fallbacks, and retained representation evidence
 all passed. Final Squad review approved Leela, Amy, Fry, URL, Hermes, Nibbler,
 and Calculon perspectives with no release-blocking finding. The candidate is
 ready for the required commit, push, hosted checks, and PR review cycle.
+
+### PR #712 Hosted Review Follow-Ups
+
+The first hosted review found three bounded defects and one CodeQL test
+assertion finding. All were corrected before merge:
+
+* `layouts/data/single.html` now uses the defaulted `$rankingID` consistently
+  for the JSON download, client data attribute, tooltip IDs, and
+  `aria-describedby` relationships.
+* `assets/js/ranking-explorer.js` now normalizes an unsupported `lang` query
+  value from the language select's actual value, keeping the visible control,
+  filtering state, and canonical URL synchronized.
+* `tests/visual/ranking-explorer.spec.mjs` covers an unsupported language query
+  value and verifies the explorer removes it without hiding valid results.
+* `tests/test_generate_ranking_artifacts.py` now verifies the complete expected
+  URL-validation error instead of matching an arbitrary URL substring, clearing
+  the CodeQL incomplete-sanitization alert.
+
+Targeted validation passed: 24 Python tests, Ruff check/format, Hugo production
+build, and three active desktop-light ranking explorer browser tests.

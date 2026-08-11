@@ -50,7 +50,7 @@ test('filters, URL state, reset, and rerendered tooltips remain operable', async
   await mockRanking(page, payload());
   await page.addInitScript(() => {
     if (location.pathname.includes('/data/fastest-growing-ai-repositories-this-year/')) {
-      history.replaceState({}, '', `${location.pathname}?q=beta&sort=name`);
+      history.replaceState({}, '', `${location.pathname}?q=beta&sort=name&lang=Rust`);
     }
   });
   await page.goto(PAGE);
@@ -58,6 +58,8 @@ test('filters, URL state, reset, and rerendered tooltips remain operable', async
   const explorer = page.locator('[data-ranking-explorer]');
   await expect(explorer.locator('[data-ranking-status]')).toHaveText('Showing 1 of 2 repositories.');
   await expect(explorer.locator('[data-ranking-search]')).toHaveValue('beta');
+  await expect(explorer.locator('[data-ranking-language]')).toHaveValue('');
+  await expect(page).toHaveURL(/\?sort=name&q=beta$/);
   await expect(explorer.locator('.ranking-results__item')).toHaveCount(1);
 
   await explorer.locator('[data-ranking-search]').fill('alpha');
