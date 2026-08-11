@@ -223,7 +223,7 @@ genuine-equivalent 301/308 row.
   checked for presence but never validated to equal `"reconciled"`, a named
   BRD fail-closed criterion left untested and unguarded
 
-### [ ] Phase 3: Repository Inventory And Migration Candidate
+### [x] Phase 3: Repository Inventory And Migration Candidate
 
 <!-- parallelizable: false -->
 
@@ -298,6 +298,12 @@ focused correction is merged and the deployment gate passes.
 ### [ ] Phase 4: Ranking Data, Visualization Selection, And Embeds
 
 <!-- parallelizable: true -->
+
+Implementation opened 2026-08-11 on `feat/ranking-visualizations-phase4`.
+Research disposition is `reused`: the approved BRD, primary research, existing
+phase details, schemas, generator, ranking templates, chart assets, and embed
+contracts provide adequate planning evidence. Phase 3 completed when PR 711
+merged as `4dc8433` and deployment run `31513135585` passed its live HTTP gate.
 
 * [ ] BR-004: deterministically generate all three ranking artifacts and retain
   authoritative Hugo summaries, tables, attribution, and downloads

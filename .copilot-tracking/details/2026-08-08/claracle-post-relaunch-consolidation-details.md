@@ -267,6 +267,24 @@ atomic deployment, and rollback all pass.
 
 ## Phase 4 Details: Ranking Data, Visualization, And Embeds
 
+### Phase 4 Active Direction (2026-08-11)
+
+* Research disposition: reused; planning readiness is Ready.
+* Scope: BR-004 ranking artifacts and interactions, BR-005 evidence-based
+  representation selection, and BR-007 accessible embed summaries.
+* Canonical targets: the three generated ranking pages, their public versioned
+  JSON artifacts, shared data-page templates and scoped client behavior, the
+  observatory chart partial/assets, and embed rendering/data contracts.
+* Test ownership: generator/schema determinism, SSR/provenance/download
+  contracts, URL state and malformed/empty behavior, responsive and accessible
+  visualization behavior, safe GitHub links, and hover/focus/touch/Escape
+  summary disclosure.
+* Removal boundary: replace only generic chart behavior that fails the approved
+  analytical question; preserve authoritative tables and no-JavaScript facts.
+* Validation evidence: targeted tests while iterating, then affected full
+  Python, Ruff, Hugo, visual/accessibility, security, and workflow gates before
+  push.
+
 ### Steps And File Operations
 
 1. Convert one ranking fixture to the shared envelope and prove deterministic
