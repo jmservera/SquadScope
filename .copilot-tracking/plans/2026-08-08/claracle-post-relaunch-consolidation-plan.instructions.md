@@ -288,6 +288,8 @@ until required human review, merge authorization, and post-deployment live
 probes pass. All hosted checks passed on source head `70e42cd`; no review
 threads remain unresolved. Copilot completed its latest-head attempt but could
 not review the PR because the cumulative change exceeds its 300-file limit.
+The sponsor supplied human review and merge authorization on 2026-08-11; only
+the post-merge GitHub Pages production probe remains.
 
 ### [ ] Phase 4: Ranking Data, Visualization Selection, And Embeds
 

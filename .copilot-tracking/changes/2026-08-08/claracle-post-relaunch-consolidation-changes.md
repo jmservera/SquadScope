@@ -384,6 +384,9 @@ the resulting per-URL disposition map.
 * Remaining blocker: qualified human review and merge authorization are required
   before GitHub Pages can deploy the final artifact and the workflow can capture
   production `/repo/` 200 and retired-route 404 evidence.
+* Sponsor clearance: the sponsor completed the required review, authorized
+  merging PR 710, and selected automatic continuation through all eligible
+  later phases. The production probe remains the final Phase 3 gate.
 
 ## CR-06 Harness Repair And Experiment Execution (2026-08-09)
 
