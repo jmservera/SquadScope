@@ -29,10 +29,19 @@
 
   function validGithubUrl(value) {
     const parsed = new URL(value);
-    if (parsed.protocol !== "https:" || parsed.hostname !== "github.com") {
+    const segments = parsed.pathname.split("/").filter(Boolean);
+    if (
+      parsed.protocol !== "https:" ||
+      parsed.host !== "github.com" ||
+      parsed.username ||
+      parsed.password ||
+      parsed.search ||
+      parsed.hash ||
+      segments.length !== 2
+    ) {
       throw new Error(`Repository URL is outside GitHub: ${value}`);
     }
-    return parsed.href;
+    return `https://github.com/${segments[0]}/${segments[1]}`;
   }
 
   function readState(root) {

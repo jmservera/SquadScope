@@ -1033,6 +1033,9 @@ assertion finding. All were corrected before merge:
 * `assets/js/ranking-explorer.js` now handles record-normalization failures as
   malformed data rather than reporting a server-availability warning. The
   browser suite covers an invalid repository URL while retaining the SSR table.
+* Client-side GitHub URL validation now matches the server boundary: exact
+  HTTPS host, no credentials/query/fragment, and exactly `owner/repo` path
+  segments. Browser coverage rejects each malformed or unsafe URL shape.
 
 Targeted validation passed: 24 Python tests, Ruff check/format, Hugo production
 build, and three active desktop-light ranking explorer browser tests.
