@@ -290,6 +290,10 @@ threads remain unresolved. Copilot completed its latest-head attempt but could
 not review the PR because the cumulative change exceeds its 300-file limit.
 The sponsor supplied human review and merge authorization on 2026-08-11; only
 the post-merge GitHub Pages production probe remains.
+PR 710 merged as `051c230`, but deployment run `31507104212` exposed a probe
+defect: retained-route selection still required `url_type: canonical` instead
+of selecting the retained `/repo/` index. Phase 3 remains open until the
+focused correction is merged and the deployment gate passes.
 
 ### [ ] Phase 4: Ranking Data, Visualization Selection, And Embeds
 

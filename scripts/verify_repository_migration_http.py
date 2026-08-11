@@ -28,10 +28,15 @@ def verify_once(root: Path, origin: str) -> list[str]:
     data = json.loads((root / APPROVED_MAP).read_text(encoding="utf-8"))
     records = data["records"]
     retained = next(
-        record
-        for record in records
-        if record["disposition"] == "keep" and record["url_type"] == "canonical"
+        (
+            record
+            for record in records
+            if record["disposition"] == "keep" and record["url"] == "/repo/"
+        ),
+        None,
     )
+    if retained is None:
+        raise ValueError("Approved map does not retain the /repo/ explorer")
     # The clean artifact check covers every route; production probes sample both a
     # formerly retained canonical URL and the former alias to catch stale deployment.
     required_retirements = (

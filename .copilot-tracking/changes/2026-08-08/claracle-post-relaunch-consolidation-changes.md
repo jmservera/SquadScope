@@ -387,6 +387,11 @@ the resulting per-URL disposition map.
 * Sponsor clearance: the sponsor completed the required review, authorized
   merging PR 710, and selected automatic continuation through all eligible
   later phases. The production probe remains the final Phase 3 gate.
+* Production blocker: PR 710 merged as `051c230` and GitHub Pages accepted the
+  artifact, but deployment run `31507104212` failed in the post-deploy verifier.
+  The verifier incorrectly selected a retained canonical profile even though
+  the final contract retains only the `/repo/` index. A focused corrective PR
+  will add regression coverage and rerun the deployment gate.
 
 ## CR-06 Harness Repair And Experiment Execution (2026-08-09)
 
