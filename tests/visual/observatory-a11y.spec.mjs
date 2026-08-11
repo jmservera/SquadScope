@@ -199,6 +199,7 @@ test('embed repository summaries support focus, touch, and Escape', async ({ pag
   await expect(tooltip).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(tooltip).toBeHidden();
+  await expect(link).not.toBeFocused();
 
   await link.dispatchEvent('touchstart');
   await expect(wrapper).toHaveClass(/is-open/);

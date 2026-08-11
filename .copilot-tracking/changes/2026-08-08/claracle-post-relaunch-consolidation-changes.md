@@ -1027,6 +1027,9 @@ assertion finding. All were corrected before merge:
 * `tests/test_generate_ranking_artifacts.py` now verifies the complete expected
   URL-validation error instead of matching an arbitrary URL substring, clearing
   the CodeQL incomplete-sanitization alert.
+* `assets/js/observatory-charts.js` now blurs the active repository link when
+  Escape closes its disclosure, preventing the CSS `:focus-within` state from
+  keeping the tooltip visible. The browser test now verifies focus is released.
 
 Targeted validation passed: 24 Python tests, Ruff check/format, Hugo production
 build, and three active desktop-light ranking explorer browser tests.

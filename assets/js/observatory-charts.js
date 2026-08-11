@@ -33,9 +33,14 @@
     if (!openTooltip) {
       return;
     }
-    openTooltip.classList.remove("is-open");
-    openTooltip.querySelector("a")?.setAttribute("aria-expanded", "false");
+    const wrapper = openTooltip;
     openTooltip = null;
+    wrapper.classList.remove("is-open");
+    const link = wrapper.querySelector("a");
+    link?.setAttribute("aria-expanded", "false");
+    if (link === document.activeElement) {
+      link.blur();
+    }
   }
 
   tooltipWrappers.forEach((wrapper) => {
