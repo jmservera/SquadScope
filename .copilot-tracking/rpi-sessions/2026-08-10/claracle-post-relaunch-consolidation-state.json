@@ -4,7 +4,7 @@
   "parent_task": null,
   "mode": "automatic",
   "active_phase": "Implement",
-  "status": "active",
+  "status": "blocked",
   "session_status": "running",
   "artifact_paths": {
     "research": ".copilot-tracking/research/2026-08-08/claracle-post-relaunch-experience-research.md",
@@ -99,12 +99,23 @@
       "decision": "The sponsor provided required human review, authorized merging PR 710, and directed automatic continuation through all eligible later phases.",
       "status": "confirmed",
       "evidence": "User input: \"go ahead, merge the PR and continue=all\""
+    },
+    {
+      "decision": "PR 710 merged as 051c230, but deployment run 31507104212 failed because the HTTP verifier searched for a retained canonical profile instead of the retained /repo/ index.",
+      "status": "confirmed",
+      "evidence": "https://github.com/jmservera/SquadScope/actions/runs/31507104212"
     }
   ],
-  "blockers": [],
+  "blockers": [
+    {
+      "id": "production-probe-index-selection",
+      "summary": "The deployed artifact cannot satisfy the Phase 3 gate because the verifier raises StopIteration before probing the retained /repo/ index.",
+      "resolution": "Fix and regression-test retained-index selection in a focused PR, merge it, and rerun the GitHub Pages deployment."
+    }
+  ],
   "next_action": {
     "phase": "Implement",
-    "action": "Merge PR 710, capture the GitHub Pages production probes, complete Phase 3, and continue automatically to Phase 4."
+    "action": "Fix the retained-index production probe on branch fix/repository-migration-production-probe, merge the corrective PR, and rerun the Phase 3 deployment gate."
   },
   "prioritized_follow_ups": [
     {

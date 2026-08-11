@@ -26,12 +26,28 @@ def response_for(url: str) -> Any:
 
 def verify_once(root: Path, origin: str) -> list[str]:
     data = json.loads((root / APPROVED_MAP).read_text(encoding="utf-8"))
-    records = data["records"]
+    records = data.get("records")
+    if not isinstance(records, list):
+        raise ValueError("Approved map records must be a list")
+    required_keys = {"url", "url_type", "disposition"}
+    for index, record in enumerate(records):
+        if not isinstance(record, dict):
+            raise ValueError(f"Approved map record {index} must be an object")
+        missing_keys = required_keys - record.keys()
+        if missing_keys:
+            raise ValueError(f"Approved map record {index} is missing keys: {sorted(missing_keys)}")
     retained = next(
-        record
-        for record in records
-        if record["disposition"] == "keep" and record["url_type"] == "canonical"
+        (
+            record
+            for record in records
+            if record["disposition"] == "keep"
+            and record["url"] == "/repo/"
+            and record["url_type"] == "index"
+        ),
+        None,
     )
+    if retained is None:
+        raise ValueError("Approved map does not retain the /repo/ explorer index")
     # The clean artifact check covers every route; production probes sample both a
     # formerly retained canonical URL and the former alias to catch stale deployment.
     required_retirements = (
