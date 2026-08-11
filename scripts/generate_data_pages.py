@@ -13,6 +13,12 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from scripts.sanitize_repo_content import sanitize_text
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 RAW_DIR = REPO_ROOT / "data" / "raw"
@@ -20,6 +26,7 @@ ARCHIVE_DIR = REPO_ROOT / "data" / "archive" / "recovered-W23-W29"
 CONTENT_DIR = REPO_ROOT / "content" / "data"
 METHODOLOGY_PATH = "/methodology/"
 MAX_RANKING_ROWS = 100
+MAX_CONTEXT_SUMMARY_LENGTH = 160
 
 WEEK_RE = re.compile(r"^\d{4}-W\d{2}$")
 MCP_RE = re.compile(r"\bmcp\b", re.IGNORECASE)
@@ -83,6 +90,53 @@ def repo_slug(full_name: str) -> str:
     normalized = unicodedata.normalize("NFKD", full_name.lower())
     slug = re.sub(r"[^a-z0-9]+", "-", normalized)
     return re.sub(r"-+", "-", slug).strip("-")
+
+
+def validate_github_url(value: str) -> str:
+    parsed = urlparse(value)
+    if parsed.scheme != "https" or parsed.netloc.lower() != "github.com":
+        raise ValueError(f"Repository URL must use https://github.com: {value}")
+    path = parsed.path.rstrip("/")
+    segments = [segment for segment in path.split("/") if segment]
+    if len(segments) != 2:
+        raise ValueError(f"Repository URL must reference owner/repo on github.com: {value}")
+    if parsed.params or parsed.query or parsed.fragment:
+        raise ValueError(f"Repository URL must not contain params, query, or fragment: {value}")
+    return f"https://github.com/{segments[0]}/{segments[1]}"
+
+
+def truncate_at_word_boundary(text: str, limit: int = MAX_CONTEXT_SUMMARY_LENGTH) -> str:
+    normalized = " ".join(str(text).split())
+    if not normalized:
+        return ""
+
+    had_ellipsis = normalized.endswith("…")
+    base = normalized[:-1].rstrip() if had_ellipsis else normalized
+    needs_truncation = had_ellipsis or len(base) > limit
+    if not needs_truncation:
+        return base
+
+    clipped = base[: max(1, limit - 1)].rstrip(" ,.;:-")
+    if " " in clipped:
+        candidate = clipped.rsplit(" ", 1)[0].rstrip(" ,.;:-")
+        if candidate:
+            clipped = candidate
+    if not clipped:
+        clipped = base[: max(1, limit - 1)].rstrip()
+    return f"{clipped}…"
+
+
+def build_context_summary(text: Any) -> str:
+    sanitized = sanitize_text(
+        text, max_length=MAX_CONTEXT_SUMMARY_LENGTH, label="ranking row context"
+    )
+    return truncate_at_word_boundary(sanitized, MAX_CONTEXT_SUMMARY_LENGTH)
+
+
+def build_context_accessible_text(text: Any) -> str:
+    return " ".join(
+        sanitize_text(text, max_length=500, label="ranking row accessible context").split()
+    )
 
 
 def toml_string(value: Any) -> str:
@@ -212,20 +266,35 @@ def row(
     metric_value: int,
     metric_label: str,
     context: str,
+    *,
+    comparison_value: int | None = None,
+    comparison_label: str | None = None,
+    context_summary: str | None = None,
+    github_url: str | None = None,
 ) -> dict[str, Any]:
-    return {
+    data: dict[str, Any] = {
         "rank": rank,
         "repo": obs.display_name,
         "repo_key": obs.full_name.lower(),
         "repo_slug": repo_slug(obs.full_name),
         "url": obs.url,
+        "github_url": github_url or validate_github_url(obs.url),
         "metric_value": metric_value,
         "metric_label": metric_label,
         "context": context,
+        "context_summary": context_summary
+        if context_summary is not None
+        else build_context_summary(obs.description),
+        "context_accessible_text": build_context_accessible_text(obs.description),
         "language": obs.language,
         "latest_stars": obs.stars,
         "last_seen_week": obs.week,
     }
+    if comparison_value is not None:
+        data["comparison_value"] = comparison_value
+    if comparison_label:
+        data["comparison_label"] = comparison_label
+    return data
 
 
 def page_content(summary: str) -> str:
@@ -302,6 +371,8 @@ def build_pages() -> dict[Path, str]:
             metric_value=obs.stars,
             metric_label=f"{format_int(obs.stars)} stars",
             context=f"Latest observed in {obs.week}; {obs.language}; {len(obs.topics)} raw topics.",
+            context_summary=build_context_summary(obs.description),
+            github_url=validate_github_url(obs.url),
         )
         for index, obs in enumerate(
             sorted(month_latest.values(), key=lambda item: (-item.stars, item.full_name.lower()))[
@@ -332,11 +403,15 @@ def build_pages() -> dict[Path, str]:
                 f"{format_int(first.stars)} → {format_int(latest.stars)} stars "
                 f"from {first.week} to {latest.week}."
             ),
+            comparison_value=first.stars,
+            comparison_label=f"{format_int(first.stars)} → {format_int(latest.stars)} stars",
+            context_summary=build_context_summary(latest.description),
+            github_url=validate_github_url(latest.url),
         )
         for index, (delta, first, latest) in enumerate(
             sorted(
                 fastest_candidates,
-                key=lambda item: (-item[0], -item[2].stars, item[2].full_name.lower()),
+                key=lambda item: (-item[0], item[2].full_name.lower()),
             )[:MAX_RANKING_ROWS],
             start=1,
         )
@@ -350,6 +425,8 @@ def build_pages() -> dict[Path, str]:
             metric_value=obs.stars,
             metric_label=f"{format_int(obs.stars)} stars",
             context=f"Matched MCP signal; latest observed in {obs.week}; {obs.language}.",
+            context_summary=build_context_summary(obs.description),
+            github_url=validate_github_url(obs.url),
         )
         for index, obs in enumerate(
             sorted(mcp_latest, key=lambda item: (-item.stars, item.full_name.lower()))[

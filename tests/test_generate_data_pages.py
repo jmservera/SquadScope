@@ -132,7 +132,7 @@ def test_data_page_layout_renders_provenance_and_ranking_table() -> None:
     assert "Metric" in layout
     assert "Source" in layout
     assert "Methodology" in layout
-    assert "<table>" in layout
+    assert "ranking-table" in layout
     assert ".Params.ranking" in layout
 
 
@@ -160,3 +160,18 @@ def test_hugo_builds_generated_data_pages_when_available() -> None:
     finally:
         if destination.exists():
             shutil.rmtree(destination)
+
+
+def test_data_page_frontmatter_has_context_summary() -> None:
+    content = DATA_PAGES[0].read_text(encoding="utf-8")
+
+    assert "context_summary =" in content
+    assert 'github_url = "https://github.com/' in content
+
+
+def test_data_page_layout_renders_context_tooltip() -> None:
+    layout = (ROOT / "layouts/data/single.html").read_text(encoding="utf-8")
+
+    assert "data-context-summary" in layout
+    assert 'role="tooltip"' in layout
+    assert "Download JSON" in layout

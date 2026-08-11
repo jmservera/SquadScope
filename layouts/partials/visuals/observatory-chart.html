@@ -21,8 +21,9 @@
       "repo" .repo
       "metric_value" .metric_value
       "metric_label" .metric_label
-      "url" .url
-      "context" .context
+      "github_url" .github_url
+      "context_summary" .context_summary
+      "context_accessible_text" (.context_accessible_text | default .context_summary)
     ) -}}
   {{- end -}}
   {{- $sourcePermalink := $page.Permalink -}}
@@ -53,6 +54,18 @@
       </g>
     {{- end }}
   </svg>
+  <div class="observatory-chart__repositories" aria-label="Repository links and summaries">
+    <ol>
+      {{- range $i, $row := $rows }}
+      {{- $tooltipID := printf "%s-summary-%d" $chartID $i -}}
+      <li data-observatory-tooltip>
+        <span class="observatory-chart__list-rank">#{{ $row.rank }}</span>
+        <a href="{{ $row.github_url }}" aria-describedby="{{ $tooltipID }}" aria-expanded="false">{{ $row.repo }}</a>
+        <span class="observatory-chart__tooltip" id="{{ $tooltipID }}" role="tooltip"><span aria-hidden="true">{{ $row.context_summary }}</span><span class="visually-hidden">{{ $row.context_accessible_text | default $row.context_summary }}</span></span>
+      </li>
+      {{- end }}
+    </ol>
+  </div>
   <script type="application/json" class="observatory-chart__data">{{ dict "title" $title "source" $sourcePermalink "rows" $dataRows | jsonify }}</script>
   <figcaption class="observatory-chart__caption">
     Source: <a href="{{ $sourcePermalink }}">Claracle Data Observatory — {{ $page.Title }}</a>.

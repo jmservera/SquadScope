@@ -51,9 +51,33 @@
       },
       "additionalProperties": false
     },
+    "ranking_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "metric_label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metric_definition": {
+      "type": "string",
+      "minLength": 1
+    },
     "records": {
       "type": "array"
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "artifact_type": { "const": "ranking" }
+        }
+      },
+      "then": {
+        "required": ["ranking_id", "metric_label", "metric_definition"]
+      }
+    }
+  ],
   "additionalProperties": false
 }

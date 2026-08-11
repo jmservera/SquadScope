@@ -295,7 +295,7 @@ defect: retained-route selection still required `url_type: canonical` instead
 of selecting the retained `/repo/` index. Phase 3 remains open until the
 focused correction is merged and the deployment gate passes.
 
-### [ ] Phase 4: Ranking Data, Visualization Selection, And Embeds
+### [x] Phase 4: Ranking Data, Visualization Selection, And Embeds
 
 <!-- parallelizable: true -->
 
@@ -305,19 +305,19 @@ phase details, schemas, generator, ranking templates, chart assets, and embed
 contracts provide adequate planning evidence. Phase 3 completed when PR 711
 merged as `4dc8433` and deployment run `31513135585` passed its live HTTP gate.
 
-* [ ] BR-004: deterministically generate all three ranking artifacts and retain
+* [x] BR-004: deterministically generate all three ranking artifacts and retain
   authoritative Hugo summaries, tables, attribution, and downloads
-* [ ] BR-004: add page-scoped filter, sort, reset, useful URL state, exploration,
+* [x] BR-004: add page-scoped filter, sort, reset, useful URL state, exploration,
   status, empty, malformed, unavailable, stale, and future-version behavior
-* [ ] BR-005: state each analytical question and intended inference, then create
+* [x] BR-005: state each analytical question and intended inference, then create
   dense, sparse, tied, zero, long-label, top-10, top-100, and mobile fixtures
-* [ ] BR-005: compare at least two suitable representations per question and
+* [x] BR-005: compare at least two suitable representations per question and
   retain the five-member proxy prompts, raw answers, scoring, and observations
-* [ ] BR-005: implement only representations meeting the four-of-five threshold,
+* [x] BR-005: implement only representations meeting the four-of-five threshold,
   with responsive non-color encoding and an equivalent accessible table
-* [ ] BR-007: render repository names as direct GitHub links and expose the same
+* [x] BR-007: render repository names as direct GitHub links and expose the same
   sanitized summary through hover, focus, touch, Escape, and accessibility tree
-* [ ] Validate keyboard, screen reader, touch, zoom, collision, narrow embed,
+* [x] Validate keyboard, screen reader, touch, zoom, collision, narrow embed,
   privacy, performance, no-JavaScript, and control-occlusion behavior
 
 ### [ ] Phase 5: Integrated Release Candidate And Outcome Evidence

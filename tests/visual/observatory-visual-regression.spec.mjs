@@ -97,7 +97,21 @@ function selectVisualRoutes() {
     { name: 'repo-detail', label: 'Repository page', path: first(/^\/repo\/[^/]+\/$/) },
     { name: 'topics-index', label: 'Topics index', path: '/topics/' },
     { name: 'topic', label: 'Topic hub', path: first(/^\/topics\/[^/]+\/$/) },
-    { name: 'data-detail', label: 'Data ranking', path: first(/^\/data\/[^/]+\/$/) },
+    {
+      name: 'data-growth',
+      label: 'Growth data ranking',
+      path: '/data/fastest-growing-ai-repositories-this-year/',
+    },
+    {
+      name: 'data-top-month',
+      label: 'Monthly absolute data ranking',
+      path: '/data/top-ai-repositories-this-month/',
+    },
+    {
+      name: 'data-mcp',
+      label: 'MCP absolute data ranking',
+      path: '/data/most-starred-mcp-projects/',
+    },
     { name: 'state-of', label: 'State-of report', path: first(/^\/state-of\/[^/]+\/$/) },
     {
       name: 'embed',

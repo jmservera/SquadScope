@@ -10,7 +10,10 @@
     "github_url",
     "metric_key",
     "metric_value",
-    "metric_label"
+    "metric_label",
+    "language",
+    "context_summary",
+    "context_accessible_text"
   ],
   "properties": {
     "rank": { "type": "integer", "minimum": 1 },
@@ -27,7 +30,9 @@
     "metric_label": { "type": "string", "minLength": 1 },
     "comparison_value": { "type": ["number", "null"] },
     "comparison_label": { "type": ["string", "null"] },
-    "context_summary": { "type": "string", "maxLength": 240 }
+    "language": { "type": "string", "minLength": 1 },
+    "context_summary": { "type": "string", "minLength": 1, "maxLength": 160 },
+    "context_accessible_text": { "type": "string", "minLength": 1, "maxLength": 500 }
   },
   "additionalProperties": false
 }

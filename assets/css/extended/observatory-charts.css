@@ -91,6 +91,60 @@
   margin-top: 1rem;
 }
 
+.observatory-chart__repositories ol {
+  display: grid;
+  gap: 0.35rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+}
+
+.observatory-chart__repositories li {
+  border: 1px solid var(--chart-border);
+  border-radius: 0.6rem;
+  min-width: 0;
+  padding: 0.45rem 0.6rem;
+  position: relative;
+}
+
+.observatory-chart__repositories a {
+  color: var(--chart-blue);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.observatory-chart__list-rank {
+  color: var(--chart-muted);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  margin-right: 0.35rem;
+}
+
+.observatory-chart__tooltip {
+  background: var(--chart-ink);
+  border-radius: 0.5rem;
+  bottom: calc(100% + 0.35rem);
+  color: #ffffff;
+  left: 0;
+  max-width: min(24rem, calc(100vw - 2rem));
+  opacity: 0;
+  padding: 0.55rem 0.7rem;
+  pointer-events: none;
+  position: absolute;
+  transform: translateY(0.25rem);
+  transition: opacity 120ms ease, transform 120ms ease;
+  visibility: hidden;
+  width: max-content;
+  z-index: 3;
+}
+
+.observatory-chart__repositories li:is(:hover, :focus-within, .is-open)
+  .observatory-chart__tooltip {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
 .observatory-chart__caption a {
   color: var(--chart-blue);
   font-weight: 700;
