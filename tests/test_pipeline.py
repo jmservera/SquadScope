@@ -563,6 +563,7 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertTrue(_uses_action(upload_step, "actions/upload-artifact"))
         self.assertEqual(upload_step["with"]["name"], "token-usage-ledger")
         self.assertEqual(upload_step["with"]["path"], "data/metrics/token-usage.jsonl")
+        self.assertEqual(upload_step["with"]["if-no-files-found"], "error")
         self.assertEqual(upload_step.get("if"), "always()")
 
         generate_job = workflow["jobs"]["generate"]
@@ -570,21 +571,34 @@ class WorkflowConfigTests(unittest.TestCase):
         for step_name in (
             "Hydrate prior generated state from publish",
             "Download token usage ledger artifact",
+            "Generate reconciled cost summary",
             "Commit generated content to data branch",
         ):
             self.assertIn(step_name, step_names)
         hydrate_index = step_names.index("Hydrate prior generated state from publish")
         download_index = step_names.index("Download token usage ledger artifact")
+        summary_index = step_names.index("Generate reconciled cost summary")
         commit_index = step_names.index("Commit generated content to data branch")
         # The ledger download must happen after the publish hydration overwrites
-        # data/metrics/ and before the commit persists this run's generated state.
+        # data/metrics/ and before the projection and commit persist this run's state.
         self.assertGreater(download_index, hydrate_index)
-        self.assertLess(download_index, commit_index)
+        self.assertLess(download_index, summary_index)
+        self.assertLess(summary_index, commit_index)
 
         download_step = generate_job["steps"][download_index]
         self.assertTrue(_uses_action(download_step, "actions/download-artifact"))
         self.assertEqual(download_step["with"]["name"], "token-usage-ledger")
         self.assertEqual(download_step["with"]["path"], "data/metrics/")
+        self.assertNotIn("continue-on-error", download_step)
+
+        summary_step = generate_job["steps"][summary_index]
+        self.assertEqual(
+            summary_step["env"]["CURRENT_DATETIME"],
+            "${{ needs.analyze.outputs.current_datetime }}",
+        )
+        self.assertIn("scripts/generate_cost_summary.py", summary_step["run"])
+        self.assertIn('--generated-at "$CURRENT_DATETIME"', summary_step["run"])
+        self.assertIn("--legacy-policy exclude-unidentified", summary_step["run"])
 
     def test_production_quality_build_uses_local_server_base_url(self) -> None:
         workflow_path = Path(".github/workflows/ci.yml")
@@ -614,8 +628,10 @@ class WorkflowConfigTests(unittest.TestCase):
         expected_order = [
             "Hydrate prior generated state from publish",
             "Download analyzed data artifact",
+            "Download token usage ledger artifact",
             "Download analysis candidate artifact",
             "Download raw crawl artifact",
+            "Generate reconciled cost summary",
             "Generate weekly content candidate",
             "Discover topic candidates",
             "Promote and assign topic hubs",
@@ -687,6 +703,7 @@ class WorkflowConfigTests(unittest.TestCase):
             for step in crawl["jobs"]["deploy"]["steps"]
             if step.get("name") == "Download generated content artifact"
         )
+        deploy_steps = crawl["jobs"]["deploy"]["steps"]
         deploy = yaml.safe_load(
             Path(".github/workflows/deploy-site.yml").read_text(encoding="utf-8")
         )
@@ -703,6 +720,12 @@ class WorkflowConfigTests(unittest.TestCase):
                 self.assertIn(path, upload)
                 self.assertIn(path, deploy_hydrate)
 
+            self.assertIn("data/metrics/", hydrate)
+            self.assertIn("data/metrics/", commit)
+            self.assertIn("data/metrics/", deploy_hydrate)
+            self.assertNotIn("data/metrics/\n", upload)
+            self.assertIn("data/metrics/cost-summary.json", upload)
+
         # Deploy hydration guards each path with git ls-tree so committed content
         # absent from publish is preserved rather than deleted (issues #627, #633).
         self.assertIn('git ls-tree -r --name-only origin/publish -- "$path"', deploy_hydrate)
@@ -713,6 +736,23 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("--force-with-lease", commit)
         self.assertIn("git diff --cached --quiet && exit 0", commit)
         self.assertEqual(inline_deploy_download["with"]["path"], "./")
+        deploy_positions = {step.get("name"): index for index, step in enumerate(deploy_steps)}
+        self.assertLess(
+            deploy_positions["Remove checked-in cost summary"],
+            deploy_positions["Download generated content artifact"],
+        )
+        self.assertLess(
+            deploy_positions["Download generated content artifact"],
+            deploy_positions["Verify generated cost summary"],
+        )
+        remove_cost_summary = next(
+            step for step in deploy_steps if step.get("name") == "Remove checked-in cost summary"
+        )
+        self.assertEqual(remove_cost_summary["run"], "rm -f data/metrics/cost-summary.json")
+        verify_cost_summary = next(
+            step for step in deploy_steps if step.get("name") == "Verify generated cost summary"
+        )
+        self.assertEqual(verify_cost_summary["run"], "test -s data/metrics/cost-summary.json")
 
     def test_generate_hydration_preserves_committed_paths_absent_from_publish(self) -> None:
         crawl = yaml.safe_load(

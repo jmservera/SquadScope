@@ -102,9 +102,9 @@ def build_projection(
     max_age_days: int = MAX_AGE_DAYS,
 ) -> dict[str, Any]:
     accepted, exclusions = reconcile_records(records, legacy_policy=legacy_policy)
+    if not accepted:
+        raise ValueError("No identified accepted records remain after reconciliation")
     billable = [record for record in accepted if str(record["model"]).lower() != "none"]
-    if not billable:
-        raise ValueError("No identified billable accepted records remain after reconciliation")
 
     latest = max(parse_datetime(str(record["timestamp"])) for record in accepted)
     age_days = (generated_at.astimezone(UTC) - latest.astimezone(UTC)).total_seconds() / 86_400

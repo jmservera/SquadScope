@@ -852,3 +852,31 @@ All are fixed here.
 * `hugo --minify` full-site build succeeds; `/about/` and `/dashboard/` both
   still render the unavailable state against real (file-absent) repository
   data
+
+## Phase 2 Closure: BR-006 Editorial Acceptance (2026-08-11)
+
+### Modified
+
+* `scripts/generate_yearly_narrative.py`: composes four structurally distinct
+  month chapters, preserves complete sentence capitalization and punctuation,
+  filters unsupported validation language, and sanitizes public prose through
+  a convergent decode and markup-removal boundary
+* `tests/test_generate_rollups.py`: covers month completeness, structural
+  variation, unsupported claims, trailing fragments, instruction variants,
+  active markup, shortcodes, nested entities, split entities, and rejected
+  evidence behavior
+* `content/yearly/2026.md`: regenerated from the accepted deterministic inputs
+  as a 1,266-word May-August article
+
+### Acceptance And Validation
+
+* Exact patch fingerprint:
+  `cd545a1e431d88bf7cdd2fbf2c0d4d465618cad37ba4e2c3e1812320e7b8db54`
+* Farnsworth: ACCEPT, no editorial blockers
+* Nibbler: ACCEPT, no generated-content safety blockers
+* Final editor jmservera approved Phase 2 and the closure PR on 2026-08-11
+* Focused: 63 tests and six subtests passed
+* Full suite: 1,593 tests and 40 subtests passed
+* Ruff and Hugo passed; Hugo built 2,707 pages and eight aliases
+
+Phase 3 remains unstarted and outside this closure transaction.

@@ -129,7 +129,7 @@ genuine-equivalent 301/308 row.
 * [x] Add documented schemas, representative fixtures, deterministic-generation
   checks, and future-version rejection for every public JSON contract
 
-### [ ] Phase 2: Experience Shell, Homepage, Navigation, Editorial, And Cost
+### [x] Phase 2: Experience Shell, Homepage, Navigation, Editorial, And Cost
 
 <!-- parallelizable: true -->
 
@@ -146,8 +146,7 @@ genuine-equivalent 301/308 row.
   Visually verified via Playwright across homepage (light/dark/mobile), a
   weekly article, About, a Data listing, and a repository summary page
   (dark mode). Implementation, automated checks, and self-review complete;
-  named sponsor/editorial acceptance of representative views is a separate,
-  still-open state
+  sponsor Phase 2 approval was recorded on 2026-08-11
 * [x] BR-002: implement crawlable homepage summaries and links for weekly,
   monthly, yearly, topic, repository, and data coverage with empty-module removal.
   Added Monthly and Yearly rollup sections to `layouts/index.html` in the
@@ -158,9 +157,8 @@ genuine-equivalent 301/308 row.
   artifacts they depend on do not exist yet; they are forward-compatible
   and will populate automatically once BR-003/BR-004 data lands. Fixed a
   CSS grid regression from the added sections and a mobile label-overflow
-  issue on the Evidence Ruler. Implementation and automated checks
-  complete; named sponsor/editorial acceptance is a separate, still-open
-  state
+  issue on the Evidence Ruler. Implementation, automated checks, and
+  sponsor Phase 2 approval are complete
 * [x] BR-008: order Weekly, Monthly, and Yearly first across desktop, mobile,
   keyboard, and accessibility-tree navigation while preserving all destinations
 * [x] BR-006: remove cumulative clipping and generate a complete 1,200-1,800-word
@@ -173,9 +171,15 @@ genuine-equivalent 301/308 row.
   within the word budget (no ellipsis), fixed a related mid-sentence period bug
   in the opening-paragraph template, regenerated all four 2026 monthly pages and
   `content/yearly/2026.md` (1,775-word narrative body, within range, zero "…"),
-  and added regression tests. Named editorial review by Farnsworth/jmservera is
-  still open; automated completeness and range checks pass
-* [ ] BR-009: generate the reconciled public cost projection, fail publication
+  and added regression tests. The closure remediation regenerated a 1,266-word
+  May-August article, replaced repeated chapter scaffolding with varied
+  evidence structures, rejected unsupported validation claims, and added a
+  convergent public-prose sanitizer for instruction-like text, active markup,
+  shortcodes, unsafe links, and entity-reassembly bypasses. Farnsworth and
+  Nibbler accepted exact patch fingerprint
+  `cd545a1e431d88bf7cdd2fbf2c0d4d465618cad37ba4e2c3e1812320e7b8db54`;
+  final editor jmservera approved Phase 2 on 2026-08-11
+* [x] BR-009: generate the reconciled public cost projection, fail publication
   on invalid or stale input, and render current provenance on About.
   Rendering is done (2026-08-10): `layouts/partials/cost-dashboard.html` now
   consumes only the new BR-009 `cost-summary.json` schema (currency, pricing
@@ -191,10 +195,19 @@ genuine-equivalent 301/308 row.
   gap is now fixed (2026-08-10): `analyze` job uploads
   `data/metrics/token-usage.jsonl` as an artifact (`token-usage-ledger`), and
   `generate` job downloads it right after the publish-branch hydration,
-  overlaying this run's fresh row instead of discarding it. Wiring
-  `scripts/generate_cost_summary.py` into `crawl-and-publish.yml` is still not
-  done — that remains the last step for BR-009 activation, now unblocked by
-  this fix and the resolved sponsor policy question
+  overlaying this run's fresh row instead of discarding it. Activation is
+  complete (2026-08-10): `generate` now requires that artifact and runs
+  `scripts/generate_cost_summary.py` before content promotion with the workflow's
+  canonical timestamp and the sponsor-approved `--legacy-policy
+  exclude-unidentified`. Missing ledger transport, malformed or stale input,
+  unreconciled identities, and unpriced billable rows fail the owning pipeline.
+  An identified `model: none` run remains valid and emits an honest reconciled
+  zero-cost summary, preserving crawl continuity when the no-AI fallback is the
+  accepted attempt. The public summary is included in the same-run deployment
+  artifact; deploy removes the checked-in copy before artifact extraction and
+  fails if the restored current-run summary is absent or empty. Workflow
+  ordering, generator boundaries, public schema, renderer behavior, security
+  scans, and the Hugo build pass
 * [x] Retain Calculon, Fry, Farnsworth, Zapp, Nibbler, URL, and sponsor evidence
   only from the roles routed to each acceptance surface. For the BR-009 cost
   dashboard surface (PR #697, merged `9af3026d`), ran all six roles in
