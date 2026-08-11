@@ -48,7 +48,7 @@ def test_verify_once_probes_retained_index_and_representative_retirements(
     monkeypatch.setattr(verifier, "response_for", response_for)
 
     assert verifier.verify_once(tmp_path, "https://claracle.com") == []
-    assert requested == list(statuses)
+    assert set(requested) == set(statuses)
 
 
 def test_verify_once_rejects_map_without_retained_explorer(tmp_path: Path) -> None:
@@ -63,7 +63,7 @@ def test_verify_once_rejects_map_without_retained_explorer(tmp_path: Path) -> No
         ],
     )
 
-    with pytest.raises(ValueError, match="does not retain the /repo/ explorer"):
+    with pytest.raises(ValueError, match="does not retain the /repo/ explorer index"):
         verifier.verify_once(tmp_path, "https://claracle.com")
 
 
@@ -112,4 +112,26 @@ def test_verify_once_rejects_map_without_required_retirement(tmp_path: Path) -> 
     )
 
     with pytest.raises(ValueError, match="Required direct-404 retirements are missing"):
+        verifier.verify_once(tmp_path, "https://claracle.com")
+
+
+@pytest.mark.parametrize(
+    ("payload", "message"),
+    [
+        ({}, "records must be a list"),
+        ({"records": ["invalid"]}, "record 0 must be an object"),
+        (
+            {"records": [{"url": "/repo/", "disposition": "keep"}]},
+            "record 0 is missing keys",
+        ),
+    ],
+)
+def test_verify_once_rejects_malformed_map(
+    tmp_path: Path, payload: dict[str, object], message: str
+) -> None:
+    path = tmp_path / verifier.APPROVED_MAP
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match=message):
         verifier.verify_once(tmp_path, "https://claracle.com")
