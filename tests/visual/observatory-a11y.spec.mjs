@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
 const OBSERVATORY_PAGES = [
   { key: 'topic', path: '/topics/ai-coding-agents/' },
   { key: 'data', path: '/data/fastest-growing-ai-repositories-this-year/' },
-  { key: 'repository', path: '/repo/anthropics-claude-code/' },
+  { key: 'repository', path: '/repo/' },
   { key: 'chart', path: '/embeds/fastest-growing-ai-repositories-chart/' },
   { key: 'tool', path: '/tools/star-velocity-explorer/' },
 ];

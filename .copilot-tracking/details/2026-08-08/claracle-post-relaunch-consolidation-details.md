@@ -131,6 +131,102 @@ record; all routed automated and named reviews are retained.
 
 ## Phase 3 Details: Repository Inventory And Migration Candidate
 
+### Current Implementation State (2026-08-10)
+
+* Declared scope is Phase 3 only.
+* The approved write boundary includes the URL inventory and evidence snapshot,
+  BR-003 repository artifact generator, `/repo/` Hugo template, scoped
+  enhancement JavaScript and CSS, navigation, generated repository data, tests,
+  and these current RPI records.
+* Live production evidence currently reconciles 264 `/repo/` sitemap URLs
+  against 274 local URL forms. Ten local URLs are absent from the sitemap.
+* Exact-page Search Analytics, sampled backlink, first-party referral, and URL
+  Inspection evidence are imported. Missing export rows are recorded only as
+  not observed in the named export, never as historical zero.
+* First execution boundary: create a deterministic evidence snapshot and
+  versioned repository summary, then render the authoritative no-JavaScript
+  explorer before deciding whether the removal gate has sufficient evidence.
+
+### Phase 3 Implementation Result (2026-08-11)
+
+* Production reconciliation is complete: 274 local URL forms, 264 sitemap and
+  HTTP-200 URLs, 10 direct HTTP 404 URLs, and zero production-only URLs.
+* The deterministic BR-003 artifact is generated from the crawl corpus even
+  while `repo_pages.enabled` remains false. It contains 269 current records,
+  validates GitHub origins, retains provenance, and defaults to recent momentum.
+* `/repo/` renders the complete server-side evidence index with direct GitHub
+  links and a public download. JavaScript adds search, topic, language, status,
+  period, sort, reset, URL persistence, browser history, and empty-result
+  guidance; without JavaScript the full momentum-sorted index remains useful.
+* Inventory aliases have isolated evidence objects. The schema requires every
+  evidence field, approved status for non-pending dispositions, and collected,
+  non-ambiguous evidence with named sources and windows before redirect or
+  retirement can validate.
+* Snapshot capture fails closed on unavailable HTTP evidence. Pipeline freshness
+  checks validate the repository artifact, retained production snapshot, and
+  joined URL inventory.
+* External evidence import records 51 impressions and zero clicks across 10
+  exact repository URLs for 2026-07-27..2026-08-09. No repository target is
+  observed in the sampled backlink export, and the 2026-07-27..2026-08-11 GA4
+  export contains no referral rows.
+* URL Inspection covers all 274 rows through `sc-domain:claracle.com`: 15 are
+  submitted and indexed, 99 are discovered but not indexed, and 160 are unknown
+  to Google. Every impression-bearing URL is in the indexed set.
+* Rendered internal links, content differentiation, and destination equivalence
+  are reviewed for all 274 rows. The pending candidate recommends 11 keeps, one
+  redirect, and 262 retirements.
+* The redirect candidate is the indexed legacy Odysseus alias to its canonical
+  identity-equivalent URL. Its destination is currently HTTP 404, so approval
+  requires retaining the destination and migrating to the selected
+  redirect-capable hosting boundary.
+* The pending candidate state above is preserved as historical evidence and was
+  superseded by the sponsor-approved migration result below.
+
+### Phase 3 Approved Migration Result (2026-08-11)
+
+* `data/migrations/repository-approved-dispositions.json` preserves the sponsor's
+  exact approval, binds the immutable candidate and inventory hashes, records
+  `05433d5` as the approved candidate commit, and explicitly preserves all phase,
+  security, review, and production gates.
+* The reviewed transaction removes 256 retired canonical source files, retains
+  10 differentiated profiles plus `/repo/`, removes the Odysseus Hugo alias, and
+  emits the sole approved one-hop 301 rule in `static/_redirects`.
+* Repository source is no longer hydrated from `publish`; disabled generation
+  cannot restore retired pages. Related-profile links use direct GitHub URLs.
+* Both production workflows deploy the complete Hugo build and redirects
+  atomically to the `claracle` Cloudflare Pages project through commit-pinned
+  Wrangler Action and Wrangler 4.120.1. Their shared concurrency group serializes
+  rather than cancels production deploys.
+* The migration validator fails on approval/count drift, changed source bytes,
+  redirect loops or missing targets, retained-source absence, alias re-emission,
+  redirect drift, or missing rollback evidence.
+* A clean Hugo build contains exactly 10 retained profiles plus the explorer,
+  omits retired and redirect-source URLs from sitemap and internal links, emits
+  the custom 404, and copies the exact redirect rule. Wrangler Pages local
+  emulation returns retained HTTP 200, legacy HTTP 301, and retired HTTP 404.
+* BR-003 publication-scope retirement is documented as a checksum-bound,
+  sponsor-approved exception distinct from SEC-04 upstream-deletion lifecycle
+  handling; checked-in crawl history remains intact.
+* Production completion remains blocked until the Cloudflare project, scoped
+  secrets, custom domains, Namecheap nameserver cutover, TLS, live probes, and
+  rollback evidence exist. Phase 4 cannot start before those gates pass.
+
+### Phase 3 Validation Result
+
+* `pytest tests/`: 1,612 passed, two expected warnings after disposition review.
+* Evidence import, inventory, and public schema contracts: 37 focused tests
+  passed.
+* `ruff check .` and `ruff format --check .`: passed.
+* Hugo: 2,707 pages and eight aliases built.
+* Pagefind 1.5.2: completed; rendered internal-link check passed.
+* Repository summary, production snapshot, and URL inventory checks: passed.
+* Checkov 3.2.533: 894 passed, zero failed, six skipped.
+* Installed Zizmor 1.25.2: no medium/high findings. The repository-pinned
+  1.27.0 binary was unavailable locally, so the pinned-version CI gate remains
+  authoritative for the workflow diff.
+* Checkov 3.2.533: 894 passed, zero failed, six skipped after adding URL
+  Inspection freshness checks to both publishing workflows.
+
 ### Steps And File Operations
 
 1. Produce one versioned URL inventory joining source records, generated pages,
@@ -138,7 +234,8 @@ record; all routed automated and named reviews are retained.
    canonical targets, and production-only discoveries.
 2. Import URL Inspection, exact-page Search Analytics for the recorded window,
    sampled link evidence, and available first-party referral evidence without
-   converting missing observations into zero.
+   converting missing observations into zero. Search Analytics, sampled links,
+   and referral exports are complete; URL Inspection remains outstanding.
 3. Add content differentiation and destination-equivalence review. Require named
    approval for each keep, merge, redirect, or retire row.
 4. Determine the hosting boundary only after disposition approval. If no redirect

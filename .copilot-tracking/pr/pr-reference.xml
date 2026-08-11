@@ -1,0 +1,4219 @@
+<commit_history>
+  <current_branch>
+feat/repository-migration-phase3
+  </current_branch>
+
+  <base_branch>
+    origin/main
+  </base_branch>
+
+  <commits>
+<commit hash="5c695ae" date="2026-08-11"><message><subject><\![CDATA[docs(rpi): record migration pull request]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
+]]></body></message></commit>
+<commit hash="b408344" date="2026-08-11"><message><subject><\![CDATA[docs(pr): prepare repository migration review]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
+]]></body></message></commit>
+<commit hash="25bd41a" date="2026-08-11"><message><subject><\![CDATA[docs(rpi): record migration validation]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
+]]></body></message></commit>
+<commit hash="685352f" date="2026-08-11"><message><subject><\![CDATA[Merge remote-tracking branch 'origin/main' into feat/repository-migration-phase3]]></subject><body><\![CDATA[]]></body></message></commit>
+<commit hash="6b949c9" date="2026-08-11"><message><subject><\![CDATA[feat(repositories): execute approved URL migration]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
+]]></body></message></commit>
+<commit hash="05433d5" date="2026-08-11"><message><subject><\![CDATA[data(repositories): propose migration dispositions]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
+]]></body></message></commit>
+<commit hash="c081b06" date="2026-08-11"><message><subject><\![CDATA[data(repositories): capture URL inspection evidence]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
+]]></body></message></commit>
+<commit hash="f79467a" date="2026-08-11"><message><subject><\![CDATA[data(repositories): import migration evidence]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
+]]></body></message></commit>
+<commit hash="e267247" date="2026-08-11"><message><subject><\![CDATA[docs(rpi): record Phase 3 evidence blocker]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
+]]></body></message></commit>
+<commit hash="353c7c3" date="2026-08-11"><message><subject><\![CDATA[feat(repositories): build migration evidence explorer]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
+]]></body></message></commit>  </commits>
+
+  <full_diff>
+diff --git a/.copilot-tracking/pr/pr-reference.xml b/.copilot-tracking/pr/pr-reference.xml
+new file mode 100644
+index 0000000..261c6f7
+--- /dev/null
++++ b/.copilot-tracking/pr/pr-reference.xml
+@@ -0,0 +1,49 @@
++<commit_history>
++  <current_branch>
++feat/repository-migration-phase3
++  </current_branch>
++
++  <base_branch>
++    origin/main
++  </base_branch>
++
++  <commits>
++<commit hash="5c695ae" date="2026-08-11"><message><subject><\![CDATA[docs(rpi): record migration pull request]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="b408344" date="2026-08-11"><message><subject><\![CDATA[docs(pr): prepare repository migration review]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="25bd41a" date="2026-08-11"><message><subject><\![CDATA[docs(rpi): record migration validation]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="685352f" date="2026-08-11"><message><subject><\![CDATA[Merge remote-tracking branch 'origin/main' into feat/repository-migration-phase3]]></subject><body><\![CDATA[]]></body></message></commit>
++<commit hash="6b949c9" date="2026-08-11"><message><subject><\![CDATA[feat(repositories): execute approved URL migration]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="05433d5" date="2026-08-11"><message><subject><\![CDATA[data(repositories): propose migration dispositions]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="c081b06" date="2026-08-11"><message><subject><\![CDATA[data(repositories): capture URL inspection evidence]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="f79467a" date="2026-08-11"><message><subject><\![CDATA[data(repositories): import migration evidence]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="e267247" date="2026-08-11"><message><subject><\![CDATA[docs(rpi): record Phase 3 evidence blocker]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>
++<commit hash="353c7c3" date="2026-08-11"><message><subject><\![CDATA[feat(repositories): build migration evidence explorer]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
++
++Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
++]]></body></message></commit>  </commits>
++
++  <full_diff>
+diff --git a/.github/workflows/crawl-and-publish.yml b/.github/workflows/crawl-and-publish.yml
+index 0541273..756721b 100644
+--- a/.github/workflows/crawl-and-publish.yml
++++ b/.github/workflows/crawl-and-publish.yml
+@@ -1076,7 +1076,6 @@ jobs:
+             content/monthly/
+             content/yearly/
+             content/topics/
+-            content/repo/
+             content/data/
+             data/analyzed/
+             data/raw/
+@@ -1259,6 +1258,9 @@ jobs:
+       - name: Generate repository pages
+         run: python3 scripts/observatory_repos.py
+
++      - name: Generate repository explorer data
++        run: python3 scripts/generate_repository_summary.py --from-crawl
++
+       - name: Generate data pages
+         run: python3 scripts/generate_data_pages.py
+
+@@ -1274,6 +1276,9 @@ jobs:
+           python3 scripts/backfill_weekly_topics.py --check
+           python3 scripts/discover_topic_candidates.py --check
+           python3 scripts/observatory_repos.py --check
++          python3 scripts/generate_repository_summary.py --from-crawl --check
++          python3 scripts/generate_repository_approved_dispositions.py --check
++          python3 scripts/apply_repository_migration.py --check
+           python3 scripts/generate_data_pages.py --check
+           python3 scripts/export_observatory_dataset.py --check
+           python3 scripts/export_trend_explorer_data.py --check
+@@ -1301,7 +1306,6 @@ jobs:
+             content/monthly/
+             content/yearly/
+             content/topics/
+-            content/repo/
+             content/data/
+             data/analyzed/
+             data/candidates/
+@@ -1438,7 +1442,6 @@ jobs:
+             content/monthly/
+             content/yearly/
+             content/topics/
+-            content/repo/
+             content/data/
+             data/taxonomy/
+             data/topic-hubs/
+@@ -1462,14 +1465,12 @@ jobs:
+     permissions:
+       actions: read
+       contents: read
+-      pages: write
+-      id-token: write
+     concurrency:
+-      group: pages
+-      cancel-in-progress: true
++      group: cloudflare-pages
++      cancel-in-progress: false
+     environment:
+-      name: github-pages
+-      url: ${{ steps.deployment.outputs.page_url }}
++      name: cloudflare-pages
++      url: ${{ steps.deployment.outputs.deployment-url }}
+     env:
+       HUGO_VERSION: 0.161.1
+
+@@ -1507,10 +1508,6 @@ jobs:
+       - name: Verify generated cost summary
+         run: test -s data/metrics/cost-summary.json
+
+-      # Deploy builds from artifacts — no dependency on PR merges to main.
+-      - name: Configure GitHub Pages
+-        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
+-
+       - name: Install Hugo
+         run: |
+           set -euo pipefail
+@@ -1543,14 +1540,17 @@ jobs:
+       - name: Build search index
+         run: npx pagefind --site public/
+
+-      - name: Upload Pages artifact
+-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
++      - name: Deploy to Cloudflare Pages
++        id: deployment
++        uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3
+         with:
+-          path: ./public
++          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
++          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
++          wranglerVersion: '4.120.1'
++          command: pages deploy public --project-name=claracle --branch=main
+
+-      - name: Deploy to GitHub Pages
+-        id: deployment
+-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
++      - name: Verify production migration behavior
++        run: python3 scripts/verify_repository_migration_http.py --attempts 12 --delay 10
+
+   # NOTE: The Podcaster handoff intentionally lives in sync-publish-to-main.yml,
+   # which fires only AFTER the weekly article is merged into main. Triggering it
+@@ -1636,7 +1636,7 @@ jobs:
+         run: |
+           SUMMARY=$(ls -t data/analyzed/*-summary.md | head -1)
+           WEEK=$(basename "$SUMMARY" | sed 's/-summary.md//')
+-          SITE_URL="https://jmservera.github.io/SquadScope/weekly/$(echo "$WEEK" | tr '-' '/' | sed 's/W/w/')/"
++          SITE_URL="https://claracle.com/weekly/$(echo "$WEEK" | tr '-' '/' | sed 's/W/w/')/"
+
+           # Build JSON payload with jq to prevent injection via WEEK or SITE_URL
+           PAYLOAD=$(jq -n \
+diff --git a/.github/workflows/deploy-site.yml b/.github/workflows/deploy-site.yml
+index dc2ecba..fdc7da7 100644
+--- a/.github/workflows/deploy-site.yml
++++ b/.github/workflows/deploy-site.yml
+@@ -16,8 +16,8 @@ permissions:
+   contents: read
+
+ concurrency:
+-  group: pages
+-  cancel-in-progress: true
++  group: cloudflare-pages
++  cancel-in-progress: false
+
+ jobs:
+   build:
+@@ -28,7 +28,6 @@ jobs:
+     runs-on: ubuntu-latest
+     permissions:
+       contents: read
+-      pages: write
+     outputs:
+       smoke_week: ${{ steps.podcaster-release.outputs.week }}
+       smoke_article_url: ${{ steps.podcaster-release.outputs.article_url }}
+@@ -64,9 +63,6 @@ jobs:
+           echo "::error::PaperMod submodule initialization failed after ${attempts} attempts" >&2
+           exit 1
+
+-      - name: Configure GitHub Pages
+-        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
+-
+       - name: Set up Node.js
+         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+         with:
+@@ -115,7 +111,6 @@ jobs:
+             content/monthly/
+             content/yearly/
+             content/topics/
+-            content/repo/
+             content/data/
+             data/analyzed/
+             data/raw/
+@@ -197,24 +192,45 @@ jobs:
+       - name: Build Pagefind index
+         run: npx pagefind --site public/
+
+-      - name: Upload Pages artifact
+-        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
++      - name: Upload site artifact
++        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+         with:
++          name: site
+           path: ./public
++          if-no-files-found: error
++          retention-days: 1
+
+   deploy:
+     needs: build
+     runs-on: ubuntu-latest
+     permissions:
+-      pages: write
+-      id-token: write
++      contents: read
+     environment:
+-      name: github-pages
+-      url: ${{ steps.deployment.outputs.page_url }}
++      name: cloudflare-pages
++      url: ${{ steps.deployment.outputs.deployment-url }}
+     steps:
+-      - name: Deploy to GitHub Pages
++      - name: Check out repository
++        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
++        with:
++          persist-credentials: false
++
++      - name: Download site artifact
++        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
++        with:
++          name: site
++          path: public
++
++      - name: Deploy to Cloudflare Pages
+         id: deployment
+-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
++        uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3
++        with:
++          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
++          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
++          wranglerVersion: '4.120.1'
++          command: pages deploy public --project-name=claracle --branch=main
++
++      - name: Verify production migration behavior
++        run: python3 scripts/verify_repository_migration_http.py --attempts 12 --delay 10
+
+   podcaster-release-smoke:
+     needs: [build, deploy]
+diff --git a/.github/workflows/generate-data-pages.yml b/.github/workflows/generate-data-pages.yml
+index 315de03..9931c45 100644
+--- a/.github/workflows/generate-data-pages.yml
++++ b/.github/workflows/generate-data-pages.yml
+@@ -30,7 +30,6 @@ jobs:
+           GENERATED_PATHS=(
+             content/weekly/
+             content/topics/
+-            content/repo/
+             content/data/
+             data/raw/
+             data/analyzed/
+@@ -63,6 +62,9 @@ jobs:
+           set -euo pipefail
+           python3 scripts/discover_topic_candidates.py --check
+           python3 scripts/observatory_repos.py --check
++          python3 scripts/generate_repository_summary.py --from-crawl --check
++          python3 scripts/generate_repository_approved_dispositions.py --check
++          python3 scripts/apply_repository_migration.py --check
+           python3 scripts/generate_data_pages.py --check
+           python3 scripts/export_observatory_dataset.py --check
+           python3 scripts/export_trend_explorer_data.py --check
+diff --git a/assets/css/extended/repository-explorer.css b/assets/css/extended/repository-explorer.css
+new file mode 100644
+index 0000000..1c8509a
+--- /dev/null
++++ b/assets/css/extended/repository-explorer.css
+@@ -0,0 +1,130 @@
++.repository-explorer {
++  display: grid;
++  gap: var(--space-6);
++}
++
++.repository-explorer__thesis {
++  display: grid;
++  gap: var(--space-3);
++  border-block: var(--size-border-thin) solid var(--color-border);
++  padding-block: var(--space-4);
++}
++
++.repository-explorer__thesis p {
++  max-width: var(--prose-measure);
++  margin: 0;
++}
++
++.repository-explorer__controls {
++  display: grid;
++  gap: var(--space-3);
++  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
++  padding: var(--space-4);
++  border: var(--size-border-thin) solid var(--color-border);
++  border-radius: var(--radius-md);
++  background: var(--color-surface);
++}
++
++.repository-explorer__controls label {
++  display: grid;
++  gap: var(--space-1);
++  color: var(--color-text-muted);
++  font-size: var(--text-sm);
++  font-weight: 700;
++}
++
++.repository-explorer__controls input,
++.repository-explorer__controls select {
++  min-height: var(--size-touch-target);
++  padding-inline: var(--space-2);
++  border: var(--size-border-thin) solid var(--color-border);
++  border-radius: var(--radius-sm);
++  background: var(--color-bg);
++  color: var(--color-text);
++}
++
++.repository-explorer__reset {
++  align-self: end;
++  min-height: var(--size-touch-target);
++  border: var(--size-border-thin) solid var(--color-accent);
++  border-radius: var(--radius-sm);
++  background: transparent;
++  color: var(--color-accent);
++  font-weight: 700;
++}
++
++.repository-explorer__status {
++  margin: 0;
++  color: var(--color-text-muted);
++}
++
++.repository-index {
++  display: grid;
++  gap: var(--space-3);
++  margin: 0;
++  padding: 0;
++  list-style: none;
++}
++
++.repository-index__record {
++  display: grid;
++  grid-template-columns: minmax(0, 1fr) auto;
++  gap: var(--space-3) var(--space-5);
++  padding: var(--space-4);
++  border-block-start: var(--size-border-thin) solid var(--color-border);
++}
++
++.repository-index__record:last-child {
++  border-block-end: var(--size-border-thin) solid var(--color-border);
++}
++
++.repository-index__heading {
++  margin: 0;
++  font-size: var(--text-lg);
++}
++
++.repository-index__summary {
++  max-width: var(--prose-measure);
++  margin: var(--space-1) 0 0;
++  color: var(--color-text-muted);
++}
++
++.repository-index__evidence {
++  display: flex;
++  flex-wrap: wrap;
++  gap: var(--space-1) var(--space-3);
++  margin: var(--space-2) 0 0;
++  color: var(--color-text-muted);
++  font-size: var(--text-sm);
++}
++
++.repository-index__signal {
++  display: grid;
++  align-content: center;
++  min-width: 9rem;
++  text-align: end;
++}
++
++.repository-index__signal strong {
++  color: var(--color-accent);
++  font-family: var(--font-mono);
++  font-size: var(--text-xl);
++}
++
++.repository-index__signal span {
++  color: var(--color-text-muted);
++  font-size: var(--text-xs);
++  letter-spacing: 0.05em;
++  text-transform: uppercase;
++}
++
++@media (max-width: 640px) {
++  .repository-index__record {
++    grid-template-columns: 1fr;
++  }
++
++  .repository-index__signal {
++    justify-items: start;
++    text-align: start;
++  }
++}
+diff --git a/assets/js/repository-explorer.js b/assets/js/repository-explorer.js
+new file mode 100644
+index 0000000..31f7f8f
+--- /dev/null
++++ b/assets/js/repository-explorer.js
+@@ -0,0 +1,153 @@
++(function () {
++  "use strict";
++
++  const validSorts = new Set(["momentum", "stars", "appearances", "name"]);
++  const validPeriods = new Set(["all", "current", "recent"]);
++
++  function normalized(value) {
++    return String(value || "").trim().toLowerCase();
++  }
++
++  function numberValue(item, name) {
++    return Number(item.getAttribute(name)) || 0;
++  }
++
++  function setSelect(select, value, allowed) {
++    if (allowed.has(value)) {
++      select.value = value;
++    }
++  }
++
++  function readState(root) {
++    const params = new URLSearchParams(window.location.search);
++    const controls = {
++      search: root.querySelector("[data-repo-search]"),
++      language: root.querySelector("[data-repo-language]"),
++      topic: root.querySelector("[data-repo-topic]"),
++      status: root.querySelector("[data-repo-status]"),
++      period: root.querySelector("[data-repo-period]"),
++      sort: root.querySelector("[data-repo-sort]"),
++    };
++    controls.search.value = params.get("q") || "";
++    controls.language.value = params.get("language") || "";
++    controls.topic.value = params.get("topic") || "";
++    controls.status.value = params.get("status") || "";
++    setSelect(controls.period, params.get("period") || "all", validPeriods);
++    setSelect(controls.sort, params.get("sort") || "momentum", validSorts);
++    return controls;
++  }
++
++  function writeState(controls, mode) {
++    const params = new URLSearchParams();
++    const entries = [
++      ["q", controls.search.value],
++      ["language", controls.language.value],
++      ["topic", controls.topic.value],
++      ["status", controls.status.value],
++    ];
++    entries.forEach(([name, value]) => {
++      if (value) {
++        params.set(name, value);
++      }
++    });
++    if (controls.period.value !== "all") {
++      params.set("period", controls.period.value);
++    }
++    if (controls.sort.value !== "momentum") {
++      params.set("sort", controls.sort.value);
++    }
++    const query = params.toString();
++    window.history[mode]({}, "", `${window.location.pathname}${query ? `?${query}` : ""}`);
++  }
++
++  function matchesPeriod(item, value, latestPeriod) {
++    if (value === "current") {
++      return item.getAttribute("data-last-period") === latestPeriod;
++    }
++    if (value === "recent") {
++      return item.getAttribute("data-recent") === "true";
++    }
++    return true;
++  }
++
++  function comparator(sort) {
++    if (sort === "name") {
++      return (left, right) =>
++        left.getAttribute("data-name").localeCompare(right.getAttribute("data-name"));
++    }
++    const attribute = {
++      appearances: "data-appearances",
++      momentum: "data-momentum",
++      stars: "data-stars",
++    }[sort];
++    return (left, right) => {
++      const difference = numberValue(right, attribute) - numberValue(left, attribute);
++      return difference || left.getAttribute("data-name").localeCompare(right.getAttribute("data-name"));
++    };
++  }
++
++  function apply(root, controls, historyMode) {
++    const list = root.querySelector("[data-repo-results]");
++    const status = root.querySelector("[data-repo-result-status]");
++    const latestPeriod = root.getAttribute("data-latest-period");
++    const query = normalized(controls.search.value);
++    const language = normalized(controls.language.value);
++    const topic = normalized(controls.topic.value);
++    const lifecycle = normalized(controls.status.value);
++    const items = Array.from(list.querySelectorAll("[data-repo-record]"));
++    const visible = items.filter((item) => {
++      const haystack = normalized(item.getAttribute("data-search"));
++      const topics = normalized(item.getAttribute("data-topics")).split("|");
++      return (
++        (!query || haystack.includes(query)) &&
++        (!language || normalized(item.getAttribute("data-language")) === language) &&
++        (!topic || topics.includes(topic)) &&
++        (!lifecycle || normalized(item.getAttribute("data-status")) === lifecycle) &&
++        matchesPeriod(item, controls.period.value, latestPeriod)
++      );
++    });
++
++    const visibleSet = new Set(visible);
++    items.forEach((item) => {
++      item.hidden = !visibleSet.has(item);
++    });
++    visible.sort(comparator(controls.sort.value)).forEach((item) => list.appendChild(item));
++    status.textContent = visible.length
++      ? `Showing ${visible.length} of ${items.length} repositories.`
++      : "No repositories match these filters. Reset filters to return to the full index.";
++    if (historyMode) {
++      writeState(controls, historyMode);
++    }
++  }
++
++  function initRepositoryExplorer(root) {
++    let controls = readState(root);
++    let searchHistoryTimer;
++    root.addEventListener("input", () => {
++      apply(root, controls, null);
++      window.clearTimeout(searchHistoryTimer);
++      searchHistoryTimer = window.setTimeout(() => writeState(controls, "pushState"), 300);
++    });
++    root.addEventListener("change", () => apply(root, controls, "pushState"));
++    root.querySelector("[data-repo-reset]").addEventListener("click", () => {
++      controls.search.value = "";
++      controls.language.value = "";
++      controls.topic.value = "";
++      controls.status.value = "";
++      controls.period.value = "all";
++      controls.sort.value = "momentum";
++      apply(root, controls, "pushState");
++      controls.search.focus();
++    });
++    window.addEventListener("popstate", () => {
++      controls = readState(root);
++      apply(root, controls, null);
++    });
++    apply(root, controls, "replaceState");
++  }
++
++  window.initRepositoryExplorer = initRepositoryExplorer;
++  document.addEventListener("DOMContentLoaded", () => {
++    document.querySelectorAll("[data-repository-explorer]").forEach(initRepositoryExplorer);
++  });
++})();
+diff --git a/hugo.toml b/hugo.toml
+index a5eb209..5614b0c 100644
+--- a/hugo.toml
++++ b/hugo.toml
+@@ -84,6 +84,12 @@ rssLimit = 52
+     url = '/data/'
+     weight = 35
+
++  [[menu.main]]
++    identifier = 'repositories'
++    name = 'Repositories'
++    url = '/repo/'
++    weight = 34
++
+   [[menu.main]]
+     identifier = 'tools'
+     name = 'Tools'
+@@ -133,6 +139,9 @@ ignoreFiles = ['data/analyzed/.*\\.md$', 'data/metrics/.*\\.md$', 'data/metrics/
+   [[module.mounts]]
+     source = 'data/taxonomy'
+     target = 'data/taxonomy'
++  [[module.mounts]]
++    source = 'data/observatory'
++    target = 'data/observatory'
+   [[module.mounts]]
+     source = 'content'
+     target = 'content'
+diff --git a/layouts/404.html b/layouts/404.html
+new file mode 100644
+index 0000000..b371a8c
+--- /dev/null
++++ b/layouts/404.html
+@@ -0,0 +1,7 @@
++{{- define "main" }}
++<main class="not-found" id="main">
++  <h1>404</h1>
++  <p>The page you requested is not available.</p>
++  <p><a href="{{ "/" | relURL }}">Return to Claracle</a></p>
++</main>
++{{- end }}
+diff --git a/layouts/repo/list.html b/layouts/repo/list.html
+index d0b19e7..c81ddb9 100644
+--- a/layouts/repo/list.html
++++ b/layouts/repo/list.html
+@@ -1,18 +1,135 @@
+ {{- define "main" }}
+-<article class="repo-list page" data-pagefind-body>
++{{- $artifact := site.Data.observatory.repository_summary -}}
++{{- $records := $artifact.records | default slice -}}
++{{- $latestPeriod := "" -}}
++{{- $observedPeriods := slice -}}
++{{- range $records -}}
++  {{- if gt .last_seen_period $latestPeriod }}{{ $latestPeriod = .last_seen_period }}{{ end -}}
++  {{- $observedPeriods = $observedPeriods | append .last_seen_period -}}
++{{- end -}}
++{{- $recentPeriods := first 4 (sort (uniq $observedPeriods) "value" "desc") -}}
++{{- $languages := slice -}}
++{{- $topics := slice -}}
++{{- range $records -}}
++  {{- with .language }}{{ $languages = $languages | append . }}{{ end -}}
++  {{- range .topics }}{{ $topics = $topics | append . }}{{ end -}}
++{{- end -}}
++{{- $languages = uniq (sort $languages) -}}
++{{- $topics = uniq (sort $topics) -}}
++<article
++  class="repo-list page repository-explorer"
++  data-pagefind-body
++  data-repository-explorer
++  data-latest-period="{{ $latestPeriod }}"
++>
+   {{ partial "breadcrumbs.html" . }}
+   <header class="page-header">
+     <h1>{{ .Title }}</h1>
+     {{ with .Description }}<p>{{ . }}</p>{{ end }}
+-    <p>Generated pages: {{ .Params.repo_pages_generated }}. Threshold: more than {{ .Params.recurrence_threshold.distinct_weekly_issues }} distinct weekly issues.</p>
+   </header>
++
++  <section class="repository-explorer__thesis" aria-labelledby="repository-index-heading">
++    <div class="section-topline">Evidence index · {{ $artifact.covered_period.label }}</div>
++    <h2 id="repository-index-heading">Follow the repositories that keep returning</h2>
++    <p>Search Claracle&rsquo;s recurring GitHub evidence by language, topic, lifecycle, and observation period. Every result links directly to the source repository; the index remains complete and useful without JavaScript.</p>
++    <p><a href="/data/repositories.json" download>Download the versioned repository dataset</a> · <a href="{{ $artifact.provenance.methodology_url }}">Read the methodology</a></p>
++  </section>
++
++  <div class="repository-explorer__controls" aria-label="Repository filters">
++    <label>
++      Search
++      <input type="search" data-repo-search placeholder="Repository or summary">
++    </label>
++    <label>
++      Language
++      <select data-repo-language>
++        <option value="">All languages</option>
++        {{- range $languages }}<option value="{{ . }}">{{ . }}</option>{{ end }}
++      </select>
++    </label>
++    <label>
++      Topic
++      <select data-repo-topic>
++        <option value="">All topics</option>
++        {{- range $topics }}<option value="{{ . }}">{{ . }}</option>{{ end }}
++      </select>
++    </label>
++    <label>
++      Status
++      <select data-repo-status>
++        <option value="">All statuses</option>
++        <option value="active">Active</option>
++        <option value="archived">Archived</option>
++        <option value="disabled">Disabled</option>
++        <option value="deleted">Deleted</option>
++        <option value="renamed">Renamed</option>
++        <option value="retained">Retained</option>
++      </select>
++    </label>
++    <label>
++      Observation period
++      <select data-repo-period>
++        <option value="all">All history</option>
++        <option value="current">Seen in {{ $latestPeriod }}</option>
++        <option value="recent">Seen in the latest four weeks</option>
++      </select>
++    </label>
++    <label>
++      Sort
++      <select data-repo-sort>
++        <option value="momentum">Recent momentum</option>
++        <option value="stars">Latest stars</option>
++        <option value="appearances">Weekly appearances</option>
++        <option value="name">Repository name</option>
++      </select>
++    </label>
++    <button class="repository-explorer__reset" type="button" data-repo-reset>Reset filters</button>
++  </div>
++  <noscript>
++    <style>.repository-explorer__controls { display: none; }</style>
++    <p class="repository-explorer__status">Filters require JavaScript. The complete index remains available below, sorted by recent momentum.</p>
++  </noscript>
++
++  <p class="repository-explorer__status" data-repo-result-status aria-live="polite">Showing all {{ len $records }} repositories.</p>
++
+   <div class="post-content">
+     {{ .Content }}
+-    <ul>
+-      {{- range .Pages.ByTitle }}
+-      <li><a href="{{ .RelPermalink }}">{{ .Params.repo_full_name }}</a> — {{ .Params.distinct_weekly_issues }} weekly appearances</li>
++    <ol class="repository-index" data-repo-results>
++      {{- range $records }}
++      {{- $latest := cond (gt (len .star_history) 0) (index .star_history (sub (len .star_history) 1)) (dict "stars" 0) -}}
++      <li
++        class="repository-index__record"
++        data-repo-record
++        data-name="{{ lower .full_name }}"
++        data-search="{{ lower (printf "%s %s %s" .full_name .context_summary (delimit .topics " ")) }}"
++        data-language="{{ lower (.language | default "") }}"
++        data-topics="{{ lower (delimit .topics "|") }}"
++        data-status="{{ .status }}"
++        data-last-period="{{ .last_seen_period }}"
++        data-recent="{{ if in $recentPeriods .last_seen_period }}true{{ else }}false{{ end }}"
++        data-momentum="{{ .recent_momentum | default 0 }}"
++        data-stars="{{ $latest.stars | default 0 }}"
++        data-appearances="{{ len .star_history }}"
++      >
++        <div>
++          <h3 class="repository-index__heading"><a href="{{ .github_url }}" rel="noopener">{{ .full_name }}</a></h3>
++          <p class="repository-index__summary">{{ .context_summary }}</p>
++          <p class="repository-index__evidence">
++            <span>{{ .language | default "Language unavailable" }}</span>
++            <span>{{ .status }}</span>
++            <span>{{ .first_seen_period }}–{{ .last_seen_period }}</span>
++            <span>{{ len .star_history }} weekly observations</span>
++          </p>
++        </div>
++        <div class="repository-index__signal" aria-label="{{ .recent_momentum | default 0 }} stars of recent observed momentum">
++          <strong>{{ if ge (.recent_momentum | default 0) 0 }}+{{ end }}{{ lang.FormatNumber 0 (.recent_momentum | default 0) }}</strong>
++          <span>4-week signal</span>
++        </div>
++      </li>
+       {{- end }}
+-    </ul>
++    </ol>
+   </div>
++  {{- $script := resources.Get "js/repository-explorer.js" | js.Build | resources.Minify | fingerprint }}
++  <script defer src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}"></script>
+ </article>
+ {{- end }}
+diff --git a/layouts/repo/single.html b/layouts/repo/single.html
+index 80e8450..d8544d9 100644
+--- a/layouts/repo/single.html
++++ b/layouts/repo/single.html
+@@ -90,7 +90,7 @@
+     <ul>
+       {{- range .Params.related_repos }}
+       <li>
+-        <a href="/repo/{{ .slug }}/">{{ .full_name }}</a>
++        <a href="https://github.com/{{ .full_name }}">{{ .full_name }}</a>
+         {{- with .shared_topics }} — shared topics: {{ delimit . ", " }}{{ end }}
+       </li>
+       {{- end }}
+diff --git a/requirements.txt b/requirements.txt
+index e0fc178..228705c 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -3,6 +3,7 @@ pydantic>=2.0,<3.0
+ pyyaml>=6.0,<7.0
+ feedparser>=6.0,<7.0
+ brotli>=1.1,<2.0
++defusedxml>=0.7,<1.0
+
+ # Test dependencies
+ jsonschema[format]>=4.0,<5.0
+diff --git a/scripts/apply_repository_migration.py b/scripts/apply_repository_migration.py
+new file mode 100644
+index 0000000..ad4c1da
+--- /dev/null
++++ b/scripts/apply_repository_migration.py
+@@ -0,0 +1,166 @@
++"""Apply and verify the approved repository URL migration transaction."""
++
++from __future__ import annotations
++
++import argparse
++import hashlib
++import json
++from pathlib import Path
++from typing import Any
++
++APPROVED_MAP = Path("data/migrations/repository-approved-dispositions.json")
++REDIRECTS = Path("static/_redirects")
++ROLLBACK_MANIFEST = Path("data/migrations/repository-migration-rollback.json")
++
++
++def load_map(root: Path) -> dict[str, Any]:
++    path = root / APPROVED_MAP
++    loaded = json.loads(path.read_text(encoding="utf-8"))
++    if loaded.get("approval", {}).get("status") != "approved":
++        raise ValueError("Repository migration map is not approved")
++    if loaded.get("counts") != {"keep": 11, "redirect": 1, "retire": 262, "total": 274}:
++        raise ValueError("Approved repository migration counts changed")
++    return loaded
++
++
++def expected_redirects(records: list[dict[str, Any]]) -> str:
++    redirects = [record for record in records if record["disposition"] == "redirect"]
++    if len(redirects) != 1:
++        raise ValueError("Exactly one redirect is required")
++    source = redirects[0]
++    target = source["destination"]
++    target_record = next((record for record in records if record["url"] == target), None)
++    if not target_record or target_record["disposition"] != "keep":
++        raise ValueError(f"Redirect target is not retained: {target}")
++    if target == source["url"]:
++        raise ValueError("Redirect loop detected")
++    return f"{source['url']} {target} 301\n"
++
++
++def removed_source_paths(records: list[dict[str, Any]]) -> list[str]:
++    redirected_sources = {
++        record["source_path"] for record in records if record["disposition"] == "redirect"
++    }
++    return sorted(
++        {
++            record["source_path"]
++            for record in records
++            if record["url_type"] == "canonical"
++            and record["disposition"] == "retire"
++            and record["source_path"] not in redirected_sources
++        }
++    )
++
++
++def render_manifest(root: Path, data: dict[str, Any]) -> str:
++    records = data["records"]
++    by_path = {record["source_path"]: record for record in records}
++    removed = [
++        {"path": relative, "sha256": by_path[relative]["source_checksum"]}
++        for relative in removed_source_paths(records)
++    ]
++    return (
++        json.dumps(
++            {
++                "schema_version": "1.0.0",
++                "pre_migration_commit": data["approval"]["approved_commit"],
++                "approved_map": APPROVED_MAP.as_posix(),
++                "approved_map_sha256": hashlib.sha256(
++                    (root / APPROVED_MAP).read_bytes()
++                ).hexdigest(),
++                "removed_sources": removed,
++                "rollback": (
++                    "Restore listed files and content/repo/odysseus-dev-odysseus/index.md "
++                    "from pre_migration_commit, remove static/_redirects, rebuild, and redeploy."
++                ),
++            },
++            indent=2,
++            sort_keys=True,
++        )
++        + "\n"
++    )
++
++
++def remove_alias(path: Path, alias: str) -> None:
++    lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
++    alias_line = f"- {alias}\n"
++    try:
++        index = lines.index(alias_line)
++    except ValueError as error:
++        if alias not in path.read_text(encoding="utf-8"):
++            return
++        raise ValueError(
++            f"Approved alias has an unexpected representation in {path}: {alias}"
++        ) from error
++    del lines[index]
++    if index and lines[index - 1].strip() == "aliases:":
++        del lines[index - 1]
++    path.write_text("".join(lines), encoding="utf-8")
++
++
++def apply(root: Path) -> None:
++    data = load_map(root)
++    records = data["records"]
++    manifest = render_manifest(root, data)
++    for relative in removed_source_paths(records):
++        path = root / relative
++        if path.exists():
++            record = next(record for record in records if record["source_path"] == relative)
++            if hashlib.sha256(path.read_bytes()).hexdigest() != record["source_checksum"]:
++                raise ValueError(f"Approved source changed before deletion: {relative}")
++            path.unlink()
++    for record in records:
++        if record["disposition"] == "redirect":
++            remove_alias(root / record["source_path"], record["url"])
++    redirects = root / REDIRECTS
++    redirects.parent.mkdir(parents=True, exist_ok=True)
++    redirects.write_text(expected_redirects(records), encoding="utf-8")
++    manifest_path = root / ROLLBACK_MANIFEST
++    manifest_path.parent.mkdir(parents=True, exist_ok=True)
++    manifest_path.write_text(manifest, encoding="utf-8")
++
++
++def check(root: Path) -> None:
++    data = load_map(root)
++    records = data["records"]
++    redirects = root / REDIRECTS
++    if not redirects.exists() or redirects.read_text(encoding="utf-8") != expected_redirects(
++        records
++    ):
++        raise ValueError("Hosting redirects differ from the approved map")
++    for relative in removed_source_paths(records):
++        if (root / relative).exists():
++            raise ValueError(f"Retired source still exists: {relative}")
++    for record in records:
++        if record["disposition"] == "keep" and record["url_type"] == "canonical":
++            if not (root / record["source_path"]).exists():
++                raise ValueError(f"Retained source is missing: {record['source_path']}")
++        if record["disposition"] == "redirect":
++            text = (root / record["source_path"]).read_text(encoding="utf-8")
++            if record["url"] in text:
++                raise ValueError(f"Redirect alias still emits a Hugo page: {record['url']}")
++    manifest = root / ROLLBACK_MANIFEST
++    if not manifest.exists():
++        raise ValueError("Rollback manifest is missing")
++
++
++def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--root", type=Path, default=Path.cwd())
++    mode = parser.add_mutually_exclusive_group(required=True)
++    mode.add_argument("--apply", action="store_true")
++    mode.add_argument("--check", action="store_true")
++    return parser.parse_args(argv)
++
++
++def main(argv: list[str] | None = None) -> int:
++    args = parse_args(argv)
++    root = args.root.resolve()
++    if args.apply:
++        apply(root)
++    check(root)
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/scripts/capture_repository_production_snapshot.py b/scripts/capture_repository_production_snapshot.py
+new file mode 100644
+index 0000000..7d95655
+--- /dev/null
++++ b/scripts/capture_repository_production_snapshot.py
+@@ -0,0 +1,172 @@
++"""Capture the live repository URL surface for BR-003 migration review."""
++
++from __future__ import annotations
++
++import argparse
++import json
++import urllib.error
++import urllib.request
++from concurrent.futures import ThreadPoolExecutor
++from datetime import date
++from pathlib import Path
++from typing import Any
++from urllib.parse import urlsplit
++
++from defusedxml import ElementTree as ET
++
++SCHEMA_VERSION = "1.0.0"
++INVENTORY_PATH = Path("data/derived/observatory/repository-url-inventory.json")
++OUTPUT_PATH = Path("data/derived/observatory/repository-production-snapshot.json")
++SITE_ORIGIN = "https://claracle.com"
++
++
++def _validated_url(url: str, *, expected_path: str | None = None) -> str:
++    parsed = urlsplit(url)
++    if parsed.scheme != "https" or parsed.hostname != "claracle.com":
++        raise ValueError(f"Production evidence URL must use https://claracle.com: {url}")
++    if parsed.username or parsed.password or parsed.port:
++        raise ValueError(f"Production evidence URL contains forbidden authority data: {url}")
++    if expected_path is not None and parsed.path != expected_path:
++        raise ValueError(f"Production evidence URL must use path {expected_path}: {url}")
++    return url
++
++
++def _sitemap_paths(data: bytes, site_origin: str) -> set[str]:
++    root = ET.fromstring(data)
++    namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
++    return {
++        element.text.removeprefix(site_origin)
++        for element in root.findall("s:url/s:loc", namespace)
++        if element.text and element.text.startswith(f"{site_origin}/repo/")
++    }
++
++
++def _http_status(url: str) -> int:
++    _validated_url(url)
++    request = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "Claracle/BR-003"})
++    try:
++        # URL authority and scheme are restricted above.
++        with urllib.request.urlopen(request, timeout=20) as response:  # nosec B310
++            return int(response.status)
++    except urllib.error.HTTPError as error:
++        return int(error.code)
++    except urllib.error.URLError:
++        return 0
++
++
++def build_snapshot(
++    inventory: dict[str, Any],
++    *,
++    site_origin: str,
++    captured_at: date,
++    sitemap_data: bytes,
++    status_getter: Any = _http_status,
++) -> dict[str, Any]:
++    if site_origin != SITE_ORIGIN:
++        raise ValueError(f"Production snapshot origin must be {SITE_ORIGIN}")
++    sitemap_url = f"{site_origin}/sitemap.xml"
++    sitemap_paths = _sitemap_paths(sitemap_data, site_origin)
++    urls = [record["url"] for record in inventory["records"]]
++    with ThreadPoolExecutor(max_workers=12) as executor:
++        statuses = dict(
++            zip(
++                urls,
++                executor.map(lambda path: status_getter(f"{site_origin}{path}"), urls),
++                strict=True,
++            )
++        )
++    records = [
++        {
++            "url": record["url"],
++            "url_type": record["url_type"],
++            "canonical_url": record["canonical_url"],
++            "in_sitemap": record["url"] in sitemap_paths,
++            "http_status": statuses[record["url"]],
++        }
++        for record in inventory["records"]
++    ]
++    local_urls = set(urls)
++    production_only = sorted(sitemap_paths - local_urls)
++    return {
++        "schema_version": SCHEMA_VERSION,
++        "captured_at": captured_at.isoformat(),
++        "site_origin": site_origin,
++        "sources": {
++            "sitemap": sitemap_url,
++            "http_method": "HEAD",
++            "url_inspection": "not_collected",
++            "search_analytics": "not_collected",
++            "sampled_links": "not_collected",
++            "first_party_referrals": "not_collected",
++        },
++        "counts": {
++            "local_urls": len(local_urls),
++            "sitemap_urls": len(sitemap_paths),
++            "http_200": sum(record["http_status"] == 200 for record in records),
++            "http_404": sum(record["http_status"] == 404 for record in records),
++            "http_other_or_unavailable": sum(
++                record["http_status"] not in {200, 404} for record in records
++            ),
++            "production_only": len(production_only),
++        },
++        "production_only_urls": production_only,
++        "records": records,
++    }
++
++
++def validate_snapshot(snapshot: dict[str, Any], inventory: dict[str, Any]) -> None:
++    inventory_urls = {record["url"] for record in inventory["records"]}
++    snapshot_urls = {record["url"] for record in snapshot.get("records", [])}
++    if inventory_urls != snapshot_urls:
++        raise ValueError("Production snapshot does not cover the current repository URL inventory")
++    if snapshot["counts"]["local_urls"] != len(inventory_urls):
++        raise ValueError("Production snapshot local URL count is inconsistent")
++    if snapshot["counts"]["production_only"] != len(snapshot["production_only_urls"]):
++        raise ValueError("Production-only URL count is inconsistent")
++    unavailable = [record["url"] for record in snapshot["records"] if record["http_status"] == 0]
++    if unavailable:
++        raise ValueError(
++            "Production snapshot contains unavailable HTTP evidence: " + ", ".join(unavailable)
++        )
++
++
++def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--root", type=Path, default=Path.cwd())
++    parser.add_argument("--site-origin", default=SITE_ORIGIN)
++    parser.add_argument("--captured-at", type=date.fromisoformat)
++    parser.add_argument("--check", action="store_true")
++    return parser.parse_args(argv)
++
++
++def main(argv: list[str] | None = None) -> int:
++    args = parse_args(argv)
++    root = args.root.resolve()
++    inventory = json.loads((root / INVENTORY_PATH).read_text(encoding="utf-8"))
++    output = root / OUTPUT_PATH
++    if args.check:
++        if not output.exists():
++            raise SystemExit(f"Repository production snapshot is missing: {OUTPUT_PATH}")
++        validate_snapshot(json.loads(output.read_text(encoding="utf-8")), inventory)
++        return 0
++    if args.captured_at is None:
++        raise SystemExit("--captured-at is required when capturing production evidence")
++    sitemap_url = f"{args.site_origin}/sitemap.xml"
++    _validated_url(sitemap_url, expected_path="/sitemap.xml")
++    # URL authority and scheme are restricted above.
++    with urllib.request.urlopen(sitemap_url, timeout=30) as response:  # nosec B310
++        sitemap_data = response.read()
++    snapshot = build_snapshot(
++        inventory,
++        site_origin=args.site_origin.rstrip("/"),
++        captured_at=args.captured_at,
++        sitemap_data=sitemap_data,
++    )
++    validate_snapshot(snapshot, inventory)
++    output.parent.mkdir(parents=True, exist_ok=True)
++    output.write_text(json.dumps(snapshot, indent=2, sort_keys=True) + "\n", encoding="utf-8")
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/scripts/capture_repository_url_inspection.py b/scripts/capture_repository_url_inspection.py
+new file mode 100644
+index 0000000..e076538
+--- /dev/null
++++ b/scripts/capture_repository_url_inspection.py
+@@ -0,0 +1,188 @@
++"""Capture Search Console URL Inspection evidence for repository URLs."""
++
++from __future__ import annotations
++
++import argparse
++import json
++import time
++import urllib.error
++import urllib.request
++from collections import Counter
++from concurrent.futures import ThreadPoolExecutor
++from datetime import datetime, timezone
++from pathlib import Path
++from typing import Any, Callable
++from urllib.parse import urlsplit
++
++SCHEMA_VERSION = "1.0.0"
++INVENTORY_PATH = Path("data/derived/observatory/repository-url-inventory.json")
++OUTPUT_PATH = Path("data/derived/observatory/repository-url-inspection.json")
++ENDPOINT = "https://searchconsole.googleapis.com/v1/urlInspection/index:inspect"
++
++
++def _validated_endpoint() -> str:
++    parsed = urlsplit(ENDPOINT)
++    if (
++        parsed.scheme != "https"
++        or parsed.hostname != "searchconsole.googleapis.com"
++        or parsed.path != "/v1/urlInspection/index:inspect"
++    ):
++        raise ValueError("URL Inspection endpoint is not the approved Google HTTPS endpoint")
++    return ENDPOINT
++
++
++def inspect_url(
++    inspection_url: str,
++    *,
++    site_url: str,
++    token: str,
++    attempts: int = 4,
++) -> dict[str, Any]:
++    body = json.dumps(
++        {
++            "inspectionUrl": inspection_url,
++            "siteUrl": site_url,
++            "languageCode": "en-US",
++        }
++    ).encode()
++    request = urllib.request.Request(
++        _validated_endpoint(),
++        data=body,
++        method="POST",
++        headers={
++            "Authorization": f"Bearer {token}",
++            "Content-Type": "application/json",
++            "User-Agent": "Claracle/BR-003",
++        },
++    )
++    for attempt in range(attempts):
++        try:
++            # Endpoint authority, scheme, and path are restricted above.
++            with urllib.request.urlopen(request, timeout=30) as response:  # nosec B310
++                return json.loads(response.read())
++        except urllib.error.HTTPError as error:
++            if error.code not in {429, 500, 502, 503, 504} or attempt == attempts - 1:
++                detail = error.read().decode("utf-8", errors="replace")
++                raise RuntimeError(
++                    f"URL Inspection failed for {inspection_url}: HTTP {error.code}: {detail}"
++                ) from error
++            time.sleep(2**attempt)
++        except (TimeoutError, urllib.error.URLError) as error:
++            if attempt == attempts - 1:
++                raise RuntimeError(
++                    f"URL Inspection network failure for {inspection_url}: {error}"
++                ) from error
++            time.sleep(2**attempt)
++    raise RuntimeError(f"URL Inspection failed for {inspection_url}")
++
++
++def build_snapshot(
++    inventory: dict[str, Any],
++    *,
++    site_origin: str,
++    site_url: str,
++    captured_at: str,
++    inspector: Callable[[str], dict[str, Any]],
++) -> dict[str, Any]:
++    items = inventory["records"]
++    inspection_urls = [f"{site_origin}{item['url']}" for item in items]
++    with ThreadPoolExecutor(max_workers=4) as executor:
++        responses = list(executor.map(inspector, inspection_urls))
++
++    records = []
++    for item, inspection_url, response in zip(
++        items,
++        inspection_urls,
++        responses,
++        strict=True,
++    ):
++        result = response.get("inspectionResult", {})
++        index = result.get("indexStatusResult", {})
++        records.append(
++            {
++                "url": item["url"],
++                "inspection_url": inspection_url,
++                "inspection_result_link": result.get("inspectionResultLink"),
++                "verdict": index.get("verdict"),
++                "coverage_state": index.get("coverageState"),
++                "robots_txt_state": index.get("robotsTxtState"),
++                "indexing_state": index.get("indexingState"),
++                "page_fetch_state": index.get("pageFetchState"),
++                "last_crawl_time": index.get("lastCrawlTime"),
++                "user_canonical": index.get("userCanonical"),
++                "google_canonical": index.get("googleCanonical"),
++                "referring_urls": index.get("referringUrls", []),
++                "sitemaps": index.get("sitemap", []),
++            }
++        )
++
++    verdicts = Counter(record["verdict"] or "UNSPECIFIED" for record in records)
++    coverage = Counter(record["coverage_state"] or "UNSPECIFIED" for record in records)
++    return {
++        "schema_version": SCHEMA_VERSION,
++        "captured_at": captured_at,
++        "site_origin": site_origin,
++        "site_url": site_url,
++        "counts": {
++            "total": len(records),
++            "verdicts": dict(sorted(verdicts.items())),
++            "coverage_states": dict(sorted(coverage.items())),
++        },
++        "records": records,
++    }
++
++
++def validate_snapshot(snapshot: dict[str, Any], inventory: dict[str, Any]) -> None:
++    expected = {record["url"] for record in inventory["records"]}
++    actual = {record["url"] for record in snapshot.get("records", [])}
++    if expected != actual or len(snapshot.get("records", [])) != len(expected):
++        raise ValueError("URL Inspection snapshot does not cover the current inventory")
++    incomplete = [
++        record["url"]
++        for record in snapshot["records"]
++        if not record["verdict"] or not record["coverage_state"]
++    ]
++    if incomplete:
++        raise ValueError("URL Inspection returned incomplete evidence: " + ", ".join(incomplete))
++
++
++def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--root", type=Path, default=Path.cwd())
++    parser.add_argument("--site-origin", default="https://claracle.com")
++    parser.add_argument("--site-url", default="sc-domain:claracle.com")
++    parser.add_argument("--token-file", type=Path)
++    parser.add_argument("--check", action="store_true")
++    return parser.parse_args(argv)
++
++
++def main(argv: list[str] | None = None) -> int:
++    args = parse_args(argv)
++    root = args.root.resolve()
++    inventory = json.loads((root / INVENTORY_PATH).read_text(encoding="utf-8"))
++    output = root / OUTPUT_PATH
++    if args.check:
++        if not output.exists():
++            raise SystemExit(f"URL Inspection snapshot is missing: {OUTPUT_PATH}")
++        validate_snapshot(json.loads(output.read_text(encoding="utf-8")), inventory)
++        return 0
++    if args.token_file is None:
++        raise SystemExit("--token-file is required when capturing URL Inspection evidence")
++    token = args.token_file.read_text(encoding="utf-8").strip()
++    if not token:
++        raise SystemExit("URL Inspection token file is empty")
++    snapshot = build_snapshot(
++        inventory,
++        site_origin=args.site_origin.rstrip("/"),
++        site_url=args.site_url,
++        captured_at=datetime.now(timezone.utc).isoformat(),
++        inspector=lambda url: inspect_url(url, site_url=args.site_url, token=token),
++    )
++    validate_snapshot(snapshot, inventory)
++    output.parent.mkdir(parents=True, exist_ok=True)
++    output.write_text(json.dumps(snapshot, indent=2, sort_keys=True) + "\n", encoding="utf-8")
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/scripts/design/lighthouse-gates.mjs b/scripts/design/lighthouse-gates.mjs
+index 59c6a85..1594923 100755
+--- a/scripts/design/lighthouse-gates.mjs
++++ b/scripts/design/lighthouse-gates.mjs
+@@ -48,7 +48,7 @@ export const PAGES = [
+   { key: 'yearly', path: '/yearly/2026/' },
+   { key: 'topic', path: '/topics/ai-coding-agents/' },
+   { key: 'data', path: '/data/fastest-growing-ai-repositories-this-year/' },
+-  { key: 'repository', path: '/repo/anthropics-claude-code/' },
++  { key: 'repository', path: '/repo/odysseus-dev-odysseus/' },
+   { key: 'chart', path: '/embeds/fastest-growing-ai-repositories-chart/' },
+   { key: 'tool', path: '/tools/star-velocity-explorer/' },
+ ];
+diff --git a/scripts/generate_repository_approved_dispositions.py b/scripts/generate_repository_approved_dispositions.py
+new file mode 100644
+index 0000000..ab7622e
+--- /dev/null
++++ b/scripts/generate_repository_approved_dispositions.py
+@@ -0,0 +1,139 @@
++"""Generate the immutable approved repository migration map."""
++
++from __future__ import annotations
++
++import argparse
++import hashlib
++import json
++from pathlib import Path
++from typing import Any
++
++from jsonschema import Draft202012Validator
++
++CANDIDATE = Path("data/derived/observatory/repository-disposition-candidate.json")
++INVENTORY = Path("data/derived/observatory/repository-url-inventory.json")
++SCHEMA = Path("data/schemas/repository-approved-dispositions.schema.json")
++DEFAULT_OUTPUT = Path("data/migrations/repository-approved-dispositions.json")
++APPROVER = "jmservera"
++APPROVED_AT = "2026-08-11"
++APPROVED_COMMIT = "05433d5"
++
++
++def sha256(path: Path) -> str:
++    return hashlib.sha256(path.read_bytes()).hexdigest()
++
++
++def load_object(path: Path) -> dict[str, Any]:
++    loaded = json.loads(path.read_text(encoding="utf-8"))
++    if not isinstance(loaded, dict):
++        raise ValueError(f"Expected a JSON object: {path}")
++    return loaded
++
++
++def build(root: Path) -> dict[str, Any]:
++    candidate_path = root / CANDIDATE
++    inventory_path = root / INVENTORY
++    candidate = load_object(candidate_path)
++    inventory = load_object(inventory_path)
++    if candidate.get("approval_status") != "pending":
++        raise ValueError("The reviewed candidate must remain immutable and pending")
++    candidate_records = candidate.get("records", [])
++    inventory_records = inventory.get("records", [])
++    if len(candidate_records) != 274 or len(inventory_records) != 274:
++        raise ValueError("Approval requires exactly 274 reviewed URLs")
++    inventory_by_url = {record["url"]: record for record in inventory_records}
++    if set(inventory_by_url) != {record["url"] for record in candidate_records}:
++        raise ValueError("Candidate and inventory URL sets differ")
++
++    records = []
++    for candidate_record in candidate_records:
++        url = candidate_record["url"]
++        disposition = candidate_record["candidate_disposition"]
++        if disposition not in {"keep", "redirect", "retire"}:
++            raise ValueError(f"Unapprovable disposition for {url}: {disposition}")
++        inventory_record = inventory_by_url[url]
++        if inventory_record["candidate_disposition"] != disposition:
++            raise ValueError(f"Candidate drift for {url}")
++        records.append(
++            {
++                "url": url,
++                "url_type": candidate_record["url_type"],
++                "canonical_url": candidate_record["canonical_url"],
++                "source_path": inventory_record["source_path"],
++                "source_checksum": inventory_record["source_checksum"],
++                "disposition": disposition,
++                "destination": candidate_record["destination_candidate"],
++                "rationale": candidate_record["rationale"],
++                "approval_status": "approved",
++            }
++        )
++
++    counts = {
++        name: sum(record["disposition"] == name for record in records)
++        for name in ("keep", "redirect", "retire")
++    }
++    counts["total"] = len(records)
++    if counts != {"keep": 11, "redirect": 1, "retire": 262, "total": 274}:
++        raise ValueError(f"Unexpected approved counts: {counts}")
++
++    return {
++        "schema_version": "1.0.0",
++        "approval": {
++            "status": "approved",
++            "approver": APPROVER,
++            "approved_at": APPROVED_AT,
++            "approved_commit": APPROVED_COMMIT,
++            "gate_waiver": False,
++            "authorized_sequence": (
++                "Phase 4 may start only after every Phase 3 exit gate passes; "
++                "Phase 5 may start only after every Phase 4 exit gate passes."
++            ),
++            "statement": (
++                "Approve and go for Phase 4, once finished you can move to Phase 5 "
++                "without asking, but only if all Phase 4 is finished."
++            ),
++        },
++        "inputs": {
++            CANDIDATE.as_posix(): sha256(candidate_path),
++            INVENTORY.as_posix(): sha256(inventory_path),
++        },
++        "counts": counts,
++        "records": records,
++    }
++
++
++def render(root: Path) -> str:
++    result = build(root)
++    schema = load_object(root / SCHEMA)
++    errors = sorted(
++        Draft202012Validator(schema).iter_errors(result), key=lambda error: list(error.path)
++    )
++    if errors:
++        raise ValueError(f"Approved disposition schema validation failed: {errors[0].message}")
++    return json.dumps(result, indent=2, sort_keys=True) + "\n"
++
++
++def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--root", type=Path, default=Path.cwd())
++    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
++    parser.add_argument("--check", action="store_true")
++    return parser.parse_args(argv)
++
++
++def main(argv: list[str] | None = None) -> int:
++    args = parse_args(argv)
++    root = args.root.resolve()
++    output = args.output if args.output.is_absolute() else root / args.output
++    rendered = render(root)
++    if args.check:
++        if not output.exists() or output.read_text(encoding="utf-8") != rendered:
++            raise SystemExit(f"Approved repository dispositions are stale: {output}")
++        return 0
++    output.parent.mkdir(parents=True, exist_ok=True)
++    output.write_text(rendered, encoding="utf-8")
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/scripts/generate_repository_disposition_candidate.py b/scripts/generate_repository_disposition_candidate.py
+new file mode 100644
+index 0000000..0f6b304
+--- /dev/null
++++ b/scripts/generate_repository_disposition_candidate.py
+@@ -0,0 +1,355 @@
++"""Generate the evidence-backed repository migration disposition candidate."""
++
++from __future__ import annotations
++
++import argparse
++import hashlib
++import json
++from collections import Counter
++from datetime import date
++from html.parser import HTMLParser
++from pathlib import Path
++from typing import Any
++from urllib.parse import urljoin, urlparse
++
++import yaml
++from jsonschema import Draft202012Validator
++
++SCHEMA_VERSION = "1.0.0"
++INVENTORY_PATH = Path("data/derived/observatory/repository-url-inventory.json")
++OUTPUT_PATH = Path("data/derived/observatory/repository-disposition-candidate.json")
++SCHEMA_PATH = Path("data/schemas/repository-disposition-candidate.schema.json")
++INPUT_PATHS = (
++    Path("data/derived/observatory/repository-production-snapshot.json"),
++    Path("data/derived/observatory/repository-external-evidence.json"),
++    Path("data/derived/observatory/repository-url-inspection.json"),
++)
++
++
++class LinkParser(HTMLParser):
++    def __init__(self) -> None:
++        super().__init__()
++        self.links: list[str] = []
++
++    def handle_starttag(
++        self,
++        tag: str,
++        attrs: list[tuple[str, str | None]],
++    ) -> None:
++        if tag != "a":
++            return
++        href = dict(attrs).get("href")
++        if href:
++            self.links.append(href)
++
++
++def _page_url(rendered_root: Path, page: Path) -> str:
++    relative = page.relative_to(rendered_root).as_posix()
++    if relative == "index.html":
++        return "/"
++    if relative.endswith("/index.html"):
++        return f"/{relative.removesuffix('index.html')}"
++    return f"/{relative}"
++
++
++def internal_link_counts(rendered_root: Path) -> Counter[str]:
++    counts: Counter[str] = Counter()
++    for page in sorted(rendered_root.rglob("*.html")):
++        parser = LinkParser()
++        parser.feed(page.read_text(encoding="utf-8"))
++        base = f"https://claracle.com{_page_url(rendered_root, page)}"
++        for href in parser.links:
++            target = urlparse(urljoin(base, href))
++            if target.netloc not in {"", "claracle.com"}:
++                continue
++            path = f"/{target.path.strip('/')}/"
++            if path.startswith("/repo/"):
++                counts[path] += 1
++    return counts
++
++
++def _frontmatter(path: Path) -> dict[str, Any]:
++    text = path.read_text(encoding="utf-8")
++    _, raw, _ = text.split("---", 2)
++    loaded = yaml.safe_load(raw)
++    if not isinstance(loaded, dict):
++        raise ValueError(f"Invalid repository front matter: {path}")
++    return loaded
++
++
++def _differentiated(root: Path, record: dict[str, Any]) -> bool:
++    if record["url_type"] == "index":
++        return True
++    if record["url_type"] == "alias":
++        return False
++    params = _frontmatter(root / record["source_path"])
++    return (
++        params.get("generated_by") == "observatory_repo_pages"
++        and int(params.get("distinct_weekly_issues", 0)) >= 4
++        and len(params.get("star_history", [])) >= 2
++        and len(params.get("weekly_appearances", [])) >= 4
++    )
++
++
++def _observed_value(record: dict[str, Any]) -> bool:
++    return (
++        (record["external_metrics"]["search_impressions"] or 0) > 0
++        or record["external_metrics"]["sampled_inbound_link"] is True
++        or (record["external_metrics"]["referral_sessions"] or 0) > 0
++    )
++
++
++def _file_sha256(path: Path) -> str:
++    return hashlib.sha256(path.read_bytes()).hexdigest()
++
++
++def _inventory_evidence_sha256(inventory: dict[str, Any]) -> str:
++    evidence = [
++        {
++            "url": record["url"],
++            "url_type": record["url_type"],
++            "canonical_url": record["canonical_url"],
++            "source_checksum": record["source_checksum"],
++            "production": record["production"],
++            "external_metrics": record["external_metrics"],
++            "inspection": record["inspection"],
++        }
++        for record in inventory["records"]
++    ]
++    encoded = json.dumps(evidence, sort_keys=True, separators=(",", ":")).encode()
++    return hashlib.sha256(encoded).hexdigest()
++
++
++def build_candidate(
++    root: Path,
++    rendered_root: Path,
++    *,
++    reviewed_at: date,
++) -> dict[str, Any]:
++    inventory = json.loads((root / INVENTORY_PATH).read_text(encoding="utf-8"))
++    link_counts = internal_link_counts(rendered_root)
++    records_by_url = {record["url"]: record for record in inventory["records"]}
++    valuable_alias_targets = {
++        record["canonical_url"]
++        for record in inventory["records"]
++        if record["url_type"] == "alias" and _observed_value(record)
++    }
++
++    candidates = []
++    for record in inventory["records"]:
++        differentiated = _differentiated(root, record)
++        observed_value = _observed_value(record)
++        destination = ""
++        equivalence = "not_applicable"
++        if record["url_type"] == "index":
++            disposition = "keep"
++            rationale = "Authoritative consolidated repository explorer."
++        elif record["url_type"] == "alias" and observed_value:
++            disposition = "redirect"
++            destination = record["canonical_url"]
++            equivalence = "equivalent"
++            rationale = "Observed-value legacy alias has an identity-equivalent canonical URL."
++        elif record["url_type"] == "canonical" and (
++            (differentiated and observed_value) or record["url"] in valuable_alias_targets
++        ):
++            disposition = "keep"
++            rationale = (
++                "Repository-specific trend evidence has observed Google value."
++                if observed_value
++                else "Retained as the identity-equivalent destination for a valuable legacy alias."
++            )
++        else:
++            disposition = "retire"
++            equivalence = "none"
++            rationale = (
++                "No observed search, sampled-link, or referral value and no genuine replacement."
++            )
++        candidates.append(
++            {
++                "url": record["url"],
++                "url_type": record["url_type"],
++                "canonical_url": record["canonical_url"],
++                "candidate_disposition": disposition,
++                "destination_candidate": destination,
++                "destination_equivalence": equivalence,
++                "differentiated_content": differentiated,
++                "internal_link_count": link_counts[record["url"]],
++                "inspection_verdict": record["inspection"]["verdict"],
++                "coverage_state": record["inspection"]["coverage_state"],
++                "search_impressions": record["external_metrics"]["search_impressions"],
++                "sampled_inbound_link": record["external_metrics"]["sampled_inbound_link"],
++                "referral_sessions": record["external_metrics"]["referral_sessions"],
++                "approval_status": "pending",
++                "rationale": rationale,
++            }
++        )
++
++    dispositions = Counter(record["candidate_disposition"] for record in candidates)
++    url_digest = hashlib.sha256("\n".join(sorted(records_by_url)).encode("utf-8")).hexdigest()
++    return {
++        "schema_version": SCHEMA_VERSION,
++        "reviewed_at": reviewed_at.isoformat(),
++        "reviewer": "SquadScope automated evidence review",
++        "approval_authority": "jmservera",
++        "approval_status": "pending",
++        "inputs": {
++            **{path.as_posix(): _file_sha256(root / path) for path in INPUT_PATHS},
++            "inventory_evidence_sha256": _inventory_evidence_sha256(inventory),
++        },
++        "inventory_url_set_sha256": url_digest,
++        "counts": {
++            "total": len(candidates),
++            "keep": dispositions["keep"],
++            "redirect": dispositions["redirect"],
++            "retire": dispositions["retire"],
++            "pending_approval": sum(
++                record["approval_status"] == "pending" for record in candidates
++            ),
++        },
++        "records": candidates,
++    }
++
++
++def validate_candidate(
++    candidate: dict[str, Any],
++    inventory: dict[str, Any],
++    *,
++    schema_path: Path = SCHEMA_PATH,
++) -> None:
++    schema = json.loads(schema_path.read_text(encoding="utf-8"))
++    Draft202012Validator(schema).validate(candidate)
++    expected_urls = {record["url"] for record in inventory["records"]}
++    actual_urls = {record["url"] for record in candidate.get("records", [])}
++    if expected_urls != actual_urls or len(candidate.get("records", [])) != len(expected_urls):
++        raise ValueError("Disposition candidate does not cover the current URL inventory")
++    expected_digest = hashlib.sha256("\n".join(sorted(expected_urls)).encode("utf-8")).hexdigest()
++    if candidate.get("inventory_url_set_sha256") != expected_digest:
++        raise ValueError("Disposition candidate URL-set checksum is stale")
++    dispositions = Counter(record["candidate_disposition"] for record in candidate["records"])
++    if candidate["counts"]["total"] != len(candidate["records"]):
++        raise ValueError("Disposition candidate total count is inconsistent")
++    if candidate["counts"]["pending_approval"] != len(candidate["records"]):
++        raise ValueError("Disposition candidate pending count is inconsistent")
++    for disposition in ("keep", "redirect", "retire"):
++        if candidate["counts"][disposition] != dispositions[disposition]:
++            raise ValueError(f"Disposition candidate {disposition} count is inconsistent")
++    records_by_url = {record["url"]: record for record in candidate["records"]}
++    inventory_by_url = {record["url"]: record for record in inventory["records"]}
++    valuable_alias_targets = {
++        record["canonical_url"]
++        for record in candidate["records"]
++        if record["url_type"] == "alias" and record["candidate_disposition"] == "redirect"
++    }
++    for record in candidate["records"]:
++        source = inventory_by_url[record["url"]]
++        expected_evidence = {
++            "url_type": source["url_type"],
++            "canonical_url": source["canonical_url"],
++            "inspection_verdict": source["inspection"]["verdict"],
++            "coverage_state": source["inspection"]["coverage_state"],
++            "search_impressions": source["external_metrics"]["search_impressions"],
++            "sampled_inbound_link": source["external_metrics"]["sampled_inbound_link"],
++            "referral_sessions": source["external_metrics"]["referral_sessions"],
++        }
++        for field, expected_value in expected_evidence.items():
++            if record[field] != expected_value:
++                raise ValueError(f"Candidate evidence mismatch for {record['url']}: {field}")
++        value = (
++            (record["search_impressions"] or 0) > 0
++            or record["sampled_inbound_link"] is True
++            or (record["referral_sessions"] or 0) > 0
++        )
++        if record["approval_status"] != "pending":
++            raise ValueError("Disposition candidate cannot contain approved rows")
++        if record["url_type"] == "index":
++            expected = "keep"
++        elif record["url_type"] == "alias" and value:
++            expected = "redirect"
++        elif record["url_type"] == "canonical" and (
++            (record["differentiated_content"] and value) or record["url"] in valuable_alias_targets
++        ):
++            expected = "keep"
++        else:
++            expected = "retire"
++        if record["candidate_disposition"] != expected:
++            raise ValueError(f"Invalid candidate disposition for {record['url']}")
++        expected_rationale = {
++            "keep": (
++                "Authoritative consolidated repository explorer."
++                if record["url_type"] == "index"
++                else (
++                    "Repository-specific trend evidence has observed Google value."
++                    if value
++                    else "Retained as the identity-equivalent destination for a valuable legacy alias."
++                )
++            ),
++            "redirect": "Observed-value legacy alias has an identity-equivalent canonical URL.",
++            "retire": (
++                "No observed search, sampled-link, or referral value and no genuine replacement."
++            ),
++        }[expected]
++        if record["rationale"] != expected_rationale:
++            raise ValueError(f"Invalid candidate rationale for {record['url']}")
++        if expected == "redirect":
++            destination = records_by_url.get(record["destination_candidate"])
++            if (
++                record["destination_candidate"] != record["canonical_url"]
++                or record["destination_equivalence"] != "equivalent"
++                or not destination
++                or destination["candidate_disposition"] != "keep"
++            ):
++                raise ValueError(f"Invalid redirect destination for {record['url']}")
++        elif record["destination_candidate"]:
++            raise ValueError(f"Unexpected destination for {record['url']}")
++
++
++def validate_freshness(root: Path, candidate: dict[str, Any]) -> None:
++    for path in INPUT_PATHS:
++        expected = candidate.get("inputs", {}).get(path.as_posix())
++        if expected != _file_sha256(root / path):
++            raise ValueError(f"Disposition candidate evidence is stale: {path}")
++    inventory = json.loads((root / INVENTORY_PATH).read_text(encoding="utf-8"))
++    if candidate["inputs"].get("inventory_evidence_sha256") != _inventory_evidence_sha256(
++        inventory
++    ):
++        raise ValueError("Disposition candidate inventory evidence is stale")
++
++
++def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--root", type=Path, default=Path.cwd())
++    parser.add_argument("--rendered-root", type=Path)
++    parser.add_argument("--reviewed-at", type=date.fromisoformat)
++    parser.add_argument("--check", action="store_true")
++    return parser.parse_args(argv)
++
++
++def main(argv: list[str] | None = None) -> int:
++    args = parse_args(argv)
++    root = args.root.resolve()
++    inventory = json.loads((root / INVENTORY_PATH).read_text(encoding="utf-8"))
++    schema_path = root / SCHEMA_PATH
++    output = root / OUTPUT_PATH
++    if args.check:
++        if not output.exists():
++            raise SystemExit(f"Disposition candidate is missing: {OUTPUT_PATH}")
++        candidate = json.loads(output.read_text(encoding="utf-8"))
++        validate_candidate(candidate, inventory, schema_path=schema_path)
++        validate_freshness(root, candidate)
++        return 0
++    if args.rendered_root is None or args.reviewed_at is None:
++        raise SystemExit("--rendered-root and --reviewed-at are required when generating")
++    payload = build_candidate(
++        root,
++        args.rendered_root.resolve(),
++        reviewed_at=args.reviewed_at,
++    )
++    validate_candidate(payload, inventory, schema_path=schema_path)
++    validate_freshness(root, payload)
++    output.parent.mkdir(parents=True, exist_ok=True)
++    output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/scripts/generate_repository_summary.py b/scripts/generate_repository_summary.py
+new file mode 100644
+index 0000000..8665bb0
+--- /dev/null
++++ b/scripts/generate_repository_summary.py
+@@ -0,0 +1,203 @@
++"""Generate the versioned BR-003 repository explorer artifact."""
++
++from __future__ import annotations
++
++import argparse
++import hashlib
++import html
++import json
++import re
++import sys
++from datetime import date, datetime, timezone
++from pathlib import Path
++from typing import Any
++from urllib.parse import urlparse
++
++if __package__ in {None, ""}:
++    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
++
++from scripts import observatory_repos
++
++SCHEMA_VERSION = "1.0.0"
++SOURCE_PATH = "data/derived/observatory/repositories.json"
++DEFAULT_OUTPUTS = (
++    Path("data/observatory/repository_summary.json"),
++    Path("static/data/repositories.json"),
++)
++
++
++def _week_date(period: str, weekday: int) -> date:
++    year, week = period.split("-W", 1)
++    return date.fromisocalendar(int(year), int(week), weekday)
++
++
++def _summary(value: str, limit: int = 240) -> str:
++    text = re.sub(r"<[^>]+>", " ", html.unescape(value))
++    text = " ".join(text.split())
++    if len(text) <= limit:
++        return text
++    clipped = text[:limit].rsplit(" ", 1)[0].rstrip(" ,.;:-")
++    return f"{clipped}…"
++
++
++def _record(source: dict[str, Any]) -> dict[str, Any]:
++    history = source.get("star_history") or []
++    deltas = [point.get("delta") for point in history[-4:] if point.get("delta") is not None]
++    lifecycle = source.get("lifecycle") or {}
++    status = str(lifecycle.get("status") or "active")
++    if status not in {"active", "archived", "disabled", "deleted", "renamed", "retained"}:
++        status = "active"
++    github_url = str(source["repo_url"])
++    parsed_url = urlparse(github_url)
++    if parsed_url.scheme != "https" or parsed_url.netloc.lower() != "github.com":
++        raise ValueError(f"Repository URL must use https://github.com: {github_url}")
++    return {
++        "id": source["repo_slug"],
++        "full_name": source["repo_full_name"],
++        "name": source["repo_name"],
++        "owner": source["repo_owner"],
++        "github_url": github_url,
++        "language": source.get("repo_language"),
++        "topics": sorted({str(topic) for topic in source.get("tags") or []}),
++        "status": status,
++        "first_seen_period": source["first_seen_week"],
++        "last_seen_period": source["last_seen_week"],
++        "recent_momentum": sum(int(delta) for delta in deltas) if deltas else None,
++        "context_summary": _summary(str(source.get("repo_description") or "")),
++        "star_history": [
++            {
++                "period": point["week"],
++                "stars": int(point["stars"]),
++                "delta": point.get("delta"),
++            }
++            for point in history
++        ],
++    }
++
++
++def _crawl_source(root: Path) -> tuple[list[dict[str, Any]], list[str]]:
++    config = observatory_repos.load_config(root)
++    identity_backfill = observatory_repos.load_identity_backfill(config["identity_backfill_path"])
++    lifecycle = observatory_repos.merge_identity_backfill_overrides(
++        config["lifecycle"], identity_backfill
++    )
++    ledger = observatory_repos.load_lifecycle_ledger(config["ledger_path"])
++    histories = observatory_repos.load_repository_histories(
++        root,
++        lifecycle,
++        ledger,
++        identity_backfill,
++    )
++    as_of = max(
++        observatory_repos.week_start_date(history.last_seen_week) for history in histories.values()
++    )
++    observatory_repos.reconcile_lifecycle(histories, config, as_of)
++    eligible = observatory_repos.eligible_repositories(histories, config["minimum_weeks"])
++    source_paths = sorted(
++        {observation.source_path for history in eligible for observation in history.observations}
++    )
++    source = []
++    for history in eligible:
++        latest = history.latest_observation
++        source.append(
++            {
++                "date": observatory_repos.week_start_date(history.last_seen_week).isoformat(),
++                "repo_slug": history.slug,
++                "repo_full_name": history.display_name,
++                "repo_name": history.name,
++                "repo_owner": history.owner,
++                "repo_url": history.url,
++                "repo_description": history.description or latest.description or "",
++                "repo_language": latest.language,
++                "tags": sorted(history.topics),
++                "first_seen_week": history.first_seen_week,
++                "last_seen_week": history.last_seen_week,
++                "lifecycle": history.lifecycle,
++                "star_history": history.star_history,
++            }
++        )
++    return source, source_paths
++
++
++def build_payload(root: Path, *, from_crawl: bool = False) -> dict[str, Any]:
++    if from_crawl:
++        source, source_paths = _crawl_source(root)
++        source_bytes = json.dumps(source, sort_keys=True, separators=(",", ":")).encode()
++    else:
++        source_path = root / SOURCE_PATH
++        source_bytes = source_path.read_bytes()
++        source = json.loads(source_bytes)
++        source_paths = [SOURCE_PATH]
++    if not isinstance(source, list) or not source:
++        raise ValueError("Repository source must be a non-empty list")
++
++    records = sorted(
++        (_record(item) for item in source),
++        key=lambda item: (
++            -(item["recent_momentum"] if item["recent_momentum"] is not None else -1),
++            item["full_name"].lower(),
++        ),
++    )
++    first_period = min(item["first_seen_period"] for item in records)
++    last_period = max(item["last_seen_period"] for item in records)
++    generated_date = max(str(item["date"]) for item in source)
++    generated_at = datetime.combine(
++        date.fromisoformat(generated_date),
++        datetime.min.time(),
++        tzinfo=timezone.utc,
++    )
++    return {
++        "schema_version": SCHEMA_VERSION,
++        "artifact_type": "repositories",
++        "generated_at": generated_at.isoformat().replace("+00:00", "Z"),
++        "covered_period": {
++            "start": _week_date(first_period, 1).isoformat(),
++            "end": _week_date(last_period, 7).isoformat(),
++            "label": f"{first_period}–{last_period}",
++        },
++        "provenance": {
++            "generator": "scripts/generate_repository_summary.py",
++            "source_paths": source_paths,
++            "methodology_url": "/methodology/",
++            "source_checksum": hashlib.sha256(source_bytes).hexdigest(),
++        },
++        "records": records,
++    }
++
++
++def rendered_payload(root: Path, *, from_crawl: bool = False) -> str:
++    return json.dumps(build_payload(root, from_crawl=from_crawl), indent=2, sort_keys=True) + "\n"
++
++
++def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--root", type=Path, default=Path.cwd())
++    parser.add_argument(
++        "--from-crawl",
++        action="store_true",
++        help="Build from the current crawl corpus even when detail-page generation is disabled.",
++    )
++    parser.add_argument("--check", action="store_true")
++    return parser.parse_args(argv)
++
++
++def main(argv: list[str] | None = None) -> int:
++    args = parse_args(argv)
++    root = args.root.resolve()
++    rendered = rendered_payload(root, from_crawl=args.from_crawl)
++    stale = []
++    for relative in DEFAULT_OUTPUTS:
++        output = root / relative
++        if args.check:
++            if not output.exists() or output.read_text(encoding="utf-8") != rendered:
++                stale.append(str(relative))
++            continue
++        output.parent.mkdir(parents=True, exist_ok=True)
++        output.write_text(rendered, encoding="utf-8")
++    if stale:
++        raise SystemExit(f"Repository summary is stale: {', '.join(stale)}")
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/scripts/generate_repository_url_inventory.py b/scripts/generate_repository_url_inventory.py
+index d63717c..2a861c0 100644
+--- a/scripts/generate_repository_url_inventory.py
++++ b/scripts/generate_repository_url_inventory.py
+@@ -3,6 +3,7 @@
+ from __future__ import annotations
+
+ import argparse
++import copy
+ import hashlib
+ import json
+ from pathlib import Path
+@@ -10,7 +11,11 @@ from typing import Any
+
+ import yaml
+
+-SCHEMA_VERSION = "1.0.0"
++SCHEMA_VERSION = "1.3.0"
++PRODUCTION_SNAPSHOT = Path("data/derived/observatory/repository-production-snapshot.json")
++EXTERNAL_EVIDENCE = Path("data/derived/observatory/repository-external-evidence.json")
++URL_INSPECTION = Path("data/derived/observatory/repository-url-inspection.json")
++DISPOSITION_CANDIDATE = Path("data/derived/observatory/repository-disposition-candidate.json")
+ EVIDENCE_REQUIREMENTS = (
+     "url_inspection",
+     "search_analytics",
+@@ -67,9 +72,10 @@ def canonical_record(root: Path, page: Path) -> tuple[dict[str, Any], list[dict[
+     }
+     aliases = []
+     for alias in params.get("aliases", []):
++        alias_record = copy.deepcopy(record)
+         aliases.append(
+             {
+-                **record,
++                **alias_record,
+                 "url": normalized_url(str(alias)),
+                 "url_type": "alias",
+                 "canonical_url": canonical_url,
+@@ -79,6 +85,46 @@ def canonical_record(root: Path, page: Path) -> tuple[dict[str, Any], list[dict[
+     return record, aliases
+
+
++def load_production_snapshot(root: Path) -> dict[str, Any] | None:
++    path = root / PRODUCTION_SNAPSHOT
++    if not path.exists():
++        return None
++    loaded = json.loads(path.read_text(encoding="utf-8"))
++    if not isinstance(loaded, dict):
++        raise ValueError(f"Invalid production snapshot: {path}")
++    return loaded
++
++
++def load_external_evidence(root: Path) -> dict[str, Any] | None:
++    path = root / EXTERNAL_EVIDENCE
++    if not path.exists():
++        return None
++    loaded = json.loads(path.read_text(encoding="utf-8"))
++    if not isinstance(loaded, dict):
++        raise ValueError(f"Invalid external evidence: {path}")
++    return loaded
++
++
++def load_url_inspection(root: Path) -> dict[str, Any] | None:
++    path = root / URL_INSPECTION
++    if not path.exists():
++        return None
++    loaded = json.loads(path.read_text(encoding="utf-8"))
++    if not isinstance(loaded, dict):
++        raise ValueError(f"Invalid URL Inspection snapshot: {path}")
++    return loaded
++
++
++def load_disposition_candidate(root: Path) -> dict[str, Any] | None:
++    path = root / DISPOSITION_CANDIDATE
++    if not path.exists():
++        return None
++    loaded = json.loads(path.read_text(encoding="utf-8"))
++    if not isinstance(loaded, dict):
++        raise ValueError(f"Invalid disposition candidate: {path}")
++    return loaded
++
++
+ def build_inventory(root: Path) -> dict[str, Any]:
+     repo_root = root / "content/repo"
+     records: list[dict[str, Any]] = [
+@@ -113,9 +159,137 @@ def build_inventory(root: Path) -> dict[str, Any]:
+         "alias": sum(item["url_type"] == "alias" for item in records),
+         "total": len(records),
+     }
++    snapshot = load_production_snapshot(root)
++    external = load_external_evidence(root)
++    inspection = load_url_inspection(root)
++    candidate = load_disposition_candidate(root)
++    production_by_url = {record["url"]: record for record in (snapshot or {}).get("records", [])}
++    inspection_by_url = {record["url"]: record for record in (inspection or {}).get("records", [])}
++    candidate_by_url = {record["url"]: record for record in (candidate or {}).get("records", [])}
++    for record in records:
++        production = production_by_url.get(record["url"])
++        if production:
++            record["production"] = {
++                "sitemap_status": "observed" if production["in_sitemap"] else "not_observed",
++                "http_status": production["http_status"],
++            }
++            record["evidence"]["sitemap"] = {
++                "status": "observed" if production["in_sitemap"] else "not_observed",
++                "source": (snapshot or {}).get("sources", {}).get("sitemap", ""),
++                "window": (snapshot or {}).get("captured_at", ""),
++            }
++        else:
++            record["production"] = {
++                "sitemap_status": "not_collected",
++                "http_status": None,
++            }
++        if external:
++            search = external["search_analytics"].get(record["url"])
++            linked = record["url"] in external["sampled_link_paths"]
++            referral_sessions = external["first_party_referrals"].get(record["url"])
++            for key, observed in (
++                ("search_analytics", search is not None),
++                ("sampled_links", linked),
++                ("first_party_referrals", referral_sessions is not None),
++            ):
++                source = external["sources"][key]
++                record["evidence"][key] = {
++                    "status": "observed" if observed else "not_observed",
++                    "source": source["file"],
++                    "window": source["window"],
++                }
++            record["external_metrics"] = {
++                "search_clicks": (search or {}).get("clicks"),
++                "search_impressions": (search or {}).get("impressions"),
++                "search_position": (search or {}).get("position"),
++                "referral_sessions": referral_sessions,
++                "sampled_inbound_link": True if linked else None,
++            }
++        else:
++            record["external_metrics"] = {
++                "search_clicks": None,
++                "search_impressions": None,
++                "search_position": None,
++                "referral_sessions": None,
++                "sampled_inbound_link": None,
++            }
++        inspected = inspection_by_url.get(record["url"])
++        if inspected:
++            record["evidence"]["url_inspection"] = {
++                "status": "observed",
++                "source": URL_INSPECTION.as_posix(),
++                "window": (inspection or {}).get("captured_at", ""),
++            }
++        record["inspection"] = {
++            "verdict": (inspected or {}).get("verdict"),
++            "coverage_state": (inspected or {}).get("coverage_state"),
++            "last_crawl_time": (inspected or {}).get("last_crawl_time"),
++            "google_canonical": (inspected or {}).get("google_canonical"),
++            "user_canonical": (inspected or {}).get("user_canonical"),
++        }
++        recommendation = candidate_by_url.get(record["url"])
++        record["candidate_disposition"] = (recommendation or {}).get(
++            "candidate_disposition",
++            "pending",
++        )
++        record["candidate_rationale"] = (recommendation or {}).get("rationale", "")
++        record["internal_link_count"] = (recommendation or {}).get("internal_link_count")
++        if recommendation:
++            record["differentiated_content"] = (
++                "yes" if recommendation["differentiated_content"] else "no"
++            )
++            record["destination_candidate"] = recommendation["destination_candidate"]
++            evidence_window = (candidate or {}).get("reviewed_at", "")
++            record["evidence"]["internal_links"] = {
++                "status": "observed",
++                "source": DISPOSITION_CANDIDATE.as_posix(),
++                "window": evidence_window,
++            }
++            record["evidence"]["content_review"] = {
++                "status": "observed"
++                if recommendation["differentiated_content"]
++                else "not_observed",
++                "source": DISPOSITION_CANDIDATE.as_posix(),
++                "window": evidence_window,
++            }
++            record["evidence"]["destination_equivalence"] = {
++                "status": "observed"
++                if recommendation["destination_equivalence"] == "equivalent"
++                else "not_observed",
++                "source": DISPOSITION_CANDIDATE.as_posix(),
++                "window": evidence_window,
++            }
++    production_counts = (snapshot or {}).get("counts", {})
++    counts.update(
++        {
++            "production_sitemap": production_counts.get("sitemap_urls"),
++            "production_http_200": production_counts.get("http_200"),
++            "production_http_404": production_counts.get("http_404"),
++            "production_only": production_counts.get("production_only"),
++        }
++    )
+     return {
+         "schema_version": SCHEMA_VERSION,
+         "generated_from": "content/repo/",
++        "production_snapshot": {
++            "path": PRODUCTION_SNAPSHOT.as_posix(),
++            "captured_at": (snapshot or {}).get("captured_at", ""),
++            "site_origin": (snapshot or {}).get("site_origin", ""),
++        },
++        "external_evidence": {
++            "path": EXTERNAL_EVIDENCE.as_posix(),
++            "schema_version": (external or {}).get("schema_version", ""),
++        },
++        "url_inspection": {
++            "path": URL_INSPECTION.as_posix(),
++            "captured_at": (inspection or {}).get("captured_at", ""),
++            "site_url": (inspection or {}).get("site_url", ""),
++        },
++        "disposition_candidate": {
++            "path": DISPOSITION_CANDIDATE.as_posix(),
++            "reviewed_at": (candidate or {}).get("reviewed_at", ""),
++            "approval_status": (candidate or {}).get("approval_status", ""),
++        },
+         "evidence_requirements": list(EVIDENCE_REQUIREMENTS),
+         "counts": counts,
+         "records": records,
+diff --git a/scripts/import_repository_external_evidence.py b/scripts/import_repository_external_evidence.py
+new file mode 100644
+index 0000000..e6cf924
+--- /dev/null
++++ b/scripts/import_repository_external_evidence.py
+@@ -0,0 +1,252 @@
++"""Normalize repository migration evidence exported from GSC and GA4."""
++
++from __future__ import annotations
++
++import argparse
++import csv
++import json
++import re
++from datetime import date
++from pathlib import Path
++from urllib.parse import urlparse
++
++OUTPUT_PATH = Path("data/derived/observatory/repository-external-evidence.json")
++SCHEMA_VERSION = "1.0.0"
++HEADER_ALIASES = {
++    "search_page": ("Pages les plus populaires", "Top pages", "Page"),
++    "clicks": ("Clics", "Clicks"),
++    "impressions": ("Impressions",),
++    "position": ("Position",),
++    "link_target": ("Page cible", "Target page", "Page"),
++    "landing_page": (
++        "Landing page + query string",
++        "Page de destination + chaîne de requête",
++        "Landing page",
++    ),
++    "sessions": ("Sessions", "Sessions avec engagement"),
++    "filter": ("Filtre", "Filter"),
++    "value": ("Valeur", "Value"),
++}
++FRENCH_MONTHS = {
++    "janv": 1,
++    "févr": 2,
++    "mars": 3,
++    "avr": 4,
++    "mai": 5,
++    "juin": 6,
++    "juil": 7,
++    "août": 8,
++    "sept": 9,
++    "oct": 10,
++    "nov": 11,
++    "déc": 12,
++}
++REPOSITORY_PATH = re.compile(r"^/repo(?:/[a-z0-9-]+)?/$")
++
++
++def _rows(
++    path: Path,
++    *,
++    required: tuple[str, ...],
++    allow_metadata_only: bool = False,
++) -> list[dict[str, str]]:
++    lines = [
++        line
++        for line in path.read_text(encoding="utf-8-sig").splitlines()
++        if line.strip() and not line.startswith("#")
++    ]
++    if not lines:
++        if allow_metadata_only:
++            return []
++        raise ValueError(f"CSV export has no header: {path}")
++    reader = csv.DictReader(lines)
++    headers = set(reader.fieldnames or [])
++    for key in required:
++        if not headers.intersection(HEADER_ALIASES[key]):
++            raise ValueError(f"CSV export missing {key} header: {path}")
++    return list(reader)
++
++
++def _path(value: str) -> str:
++    parsed = urlparse(value.strip())
++    normalized = f"/{parsed.path.strip('/')}/"
++    return "/" if normalized == "//" else normalized
++
++
++def _repository_path(value: str, source: str) -> str:
++    path = _path(value)
++    if not REPOSITORY_PATH.fullmatch(path):
++        raise ValueError(f"{source} row has an invalid repository path: {value}")
++    return path
++
++
++def _integer(value: str) -> int:
++    normalized = (value or "").replace(",", "").strip()
++    if not normalized:
++        raise ValueError("Expected an integer value in evidence export")
++    return int(normalized)
++
++
++def _float(value: str) -> float:
++    normalized = (value or "").replace(",", ".").strip()
++    if not normalized:
++        raise ValueError("Expected a numeric value in evidence export")
++    return float(normalized)
++
++
++def _first(row: dict[str, str], names: tuple[str, ...]) -> str:
++    for name in names:
++        if name in row:
++            return row[name]
++    return ""
++
++
++def _search_window(filters_path: Path) -> str:
++    rows = _rows(filters_path, required=("filter", "value"))
++    filters = {
++        _first(row, HEADER_ALIASES["filter"]): _first(row, HEADER_ALIASES["value"]) for row in rows
++    }
++    search_type = filters.get("Type de recherche", filters.get("Search type", ""))
++    page_filter = filters.get("Page", "")
++    if search_type.casefold() != "web":
++        raise ValueError(f"Search Console export is not Web search: {search_type}")
++    if "/repo/" not in page_filter:
++        raise ValueError(f"Search Console export is not scoped to /repo/: {page_filter}")
++
++    window = filters.get("Date", "")
++    match = re.fullmatch(
++        r"(\d{1,2})\s+([^\s]+)\s+(\d{4})-(\d{1,2})\s+([^\s]+)\s+(\d{4})",
++        window,
++    )
++    if not match:
++        raise ValueError(f"Unsupported Search Console date window: {window}")
++    start_day, start_month, start_year, end_day, end_month, end_year = match.groups()
++
++    def iso(day: str, month: str, year: str) -> str:
++        month_number = FRENCH_MONTHS.get(month.rstrip(".").casefold())
++        if month_number is None:
++            raise ValueError(f"Unsupported Search Console month: {month}")
++        return date(int(year), month_number, int(day)).isoformat()
++
++    return f"{iso(start_day, start_month, start_year)}..{iso(end_day, end_month, end_year)}"
++
++
++def _referral_window(referrals_path: Path) -> str:
++    text = referrals_path.read_text(encoding="utf-8-sig")
++    match = re.search(r"(?m)^#\s*(\d{8})-(\d{8})\s*$", text)
++    if not match:
++        raise ValueError(f"GA4 export is missing its date window: {referrals_path}")
++
++    def iso(value: str) -> str:
++        return date(int(value[:4]), int(value[4:6]), int(value[6:])).isoformat()
++
++    return f"{iso(match.group(1))}..{iso(match.group(2))}"
++
++
++def build_payload(
++    *,
++    pages_path: Path,
++    links_path: Path,
++    referrals_path: Path,
++    filters_path: Path,
++    links_window: str,
++) -> dict[str, object]:
++    search_rows: dict[str, dict[str, object]] = {}
++    for row in _rows(
++        pages_path,
++        required=("search_page", "clicks", "impressions", "position"),
++    ):
++        url = _first(row, HEADER_ALIASES["search_page"])
++        if not url:
++            continue
++        path = _repository_path(url, "Search Analytics")
++        if path in search_rows:
++            raise ValueError(f"Duplicate Search Analytics page: {path}")
++        search_rows[path] = {
++            "clicks": _integer(_first(row, HEADER_ALIASES["clicks"])),
++            "impressions": _integer(_first(row, HEADER_ALIASES["impressions"])),
++            "position": _float(_first(row, HEADER_ALIASES["position"])),
++        }
++
++    linked_paths = set()
++    for row in _rows(links_path, required=("link_target",)):
++        target = _first(row, HEADER_ALIASES["link_target"])
++        if target and _path(target).startswith("/repo/"):
++            linked_paths.add(_repository_path(target, "Sampled links"))
++
++    referral_paths: dict[str, int] = {}
++    for row in _rows(
++        referrals_path,
++        required=("landing_page", "sessions"),
++        allow_metadata_only=True,
++    ):
++        target = _first(row, HEADER_ALIASES["landing_page"])
++        if not target or not _path(target).startswith("/repo/"):
++            continue
++        target_path = _repository_path(target, "First-party referrals")
++        sessions = _integer(_first(row, HEADER_ALIASES["sessions"]))
++        referral_paths[target_path] = referral_paths.get(target_path, 0) + sessions
++
++    search_window = _search_window(filters_path)
++    referral_window = _referral_window(referrals_path)
++
++    return {
++        "schema_version": SCHEMA_VERSION,
++        "sources": {
++            "search_analytics": {
++                "file": pages_path.name,
++                "filters_file": filters_path.name,
++                "window": search_window,
++                "scope": "Web Search exact pages matching /repo/",
++            },
++            "sampled_links": {
++                "file": links_path.name,
++                "window": links_window,
++                "scope": "Search Console sampled top linked pages export",
++            },
++            "first_party_referrals": {
++                "file": referrals_path.name,
++                "window": referral_window,
++                "scope": "GA4 repository landing-page referrals export",
++            },
++        },
++        "search_analytics": search_rows,
++        "sampled_link_paths": sorted(linked_paths),
++        "first_party_referrals": referral_paths,
++        "summary": {
++            "search_urls_observed": len(search_rows),
++            "search_clicks": sum(int(row["clicks"]) for row in search_rows.values()),
++            "search_impressions": sum(int(row["impressions"]) for row in search_rows.values()),
++            "linked_repository_urls_observed": len(linked_paths),
++            "referred_repository_urls_observed": len(referral_paths),
++            "referral_sessions": sum(referral_paths.values()),
++        },
++    }
++
++
++def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--root", type=Path, default=Path.cwd())
++    parser.add_argument("--input-dir", type=Path, required=True)
++    parser.add_argument("--links-window", required=True)
++    return parser.parse_args(argv)
++
++
++def main(argv: list[str] | None = None) -> int:
++    args = parse_args(argv)
++    input_dir = args.input_dir.resolve()
++    payload = build_payload(
++        pages_path=input_dir / "Pages.csv",
++        links_path=input_dir / "gsc-top-linked-pages.csv",
++        referrals_path=input_dir / "ga4-repo-referrals.csv",
++        filters_path=input_dir / "Filtres.csv",
++        links_window=args.links_window,
++    )
++    output = args.root.resolve() / OUTPUT_PATH
++    output.parent.mkdir(parents=True, exist_ok=True)
++    output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/scripts/publish_hydration.py b/scripts/publish_hydration.py
+index 43da1ca..7756b74 100644
+--- a/scripts/publish_hydration.py
++++ b/scripts/publish_hydration.py
+@@ -46,7 +46,6 @@ GENERATED_PATHS: list[str] = [
+     "content/monthly/",
+     "content/yearly/",
+     "content/topics/",
+-    "content/repo/",
+     "content/data/",
+     "data/analyzed/",
+     "data/raw/",
+diff --git a/scripts/verify_repository_migration_http.py b/scripts/verify_repository_migration_http.py
+new file mode 100644
+index 0000000..94d1e5b
+--- /dev/null
++++ b/scripts/verify_repository_migration_http.py
+@@ -0,0 +1,95 @@
++"""Verify approved repository migration behavior at the production origin."""
++
++from __future__ import annotations
++
++import argparse
++import json
++import time
++import urllib.error
++import urllib.request
++from pathlib import Path
++from typing import Any
++from urllib.parse import urljoin
++
++APPROVED_MAP = Path("data/migrations/repository-approved-dispositions.json")
++
++
++class NoRedirect(urllib.request.HTTPRedirectHandler):
++    def redirect_request(
++        self,
++        req: urllib.request.Request,
++        fp: Any,
++        code: int,
++        msg: str,
++        headers: Any,
++        newurl: str,
++    ) -> None:
++        return None
++
++
++def response_for(url: str, *, follow_redirects: bool = True) -> Any:
++    opener = (
++        urllib.request.build_opener()
++        if follow_redirects
++        else urllib.request.build_opener(NoRedirect())
++    )
++    try:
++        return opener.open(url, timeout=30)
++    except urllib.error.HTTPError as error:
++        return error
++
++
++def verify_once(root: Path, origin: str) -> list[str]:
++    data = json.loads((root / APPROVED_MAP).read_text(encoding="utf-8"))
++    records = data["records"]
++    retained = next(
++        record
++        for record in records
++        if record["disposition"] == "keep" and record["url_type"] == "canonical"
++    )
++    retired = next(
++        record
++        for record in records
++        if record["disposition"] == "retire" and record["url_type"] == "canonical"
++    )
++    redirected = next(record for record in records if record["disposition"] == "redirect")
++    problems = []
++    for record, expected in ((retained, 200), (retired, 404)):
++        response = response_for(origin + record["url"])
++        if response.status != expected:
++            problems.append(f"{record['url']}: expected {expected}, got {response.status}")
++    response = response_for(origin + redirected["url"], follow_redirects=False)
++    expected_location = origin + redirected["destination"]
++    location = response.headers.get("Location")
++    resolved_location = urljoin(origin + redirected["url"], location or "")
++    if response.status != 301 or resolved_location != expected_location:
++        problems.append(
++            f"{redirected['url']}: expected 301 to {expected_location}, "
++            f"got {response.status} to {location}"
++        )
++    return problems
++
++
++def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--root", type=Path, default=Path.cwd())
++    parser.add_argument("--origin", default="https://claracle.com")
++    parser.add_argument("--attempts", type=int, default=1)
++    parser.add_argument("--delay", type=float, default=0)
++    return parser.parse_args(argv)
++
++
++def main(argv: list[str] | None = None) -> int:
++    args = parse_args(argv)
++    origin = args.origin.rstrip("/")
++    for attempt in range(1, args.attempts + 1):
++        problems = verify_once(args.root.resolve(), origin)
++        if not problems:
++            return 0
++        if attempt < args.attempts:
++            time.sleep(args.delay)
++    raise SystemExit("\n".join(problems))
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/static/_redirects b/static/_redirects
+new file mode 100644
+index 0000000..dd55958
+--- /dev/null
++++ b/static/_redirects
+@@ -0,0 +1 @@
++/repo/pewdiepie-archdaemon-odysseus/ /repo/odysseus-dev-odysseus/ 301
+diff --git a/tests/test_apply_repository_migration.py b/tests/test_apply_repository_migration.py
+new file mode 100644
+index 0000000..c90b529
+--- /dev/null
++++ b/tests/test_apply_repository_migration.py
+@@ -0,0 +1,84 @@
++from __future__ import annotations
++
++import hashlib
++from pathlib import Path
++
++import pytest
++
++from scripts import apply_repository_migration as migration
++
++
++def _record(
++    url: str,
++    disposition: str,
++    path: str,
++    content: str,
++    *,
++    url_type: str = "canonical",
++    destination: str = "",
++) -> dict[str, str]:
++    return {
++        "url": url,
++        "url_type": url_type,
++        "canonical_url": url,
++        "source_path": path,
++        "source_checksum": hashlib.sha256(content.encode()).hexdigest(),
++        "disposition": disposition,
++        "destination": destination,
++    }
++
++
++def _migration_data(root: Path) -> dict[str, object]:
++    target_content = "---\naliases:\n- /repo/old/\n---\n"
++    retired_content = "---\ntitle: retired\n---\n"
++    target_path = "content/repo/target/index.md"
++    retired_path = "content/repo/retired/index.md"
++    for relative, content in (
++        (target_path, target_content),
++        (retired_path, retired_content),
++    ):
++        path = root / relative
++        path.parent.mkdir(parents=True, exist_ok=True)
++        path.write_text(content, encoding="utf-8")
++    approved_path = root / migration.APPROVED_MAP
++    approved_path.parent.mkdir(parents=True, exist_ok=True)
++    approved_path.write_text("{}\n", encoding="utf-8")
++    return {
++        "approval": {"approved_commit": "abc123"},
++        "records": [
++            _record("/repo/target/", "keep", target_path, target_content),
++            _record(
++                "/repo/old/",
++                "redirect",
++                target_path,
++                target_content,
++                url_type="alias",
++                destination="/repo/target/",
++            ),
++            _record("/repo/retired/", "retire", retired_path, retired_content),
++        ],
++    }
++
++
++def test_apply_removes_source_alias_and_writes_rollback(
++    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
++) -> None:
++    data = _migration_data(tmp_path)
++    monkeypatch.setattr(migration, "load_map", lambda _root: data)
++
++    migration.apply(tmp_path)
++    migration.check(tmp_path)
++
++    assert not (tmp_path / "content/repo/retired/index.md").exists()
++    assert "/repo/old/" not in (tmp_path / "content/repo/target/index.md").read_text()
++    assert (tmp_path / migration.REDIRECTS).read_text() == ("/repo/old/ /repo/target/ 301\n")
++    assert (tmp_path / migration.ROLLBACK_MANIFEST).exists()
++
++
++def test_apply_rejects_changed_source(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
++    data = _migration_data(tmp_path)
++    (tmp_path / "content/repo/retired/index.md").write_text("changed\n", encoding="utf-8")
++    monkeypatch.setattr(migration, "load_map", lambda _root: data)
++
++    with pytest.raises(ValueError, match="changed before deletion"):
++        migration.apply(tmp_path)
+diff --git a/tests/test_capture_repository_production_snapshot.py b/tests/test_capture_repository_production_snapshot.py
+new file mode 100644
+index 0000000..c565590
+--- /dev/null
++++ b/tests/test_capture_repository_production_snapshot.py
+@@ -0,0 +1,99 @@
++from __future__ import annotations
++
++from datetime import date
++
++import pytest
++
++from scripts import capture_repository_production_snapshot as snapshot
++
++
++def _inventory() -> dict[str, object]:
++    return {
++        "records": [
++            {
++                "url": "/repo/",
++                "url_type": "index",
++                "canonical_url": "/repo/",
++            },
++            {
++                "url": "/repo/alpha/",
++                "url_type": "canonical",
++                "canonical_url": "/repo/alpha/",
++            },
++        ]
++    }
++
++
++def _sitemap(*paths: str) -> bytes:
++    entries = "".join(f"<url><loc>https://claracle.com{path}</loc></url>" for path in paths)
++    return (
++        '<?xml version="1.0" encoding="utf-8"?>'
++        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
++        f"{entries}</urlset>"
++    ).encode()
++
++
++def test_build_snapshot_reconciles_sitemap_http_and_production_only_urls() -> None:
++    statuses = {
++        "https://claracle.com/repo/": 200,
++        "https://claracle.com/repo/alpha/": 404,
++    }
++
++    payload = snapshot.build_snapshot(
++        _inventory(),
++        site_origin="https://claracle.com",
++        captured_at=date(2026, 8, 10),
++        sitemap_data=_sitemap("/repo/", "/repo/production-only/"),
++        status_getter=statuses.__getitem__,
++    )
++
++    assert payload["counts"] == {
++        "local_urls": 2,
++        "sitemap_urls": 2,
++        "http_200": 1,
++        "http_404": 1,
++        "http_other_or_unavailable": 0,
++        "production_only": 1,
++    }
++    assert payload["production_only_urls"] == ["/repo/production-only/"]
++    assert payload["sources"]["search_analytics"] == "not_collected"
++
++
++def test_validate_snapshot_rejects_incomplete_coverage() -> None:
++    payload = {
++        "counts": {"local_urls": 1, "production_only": 0},
++        "production_only_urls": [],
++        "records": [{"url": "/repo/"}],
++    }
++
++    with pytest.raises(ValueError, match="does not cover"):
++        snapshot.validate_snapshot(payload, _inventory())
++
++
++def test_validate_snapshot_rejects_unavailable_http_evidence() -> None:
++    payload = {
++        "counts": {"local_urls": 2, "production_only": 0},
++        "production_only_urls": [],
++        "records": [
++            {"url": "/repo/", "http_status": 200},
++            {"url": "/repo/alpha/", "http_status": 0},
++        ],
++    }
++
++    with pytest.raises(ValueError, match="unavailable HTTP evidence"):
++        snapshot.validate_snapshot(payload, _inventory())
++
++
++def test_build_snapshot_rejects_unapproved_origin() -> None:
++    with pytest.raises(ValueError, match="must be https://claracle.com"):
++        snapshot.build_snapshot(
++            _inventory(),
++            site_origin="http://localhost",
++            captured_at=date(2026, 8, 10),
++            sitemap_data=_sitemap("/repo/"),
++        )
++
++
++def test_http_status_rejects_unapproved_url() -> None:
++    with pytest.raises(ValueError, match="must use https://claracle.com"):
++        snapshot._http_status("file:///etc/passwd")
+diff --git a/tests/test_capture_repository_url_inspection.py b/tests/test_capture_repository_url_inspection.py
+new file mode 100644
+index 0000000..5e0c57a
+--- /dev/null
++++ b/tests/test_capture_repository_url_inspection.py
+@@ -0,0 +1,83 @@
++from __future__ import annotations
++
++import json
++
++from scripts import capture_repository_url_inspection as inspection
++
++
++def test_build_snapshot_normalizes_index_evidence() -> None:
++    inventory = {"records": [{"url": "/repo/"}, {"url": "/repo/alpha/"}]}
++
++    def inspect(url: str) -> dict[str, object]:
++        known = url.endswith("/alpha/")
++        return {
++            "inspectionResult": {
++                "inspectionResultLink": f"https://search.google.com/inspect/{known}",
++                "indexStatusResult": {
++                    "verdict": "PASS" if known else "NEUTRAL",
++                    "coverageState": "Submitted and indexed"
++                    if known
++                    else "URL is unknown to Google",
++                    "indexingState": "INDEXING_ALLOWED" if known else "INDEXING_STATE_UNSPECIFIED",
++                    "pageFetchState": "SUCCESSFUL" if known else "PAGE_FETCH_STATE_UNSPECIFIED",
++                },
++            }
++        }
++
++    payload = inspection.build_snapshot(
++        inventory,
++        site_origin="https://claracle.com",
++        site_url="sc-domain:claracle.com",
++        captured_at="2026-08-11T09:00:00+00:00",
++        inspector=inspect,
++    )
++
++    assert payload["counts"]["total"] == 2
++    assert payload["counts"]["verdicts"] == {"NEUTRAL": 1, "PASS": 1}
++    assert payload["records"][1]["coverage_state"] == "Submitted and indexed"
++
++
++def test_validate_snapshot_rejects_incomplete_coverage() -> None:
++    inventory = {"records": [{"url": "/repo/"}]}
++    snapshot = {"records": []}
++
++    try:
++        inspection.validate_snapshot(snapshot, inventory)
++    except ValueError as error:
++        assert "does not cover" in str(error)
++    else:
++        raise AssertionError("Expected incomplete snapshot to fail")
++
++
++def test_inspect_url_retries_timeout_and_sends_bearer_token(monkeypatch) -> None:
++    requests = []
++
++    class Response:
++        def __enter__(self):
++            return self
++
++        def __exit__(self, *_args):
++            return None
++
++        def read(self) -> bytes:
++            return json.dumps({"inspectionResult": {}}).encode()
++
++    def urlopen(request, timeout):
++        requests.append((request, timeout))
++        if len(requests) == 1:
++            raise TimeoutError("transient")
++        return Response()
++
++    monkeypatch.setattr(inspection.urllib.request, "urlopen", urlopen)
++    monkeypatch.setattr(inspection.time, "sleep", lambda _seconds: None)
++
++    result = inspection.inspect_url(
++        "https://claracle.com/repo/",
++        site_url="sc-domain:claracle.com",
++        token="secret-token",
++    )
++
++    assert result == {"inspectionResult": {}}
++    assert len(requests) == 2
++    assert requests[1][0].get_header("Authorization") == "Bearer secret-token"
++    assert requests[1][1] == 30
+diff --git a/tests/test_cloudflare_pages_workflows.py b/tests/test_cloudflare_pages_workflows.py
+new file mode 100644
+index 0000000..4f0e1be
+--- /dev/null
++++ b/tests/test_cloudflare_pages_workflows.py
+@@ -0,0 +1,50 @@
++from __future__ import annotations
++
++from pathlib import Path
++
++import yaml
++
++
++def _workflow(path: str) -> dict:
++    return yaml.safe_load(Path(path).read_text(encoding="utf-8"))
++
++
++def test_production_workflows_use_one_pinned_cloudflare_boundary() -> None:
++    for relative in (
++        ".github/workflows/deploy-site.yml",
++        ".github/workflows/crawl-and-publish.yml",
++    ):
++        text = Path(relative).read_text(encoding="utf-8")
++        workflow = _workflow(relative)
++        deploy = workflow["jobs"]["deploy"]
++        rendered_steps = "\n".join(
++            f"{step.get('uses', '')}\n{step.get('run', '')}\n{step.get('with', '')}"
++            for step in deploy["steps"]
++        )
++        assert "actions/configure-pages@" not in text
++        assert "actions/deploy-pages@" not in text
++        assert "actions/upload-pages-artifact@" not in text
++        assert (
++            "cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd" in rendered_steps
++        )
++        assert "wranglerVersion': '4.120.1" in rendered_steps
++        assert "pages deploy public --project-name=claracle --branch=main" in rendered_steps
++        assert "secrets.CLOUDFLARE_API_TOKEN" in rendered_steps
++        assert "secrets.CLOUDFLARE_ACCOUNT_ID" in rendered_steps
++        assert "scripts/verify_repository_migration_http.py" in rendered_steps
++        assert deploy["environment"]["name"] == "cloudflare-pages"
++
++
++def test_repository_source_is_not_hydrated_from_publish() -> None:
++    for relative in (
++        ".github/workflows/deploy-site.yml",
++        ".github/workflows/crawl-and-publish.yml",
++        ".github/workflows/generate-data-pages.yml",
++    ):
++        assert "content/repo/" not in Path(relative).read_text(encoding="utf-8")
++
++
++def test_approved_redirect_rule_is_one_hop_and_permanent() -> None:
++    assert Path("static/_redirects").read_text(encoding="utf-8") == (
++        "/repo/pewdiepie-archdaemon-odysseus/ /repo/odysseus-dev-odysseus/ 301\n"
++    )
+diff --git a/tests/test_generate_repository_approved_dispositions.py b/tests/test_generate_repository_approved_dispositions.py
+new file mode 100644
+index 0000000..161e099
+--- /dev/null
++++ b/tests/test_generate_repository_approved_dispositions.py
+@@ -0,0 +1,76 @@
++from __future__ import annotations
++
++import hashlib
++import json
++from pathlib import Path
++
++import pytest
++
++from scripts import generate_repository_approved_dispositions as approved
++
++
++def _write_inputs(root: Path) -> None:
++    records = []
++    inventory = []
++    for index in range(274):
++        if index < 11:
++            disposition = "keep"
++        elif index == 11:
++            disposition = "redirect"
++        else:
++            disposition = "retire"
++        url = "/repo/" if index == 0 else f"/repo/project-{index}/"
++        destination = "/repo/project-1/" if disposition == "redirect" else ""
++        records.append(
++            {
++                "url": url,
++                "url_type": "index" if index == 0 else "canonical",
++                "canonical_url": url,
++                "candidate_disposition": disposition,
++                "destination_candidate": destination,
++                "rationale": f"{disposition} rationale",
++                "approval_status": "pending",
++            }
++        )
++        inventory.append(
++            {
++                "url": url,
++                "source_path": (
++                    "content/repo/_index.md"
++                    if index == 0
++                    else f"content/repo/project-{index}/index.md"
++                ),
++                "source_checksum": hashlib.sha256(url.encode()).hexdigest(),
++                "candidate_disposition": disposition,
++            }
++        )
++    candidate = {"approval_status": "pending", "records": records}
++    for relative, payload in (
++        (approved.CANDIDATE, candidate),
++        (approved.INVENTORY, {"records": inventory}),
++    ):
++        path = root / relative
++        path.parent.mkdir(parents=True, exist_ok=True)
++        path.write_text(json.dumps(payload), encoding="utf-8")
++
++
++def test_build_records_exact_approved_map(tmp_path: Path) -> None:
++    _write_inputs(tmp_path)
++
++    result = approved.build(tmp_path)
++
++    assert result["counts"] == {"keep": 11, "redirect": 1, "retire": 262, "total": 274}
++    assert result["approval"]["approver"] == "jmservera"
++    assert result["approval"]["gate_waiver"] is False
++    assert all(record["approval_status"] == "approved" for record in result["records"])
++
++
++def test_build_rejects_candidate_inventory_drift(tmp_path: Path) -> None:
++    _write_inputs(tmp_path)
++    inventory_path = tmp_path / approved.INVENTORY
++    inventory = json.loads(inventory_path.read_text(encoding="utf-8"))
++    inventory["records"][1]["candidate_disposition"] = "retire"
++    inventory_path.write_text(json.dumps(inventory), encoding="utf-8")
++
++    with pytest.raises(ValueError, match="Candidate drift"):
++        approved.build(tmp_path)
+diff --git a/tests/test_generate_repository_disposition_candidate.py b/tests/test_generate_repository_disposition_candidate.py
+new file mode 100644
+index 0000000..18801cf
+--- /dev/null
++++ b/tests/test_generate_repository_disposition_candidate.py
+@@ -0,0 +1,169 @@
++from __future__ import annotations
++
++import json
++from datetime import date
++from pathlib import Path
++
++import pytest
++from jsonschema import ValidationError
++
++from scripts import generate_repository_disposition_candidate as candidate
++
++
++def _write_repo_page(path: Path) -> None:
++    path.parent.mkdir(parents=True, exist_ok=True)
++    path.write_text(
++        "---\n"
++        "generated_by: observatory_repo_pages\n"
++        "distinct_weekly_issues: 4\n"
++        "star_history: [1, 2]\n"
++        "weekly_appearances: [1, 2, 3, 4]\n"
++        "---\n",
++        encoding="utf-8",
++    )
++
++
++def _write_inputs(root: Path) -> None:
++    for path in candidate.INPUT_PATHS:
++        evidence = root / path
++        evidence.parent.mkdir(parents=True, exist_ok=True)
++        evidence.write_text("{}\n", encoding="utf-8")
++
++
++def _record(
++    url: str,
++    *,
++    url_type: str = "canonical",
++    canonical_url: str | None = None,
++    verdict: str = "NEUTRAL",
++    impressions: int | None = None,
++) -> dict[str, object]:
++    slug = url.strip("/").split("/")[-1]
++    return {
++        "url": url,
++        "url_type": url_type,
++        "canonical_url": canonical_url or url,
++        "source_path": f"content/repo/{slug}/index.md",
++        "source_checksum": "0" * 64,
++        "production": {"http_status": 200},
++        "inspection": {"verdict": verdict, "coverage_state": "test"},
++        "external_metrics": {
++            "search_impressions": impressions,
++            "sampled_inbound_link": None,
++            "referral_sessions": None,
++        },
++    }
++
++
++def test_build_candidate_keeps_value_redirects_alias_and_retires_rest(
++    tmp_path: Path,
++) -> None:
++    records = [
++        {
++            **_record("/repo/", url_type="index"),
++            "source_path": "content/repo/_index.md",
++        },
++        _record("/repo/valuable/", verdict="PASS", impressions=1),
++        _record("/repo/renamed/"),
++        _record(
++            "/repo/legacy/",
++            url_type="alias",
++            canonical_url="/repo/renamed/",
++            verdict="PASS",
++            impressions=1,
++        ),
++        _record("/repo/no-value/"),
++    ]
++    inventory = tmp_path / candidate.INVENTORY_PATH
++    inventory.parent.mkdir(parents=True, exist_ok=True)
++    inventory.write_text(json.dumps({"records": records}), encoding="utf-8")
++    (tmp_path / "content/repo/_index.md").parent.mkdir(parents=True, exist_ok=True)
++    (tmp_path / "content/repo/_index.md").write_text("---\n---\n", encoding="utf-8")
++    for slug in ("valuable", "renamed", "no-value"):
++        _write_repo_page(tmp_path / f"content/repo/{slug}/index.md")
++    rendered = tmp_path / "public"
++    rendered.mkdir()
++    (rendered / "index.html").write_text(
++        '<a href="/repo/valuable/">Value</a>',
++        encoding="utf-8",
++    )
++    _write_inputs(tmp_path)
++
++    payload = candidate.build_candidate(
++        tmp_path,
++        rendered,
++        reviewed_at=date(2026, 8, 11),
++    )
++    by_url = {record["url"]: record for record in payload["records"]}
++
++    assert payload["counts"] == {
++        "total": 5,
++        "keep": 3,
++        "redirect": 1,
++        "retire": 1,
++        "pending_approval": 5,
++    }
++    assert by_url["/repo/valuable/"]["candidate_disposition"] == "keep"
++    assert by_url["/repo/renamed/"]["candidate_disposition"] == "keep"
++    assert by_url["/repo/legacy/"]["candidate_disposition"] == "redirect"
++    assert by_url["/repo/no-value/"]["candidate_disposition"] == "retire"
++    assert by_url["/repo/valuable/"]["internal_link_count"] == 1
++    candidate.validate_candidate(payload, {"records": records})
++    candidate.validate_freshness(tmp_path, payload)
++
++
++def test_validate_candidate_rejects_approved_or_index_only_keep(tmp_path: Path) -> None:
++    records = [
++        {
++            **_record("/repo/", url_type="index"),
++            "source_path": "content/repo/_index.md",
++        },
++        _record("/repo/no-demand/", verdict="PASS"),
++    ]
++    inventory = tmp_path / candidate.INVENTORY_PATH
++    inventory.parent.mkdir(parents=True, exist_ok=True)
++    inventory.write_text(json.dumps({"records": records}), encoding="utf-8")
++    (tmp_path / "content/repo/_index.md").parent.mkdir(parents=True, exist_ok=True)
++    (tmp_path / "content/repo/_index.md").write_text("---\n---\n", encoding="utf-8")
++    _write_repo_page(tmp_path / "content/repo/no-demand/index.md")
++    rendered = tmp_path / "public"
++    rendered.mkdir()
++    _write_inputs(tmp_path)
++    payload = candidate.build_candidate(
++        tmp_path,
++        rendered,
++        reviewed_at=date(2026, 8, 11),
++    )
++    assert payload["records"][1]["candidate_disposition"] == "retire"
++    payload["records"][1]["candidate_disposition"] = "keep"
++    payload["counts"]["keep"] = 2
++    payload["counts"]["retire"] = 0
++
++    with pytest.raises(ValueError, match="Invalid candidate disposition"):
++        candidate.validate_candidate(payload, {"records": records})
++
++
++def test_validate_candidate_rejects_forged_approval(tmp_path: Path) -> None:
++    records = [
++        {
++            **_record("/repo/", url_type="index"),
++            "source_path": "content/repo/_index.md",
++        }
++    ]
++    inventory = tmp_path / candidate.INVENTORY_PATH
++    inventory.parent.mkdir(parents=True, exist_ok=True)
++    inventory.write_text(json.dumps({"records": records}), encoding="utf-8")
++    (tmp_path / "content/repo/_index.md").parent.mkdir(parents=True, exist_ok=True)
++    (tmp_path / "content/repo/_index.md").write_text("---\n---\n", encoding="utf-8")
++    rendered = tmp_path / "public"
++    rendered.mkdir()
++    _write_inputs(tmp_path)
++    payload = candidate.build_candidate(
++        tmp_path,
++        rendered,
++        reviewed_at=date(2026, 8, 11),
++    )
++    payload["approval_status"] = "approved"
++
++    with pytest.raises(ValidationError, match="'pending' was expected"):
++        candidate.validate_candidate(payload, {"records": records})
+diff --git a/tests/test_generate_repository_summary.py b/tests/test_generate_repository_summary.py
+new file mode 100644
+index 0000000..ed6d5cb
+--- /dev/null
++++ b/tests/test_generate_repository_summary.py
+@@ -0,0 +1,120 @@
++from __future__ import annotations
++
++import json
++from pathlib import Path
++
++import pytest
++
++from scripts import generate_repository_summary as summary
++
++
++def _source_record(**overrides: object) -> dict[str, object]:
++    record: dict[str, object] = {
++        "date": "2026-08-03",
++        "repo_slug": "example-tool",
++        "repo_full_name": "example/tool",
++        "repo_name": "tool",
++        "repo_owner": "example",
++        "repo_url": "https://github.com/example/tool",
++        "repo_description": "A useful <strong>developer</strong> tool.",
++        "repo_language": "Python",
++        "tags": ["tools", "ai", "tools"],
++        "first_seen_week": "2026-W21",
++        "last_seen_week": "2026-W32",
++        "lifecycle": {"status": "active"},
++        "star_history": [
++            {"week": "2026-W29", "stars": 100, "delta": None},
++            {"week": "2026-W30", "stars": 110, "delta": 10},
++            {"week": "2026-W31", "stars": 125, "delta": 15},
++            {"week": "2026-W32", "stars": 145, "delta": 20},
++        ],
++    }
++    record.update(overrides)
++    return record
++
++
++def _write_source(root: Path, records: list[dict[str, object]]) -> None:
++    path = root / summary.SOURCE_PATH
++    path.parent.mkdir(parents=True, exist_ok=True)
++    path.write_text(json.dumps(records), encoding="utf-8")
++
++
++def test_build_payload_is_versioned_sanitized_and_deterministic(tmp_path: Path) -> None:
++    _write_source(tmp_path, [_source_record()])
++
++    first = summary.build_payload(tmp_path)
++    second = summary.build_payload(tmp_path)
++
++    assert first == second
++    assert first["schema_version"] == "1.0.0"
++    assert first["artifact_type"] == "repositories"
++    assert first["generated_at"] == "2026-08-03T00:00:00Z"
++    assert first["covered_period"] == {
++        "start": "2026-05-18",
++        "end": "2026-08-09",
++        "label": "2026-W21–2026-W32",
++    }
++    record = first["records"][0]
++    assert record["topics"] == ["ai", "tools"]
++    assert record["context_summary"] == "A useful developer tool."
++    assert record["recent_momentum"] == 45
++    assert record["star_history"][-1] == {
++        "period": "2026-W32",
++        "stars": 145,
++        "delta": 20,
++    }
++
++
++def test_records_default_to_recent_momentum_order(tmp_path: Path) -> None:
++    _write_source(
++        tmp_path,
++        [
++            _source_record(repo_slug="slow", repo_full_name="example/slow"),
++            _source_record(
++                repo_slug="fast",
++                repo_full_name="example/fast",
++                star_history=[
++                    {"week": "2026-W31", "stars": 100, "delta": None},
++                    {"week": "2026-W32", "stars": 200, "delta": 100},
++                ],
++            ),
++        ],
++    )
++
++    records = summary.build_payload(tmp_path)["records"]
++
++    assert [record["id"] for record in records] == ["fast", "slow"]
++
++
++def test_non_github_repository_url_is_rejected(tmp_path: Path) -> None:
++    _write_source(tmp_path, [_source_record(repo_url="https://example.com/tool")])
++
++    with pytest.raises(ValueError, match="https://github.com"):
++        summary.build_payload(tmp_path)
++
++
++def test_build_payload_rejects_empty_source(tmp_path: Path) -> None:
++    _write_source(tmp_path, [])
++
++    with pytest.raises(ValueError, match="non-empty list"):
++        summary.build_payload(tmp_path)
++
++
++def test_check_mode_requires_both_outputs(tmp_path: Path) -> None:
++    _write_source(tmp_path, [_source_record()])
++    rendered = summary.rendered_payload(tmp_path)
++    first = tmp_path / summary.DEFAULT_OUTPUTS[0]
++    first.parent.mkdir(parents=True, exist_ok=True)
++    first.write_text(rendered, encoding="utf-8")
++
++    with pytest.raises(SystemExit, match="static/data/repositories.json"):
++        summary.main(["--root", str(tmp_path), "--check"])
++
++
++def test_long_context_summary_stays_bounded(tmp_path: Path) -> None:
++    _write_source(tmp_path, [_source_record(repo_description="word " * 100)])
++
++    record = summary.build_payload(tmp_path)["records"][0]
++
++    assert len(record["context_summary"]) <= 240
++    assert record["context_summary"].endswith("…")
+diff --git a/tests/test_generate_repository_url_inventory.py b/tests/test_generate_repository_url_inventory.py
+index 3d0ac64..807dd4e 100644
+--- a/tests/test_generate_repository_url_inventory.py
++++ b/tests/test_generate_repository_url_inventory.py
+@@ -4,6 +4,7 @@ import json
+ from pathlib import Path
+
+ import pytest
++from jsonschema import Draft202012Validator, ValidationError
+
+ from scripts import generate_repository_url_inventory as inventory
+
+@@ -29,7 +30,16 @@ def test_build_inventory_includes_index_canonicals_and_aliases(tmp_path: Path) -
+
+     payload = inventory.build_inventory(tmp_path)
+
+-    assert payload["counts"] == {"index": 1, "canonical": 2, "alias": 1, "total": 4}
++    assert payload["counts"] == {
++        "index": 1,
++        "canonical": 2,
++        "alias": 1,
++        "total": 4,
++        "production_sitemap": None,
++        "production_http_200": None,
++        "production_http_404": None,
++        "production_only": None,
++    }
+     assert [record["url"] for record in payload["records"]] == [
+         "/repo/",
+         "/repo/alpha-old/",
+@@ -39,6 +49,27 @@ def test_build_inventory_includes_index_canonicals_and_aliases(tmp_path: Path) -
+     alias = next(record for record in payload["records"] if record["url_type"] == "alias")
+     assert alias["canonical_url"] == "/repo/alpha/"
+     assert alias["proposed_disposition"] == "pending"
++    assert alias["candidate_disposition"] == "pending"
++    assert alias["candidate_rationale"] == ""
++    assert alias["internal_link_count"] is None
++    assert alias["production"] == {
++        "sitemap_status": "not_collected",
++        "http_status": None,
++    }
++    assert alias["external_metrics"] == {
++        "search_clicks": None,
++        "search_impressions": None,
++        "search_position": None,
++        "referral_sessions": None,
++        "sampled_inbound_link": None,
++    }
++    assert alias["inspection"] == {
++        "verdict": None,
++        "coverage_state": None,
++        "last_crawl_time": None,
++        "google_canonical": None,
++        "user_canonical": None,
++    }
+     assert set(alias["evidence"]) == set(inventory.EVIDENCE_REQUIREMENTS)
+     assert all(item["status"] == "not_collected" for item in alias["evidence"].values())
+
+@@ -72,3 +103,236 @@ def test_rendered_inventory_is_deterministic(tmp_path: Path) -> None:
+
+     assert first == second
+     assert json.loads(first)["counts"]["total"] == 3
++
++
++def test_build_inventory_joins_production_snapshot(tmp_path: Path) -> None:
++    _write_page(tmp_path / "content/repo/_index.md")
++    _write_page(tmp_path / "content/repo/alpha/index.md")
++    snapshot_path = tmp_path / inventory.PRODUCTION_SNAPSHOT
++    snapshot_path.parent.mkdir(parents=True, exist_ok=True)
++    snapshot_path.write_text(
++        json.dumps(
++            {
++                "captured_at": "2026-08-10",
++                "site_origin": "https://claracle.com",
++                "sources": {"sitemap": "https://claracle.com/sitemap.xml"},
++                "counts": {
++                    "sitemap_urls": 1,
++                    "http_200": 1,
++                    "http_404": 1,
++                    "production_only": 0,
++                },
++                "records": [
++                    {
++                        "url": "/repo/",
++                        "in_sitemap": True,
++                        "http_status": 200,
++                    },
++                    {
++                        "url": "/repo/alpha/",
++                        "in_sitemap": False,
++                        "http_status": 404,
++                    },
++                ],
++            }
++        ),
++        encoding="utf-8",
++    )
++
++    payload = inventory.build_inventory(tmp_path)
++
++    alpha = next(record for record in payload["records"] if record["url"] == "/repo/alpha/")
++    assert alpha["production"] == {
++        "sitemap_status": "not_observed",
++        "http_status": 404,
++    }
++    assert alpha["evidence"]["sitemap"] == {
++        "status": "not_observed",
++        "source": "https://claracle.com/sitemap.xml",
++        "window": "2026-08-10",
++    }
++
++
++def test_alias_and_canonical_evidence_are_isolated(tmp_path: Path) -> None:
++    _write_page(tmp_path / "content/repo/_index.md")
++    _write_page(
++        tmp_path / "content/repo/alpha/index.md",
++        aliases=["/repo/alpha-old/"],
++    )
++    snapshot_path = tmp_path / inventory.PRODUCTION_SNAPSHOT
++    snapshot_path.parent.mkdir(parents=True, exist_ok=True)
++    snapshot_path.write_text(
++        json.dumps(
++            {
++                "captured_at": "2026-08-10",
++                "site_origin": "https://claracle.com",
++                "sources": {"sitemap": "https://claracle.com/sitemap.xml"},
++                "counts": {
++                    "sitemap_urls": 2,
++                    "http_200": 2,
++                    "http_404": 1,
++                    "production_only": 0,
++                },
++                "records": [
++                    {"url": "/repo/", "in_sitemap": True, "http_status": 200},
++                    {"url": "/repo/alpha/", "in_sitemap": True, "http_status": 200},
++                    {"url": "/repo/alpha-old/", "in_sitemap": False, "http_status": 404},
++                ],
++            }
++        ),
++        encoding="utf-8",
++    )
++
++    records = inventory.build_inventory(tmp_path)["records"]
++    canonical = next(record for record in records if record["url"] == "/repo/alpha/")
++    alias = next(record for record in records if record["url"] == "/repo/alpha-old/")
++
++    assert canonical["evidence"]["sitemap"]["status"] == "observed"
++    assert alias["evidence"]["sitemap"]["status"] == "not_observed"
++
++
++def test_build_inventory_joins_external_evidence(tmp_path: Path) -> None:
++    _write_page(tmp_path / "content/repo/_index.md")
++    _write_page(tmp_path / "content/repo/alpha/index.md")
++    external_path = tmp_path / inventory.EXTERNAL_EVIDENCE
++    external_path.parent.mkdir(parents=True, exist_ok=True)
++    external_path.write_text(
++        json.dumps(
++            {
++                "schema_version": "1.0.0",
++                "sources": {
++                    "search_analytics": {
++                        "file": "Pages.csv",
++                        "window": "2026-07-27..2026-08-09",
++                    },
++                    "sampled_links": {
++                        "file": "gsc-top-linked-pages.csv",
++                        "window": "exported 2026-08-10",
++                    },
++                    "first_party_referrals": {
++                        "file": "ga4-repo-referrals.csv",
++                        "window": "2026-07-27..2026-08-11",
++                    },
++                },
++                "search_analytics": {
++                    "/repo/alpha/": {
++                        "clicks": 0,
++                        "impressions": 12,
++                        "position": 7.5,
++                    }
++                },
++                "sampled_link_paths": [],
++                "first_party_referrals": {},
++            }
++        ),
++        encoding="utf-8",
++    )
++
++    records = inventory.build_inventory(tmp_path)["records"]
++    alpha = next(record for record in records if record["url"] == "/repo/alpha/")
++
++    assert alpha["evidence"]["search_analytics"] == {
++        "status": "observed",
++        "source": "Pages.csv",
++        "window": "2026-07-27..2026-08-09",
++    }
++    assert alpha["evidence"]["sampled_links"]["status"] == "not_observed"
++    assert alpha["external_metrics"] == {
++        "search_clicks": 0,
++        "search_impressions": 12,
++        "search_position": 7.5,
++        "referral_sessions": None,
++        "sampled_inbound_link": None,
++    }
++
++
++def test_build_inventory_joins_url_inspection(tmp_path: Path) -> None:
++    _write_page(tmp_path / "content/repo/_index.md")
++    _write_page(tmp_path / "content/repo/alpha/index.md")
++    inspection_path = tmp_path / inventory.URL_INSPECTION
++    inspection_path.parent.mkdir(parents=True, exist_ok=True)
++    inspection_path.write_text(
++        json.dumps(
++            {
++                "schema_version": "1.0.0",
++                "captured_at": "2026-08-11T09:04:05+00:00",
++                "site_url": "sc-domain:claracle.com",
++                "records": [
++                    {
++                        "url": "/repo/alpha/",
++                        "verdict": "PASS",
++                        "coverage_state": "Submitted and indexed",
++                        "last_crawl_time": "2026-08-03T02:11:09Z",
++                        "google_canonical": "https://claracle.com/repo/alpha/",
++                        "user_canonical": "https://claracle.com/repo/alpha/",
++                    }
++                ],
++            }
++        ),
++        encoding="utf-8",
++    )
++
++    records = inventory.build_inventory(tmp_path)["records"]
++    alpha = next(record for record in records if record["url"] == "/repo/alpha/")
++
++    assert alpha["evidence"]["url_inspection"] == {
++        "status": "observed",
++        "source": "data/derived/observatory/repository-url-inspection.json",
++        "window": "2026-08-11T09:04:05+00:00",
++    }
++    assert alpha["inspection"]["verdict"] == "PASS"
++    assert alpha["inspection"]["coverage_state"] == "Submitted and indexed"
++
++
++def test_build_inventory_joins_pending_disposition_candidate(tmp_path: Path) -> None:
++    _write_page(tmp_path / "content/repo/_index.md")
++    _write_page(tmp_path / "content/repo/alpha/index.md")
++    candidate_path = tmp_path / inventory.DISPOSITION_CANDIDATE
++    candidate_path.parent.mkdir(parents=True, exist_ok=True)
++    candidate_path.write_text(
++        json.dumps(
++            {
++                "reviewed_at": "2026-08-11",
++                "approval_status": "pending",
++                "records": [
++                    {
++                        "url": "/repo/alpha/",
++                        "candidate_disposition": "retire",
++                        "rationale": "No observed value.",
++                        "internal_link_count": 3,
++                        "differentiated_content": True,
++                        "destination_candidate": "",
++                        "destination_equivalence": "none",
++                    }
++                ],
++            }
++        ),
++        encoding="utf-8",
++    )
++
++    records = inventory.build_inventory(tmp_path)["records"]
++    alpha = next(record for record in records if record["url"] == "/repo/alpha/")
++
++    assert alpha["candidate_disposition"] == "retire"
++    assert alpha["proposed_disposition"] == "pending"
++    assert alpha["approval_status"] == "pending"
++    assert alpha["internal_link_count"] == 3
++    assert alpha["evidence"]["internal_links"]["status"] == "observed"
++    assert alpha["evidence"]["content_review"]["status"] == "observed"
++    assert alpha["evidence"]["destination_equivalence"]["status"] == "not_observed"
++
++
++def test_schema_blocks_retirement_without_collected_evidence(tmp_path: Path) -> None:
++    _write_page(tmp_path / "content/repo/_index.md")
++    payload = inventory.build_inventory(tmp_path)
++    payload["records"][0]["proposed_disposition"] = "retire"
++    payload["records"][0]["approval_status"] = "approved"
++    schema = json.loads(
++        (
++            Path(__file__).resolve().parents[1]
++            / "data/schemas/repository-url-inventory.schema.json"
++        ).read_text(encoding="utf-8")
++    )
++
++    with pytest.raises(ValidationError):
++        Draft202012Validator(schema).validate(payload)
+diff --git a/tests/test_import_repository_external_evidence.py b/tests/test_import_repository_external_evidence.py
+new file mode 100644
+index 0000000..19f1304
+--- /dev/null
++++ b/tests/test_import_repository_external_evidence.py
+@@ -0,0 +1,128 @@
++from __future__ import annotations
++
++from pathlib import Path
++
++import pytest
++
++from scripts import import_repository_external_evidence as evidence
++
++
++def _write_filters(path: Path) -> None:
++    path.write_text(
++        "Filtre,Valeur\nType de recherche,Web\nDate,27 juil. 2026-9 août 2026\nPage,+/repo/\n",
++        encoding="utf-8",
++    )
++
++
++def test_build_payload_normalizes_localized_exports(tmp_path: Path) -> None:
++    pages = tmp_path / "Pages.csv"
++    pages.write_text(
++        "Pages les plus populaires,Clics,Impressions,CTR,Position\n"
++        "https://claracle.com/repo/example-tool/,0,12,0%,7.5\n",
++        encoding="utf-8",
++    )
++    links = tmp_path / "gsc-top-linked-pages.csv"
++    links.write_text(
++        "Page cible,Liens entrants,Sites d&#39;origine\nhttps://claracle.com/,15,3\n",
++        encoding="utf-8",
++    )
++    referrals = tmp_path / "ga4-repo-referrals.csv"
++    referrals.write_text(
++        "# report\n# 20260727-20260811\n"
++        "Landing page + query string,Page referrer,Sessions\n"
++        "/repo/example-tool/?campaign=external,https://example.com/,2\n",
++        encoding="utf-8",
++    )
++    filters = tmp_path / "Filtres.csv"
++    _write_filters(filters)
++
++    payload = evidence.build_payload(
++        pages_path=pages,
++        links_path=links,
++        referrals_path=referrals,
++        filters_path=filters,
++        links_window="exported 2026-08-10",
++    )
++
++    assert payload["search_analytics"]["/repo/example-tool/"] == {
++        "clicks": 0,
++        "impressions": 12,
++        "position": 7.5,
++    }
++    assert payload["sampled_link_paths"] == []
++    assert payload["first_party_referrals"] == {"/repo/example-tool/": 2}
++    assert payload["summary"]["search_impressions"] == 12
++    assert payload["sources"]["search_analytics"]["window"] == ("2026-07-27..2026-08-09")
++    assert payload["sources"]["first_party_referrals"]["window"] == ("2026-07-27..2026-08-11")
++
++
++def test_build_payload_accepts_metadata_only_ga4_export(tmp_path: Path) -> None:
++    pages = tmp_path / "Pages.csv"
++    pages.write_text(
++        "Pages les plus populaires,Clics,Impressions,Position\n"
++        "https://claracle.com/repo/example-tool/,0,1,7.5\n",
++        encoding="utf-8",
++    )
++    links = tmp_path / "links.csv"
++    links.write_text("Page cible\nhttps://claracle.com/\n", encoding="utf-8")
++    referrals = tmp_path / "ga4.csv"
++    referrals.write_text("# report\n# 20260727-20260811\n", encoding="utf-8")
++    filters = tmp_path / "filters.csv"
++    _write_filters(filters)
++
++    payload = evidence.build_payload(
++        pages_path=pages,
++        links_path=links,
++        referrals_path=referrals,
++        filters_path=filters,
++        links_window="exported 2026-08-10",
++    )
++
++    assert payload["first_party_referrals"] == {}
++
++
++def test_build_payload_rejects_missing_search_headers(tmp_path: Path) -> None:
++    pages = tmp_path / "Pages.csv"
++    pages.write_text("Page,Clicks\n/repo/example/,0\n", encoding="utf-8")
++    links = tmp_path / "links.csv"
++    links.write_text("Page cible\nhttps://claracle.com/\n", encoding="utf-8")
++    referrals = tmp_path / "ga4.csv"
++    referrals.write_text("# report\n# 20260727-20260811\n", encoding="utf-8")
++    filters = tmp_path / "filters.csv"
++    _write_filters(filters)
++
++    with pytest.raises(ValueError, match="impressions header"):
++        evidence.build_payload(
++            pages_path=pages,
++            links_path=links,
++            referrals_path=referrals,
++            filters_path=filters,
++            links_window="exported 2026-08-10",
++        )
++
++
++def test_build_payload_rejects_unscoped_search_export(tmp_path: Path) -> None:
++    pages = tmp_path / "Pages.csv"
++    pages.write_text(
++        "Pages les plus populaires,Clics,Impressions,Position\n"
++        "https://claracle.com/repo/example-tool/,0,1,7.5\n",
++        encoding="utf-8",
++    )
++    links = tmp_path / "links.csv"
++    links.write_text("Page cible\nhttps://claracle.com/\n", encoding="utf-8")
++    referrals = tmp_path / "ga4.csv"
++    referrals.write_text("# report\n# 20260727-20260811\n", encoding="utf-8")
++    filters = tmp_path / "filters.csv"
++    filters.write_text(
++        "Filtre,Valeur\nType de recherche,Web\nDate,27 juil. 2026-9 août 2026\nPage,+/weekly/\n",
++        encoding="utf-8",
++    )
++
++    with pytest.raises(ValueError, match="not scoped to /repo/"):
++        evidence.build_payload(
++            pages_path=pages,
++            links_path=links,
++            referrals_path=referrals,
++            filters_path=filters,
++            links_window="exported 2026-08-10",
++        )
+diff --git a/tests/test_observatory_repos.py b/tests/test_observatory_repos.py
+index 596922a..a8aeec4 100644
+--- a/tests/test_observatory_repos.py
++++ b/tests/test_observatory_repos.py
+@@ -565,13 +565,29 @@ def test_frozen_corpus_lifecycle_seed_has_expected_parity() -> None:
+         REPO_ROOT
+     )
+     assert config["enabled"] is False
+-    # Repository-page qualification parity is the real invariant: every qualified
+-    # history has exactly one page and one derived entry.
++    # Derived history retains every qualified repository, while BR-003 limits the
++    # published profile surface to sponsor-approved canonical keeps.
+     # After the identity backfill + rename-consolidation regeneration: 270 - 7 stale
+     # + 3 consolidated-elsewhere = 266 qualified identities (some renames/ownership
+     # transfers merged into an already-existing identity rather than needing a new one).
+     assert len(qualified_identities) == 266
+-    assert qualified_identities == page_identities == derived_identities
++    assert qualified_identities == derived_identities
++    approved = json.loads(
++        (REPO_ROOT / "data/migrations/repository-approved-dispositions.json").read_text(
++            encoding="utf-8"
++        )
++    )
++    retained_slugs = {
++        record["url"].removeprefix("/repo/").removesuffix("/")
++        for record in approved["records"]
++        if record["url_type"] == "canonical" and record["disposition"] == "keep"
++    }
++    retained_identities = {
++        (history.display_name, history.slug)
++        for history in histories.values()
++        if history.slug in retained_slugs
++    }
++    assert page_identities == retained_identities
+
+     # After Phase 1 fix (reverse index for full_name->key migration), the ledger
+     # is idempotent across multiple passes. The loaded corpus includes the
+@@ -1090,7 +1106,7 @@ def test_hugo_build_renders_generated_repo_pages() -> None:
+         capture_output=True,
+     )
+     assert result.returncode == 0, result.stderr + result.stdout
+-    assert (REPO_ROOT / "public" / "repo" / "anthropics-claude-code" / "index.html").exists()
++    assert (REPO_ROOT / "public" / "repo" / "odysseus-dev-odysseus" / "index.html").exists()
+
+
+ def write_identity_backfill(root: Path, entries: dict[str, dict[str, object]]) -> Path:
+diff --git a/tests/test_pipeline.py b/tests/test_pipeline.py
+index 3c393d0..bb28572 100644
+--- a/tests/test_pipeline.py
++++ b/tests/test_pipeline.py
+@@ -672,7 +672,6 @@ class WorkflowConfigTests(unittest.TestCase):
+     def test_publish_transaction_carries_every_generated_path(self) -> None:
+         generated_paths = (
+             "content/topics/",
+-            "content/repo/",
+             "content/data/",
+             "data/taxonomy/",
+             "data/topic-hubs/",
+@@ -904,7 +903,7 @@ class WorkflowConfigTests(unittest.TestCase):
+
+         webhook_run = webhook_step["run"]
+         self.assertIn('curl -s -X POST "$WEBHOOK_URL"', webhook_run)
+-        self.assertIn("https://jmservera.github.io/SquadScope/weekly/", webhook_run)
++        self.assertIn("https://claracle.com/weekly/", webhook_run)
+         # JSON is now built with jq to prevent injection — check for jq invocation
+         self.assertIn("jq -n", webhook_run)
+         self.assertIn("📊 **SquadScope Week", webhook_run)
+diff --git a/tests/test_publish_hydration.py b/tests/test_publish_hydration.py
+index b44f203..2f941fe 100644
+--- a/tests/test_publish_hydration.py
++++ b/tests/test_publish_hydration.py
+@@ -63,6 +63,7 @@ def test_repository_paths_command_lists_generated_paths() -> None:
+     assert "content/data/" in GENERATED_PATHS
+     assert "data/candidates/" in GENERATED_PATHS
+     assert "data/published/" in GENERATED_PATHS
++    assert "content/repo/" not in GENERATED_PATHS
+
+
+ def test_consistent_release_passes() -> None:
+diff --git a/tests/test_rendered_seo_metadata.py b/tests/test_rendered_seo_metadata.py
+index 3ad896c..e91e46d 100644
+--- a/tests/test_rendered_seo_metadata.py
++++ b/tests/test_rendered_seo_metadata.py
+@@ -213,7 +213,7 @@ def test_rendered_page_classes_emit_appropriate_schema(rendered_site: Path) -> N
+             "ItemList",
+             "BreadcrumbList",
+         },
+-        "repo/anthropics-claude-code/index.html": {
++        "repo/odysseus-dev-odysseus/index.html": {
+             "WebPage",
+             "SoftwareSourceCode",
+             "BreadcrumbList",
+@@ -226,7 +226,7 @@ def test_rendered_page_classes_emit_appropriate_schema(rendered_site: Path) -> N
+
+     for relative_path in (
+         "data/most-starred-mcp-projects/index.html",
+-        "repo/anthropics-claude-code/index.html",
++        "repo/odysseus-dev-odysseus/index.html",
+     ):
+         _, parser = _parse_html(rendered_site / relative_path)
+         assert "Article" not in {document["@type"] for document in parser.json_ld}
+diff --git a/tests/test_rendered_weekly_links.py b/tests/test_rendered_weekly_links.py
+index 364ad00..c9a237d 100644
+--- a/tests/test_rendered_weekly_links.py
++++ b/tests/test_rendered_weekly_links.py
+@@ -12,7 +12,7 @@ import pytest
+ import yaml
+
+ ROOT = Path(__file__).resolve().parents[1]
+-TARGET_WEEK = "W30"
++TARGET_WEEK = "W21"
+
+
+ class WeeklyLinkParser(HTMLParser):
+@@ -71,9 +71,10 @@ def _required_links(weekly_path: Path) -> tuple[set[str], set[str], set[str]]:
+         key=lambda path: datetime.fromisoformat(str(_front_matter(path)["date"])),
+     )
+     target_index = weekly_pages.index(weekly_path)
++    neighbors = weekly_pages[max(0, target_index - 1) : target_index + 2]
+     chronological = {
+         f"/weekly/{path.parent.name}/{path.stem.lower()}/"
+-        for path in weekly_pages[target_index - 1 : target_index + 2]
++        for path in neighbors
+         if path != weekly_path
+     }
+
+@@ -97,7 +98,7 @@ def _required_links(weekly_path: Path) -> tuple[set[str], set[str], set[str]]:
+         if (ROOT / "content/repo" / repository_slug / "index.md").exists():
+             repositories.add(f"/repo/{repository_slug}/")
+
+-    assert len(chronological) == 2
++    assert chronological
+     assert canonical_topics
+     assert repositories
+     return chronological, canonical_topics, repositories
+diff --git a/tests/test_repository_explorer.py b/tests/test_repository_explorer.py
+new file mode 100644
+index 0000000..1f018da
+--- /dev/null
++++ b/tests/test_repository_explorer.py
+@@ -0,0 +1,188 @@
++from __future__ import annotations
++
++import json
++import shutil
++import subprocess
++import sys
++from pathlib import Path
++
++import pytest
++from jsonschema import Draft202012Validator
++
++ROOT = Path(__file__).resolve().parents[1]
++
++
++def test_repository_summary_is_current_and_schema_valid() -> None:
++    result = subprocess.run(
++        [sys.executable, "scripts/generate_repository_summary.py", "--from-crawl", "--check"],
++        cwd=ROOT,
++        text=True,
++        capture_output=True,
++        check=False,
++    )
++
++    assert result.returncode == 0, result.stderr or result.stdout
++    payload = json.loads(
++        (ROOT / "data/observatory/repository_summary.json").read_text(encoding="utf-8")
++    )
++    envelope_schema = json.loads(
++        (ROOT / "data/schemas/observatory-envelope.schema.json").read_text(encoding="utf-8")
++    )
++    record_schema = json.loads(
++        (ROOT / "data/schemas/repository-record.schema.json").read_text(encoding="utf-8")
++    )
++    Draft202012Validator(envelope_schema).validate(payload)
++    validator = Draft202012Validator(record_schema)
++    for record in payload["records"]:
++        validator.validate(record)
++
++
++def test_repository_page_renders_complete_no_javascript_index() -> None:
++    if shutil.which("hugo") is None:
++        pytest.skip("hugo binary is not installed in this test environment")
++
++    destination = ROOT / "public-test-repository-explorer"
++    shutil.rmtree(destination, ignore_errors=True)
++    result = subprocess.run(
++        ["hugo", "--minify", "--destination", str(destination)],
++        cwd=ROOT,
++        text=True,
++        capture_output=True,
++        check=False,
++    )
++    try:
++        assert result.returncode == 0, result.stderr
++        rendered = (destination / "repo/index.html").read_text(encoding="utf-8")
++        payload = json.loads(
++            (ROOT / "data/observatory/repository_summary.json").read_text(encoding="utf-8")
++        )
++        assert rendered.count("data-repo-record") == len(payload["records"])
++        assert "data-repository-explorer" in rendered
++        assert "Download the versioned repository dataset" in rendered
++        assert "https://github.com/2dust/v2rayN" in rendered
++        assert "repository-explorer.min." in rendered
++    finally:
++        shutil.rmtree(destination, ignore_errors=True)
++
++
++def test_client_resets_invalid_state_and_reports_empty_results() -> None:
++    if shutil.which("node") is None:
++        pytest.skip("node is not installed in this test environment")
++
++    result = subprocess.run(
++        ["node", "-e", _node_smoke_script()],
++        cwd=ROOT,
++        text=True,
++        capture_output=True,
++        check=False,
++    )
++
++    assert result.returncode == 0, result.stderr
++    assert "ok" in result.stdout
++
++
++def _node_smoke_script() -> str:
++    return r"""
++const fs = require('fs');
++const vm = require('vm');
++const script = fs.readFileSync('assets/js/repository-explorer.js', 'utf8');
++
++class Element {
++  constructor(attributes = {}) {
++    this.attributes = attributes;
++    this.value = '';
++    this.textContent = '';
++    this.hidden = false;
++    this.children = [];
++    this.listeners = {};
++  }
++  getAttribute(name) { return this.attributes[name] || ''; }
++  querySelector(selector) { return this.map[selector] || null; }
++  querySelectorAll(selector) { return selector === '[data-repo-record]' ? this.children : []; }
++  addEventListener(name, listener) { this.listeners[name] = listener; }
++  appendChild(child) {
++    this.children = this.children.filter((item) => item !== child);
++    this.children.push(child);
++  }
++  focus() {}
++}
++
++const list = new Element();
++list.children = [
++  new Element({
++    'data-name': 'example/alpha',
++    'data-search': 'example alpha python',
++    'data-language': 'python',
++    'data-topics': 'ai|tools',
++    'data-status': 'active',
++    'data-last-period': '2026-W33',
++    'data-recent': 'true',
++    'data-momentum': '10',
++    'data-stars': '100',
++    'data-appearances': '4',
++  }),
++  new Element({
++    'data-name': 'example/beta',
++    'data-search': 'example beta rust',
++    'data-language': 'rust',
++    'data-topics': 'systems',
++    'data-status': 'archived',
++    'data-last-period': '2026-W30',
++    'data-recent': 'false',
++    'data-momentum': '2',
++    'data-stars': '200',
++    'data-appearances': '8',
++  }),
++];
++
++const root = new Element({'data-latest-period': '2026-W33'});
++root.map = {
++  '[data-repo-search]': new Element(),
++  '[data-repo-language]': new Element(),
++  '[data-repo-topic]': new Element(),
++  '[data-repo-status]': new Element(),
++  '[data-repo-period]': new Element(),
++  '[data-repo-sort]': new Element(),
++  '[data-repo-reset]': new Element(),
++  '[data-repo-results]': list,
++  '[data-repo-result-status]': new Element(),
++};
++root.map['[data-repo-period]'].value = 'all';
++root.map['[data-repo-sort]'].value = 'momentum';
++
++let pushed = 0;
++let replaced = 0;
++global.window = {
++  location: {search: '?period=invalid&sort=invalid', pathname: '/repo/'},
++  history: {
++    replaceState: () => { replaced += 1; },
++    pushState: () => { pushed += 1; },
++  },
++  addEventListener: () => {},
++  clearTimeout: clearTimeout,
++  setTimeout: (callback) => { callback(); return 1; },
++};
++global.document = {
++  addEventListener: () => {},
++  querySelectorAll: () => [],
++};
++global.URLSearchParams = URLSearchParams;
++vm.runInThisContext(script);
++
++window.initRepositoryExplorer(root);
++if (root.map['[data-repo-period]'].value !== 'all') {
++  throw new Error('invalid period was not reset');
++}
++if (root.map['[data-repo-sort]'].value !== 'momentum') {
++  throw new Error('invalid sort was not reset');
++}
++root.map['[data-repo-search]'].value = 'no-match';
++root.listeners.input();
++if (!root.map['[data-repo-result-status]'].textContent.includes('No repositories')) {
++  throw new Error('empty-result guidance was not rendered');
++}
++if (replaced !== 1 || pushed !== 1) {
++  throw new Error(`unexpected history writes: replace=${replaced}, push=${pushed}`);
++}
++console.log('ok');
++"""
+diff --git a/tests/visual/a11y-perf.spec.mjs b/tests/visual/a11y-perf.spec.mjs
+index c64ca61..b3ba1dc 100644
+--- a/tests/visual/a11y-perf.spec.mjs
++++ b/tests/visual/a11y-perf.spec.mjs
+@@ -24,7 +24,7 @@ const PAGES = [
+   { key: 'yearly', label: 'yearly', path: '/yearly/2026/' },
+   { key: 'topic', label: 'topic', path: '/topics/ai-coding-agents/' },
+   { key: 'data', label: 'data', path: '/data/fastest-growing-ai-repositories-this-year/' },
+-  { key: 'repository', label: 'repository', path: '/repo/anthropics-claude-code/' },
++  { key: 'repository', label: 'repository', path: '/repo/odysseus-dev-odysseus/' },
+   { key: 'chart', label: 'chart', path: '/embeds/fastest-growing-ai-repositories-chart/' },
+   { key: 'tool', label: 'tool', path: '/tools/star-velocity-explorer/' },
+ ];
+diff --git a/tests/visual/observatory-a11y.spec.mjs b/tests/visual/observatory-a11y.spec.mjs
+index 67e7df7..6c90eca 100644
+--- a/tests/visual/observatory-a11y.spec.mjs
++++ b/tests/visual/observatory-a11y.spec.mjs
+@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
+ const OBSERVATORY_PAGES = [
+   { key: 'topic', path: '/topics/ai-coding-agents/' },
+   { key: 'data', path: '/data/fastest-growing-ai-repositories-this-year/' },
+-  { key: 'repository', path: '/repo/anthropics-claude-code/' },
++  { key: 'repository', path: '/repo/odysseus-dev-odysseus/' },
+   { key: 'chart', path: '/embeds/fastest-growing-ai-repositories-chart/' },
+   { key: 'tool', path: '/tools/star-velocity-explorer/' },
+ ];
+  </full_diff>
+</commit_history>

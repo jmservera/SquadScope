@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://claracle.com/schemas/repository-approved-dispositions.schema.json",
+  "title": "Claracle Approved Repository Dispositions",
+  "type": "object",
+  "required": ["schema_version", "approval", "inputs", "counts", "records"],
+  "properties": {
+    "schema_version": { "const": "1.1.0" },
+    "approval": {
+      "type": "object",
+      "required": [
+        "status",
+        "approver",
+        "approved_at",
+        "approved_commit",
+        "gate_waiver",
+        "authorized_sequence",
+        "statement",
+        "hosting_decision",
+        "hosting_statement",
+        "supersedes_commit"
+      ],
+      "properties": {
+        "status": { "const": "approved" },
+        "approver": { "const": "jmservera" },
+        "approved_at": { "type": "string", "format": "date" },
+        "approved_commit": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" },
+        "gate_waiver": { "const": false },
+        "authorized_sequence": { "type": "string", "minLength": 1 },
+        "statement": { "type": "string", "minLength": 1 },
+        "hosting_decision": { "const": "github_pages_explorer_only" },
+        "hosting_statement": { "type": "string", "minLength": 1 },
+        "supersedes_commit": { "const": "c5dcb5f" }
+      },
+      "additionalProperties": false
+    },
+    "inputs": {
+      "type": "object",
+      "required": [
+        "data/derived/observatory/repository-disposition-candidate.json",
+        "data/derived/observatory/repository-url-inventory.json"
+      ],
+      "properties": {
+        "data/derived/observatory/repository-disposition-candidate.json": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "data/derived/observatory/repository-url-inventory.json": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "required": ["keep", "redirect", "retire", "total"],
+      "properties": {
+        "keep": { "const": 1 },
+        "redirect": { "const": 0 },
+        "retire": { "const": 273 },
+        "total": { "const": 274 }
+      },
+      "additionalProperties": false
+    },
+    "records": {
+      "type": "array",
+      "minItems": 274,
+      "maxItems": 274,
+      "items": {
+        "type": "object",
+        "required": [
+          "url",
+          "url_type",
+          "canonical_url",
+          "source_path",
+          "source_checksum",
+          "disposition",
+          "destination",
+          "rationale",
+          "approval_status"
+        ],
+        "properties": {
+          "url": { "type": "string", "pattern": "^/repo(?:/[a-z0-9-]+)?/$" },
+          "url_type": { "enum": ["index", "canonical", "alias"] },
+          "canonical_url": { "type": "string", "pattern": "^/repo(?:/[a-z0-9-]+)?/$" },
+          "source_path": { "type": "string", "pattern": "^content/repo/" },
+          "source_checksum": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "disposition": { "enum": ["keep", "redirect", "retire"] },
+          "destination": { "type": "string" },
+          "rationale": { "type": "string", "minLength": 1 },
+          "approval_status": { "const": "approved" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

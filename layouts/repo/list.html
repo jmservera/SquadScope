@@ -1,18 +1,83 @@
 {{- define "main" }}
-<article class="repo-list page" data-pagefind-body>
+<article
+  class="repo-list page repository-explorer"
+  data-pagefind-body
+  data-repository-explorer
+  data-repository-data-url="/data/repositories.json"
+>
   {{ partial "breadcrumbs.html" . }}
   <header class="page-header">
     <h1>{{ .Title }}</h1>
     {{ with .Description }}<p>{{ . }}</p>{{ end }}
-    <p>Generated pages: {{ .Params.repo_pages_generated }}. Threshold: more than {{ .Params.recurrence_threshold.distinct_weekly_issues }} distinct weekly issues.</p>
   </header>
+
+  <section class="repository-explorer__thesis" aria-labelledby="repository-index-heading">
+    <div class="section-topline">Evidence index · <span data-repo-covered-period>Loading observation window…</span></div>
+    <h2 id="repository-index-heading">Follow the repositories that keep returning</h2>
+    <p>Search Claracle&rsquo;s recurring GitHub evidence by language, topic, lifecycle, and observation period. Every result links directly to the source repository; the underlying dataset remains directly downloadable.</p>
+    <p><a href="/data/repositories.json" download>Download the versioned repository dataset</a> · <a href="/methodology/">Read the methodology</a></p>
+  </section>
+
+  <div class="repository-explorer__controls" aria-label="Repository filters">
+    <label>
+      Search
+      <input type="search" data-repo-search placeholder="Repository or summary">
+    </label>
+    <label>
+      Language
+      <select data-repo-language>
+        <option value="">All languages</option>
+      </select>
+    </label>
+    <label>
+      Topic
+      <select data-repo-topic>
+        <option value="">All topics</option>
+      </select>
+    </label>
+    <label>
+      Status
+      <select data-repo-status>
+        <option value="">All statuses</option>
+        <option value="active">Active</option>
+        <option value="archived">Archived</option>
+        <option value="disabled">Disabled</option>
+        <option value="deleted">Deleted</option>
+        <option value="renamed">Renamed</option>
+        <option value="retained">Retained</option>
+      </select>
+    </label>
+    <label>
+      Observation period
+      <select data-repo-period>
+        <option value="all">All history</option>
+        <option value="current" data-repo-current-period>Seen in latest period</option>
+        <option value="recent">Seen in the latest four weeks</option>
+      </select>
+    </label>
+    <label>
+      Sort
+      <select data-repo-sort>
+        <option value="momentum">Recent momentum</option>
+        <option value="stars">Latest stars</option>
+        <option value="appearances">Weekly appearances</option>
+        <option value="name">Repository name</option>
+      </select>
+    </label>
+    <button class="repository-explorer__reset" type="button" data-repo-reset>Reset filters</button>
+  </div>
+  <noscript>
+    <style>.repository-explorer__controls { display: none; }</style>
+    <p class="repository-explorer__status">The interactive index requires JavaScript. <a href="/data/repositories.json">Open the repository dataset directly</a>.</p>
+  </noscript>
+
+  <p class="repository-explorer__status" data-repo-result-status aria-live="polite">Loading repository data…</p>
+
   <div class="post-content">
     {{ .Content }}
-    <ul>
-      {{- range .Pages.ByTitle }}
-      <li><a href="{{ .RelPermalink }}">{{ .Params.repo_full_name }}</a> — {{ .Params.distinct_weekly_issues }} weekly appearances</li>
-      {{- end }}
-    </ul>
+    <ol class="repository-index" data-repo-results></ol>
   </div>
+  {{- $script := resources.Get "js/repository-explorer.js" | js.Build | resources.Minify | fingerprint }}
+  <script defer src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}"></script>
 </article>
 {{- end }}

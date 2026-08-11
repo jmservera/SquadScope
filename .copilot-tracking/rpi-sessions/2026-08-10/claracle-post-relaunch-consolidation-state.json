@@ -1,0 +1,117 @@
+{
+  "task_id": "BRD-CLARACLE-003",
+  "task_slug": "claracle-post-relaunch-consolidation",
+  "parent_task": null,
+  "mode": "automatic",
+  "active_phase": "Implement",
+  "status": "active",
+  "session_status": "running",
+  "artifact_paths": {
+    "research": ".copilot-tracking/research/2026-08-08/claracle-post-relaunch-experience-research.md",
+    "plan": ".copilot-tracking/plans/2026-08-08/claracle-post-relaunch-consolidation-plan.instructions.md",
+    "details": ".copilot-tracking/details/2026-08-08/claracle-post-relaunch-consolidation-details.md",
+    "critique": ".copilot-tracking/reviews/2026-08-08/claracle-post-relaunch-consolidation-plan-review.md",
+    "changes": ".copilot-tracking/changes/2026-08-08/claracle-post-relaunch-consolidation-changes.md",
+    "review": null
+  },
+  "confirmed_decisions": [
+    {
+      "decision": "Research evidence was reused for Phase 3 implementation.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/research/2026-08-08/claracle-post-relaunch-experience-research.md"
+    },
+    {
+      "decision": "No URL may be redirected or retired from missing or ambiguous external evidence.",
+      "status": "confirmed",
+      "evidence": "docs/brds/claracle-post-relaunch-consolidation-brd.md"
+    },
+    {
+      "decision": "Phase 3 locally actionable implementation is committed; Phase 4 must not start until the user explicitly continues.",
+      "status": "confirmed",
+      "evidence": "User input: \"Deliver Phase 3, don't stop until done, once finished wait until I say the word for continuing on Phase 4\""
+    },
+    {
+      "decision": "Import the uploaded Search Console, backlink, and GA4 exports; URL Inspection remains unavailable.",
+      "status": "confirmed",
+      "evidence": "User input: \"I've uploaded the files into /tmp/claraclegsc, I downloaded everything except the URL Inspection results\""
+    },
+    {
+      "decision": "The imported Search Analytics export records 51 impressions across 10 exact repository URLs; blanket no-indexing or retirement is unsupported.",
+      "status": "confirmed",
+      "evidence": "data/derived/observatory/repository-external-evidence.json"
+    },
+    {
+      "decision": "URL Inspection covers all 274 rows: 15 indexed, 99 discovered but not indexed, and 160 unknown to Google.",
+      "status": "confirmed",
+      "evidence": "data/derived/observatory/repository-url-inspection.json"
+    },
+    {
+      "decision": "The exact 11-keep, one-redirect, 262-retire candidate is sponsor approved against commit 05433d5.",
+      "status": "confirmed",
+      "evidence": "data/migrations/repository-approved-dispositions.json"
+    },
+    {
+      "decision": "Phase 4 may begin only after every Phase 3 exit gate passes; Phase 5 may then begin only after every Phase 4 exit gate passes. No production, security, or review gate is waived.",
+      "status": "confirmed",
+      "evidence": "User input: \"Approve and go for Phase 4, once finished you can move to Phase 5 without asking, but only if all Phase 4 is finished\""
+    },
+    {
+      "decision": "Cloudflare Pages Direct Upload is the selected redirect-capable production boundary; local migration behavior and required owner reviews are complete.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/changes/2026-08-08/claracle-post-relaunch-consolidation-changes.md"
+    },
+    {
+      "decision": "The implementation branch is pushed and pull request jmservera/SquadScope#710 is open against main.",
+      "status": "confirmed",
+      "evidence": "https://github.com/jmservera/SquadScope/pull/710"
+    },
+    {
+      "decision": "PR security findings for sitemap XML parsing and unrestricted URL opening were remediated with hardened parsers, exact HTTPS allowlists, and regression tests.",
+      "status": "confirmed",
+      "evidence": "https://github.com/jmservera/SquadScope/pull/710"
+    },
+    {
+      "decision": "All hosted checks pass on PR head 4f91f87, Copilot reviewed the latest head, and every review thread is resolved.",
+      "status": "confirmed",
+      "evidence": "https://github.com/jmservera/SquadScope/pull/710"
+    },
+    {
+      "decision": "Keep production on GitHub Pages, retire the legacy Odysseus alias and redirect-only destination as direct 404 URLs, and do not provision Cloudflare.",
+      "status": "confirmed",
+      "evidence": "User input: \"I don't want to use cloudflare, I'd rather keep the pages directly on github.io, I don't care if repo pages give an error when not existing, it's not the main purpose of the website and nobody is using it anyway.\""
+    },
+    {
+      "decision": "Retain only the JSON-backed /repo/ explorer and retire every individual /repo/<slug>/ page without redirects.",
+      "status": "confirmed",
+      "evidence": "User input: \"I just want to get rid of the /repo/ pages, just keep them in a single page that loads a json file, as we specified, don't care about any former link to them, they don't exist.\""
+    },
+    {
+      "decision": "The explorer-only implementation passed 1,631 tests, Ruff, clean Hugo rendering, browser JSON loading, Checkov, Zizmor, Bandit, and required Squad review with no release-blocking findings.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/changes/2026-08-08/claracle-post-relaunch-consolidation-changes.md"
+    },
+    {
+      "decision": "All hosted checks passed on explorer-only head 70e42cd and no review threads remain unresolved; Copilot completed but could not review because the PR exceeds 300 changed files.",
+      "status": "confirmed",
+      "evidence": "https://github.com/jmservera/SquadScope/pull/710"
+    },
+    {
+      "decision": "The sponsor provided required human review, authorized merging PR 710, and directed automatic continuation through all eligible later phases.",
+      "status": "confirmed",
+      "evidence": "User input: \"go ahead, merge the PR and continue=all\""
+    }
+  ],
+  "blockers": [],
+  "next_action": {
+    "phase": "Implement",
+    "action": "Merge PR 710, capture the GitHub Pages production probes, complete Phase 3, and continue automatically to Phase 4."
+  },
+  "prioritized_follow_ups": [
+    {
+      "rank": 1,
+      "task": "Merge PR 710 and capture GitHub Pages direct-404 production evidence.",
+      "rationale": "Human review and merge authorization are confirmed; production evidence is the final Phase 3 gate.",
+      "evidence": "https://github.com/jmservera/SquadScope/pull/710"
+    }
+  ]
+}

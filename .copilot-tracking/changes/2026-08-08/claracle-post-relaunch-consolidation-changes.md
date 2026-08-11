@@ -84,6 +84,310 @@ The selected local implementation slices pass affected automated checks. Cost
 publication, repository migration, named acceptance, production rollout, and
 outcome measurement remain blocked or future work under the controlling plan.
 
+## Phase 3 Repository Migration Implementation (2026-08-10)
+
+### Execution State
+
+* Related phase: Phase 3
+* Declared scope: Repository Inventory And Migration Candidate
+* Branch: `feat/repository-migration-phase3`
+* Status: In progress
+* First execution boundary: reconcile local, rendered, sitemap, HTTP, canonical,
+  alias, internal-link, and content evidence; then generate the BR-003 artifact
+  and authoritative explorer.
+* Validation intent: focused generator/schema/rendering tests, Ruff, full
+  affected pytest, Hugo, internal-link checks, and direct production HTTP
+  verification.
+
+### External Evidence Boundary
+
+* Related phase: Phase 3
+* Triggering evidence: the live sitemap contains 264 `/repo/` URLs while the
+  checked-in inventory contains 274 URL forms; direct checks show both live
+  repository pages and already-absent paths returning true HTTP 404.
+* Current-state update: production sitemap and HTTP evidence can be captured,
+  while exact URL Inspection, Search Analytics, sampled backlink, and
+  first-party referral exports are unavailable in this environment.
+* Decision: preserve unavailable evidence as uncollected or ambiguous. Do not
+  infer zero demand, no indexing, or no inbound links.
+* Planning and critique state: approved intent remains current; this narrows the
+  evidence implementation without changing the V1.1 retirement policy.
+
+### Production URL Reconciliation
+
+* Related phase: Phase 3
+* Files: `scripts/capture_repository_production_snapshot.py`,
+  `data/derived/observatory/repository-production-snapshot.json`,
+  `scripts/generate_repository_url_inventory.py`,
+  `data/derived/observatory/repository-url-inventory.json`,
+  `data/schemas/repository-url-inventory.schema.json`
+* What changed and why: captured the live sitemap and fail-closed direct HTTP
+  status for every local URL, joined the evidence into the versioned inventory,
+  isolated alias evidence, and encoded approval and evidence gates so ambiguous
+  rows cannot validate as redirect or retire decisions.
+* Completion evidence: 274 local URL forms reconcile to 264 sitemap/HTTP-200
+  URLs, 10 HTTP-404 URLs, and zero production-only URLs. All 274 dispositions
+  and approvals remain pending.
+* Validation: focused inventory, snapshot, schema, and alias-isolation tests
+  passed; all freshness checks are byte-current.
+
+### BR-003 Repository Explorer
+
+* Related phase: Phase 3
+* Files: `scripts/generate_repository_summary.py`,
+  `data/observatory/repository_summary.json`,
+  `static/data/repositories.json`, `layouts/repo/list.html`,
+  `assets/js/repository-explorer.js`,
+  `assets/css/extended/repository-explorer.css`, `content/repo/_index.md`,
+  `hugo.toml`
+* What changed and why: generated a versioned crawl-derived repository artifact
+  without enabling CR-05, added Repositories to navigation, and replaced the
+  legacy alphabetical list with a complete evidence index. The index defaults
+  to recent momentum and links directly to GitHub. Scoped enhancement provides
+  filters, sorting, reset, URL persistence, browser history, and empty states;
+  no-JavaScript output remains complete and useful.
+* Completion evidence: 269 repository records render in authoritative HTML and
+  the public JSON download; unsafe non-GitHub origins fail generation.
+* Validation: repository explorer, no-JavaScript rendering, URL-state, default
+  ordering, malformed/empty, schema, and workflow regression tests passed.
+
+### Pipeline Freshness
+
+* Related phase: Phase 3
+* Files: `.github/workflows/crawl-and-publish.yml`,
+  `.github/workflows/generate-data-pages.yml`
+* What changed and why: generate the repository summary from current crawl
+  evidence and require byte-current summary, production snapshot, and joined
+  URL inventory during generated-content freshness checks.
+* Validation: affected pipeline tests passed; Checkov 3.2.533 reported 894
+  passed, zero failed, six skipped; installed Zizmor 1.25.2 reported no
+  medium/high findings. The pinned Zizmor 1.27.0 CI gate remains required.
+
+### Phase 3 Validation Record
+
+| Check | Scope | Status | Evidence or reason |
+|---|---|---|---|
+| pytest | Full repository | Passed | 1,599 passed; two expected warnings |
+| Ruff | Full repository | Passed | Check and format check clean |
+| Hugo | Production render | Passed | 2,707 pages, eight aliases |
+| Pagefind and links | Rendered site | Passed | Index completed; internal links clean |
+| Repository freshness | Summary, snapshot, inventory | Passed | All three checks byte-current |
+| Checkov 3.2.533 | Workflow/security config | Passed | 894 passed, zero failed, six skipped |
+| Zizmor 1.25.2 | Workflows | Passed with version caveat | No medium/high findings; pinned 1.27.0 unavailable locally |
+
+### Phase 3 Pre-Review Reconciliation
+
+* Plan markers and phase details: current.
+* Completed-work evidence and handoff prose: current.
+* Validation, blockers, remaining work, and follow-up items: current.
+* Review readiness: implementation slice is reviewable; Phase 3 as a whole
+  remains blocked at the external evidence and named disposition gate.
+
+### Phase 3 Blocker
+
+URL Inspection is now collected for all rows. Content and
+destination-equivalence review and named approval remain incomplete, so the 264
+live repository URLs cannot yet receive defensible
+keep/merge/redirect/retire dispositions and the low-information detail corpus
+cannot be removed. The clearing action is to complete those reviews and approve
+the resulting per-URL disposition map.
+
+### External Evidence Import (2026-08-11)
+
+* Related phase: Phase 3
+* Files: `scripts/import_repository_external_evidence.py`,
+  `data/derived/observatory/repository-external-evidence.json`,
+  `scripts/generate_repository_url_inventory.py`,
+  `data/derived/observatory/repository-url-inventory.json`,
+  `data/schemas/repository-url-inventory.schema.json`
+* What changed and why: normalized the supplied localized Search Console and
+  GA4 exports into a versioned artifact, joined exact observations and metrics
+  to all 274 URL rows, and retained source-specific windows. Omitted rows are
+  represented as not observed in the named export, not as historical zero.
+* Evidence result: Search Analytics observes 51 impressions and zero clicks
+  across 10 exact repository URLs for 2026-07-27..2026-08-09. The sampled
+  backlink export contains no repository targets. The
+  2026-07-27..2026-08-11 GA4 export contains no referral data rows.
+* Policy result: the Search Analytics observations disprove a blanket
+  no-indexing assumption. URL Inspection remains uncollected for all 274 rows,
+  so all dispositions remain pending and no retirement is authorized.
+* Validation: 37 focused import, inventory, and public schema-contract tests
+  passed; the full suite passed with 1,604 tests and two expected warnings;
+  full Ruff check and format check passed. Generated inventory counts confirm
+  10 observed and 264 not-observed Search Analytics rows, zero observed sampled
+  links or referrals, and 274 uncollected URL Inspection rows.
+* Review disposition: Squad initially blocked on zero-shaped omitted metrics,
+  permissive malformed-export handling, and missing `Filtres.csv` provenance.
+  Omitted metrics now remain `null`; required headers, repository paths, GA4
+  metadata, and Search Console filters fail closed; source windows derive from
+  the supplied metadata. Focused tests cover malformed headers, legitimate
+  metadata-only GA4 output, and an incorrectly scoped Search Console export.
+
+### URL Inspection Capture (2026-08-11)
+
+* Related phase: Phase 3
+* Files: `scripts/capture_repository_url_inspection.py`,
+  `data/derived/observatory/repository-url-inspection.json`,
+  `scripts/generate_repository_url_inventory.py`,
+  `data/derived/observatory/repository-url-inventory.json`,
+  `data/schemas/repository-url-inventory.schema.json`,
+  `.github/workflows/crawl-and-publish.yml`,
+  `.github/workflows/generate-data-pages.yml`
+* What changed and why: discovered the owner-level Search Console property
+  `sc-domain:claracle.com`, captured URL Inspection results for every inventory
+  row with bounded retries and concurrency, and joined verdict, coverage,
+  crawl, and canonical evidence into inventory schema 1.2.0.
+* Evidence result: 15 URLs are submitted and indexed, 99 are discovered but not
+  indexed, and 160 are unknown to Google. All 10 URLs with Search Analytics
+  impressions are among the indexed URLs.
+* Safety result: the token is read only from the ignored temporary file and is
+  never persisted in repository artifacts. The snapshot contains no credential.
+* Remaining gate: URL Inspection is complete. Content differentiation,
+  destination equivalence, and named disposition approval remain incomplete,
+  so all 274 rows remain pending and no redirect or retirement is authorized.
+* Validation: full Ruff check and format check passed; URL Inspection and
+  inventory freshness checks passed; 1,608 tests passed with two expected
+  warnings; Checkov 3.2.533 reported 894 passed, zero failed, and six skipped;
+  installed Zizmor 1.25.2 reported no medium/high findings, with pinned 1.27.0
+  remaining authoritative in CI.
+* Review disposition: Squad approved the slice and identified only a test gap
+  around authenticated transient retries. A focused regression test now covers
+  bearer-header construction, timeout retry, and successful recovery.
+
+### Repository Disposition Candidate (2026-08-11)
+
+* Related phase: Phase 3
+* Files: `scripts/generate_repository_disposition_candidate.py`,
+  `data/derived/observatory/repository-disposition-candidate.json`,
+  `scripts/generate_repository_url_inventory.py`,
+  `data/derived/observatory/repository-url-inventory.json`,
+  `data/schemas/repository-url-inventory.schema.json`
+* What changed and why: captured 8,024 current rendered internal links, reviewed
+  repository-specific trend differentiation, joined all external evidence, and
+  produced a complete 274-row candidate without forging sponsor approval.
+* Candidate result: 11 keeps, one redirect, and 262 retirements. Nine canonical
+  detail URLs have observed demand; the consolidated explorer is retained; and
+  the currently absent Odysseus canonical is retained as the equivalent target
+  for its indexed, impression-bearing legacy alias.
+* Hosting result: the one exceptional redirect makes redirect-capable hosting
+  necessary if the exact candidate is approved. GitHub Pages cannot emit the
+  required one-hop hosting-layer 301/308.
+* Approval boundary: every candidate row remains pending under the named
+  `jmservera` approval authority. No source page, sitemap entry, internal link,
+  hosting configuration, or production URL was changed.
+* Validation: full Ruff check and format check passed; inspection, candidate,
+  and inventory freshness passed; 1,612 tests passed with two expected warnings;
+  Checkov 3.2.533 reported 894 passed, zero failed, and six skipped; installed
+  Zizmor 1.25.2 reported no medium/high findings, with pinned 1.27.0 remaining
+  authoritative in CI.
+* Review correction: Squad blocked indexation being treated as demand and weak
+  candidate freshness. The final policy uses impressions, sampled links, or
+  referrals as value signals; indexation remains context only. A strict schema,
+  per-row invariants, exact rationale and redirect checks, and SHA-256 bindings
+  to production, external-export, and URL Inspection evidence now fail closed.
+
+### Approved Repository Migration Transaction (2026-08-11)
+
+* Related phase: Phase 3
+* Approval: `jmservera` approved the exact 11-keep, one-redirect, 262-retire
+  candidate and authorized Phase 4 only after Phase 3 completion and Phase 5
+  only after Phase 4 completion. The approved artifact records that this
+  sequencing authorization waives no production, security, or review gate.
+* Evidence: `data/migrations/repository-approved-dispositions.json` binds the
+  candidate and inventory SHA-256 values and approved commit `05433d5`.
+  `data/migrations/repository-migration-rollback.json` binds every removed source
+  checksum and the pre-migration revision.
+* Source transaction: removed 256 retired canonical profile files, retained 10
+  canonical profiles plus `/repo/`, removed the Odysseus Hugo alias, emitted the
+  sole approved 301 in `static/_redirects`, and moved related-profile links to
+  safe direct GitHub destinations.
+* Regeneration safety: removed `content/repo/` from deploy, crawl, freshness, and
+  publish-hydration path sets. `repo_pages.enabled` remains false, so neither the
+  publish branch nor routine generation can restore retired profiles.
+* Hosting boundary: replaced both GitHub Pages deployment paths with
+  commit-pinned Cloudflare Wrangler Direct Upload to project `claracle`, pinned
+  Wrangler 4.120.1, serialized the shared production deployment boundary, added
+  a custom 404, and added approved-map-driven live 200/301/404 probes.
+* Security reconciliation: documented BR-003 publication-scope retirement as a
+  sponsor-approved, checksum-verified deletion authority that preserves crawl
+  history and does not change SEC-04 upstream-deletion lifecycle behavior.
+* Review correction: Squad found stale Anthropic profile QA fixtures and the
+  implicit SEC-04 conflict. Fixtures now use retained Odysseus or the approved
+  map; the security exception is explicit; the weekly webhook uses
+  `https://claracle.com`; and cross-workflow deploys serialize without
+  cancellation.
+* Local evidence: clean Hugo output contains 10 retained profiles plus the
+  explorer, no retired sitemap entries or internal links, an exact redirect
+  rule, and `404.html`. Wrangler Pages emulation returned retained 200,
+  one-hop 301, and retired 404. Checkov 3.2.533 reported 902 passed, zero failed,
+  six skipped; Zizmor 1.25.2 reported no medium/high findings on changed
+  workflows. After merging current `main`, full Ruff and 1,631 pytest checks
+  passed with two expected sanitization warnings.
+* External blocker: production completion still requires the Cloudflare account
+  ID and scoped API token, project creation, custom-domain attachment,
+  Namecheap-to-Cloudflare nameserver cutover, TLS, live probes, and preserved
+  rollback evidence. Phase 4 remains gated.
+* Review handoff: branch `feat/repository-migration-phase3` is pushed and
+  `jmservera/SquadScope#710` is open against `main`; hosted CI and review are in
+  progress.
+* PR security remediation: replaced standard-library XML parsing with
+  `defusedxml`, restricted production snapshot requests to
+  `https://claracle.com`, restricted URL Inspection requests to Google's exact
+  HTTPS API endpoint, and added rejection tests for unapproved URL schemes and
+  authorities. Targeted Bandit and eight capture tests pass.
+* Hosted review result: all 16 PR checks pass on head `4f91f87`, Copilot reviewed
+  the latest head, and all five security-review threads are resolved. The PR is
+  clean and remains unmerged pending Cloudflare production-boundary provisioning
+  and required human review.
+
+### Sponsor GitHub Pages Override (2026-08-11)
+
+* Classification: material user-owned hosting and URL-disposition decision.
+* Decision: retain GitHub Pages and accept direct 404 behavior for retired
+  repository profiles; do not provision Cloudflare.
+* Migration effect: supersede the exceptional redirect, retire both the legacy
+  Odysseus alias and its redirect-only destination, and revise the authoritative
+  map to 10 keeps, zero redirects, and 264 retirements.
+* Active work: restore both production workflows to GitHub Pages, remove
+  Cloudflare configuration and redirect artifacts, delete the now-unneeded
+  destination profile, update validators/tests/docs, and rerun the PR review
+  cycle before completing Phase 3.
+
+### Explorer-Only Repository Decision (2026-08-11)
+
+* Classification: final material sponsor decision for the repository URL surface.
+* Decision: retain only the JSON-backed `/repo/` explorer and remove every
+  individual `/repo/<slug>/` source and route, without redirects or legacy-link
+  preservation.
+* Migration effect: supersede all prior per-profile keep decisions and revise
+  the authoritative map to one keep, zero redirects, and 273 retirements.
+* Active work: remove the remaining nine profile sources, move profile-specific
+  QA coverage to the explorer, regenerate migration and rollback artifacts, and
+  complete the GitHub Pages PR review cycle before Phase 3 can finish.
+* Implemented outcome: removed all individual repository sources, retained
+  `content/repo/_index.md`, changed the explorer to fetch the versioned
+  `/data/repositories.json` artifact, and regenerated the approved map and
+  rollback manifest at one keep, zero redirects, and 273 retirements.
+* Hosting outcome: restored both production workflows to commit-pinned GitHub
+  Pages actions and removed Cloudflare workflow, documentation, secret, and
+  redirect dependencies while preserving the publish-hydration exclusion.
+* Validation: 1,631 tests pass in the complete phase environment; Ruff, clean
+  Hugo rendering, Checkov (902 passed, zero failed), Zizmor (no medium/high
+  findings), and changed-script Bandit pass. Browser evidence records a 200 for
+  `/data/repositories.json`, 269 rendered records, and no console errors.
+* Review: Squad routed the diff through Leela, Amy, URL, Hermes, and Fry and
+  approved it with no release-blocking findings. Production smoke sampling and
+  fail-closed dataset URL validation were confirmed as intentional.
+* Hosted evidence: every check passed on source head `70e42cd` and all review
+  threads are resolved. Copilot completed its latest-head review attempt but
+  reported that the cumulative PR exceeds its 300-file review limit.
+* Remaining blocker: qualified human review and merge authorization are required
+  before GitHub Pages can deploy the final artifact and the workflow can capture
+  production `/repo/` 200 and retired-route 404 evidence.
+* Sponsor clearance: the sponsor completed the required review, authorized
+  merging PR 710, and selected automatic continuation through all eligible
+  later phases. The production probe remains the final Phase 3 gate.
+
 ## CR-06 Harness Repair And Experiment Execution (2026-08-09)
 
 Three cascading build-cost harness defects were repaired through separate

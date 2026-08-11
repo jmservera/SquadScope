@@ -227,23 +227,69 @@ genuine-equivalent 301/308 row.
 
 <!-- parallelizable: false -->
 
-* [ ] Reconcile 266 records, 267 source pages, 274 local rendered URLs, seven
-  aliases, the live-count discrepancy, and any production-only repository URLs
-* [ ] Collect URL Inspection, exact-page Search Analytics, sampled link,
+Implementation resumed 2026-08-10 on `feat/repository-migration-phase3`.
+Production reconciliation is available from the live sitemap and direct HTTP
+checks. Search Analytics, sampled backlink, and first-party referral exports
+were imported 2026-08-11 without converting omitted rows into historical zero.
+URL Inspection was captured 2026-08-11 for all 274 inventory rows using the
+verified `sc-domain:claracle.com` property. The implementation retains the
+deterministic explorer and a conservative no-redirect migration candidate;
+content, destination-equivalence, and approval gates were completed before the
+approved migration transaction. Production cutover evidence remains external.
+
+* [x] Reconcile 266 records, 267 source pages, 274 local rendered URLs, seven
+  aliases, the live-count discrepancy, and any production-only repository URLs.
+  Captured 2026-08-10: 274 local URL forms, 264 sitemap and HTTP-200 URLs,
+  10 true HTTP 404 URLs, and zero production-only URLs
+* [x] Collect URL Inspection, exact-page Search Analytics, sampled link,
   available first-party referral, internal-link, sitemap, canonical, content,
-  and destination-equivalence evidence for every URL
-* [ ] Record an approved keep, merge, redirect, or retire disposition for every
+  and destination-equivalence evidence for every URL. Sitemap and direct HTTP
+  evidence are retained. The imported 2026-07-27..2026-08-09 Search Analytics
+  export observes 51 impressions across 10 exact repository URLs and zero
+  clicks; the sampled backlink export observes no repository targets; the
+  2026-07-27..2026-08-11 GA4 export contains no referral rows. URL Inspection
+  observes 15 submitted-and-indexed URLs, 99 discovered-but-not-indexed URLs,
+  and 160 URLs unknown to Google; all 10 impression-bearing URLs are indexed.
+  The 2026-08-11 rendered-site review records current internal-link counts,
+  differentiated content, and destination equivalence for all 274 rows
+* [x] Record an approved keep, merge, redirect, or retire disposition for every
   canonical, alias, and production-only URL; ambiguous evidence blocks retirement
-* [ ] Retain individual profiles only for differentiated content plus observed
-  GSC demand or a known inbound link
+  The candidate remains immutable; the sponsor-approved override records one
+  keep, zero redirects, and 273 retirements against candidate commit `05433d5`
+* [x] Retain only the consolidated `/repo/` explorer; the sponsor explicitly
+  retired every individual repository profile regardless of former links
 * [ ] Select a redirect-capable host only if the approved map contains a genuine
   equivalent; otherwise prove absent paths return direct HTTP 404 on the current host
-* [ ] Implement deterministic BR-003 artifact generation, authoritative Hugo
-  summary and links, search/filter/sort enhancement, URL state, and empty/error states
+  The sponsor withdrew all individual repository routes on 2026-08-11 and
+  selected GitHub Pages direct 404 behavior with no redirect layer
+* [x] Implement deterministic BR-003 artifact generation, authoritative Hugo
+  summary and links, search/filter/sort enhancement, URL state, and empty/error states.
+  The crawl-derived artifact contains 269 records, defaults to recent momentum,
+  validates GitHub origins, loads from `/data/repositories.json`, and exposes
+  client-side controls with shareable browser history and an explicit load-error state
 * [ ] Generate redirects only from approved exceptional rows and verify one-hop,
   atomic deployment, sitemap, canonical, internal-link, custom-404, and rollback behavior
-* [ ] Remove low-information details only in the same reviewed migration
+  The final map contains no exceptional rows. Clean GitHub Pages rendering
+  contains only `/repo/`, its JSON dataset, no individual sitemap entries, and
+  no redirect artifact. Atomic production deployment and live 404 probes await
+  the latest PR head and required human review
+* [x] Remove low-information details only in the same reviewed migration
   transaction; never enable CR-05 as an intermediate step
+
+Phase 3 implementation status (2026-08-11): the final explorer-only transaction
+is locally complete. Sponsor approval is persisted in
+`data/migrations/repository-approved-dispositions.json`; the original
+11-keep/one-redirect/262-retire map is being superseded by the final explicit
+explorer-only override: one keep, zero redirects, and 273 direct-404 retirements.
+Publish hydration remains unable to restore retired profiles. Local evidence
+includes 1,631 passing tests, clean Ruff/Hugo, JSON browser loading, Checkov,
+Zizmor, Bandit, and required Squad perspectives. Phase 3 remains unchecked
+until required human review, merge authorization, and post-deployment live
+probes pass. All hosted checks passed on source head `70e42cd`; no review
+threads remain unresolved. Copilot completed its latest-head attempt but could
+not review the PR because the cumulative change exceeds its 300-file limit.
+The sponsor supplied human review and merge authorization on 2026-08-11; only
+the post-merge GitHub Pages production probe remains.
 
 ### [ ] Phase 4: Ranking Data, Visualization Selection, And Embeds
 
