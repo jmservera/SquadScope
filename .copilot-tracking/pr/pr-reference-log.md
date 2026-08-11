@@ -1,67 +1,47 @@
-# PR Reference Analysis
+# Phase 4 PR reference analysis
 
 ## Scope
 
-Branch `feat/repository-migration-phase3` against `origin/main`.
+The branch `feat/ranking-visualizations-phase4` contains two conventional commits and is current with `origin/main`. The diff covers 37 files with 7,718 insertions and 80 deletions. It delivers the approved Phase 4 BR-004, BR-005, and BR-007 work; no external issue number appears in the branch name or commits.
 
-The PR reference excluded Markdown and JSON bodies to keep the review payload
-bounded. Changed-file metadata still includes those files, and the migration
-artifacts were reviewed directly during implementation.
+## Significant changes
 
-## Significant Changes
+1. Added deterministic, versioned ranking artifacts for the three public ranking pages and a homepage ranking summary. The generator supports freshness checking, schema validation, stable ordering, provenance, and checksums.
+2. Added server-rendered ranking facts and a client ranking explorer with filtering, sorting, reset, URL state, explicit failure states, and rerender-safe disclosures.
+3. Added responsive dot/lollipop and range visualizations with non-color encoding, GitHub links, mobile linked-table fallbacks, and equivalent accessible summaries.
+4. Extended the ranking schema and generated frontmatter with language, metric definitions, comparison values, safe GitHub URLs, short visible context, and complete sanitized accessible text.
+5. Wired ranking generation and freshness checks through CI, crawl/publish, data-page generation, deployment hydration, artifact, and commit paths.
+6. Added Python, schema, template, Playwright, accessibility, and visual-regression coverage, plus persisted Phase 4 evidence and the conformant RPI review.
 
-* Built the deterministic BR-003 repository explorer and evidence pipeline.
-* Captured production, Search Console, backlink, referral, URL Inspection,
-  internal-link, differentiated-content, and destination-equivalence evidence.
-* Preserved an immutable 274-URL candidate and sponsor-approved map containing
-  11 keeps, one redirect, and 262 retirements.
-* Removed 256 retired canonical profile sources, retained 10 profiles and the
-  `/repo/` explorer, and replaced the legacy Hugo alias with one Cloudflare 301.
-* Added checksum-bound apply/check tooling, strict schemas, rollback evidence,
-  and production HTTP verification.
-* Hardened external evidence capture with `defusedxml` and exact HTTPS
-  authority/path allowlists after PR security review.
-* Prevented publish hydration and disabled generation from restoring retired
-  repository pages.
-* Replaced both GitHub Pages deployment paths with pinned Cloudflare Pages
-  Direct Upload and reduced workflow permissions.
-* Updated repository, SEO, accessibility, performance, hydration, and weekly
-  link fixtures to use retained profile surfaces.
-* Documented the BR-003 publication-retirement authority separately from
-  SEC-04 upstream-repository lifecycle deletion.
+## Validation and evidence
 
-## Validation
+The Phase 4 change record reports:
 
-* Ruff check and format check passed.
-* Full pytest suite passed: 1,631 tests, with two expected sanitization warnings.
-* Clean Hugo output contains the explorer and exactly 10 retained profiles.
-* Retired and redirect-source URLs are absent from sitemap and internal links.
-* Local Wrangler Pages emulation returned retained HTTP 200, redirect HTTP 301,
-  and retired HTTP 404.
-* Checkov 3.2.533: 902 passed, zero failed, six skipped.
-* Zizmor 1.25.2: no medium/high findings on changed workflows; the pinned
-  Zizmor 1.27.0 CI job remains authoritative.
+- 1,653 Python tests passed.
+- Ruff lint and format checks passed.
+- Production Hugo, Pagefind, and internal-link validation passed.
+- The full Playwright suite passed with 150 active tests and 317 intentional matrix skips.
+- The 12-capture ranking visual matrix passed.
+- Node tests and Bandit passed.
+- Checkov 3.2.533 reported 902 passed, zero failed, and six skipped.
+- Zizmor 1.25.2 reported no medium/high findings; CI remains authoritative for the pinned version.
+- A five-member comprehension panel passed both ranking representations.
+- The single Phase 4 RPI review completed with a conformant outcome and no findings.
 
-## Operational Boundary
+Evidence is recorded in:
 
-The repository has no `cloudflare-pages` environment and no
-`CLOUDFLARE_API_TOKEN` or `CLOUDFLARE_ACCOUNT_ID` secrets. The PR must not merge
-until the project, custom domains, DNS/TLS cutover, production probes, rollback
-evidence, required CI, Copilot review, and human review gates are complete.
+- `.copilot-tracking/changes/2026-08-08/claracle-post-relaunch-consolidation-changes.md`
+- `.copilot-tracking/reviews/2026-08-11/br-005-representation-evidence.md`
+- `.copilot-tracking/reviews/logs/2026-08-11/claracle-post-relaunch-consolidation-review.md`
 
-## Security And Review
+## Security and readiness
 
-* Workflow permissions are read-only where deployment does not require GitHub
-  writes.
-* Cloudflare credentials remain GitHub environment secrets and are not stored in
-  the repository.
-* Evidence and source checksums fail closed before migration changes are applied.
-* Sitemap and URL Inspection network requests reject unapproved schemes,
-  authorities, ports, credentials, and endpoint paths.
-* Squad architecture, testing, pipeline, security, and responsible-AI
-  perspectives reviewed the migration. Review corrections were applied before
-  PR generation.
+- Generated repository text remains sanitized and escaped at render boundaries.
+- Repository URLs are restricted to safe GitHub HTTPS targets and external links use `rel="noopener"`.
+- Public JSON, schemas, generation logic, hydration paths, and tests are updated together.
+- No secrets, dependency additions, privilege changes, unintended files, missing referenced assets, or content-policy concerns were identified.
+- Both commits follow conventional commit syntax.
 
-## Issue References
+## Related issues
 
-None. The implementation is governed by BR-003 and the tracked RPI plan.
+None.
