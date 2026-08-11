@@ -355,7 +355,14 @@
         return;
       }
 
-      payload.records = payload.records.map(normalizeRecord);
+      try {
+        payload.records = payload.records.map(normalizeRecord);
+      } catch (normalizationError) {
+        console.error(normalizationError);
+        setHidden(error, false);
+        status.textContent = "Ranking data is malformed.";
+        return;
+      }
       populateLanguages(language, payload.records);
       const state = readState(root);
       apply(root, payload, state);

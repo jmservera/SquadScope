@@ -89,6 +89,13 @@ test('malformed and future datasets preserve the server-rendered fallback', asyn
   await expect(explorer.locator('table tbody tr')).not.toHaveCount(0);
 
   await page.unroute('**/data/rankings/*.json');
+  await mockRanking(page, payload({ records: [{ ...records[0], github_url: 'not-a-url' }] }));
+  await page.reload();
+  await expect(explorer.locator('[data-ranking-error]')).toBeVisible();
+  await expect(explorer.locator('[data-ranking-status]')).toHaveText('Ranking data is malformed.');
+  await expect(explorer.locator('table tbody tr')).not.toHaveCount(0);
+
+  await page.unroute('**/data/rankings/*.json');
   await mockRanking(page, payload({ schema_version: '2.0.0' }));
   await page.reload();
   await expect(explorer.locator('[data-ranking-future-version]')).toBeVisible();

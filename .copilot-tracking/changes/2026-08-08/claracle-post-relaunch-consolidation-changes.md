@@ -1030,6 +1030,9 @@ assertion finding. All were corrected before merge:
 * `assets/js/observatory-charts.js` now blurs the active repository link when
   Escape closes its disclosure, preventing the CSS `:focus-within` state from
   keeping the tooltip visible. The browser test now verifies focus is released.
+* `assets/js/ranking-explorer.js` now handles record-normalization failures as
+  malformed data rather than reporting a server-availability warning. The
+  browser suite covers an invalid repository URL while retaining the SSR table.
 
 Targeted validation passed: 24 Python tests, Ruff check/format, Hugo production
 build, and three active desktop-light ranking explorer browser tests.
