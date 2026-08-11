@@ -321,7 +321,8 @@ the resulting per-URL disposition map.
   rule, and `404.html`. Wrangler Pages emulation returned retained 200,
   one-hop 301, and retired 404. Checkov 3.2.533 reported 902 passed, zero failed,
   six skipped; Zizmor 1.25.2 reported no medium/high findings on changed
-  workflows.
+  workflows. After merging current `main`, full Ruff and 1,629 pytest checks
+  passed with two expected sanitization warnings.
 * External blocker: production completion still requires the Cloudflare account
   ID and scoped API token, project creation, custom-domain attachment,
   Namecheap-to-Cloudflare nameserver cutover, TLS, live probes, and preserved
