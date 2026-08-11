@@ -388,6 +388,8 @@ def strip_markdown(text: str) -> str:
         lowered = cleaned.lower()
         if any(phrase.lower() in lowered for phrase in INJECTION_PHRASES):
             return ""
+        if ACTIVE_MARKUP_PATTERN.search(cleaned):
+            return ""
         cleaned = HUGO_SHORTCODE_PATTERN.sub("", cleaned)
         cleaned = LINK_PATTERN.sub(r"\1", cleaned)
         parser = _PlainTextHTMLParser()
@@ -786,6 +788,8 @@ def build_evolution_paragraph(months: list[MonthSnapshot]) -> str:
     fragments = []
     for index, month in enumerate(months):
         summary = summarize_month(month).rstrip(".")
+        if not summary:
+            continue
         lowered_summary = summary.lower()
         if lowered_summary.startswith(("defined by ", "marked by ", "shaped by ")):
             predicate = f"was {summary}"
@@ -799,6 +803,8 @@ def build_evolution_paragraph(months: list[MonthSnapshot]) -> str:
             fragments.append(f"By {month.month_name}, the record {predicate}.")
         else:
             fragments.append(f"In {month.month_name}, the record {predicate}.")
+    if not fragments:
+        return ""
     return (
         f"The monthly progression is clear. {' '.join(fragments)} Across the record, attention moved from experimentation toward packaging, distribution, and operating discipline. "
         "Even when the surface story changes from one month to the next, the deeper motion is cumulative rather than episodic."
