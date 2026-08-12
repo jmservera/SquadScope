@@ -164,12 +164,17 @@
       "decision": "Phase 5 P01 and P02 are complete: revision-bound evidence validation and automated DRF-01 through DRF-04 closure pass, including corrected repository filter presentation.",
       "status": "confirmed",
       "evidence": ".copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md"
+    },
+    {
+      "decision": "The immutable Phase 5 product candidate is 8af4f4a4332db005924fc4281b9a32d039d80d5a; subsequent commits are evidence-only unless the candidate is invalidated and refrozen.",
+      "status": "confirmed",
+      "evidence": "data/release/claracle-v1.1-release-candidate.json"
     }
   ],
   "blockers": [],
   "next_action": {
     "phase": "Implement",
-    "action": "Run full affected validation, freeze the product candidate SHA, and collect named owner dispositions; preserve DRF-05 as blocking until genuine live screen-reader evidence is supplied."
+    "action": "Collect named owner dispositions for candidate 8af4f4a4332db005924fc4281b9a32d039d80d5a; preserve DRF-05 as blocking until genuine live screen-reader evidence is supplied."
   },
   "prioritized_follow_ups": [
     {

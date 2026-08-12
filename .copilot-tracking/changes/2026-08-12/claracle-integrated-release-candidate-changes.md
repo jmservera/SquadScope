@@ -78,7 +78,9 @@ the announced count.
 * Checkov: 906 passed, zero failed, six documented skips.
 * Pinned Zizmor 1.27.0 medium/high scan: no findings.
 * Bandit: zero medium/high findings; existing low test-assert notices remain.
-* Candidate freeze is ready.
+* Candidate product revision frozen at
+  `8af4f4a4332db005924fc4281b9a32d039d80d5a`; only evidence-record commits may
+  follow without invalidating it.
 
 ## Blockers
 
@@ -88,4 +90,4 @@ the announced count.
 
 ## Remaining Work
 
-* P03-T01 through P04 remain active.
+* P03-T02 through P04 remain active.

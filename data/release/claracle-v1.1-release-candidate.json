@@ -4,8 +4,8 @@
     "phase4_merge_sha": "f9fb5d88fefde9b6143adda2d57e20d18f6b5e25",
     "verified_at": "2026-08-12T22:11:00Z"
   },
-  "candidate_frozen_at": null,
-  "candidate_sha": null,
+  "candidate_frozen_at": "2026-08-12T22:34:48Z",
+  "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
   "deployment": {
     "deployed_at": null,
     "evidence": [],
@@ -15,7 +15,18 @@
   },
   "findings": [
     {
-      "evidence": [],
+      "evidence": [
+        {
+          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
+          "path": "tests/visual/repository-explorer.spec.mjs",
+          "type": "semantic-browser"
+        },
+        {
+          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
+          "path": "tests/visual/observatory-visual-regression.spec.mjs",
+          "type": "revision-tagged-capture"
+        }
+      ],
       "id": "DRF-01",
       "live_at_review": null,
       "owner": "Amy and Fry",
@@ -23,7 +34,18 @@
       "status": "open"
     },
     {
-      "evidence": [],
+      "evidence": [
+        {
+          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
+          "path": "tests/visual/observatory-a11y.spec.mjs",
+          "type": "pointer-keyboard-disclosure"
+        },
+        {
+          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
+          "path": "tests/visual/ranking-explorer.spec.mjs",
+          "type": "ranking-fallback"
+        }
+      ],
       "id": "DRF-02",
       "live_at_review": null,
       "owner": "Amy and Fry",
@@ -31,7 +53,13 @@
       "status": "open"
     },
     {
-      "evidence": [],
+      "evidence": [
+        {
+          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
+          "path": "tests/visual/observatory-a11y.spec.mjs",
+          "type": "clipboard-status-focus"
+        }
+      ],
       "id": "DRF-03",
       "live_at_review": null,
       "owner": "Amy and Fry",
@@ -39,7 +67,13 @@
       "status": "open"
     },
     {
-      "evidence": [],
+      "evidence": [
+        {
+          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
+          "path": "tests/visual/observatory-a11y.spec.mjs",
+          "type": "focus-viewport-matrix"
+        }
+      ],
       "id": "DRF-04",
       "live_at_review": null,
       "owner": "Fry",
@@ -118,5 +152,5 @@
     "reviewer": null,
     "status": "pending"
   },
-  "status": "preparing"
+  "status": "blocked"
 }
