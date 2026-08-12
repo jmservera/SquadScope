@@ -56,6 +56,8 @@ GENERATED_PATHS: list[str] = [
     "data/taxonomy/",
     "data/topic-hubs/",
     "data/derived/observatory/",
+    "data/observatory/ranking_summary.json",
+    "static/data/rankings/",
     "static/datasets/open-source-ai-github-projects-2026/",
     "static/tools/star-velocity-explorer.json",
 ]

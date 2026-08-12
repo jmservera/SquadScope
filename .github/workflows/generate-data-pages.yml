@@ -36,6 +36,8 @@ jobs:
             data/taxonomy/
             data/topic-hubs/
             data/derived/observatory/
+            data/observatory/ranking_summary.json
+            static/data/rankings/
             static/datasets/open-source-ai-github-projects-2026/
             static/tools/star-velocity-explorer.json
           )
@@ -66,5 +68,6 @@ jobs:
           python3 scripts/generate_repository_approved_dispositions.py --check
           python3 scripts/apply_repository_migration.py --check
           python3 scripts/generate_data_pages.py --check
+          python3 scripts/generate_ranking_artifacts.py --check
           python3 scripts/export_observatory_dataset.py --check
           python3 scripts/export_trend_explorer_data.py --check

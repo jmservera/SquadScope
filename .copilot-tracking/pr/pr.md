@@ -1,37 +1,32 @@
-# feat(repositories): execute approved URL migration
+# feat(rankings): deliver interactive ranking visualizations
+
+This PR delivered Phase 4 of the Claracle post-relaunch consolidation. It added deterministic public ranking data, responsive visualizations, interactive exploration, accessible context disclosures, and the publishing integration needed to keep those surfaces current.
+
+## Changes
+
+### Ranking data and publishing
+
+- Added a versioned ranking-artifact generator for the three public ranking pages and the homepage ranking summary.
+- Extended ranking schemas and generated records with metric definitions, comparison values, language, safe GitHub URLs, provenance, short visible summaries, and complete sanitized accessible text.
+- Integrated generation, freshness validation, hydration, artifact collection, commit paths, and deployment across the publishing workflows.
+
+### Ranking experience
+
+- Added server-rendered ranking facts with client-side filtering, sorting, reset, URL state, and explicit loading and failure states.
+- Added responsive dot/lollipop and range visualizations with non-color encoding, direct repository links, and linked-table mobile fallbacks.
+- Added keyboard, focus, touch, and Escape interactions for contextual disclosures without nesting interactive controls in SVG content.
+- Updated homepage and observatory embeds to expose ranking summaries and equivalent accessible repository context.
+
+### Tests and evidence
+
+- Added generator, schema, template, browser, accessibility, and visual-regression coverage for the new ranking surfaces.
+- Recorded the five-member representation-comprehension evidence and the conformant Phase 4 RPI review.
+- Passed the affected Python, Ruff, Hugo/Pagefind/link, Playwright, visual, Node, Bandit, Checkov, and Zizmor gates.
+
+## Related issues
+
+None.
 
 ## External-facing changes
 
 - [ ] If this PR ships copy or graphics that will appear OUTSIDE this repo (social posts, launch blog, announcements, press), I tagged @squad:nibbler for an RAI sign-off before merge.
-
-## Summary
-
-- Built the evidence-backed repository explorer and immutable 274-URL migration map.
-- Retained `/repo/` plus 10 approved profiles, added one permanent redirect, and retired 262 URL forms.
-- Migrated both production workflows from GitHub Pages to atomic Cloudflare Pages Direct Upload.
-- Added fail-closed migration, rollback, freshness, rendered-link, and live HTTP checks.
-- Restricted evidence capture to approved HTTPS endpoints and hardened sitemap XML parsing.
-
-## Validation
-
-- [x] `ruff check .`
-- [x] `ruff format --check .`
-- [x] `pytest -q tests/` (1,631 passed; two expected warnings)
-- [x] Targeted Bandit scan for production and URL Inspection capture
-- [x] `hugo --cleanDestinationDir --minify`
-- [x] Local Cloudflare Pages 200/301/404 migration probes
-- [x] Checkov 3.2.533 (902 passed, 0 failed, 6 skipped)
-- [x] Zizmor changed-workflow scan (no medium/high findings)
-- [ ] Required hosted CI, including pinned Zizmor 1.27.0
-- [ ] Copilot review of the latest head
-- [ ] Human review and unresolved-thread clearance
-
-## Deployment
-
-Do not merge until the `claracle` Cloudflare Pages project, `cloudflare-pages`
-GitHub environment, scoped Cloudflare secrets, custom domains, DNS/TLS cutover,
-production probes, and rollback evidence are complete.
-
-## Related issues
-
-None. This implements BR-003 under the Claracle post-relaunch consolidation plan.

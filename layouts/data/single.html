@@ -1,4 +1,13 @@
 {{- define "main" }}
+{{- $rankingID := .Params.ranking_id | default "ranking" -}}
+{{- $visualizationType := cond (hasPrefix $rankingID "fastest-growing-") "range-growth" "dot-rank" -}}
+{{- $languages := slice -}}
+{{- range .Params.ranking -}}
+  {{- if and .language (not (in $languages .language)) -}}
+    {{- $languages = $languages | append .language -}}
+  {{- end -}}
+{{- end -}}
+{{- $rankingKey := $rankingID | anchorize -}}
 <article class="post-single data-page" data-pagefind-body>
   {{ partial "pagefind-metadata.html" . }}
 
@@ -39,32 +48,100 @@
 
   {{- with .Params.ranking }}
   <section class="data-page__ranking" aria-labelledby="data-page-ranking">
-    <h2 id="data-page-ranking">Ranking</h2>
-    <div class="data-page__table-wrap">
-      <table>
-        <caption>{{ $.Title }} — {{ len . }} ranked repositories</caption>
-        <thead>
-          <tr>
-            <th scope="col">Rank</th>
-            <th scope="col">Repository</th>
-            <th scope="col">Metric</th>
-            <th scope="col">Context</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{- range . }}
-          <tr>
-            <td>{{ .rank }}</td>
-            <td>
-              <a href="{{ .url }}">{{ .repo }}</a>
-              <div class="data-page__repo-meta">{{ .language }} · last seen {{ .last_seen_week }}</div>
-            </td>
-            <td>{{ .metric_label }}</td>
-            <td>{{ .context }}</td>
-          </tr>
-          {{- end }}
-        </tbody>
-      </table>
+    <div class="data-page__ranking-header">
+      <h2 id="data-page-ranking">Ranking</h2>
+      <a class="data-page__download" href="/data/rankings/{{ $rankingID }}.json" download>Download JSON</a>
+    </div>
+
+    {{- partial "visuals/ranking-visualization.html" (dict
+      "page" $
+      "visualization_type" $visualizationType
+      "limit" 10
+    ) -}}
+
+    <div
+      class="ranking-explorer"
+      data-ranking-explorer
+      data-ranking-id="{{ $rankingID }}"
+      data-visualization-type="{{ $visualizationType }}"
+    >
+      <div class="ranking-explorer__controls" aria-label="Ranking filters">
+        <div class="ranking-explorer__control">
+          <label for="ranking-language-{{ $rankingKey }}">Filter by language</label>
+          <select id="ranking-language-{{ $rankingKey }}" data-ranking-language aria-label="Filter ranking by language">
+            <option value="">All languages</option>
+            {{- range sort $languages }}
+            <option value="{{ . }}">{{ . }}</option>
+            {{- end }}
+          </select>
+        </div>
+        <div class="ranking-explorer__control">
+          <label for="ranking-sort-{{ $rankingKey }}">Sort by</label>
+          <select id="ranking-sort-{{ $rankingKey }}" data-ranking-sort aria-label="Sort ranking results">
+            <option value="rank">Rank</option>
+            <option value="metric">Metric</option>
+            <option value="name">Repository name</option>
+          </select>
+        </div>
+        <div class="ranking-explorer__control ranking-explorer__control--search">
+          <label for="ranking-search-{{ $rankingKey }}">Search</label>
+          <input id="ranking-search-{{ $rankingKey }}" type="search" data-ranking-search aria-label="Search ranking repositories" placeholder="Repository or summary">
+        </div>
+        <div class="ranking-explorer__control ranking-explorer__control--button">
+          <button type="button" class="ranking-explorer__reset" data-ranking-reset aria-label="Reset ranking filters">Reset filters</button>
+        </div>
+      </div>
+
+      <p class="ranking-explorer__status" data-ranking-status aria-live="polite">Showing {{ len . }} repositories.</p>
+      <div class="ranking-explorer__loading" data-ranking-loading hidden>Loading ranking data…</div>
+      <div class="ranking-explorer__message ranking-explorer__message--error" data-ranking-error hidden>Unable to load ranking data.</div>
+      <div class="ranking-explorer__message ranking-explorer__message--warning" data-ranking-unavailable hidden>Ranking data is not available right now.</div>
+      <div class="ranking-explorer__message ranking-explorer__message--warning" data-ranking-future-version hidden>This page requires a newer version of the viewer.</div>
+      <div class="ranking-explorer__message ranking-explorer__message--empty" data-ranking-empty hidden>No repositories match the current filters.</div>
+
+      <div data-ranking-list>
+        <div class="data-page__table-wrap ranking-table-wrap">
+          <table class="ranking-table">
+            <caption>{{ $.Title }} — {{ len . }} ranked repositories</caption>
+            <thead>
+              <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Repository</th>
+                <th scope="col">Metric</th>
+                <th scope="col">Language</th>
+                <th scope="col">Context</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{- range . }}
+              <tr>
+                <td>{{ .rank }}</td>
+                <td class="ranking-table__repo">
+                  <span class="ranking-table__repo-trigger" data-ranking-tooltip>
+                    <a
+                      href="{{ .github_url | default .url }}"
+                      rel="noopener"
+                      class="ranking-table__repo-link"
+                      data-repo-name="{{ .repo }}"
+                      data-context-summary="{{ .context_summary | htmlEscape }}"
+                      aria-describedby="ctx-{{ $rankingID }}-{{ .rank }}"
+                    >{{ .repo }}</a>
+                    <span id="ctx-{{ $rankingID }}-{{ .rank }}" role="tooltip" class="ranking-table__context-tooltip"><span aria-hidden="true">{{ .context_summary }}</span><span class="visually-hidden">{{ .context_accessible_text | default .context_summary }}</span></span>
+                  </span>
+                  <div class="data-page__repo-meta">last seen {{ .last_seen_week }}</div>
+                </td>
+                <td>
+                  <strong>{{ .metric_label }}</strong>
+                  {{- with .comparison_label }}<div class="data-page__repo-meta">{{ . }}</div>{{- end }}
+                </td>
+                <td>{{ .language }}</td>
+                <td>{{ .context }}</td>
+              </tr>
+              {{- end }}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </section>
   {{- end }}
@@ -77,4 +154,6 @@
   </div>
   {{- end }}
 </article>
+{{- $script := resources.Get "js/ranking-explorer.js" | js.Build | resources.Minify | fingerprint }}
+<script defer src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}"></script>
 {{- end }}

@@ -1082,8 +1082,10 @@ jobs:
             data/taxonomy/
             data/topic-hubs/
             data/derived/observatory/
+            data/observatory/ranking_summary.json
             data/metrics/
             data/published/
+            static/data/rankings/
             static/datasets/open-source-ai-github-projects-2026/
             static/tools/star-velocity-explorer.json
           )
@@ -1264,6 +1266,9 @@ jobs:
       - name: Generate data pages
         run: python3 scripts/generate_data_pages.py
 
+      - name: Generate ranking artifacts
+        run: python3 scripts/generate_ranking_artifacts.py
+
       - name: Export Observatory dataset
         run: python3 scripts/export_observatory_dataset.py
 
@@ -1280,6 +1285,7 @@ jobs:
           python3 scripts/generate_repository_approved_dispositions.py --check
           python3 scripts/apply_repository_migration.py --check
           python3 scripts/generate_data_pages.py --check
+          python3 scripts/generate_ranking_artifacts.py --check
           python3 scripts/export_observatory_dataset.py --check
           python3 scripts/export_trend_explorer_data.py --check
 
@@ -1314,7 +1320,9 @@ jobs:
             data/taxonomy/
             data/topic-hubs/
             data/derived/observatory/
+            data/observatory/ranking_summary.json
             data/metrics/cost-summary.json
+            static/data/rankings/
             static/datasets/open-source-ai-github-projects-2026/
             static/tools/star-velocity-explorer.json
           )
@@ -1446,7 +1454,9 @@ jobs:
             data/taxonomy/
             data/topic-hubs/
             data/derived/observatory/
+            data/observatory/ranking_summary.json
             data/metrics/cost-summary.json
+            static/data/rankings/
             static/datasets/open-source-ai-github-projects-2026/
             static/tools/star-velocity-explorer.json
           if-no-files-found: warn

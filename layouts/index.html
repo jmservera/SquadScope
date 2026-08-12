@@ -155,14 +155,13 @@
         <h2 id="home-data-evidence-heading">Rankings to explore</h2>
         <div class="home-topic-list home-evidence-list">
           {{- range first 6 $rankingPages -}}
-          {{- if hasPrefix .github_url "https://github.com/" -}}
-          <a class="home-topic-card" href="{{ .github_url | safeURL }}">
-            <span>{{ .full_name }}</span>
-            <small>{{ .metric_label }}</small>
+          <a class="home-topic-card" href="{{ .url | safeURL }}">
+            <span>{{ .title }}</span>
+            <small>{{ .record_count }} repos · {{ .as_of_week }}</small>
           </a>
           {{- end -}}
-          {{- end -}}
         </div>
+        <a href="{{ `data/` | absLangURL }}">Browse all data pages</a>
       </section>
       {{- end -}}
 
@@ -180,4 +179,3 @@
   </div>
 </div>
 {{- end -}}
-

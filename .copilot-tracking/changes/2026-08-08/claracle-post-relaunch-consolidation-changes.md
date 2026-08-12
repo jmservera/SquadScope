@@ -946,3 +946,98 @@ All are fixed here.
 * Ruff and Hugo passed; Hugo built 2,707 pages and eight aliases
 
 Phase 3 remains unstarted and outside this closure transaction.
+## Phase 4: Ranking Data, Visualization, And Embeds (2026-08-11)
+
+### Added
+
+* `scripts/generate_ranking_artifacts.py`: deterministic ranking-artifact generator with `--check`, root/output overrides, GitHub URL validation, and homepage summary emission
+* `assets/js/ranking-explorer.js`: client-side ranking enhancement with language/search/sort/reset, URL state, status/error handling, and accessible tooltip disclosures
+* `assets/css/extended/ranking-explorer.css`: responsive ranking explorer, tooltip, loading, empty/error, and visualization styles
+* `layouts/partials/visuals/ranking-visualization.html`: ranking-only static SVG dot/lollipop and range charts with mobile table fallback
+* `tests/test_generate_ranking_artifacts.py`: deterministic artifact, stale-check, malformed-input, summary, context-summary, and GitHub URL validation coverage
+* `.copilot-tracking/reviews/2026-08-11/br-005-representation-evidence.md`: internal five-proxy representation evidence and selection record
+
+### Modified
+
+* `scripts/generate_data_pages.py`: adds sanitized `context_summary`, validated `github_url`, and fastest-growth comparison fields to ranking frontmatter rows
+* `data/schemas/observatory-envelope.schema.json`: permits ranking-specific envelope metadata while retaining the shared 1.0.0 contract
+* `data/schemas/ranking-record.schema.json`: requires `language` and 160-character `context_summary` for ranking explorer/filter support
+* `layouts/data/single.html`: adds JSON download link, ranking visualization partial, SSR explorer controls/table, and tooltip markup
+* `layouts/index.html`: switches homepage ranking-summary cards to the new summary feed structure
+* `content/data/top-ai-repositories-this-month/index.md`
+* `content/data/most-starred-mcp-projects/index.md`
+* `content/data/fastest-growing-ai-repositories-this-year/index.md`
+* `static/data/rankings/top-ai-repositories-this-month.json`
+* `static/data/rankings/most-starred-mcp-projects.json`
+* `static/data/rankings/fastest-growing-ai-repositories-this-year.json`
+* `data/observatory/ranking_summary.json`
+* `tests/test_generate_data_pages.py`: adds frontmatter/context-tooltip assertions for the enhanced ranking pages
+* `tests/test_public_json_schema_contracts.py`: updates ranking-envelope and ranking-record fixtures to the enhanced Phase 4 schema contract
+
+### Representation Evidence
+
+* Evidence file: `.copilot-tracking/reviews/2026-08-11/br-005-representation-evidence.md`
+* Five independent Squad perspectives answered the retained comprehension
+  prompts against direct desktop/mobile captures and edge-case code paths.
+* All five members passed for both the dot/lollipop and range representations,
+  exceeding the approved four-of-five threshold.
+* Both representations retain non-color encodings and equivalent accessible
+  tables; the browser matrix covers all three ranking pages.
+
+### Validation
+
+* `python3 -m ruff check scripts/generate_ranking_artifacts.py scripts/generate_data_pages.py` ✅
+* `python3 -m ruff format --check scripts/generate_ranking_artifacts.py scripts/generate_data_pages.py` ✅
+* `python3 -m bandit -r scripts/generate_ranking_artifacts.py` ✅ (no issues identified)
+* `python3 scripts/generate_ranking_artifacts.py --check` ✅
+* `python3 scripts/generate_data_pages.py --check` ✅
+* Generated ranking artifact schema-version spot check via `python3 -c ...` ✅
+* Full Python suite ✅ (1,653 passed, two expected sanitization warnings)
+* Full Ruff check and format check ✅
+* Production-style Hugo, Pagefind, and internal-link build ✅
+* Full Playwright acceptance command ✅ (150 passed, 317 matrix skips)
+* Ranking visual evidence matrix ✅ (12 desktop/mobile light/dark captures)
+* Node tests and targeted Bandit ✅
+* Checkov 3.2.533 ✅ (902 passed, zero failed, six skipped)
+* Zizmor 1.25.2 medium/high gate ✅ (pinned 1.27.0 remains authoritative in CI)
+* Ranking and data-page deterministic `--check` gates ✅
+
+### Phase 4 Completion Status
+
+Phase 4 implementation and parent review are complete. Workflow generation and
+hydration, rerender-safe interactions, complete sanitized accessibility text,
+embed disclosures, responsive fallbacks, and retained representation evidence
+all passed. Final Squad review approved Leela, Amy, Fry, URL, Hermes, Nibbler,
+and Calculon perspectives with no release-blocking finding. The candidate is
+ready for the required commit, push, hosted checks, and PR review cycle.
+
+### PR #712 Hosted Review Follow-Ups
+
+The first hosted review found three bounded defects and one CodeQL test
+assertion finding. All were corrected before merge:
+
+* `layouts/data/single.html` now uses the defaulted `$rankingID` consistently
+  for the JSON download, client data attribute, tooltip IDs, and
+  `aria-describedby` relationships.
+* `assets/js/ranking-explorer.js` now normalizes an unsupported `lang` query
+  value from the language select's actual value, keeping the visible control,
+  filtering state, and canonical URL synchronized.
+* `tests/visual/ranking-explorer.spec.mjs` covers an unsupported language query
+  value and verifies the explorer removes it without hiding valid results.
+* `tests/test_generate_ranking_artifacts.py` now verifies the complete expected
+  URL-validation error instead of matching an arbitrary URL substring, clearing
+  the CodeQL incomplete-sanitization alert.
+* `assets/js/observatory-charts.js` now blurs the active repository link when
+  Escape closes its disclosure, preventing the CSS `:focus-within` state from
+  keeping the tooltip visible. The browser test now verifies focus is released.
+* `assets/js/ranking-explorer.js` now handles record-normalization failures as
+  malformed data rather than reporting a server-availability warning. The
+  browser suite covers an invalid repository URL while retaining the SSR table.
+* Client-side GitHub URL validation now matches the server boundary: exact
+  HTTPS host, no credentials/query/fragment, and exactly `owner/repo` path
+  segments. Browser coverage rejects each malformed or unsafe URL shape.
+* Ranking explorer browser fixtures now use the complete public envelope and
+  record contract, keeping interaction tests representative of published JSON.
+
+Targeted validation passed: 24 Python tests, Ruff check/format, Hugo production
+build, and three active desktop-light ranking explorer browser tests.

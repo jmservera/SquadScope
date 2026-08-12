@@ -184,3 +184,25 @@ test('chart exposes an accessible image alternative and source caption', async (
   await expect(chart.getByRole('img')).toHaveAccessibleName(/fastest-growing|repositories/i);
   await expect(chart.locator('figcaption')).toContainText(/Source:/);
 });
+
+test('embed repository summaries support focus, touch, and Escape', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop-light', 'One Chromium project covers disclosure behavior.');
+  await page.goto('/embeds/fastest-growing-ai-repositories-chart/');
+
+  const wrapper = page.locator('[data-observatory-tooltip]').first();
+  const link = wrapper.getByRole('link');
+  const tooltip = wrapper.locator('[role="tooltip"]');
+  await expect(link).toHaveAttribute('href', /^https:\/\/github\.com\//);
+  await expect(link).toHaveAttribute('aria-describedby', await tooltip.getAttribute('id'));
+
+  await link.focus();
+  await expect(tooltip).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(tooltip).toBeHidden();
+  await expect(link).not.toBeFocused();
+
+  await link.dispatchEvent('touchstart');
+  await expect(wrapper).toHaveClass(/is-open/);
+  await page.keyboard.press('Escape');
+  await expect(wrapper).not.toHaveClass(/is-open/);
+});

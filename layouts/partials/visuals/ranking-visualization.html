@@ -1,0 +1,124 @@
+{{- $page := .page -}}
+{{- $rows := first (.limit | default 10) ($page.Params.ranking | default slice) -}}
+{{- $visualizationType := .visualization_type | default "dot-rank" -}}
+{{- $chartID := printf "ranking-visualization-%s" ($page.Params.ranking_id | default ($page.File.UniqueID | default "ranking")) | anchorize -}}
+{{- if gt (len $rows) 0 -}}
+  {{- $height := add 32 (mul (len $rows) 40) -}}
+  {{- if eq $visualizationType "range-growth" -}}
+    {{- $max := 1 -}}
+    {{- range $rows -}}
+      {{- $end := cond (isset . "latest_stars") (int .latest_stars) (add (int (.comparison_value | default 0)) (int .metric_value)) -}}
+      {{- if gt $end $max }}{{ $max = $end }}{{ end -}}
+    {{- end -}}
+<figure class="ranking-visualization ranking-visualization--range" aria-labelledby="{{ $chartID }}-title">
+  <div class="ranking-visualization__header">
+    <p class="ranking-visualization__eyebrow">Claracle Data Observatory</p>
+    <h2 id="{{ $chartID }}-title" class="ranking-visualization__title">Growth range view</h2>
+    <p class="ranking-visualization__dek">Top {{ len $rows }} repositories ranked by observed star gain. Labels encode gain text; line length shows the start → end range.</p>
+  </div>
+  <svg class="ranking-visualization__svg" viewBox="0 0 720 {{ $height }}" role="img" aria-labelledby="{{ $chartID }}-svg-title {{ $chartID }}-svg-desc">
+    <title id="{{ $chartID }}-svg-title">{{ $page.Title }} top {{ len $rows }} growth ranges</title>
+    <desc id="{{ $chartID }}-svg-desc">Each row shows a repository's earliest observed stars on the left and latest observed stars on the right, plus a text label for growth.</desc>
+    <line class="ranking-visualization__axis" x1="260" y1="20" x2="260" y2="{{ add 20 (mul (len $rows) 40) }}" />
+    {{- range $index, $row := $rows -}}
+      {{- $repo := $row.repo -}}
+      {{- $label := $repo -}}
+      {{- if gt (len $repo) 30 -}}{{- $label = printf "%s…" (slicestr $repo 0 29) -}}{{- end -}}
+      {{- $start := int ($row.comparison_value | default 0) -}}
+      {{- $end := cond (isset $row "latest_stars") (int $row.latest_stars) (add $start (int $row.metric_value)) -}}
+      {{- $startX := add 262 (math.Round (mul (div (float $start) (float $max)) 430.0)) -}}
+      {{- $endX := add 262 (math.Round (mul (div (float $end) (float $max)) 430.0)) -}}
+      {{- $y := add 40 (mul $index 40) -}}
+      <g class="ranking-visualization__row">
+        <title>#{{ $row.rank }} {{ $row.repo }}: {{ $row.comparison_label }} ({{ $row.metric_label }})</title>
+        <text class="ranking-visualization__label" x="255" y="{{ add $y 4 }}" text-anchor="end">#{{ $row.rank }} {{ $label }}</text>
+        <line class="ranking-visualization__range" x1="{{ $startX }}" y1="{{ $y }}" x2="{{ $endX }}" y2="{{ $y }}" />
+        <circle class="ranking-visualization__dot" cx="{{ $startX }}" cy="{{ $y }}" r="5" />
+        <circle class="ranking-visualization__dot ranking-visualization__dot--end" cx="{{ $endX }}" cy="{{ $y }}" r="6" />
+        <text class="ranking-visualization__marker" x="{{ $startX }}" y="{{ sub $y 10 }}" text-anchor="middle">{{ printf "%d" $start }}</text>
+        <text class="ranking-visualization__value" x="{{ add $endX 12 }}" y="{{ add $y 4 }}">{{ $row.metric_label }}</text>
+      </g>
+    {{- end }}
+  </svg>
+  <div class="ranking-visualization__table-wrap">
+    <table class="ranking-visualization__table">
+      <caption class="visually-hidden">{{ $page.Title }} top {{ len $rows }} growth range table</caption>
+      <thead>
+        <tr>
+          <th scope="col">Rank</th>
+          <th scope="col">Repository</th>
+          <th scope="col">Start</th>
+          <th scope="col">End</th>
+          <th scope="col">Gain</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{- range $rows }}
+        <tr>
+          <td>{{ .rank }}</td>
+          <td><a href="{{ .github_url | default .url }}" rel="noopener">{{ .repo }}</a></td>
+          <td>{{ printf "%d" (.comparison_value | default 0) }}</td>
+          <td>{{ printf "%d" (.latest_stars | default (add (.comparison_value | default 0) .metric_value)) }}</td>
+          <td>{{ .metric_label }}</td>
+        </tr>
+        {{- end }}
+      </tbody>
+    </table>
+  </div>
+</figure>
+  {{- else -}}
+    {{- $max := 1 -}}
+    {{- range $rows }}{{ if gt (int .metric_value) $max }}{{ $max = int .metric_value }}{{ end }}{{ end -}}
+<figure class="ranking-visualization ranking-visualization--dot" aria-labelledby="{{ $chartID }}-title">
+  <div class="ranking-visualization__header">
+    <p class="ranking-visualization__eyebrow">Claracle Data Observatory</p>
+    <h2 id="{{ $chartID }}-title" class="ranking-visualization__title">Top 10 snapshot</h2>
+    <p class="ranking-visualization__dek">Top {{ len $rows }} repositories ranked by absolute stars. Rank numbers and metric labels supplement the lollipop markers.</p>
+  </div>
+  <svg class="ranking-visualization__svg" viewBox="0 0 720 {{ $height }}" role="img" aria-labelledby="{{ $chartID }}-svg-title {{ $chartID }}-svg-desc">
+    <title id="{{ $chartID }}-svg-title">{{ $page.Title }} top {{ len $rows }} lollipop chart</title>
+    <desc id="{{ $chartID }}-svg-desc">Each row shows a repository label at left and a lollipop marker whose position indicates star count.</desc>
+    <line class="ranking-visualization__axis" x1="260" y1="20" x2="260" y2="{{ add 20 (mul (len $rows) 40) }}" />
+    {{- range $index, $row := $rows -}}
+      {{- $repo := $row.repo -}}
+      {{- $label := $repo -}}
+      {{- if gt (len $repo) 30 -}}{{- $label = printf "%s…" (slicestr $repo 0 29) -}}{{- end -}}
+      {{- $x := add 262 (math.Round (mul (div (float (int $row.metric_value)) (float $max)) 430.0)) -}}
+      {{- $y := add 40 (mul $index 40) -}}
+      <g class="ranking-visualization__row">
+        <title>#{{ $row.rank }} {{ $row.repo }}: {{ $row.metric_label }}</title>
+        <text class="ranking-visualization__label" x="255" y="{{ add $y 4 }}" text-anchor="end">#{{ $row.rank }} {{ $label }}</text>
+        <line class="ranking-visualization__range" x1="262" y1="{{ $y }}" x2="{{ $x }}" y2="{{ $y }}" />
+        <circle class="ranking-visualization__dot" cx="{{ $x }}" cy="{{ $y }}" r="6" />
+        <text class="ranking-visualization__value" x="{{ add $x 12 }}" y="{{ add $y 4 }}">{{ $row.metric_label }}</text>
+      </g>
+    {{- end }}
+  </svg>
+  <div class="ranking-visualization__table-wrap">
+    <table class="ranking-visualization__table">
+      <caption class="visually-hidden">{{ $page.Title }} top {{ len $rows }} star table</caption>
+      <thead>
+        <tr>
+          <th scope="col">Rank</th>
+          <th scope="col">Repository</th>
+          <th scope="col">Metric</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{- range $rows }}
+        <tr>
+          <td>{{ .rank }}</td>
+          <td><a href="{{ .github_url | default .url }}" rel="noopener">{{ .repo }}</a></td>
+          <td>{{ .metric_label }}</td>
+        </tr>
+        {{- end }}
+      </tbody>
+    </table>
+  </div>
+</figure>
+  {{- end -}}
+{{- else -}}
+<section class="ranking-visualization ranking-visualization--empty" aria-label="Ranking visualization unavailable">
+  <p>No ranking data is available for a chart yet.</p>
+</section>
+{{- end -}}

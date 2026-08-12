@@ -30,6 +30,9 @@ def test_chart_shortcode_and_embed_layout_are_local_and_attributed() -> None:
     assert "Embed attribution must keep this Claracle backlink visible" in partial
     assert "$title | htmlEscape" in partial
     assert "application/json" in partial
+    assert "data-observatory-tooltip" in partial
+    assert "$row.github_url" in partial
+    assert "$row.context_summary" in partial
     assert "source_page" in embed_layout
     assert "robotsNoIndex" in (ROOT / "layouts/embeds/baseof.html").read_text(encoding="utf-8")
 
@@ -40,6 +43,8 @@ def test_copy_button_handles_clipboard_rejections() -> None:
     assert "try {" in script
     assert "await navigator.clipboard.writeText" in script
     assert "Copy failed" in script
+    assert 'matchMedia("(hover: none)")' in script
+    assert 'event.key === "Escape"' in script
 
 
 def test_embed_layout_keeps_consent_gated_analytics_wiring() -> None:
@@ -79,6 +84,9 @@ def test_rendered_embed_contains_backlink_and_chart_data(tmp_path: Path) -> None
     assert "https://claracle.com/data/fastest-growing-ai-repositories-this-year/" in embed_html
     assert "mattpocock/skills" in embed_html
     assert "observatory-chart__data" in embed_html
+    assert "data-observatory-tooltip" in embed_html
+    assert "href=https://github.com/mattpocock/skills" in embed_html
+    assert "aria-describedby=" in embed_html
     assert "https://claracle.com/embeds/fastest-growing-ai-repositories-chart/" in demo_html
     assert "&lt;iframe" in demo_html
     assert "referrerpolicy=&#34;no-referrer&#34;" in demo_html

@@ -187,7 +187,7 @@ def test_yearly_evidence_pack_rejects_future_schema_version() -> None:
 
 
 def _observatory_envelope_fixture(artifact_type: str) -> dict[str, Any]:
-    return {
+    payload = {
         "schema_version": "1.0.0",
         "artifact_type": artifact_type,
         "generated_at": "2026-08-08T00:00:00Z",
@@ -199,6 +199,15 @@ def _observatory_envelope_fixture(artifact_type: str) -> dict[str, Any]:
         },
         "records": [],
     }
+    if artifact_type == "ranking":
+        payload.update(
+            {
+                "ranking_id": "top-ai-repositories-this-month",
+                "metric_label": "Stars",
+                "metric_definition": "Latest absolute GitHub stars for repositories observed in the latest crawl month.",
+            }
+        )
+    return payload
 
 
 @pytest.mark.parametrize("artifact_type", ["repositories", "ranking"])
@@ -242,7 +251,9 @@ def _ranking_record_fixture() -> dict[str, Any]:
         "metric_label": "4,200 stars",
         "comparison_value": 3800,
         "comparison_label": "3,800 stars last period",
+        "language": "Python",
         "context_summary": "octo/repo gained the most stars this period.",
+        "context_accessible_text": "octo/repo gained the most stars this period.",
     }
 
 
@@ -264,7 +275,7 @@ def test_ranking_record_rejects_unsupported_metric_key() -> None:
 def test_ranking_record_rejects_oversized_context_summary() -> None:
     schema = _load_schema("ranking-record.schema.json")
     payload = _ranking_record_fixture()
-    payload["context_summary"] = "x" * 241
+    payload["context_summary"] = "x" * 161
 
     with pytest.raises(ValidationError):
         _validate(payload, schema)

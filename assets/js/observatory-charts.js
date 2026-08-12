@@ -25,4 +25,73 @@
       }
     });
   });
+
+  const tooltipWrappers = document.querySelectorAll("[data-observatory-tooltip]");
+  let openTooltip = null;
+
+  function closeTooltip() {
+    if (!openTooltip) {
+      return;
+    }
+    const wrapper = openTooltip;
+    openTooltip = null;
+    wrapper.classList.remove("is-open");
+    const link = wrapper.querySelector("a");
+    link?.setAttribute("aria-expanded", "false");
+    if (link === document.activeElement) {
+      link.blur();
+    }
+  }
+
+  tooltipWrappers.forEach((wrapper) => {
+    const link = wrapper.querySelector("a");
+    if (!link) {
+      return;
+    }
+    const open = () => {
+      if (openTooltip && openTooltip !== wrapper) {
+        closeTooltip();
+      }
+      wrapper.classList.add("is-open");
+      link.setAttribute("aria-expanded", "true");
+      openTooltip = wrapper;
+    };
+
+    link.addEventListener("focus", open);
+    link.addEventListener("mouseenter", open);
+    link.addEventListener("blur", () => {
+      if (openTooltip === wrapper) {
+        closeTooltip();
+      }
+    });
+    link.addEventListener("mouseleave", () => {
+      if (openTooltip === wrapper) {
+        closeTooltip();
+      }
+    });
+    link.addEventListener("touchstart", (event) => {
+      if (openTooltip !== wrapper) {
+        event.preventDefault();
+        open();
+      }
+    });
+    link.addEventListener("click", (event) => {
+      if (window.matchMedia("(hover: none)").matches && openTooltip !== wrapper) {
+        event.preventDefault();
+        open();
+      }
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeTooltip();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (openTooltip && !openTooltip.contains(event.target)) {
+      closeTooltip();
+    }
+  });
 })();
