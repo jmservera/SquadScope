@@ -1,31 +1,32 @@
-# feat(rankings): deliver interactive ranking visualizations
+# fix(repository): align explorer filters and release evidence
 
-This PR delivered Phase 4 of the Claracle post-relaunch consolidation. It added deterministic public ranking data, responsive visualizations, interactive exploration, accessible context disclosures, and the publishing integration needed to keep those surfaces current.
+## Summary
 
-## Changes
+* Fixed `/repo/` filtering so nonmatching repository cards are actually hidden
+  and visible results match selected filters, URL state, and announced counts.
+* Added accessible copy feedback, reduced-motion behavior, and browser evidence
+  for disclosures, focus, touch, mobile, and 200% equivalent viewport states.
+* Added a revision-bound Phase 5 release-candidate schema, validator, evidence
+  record, tests, and CI gate.
 
-### Ranking data and publishing
+The frozen product candidate is
+`8af4f4a4332db005924fc4281b9a32d039d80d5a`. The release remains blocked on
+named owner review and genuine live screen-reader evidence for DRF-05; this PR
+does not claim sponsor GO or deployment readiness.
 
-- Added a versioned ranking-artifact generator for the three public ranking pages and the homepage ranking summary.
-- Extended ranking schemas and generated records with metric definitions, comparison values, language, safe GitHub URLs, provenance, short visible summaries, and complete sanitized accessible text.
-- Integrated generation, freshness validation, hydration, artifact collection, commit paths, and deployment across the publishing workflows.
+## Validation
 
-### Ranking experience
+* 1,663 Python tests
+* Ruff lint and format
+* Two Node unit tests
+* Hugo, Pagefind, and internal-link checks
+* 157 browser acceptance tests plus four CI-configured analytics scenarios
+* 76 revision-tagged visual checks
+* Checkov, Zizmor, and Bandit security gates
 
-- Added server-rendered ranking facts with client-side filtering, sorting, reset, URL state, and explicit loading and failure states.
-- Added responsive dot/lollipop and range visualizations with non-color encoding, direct repository links, and linked-table mobile fallbacks.
-- Added keyboard, focus, touch, and Escape interactions for contextual disclosures without nesting interactive controls in SVG content.
-- Updated homepage and observatory embeds to expose ranking summaries and equivalent accessible repository context.
+## Related issue
 
-### Tests and evidence
-
-- Added generator, schema, template, browser, accessibility, and visual-regression coverage for the new ranking surfaces.
-- Recorded the five-member representation-comprehension evidence and the conformant Phase 4 RPI review.
-- Passed the affected Python, Ruff, Hugo/Pagefind/link, Playwright, visual, Node, Bandit, Checkov, and Zizmor gates.
-
-## Related issues
-
-None.
+Related: jmservera/SquadScope#594
 
 ## External-facing changes
 

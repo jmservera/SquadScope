@@ -1,0 +1,2323 @@
+<commit_history>
+  <current_branch>
+feat/integrated-release-candidate-phase5
+  </current_branch>
+
+  <base_branch>
+    origin/main
+  </base_branch>
+
+  <commits>
+<commit hash="c1acddf" date="2026-08-12"><message><subject><\![CDATA[docs(release): bind evidence to phase 5 candidate]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
+]]></body></message></commit>
+<commit hash="8af4f4a" date="2026-08-12"><message><subject><\![CDATA[fix(repository): complete release candidate acceptance]]></subject><body><\![CDATA[Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+Copilot-Session: e2ea73a7-4fa9-4642-bad5-34851a6b39ef
+]]></body></message></commit>  </commits>
+
+  <full_diff>
+diff --git a/.copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md b/.copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md
+new file mode 100644
+index 0000000..27c3451
+--- /dev/null
++++ b/.copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md
+@@ -0,0 +1,93 @@
++# Claracle Integrated Release Candidate Changes
++
++## Execution State
++
++* Task ID: BRD-CLARACLE-003
++* Scope: full Phase 5 plan
++* Branch: `feat/integrated-release-candidate-phase5`
++* Status: In progress
++* Current marker: P03-T01 candidate validation and freeze.
++
++## Opening Evidence
++
++* Phase 4 PR 712 merged as `f9fb5d8`.
++* Deployment run `31645707266` passed.
++* Live probes passed for all three ranking pages and public ranking JSON.
++* Phase 5 research is Planning Ready.
++* The one plan critique completed; PC-001 through PC-003 were applied.
++
++## Current User-Reported Defect
++
++The user reported that `/repo/?topic=ai-skills` displays a filtered count such
++as "2 of 269" while all repository cards remain visible. Observation-period
++filtering appears to alter the view but has not been proven correct. Phase 5
++must reproduce and correct every affected filter dimension and add semantic
++browser assertions that visible rows/cards equal both the selected criteria and
++the announced count.
++
++## Candidate Evidence Foundation — P01 Complete
++
++* Added the machine-readable candidate record, Draft 2020-12 schema, human
++  review record, and fail-closed validator.
++* The validator binds automated and live evidence to one lowercase 40-character
++  product SHA, rejects post-freeze product/test changes, open severity-1/2 GO,
++  incomplete DRF-05 evidence, deployment before sponsor GO, incomplete outcome
++  ownership, and premature/future outcome completion.
++* Ten focused validator tests pass, including valid preparing and release-day
++  transitions.
++* CI now runs the validator with the Git revision-boundary check.
++
++## Automated Redesigned-Release Closure — P02 Complete
++
++* Root cause: the author rule `.repository-index__record { display: grid; }`
++  overrode the browser's user-agent `[hidden] { display: none; }`. Filtering
++  logic and announced counts were correct, but nonmatching cards remained
++  painted.
++* Added `.repository-index__record[hidden] { display: none; }`; no
++  filter-specific special case was required.
++* Added semantic coverage for topic, language, lifecycle status, current and
++  recent observation periods, text search, reset, URL state, combined filters,
++  keyboard operation, visible names, and count alignment.
++* Added the reported `?topic=ai-skills` combined-state capture across
++  desktop/mobile and light/dark projects.
++* Added current provenance/context disclosure coverage for repository, ranking,
++  embed, and copy surfaces. Retired per-repository lifecycle disclosures remain
++  not applicable and were not recreated.
++* Copy success and failure now use an `aria-live` status message, provide manual
++  copy guidance on failure, and retain keyboard focus.
++* Added visible-focus assertions and captures for homepage, article,
++  repository, ranking, embed, and navigation links at desktop, mobile, and a
++  200% equivalent viewport.
++* Added explicit reduced-motion behavior while preserving touch disclosure
++  operation.
++
++## Validation
++
++* `python3 -m pytest -q tests/test_validate_release_candidate.py`: 10 passed.
++* `python3 scripts/validate_release_candidate.py`: passed.
++* Full Python suite in the repository dependency environment: 1,663 passed.
++* `ruff check .` and `ruff format --check .`: passed.
++* Node unit tests: 2 passed.
++* Production Hugo and Pagefind builds plus internal-link validation: passed.
++* Repository explorer semantic browser suite: 3 passed.
++* Full browser gate: 157 passed with expected project skips. Three analytics
++  cases initially failed because the local server omitted CI's
++  `HUGO_PARAMS_GA_MEASUREMENT_ID`; all four analytics scenarios passed when
++  rebuilt with the CI environment.
++* Full revision-tagged visual matrix: 76 passed.
++* Checkov: 906 passed, zero failed, six documented skips.
++* Pinned Zizmor 1.27.0 medium/high scan: no findings.
++* Bandit: zero medium/high findings; existing low test-assert notices remain.
++* Candidate product revision frozen at
++  `8af4f4a4332db005924fc4281b9a32d039d80d5a`; only evidence-record commits may
++  follow without invalidating it.
++
++## Blockers
++
++* DRF-05 requires a genuine named live screen-reader review against the frozen
++  candidate and cannot be completed by agent simulation. This blocks sponsor
++  GO, merge, and deployment, but not candidate freeze or automated review.
++
++## Remaining Work
++
++* P03-T02 through P04 remain active.
+diff --git a/.copilot-tracking/details/2026-08-12/claracle-integrated-release-candidate-phase-details.md b/.copilot-tracking/details/2026-08-12/claracle-integrated-release-candidate-phase-details.md
+new file mode 100644
+index 0000000..0a118d4
+--- /dev/null
++++ b/.copilot-tracking/details/2026-08-12/claracle-integrated-release-candidate-phase-details.md
+@@ -0,0 +1,186 @@
++# Claracle Integrated Release Candidate Phase Details
++
++## Task Context
++
++* Task ID: BRD-CLARACLE-003
++* Task slug: claracle-integrated-release-candidate
++* Branch: `feat/integrated-release-candidate-phase5`
++* Plan: `.copilot-tracking/plans/2026-08-12/claracle-integrated-release-candidate-plan.md`
++* Research: `.copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md`
++* Current direction: prepare same-revision automated and named acceptance
++  evidence without weakening DRF-05 or pre-claiming delayed outcomes.
++
++<!-- phase-id: P01 -->
++## P01 — Candidate Evidence Foundation
++
++### P01-T01 — Evidence record
++
++Create a machine-readable candidate record under `data/release/` and a
++human-readable review record under `docs/review/claracle-post-relaunch/`.
++The record must include candidate SHA, baseline merge/deploy evidence, every DRF
++status, named dispositions, automated report references, rollback state, sponsor
++decision, deployment evidence, and outcome windows.
++
++The record is evidence about the frozen product commit; it is not required to be
++contained by that commit. Evidence-only commits may follow without changing the
++candidate. The validator must compare changed paths after the freeze and reject
++any runtime, workflow, content, generated-data, or test change.
++
++### P01-T02 — Fail-closed validation
++
++Add an owning script under `scripts/` that validates:
++
++* full lowercase 40-character candidate SHA;
++* all evidence entries use that SHA;
++* severity-1/2 rows cannot be open when release status is GO;
++* DRF-05 cannot be closed without named reviewer/environment/scenario fields;
++* scheduled outcome windows have owner and due date;
++* completed observations are not future-dated;
++* production deployment cannot precede sponsor GO.
++
++Maximum new production files for P01: one JSON record, one schema if justified,
++one validator script, and one review document. Reuse existing date/JSON/schema
++helpers before adding utilities.
++
++### P01-T03 — Semantic tests
++
++Test valid pre-GO, invalid mixed-SHA, invalid open-blocker GO, invalid synthetic
++DRF-05 closure, invalid missing owner/date, invalid premature completion, and a
++valid release-day transition.
++
++<!-- phase-id: P02 -->
++## P02 — Automated Redesigned-Release Closure
++
++### P02-T01 — DRF-01
++
++Extend existing observatory browser suites rather than adding a new runner.
++First reproduce the reported mismatch where `?topic=ai-skills` announces a
++reduced count while unfiltered repository cards remain visible. Trace the
++rendered list replacement and CSS/DOM ownership, then fix all affected
++dimensions rather than special-casing topic. Exercise topic, language, status,
++observation period, search, and one representative combined state. For each,
++assert visible result count, record criteria, announced count, keyboard changes,
++reset, and URL state. Capture the combined state in the revision-tagged visual
++matrix.
++
++### P02-T02 — DRF-02
++
++Cover the current replacement disclosure inventory using pointer and keyboard:
++repository explorer context/provenance, ranking row context, ranking visual/table
++fallback, embed repository context, and copy disclosure. Assert focus order,
++Escape behavior, and equivalent text. Capture expanded states without obscuring
++controls. Record historical lifecycle-only UI as not applicable because
++individual repository pages were intentionally retired; do not recreate it.
++
++### P02-T03 — DRF-03
++
++Mock clipboard success and failure. Activate by keyboard, assert an announced
++status, ensure failure guidance is visible, and keep focus on the copy control.
++Do not treat this as live-AT evidence.
++
++### P02-T04 — DRF-04
++
++Use representative homepage, article, `/repo/`, ranking, embed, and navigation
++links. Assert `:focus-visible` and non-zero visible outlines at desktop/mobile;
++run a separate 200% zoom viewport check and capture representative screenshots.
++
++### P02-T05 — Phase 5 equivalence
++
++Retain touch disclosure tests and add a reduced-motion assertion that no required
++state depends on animation. Avoid snapshot duplication when semantic assertions
++already prove the requirement.
++
++Test ownership is fixed: repository explorer behavior stays in its existing
++browser spec; ranking behavior in `tests/visual/ranking-explorer.spec.mjs`;
++embed/copy/focus behavior in `tests/visual/observatory-a11y.spec.mjs`; captures
++in `tests/visual/observatory-visual-regression.spec.mjs`; validator semantics in
++one new `tests/test_validate_release_candidate.py`. Add no runner/config and at
++most one new visual spec only if no existing owner can represent a required
++candidate state.
++
++<!-- phase-id: P03 -->
++## P03 — Candidate Validation And Named Review
++
++### P03-T01 — Freeze
++
++After all implementation and local checks pass, commit the product candidate and
++record its exact SHA. Generate every automated report against a clean checkout
++of that SHA. Later commits may add or update only Phase 5 evidence records and
++state. Any runtime, workflow, content, generated-data, or test change invalidates
++the freeze and requires a new candidate SHA and new named review.
++
++### P03-T02 — Amy/Fry evidence
++
++Provide revision-tagged captures and a scenario matrix. Amy owns visual/touch/
++zoom/reduced-motion disposition; Fry owns keyboard, focus, automated a11y, and
++test adequacy. Both must state finding severity and disposition.
++
++### P03-T03 — DRF-05
++
++Required human evidence fields:
++
++* named reviewer;
++* review date;
++* candidate SHA;
++* operating system and version;
++* browser and version;
++* screen reader and version;
++* keyboard-only and screen-reader scenarios;
++* findings, severity, disposition, and unresolved items.
++
++This task is Blocked until a real reviewer performs it. Agent simulation,
++accessibility-tree inspection, and Axe do not satisfy it.
++
++### P03-T04 — Remaining owner reviews
++
++* Leela: architecture/final readiness.
++* Hermes: security boundary.
++* URL: workflow/deployment guardrails when workflow surfaces change.
++* Nibbler: generated/external text and AI-output safety when applicable.
++* Zapp: migration/SEO evidence.
++* Farnsworth/jmservera: editorial and sponsor dispositions.
++
++### P03-T05 — Severity reconciliation
++
++Every severity-1/2 finding must be Closed. Lower findings require owner and due
++date. Any exception needs sponsor rationale, compensating control, and expiry.
++
++<!-- phase-id: P04 -->
++## P04 — Release And Outcome Ownership
++
++### P04-T01 — GO and rollback
++
++Record sponsor GO only after P03 passes. Prove rollback by identifying the last
++known-good main SHA, the revert/deploy path, responsible owner, and validation
++probes.
++
++### P04-T02 — PR and deployment
++
++Commit and push all work, open one focused PR, complete hosted checks and latest
++Copilot review, resolve every thread, and obtain explicit merge authorization.
++After merge, wait for the GitHub Pages deployment and verify the live candidate.
++
++### P04-T03 — Release day
++
++Record the merge SHA, deployment run, production URL probes, public JSON schema
++checks, repository index behavior, retired-route 404 behavior, and rollback
++readiness.
++
++### P04-T04 — Delayed outcomes
++
++Compute dates from the actual deployment timestamp and retain Scheduled status:
++
++* D+7 smoke;
++* D+28 migration and organic evidence;
++* M+3 migration and organic evidence;
++* M+6 SEO outcome evidence.
++
++Each window must name an owner, expected sources, acceptance question, and
++evidence destination. A later PR owns each observation update.
++
++## Completion Boundary
++
++Phase 5 implementation is locally complete when P01-P02 and all automated P03
++evidence pass. Release acceptance remains Blocked until P03-T03 and all named
++dispositions pass. Long-term outcome closure remains Scheduled after deployment
++and is not a reason to fabricate completion in the candidate PR.
+diff --git a/.copilot-tracking/plans/2026-08-12/claracle-integrated-release-candidate-plan.md b/.copilot-tracking/plans/2026-08-12/claracle-integrated-release-candidate-plan.md
+new file mode 100644
+index 0000000..9e87768
+--- /dev/null
++++ b/.copilot-tracking/plans/2026-08-12/claracle-integrated-release-candidate-plan.md
+@@ -0,0 +1,239 @@
++# Claracle Integrated Release Candidate Plan
++
++## Task Metadata
++
++| Field | Value |
++|---|---|
++| Task ID | BRD-CLARACLE-003 |
++| Task slug | claracle-integrated-release-candidate |
++| Date | 2026-08-12 |
++| Status | Candidate |
++| Mode | Automatic |
++| Research | `.copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md` |
++| Details | `.copilot-tracking/details/2026-08-12/claracle-integrated-release-candidate-phase-details.md` |
++| Critique | `.copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-plan-critique.md` |
++| Changes record | `.copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md` |
++
++## Executive Summary
++
++Phase 5 will create one immutable redesigned-release candidate and bind all
++automated, named, sponsor, rollback, deployment, and outcome evidence to it.
++Implementation first closes DRF-01 through DRF-04 with focused browser tests and
++revision-tagged captures, then runs every affected repository gate. DRF-05
++remains a hard human-review blocker: no automation or simulated accessibility
++tree may substitute for a dated live screen-reader review. Release-day evidence
++can be recorded in this delivery; seven-day, 28-day, three-month, and six-month
++observations must be scheduled and recorded only when due.
++
++## User Decisions and Requirements
++
++* Continue automatically after Phase 4 is fully merged and deployed.
++* Preserve all production, security, review, and severity gates.
++* Every repository change must use a pushed pull request.
++* Keep production on GitHub Pages.
++* Phase 4 PR 712 was explicitly approved for merge on 2026-08-12.
++* Review and fix repository explorer filters during Phase 5: topic selection
++  can announce a reduced count while leaving all repositories visible, and
++  observation-period filtering needs semantic verification.
++
++## Sources
++
++* `.copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md`
++* `.copilot-tracking/plans/2026-08-08/claracle-post-relaunch-consolidation-plan.instructions.md`
++* `.copilot-tracking/details/2026-08-08/claracle-post-relaunch-consolidation-details.md`
++* `docs/brds/claracle-post-relaunch-consolidation-brd.md`
++* `docs/review/claracle-post-relaunch/redesigned-release-finding-map.md`
++
++## Goals
++
++* Produce one revision-addressed release-candidate evidence record.
++* Close DRF-01 through DRF-04 with reproducible browser evidence.
++* Obtain named Amy, Fry, Leela, Hermes, URL, Nibbler, Zapp, and sponsor
++  dispositions where their ownership applies.
++* Preserve DRF-05 as blocking until a real named live-AT review is recorded.
++* Record release-day production evidence and assign all delayed outcome windows.
++
++## Scope and Non-Goals
++
++### In Scope
++
++* Focused Playwright coverage and revision-tagged evidence for combined filters,
++  disclosures, copy outcomes, visible focus, touch, zoom, and reduced motion.
++* A Phase 5 candidate evidence document and finding-map reconciliation.
++* Full affected repository gates, owner reviews, rollback evidence, PR, merge,
++  deployment, and live probes.
++* Explicit due dates and owners for delayed observations.
++
++### Non-Goals
++
++* No broad redesign or new product behavior beyond what closure evidence
++  requires.
++* No weakening or reclassification of a severity-2 finding without the BRD
++  owner, rationale, due date, and sponsor process.
++* No simulated or automated claim of live screen-reader acceptance.
++* No claim that seven-day or later evidence exists before its due date.
++
++## Functional Requirements
++
++* FR-01: The candidate record identifies one frozen product commit SHA.
++  Evidence-only commits may refer to that SHA but must not change runtime,
++  workflow, content, generated-data, or test files after the freeze.
++* FR-02: DRF-01 fixes and captures representative repository topic, language,
++  status, observation-period, search, and combined-filter states; visible
++  results must match the announced count, selected criteria, keyboard
++  operation, reset behavior, and URL state.
++* FR-03: DRF-02 captures expanded provenance/disclosure states and proves
++  pointer and keyboard operation plus focus order.
++* FR-04: DRF-03 proves copy success, failure, status announcement, and retained
++  focus.
++* FR-05: DRF-04 proves visible focus across homepage, article, repository,
++  ranking, embed, and navigation links at desktop, mobile, and 200% zoom.
++* FR-06: DRF-05 evidence records reviewer, browser, OS, AT/version, scenarios,
++  findings, severity, disposition, and exact candidate revision.
++* FR-07: Release-day evidence records PR/merge/deploy/run identifiers, rollback
++  boundary, and live probes.
++* FR-08: Outcome ownership records due dates relative to production deployment.
++
++## Non-Functional Requirements
++
++* NFR-01: Preserve useful no-JavaScript Hugo output.
++* NFR-02: No severity-1 or severity-2 finding remains open at sponsor GO.
++* NFR-03: Public data and external text remain sanitized and schema-valid.
++* NFR-04: Workflow changes, if any, require URL and Hermes review.
++* NFR-05: Generated-content or user-facing AI-output changes require Nibbler
++  review.
++* NFR-06: The branch remains one focused concern and reaches production only
++  through a reviewed PR.
++
++## Acceptance Criteria
++
++* One immutable product candidate SHA is recorded in every Phase 5 evidence
++  artifact; evidence commits remain a separate identity and contain no product
++  or test changes after the freeze.
++* DRF-01 through DRF-04 have passing automated evidence and named owner
++  dispositions on that SHA.
++* DRF-05 has genuine live-AT evidence on that SHA; until then status is Blocked.
++* Python, Ruff, Hugo/Pagefind/link, schema/content, browser/accessibility,
++  visual, performance, privacy, Bandit, Checkov, and Zizmor gates pass as
++  applicable.
++* No unresolved severity-1/2 finding or PR thread remains.
++* Sponsor GO and rollback readiness are recorded before merge/deployment.
++* Release-day live evidence passes.
++* Delayed observations have owners and exact due dates and are not marked
++  complete early.
++
++## Phase Checklist
++
++<!-- phase-id: P01 -->
++### [x] P01 — Candidate Evidence Foundation
++
++* [x] P01-T01 Create the revision-bound Phase 5 evidence schema/document.
++* [x] P01-T02 Add deterministic validation that rejects mixed revisions,
++  premature outcome completion, missing owner/due-date fields, and open blocking
++  findings in a GO candidate.
++* [x] P01-T03 Add focused unit tests for the evidence validator.
++
++<!-- phase-id: P02 -->
++### [x] P02 — Automated Redesigned-Release Closure
++
++* [x] P02-T01 Reproduce and fix repository explorer filter rendering, verify
++  every filter dimension semantically, and add combined-filter visual and
++  keyboard evidence.
++* [x] P02-T02 Add DRF-02 expanded disclosure/provenance pointer, keyboard, and
++  focus-order evidence for the repository explorer, ranking rows/visual
++  fallback, embed repository context, and copy disclosure. Record retired
++  lifecycle-only UI as not applicable rather than recreating it.
++* [x] P02-T03 Add DRF-03 copy success/failure/announcement/focus evidence.
++* [x] P02-T04 Add DRF-04 representative visible-focus evidence at desktop,
++  mobile, and 200% zoom.
++* [x] P02-T05 Capture reduced-motion and touch equivalence needed by Phase 5.
++
++<!-- phase-id: P03 -->
++### [ ] P03 — Candidate Validation And Named Review
++
++* [x] P03-T01 Freeze the product candidate SHA, capture all automated reports
++  against that exact revision, and allow only evidence-record commits afterward.
++* [ ] P03-T02 Obtain Amy/Fry visual, keyboard, touch, zoom, reduced-motion, and
++  evidence dispositions.
++* [ ] P03-T03 Obtain the real named DRF-05 live screen-reader disposition.
++* [ ] P03-T04 Obtain Leela, Hermes, URL, Nibbler, Zapp, editorial/data-integrity,
++  and sponsor dispositions as applicable.
++* [ ] P03-T05 Reconcile every finding under the BRD severity policy.
++
++<!-- phase-id: P04 -->
++### [ ] P04 — Release And Outcome Ownership
++
++* [ ] P04-T01 Record sponsor GO and tested rollback readiness.
++* [ ] P04-T02 Push, open the Phase 5 PR, complete hosted checks/Copilot review,
++  resolve threads, request merge authorization, merge, and verify deployment.
++* [ ] P04-T03 Record release-day probes and the deployed revision.
++* [ ] P04-T04 Record owners and due dates for seven-day, 28-day, three-month,
++  and six-month observations.
++
++## Dependencies and Ordering
++
++* P02 depends on P01's evidence contract.
++* P03 depends on P01-P02 and one frozen candidate revision.
++* P04 sponsor GO depends on every severity-1/2 finding being closed, including
++  DRF-05.
++* Delayed outcome observations depend on the actual deployment timestamp.
++
++## Validation Strategy
++
++* Focused Python tests for candidate validation.
++* Focused Playwright scenarios while developing P02.
++* Full repository Python/Ruff/Hugo/Pagefind/link/browser/visual/Node/security
++  gates before push.
++* Hosted checks and Copilot review on every substantive pushed head.
++* Live HTTP and JSON probes after deployment.
++
++## Risks and Mitigations
++
++| Risk | Mitigation |
++|---|---|
++| Evidence mixes revisions | validator fails closed on any SHA mismatch |
++| Automated evidence is mistaken for live AT | DRF-05 requires named environment metadata and remains manual-only |
++| Candidate changes after manual review | invalidate dispositions and refreeze/review the new SHA |
++| Future outcomes are marked complete early | validator compares status/due date and permits only scheduled state before due |
++| Phase 5 expands into redesign | limit production edits to evidence-required defects/tests |
++
++## Test Ownership and Addition Bounds
++
++* Candidate validator semantics:
++  `tests/test_validate_release_candidate.py` (one new Python test file).
++* Repository interaction semantics: existing repository explorer browser spec.
++* Ranking semantics: `tests/visual/ranking-explorer.spec.mjs`.
++* Embed/copy/disclosure/focus semantics:
++  `tests/visual/observatory-a11y.spec.mjs`.
++* Revision-tagged captures:
++  `tests/visual/observatory-visual-regression.spec.mjs`.
++* No new Playwright runner or config. At most one new visual spec is permitted
++  only if no existing owner can express a required candidate-state capture.
++* Exact removals: none planned.
++
++## Critique Disposition
++
++* PC-001: Applied. Candidate product SHA and later evidence-commit identity are
++  now distinct; post-freeze product/test changes invalidate the candidate.
++* PC-002: Applied. DRF-02 targets the current repository, ranking, embed, and
++  copy disclosure surfaces; retired lifecycle-only UI is not recreated.
++* PC-003: Applied. Test ownership, one-new-Python-test maximum, no-new-runner
++  rule, and visual-spec bound are locked.
++* Final critique execution: Complete.
++* Final critique verdict after direct dispositions: Pass.
++
++## Follow-Up Items
++
++* Seven-day production smoke: due seven calendar days after deployment.
++* 28-day migration and organic evidence: due 28 calendar days after deployment.
++* Three-month migration and organic evidence: due three calendar months after
++  deployment.
++* Six-month SEO outcome evidence: due six calendar months after deployment.
++
++## Handoff
++
++Implementation starts at P01 on
++`feat/integrated-release-candidate-phase5`. The changes record is
++`.copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md`.
++The implementation must stop at the named-human blocker rather than infer or
++simulate DRF-05 completion.
+diff --git a/.copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md b/.copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md
+new file mode 100644
+index 0000000..782be49
+--- /dev/null
++++ b/.copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md
+@@ -0,0 +1,247 @@
++---
++description: Phase 5 release-candidate and outcome-evidence research
++---
++<!-- markdownlint-disable-file -->
++
++# Task Research: claracle-integrated-release-candidate
++
++| Field | Value |
++|---|---|
++| Date | 2026-08-12 |
++| Researcher / agent | rpi-research |
++| Status | Complete |
++| Artifact path | `.copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md` |
++
++## Research Brief
++
++* What to research: the exact Phase 5 release-candidate boundary, currently
++  closable evidence, blocking named-human evidence, and future outcome windows.
++* Why it matters: Phase 5 may not claim release acceptance by combining evidence
++  from different revisions or by substituting automation for live assistive
++  technology review.
++* Audience or intended use: Phase 5 planning, implementation, named reviewers,
++  sponsor, and later outcome observers.
++* Scope: the approved plan and BRD, redesigned-release finding map, merged
++  Phase 2-4 evidence, current automated test surfaces, Phase 4 deployment, and
++  dated outcome obligations.
++* Non-goals: changing the approved release policy, fabricating manual evidence,
++  or claiming future observations before their due dates.
++* Criteria: every severity-1/2 gate must have same-revision closure evidence;
++  future observations must have explicit owners and dates.
++* Requested outputs: a planning-ready recommendation and evidence boundary.
++* Output mode: convergence.
++
++## Research Parameters
++
++| Field | Value |
++|---|---|
++| Research question(s) | What can Phase 5 complete now, what must block GO, and how should delayed observations be retained? |
++| Codebase scope | Phase 5 plan/details, BRD release policy, finding map, browser gates, RPI state |
++| External scope | GitHub PR/deployment and live GitHub Pages evidence already collected by the parent |
++| Initial internal candidate areas | `.copilot-tracking/`, `docs/review/`, `tests/visual/` |
++| Initial external candidate areas | PR 712, deployment run 31645707266, live ranking pages |
++| Research posture | focused |
++| Posture provenance | bounded internal task with approved source targets |
++| Explicit limits / deadline | Do not weaken gates; do not infer future evidence |
++| Posture-specific completion basis | focused scope and materiality |
++| Edits allowed during research? | no, research-only |
++| Resolved evidence root | `.copilot-tracking/` |
++| Known constraints / excluded sources | Phase 5 follows the approved V1.1 policy and preserves frozen historical evidence |
++
++## Extension Registry and Provenance
++
++| Kind | Candidate | Match and provenance | Scoped authority or output contract | Selected / skipped reason |
++|---|---|---|---|---|
++| Instruction | repository Copilot instructions | applies repository-wide | branch/PR, validation, and owner-review requirements | selected |
++| Skill | `rpi-research` | Phase 5 evidence framing | research-only artifact and readiness | selected |
++| Specialist | Squad | named owner reviews are required later | review outputs only, not sponsor or live-AT substitution | deferred to implementation/review |
++
++## User Participation and Research Decisions
++
++| Checkpoint | Questions or no-interaction rationale | Answers / unanswered | Resulting decision or selected further research |
++|---|---|---|---|
++| Intake | User explicitly approved merge and continuation | approved | continue automatically into Phase 5 |
++| Direction change | No material direction change | none | retain approved release policy |
++| Convergence | Evidence identifies one safe sequence | none | plan same-revision closure first; schedule delayed observations |
++
++## Scope and Success Criteria
++
++* Scope: establish a truthful Phase 5 candidate/evidence strategy.
++* Assumptions: Phase 4 production evidence is valid only for its own merged
++  revision; open DRF rows remain blocking until explicitly closed.
++* Success criteria:
++  * Questions are answered with workspace evidence.
++  * Manual and automated evidence are not conflated.
++  * Delayed observations are separated from present release readiness.
++
++## Task Research Requests
++
++* Explicit requests: continue after the approved Phase 4 merge.
++* Inferred research questions: identify Phase 5's current release boundary,
++  blockers, evidence artifact, and observation schedule.
++* Caller constraints and non-goals: automatic continuation does not waive
++  named-human or severity gates.
++
++## Direction Controls
++
++| Control type | Direction or boundary | Source / checkpoint | Effect |
++|---|---|---|---|
++| change | Phase 4 merge authorized; continue | user, 2026-08-12 | Phase 5 is eligible |
++| exclude | No gate weakening or fabricated manual evidence | repository and BRD policy | unresolved named evidence remains blocking |
++
++## Research Questions
++
++| # | Sub-question | Type | Priority | Status |
++|---:|---|---|---|---|
++| Q1 | What defines the immutable Phase 5 candidate? | straightforward | H | answered |
++| Q2 | Which redesigned-release findings remain open? | depth | H | answered |
++| Q3 | Which evidence can be automated now versus requiring named humans? | depth | H | answered |
++| Q4 | How should future outcome windows be handled? | straightforward | H | answered |
++
++## Prior Knowledge Gate
++
++* Existing artifacts reviewed: approved plan, details, BRD, finding map, status
++  of record, Phase 4 review/state, PR 712, deployment run 31645707266.
++* Reused findings: the release policy, named ownership, and five DRF rows remain
++  controlling.
++* Superseded / stale: the state still described PR 712 as awaiting merge;
++  the parent verified it merged and deployed successfully on 2026-08-12.
++
++## Research Cycle Log
++
++### Cycle 1
++
++* Active research posture: focused; bounded release-evidence investigation.
++
++#### Wave 1: Wider
++
++* Reviewed the Phase 5 plan, BRD risk policy, finding map, historical status,
++  test surfaces, and production evidence.
++* Reflection: the work divides into same-revision candidate validation, named
++  DRF closure, sponsor GO/rollback, and delayed outcome observations.
++
++#### Wave 2: Deeper
++
++* The plan requires one immutable revision, complete automated and named
++  evidence, no unresolved severity-1/2 finding, sponsor GO, rollback readiness,
++  and observations at release day, seven days, 28 days, three months, and six
++  months (C1-C3).
++* All five DRF rows remain marked Open and severity 2; DRF-05 explicitly cannot
++  be replaced by automated evidence (C4).
++* Current browser gates cover meaningful keyboard, filter, responsive, axe,
++  touch, and disclosure behavior, but no repository evidence closes a live
++  screen-reader review (C5).
++* Reflection: implementation can consolidate automation and prepare named-review
++  evidence, but GO remains blocked until live AT and named dispositions exist.
++
++#### Wave 3: Contrarian
++
++* Challenged whether PR 712 plus its production deployment could itself be the
++  immutable candidate. It cannot close Phase 5 because the finding map forbids
++  combining revisions and still lists all named successor gates as Open (C4).
++* Challenged whether automated Axe/accessibility-tree tests substitute for live
++  screen-reader evidence. The closure rules explicitly reject that substitution
++  (C4).
++* Challenged whether future windows block creating the candidate. They do not
++  block candidate preparation, but they prevent claiming long-term outcome
++  completion before their due dates (C2, C3).
++
++#### Parent Synthesis and Disposition
++
++| Material / claim | Evidence IDs | Disposition | Rationale | Treatment |
++|---|---|---|---|---|
++| Create a new candidate evidence revision | C1, C2, C4 | accepted | same-revision closure is mandatory | selected recommendation |
++| Treat prior PR checks as final Phase 5 acceptance | C4 | rejected | named DRF rows remain open | risk |
++| Replace live AT review with automation | C4, C5 | rejected | explicitly prohibited | blocker |
++| Schedule outcome windows with owners/dates | C2, C3 | accepted | future evidence cannot exist today | implementation requirement |
++
++#### Cycle Re-entry Evaluation
++
++* Another complete three-wave cycle needed: no.
++* Stop basis: controlling sources agree; remaining gap is execution and named
++  human evidence, not additional research.
++* Readiness effect: Ready for planning, with required human-review blockers.
++
++## Evidence Log
++
++* Delegation: inline; the bounded controlling-source trace fit direct research.
++
++### Codebase Evidence
++
++| ID | Claim / finding | Location | Tool | Confidence | Notes |
++|---|---|---|---|---|---|
++| C1 | Phase 5 requires one immutable candidate and complete automated/named gates | `.copilot-tracking/plans/2026-08-08/claracle-post-relaunch-consolidation-plan.instructions.md:323-336` | search/read | high | controlling plan |
++| C2 | Same-revision evidence, sponsor GO, rollback, and dated observations define Phase 5 | `.copilot-tracking/details/2026-08-08/claracle-post-relaunch-consolidation-details.md:318-335` | read | high | implementation details |
++| C3 | Severity 1/2 findings block release and outcome windows are explicitly deferred | `docs/brds/claracle-post-relaunch-consolidation-brd.md:148-185` | read | high | approved V1.1 policy |
++| C4 | DRF-01 through DRF-05 remain severity 2/Open; automation cannot replace live AT review | `docs/review/claracle-post-relaunch/redesigned-release-finding-map.md:35-51` | read | high | closure rules |
++| C5 | Current browser suites cover automated accessibility and interaction paths but contain no live AT disposition | `tests/visual/observatory-a11y.spec.mjs:19-205`, `tests/visual/ranking-explorer.spec.mjs:61-132` | search/read | high | automation only |
++| C6 | Phase 4 merged and deployed successfully before Phase 5 | PR 712 and deployment run 31645707266 | `gh`, live probes | high | parent-collected evidence |
++
++### External Evidence
++
++No new external sources used; GitHub-hosted repository evidence is recorded as
++execution evidence in C6.
++
++### Contradictions / Conflicts
++
++* The merged Phase 4 revision is production-valid but not sufficient as the
++  Phase 5 acceptance candidate because the named DRF closure record is absent.
++
++## Findings Mapped to Questions and Evidence
++
++| Question | Finding | Evidence IDs | Confidence | Implication |
++|---|---|---|---|---|
++| Q1 | A dedicated evidence revision must bind all candidate reports and named dispositions | C1, C2, C4 | high | create a Phase 5 candidate record |
++| Q2 | DRF-01 through DRF-05 remain blocking | C4 | high | cannot record GO yet |
++| Q3 | Automated gates can be run now; live AT and named acceptance require humans | C4, C5 | high | prepare evidence, preserve blocker |
++| Q4 | Record release-day evidence now and schedule later windows | C2, C3 | high | no fabricated future completion |
++
++## Key Discoveries
++
++* Phase 5 is primarily an evidence transaction, not a broad product rewrite.
++* The only non-automatable release blocker is not optional: a named live
++  assistive-technology review against the same candidate revision.
++* Seven-day, 28-day, three-month, and six-month observations must remain future
++  scheduled evidence with explicit ownership.
++
++## Alternatives and Decision State
++
++### Selected Recommendation
++
++* Approach: create a Phase 5 release-candidate evidence record and focused
++  automated closure tests for DRF-01 through DRF-04, run all applicable gates,
++  obtain same-revision named reviews including DRF-05, then record sponsor GO,
++  rollback readiness, deployment, and scheduled outcome windows.
++* Rationale: it is the only sequence consistent with the approved severity and
++  same-revision rules.
++* Evidence refs: C1-C6.
++* Implementation impact: tracking evidence, focused browser tests/captures,
++  finding-map status, plan/state records, and outcome schedules.
++* Confidence: high; only execution and named-human availability remain.
++
++## Risks and Open Questions
++
++* Blocking: DRF-05 requires a named reviewer with real browser/OS/AT/version
++  evidence. Automation or simulated AT cannot close it.
++* Blocking until reviewed: DRF-01 through DRF-04 need same-candidate captures
++  and Fry/Amy dispositions.
++* Temporal: seven-day, 28-day, three-month, and six-month evidence cannot be
++  completed on 2026-08-12.
++
++## Planning Readiness
++
++* Status: Ready.
++* Research disposition: executed.
++* Handoff: plan a bounded evidence implementation, preserve human and temporal
++  blockers, and do not claim release completion until all severity-2 rows close.
++
++## Sources
++
++No external web sources used.
++
++## Self-Check
++
++* Complete three-wave cycle recorded: yes.
++* Material claims have evidence IDs: yes.
++* Alternatives and contrarian challenges retained: yes.
++* Research-only boundary preserved: yes.
+diff --git a/.copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-plan-critique.md b/.copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-plan-critique.md
+new file mode 100644
+index 0000000..883ca08
+--- /dev/null
++++ b/.copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-plan-critique.md
+@@ -0,0 +1,101 @@
++# Plan Critique: Claracle Integrated Release Candidate
++
++## Critique Metadata
++
++| Field | Value |
++|---|---|
++| Execution status | Complete |
++| Verdict | Revise |
++| Date | 2026-08-12 |
++| Plan | `.copilot-tracking/plans/2026-08-12/claracle-integrated-release-candidate-plan.md` |
++| Details | `.copilot-tracking/details/2026-08-12/claracle-integrated-release-candidate-phase-details.md` |
++| Research | `.copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md` |
++
++## Criterion Boundary
++
++The critique assessed candidate identity, same-revision evidence, DRF-01 through
++DRF-05 closure, severity policy, branch/PR boundaries, validation, sponsor GO,
++rollback, deployment, and delayed outcomes. It treated the approved BRD, Phase 5
++plan/details, finding map, repository workflow rules, and user continuation
++direction as controlling.
++
++## Coverage Assessment
++
++The plan correctly treats Phase 5 as an evidence transaction, preserves the
++live-AT blocker, separates future observations, and requires full PR/deployment
++gates. Three planner-owned corrections are required before implementation.
++
++## Findings
++
++### PC-001 — Candidate identity is self-referential
++
++* Severity: High
++* Related IDs: FR-01, P01-T01, P03-T01
++* Evidence: the plan requires the candidate record to contain the exact SHA and
++  then commit that record as part of the candidate. A commit cannot contain its
++  own final SHA.
++* Impact: implementation could repeatedly invalidate the candidate or falsely
++  claim that evidence belongs to the recorded revision.
++* Smallest useful change: define a two-boundary model: an immutable product
++  candidate commit/tree is frozen first; later evidence-only commits may refer
++  to it but cannot modify product/runtime files. The validator must distinguish
++  `candidate_sha` from evidence-record commit identity and reject product changes
++  after the candidate boundary.
++* Action owner: planner.
++* Resolving evidence: revised FR-01, P03-T01, validator rules, and completion
++  boundary.
++* Decision class: direct planner correction.
++
++### PC-002 — DRF-02 target is underspecified after repository-page retirement
++
++* Severity: Medium
++* Related IDs: P02-T02
++* Evidence: the historical row names lifecycle/provenance detail, while the
++  redesigned release retired individual repository pages and introduced
++  repository/ranking/embed disclosures. The plan says "every redesigned
++  disclosure state" but does not enumerate the current replacement states.
++* Impact: tests could cover one tooltip and leave another current disclosure
++  state unreviewed, while still claiming DRF-02 closure.
++* Smallest useful change: inventory and lock the current disclosure set before
++  implementation: repository explorer context/provenance, ranking row context,
++  ranking visualization fallback, embed repository context, and any copy
++  disclosure. Mark historical lifecycle-only UI not applicable with evidence
++  rather than recreating retired product behavior.
++* Action owner: planner.
++* Resolving evidence: exact target list in P02-T02/details and named review
++  matrix.
++* Decision class: direct planner correction.
++
++### PC-003 — Test ownership and addition bounds are incomplete
++
++* Severity: Medium
++* Related IDs: P02-T01 through P02-T05
++* Evidence: the plan locks the runner but does not identify every owning test
++  file or cap additions, despite the planning gate requiring exact test
++  ownership and maximum additions before critique.
++* Impact: Phase 5 could sprawl into a new test framework or duplicate existing
++  matrices.
++* Smallest useful change: lock semantic interaction work to
++  `tests/visual/observatory-a11y.spec.mjs` and existing repository/ranking specs,
++  visual captures to `tests/visual/observatory-visual-regression.spec.mjs`, and
++  candidate validation to one new Python test file. Permit no new runner/config
++  and at most one new visual spec only if no current owner exists.
++* Action owner: planner.
++* Resolving evidence: explicit ownership and addition bounds in plan/details.
++* Decision class: direct planner correction.
++
++## Residual Risks
++
++* A named live screen-reader reviewer is not yet available. The plan correctly
++  treats this as an implementation-time release blocker rather than a planning
++  gap.
++* Future outcome windows cannot close in the candidate PR. Scheduled ownership
++  is the truthful current state.
++
++## Closeout
++
++* Highest-impact finding: PC-001.
++* Action owner: planner.
++* Smallest next action: revise the plan to use a frozen product candidate plus
++  evidence-only commits, then apply PC-002 and PC-003 in the same batch.
++* User response required: no.
+diff --git a/.copilot-tracking/rpi-sessions/2026-08-10/claracle-post-relaunch-consolidation-state.json b/.copilot-tracking/rpi-sessions/2026-08-10/claracle-post-relaunch-consolidation-state.json
+index c914f34..6e02c73 100644
+--- a/.copilot-tracking/rpi-sessions/2026-08-10/claracle-post-relaunch-consolidation-state.json
++++ b/.copilot-tracking/rpi-sessions/2026-08-10/claracle-post-relaunch-consolidation-state.json
+@@ -3,15 +3,15 @@
+   "task_slug": "claracle-post-relaunch-consolidation",
+   "parent_task": null,
+   "mode": "automatic",
+-  "active_phase": "Review",
++  "active_phase": "Implement",
+   "status": "active",
+   "session_status": "running",
+   "artifact_paths": {
+-    "research": ".copilot-tracking/research/2026-08-08/claracle-post-relaunch-experience-research.md",
+-    "plan": ".copilot-tracking/plans/2026-08-08/claracle-post-relaunch-consolidation-plan.instructions.md",
+-    "details": ".copilot-tracking/details/2026-08-08/claracle-post-relaunch-consolidation-details.md",
+-    "critique": ".copilot-tracking/reviews/2026-08-08/claracle-post-relaunch-consolidation-plan-review.md",
+-    "changes": ".copilot-tracking/changes/2026-08-08/claracle-post-relaunch-consolidation-changes.md",
++    "research": ".copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md",
++    "plan": ".copilot-tracking/plans/2026-08-12/claracle-integrated-release-candidate-plan.md",
++    "details": ".copilot-tracking/details/2026-08-12/claracle-integrated-release-candidate-phase-details.md",
++    "critique": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-plan-critique.md",
++    "changes": ".copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md",
+     "review": ".copilot-tracking/reviews/logs/2026-08-11/claracle-post-relaunch-consolidation-review.md"
+   },
+   "confirmed_decisions": [
+@@ -134,18 +134,59 @@
+       "decision": "All hosted checks passed on Phase 4 head 007d9fb, Copilot reviewed that exact head with no new comments, and every review thread is resolved.",
+       "status": "confirmed",
+       "evidence": "https://github.com/jmservera/SquadScope/pull/712"
++    },
++    {
++      "decision": "The sponsor authorized merging Phase 4 and automatic continuation.",
++      "status": "confirmed",
++      "evidence": "User input: \"approve merge, and go ahead\""
++    },
++    {
++      "decision": "PR 712 merged as f9fb5d8; deployment run 31645707266 and live ranking-page/JSON probes passed.",
++      "status": "confirmed",
++      "evidence": "https://github.com/jmservera/SquadScope/actions/runs/31645707266"
++    },
++    {
++      "decision": "Phase 5 research executed with Planning Readiness Ready; same-revision named evidence and future outcome windows remain mandatory.",
++      "status": "confirmed",
++      "evidence": ".copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md"
++    },
++    {
++      "decision": "The one Phase 5 plan critique executed completely with three planner-owned findings; all were applied and the final candidate plan is implementation-ready.",
++      "status": "confirmed",
++      "evidence": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-plan-critique.md"
++    },
++    {
++      "decision": "Phase 5 must reproduce and fix repository explorer filters whose announced count can diverge from visible results, and verify observation-period filtering semantically.",
++      "status": "confirmed",
++      "evidence": "User input: \"repo filters do not completely work... topics say that the repos are filtered... but all the repos are still there... observation period seem to have an impact\""
++    },
++    {
++      "decision": "Phase 5 P01 and P02 are complete: revision-bound evidence validation and automated DRF-01 through DRF-04 closure pass, including corrected repository filter presentation.",
++      "status": "confirmed",
++      "evidence": ".copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md"
++    },
++    {
++      "decision": "The immutable Phase 5 product candidate is 8af4f4a4332db005924fc4281b9a32d039d80d5a; subsequent commits are evidence-only unless the candidate is invalidated and refrozen.",
++      "status": "confirmed",
++      "evidence": "data/release/claracle-v1.1-release-candidate.json"
+     }
+   ],
+   "blockers": [],
+   "next_action": {
+-    "phase": "Review",
+-    "action": "Request explicit human authorization to merge pull request jmservera/SquadScope#712; Phase 5 remains blocked until merge and deployment verification complete."
++    "phase": "Implement",
++    "action": "Collect named owner dispositions for candidate 8af4f4a4332db005924fc4281b9a32d039d80d5a; preserve DRF-05 as blocking until genuine live screen-reader evidence is supplied."
+   },
+   "prioritized_follow_ups": [
+     {
+       "rank": 1,
+-      "task": "Deliver product Phase 4 BR-004, BR-005, and BR-007.",
+-      "rationale": "Phase 3 has passed every source, review, deployment, and production gate; the approved plan makes Phase 4 the next eligible work.",
++      "task": "Close DRF-01 through DRF-05 against one immutable Phase 5 candidate.",
++      "rationale": "All five rows remain severity 2 and block sponsor GO until same-revision automated and named evidence is retained.",
++      "evidence": "docs/review/claracle-post-relaunch/redesigned-release-finding-map.md"
++    },
++    {
++      "rank": 2,
++      "task": "Record release-day and scheduled outcome evidence.",
++      "rationale": "Seven-day, 28-day, three-month, and six-month evidence is required but cannot be claimed before its due date.",
+       "evidence": ".copilot-tracking/plans/2026-08-08/claracle-post-relaunch-consolidation-plan.instructions.md"
+     }
+   ]
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 8019be6..63c8cad 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -53,6 +53,9 @@ jobs:
+             --ignore=tests/test_internal_link_checker.py \
+             --ignore=tests/test_topic_hubs.py
+ 
++      - name: Validate release candidate evidence
++        run: python scripts/validate_release_candidate.py --check-git-boundary
++
+       - name: Validate image registry
+         run: python scripts/manage_image_registry.py validate
+ 
+@@ -257,7 +260,7 @@ jobs:
+           curl --fail --silent --show-error --retry 30 --retry-delay 1 --retry-connrefused "${BASE_URL}/" > /dev/null
+ 
+       - name: Run axe and responsive browser gates
+-        run: npx --no-install playwright test --config tests/visual/playwright.config.mjs tests/visual/a11y-perf.spec.mjs tests/visual/observatory-a11y.spec.mjs tests/visual/observatory-analytics.spec.mjs tests/visual/ranking-explorer.spec.mjs
++        run: npx --no-install playwright test --config tests/visual/playwright.config.mjs tests/visual/a11y-perf.spec.mjs tests/visual/observatory-a11y.spec.mjs tests/visual/observatory-analytics.spec.mjs tests/visual/ranking-explorer.spec.mjs tests/visual/repository-explorer.spec.mjs
+ 
+       - name: Run Lighthouse gates
+         run: node scripts/design/lighthouse-gates.mjs --base "${BASE_URL}"
+diff --git a/assets/css/extended/observatory-charts.css b/assets/css/extended/observatory-charts.css
+index 49dfbf5..1f1cfd2 100644
+--- a/assets/css/extended/observatory-charts.css
++++ b/assets/css/extended/observatory-charts.css
+@@ -186,6 +186,12 @@
+   margin: 0;
+ }
+ 
++@media (prefers-reduced-motion: reduce) {
++  .observatory-chart__tooltip {
++    transition-duration: 0.01ms;
++  }
++}
++
+ @media (max-width: 720px) {
+   .observatory-chart {
+     border-radius: 14px;
+diff --git a/assets/css/extended/repository-explorer.css b/assets/css/extended/repository-explorer.css
+index 1c8509a..ad00385 100644
+--- a/assets/css/extended/repository-explorer.css
++++ b/assets/css/extended/repository-explorer.css
+@@ -74,6 +74,10 @@
+   border-block-start: var(--size-border-thin) solid var(--color-border);
+ }
+ 
++.repository-index__record[hidden] {
++  display: none;
++}
++
+ .repository-index__record:last-child {
+   border-block-end: var(--size-border-thin) solid var(--color-border);
+ }
+diff --git a/assets/css/extended/squadscope.css b/assets/css/extended/squadscope.css
+index 1f6f8b4..e92fe86 100644
+--- a/assets/css/extended/squadscope.css
++++ b/assets/css/extended/squadscope.css
+@@ -370,6 +370,17 @@ summary:focus-visible,
+   transform: translateY(0);
+ }
+ 
++@media (prefers-reduced-motion: reduce) {
++  *,
++  *::before,
++  *::after {
++    scroll-behavior: auto !important;
++    animation-duration: 0.01ms !important;
++    animation-iteration-count: 1 !important;
++    transition-duration: 0.01ms !important;
++  }
++}
++
+ @media (min-width: 769px) {
+   .home-hero,
+   .home-content-grid {
+diff --git a/assets/js/observatory-charts.js b/assets/js/observatory-charts.js
+index 22cad8a..a60a0cd 100644
+--- a/assets/js/observatory-charts.js
++++ b/assets/js/observatory-charts.js
+@@ -6,21 +6,35 @@
+       const selector = button.getAttribute("data-copy-target");
+       const target = selector ? document.querySelector(selector) : null;
+       const snippet = target?.getAttribute("data-embed-snippet") || target?.textContent || "";
++      const status = button.parentElement?.querySelector("[data-copy-status]");
++      const updateStatus = (message, label) => {
++        button.textContent = label;
++        if (status) {
++          status.textContent = message;
++        }
++      };
+       if (!snippet.trim() || !navigator.clipboard) {
++        updateStatus(
++          "Copy failed. Select and copy the embed snippet manually.",
++          "Copy failed",
++        );
+         return;
+       }
+ 
++      const original = button.textContent;
+       try {
+         await navigator.clipboard.writeText(snippet.trim());
+-        const original = button.textContent;
+-        button.textContent = "Copied";
++        updateStatus("Embed snippet copied to the clipboard.", "Copied");
+         window.setTimeout(() => {
+           button.textContent = original;
+         }, 1800);
+       } catch {
+-        button.textContent = "Copy failed";
++        updateStatus(
++          "Copy failed. Select and copy the embed snippet manually.",
++          "Copy failed",
++        );
+         window.setTimeout(() => {
+-          button.textContent = "Copy embed snippet";
++          button.textContent = original;
+         }, 1800);
+       }
+     });
+diff --git a/data/release/claracle-v1.1-release-candidate.json b/data/release/claracle-v1.1-release-candidate.json
+new file mode 100644
+index 0000000..a6b36a2
+--- /dev/null
++++ b/data/release/claracle-v1.1-release-candidate.json
+@@ -0,0 +1,156 @@
++{
++  "baseline": {
++    "phase4_deployment_run": 31645707266,
++    "phase4_merge_sha": "f9fb5d88fefde9b6143adda2d57e20d18f6b5e25",
++    "verified_at": "2026-08-12T22:11:00Z"
++  },
++  "candidate_frozen_at": "2026-08-12T22:34:48Z",
++  "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
++  "deployment": {
++    "deployed_at": null,
++    "evidence": [],
++    "merge_sha": null,
++    "run_id": null,
++    "status": "pending"
++  },
++  "findings": [
++    {
++      "evidence": [
++        {
++          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
++          "path": "tests/visual/repository-explorer.spec.mjs",
++          "type": "semantic-browser"
++        },
++        {
++          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
++          "path": "tests/visual/observatory-visual-regression.spec.mjs",
++          "type": "revision-tagged-capture"
++        }
++      ],
++      "id": "DRF-01",
++      "live_at_review": null,
++      "owner": "Amy and Fry",
++      "severity": 2,
++      "status": "open"
++    },
++    {
++      "evidence": [
++        {
++          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
++          "path": "tests/visual/observatory-a11y.spec.mjs",
++          "type": "pointer-keyboard-disclosure"
++        },
++        {
++          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
++          "path": "tests/visual/ranking-explorer.spec.mjs",
++          "type": "ranking-fallback"
++        }
++      ],
++      "id": "DRF-02",
++      "live_at_review": null,
++      "owner": "Amy and Fry",
++      "severity": 2,
++      "status": "open"
++    },
++    {
++      "evidence": [
++        {
++          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
++          "path": "tests/visual/observatory-a11y.spec.mjs",
++          "type": "clipboard-status-focus"
++        }
++      ],
++      "id": "DRF-03",
++      "live_at_review": null,
++      "owner": "Amy and Fry",
++      "severity": 2,
++      "status": "open"
++    },
++    {
++      "evidence": [
++        {
++          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
++          "path": "tests/visual/observatory-a11y.spec.mjs",
++          "type": "focus-viewport-matrix"
++        }
++      ],
++      "id": "DRF-04",
++      "live_at_review": null,
++      "owner": "Fry",
++      "severity": 2,
++      "status": "open"
++    },
++    {
++      "evidence": [],
++      "id": "DRF-05",
++      "live_at_review": null,
++      "owner": "Fry and named accessibility reviewer",
++      "severity": 2,
++      "status": "open"
++    }
++  ],
++  "outcomes": [
++    {
++      "completed_at": null,
++      "due_at": null,
++      "evidence": [],
++      "owner": "Fry and URL",
++      "status": "pending",
++      "window": "release-day"
++    },
++    {
++      "completed_at": null,
++      "due_at": null,
++      "evidence": [],
++      "owner": "Fry and Amy",
++      "status": "pending",
++      "window": "seven-day"
++    },
++    {
++      "completed_at": null,
++      "due_at": null,
++      "evidence": [],
++      "owner": "Zapp and Leela",
++      "status": "pending",
++      "window": "28-day"
++    },
++    {
++      "completed_at": null,
++      "due_at": null,
++      "evidence": [],
++      "owner": "Zapp and Leela",
++      "status": "pending",
++      "window": "three-month"
++    },
++    {
++      "completed_at": null,
++      "due_at": null,
++      "evidence": [],
++      "owner": "Zapp and jmservera",
++      "status": "pending",
++      "window": "six-month"
++    }
++  ],
++  "release_id": "claracle-v1-1",
++  "rollback": {
++    "evidence": [
++      "Phase 4 deployment run 31645707266 passed production migration probes."
++    ],
++    "last_known_good_sha": "f9fb5d88fefde9b6143adda2d57e20d18f6b5e25",
++    "owner": "jmservera",
++    "status": "ready",
++    "steps": [
++      "Revert the Phase 5 merge commit on a protected fix branch.",
++      "Deploy the resulting main revision through Deploy Hugo site.",
++      "Repeat repository, ranking, JSON, and retired-route production probes."
++    ]
++  },
++  "schema_version": "1.0.0",
++  "sponsor": {
++    "candidate_sha": null,
++    "decided_at": null,
++    "reviewer": null,
++    "status": "pending"
++  },
++  "status": "blocked"
++}
+diff --git a/data/schemas/release-candidate.schema.json b/data/schemas/release-candidate.schema.json
+new file mode 100644
+index 0000000..c13415e
+--- /dev/null
++++ b/data/schemas/release-candidate.schema.json
+@@ -0,0 +1,178 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://claracle.com/schemas/release-candidate.schema.json",
++  "title": "Claracle Release Candidate Evidence",
++  "type": "object",
++  "required": [
++    "schema_version",
++    "release_id",
++    "status",
++    "candidate_sha",
++    "candidate_frozen_at",
++    "baseline",
++    "findings",
++    "sponsor",
++    "rollback",
++    "deployment",
++    "outcomes"
++  ],
++  "properties": {
++    "schema_version": { "const": "1.0.0" },
++    "release_id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
++    "status": { "enum": ["preparing", "blocked", "go", "deployed"] },
++    "candidate_sha": {
++      "type": ["string", "null"],
++      "pattern": "^[0-9a-f]{40}$"
++    },
++    "candidate_frozen_at": {
++      "type": ["string", "null"],
++      "format": "date-time"
++    },
++    "baseline": {
++      "type": "object",
++      "required": ["phase4_merge_sha", "phase4_deployment_run", "verified_at"],
++      "properties": {
++        "phase4_merge_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
++        "phase4_deployment_run": { "type": "integer", "minimum": 1 },
++        "verified_at": { "type": "string", "format": "date-time" }
++      },
++      "additionalProperties": false
++    },
++    "findings": {
++      "type": "array",
++      "minItems": 5,
++      "items": { "$ref": "#/$defs/finding" }
++    },
++    "sponsor": {
++      "type": "object",
++      "required": ["status", "reviewer", "decided_at", "candidate_sha"],
++      "properties": {
++        "status": { "enum": ["pending", "go", "no-go"] },
++        "reviewer": { "type": ["string", "null"] },
++        "decided_at": { "type": ["string", "null"], "format": "date-time" },
++        "candidate_sha": {
++          "type": ["string", "null"],
++          "pattern": "^[0-9a-f]{40}$"
++        }
++      },
++      "additionalProperties": false
++    },
++    "rollback": {
++      "type": "object",
++      "required": ["status", "owner", "last_known_good_sha", "steps", "evidence"],
++      "properties": {
++        "status": { "enum": ["pending", "ready", "tested"] },
++        "owner": { "type": "string", "minLength": 1 },
++        "last_known_good_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
++        "steps": {
++          "type": "array",
++          "minItems": 1,
++          "items": { "type": "string", "minLength": 1 }
++        },
++        "evidence": {
++          "type": "array",
++          "items": { "type": "string", "minLength": 1 }
++        }
++      },
++      "additionalProperties": false
++    },
++    "deployment": {
++      "type": "object",
++      "required": ["status", "merge_sha", "run_id", "deployed_at", "evidence"],
++      "properties": {
++        "status": { "enum": ["pending", "completed", "failed"] },
++        "merge_sha": {
++          "type": ["string", "null"],
++          "pattern": "^[0-9a-f]{40}$"
++        },
++        "run_id": { "type": ["integer", "null"], "minimum": 1 },
++        "deployed_at": { "type": ["string", "null"], "format": "date-time" },
++        "evidence": {
++          "type": "array",
++          "items": { "type": "string", "minLength": 1 }
++        }
++      },
++      "additionalProperties": false
++    },
++    "outcomes": {
++      "type": "array",
++      "minItems": 5,
++      "items": { "$ref": "#/$defs/outcome" }
++    }
++  },
++  "$defs": {
++    "evidence": {
++      "type": "object",
++      "required": ["type", "path", "candidate_sha"],
++      "properties": {
++        "type": { "type": "string", "minLength": 1 },
++        "path": { "type": "string", "minLength": 1 },
++        "candidate_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
++      },
++      "additionalProperties": false
++    },
++    "live_at_review": {
++      "type": ["object", "null"],
++      "required": [
++        "reviewer",
++        "reviewed_at",
++        "candidate_sha",
++        "operating_system",
++        "browser",
++        "assistive_technology",
++        "scenarios",
++        "disposition"
++      ],
++      "properties": {
++        "reviewer": { "type": "string", "minLength": 1 },
++        "reviewed_at": { "type": "string", "format": "date-time" },
++        "candidate_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
++        "operating_system": { "type": "string", "minLength": 1 },
++        "browser": { "type": "string", "minLength": 1 },
++        "assistive_technology": { "type": "string", "minLength": 1 },
++        "scenarios": {
++          "type": "array",
++          "minItems": 1,
++          "items": { "type": "string", "minLength": 1 }
++        },
++        "disposition": { "enum": ["pass", "fail"] }
++      },
++      "additionalProperties": false
++    },
++    "finding": {
++      "type": "object",
++      "required": ["id", "severity", "status", "owner", "evidence", "live_at_review"],
++      "properties": {
++        "id": { "pattern": "^DRF-0[1-5]$", "type": "string" },
++        "severity": { "enum": [1, 2] },
++        "status": { "enum": ["open", "closed"] },
++        "owner": { "type": "string", "minLength": 1 },
++        "evidence": {
++          "type": "array",
++          "items": { "$ref": "#/$defs/evidence" }
++        },
++        "live_at_review": { "$ref": "#/$defs/live_at_review" }
++      },
++      "additionalProperties": false
++    },
++    "outcome": {
++      "type": "object",
++      "required": ["window", "status", "owner", "due_at", "completed_at", "evidence"],
++      "properties": {
++        "window": {
++          "enum": ["release-day", "seven-day", "28-day", "three-month", "six-month"]
++        },
++        "status": { "enum": ["pending", "scheduled", "completed"] },
++        "owner": { "type": "string", "minLength": 1 },
++        "due_at": { "type": ["string", "null"], "format": "date-time" },
++        "completed_at": { "type": ["string", "null"], "format": "date-time" },
++        "evidence": {
++          "type": "array",
++          "items": { "type": "string", "minLength": 1 }
++        }
++      },
++      "additionalProperties": false
++    }
++  },
++  "additionalProperties": false
++}
+diff --git a/docs/review/claracle-post-relaunch/release-candidate.md b/docs/review/claracle-post-relaunch/release-candidate.md
+new file mode 100644
+index 0000000..9b0168f
+--- /dev/null
++++ b/docs/review/claracle-post-relaunch/release-candidate.md
+@@ -0,0 +1,59 @@
++---
++title: Claracle Integrated Release Candidate Evidence
++description: Revision-bound acceptance, review, deployment, and outcome record
++author: SquadScope Squad
++ms.date: 2026-08-12
++ms.topic: reference
++---
++
++## Candidate
++
++| Field | Value |
++|---|---|
++| Release | `claracle-v1-1` |
++| Product candidate SHA | `8af4f4a4332db005924fc4281b9a32d039d80d5a` |
++| Evidence record | `data/release/claracle-v1.1-release-candidate.json` |
++| Schema | `data/schemas/release-candidate.schema.json` |
++| Validator | `scripts/validate_release_candidate.py` |
++| Baseline | Phase 4 merge `f9fb5d88fefde9b6143adda2d57e20d18f6b5e25` |
++| Baseline deployment | GitHub Actions run `31645707266` |
++| Release status | Blocked on named review and DRF-05 |
++
++The product candidate is frozen only after all runtime, workflow, content, and
++test changes pass local validation. Later evidence-only commits may update this
++record and its machine-readable counterpart. Any later product or test change
++invalidates the candidate and every revision-bound disposition.
++
++## Automated Acceptance
++
++| Finding | Automated evidence | Owner disposition | Status |
++|---|---|---|---|
++| DRF-01 | Repository topic, language, lifecycle, period, search, reset, URL, keyboard, combined-state, and visible-count Playwright assertions; four-project combined-state captures | Pending Amy/Fry review | Automated checks pass |
++| DRF-02 | Repository, ranking, embed, provenance, fallback, copy-disclosure, pointer, keyboard, focus, touch, and Escape assertions | Pending Amy/Fry review | Automated checks pass |
++| DRF-03 | Keyboard clipboard success/failure, polite status, manual-copy guidance, and retained-focus assertions | Pending Amy/Fry and live-AT review | Automated checks pass |
++| DRF-04 | Focus-visible assertions and captures for homepage, article, repository, ranking, embed, and navigation links at desktop, mobile, and 200% equivalent viewport | Pending Fry review | Automated checks pass |
++| DRF-05 | Genuine named live screen-reader review | Pending | Blocked |
++
++Automation does not close DRF-05 and does not substitute for screen-reader
++confirmation of the DRF-03 status message.
++
++## Required Named Review
++
++DRF-05 must record the reviewer name, date, exact candidate SHA, operating
++system/version, browser/version, screen reader/version, keyboard-only and
++screen-reader scenarios, findings, severity, disposition, and unresolved work.
++Until that evidence exists, sponsor GO, merge, and deployment remain blocked.
++
++## Rollback
++
++The last known-good production boundary is Phase 4 merge
++`f9fb5d88fefde9b6143adda2d57e20d18f6b5e25`. Rollback uses a protected fix
++branch to revert the Phase 5 merge, deploys through the existing GitHub Pages
++workflow, and repeats repository, ranking, public JSON, and retired-route
++probes. The responsible owner is `jmservera`.
++
++## Outcomes
++
++Release-day evidence is recorded only after deployment. D+7, D+28, M+3, and
++M+6 observations receive exact due dates from the production deployment
++timestamp and remain scheduled until their windows arrive.
+diff --git a/layouts/partials/visuals/observatory-chart.html b/layouts/partials/visuals/observatory-chart.html
+index f1ced2a..aba4e33 100644
+--- a/layouts/partials/visuals/observatory-chart.html
++++ b/layouts/partials/visuals/observatory-chart.html
+@@ -77,6 +77,7 @@
+     <p>Copy this iframe to reuse the chart with Claracle attribution and a backlink to the source ranking.</p>
+     <pre class="observatory-chart__snippet" data-embed-snippet="{{ $embedSnippet }}"><code>{{ $embedSnippet }}</code></pre>
+     <button class="observatory-chart__copy" type="button" data-copy-target="#{{ $chartID }} .observatory-chart__snippet">Copy embed snippet</button>
++    <p class="visually-hidden" role="status" aria-live="polite" data-copy-status></p>
+   </div>
+   {{- end }}
+ </figure>
+diff --git a/scripts/validate_release_candidate.py b/scripts/validate_release_candidate.py
+new file mode 100644
+index 0000000..824ff8d
+--- /dev/null
++++ b/scripts/validate_release_candidate.py
+@@ -0,0 +1,180 @@
++#!/usr/bin/env python3
++"""Validate Claracle release-candidate evidence and revision boundaries."""
++
++from __future__ import annotations
++
++import argparse
++import json
++import subprocess
++from datetime import datetime, timezone
++from pathlib import Path
++from typing import Any
++
++from jsonschema import Draft202012Validator, FormatChecker
++
++DEFAULT_RECORD = Path("data/release/claracle-v1.1-release-candidate.json")
++DEFAULT_SCHEMA = Path("data/schemas/release-candidate.schema.json")
++EVIDENCE_ONLY_PREFIXES = (
++    ".copilot-tracking/",
++    "data/release/",
++    "docs/review/claracle-post-relaunch/",
++)
++
++
++def load_object(path: Path) -> dict[str, Any]:
++    loaded = json.loads(path.read_text(encoding="utf-8"))
++    if not isinstance(loaded, dict):
++        raise ValueError(f"Expected a JSON object: {path}")
++    return loaded
++
++
++def parse_timestamp(value: str) -> datetime:
++    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
++    if parsed.tzinfo is None:
++        raise ValueError(f"Timestamp must include a timezone: {value}")
++    return parsed.astimezone(timezone.utc)
++
++
++def changed_paths_after_candidate(root: Path, candidate_sha: str) -> list[str]:
++    ancestor = subprocess.run(
++        ["git", "merge-base", "--is-ancestor", candidate_sha, "HEAD"],
++        cwd=root,
++        capture_output=True,
++        text=True,
++        check=False,
++    )
++    if ancestor.returncode != 0:
++        raise ValueError(f"Candidate SHA is not an ancestor of HEAD: {candidate_sha}")
++    result = subprocess.run(
++        ["git", "diff", "--name-only", f"{candidate_sha}..HEAD"],
++        cwd=root,
++        capture_output=True,
++        text=True,
++        check=True,
++    )
++    return [line for line in result.stdout.splitlines() if line]
++
++
++def validate(
++    payload: dict[str, Any],
++    schema: dict[str, Any],
++    *,
++    now: datetime | None = None,
++    changed_paths: list[str] | None = None,
++) -> None:
++    errors = sorted(
++        Draft202012Validator(
++            schema,
++            format_checker=FormatChecker(),
++        ).iter_errors(payload),
++        key=lambda error: list(error.absolute_path),
++    )
++    if errors:
++        path = ".".join(str(part) for part in errors[0].absolute_path) or "<root>"
++        raise ValueError(f"Schema validation failed at {path}: {errors[0].message}")
++
++    candidate_sha = payload["candidate_sha"]
++    status = payload["status"]
++    if candidate_sha is None:
++        if status != "preparing" or payload["candidate_frozen_at"] is not None:
++            raise ValueError("Only a preparing record may omit the candidate SHA")
++    elif payload["candidate_frozen_at"] is None:
++        raise ValueError("A frozen candidate requires candidate_frozen_at")
++
++    finding_ids = [finding["id"] for finding in payload["findings"]]
++    if finding_ids != [f"DRF-0{index}" for index in range(1, 6)]:
++        raise ValueError("Findings must contain DRF-01 through DRF-05 in order")
++
++    for finding in payload["findings"]:
++        for evidence in finding["evidence"]:
++            if evidence["candidate_sha"] != candidate_sha:
++                raise ValueError(f"{finding['id']} evidence does not match candidate SHA")
++        live_review = finding["live_at_review"]
++        if finding["id"] == "DRF-05" and finding["status"] == "closed":
++            if live_review is None or live_review["disposition"] != "pass":
++                raise ValueError("DRF-05 closure requires a passing live AT review")
++            if live_review["candidate_sha"] != candidate_sha:
++                raise ValueError("DRF-05 live AT review does not match candidate SHA")
++
++    blocking = [
++        finding["id"]
++        for finding in payload["findings"]
++        if finding["severity"] in {1, 2} and finding["status"] != "closed"
++    ]
++    sponsor = payload["sponsor"]
++    if status in {"go", "deployed"} or sponsor["status"] == "go":
++        if candidate_sha is None or blocking:
++            raise ValueError(f"GO is blocked by unresolved findings: {blocking}")
++        if sponsor["candidate_sha"] != candidate_sha:
++            raise ValueError("Sponsor decision does not match candidate SHA")
++        if not sponsor["reviewer"] or not sponsor["decided_at"]:
++            raise ValueError("Sponsor GO requires reviewer and decision timestamp")
++
++    deployment = payload["deployment"]
++    if deployment["status"] == "completed":
++        if sponsor["status"] != "go" or status != "deployed":
++            raise ValueError("Completed deployment requires sponsor GO and deployed status")
++        if not all(
++            (
++                deployment["merge_sha"],
++                deployment["run_id"],
++                deployment["deployed_at"],
++                deployment["evidence"],
++            )
++        ):
++            raise ValueError("Completed deployment evidence is incomplete")
++
++    now = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
++    windows = [outcome["window"] for outcome in payload["outcomes"]]
++    expected_windows = ["release-day", "seven-day", "28-day", "three-month", "six-month"]
++    if windows != expected_windows:
++        raise ValueError("Outcome windows are missing, duplicated, or out of order")
++    for outcome in payload["outcomes"]:
++        if outcome["status"] == "scheduled" and outcome["due_at"] is None:
++            raise ValueError(f"{outcome['window']} scheduled outcome requires due_at")
++        if outcome["status"] == "completed":
++            if not outcome["due_at"] or not outcome["completed_at"] or not outcome["evidence"]:
++                raise ValueError(f"{outcome['window']} completed outcome is incomplete")
++            completed_at = parse_timestamp(outcome["completed_at"])
++            if completed_at < parse_timestamp(outcome["due_at"]):
++                raise ValueError(f"{outcome['window']} cannot be completed before its due date")
++            if completed_at > now:
++                raise ValueError(f"{outcome['window']} cannot be completed in the future")
++
++    if candidate_sha and changed_paths is not None:
++        invalid = [path for path in changed_paths if not path.startswith(EVIDENCE_ONLY_PREFIXES)]
++        if invalid:
++            raise ValueError(
++                "Product or test files changed after candidate freeze: "
++                + ", ".join(sorted(invalid))
++            )
++
++
++def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--root", type=Path, default=Path.cwd())
++    parser.add_argument("--record", type=Path, default=DEFAULT_RECORD)
++    parser.add_argument("--schema", type=Path, default=DEFAULT_SCHEMA)
++    parser.add_argument(
++        "--check-git-boundary",
++        action="store_true",
++        help="Reject non-evidence changes committed after the frozen candidate SHA.",
++    )
++    return parser.parse_args(argv)
++
++
++def main(argv: list[str] | None = None) -> int:
++    args = parse_args(argv)
++    root = args.root.resolve()
++    record = args.record if args.record.is_absolute() else root / args.record
++    schema_path = args.schema if args.schema.is_absolute() else root / args.schema
++    payload = load_object(record)
++    changed_paths = None
++    if args.check_git_boundary and payload["candidate_sha"]:
++        changed_paths = changed_paths_after_candidate(root, payload["candidate_sha"])
++    validate(payload, load_object(schema_path), changed_paths=changed_paths)
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/tests/test_validate_release_candidate.py b/tests/test_validate_release_candidate.py
+new file mode 100644
+index 0000000..72ff356
+--- /dev/null
++++ b/tests/test_validate_release_candidate.py
+@@ -0,0 +1,187 @@
++from __future__ import annotations
++
++from datetime import datetime, timezone
++from pathlib import Path
++
++import pytest
++
++from scripts.validate_release_candidate import load_object, validate
++
++ROOT = Path(__file__).resolve().parents[1]
++RECORD = ROOT / "data/release/claracle-v1.1-release-candidate.json"
++SCHEMA = ROOT / "data/schemas/release-candidate.schema.json"
++CANDIDATE_SHA = "a" * 40
++
++
++def payload() -> dict:
++    return load_object(RECORD)
++
++
++def freeze(candidate: dict) -> dict:
++    candidate["candidate_sha"] = CANDIDATE_SHA
++    candidate["candidate_frozen_at"] = "2026-08-12T22:30:00Z"
++    return candidate
++
++
++def close_findings(candidate: dict) -> dict:
++    for finding in candidate["findings"]:
++        finding["status"] = "closed"
++        finding["evidence"] = [
++            {
++                "type": "automated",
++                "path": f"reports/{finding['id'].lower()}.json",
++                "candidate_sha": CANDIDATE_SHA,
++            }
++        ]
++    candidate["findings"][-1]["live_at_review"] = {
++        "reviewer": "Named reviewer",
++        "reviewed_at": "2026-08-12T23:00:00Z",
++        "candidate_sha": CANDIDATE_SHA,
++        "operating_system": "Windows 11 24H2",
++        "browser": "Microsoft Edge 140",
++        "assistive_technology": "NVDA 2026.1",
++        "scenarios": ["Keyboard navigation", "Dynamic repository filters"],
++        "disposition": "pass",
++    }
++    return candidate
++
++
++def test_checked_in_preparing_record_is_valid() -> None:
++    validate(payload(), load_object(SCHEMA))
++
++
++def test_rejects_mixed_candidate_evidence() -> None:
++    candidate = freeze(payload())
++    candidate["findings"][0]["evidence"] = [
++        {
++            "type": "automated",
++            "path": "reports/drf-01.json",
++            "candidate_sha": "b" * 40,
++        }
++    ]
++    with pytest.raises(ValueError, match="does not match candidate SHA"):
++        validate(candidate, load_object(SCHEMA))
++
++
++def test_rejects_go_with_open_blocking_findings() -> None:
++    candidate = freeze(payload())
++    candidate["status"] = "go"
++    candidate["sponsor"] = {
++        "status": "go",
++        "reviewer": "jmservera",
++        "decided_at": "2026-08-12T23:30:00Z",
++        "candidate_sha": CANDIDATE_SHA,
++    }
++    with pytest.raises(ValueError, match="unresolved findings"):
++        validate(candidate, load_object(SCHEMA))
++
++
++def test_rejects_drf05_closure_without_live_at_review() -> None:
++    candidate = freeze(payload())
++    candidate["findings"][-1]["status"] = "closed"
++    with pytest.raises(ValueError, match="passing live AT review"):
++        validate(candidate, load_object(SCHEMA))
++
++
++def test_rejects_scheduled_outcome_without_due_date() -> None:
++    candidate = payload()
++    candidate["outcomes"][1]["status"] = "scheduled"
++    with pytest.raises(ValueError, match="requires due_at"):
++        validate(candidate, load_object(SCHEMA))
++
++
++def test_rejects_future_completed_outcome() -> None:
++    candidate = payload()
++    candidate["outcomes"][0].update(
++        {
++            "status": "completed",
++            "due_at": "2026-08-12T22:00:00Z",
++            "completed_at": "2026-08-13T00:00:00Z",
++            "evidence": ["live probes"],
++        }
++    )
++    with pytest.raises(ValueError, match="cannot be completed in the future"):
++        validate(
++            candidate,
++            load_object(SCHEMA),
++            now=datetime(2026, 8, 12, 23, tzinfo=timezone.utc),
++        )
++
++
++def test_rejects_outcome_completed_before_due_date() -> None:
++    candidate = payload()
++    candidate["outcomes"][1].update(
++        {
++            "status": "completed",
++            "due_at": "2026-08-20T00:00:00Z",
++            "completed_at": "2026-08-13T00:00:00Z",
++            "evidence": ["premature probe"],
++        }
++    )
++    with pytest.raises(ValueError, match="before its due date"):
++        validate(
++            candidate,
++            load_object(SCHEMA),
++            now=datetime(2026, 8, 21, tzinfo=timezone.utc),
++        )
++
++
++def test_valid_go_and_release_day_transition() -> None:
++    candidate = close_findings(freeze(payload()))
++    candidate["status"] = "deployed"
++    candidate["sponsor"] = {
++        "status": "go",
++        "reviewer": "jmservera",
++        "decided_at": "2026-08-12T23:30:00Z",
++        "candidate_sha": CANDIDATE_SHA,
++    }
++    candidate["deployment"] = {
++        "status": "completed",
++        "merge_sha": "c" * 40,
++        "run_id": 12345,
++        "deployed_at": "2026-08-13T00:00:00Z",
++        "evidence": ["deployment run"],
++    }
++    candidate["outcomes"][0].update(
++        {
++            "status": "completed",
++            "due_at": "2026-08-13T00:00:00Z",
++            "completed_at": "2026-08-13T00:05:00Z",
++            "evidence": ["production probes"],
++        }
++    )
++    for outcome in candidate["outcomes"][1:]:
++        outcome["status"] = "scheduled"
++        outcome["due_at"] = "2027-02-13T00:00:00Z"
++
++    validate(
++        candidate,
++        load_object(SCHEMA),
++        now=datetime(2026, 8, 13, 1, tzinfo=timezone.utc),
++    )
++
++
++def test_rejects_product_changes_after_candidate_freeze() -> None:
++    candidate = freeze(payload())
++    with pytest.raises(ValueError, match="Product or test files changed"):
++        validate(
++            candidate,
++            load_object(SCHEMA),
++            changed_paths=[
++                ".copilot-tracking/reviews/release.md",
++                "assets/js/repository-explorer.js",
++            ],
++        )
++
++
++def test_allows_evidence_only_changes_after_candidate_freeze() -> None:
++    candidate = freeze(payload())
++    validate(
++        candidate,
++        load_object(SCHEMA),
++        changed_paths=[
++            ".copilot-tracking/reviews/release.md",
++            "data/release/claracle-v1.1-release-candidate.json",
++            "docs/review/claracle-post-relaunch/release-candidate.md",
++        ],
++    )
+diff --git a/tests/visual/observatory-a11y.spec.mjs b/tests/visual/observatory-a11y.spec.mjs
+index 83c9578..ba7a815 100644
+--- a/tests/visual/observatory-a11y.spec.mjs
++++ b/tests/visual/observatory-a11y.spec.mjs
+@@ -13,6 +13,34 @@ async function settle(page) {
+   await page.waitForLoadState('networkidle').catch(() => page.waitForTimeout(1000));
+ }
+ 
++async function expectVisibleFocus(locator) {
++  await locator.focus();
++  await expect(locator).toBeFocused();
++  await expect
++    .poll(() =>
++      locator.evaluate((element) => {
++        const style = getComputedStyle(element);
++        return (
++          element.matches(':focus-visible') &&
++          (style.outlineStyle !== 'none' || style.boxShadow !== 'none')
++        );
++      }),
++    )
++    .toBe(true);
++}
++
++async function firstSameOriginLink(page, selector = 'main a[href]') {
++  const links = page.locator(selector);
++  const index = await links.evaluateAll((elements) =>
++    elements.findIndex((element) => {
++      const url = new URL(element.href, location.href);
++      return url.origin === location.origin && url.hash === '';
++    }),
++  );
++  expect(index, `Expected a same-origin link matching ${selector}`).toBeGreaterThanOrEqual(0);
++  return links.nth(index);
++}
++
+ for (const pageConfig of OBSERVATORY_PAGES) {
+   test(`${pageConfig.key} has no serious WCAG 2.1 A/AA violations`, async ({ page }) => {
+     await page.goto(pageConfig.path);
+@@ -205,4 +233,145 @@ test('embed repository summaries support focus, touch, and Escape', async ({ pag
+   await expect(wrapper).toHaveClass(/is-open/);
+   await page.keyboard.press('Escape');
+   await expect(wrapper).not.toHaveClass(/is-open/);
++});
++
++test('current provenance and repository-context disclosures work by pointer and keyboard', async ({
++  page,
++}, testInfo) => {
++  test.skip(testInfo.project.name !== 'desktop-light', 'One Chromium project covers disclosures.');
++
++  await page.goto('/repo/');
++  const repository = page.locator('[data-repository-explorer]');
++  await expect(repository.locator('[data-repo-record]').first()).toBeVisible();
++  await expect(repository.locator('.repository-index__summary').first()).toHaveText(/\S/);
++  await expect(repository.locator('.repository-index__evidence').first()).toContainText(
++    /weekly observations|W\d{2}/i,
++  );
++  await expect(page.getByRole('link', { name: /download.*repository dataset/i })).toBeVisible();
++  await expect(page.getByRole('link', { name: /read the methodology/i })).toBeVisible();
++
++  await page.goto('/data/fastest-growing-ai-repositories-this-year/');
++  await expect(page.locator('.data-page__provenance')).toBeVisible();
++  const rankingLink = page.locator('.ranking-table__repo-link').first();
++  const rankingTooltip = rankingLink.locator('xpath=following-sibling::*[@role="tooltip"]');
++  await rankingLink.hover();
++  await expect(rankingTooltip).toBeVisible();
++  await rankingLink.focus();
++  await expect(rankingTooltip).toBeVisible();
++
++  await page.goto('/embeds/fastest-growing-ai-repositories-chart/');
++  const embedLink = page.locator('[data-observatory-tooltip] a').first();
++  const embedTooltip = embedLink.locator('xpath=following-sibling::*[@role="tooltip"]');
++  await embedLink.hover();
++  await expect(embedTooltip).toBeVisible();
++  await embedLink.focus();
++  await expect(embedTooltip).toBeVisible();
++
++  await page.goto('/charts/embeddable-rankings/');
++  const panel = page.locator('.observatory-chart__embed-panel');
++  await expect(panel).toContainText(/attribution and a backlink/i);
++  await expect(panel.locator('[data-embed-snippet]')).toContainText('<iframe');
++  await expectVisibleFocus(panel.locator('[data-copy-target]'));
++});
++
++test('copy reports success and failure while retaining keyboard focus', async ({ page }, testInfo) => {
++  test.skip(testInfo.project.name !== 'desktop-light', 'One Chromium project covers copy behavior.');
++  await page.addInitScript(() => {
++    Object.defineProperty(navigator, 'clipboard', {
++      configurable: true,
++      value: {
++        writeText: async (value) => {
++          if (window.__copyShouldFail) {
++            throw new Error('clipboard denied');
++          }
++          window.__copiedText = value;
++        },
++      },
++    });
++  });
++  await page.goto('/charts/embeddable-rankings/');
++
++  const button = page.locator('[data-copy-target]');
++  const status = page.locator('[data-copy-status]');
++  await button.focus();
++  await page.keyboard.press('Enter');
++  await expect(status).toHaveText('Embed snippet copied to the clipboard.');
++  await expect(button).toBeFocused();
++  await expect
++    .poll(() => page.evaluate(() => window.__copiedText))
++    .toContain('<iframe');
++
++  await page.evaluate(() => {
++    window.__copyShouldFail = true;
++  });
++  await page.keyboard.press('Enter');
++  await expect(status).toHaveText('Copy failed. Select and copy the embed snippet manually.');
++  await expect(button).toBeFocused();
++});
++
++test('reduced motion and touch input preserve repository-context operation', async ({
++  page,
++}, testInfo) => {
++  test.skip(testInfo.project.name !== 'mobile-light', 'Mobile Chromium covers touch equivalence.');
++  await page.emulateMedia({ reducedMotion: 'reduce' });
++  await page.goto('/embeds/fastest-growing-ai-repositories-chart/');
++
++  const wrapper = page.locator('[data-observatory-tooltip]').first();
++  const link = wrapper.getByRole('link');
++  const tooltip = wrapper.locator('[role="tooltip"]');
++  await link.tap();
++  await expect(tooltip).toBeVisible();
++  const transitionSeconds = await tooltip.evaluate((element) =>
++    Math.max(
++      ...getComputedStyle(element)
++        .transitionDuration.split(',')
++        .map((duration) => Number.parseFloat(duration) * (duration.includes('ms') ? 0.001 : 1)),
++    ),
++  );
++  expect(transitionSeconds).toBeLessThanOrEqual(0.001);
++  await page.keyboard.press('Escape');
++  await expect(tooltip).toBeHidden();
++});
++
++const FOCUS_SURFACES = [
++  { key: 'home', path: '/', selector: 'main a[href]' },
++  { key: 'article', path: '/topics/ai-coding-agents/', selector: 'article a[href]' },
++  { key: 'repository', path: '/repo/', selector: 'main a[href]' },
++  {
++    key: 'ranking',
++    path: '/data/fastest-growing-ai-repositories-this-year/',
++    selector: 'main a[href]',
++  },
++  {
++    key: 'embed',
++    path: '/embeds/fastest-growing-ai-repositories-chart/',
++    selector: 'a[href]',
++  },
++  { key: 'navigation', path: '/', selector: 'header a[href]' },
++];
++
++test('representative internal links retain visible focus across required viewports', async ({
++  page,
++}, testInfo) => {
++  const modes = {
++    'desktop-light': 'desktop',
++    'mobile-light': 'mobile',
++    'desktop-dark': 'zoom-200',
++  };
++  const mode = modes[testInfo.project.name];
++  test.skip(!mode, 'Three projects cover desktop, mobile, and 200% equivalent viewport.');
++  if (mode === 'zoom-200') {
++    await page.setViewportSize({ width: 640, height: 800 });
++  }
++
++  for (const surface of FOCUS_SURFACES) {
++    await page.goto(surface.path);
++    await settle(page);
++    const link = await firstSameOriginLink(page, surface.selector);
++    await expectVisibleFocus(link);
++    await page.screenshot({
++      path: testInfo.outputPath(`${mode}-${surface.key}-focus.png`),
++      fullPage: false,
++    });
++  }
+ });
+\ No newline at end of file
+diff --git a/tests/visual/observatory-visual-regression.spec.mjs b/tests/visual/observatory-visual-regression.spec.mjs
+index 6bff0b5..ad604b0 100644
+--- a/tests/visual/observatory-visual-regression.spec.mjs
++++ b/tests/visual/observatory-visual-regression.spec.mjs
+@@ -227,6 +227,30 @@ test.describe('Observatory visual regression evidence', () => {
+     });
+   });
+ 
++  test('repository combined-filter state matches its visible result count', async ({
++    page,
++  }, testInfo) => {
++    await page.goto('/repo/?topic=ai-skills');
++    await page.waitForLoadState('networkidle');
++    await rejectConsent(page);
++
++    const explorer = page.locator('[data-repository-explorer]');
++    const status = explorer.locator('[data-repo-result-status]');
++    await expect(status).toHaveText(/Showing \d+ of \d+ repositories\./);
++    const counts = (await status.textContent())?.match(/Showing (\d+) of (\d+)/);
++    expect(counts).not.toBeNull();
++    const visibleCount = Number(counts[1]);
++    const totalCount = Number(counts[2]);
++    expect(visibleCount).toBeGreaterThan(0);
++    expect(visibleCount).toBeLessThan(totalCount);
++    await expect(explorer.locator('[data-repo-record]:visible')).toHaveCount(visibleCount);
++
++    await page.screenshot({
++      path: evidencePath(testInfo.project.name, 'repo-index-ai-skills'),
++      fullPage: true,
++    });
++  });
++
+   test('records evidence metadata for the revision under test', async ({ page }, testInfo) => {
+     const projectName = testInfo.project.name;
+     await page.goto('/');
+@@ -245,6 +269,7 @@ test.describe('Observatory visual regression evidence', () => {
+       routes: [
+         ...VISUAL_ROUTES.map((route) => ({ name: route.name, path: route.path })),
+         { name: 'home-consent', path: '/ (undecided consent banner)' },
++        { name: 'repo-index-ai-skills', path: '/repo/?topic=ai-skills' },
+       ],
+     };
+ 
+diff --git a/tests/visual/repository-explorer.spec.mjs b/tests/visual/repository-explorer.spec.mjs
+new file mode 100644
+index 0000000..ea32b3e
+--- /dev/null
++++ b/tests/visual/repository-explorer.spec.mjs
+@@ -0,0 +1,157 @@
++import { test, expect } from '@playwright/test';
++
++const PAGE = '/repo/';
++const records = [
++  {
++    full_name: 'example/alpha',
++    github_url: 'https://github.com/example/alpha',
++    context_summary: 'Alpha AI skills repository.',
++    language: 'Python',
++    topics: ['ai-skills', 'agents'],
++    status: 'active',
++    first_seen_period: '2026-W29',
++    last_seen_period: '2026-W33',
++    recent_momentum: 40,
++    star_history: [{ period: '2026-W33', stars: 140 }],
++  },
++  {
++    full_name: 'example/beta',
++    github_url: 'https://github.com/example/beta',
++    context_summary: 'Beta AI skills repository.',
++    language: 'TypeScript',
++    topics: ['ai-skills'],
++    status: 'retained',
++    first_seen_period: '2026-W28',
++    last_seen_period: '2026-W32',
++    recent_momentum: 30,
++    star_history: [{ period: '2026-W32', stars: 130 }],
++  },
++  {
++    full_name: 'example/gamma',
++    github_url: 'https://github.com/example/gamma',
++    context_summary: 'Gamma systems repository.',
++    language: 'Rust',
++    topics: ['systems'],
++    status: 'archived',
++    first_seen_period: '2026-W27',
++    last_seen_period: '2026-W31',
++    recent_momentum: 20,
++    star_history: [{ period: '2026-W31', stars: 120 }],
++  },
++  {
++    full_name: 'example/delta',
++    github_url: 'https://github.com/example/delta',
++    context_summary: 'Delta tooling repository.',
++    language: 'Python',
++    topics: ['tooling'],
++    status: 'active',
++    first_seen_period: '2026-W26',
++    last_seen_period: '2026-W30',
++    recent_momentum: 10,
++    star_history: [{ period: '2026-W30', stars: 110 }],
++  },
++  {
++    full_name: 'example/epsilon',
++    github_url: 'https://github.com/example/epsilon',
++    context_summary: 'Epsilon historical repository.',
++    language: 'Go',
++    topics: ['systems'],
++    status: 'disabled',
++    first_seen_period: '2026-W20',
++    last_seen_period: '2026-W29',
++    recent_momentum: 0,
++    star_history: [{ period: '2026-W29', stars: 100 }],
++  },
++];
++
++async function mockRepositories(page) {
++  await page.route('**/data/repositories.json', (route) =>
++    route.fulfill({
++      status: 200,
++      contentType: 'application/json',
++      body: JSON.stringify({
++        schema_version: '1.0.0',
++        artifact_type: 'repositories',
++        covered_period: { start: '2026-07-13', end: '2026-08-10', label: '2026-W29–2026-W33' },
++        records,
++      }),
++    }),
++  );
++}
++
++async function expectVisibleRepositories(explorer, expectedNames) {
++  const visible = explorer.locator('[data-repo-record]:visible');
++  await expect(visible).toHaveCount(expectedNames.length);
++  await expect(visible.locator('.repository-index__heading')).toHaveText(expectedNames);
++  await expect(explorer.locator('[data-repo-result-status]')).toHaveText(
++    `Showing ${expectedNames.length} of ${records.length} repositories.`,
++  );
++}
++
++test.beforeEach(async ({}, testInfo) => {
++  test.skip(testInfo.project.name !== 'desktop-light', 'One Chromium project covers filter semantics.');
++});
++
++test('URL topic filter hides non-matching repositories and keeps count aligned', async ({ page }) => {
++  await mockRepositories(page);
++  await page.addInitScript(() => history.replaceState({}, '', `${location.pathname}?topic=ai-skills`));
++  await page.goto(PAGE);
++
++  const explorer = page.locator('[data-repository-explorer]');
++  await expect(explorer.locator('[data-repo-topic]')).toHaveValue('ai-skills');
++  await expectVisibleRepositories(explorer, ['example/alpha', 'example/beta']);
++});
++
++test('every filter dimension and reset update visible records semantically', async ({ page }) => {
++  await mockRepositories(page);
++  await page.goto(PAGE);
++  const explorer = page.locator('[data-repository-explorer]');
++  const reset = explorer.locator('[data-repo-reset]');
++
++  await explorer.locator('[data-repo-language]').selectOption('Python');
++  await expectVisibleRepositories(explorer, ['example/alpha', 'example/delta']);
++  await reset.click();
++
++  await explorer.locator('[data-repo-topic]').selectOption('systems');
++  await expectVisibleRepositories(explorer, ['example/gamma', 'example/epsilon']);
++  await reset.click();
++
++  await explorer.locator('[data-repo-status]').selectOption('archived');
++  await expectVisibleRepositories(explorer, ['example/gamma']);
++  await reset.click();
++
++  await explorer.locator('[data-repo-period]').selectOption('current');
++  await expectVisibleRepositories(explorer, ['example/alpha']);
++  await reset.click();
++
++  await explorer.locator('[data-repo-period]').selectOption('recent');
++  await expectVisibleRepositories(explorer, [
++    'example/alpha',
++    'example/beta',
++    'example/gamma',
++    'example/delta',
++  ]);
++  await reset.click();
++
++  await explorer.locator('[data-repo-search]').fill('historical');
++  await expectVisibleRepositories(explorer, ['example/epsilon']);
++  await reset.click();
++
++  await expectVisibleRepositories(explorer, records.map((record) => record.full_name));
++  await expect(explorer.locator('[data-repo-search]')).toBeFocused();
++  await expect(page).toHaveURL(PAGE);
++});
++
++test('combined keyboard-operated filters preserve URL and visible result state', async ({ page }) => {
++  await mockRepositories(page);
++  await page.goto(PAGE);
++  const explorer = page.locator('[data-repository-explorer]');
++
++  await explorer.locator('[data-repo-topic]').focus();
++  await explorer.locator('[data-repo-topic]').selectOption('ai-skills');
++  await explorer.locator('[data-repo-language]').selectOption('Python');
++  await explorer.locator('[data-repo-period]').selectOption('recent');
++
++  await expectVisibleRepositories(explorer, ['example/alpha']);
++  await expect(page).toHaveURL(/\?language=Python&topic=ai-skills&period=recent$/);
++});
+  </full_diff>
+</commit_history>
