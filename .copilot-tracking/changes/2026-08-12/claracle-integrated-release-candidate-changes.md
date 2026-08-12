@@ -154,7 +154,6 @@ static-browser rerun passed all four applicable scenarios.
 
 ## Remaining Work
 
-* Bind hashed evidence and named dispositions to the frozen replacement and
-  repeat owner review.
+* Obtain and bind named owner dispositions to the frozen replacement.
 * P03-T03 remains human-blocked until genuine live screen-reader evidence is
   supplied; sponsor GO, merge, deployment, and outcomes remain downstream.

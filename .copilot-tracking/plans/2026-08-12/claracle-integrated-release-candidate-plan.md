@@ -151,7 +151,7 @@ observations must be scheduled and recorded only when due.
 <!-- phase-id: P03 -->
 ### [ ] P03 — Candidate Validation And Named Review
 
-* [ ] P03-T01 Freeze the product candidate SHA, capture all automated reports
+* [x] P03-T01 Freeze the product candidate SHA, capture all automated reports
   against that exact revision, and allow only evidence-record commits afterward.
 * [ ] P03-T02 Obtain Amy/Fry visual, keyboard, touch, zoom, reduced-motion, and
   evidence dispositions.
