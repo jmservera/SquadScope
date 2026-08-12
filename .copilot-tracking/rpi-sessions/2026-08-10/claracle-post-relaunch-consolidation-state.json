@@ -184,13 +184,18 @@
       "decision": "A replacement pre-freeze review found candidate-digest binding and OBJ-02 threshold gaps; both were remediated before any replacement candidate was frozen.",
       "status": "confirmed",
       "evidence": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-owner-review.md"
+    },
+    {
+      "decision": "The immutable replacement Phase 5 product candidate is dac7fae8b76257a21a82aea2c371a4e3d59933da with product-tree digest 45f9998ac0f74f0561e305fb1f30a1b0f1a5b6735d323381fb877a223c44a3b5.",
+      "status": "confirmed",
+      "evidence": "data/release/claracle-v1.1-release-candidate.json"
     }
   ],
   "blockers": [
     {
       "id": "phase5-owner-review",
-      "summary": "Named owner review blocked candidate 8af4f4a on automatable evidence-contract and interaction gaps.",
-      "resolution": "Remediate the recorded findings, refreeze, and repeat named owner review."
+      "summary": "Replacement candidate dac7fae requires exact-revision named owner review.",
+      "resolution": "Repeat Amy, Fry, Leela, Hermes, URL, Nibbler, Zapp, and Farnsworth review against dac7fae."
     },
     {
       "id": "DRF-05",
@@ -200,7 +205,7 @@
   ],
   "next_action": {
     "phase": "Implement",
-    "action": "Remediate the named owner-review findings, refreeze a replacement candidate, and repeat owner review while preserving DRF-05 as human-blocked."
+    "action": "Bind hashed automated evidence and repeat named owner review against dac7fae while preserving DRF-05 as human-blocked."
   },
   "prioritized_follow_ups": [
     {

@@ -6,7 +6,7 @@
 * Scope: full Phase 5 plan
 * Branch: `feat/integrated-release-candidate-phase5`
 * Status: In progress
-* Current marker: P03-T01 replacement-candidate freeze.
+* Current marker: P03-T02/P03-T04 replacement-candidate named review.
 
 ## Opening Evidence
 
@@ -111,6 +111,16 @@ outcome thresholds. Both are remediated. Because `9d5e55d` was never frozen,
 the next commit can become the replacement candidate without invalidating
 evidence.
 
+## Replacement Candidate Freeze
+
+* Product candidate:
+  `dac7fae8b76257a21a82aea2c371a4e3d59933da`.
+* Product-tree SHA-256:
+  `45f9998ac0f74f0561e305fb1f30a1b0f1a5b6735d323381fb877a223c44a3b5`.
+* Frozen at: `2026-08-12T23:17:30Z`.
+* All later changes are limited to evidence-only paths unless this candidate is
+  explicitly invalidated.
+
 ## Blockers
 
 * DRF-05 requires a genuine named live screen-reader review against the frozen
@@ -119,7 +129,7 @@ evidence.
 
 ## Remaining Work
 
-* Freeze and push the replacement candidate, bind hashed evidence and named
-  dispositions to it, and repeat owner review.
+* Bind hashed evidence and named dispositions to the frozen replacement and
+  repeat owner review.
 * P03-T03 remains human-blocked until genuine live screen-reader evidence is
   supplied; sponsor GO, merge, deployment, and outcomes remain downstream.
