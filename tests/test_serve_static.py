@@ -17,6 +17,8 @@ from scripts.serve_static import CompressionHandler
 @pytest.fixture
 def static_server(tmp_path: Path) -> Iterator[tuple[str, int]]:
     (tmp_path / "index.html").write_text("<h1>Claracle</h1>" * 100, encoding="utf-8")
+    (tmp_path / "repo").mkdir()
+    (tmp_path / "repo" / "index.html").write_text("<h1>Repositories</h1>", encoding="utf-8")
     (tmp_path / "image.png").write_bytes(b"\x89PNG\r\n\x1a\n" + bytes(range(64)))
     handler = partial(CompressionHandler, directory=str(tmp_path))
     server = ThreadingHTTPServer(("127.0.0.1", 0), handler)
@@ -96,3 +98,12 @@ def test_head_matches_encoded_get_headers_without_a_body(
     assert head_response.getheader("Vary") == "Accept-Encoding"
     assert head_response.getheader("Content-Length") == str(len(get_body))
     assert head_body == b""
+
+
+def test_directory_query_does_not_trigger_redirect_loop(
+    static_server: tuple[str, int],
+) -> None:
+    response, body = request(static_server, "/repo/?topic=ai-skills")
+
+    assert response.status == 200
+    assert body == b"<h1>Repositories</h1>"

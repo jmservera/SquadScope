@@ -187,15 +187,20 @@
     },
     {
       "decision": "The immutable replacement Phase 5 product candidate is dac7fae8b76257a21a82aea2c371a4e3d59933da with product-tree digest 45f9998ac0f74f0561e305fb1f30a1b0f1a5b6735d323381fb877a223c44a3b5.",
-      "status": "confirmed",
+      "status": "superseded",
       "evidence": "data/release/claracle-v1.1-release-candidate.json"
+    },
+    {
+      "decision": "Exact-revision browser evidence invalidated dac7fae before owner dispositions because the CI static server redirected directory URLs with query strings indefinitely; the parsed-path fix and regression test are required before refreeze.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md"
     }
   ],
   "blockers": [
     {
       "id": "phase5-owner-review",
-      "summary": "Replacement candidate dac7fae requires exact-revision named owner review.",
-      "resolution": "Repeat Amy, Fry, Leela, Hermes, URL, Nibbler, Zapp, and Farnsworth review against dac7fae."
+      "summary": "Candidate dac7fae was invalidated by an exact-revision CI server defect before owner dispositions.",
+      "resolution": "Validate the static-server fix, refreeze, then repeat named owner review."
     },
     {
       "id": "DRF-05",
@@ -205,7 +210,7 @@
   ],
   "next_action": {
     "phase": "Implement",
-    "action": "Bind hashed automated evidence and repeat named owner review against dac7fae while preserving DRF-05 as human-blocked."
+    "action": "Validate the static-server query fix, refreeze, bind hashed evidence, and repeat named owner review while preserving DRF-05 as human-blocked."
   },
   "prioritized_follow_ups": [
     {

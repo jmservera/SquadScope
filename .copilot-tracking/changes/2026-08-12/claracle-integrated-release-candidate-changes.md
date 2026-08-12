@@ -121,6 +121,14 @@ evidence.
 * All later changes are limited to evidence-only paths unless this candidate is
   explicitly invalidated.
 
+Exact-revision browser evidence exposed a redirect loop in the CI static server
+for directory URLs carrying query strings, including
+`/repo/?topic=ai-skills`. The request's query made `self.path.endswith("/")`
+false even though its URL path already ended in `/`, so each redirect appended
+another slash. Candidate `dac7fae` is invalidated before owner dispositions.
+The server now checks the parsed URL path and has a focused no-loop regression
+test.
+
 ## Blockers
 
 * DRF-05 requires a genuine named live screen-reader review against the frozen
