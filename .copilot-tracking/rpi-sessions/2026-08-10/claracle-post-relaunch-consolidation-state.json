@@ -194,13 +194,18 @@
       "decision": "Exact-revision browser evidence invalidated dac7fae before owner dispositions because the CI static server redirected directory URLs with query strings indefinitely; the parsed-path fix and regression test are required before refreeze.",
       "status": "confirmed",
       "evidence": ".copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md"
+    },
+    {
+      "decision": "The immutable final replacement candidate is f2b08e62408beaae8828c73e4d3253fa4a95ae12 with product-tree digest 08f4bf6c9df09b1b4fb7f50cfaa5a950a135078b68166718632e0773d5962aff; 1,670 Python and 172 browser scenarios pass.",
+      "status": "confirmed",
+      "evidence": "data/release/claracle-v1.1-release-candidate.json"
     }
   ],
   "blockers": [
     {
       "id": "phase5-owner-review",
-      "summary": "Candidate dac7fae was invalidated by an exact-revision CI server defect before owner dispositions.",
-      "resolution": "Validate the static-server fix, refreeze, then repeat named owner review."
+      "summary": "Final replacement candidate f2b08e6 requires exact-revision named owner review.",
+      "resolution": "Bind hashed automated evidence and repeat named owner review against f2b08e6."
     },
     {
       "id": "DRF-05",
@@ -210,7 +215,7 @@
   ],
   "next_action": {
     "phase": "Implement",
-    "action": "Validate the static-server query fix, refreeze, bind hashed evidence, and repeat named owner review while preserving DRF-05 as human-blocked."
+    "action": "Bind hashed automated evidence and repeat named owner review against f2b08e6 while preserving DRF-05 as human-blocked."
   },
   "prioritized_follow_ups": [
     {

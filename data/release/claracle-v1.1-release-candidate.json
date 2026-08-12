@@ -4,9 +4,9 @@
     "phase4_merge_sha": "f9fb5d88fefde9b6143adda2d57e20d18f6b5e25",
     "verified_at": "2026-08-12T22:11:00Z"
   },
-  "candidate_frozen_at": null,
-  "candidate_product_tree_sha256": null,
-  "candidate_sha": null,
+  "candidate_frozen_at": "2026-08-12T23:35:02Z",
+  "candidate_product_tree_sha256": "08f4bf6c9df09b1b4fb7f50cfaa5a950a135078b68166718632e0773d5962aff",
+  "candidate_sha": "f2b08e62408beaae8828c73e4d3253fa4a95ae12",
   "deployment": {
     "deployed_at": null,
     "evidence": [],
@@ -149,5 +149,5 @@
     "reviewer": null,
     "status": "pending"
   },
-  "status": "preparing"
+  "status": "blocked"
 }

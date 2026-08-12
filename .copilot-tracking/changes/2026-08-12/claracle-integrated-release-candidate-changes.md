@@ -81,7 +81,7 @@ the announced count.
 
 * `python3 -m pytest -q tests/test_validate_release_candidate.py`: 16 passed.
 * `python3 scripts/validate_release_candidate.py`: passed.
-* Full Python suite in the repository dependency environment: 1,668 passed.
+* Full Python suite in the repository dependency environment: 1,670 passed.
 * `ruff check .` and `ruff format --check .`: passed.
 * Node unit tests: 2 passed.
 * Production Hugo and Pagefind builds plus internal-link validation: passed.
@@ -135,6 +135,16 @@ consent dialog can legitimately take focus from repository controls. Internal
 focus selection now accepts the document's canonical origin, while repository
 filter tests settle and reject consent before asserting focus. The focused
 static-browser rerun passed all four applicable scenarios.
+
+## Final Replacement Candidate
+
+* Product candidate:
+  `f2b08e62408beaae8828c73e4d3253fa4a95ae12`.
+* Product-tree SHA-256:
+  `08f4bf6c9df09b1b4fb7f50cfaa5a950a135078b68166718632e0773d5962aff`.
+* Frozen at: `2026-08-12T23:35:02Z`.
+* Exact-revision evidence: 1,670 Python tests and all 172 affected browser
+  scenarios pass at the production static-server boundary.
 
 ## Blockers
 
