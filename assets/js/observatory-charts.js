@@ -43,18 +43,16 @@
   const tooltipWrappers = document.querySelectorAll("[data-observatory-tooltip]");
   let openTooltip = null;
 
-  function closeTooltip() {
+  function closeTooltip(dismissed = false) {
     if (!openTooltip) {
       return;
     }
     const wrapper = openTooltip;
     openTooltip = null;
-    wrapper.classList.remove("is-open");
     const link = wrapper.querySelector("a");
+    wrapper.classList.remove("is-open");
+    wrapper.classList.toggle("is-dismissed", dismissed);
     link?.setAttribute("aria-expanded", "false");
-    if (link === document.activeElement) {
-      link.blur();
-    }
   }
 
   tooltipWrappers.forEach((wrapper) => {
@@ -66,6 +64,7 @@
       if (openTooltip && openTooltip !== wrapper) {
         closeTooltip();
       }
+      wrapper.classList.remove("is-dismissed");
       wrapper.classList.add("is-open");
       link.setAttribute("aria-expanded", "true");
       openTooltip = wrapper;
@@ -79,7 +78,7 @@
       }
     });
     link.addEventListener("mouseleave", () => {
-      if (openTooltip === wrapper) {
+      if (openTooltip === wrapper && link !== document.activeElement) {
         closeTooltip();
       }
     });
@@ -99,7 +98,7 @@
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
-      closeTooltip();
+      closeTooltip(true);
     }
   });
 

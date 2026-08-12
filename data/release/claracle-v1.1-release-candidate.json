@@ -4,8 +4,9 @@
     "phase4_merge_sha": "f9fb5d88fefde9b6143adda2d57e20d18f6b5e25",
     "verified_at": "2026-08-12T22:11:00Z"
   },
-  "candidate_frozen_at": "2026-08-12T22:34:48Z",
-  "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
+  "candidate_frozen_at": null,
+  "candidate_product_tree_sha256": null,
+  "candidate_sha": null,
   "deployment": {
     "deployed_at": null,
     "evidence": [],
@@ -15,68 +16,38 @@
   },
   "findings": [
     {
-      "evidence": [
-        {
-          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
-          "path": "tests/visual/repository-explorer.spec.mjs",
-          "type": "semantic-browser"
-        },
-        {
-          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
-          "path": "tests/visual/observatory-visual-regression.spec.mjs",
-          "type": "revision-tagged-capture"
-        }
-      ],
+      "evidence": [],
       "id": "DRF-01",
       "live_at_review": null,
       "owner": "Amy and Fry",
+      "reviews": [],
       "severity": 2,
       "status": "open"
     },
     {
-      "evidence": [
-        {
-          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
-          "path": "tests/visual/observatory-a11y.spec.mjs",
-          "type": "pointer-keyboard-disclosure"
-        },
-        {
-          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
-          "path": "tests/visual/ranking-explorer.spec.mjs",
-          "type": "ranking-fallback"
-        }
-      ],
+      "evidence": [],
       "id": "DRF-02",
       "live_at_review": null,
       "owner": "Amy and Fry",
+      "reviews": [],
       "severity": 2,
       "status": "open"
     },
     {
-      "evidence": [
-        {
-          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
-          "path": "tests/visual/observatory-a11y.spec.mjs",
-          "type": "clipboard-status-focus"
-        }
-      ],
+      "evidence": [],
       "id": "DRF-03",
       "live_at_review": null,
       "owner": "Amy and Fry",
+      "reviews": [],
       "severity": 2,
       "status": "open"
     },
     {
-      "evidence": [
-        {
-          "candidate_sha": "8af4f4a4332db005924fc4281b9a32d039d80d5a",
-          "path": "tests/visual/observatory-a11y.spec.mjs",
-          "type": "focus-viewport-matrix"
-        }
-      ],
+      "evidence": [],
       "id": "DRF-04",
       "live_at_review": null,
       "owner": "Fry",
+      "reviews": [],
       "severity": 2,
       "status": "open"
     },
@@ -85,6 +56,7 @@
       "id": "DRF-05",
       "live_at_review": null,
       "owner": "Fry and named accessibility reviewer",
+      "reviews": [],
       "severity": 2,
       "status": "open"
     }
@@ -93,7 +65,10 @@
     {
       "completed_at": null,
       "due_at": null,
+      "acceptance_question": "Did the deployed release pass all release-day production probes?",
       "evidence": [],
+      "evidence_destination": "data/release/claracle-v1.1-release-candidate.json",
+      "expected_sources": ["GitHub Pages deployment run", "production HTTP and JSON probes"],
       "owner": "Fry and URL",
       "status": "pending",
       "window": "release-day"
@@ -101,7 +76,10 @@
     {
       "completed_at": null,
       "due_at": null,
+      "acceptance_question": "Did the release remain stable for seven days without accessibility or interaction regressions?",
       "evidence": [],
+      "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
+      "expected_sources": ["GitHub Actions history", "production smoke tests"],
       "owner": "Fry and Amy",
       "status": "pending",
       "window": "seven-day"
@@ -109,7 +87,10 @@
     {
       "completed_at": null,
       "due_at": null,
+      "acceptance_question": "Did repository retirement and organic discovery remain consistent after 28 days?",
       "evidence": [],
+      "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
+      "expected_sources": ["Google Search Console", "repository migration probes"],
       "owner": "Zapp and Leela",
       "status": "pending",
       "window": "28-day"
@@ -117,7 +98,10 @@
     {
       "completed_at": null,
       "due_at": null,
+      "acceptance_question": "Did migration and organic discovery remain healthy after three months?",
       "evidence": [],
+      "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
+      "expected_sources": ["Google Search Console", "GA4"],
       "owner": "Zapp and Leela",
       "status": "pending",
       "window": "three-month"
@@ -125,7 +109,10 @@
     {
       "completed_at": null,
       "due_at": null,
+      "acceptance_question": "Did the release meet its six-month SEO outcome expectations?",
       "evidence": [],
+      "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
+      "expected_sources": ["Google Search Console", "GA4", "backlink export"],
       "owner": "Zapp and jmservera",
       "status": "pending",
       "window": "six-month"
@@ -152,5 +139,5 @@
     "reviewer": null,
     "status": "pending"
   },
-  "status": "blocked"
+  "status": "preparing"
 }

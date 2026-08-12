@@ -308,6 +308,11 @@
   pointer-events: auto;
 }
 
+.ranking-table__repo-trigger.is-dismissed .ranking-table__context-tooltip {
+  display: none;
+  pointer-events: none;
+}
+
 .ranking-table__context-tooltip[data-align="start"] {
   left: auto;
   right: 100%;

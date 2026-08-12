@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -11,6 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 RECORD = ROOT / "data/release/claracle-v1.1-release-candidate.json"
 SCHEMA = ROOT / "data/schemas/release-candidate.schema.json"
 CANDIDATE_SHA = "a" * 40
+PRODUCT_TREE_SHA256 = "b" * 64
+EVIDENCE_SHA256 = "c" * 64
 
 
 def payload() -> dict:
@@ -19,35 +22,116 @@ def payload() -> dict:
 
 def freeze(candidate: dict) -> dict:
     candidate["candidate_sha"] = CANDIDATE_SHA
+    candidate["candidate_product_tree_sha256"] = PRODUCT_TREE_SHA256
     candidate["candidate_frozen_at"] = "2026-08-12T22:30:00Z"
+    candidate["status"] = "blocked"
     return candidate
 
 
+def owner_review(role: str) -> dict:
+    return {
+        "reviewer": f"{role} reviewer",
+        "role": role,
+        "reviewed_at": "2026-08-12T23:00:00Z",
+        "candidate_sha": CANDIDATE_SHA,
+        "disposition": "pass",
+        "findings": [],
+        "unresolved_work": [],
+    }
+
+
+def live_review() -> dict:
+    return {
+        "reviewer": "Named human reviewer",
+        "reviewed_at": "2026-08-12T23:05:00Z",
+        "candidate_sha": CANDIDATE_SHA,
+        "operating_system": "Windows 11 24H2",
+        "browser": "Microsoft Edge 140",
+        "assistive_technology": "NVDA 2026.1",
+        "scenarios": ["Keyboard navigation", "Dynamic repository filters"],
+        "findings": [],
+        "unresolved_work": [],
+        "disposition": "pass",
+    }
+
+
 def close_findings(candidate: dict) -> dict:
+    roles = {
+        "DRF-01": ["Amy", "Fry"],
+        "DRF-02": ["Amy", "Fry"],
+        "DRF-03": ["Amy", "Fry"],
+        "DRF-04": ["Fry"],
+        "DRF-05": [],
+    }
     for finding in candidate["findings"]:
         finding["status"] = "closed"
         finding["evidence"] = [
             {
                 "type": "automated",
                 "path": f"reports/{finding['id'].lower()}.json",
+                "sha256": EVIDENCE_SHA256,
                 "candidate_sha": CANDIDATE_SHA,
             }
         ]
-    candidate["findings"][-1]["live_at_review"] = {
-        "reviewer": "Named reviewer",
-        "reviewed_at": "2026-08-12T23:00:00Z",
-        "candidate_sha": CANDIDATE_SHA,
-        "operating_system": "Windows 11 24H2",
-        "browser": "Microsoft Edge 140",
-        "assistive_technology": "NVDA 2026.1",
-        "scenarios": ["Keyboard navigation", "Dynamic repository filters"],
-        "disposition": "pass",
-    }
+        finding["reviews"] = [owner_review(role) for role in roles[finding["id"]]]
+    candidate["findings"][2]["live_at_review"] = live_review()
+    candidate["findings"][4]["live_at_review"] = live_review()
     return candidate
 
 
+def make_go(candidate: dict) -> dict:
+    candidate["status"] = "go"
+    candidate["sponsor"] = {
+        "status": "go",
+        "reviewer": "jmservera",
+        "decided_at": "2026-08-12T23:30:00Z",
+        "candidate_sha": CANDIDATE_SHA,
+    }
+    candidate["rollback"]["status"] = "tested"
+    candidate["rollback"]["evidence"] = ["Rollback rehearsal passed."]
+    return candidate
+
+
+def make_deployed(candidate: dict) -> dict:
+    make_go(candidate)
+    candidate["status"] = "deployed"
+    candidate["deployment"] = {
+        "status": "completed",
+        "merge_sha": "d" * 40,
+        "run_id": 12345,
+        "deployed_at": "2026-08-13T00:00:00Z",
+        "evidence": ["deployment run"],
+    }
+    due_dates = {
+        "release-day": "2026-08-13T00:00:00Z",
+        "seven-day": "2026-08-20T00:00:00Z",
+        "28-day": "2026-09-10T00:00:00Z",
+        "three-month": "2026-11-13T00:00:00Z",
+        "six-month": "2027-02-13T00:00:00Z",
+    }
+    for outcome in candidate["outcomes"]:
+        outcome["due_at"] = due_dates[outcome["window"]]
+        outcome["status"] = "scheduled"
+    candidate["outcomes"][0].update(
+        {
+            "status": "completed",
+            "completed_at": "2026-08-13T00:05:00Z",
+            "evidence": ["production probes"],
+        }
+    )
+    return candidate
+
+
+def validate_at(candidate: dict) -> None:
+    validate(
+        candidate,
+        load_object(SCHEMA),
+        now=datetime(2026, 8, 13, 1, tzinfo=timezone.utc),
+    )
+
+
 def test_checked_in_preparing_record_is_valid() -> None:
-    validate(payload(), load_object(SCHEMA))
+    validate(payload(), load_object(SCHEMA), root=ROOT)
 
 
 def test_rejects_mixed_candidate_evidence() -> None:
@@ -56,132 +140,142 @@ def test_rejects_mixed_candidate_evidence() -> None:
         {
             "type": "automated",
             "path": "reports/drf-01.json",
-            "candidate_sha": "b" * 40,
+            "sha256": EVIDENCE_SHA256,
+            "candidate_sha": "e" * 40,
         }
     ]
     with pytest.raises(ValueError, match="does not match candidate SHA"):
-        validate(candidate, load_object(SCHEMA))
+        validate_at(candidate)
+
+
+def test_rejects_closed_finding_without_evidence() -> None:
+    candidate = freeze(payload())
+    candidate["findings"][0]["status"] = "closed"
+    candidate["findings"][0]["reviews"] = [owner_review("Amy"), owner_review("Fry")]
+    with pytest.raises(ValueError, match="closure requires evidence"):
+        validate_at(candidate)
+
+
+def test_rejects_closed_finding_without_required_owner_reviews() -> None:
+    candidate = freeze(payload())
+    finding = candidate["findings"][0]
+    finding["status"] = "closed"
+    finding["evidence"] = [
+        {
+            "type": "automated",
+            "path": "reports/drf-01.json",
+            "sha256": EVIDENCE_SHA256,
+            "candidate_sha": CANDIDATE_SHA,
+        }
+    ]
+    finding["reviews"] = [owner_review("Amy")]
+    with pytest.raises(ValueError, match="lacks required owner reviews"):
+        validate_at(candidate)
+
+
+def test_rejects_drf05_closure_without_complete_live_at_review() -> None:
+    candidate = freeze(payload())
+    finding = candidate["findings"][-1]
+    finding["status"] = "closed"
+    finding["evidence"] = [
+        {
+            "type": "live-at",
+            "path": "reports/drf-05.json",
+            "sha256": EVIDENCE_SHA256,
+            "candidate_sha": CANDIDATE_SHA,
+        }
+    ]
+    incomplete = live_review()
+    del incomplete["findings"]
+    finding["live_at_review"] = incomplete
+    with pytest.raises(ValueError, match="Schema validation failed"):
+        validate_at(candidate)
 
 
 def test_rejects_go_with_open_blocking_findings() -> None:
-    candidate = freeze(payload())
-    candidate["status"] = "go"
-    candidate["sponsor"] = {
-        "status": "go",
-        "reviewer": "jmservera",
-        "decided_at": "2026-08-12T23:30:00Z",
-        "candidate_sha": CANDIDATE_SHA,
-    }
+    candidate = make_go(freeze(payload()))
     with pytest.raises(ValueError, match="unresolved findings"):
-        validate(candidate, load_object(SCHEMA))
+        validate_at(candidate)
 
 
-def test_rejects_drf05_closure_without_live_at_review() -> None:
-    candidate = freeze(payload())
-    candidate["findings"][-1]["status"] = "closed"
-    with pytest.raises(ValueError, match="passing live AT review"):
-        validate(candidate, load_object(SCHEMA))
+def test_rejects_go_without_matching_sponsor_state() -> None:
+    candidate = close_findings(freeze(payload()))
+    candidate["status"] = "go"
+    with pytest.raises(ValueError, match="must agree"):
+        validate_at(candidate)
 
 
-def test_rejects_scheduled_outcome_without_due_date() -> None:
-    candidate = payload()
-    candidate["outcomes"][1]["status"] = "scheduled"
-    with pytest.raises(ValueError, match="requires due_at"):
-        validate(candidate, load_object(SCHEMA))
+def test_rejects_go_without_tested_rollback() -> None:
+    candidate = close_findings(freeze(payload()))
+    make_go(candidate)
+    candidate["rollback"]["status"] = "ready"
+    with pytest.raises(ValueError, match="tested rollback"):
+        validate_at(candidate)
 
 
-def test_rejects_future_completed_outcome() -> None:
-    candidate = payload()
-    candidate["outcomes"][0].update(
-        {
-            "status": "completed",
-            "due_at": "2026-08-12T22:00:00Z",
-            "completed_at": "2026-08-13T00:00:00Z",
-            "evidence": ["live probes"],
-        }
-    )
-    with pytest.raises(ValueError, match="cannot be completed in the future"):
-        validate(
-            candidate,
-            load_object(SCHEMA),
-            now=datetime(2026, 8, 12, 23, tzinfo=timezone.utc),
-        )
+def test_rejects_deployment_before_sponsor_go() -> None:
+    candidate = make_deployed(close_findings(freeze(payload())))
+    candidate["deployment"]["deployed_at"] = "2026-08-12T23:00:00Z"
+    with pytest.raises(ValueError, match="must follow sponsor GO"):
+        validate_at(candidate)
+
+
+def test_rejects_non_relative_outcome_due_date() -> None:
+    candidate = make_deployed(close_findings(freeze(payload())))
+    candidate["outcomes"][1]["due_at"] = "2026-08-21T00:00:00Z"
+    with pytest.raises(ValueError, match="not deployment-relative"):
+        validate_at(candidate)
 
 
 def test_rejects_outcome_completed_before_due_date() -> None:
-    candidate = payload()
+    candidate = make_deployed(close_findings(freeze(payload())))
     candidate["outcomes"][1].update(
         {
             "status": "completed",
-            "due_at": "2026-08-20T00:00:00Z",
-            "completed_at": "2026-08-13T00:00:00Z",
+            "completed_at": "2026-08-19T00:00:00Z",
             "evidence": ["premature probe"],
         }
     )
     with pytest.raises(ValueError, match="before its due date"):
-        validate(
-            candidate,
-            load_object(SCHEMA),
-            now=datetime(2026, 8, 21, tzinfo=timezone.utc),
-        )
+        validate_at(candidate)
 
 
 def test_valid_go_and_release_day_transition() -> None:
-    candidate = close_findings(freeze(payload()))
-    candidate["status"] = "deployed"
-    candidate["sponsor"] = {
-        "status": "go",
-        "reviewer": "jmservera",
-        "decided_at": "2026-08-12T23:30:00Z",
-        "candidate_sha": CANDIDATE_SHA,
-    }
-    candidate["deployment"] = {
-        "status": "completed",
-        "merge_sha": "c" * 40,
-        "run_id": 12345,
-        "deployed_at": "2026-08-13T00:00:00Z",
-        "evidence": ["deployment run"],
-    }
-    candidate["outcomes"][0].update(
-        {
-            "status": "completed",
-            "due_at": "2026-08-13T00:00:00Z",
-            "completed_at": "2026-08-13T00:05:00Z",
-            "evidence": ["production probes"],
-        }
-    )
-    for outcome in candidate["outcomes"][1:]:
-        outcome["status"] = "scheduled"
-        outcome["due_at"] = "2027-02-13T00:00:00Z"
-
-    validate(
-        candidate,
-        load_object(SCHEMA),
-        now=datetime(2026, 8, 13, 1, tzinfo=timezone.utc),
-    )
+    candidate = make_deployed(close_findings(freeze(payload())))
+    validate_at(candidate)
 
 
-def test_rejects_product_changes_after_candidate_freeze() -> None:
+def test_rejects_product_tree_change_after_squash_compatible_freeze() -> None:
     candidate = freeze(payload())
-    with pytest.raises(ValueError, match="Product or test files changed"):
+    with pytest.raises(ValueError, match="Product tree changed"):
         validate(
             candidate,
             load_object(SCHEMA),
-            changed_paths=[
-                ".copilot-tracking/reviews/release.md",
-                "assets/js/repository-explorer.js",
-            ],
+            product_tree_sha256="f" * 64,
         )
 
 
-def test_allows_evidence_only_changes_after_candidate_freeze() -> None:
+def test_accepts_matching_product_tree_without_candidate_ancestry() -> None:
     candidate = freeze(payload())
     validate(
         candidate,
         load_object(SCHEMA),
-        changed_paths=[
-            ".copilot-tracking/reviews/release.md",
-            "data/release/claracle-v1.1-release-candidate.json",
-            "docs/review/claracle-post-relaunch/release-candidate.md",
-        ],
+        product_tree_sha256=PRODUCT_TREE_SHA256,
     )
+
+
+def test_rejects_missing_or_modified_evidence_source(tmp_path: Path) -> None:
+    candidate = freeze(payload())
+    evidence_path = tmp_path / "reports" / "drf-01.json"
+    evidence_path.parent.mkdir()
+    evidence_path.write_text("evidence", encoding="utf-8")
+    candidate["findings"][0]["evidence"] = [
+        {
+            "type": "automated",
+            "path": "reports/drf-01.json",
+            "sha256": hashlib.sha256(b"different").hexdigest(),
+            "candidate_sha": CANDIDATE_SHA,
+        }
+    ]
+    with pytest.raises(ValueError, match="hash does not match"):
+        validate(candidate, load_object(SCHEMA), root=tmp_path)

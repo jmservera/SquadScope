@@ -41,6 +41,17 @@ async function firstSameOriginLink(page, selector = 'main a[href]') {
   return links.nth(index);
 }
 
+async function rejectConsent(page) {
+  await expect
+    .poll(() => page.evaluate(() => Boolean(window.CookieConsent)), { timeout: 15000 })
+    .toBe(true);
+  const dialog = page.getByRole('dialog').first();
+  if (await dialog.isVisible()) {
+    await dialog.getByRole('button', { name: /reject all/i }).click();
+    await expect(dialog).toBeHidden();
+  }
+}
+
 for (const pageConfig of OBSERVATORY_PAGES) {
   test(`${pageConfig.key} has no serious WCAG 2.1 A/AA violations`, async ({ page }) => {
     await page.goto(pageConfig.path);
@@ -227,7 +238,7 @@ test('embed repository summaries support focus, touch, and Escape', async ({ pag
   await expect(tooltip).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(tooltip).toBeHidden();
-  await expect(link).not.toBeFocused();
+  await expect(link).toBeFocused();
 
   await link.dispatchEvent('touchstart');
   await expect(wrapper).toHaveClass(/is-open/);
@@ -251,27 +262,46 @@ test('current provenance and repository-context disclosures work by pointer and 
   await expect(page.getByRole('link', { name: /read the methodology/i })).toBeVisible();
 
   await page.goto('/data/fastest-growing-ai-repositories-this-year/');
+  await rejectConsent(page);
   await expect(page.locator('.data-page__provenance')).toBeVisible();
-  const rankingLink = page.locator('.ranking-table__repo-link').first();
+  const rankingLink = page.locator('.ranking-table__repo-link:visible').first();
   const rankingTooltip = rankingLink.locator('xpath=following-sibling::*[@role="tooltip"]');
   await rankingLink.hover();
   await expect(rankingTooltip).toBeVisible();
-  await rankingLink.focus();
+  await page.locator('[data-ranking-reset]').focus();
+  await page.keyboard.press('Tab');
+  await expect(rankingLink).toBeFocused();
   await expect(rankingTooltip).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(rankingTooltip).toBeHidden();
+  await expect(rankingLink).toBeFocused();
 
   await page.goto('/embeds/fastest-growing-ai-repositories-chart/');
+  await rejectConsent(page);
   const embedLink = page.locator('[data-observatory-tooltip] a').first();
   const embedTooltip = embedLink.locator('xpath=following-sibling::*[@role="tooltip"]');
   await embedLink.hover();
   await expect(embedTooltip).toBeVisible();
-  await embedLink.focus();
+  await page.evaluate(() => {
+    document.body.tabIndex = -1;
+    document.body.focus();
+  });
+  await page.keyboard.press('Tab');
+  await expect(embedLink).toBeFocused();
   await expect(embedTooltip).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(embedTooltip).toBeHidden();
+  await expect(embedLink).toBeFocused();
 
   await page.goto('/charts/embeddable-rankings/');
+  await rejectConsent(page);
   const panel = page.locator('.observatory-chart__embed-panel');
   await expect(panel).toContainText(/attribution and a backlink/i);
   await expect(panel.locator('[data-embed-snippet]')).toContainText('<iframe');
-  await expectVisibleFocus(panel.locator('[data-copy-target]'));
+  const copyButton = panel.locator('[data-copy-target]');
+  await page.locator('.observatory-chart__caption a').focus();
+  await page.keyboard.press('Tab');
+  await expectVisibleFocus(copyButton);
 });
 
 test('copy reports success and failure while retaining keyboard focus', async ({ page }, testInfo) => {
@@ -306,6 +336,7 @@ test('copy reports success and failure while retaining keyboard focus', async ({
   });
   await page.keyboard.press('Enter');
   await expect(status).toHaveText('Copy failed. Select and copy the embed snippet manually.');
+  await expect(status).toBeVisible();
   await expect(button).toBeFocused();
 });
 
@@ -335,7 +366,7 @@ test('reduced motion and touch input preserve repository-context operation', asy
 
 const FOCUS_SURFACES = [
   { key: 'home', path: '/', selector: 'main a[href]' },
-  { key: 'article', path: '/topics/ai-coding-agents/', selector: 'article a[href]' },
+  { key: 'article', path: '/topics/ai-coding-agents/', selector: 'main a[href]' },
   { key: 'repository', path: '/repo/', selector: 'main a[href]' },
   {
     key: 'ranking',
@@ -359,14 +390,18 @@ test('representative internal links retain visible focus across required viewpor
     'desktop-dark': 'zoom-200',
   };
   const mode = modes[testInfo.project.name];
-  test.skip(!mode, 'Three projects cover desktop, mobile, and 200% equivalent viewport.');
-  if (mode === 'zoom-200') {
-    await page.setViewportSize({ width: 640, height: 800 });
-  }
+  test.skip(!mode, 'Three projects cover desktop, mobile, and 200% browser page scale.');
+  let pageScaleApplied = false;
 
   for (const surface of FOCUS_SURFACES) {
     await page.goto(surface.path);
     await settle(page);
+    if (mode === 'zoom-200' && !pageScaleApplied) {
+      const cdp = await page.context().newCDPSession(page);
+      await cdp.send('Emulation.setPageScaleFactor', { pageScaleFactor: 2 });
+      await expect.poll(() => page.evaluate(() => window.visualViewport?.scale)).toBe(2);
+      pageScaleApplied = true;
+    }
     const link = await firstSameOriginLink(page, surface.selector);
     await expectVisibleFocus(link);
     await page.screenshot({

@@ -6,7 +6,7 @@
 * Scope: full Phase 5 plan
 * Branch: `feat/integrated-release-candidate-phase5`
 * Status: In progress
-* Current marker: P03-T01 candidate validation and freeze.
+* Current marker: P03-T01 replacement-candidate freeze.
 
 ## Opening Evidence
 
@@ -33,9 +33,18 @@ the announced count.
   product SHA, rejects post-freeze product/test changes, open severity-1/2 GO,
   incomplete DRF-05 evidence, deployment before sponsor GO, incomplete outcome
   ownership, and premature/future outcome completion.
-* Ten focused validator tests pass, including valid preparing and release-day
-  transitions.
+* Fifteen focused validator tests pass, including fail-closed lifecycle,
+  evidence-hash, chronology, preparing, and release-day transitions.
 * CI now runs the validator with the Git revision-boundary check.
+* The replacement contract uses a SHA-256 digest of the product tree while
+  excluding evidence-only paths, so validation remains correct after a squash
+  merge without accepting product drift.
+* Closed findings require nonempty hashed evidence and the named role
+  dispositions defined by the finding map. Sponsor GO, deployment, rollback,
+  and delayed outcomes now fail closed on incomplete or contradictory state.
+* DRF-05 now records the real reviewer environment, scenarios, structured
+  findings, severity, unresolved work, disposition, timestamp, and candidate
+  SHA; automation still cannot satisfy it.
 
 ## Automated Redesigned-Release Closure — P02 Complete
 
@@ -56,31 +65,40 @@ the announced count.
 * Copy success and failure now use an `aria-live` status message, provide manual
   copy guidance on failure, and retain keyboard focus.
 * Added visible-focus assertions and captures for homepage, article,
-  repository, ranking, embed, and navigation links at desktop, mobile, and a
-  200% equivalent viewport.
+  repository, ranking, embed, and navigation links at desktop, mobile, and
+  Chromium browser-engine 200% page scaling.
 * Added explicit reduced-motion behavior while preserving touch disclosure
   operation.
+* Expanded ranking and embed context captures now retain keyboard focus, and
+  Escape dismisses the tooltip without moving focus.
 
 ## Validation
 
-* `python3 -m pytest -q tests/test_validate_release_candidate.py`: 10 passed.
+* `python3 -m pytest -q tests/test_validate_release_candidate.py`: 15 passed.
 * `python3 scripts/validate_release_candidate.py`: passed.
-* Full Python suite in the repository dependency environment: 1,663 passed.
+* Full Python suite in the repository dependency environment: 1,668 passed.
 * `ruff check .` and `ruff format --check .`: passed.
 * Node unit tests: 2 passed.
 * Production Hugo and Pagefind builds plus internal-link validation: passed.
-* Repository explorer semantic browser suite: 3 passed.
-* Full browser gate: 157 passed with expected project skips. Three analytics
-  cases initially failed because the local server omitted CI's
-  `HUGO_PARAMS_GA_MEASUREMENT_ID`; all four analytics scenarios passed when
-  rebuilt with the CI environment.
-* Full revision-tagged visual matrix: 76 passed.
+* The affected repository, accessibility, and revision-tagged visual browser
+  suites passed all 172 scenarios with expected project skips.
 * Checkov: 906 passed, zero failed, six documented skips.
-* Pinned Zizmor 1.27.0 medium/high scan: no findings.
-* Bandit: zero medium/high findings; existing low test-assert notices remain.
-* Candidate product revision frozen at
-  `8af4f4a4332db005924fc4281b9a32d039d80d5a`; only evidence-record commits may
-  follow without invalidating it.
+* Zizmor regular-persona medium/high scan: no findings.
+* Bandit: no findings.
+* Candidate product revision
+  `8af4f4a4332db005924fc4281b9a32d039d80d5a` was frozen and then invalidated by
+  the named owner review. The review found fail-open evidence/lifecycle
+  semantics and incomplete interaction proof that require product and test
+  changes.
+
+## Named Owner Review — Blocked
+
+Amy, Fry, Leela, Hermes, URL, Nibbler, Zapp, and Farnsworth returned Block.
+The candidate must add mandatory named dispositions and hashed evidence,
+complete the DRF-05 data model, survive squash merges, enforce lifecycle
+chronology, capture expanded disclosures, expose visible copy-failure guidance,
+and exercise actual 200% page zoom. The complete disposition is retained at
+`.copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-owner-review.md`.
 
 ## Blockers
 
@@ -90,4 +108,7 @@ the announced count.
 
 ## Remaining Work
 
-* P03-T02 through P04 remain active.
+* Freeze and push the replacement candidate, bind hashed evidence and named
+  dispositions to it, and repeat owner review.
+* P03-T03 remains human-blocked until genuine live screen-reader evidence is
+  supplied; sponsor GO, merge, deployment, and outcomes remain downstream.

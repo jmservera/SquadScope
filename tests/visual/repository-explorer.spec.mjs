@@ -147,10 +147,19 @@ test('combined keyboard-operated filters preserve URL and visible result state',
   await page.goto(PAGE);
   const explorer = page.locator('[data-repository-explorer]');
 
-  await explorer.locator('[data-repo-topic]').focus();
-  await explorer.locator('[data-repo-topic]').selectOption('ai-skills');
-  await explorer.locator('[data-repo-language]').selectOption('Python');
-  await explorer.locator('[data-repo-period]').selectOption('recent');
+  await explorer.locator('[data-repo-search]').focus();
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('ArrowDown');
+  await expect(explorer.locator('[data-repo-language]')).toHaveValue('Python');
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('ArrowDown');
+  await expect(explorer.locator('[data-repo-topic]')).toHaveValue('ai-skills');
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('End');
+  await expect(explorer.locator('[data-repo-period]')).toHaveValue('recent');
 
   await expectVisibleRepositories(explorer, ['example/alpha']);
   await expect(page).toHaveURL(/\?language=Python&topic=ai-skills&period=recent$/);

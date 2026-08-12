@@ -167,14 +167,35 @@
     },
     {
       "decision": "The immutable Phase 5 product candidate is 8af4f4a4332db005924fc4281b9a32d039d80d5a; subsequent commits are evidence-only unless the candidate is invalidated and refrozen.",
-      "status": "confirmed",
+      "status": "superseded",
       "evidence": "data/release/claracle-v1.1-release-candidate.json"
+    },
+    {
+      "decision": "Named owner review blocked and invalidated candidate 8af4f4a because release evidence, lifecycle enforcement, and interaction proof were incomplete.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-owner-review.md"
+    },
+    {
+      "decision": "All automatable owner-review findings were remediated; 1,668 Python tests, 172 affected browser scenarios, Ruff, production rendering and links, Checkov, Zizmor, and Bandit pass before replacement freeze.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md"
     }
   ],
-  "blockers": [],
+  "blockers": [
+    {
+      "id": "phase5-owner-review",
+      "summary": "Named owner review blocked candidate 8af4f4a on automatable evidence-contract and interaction gaps.",
+      "resolution": "Remediate the recorded findings, refreeze, and repeat named owner review."
+    },
+    {
+      "id": "DRF-05",
+      "summary": "Genuine named live screen-reader review is unavailable.",
+      "resolution": "A human reviewer must test the frozen replacement candidate and record the required environment, scenarios, findings, severity, and disposition."
+    }
+  ],
   "next_action": {
     "phase": "Implement",
-    "action": "Collect named owner dispositions for candidate 8af4f4a4332db005924fc4281b9a32d039d80d5a; preserve DRF-05 as blocking until genuine live screen-reader evidence is supplied."
+    "action": "Remediate the named owner-review findings, refreeze a replacement candidate, and repeat owner review while preserving DRF-05 as human-blocked."
   },
   "prioritized_follow_ups": [
     {

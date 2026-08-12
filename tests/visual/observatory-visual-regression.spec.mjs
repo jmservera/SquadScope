@@ -251,6 +251,29 @@ test.describe('Observatory visual regression evidence', () => {
     });
   });
 
+  test('captures expanded ranking and embed repository context', async ({ page }, testInfo) => {
+    await page.goto('/data/fastest-growing-ai-repositories-this-year/');
+    await page.waitForLoadState('networkidle');
+    await rejectConsent(page);
+    const rankingLink = page.locator('.ranking-table__repo-link:visible').first();
+    await rankingLink.focus();
+    await expect(rankingLink.locator('xpath=following-sibling::*[@role="tooltip"]')).toBeVisible();
+    await page.screenshot({
+      path: evidencePath(testInfo.project.name, 'ranking-context-expanded'),
+      fullPage: true,
+    });
+
+    await page.goto('/embeds/fastest-growing-ai-repositories-chart/');
+    await page.waitForLoadState('networkidle');
+    const embedLink = page.locator('[data-observatory-tooltip] a').first();
+    await embedLink.focus();
+    await expect(embedLink.locator('xpath=following-sibling::*[@role="tooltip"]')).toBeVisible();
+    await page.screenshot({
+      path: evidencePath(testInfo.project.name, 'embed-context-expanded'),
+      fullPage: true,
+    });
+  });
+
   test('records evidence metadata for the revision under test', async ({ page }, testInfo) => {
     const projectName = testInfo.project.name;
     await page.goto('/');
@@ -270,6 +293,14 @@ test.describe('Observatory visual regression evidence', () => {
         ...VISUAL_ROUTES.map((route) => ({ name: route.name, path: route.path })),
         { name: 'home-consent', path: '/ (undecided consent banner)' },
         { name: 'repo-index-ai-skills', path: '/repo/?topic=ai-skills' },
+        {
+          name: 'ranking-context-expanded',
+          path: '/data/fastest-growing-ai-repositories-this-year/ (expanded context)',
+        },
+        {
+          name: 'embed-context-expanded',
+          path: '/embeds/fastest-growing-ai-repositories-chart/ (expanded context)',
+        },
       ],
     };
 
