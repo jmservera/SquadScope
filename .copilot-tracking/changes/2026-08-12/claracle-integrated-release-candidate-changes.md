@@ -129,6 +129,13 @@ another slash. Candidate `dac7fae` is invalidated before owner dispositions.
 The server now checks the parsed URL path and has a focused no-loop regression
 test.
 
+The same static production boundary exposed two test-environment assumptions:
+absolute canonical navigation links use `https://claracle.com`, and the delayed
+consent dialog can legitimately take focus from repository controls. Internal
+focus selection now accepts the document's canonical origin, while repository
+filter tests settle and reject consent before asserting focus. The focused
+static-browser rerun passed all four applicable scenarios.
+
 ## Blockers
 
 * DRF-05 requires a genuine named live screen-reader review against the frozen

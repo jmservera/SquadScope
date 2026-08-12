@@ -34,7 +34,9 @@ async function firstSameOriginLink(page, selector = 'main a[href]') {
   const index = await links.evaluateAll((elements) =>
     elements.findIndex((element) => {
       const url = new URL(element.href, location.href);
-      return url.origin === location.origin && url.hash === '';
+      const canonicalHref = document.querySelector('link[rel="canonical"]')?.href;
+      const canonicalOrigin = canonicalHref ? new URL(canonicalHref).origin : location.origin;
+      return [location.origin, canonicalOrigin].includes(url.origin) && url.hash === '';
     }),
   );
   expect(index, `Expected a same-origin link matching ${selector}`).toBeGreaterThanOrEqual(0);

@@ -88,6 +88,17 @@ async function expectVisibleRepositories(explorer, expectedNames) {
   );
 }
 
+async function rejectConsent(page) {
+  await expect
+    .poll(() => page.evaluate(() => Boolean(window.CookieConsent)), { timeout: 15000 })
+    .toBe(true);
+  const dialog = page.getByRole('dialog').first();
+  if (await dialog.isVisible()) {
+    await dialog.getByRole('button', { name: /reject all/i }).click();
+    await expect(dialog).toBeHidden();
+  }
+}
+
 test.beforeEach(async ({}, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop-light', 'One Chromium project covers filter semantics.');
 });
@@ -96,6 +107,7 @@ test('URL topic filter hides non-matching repositories and keeps count aligned',
   await mockRepositories(page);
   await page.addInitScript(() => history.replaceState({}, '', `${location.pathname}?topic=ai-skills`));
   await page.goto(PAGE);
+  await rejectConsent(page);
 
   const explorer = page.locator('[data-repository-explorer]');
   await expect(explorer.locator('[data-repo-topic]')).toHaveValue('ai-skills');
@@ -105,6 +117,7 @@ test('URL topic filter hides non-matching repositories and keeps count aligned',
 test('every filter dimension and reset update visible records semantically', async ({ page }) => {
   await mockRepositories(page);
   await page.goto(PAGE);
+  await rejectConsent(page);
   const explorer = page.locator('[data-repository-explorer]');
   const reset = explorer.locator('[data-repo-reset]');
 
@@ -145,6 +158,7 @@ test('every filter dimension and reset update visible records semantically', asy
 test('combined keyboard-operated filters preserve URL and visible result state', async ({ page }) => {
   await mockRepositories(page);
   await page.goto(PAGE);
+  await rejectConsent(page);
   const explorer = page.locator('[data-repository-explorer]');
 
   await explorer.locator('[data-repo-search]').focus();
