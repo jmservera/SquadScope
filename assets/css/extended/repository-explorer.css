@@ -74,6 +74,10 @@
   border-block-start: var(--size-border-thin) solid var(--color-border);
 }
 
+.repository-index__record[hidden] {
+  display: none;
+}
+
 .repository-index__record:last-child {
   border-block-end: var(--size-border-thin) solid var(--color-border);
 }

@@ -186,6 +186,12 @@
   margin: 0;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .observatory-chart__tooltip {
+    transition-duration: 0.01ms;
+  }
+}
+
 @media (max-width: 720px) {
   .observatory-chart {
     border-radius: 14px;

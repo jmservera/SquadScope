@@ -77,6 +77,7 @@
     <p>Copy this iframe to reuse the chart with Claracle attribution and a backlink to the source ranking.</p>
     <pre class="observatory-chart__snippet" data-embed-snippet="{{ $embedSnippet }}"><code>{{ $embedSnippet }}</code></pre>
     <button class="observatory-chart__copy" type="button" data-copy-target="#{{ $chartID }} .observatory-chart__snippet">Copy embed snippet</button>
+    <p class="visually-hidden" role="status" aria-live="polite" data-copy-status></p>
   </div>
   {{- end }}
 </figure>

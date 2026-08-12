@@ -1,0 +1,122 @@
+{
+  "baseline": {
+    "phase4_deployment_run": 31645707266,
+    "phase4_merge_sha": "f9fb5d88fefde9b6143adda2d57e20d18f6b5e25",
+    "verified_at": "2026-08-12T22:11:00Z"
+  },
+  "candidate_frozen_at": null,
+  "candidate_sha": null,
+  "deployment": {
+    "deployed_at": null,
+    "evidence": [],
+    "merge_sha": null,
+    "run_id": null,
+    "status": "pending"
+  },
+  "findings": [
+    {
+      "evidence": [],
+      "id": "DRF-01",
+      "live_at_review": null,
+      "owner": "Amy and Fry",
+      "severity": 2,
+      "status": "open"
+    },
+    {
+      "evidence": [],
+      "id": "DRF-02",
+      "live_at_review": null,
+      "owner": "Amy and Fry",
+      "severity": 2,
+      "status": "open"
+    },
+    {
+      "evidence": [],
+      "id": "DRF-03",
+      "live_at_review": null,
+      "owner": "Amy and Fry",
+      "severity": 2,
+      "status": "open"
+    },
+    {
+      "evidence": [],
+      "id": "DRF-04",
+      "live_at_review": null,
+      "owner": "Fry",
+      "severity": 2,
+      "status": "open"
+    },
+    {
+      "evidence": [],
+      "id": "DRF-05",
+      "live_at_review": null,
+      "owner": "Fry and named accessibility reviewer",
+      "severity": 2,
+      "status": "open"
+    }
+  ],
+  "outcomes": [
+    {
+      "completed_at": null,
+      "due_at": null,
+      "evidence": [],
+      "owner": "Fry and URL",
+      "status": "pending",
+      "window": "release-day"
+    },
+    {
+      "completed_at": null,
+      "due_at": null,
+      "evidence": [],
+      "owner": "Fry and Amy",
+      "status": "pending",
+      "window": "seven-day"
+    },
+    {
+      "completed_at": null,
+      "due_at": null,
+      "evidence": [],
+      "owner": "Zapp and Leela",
+      "status": "pending",
+      "window": "28-day"
+    },
+    {
+      "completed_at": null,
+      "due_at": null,
+      "evidence": [],
+      "owner": "Zapp and Leela",
+      "status": "pending",
+      "window": "three-month"
+    },
+    {
+      "completed_at": null,
+      "due_at": null,
+      "evidence": [],
+      "owner": "Zapp and jmservera",
+      "status": "pending",
+      "window": "six-month"
+    }
+  ],
+  "release_id": "claracle-v1-1",
+  "rollback": {
+    "evidence": [
+      "Phase 4 deployment run 31645707266 passed production migration probes."
+    ],
+    "last_known_good_sha": "f9fb5d88fefde9b6143adda2d57e20d18f6b5e25",
+    "owner": "jmservera",
+    "status": "ready",
+    "steps": [
+      "Revert the Phase 5 merge commit on a protected fix branch.",
+      "Deploy the resulting main revision through Deploy Hugo site.",
+      "Repeat repository, ranking, JSON, and retired-route production probes."
+    ]
+  },
+  "schema_version": "1.0.0",
+  "sponsor": {
+    "candidate_sha": null,
+    "decided_at": null,
+    "reviewer": null,
+    "status": "pending"
+  },
+  "status": "preparing"
+}

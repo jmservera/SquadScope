@@ -6,21 +6,35 @@
       const selector = button.getAttribute("data-copy-target");
       const target = selector ? document.querySelector(selector) : null;
       const snippet = target?.getAttribute("data-embed-snippet") || target?.textContent || "";
+      const status = button.parentElement?.querySelector("[data-copy-status]");
+      const updateStatus = (message, label) => {
+        button.textContent = label;
+        if (status) {
+          status.textContent = message;
+        }
+      };
       if (!snippet.trim() || !navigator.clipboard) {
+        updateStatus(
+          "Copy failed. Select and copy the embed snippet manually.",
+          "Copy failed",
+        );
         return;
       }
 
+      const original = button.textContent;
       try {
         await navigator.clipboard.writeText(snippet.trim());
-        const original = button.textContent;
-        button.textContent = "Copied";
+        updateStatus("Embed snippet copied to the clipboard.", "Copied");
         window.setTimeout(() => {
           button.textContent = original;
         }, 1800);
       } catch {
-        button.textContent = "Copy failed";
+        updateStatus(
+          "Copy failed. Select and copy the embed snippet manually.",
+          "Copy failed",
+        );
         window.setTimeout(() => {
-          button.textContent = "Copy embed snippet";
+          button.textContent = original;
         }, 1800);
       }
     });

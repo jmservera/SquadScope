@@ -13,6 +13,34 @@ async function settle(page) {
   await page.waitForLoadState('networkidle').catch(() => page.waitForTimeout(1000));
 }
 
+async function expectVisibleFocus(locator) {
+  await locator.focus();
+  await expect(locator).toBeFocused();
+  await expect
+    .poll(() =>
+      locator.evaluate((element) => {
+        const style = getComputedStyle(element);
+        return (
+          element.matches(':focus-visible') &&
+          (style.outlineStyle !== 'none' || style.boxShadow !== 'none')
+        );
+      }),
+    )
+    .toBe(true);
+}
+
+async function firstSameOriginLink(page, selector = 'main a[href]') {
+  const links = page.locator(selector);
+  const index = await links.evaluateAll((elements) =>
+    elements.findIndex((element) => {
+      const url = new URL(element.href, location.href);
+      return url.origin === location.origin && url.hash === '';
+    }),
+  );
+  expect(index, `Expected a same-origin link matching ${selector}`).toBeGreaterThanOrEqual(0);
+  return links.nth(index);
+}
+
 for (const pageConfig of OBSERVATORY_PAGES) {
   test(`${pageConfig.key} has no serious WCAG 2.1 A/AA violations`, async ({ page }) => {
     await page.goto(pageConfig.path);
@@ -205,4 +233,145 @@ test('embed repository summaries support focus, touch, and Escape', async ({ pag
   await expect(wrapper).toHaveClass(/is-open/);
   await page.keyboard.press('Escape');
   await expect(wrapper).not.toHaveClass(/is-open/);
+});
+
+test('current provenance and repository-context disclosures work by pointer and keyboard', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop-light', 'One Chromium project covers disclosures.');
+
+  await page.goto('/repo/');
+  const repository = page.locator('[data-repository-explorer]');
+  await expect(repository.locator('[data-repo-record]').first()).toBeVisible();
+  await expect(repository.locator('.repository-index__summary').first()).toHaveText(/\S/);
+  await expect(repository.locator('.repository-index__evidence').first()).toContainText(
+    /weekly observations|W\d{2}/i,
+  );
+  await expect(page.getByRole('link', { name: /download.*repository dataset/i })).toBeVisible();
+  await expect(page.getByRole('link', { name: /read the methodology/i })).toBeVisible();
+
+  await page.goto('/data/fastest-growing-ai-repositories-this-year/');
+  await expect(page.locator('.data-page__provenance')).toBeVisible();
+  const rankingLink = page.locator('.ranking-table__repo-link').first();
+  const rankingTooltip = rankingLink.locator('xpath=following-sibling::*[@role="tooltip"]');
+  await rankingLink.hover();
+  await expect(rankingTooltip).toBeVisible();
+  await rankingLink.focus();
+  await expect(rankingTooltip).toBeVisible();
+
+  await page.goto('/embeds/fastest-growing-ai-repositories-chart/');
+  const embedLink = page.locator('[data-observatory-tooltip] a').first();
+  const embedTooltip = embedLink.locator('xpath=following-sibling::*[@role="tooltip"]');
+  await embedLink.hover();
+  await expect(embedTooltip).toBeVisible();
+  await embedLink.focus();
+  await expect(embedTooltip).toBeVisible();
+
+  await page.goto('/charts/embeddable-rankings/');
+  const panel = page.locator('.observatory-chart__embed-panel');
+  await expect(panel).toContainText(/attribution and a backlink/i);
+  await expect(panel.locator('[data-embed-snippet]')).toContainText('<iframe');
+  await expectVisibleFocus(panel.locator('[data-copy-target]'));
+});
+
+test('copy reports success and failure while retaining keyboard focus', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop-light', 'One Chromium project covers copy behavior.');
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: async (value) => {
+          if (window.__copyShouldFail) {
+            throw new Error('clipboard denied');
+          }
+          window.__copiedText = value;
+        },
+      },
+    });
+  });
+  await page.goto('/charts/embeddable-rankings/');
+
+  const button = page.locator('[data-copy-target]');
+  const status = page.locator('[data-copy-status]');
+  await button.focus();
+  await page.keyboard.press('Enter');
+  await expect(status).toHaveText('Embed snippet copied to the clipboard.');
+  await expect(button).toBeFocused();
+  await expect
+    .poll(() => page.evaluate(() => window.__copiedText))
+    .toContain('<iframe');
+
+  await page.evaluate(() => {
+    window.__copyShouldFail = true;
+  });
+  await page.keyboard.press('Enter');
+  await expect(status).toHaveText('Copy failed. Select and copy the embed snippet manually.');
+  await expect(button).toBeFocused();
+});
+
+test('reduced motion and touch input preserve repository-context operation', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile-light', 'Mobile Chromium covers touch equivalence.');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/embeds/fastest-growing-ai-repositories-chart/');
+
+  const wrapper = page.locator('[data-observatory-tooltip]').first();
+  const link = wrapper.getByRole('link');
+  const tooltip = wrapper.locator('[role="tooltip"]');
+  await link.tap();
+  await expect(tooltip).toBeVisible();
+  const transitionSeconds = await tooltip.evaluate((element) =>
+    Math.max(
+      ...getComputedStyle(element)
+        .transitionDuration.split(',')
+        .map((duration) => Number.parseFloat(duration) * (duration.includes('ms') ? 0.001 : 1)),
+    ),
+  );
+  expect(transitionSeconds).toBeLessThanOrEqual(0.001);
+  await page.keyboard.press('Escape');
+  await expect(tooltip).toBeHidden();
+});
+
+const FOCUS_SURFACES = [
+  { key: 'home', path: '/', selector: 'main a[href]' },
+  { key: 'article', path: '/topics/ai-coding-agents/', selector: 'article a[href]' },
+  { key: 'repository', path: '/repo/', selector: 'main a[href]' },
+  {
+    key: 'ranking',
+    path: '/data/fastest-growing-ai-repositories-this-year/',
+    selector: 'main a[href]',
+  },
+  {
+    key: 'embed',
+    path: '/embeds/fastest-growing-ai-repositories-chart/',
+    selector: 'a[href]',
+  },
+  { key: 'navigation', path: '/', selector: 'header a[href]' },
+];
+
+test('representative internal links retain visible focus across required viewports', async ({
+  page,
+}, testInfo) => {
+  const modes = {
+    'desktop-light': 'desktop',
+    'mobile-light': 'mobile',
+    'desktop-dark': 'zoom-200',
+  };
+  const mode = modes[testInfo.project.name];
+  test.skip(!mode, 'Three projects cover desktop, mobile, and 200% equivalent viewport.');
+  if (mode === 'zoom-200') {
+    await page.setViewportSize({ width: 640, height: 800 });
+  }
+
+  for (const surface of FOCUS_SURFACES) {
+    await page.goto(surface.path);
+    await settle(page);
+    const link = await firstSameOriginLink(page, surface.selector);
+    await expectVisibleFocus(link);
+    await page.screenshot({
+      path: testInfo.outputPath(`${mode}-${surface.key}-focus.png`),
+      fullPage: false,
+    });
+  }
 });
