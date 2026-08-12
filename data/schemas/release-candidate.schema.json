@@ -232,6 +232,8 @@
         "completed_at",
         "expected_sources",
         "acceptance_question",
+        "baseline",
+        "target",
         "evidence_destination",
         "evidence"
       ],
@@ -249,6 +251,8 @@
           "items": { "type": "string", "minLength": 1 }
         },
         "acceptance_question": { "type": "string", "minLength": 1 },
+        "baseline": { "type": "string", "minLength": 1 },
+        "target": { "type": "string", "minLength": 1 },
         "evidence_destination": { "type": "string", "minLength": 1 },
         "evidence": {
           "type": "array",

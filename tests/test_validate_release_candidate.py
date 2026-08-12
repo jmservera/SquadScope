@@ -261,7 +261,19 @@ def test_accepts_matching_product_tree_without_candidate_ancestry() -> None:
         candidate,
         load_object(SCHEMA),
         product_tree_sha256=PRODUCT_TREE_SHA256,
+        candidate_revision_tree_sha256=PRODUCT_TREE_SHA256,
     )
+
+
+def test_rejects_candidate_sha_not_bound_to_declared_product_tree() -> None:
+    candidate = freeze(payload())
+    with pytest.raises(ValueError, match="Declared candidate SHA"):
+        validate(
+            candidate,
+            load_object(SCHEMA),
+            product_tree_sha256=PRODUCT_TREE_SHA256,
+            candidate_revision_tree_sha256="f" * 64,
+        )
 
 
 def test_rejects_missing_or_modified_evidence_source(tmp_path: Path) -> None:

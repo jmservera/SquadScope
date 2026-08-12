@@ -33,18 +33,23 @@ the announced count.
   product SHA, rejects post-freeze product/test changes, open severity-1/2 GO,
   incomplete DRF-05 evidence, deployment before sponsor GO, incomplete outcome
   ownership, and premature/future outcome completion.
-* Fifteen focused validator tests pass, including fail-closed lifecycle,
+* Sixteen focused validator tests pass, including fail-closed lifecycle,
   evidence-hash, chronology, preparing, and release-day transitions.
 * CI now runs the validator with the Git revision-boundary check.
 * The replacement contract uses a SHA-256 digest of the product tree while
   excluding evidence-only paths, so validation remains correct after a squash
   merge without accepting product drift.
+* The Git boundary gate independently computes that digest for both the
+  declared candidate commit and the current revision, preventing an unrelated
+  candidate SHA from borrowing the current tree's digest.
 * Closed findings require nonempty hashed evidence and the named role
   dispositions defined by the finding map. Sponsor GO, deployment, rollback,
   and delayed outcomes now fail closed on incomplete or contradictory state.
 * DRF-05 now records the real reviewer environment, scenarios, structured
   findings, severity, unresolved work, disposition, timestamp, and candidate
   SHA; automation still cannot satisfy it.
+* Delayed outcomes retain the approved OBJ-02 baseline and its measurable
+  250-organic-session and 15-top-20-query targets.
 
 ## Automated Redesigned-Release Closure — P02 Complete
 
@@ -74,7 +79,7 @@ the announced count.
 
 ## Validation
 
-* `python3 -m pytest -q tests/test_validate_release_candidate.py`: 15 passed.
+* `python3 -m pytest -q tests/test_validate_release_candidate.py`: 16 passed.
 * `python3 scripts/validate_release_candidate.py`: passed.
 * Full Python suite in the repository dependency environment: 1,668 passed.
 * `ruff check .` and `ruff format --check .`: passed.
@@ -99,6 +104,12 @@ complete the DRF-05 data model, survive squash merges, enforce lifecycle
 chronology, capture expanded disclosures, expose visible copy-failure guidance,
 and exercise actual 200% page zoom. The complete disposition is retained at
 `.copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-owner-review.md`.
+
+A replacement pre-freeze review confirmed the interaction and lifecycle
+remediations but found one candidate-digest binding gap and missing OBJ-02
+outcome thresholds. Both are remediated. Because `9d5e55d` was never frozen,
+the next commit can become the replacement candidate without invalidating
+evidence.
 
 ## Blockers
 

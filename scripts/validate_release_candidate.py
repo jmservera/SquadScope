@@ -107,7 +107,7 @@ def validate(
     now: datetime | None = None,
     root: Path | None = None,
     product_tree_sha256: str | None = None,
-    changed_paths: list[str] | None = None,
+    candidate_revision_tree_sha256: str | None = None,
 ) -> None:
     errors = sorted(
         Draft202012Validator(
@@ -139,6 +139,11 @@ def validate(
         candidate_frozen_at = parse_timestamp(candidate_frozen_value)
         if candidate_frozen_at > now:
             raise ValueError("Candidate freeze timestamp cannot be in the future")
+        if (
+            candidate_revision_tree_sha256 is not None
+            and candidate_revision_tree_sha256 != candidate_digest
+        ):
+            raise ValueError("Declared candidate SHA does not match its product-tree digest")
         if product_tree_sha256 is not None and product_tree_sha256 != candidate_digest:
             raise ValueError("Product tree changed after candidate freeze")
 
@@ -270,14 +275,6 @@ def validate(
     elif any(outcome["status"] != "pending" for outcome in payload["outcomes"]):
         raise ValueError("Outcome windows cannot be scheduled before deployment")
 
-    if candidate_sha and changed_paths is not None:
-        invalid = [path for path in changed_paths if not path.startswith(EVIDENCE_ONLY_PREFIXES)]
-        if invalid:
-            raise ValueError(
-                "Product or test files changed after candidate freeze: "
-                + ", ".join(sorted(invalid))
-            )
-
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -299,13 +296,16 @@ def main(argv: list[str] | None = None) -> int:
     schema_path = args.schema if args.schema.is_absolute() else root / args.schema
     payload = load_object(record)
     current_product_digest = None
+    candidate_revision_digest = None
     if args.check_git_boundary and payload["candidate_sha"]:
+        candidate_revision_digest = product_tree_digest(root, payload["candidate_sha"])
         current_product_digest = product_tree_digest(root)
     validate(
         payload,
         load_object(schema_path),
         root=root,
         product_tree_sha256=current_product_digest,
+        candidate_revision_tree_sha256=candidate_revision_digest,
     )
     return 0
 

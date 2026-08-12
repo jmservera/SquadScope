@@ -11,13 +11,13 @@ ms.topic: reference
 | Field | Value |
 |---|---|
 | Release | `claracle-v1-1` |
-| Product candidate SHA | `8af4f4a4332db005924fc4281b9a32d039d80d5a` |
+| Product candidate SHA | Replacement freeze pending |
 | Evidence record | `data/release/claracle-v1.1-release-candidate.json` |
 | Schema | `data/schemas/release-candidate.schema.json` |
 | Validator | `scripts/validate_release_candidate.py` |
 | Baseline | Phase 4 merge `f9fb5d88fefde9b6143adda2d57e20d18f6b5e25` |
 | Baseline deployment | GitHub Actions run `31645707266` |
-| Release status | Blocked on named review and DRF-05 |
+| Release status | Preparing replacement candidate; DRF-05 remains blocked |
 
 The product candidate is frozen only after all runtime, workflow, content, and
 test changes pass local validation. Later evidence-only commits may update this
@@ -28,10 +28,10 @@ invalidates the candidate and every revision-bound disposition.
 
 | Finding | Automated evidence | Owner disposition | Status |
 |---|---|---|---|
-| DRF-01 | Repository topic, language, lifecycle, period, search, reset, URL, keyboard, combined-state, and visible-count Playwright assertions; four-project combined-state captures | Pending Amy/Fry review | Automated checks pass |
-| DRF-02 | Repository, ranking, embed, provenance, fallback, copy-disclosure, pointer, keyboard, focus, touch, and Escape assertions | Pending Amy/Fry review | Automated checks pass |
-| DRF-03 | Keyboard clipboard success/failure, polite status, manual-copy guidance, and retained-focus assertions | Pending Amy/Fry and live-AT review | Automated checks pass |
-| DRF-04 | Focus-visible assertions and captures for homepage, article, repository, ranking, embed, and navigation links at desktop, mobile, and 200% equivalent viewport | Pending Fry review | Automated checks pass |
+| DRF-01 | Repository topic, language, lifecycle, period, search, reset, URL, keyboard, combined-state, and visible-count Playwright assertions; four-project combined-state captures | Pending Amy/Fry review | Local checks pass; exact-candidate binding pending |
+| DRF-02 | Repository, ranking, embed, provenance, fallback, copy-disclosure, pointer, keyboard, focus, touch, and Escape assertions | Pending Amy/Fry review | Local checks pass; exact-candidate binding pending |
+| DRF-03 | Keyboard clipboard success/failure, polite status, manual-copy guidance, and retained-focus assertions | Pending Amy/Fry and live-AT review | Local checks pass; exact-candidate binding pending |
+| DRF-04 | Focus-visible assertions and captures for homepage, article, repository, ranking, embed, and navigation links at desktop, mobile, and Chromium browser-engine 200% page scaling | Pending Fry review | Local checks pass; exact-candidate binding pending |
 | DRF-05 | Genuine named live screen-reader review | Pending | Blocked |
 
 Automation does not close DRF-05 and does not substitute for screen-reader
@@ -57,3 +57,8 @@ probes. The responsible owner is `jmservera`.
 Release-day evidence is recorded only after deployment. D+7, D+28, M+3, and
 M+6 observations receive exact due dates from the production deployment
 timestamp and remain scheduled until their windows arrive.
+
+The approved organic baseline is 0 organic sessions, 149 impressions, 0 clicks,
+and 17 impression-bearing queries. The approved targets are at least 250
+organic sessions per complete 28-day month and at least 15 queries in the top
+20 by six months.

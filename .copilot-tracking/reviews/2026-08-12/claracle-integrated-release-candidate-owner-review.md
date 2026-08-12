@@ -44,3 +44,24 @@ The candidate is invalidated. Reopen affected P01-P03 markers, remediate every
 automatable finding, rerun validation, freeze a new product candidate, and
 repeat named owner review. DRF-05 remains blocked until a genuine named human
 review is supplied.
+
+## Replacement Pre-Freeze Review
+
+Candidate `9d5e55d9c47882b4a6349f9d7cad595972a06e2c` was reviewed after the first
+remediation pass but before its evidence record was frozen. The named review
+confirmed the interaction, lifecycle, evidence-hash, and chronology
+remediations, then returned **Block** for:
+
+1. the expected pre-freeze absence of exact-candidate evidence and
+   dispositions;
+2. a real integrity gap where the current product digest was checked without
+   independently computing the declared candidate commit's digest; and
+3. missing OBJ-02 baseline and objective thresholds in the delayed outcome
+   contract.
+
+The validator now computes both the declared candidate revision digest and the
+current product digest. Both must equal the recorded digest. The outcome
+contract now retains the approved 0-session/149-impression/0-click baseline,
+the 250-organic-session complete-month target, and the 15-top-20-query
+six-month target. Candidate `9d5e55d` was never frozen, so no evidence or
+disposition was invalidated by these fixes.
