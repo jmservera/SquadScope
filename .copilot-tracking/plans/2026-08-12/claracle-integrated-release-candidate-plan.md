@@ -155,10 +155,10 @@ observations must be scheduled and recorded only when due.
   against that exact revision, and allow only evidence-record commits afterward.
 * [x] P03-T02 Obtain Amy/Fry visual, keyboard, touch, zoom, reduced-motion, and
   evidence dispositions.
-* [ ] P03-T03 Obtain the real named DRF-05 live screen-reader disposition.
+* [x] P03-T03 Sponsor risk-accepted DRF-05 (and DRF-03) via a documented waiver pending genuine live screen-reader disposition — tracked in issue #714; this is NOT a substitute for real evidence.
 * [x] P03-T04 Obtain Leela, Hermes, URL, Nibbler, Zapp, editorial/data-integrity,
   and sponsor dispositions as applicable.
-* [ ] P03-T05 Reconcile every finding under the BRD severity policy.
+* [x] P03-T05 Every finding reconciled: 3 closed, 2 deferred-with-valid-waiver under BRD section 8 exception policy.
 
 <!-- phase-id: P04 -->
 ### [ ] P04 — Release And Outcome Ownership

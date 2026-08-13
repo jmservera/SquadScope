@@ -11,13 +11,13 @@ ms.topic: reference
 | Field | Value |
 |---|---|
 | Release | `claracle-v1-1` |
-| Product candidate SHA | `327102410d5ade6048408463a27872cfd0bedc60` |
+| Product candidate SHA | `6ba13b501113201e69348d7c3c6042f8a9f96a8f` |
 | Evidence record | `data/release/claracle-v1.1-release-candidate.json` |
 | Schema | `data/schemas/release-candidate.schema.json` |
 | Validator | `scripts/validate_release_candidate.py` |
 | Baseline | Phase 4 merge `f9fb5d88fefde9b6143adda2d57e20d18f6b5e25` |
 | Baseline deployment | GitHub Actions run `31645707266` |
-| Release status | Blocked only on DRF-03/DRF-05 live screen-reader review |
+| Release status | Blocked pending sponsor GO; DRF-03/DRF-05 risk-accepted via waiver, issue #714, expires 2026-11-11 |
 
 The product candidate is frozen only after all runtime, workflow, content, and
 test changes pass local validation. Later evidence-only commits may update this
@@ -30,9 +30,9 @@ invalidates the candidate and every revision-bound disposition.
 |---|---|---|---|
 | DRF-01 | Repository topic, language, lifecycle, period, search, reset, URL, keyboard, combined-state, and visible-count Playwright assertions; four-project combined-state captures | Amy/Fry pass | Closed |
 | DRF-02 | Repository, ranking, embed, provenance, fallback, copy-disclosure, pointer, keyboard, focus, touch, and Escape assertions | Amy/Fry pass | Closed |
-| DRF-03 | Keyboard clipboard success/failure, polite status, manual-copy guidance, and retained-focus assertions | Amy/Fry automated pass; live-AT pending | Blocked on named-human announcement review |
+| DRF-03 | Keyboard clipboard success/failure, polite status, manual-copy guidance, and retained-focus assertions | Amy/Fry automated pass; live-AT pending | Deferred — risk-accepted (issue #714) |
 | DRF-04 | Focus-visible assertions and captures for homepage, article, repository, ranking, embed, and navigation links at desktop, mobile, and Chromium browser-engine 200% page scaling | Fry pass | Closed |
-| DRF-05 | Genuine named live screen-reader review | Pending | Blocked |
+| DRF-05 | Genuine named live screen-reader review | Pending | Deferred — risk-accepted (issue #714) |
 
 Automation does not close DRF-05 and does not substitute for screen-reader
 confirmation of the DRF-03 status message.

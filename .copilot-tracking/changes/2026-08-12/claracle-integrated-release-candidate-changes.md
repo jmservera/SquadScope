@@ -239,3 +239,20 @@ freeze.
   expired waiver fails CI unconditionally); non-deferred findings must have
   `waiver: null`. GO-blocking logic now exempts `deferred` findings.
 * 9 new tests added (25 total focused validator tests all green).
+
+## Accepted Replacement Freeze — Candidate 6ba13b5
+
+* Frozen product candidate:
+  `6ba13b501113201e69348d7c3c6042f8a9f96a8f`.
+* Product-tree SHA-256:
+  `1215c36a94132f28833d51436fb62c8a11ce400b0bf0d30ad07869fe4b55bb54`.
+* Schema version bumped to 1.1.0 (new `waiver` field on every finding).
+* Gates: 1,634 Python tests passed; 25 focused validator tests; Ruff; Bandit.
+  Front-end/Node/Hugo/Playwright/Checkov/Zizmor run via hosted CI.
+* DRF-01, DRF-02, DRF-04: closed with Amy/Fry owner dispositions re-bound to
+  new candidate SHA.
+* DRF-03, DRF-05: deferred with sponsor-approved waiver (jmservera, issue #714,
+  expires 2026-11-11T16:50:19Z). No live_at_review fabricated.
+* Sponsor's deferral decision: "Ok, then dismiss it, create a comprehensive GH
+  Issue to run this in the future, I don't have access to a screen reader nor
+  to a genuine accessibility expert now."

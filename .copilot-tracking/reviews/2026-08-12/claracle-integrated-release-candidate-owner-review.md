@@ -107,3 +107,26 @@ The repeated exact-candidate review confirms:
 No automatable severity-1 or severity-2 finding remains. DRF-03 live
 announcement confirmation and DRF-05 live keyboard/screen-reader acceptance
 remain genuine named-human blockers.
+
+---
+
+## Candidate 6ba13b5 — Deferred/Waiver Freeze Review (2026-08-13)
+
+### Leela (Architecture / Release-State Boundary)
+
+**Disposition**: Pass
+
+The deferred/waiver design is architecturally sound and fail-closed:
+- `deferred` is a distinct first-class status; no finding is fabricated as closed.
+- `live_at_review: null` is preserved — no fake pass exists anywhere.
+- The waiver is mandatory, schema-validated, and bound to the exact candidate SHA.
+- Expiry is enforced unconditionally by the validator: once the waiver clock runs
+  out, CI blocks every PR repo-wide until the finding is genuinely resolved or
+  the waiver is explicitly renewed. This provides teeth without fabrication.
+- The GO-blocking calculation correctly exempts deferred findings (they can only
+  reach that state if all waiver checks pass, so this is safe).
+- Issue #714 tracks the genuine resolution path.
+
+**Pending reviews**: Hermes (security), Fry (test), Nibbler (AI safety) reviews
+are pending as a follow-up on this candidate. Their dispositions are not written
+here — each owner must supply their own.

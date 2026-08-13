@@ -234,24 +234,25 @@
       "decision": "Repeated named review passes all automatable Phase 5 boundaries on candidate 3271024; DRF-03 live announcement and DRF-05 live AT remain human-only blockers.",
       "status": "confirmed",
       "evidence": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-owner-review.md"
-    }
-  ],
-  "blockers": [
-    {
-      "id": "DRF-03",
-      "summary": "Automated copy feedback and Amy/Fry dispositions pass on candidate 3271024; genuine live screen-reader announcement confirmation is unavailable.",
-      "resolution": "A human reviewer must complete the DRF-03 steps in PR 713 and return the required evidence template."
     },
     {
-      "id": "DRF-05",
-      "summary": "Genuine named live screen-reader review is unavailable.",
-      "resolution": "A human reviewer must test the frozen replacement candidate and record the required environment, scenarios, findings, severity, and disposition."
+      "timestamp": "2026-08-13T16:50:19Z",
+      "decision": "Sponsor risk-accepted deferral of DRF-03 and DRF-05",
+      "quote": "Ok, then dismiss it, create a comprehensive GH Issue to run this in the future, I don't have access to a screen reader nor to a genuine accessibility expert now.",
+      "by": "jmservera"
+    },
+    {
+      "timestamp": "2026-08-13T16:50:19Z",
+      "decision": "Issue #714 created to track genuine live screen-reader review",
+      "url": "https://github.com/jmservera/SquadScope/issues/714"
+    },
+    {
+      "timestamp": "2026-08-13T16:50:19Z",
+      "decision": "Replacement candidate 6ba13b5 frozen with deferred/waiver state for DRF-03/DRF-05"
     }
   ],
-  "next_action": {
-    "phase": "Implement",
-    "action": "Obtain genuine named-human DRF-03 and DRF-05 evidence for candidate 3271024 using the instructions in PR 713."
-  },
+  "blockers": [],
+  "next_action": "Push branch, update PR #713 body, wait for hosted CI checks and Copilot review. Sponsor GO is a separate future decision.",
   "prioritized_follow_ups": [
     {
       "rank": 1,
