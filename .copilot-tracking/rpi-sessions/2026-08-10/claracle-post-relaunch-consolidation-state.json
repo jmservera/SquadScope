@@ -7,7 +7,7 @@
   },
   "mode": "automatic",
   "active_phase": "Research",
-  "status": "active",
+  "status": "blocked",
   "session_status": "running",
   "artifact_paths": {
     "research": ".copilot-tracking/research/2026-08-13/genuine-live-at-validation-research.md",
@@ -277,12 +277,28 @@
       "decision": "Phase 5 is complete; live-AT validation and dated outcome observations remain explicitly routed follow-up work rather than completed acceptance evidence.",
       "status": "confirmed",
       "evidence": ".copilot-tracking/reviews/logs/2026-08-13/claracle-integrated-release-candidate-review.md"
+    },
+    {
+      "decision": "Live-AT research executed all three waves and selected a named human review on Windows/NVDA or macOS/VoiceOver, with BrowserStack Live as the remote fallback.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/research/2026-08-13/genuine-live-at-validation-research.md"
+    },
+    {
+      "decision": "The child task remains in Research because no named tester or supported live-AT environment/session is confirmed; automation-only and agent-only evidence are insufficient.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/research/2026-08-13/genuine-live-at-validation-research.md"
     }
   ],
-  "blockers": [],
+  "blockers": [
+    {
+      "id": "LIVE-AT-ENV-001",
+      "summary": "No named human tester and supported Windows/NVDA, macOS/VoiceOver, or BrowserStack Live session are confirmed.",
+      "resolution": "A named tester accepts issue 714 and confirms access to one supported environment before the 2026-11-11 waiver expiry."
+    }
+  ],
   "next_action": {
     "phase": "Research",
-    "action": "Research the executable live-AT evidence boundary, required environments, existing issue procedure, and smallest credible path to evidence."
+    "action": "Wait for a named tester to confirm Windows/NVDA, macOS/VoiceOver, or BrowserStack Live access, then execute issue 714."
   },
   "prioritized_follow_ups": []
 }
