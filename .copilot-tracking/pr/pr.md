@@ -9,12 +9,10 @@
 * Added a revision-bound Phase 5 release-candidate schema, validator, evidence
   record, tests, and CI gate.
 
-The frozen product candidate is
-`31ab98c99c7175adf83d62321dd6f592ab54a5fd`, with product-tree digest
-`25f9fcc8a8b8e41c4a073f3eb057ca0b55ada6c23b3901896d4838863ddb75cf`.
-Final named owner review passes every automatable boundary. The release remains
-blocked on genuine live screen-reader evidence for DRF-03 and DRF-05; this PR
-does not claim sponsor GO or deployment readiness.
+The prior candidate was invalidated to address Copilot review feedback. A
+replacement freeze and exact-candidate owner review are pending. The release
+remains blocked on genuine live screen-reader evidence for DRF-03 and DRF-05;
+this PR does not claim sponsor GO or deployment readiness.
 
 ## Validation
 
@@ -28,6 +26,56 @@ does not claim sponsor GO or deployment readiness.
 ## Related issue
 
 Related: jmservera/SquadScope#594
+
+## Required DRF-03/DRF-05 live screen-reader review
+
+Use the `site-preview` artifact linked by the preview-bot comment on this PR.
+Serve the downloaded artifact over HTTP, then test the replacement candidate
+named in the Candidate section after it is frozen. Record the reviewer name, date, operating system/version,
+browser/version, screen reader/version, findings with severity, disposition,
+and unresolved work.
+
+### DRF-03 — copy announcements
+
+1. Open `/charts/embeddable-rankings/` and navigate by keyboard to **Copy embed
+   snippet**.
+2. Activate it and confirm the screen reader announces “Embed snippet copied to
+   the clipboard,” focus stays on the button, and its label returns to **Copy
+   embed snippet**.
+3. Block clipboard permission in the browser, reload, activate the button
+   again, and confirm “Copy failed. Select and copy the embed snippet manually”
+   is both spoken and visible while focus remains on the button.
+
+### DRF-05 — live keyboard and screen-reader scenarios
+
+1. Verify headings, landmarks, labels, navigation order, and visible focus on
+   the homepage, an article, `/repo/`, a ranking page, and the embed page.
+2. On `/repo/`, operate search, topic, language, lifecycle, and observation
+   period filters by keyboard; confirm the result count and empty/reset states
+   are announced and match the visible cards.
+3. Open repository context/provenance disclosures on ranking and embed pages;
+   confirm their content is spoken, Escape dismisses them, and focus remains on
+   the trigger.
+4. At 200% browser zoom, repeat navigation and disclosure checks and confirm
+   content and controls are not clipped or obscured.
+5. Record every finding as severity 1–4. The disposition may pass only when no
+   severity-1 or severity-2 finding remains unresolved.
+
+### Evidence response template
+
+```text
+Reviewer:
+Reviewed at (UTC):
+Candidate SHA: use the frozen SHA in the Candidate section
+Operating system/version:
+Browser/version:
+Screen reader/version:
+DRF-03 announcement: Pass/Block
+DRF-05 scenarios completed:
+Findings and severity: None, or list each finding
+Disposition: Pass/Block
+Unresolved work: None, or list each item
+```
 
 ## External-facing changes
 

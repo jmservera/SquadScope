@@ -2,16 +2,30 @@
   const copyButtons = document.querySelectorAll("[data-copy-target]");
 
   copyButtons.forEach((button) => {
+    const defaultLabel = button.textContent;
+    let feedbackTimer;
+    let feedbackGeneration = 0;
+
     button.addEventListener("click", async () => {
+      const generation = ++feedbackGeneration;
       const selector = button.getAttribute("data-copy-target");
       const target = selector ? document.querySelector(selector) : null;
       const snippet = target?.getAttribute("data-embed-snippet") || target?.textContent || "";
       const status = button.parentElement?.querySelector("[data-copy-status]");
       const updateStatus = (message, label) => {
+        if (generation !== feedbackGeneration) {
+          return;
+        }
+        window.clearTimeout(feedbackTimer);
         button.textContent = label;
         if (status) {
           status.textContent = message;
         }
+        feedbackTimer = window.setTimeout(() => {
+          if (generation === feedbackGeneration) {
+            button.textContent = defaultLabel;
+          }
+        }, 1800);
       };
       if (!snippet.trim() || !navigator.clipboard) {
         updateStatus(
@@ -21,21 +35,14 @@
         return;
       }
 
-      const original = button.textContent;
       try {
         await navigator.clipboard.writeText(snippet.trim());
         updateStatus("Embed snippet copied to the clipboard.", "Copied");
-        window.setTimeout(() => {
-          button.textContent = original;
-        }, 1800);
       } catch {
         updateStatus(
           "Copy failed. Select and copy the embed snippet manually.",
           "Copy failed",
         );
-        window.setTimeout(() => {
-          button.textContent = original;
-        }, 1800);
       }
     });
   });

@@ -184,6 +184,23 @@ They pass the automated portion of DRF-03, which remains open solely for
 genuine named-human screen-reader announcement confirmation. DRF-05 remains
 open for the complete live keyboard/screen-reader review.
 
+## PR Feedback Remediation
+
+Copilot review on evidence head `e47344b` raised three valid comments:
+
+* copy-button feedback could capture a transient label and race overlapping
+  timeouts;
+* the release summary still described named owner review as pending;
+* the combined-filter URL assertion depended on query-parameter order.
+
+The copy handler now keeps one immutable default label, ignores stale
+asynchronous completions, and owns one reset timer. Browser coverage verifies
+that rapid success/failure activation returns to **Copy embed snippet**. URL
+state assertions compare named `URLSearchParams`, and release/PR text now names
+only the actual live-AT blockers. Because the handler and browser tests changed,
+candidate `31ab98c` and its dispositions are superseded pending a replacement
+freeze.
+
 ## Blockers
 
 * DRF-03 and DRF-05 require genuine named live screen-reader review against the

@@ -4,9 +4,9 @@
     "phase4_merge_sha": "f9fb5d88fefde9b6143adda2d57e20d18f6b5e25",
     "verified_at": "2026-08-12T22:11:00Z"
   },
-  "candidate_frozen_at": "2026-08-13T07:57:34Z",
-  "candidate_product_tree_sha256": "25f9fcc8a8b8e41c4a073f3eb057ca0b55ada6c23b3901896d4838863ddb75cf",
-  "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
+  "candidate_frozen_at": null,
+  "candidate_product_tree_sha256": null,
+  "candidate_sha": null,
   "deployment": {
     "deployed_at": null,
     "evidence": [],
@@ -16,171 +16,40 @@
   },
   "findings": [
     {
-      "evidence": [
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-31ab98c.md",
-          "sha256": "bd0dd9d680cd5b0e761859ddea4c7a4b2e179eb8f5f412533ff3683f632b086d",
-          "type": "automated-summary"
-        },
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "path": "tests/visual/repository-explorer.spec.mjs",
-          "sha256": "6fe86571fdc52f204239ed0cec5bd5e5c7d080cae2971f55ed913984166959aa",
-          "type": "browser-contract"
-        },
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "path": "tests/visual/observatory-visual-regression.spec.mjs",
-          "sha256": "87ea4ab0b8679cb8e7d527c4e01ce27d47aa9e98ebd61ad774391a10a1b78a84",
-          "type": "visual-evidence-contract"
-        }
-      ],
+      "evidence": [],
       "id": "DRF-01",
       "live_at_review": null,
       "owner": "Amy and Fry",
-      "reviews": [
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "disposition": "pass",
-          "findings": [],
-          "reviewed_at": "2026-08-13T08:15:13Z",
-          "reviewer": "Squad Amy",
-          "role": "Amy",
-          "unresolved_work": []
-        },
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "disposition": "pass",
-          "findings": [],
-          "reviewed_at": "2026-08-13T08:15:13Z",
-          "reviewer": "Squad Fry",
-          "role": "Fry",
-          "unresolved_work": []
-        }
-      ],
-      "severity": 2,
-      "status": "closed"
-    },
-    {
-      "evidence": [
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-31ab98c.md",
-          "sha256": "bd0dd9d680cd5b0e761859ddea4c7a4b2e179eb8f5f412533ff3683f632b086d",
-          "type": "automated-summary"
-        },
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "path": "tests/visual/observatory-a11y.spec.mjs",
-          "sha256": "c3997d38da3eb039734d3bcd5ac6a3587d23f1c8461b740dc28b966678efe2d3",
-          "type": "browser-contract"
-        },
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "path": "tests/visual/observatory-visual-regression.spec.mjs",
-          "sha256": "87ea4ab0b8679cb8e7d527c4e01ce27d47aa9e98ebd61ad774391a10a1b78a84",
-          "type": "visual-evidence-contract"
-        }
-      ],
-      "id": "DRF-02",
-      "live_at_review": null,
-      "owner": "Amy and Fry",
-      "reviews": [
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "disposition": "pass",
-          "findings": [],
-          "reviewed_at": "2026-08-13T08:15:13Z",
-          "reviewer": "Squad Amy",
-          "role": "Amy",
-          "unresolved_work": []
-        },
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "disposition": "pass",
-          "findings": [],
-          "reviewed_at": "2026-08-13T08:15:13Z",
-          "reviewer": "Squad Fry",
-          "role": "Fry",
-          "unresolved_work": []
-        }
-      ],
-      "severity": 2,
-      "status": "closed"
-    },
-    {
-      "evidence": [
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-31ab98c.md",
-          "sha256": "bd0dd9d680cd5b0e761859ddea4c7a4b2e179eb8f5f412533ff3683f632b086d",
-          "type": "automated-summary"
-        },
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "path": "tests/visual/observatory-a11y.spec.mjs",
-          "sha256": "c3997d38da3eb039734d3bcd5ac6a3587d23f1c8461b740dc28b966678efe2d3",
-          "type": "browser-contract"
-        }
-      ],
-      "id": "DRF-03",
-      "live_at_review": null,
-      "owner": "Amy and Fry",
-      "reviews": [
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "disposition": "pass",
-          "findings": [],
-          "reviewed_at": "2026-08-13T08:15:13Z",
-          "reviewer": "Squad Amy",
-          "role": "Amy",
-          "unresolved_work": []
-        },
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "disposition": "pass",
-          "findings": [],
-          "reviewed_at": "2026-08-13T08:15:13Z",
-          "reviewer": "Squad Fry",
-          "role": "Fry",
-          "unresolved_work": []
-        }
-      ],
+      "reviews": [],
       "severity": 2,
       "status": "open"
     },
     {
-      "evidence": [
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-31ab98c.md",
-          "sha256": "bd0dd9d680cd5b0e761859ddea4c7a4b2e179eb8f5f412533ff3683f632b086d",
-          "type": "automated-summary"
-        },
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "path": "tests/visual/observatory-a11y.spec.mjs",
-          "sha256": "c3997d38da3eb039734d3bcd5ac6a3587d23f1c8461b740dc28b966678efe2d3",
-          "type": "browser-contract"
-        }
-      ],
+      "evidence": [],
+      "id": "DRF-02",
+      "live_at_review": null,
+      "owner": "Amy and Fry",
+      "reviews": [],
+      "severity": 2,
+      "status": "open"
+    },
+    {
+      "evidence": [],
+      "id": "DRF-03",
+      "live_at_review": null,
+      "owner": "Amy and Fry",
+      "reviews": [],
+      "severity": 2,
+      "status": "open"
+    },
+    {
+      "evidence": [],
       "id": "DRF-04",
       "live_at_review": null,
       "owner": "Fry",
-      "reviews": [
-        {
-          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
-          "disposition": "pass",
-          "findings": [],
-          "reviewed_at": "2026-08-13T08:15:13Z",
-          "reviewer": "Squad Fry",
-          "role": "Fry",
-          "unresolved_work": []
-        }
-      ],
+      "reviews": [],
       "severity": 2,
-      "status": "closed"
+      "status": "open"
     },
     {
       "evidence": [],
@@ -280,5 +149,5 @@
     "reviewer": null,
     "status": "pending"
   },
-  "status": "blocked"
+  "status": "preparing"
 }

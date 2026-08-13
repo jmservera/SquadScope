@@ -340,6 +340,7 @@ test('copy reports success and failure while retaining keyboard focus', async ({
   await expect(status).toHaveText('Copy failed. Select and copy the embed snippet manually.');
   await expect(status).toBeVisible();
   await expect(button).toBeFocused();
+  await expect(button).toHaveText('Copy embed snippet', { timeout: 2500 });
 });
 
 test('reduced motion and touch input preserve repository-context operation', async ({

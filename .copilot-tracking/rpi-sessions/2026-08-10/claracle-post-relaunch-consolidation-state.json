@@ -4,7 +4,7 @@
   "parent_task": null,
   "mode": "automatic",
   "active_phase": "Implement",
-  "status": "blocked",
+  "status": "active",
   "session_status": "running",
   "artifact_paths": {
     "research": ".copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md",
@@ -207,7 +207,7 @@
     },
     {
       "decision": "The immutable replacement candidate is 31ab98c99c7175adf83d62321dd6f592ab54a5fd with product-tree digest 25f9fcc8a8b8e41c4a073f3eb057ca0b55ada6c23b3901896d4838863ddb75cf; 1,670 Python and 172 browser scenarios pass.",
-      "status": "confirmed",
+      "status": "superseded",
       "evidence": "data/release/claracle-v1.1-release-candidate.json"
     },
     {
@@ -219,13 +219,18 @@
       "decision": "All hosted checks pass on evidence head afcf425, the PR is merge-clean, and all existing review threads are resolved; PR 713 remains draft while human-only accessibility gates are open.",
       "status": "confirmed",
       "evidence": "https://github.com/jmservera/SquadScope/pull/713"
+    },
+    {
+      "decision": "Copilot review on e47344b found three valid issues; copy feedback races, order-dependent URL assertions, and stale blocker text are remediated, invalidating candidate 31ab98c before human review.",
+      "status": "confirmed",
+      "evidence": "https://github.com/jmservera/SquadScope/pull/713"
     }
   ],
   "blockers": [
     {
       "id": "DRF-03",
-      "summary": "Automated copy-announcement evidence and Amy/Fry dispositions pass, but genuine live screen-reader announcement confirmation is unavailable.",
-      "resolution": "A named human reviewer must confirm the status announcement against candidate 31ab98c and retain the required environment and finding record."
+      "summary": "Copy feedback changed in response to PR review, so exact-candidate automation and Amy/Fry dispositions must be repeated before human review.",
+      "resolution": "Validate and freeze the replacement candidate, then repeat owner review before live-AT evidence."
     },
     {
       "id": "DRF-05",
@@ -235,7 +240,7 @@
   ],
   "next_action": {
     "phase": "Implement",
-    "action": "Obtain genuine named-human DRF-03 announcement and DRF-05 live keyboard/screen-reader evidence against candidate 31ab98c."
+    "action": "Validate PR feedback fixes, freeze a replacement candidate, repeat owner review, then obtain live-AT evidence."
   },
   "prioritized_follow_ups": [
     {

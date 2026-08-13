@@ -176,5 +176,18 @@ test('combined keyboard-operated filters preserve URL and visible result state',
   await expect(explorer.locator('[data-repo-period]')).toHaveValue('recent');
 
   await expectVisibleRepositories(explorer, ['example/alpha']);
-  await expect(page).toHaveURL(/\?language=Python&topic=ai-skills&period=recent$/);
+  await expect
+    .poll(() => {
+      const params = new URL(page.url()).searchParams;
+      return {
+        language: params.get('language'),
+        period: params.get('period'),
+        topic: params.get('topic'),
+      };
+    })
+    .toEqual({
+      language: 'Python',
+      period: 'recent',
+      topic: 'ai-skills',
+    });
 });
