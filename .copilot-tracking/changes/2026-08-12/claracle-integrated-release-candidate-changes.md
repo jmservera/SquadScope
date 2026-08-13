@@ -146,6 +146,21 @@ static-browser rerun passed all four applicable scenarios.
 * Exact-revision evidence: 1,670 Python tests and all 172 affected browser
   scenarios pass at the production static-server boundary.
 
+The final owner review reproduced three validator-test failures after hashed
+evidence was added to the checked-in record. The test fixture loaded that
+frozen record and replaced only the candidate SHA, leaving exact-candidate
+evidence behind. The fixture now creates an isolated preparing record by
+clearing candidate boundaries, evidence, reviews, and live-AT state before each
+scenario. All 16 focused tests pass again. Candidate `f2b08e6` is invalidated
+because the fixture correction changes a test file; it was never approved by
+the final named review.
+
+Evidence-only paths remain intentionally outside the product-tree digest so
+post-freeze reports and dispositions can be retained. They are not
+unvalidated: the schema constrains their shape, the validator checks each
+candidate SHA/path/SHA-256 tuple, and protected-branch PR review governs every
+evidence commit.
+
 ## Blockers
 
 * DRF-05 requires a genuine named live screen-reader review against the frozen

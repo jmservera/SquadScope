@@ -9,19 +9,19 @@
 * Added a revision-bound Phase 5 release-candidate schema, validator, evidence
   record, tests, and CI gate.
 
-The frozen product candidate is
-`8af4f4a4332db005924fc4281b9a32d039d80d5a`. The release remains blocked on
-named owner review and genuine live screen-reader evidence for DRF-05; this PR
-does not claim sponsor GO or deployment readiness.
+The prior candidates were invalidated during exact-revision acceptance review.
+A replacement freeze is pending after the validator-fixture isolation fix.
+The release remains blocked on final named owner review and genuine live
+screen-reader evidence for DRF-05; this PR does not claim sponsor GO or
+deployment readiness.
 
 ## Validation
 
-* 1,663 Python tests
+* 1,670 Python tests; 16 focused candidate-validator tests
 * Ruff lint and format
 * Two Node unit tests
 * Hugo, Pagefind, and internal-link checks
-* 157 browser acceptance tests plus four CI-configured analytics scenarios
-* 76 revision-tagged visual checks
+* 172 affected repository, accessibility, and revision-tagged visual scenarios
 * Checkov, Zizmor, and Bandit security gates
 
 ## Related issue

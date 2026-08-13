@@ -17,7 +17,17 @@ EVIDENCE_SHA256 = "c" * 64
 
 
 def payload() -> dict:
-    return load_object(RECORD)
+    candidate = load_object(RECORD)
+    candidate["candidate_sha"] = None
+    candidate["candidate_product_tree_sha256"] = None
+    candidate["candidate_frozen_at"] = None
+    candidate["status"] = "preparing"
+    for finding in candidate["findings"]:
+        finding["status"] = "open"
+        finding["evidence"] = []
+        finding["reviews"] = []
+        finding["live_at_review"] = None
+    return candidate
 
 
 def freeze(candidate: dict) -> dict:

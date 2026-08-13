@@ -4,9 +4,9 @@
     "phase4_merge_sha": "f9fb5d88fefde9b6143adda2d57e20d18f6b5e25",
     "verified_at": "2026-08-12T22:11:00Z"
   },
-  "candidate_frozen_at": "2026-08-12T23:35:02Z",
-  "candidate_product_tree_sha256": "08f4bf6c9df09b1b4fb7f50cfaa5a950a135078b68166718632e0773d5962aff",
-  "candidate_sha": "f2b08e62408beaae8828c73e4d3253fa4a95ae12",
+  "candidate_frozen_at": null,
+  "candidate_product_tree_sha256": null,
+  "candidate_sha": null,
   "deployment": {
     "deployed_at": null,
     "evidence": [],
@@ -16,26 +16,7 @@
   },
   "findings": [
     {
-      "evidence": [
-        {
-          "candidate_sha": "f2b08e62408beaae8828c73e4d3253fa4a95ae12",
-          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-f2b08e6.md",
-          "sha256": "4be577b3928154bb5f00f59d860f7e8acb42537b56d3ea3e19addea087f4b536",
-          "type": "automated-summary"
-        },
-        {
-          "candidate_sha": "f2b08e62408beaae8828c73e4d3253fa4a95ae12",
-          "path": "tests/visual/repository-explorer.spec.mjs",
-          "sha256": "6fe86571fdc52f204239ed0cec5bd5e5c7d080cae2971f55ed913984166959aa",
-          "type": "browser-contract"
-        },
-        {
-          "candidate_sha": "f2b08e62408beaae8828c73e4d3253fa4a95ae12",
-          "path": "tests/visual/observatory-visual-regression.spec.mjs",
-          "sha256": "87ea4ab0b8679cb8e7d527c4e01ce27d47aa9e98ebd61ad774391a10a1b78a84",
-          "type": "visual-evidence-contract"
-        }
-      ],
+      "evidence": [],
       "id": "DRF-01",
       "live_at_review": null,
       "owner": "Amy and Fry",
@@ -44,26 +25,7 @@
       "status": "open"
     },
     {
-      "evidence": [
-        {
-          "candidate_sha": "f2b08e62408beaae8828c73e4d3253fa4a95ae12",
-          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-f2b08e6.md",
-          "sha256": "4be577b3928154bb5f00f59d860f7e8acb42537b56d3ea3e19addea087f4b536",
-          "type": "automated-summary"
-        },
-        {
-          "candidate_sha": "f2b08e62408beaae8828c73e4d3253fa4a95ae12",
-          "path": "tests/visual/observatory-a11y.spec.mjs",
-          "sha256": "c3997d38da3eb039734d3bcd5ac6a3587d23f1c8461b740dc28b966678efe2d3",
-          "type": "browser-contract"
-        },
-        {
-          "candidate_sha": "f2b08e62408beaae8828c73e4d3253fa4a95ae12",
-          "path": "tests/visual/observatory-visual-regression.spec.mjs",
-          "sha256": "87ea4ab0b8679cb8e7d527c4e01ce27d47aa9e98ebd61ad774391a10a1b78a84",
-          "type": "visual-evidence-contract"
-        }
-      ],
+      "evidence": [],
       "id": "DRF-02",
       "live_at_review": null,
       "owner": "Amy and Fry",
@@ -72,20 +34,7 @@
       "status": "open"
     },
     {
-      "evidence": [
-        {
-          "candidate_sha": "f2b08e62408beaae8828c73e4d3253fa4a95ae12",
-          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-f2b08e6.md",
-          "sha256": "4be577b3928154bb5f00f59d860f7e8acb42537b56d3ea3e19addea087f4b536",
-          "type": "automated-summary"
-        },
-        {
-          "candidate_sha": "f2b08e62408beaae8828c73e4d3253fa4a95ae12",
-          "path": "tests/visual/observatory-a11y.spec.mjs",
-          "sha256": "c3997d38da3eb039734d3bcd5ac6a3587d23f1c8461b740dc28b966678efe2d3",
-          "type": "browser-contract"
-        }
-      ],
+      "evidence": [],
       "id": "DRF-03",
       "live_at_review": null,
       "owner": "Amy and Fry",
@@ -94,20 +43,7 @@
       "status": "open"
     },
     {
-      "evidence": [
-        {
-          "candidate_sha": "f2b08e62408beaae8828c73e4d3253fa4a95ae12",
-          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-f2b08e6.md",
-          "sha256": "4be577b3928154bb5f00f59d860f7e8acb42537b56d3ea3e19addea087f4b536",
-          "type": "automated-summary"
-        },
-        {
-          "candidate_sha": "f2b08e62408beaae8828c73e4d3253fa4a95ae12",
-          "path": "tests/visual/observatory-a11y.spec.mjs",
-          "sha256": "c3997d38da3eb039734d3bcd5ac6a3587d23f1c8461b740dc28b966678efe2d3",
-          "type": "browser-contract"
-        }
-      ],
+      "evidence": [],
       "id": "DRF-04",
       "live_at_review": null,
       "owner": "Fry",
@@ -213,5 +149,5 @@
     "reviewer": null,
     "status": "pending"
   },
-  "status": "blocked"
+  "status": "preparing"
 }
