@@ -63,7 +63,7 @@
 |---|---|---|---|---|---|
 | P01 | data/schemas/release-candidate.schema.json, scripts/validate_release_candidate.py, tests/test_validate_release_candidate.py | Added revision-bound, fail-closed release evidence and explicit waiver semantics | Candidate c65046a and schema 1.1.0 | 28 focused tests; boundary validator; hosted Python/Ruff/security checks | Reconciled |
 | P02 | assets/js/observatory-charts.js, repository/ranking styles and scripts, tests/visual/*.spec.mjs | Fixed visible filtering and strengthened accessible interactions | Candidate evidence and production Playwright probes | 172 affected scenarios before release; three final production interaction probes | Reconciled |
-| P03 | data/release/claracle-v1.1-release-candidate.json, owner review, issue 714 | Bound evidence to reachable merge identity and represented unavailable live AT truthfully | Three findings closed; DRF-03/05 deferred with expiry | Validator and hosted checks pass | Reconciled with justified divergence |
+| P03 | data/release/claracle-v1.1-release-candidate.json, owner review, issue 714 | Bound evidence to reachable merge identity and represented unavailable live-AT truthfully | Three findings closed; DRF-03/05 deferred with expiry | Validator and hosted checks pass | Reconciled with justified divergence |
 | P04 | release ledger and release-candidate.md | Recorded sponsor GO, tested rollback, merge, deployment, release-day probes, and dates | Run 31731340792 and production probes | Build/deploy/smoke and live probes pass | Reconciled |
 
 ## Implementation-Time Plan and Detail Update Assessment
@@ -120,7 +120,7 @@ implementation defects or part of the completed P01-P04 acceptance boundary.
 * Related scope: Plan executive summary, goals, acceptance criteria, risks, and handoff
 * Evidence: .copilot-tracking/plans/2026-08-12/claracle-integrated-release-candidate-plan.md
 * Impact: Current markers and dependency text represent the sponsor exception,
-  but older narrative still says live AT is an unconditional blocker. This can
+  but older narrative still says live-AT is an unconditional blocker. This can
   confuse later readers even though the release ledger and changes record are
   authoritative and internally valid.
 * Destination: rpi_plan
@@ -193,6 +193,6 @@ Later implementation of a routed finding does not require another Review.
 * Execution status: Complete
 * Outcome: Conformant with justified divergence
 * Validation coverage: Candidate integrity, lifecycle tests, hosted gates,
-  deployment, production HTTP/JSON, and production interactions passed; live AT
+  deployment, production HTTP/JSON, and production interactions passed; live-AT
   is explicitly unavailable and deferred.
 * Blockers: None for Phase 5 closeout.
