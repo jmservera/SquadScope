@@ -29,6 +29,18 @@ def payload() -> dict:
         "candidate_sha": None,
     }
     candidate["rollback"]["status"] = "ready"
+    candidate["deployment"] = {
+        "status": "pending",
+        "merge_sha": None,
+        "run_id": None,
+        "deployed_at": None,
+        "evidence": [],
+    }
+    for outcome in candidate["outcomes"]:
+        outcome["status"] = "pending"
+        outcome["due_at"] = None
+        outcome["completed_at"] = None
+        outcome["evidence"] = []
     for finding in candidate["findings"]:
         finding["status"] = "open"
         finding["evidence"] = []

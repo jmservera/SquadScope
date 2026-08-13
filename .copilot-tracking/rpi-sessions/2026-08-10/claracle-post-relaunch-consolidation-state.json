@@ -254,7 +254,7 @@
   "blockers": [],
   "next_action": {
     "phase": "Implement",
-    "action": "Commit sponsor GO evidence, update PR 713, complete hosted checks and Copilot review, then merge and verify deployment."
+    "action": "Harden release fixture isolation, refreeze the candidate, deploy the correction, then record release-day evidence."
   },
   "prioritized_follow_ups": [
     {
