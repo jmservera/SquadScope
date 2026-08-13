@@ -268,8 +268,8 @@
   ],
   "blockers": [],
   "next_action": {
-    "phase": "Follow-up",
-    "action": "Select a ranked follow-up task, stop the automatic session, or switch to manual mode."
+    "phase": "Research",
+    "action": "Create a child task for genuine live-AT validation of DRF-03 and DRF-05, preserving this completed task as its parent."
   },
   "prioritized_follow_ups": [
     {
