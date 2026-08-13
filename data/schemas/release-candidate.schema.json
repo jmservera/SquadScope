@@ -18,7 +18,7 @@
     "outcomes"
   ],
   "properties": {
-    "schema_version": { "const": "1.0.0" },
+    "schema_version": { "const": "1.1.0" },
     "release_id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
     "status": { "enum": ["preparing", "blocked", "go", "deployed"] },
     "candidate_sha": {
@@ -194,6 +194,31 @@
       },
       "additionalProperties": false
     },
+    "waiver": {
+      "type": ["object", "null"],
+      "required": [
+        "approver",
+        "rationale",
+        "compensating_control",
+        "issue_url",
+        "candidate_sha",
+        "decided_at",
+        "expires_at"
+      ],
+      "properties": {
+        "approver": { "type": "string", "minLength": 1 },
+        "rationale": { "type": "string", "minLength": 1 },
+        "compensating_control": { "type": "string", "minLength": 1 },
+        "issue_url": {
+          "type": "string",
+          "pattern": "^https://github\\.com/[^/]+/[^/]+/issues/[0-9]+$"
+        },
+        "candidate_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "decided_at": { "type": "string", "format": "date-time" },
+        "expires_at": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
     "finding": {
       "type": "object",
       "required": [
@@ -203,12 +228,13 @@
         "owner",
         "evidence",
         "reviews",
-        "live_at_review"
+        "live_at_review",
+        "waiver"
       ],
       "properties": {
         "id": { "pattern": "^DRF-0[1-5]$", "type": "string" },
         "severity": { "enum": [1, 2] },
-        "status": { "enum": ["open", "closed"] },
+        "status": { "enum": ["open", "closed", "deferred"] },
         "owner": { "type": "string", "minLength": 1 },
         "evidence": {
           "type": "array",
@@ -218,7 +244,8 @@
           "type": "array",
           "items": { "$ref": "#/$defs/owner_review" }
         },
-        "live_at_review": { "$ref": "#/$defs/live_at_review" }
+        "live_at_review": { "$ref": "#/$defs/live_at_review" },
+        "waiver": { "$ref": "#/$defs/waiver" }
       },
       "additionalProperties": false
     },

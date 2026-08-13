@@ -4,9 +4,9 @@
     "phase4_merge_sha": "f9fb5d88fefde9b6143adda2d57e20d18f6b5e25",
     "verified_at": "2026-08-12T22:11:00Z"
   },
-  "candidate_frozen_at": "2026-08-13T10:24:48Z",
-  "candidate_product_tree_sha256": "f1b4831d4ccb112f949330b67561208b304c5a2f2e60bb16fc56ad9aa9d61085",
-  "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
+  "candidate_frozen_at": null,
+  "candidate_product_tree_sha256": null,
+  "candidate_sha": null,
   "deployment": {
     "deployed_at": null,
     "evidence": [],
@@ -16,171 +16,44 @@
   },
   "findings": [
     {
-      "evidence": [
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
-          "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
-          "type": "automated-summary"
-        },
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "path": "tests/visual/repository-explorer.spec.mjs",
-          "sha256": "b1952b2aa82b7b458452bc5b9428027c4f39821c1be3a986bdc22507a2c4bbf5",
-          "type": "browser-contract"
-        },
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "path": "tests/visual/observatory-visual-regression.spec.mjs",
-          "sha256": "87ea4ab0b8679cb8e7d527c4e01ce27d47aa9e98ebd61ad774391a10a1b78a84",
-          "type": "visual-evidence-contract"
-        }
-      ],
+      "evidence": [],
       "id": "DRF-01",
       "live_at_review": null,
       "owner": "Amy and Fry",
-      "reviews": [
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "disposition": "pass",
-          "findings": [],
-          "reviewed_at": "2026-08-13T10:38:26Z",
-          "reviewer": "Squad Amy",
-          "role": "Amy",
-          "unresolved_work": []
-        },
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "disposition": "pass",
-          "findings": [],
-          "reviewed_at": "2026-08-13T10:38:26Z",
-          "reviewer": "Squad Fry",
-          "role": "Fry",
-          "unresolved_work": []
-        }
-      ],
+      "reviews": [],
       "severity": 2,
-      "status": "closed"
+      "status": "open",
+      "waiver": null
     },
     {
-      "evidence": [
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
-          "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
-          "type": "automated-summary"
-        },
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "path": "tests/visual/observatory-a11y.spec.mjs",
-          "sha256": "32e1d98b5293cff3b6f1307da21db4d6d530c665769b3656725f4da784ef9c8f",
-          "type": "browser-contract"
-        },
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "path": "tests/visual/observatory-visual-regression.spec.mjs",
-          "sha256": "87ea4ab0b8679cb8e7d527c4e01ce27d47aa9e98ebd61ad774391a10a1b78a84",
-          "type": "visual-evidence-contract"
-        }
-      ],
+      "evidence": [],
       "id": "DRF-02",
       "live_at_review": null,
       "owner": "Amy and Fry",
-      "reviews": [
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "disposition": "pass",
-          "findings": [],
-          "reviewed_at": "2026-08-13T10:38:26Z",
-          "reviewer": "Squad Amy",
-          "role": "Amy",
-          "unresolved_work": []
-        },
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "disposition": "pass",
-          "findings": [],
-          "reviewed_at": "2026-08-13T10:38:26Z",
-          "reviewer": "Squad Fry",
-          "role": "Fry",
-          "unresolved_work": []
-        }
-      ],
+      "reviews": [],
       "severity": 2,
-      "status": "closed"
+      "status": "open",
+      "waiver": null
     },
     {
-      "evidence": [
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
-          "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
-          "type": "automated-summary"
-        },
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "path": "tests/visual/observatory-a11y.spec.mjs",
-          "sha256": "32e1d98b5293cff3b6f1307da21db4d6d530c665769b3656725f4da784ef9c8f",
-          "type": "browser-contract"
-        }
-      ],
+      "evidence": [],
       "id": "DRF-03",
       "live_at_review": null,
       "owner": "Amy and Fry",
-      "reviews": [
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "disposition": "pass",
-          "findings": [],
-          "reviewed_at": "2026-08-13T10:38:26Z",
-          "reviewer": "Squad Amy",
-          "role": "Amy",
-          "unresolved_work": []
-        },
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "disposition": "pass",
-          "findings": [],
-          "reviewed_at": "2026-08-13T10:38:26Z",
-          "reviewer": "Squad Fry",
-          "role": "Fry",
-          "unresolved_work": []
-        }
-      ],
+      "reviews": [],
       "severity": 2,
-      "status": "open"
+      "status": "open",
+      "waiver": null
     },
     {
-      "evidence": [
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
-          "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
-          "type": "automated-summary"
-        },
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "path": "tests/visual/observatory-a11y.spec.mjs",
-          "sha256": "32e1d98b5293cff3b6f1307da21db4d6d530c665769b3656725f4da784ef9c8f",
-          "type": "browser-contract"
-        }
-      ],
+      "evidence": [],
       "id": "DRF-04",
       "live_at_review": null,
       "owner": "Fry",
-      "reviews": [
-        {
-          "candidate_sha": "327102410d5ade6048408463a27872cfd0bedc60",
-          "disposition": "pass",
-          "findings": [],
-          "reviewed_at": "2026-08-13T10:38:26Z",
-          "reviewer": "Squad Fry",
-          "role": "Fry",
-          "unresolved_work": []
-        }
-      ],
+      "reviews": [],
       "severity": 2,
-      "status": "closed"
+      "status": "open",
+      "waiver": null
     },
     {
       "evidence": [],
@@ -189,73 +62,90 @@
       "owner": "Fry and named accessibility reviewer",
       "reviews": [],
       "severity": 2,
-      "status": "open"
+      "status": "open",
+      "waiver": null
     }
   ],
   "outcomes": [
     {
-      "completed_at": null,
-      "due_at": null,
       "acceptance_question": "Did the deployed release pass all release-day production probes?",
       "baseline": "Phase 4 deployment run 31645707266 passed the repository and ranking production probes.",
-      "target": "Every Phase 5 release-day HTTP, JSON, accessibility, and interaction probe passes with no severity-1 or severity-2 regression.",
+      "completed_at": null,
+      "due_at": null,
       "evidence": [],
       "evidence_destination": "data/release/claracle-v1.1-release-candidate.json",
-      "expected_sources": ["GitHub Pages deployment run", "production HTTP and JSON probes"],
+      "expected_sources": [
+        "GitHub Pages deployment run",
+        "production HTTP and JSON probes"
+      ],
       "owner": "Fry and URL",
       "status": "pending",
+      "target": "Every Phase 5 release-day HTTP, JSON, accessibility, and interaction probe passes with no severity-1 or severity-2 regression.",
       "window": "release-day"
     },
     {
-      "completed_at": null,
-      "due_at": null,
       "acceptance_question": "Did the release remain stable for seven days without accessibility or interaction regressions?",
       "baseline": "No seven-day production stability window exists for the integrated Phase 5 candidate.",
-      "target": "Zero severity-1 or severity-2 accessibility, interaction, visual, or availability regressions during the first seven days.",
+      "completed_at": null,
+      "due_at": null,
       "evidence": [],
       "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
-      "expected_sources": ["GitHub Actions history", "production smoke tests"],
+      "expected_sources": [
+        "GitHub Actions history",
+        "production smoke tests"
+      ],
       "owner": "Fry and Amy",
       "status": "pending",
+      "target": "Zero severity-1 or severity-2 accessibility, interaction, visual, or availability regressions during the first seven days.",
       "window": "seven-day"
     },
     {
-      "completed_at": null,
-      "due_at": null,
       "acceptance_question": "Did repository retirement and organic discovery remain consistent after 28 days?",
       "baseline": "The approved GA4/GSC baseline records 0 organic sessions, 149 impressions, 0 clicks, and 17 impression-bearing queries.",
-      "target": "Review repository migration and organic evidence for regressions at D+28; do not apply the six-month organic target early.",
+      "completed_at": null,
+      "due_at": null,
       "evidence": [],
       "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
-      "expected_sources": ["Google Search Console", "repository migration probes"],
+      "expected_sources": [
+        "Google Search Console",
+        "repository migration probes"
+      ],
       "owner": "Zapp and Leela",
       "status": "pending",
+      "target": "Review repository migration and organic evidence for regressions at D+28; do not apply the six-month organic target early.",
       "window": "28-day"
     },
     {
-      "completed_at": null,
-      "due_at": null,
       "acceptance_question": "Did migration and organic discovery remain healthy after three months?",
       "baseline": "The approved GA4/GSC baseline records 0 organic sessions, 149 impressions, 0 clicks, and 17 impression-bearing queries.",
-      "target": "Retain three-month migration and organic evidence and document progress toward the six-month top-20-query target.",
+      "completed_at": null,
+      "due_at": null,
       "evidence": [],
       "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
-      "expected_sources": ["Google Search Console", "GA4"],
+      "expected_sources": [
+        "Google Search Console",
+        "GA4"
+      ],
       "owner": "Zapp and Leela",
       "status": "pending",
+      "target": "Retain three-month migration and organic evidence and document progress toward the six-month top-20-query target.",
       "window": "three-month"
     },
     {
-      "completed_at": null,
-      "due_at": null,
       "acceptance_question": "Did the release meet its six-month SEO outcome expectations?",
       "baseline": "The approved GSC baseline records 17 impression-bearing queries and no established top-20-query outcome.",
-      "target": "At least 250 organic sessions per complete 28-day month and at least 15 queries in the top 20 by six months.",
+      "completed_at": null,
+      "due_at": null,
       "evidence": [],
       "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
-      "expected_sources": ["Google Search Console", "GA4", "backlink export"],
+      "expected_sources": [
+        "Google Search Console",
+        "GA4",
+        "backlink export"
+      ],
       "owner": "Zapp and jmservera",
       "status": "pending",
+      "target": "At least 250 organic sessions per complete 28-day month and at least 15 queries in the top 20 by six months.",
       "window": "six-month"
     }
   ],
@@ -273,12 +163,12 @@
       "Repeat repository, ranking, JSON, and retired-route production probes."
     ]
   },
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "sponsor": {
     "candidate_sha": null,
     "decided_at": null,
     "reviewer": null,
     "status": "pending"
   },
-  "status": "blocked"
+  "status": "preparing"
 }

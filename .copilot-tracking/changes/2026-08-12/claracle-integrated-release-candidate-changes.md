@@ -225,3 +225,17 @@ freeze.
 * P03-T03 remains human-blocked until genuine live screen-reader evidence is
   supplied for DRF-03 and DRF-05; sponsor GO, merge, deployment, and outcomes
   remain downstream.
+
+## 2026-08-13: Candidate Invalidation — Deferred/Waiver Schema
+
+* **Reason**: Schema, validator, and tests changed to support a first-class
+  `deferred` finding status with a mandatory `waiver` object. This adds a new
+  required key (`waiver`) to every finding and bumps schema_version to 1.1.0.
+* Candidate `3271024` is invalidated; the record is reset to `preparing` with
+  all findings open and `waiver: null`.
+* Validator now enforces: deferred findings must carry a non-null waiver bound
+  to the candidate SHA; waiver `decided_at` must fall within the candidate
+  window; `expires_at > decided_at` and `expires_at > now` (fail-closed: an
+  expired waiver fails CI unconditionally); non-deferred findings must have
+  `waiver: null`. GO-blocking logic now exempts `deferred` findings.
+* 9 new tests added (25 total focused validator tests all green).

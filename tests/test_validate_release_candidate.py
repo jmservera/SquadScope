@@ -27,6 +27,7 @@ def payload() -> dict:
         finding["evidence"] = []
         finding["reviews"] = []
         finding["live_at_review"] = None
+        finding["waiver"] = None
     return candidate
 
 
@@ -301,3 +302,127 @@ def test_rejects_missing_or_modified_evidence_source(tmp_path: Path) -> None:
     ]
     with pytest.raises(ValueError, match="hash does not match"):
         validate(candidate, load_object(SCHEMA), root=tmp_path)
+
+
+# ---------- Waiver / deferred-status tests ----------
+
+
+def waiver_obj() -> dict:
+    return {
+        "approver": "jmservera",
+        "rationale": "No screen-reader access or accessibility expert available.",
+        "compensating_control": "Automated a11y coverage retained; no further UI changes ship without re-running the suite.",
+        "issue_url": "https://github.com/jmservera/SquadScope/issues/999",
+        "candidate_sha": CANDIDATE_SHA,
+        "decided_at": "2026-08-12T23:00:00Z",
+        "expires_at": "2026-11-12T23:00:00Z",
+    }
+
+
+def defer_findings(candidate: dict) -> dict:
+    """Close DRF-01/02/04, defer DRF-03/05 with valid waivers."""
+    roles = {
+        "DRF-01": ["Amy", "Fry"],
+        "DRF-02": ["Amy", "Fry"],
+        "DRF-03": ["Amy", "Fry"],
+        "DRF-04": ["Fry"],
+        "DRF-05": [],
+    }
+    for finding in candidate["findings"]:
+        fid = finding["id"]
+        if fid in {"DRF-03", "DRF-05"}:
+            finding["status"] = "deferred"
+            finding["waiver"] = waiver_obj()
+        else:
+            finding["status"] = "closed"
+            finding["waiver"] = None
+        finding["evidence"] = (
+            [
+                {
+                    "type": "automated",
+                    "path": f"reports/{fid.lower()}.json",
+                    "sha256": EVIDENCE_SHA256,
+                    "candidate_sha": CANDIDATE_SHA,
+                }
+            ]
+            if fid != "DRF-05"
+            else []
+        )
+        finding["reviews"] = [owner_review(role) for role in roles[fid]]
+    # DRF-03/05 still need evidence for DRF-03; DRF-05 has no evidence (matches real pattern)
+    return candidate
+
+
+def test_accepts_deferred_finding_with_valid_waiver() -> None:
+    candidate = defer_findings(freeze(payload()))
+    validate_at(candidate)
+
+
+def test_go_succeeds_with_deferred_findings() -> None:
+    candidate = make_go(defer_findings(freeze(payload())))
+    candidate["rollback"]["status"] = "tested"
+    candidate["rollback"]["evidence"] = ["Rollback rehearsal passed."]
+    validate_at(candidate)
+
+
+def test_rejects_deferred_with_null_waiver() -> None:
+    candidate = freeze(payload())
+    candidate["findings"][2]["status"] = "deferred"
+    candidate["findings"][2]["waiver"] = None
+    with pytest.raises(ValueError, match="requires a waiver"):
+        validate_at(candidate)
+
+
+def test_rejects_waiver_missing_required_field() -> None:
+    candidate = freeze(payload())
+    candidate["findings"][2]["status"] = "deferred"
+    w = waiver_obj()
+    del w["rationale"]
+    candidate["findings"][2]["waiver"] = w
+    with pytest.raises(ValueError, match="Schema validation failed"):
+        validate_at(candidate)
+
+
+def test_rejects_waiver_candidate_sha_mismatch() -> None:
+    candidate = freeze(payload())
+    candidate["findings"][2]["status"] = "deferred"
+    w = waiver_obj()
+    w["candidate_sha"] = "e" * 40
+    candidate["findings"][2]["waiver"] = w
+    with pytest.raises(ValueError, match="waiver does not match candidate SHA"):
+        validate_at(candidate)
+
+
+def test_rejects_deferral_before_candidate_freeze() -> None:
+    candidate = payload()  # no freeze
+    candidate["findings"][2]["status"] = "deferred"
+    candidate["findings"][2]["waiver"] = waiver_obj()
+    with pytest.raises(ValueError, match="cannot defer before candidate freeze"):
+        validate_at(candidate)
+
+
+def test_rejects_expired_waiver() -> None:
+    candidate = freeze(payload())
+    candidate["findings"][2]["status"] = "deferred"
+    w = waiver_obj()
+    w["expires_at"] = "2026-08-12T23:30:00Z"  # before now (2026-08-13T01:00)
+    candidate["findings"][2]["waiver"] = w
+    with pytest.raises(ValueError, match="waiver has expired"):
+        validate_at(candidate)
+
+
+def test_rejects_waiver_expires_before_decided() -> None:
+    candidate = freeze(payload())
+    candidate["findings"][2]["status"] = "deferred"
+    w = waiver_obj()
+    w["expires_at"] = "2026-08-12T22:59:00Z"  # before decided_at
+    candidate["findings"][2]["waiver"] = w
+    with pytest.raises(ValueError, match="expires_at must be after decided_at"):
+        validate_at(candidate)
+
+
+def test_rejects_non_deferred_finding_with_waiver() -> None:
+    candidate = freeze(payload())
+    candidate["findings"][0]["waiver"] = waiver_obj()
+    with pytest.raises(ValueError, match="has a waiver but is not deferred"):
+        validate_at(candidate)

@@ -177,7 +177,29 @@ def validate(
                 )
 
         live_review = finding["live_at_review"]
+        waiver = finding["waiver"]
         requires_live_review = finding_id in {"DRF-03", "DRF-05"}
+
+        # Hygiene: non-deferred findings must not carry a waiver
+        if finding["status"] != "deferred" and waiver is not None:
+            raise ValueError(f"{finding_id} has a waiver but is not deferred")
+
+        if finding["status"] == "deferred":
+            if candidate_sha is None or candidate_frozen_at is None:
+                raise ValueError(f"{finding_id} cannot defer before candidate freeze")
+            if waiver is None:
+                raise ValueError(f"{finding_id} deferred status requires a waiver")
+            if waiver["candidate_sha"] != candidate_sha:
+                raise ValueError(f"{finding_id} waiver does not match candidate SHA")
+            waiver_decided = parse_timestamp(waiver["decided_at"])
+            waiver_expires = parse_timestamp(waiver["expires_at"])
+            if waiver_decided < candidate_frozen_at or waiver_decided > now:
+                raise ValueError(f"{finding_id} waiver decided_at is outside the candidate window")
+            if waiver_expires <= waiver_decided:
+                raise ValueError(f"{finding_id} waiver expires_at must be after decided_at")
+            if waiver_expires <= now:
+                raise ValueError(f"{finding_id} waiver has expired")
+
         if finding["status"] == "closed" and requires_live_review:
             if live_review is None or live_review["disposition"] != "pass":
                 raise ValueError(f"{finding_id} closure requires a passing live AT review")
@@ -197,7 +219,7 @@ def validate(
     blocking = [
         finding["id"]
         for finding in payload["findings"]
-        if finding["severity"] in {1, 2} and finding["status"] != "closed"
+        if finding["severity"] in {1, 2} and finding["status"] not in {"closed", "deferred"}
     ]
     sponsor = payload["sponsor"]
     go_state = status in {"go", "deployed"}
