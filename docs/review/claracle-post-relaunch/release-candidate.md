@@ -28,10 +28,10 @@ invalidates the candidate and every revision-bound disposition.
 
 | Finding | Automated evidence | Owner disposition | Status |
 |---|---|---|---|
-| DRF-01 | Repository topic, language, lifecycle, period, search, reset, URL, keyboard, combined-state, and visible-count Playwright assertions; four-project combined-state captures | Pending Amy/Fry review | Candidate frozen; review pending |
-| DRF-02 | Repository, ranking, embed, provenance, fallback, copy-disclosure, pointer, keyboard, focus, touch, and Escape assertions | Pending Amy/Fry review | Candidate frozen; review pending |
-| DRF-03 | Keyboard clipboard success/failure, polite status, manual-copy guidance, and retained-focus assertions | Pending Amy/Fry and live-AT review | Candidate frozen; review pending |
-| DRF-04 | Focus-visible assertions and captures for homepage, article, repository, ranking, embed, and navigation links at desktop, mobile, and Chromium browser-engine 200% page scaling | Pending Fry review | Candidate frozen; review pending |
+| DRF-01 | Repository topic, language, lifecycle, period, search, reset, URL, keyboard, combined-state, and visible-count Playwright assertions; four-project combined-state captures | Amy/Fry pass | Closed |
+| DRF-02 | Repository, ranking, embed, provenance, fallback, copy-disclosure, pointer, keyboard, focus, touch, and Escape assertions | Amy/Fry pass | Closed |
+| DRF-03 | Keyboard clipboard success/failure, polite status, manual-copy guidance, and retained-focus assertions | Amy/Fry automated pass; live-AT pending | Blocked on named-human announcement review |
+| DRF-04 | Focus-visible assertions and captures for homepage, article, repository, ranking, embed, and navigation links at desktop, mobile, and Chromium browser-engine 200% page scaling | Fry pass | Closed |
 | DRF-05 | Genuine named live screen-reader review | Pending | Blocked |
 
 Automation does not close DRF-05 and does not substitute for screen-reader
@@ -39,7 +39,7 @@ confirmation of the DRF-03 status message.
 
 ## Required Named Review
 
-DRF-05 must record the reviewer name, date, exact candidate SHA, operating
+DRF-03 and DRF-05 must record the reviewer name, date, exact candidate SHA, operating
 system/version, browser/version, screen reader/version, keyboard-only and
 screen-reader scenarios, findings, severity, disposition, and unresolved work.
 Until that evidence exists, sponsor GO, merge, and deployment remain blocked.

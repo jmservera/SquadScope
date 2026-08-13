@@ -39,9 +39,28 @@
       "id": "DRF-01",
       "live_at_review": null,
       "owner": "Amy and Fry",
-      "reviews": [],
+      "reviews": [
+        {
+          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
+          "disposition": "pass",
+          "findings": [],
+          "reviewed_at": "2026-08-13T08:15:13Z",
+          "reviewer": "Squad Amy",
+          "role": "Amy",
+          "unresolved_work": []
+        },
+        {
+          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
+          "disposition": "pass",
+          "findings": [],
+          "reviewed_at": "2026-08-13T08:15:13Z",
+          "reviewer": "Squad Fry",
+          "role": "Fry",
+          "unresolved_work": []
+        }
+      ],
       "severity": 2,
-      "status": "open"
+      "status": "closed"
     },
     {
       "evidence": [
@@ -67,9 +86,28 @@
       "id": "DRF-02",
       "live_at_review": null,
       "owner": "Amy and Fry",
-      "reviews": [],
+      "reviews": [
+        {
+          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
+          "disposition": "pass",
+          "findings": [],
+          "reviewed_at": "2026-08-13T08:15:13Z",
+          "reviewer": "Squad Amy",
+          "role": "Amy",
+          "unresolved_work": []
+        },
+        {
+          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
+          "disposition": "pass",
+          "findings": [],
+          "reviewed_at": "2026-08-13T08:15:13Z",
+          "reviewer": "Squad Fry",
+          "role": "Fry",
+          "unresolved_work": []
+        }
+      ],
       "severity": 2,
-      "status": "open"
+      "status": "closed"
     },
     {
       "evidence": [
@@ -89,7 +127,26 @@
       "id": "DRF-03",
       "live_at_review": null,
       "owner": "Amy and Fry",
-      "reviews": [],
+      "reviews": [
+        {
+          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
+          "disposition": "pass",
+          "findings": [],
+          "reviewed_at": "2026-08-13T08:15:13Z",
+          "reviewer": "Squad Amy",
+          "role": "Amy",
+          "unresolved_work": []
+        },
+        {
+          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
+          "disposition": "pass",
+          "findings": [],
+          "reviewed_at": "2026-08-13T08:15:13Z",
+          "reviewer": "Squad Fry",
+          "role": "Fry",
+          "unresolved_work": []
+        }
+      ],
       "severity": 2,
       "status": "open"
     },
@@ -111,9 +168,19 @@
       "id": "DRF-04",
       "live_at_review": null,
       "owner": "Fry",
-      "reviews": [],
+      "reviews": [
+        {
+          "candidate_sha": "31ab98c99c7175adf83d62321dd6f592ab54a5fd",
+          "disposition": "pass",
+          "findings": [],
+          "reviewed_at": "2026-08-13T08:15:13Z",
+          "reviewer": "Squad Fry",
+          "role": "Fry",
+          "unresolved_work": []
+        }
+      ],
       "severity": 2,
-      "status": "open"
+      "status": "closed"
     },
     {
       "evidence": [],
@@ -157,7 +224,7 @@
       "due_at": null,
       "acceptance_question": "Did repository retirement and organic discovery remain consistent after 28 days?",
       "baseline": "The approved GA4/GSC baseline records 0 organic sessions, 149 impressions, 0 clicks, and 17 impression-bearing queries.",
-      "target": "At least 250 organic sessions in the complete 28-day month, with repository migration evidence reviewed for regressions.",
+      "target": "Review repository migration and organic evidence for regressions at D+28; do not apply the six-month organic target early.",
       "evidence": [],
       "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
       "expected_sources": ["Google Search Console", "repository migration probes"],
@@ -183,7 +250,7 @@
       "due_at": null,
       "acceptance_question": "Did the release meet its six-month SEO outcome expectations?",
       "baseline": "The approved GSC baseline records 17 impression-bearing queries and no established top-20-query outcome.",
-      "target": "At least 15 queries rank in the top 20 by six months, with the complete 28-day organic-session measure retained.",
+      "target": "At least 250 organic sessions per complete 28-day month and at least 15 queries in the top 20 by six months.",
       "evidence": [],
       "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
       "expected_sources": ["Google Search Console", "GA4", "backlink export"],

@@ -12,9 +12,9 @@
 The frozen product candidate is
 `31ab98c99c7175adf83d62321dd6f592ab54a5fd`, with product-tree digest
 `25f9fcc8a8b8e41c4a073f3eb057ca0b55ada6c23b3901896d4838863ddb75cf`.
-The release remains blocked on final named owner review and genuine live
-screen-reader evidence for DRF-05; this PR does not claim sponsor GO or
-deployment readiness.
+Final named owner review passes every automatable boundary. The release remains
+blocked on genuine live screen-reader evidence for DRF-03 and DRF-05; this PR
+does not claim sponsor GO or deployment readiness.
 
 ## Validation
 

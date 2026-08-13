@@ -65,3 +65,24 @@ contract now retains the approved 0-session/149-impression/0-click baseline,
 the 250-organic-session complete-month target, and the 15-top-20-query
 six-month target. Candidate `9d5e55d` was never frozen, so no evidence or
 disposition was invalidated by these fixes.
+
+## Candidate 31ab98c Final Review
+
+The final named review confirmed:
+
+* Amy and Fry pass the automated portions of DRF-01 through DRF-04;
+* Hermes passes security;
+* URL passes CI and release provenance;
+* Nibbler passes prompt-injection, AI-safety, and truthful-attestation review;
+* Farnsworth passes editorial and data-integrity claims;
+* Leela and Zapp found one remaining evidence-only severity-2 defect: the
+  250-organic-session target was assigned to D+28 rather than the approved
+  six-month window.
+
+The outcome record now keeps D+28 as a migration/organic evidence review and
+applies both approved OBJ-02 thresholds at six months: at least 250 organic
+sessions per complete 28-day month and at least 15 queries in the top 20.
+
+No automatable severity-1 or severity-2 finding remains. DRF-03 live
+announcement confirmation and DRF-05 live keyboard/screen-reader acceptance
+remain genuine named-human blockers.

@@ -153,7 +153,7 @@ observations must be scheduled and recorded only when due.
 
 * [x] P03-T01 Freeze the product candidate SHA, capture all automated reports
   against that exact revision, and allow only evidence-record commits afterward.
-* [ ] P03-T02 Obtain Amy/Fry visual, keyboard, touch, zoom, reduced-motion, and
+* [x] P03-T02 Obtain Amy/Fry visual, keyboard, touch, zoom, reduced-motion, and
   evidence dispositions.
 * [ ] P03-T03 Obtain the real named DRF-05 live screen-reader disposition.
 * [ ] P03-T04 Obtain Leela, Hermes, URL, Nibbler, Zapp, editorial/data-integrity,

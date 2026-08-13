@@ -209,13 +209,18 @@
       "decision": "The immutable replacement candidate is 31ab98c99c7175adf83d62321dd6f592ab54a5fd with product-tree digest 25f9fcc8a8b8e41c4a073f3eb057ca0b55ada6c23b3901896d4838863ddb75cf; 1,670 Python and 172 browser scenarios pass.",
       "status": "confirmed",
       "evidence": "data/release/claracle-v1.1-release-candidate.json"
+    },
+    {
+      "decision": "Final named review passes all automatable boundaries after moving the 250-session target from D+28 to the approved six-month window; DRF-03 live announcement and DRF-05 live AT remain human-only blockers.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-owner-review.md"
     }
   ],
   "blockers": [
     {
-      "id": "phase5-owner-review",
-      "summary": "Replacement candidate 31ab98c requires exact-revision final named owner review.",
-      "resolution": "Bind hashed automated evidence and repeat final named owner review against 31ab98c."
+      "id": "DRF-03",
+      "summary": "Automated copy-announcement evidence and Amy/Fry dispositions pass, but genuine live screen-reader announcement confirmation is unavailable.",
+      "resolution": "A named human reviewer must confirm the status announcement against candidate 31ab98c and retain the required environment and finding record."
     },
     {
       "id": "DRF-05",
@@ -225,7 +230,7 @@
   ],
   "next_action": {
     "phase": "Implement",
-    "action": "Bind hashed automated evidence and repeat final named owner review against 31ab98c while preserving DRF-05 as human-blocked."
+    "action": "Obtain genuine named-human DRF-03 announcement and DRF-05 live keyboard/screen-reader evidence against candidate 31ab98c."
   },
   "prioritized_follow_ups": [
     {

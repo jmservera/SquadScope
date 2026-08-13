@@ -173,14 +173,25 @@ evidence commit.
   attempt was discarded because its local server was stopped; the identical
   suite passed after the production boundary was restarted.
 
+The final named review found one evidence-only severity-2 issue: the approved
+250-organic-session target was attached to D+28 rather than the six-month
+window. The record now treats D+28 as a migration/organic regression review and
+applies both approved OBJ-02 thresholds at six months. No automatable
+severity-1 or severity-2 finding remains.
+
+Amy and Fry's exact-candidate dispositions close DRF-01, DRF-02, and DRF-04.
+They pass the automated portion of DRF-03, which remains open solely for
+genuine named-human screen-reader announcement confirmation. DRF-05 remains
+open for the complete live keyboard/screen-reader review.
+
 ## Blockers
 
-* DRF-05 requires a genuine named live screen-reader review against the frozen
-  candidate and cannot be completed by agent simulation. This blocks sponsor
-  GO, merge, and deployment, but not candidate freeze or automated review.
+* DRF-03 and DRF-05 require genuine named live screen-reader review against the
+  frozen candidate and cannot be completed by agent simulation. This blocks
+  sponsor GO, merge, and deployment.
 
 ## Remaining Work
 
-* Obtain and bind named owner dispositions to the frozen replacement.
 * P03-T03 remains human-blocked until genuine live screen-reader evidence is
-  supplied; sponsor GO, merge, deployment, and outcomes remain downstream.
+  supplied for DRF-03 and DRF-05; sponsor GO, merge, deployment, and outcomes
+  remain downstream.
