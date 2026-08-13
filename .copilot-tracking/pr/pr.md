@@ -9,8 +9,9 @@
 * Added a revision-bound Phase 5 release-candidate schema, validator, evidence
   record, tests, and CI gate.
 
-The prior candidates were invalidated during exact-revision acceptance review.
-A replacement freeze is pending after the validator-fixture isolation fix.
+The frozen product candidate is
+`31ab98c99c7175adf83d62321dd6f592ab54a5fd`, with product-tree digest
+`25f9fcc8a8b8e41c4a073f3eb057ca0b55ada6c23b3901896d4838863ddb75cf`.
 The release remains blocked on final named owner review and genuine live
 screen-reader evidence for DRF-05; this PR does not claim sponsor GO or
 deployment readiness.

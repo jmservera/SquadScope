@@ -161,6 +161,18 @@ unvalidated: the schema constrains their shape, the validator checks each
 candidate SHA/path/SHA-256 tuple, and protected-branch PR review governs every
 evidence commit.
 
+## Accepted Replacement Freeze
+
+* Product candidate:
+  `31ab98c99c7175adf83d62321dd6f592ab54a5fd`.
+* Product-tree SHA-256:
+  `25f9fcc8a8b8e41c4a073f3eb057ca0b55ada6c23b3901896d4838863ddb75cf`.
+* Frozen at: `2026-08-13T07:57:34Z`.
+* Exact-revision gates: 1,670 Python tests, 16 focused validator tests, 172
+  browser scenarios, Ruff, Bandit, and Checkov pass. The earlier browser
+  attempt was discarded because its local server was stopped; the identical
+  suite passed after the production boundary was restarted.
+
 ## Blockers
 
 * DRF-05 requires a genuine named live screen-reader review against the frozen

@@ -2,15 +2,15 @@
 title: Phase 5 Automated Candidate Evidence
 description: Exact-revision automated acceptance evidence for the Claracle integrated release candidate
 author: SquadScope Squad
-ms.date: 2026-08-12
+ms.date: 2026-08-13
 ms.topic: reference
 ---
 
 ## Candidate Boundary
 
-* Product candidate: `f2b08e62408beaae8828c73e4d3253fa4a95ae12`
+* Product candidate: `31ab98c99c7175adf83d62321dd6f592ab54a5fd`
 * Product-tree SHA-256:
-  `08f4bf6c9df09b1b4fb7f50cfaa5a950a135078b68166718632e0773d5962aff`
+  `25f9fcc8a8b8e41c4a073f3eb057ca0b55ada6c23b3901896d4838863ddb75cf`
 * Production-test origin: `http://127.0.0.1:1313`
 * Build tools: Hugo `0.161.1`, Pagefind `1.5.2`, Zizmor `1.27.0`
 

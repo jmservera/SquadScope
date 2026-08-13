@@ -204,13 +204,18 @@
       "decision": "Final owner review invalidated f2b08e6 before approval because the validator test fixture inherited frozen evidence; fixture isolation now resets candidate and evidence state, and all 16 focused tests pass.",
       "status": "confirmed",
       "evidence": ".copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md"
+    },
+    {
+      "decision": "The immutable replacement candidate is 31ab98c99c7175adf83d62321dd6f592ab54a5fd with product-tree digest 25f9fcc8a8b8e41c4a073f3eb057ca0b55ada6c23b3901896d4838863ddb75cf; 1,670 Python and 172 browser scenarios pass.",
+      "status": "confirmed",
+      "evidence": "data/release/claracle-v1.1-release-candidate.json"
     }
   ],
   "blockers": [
     {
       "id": "phase5-owner-review",
-      "summary": "Candidate f2b08e6 was invalidated before approval by a validator-fixture isolation defect.",
-      "resolution": "Refreeze after the fixture fix, regenerate hashed evidence, and repeat final named owner review."
+      "summary": "Replacement candidate 31ab98c requires exact-revision final named owner review.",
+      "resolution": "Bind hashed automated evidence and repeat final named owner review against 31ab98c."
     },
     {
       "id": "DRF-05",
@@ -220,7 +225,7 @@
   ],
   "next_action": {
     "phase": "Implement",
-    "action": "Refreeze after the validator-fixture fix, regenerate hashed evidence, and repeat final named owner review while preserving DRF-05 as human-blocked."
+    "action": "Bind hashed automated evidence and repeat final named owner review against 31ab98c while preserving DRF-05 as human-blocked."
   },
   "prioritized_follow_ups": [
     {

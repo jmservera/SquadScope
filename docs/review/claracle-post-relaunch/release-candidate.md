@@ -11,13 +11,13 @@ ms.topic: reference
 | Field | Value |
 |---|---|
 | Release | `claracle-v1-1` |
-| Product candidate SHA | Replacement freeze pending |
+| Product candidate SHA | `31ab98c99c7175adf83d62321dd6f592ab54a5fd` |
 | Evidence record | `data/release/claracle-v1.1-release-candidate.json` |
 | Schema | `data/schemas/release-candidate.schema.json` |
 | Validator | `scripts/validate_release_candidate.py` |
 | Baseline | Phase 4 merge `f9fb5d88fefde9b6143adda2d57e20d18f6b5e25` |
 | Baseline deployment | GitHub Actions run `31645707266` |
-| Release status | Preparing replacement candidate; DRF-05 remains blocked |
+| Release status | Blocked pending final named owner review and DRF-05 |
 
 The product candidate is frozen only after all runtime, workflow, content, and
 test changes pass local validation. Later evidence-only commits may update this
