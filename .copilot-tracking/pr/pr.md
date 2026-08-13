@@ -10,7 +10,7 @@
   record, tests, and CI gate.
 
 The replacement product candidate is
-`7f5cd59feae7f6eec35787b981998bd931b358ef`. Exact-candidate automated and
+`c65046a188dacaf03aa0338a8dd31387b730e187`. Exact-candidate automated and
 named-owner review passes. Sponsor `jmservera` granted GO after explicitly
 deferring DRF-03 and DRF-05 under the time-bounded waiver tracked by
 jmservera/SquadScope#714. This is not a passing live-AT result.

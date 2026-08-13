@@ -4,15 +4,20 @@
     "phase4_merge_sha": "f9fb5d88fefde9b6143adda2d57e20d18f6b5e25",
     "verified_at": "2026-08-12T22:11:00Z"
   },
-  "candidate_frozen_at": "2026-08-13T18:21:44Z",
+  "candidate_frozen_at": "2026-08-13T18:33:26Z",
   "candidate_product_tree_sha256": "c2254db371a4a691143ab56ebb8f124d5c9ede68010e05457e8e0b2a53d8b502",
-  "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef",
+  "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187",
   "deployment": {
-    "deployed_at": null,
-    "evidence": [],
-    "merge_sha": null,
-    "run_id": null,
-    "status": "pending"
+    "deployed_at": "2026-08-13T18:34:15Z",
+    "evidence": [
+      "Feature PR jmservera/SquadScope#713 merged as 2a892ca9d6263127daf8cc6619ddef8f749c616a.",
+      "Lifecycle-fixture PR jmservera/SquadScope#715 merged as c65046a188dacaf03aa0338a8dd31387b730e187.",
+      "GitHub Pages deployment run 31731340792 completed successfully.",
+      "Production HTTP, JSON, repository-filter, ranking-filter, and keyboard interaction probes passed."
+    ],
+    "merge_sha": "c65046a188dacaf03aa0338a8dd31387b730e187",
+    "run_id": 31731340792,
+    "status": "completed"
   },
   "findings": [
     {
@@ -21,19 +26,19 @@
           "type": "automated-summary",
           "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
           "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef"
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187"
         },
         {
           "type": "browser-contract",
           "path": "tests/visual/repository-explorer.spec.mjs",
           "sha256": "b1952b2aa82b7b458452bc5b9428027c4f39821c1be3a986bdc22507a2c4bbf5",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef"
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187"
         },
         {
           "type": "visual-evidence-contract",
           "path": "tests/visual/observatory-visual-regression.spec.mjs",
           "sha256": "87ea4ab0b8679cb8e7d527c4e01ce27d47aa9e98ebd61ad774391a10a1b78a84",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef"
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187"
         }
       ],
       "id": "DRF-01",
@@ -43,8 +48,8 @@
         {
           "reviewer": "Squad Amy",
           "role": "Amy",
-          "reviewed_at": "2026-08-13T18:21:44Z",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef",
+          "reviewed_at": "2026-08-13T18:33:26Z",
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -52,8 +57,8 @@
         {
           "reviewer": "Squad Fry",
           "role": "Fry",
-          "reviewed_at": "2026-08-13T18:21:44Z",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef",
+          "reviewed_at": "2026-08-13T18:33:26Z",
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -69,19 +74,19 @@
           "type": "automated-summary",
           "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
           "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef"
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187"
         },
         {
           "type": "browser-contract",
           "path": "tests/visual/observatory-a11y.spec.mjs",
           "sha256": "32e1d98b5293cff3b6f1307da21db4d6d530c665769b3656725f4da784ef9c8f",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef"
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187"
         },
         {
           "type": "visual-evidence-contract",
           "path": "tests/visual/observatory-visual-regression.spec.mjs",
           "sha256": "87ea4ab0b8679cb8e7d527c4e01ce27d47aa9e98ebd61ad774391a10a1b78a84",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef"
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187"
         }
       ],
       "id": "DRF-02",
@@ -91,8 +96,8 @@
         {
           "reviewer": "Squad Amy",
           "role": "Amy",
-          "reviewed_at": "2026-08-13T18:21:44Z",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef",
+          "reviewed_at": "2026-08-13T18:33:26Z",
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -100,8 +105,8 @@
         {
           "reviewer": "Squad Fry",
           "role": "Fry",
-          "reviewed_at": "2026-08-13T18:21:44Z",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef",
+          "reviewed_at": "2026-08-13T18:33:26Z",
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -117,13 +122,13 @@
           "type": "automated-summary",
           "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
           "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef"
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187"
         },
         {
           "type": "browser-contract",
           "path": "tests/visual/observatory-a11y.spec.mjs",
           "sha256": "32e1d98b5293cff3b6f1307da21db4d6d530c665769b3656725f4da784ef9c8f",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef"
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187"
         }
       ],
       "id": "DRF-03",
@@ -133,8 +138,8 @@
         {
           "reviewer": "Squad Amy",
           "role": "Amy",
-          "reviewed_at": "2026-08-13T18:21:44Z",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef",
+          "reviewed_at": "2026-08-13T18:33:26Z",
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -142,8 +147,8 @@
         {
           "reviewer": "Squad Fry",
           "role": "Fry",
-          "reviewed_at": "2026-08-13T18:21:44Z",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef",
+          "reviewed_at": "2026-08-13T18:33:26Z",
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -156,8 +161,8 @@
         "rationale": "Sponsor lacks screen-reader access and a genuine accessibility expert; automation cannot substitute for a live screen-reader review.",
         "compensating_control": "Automated accessibility, keyboard, and status-announcement test coverage retained in CI; no further accessibility-affecting UI changes ship without re-running the full suite. Tracked in issue #714.",
         "issue_url": "https://github.com/jmservera/SquadScope/issues/714",
-        "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef",
-        "decided_at": "2026-08-13T18:21:44Z",
+        "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187",
+        "decided_at": "2026-08-13T18:33:26Z",
         "expires_at": "2026-11-11T16:50:19Z"
       }
     },
@@ -167,13 +172,13 @@
           "type": "automated-summary",
           "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
           "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef"
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187"
         },
         {
           "type": "browser-contract",
           "path": "tests/visual/observatory-a11y.spec.mjs",
           "sha256": "32e1d98b5293cff3b6f1307da21db4d6d530c665769b3656725f4da784ef9c8f",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef"
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187"
         }
       ],
       "id": "DRF-04",
@@ -183,8 +188,8 @@
         {
           "reviewer": "Squad Fry",
           "role": "Fry",
-          "reviewed_at": "2026-08-13T18:21:44Z",
-          "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef",
+          "reviewed_at": "2026-08-13T18:33:26Z",
+          "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -207,8 +212,8 @@
         "rationale": "Sponsor lacks screen-reader access and a genuine accessibility expert; automation cannot substitute for a live screen-reader review.",
         "compensating_control": "Automated accessibility, keyboard, and status-announcement test coverage retained in CI; no further accessibility-affecting UI changes ship without re-running the full suite. Tracked in issue #714.",
         "issue_url": "https://github.com/jmservera/SquadScope/issues/714",
-        "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef",
-        "decided_at": "2026-08-13T18:21:44Z",
+        "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187",
+        "decided_at": "2026-08-13T18:33:26Z",
         "expires_at": "2026-11-11T16:50:19Z"
       }
     }
@@ -217,16 +222,19 @@
     {
       "acceptance_question": "Did the deployed release pass all release-day production probes?",
       "baseline": "Phase 4 deployment run 31645707266 passed the repository and ranking production probes.",
-      "completed_at": null,
-      "due_at": null,
-      "evidence": [],
+      "completed_at": "2026-08-13T18:36:20Z",
+      "due_at": "2026-08-13T18:34:15Z",
+      "evidence": [
+        "GitHub Pages deployment run 31731340792 passed build, deploy, and Podcaster release smoke jobs.",
+        "Production HTTP, JSON, repository-filter, ranking-filter, and keyboard interaction probes passed."
+      ],
       "evidence_destination": "data/release/claracle-v1.1-release-candidate.json",
       "expected_sources": [
         "GitHub Pages deployment run",
         "production HTTP and JSON probes"
       ],
       "owner": "Fry and URL",
-      "status": "pending",
+      "status": "completed",
       "target": "Every Phase 5 release-day HTTP, JSON, accessibility, and interaction probe passes with no severity-1 or severity-2 regression.",
       "window": "release-day"
     },
@@ -234,7 +242,7 @@
       "acceptance_question": "Did the release remain stable for seven days without accessibility or interaction regressions?",
       "baseline": "No seven-day production stability window exists for the integrated Phase 5 candidate.",
       "completed_at": null,
-      "due_at": null,
+      "due_at": "2026-08-20T18:34:15Z",
       "evidence": [],
       "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
       "expected_sources": [
@@ -242,7 +250,7 @@
         "production smoke tests"
       ],
       "owner": "Fry and Amy",
-      "status": "pending",
+      "status": "scheduled",
       "target": "Zero severity-1 or severity-2 accessibility, interaction, visual, or availability regressions during the first seven days.",
       "window": "seven-day"
     },
@@ -250,7 +258,7 @@
       "acceptance_question": "Did repository retirement and organic discovery remain consistent after 28 days?",
       "baseline": "The approved GA4/GSC baseline records 0 organic sessions, 149 impressions, 0 clicks, and 17 impression-bearing queries.",
       "completed_at": null,
-      "due_at": null,
+      "due_at": "2026-09-10T18:34:15Z",
       "evidence": [],
       "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
       "expected_sources": [
@@ -258,7 +266,7 @@
         "repository migration probes"
       ],
       "owner": "Zapp and Leela",
-      "status": "pending",
+      "status": "scheduled",
       "target": "Review repository migration and organic evidence for regressions at D+28; do not apply the six-month organic target early.",
       "window": "28-day"
     },
@@ -266,7 +274,7 @@
       "acceptance_question": "Did migration and organic discovery remain healthy after three months?",
       "baseline": "The approved GA4/GSC baseline records 0 organic sessions, 149 impressions, 0 clicks, and 17 impression-bearing queries.",
       "completed_at": null,
-      "due_at": null,
+      "due_at": "2026-11-13T18:34:15Z",
       "evidence": [],
       "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
       "expected_sources": [
@@ -274,7 +282,7 @@
         "GA4"
       ],
       "owner": "Zapp and Leela",
-      "status": "pending",
+      "status": "scheduled",
       "target": "Retain three-month migration and organic evidence and document progress toward the six-month top-20-query target.",
       "window": "three-month"
     },
@@ -282,7 +290,7 @@
       "acceptance_question": "Did the release meet its six-month SEO outcome expectations?",
       "baseline": "The approved GSC baseline records 17 impression-bearing queries and no established top-20-query outcome.",
       "completed_at": null,
-      "due_at": null,
+      "due_at": "2027-02-13T18:34:15Z",
       "evidence": [],
       "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
       "expected_sources": [
@@ -291,7 +299,7 @@
         "backlink export"
       ],
       "owner": "Zapp and jmservera",
-      "status": "pending",
+      "status": "scheduled",
       "target": "At least 250 organic sessions per complete 28-day month and at least 15 queries in the top 20 by six months.",
       "window": "six-month"
     }
@@ -313,10 +321,10 @@
   },
   "schema_version": "1.1.0",
   "sponsor": {
-    "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef",
-    "decided_at": "2026-08-13T18:21:44Z",
+    "candidate_sha": "c65046a188dacaf03aa0338a8dd31387b730e187",
+    "decided_at": "2026-08-13T18:33:26Z",
     "reviewer": "jmservera",
     "status": "go"
   },
-  "status": "go"
+  "status": "deployed"
 }
