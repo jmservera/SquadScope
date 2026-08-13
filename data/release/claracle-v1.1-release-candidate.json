@@ -299,11 +299,12 @@
   "release_id": "claracle-v1-1",
   "rollback": {
     "evidence": [
-      "Phase 4 deployment run 31645707266 passed production migration probes."
+      "Phase 4 deployment run 31645707266 passed production migration probes.",
+      "The complete Phase 5 branch diff passed git apply --reverse --check against candidate evidence head 2fb2b731b06352169569ce29af9bd9cd190bcfe4."
     ],
     "last_known_good_sha": "f9fb5d88fefde9b6143adda2d57e20d18f6b5e25",
     "owner": "jmservera",
-    "status": "ready",
+    "status": "tested",
     "steps": [
       "Revert the Phase 5 merge commit on a protected fix branch.",
       "Deploy the resulting main revision through Deploy Hugo site.",
@@ -312,10 +313,10 @@
   },
   "schema_version": "1.1.0",
   "sponsor": {
-    "candidate_sha": null,
-    "decided_at": null,
-    "reviewer": null,
-    "status": "pending"
+    "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249",
+    "decided_at": "2026-08-13T17:58:14Z",
+    "reviewer": "jmservera",
+    "status": "go"
   },
-  "status": "blocked"
+  "status": "go"
 }

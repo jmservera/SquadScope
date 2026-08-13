@@ -252,7 +252,10 @@
     }
   ],
   "blockers": [],
-  "next_action": "Push branch, update PR #713 body, wait for hosted CI checks and Copilot review. Sponsor GO is a separate future decision.",
+  "next_action": {
+    "phase": "Implement",
+    "action": "Commit sponsor GO evidence, update PR 713, complete hosted checks and Copilot review, then merge and verify deployment."
+  },
   "prioritized_follow_ups": [
     {
       "rank": 1,

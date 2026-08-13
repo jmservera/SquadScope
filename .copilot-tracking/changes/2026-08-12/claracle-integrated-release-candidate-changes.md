@@ -280,3 +280,14 @@ freeze.
 * DRF-03, DRF-05: deferred with sponsor-approved waiver (jmservera, issue #714,
   expires 2026-11-11T16:50:19Z). Waiver `decided_at` re-anchored to freeze
   time per re-bind convention; underlying decision unchanged.
+
+## Sponsor GO
+
+* Sponsor `jmservera` granted GO for candidate
+  `c7b08f1f8552ce15f84d12a202e70af6b80ab249` at
+  `2026-08-13T17:58:14Z`.
+* DRF-03 and DRF-05 remain deferred, not passed, under the time-bounded waiver
+  tracked by jmservera/SquadScope#714.
+* Rollback readiness is tested: the complete Phase 5 diff passed
+  `git apply --reverse --check`, and Phase 4 deployment run `31645707266`
+  remains the last-known-good production boundary.

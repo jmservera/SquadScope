@@ -10,10 +10,10 @@
   record, tests, and CI gate.
 
 The replacement product candidate is
-`327102410d5ade6048408463a27872cfd0bedc60`. Exact-candidate automated and
-named-owner review passes. The release remains blocked on genuine live
-screen-reader evidence for DRF-03 and DRF-05; this PR does not claim sponsor GO
-or deployment readiness.
+`c7b08f1f8552ce15f84d12a202e70af6b80ab249`. Exact-candidate automated and
+named-owner review passes. Sponsor `jmservera` granted GO after explicitly
+deferring DRF-03 and DRF-05 under the time-bounded waiver tracked by
+jmservera/SquadScope#714. This is not a passing live-AT result.
 
 ## Validation
 
@@ -32,7 +32,7 @@ Related: jmservera/SquadScope#594
 
 Use the `site-preview` artifact linked by the preview-bot comment on this PR.
 Serve the downloaded artifact over HTTP, then test candidate
-`327102410d5ade6048408463a27872cfd0bedc60`. Record the reviewer name, date,
+the current `candidate_sha` in the release record. Record the reviewer name, date,
 operating system/version, browser/version, screen reader/version, findings with
 severity, disposition, and unresolved work.
 
@@ -67,7 +67,7 @@ severity, disposition, and unresolved work.
 ```text
 Reviewer:
 Reviewed at (UTC):
-Candidate SHA: 327102410d5ade6048408463a27872cfd0bedc60
+Candidate SHA: use the current candidate_sha in data/release/claracle-v1.1-release-candidate.json
 Operating system/version:
 Browser/version:
 Screen reader/version:

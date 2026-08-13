@@ -149,7 +149,7 @@ observations must be scheduled and recorded only when due.
 * [x] P02-T05 Capture reduced-motion and touch equivalence needed by Phase 5.
 
 <!-- phase-id: P03 -->
-### [ ] P03 — Candidate Validation And Named Review
+### [x] P03 — Candidate Validation And Named Review
 
 * [x] P03-T01 Freeze the product candidate SHA, capture all automated reports
   against that exact revision, and allow only evidence-record commits afterward.
@@ -163,7 +163,7 @@ observations must be scheduled and recorded only when due.
 <!-- phase-id: P04 -->
 ### [ ] P04 — Release And Outcome Ownership
 
-* [ ] P04-T01 Record sponsor GO and tested rollback readiness.
+* [x] P04-T01 Record sponsor GO and tested rollback readiness.
 * [ ] P04-T02 Push, open the Phase 5 PR, complete hosted checks/Copilot review,
   resolve threads, request merge authorization, merge, and verify deployment.
 * [ ] P04-T03 Record release-day probes and the deployed revision.
@@ -174,8 +174,8 @@ observations must be scheduled and recorded only when due.
 
 * P02 depends on P01's evidence contract.
 * P03 depends on P01-P02 and one frozen candidate revision.
-* P04 sponsor GO depends on every severity-1/2 finding being closed, including
-  DRF-05.
+* P04 sponsor GO depends on every severity-1/2 finding being closed or carrying
+  an explicit, valid, time-bounded sponsor waiver.
 * Delayed outcome observations depend on the actual deployment timestamp.
 
 ## Validation Strategy

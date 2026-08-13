@@ -22,6 +22,13 @@ def payload() -> dict:
     candidate["candidate_product_tree_sha256"] = None
     candidate["candidate_frozen_at"] = None
     candidate["status"] = "preparing"
+    candidate["sponsor"] = {
+        "status": "pending",
+        "reviewer": None,
+        "decided_at": None,
+        "candidate_sha": None,
+    }
+    candidate["rollback"]["status"] = "ready"
     for finding in candidate["findings"]:
         finding["status"] = "open"
         finding["evidence"] = []

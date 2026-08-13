@@ -17,7 +17,7 @@ ms.topic: reference
 | Validator | `scripts/validate_release_candidate.py` |
 | Baseline | Phase 4 merge `f9fb5d88fefde9b6143adda2d57e20d18f6b5e25` |
 | Baseline deployment | GitHub Actions run `31645707266` |
-| Release status | Blocked pending sponsor GO; DRF-03/DRF-05 risk-accepted via waiver, issue #714, expires 2026-11-11 |
+| Release status | Sponsor GO; DRF-03/DRF-05 risk-accepted via waiver, issue #714, expires 2026-11-11 |
 
 The product candidate is frozen only after all runtime, workflow, content, and
 test changes pass local validation. Later evidence-only commits may update this
@@ -42,7 +42,9 @@ confirmation of the DRF-03 status message.
 DRF-03 and DRF-05 must record the reviewer name, date, exact candidate SHA, operating
 system/version, browser/version, screen reader/version, keyboard-only and
 screen-reader scenarios, findings, severity, disposition, and unresolved work.
-Until that evidence exists, sponsor GO, merge, and deployment remain blocked.
+Sponsor `jmservera` explicitly deferred this evidence under the time-bounded
+waiver tracked by issue #714. The deferral is not a passing live-AT result and
+must be replaced by genuine evidence before the waiver expires.
 
 ## Rollback
 
@@ -50,7 +52,8 @@ The last known-good production boundary is Phase 4 merge
 `f9fb5d88fefde9b6143adda2d57e20d18f6b5e25`. Rollback uses a protected fix
 branch to revert the Phase 5 merge, deploys through the existing GitHub Pages
 workflow, and repeats repository, ranking, public JSON, and retired-route
-probes. The responsible owner is `jmservera`.
+probes. The complete Phase 5 diff passed a reverse-apply check before sponsor
+GO. The responsible owner is `jmservera`.
 
 ## Outcomes
 
