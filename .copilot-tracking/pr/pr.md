@@ -1,31 +1,82 @@
-# feat(rankings): deliver interactive ranking visualizations
+# fix(repository): align explorer filters and release evidence
 
-This PR delivered Phase 4 of the Claracle post-relaunch consolidation. It added deterministic public ranking data, responsive visualizations, interactive exploration, accessible context disclosures, and the publishing integration needed to keep those surfaces current.
+## Summary
 
-## Changes
+* Fixed `/repo/` filtering so nonmatching repository cards are actually hidden
+  and visible results match selected filters, URL state, and announced counts.
+* Added accessible copy feedback, reduced-motion behavior, and browser evidence
+  for disclosures, focus, touch, mobile, and 200% equivalent viewport states.
+* Added a revision-bound Phase 5 release-candidate schema, validator, evidence
+  record, tests, and CI gate.
 
-### Ranking data and publishing
+The replacement product candidate is
+`ed9106c313d9503b0bc0a19640ea456d441fa5eb`. Exact-candidate automated and
+named-owner review passes. Sponsor `jmservera` granted GO after explicitly
+deferring DRF-03 and DRF-05 under the time-bounded waiver tracked by
+jmservera/SquadScope#714. This is not a passing live-AT result.
 
-- Added a versioned ranking-artifact generator for the three public ranking pages and the homepage ranking summary.
-- Extended ranking schemas and generated records with metric definitions, comparison values, language, safe GitHub URLs, provenance, short visible summaries, and complete sanitized accessible text.
-- Integrated generation, freshness validation, hydration, artifact collection, commit paths, and deployment across the publishing workflows.
+## Validation
 
-### Ranking experience
+* 1,670 Python tests; 16 focused candidate-validator tests
+* Ruff lint and format
+* Two Node unit tests
+* Hugo, Pagefind, and internal-link checks
+* 172 affected repository, accessibility, and revision-tagged visual scenarios
+* Checkov, Zizmor, and Bandit security gates
 
-- Added server-rendered ranking facts with client-side filtering, sorting, reset, URL state, and explicit loading and failure states.
-- Added responsive dot/lollipop and range visualizations with non-color encoding, direct repository links, and linked-table mobile fallbacks.
-- Added keyboard, focus, touch, and Escape interactions for contextual disclosures without nesting interactive controls in SVG content.
-- Updated homepage and observatory embeds to expose ranking summaries and equivalent accessible repository context.
+## Related issue
 
-### Tests and evidence
+Related: jmservera/SquadScope#594
 
-- Added generator, schema, template, browser, accessibility, and visual-regression coverage for the new ranking surfaces.
-- Recorded the five-member representation-comprehension evidence and the conformant Phase 4 RPI review.
-- Passed the affected Python, Ruff, Hugo/Pagefind/link, Playwright, visual, Node, Bandit, Checkov, and Zizmor gates.
+## Required DRF-03/DRF-05 live screen-reader review
 
-## Related issues
+Use the `site-preview` artifact linked by the preview-bot comment on this PR.
+Serve the downloaded artifact over HTTP, then test candidate
+the current `candidate_sha` in the release record. Record the reviewer name, date,
+operating system/version, browser/version, screen reader/version, findings with
+severity, disposition, and unresolved work.
 
-None.
+### DRF-03 — copy announcements
+
+1. Open `/charts/embeddable-rankings/` and navigate by keyboard to **Copy embed
+   snippet**.
+2. Activate it and confirm the screen reader announces “Embed snippet copied to
+   the clipboard,” focus stays on the button, and its label returns to **Copy
+   embed snippet**.
+3. Block clipboard permission in the browser, reload, activate the button
+   again, and confirm “Copy failed. Select and copy the embed snippet manually”
+   is both spoken and visible while focus remains on the button.
+
+### DRF-05 — live keyboard and screen-reader scenarios
+
+1. Verify headings, landmarks, labels, navigation order, and visible focus on
+   the homepage, an article, `/repo/`, a ranking page, and the embed page.
+2. On `/repo/`, operate search, topic, language, lifecycle, and observation
+   period filters by keyboard; confirm the result count and empty/reset states
+   are announced and match the visible cards.
+3. Open repository context/provenance disclosures on ranking and embed pages;
+   confirm their content is spoken, Escape dismisses them, and focus remains on
+   the trigger.
+4. At 200% browser zoom, repeat navigation and disclosure checks and confirm
+   content and controls are not clipped or obscured.
+5. Record every finding as severity 1–4. The disposition may pass only when no
+   severity-1 or severity-2 finding remains unresolved.
+
+### Evidence response template
+
+```text
+Reviewer:
+Reviewed at (UTC):
+Candidate SHA: use the current candidate_sha in data/release/claracle-v1.1-release-candidate.json
+Operating system/version:
+Browser/version:
+Screen reader/version:
+DRF-03 announcement: Pass/Block
+DRF-05 scenarios completed:
+Findings and severity: None, or list each finding
+Disposition: Pass/Block
+Unresolved work: None, or list each item
+```
 
 ## External-facing changes
 

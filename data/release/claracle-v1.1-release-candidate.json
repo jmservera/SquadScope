@@ -1,0 +1,322 @@
+{
+  "baseline": {
+    "phase4_deployment_run": 31645707266,
+    "phase4_merge_sha": "f9fb5d88fefde9b6143adda2d57e20d18f6b5e25",
+    "verified_at": "2026-08-12T22:11:00Z"
+  },
+  "candidate_frozen_at": "2026-08-13T18:03:46Z",
+  "candidate_product_tree_sha256": "47f60844c52c719ff5276ebcf4d3106a0396443d75fde1ec45828bb06faac6f0",
+  "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
+  "deployment": {
+    "deployed_at": null,
+    "evidence": [],
+    "merge_sha": null,
+    "run_id": null,
+    "status": "pending"
+  },
+  "findings": [
+    {
+      "evidence": [
+        {
+          "type": "automated-summary",
+          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
+          "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
+        },
+        {
+          "type": "browser-contract",
+          "path": "tests/visual/repository-explorer.spec.mjs",
+          "sha256": "b1952b2aa82b7b458452bc5b9428027c4f39821c1be3a986bdc22507a2c4bbf5",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
+        },
+        {
+          "type": "visual-evidence-contract",
+          "path": "tests/visual/observatory-visual-regression.spec.mjs",
+          "sha256": "87ea4ab0b8679cb8e7d527c4e01ce27d47aa9e98ebd61ad774391a10a1b78a84",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
+        }
+      ],
+      "id": "DRF-01",
+      "live_at_review": null,
+      "owner": "Amy and Fry",
+      "reviews": [
+        {
+          "reviewer": "Squad Amy",
+          "role": "Amy",
+          "reviewed_at": "2026-08-13T18:03:46Z",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
+          "disposition": "pass",
+          "findings": [],
+          "unresolved_work": []
+        },
+        {
+          "reviewer": "Squad Fry",
+          "role": "Fry",
+          "reviewed_at": "2026-08-13T18:03:46Z",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
+          "disposition": "pass",
+          "findings": [],
+          "unresolved_work": []
+        }
+      ],
+      "severity": 2,
+      "status": "closed",
+      "waiver": null
+    },
+    {
+      "evidence": [
+        {
+          "type": "automated-summary",
+          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
+          "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
+        },
+        {
+          "type": "browser-contract",
+          "path": "tests/visual/observatory-a11y.spec.mjs",
+          "sha256": "32e1d98b5293cff3b6f1307da21db4d6d530c665769b3656725f4da784ef9c8f",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
+        },
+        {
+          "type": "visual-evidence-contract",
+          "path": "tests/visual/observatory-visual-regression.spec.mjs",
+          "sha256": "87ea4ab0b8679cb8e7d527c4e01ce27d47aa9e98ebd61ad774391a10a1b78a84",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
+        }
+      ],
+      "id": "DRF-02",
+      "live_at_review": null,
+      "owner": "Amy and Fry",
+      "reviews": [
+        {
+          "reviewer": "Squad Amy",
+          "role": "Amy",
+          "reviewed_at": "2026-08-13T18:03:46Z",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
+          "disposition": "pass",
+          "findings": [],
+          "unresolved_work": []
+        },
+        {
+          "reviewer": "Squad Fry",
+          "role": "Fry",
+          "reviewed_at": "2026-08-13T18:03:46Z",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
+          "disposition": "pass",
+          "findings": [],
+          "unresolved_work": []
+        }
+      ],
+      "severity": 2,
+      "status": "closed",
+      "waiver": null
+    },
+    {
+      "evidence": [
+        {
+          "type": "automated-summary",
+          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
+          "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
+        },
+        {
+          "type": "browser-contract",
+          "path": "tests/visual/observatory-a11y.spec.mjs",
+          "sha256": "32e1d98b5293cff3b6f1307da21db4d6d530c665769b3656725f4da784ef9c8f",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
+        }
+      ],
+      "id": "DRF-03",
+      "live_at_review": null,
+      "owner": "Amy and Fry",
+      "reviews": [
+        {
+          "reviewer": "Squad Amy",
+          "role": "Amy",
+          "reviewed_at": "2026-08-13T18:03:46Z",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
+          "disposition": "pass",
+          "findings": [],
+          "unresolved_work": []
+        },
+        {
+          "reviewer": "Squad Fry",
+          "role": "Fry",
+          "reviewed_at": "2026-08-13T18:03:46Z",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
+          "disposition": "pass",
+          "findings": [],
+          "unresolved_work": []
+        }
+      ],
+      "severity": 2,
+      "status": "deferred",
+      "waiver": {
+        "approver": "jmservera",
+        "rationale": "Sponsor lacks screen-reader access and a genuine accessibility expert; automation cannot substitute for a live screen-reader review.",
+        "compensating_control": "Automated accessibility, keyboard, and status-announcement test coverage retained in CI; no further accessibility-affecting UI changes ship without re-running the full suite. Tracked in issue #714.",
+        "issue_url": "https://github.com/jmservera/SquadScope/issues/714",
+        "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
+        "decided_at": "2026-08-13T18:03:46Z",
+        "expires_at": "2026-11-11T16:50:19Z"
+      }
+    },
+    {
+      "evidence": [
+        {
+          "type": "automated-summary",
+          "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
+          "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
+        },
+        {
+          "type": "browser-contract",
+          "path": "tests/visual/observatory-a11y.spec.mjs",
+          "sha256": "32e1d98b5293cff3b6f1307da21db4d6d530c665769b3656725f4da784ef9c8f",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
+        }
+      ],
+      "id": "DRF-04",
+      "live_at_review": null,
+      "owner": "Fry",
+      "reviews": [
+        {
+          "reviewer": "Squad Fry",
+          "role": "Fry",
+          "reviewed_at": "2026-08-13T18:03:46Z",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
+          "disposition": "pass",
+          "findings": [],
+          "unresolved_work": []
+        }
+      ],
+      "severity": 2,
+      "status": "closed",
+      "waiver": null
+    },
+    {
+      "evidence": [],
+      "id": "DRF-05",
+      "live_at_review": null,
+      "owner": "Fry and named accessibility reviewer",
+      "reviews": [],
+      "severity": 2,
+      "status": "deferred",
+      "waiver": {
+        "approver": "jmservera",
+        "rationale": "Sponsor lacks screen-reader access and a genuine accessibility expert; automation cannot substitute for a live screen-reader review.",
+        "compensating_control": "Automated accessibility, keyboard, and status-announcement test coverage retained in CI; no further accessibility-affecting UI changes ship without re-running the full suite. Tracked in issue #714.",
+        "issue_url": "https://github.com/jmservera/SquadScope/issues/714",
+        "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
+        "decided_at": "2026-08-13T18:03:46Z",
+        "expires_at": "2026-11-11T16:50:19Z"
+      }
+    }
+  ],
+  "outcomes": [
+    {
+      "acceptance_question": "Did the deployed release pass all release-day production probes?",
+      "baseline": "Phase 4 deployment run 31645707266 passed the repository and ranking production probes.",
+      "completed_at": null,
+      "due_at": null,
+      "evidence": [],
+      "evidence_destination": "data/release/claracle-v1.1-release-candidate.json",
+      "expected_sources": [
+        "GitHub Pages deployment run",
+        "production HTTP and JSON probes"
+      ],
+      "owner": "Fry and URL",
+      "status": "pending",
+      "target": "Every Phase 5 release-day HTTP, JSON, accessibility, and interaction probe passes with no severity-1 or severity-2 regression.",
+      "window": "release-day"
+    },
+    {
+      "acceptance_question": "Did the release remain stable for seven days without accessibility or interaction regressions?",
+      "baseline": "No seven-day production stability window exists for the integrated Phase 5 candidate.",
+      "completed_at": null,
+      "due_at": null,
+      "evidence": [],
+      "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
+      "expected_sources": [
+        "GitHub Actions history",
+        "production smoke tests"
+      ],
+      "owner": "Fry and Amy",
+      "status": "pending",
+      "target": "Zero severity-1 or severity-2 accessibility, interaction, visual, or availability regressions during the first seven days.",
+      "window": "seven-day"
+    },
+    {
+      "acceptance_question": "Did repository retirement and organic discovery remain consistent after 28 days?",
+      "baseline": "The approved GA4/GSC baseline records 0 organic sessions, 149 impressions, 0 clicks, and 17 impression-bearing queries.",
+      "completed_at": null,
+      "due_at": null,
+      "evidence": [],
+      "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
+      "expected_sources": [
+        "Google Search Console",
+        "repository migration probes"
+      ],
+      "owner": "Zapp and Leela",
+      "status": "pending",
+      "target": "Review repository migration and organic evidence for regressions at D+28; do not apply the six-month organic target early.",
+      "window": "28-day"
+    },
+    {
+      "acceptance_question": "Did migration and organic discovery remain healthy after three months?",
+      "baseline": "The approved GA4/GSC baseline records 0 organic sessions, 149 impressions, 0 clicks, and 17 impression-bearing queries.",
+      "completed_at": null,
+      "due_at": null,
+      "evidence": [],
+      "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
+      "expected_sources": [
+        "Google Search Console",
+        "GA4"
+      ],
+      "owner": "Zapp and Leela",
+      "status": "pending",
+      "target": "Retain three-month migration and organic evidence and document progress toward the six-month top-20-query target.",
+      "window": "three-month"
+    },
+    {
+      "acceptance_question": "Did the release meet its six-month SEO outcome expectations?",
+      "baseline": "The approved GSC baseline records 17 impression-bearing queries and no established top-20-query outcome.",
+      "completed_at": null,
+      "due_at": null,
+      "evidence": [],
+      "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
+      "expected_sources": [
+        "Google Search Console",
+        "GA4",
+        "backlink export"
+      ],
+      "owner": "Zapp and jmservera",
+      "status": "pending",
+      "target": "At least 250 organic sessions per complete 28-day month and at least 15 queries in the top 20 by six months.",
+      "window": "six-month"
+    }
+  ],
+  "release_id": "claracle-v1-1",
+  "rollback": {
+    "evidence": [
+      "Phase 4 deployment run 31645707266 passed production migration probes.",
+      "The complete Phase 5 branch diff passed git apply --reverse --check against candidate evidence head 2fb2b731b06352169569ce29af9bd9cd190bcfe4."
+    ],
+    "last_known_good_sha": "f9fb5d88fefde9b6143adda2d57e20d18f6b5e25",
+    "owner": "jmservera",
+    "status": "tested",
+    "steps": [
+      "Revert the Phase 5 merge commit on a protected fix branch.",
+      "Deploy the resulting main revision through Deploy Hugo site.",
+      "Repeat repository, ranking, JSON, and retired-route production probes."
+    ]
+  },
+  "schema_version": "1.1.0",
+  "sponsor": {
+    "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
+    "decided_at": "2026-08-13T18:03:46Z",
+    "reviewer": "jmservera",
+    "status": "go"
+  },
+  "status": "go"
+}

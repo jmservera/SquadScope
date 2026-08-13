@@ -145,6 +145,13 @@
   visibility: visible;
 }
 
+.observatory-chart__repositories li.is-dismissed .observatory-chart__tooltip {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(0.25rem);
+  visibility: hidden;
+}
+
 .observatory-chart__caption a {
   color: var(--chart-blue);
   font-weight: 700;
@@ -181,9 +188,22 @@
   padding: 0.7rem 1rem;
 }
 
+.observatory-chart__copy-status {
+  min-height: 1.5em;
+  margin-block: 0.65rem 0;
+  color: var(--chart-muted);
+  font-size: 0.92rem;
+}
+
 .observatory-embed {
   background: #ffffff;
   margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .observatory-chart__tooltip {
+    transition-duration: 0.01ms;
+  }
 }
 
 @media (max-width: 720px) {

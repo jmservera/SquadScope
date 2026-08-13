@@ -227,6 +227,53 @@ test.describe('Observatory visual regression evidence', () => {
     });
   });
 
+  test('repository combined-filter state matches its visible result count', async ({
+    page,
+  }, testInfo) => {
+    await page.goto('/repo/?topic=ai-skills');
+    await page.waitForLoadState('networkidle');
+    await rejectConsent(page);
+
+    const explorer = page.locator('[data-repository-explorer]');
+    const status = explorer.locator('[data-repo-result-status]');
+    await expect(status).toHaveText(/Showing \d+ of \d+ repositories\./);
+    const counts = (await status.textContent())?.match(/Showing (\d+) of (\d+)/);
+    expect(counts).not.toBeNull();
+    const visibleCount = Number(counts[1]);
+    const totalCount = Number(counts[2]);
+    expect(visibleCount).toBeGreaterThan(0);
+    expect(visibleCount).toBeLessThan(totalCount);
+    await expect(explorer.locator('[data-repo-record]:visible')).toHaveCount(visibleCount);
+
+    await page.screenshot({
+      path: evidencePath(testInfo.project.name, 'repo-index-ai-skills'),
+      fullPage: true,
+    });
+  });
+
+  test('captures expanded ranking and embed repository context', async ({ page }, testInfo) => {
+    await page.goto('/data/fastest-growing-ai-repositories-this-year/');
+    await page.waitForLoadState('networkidle');
+    await rejectConsent(page);
+    const rankingLink = page.locator('.ranking-table__repo-link:visible').first();
+    await rankingLink.focus();
+    await expect(rankingLink.locator('xpath=following-sibling::*[@role="tooltip"]')).toBeVisible();
+    await page.screenshot({
+      path: evidencePath(testInfo.project.name, 'ranking-context-expanded'),
+      fullPage: true,
+    });
+
+    await page.goto('/embeds/fastest-growing-ai-repositories-chart/');
+    await page.waitForLoadState('networkidle');
+    const embedLink = page.locator('[data-observatory-tooltip] a').first();
+    await embedLink.focus();
+    await expect(embedLink.locator('xpath=following-sibling::*[@role="tooltip"]')).toBeVisible();
+    await page.screenshot({
+      path: evidencePath(testInfo.project.name, 'embed-context-expanded'),
+      fullPage: true,
+    });
+  });
+
   test('records evidence metadata for the revision under test', async ({ page }, testInfo) => {
     const projectName = testInfo.project.name;
     await page.goto('/');
@@ -245,6 +292,15 @@ test.describe('Observatory visual regression evidence', () => {
       routes: [
         ...VISUAL_ROUTES.map((route) => ({ name: route.name, path: route.path })),
         { name: 'home-consent', path: '/ (undecided consent banner)' },
+        { name: 'repo-index-ai-skills', path: '/repo/?topic=ai-skills' },
+        {
+          name: 'ranking-context-expanded',
+          path: '/data/fastest-growing-ai-repositories-this-year/ (expanded context)',
+        },
+        {
+          name: 'embed-context-expanded',
+          path: '/embeds/fastest-growing-ai-repositories-chart/ (expanded context)',
+        },
       ],
     };
 

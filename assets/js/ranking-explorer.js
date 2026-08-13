@@ -226,9 +226,10 @@
   }
 
   function initTooltips(root) {
-    function closeOpenTooltip() {
+    function closeOpenTooltip(dismissed = false) {
       if (root.__rankingOpenWrapper) {
         root.__rankingOpenWrapper.classList.remove("is-open");
+        root.__rankingOpenWrapper.classList.toggle("is-dismissed", dismissed);
         const link = root.__rankingOpenWrapper.querySelector("a");
         if (link) {
           link.removeAttribute("aria-expanded");
@@ -255,6 +256,7 @@
         ) {
           closeOpenTooltip();
         }
+        wrapper.classList.remove("is-dismissed");
         if (persist) {
           wrapper.classList.add("is-open");
           link.setAttribute("aria-expanded", "true");
@@ -274,8 +276,13 @@
 
       link.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
-          closeOpenTooltip();
-          link.blur();
+          wrapper.classList.remove("is-open");
+          wrapper.classList.add("is-dismissed");
+          link.removeAttribute("aria-expanded");
+          if (root.__rankingOpenWrapper === wrapper) {
+            root.__rankingOpenWrapper = null;
+          }
+          link.focus({ preventScroll: true });
         }
       });
     });

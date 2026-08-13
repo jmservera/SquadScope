@@ -78,14 +78,14 @@ class CompressionHandler(SimpleHTTPRequestHandler):
         self._serve(include_body=True)
 
     def _serve(self, *, include_body: bool) -> None:
+        request = urlsplit(self.path)
         path = self.translate_path(self.path)
 
         if os.path.isdir(path):
-            if not self.path.endswith("/"):
+            if not request.path.endswith("/"):
                 # Sanitise the request path before echoing it into the Location
                 # header to avoid HTTP response splitting.
-                split = urlsplit(self.path)
-                location = urlunsplit(("", "", quote(split.path) + "/", split.query, ""))
+                location = urlunsplit(("", "", quote(request.path) + "/", request.query, ""))
                 self.send_response(HTTPStatus.MOVED_PERMANENTLY)
                 self.send_header("Location", location)
                 self.end_headers()

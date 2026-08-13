@@ -3,15 +3,15 @@
   "task_slug": "claracle-post-relaunch-consolidation",
   "parent_task": null,
   "mode": "automatic",
-  "active_phase": "Review",
+  "active_phase": "Implement",
   "status": "active",
   "session_status": "running",
   "artifact_paths": {
-    "research": ".copilot-tracking/research/2026-08-08/claracle-post-relaunch-experience-research.md",
-    "plan": ".copilot-tracking/plans/2026-08-08/claracle-post-relaunch-consolidation-plan.instructions.md",
-    "details": ".copilot-tracking/details/2026-08-08/claracle-post-relaunch-consolidation-details.md",
-    "critique": ".copilot-tracking/reviews/2026-08-08/claracle-post-relaunch-consolidation-plan-review.md",
-    "changes": ".copilot-tracking/changes/2026-08-08/claracle-post-relaunch-consolidation-changes.md",
+    "research": ".copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md",
+    "plan": ".copilot-tracking/plans/2026-08-12/claracle-integrated-release-candidate-plan.md",
+    "details": ".copilot-tracking/details/2026-08-12/claracle-integrated-release-candidate-phase-details.md",
+    "critique": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-plan-critique.md",
+    "changes": ".copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md",
     "review": ".copilot-tracking/reviews/logs/2026-08-11/claracle-post-relaunch-consolidation-review.md"
   },
   "confirmed_decisions": [
@@ -134,18 +134,139 @@
       "decision": "All hosted checks passed on Phase 4 head 007d9fb, Copilot reviewed that exact head with no new comments, and every review thread is resolved.",
       "status": "confirmed",
       "evidence": "https://github.com/jmservera/SquadScope/pull/712"
+    },
+    {
+      "decision": "The sponsor authorized merging Phase 4 and automatic continuation.",
+      "status": "confirmed",
+      "evidence": "User input: \"approve merge, and go ahead\""
+    },
+    {
+      "decision": "PR 712 merged as f9fb5d8; deployment run 31645707266 and live ranking-page/JSON probes passed.",
+      "status": "confirmed",
+      "evidence": "https://github.com/jmservera/SquadScope/actions/runs/31645707266"
+    },
+    {
+      "decision": "Phase 5 research executed with Planning Readiness Ready; same-revision named evidence and future outcome windows remain mandatory.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md"
+    },
+    {
+      "decision": "The one Phase 5 plan critique executed completely with three planner-owned findings; all were applied and the final candidate plan is implementation-ready.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-plan-critique.md"
+    },
+    {
+      "decision": "Phase 5 must reproduce and fix repository explorer filters whose announced count can diverge from visible results, and verify observation-period filtering semantically.",
+      "status": "confirmed",
+      "evidence": "User input: \"repo filters do not completely work... topics say that the repos are filtered... but all the repos are still there... observation period seem to have an impact\""
+    },
+    {
+      "decision": "Phase 5 P01 and P02 are complete: revision-bound evidence validation and automated DRF-01 through DRF-04 closure pass, including corrected repository filter presentation.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md"
+    },
+    {
+      "decision": "The immutable Phase 5 product candidate is 8af4f4a4332db005924fc4281b9a32d039d80d5a; subsequent commits are evidence-only unless the candidate is invalidated and refrozen.",
+      "status": "superseded",
+      "evidence": "data/release/claracle-v1.1-release-candidate.json"
+    },
+    {
+      "decision": "Named owner review blocked and invalidated candidate 8af4f4a because release evidence, lifecycle enforcement, and interaction proof were incomplete.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-owner-review.md"
+    },
+    {
+      "decision": "All automatable owner-review findings were remediated; 1,668 Python tests, 172 affected browser scenarios, Ruff, production rendering and links, Checkov, Zizmor, and Bandit pass before replacement freeze.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md"
+    },
+    {
+      "decision": "A replacement pre-freeze review found candidate-digest binding and OBJ-02 threshold gaps; both were remediated before any replacement candidate was frozen.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-owner-review.md"
+    },
+    {
+      "decision": "The immutable replacement Phase 5 product candidate is dac7fae8b76257a21a82aea2c371a4e3d59933da with product-tree digest 45f9998ac0f74f0561e305fb1f30a1b0f1a5b6735d323381fb877a223c44a3b5.",
+      "status": "superseded",
+      "evidence": "data/release/claracle-v1.1-release-candidate.json"
+    },
+    {
+      "decision": "Exact-revision browser evidence invalidated dac7fae before owner dispositions because the CI static server redirected directory URLs with query strings indefinitely; the parsed-path fix and regression test are required before refreeze.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md"
+    },
+    {
+      "decision": "The immutable final replacement candidate is f2b08e62408beaae8828c73e4d3253fa4a95ae12 with product-tree digest 08f4bf6c9df09b1b4fb7f50cfaa5a950a135078b68166718632e0773d5962aff; 1,670 Python and 172 browser scenarios pass.",
+      "status": "superseded",
+      "evidence": "data/release/claracle-v1.1-release-candidate.json"
+    },
+    {
+      "decision": "Final owner review invalidated f2b08e6 before approval because the validator test fixture inherited frozen evidence; fixture isolation now resets candidate and evidence state, and all 16 focused tests pass.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md"
+    },
+    {
+      "decision": "The immutable replacement candidate is 31ab98c99c7175adf83d62321dd6f592ab54a5fd with product-tree digest 25f9fcc8a8b8e41c4a073f3eb057ca0b55ada6c23b3901896d4838863ddb75cf; 1,670 Python and 172 browser scenarios pass.",
+      "status": "superseded",
+      "evidence": "data/release/claracle-v1.1-release-candidate.json"
+    },
+    {
+      "decision": "Final named review passes all automatable boundaries after moving the 250-session target from D+28 to the approved six-month window; DRF-03 live announcement and DRF-05 live AT remain human-only blockers.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-owner-review.md"
+    },
+    {
+      "decision": "All hosted checks pass on evidence head afcf425, the PR is merge-clean, and all existing review threads are resolved; PR 713 remains draft while human-only accessibility gates are open.",
+      "status": "confirmed",
+      "evidence": "https://github.com/jmservera/SquadScope/pull/713"
+    },
+    {
+      "decision": "Copilot review on e47344b found three valid issues; copy feedback races, order-dependent URL assertions, and stale blocker text are remediated, invalidating candidate 31ab98c before human review.",
+      "status": "confirmed",
+      "evidence": "https://github.com/jmservera/SquadScope/pull/713"
+    },
+    {
+      "decision": "The immutable replacement candidate is 327102410d5ade6048408463a27872cfd0bedc60 with product-tree digest f1b4831d4ccb112f949330b67561208b304c5a2f2e60bb16fc56ad9aa9d61085; all 1,670 Python tests and 172 affected browser scenarios pass.",
+      "status": "confirmed",
+      "evidence": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md"
+    },
+    {
+      "decision": "Repeated named review passes all automatable Phase 5 boundaries on candidate 3271024; DRF-03 live announcement and DRF-05 live AT remain human-only blockers.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-owner-review.md"
+    },
+    {
+      "timestamp": "2026-08-13T16:50:19Z",
+      "decision": "Sponsor risk-accepted deferral of DRF-03 and DRF-05",
+      "quote": "Ok, then dismiss it, create a comprehensive GH Issue to run this in the future, I don't have access to a screen reader nor to a genuine accessibility expert now.",
+      "by": "jmservera"
+    },
+    {
+      "timestamp": "2026-08-13T16:50:19Z",
+      "decision": "Issue #714 created to track genuine live screen-reader review",
+      "url": "https://github.com/jmservera/SquadScope/issues/714"
+    },
+    {
+      "timestamp": "2026-08-13T16:50:19Z",
+      "decision": "Replacement candidate c7b08f1 frozen after test coverage fix (supersedes 6ba13b5)"
     }
   ],
   "blockers": [],
   "next_action": {
-    "phase": "Review",
-    "action": "Request explicit human authorization to merge pull request jmservera/SquadScope#712; Phase 5 remains blocked until merge and deployment verification complete."
+    "phase": "Implement",
+    "action": "Commit sponsor GO evidence, update PR 713, complete hosted checks and Copilot review, then merge and verify deployment."
   },
   "prioritized_follow_ups": [
     {
       "rank": 1,
-      "task": "Deliver product Phase 4 BR-004, BR-005, and BR-007.",
-      "rationale": "Phase 3 has passed every source, review, deployment, and production gate; the approved plan makes Phase 4 the next eligible work.",
+      "task": "Close DRF-01 through DRF-05 against one immutable Phase 5 candidate.",
+      "rationale": "All five rows remain severity 2 and block sponsor GO until same-revision automated and named evidence is retained.",
+      "evidence": "docs/review/claracle-post-relaunch/redesigned-release-finding-map.md"
+    },
+    {
+      "rank": 2,
+      "task": "Record release-day and scheduled outcome evidence.",
+      "rationale": "Seven-day, 28-day, three-month, and six-month evidence is required but cannot be claimed before its due date.",
       "evidence": ".copilot-tracking/plans/2026-08-08/claracle-post-relaunch-consolidation-plan.instructions.md"
     }
   ]
