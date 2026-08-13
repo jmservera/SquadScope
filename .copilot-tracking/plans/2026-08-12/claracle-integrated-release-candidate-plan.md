@@ -161,13 +161,13 @@ observations must be scheduled and recorded only when due.
 * [x] P03-T05 Every finding reconciled: 3 closed, 2 deferred-with-valid-waiver under BRD section 8 exception policy.
 
 <!-- phase-id: P04 -->
-### [ ] P04 — Release And Outcome Ownership
+### [x] P04 — Release And Outcome Ownership
 
 * [x] P04-T01 Record sponsor GO and tested rollback readiness.
-* [ ] P04-T02 Push, open the Phase 5 PR, complete hosted checks/Copilot review,
+* [x] P04-T02 Push, open the Phase 5 PR, complete hosted checks/Copilot review,
   resolve threads, request merge authorization, merge, and verify deployment.
-* [ ] P04-T03 Record release-day probes and the deployed revision.
-* [ ] P04-T04 Record owners and due dates for seven-day, 28-day, three-month,
+* [x] P04-T03 Record release-day probes and the deployed revision.
+* [x] P04-T04 Record owners and due dates for seven-day, 28-day, three-month,
   and six-month observations.
 
 ## Dependencies and Ordering

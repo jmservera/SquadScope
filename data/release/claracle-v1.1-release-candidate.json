@@ -8,11 +8,16 @@
   "candidate_product_tree_sha256": "c2254db371a4a691143ab56ebb8f124d5c9ede68010e05457e8e0b2a53d8b502",
   "candidate_sha": "7f5cd59feae7f6eec35787b981998bd931b358ef",
   "deployment": {
-    "deployed_at": null,
-    "evidence": [],
-    "merge_sha": null,
-    "run_id": null,
-    "status": "pending"
+    "deployed_at": "2026-08-13T18:34:15Z",
+    "evidence": [
+      "Feature PR jmservera/SquadScope#713 merged as 2a892ca9d6263127daf8cc6619ddef8f749c616a.",
+      "Lifecycle-fixture PR jmservera/SquadScope#715 merged as c65046a188dacaf03aa0338a8dd31387b730e187.",
+      "GitHub Pages deployment run 31731340792 completed successfully.",
+      "Production HTTP, JSON, repository-filter, ranking-filter, and keyboard interaction probes passed."
+    ],
+    "merge_sha": "c65046a188dacaf03aa0338a8dd31387b730e187",
+    "run_id": 31731340792,
+    "status": "completed"
   },
   "findings": [
     {
@@ -217,16 +222,19 @@
     {
       "acceptance_question": "Did the deployed release pass all release-day production probes?",
       "baseline": "Phase 4 deployment run 31645707266 passed the repository and ranking production probes.",
-      "completed_at": null,
-      "due_at": null,
-      "evidence": [],
+      "completed_at": "2026-08-13T18:36:20Z",
+      "due_at": "2026-08-13T18:34:15Z",
+      "evidence": [
+        "GitHub Pages deployment run 31731340792 passed build, deploy, and Podcaster release smoke jobs.",
+        "Production HTTP, JSON, repository-filter, ranking-filter, and keyboard interaction probes passed."
+      ],
       "evidence_destination": "data/release/claracle-v1.1-release-candidate.json",
       "expected_sources": [
         "GitHub Pages deployment run",
         "production HTTP and JSON probes"
       ],
       "owner": "Fry and URL",
-      "status": "pending",
+      "status": "completed",
       "target": "Every Phase 5 release-day HTTP, JSON, accessibility, and interaction probe passes with no severity-1 or severity-2 regression.",
       "window": "release-day"
     },
@@ -234,7 +242,7 @@
       "acceptance_question": "Did the release remain stable for seven days without accessibility or interaction regressions?",
       "baseline": "No seven-day production stability window exists for the integrated Phase 5 candidate.",
       "completed_at": null,
-      "due_at": null,
+      "due_at": "2026-08-20T18:34:15Z",
       "evidence": [],
       "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
       "expected_sources": [
@@ -242,7 +250,7 @@
         "production smoke tests"
       ],
       "owner": "Fry and Amy",
-      "status": "pending",
+      "status": "scheduled",
       "target": "Zero severity-1 or severity-2 accessibility, interaction, visual, or availability regressions during the first seven days.",
       "window": "seven-day"
     },
@@ -250,7 +258,7 @@
       "acceptance_question": "Did repository retirement and organic discovery remain consistent after 28 days?",
       "baseline": "The approved GA4/GSC baseline records 0 organic sessions, 149 impressions, 0 clicks, and 17 impression-bearing queries.",
       "completed_at": null,
-      "due_at": null,
+      "due_at": "2026-09-10T18:34:15Z",
       "evidence": [],
       "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
       "expected_sources": [
@@ -258,7 +266,7 @@
         "repository migration probes"
       ],
       "owner": "Zapp and Leela",
-      "status": "pending",
+      "status": "scheduled",
       "target": "Review repository migration and organic evidence for regressions at D+28; do not apply the six-month organic target early.",
       "window": "28-day"
     },
@@ -266,7 +274,7 @@
       "acceptance_question": "Did migration and organic discovery remain healthy after three months?",
       "baseline": "The approved GA4/GSC baseline records 0 organic sessions, 149 impressions, 0 clicks, and 17 impression-bearing queries.",
       "completed_at": null,
-      "due_at": null,
+      "due_at": "2026-11-13T18:34:15Z",
       "evidence": [],
       "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
       "expected_sources": [
@@ -274,7 +282,7 @@
         "GA4"
       ],
       "owner": "Zapp and Leela",
-      "status": "pending",
+      "status": "scheduled",
       "target": "Retain three-month migration and organic evidence and document progress toward the six-month top-20-query target.",
       "window": "three-month"
     },
@@ -282,7 +290,7 @@
       "acceptance_question": "Did the release meet its six-month SEO outcome expectations?",
       "baseline": "The approved GSC baseline records 17 impression-bearing queries and no established top-20-query outcome.",
       "completed_at": null,
-      "due_at": null,
+      "due_at": "2027-02-13T18:34:15Z",
       "evidence": [],
       "evidence_destination": "docs/review/claracle-post-relaunch/release-candidate.md",
       "expected_sources": [
@@ -291,7 +299,7 @@
         "backlink export"
       ],
       "owner": "Zapp and jmservera",
-      "status": "pending",
+      "status": "scheduled",
       "target": "At least 250 organic sessions per complete 28-day month and at least 15 queries in the top 20 by six months.",
       "window": "six-month"
     }
@@ -318,5 +326,5 @@
     "reviewer": "jmservera",
     "status": "go"
   },
-  "status": "go"
+  "status": "deployed"
 }

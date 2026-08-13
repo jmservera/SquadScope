@@ -301,3 +301,18 @@ outcome lifecycle field before each independent scenario. All 28 focused tests
 pass. Candidate `7f5cd59feae7f6eec35787b981998bd931b358ef` supersedes
 `ed9106c` with product-tree digest
 `c2254db371a4a691143ab56ebb8f124d5c9ede68010e05457e8e0b2a53d8b502`.
+
+## Final Deployment And Release-Day Evidence
+
+* Feature PR jmservera/SquadScope#713 merged as
+  `2a892ca9d6263127daf8cc6619ddef8f749c616a`.
+* Lifecycle-fixture PR jmservera/SquadScope#715 merged as
+  `c65046a188dacaf03aa0338a8dd31387b730e187`.
+* GitHub Pages deployment run `31731340792` passed build, deploy, and Podcaster
+  release smoke jobs, completing at `2026-08-13T18:34:15Z`.
+* Production HTTP and JSON probes passed for the homepage, repository explorer,
+  ranking explorer, and Star Velocity Explorer.
+* Production Playwright probes passed repository topic filtering, ranking URL
+  and filter state, and keyboard-operable tool controls.
+* D+7, D+28, M+3, and M+6 observations are scheduled from the final deployment
+  timestamp in the machine-readable release record.

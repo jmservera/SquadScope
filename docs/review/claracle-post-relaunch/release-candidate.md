@@ -17,7 +17,7 @@ ms.topic: reference
 | Validator | `scripts/validate_release_candidate.py` |
 | Baseline | Phase 4 merge `f9fb5d88fefde9b6143adda2d57e20d18f6b5e25` |
 | Baseline deployment | GitHub Actions run `31645707266` |
-| Release status | Sponsor GO; DRF-03/DRF-05 risk-accepted via waiver, issue #714, expires 2026-11-11 |
+| Release status | Deployed; release-day probes passed; DRF-03/DRF-05 deferred under issue #714 |
 
 The product candidate is frozen only after all runtime, workflow, content, and
 test changes pass local validation. Later evidence-only commits may update this
@@ -57,9 +57,17 @@ GO. The responsible owner is `jmservera`.
 
 ## Outcomes
 
-Release-day evidence is recorded only after deployment. D+7, D+28, M+3, and
-M+6 observations receive exact due dates from the production deployment
-timestamp and remain scheduled until their windows arrive.
+Feature PR jmservera/SquadScope#713 and lifecycle-fixture PR
+jmservera/SquadScope#715 are merged. GitHub Pages deployment run `31731340792`
+completed successfully at `2026-08-13T18:34:15Z`. Production HTTP, JSON,
+repository-filter, ranking-filter, and keyboard interaction probes passed.
+
+| Window | Due at |
+|---|---|
+| D+7 | `2026-08-20T18:34:15Z` |
+| D+28 | `2026-09-10T18:34:15Z` |
+| M+3 | `2026-11-13T18:34:15Z` |
+| M+6 | `2027-02-13T18:34:15Z` |
 
 The approved organic baseline is 0 organic sessions, 149 impressions, 0 clicks,
 and 17 impression-bearing queries. The approved targets are at least 250
