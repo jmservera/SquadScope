@@ -270,10 +270,10 @@ freeze.
 ## Accepted Replacement Freeze — Candidate c7b08f1
 
 * Frozen product candidate:
-  `7f5cd59feae7f6eec35787b981998bd931b358ef`.
+  `c65046a188dacaf03aa0338a8dd31387b730e187`.
 * Product-tree SHA-256:
   `c2254db371a4a691143ab56ebb8f124d5c9ede68010e05457e8e0b2a53d8b502`.
-* Frozen at: `2026-08-13T18:21:44Z`.
+* Frozen at: `2026-08-13T18:33:26Z`.
 * Gates: 1,634 Python tests passed; 28 focused validator tests; Ruff; Bandit.
 * DRF-01, DRF-02, DRF-04: closed with Amy/Fry owner dispositions re-bound to
   new candidate SHA.
@@ -284,8 +284,8 @@ freeze.
 ## Sponsor GO
 
 * Sponsor `jmservera` granted GO for candidate
-  `7f5cd59feae7f6eec35787b981998bd931b358ef` at
-  `2026-08-13T18:21:44Z`.
+  `c65046a188dacaf03aa0338a8dd31387b730e187` at
+  `2026-08-13T18:33:26Z`.
 * DRF-03 and DRF-05 remain deferred, not passed, under the time-bounded waiver
   tracked by jmservera/SquadScope#714.
 * Rollback readiness is tested: the complete Phase 5 diff passed
@@ -298,9 +298,16 @@ The first post-deployment evidence transition showed that the validator fixture
 also inherited deployment and delayed-outcome state from the checked-in record.
 The fixture now resets sponsor, rollback, deployment, findings, and every
 outcome lifecycle field before each independent scenario. All 28 focused tests
-pass. Candidate `7f5cd59feae7f6eec35787b981998bd931b358ef` supersedes
+pass. Candidate `c65046a188dacaf03aa0338a8dd31387b730e187` supersedes
 `ed9106c` with product-tree digest
 `c2254db371a4a691143ab56ebb8f124d5c9ede68010e05457e8e0b2a53d8b502`.
+
+After squash merge, hosted validation proved the pre-merge commit was not
+reachable in a clean checkout. The release boundary is therefore canonicalized
+to reachable merge commit `c65046a188dacaf03aa0338a8dd31387b730e187`.
+Its product-tree digest is identical, so no runtime, content, workflow, or test
+boundary changed; evidence, reviews, waivers, and sponsor GO were re-bound to
+the merge identity.
 
 ## Final Deployment And Release-Day Evidence
 
