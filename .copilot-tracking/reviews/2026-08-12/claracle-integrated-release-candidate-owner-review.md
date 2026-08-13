@@ -112,6 +112,10 @@ remain genuine named-human blockers.
 
 ## Candidate 6ba13b5 — Deferred/Waiver Freeze Review (2026-08-13)
 
+> **Note**: Candidate 6ba13b5 was superseded by `c7b08f1` after test coverage
+> fixes. The review below applied to the original candidate; dispositions were
+> re-bound to the replacement.
+
 ### Leela (Architecture / Release-State Boundary)
 
 **Disposition**: Pass

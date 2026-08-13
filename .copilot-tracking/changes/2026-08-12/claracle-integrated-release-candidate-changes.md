@@ -266,3 +266,17 @@ freeze.
 * Candidate `6ba13b5` is invalidated; the record is reset to `preparing` with
   all findings open and `waiver: null`.
 * 28 focused validator tests pass after the addition.
+
+## Accepted Replacement Freeze — Candidate c7b08f1
+
+* Frozen product candidate:
+  `c7b08f1f8552ce15f84d12a202e70af6b80ab249`.
+* Product-tree SHA-256:
+  `7b32a8ad3ebebdfe39e16dfafaaeb5fecad12dc16028c2825159d8bc599e2749`.
+* Frozen at: `2026-08-13T17:37:30Z`.
+* Gates: 1,634 Python tests passed; 28 focused validator tests; Ruff; Bandit.
+* DRF-01, DRF-02, DRF-04: closed with Amy/Fry owner dispositions re-bound to
+  new candidate SHA.
+* DRF-03, DRF-05: deferred with sponsor-approved waiver (jmservera, issue #714,
+  expires 2026-11-11T16:50:19Z). Waiver `decided_at` re-anchored to freeze
+  time per re-bind convention; underlying decision unchanged.
