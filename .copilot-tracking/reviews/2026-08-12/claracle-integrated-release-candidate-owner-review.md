@@ -86,3 +86,24 @@ sessions per complete 28-day month and at least 15 queries in the top 20.
 No automatable severity-1 or severity-2 finding remains. DRF-03 live
 announcement confirmation and DRF-05 live keyboard/screen-reader acceptance
 remain genuine named-human blockers.
+
+## Candidate 3271024 PR-Fix Review
+
+Candidate `31ab98c` was invalidated before human review after Copilot identified
+three valid PR findings. Candidate
+`327102410d5ade6048408463a27872cfd0bedc60` includes race-safe copy feedback,
+order-independent repository URL assertions, accurate blocker wording, and
+detailed DRF-03/DRF-05 human-review instructions.
+
+The repeated exact-candidate review confirms:
+
+* Amy and Fry pass the automated portions of DRF-01 through DRF-04;
+* Leela passes functional correctness and the release-state boundary;
+* Hermes passes Bandit, Checkov, and workflow-security review;
+* URL passes CI and revision-bound evidence provenance;
+* Nibbler passes truthful live-AT attestation and prompt-safety review;
+* Zapp and Farnsworth pass outcome, editorial, and data-integrity claims.
+
+No automatable severity-1 or severity-2 finding remains. DRF-03 live
+announcement confirmation and DRF-05 live keyboard/screen-reader acceptance
+remain genuine named-human blockers.

@@ -224,13 +224,23 @@
       "decision": "Copilot review on e47344b found three valid issues; copy feedback races, order-dependent URL assertions, and stale blocker text are remediated, invalidating candidate 31ab98c before human review.",
       "status": "confirmed",
       "evidence": "https://github.com/jmservera/SquadScope/pull/713"
+    },
+    {
+      "decision": "The immutable replacement candidate is 327102410d5ade6048408463a27872cfd0bedc60 with product-tree digest f1b4831d4ccb112f949330b67561208b304c5a2f2e60bb16fc56ad9aa9d61085; all 1,670 Python tests and 172 affected browser scenarios pass.",
+      "status": "confirmed",
+      "evidence": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md"
+    },
+    {
+      "decision": "Repeated named review passes all automatable Phase 5 boundaries on candidate 3271024; DRF-03 live announcement and DRF-05 live AT remain human-only blockers.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-owner-review.md"
     }
   ],
   "blockers": [
     {
       "id": "DRF-03",
-      "summary": "Copy feedback changed in response to PR review, so exact-candidate automation and Amy/Fry dispositions must be repeated before human review.",
-      "resolution": "Validate and freeze the replacement candidate, then repeat owner review before live-AT evidence."
+      "summary": "Automated copy feedback and Amy/Fry dispositions pass on candidate 3271024; genuine live screen-reader announcement confirmation is unavailable.",
+      "resolution": "A human reviewer must complete the DRF-03 steps in PR 713 and return the required evidence template."
     },
     {
       "id": "DRF-05",
@@ -240,7 +250,7 @@
   ],
   "next_action": {
     "phase": "Implement",
-    "action": "Validate PR feedback fixes, freeze a replacement candidate, repeat owner review, then obtain live-AT evidence."
+    "action": "Obtain genuine named-human DRF-03 and DRF-05 evidence for candidate 3271024 using the instructions in PR 713."
   },
   "prioritized_follow_ups": [
     {

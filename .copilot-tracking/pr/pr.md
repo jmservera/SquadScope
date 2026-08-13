@@ -9,10 +9,11 @@
 * Added a revision-bound Phase 5 release-candidate schema, validator, evidence
   record, tests, and CI gate.
 
-The prior candidate was invalidated to address Copilot review feedback. A
-replacement freeze and exact-candidate owner review are pending. The release
-remains blocked on genuine live screen-reader evidence for DRF-03 and DRF-05;
-this PR does not claim sponsor GO or deployment readiness.
+The replacement product candidate is
+`327102410d5ade6048408463a27872cfd0bedc60`. Exact-candidate automated and
+named-owner review passes. The release remains blocked on genuine live
+screen-reader evidence for DRF-03 and DRF-05; this PR does not claim sponsor GO
+or deployment readiness.
 
 ## Validation
 
@@ -30,10 +31,10 @@ Related: jmservera/SquadScope#594
 ## Required DRF-03/DRF-05 live screen-reader review
 
 Use the `site-preview` artifact linked by the preview-bot comment on this PR.
-Serve the downloaded artifact over HTTP, then test the replacement candidate
-named in the Candidate section after it is frozen. Record the reviewer name, date, operating system/version,
-browser/version, screen reader/version, findings with severity, disposition,
-and unresolved work.
+Serve the downloaded artifact over HTTP, then test candidate
+`327102410d5ade6048408463a27872cfd0bedc60`. Record the reviewer name, date,
+operating system/version, browser/version, screen reader/version, findings with
+severity, disposition, and unresolved work.
 
 ### DRF-03 — copy announcements
 
@@ -66,7 +67,7 @@ and unresolved work.
 ```text
 Reviewer:
 Reviewed at (UTC):
-Candidate SHA: use the frozen SHA in the Candidate section
+Candidate SHA: 327102410d5ade6048408463a27872cfd0bedc60
 Operating system/version:
 Browser/version:
 Screen reader/version:

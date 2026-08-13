@@ -207,6 +207,19 @@ freeze.
   frozen candidate and cannot be completed by agent simulation. This blocks
   sponsor GO, merge, and deployment.
 
+## Candidate 3271024 — PR Feedback Remediation
+
+* Frozen product candidate:
+  `327102410d5ade6048408463a27872cfd0bedc60`.
+* Product-tree SHA-256:
+  `f1b4831d4ccb112f949330b67561208b304c5a2f2e60bb16fc56ad9aa9d61085`.
+* Exact-revision gates: 1,670 Python tests; 16 focused validator tests; Ruff;
+  two Node tests; Hugo; 172 affected browser scenarios (139 passed and 33
+  expected project skips); Checkov; Zizmor; and Bandit pass.
+* Amy/Fry and cross-functional owner dispositions pass all automatable
+  boundaries. DRF-03 and DRF-05 remain blocked only on genuine named-human
+  live screen-reader evidence.
+
 ## Remaining Work
 
 * P03-T03 remains human-blocked until genuine live screen-reader evidence is
