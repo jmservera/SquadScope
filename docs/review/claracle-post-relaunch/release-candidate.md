@@ -11,7 +11,7 @@ ms.topic: reference
 | Field | Value |
 |---|---|
 | Release | `claracle-v1-1` |
-| Product candidate SHA | `c7b08f1f8552ce15f84d12a202e70af6b80ab249` |
+| Product candidate SHA | `ed9106c313d9503b0bc0a19640ea456d441fa5eb` |
 | Evidence record | `data/release/claracle-v1.1-release-candidate.json` |
 | Schema | `data/schemas/release-candidate.schema.json` |
 | Validator | `scripts/validate_release_candidate.py` |

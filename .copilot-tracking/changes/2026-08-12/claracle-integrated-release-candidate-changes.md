@@ -270,10 +270,10 @@ freeze.
 ## Accepted Replacement Freeze — Candidate c7b08f1
 
 * Frozen product candidate:
-  `c7b08f1f8552ce15f84d12a202e70af6b80ab249`.
+  `ed9106c313d9503b0bc0a19640ea456d441fa5eb`.
 * Product-tree SHA-256:
-  `7b32a8ad3ebebdfe39e16dfafaaeb5fecad12dc16028c2825159d8bc599e2749`.
-* Frozen at: `2026-08-13T17:37:30Z`.
+  `47f60844c52c719ff5276ebcf4d3106a0396443d75fde1ec45828bb06faac6f0`.
+* Frozen at: `2026-08-13T18:03:46Z`.
 * Gates: 1,634 Python tests passed; 28 focused validator tests; Ruff; Bandit.
 * DRF-01, DRF-02, DRF-04: closed with Amy/Fry owner dispositions re-bound to
   new candidate SHA.
@@ -284,8 +284,8 @@ freeze.
 ## Sponsor GO
 
 * Sponsor `jmservera` granted GO for candidate
-  `c7b08f1f8552ce15f84d12a202e70af6b80ab249` at
-  `2026-08-13T17:58:14Z`.
+  `ed9106c313d9503b0bc0a19640ea456d441fa5eb` at
+  `2026-08-13T18:03:46Z`.
 * DRF-03 and DRF-05 remain deferred, not passed, under the time-bounded waiver
   tracked by jmservera/SquadScope#714.
 * Rollback readiness is tested: the complete Phase 5 diff passed

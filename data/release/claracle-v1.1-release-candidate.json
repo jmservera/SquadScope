@@ -4,9 +4,9 @@
     "phase4_merge_sha": "f9fb5d88fefde9b6143adda2d57e20d18f6b5e25",
     "verified_at": "2026-08-12T22:11:00Z"
   },
-  "candidate_frozen_at": "2026-08-13T17:37:30Z",
-  "candidate_product_tree_sha256": "7b32a8ad3ebebdfe39e16dfafaaeb5fecad12dc16028c2825159d8bc599e2749",
-  "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249",
+  "candidate_frozen_at": "2026-08-13T18:03:46Z",
+  "candidate_product_tree_sha256": "47f60844c52c719ff5276ebcf4d3106a0396443d75fde1ec45828bb06faac6f0",
+  "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
   "deployment": {
     "deployed_at": null,
     "evidence": [],
@@ -21,19 +21,19 @@
           "type": "automated-summary",
           "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
           "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249"
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
         },
         {
           "type": "browser-contract",
           "path": "tests/visual/repository-explorer.spec.mjs",
           "sha256": "b1952b2aa82b7b458452bc5b9428027c4f39821c1be3a986bdc22507a2c4bbf5",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249"
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
         },
         {
           "type": "visual-evidence-contract",
           "path": "tests/visual/observatory-visual-regression.spec.mjs",
           "sha256": "87ea4ab0b8679cb8e7d527c4e01ce27d47aa9e98ebd61ad774391a10a1b78a84",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249"
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
         }
       ],
       "id": "DRF-01",
@@ -43,8 +43,8 @@
         {
           "reviewer": "Squad Amy",
           "role": "Amy",
-          "reviewed_at": "2026-08-13T17:37:30Z",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249",
+          "reviewed_at": "2026-08-13T18:03:46Z",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -52,8 +52,8 @@
         {
           "reviewer": "Squad Fry",
           "role": "Fry",
-          "reviewed_at": "2026-08-13T17:37:30Z",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249",
+          "reviewed_at": "2026-08-13T18:03:46Z",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -69,19 +69,19 @@
           "type": "automated-summary",
           "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
           "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249"
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
         },
         {
           "type": "browser-contract",
           "path": "tests/visual/observatory-a11y.spec.mjs",
           "sha256": "32e1d98b5293cff3b6f1307da21db4d6d530c665769b3656725f4da784ef9c8f",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249"
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
         },
         {
           "type": "visual-evidence-contract",
           "path": "tests/visual/observatory-visual-regression.spec.mjs",
           "sha256": "87ea4ab0b8679cb8e7d527c4e01ce27d47aa9e98ebd61ad774391a10a1b78a84",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249"
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
         }
       ],
       "id": "DRF-02",
@@ -91,8 +91,8 @@
         {
           "reviewer": "Squad Amy",
           "role": "Amy",
-          "reviewed_at": "2026-08-13T17:37:30Z",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249",
+          "reviewed_at": "2026-08-13T18:03:46Z",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -100,8 +100,8 @@
         {
           "reviewer": "Squad Fry",
           "role": "Fry",
-          "reviewed_at": "2026-08-13T17:37:30Z",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249",
+          "reviewed_at": "2026-08-13T18:03:46Z",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -117,13 +117,13 @@
           "type": "automated-summary",
           "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
           "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249"
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
         },
         {
           "type": "browser-contract",
           "path": "tests/visual/observatory-a11y.spec.mjs",
           "sha256": "32e1d98b5293cff3b6f1307da21db4d6d530c665769b3656725f4da784ef9c8f",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249"
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
         }
       ],
       "id": "DRF-03",
@@ -133,8 +133,8 @@
         {
           "reviewer": "Squad Amy",
           "role": "Amy",
-          "reviewed_at": "2026-08-13T17:37:30Z",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249",
+          "reviewed_at": "2026-08-13T18:03:46Z",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -142,8 +142,8 @@
         {
           "reviewer": "Squad Fry",
           "role": "Fry",
-          "reviewed_at": "2026-08-13T17:37:30Z",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249",
+          "reviewed_at": "2026-08-13T18:03:46Z",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -156,8 +156,8 @@
         "rationale": "Sponsor lacks screen-reader access and a genuine accessibility expert; automation cannot substitute for a live screen-reader review.",
         "compensating_control": "Automated accessibility, keyboard, and status-announcement test coverage retained in CI; no further accessibility-affecting UI changes ship without re-running the full suite. Tracked in issue #714.",
         "issue_url": "https://github.com/jmservera/SquadScope/issues/714",
-        "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249",
-        "decided_at": "2026-08-13T17:37:30Z",
+        "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
+        "decided_at": "2026-08-13T18:03:46Z",
         "expires_at": "2026-11-11T16:50:19Z"
       }
     },
@@ -167,13 +167,13 @@
           "type": "automated-summary",
           "path": "docs/review/claracle-post-relaunch/phase5-automated-evidence-3271024.md",
           "sha256": "cc84e2586cfe2c4e2e343bae33a7150572bd6edebe765f1d7239050400db1161",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249"
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
         },
         {
           "type": "browser-contract",
           "path": "tests/visual/observatory-a11y.spec.mjs",
           "sha256": "32e1d98b5293cff3b6f1307da21db4d6d530c665769b3656725f4da784ef9c8f",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249"
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb"
         }
       ],
       "id": "DRF-04",
@@ -183,8 +183,8 @@
         {
           "reviewer": "Squad Fry",
           "role": "Fry",
-          "reviewed_at": "2026-08-13T17:37:30Z",
-          "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249",
+          "reviewed_at": "2026-08-13T18:03:46Z",
+          "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -207,8 +207,8 @@
         "rationale": "Sponsor lacks screen-reader access and a genuine accessibility expert; automation cannot substitute for a live screen-reader review.",
         "compensating_control": "Automated accessibility, keyboard, and status-announcement test coverage retained in CI; no further accessibility-affecting UI changes ship without re-running the full suite. Tracked in issue #714.",
         "issue_url": "https://github.com/jmservera/SquadScope/issues/714",
-        "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249",
-        "decided_at": "2026-08-13T17:37:30Z",
+        "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
+        "decided_at": "2026-08-13T18:03:46Z",
         "expires_at": "2026-11-11T16:50:19Z"
       }
     }
@@ -313,8 +313,8 @@
   },
   "schema_version": "1.1.0",
   "sponsor": {
-    "candidate_sha": "c7b08f1f8552ce15f84d12a202e70af6b80ab249",
-    "decided_at": "2026-08-13T17:58:14Z",
+    "candidate_sha": "ed9106c313d9503b0bc0a19640ea456d441fa5eb",
+    "decided_at": "2026-08-13T18:03:46Z",
     "reviewer": "jmservera",
     "status": "go"
   },
