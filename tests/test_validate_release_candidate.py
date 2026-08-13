@@ -421,6 +421,37 @@ def test_rejects_waiver_expires_before_decided() -> None:
         validate_at(candidate)
 
 
+def test_rejects_waiver_decided_before_freeze() -> None:
+    candidate = freeze(payload())
+    candidate["findings"][2]["status"] = "deferred"
+    w = waiver_obj()
+    w["decided_at"] = "2026-08-12T22:00:00Z"  # before candidate_frozen_at (22:30)
+    candidate["findings"][2]["waiver"] = w
+    with pytest.raises(ValueError, match="outside the candidate window"):
+        validate_at(candidate)
+
+
+def test_rejects_waiver_decided_in_future() -> None:
+    candidate = freeze(payload())
+    candidate["findings"][2]["status"] = "deferred"
+    w = waiver_obj()
+    w["decided_at"] = "2026-08-13T02:00:00Z"  # after NOW (01:00)
+    w["expires_at"] = "2026-11-13T02:00:00Z"
+    candidate["findings"][2]["waiver"] = w
+    with pytest.raises(ValueError, match="outside the candidate window"):
+        validate_at(candidate)
+
+
+def test_rejects_waiver_with_extra_field() -> None:
+    candidate = freeze(payload())
+    candidate["findings"][2]["status"] = "deferred"
+    w = waiver_obj()
+    w["unexpected_field"] = "should fail"
+    candidate["findings"][2]["waiver"] = w
+    with pytest.raises(ValueError, match="Schema validation failed"):
+        validate_at(candidate)
+
+
 def test_rejects_non_deferred_finding_with_waiver() -> None:
     candidate = freeze(payload())
     candidate["findings"][0]["waiver"] = waiver_obj()

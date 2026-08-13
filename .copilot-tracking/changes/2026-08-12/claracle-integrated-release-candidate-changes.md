@@ -256,3 +256,13 @@ freeze.
 * Sponsor's deferral decision: "Ok, then dismiss it, create a comprehensive GH
   Issue to run this in the future, I don't have access to a screen reader nor
   to a genuine accessibility expert now."
+
+## 2026-08-13: Candidate Invalidation — Test Coverage Fix
+
+* **Reason**: Three new tests added to `tests/test_validate_release_candidate.py`
+  covering both branches of the `decided_at` candidate-window check and the
+  `additionalProperties: false` waiver schema rejection. Test files are not in
+  `EVIDENCE_ONLY_PREFIXES`, so this is a product-tree-affecting change.
+* Candidate `6ba13b5` is invalidated; the record is reset to `preparing` with
+  all findings open and `waiver: null`.
+* 28 focused validator tests pass after the addition.
