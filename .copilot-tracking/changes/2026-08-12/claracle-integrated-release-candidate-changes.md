@@ -270,10 +270,10 @@ freeze.
 ## Accepted Replacement Freeze — Candidate c7b08f1
 
 * Frozen product candidate:
-  `ed9106c313d9503b0bc0a19640ea456d441fa5eb`.
+  `7f5cd59feae7f6eec35787b981998bd931b358ef`.
 * Product-tree SHA-256:
-  `47f60844c52c719ff5276ebcf4d3106a0396443d75fde1ec45828bb06faac6f0`.
-* Frozen at: `2026-08-13T18:03:46Z`.
+  `c2254db371a4a691143ab56ebb8f124d5c9ede68010e05457e8e0b2a53d8b502`.
+* Frozen at: `2026-08-13T18:21:44Z`.
 * Gates: 1,634 Python tests passed; 28 focused validator tests; Ruff; Bandit.
 * DRF-01, DRF-02, DRF-04: closed with Amy/Fry owner dispositions re-bound to
   new candidate SHA.
@@ -284,10 +284,20 @@ freeze.
 ## Sponsor GO
 
 * Sponsor `jmservera` granted GO for candidate
-  `ed9106c313d9503b0bc0a19640ea456d441fa5eb` at
-  `2026-08-13T18:03:46Z`.
+  `7f5cd59feae7f6eec35787b981998bd931b358ef` at
+  `2026-08-13T18:21:44Z`.
 * DRF-03 and DRF-05 remain deferred, not passed, under the time-bounded waiver
   tracked by jmservera/SquadScope#714.
 * Rollback readiness is tested: the complete Phase 5 diff passed
   `git apply --reverse --check`, and Phase 4 deployment run `31645707266`
   remains the last-known-good production boundary.
+
+## Candidate 7f5cd59 — Complete Fixture Isolation
+
+The first post-deployment evidence transition showed that the validator fixture
+also inherited deployment and delayed-outcome state from the checked-in record.
+The fixture now resets sponsor, rollback, deployment, findings, and every
+outcome lifecycle field before each independent scenario. All 28 focused tests
+pass. Candidate `7f5cd59feae7f6eec35787b981998bd931b358ef` supersedes
+`ed9106c` with product-tree digest
+`c2254db371a4a691143ab56ebb8f124d5c9ede68010e05457e8e0b2a53d8b502`.
