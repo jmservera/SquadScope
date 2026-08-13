@@ -3,8 +3,8 @@
   "task_slug": "claracle-post-relaunch-consolidation",
   "parent_task": null,
   "mode": "automatic",
-  "active_phase": "Implement",
-  "status": "active",
+  "active_phase": "Follow-up",
+  "status": "completed",
   "session_status": "running",
   "artifact_paths": {
     "research": ".copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md",
@@ -12,7 +12,7 @@
     "details": ".copilot-tracking/details/2026-08-12/claracle-integrated-release-candidate-phase-details.md",
     "critique": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-plan-critique.md",
     "changes": ".copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md",
-    "review": ".copilot-tracking/reviews/logs/2026-08-11/claracle-post-relaunch-consolidation-review.md"
+    "review": ".copilot-tracking/reviews/logs/2026-08-13/claracle-integrated-release-candidate-review.md"
   },
   "confirmed_decisions": [
     {
@@ -249,25 +249,46 @@
     {
       "timestamp": "2026-08-13T16:50:19Z",
       "decision": "Replacement candidate c7b08f1 frozen after test coverage fix (supersedes 6ba13b5)"
+    },
+    {
+      "decision": "The single final Phase 5 RPI Review executed completely with a Conformant with justified divergence outcome.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/reviews/logs/2026-08-13/claracle-integrated-release-candidate-review.md"
+    },
+    {
+      "decision": "The final Phase 5 review record passed all hosted checks, received Copilot review on its latest head with no unresolved threads, and merged through PR 717 as d833d65.",
+      "status": "confirmed",
+      "evidence": "https://github.com/jmservera/SquadScope/pull/717"
+    },
+    {
+      "decision": "Phase 5 is complete; live-AT validation and dated outcome observations remain explicitly routed follow-up work rather than completed acceptance evidence.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/reviews/logs/2026-08-13/claracle-integrated-release-candidate-review.md"
     }
   ],
   "blockers": [],
   "next_action": {
-    "phase": "Review",
-    "action": "Review completed Phase 5 delivery, deployed release evidence, issue 714 waiver follow-up, and scheduled outcomes."
+    "phase": "Follow-up",
+    "action": "Select a ranked follow-up task, stop the automatic session, or switch to manual mode."
   },
   "prioritized_follow_ups": [
     {
       "rank": 1,
-      "task": "Close DRF-01 through DRF-05 against one immutable Phase 5 candidate.",
-      "rationale": "All five rows remain severity 2 and block sponsor GO until same-revision automated and named evidence is retained.",
-      "evidence": "docs/review/claracle-post-relaunch/redesigned-release-finding-map.md"
+      "task": "Execute genuine live-AT validation for DRF-03 and DRF-05.",
+      "rationale": "This retires the only medium-severity residual release risk before the waiver expires on 2026-11-11.",
+      "evidence": "https://github.com/jmservera/SquadScope/issues/714"
     },
     {
       "rank": 2,
-      "task": "Record release-day and scheduled outcome evidence.",
-      "rationale": "Seven-day, 28-day, three-month, and six-month evidence is required but cannot be claimed before its due date.",
-      "evidence": ".copilot-tracking/plans/2026-08-08/claracle-post-relaunch-consolidation-plan.instructions.md"
+      "task": "Record scheduled D+7, D+28, M+3, and M+6 outcome evidence.",
+      "rationale": "The deployed release is accepted, but its delayed success criteria must be measured only when each dated observation window opens.",
+      "evidence": "data/release/claracle-v1.1-release-candidate.json"
+    },
+    {
+      "rank": 3,
+      "task": "Reconcile obsolete pre-waiver live-AT blocker prose.",
+      "rationale": "Aligning the older plan narrative with the approved deferral reduces future audit ambiguity without changing release behavior.",
+      "evidence": ".copilot-tracking/reviews/logs/2026-08-13/claracle-integrated-release-candidate-review.md"
     }
   ]
 }
