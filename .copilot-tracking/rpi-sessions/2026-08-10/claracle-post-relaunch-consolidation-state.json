@@ -4,7 +4,7 @@
   "parent_task": null,
   "mode": "automatic",
   "active_phase": "Implement",
-  "status": "active",
+  "status": "blocked",
   "session_status": "running",
   "artifact_paths": {
     "research": ".copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md",
@@ -214,6 +214,11 @@
       "decision": "Final named review passes all automatable boundaries after moving the 250-session target from D+28 to the approved six-month window; DRF-03 live announcement and DRF-05 live AT remain human-only blockers.",
       "status": "confirmed",
       "evidence": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-owner-review.md"
+    },
+    {
+      "decision": "All hosted checks pass on evidence head afcf425, the PR is merge-clean, and all existing review threads are resolved; PR 713 remains draft while human-only accessibility gates are open.",
+      "status": "confirmed",
+      "evidence": "https://github.com/jmservera/SquadScope/pull/713"
     }
   ],
   "blockers": [
