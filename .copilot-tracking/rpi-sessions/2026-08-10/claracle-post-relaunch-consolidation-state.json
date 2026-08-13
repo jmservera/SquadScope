@@ -1,20 +1,33 @@
 {
-  "task_id": "BRD-CLARACLE-003",
-  "task_slug": "claracle-post-relaunch-consolidation",
-  "parent_task": null,
+  "task_id": "BRD-CLARACLE-003-FU1",
+  "task_slug": "genuine-live-at-validation",
+  "parent_task": {
+    "task_id": "BRD-CLARACLE-003",
+    "task_slug": "claracle-post-relaunch-consolidation"
+  },
   "mode": "automatic",
-  "active_phase": "Follow-up",
-  "status": "completed",
+  "active_phase": "Research",
+  "status": "blocked",
   "session_status": "running",
   "artifact_paths": {
-    "research": ".copilot-tracking/research/2026-08-12/claracle-integrated-release-candidate-research.md",
-    "plan": ".copilot-tracking/plans/2026-08-12/claracle-integrated-release-candidate-plan.md",
-    "details": ".copilot-tracking/details/2026-08-12/claracle-integrated-release-candidate-phase-details.md",
-    "critique": ".copilot-tracking/reviews/2026-08-12/claracle-integrated-release-candidate-plan-critique.md",
-    "changes": ".copilot-tracking/changes/2026-08-12/claracle-integrated-release-candidate-changes.md",
-    "review": ".copilot-tracking/reviews/logs/2026-08-13/claracle-integrated-release-candidate-review.md"
+    "research": ".copilot-tracking/research/2026-08-13/genuine-live-at-validation-research.md",
+    "plan": null,
+    "details": null,
+    "critique": null,
+    "changes": null,
+    "review": null
   },
   "confirmed_decisions": [
+    {
+      "decision": "The user selected ranked follow-up 1: execute genuine live-AT validation for DRF-03 and DRF-05.",
+      "status": "confirmed",
+      "evidence": "User input: \"1\""
+    },
+    {
+      "decision": "This child task must not substitute Playwright, axe, browser accessibility trees, or simulated output for genuine assistive-technology evidence.",
+      "status": "confirmed",
+      "evidence": "https://github.com/jmservera/SquadScope/issues/714"
+    },
     {
       "decision": "Research evidence was reused for Phase 3 implementation.",
       "status": "confirmed",
@@ -264,31 +277,28 @@
       "decision": "Phase 5 is complete; live-AT validation and dated outcome observations remain explicitly routed follow-up work rather than completed acceptance evidence.",
       "status": "confirmed",
       "evidence": ".copilot-tracking/reviews/logs/2026-08-13/claracle-integrated-release-candidate-review.md"
+    },
+    {
+      "decision": "Live-AT research executed all three waves and selected a named human review on Windows/NVDA or macOS/VoiceOver, with BrowserStack Live as the remote fallback.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/research/2026-08-13/genuine-live-at-validation-research.md"
+    },
+    {
+      "decision": "The child task remains in Research because no named tester or supported live-AT environment/session is confirmed; automation-only and agent-only evidence are insufficient.",
+      "status": "confirmed",
+      "evidence": ".copilot-tracking/research/2026-08-13/genuine-live-at-validation-research.md"
     }
   ],
-  "blockers": [],
-  "next_action": {
-    "phase": "Follow-up",
-    "action": "Select a ranked follow-up task, stop the automatic session, or switch to manual mode."
-  },
-  "prioritized_follow_ups": [
+  "blockers": [
     {
-      "rank": 1,
-      "task": "Execute genuine live-AT validation for DRF-03 and DRF-05.",
-      "rationale": "This retires the only medium-severity residual release risk before the waiver expires on 2026-11-11.",
-      "evidence": "https://github.com/jmservera/SquadScope/issues/714"
-    },
-    {
-      "rank": 2,
-      "task": "Record scheduled D+7, D+28, M+3, and M+6 outcome evidence.",
-      "rationale": "The deployed release is accepted, but its delayed success criteria must be measured only when each dated observation window opens.",
-      "evidence": "data/release/claracle-v1.1-release-candidate.json"
-    },
-    {
-      "rank": 3,
-      "task": "Reconcile obsolete pre-waiver live-AT blocker prose.",
-      "rationale": "Aligning the older plan narrative with the approved deferral reduces future audit ambiguity without changing release behavior.",
-      "evidence": ".copilot-tracking/reviews/logs/2026-08-13/claracle-integrated-release-candidate-review.md"
+      "id": "LIVE-AT-ENV-001",
+      "summary": "No named human tester and supported Windows/NVDA, macOS/VoiceOver, or BrowserStack Live session are confirmed.",
+      "resolution": "A named tester accepts issue 714 and confirms access to one supported environment before the 2026-11-11 waiver expiry."
     }
-  ]
+  ],
+  "next_action": {
+    "phase": "Research",
+    "action": "Wait for a named tester to confirm Windows/NVDA, macOS/VoiceOver, or BrowserStack Live access, then execute issue 714."
+  },
+  "prioritized_follow_ups": []
 }
