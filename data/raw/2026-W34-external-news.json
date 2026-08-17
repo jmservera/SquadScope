@@ -1,0 +1,1614 @@
+{
+  "schema_version": 2,
+  "week": "2026-W34",
+  "source": "external_news",
+  "crawled_at": "2026-08-17T01:52:57.719208Z",
+  "crawl_window": {
+    "since": "2026-08-10T00:00:00Z",
+    "until": "2026-08-17T00:00:00Z"
+  },
+  "articles": [
+    {
+      "source": "techcrunch",
+      "title": "Stripe will reportedly acquire AI gateway startup OpenRouter for $7B+",
+      "url": "https://techcrunch.com/2026/08/16/stripe-will-reportedly-acquire-ai-gateway-startup-openrouter-for-7b/",
+      "published_at": "2026-08-16T20:57:04Z",
+      "categories": [
+        "AI",
+        "Startups"
+      ],
+      "summary": "OpenRouter's CEO recently described the startup as Stripe for AI.",
+      "github_links": [],
+      "entities": [
+        "Stripe",
+        "AI",
+        "OpenRouter"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Why people aren’t buying Mark Zuckerberg’s AI future",
+      "url": "https://techcrunch.com/2026/08/16/why-people-arent-buying-mark-zuckerbergs-ai-future/",
+      "published_at": "2026-08-16T20:32:01Z",
+      "categories": [
+        "AI",
+        "Social",
+        "Mark Zuckerberg",
+        "Meta"
+      ],
+      "summary": "On the latest episode of Equity podcast, we discuss why not everyone is buying Zuckerberg’s vision.",
+      "github_links": [],
+      "entities": [
+        "Mark",
+        "Zuckerberg",
+        "AI"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Anthropic CEO says AI backlash is ‘fundamentally a crisis of trust’",
+      "url": "https://techcrunch.com/2026/08/16/anthropic-ceo-says-ai-backlash-is-fundamentally-a-crisis-of-trust/",
+      "published_at": "2026-08-16T16:53:51Z",
+      "categories": [
+        "AI",
+        "Government & Policy",
+        "Anthropic",
+        "dario amodei"
+      ],
+      "summary": "Dario Amodei is pushing back against the idea that he's been painting an overly pessimistic picture of AI.",
+      "github_links": [],
+      "entities": [
+        "Anthropic",
+        "CEO",
+        "AI"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "TechCrunch Mobility: The shifting flight path of electric air taxis",
+      "url": "https://techcrunch.com/2026/08/16/techcrunch-mobility-the-shifting-flight-path-of-electric-air-taxis/",
+      "published_at": "2026-08-16T16:04:00Z",
+      "categories": [
+        "Transportation",
+        "air taxis",
+        "techcrunch mobility"
+      ],
+      "summary": "Welcome back to TechCrunch Mobility — your central hub for news and insights on the future of transportation.",
+      "github_links": [],
+      "entities": [
+        "TechCrunch",
+        "Mobility"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Woman claims her stepfather used Grok to transform childhood photo into explicit imagery",
+      "url": "https://techcrunch.com/2026/08/15/woman-claims-her-stepfather-used-grok-to-transform-childhood-photo-into-explicit-imagery/",
+      "published_at": "2026-08-15T21:29:19Z",
+      "categories": [
+        "AI",
+        "Government & Policy",
+        "Grok",
+        "SpaceX",
+        "x.ai"
+      ],
+      "summary": "The woman claimed that AI tools are \"taking everyday life and turning it into child sexual abuse.\"",
+      "github_links": [],
+      "entities": [
+        "Woman",
+        "Grok"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Anthropic shares more details about how Claude’s new watermarks will work",
+      "url": "https://techcrunch.com/2026/08/15/anthropic-shares-more-details-about-how-claudes-new-watermarks-will-work/",
+      "published_at": "2026-08-15T18:58:39Z",
+      "categories": [
+        "AI",
+        "Anthropic",
+        "Claude"
+      ],
+      "summary": "How will the watermarking actually work? Can it be hidden with editing? And how does this affect code?",
+      "github_links": [],
+      "entities": [
+        "Anthropic",
+        "Claude"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "SpaceX officially closes its Cursor acquisition",
+      "url": "https://techcrunch.com/2026/08/15/spacex-officially-closes-its-cursor-acquisition/",
+      "published_at": "2026-08-15T16:30:00Z",
+      "categories": [
+        "Startups",
+        "AI",
+        "Elon Musk",
+        "SpaceX",
+        "cursor"
+      ],
+      "summary": "AI coding startup Cursor is now officially a part of SpaceX.",
+      "github_links": [],
+      "entities": [
+        "SpaceX",
+        "Cursor"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "How to tell if your AI platforms’ accounts have been hacked",
+      "url": "https://techcrunch.com/2026/08/15/how-to-tell-if-your-ai-platforms-accounts-have-been-hacked/",
+      "published_at": "2026-08-15T16:10:00Z",
+      "categories": [
+        "Security",
+        "cybersecurity",
+        "OpenAI",
+        "Anthropic",
+        "ChatGPT",
+        "Claude",
+        "evergreens",
+        "Perplexity"
+      ],
+      "summary": "A guide on how to check if hackers have broken into your accounts on the most popular AI platforms.",
+      "github_links": [],
+      "entities": [
+        "AI"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Every fusion startup that has raised over $100M",
+      "url": "https://techcrunch.com/2026/08/15/every-fusion-startup-that-has-raised-over-100m/",
+      "published_at": "2026-08-15T13:15:20Z",
+      "categories": [
+        "Climate",
+        "Fundraising",
+        "Startups",
+        "evergreens",
+        "fusion power",
+        "nuclear fusion"
+      ],
+      "summary": "Fusion startups have raised $7.1 billion to date, with the majority of it going to a handful of companies.",
+      "github_links": [],
+      "entities": [
+        "Every"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Talks to sell PayPal to Stripe and Advent are heating up",
+      "url": "https://techcrunch.com/2026/08/14/talks-to-sell-paypal-to-stripe-and-advent-are-heating-up/",
+      "published_at": "2026-08-14T22:43:24Z",
+      "categories": [
+        "Fintech",
+        "Advent",
+        "PayPal",
+        "stripe"
+      ],
+      "summary": "PayPal is still reportedly negotiating a potential sale to Stripe and private equity firm Advent, as the fintech firm's new CEO attempts to turn the company around.",
+      "github_links": [],
+      "entities": [
+        "Talks",
+        "PayPal",
+        "Stripe",
+        "Advent"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Self-driving trucks are officially testing on California highways",
+      "url": "https://techcrunch.com/2026/08/14/self-driving-trucks-are-officially-testing-on-california-highways/",
+      "published_at": "2026-08-14T20:37:49Z",
+      "categories": [
+        "Transportation",
+        "aurora",
+        "autonomous trucks",
+        "kodiak ai",
+        "self-driving trucks"
+      ],
+      "summary": "Aurora Innovation and Kodiak AI, two companies developing self-driving trucks, have received permits from the California Department of Motor Vehicles.",
+      "github_links": [],
+      "entities": [
+        "Self",
+        "California"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Thrive’s Joshua Kushner chides Silicon Valley VCs over AI euphoria",
+      "url": "https://techcrunch.com/2026/08/14/thrives-joshua-kushner-chides-silicon-valley-vcs-over-ai-euphoria/",
+      "published_at": "2026-08-14T19:33:00Z",
+      "categories": [
+        "TC",
+        "Venture",
+        "Jared Kushner",
+        "Thrive"
+      ],
+      "summary": "The AI opportunity is huge, but \"it would also be a grave error in our minds to let excitement weaken our investment discipline,\" Kushner warns in his first-ever investment letter.",
+      "github_links": [],
+      "entities": [
+        "Thrive",
+        "Joshua",
+        "Kushner",
+        "Silicon",
+        "Valley",
+        "VCs",
+        "AI"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "What we know about the alleged Iranian hacks on US water utilities",
+      "url": "https://techcrunch.com/2026/08/14/what-we-know-about-the-alleged-iranian-hacks-on-u-s-water-utilities/",
+      "published_at": "2026-08-14T19:04:32Z",
+      "categories": [
+        "Security",
+        "critical infrastructure",
+        "cyberattacks",
+        "cybersecurity",
+        "Georgia",
+        "hackers",
+        "hacking",
+        "iran",
+        "michigan",
+        "Minnesota",
+        "new jersey",
+        "United States"
+      ],
+      "summary": "Over the last couple of weeks, hackers have targeted and broken into the systems of several water plants in the United States. Here’s what we know and don’t know about this wave of attacks allegedly carried out by the Iranian government.",
+      "github_links": [],
+      "entities": [
+        "Iranian",
+        "US"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Read-it-later app Pocket shut down — here are the best alternatives",
+      "url": "https://techcrunch.com/2026/08/14/read-it-later-app-pocket-is-shutting-down-here-are-the-best-alternatives/",
+      "published_at": "2026-08-14T18:58:15Z",
+      "categories": [
+        "Apps",
+        "evergreens",
+        "Mozilla",
+        "pocket",
+        "read it later",
+        "reading"
+      ],
+      "summary": "Pocket users have until October 8, 2025, to export their saved articles and other items, including lists, archives, favorites, notes, and highlights.",
+      "github_links": [],
+      "entities": [
+        "Read",
+        "Pocket"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "Universitas Gadjah Mada, Indosat and NVIDIA Open Indonesia’s First University AI Center to Develop Local AI Talent",
+      "url": "https://blogs.nvidia.com/blog/ugm-indosat-nvidia-ai-technology-center/",
+      "published_at": "2026-08-14T17:13:05Z",
+      "categories": [
+        "AI",
+        "AI Infrastructure",
+        "Corporate",
+        "Economic Development",
+        "Nemotron",
+        "Open Source"
+      ],
+      "summary": "Indonesia is taking charge of its AI future. This week, the Ministry of Communication and Digital Affairs (Komdigi), Indosat Ooredoo Hutchison (Indosat or IOH), NVIDIA and Universitas Gadjah Mada (UGM) launched the UGM Indosat NVIDIA AI Technology Center (NVAITC) in Yogyakarta — the country’s first university-based AI technology center. Established under Indonesia’s AI Center of [&#8230;]",
+      "github_links": [],
+      "entities": [
+        "Universitas",
+        "Gadjah",
+        "Mada",
+        "Indosat",
+        "NVIDIA",
+        "Open",
+        "Indonesia",
+        "University",
+        "AI",
+        "Center",
+        "Develop",
+        "Local",
+        "Talent"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Unforgetful is a new reminders app for people who can’t stop hitting snooze",
+      "url": "https://techcrunch.com/2026/08/14/unforgetful-is-a-new-reminders-app-for-people-who-cant-stop-hitting-snooze/",
+      "published_at": "2026-08-14T16:21:04Z",
+      "categories": [
+        "Apps",
+        "iOS apps"
+      ],
+      "summary": "Unforgetful, the latest app from longtime indie developer Marco Arment, is designed to make reminders harder to ignore — or accidentally dismiss.",
+      "github_links": [],
+      "entities": [
+        "Unforgetful"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Google will now allow users to remove visible watermark from its AI generations",
+      "url": "https://techcrunch.com/2026/08/14/google-will-now-allow-users-to-remove-visible-watermark-from-its-ai-generations/",
+      "published_at": "2026-08-14T16:13:40Z",
+      "categories": [
+        "AI",
+        "Apps",
+        "gemini",
+        "Google",
+        "In Brief",
+        "watermarks"
+      ],
+      "summary": "Turning off this setting won't affect invisible benchmarks used to identify an AI generated file.",
+      "github_links": [],
+      "entities": [
+        "Google",
+        "AI"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "github_blog",
+      "title": "How to bring your software delivery workflow into GitHub with agent apps",
+      "url": "https://github.blog/ai-and-ml/github-copilot/how-to-bring-your-software-delivery-workflow-into-github-with-agent-apps/",
+      "published_at": "2026-08-14T16:00:00Z",
+      "categories": [
+        "AI & ML",
+        "GitHub Copilot",
+        "Agent Apps",
+        "GitHub Marketplace"
+      ],
+      "summary": "See how four GitHub agent apps can help you scope, secure, roll out, and ship a feature across the SDLC–all without leaving GitHub. \nThe post How to bring your software delivery workflow into GitHub with agent apps appeared first on The GitHub Blog.",
+      "github_links": [
+        "https://github.com/apps/amplitude",
+        "https://github.com/marketplace/endor-labs-agenthq-plugin",
+        "https://github.com/marketplace/launchdarkly-agent",
+        "https://github.com/apps/pagerduty-agent-app",
+        "https://github.com/marketplace/packfiles-agent",
+        "https://github.com/marketplace/miro-agent-app",
+        "https://github.com/marketplace/bright-security-agent",
+        "https://github.com/marketplace/sonarqube-agent",
+        "https://github.com/marketplace/octopus-deploy-intelligence-agent"
+      ],
+      "entities": [
+        "GitHub"
+      ],
+      "relevance_score": 1.0,
+      "sources": [
+        "github_blog"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Does Mark Zuckerberg really believe AI is ‘for everyone’?",
+      "url": "https://techcrunch.com/video/does-mark-zuckerberg-really-believe-ai-is-for-everyone/",
+      "published_at": "2026-08-14T15:43:28Z",
+      "categories": [
+        "AI",
+        "Amazon",
+        "Anthropic",
+        "data centers",
+        "Joby Aviation",
+        "Mark Zuckerberg",
+        "Meta"
+      ],
+      "summary": "Meta released Glimmer this week, an open-weight AI&#160;model&#160;anyone can download and run on their own hardware&#160;— a contrast to&#160;Muse&#160;Spark, the company’s more powerful model that stays locked behind its own APIs. The release landed alongside&#160;a letter from Mark Zuckerberg&#160;arguing AI should be “for everyone” rather than controlled by a handful of labs, but as Equity’s [&#8230;]",
+      "github_links": [],
+      "entities": [
+        "Mark",
+        "Zuckerberg",
+        "AI"
+      ],
+      "relevance_score": 0.6,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Apple proposes to take a 15% cut of purchases made outside the App Store",
+      "url": "https://techcrunch.com/2026/08/14/apple-proposes-to-take-a-15-cut-of-purchases-made-outside-the-app-store/",
+      "published_at": "2026-08-14T14:54:48Z",
+      "categories": [
+        "Apps",
+        "app store",
+        "Apple",
+        "Epic Games",
+        "lawsuit"
+      ],
+      "summary": "Apple is asking a federal judge to allow it to charge commissions of up to 15% on purchases made through external links in iOS apps.",
+      "github_links": [],
+      "entities": [
+        "Apple",
+        "App",
+        "Store"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Kog is going deeper to squeeze more inference out of GPUs",
+      "url": "https://techcrunch.com/2026/08/14/kog-is-going-deeper-to-squeeze-more-inference-out-of-gpus/",
+      "published_at": "2026-08-14T14:50:11Z",
+      "categories": [
+        "AI",
+        "Startups",
+        "AI inference"
+      ],
+      "summary": "The idea that GPUs are poorly suited for agentic workflows may be a misconception, according to French startup Kog.",
+      "github_links": [],
+      "entities": [
+        "Kog",
+        "GPUs"
+      ],
+      "relevance_score": 0.8,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "techcrunch",
+      "title": "Hyperscalers might regret embracing natural gas if new forecast proves correct",
+      "url": "https://techcrunch.com/2026/08/14/hyperscalers-might-regret-embracing-natural-gas-if-new-forecast-proves-correct/",
+      "published_at": "2026-08-14T14:05:00Z",
+      "categories": [
+        "AI",
+        "Climate",
+        "Amazon",
+        "Exclusive",
+        "Google",
+        "Meta",
+        "Microsoft",
+        "natural gas"
+      ],
+      "summary": "Natural gas prices could triple in some parts of the U.S., which could saddle hyperscalers with massive bills to power their AI data centers.",
+      "github_links": [],
+      "entities": [
+        "Hyperscalers"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "techcrunch"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "The Download: Flock’s new rules, cloning’s future, and children’s cells",
+      "url": "https://www.technologyreview.com/2026/08/14/1142033/the-download-flock-new-rules-cloning-future/",
+      "published_at": "2026-08-14T12:17:21Z",
+      "categories": [
+        "The Download"
+      ],
+      "summary": "This is today&#8217;s edition of The Download, our weekday newsletter that provides a daily dose of what&#8217;s going on in the world of technology. Flock is tightening its rules in response to a growing surveillance backlash The police-tech giant Flock is changing officers’ access to its nationwide network of license plate readers. The move comes&#8230;",
+      "github_links": [],
+      "entities": [
+        "Download",
+        "Flock"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "Cloning could be used to save species—or make human “organ sacks”",
+      "url": "https://www.technologyreview.com/2026/08/14/1141919/cloning-save-species-or-make-human-organ-sacks/",
+      "published_at": "2026-08-14T09:00:00Z",
+      "categories": [
+        "Biotechnology and health",
+        "App",
+        "Summary",
+        "The Checkup"
+      ],
+      "summary": "This week I spoke to scientists who have found a way to turn male mouse embryos female. They’ve developed a CRISPR-based approach to essentially cut out the Y chromosome. It allowed them to create female clones of male mice. That’s right: female animals that are genetically identical to males, except for the missing Y chromosome.&#8230;",
+      "github_links": [],
+      "entities": [
+        "Cloning"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "Job titles of the future: Space travel agent",
+      "url": "https://www.technologyreview.com/2026/08/14/1141431/job-titles-space-travel-agent-roman-chiporukha/",
+      "published_at": "2026-08-14T09:00:00Z",
+      "categories": [
+        "Space",
+        "App"
+      ],
+      "summary": "Roman Chiporukha has long turned wild travel dreams into reality. Over two decades as co-owner of the luxury lifestyle firm Roman &#38; Erica, he has orchestrated everything from the construction of a client’s superyacht to vacations in the Bahamas at a location so private that guests must sign an NDA.&#160; The experiences earned him “the&#8230;",
+      "github_links": [],
+      "entities": [
+        "Job",
+        "Space"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "This scientist is helping build a missing map of childhood",
+      "url": "https://www.technologyreview.com/2026/08/14/1141354/deanne-taylor-gene-expression-children/",
+      "published_at": "2026-08-14T09:00:00Z",
+      "categories": [
+        "Biotechnology and health",
+        "App"
+      ],
+      "summary": "In 2017, Deanne Taylor attended a presentation at the University of Pennsylvania, just a short walk from her office. A researcher was there to unveil the Human Cell Atlas, an ambitious project that aimed to map every cell in the human body. Taylor was floored, and then concerned. As details emerged, she discovered that the&#8230;",
+      "github_links": [],
+      "entities": [],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "State of Open Models: Summer 2026 Observations",
+      "url": "https://huggingface.co/blog/state-of-open-models-summer-2026",
+      "published_at": "2026-08-14T00:00:00Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "State",
+        "Open",
+        "Models",
+        "Summer",
+        "Observations"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "Roundtables: Inside the “Censorship-Industrial Complex” Idea Shaping US Policy",
+      "url": "https://www.technologyreview.com/2026/08/13/1141399/roundtables-inside-the-censorship-industrial-complex-idea-shaping-us-policy/",
+      "published_at": "2026-08-13T21:00:00Z",
+      "categories": [
+        "Policy",
+        "Roundtables",
+        "Subscriber-Only Stories"
+      ],
+      "summary": "Listen to the session or watch below The “censorship-industrial complex” is an idea that a network of government, tech, and research groups is collaborating to suppress conservative online speech. This was fodder for the right-wing information sphere for years—then it began making its way into US policy. Watch a conversation exploring how it started, where&#8230;",
+      "github_links": [],
+      "entities": [
+        "Roundtables",
+        "Inside",
+        "Censorship",
+        "Industrial",
+        "Complex",
+        "Idea",
+        "Shaping",
+        "US",
+        "Policy"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "github_blog",
+      "title": "Your guide to GitHub Universe 2026 is here: The schedule just launched!",
+      "url": "https://github.blog/news-insights/company-news/your-guide-to-github-universe-2026-is-here-the-schedule-just-launched/",
+      "published_at": "2026-08-13T19:00:00Z",
+      "categories": [
+        "Company news",
+        "News & insights",
+        "GitHub Universe"
+      ],
+      "summary": "The GitHub Universe session catalog is live. Explore interactive workshops, community talks, demos, and panels. Plus, register before August 19 to save $300.\nThe post Your guide to GitHub Universe 2026 is here: The schedule just launched! appeared first on The GitHub Blog.",
+      "github_links": [],
+      "entities": [
+        "Your",
+        "GitHub",
+        "Universe"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "github_blog"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "Building a practical path to post-quantum cryptography",
+      "url": "https://www.technologyreview.com/2026/08/13/1141041/building-a-practical-path-to-post-quantum-cryptography/",
+      "published_at": "2026-08-13T18:11:42Z",
+      "categories": [
+        "Computing",
+        "sponsored"
+      ],
+      "summary": "Quantum computing has alternated between breakthrough darling and overhyped promise in technology circles. Its powerful new capabilities come with a threat to break current cryptography, but for business leaders navigating the noise, the signal should be clear: post-quantum cryptography (PQC) is a manageable evolution, not a crisis. The mathematics behind today&#8217;s encrypted digital transactions may&#8230;",
+      "github_links": [],
+      "entities": [
+        "Building"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "Record, train, and deploy from one place with Strands Agents, LeRobot, and Hugging Face Storage Buckets",
+      "url": "https://huggingface.co/blog/amazon/strands-lerobot-streaming-data-loop",
+      "published_at": "2026-08-13T17:16:04Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "Record",
+        "Strands",
+        "Agents",
+        "LeRobot",
+        "Hugging",
+        "Face",
+        "Storage",
+        "Buckets"
+      ],
+      "relevance_score": 0.6,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "github_blog",
+      "title": "What 50 open source projects taught us about security in the AI era",
+      "url": "https://github.blog/open-source/maintainers/what-50-open-source-projects-taught-us-about-security-in-the-ai-era/",
+      "published_at": "2026-08-13T16:00:00Z",
+      "categories": [
+        "Maintainers",
+        "Open Source",
+        "Security",
+        "Supply chain security",
+        "AI security",
+        "open source",
+        "supply chain security"
+      ],
+      "summary": "See how the open source projects in Session 4 of the GitHub Secure Open Source Fund combined AI-assisted workflows, maintainer expertise, GitHub security tools, expert guidance, and funding to improve project security. \nThe post What 50 open source projects taught us about security in the AI era appeared first on The GitHub Blog.",
+      "github_links": [
+        "https://github.com/open-source/github-secure-open-source-fund",
+        "https://github.com/openclaw/openclaw",
+        "https://github.com/features/copilot",
+        "https://github.com/open-source/sponsors",
+        "https://github.com/GitHubSecurityLab/gh-secure",
+        "https://github.com/Garudex-Labs/Caracal",
+        "https://github.com/langchain-ai/deepagents",
+        "https://github.com/arc53/DocsGPT",
+        "https://github.com/LadybugDB/ladybug",
+        "https://github.com/langchain-ai/langchain",
+        "https://github.com/czlonkowski/n8n-mcp",
+        "https://github.com/Nasiko-Labs/nasiko",
+        "https://github.com/onnx/onnx",
+        "https://github.com/VectifyAI/PageIndex",
+        "https://github.com/BerkeleyLearnVerify/Scenic",
+        "https://github.com/oraios/serena",
+        "https://github.com/browserslist/browserslist",
+        "https://github.com/CycloneDX/cyclonedx-python-lib",
+        "https://github.com/golangci/golangci-lint",
+        "https://github.com/jreleaser/jreleaser",
+        "https://github.com/postcss/postcss",
+        "https://github.com/go-task/task",
+        "https://github.com/raphw/byte-buddy",
+        "https://github.com/zloirock/core-js",
+        "https://github.com/typelevel/fs2",
+        "https://github.com/gleam-lang/gleam",
+        "https://github.com/bigskysoftware/htmx",
+        "https://github.com/apple/pkl",
+        "https://github.com/pyodide/pyodide",
+        "https://github.com/termcolor/termcolor",
+        "https://github.com/cheeriojs/cheerio",
+        "https://github.com/bee-san/ciphey",
+        "https://github.com/instavm/coderunner",
+        "https://github.com/hoppscotch/hoppscotch",
+        "https://github.com/mapstruct/mapstruct",
+        "https://github.com/python-pillow/Pillow",
+        "https://github.com/readest/readest",
+        "https://github.com/ToolJet/ToolJet",
+        "https://github.com/vuetifyjs/vuetify",
+        "https://github.com/yjs/yjs",
+        "https://github.com/actix/actix-web",
+        "https://github.com/aio-libs/aiohttp",
+        "https://github.com/apache/solr",
+        "https://github.com/apache/zookeeper",
+        "https://github.com/etcd-io/etcd",
+        "https://github.com/fastapi/fastapi",
+        "https://github.com/haraka/Haraka",
+        "https://github.com/hummingbird-project/hummingbird",
+        "https://github.com/gabriel-vasile/mimetype",
+        "https://github.com/GyulyVGC/sniffnet",
+        "https://github.com/Kludex/starlette",
+        "https://github.com/faisalman/ua-parser-js"
+      ],
+      "entities": [
+        "AI"
+      ],
+      "relevance_score": 0.8,
+      "sources": [
+        "github_blog"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "Flock is tightening its rules in response to a growing surveillance backlash",
+      "url": "https://www.technologyreview.com/2026/08/13/1141904/flock-is-tightening-its-rules-in-response-to-a-growing-surveillance-backlash/",
+      "published_at": "2026-08-13T13:41:10Z",
+      "categories": [
+        "Artificial intelligence",
+        "App",
+        "artificial intelligence",
+        "Summary"
+      ],
+      "summary": "The police-tech giant Flock is announcing today that it will change officers’ access to its nationwide network of license plate readers, in an apparent effort to quell a growing backlash and win back contracts lost amid concerns about mass surveillance and police abuse. Several changes aim directly at a problem that has made recent headlines:&#8230;",
+      "github_links": [],
+      "entities": [
+        "Flock"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "Class Is in Session: GeForce NOW Levels Up Linux, Chromebooks and More",
+      "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-linux-native-app/",
+      "published_at": "2026-08-13T13:00:33Z",
+      "categories": [
+        "Gaming",
+        "Cloud Gaming",
+        "GeForce NOW"
+      ],
+      "summary": "GeForce NOW is giving cloud gaming an extra-credit upgrade just in time for back-to-school season. The native Linux app for GeForce NOW is officially out of beta. GeForce NOW is also delivering new cloud optimizations that make Frame Generation feel even more responsive while streaming. On top of that, Performance members will see higher frame [&#8230;]",
+      "github_links": [],
+      "entities": [
+        "Class",
+        "Session",
+        "GeForce",
+        "Levels",
+        "Linux",
+        "Chromebooks"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "The Download: kids’ thoughts on AI, and female clones of male mice",
+      "url": "https://www.technologyreview.com/2026/08/13/1141896/the-download-kids-thoughts-on-ai-female-clones-male-mice/",
+      "published_at": "2026-08-13T12:10:00Z",
+      "categories": [
+        "The Download"
+      ],
+      "summary": "This is today&#8217;s edition of The Download, our weekday newsletter that provides a daily dose of what&#8217;s going on in the world of technology. How kids feel about AI, in their own words —Jen Swetzoff and Keeley McNamara, the founding editors of Anyway, an independent print magazine for tweens and teens When we set out&#8230;",
+      "github_links": [],
+      "entities": [
+        "Download",
+        "AI"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "What’s behind this summer’s heat, and why 2027 could be worse",
+      "url": "https://www.technologyreview.com/2026/08/13/1141788/summer-heat-el-nino/",
+      "published_at": "2026-08-13T10:00:00Z",
+      "categories": [
+        "Climate change and energy",
+        "App",
+        "Summary",
+        "The Spark"
+      ],
+      "summary": "This summer has been a scorcher for much of the Northern Hemisphere. June and July marked the hottest two-month stretch in Europe since record-keeping began. The contiguous US endured its hottest month on record in July. South Korea saw its highest-ever recorded temperature.   The heat isn’t over yet, but some scientists are already looking ahead&#8230;",
+      "github_links": [],
+      "entities": [],
+      "relevance_score": 0.0,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "mit_technology_review",
+      "title": "How kids feel about AI, in their own words",
+      "url": "https://www.technologyreview.com/2026/08/13/1141410/how-kids-feel-about-ai-own-words/",
+      "published_at": "2026-08-13T09:00:00Z",
+      "categories": [
+        "Artificial intelligence",
+        "App",
+        "Features and Investigations"
+      ],
+      "summary": "When we set out to talk to kids about artificial intelligence, we thought we knew what we’d hear. We expected some to tell us they were using it to cheat a little, the way Millennials and Gen Xers opened up CliffsNotes or programmed formulas into their TI-82s, and others to share inspiring ways they were&#8230;",
+      "github_links": [],
+      "entities": [
+        "AI"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "mit_technology_review"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "What We Learned by Reproducing 2,200 papers from ICML",
+      "url": "https://huggingface.co/blog/icml-2026-open-reproductions",
+      "published_at": "2026-08-13T00:00:00Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "We",
+        "Learned",
+        "Reproducing",
+        "ICML"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "github_blog",
+      "title": "GitHub availability report: July 2026",
+      "url": "https://github.blog/news-insights/company-news/github-availability-report-july-2026/",
+      "published_at": "2026-08-12T22:17:32Z",
+      "categories": [
+        "Company news",
+        "News & insights",
+        "GitHub Availability Report"
+      ],
+      "summary": "In July, we experienced eight incidents that resulted in degraded performance across GitHub services.\nThe post GitHub availability report: July 2026 appeared first on The GitHub Blog.",
+      "github_links": [],
+      "entities": [
+        "GitHub",
+        "July"
+      ],
+      "relevance_score": 0.6,
+      "sources": [
+        "github_blog"
+      ]
+    },
+    {
+      "source": "github_blog",
+      "title": "Write your first prompt with the GitHub Copilot app",
+      "url": "https://github.blog/ai-and-ml/github-copilot/write-your-first-prompt-with-the-github-copilot-app/",
+      "published_at": "2026-08-12T19:00:00Z",
+      "categories": [
+        "AI & ML",
+        "GitHub Copilot",
+        "GitHub Copilot app",
+        "GitHub Copilot app for Beginners"
+      ],
+      "summary": "Learn how to write your first prompt in the GitHub Copilot app, choose the right context and model, and start your first task with confidence.\nThe post Write your first prompt with the GitHub Copilot app appeared first on The GitHub Blog.",
+      "github_links": [
+        "https://github.com/features/ai"
+      ],
+      "entities": [
+        "Write",
+        "GitHub",
+        "Copilot"
+      ],
+      "relevance_score": 1.0,
+      "sources": [
+        "github_blog"
+      ]
+    },
+    {
+      "source": "github_blog",
+      "title": "Your contributors are AI-first now. Is your project?",
+      "url": "https://github.blog/open-source/maintainers/your-contributors-are-ai-first-now-is-your-project/",
+      "published_at": "2026-08-12T18:00:08Z",
+      "categories": [
+        "Maintainers",
+        "Open Source",
+        "AGENTS.md",
+        "AI agents",
+        "AutoGPT",
+        "maintainers",
+        "open source",
+        "open source community",
+        "pull requests"
+      ],
+      "summary": "AI contributors are already in your queue. AutoGPT maintainer Nicholas Tindle shares the repo instructions, gates, and boundaries that keep maintainers in control.\nThe post Your contributors are AI-first now. Is your project? appeared first on The GitHub Blog.",
+      "github_links": [
+        "https://github.com/open-source/github-fund",
+        "https://github.com/Significant-Gravitas/AutoGPT"
+      ],
+      "entities": [
+        "Your",
+        "AI"
+      ],
+      "relevance_score": 1.0,
+      "sources": [
+        "github_blog"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "Introducing OlmoEarth embeddings: Custom embedding exports from OlmoEarth Studio for downstream analysis",
+      "url": "https://huggingface.co/blog/allenai/olmoearth-embeddings",
+      "published_at": "2026-08-12T16:14:36Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "Introducing",
+        "OlmoEarth",
+        "Custom",
+        "Studio"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "LFM2.5-VL-3B for Better and Faster Vision Capabilities for the Edge",
+      "url": "https://huggingface.co/blog/LiquidAI/lfm2-5-vl-3b",
+      "published_at": "2026-08-12T14:00:51Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "LFM2",
+        "VL",
+        "Better",
+        "Faster",
+        "Vision",
+        "Capabilities",
+        "Edge"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "NVIDIA CEO Tops Glassdoor’s 2026 List of Best CEOs",
+      "url": "https://blogs.nvidia.com/blog/nvidia-life-glassdoor-best-ceo-2026/",
+      "published_at": "2026-08-12T14:00:00Z",
+      "categories": [
+        "Corporate",
+        "NVIDIA Life"
+      ],
+      "summary": "NVIDIA founder and CEO Jensen Huang is ranked No. 1 on Glassdoor’s Best CEOs list for 2026. In the just-released ranking, recognition is earned directly from the people who know their leadership the best — employees. Huang topped the list, with 99% of employees approving of the job he does. “As AI and shifting expectations [&#8230;]",
+      "github_links": [],
+      "entities": [
+        "NVIDIA",
+        "CEO",
+        "Tops",
+        "Glassdoor",
+        "List",
+        "Best",
+        "CEOs"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "NVIDIA AI Factory Compute Is Becoming an Investable Asset Class",
+      "url": "https://blogs.nvidia.com/blog/nvidia-ai-factory-compute/",
+      "published_at": "2026-08-12T00:38:21Z",
+      "categories": [
+        "AI Infrastructure",
+        "Corporate"
+      ],
+      "summary": "We announced partnerships with Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs and KKR to establish independent financing platforms designed to mobilize over $500 billion of third-party capital to support the buildout of AI infrastructure over time. This is a major milestone for NVIDIA and the AI industry. We have moved from an era in which companies [&#8230;]",
+      "github_links": [],
+      "entities": [
+        "NVIDIA",
+        "AI",
+        "Factory",
+        "Compute",
+        "Becoming",
+        "Investable",
+        "Asset",
+        "Class"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "github_blog",
+      "title": "From coder to orchestrator: How agents shift the role of a developer",
+      "url": "https://github.blog/developer-skills/career-growth/from-coder-to-orchestrator-how-agents-shift-the-role-of-a-developer/",
+      "published_at": "2026-08-11T18:38:17Z",
+      "categories": [
+        "Career growth",
+        "Developer skills",
+        "GitHub Universe"
+      ],
+      "summary": "Developers are owning more of the delivery system around code, not just code itself. Join us during GitHub Universe to meet other devs, learn something new, and explore what's next.\nThe post From coder to orchestrator: How agents shift the role of a developer appeared first on The GitHub Blog.",
+      "github_links": [],
+      "entities": [],
+      "relevance_score": 0.6,
+      "sources": [
+        "github_blog"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "Why Scaling AI Compute Performance Requires a New Power Architecture",
+      "url": "https://blogs.nvidia.com/blog/800-vdc-power-architecture-ai-factory/",
+      "published_at": "2026-08-11T15:00:06Z",
+      "categories": [
+        "AI Infrastructure",
+        "Hardware",
+        "AI Factory",
+        "NVIDIA DSX",
+        "Open Source"
+      ],
+      "summary": "Every new generation of accelerated computing demands more from the infrastructure underneath it — more compute performance, higher rack density and more efficient, scalable power distribution. The bottleneck isn’t just wattage. It’s how power gets from the grid to the GPU.  In traditional power delivery, electricity travels from the grid as an alternating current (AC) [&#8230;]",
+      "github_links": [],
+      "entities": [
+        "Scaling",
+        "AI",
+        "Compute",
+        "Performance",
+        "Requires",
+        "Power",
+        "Architecture"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "Thinking of ACE? We Can Do It with Fewer Tokens",
+      "url": "https://huggingface.co/blog/ibm-research/altk-evolve-sldd",
+      "published_at": "2026-08-11T13:37:10Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "Thinking",
+        "ACE",
+        "We",
+        "Fewer",
+        "Tokens"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "NVIDIA and Local AI Community Fuel Open Source Models and Intelligent Agents",
+      "url": "https://blogs.nvidia.com/blog/local-ai-open-source-models-agents-nemotron/",
+      "published_at": "2026-08-11T13:00:25Z",
+      "categories": [
+        "AI",
+        "Agentic AI",
+        "Artificial Intelligence",
+        "DGX Spark",
+        "Local AI",
+        "NVIDIA RTX",
+        "Open Source",
+        "RTX AI Garage",
+        "RTX Spark"
+      ],
+      "summary": "The open source ecosystem is making it easier for AI enthusiasts and developers to build, customize and run increasingly capable agents locally.  Throughout August, NVIDIA is celebrating the partners and open source communities moving local AI forward, along with the models, applications and tools emerging across the ecosystem. That includes NVIDIA’s latest open models, software [&#8230;]",
+      "github_links": [
+        "https://github.com/NVIDIA-NeMo/Automodel",
+        "https://github.com/NVIDIA-NeMo/Switchyard"
+      ],
+      "entities": [
+        "NVIDIA",
+        "Local",
+        "AI",
+        "Community",
+        "Fuel",
+        "Open",
+        "Source",
+        "Models",
+        "Intelligent",
+        "Agents"
+      ],
+      "relevance_score": 1.0,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "nvidia_blog",
+      "title": "NVIDIA Nemotron 3.5 Lightning and NeMo Switchyard Deliver Faster, Smarter, More Efficient Agentic AI",
+      "url": "https://blogs.nvidia.com/blog/nemotron-lightning-switchyard-rtx-dgx/",
+      "published_at": "2026-08-11T13:00:05Z",
+      "categories": [
+        "AI",
+        "Agentic AI",
+        "Nemotron",
+        "Open Source"
+      ],
+      "summary": "As AI shifts from chatbots to autonomous agents, open models are serving market demands for full control over where AI runs and how it’s deployed and evolves. Today, NVIDIA is expanding its Nemotron 3 model family with Nemotron 3.5 Lightning, the highest-efficiency model in its class for long-running agentic AI workloads. This release follows Nemotron [&#8230;]",
+      "github_links": [
+        "https://github.com/NVIDIA-NeMo/Switchyard"
+      ],
+      "entities": [
+        "NVIDIA",
+        "Nemotron",
+        "Lightning",
+        "NeMo",
+        "Switchyard",
+        "Deliver",
+        "Faster",
+        "Smarter",
+        "Efficient",
+        "Agentic",
+        "AI"
+      ],
+      "relevance_score": 1.0,
+      "sources": [
+        "nvidia_blog"
+      ]
+    },
+    {
+      "source": "github_blog",
+      "title": "Using the GitHub Copilot SDK for Java",
+      "url": "https://github.blog/engineering/using-the-github-copilot-sdk-for-java/",
+      "published_at": "2026-08-10T19:30:00Z",
+      "categories": [
+        "AI & ML",
+        "Engineering",
+        "GitHub Copilot SDK",
+        "java"
+      ],
+      "summary": "Enterprise Java developers have a new superpower—drive GitHub Copilot from idiomatic Java code with annotations, virtual threads, and more.\nThe post Using the GitHub Copilot SDK for Java appeared first on The GitHub Blog.",
+      "github_links": [
+        "https://github.com/microsoft/Build26-BRK206-your-agent-anywhere-multiclient-multidevice-with-github-copilot-sdk",
+        "https://github.com/microsoft/Build26-BRK206-your-agent-anywhere-multiclient-multidevice-with-github-copilot-sdk.git",
+        "https://github.com/github/copilot-sdk"
+      ],
+      "entities": [
+        "GitHub",
+        "Copilot",
+        "SDK",
+        "Java"
+      ],
+      "relevance_score": 1.0,
+      "sources": [
+        "github_blog"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "Build Low-Latency Multilingual Voice Agents: Open Weights & Full Deployment Control with NVIDIA Magpie TTS",
+      "url": "https://huggingface.co/blog/nvidia/magpie-tts-multilingual-voice-agents",
+      "published_at": "2026-08-10T16:25:36Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "Build",
+        "Low",
+        "Latency",
+        "Multilingual",
+        "Voice",
+        "Agents",
+        "Open",
+        "Weights",
+        "Full",
+        "Deployment",
+        "Control",
+        "NVIDIA",
+        "Magpie",
+        "TTS"
+      ],
+      "relevance_score": 0.2,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "Making Knowledge Distillation Cheap Enough to Run at Scale",
+      "url": "https://huggingface.co/blog/MultiverseComputingCAI/efficient-knowledge-distillation",
+      "published_at": "2026-08-10T10:05:36Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "Making",
+        "Knowledge",
+        "Distillation",
+        "Cheap",
+        "Enough",
+        "Run",
+        "Scale"
+      ],
+      "relevance_score": 0.0,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    },
+    {
+      "source": "hugging_face_blog",
+      "title": "Meta is back with Muse Glimmer: local, agentic, multimodal, and open source",
+      "url": "https://huggingface.co/blog/muse-glimmer",
+      "published_at": "2026-08-10T00:00:00Z",
+      "categories": [],
+      "summary": "",
+      "github_links": [],
+      "entities": [
+        "Meta",
+        "Muse",
+        "Glimmer"
+      ],
+      "relevance_score": 0.4,
+      "sources": [
+        "hugging_face_blog"
+      ]
+    }
+  ],
+  "metadata": {
+    "run_id": "31985981109",
+    "source_count": 5,
+    "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+    "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+    "sources_requested": [
+      "github_blog",
+      "hugging_face_blog",
+      "mit_technology_review",
+      "nvidia_blog",
+      "techcrunch"
+    ],
+    "sources_succeeded": [
+      "github_blog",
+      "hugging_face_blog",
+      "mit_technology_review",
+      "nvidia_blog",
+      "techcrunch"
+    ],
+    "sources_failed": [],
+    "source_status": [
+      {
+        "source": "github_blog",
+        "host": "github.blog",
+        "started_at": "2026-08-17T01:52:57.764855Z",
+        "timeout_seconds": 15,
+        "attempts": 1,
+        "total_articles": 8,
+        "relevant_articles": 7,
+        "github_links_found": 67,
+        "success": true,
+        "error_class": "",
+        "error_message": "",
+        "ended_at": "2026-08-17T01:52:58.150994Z",
+        "duration_seconds": 0.386
+      },
+      {
+        "source": "hugging_face_blog",
+        "host": "huggingface.co",
+        "started_at": "2026-08-17T01:52:57.760764Z",
+        "timeout_seconds": 15,
+        "attempts": 1,
+        "total_articles": 9,
+        "relevant_articles": 2,
+        "github_links_found": 0,
+        "success": true,
+        "error_class": "",
+        "error_message": "",
+        "ended_at": "2026-08-17T01:52:58.289642Z",
+        "duration_seconds": 0.529
+      },
+      {
+        "source": "mit_technology_review",
+        "host": "www.technologyreview.com",
+        "started_at": "2026-08-17T01:52:57.761623Z",
+        "timeout_seconds": 15,
+        "attempts": 1,
+        "total_articles": 10,
+        "relevant_articles": 0,
+        "github_links_found": 0,
+        "success": true,
+        "error_class": "",
+        "error_message": "",
+        "ended_at": "2026-08-17T01:52:58.157293Z",
+        "duration_seconds": 0.396
+      },
+      {
+        "source": "nvidia_blog",
+        "host": "blogs.nvidia.com",
+        "started_at": "2026-08-17T01:52:57.760175Z",
+        "timeout_seconds": 15,
+        "attempts": 1,
+        "total_articles": 7,
+        "relevant_articles": 5,
+        "github_links_found": 2,
+        "success": true,
+        "error_class": "",
+        "error_message": "",
+        "ended_at": "2026-08-17T01:52:58.407277Z",
+        "duration_seconds": 0.647
+      },
+      {
+        "source": "techcrunch",
+        "host": "techcrunch.com",
+        "started_at": "2026-08-17T01:52:57.759256Z",
+        "timeout_seconds": 15,
+        "attempts": 1,
+        "total_articles": 20,
+        "relevant_articles": 7,
+        "github_links_found": 0,
+        "success": true,
+        "error_class": "",
+        "error_message": "",
+        "ended_at": "2026-08-17T01:52:58.008556Z",
+        "duration_seconds": 0.249
+      }
+    ],
+    "source_reuse_summary": [
+      {
+        "source": "github_blog",
+        "action": "refreshed",
+        "reused": false,
+        "refreshed": true,
+        "reasons": []
+      },
+      {
+        "source": "hugging_face_blog",
+        "action": "refreshed",
+        "reused": false,
+        "refreshed": true,
+        "reasons": []
+      },
+      {
+        "source": "mit_technology_review",
+        "action": "refreshed",
+        "reused": false,
+        "refreshed": true,
+        "reasons": []
+      },
+      {
+        "source": "nvidia_blog",
+        "action": "refreshed",
+        "reused": false,
+        "refreshed": true,
+        "reasons": []
+      },
+      {
+        "source": "techcrunch",
+        "action": "refreshed",
+        "reused": false,
+        "refreshed": true,
+        "reasons": []
+      }
+    ],
+    "source_artifact_provenance": [
+      {
+        "source_id": "github_blog",
+        "action": "refreshed",
+        "artifact_path": "data/raw/2026-W34-external-news.json",
+        "original_run_id": "31985981109",
+        "original_crawled_at": "2026-08-17T01:52:57.719208Z",
+        "evaluated_at": "2026-08-17T01:52:57.719208Z",
+        "date": "2026-08-17",
+        "week": "2026-W34",
+        "crawl_window": {
+          "since": "2026-08-10T00:00:00Z",
+          "until": "2026-08-17T00:00:00Z"
+        },
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "artifact_checksum": "650b9e8027a168cd9c5ac037ef7ee71b349c60e20e4e3cdf04eb9f477158681d",
+        "content_checksum": "b7c5f32fb6aae4125e781f51918e82c75430b262482d545026923e0aa36ce6b2",
+        "reasons": []
+      },
+      {
+        "source_id": "hugging_face_blog",
+        "action": "refreshed",
+        "artifact_path": "data/raw/2026-W34-external-news.json",
+        "original_run_id": "31985981109",
+        "original_crawled_at": "2026-08-17T01:52:57.719208Z",
+        "evaluated_at": "2026-08-17T01:52:57.719208Z",
+        "date": "2026-08-17",
+        "week": "2026-W34",
+        "crawl_window": {
+          "since": "2026-08-10T00:00:00Z",
+          "until": "2026-08-17T00:00:00Z"
+        },
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "artifact_checksum": "650b9e8027a168cd9c5ac037ef7ee71b349c60e20e4e3cdf04eb9f477158681d",
+        "content_checksum": "6090fea7cd71009dc4e3a12ad3c78be1928f077ed70b702d71bd385c9ca4adc4",
+        "reasons": []
+      },
+      {
+        "source_id": "mit_technology_review",
+        "action": "refreshed",
+        "artifact_path": "data/raw/2026-W34-external-news.json",
+        "original_run_id": "31985981109",
+        "original_crawled_at": "2026-08-17T01:52:57.719208Z",
+        "evaluated_at": "2026-08-17T01:52:57.719208Z",
+        "date": "2026-08-17",
+        "week": "2026-W34",
+        "crawl_window": {
+          "since": "2026-08-10T00:00:00Z",
+          "until": "2026-08-17T00:00:00Z"
+        },
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "artifact_checksum": "650b9e8027a168cd9c5ac037ef7ee71b349c60e20e4e3cdf04eb9f477158681d",
+        "content_checksum": "b2ec0bf374e530d5450b4915bdb26f73a9dd5a27b42c73afc5fe4a8b224b14d9",
+        "reasons": []
+      },
+      {
+        "source_id": "nvidia_blog",
+        "action": "refreshed",
+        "artifact_path": "data/raw/2026-W34-external-news.json",
+        "original_run_id": "31985981109",
+        "original_crawled_at": "2026-08-17T01:52:57.719208Z",
+        "evaluated_at": "2026-08-17T01:52:57.719208Z",
+        "date": "2026-08-17",
+        "week": "2026-W34",
+        "crawl_window": {
+          "since": "2026-08-10T00:00:00Z",
+          "until": "2026-08-17T00:00:00Z"
+        },
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "artifact_checksum": "650b9e8027a168cd9c5ac037ef7ee71b349c60e20e4e3cdf04eb9f477158681d",
+        "content_checksum": "3415526041c6cbcf02a85e105c916e6d300e64aefcbdd87f7436af59dbcf07c7",
+        "reasons": []
+      },
+      {
+        "source_id": "techcrunch",
+        "action": "refreshed",
+        "artifact_path": "data/raw/2026-W34-external-news.json",
+        "original_run_id": "31985981109",
+        "original_crawled_at": "2026-08-17T01:52:57.719208Z",
+        "evaluated_at": "2026-08-17T01:52:57.719208Z",
+        "date": "2026-08-17",
+        "week": "2026-W34",
+        "crawl_window": {
+          "since": "2026-08-10T00:00:00Z",
+          "until": "2026-08-17T00:00:00Z"
+        },
+        "source_config_checksum": "181ab609bc9c3ba3273dec222afe66e1877b6c65151f8dd81bfdafd0ec5b197f",
+        "schema_checksum": "9e41c155fe80733dcd357087bb668ecf695ea2d2be0b0eb564d10fda1907be1b",
+        "artifact_checksum": "650b9e8027a168cd9c5ac037ef7ee71b349c60e20e4e3cdf04eb9f477158681d",
+        "content_checksum": "9ef961a3fe0b5786d386f63e5052843c5bf0640ed674a1e5b6629110c89f1fcd",
+        "reasons": []
+      }
+    ],
+    "sources_with_articles": {
+      "github_blog": 8,
+      "hugging_face_blog": 9,
+      "mit_technology_review": 10,
+      "nvidia_blog": 7,
+      "techcrunch": 20
+    },
+    "total_articles": 54,
+    "relevant_articles": 21,
+    "github_links_found": 69,
+    "dedupe_count": 0,
+    "errors": [],
+    "artifact_checksum": "01205568e5cb3f76dbf1ac0b474cadf7dc37d83d821d804a9a5abc3dc1a5e681",
+    "same_day_reuse": "not_reused",
+    "source_refresh_policy": "reuse-same-day",
+    "source_reuse_decisions": [
+      {
+        "source": "github_blog",
+        "decision": "refresh",
+        "reasons": []
+      },
+      {
+        "source": "hugging_face_blog",
+        "decision": "refresh",
+        "reasons": []
+      },
+      {
+        "source": "mit_technology_review",
+        "decision": "refresh",
+        "reasons": []
+      },
+      {
+        "source": "nvidia_blog",
+        "decision": "refresh",
+        "reasons": []
+      },
+      {
+        "source": "techcrunch",
+        "decision": "refresh",
+        "reasons": []
+      }
+    ],
+    "crawler_code_sha": "bf098e5f1a01d6cd3bbcda3f235f7265fbeeac22e1d064a19a330e463509ad10"
+  }
+}
