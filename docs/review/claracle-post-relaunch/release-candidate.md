@@ -2,7 +2,7 @@
 title: Claracle Integrated Release Candidate Evidence
 description: Revision-bound acceptance, review, deployment, and outcome record
 author: SquadScope Squad
-ms.date: 2026-08-12
+ms.date: 2026-08-23
 ms.topic: reference
 ---
 
@@ -11,13 +11,13 @@ ms.topic: reference
 | Field | Value |
 |---|---|
 | Release | `claracle-v1-1` |
-| Product candidate SHA | `c65046a188dacaf03aa0338a8dd31387b730e187` |
+| Product candidate SHA | `8895304313aa145e02072b9a1109ba93c28bfe70` |
 | Evidence record | `data/release/claracle-v1.1-release-candidate.json` |
 | Schema | `data/schemas/release-candidate.schema.json` |
 | Validator | `scripts/validate_release_candidate.py` |
 | Baseline | Phase 4 merge `f9fb5d88fefde9b6143adda2d57e20d18f6b5e25` |
 | Baseline deployment | GitHub Actions run `31645707266` |
-| Release status | Deployed; release-day probes passed; DRF-03/DRF-05 deferred under issue #714 |
+| Release status | GO; deployment verification pending for issue #720 artifact retry hardening; DRF-03/DRF-05 remain deferred under issue #714 |
 
 The product candidate is frozen only after all runtime, workflow, content, and
 test changes pass local validation. Later evidence-only commits may update this
@@ -57,17 +57,19 @@ GO. The responsible owner is `jmservera`.
 
 ## Outcomes
 
-Feature PR jmservera/SquadScope#713 and lifecycle-fixture PR
-jmservera/SquadScope#715 are merged. GitHub Pages deployment run `31731340792`
-completed successfully at `2026-08-13T18:34:15Z`. Production HTTP, JSON,
-repository-filter, ranking-filter, and keyboard interaction probes passed.
+The prior deployed candidate was invalidated by the issue #720 workflow,
+helper, and test changes. Candidate `8895304` passed focused tests, Ruff,
+Bandit, Checkov, Zizmor, a real download of run `31985981109` raw evidence,
+and named Squad review. Deployment and all deployment-relative outcome windows
+remain pending until the merged candidate completes the weekly workflow.
 
 | Window | Due at |
 |---|---|
-| D+7 | `2026-08-20T18:34:15Z` |
-| D+28 | `2026-09-10T18:34:15Z` |
-| M+3 | `2026-11-13T18:34:15Z` |
-| M+6 | `2027-02-13T18:34:15Z` |
+| Release day | Pending deployment |
+| D+7 | Pending deployment-relative scheduling |
+| D+28 | Pending deployment-relative scheduling |
+| M+3 | Pending deployment-relative scheduling |
+| M+6 | Pending deployment-relative scheduling |
 
 The approved organic baseline is 0 organic sessions, 149 impressions, 0 clicks,
 and 17 impression-bearing queries. The approved targets are at least 250
