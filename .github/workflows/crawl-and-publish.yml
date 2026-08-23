@@ -1112,6 +1112,15 @@ jobs:
               fi
             fi
           done
+          # Migration evidence is reviewed source material committed on main, not
+          # generated publish state. Restore it after replacing its parent directory.
+          git checkout HEAD -- \
+            data/derived/observatory/repo-identity-backfill.json \
+            data/derived/observatory/repository-disposition-candidate.json \
+            data/derived/observatory/repository-external-evidence.json \
+            data/derived/observatory/repository-production-snapshot.json \
+            data/derived/observatory/repository-url-inspection.json \
+            data/derived/observatory/repository-url-inventory.json
 
       - name: Download analyzed data artifact
         env:
