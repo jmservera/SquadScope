@@ -1,9 +1,41 @@
 {
-  "weeks": [
-    {"week": "2026-W19", "cost": 0.32, "tokens_in": 82000, "tokens_out": 3500, "model": "claude-sonnet-4"},
-    {"week": "2026-W20", "cost": 0.28, "tokens_in": 75000, "tokens_out": 3200, "model": "claude-sonnet-4"},
-    {"week": "2026-W21", "cost": 0.35, "tokens_in": 86000, "tokens_out": 4000, "model": "claude-sonnet-4"}
+  "accepted_identities": [
+    {
+      "model": "copilot-default",
+      "run_attempt": 1,
+      "stage": "analysis",
+      "week": "2026-W34",
+      "workflow_run_id": "32657778470"
+    }
   ],
-  "cumulative_cost": 0.95,
-  "budget_limit": 10.00
+  "covered_period": {
+    "end": "2026-W34",
+    "latest_record_at": "2026-08-23T18:27:51Z",
+    "start": "2026-W34"
+  },
+  "currency": "USD",
+  "exclusions": {
+    "legacy_unidentified": 6,
+    "model_none": 0,
+    "superseded_attempts": 0
+  },
+  "generated_at": "2026-08-23T18:27:51Z",
+  "pricing_basis": "scripts.track_token_usage.MODEL_PRICING_USD_PER_MILLION",
+  "provenance": {
+    "ledger": "data/metrics/token-usage.jsonl",
+    "legacy_policy": "exclude-unidentified",
+    "maximum_age_days": 30
+  },
+  "reconciliation": {
+    "accepted_records": 1,
+    "billable_records": 1,
+    "input_records": 7,
+    "status": "reconciled"
+  },
+  "schema_version": "1.0.0",
+  "totals": {
+    "cost": 0.124734,
+    "input_tokens": 25773,
+    "output_tokens": 3161
+  }
 }
