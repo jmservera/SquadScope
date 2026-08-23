@@ -51,10 +51,37 @@
       "title": "Agent Skills Became the New Attack Surface",
       "top_repo": "AMAP-ML/LongHorizon-Harness",
       "week": "2026-W33"
+    },
+    {
+      "conclusion": "Watch whether harness projects add hard trust features: permission boundaries, replayable logs, approval queues, and policy-aware skill loading. The skills economy has not peaked, but the next meaningful step will be less about new skill packs and more about discovery, provenance, and runtime control. If [CopilotKit/OpenBot](https://github.com/CopilotKit/OpenBot)-style action recording and [cinderline/northcinder](https://github.com/cinderline/northcinder)-style human checkpoints spread, August's agent story will move from novelty packaging to operational governance.",
+      "featured_repos": [
+        "CopilotKit/OpenBot",
+        "browser-use/macos-harness",
+        "yetone/cumora",
+        "deepseek-ai/deepseek-harness",
+        "affaan-m/ECC"
+      ],
+      "gaps": "The biggest blind spot is defensive governance for skills and MCP servers. The week has agent governance labels and human-in-the-loop language, but little evidence of signed skill manifests, permission registries, sandbox policy, or standardized audit schemas. That absence matters because the same packaging layer powering creative and coding work can also package SEO spam, exploit workflows, and unsafe automation. Evaluation is also underrepresented. Press coverage discussed research-replicating AI teammates and frontier containment, yet the new-repo set offers few neutral benchmarks for whether multi-agent routing, desktop control, or prompt skills actually improve outcomes. Energy infrastructure and biotech AI were visible in press coverage but barely present in developer artifacts, suggesting those stories remain institution-led rather than open-source-led this week.",
+      "noise": "",
+      "signal": "The durable signal is clustered where agent projects expose control boundaries. [CopilotKit/OpenBot](https://github.com/CopilotKit/OpenBot) is stronger than a generic coworker demo because it emphasizes action decisions and records. [wang2122/sprix-sage-router](https://github.com/wang2122/sprix-sage-router) is worth watching because multi-agent systems need routing semantics before they can become maintainable operations. [cinderline/northcinder](https://github.com/cinderline/northcinder) is small beside the largest launches, but its combination of MCP, local-first operation, privacy, and human approval fits the trust gap that keeps appearing across August. The noise sits where the skills format turns into marketing automation, search manipulation, or thin novelty. [flaqai/backlink_skills](https://github.com/flaqai/backlink_skills) is a useful warning sign: it borrows the agent-skill packaging trend but points it toward traffic tactics that are likely to age badly. [PentagonConure42/youtube-downloader-zen](https://github.com/PentagonConure42/youtube-downloader-zen) has a suspiciously keyword-stuffed topic surface and no forks in the compacted snapshot despite hundreds of stars, which makes it weak evidence for a real movement. [lanicer/cve-2026-41940-PoC](https://github.com/lanicer/cve-2026-41940-PoC) reflects predictable exploit-disclosure attention rather than a constructive security-tools wave, and [xdreizein666/getcontact-cli](https://github.com/xdreizein666/getcontact-cli) looks more like utility churn than a trend anchor.",
+      "summary": "Agent work shifted from models to harnesses, skills, and control surfaces while safety and discovery trust lagged behind.",
+      "tags": [
+        "ai-agents",
+        "agent-skills",
+        "mcp",
+        "developer-tools",
+        "ai-safety",
+        "agent-governance",
+        "self-hosting"
+      ],
+      "title": "Harnesses Took Over the Agent Stack",
+      "top_repo": "CopilotKit/OpenBot",
+      "week": "2026-W34"
     }
   ],
   "weeks_covered": [
     "2026-W32",
-    "2026-W33"
+    "2026-W33",
+    "2026-W34"
   ]
 }
