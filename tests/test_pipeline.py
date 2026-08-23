@@ -792,15 +792,24 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("grep '/_index.md$' || true", hydrate)
         self.assertIn('current_frontmatter=""', hydrate)
         self.assertIn('[ ! -f "$hub" ]', hydrate)
-        self.assertIn("git checkout HEAD --", hydrate)
-        self.assertIn(
+        expected_evidence = [
+            "data/derived/observatory/repo-identity-backfill.json",
             "data/derived/observatory/repository-disposition-candidate.json",
-            hydrate,
-        )
-        self.assertIn(
+            "data/derived/observatory/repository-external-evidence.json",
+            "data/derived/observatory/repository-production-snapshot.json",
+            "data/derived/observatory/repository-url-inspection.json",
             "data/derived/observatory/repository-url-inventory.json",
-            hydrate,
+        ]
+        restore_start = hydrate.index("git checkout HEAD --")
+        self.assertGreater(
+            restore_start,
+            hydrate.index('git checkout origin/publish -- "$path"'),
         )
+        restore_lines = hydrate[restore_start:].splitlines()[1:]
+        restored_evidence = [
+            line.strip().removesuffix("\\").strip() for line in restore_lines if line.strip()
+        ]
+        self.assertEqual(restored_evidence, expected_evidence)
 
     def test_data_page_schedule_is_read_only_freshness_check(self) -> None:
         workflow = yaml.safe_load(
@@ -829,15 +838,24 @@ class WorkflowConfigTests(unittest.TestCase):
         )["run"]
         self.assertIn('git ls-tree -r --name-only origin/publish -- "$path"', hydrate)
         self.assertNotIn('git checkout origin/publish -- "$path" 2>/dev/null || true', hydrate)
-        self.assertIn("git checkout HEAD --", hydrate)
-        self.assertIn(
+        expected_evidence = [
+            "data/derived/observatory/repo-identity-backfill.json",
             "data/derived/observatory/repository-disposition-candidate.json",
-            hydrate,
-        )
-        self.assertIn(
+            "data/derived/observatory/repository-external-evidence.json",
+            "data/derived/observatory/repository-production-snapshot.json",
+            "data/derived/observatory/repository-url-inspection.json",
             "data/derived/observatory/repository-url-inventory.json",
-            hydrate,
+        ]
+        restore_start = hydrate.index("git checkout HEAD --")
+        self.assertGreater(
+            restore_start,
+            hydrate.index('git checkout origin/publish -- "$path"'),
         )
+        restore_lines = hydrate[restore_start:].splitlines()[1:]
+        restored_evidence = [
+            line.strip().removesuffix("\\").strip() for line in restore_lines if line.strip()
+        ]
+        self.assertEqual(restored_evidence, expected_evidence)
 
     def test_sync_publish_to_main_excludes_squad_state_and_regenerates_rollups(self) -> None:
         workflow_path = Path(".github/workflows/sync-publish-to-main.yml")
