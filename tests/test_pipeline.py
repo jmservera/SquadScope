@@ -586,10 +586,11 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertLess(summary_index, commit_index)
 
         download_step = generate_job["steps"][download_index]
-        self.assertTrue(_uses_action(download_step, "actions/download-artifact"))
-        self.assertEqual(download_step["with"]["name"], "token-usage-ledger")
-        self.assertEqual(download_step["with"]["path"], "data/metrics/")
+        self.assertIn("scripts/download_run_artifact.py", download_step["run"])
+        self.assertIn("--artifact token-usage-ledger", download_step["run"])
+        self.assertIn("--destination data/metrics/", download_step["run"])
         self.assertNotIn("continue-on-error", download_step)
+        self.assertEqual(download_step["env"]["GH_TOKEN"], "${{ secrets.GITHUB_TOKEN }}")
 
         summary_step = generate_job["steps"][summary_index]
         self.assertEqual(
@@ -599,6 +600,24 @@ class WorkflowConfigTests(unittest.TestCase):
         self.assertIn("scripts/generate_cost_summary.py", summary_step["run"])
         self.assertIn('--generated-at "$CURRENT_DATETIME"', summary_step["run"])
         self.assertIn("--legacy-policy exclude-unidentified", summary_step["run"])
+
+    def test_same_run_artifact_downloads_use_retry_helper_with_auth(self) -> None:
+        workflow = yaml.safe_load(
+            Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+        )
+
+        for job_name in ("analyze", "generate", "deploy", "notify"):
+            job = workflow["jobs"][job_name]
+            self.assertEqual(job["permissions"]["actions"], "read")
+            retry_steps = [
+                step
+                for step in job["steps"]
+                if "scripts/download_run_artifact.py" in step.get("run", "")
+            ]
+            self.assertTrue(retry_steps, f"{job_name} must use the retrying artifact helper")
+            for step in retry_steps:
+                with self.subTest(job=job_name, step=step.get("name")):
+                    self.assertEqual(step["env"]["GH_TOKEN"], "${{ secrets.GITHUB_TOKEN }}")
 
     def test_production_quality_build_uses_local_server_base_url(self) -> None:
         workflow_path = Path(".github/workflows/ci.yml")
@@ -735,7 +754,8 @@ class WorkflowConfigTests(unittest.TestCase):
 
         self.assertIn("--force-with-lease", commit)
         self.assertIn("git diff --cached --quiet && exit 0", commit)
-        self.assertEqual(inline_deploy_download["with"]["path"], "./")
+        self.assertIn("--artifact generated-content", inline_deploy_download["run"])
+        self.assertIn("--destination ./", inline_deploy_download["run"])
         deploy_positions = {step.get("name"): index for index, step in enumerate(deploy_steps)}
         self.assertLess(
             deploy_positions["Remove checked-in cost summary"],
@@ -870,17 +890,22 @@ class WorkflowConfigTests(unittest.TestCase):
 
         notify_job = workflow["jobs"]["notify"]
         self.assertEqual(notify_job["needs"], ["analyze", "generate", "deploy"])
+        self.assertEqual(
+            notify_job["permissions"],
+            {"actions": "read", "contents": "write", "discussions": "write"},
+        )
         analyzed_download = next(
             (
                 s
                 for s in notify_job["steps"]
-                if _uses_action(s, "actions/download-artifact")
-                and s.get("with", {}).get("path") == "data/analyzed/"
+                if s.get("name") == "Download promoted analyzed data artifact"
             ),
             None,
         )
         self.assertIsNotNone(analyzed_download)
-        self.assertEqual(analyzed_download["with"]["name"], "promoted-analyzed-data")
+        self.assertIn("--artifact promoted-analyzed-data", analyzed_download["run"])
+        self.assertIn("--destination data/analyzed/", analyzed_download["run"])
+        self.assertEqual(analyzed_download["env"]["GH_TOKEN"], "${{ secrets.GITHUB_TOKEN }}")
 
         webhook_step = next(
             (s for s in notify_job["steps"] if s.get("name") == "Post to webhook"), None
@@ -1119,13 +1144,13 @@ class WorkflowConfigTests(unittest.TestCase):
                 s
                 for s in generate["steps"]
                 if s.get("name") == "Download raw crawl artifact"
-                and _uses_action(s, "actions/download-artifact")
-                and s.get("with", {}).get("name") == "raw-data"
-                and s.get("with", {}).get("path") == "data/raw/"
             ),
             None,
         )
         self.assertIsNotNone(generate_raw_download)
+        self.assertIn("--artifact raw-data", generate_raw_download["run"])
+        self.assertIn("--destination data/raw/", generate_raw_download["run"])
+        self.assertEqual(generate_raw_download["env"]["GH_TOKEN"], "${{ secrets.GITHUB_TOKEN }}")
 
         generate_step = next(
             (s for s in generate["steps"] if s.get("name") == "Generate weekly content candidate"),

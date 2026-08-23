@@ -359,10 +359,9 @@ jobs:
           persist-credentials: false
 
       - name: Download raw crawl artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          name: raw-data
-          path: data/raw/
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/download_run_artifact.py --artifact raw-data --destination data/raw/
 
       - name: Hydrate from publish (rebuild mode)
         if: ${{ inputs.rebuild_week }}
@@ -1115,31 +1114,27 @@ jobs:
           done
 
       - name: Download analyzed data artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          name: analyzed-data
-          path: data/analyzed/
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/download_run_artifact.py --artifact analyzed-data --destination data/analyzed/
 
       - name: Download token usage ledger artifact
         # Overlays the analyze job's freshly appended ledger row on top of the
         # publish-branch hydration above, so it is not lost before this job's
         # cost projection and commit steps.
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          name: token-usage-ledger
-          path: data/metrics/
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/download_run_artifact.py --artifact token-usage-ledger --destination data/metrics/
 
       - name: Download analysis candidate artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          name: analysis-candidate
-          path: data/candidates/
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/download_run_artifact.py --artifact analysis-candidate --destination data/candidates/
 
       - name: Download raw crawl artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          name: raw-data
-          path: data/raw/
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/download_run_artifact.py --artifact raw-data --destination data/raw/
 
       - name: Set up Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
@@ -1496,26 +1491,22 @@ jobs:
           persist-credentials: false
 
       - name: Download raw crawl artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          name: raw-data
-          path: data/raw/
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/download_run_artifact.py --artifact raw-data --destination data/raw/
 
       - name: Download analyzed data artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          name: promoted-analyzed-data
-          path: data/analyzed/
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/download_run_artifact.py --artifact promoted-analyzed-data --destination data/analyzed/
 
       - name: Remove checked-in cost summary
         run: rm -f data/metrics/cost-summary.json
 
       - name: Download generated content artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          name: generated-content
-          path: ./
-          merge-multiple: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/download_run_artifact.py --artifact generated-content --destination ./
 
       - name: Verify generated cost summary
         run: test -s data/metrics/cost-summary.json
@@ -1578,6 +1569,7 @@ jobs:
     needs: [analyze, generate, deploy]
     runs-on: ubuntu-latest
     permissions:
+      actions: read
       contents: write
       discussions: write
 
@@ -1586,15 +1578,15 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          name: promoted-analyzed-data
-          path: data/analyzed/
+      - name: Download promoted analyzed data artifact
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/download_run_artifact.py --artifact promoted-analyzed-data --destination data/analyzed/
 
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          name: analysis-candidate
-          path: data/candidates/
+      - name: Download analysis candidate artifact
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/download_run_artifact.py --artifact analysis-candidate --destination data/candidates/
 
       - name: Create GitHub Release
         env:
