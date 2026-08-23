@@ -1,5 +1,6 @@
 import io
 import json
+import subprocess
 import tempfile
 import unittest
 from argparse import Namespace
@@ -810,6 +811,77 @@ class WorkflowConfigTests(unittest.TestCase):
             line.strip().removesuffix("\\").strip() for line in restore_lines if line.strip()
         ]
         self.assertEqual(restored_evidence, expected_evidence)
+
+    def test_generate_hydration_restores_main_evidence_after_publish_overlay(self) -> None:
+        workflow = yaml.safe_load(
+            Path(".github/workflows/crawl-and-publish.yml").read_text(encoding="utf-8")
+        )
+        hydrate = next(
+            step
+            for step in workflow["jobs"]["generate"]["steps"]
+            if step.get("name") == "Hydrate prior generated state from publish"
+        )["run"]
+        evidence_paths = [
+            "data/derived/observatory/repo-identity-backfill.json",
+            "data/derived/observatory/repository-disposition-candidate.json",
+            "data/derived/observatory/repository-external-evidence.json",
+            "data/derived/observatory/repository-production-snapshot.json",
+            "data/derived/observatory/repository-url-inspection.json",
+            "data/derived/observatory/repository-url-inventory.json",
+        ]
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            remote = root / "remote.git"
+            checkout = root / "checkout"
+            subprocess.run(["git", "init", "--bare", remote], check=True, capture_output=True)
+            subprocess.run(["git", "init", checkout], check=True, capture_output=True)
+
+            def git(*args: str) -> None:
+                subprocess.run(
+                    ["git", *args],
+                    cwd=checkout,
+                    check=True,
+                    capture_output=True,
+                )
+
+            git("config", "user.name", "Hydration Test")
+            git("config", "user.email", "hydration@example.test")
+            for path in evidence_paths:
+                target = checkout / path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(f"main evidence: {path}\n", encoding="utf-8")
+            generated = checkout / "data/derived/observatory/repositories.json"
+            generated.write_text("main generated\n", encoding="utf-8")
+            git("add", ".")
+            git("commit", "-m", "main state")
+            git("branch", "-M", "main")
+            git("remote", "add", "origin", str(remote))
+            git("push", "-u", "origin", "main")
+
+            git("checkout", "-b", "publish")
+            for path in evidence_paths:
+                (checkout / path).unlink()
+            generated.write_text("publish generated\n", encoding="utf-8")
+            git("add", "-A")
+            git("commit", "-m", "publish state")
+            git("push", "-u", "origin", "publish")
+            git("checkout", "main")
+
+            subprocess.run(
+                ["bash", "-euo", "pipefail", "-c", hydrate],
+                cwd=checkout,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+
+            for path in evidence_paths:
+                self.assertEqual(
+                    (checkout / path).read_text(encoding="utf-8"),
+                    f"main evidence: {path}\n",
+                )
+            self.assertEqual(generated.read_text(encoding="utf-8"), "publish generated\n")
 
     def test_data_page_schedule_is_read_only_freshness_check(self) -> None:
         workflow = yaml.safe_load(
