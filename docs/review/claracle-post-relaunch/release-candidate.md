@@ -11,7 +11,7 @@ ms.topic: reference
 | Field | Value |
 |---|---|
 | Release | `claracle-v1-1` |
-| Product candidate SHA | `bab613c016c1aedc4f291e87f213206d8bf55f0c` |
+| Product candidate SHA | `47d0fdbb9babde545913599228e88e64f514c4d7` |
 | Evidence record | `data/release/claracle-v1.1-release-candidate.json` |
 | Schema | `data/schemas/release-candidate.schema.json` |
 | Validator | `scripts/validate_release_candidate.py` |
@@ -50,16 +50,17 @@ must be replaced by genuine evidence before the waiver expires.
 
 The last known-good production boundary is Phase 4 merge
 `f9fb5d88fefde9b6143adda2d57e20d18f6b5e25`. Rollback uses a protected fix
-branch to revert the Phase 5 merge, deploys through the existing GitHub Pages
-workflow, and repeats repository, ranking, public JSON, and retired-route
-probes. The complete Phase 5 diff passed a reverse-apply check before sponsor
-GO. The responsible owner is `jmservera`.
+branch to revert the post-Phase 4 release commits, deploys through the existing
+GitHub Pages workflow, and repeats repository, ranking, public JSON, and
+retired-route probes. The complete release diff from candidate `47d0fdb` to
+the Phase 4 baseline passed a reverse-apply check before sponsor GO. The
+responsible owner is `jmservera`.
 
 ## Outcomes
 
 The prior candidate was invalidated when run `32654911857` showed that publish
 hydration removed main-owned repository migration evidence before freshness
-validation. Candidate `bab613c` preserves those inputs while retaining
+validation. Candidate `47d0fdb` preserves those inputs while retaining
 publish-owned generated state. Focused tests, Ruff, Checkov, and Zizmor pass.
 Deployment and all deployment-relative outcome windows remain pending until
 the merged candidate completes the weekly workflow.
