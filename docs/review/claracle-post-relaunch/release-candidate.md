@@ -11,13 +11,13 @@ ms.topic: reference
 | Field | Value |
 |---|---|
 | Release | `claracle-v1-1` |
-| Product candidate SHA | `8895304313aa145e02072b9a1109ba93c28bfe70` |
+| Product candidate SHA | `2088d44bfc9c716221ddbf2f7a8ed6bc89465270` |
 | Evidence record | `data/release/claracle-v1.1-release-candidate.json` |
 | Schema | `data/schemas/release-candidate.schema.json` |
 | Validator | `scripts/validate_release_candidate.py` |
 | Baseline | Phase 4 merge `f9fb5d88fefde9b6143adda2d57e20d18f6b5e25` |
 | Baseline deployment | GitHub Actions run `31645707266` |
-| Release status | GO; deployment verification pending for issue #720 artifact retry hardening; DRF-03/DRF-05 remain deferred under issue #714 |
+| Release status | GO; deployment verification pending for issue #722 publication hydration fix; DRF-03/DRF-05 remain deferred under issue #714 |
 
 The product candidate is frozen only after all runtime, workflow, content, and
 test changes pass local validation. Later evidence-only commits may update this
@@ -50,18 +50,20 @@ must be replaced by genuine evidence before the waiver expires.
 
 The last known-good production boundary is Phase 4 merge
 `f9fb5d88fefde9b6143adda2d57e20d18f6b5e25`. Rollback uses a protected fix
-branch to revert the Phase 5 merge, deploys through the existing GitHub Pages
-workflow, and repeats repository, ranking, public JSON, and retired-route
-probes. The complete Phase 5 diff passed a reverse-apply check before sponsor
-GO. The responsible owner is `jmservera`.
+branch to revert the post-Phase 4 release commits, deploys through the existing
+GitHub Pages workflow, and repeats repository, ranking, public JSON, and
+retired-route probes. The complete release diff from candidate `2088d44` to
+the Phase 4 baseline passed a reverse-apply check before sponsor GO. The
+responsible owner is `jmservera`.
 
 ## Outcomes
 
-The prior deployed candidate was invalidated by the issue #720 workflow,
-helper, and test changes. Candidate `8895304` passed focused tests, Ruff,
-Bandit, Checkov, Zizmor, a real download of run `31985981109` raw evidence,
-and named Squad review. Deployment and all deployment-relative outcome windows
-remain pending until the merged candidate completes the weekly workflow.
+The prior candidate was invalidated when run `32654911857` showed that publish
+hydration removed main-owned repository migration evidence before freshness
+validation. Candidate `2088d44` preserves those inputs while retaining
+publish-owned generated state. Focused tests, Ruff, Checkov, and Zizmor pass.
+Deployment and all deployment-relative outcome windows remain pending until
+the merged candidate completes the weekly workflow.
 
 | Window | Due at |
 |---|---|
