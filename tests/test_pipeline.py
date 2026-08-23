@@ -1140,11 +1140,7 @@ class WorkflowConfigTests(unittest.TestCase):
 
         generate = workflow["jobs"]["generate"]
         generate_raw_download = next(
-            (
-                s
-                for s in generate["steps"]
-                if s.get("name") == "Download raw crawl artifact"
-            ),
+            (s for s in generate["steps"] if s.get("name") == "Download raw crawl artifact"),
             None,
         )
         self.assertIsNotNone(generate_raw_download)
