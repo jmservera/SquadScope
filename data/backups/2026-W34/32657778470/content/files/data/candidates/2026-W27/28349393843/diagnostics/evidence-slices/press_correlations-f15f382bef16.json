@@ -1,0 +1,1606 @@
+{
+  "checksum_sha256": "f15f382bef16474477a372d919cdd730ae605cabb7184354af5e9bbfec9dc84e",
+  "component": "press_correlations",
+  "provenance": {
+    "sources": {
+      "correlations": {
+        "bytes": 187815,
+        "path": "data/analyzed/2026-W27-correlations.json",
+        "sha256": "cb8ab38e1241152fec324bcd0d0b58f91b57737e8fc09cad5142d6de4686fa97"
+      },
+      "external_news": {
+        "bytes": 58477,
+        "path": "data/raw/2026-W27-external-news.json",
+        "sha256": "5729b78d79ce25a9df8f71e7602c19e33eba4b1aac57666091c841ae147bf359"
+      },
+      "press_context": {
+        "bytes": 14216,
+        "path": "data/analyzed/2026-W27-press-context.md",
+        "sha256": "d09964fb0e28a42c5ef2f715079f69e36e12e4b2f5e32e642245c57d974355b7"
+      },
+      "raw_json": {
+        "bytes": 296902,
+        "path": "data/raw/2026-W27.json",
+        "sha256": "a1694754079801ee8b67630cf3f5128729c6003f25f2b7ce640e66806293d02f"
+      }
+    },
+    "week": "2026-W27"
+  },
+  "records": [
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-26T16:53:57Z",
+          "relevance_score": 0.6,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub and UNDP team up to advance development priorities in Ghana with open source",
+          "url": "https://github.blog/open-source/social-impact/github-and-undp-team-up-to-advance-development-priorities-in-ghana-with-open-source/"
+        },
+        {
+          "published_at": "2026-06-25T22:59:45Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Evaluating performance and efficiency of the GitHub Copilot agentic harness across models and tasks",
+          "url": "https://github.blog/ai-and-ml/github-copilot/evaluating-performance-and-efficiency-of-the-github-copilot-agentic-harness-across-models-and-tasks/"
+        },
+        {
+          "published_at": "2026-06-23T15:48:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub joins coalition advocating for fixes to California AI Transparency Act to protect open source",
+          "url": "https://github.blog/news-insights/policy-news-and-insights/github-joins-coalition-advocating-for-fixes-to-california-ai-transparency-act-to-protect-open-source/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/open-source/social-impact/github-and-undp-team-up-to-advance-development-priorities-in-ghana-with-open-source/",
+        "https://github.blog/ai-and-ml/github-copilot/evaluating-performance-and-efficiency-of-the-github-copilot-agentic-harness-across-models-and-tasks/",
+        "https://github.blog/news-insights/policy-news-and-insights/github-joins-coalition-advocating-for-fixes-to-california-ai-transparency-act-to-protect-open-source/"
+      ],
+      "repo": "github/spec-kit"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-27T16:45:09Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
+          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+        },
+        {
+          "published_at": "2026-06-26T18:32:14Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI limits GPT-5.6 rollout after government request, says restrictions shouldn’t be the norm",
+          "url": "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/"
+        },
+        {
+          "published_at": "2026-06-26T18:19:36Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI poaches Uber India chief to lead its biggest market outside the US",
+          "url": "https://techcrunch.com/2026/06/26/openai-poaches-uber-india-chief-to-lead-its-biggest-market-outside-the-u-s/"
+        },
+        {
+          "published_at": "2026-06-26T17:43:22Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Why everyone from OpenAI to SpaceX is building their own chips (and turning up the heat on Nvidia)",
+          "url": "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/"
+        },
+        {
+          "published_at": "2026-06-26T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: brain-melting heatwaves and unprecedented OpenAI restrictions",
+          "url": "https://www.technologyreview.com/2026/06/26/1139780/the-download-heatwaves-brain-health-openai-restrictions/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/",
+        "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/",
+        "https://techcrunch.com/2026/06/26/openai-poaches-uber-india-chief-to-lead-its-biggest-market-outside-the-u-s/",
+        "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/",
+        "https://www.technologyreview.com/2026/06/26/1139780/the-download-heatwaves-brain-health-openai-restrictions/"
+      ],
+      "repo": "openai/codex"
+    },
+    {
+      "correlation_confidence": 0.8,
+      "correlation_strength": "strong",
+      "hype_risk": "medium",
+      "match_type": "org_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-22T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "We got local models to triage the OpenClaw repo for FREE!*",
+          "url": "https://huggingface.co/blog/local-models-pr-triage"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/local-models-pr-triage"
+      ],
+      "repo": "openclaw/openclaw"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-22T13:00:20Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Vera CPU Opens the Way for Agentic Scientific AI at Los Alamos National Laboratory",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-cpu-los-alamos-national-laboratory/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-vera-cpu-los-alamos-national-laboratory/"
+      ],
+      "repo": "2dust/v2rayN"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-26T16:53:57Z",
+          "relevance_score": 0.6,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub and UNDP team up to advance development priorities in Ghana with open source",
+          "url": "https://github.blog/open-source/social-impact/github-and-undp-team-up-to-advance-development-priorities-in-ghana-with-open-source/"
+        },
+        {
+          "published_at": "2026-06-25T22:59:45Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "Evaluating performance and efficiency of the GitHub Copilot agentic harness across models and tasks",
+          "url": "https://github.blog/ai-and-ml/github-copilot/evaluating-performance-and-efficiency-of-the-github-copilot-agentic-harness-across-models-and-tasks/"
+        },
+        {
+          "published_at": "2026-06-23T15:48:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub joins coalition advocating for fixes to California AI Transparency Act to protect open source",
+          "url": "https://github.blog/news-insights/policy-news-and-insights/github-joins-coalition-advocating-for-fixes-to-california-ai-transparency-act-to-protect-open-source/"
+        }
+      ],
+      "matched_articles": [
+        "https://github.blog/open-source/social-impact/github-and-undp-team-up-to-advance-development-priorities-in-ghana-with-open-source/",
+        "https://github.blog/ai-and-ml/github-copilot/evaluating-performance-and-efficiency-of-the-github-copilot-agentic-harness-across-models-and-tasks/",
+        "https://github.blog/news-insights/policy-news-and-insights/github-joins-coalition-advocating-for-fixes-to-california-ai-transparency-act-to-protect-open-source/"
+      ],
+      "repo": "521xueweihan/HelloGitHub"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-27T16:45:09Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
+          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+      ],
+      "repo": "AppFlowy-IO/AppFlowy"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-27T16:45:09Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
+          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+        },
+        {
+          "published_at": "2026-06-26T18:32:14Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI limits GPT-5.6 rollout after government request, says restrictions shouldn’t be the norm",
+          "url": "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/"
+        },
+        {
+          "published_at": "2026-06-26T18:19:36Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI poaches Uber India chief to lead its biggest market outside the US",
+          "url": "https://techcrunch.com/2026/06/26/openai-poaches-uber-india-chief-to-lead-its-biggest-market-outside-the-u-s/"
+        },
+        {
+          "published_at": "2026-06-26T17:43:22Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Why everyone from OpenAI to SpaceX is building their own chips (and turning up the heat on Nvidia)",
+          "url": "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/"
+        },
+        {
+          "published_at": "2026-06-26T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: brain-melting heatwaves and unprecedented OpenAI restrictions",
+          "url": "https://www.technologyreview.com/2026/06/26/1139780/the-download-heatwaves-brain-health-openai-restrictions/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/",
+        "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/",
+        "https://techcrunch.com/2026/06/26/openai-poaches-uber-india-chief-to-lead-its-biggest-market-outside-the-u-s/",
+        "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/",
+        "https://www.technologyreview.com/2026/06/26/1139780/the-download-heatwaves-brain-health-openai-restrictions/"
+      ],
+      "repo": "CopilotKit/OpenTag"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-22T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "We got local models to triage the OpenClaw repo for FREE!*",
+          "url": "https://huggingface.co/blog/local-models-pr-triage"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/local-models-pr-triage"
+      ],
+      "repo": "EbookFoundation/free-programming-books"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-22T13:00:20Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Vera CPU Opens the Way for Agentic Scientific AI at Los Alamos National Laboratory",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-cpu-los-alamos-national-laboratory/"
+        },
+        {
+          "published_at": "2026-06-22T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "We got local models to triage the OpenClaw repo for FREE!*",
+          "url": "https://huggingface.co/blog/local-models-pr-triage"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-vera-cpu-los-alamos-national-laboratory/",
+        "https://huggingface.co/blog/local-models-pr-triage"
+      ],
+      "repo": "Fission-AI/OpenSpec"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-27T16:45:09Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
+          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+        },
+        {
+          "published_at": "2026-06-26T18:32:14Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI limits GPT-5.6 rollout after government request, says restrictions shouldn’t be the norm",
+          "url": "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/"
+        },
+        {
+          "published_at": "2026-06-26T18:19:36Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI poaches Uber India chief to lead its biggest market outside the US",
+          "url": "https://techcrunch.com/2026/06/26/openai-poaches-uber-india-chief-to-lead-its-biggest-market-outside-the-u-s/"
+        },
+        {
+          "published_at": "2026-06-26T17:43:22Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Why everyone from OpenAI to SpaceX is building their own chips (and turning up the heat on Nvidia)",
+          "url": "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/"
+        },
+        {
+          "published_at": "2026-06-26T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: brain-melting heatwaves and unprecedented OpenAI restrictions",
+          "url": "https://www.technologyreview.com/2026/06/26/1139780/the-download-heatwaves-brain-health-openai-restrictions/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/",
+        "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/",
+        "https://techcrunch.com/2026/06/26/openai-poaches-uber-india-chief-to-lead-its-biggest-market-outside-the-u-s/",
+        "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/",
+        "https://www.technologyreview.com/2026/06/26/1139780/the-download-heatwaves-brain-health-openai-restrictions/"
+      ],
+      "repo": "FlavioAdamo/openfit"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-25T13:00:34Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "The Ultimate Summer Sale Pairing: Steam Sale Meets GeForce NOW Discounts",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-steam-summer-sale-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-steam-summer-sale-2026/"
+      ],
+      "repo": "FossPrime/Steam-Controller-Auto-Charge"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-22T13:00:20Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Vera CPU Opens the Way for Agentic Scientific AI at Los Alamos National Laboratory",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-cpu-los-alamos-national-laboratory/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-vera-cpu-los-alamos-national-laboratory/"
+      ],
+      "repo": "FuelLabs/sway"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-27T16:45:09Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
+          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+      ],
+      "repo": "Karan10010/DBD-AutoGrind-Trainer-2026-Pro"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-24T00:00:00Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Introducing the FFASR Leaderboard: Benchmarking ASR in the Real World",
+          "url": "https://huggingface.co/blog/ffasr-leaderboard"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/ffasr-leaderboard"
+      ],
+      "repo": "LadybirdBrowser/ladybird"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-25T13:00:34Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "The Ultimate Summer Sale Pairing: Steam Sale Meets GeForce NOW Discounts",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-steam-summer-sale-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-steam-summer-sale-2026/"
+      ],
+      "repo": "NagaaSaketh/Blox-Fruits-Dragon-Update-Auto-Farm-Script-2026-Ultimate"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-25T13:00:34Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "The Ultimate Summer Sale Pairing: Steam Sale Meets GeForce NOW Discounts",
+          "url": "https://blogs.nvidia.com/blog/geforce-now-thursday-steam-summer-sale-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/geforce-now-thursday-steam-summer-sale-2026/"
+      ],
+      "repo": "NagaaSaketh/Pet-Simulator-99-Auto-Farm-Trainer-2026-Ultimate"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-27T16:45:09Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
+          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+        },
+        {
+          "published_at": "2026-06-26T18:32:14Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI limits GPT-5.6 rollout after government request, says restrictions shouldn’t be the norm",
+          "url": "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/"
+        },
+        {
+          "published_at": "2026-06-26T18:19:36Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI poaches Uber India chief to lead its biggest market outside the US",
+          "url": "https://techcrunch.com/2026/06/26/openai-poaches-uber-india-chief-to-lead-its-biggest-market-outside-the-u-s/"
+        },
+        {
+          "published_at": "2026-06-26T17:43:22Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Why everyone from OpenAI to SpaceX is building their own chips (and turning up the heat on Nvidia)",
+          "url": "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/"
+        },
+        {
+          "published_at": "2026-06-26T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: brain-melting heatwaves and unprecedented OpenAI restrictions",
+          "url": "https://www.technologyreview.com/2026/06/26/1139780/the-download-heatwaves-brain-health-openai-restrictions/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/",
+        "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/",
+        "https://techcrunch.com/2026/06/26/openai-poaches-uber-india-chief-to-lead-its-biggest-market-outside-the-u-s/",
+        "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/",
+        "https://www.technologyreview.com/2026/06/26/1139780/the-download-heatwaves-brain-health-openai-restrictions/"
+      ],
+      "repo": "OpenBB-finance/OpenBB"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-27T16:45:09Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
+          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+        },
+        {
+          "published_at": "2026-06-26T18:32:14Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI limits GPT-5.6 rollout after government request, says restrictions shouldn’t be the norm",
+          "url": "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/"
+        },
+        {
+          "published_at": "2026-06-26T18:19:36Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI poaches Uber India chief to lead its biggest market outside the US",
+          "url": "https://techcrunch.com/2026/06/26/openai-poaches-uber-india-chief-to-lead-its-biggest-market-outside-the-u-s/"
+        },
+        {
+          "published_at": "2026-06-26T17:43:22Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Why everyone from OpenAI to SpaceX is building their own chips (and turning up the heat on Nvidia)",
+          "url": "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/"
+        },
+        {
+          "published_at": "2026-06-26T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: brain-melting heatwaves and unprecedented OpenAI restrictions",
+          "url": "https://www.technologyreview.com/2026/06/26/1139780/the-download-heatwaves-brain-health-openai-restrictions/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/",
+        "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/",
+        "https://techcrunch.com/2026/06/26/openai-poaches-uber-india-chief-to-lead-its-biggest-market-outside-the-u-s/",
+        "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/",
+        "https://www.technologyreview.com/2026/06/26/1139780/the-download-heatwaves-brain-health-openai-restrictions/"
+      ],
+      "repo": "OpenHands/OpenHands"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-24T00:05:37Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and AWS Collaborate to Bring AI to Production at Scale",
+          "url": "https://blogs.nvidia.com/blog/nvidia-aws-ai-production-scale/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-aws-ai-production-scale/"
+      ],
+      "repo": "Pluviobyte/video-production-skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-27T16:45:09Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
+          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+      ],
+      "repo": "Rohim616/DBD-AutoGrind-Trainer-2026-Pro"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-26T18:32:14Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI limits GPT-5.6 rollout after government request, says restrictions shouldn’t be the norm",
+          "url": "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/"
+      ],
+      "repo": "Significant-Gravitas/AutoGPT"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-25T16:11:42Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Which tokens does a hybrid model predict better?",
+          "url": "https://huggingface.co/blog/allenai/hybrid-token-prediction"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/allenai/hybrid-token-prediction"
+      ],
+      "repo": "Textualize/rich"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-26T17:29:29Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Russian hackers were behind $2.5B hack of Jaguar Land Rover: Report",
+          "url": "https://techcrunch.com/2026/06/26/russian-hackers-were-behind-2-5-billion-hack-of-jaguar-land-rover-report/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/26/russian-hackers-were-behind-2-5-billion-hack-of-jaguar-land-rover-report/"
+      ],
+      "repo": "TheAlgorithms/Java"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-27T16:45:09Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
+          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+      ],
+      "repo": "XFaltixX/DBD-AutoGrind-Trainer-2026-Pro"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-23T06:00:09Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Brings Trusted, 24/7 AI Agents to Telecom Operations",
+          "url": "https://blogs.nvidia.com/blog/telecom-ai-agents-dtw-ignite-2026/"
+        },
+        {
+          "published_at": "2026-06-22T13:00:20Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Vera CPU Opens the Way for Agentic Scientific AI at Los Alamos National Laboratory",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-cpu-los-alamos-national-laboratory/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/telecom-ai-agents-dtw-ignite-2026/",
+        "https://blogs.nvidia.com/blog/nvidia-vera-cpu-los-alamos-national-laboratory/"
+      ],
+      "repo": "addyosmani/agent-skills"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-22T13:00:13Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Eco Wave Power Turns Waves Into Watts With NVIDIA AI Infrastructure and Digital Twins",
+          "url": "https://blogs.nvidia.com/blog/eco-wave-power-ai-digital-twins/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/eco-wave-power-ai-digital-twins/"
+      ],
+      "repo": "affaan-m/ECC"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-22T13:18:56Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "PP-OCRv6 on Hugging Face: 50-Language OCR from 1.5M to 34.5M Parameters",
+          "url": "https://huggingface.co/blog/PaddlePaddle/pp-ocrv6"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/PaddlePaddle/pp-ocrv6"
+      ],
+      "repo": "ageitgey/face_recognition"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-27T16:45:09Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
+          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+      ],
+      "repo": "alex-carneiro/DBD-AutoGrind-Trainer-2026-Pro"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-27T16:45:09Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
+          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+        },
+        {
+          "published_at": "2026-06-26T18:32:14Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI limits GPT-5.6 rollout after government request, says restrictions shouldn’t be the norm",
+          "url": "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/"
+        },
+        {
+          "published_at": "2026-06-26T18:19:36Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI poaches Uber India chief to lead its biggest market outside the US",
+          "url": "https://techcrunch.com/2026/06/26/openai-poaches-uber-india-chief-to-lead-its-biggest-market-outside-the-u-s/"
+        },
+        {
+          "published_at": "2026-06-26T17:43:22Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Why everyone from OpenAI to SpaceX is building their own chips (and turning up the heat on Nvidia)",
+          "url": "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/"
+        },
+        {
+          "published_at": "2026-06-26T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: brain-melting heatwaves and unprecedented OpenAI restrictions",
+          "url": "https://www.technologyreview.com/2026/06/26/1139780/the-download-heatwaves-brain-health-openai-restrictions/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/",
+        "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/",
+        "https://techcrunch.com/2026/06/26/openai-poaches-uber-india-chief-to-lead-its-biggest-market-outside-the-u-s/",
+        "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/",
+        "https://www.technologyreview.com/2026/06/26/1139780/the-download-heatwaves-brain-health-openai-restrictions/"
+      ],
+      "repo": "amplifthq/opentag"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-26T17:29:29Z",
+          "relevance_score": 0.0,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Russian hackers were behind $2.5B hack of Jaguar Land Rover: Report",
+          "url": "https://techcrunch.com/2026/06/26/russian-hackers-were-behind-2-5-billion-hack-of-jaguar-land-rover-report/"
+        },
+        {
+          "published_at": "2026-06-22T13:18:56Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "PP-OCRv6 on Hugging Face: 50-Language OCR from 1.5M to 34.5M Parameters",
+          "url": "https://huggingface.co/blog/PaddlePaddle/pp-ocrv6"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/26/russian-hackers-were-behind-2-5-billion-hack-of-jaguar-land-rover-report/",
+        "https://huggingface.co/blog/PaddlePaddle/pp-ocrv6"
+      ],
+      "repo": "angular/angular"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-22T13:00:20Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Vera CPU Opens the Way for Agentic Scientific AI at Los Alamos National Laboratory",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-cpu-los-alamos-national-laboratory/"
+        },
+        {
+          "published_at": "2026-06-22T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "We got local models to triage the OpenClaw repo for FREE!*",
+          "url": "https://huggingface.co/blog/local-models-pr-triage"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-vera-cpu-los-alamos-national-laboratory/",
+        "https://huggingface.co/blog/local-models-pr-triage"
+      ],
+      "repo": "anomalyco/opencode"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-28T17:03:16Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Writer Ian Bogost says ‘The Small Stuff’ can help us reclaim our lives from too much convenience",
+          "url": "https://techcrunch.com/2026/06/28/writer-ian-bogost-says-the-small-stuff-can-help-us-reclaim-our-lives-from-dematerialization/"
+        },
+        {
+          "published_at": "2026-06-27T16:45:09Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
+          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/28/writer-ian-bogost-says-the-small-stuff-can-help-us-reclaim-our-lives-from-dematerialization/",
+        "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+      ],
+      "repo": "appwrite/appwrite"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-27T16:45:09Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
+          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+      ],
+      "repo": "arenaasd/DBD-AutoGrind-Trainer-2026-Pro"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-23T00:00:00Z",
+          "relevance_score": 0.8,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Experimenting with the proposed Cross-Origin Storage API in Transformers.js",
+          "url": "https://huggingface.co/blog/cross-origin-storage"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/cross-origin-storage"
+      ],
+      "repo": "baairon/torlink"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-28T15:00:00Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Why Wall Street thinks US memory maker Micron is the next Nvidia",
+          "url": "https://techcrunch.com/2026/06/28/why-wall-street-thinks-us-memory-maker-micron-is-the-next-nvidia/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/28/why-wall-street-thinks-us-memory-maker-micron-is-the-next-nvidia/"
+      ],
+      "repo": "bitcoin/bitcoin"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-24T16:00:13Z",
+          "relevance_score": 0.6,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Accelerating Transformers Fine-Tuning with NVIDIA NeMo AutoModel",
+          "url": "https://huggingface.co/blog/nvidia/accelerating-fine-tuning-nvidia-nemo-automodel"
+        },
+        {
+          "published_at": "2026-06-24T00:05:37Z",
+          "relevance_score": 1.0,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA and AWS Collaborate to Bring AI to Production at Scale",
+          "url": "https://blogs.nvidia.com/blog/nvidia-aws-ai-production-scale/"
+        },
+        {
+          "published_at": "2026-06-22T13:00:48Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "At ISC, JUPITER Shows What Exascale Science Looks Like",
+          "url": "https://blogs.nvidia.com/blog/jupiter-exascale-supercomputing-science/"
+        },
+        {
+          "published_at": "2026-06-22T13:00:38Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NAIRR Science Program Reshapes Scientific Research, Powered by NVIDIA AI Infrastructure",
+          "url": "https://blogs.nvidia.com/blog/nairr-scientific-research-ai-infrastructure/"
+        },
+        {
+          "published_at": "2026-06-22T05:00:22Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Hotter Than a Hot Tub: The 45°C Breakthrough to Cool AI’s Biggest Machines",
+          "url": "https://blogs.nvidia.com/blog/liquid-cooling-ai-factories/"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/nvidia/accelerating-fine-tuning-nvidia-nemo-automodel",
+        "https://blogs.nvidia.com/blog/nvidia-aws-ai-production-scale/",
+        "https://blogs.nvidia.com/blog/jupiter-exascale-supercomputing-science/",
+        "https://blogs.nvidia.com/blog/nairr-scientific-research-ai-infrastructure/",
+        "https://blogs.nvidia.com/blog/liquid-cooling-ai-factories/"
+      ],
+      "repo": "cline/cline"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-26T00:00:00Z",
+          "relevance_score": 0.2,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Run a vLLM Server on HF Jobs in One Command",
+          "url": "https://huggingface.co/blog/vllm-jobs"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/vllm-jobs"
+      ],
+      "repo": "coder/code-server"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-27T16:45:09Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
+          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+        },
+        {
+          "published_at": "2026-06-26T18:32:14Z",
+          "relevance_score": 0.6,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI limits GPT-5.6 rollout after government request, says restrictions shouldn’t be the norm",
+          "url": "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/"
+        },
+        {
+          "published_at": "2026-06-26T18:19:36Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "OpenAI poaches Uber India chief to lead its biggest market outside the US",
+          "url": "https://techcrunch.com/2026/06/26/openai-poaches-uber-india-chief-to-lead-its-biggest-market-outside-the-u-s/"
+        },
+        {
+          "published_at": "2026-06-26T17:43:22Z",
+          "relevance_score": 0.4,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Why everyone from OpenAI to SpaceX is building their own chips (and turning up the heat on Nvidia)",
+          "url": "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/"
+        },
+        {
+          "published_at": "2026-06-26T12:10:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "The Download: brain-melting heatwaves and unprecedented OpenAI restrictions",
+          "url": "https://www.technologyreview.com/2026/06/26/1139780/the-download-heatwaves-brain-health-openai-restrictions/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/",
+        "https://techcrunch.com/2026/06/26/openai-limits-gpt-5-6-rollout-after-government-request-says-restrictions-shouldnt-be-the-norm/",
+        "https://techcrunch.com/2026/06/26/openai-poaches-uber-india-chief-to-lead-its-biggest-market-outside-the-u-s/",
+        "https://techcrunch.com/video/why-everyone-from-openai-to-spacex-is-building-their-own-chips-and-turning-up-the-heat-on-nvidia/",
+        "https://www.technologyreview.com/2026/06/26/1139780/the-download-heatwaves-brain-health-openai-restrictions/"
+      ],
+      "repo": "commaai/openpilot"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-22T05:00:22Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Hotter Than a Hot Tub: The 45°C Breakthrough to Cool AI’s Biggest Machines",
+          "url": "https://blogs.nvidia.com/blog/liquid-cooling-ai-factories/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/liquid-cooling-ai-factories/"
+      ],
+      "repo": "coollabsio/coolify"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-24T00:00:00Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Introducing the FFASR Leaderboard: Benchmarking ASR in the Real World",
+          "url": "https://huggingface.co/blog/ffasr-leaderboard"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/ffasr-leaderboard"
+      ],
+      "repo": "crewAIInc/crewAI"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-26T09:00:00Z",
+          "relevance_score": 0.2,
+          "source": "mit_technology_review",
+          "sources": [
+            "mit_technology_review"
+          ],
+          "title": "Heat waves mess with your brain. Scientists are trying to figure out why.",
+          "url": "https://www.technologyreview.com/2026/06/26/1139760/heat-waves-mess-with-your-brain-scientists-are-trying-to-figure-out-why/"
+        }
+      ],
+      "matched_articles": [
+        "https://www.technologyreview.com/2026/06/26/1139760/heat-waves-mess-with-your-brain-scientists-are-trying-to-figure-out-why/"
+      ],
+      "repo": "danielmiessler/SecLists"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-22T13:00:20Z",
+          "relevance_score": 0.4,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Vera CPU Opens the Way for Agentic Scientific AI at Los Alamos National Laboratory",
+          "url": "https://blogs.nvidia.com/blog/nvidia-vera-cpu-los-alamos-national-laboratory/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nvidia-vera-cpu-los-alamos-national-laboratory/"
+      ],
+      "repo": "daytonaio/daytona"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-22T13:18:56Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "PP-OCRv6 on Hugging Face: 50-Language OCR from 1.5M to 34.5M Parameters",
+          "url": "https://huggingface.co/blog/PaddlePaddle/pp-ocrv6"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/PaddlePaddle/pp-ocrv6"
+      ],
+      "repo": "deepfakes/faceswap"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-27T16:45:09Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "Apple Vision Pro exec is reportedly leaving for OpenAI",
+          "url": "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/27/apple-vision-pro-exec-is-reportedly-leaving-for-openai/"
+      ],
+      "repo": "deltabarbershopofficial-cloud/DBD-AutoGrind-Trainer-2026-Pro"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-22T13:00:38Z",
+          "relevance_score": 0.6,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NAIRR Science Program Reshapes Scientific Research, Powered by NVIDIA AI Infrastructure",
+          "url": "https://blogs.nvidia.com/blog/nairr-scientific-research-ai-infrastructure/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/nairr-scientific-research-ai-infrastructure/"
+      ],
+      "repo": "elastic/elasticsearch"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-27T20:42:36Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "SoftBank’s CEO isn’t the only one with questions about Elon Musk’s orbital data center hype",
+          "url": "https://techcrunch.com/2026/06/27/softbanks-ceo-isnt-the-only-one-with-questions-about-elon-musks-orbital-data-center-hype/"
+        },
+        {
+          "published_at": "2026-06-23T06:00:09Z",
+          "relevance_score": 0.8,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "NVIDIA Brings Trusted, 24/7 AI Agents to Telecom Operations",
+          "url": "https://blogs.nvidia.com/blog/telecom-ai-agents-dtw-ignite-2026/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/27/softbanks-ceo-isnt-the-only-one-with-questions-about-elon-musks-orbital-data-center-hype/",
+        "https://blogs.nvidia.com/blog/telecom-ai-agents-dtw-ignite-2026/"
+      ],
+      "repo": "electron/electron"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-28T21:34:14Z",
+          "relevance_score": 0.2,
+          "source": "techcrunch",
+          "sources": [
+            "techcrunch"
+          ],
+          "title": "California law targeting loud streaming ads takes effect on July 1",
+          "url": "https://techcrunch.com/2026/06/28/california-law-targeting-loud-streaming-ads-takes-effect-on-july-1/"
+        },
+        {
+          "published_at": "2026-06-23T15:48:00Z",
+          "relevance_score": 1.0,
+          "source": "github_blog",
+          "sources": [
+            "github_blog"
+          ],
+          "title": "GitHub joins coalition advocating for fixes to California AI Transparency Act to protect open source",
+          "url": "https://github.blog/news-insights/policy-news-and-insights/github-joins-coalition-advocating-for-fixes-to-california-ai-transparency-act-to-protect-open-source/"
+        }
+      ],
+      "matched_articles": [
+        "https://techcrunch.com/2026/06/28/california-law-targeting-loud-streaming-ads-takes-effect-on-july-1/",
+        "https://github.blog/news-insights/policy-news-and-insights/github-joins-coalition-advocating-for-fixes-to-california-ai-transparency-act-to-protect-open-source/"
+      ],
+      "repo": "excalidraw/excalidraw"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-23T00:00:00Z",
+          "relevance_score": 0.8,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Experimenting with the proposed Cross-Origin Storage API in Transformers.js",
+          "url": "https://huggingface.co/blog/cross-origin-storage"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/cross-origin-storage"
+      ],
+      "repo": "fastapi/fastapi"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-24T00:00:00Z",
+          "relevance_score": 0.0,
+          "source": "hugging_face_blog",
+          "sources": [
+            "hugging_face_blog"
+          ],
+          "title": "Introducing the FFASR Leaderboard: Benchmarking ASR in the Real World",
+          "url": "https://huggingface.co/blog/ffasr-leaderboard"
+        }
+      ],
+      "matched_articles": [
+        "https://huggingface.co/blog/ffasr-leaderboard"
+      ],
+      "repo": "firecrawl/firecrawl"
+    },
+    {
+      "correlation_confidence": 0.6,
+      "correlation_strength": "weak",
+      "hype_risk": "medium",
+      "match_type": "project_name",
+      "matched_article_details": [
+        {
+          "published_at": "2026-06-22T05:00:22Z",
+          "relevance_score": 0.2,
+          "source": "nvidia_blog",
+          "sources": [
+            "nvidia_blog"
+          ],
+          "title": "Hotter Than a Hot Tub: The 45°C Breakthrough to Cool AI’s Biggest Machines",
+          "url": "https://blogs.nvidia.com/blog/liquid-cooling-ai-factories/"
+        }
+      ],
+      "matched_articles": [
+        "https://blogs.nvidia.com/blog/liquid-cooling-ai-factories/"
+      ],
+      "repo": "flutter/flutter"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "press_correlations"
+}

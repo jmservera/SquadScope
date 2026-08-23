@@ -1,0 +1,35 @@
+{
+  "analysis_file": "data/candidates/2026-W25/27637885716/2026-W25-summary.md",
+  "errors_after_repair": [],
+  "errors_before_repair": [],
+  "failure_class": "passed",
+  "failure_summary": {
+    "error_count": 0,
+    "failure_categories": [],
+    "failure_class": "passed",
+    "retryable": false
+  },
+  "gates": {
+    "ai_provenance": {
+      "errors": [],
+      "passed": true
+    },
+    "editorial_quality": {
+      "errors": [],
+      "passed": true
+    },
+    "evidence_citation": {
+      "errors": [],
+      "passed": true
+    },
+    "structural_schema": {
+      "errors": [],
+      "passed": true
+    }
+  },
+  "model": "copilot-default",
+  "passed": true,
+  "repair_actions": [],
+  "source": "copilot-cli",
+  "word_count": 1404
+}

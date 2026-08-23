@@ -1,0 +1,28 @@
+{
+  "checksum_sha256": "2d43fc46afaac73bf7c54563510c74fa341400351c605b31343b69478cb47917",
+  "component": "prior_continuity",
+  "provenance": {
+    "sources": {
+      "prior_summary": {
+        "bytes": 8107,
+        "path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W26-summary.md",
+        "sha256": "6ecee1a44b3d9551e73d4ac58cab591a6793400c1f1b445853f5105f06c77959"
+      },
+      "raw_json": {
+        "bytes": 296902,
+        "path": "data/raw/2026-W27.json",
+        "sha256": "a1694754079801ee8b67630cf3f5128729c6003f25f2b7ce640e66806293d02f"
+      }
+    },
+    "week": "2026-W27"
+  },
+  "records": [
+    {
+      "excerpt": "---\ntitle: \"Agent Frameworks Meet the Noise Machine\"\ndate: 2026-06-22T07:56:07Z\nweek: \"2026-W26\"\nyear: 2026\ntags: [agent-frameworks, mcp, agent-skills, security, model-routing, noise-floor]\ncategories: [weekly]\nrepos_featured: 50\nstars_tracked: 6052532\ntop_repo: \"vercel/eve\"\nquality_score: 84\nsummary: \"Week 26 turns agent tooling into product infrastructure while fork-inflated crypto spam and free-Claude bait distort the leaderboard.\"\npredictions:\n  - repo: vercel/eve\n    claim_type: signal\n    direction: up\n    confidence: 0.76\n  - repo: cloudflare/security-audit-skill\n    claim_type: signal\n    direction: up\n    confidence: 0.72\n  - repo: MstKail/polymarket-trading-bot-services-polyedge365\n    claim_type: noise\n    direction: down\n    confidence: 0.83\n  - repo: Plaer1/junction\n    claim_type: signal\n    direction: flat\n    confidence: 0.67\n  - repo: Forsy-AI/agent-apprenticeship\n    claim_type: gap\n    direction: flat\n    confidence: 0.61\n---\n\n## This Week's Trends\n\n**Agent framework",
+      "present": true,
+      "source_path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W26-summary.md"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "prior_continuity"
+}
