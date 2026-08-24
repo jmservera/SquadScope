@@ -10,7 +10,7 @@ import sys
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterable
 
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -64,14 +64,24 @@ def _week_date(period: str, weekday: int) -> date:
     return date.fromisocalendar(int(year), int(week), weekday)
 
 
-def _relative_paths(root: Path, paths: set[Path]) -> list[str]:
-    return sorted(path.resolve().relative_to(root).as_posix() for path in paths)
+def _repository_sources(root: Path, paths: Iterable[Path]) -> list[tuple[str, Path]]:
+    resolved_root = root.resolve()
+    sources = []
+    for path in paths:
+        resolved_path = path.resolve()
+        relative_path = resolved_path.relative_to(resolved_root).as_posix()
+        sources.append((relative_path, resolved_path))
+    return sorted(sources, key=lambda source: source[0])
 
 
-def _checksum(paths: list[Path]) -> str:
+def _relative_paths(root: Path, paths: Iterable[Path]) -> list[str]:
+    return [relative_path for relative_path, _ in _repository_sources(root, paths)]
+
+
+def _checksum(root: Path, paths: Iterable[Path]) -> str:
     digest = hashlib.sha256()
-    for path in sorted(paths):
-        digest.update(path.as_posix().encode("utf-8"))
+    for relative_path, path in _repository_sources(root, paths):
+        digest.update(relative_path.encode("utf-8"))
         digest.update(b"\0")
         digest.update(path.read_bytes())
         digest.update(b"\0")
@@ -163,7 +173,6 @@ def ranking_envelope(
     source_paths: set[Path],
     records: list[dict[str, Any]],
 ) -> dict[str, Any]:
-    resolved_paths = sorted(path.resolve() for path in source_paths)
     return {
         "schema_version": SCHEMA_VERSION,
         "artifact_type": "ranking",
@@ -178,9 +187,9 @@ def ranking_envelope(
         },
         "provenance": {
             "generator": "scripts/generate_ranking_artifacts.py",
-            "source_paths": _relative_paths(root, set(resolved_paths)),
+            "source_paths": _relative_paths(root, source_paths),
             "methodology_url": METHODOLOGY_URL,
-            "source_checksum": _checksum(resolved_paths),
+            "source_checksum": _checksum(root, source_paths),
         },
         "records": sorted(records, key=lambda item: (item["rank"], item["full_name"].lower())),
     }

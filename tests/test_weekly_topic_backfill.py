@@ -2,16 +2,28 @@ from __future__ import annotations
 
 import json
 import re
+import tomllib
 from pathlib import Path
 
-from scripts.backfill_weekly_topics import backfill_document, backfill_weekly_topics
+import yaml
+
+from scripts.backfill_weekly_topics import (
+    backfill_document,
+    backfill_weekly_topics,
+    render_topics_line,
+)
 from scripts.generate_content import FRONTMATTER_PATTERN
 
 ROOT = Path(__file__).resolve().parent.parent
+SEED_TOPICS = set(
+    tomllib.loads((ROOT / "config" / "observatory.toml").read_text(encoding="utf-8"))["topic_hubs"][
+        "seed_topics"
+    ]
+)
 
 EXPECTED_TOPICS = {
     "W21.md": ["AI Coding Agents", "MCP Ecosystem"],
-    "W22.md": ["AI Coding Agents", "Open-Source LLMs", "Developer Tools"],
+    "W22.md": ["AI Coding Agents", "Open-Source LLMs", "Developer Tools", "Local First"],
     "W23.md": ["AI Coding Agents"],
     "W24.md": ["AI Coding Agents", "Local First"],
     "W25.md": ["AI Coding Agents", "Open-Source LLMs"],
@@ -19,20 +31,31 @@ EXPECTED_TOPICS = {
     "W27.md": ["AI Coding Agents", "Local First"],
     "W28.md": ["AI Coding Agents", "Local First"],
     "W29.md": ["AI Coding Agents", "Developer Tools", "Local First"],
-    "W30.md": ["AI Coding Agents", "Open-Source LLMs"],
+    "W30.md": ["AI Coding Agents", "Open-Source LLMs", "Local First"],
     "W31.md": [
         "AI Coding Agents",
         "Developer Tools",
         "AI Agents in Healthcare",
         "Local First",
     ],
-    "W32.md": ["AI Coding Agents", "Developer Tools"],
-    "W33.md": ["AI Coding Agents", "Developer Tools"],
+    "W32.md": ["AI Coding Agents", "Developer Tools", "Local First"],
+    "W33.md": ["AI Coding Agents", "Developer Tools", "Local First"],
+    "W34.md": ["AI Coding Agents", "MCP Ecosystem", "Developer Tools", "Local First"],
+    "W35.md": ["AI Coding Agents", "MCP Ecosystem", "Developer Tools", "Local First"],
 }
 
 
 def _without_topics(document: str) -> str:
     return re.sub(r"^topics:.*\n", "", document, count=1, flags=re.MULTILINE)
+
+
+def _without_seed_topics(document: str) -> str:
+    match = re.search(r"^topics:.*\n", document, flags=re.MULTILINE)
+    assert match
+    topics = yaml.safe_load(match.group())["topics"]
+    retained = [topic for topic in topics if topic not in SEED_TOPICS]
+    replacement = f"{render_topics_line(retained)}\n" if retained else ""
+    return document[: match.start()] + replacement + document[match.end() :]
 
 
 def test_backfill_document_preserves_body_and_unrelated_frontmatter() -> None:
@@ -64,7 +87,7 @@ def test_backfill_is_idempotent_and_assigns_expected_topics(tmp_path: Path) -> N
     weekly_root.mkdir(parents=True)
     for source in sorted((ROOT / "content" / "weekly" / "2026").glob("W*.md")):
         (weekly_root / source.name).write_text(
-            _without_topics(source.read_text(encoding="utf-8")), encoding="utf-8"
+            _without_seed_topics(source.read_text(encoding="utf-8")), encoding="utf-8"
         )
     for source in sorted((ROOT / "content" / "topics").glob("*/_index.md")):
         target = tmp_path / "content" / "topics" / source.parent.name / "_index.md"
@@ -74,7 +97,7 @@ def test_backfill_is_idempotent_and_assigns_expected_topics(tmp_path: Path) -> N
     registry.parent.mkdir(parents=True)
     registry.write_bytes((ROOT / "data" / "taxonomy" / "topics.json").read_bytes())
 
-    assert len(backfill_weekly_topics(root=tmp_path)) == 13
+    assert len(backfill_weekly_topics(root=tmp_path)) == 15
     first_bytes = {path.name: path.read_bytes() for path in sorted(weekly_root.glob("W*.md"))}
     assert backfill_weekly_topics(root=tmp_path) == []
     assert first_bytes == {
@@ -84,8 +107,6 @@ def test_backfill_is_idempotent_and_assigns_expected_topics(tmp_path: Path) -> N
     for path in sorted(weekly_root.glob("W*.md")):
         frontmatter = FRONTMATTER_PATTERN.match(path.read_text(encoding="utf-8"))
         assert frontmatter
-        import yaml
-
         assert yaml.safe_load(frontmatter.group(1))["topics"] == EXPECTED_TOPICS[path.name]
 
 

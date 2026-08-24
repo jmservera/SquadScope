@@ -162,6 +162,35 @@ def test_ranking_artifact_is_deterministic() -> None:
         shutil.rmtree(root, ignore_errors=True)
 
 
+def test_source_checksum_is_checkout_root_independent() -> None:
+    first_root = ranking_fixture_root(".pytest-ranking-checksum-first-root")
+    second_root = ranking_fixture_root(".pytest-ranking-checksum-second-root")
+    relative_path = Path("data/raw/2026-W33.json")
+    source_bytes = b'{"week":"2026-W33"}\n'
+    try:
+        first_source = first_root / relative_path
+        second_source = second_root / relative_path
+        first_source.write_bytes(source_bytes)
+        second_source.write_bytes(source_bytes)
+
+        first_digest = generate_ranking_artifacts._checksum(first_root, [first_source])
+        assert first_digest == generate_ranking_artifacts._checksum(second_root, [second_source])
+        assert generate_ranking_artifacts._relative_paths(first_root, [first_source]) == [
+            relative_path.as_posix()
+        ]
+
+        alternate_source = second_root / "data/archive/2026-W33.json"
+        alternate_source.parent.mkdir(parents=True, exist_ok=True)
+        alternate_source.write_bytes(source_bytes)
+        assert first_digest != generate_ranking_artifacts._checksum(second_root, [alternate_source])
+
+        second_source.write_bytes(b'{"week":"2026-W34"}\n')
+        assert first_digest != generate_ranking_artifacts._checksum(second_root, [second_source])
+    finally:
+        shutil.rmtree(first_root, ignore_errors=True)
+        shutil.rmtree(second_root, ignore_errors=True)
+
+
 def test_ranking_artifact_schema_version() -> None:
     root = ranking_fixture_root(".pytest-ranking-schema")
     try:
