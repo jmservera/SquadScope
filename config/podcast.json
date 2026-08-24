@@ -46,7 +46,7 @@
       "distinctiveness": "Must not replicate or closely resemble any named podcast's style, segment labels, or trademarked phrasing."
     },
     "music_mix": {
-      "track": "Summer Sport",
+      "track": "Claracle Theme",
       "voice_guardrail": "Music must NEVER exceed 10% volume when any voice is playing. Only go above 10% during guaranteed silence: intro opening, post-intro musical break, and outro after all voices end.",
       "speech_duck_gain": 0.10,
       "intro": {
@@ -70,7 +70,7 @@
   },
   "spotify_publish": {
     "title_template": "Why {article_title} Matters for AI, GitHub & Developer Trends | W{week}",
-    "description_template": "<p>{article_summary}</p><p>Claracle is your tech weekly for developer trends, AI news, GitHub insights, and software engineering trends—helping you understand what matters and why.</p><p>Read more at <a href=\"https://claracle.com\" target=\"_blank\" rel=\"ugc noopener noreferrer\">Claracle</a></p><p><br /></p><p>Music by AudioCoffee<br />https://www.audiocoffee.net/<br />youtube.com/@audiocoffeemusic</p>",
+    "description_template": "<p>{article_summary}</p><p>Claracle is your tech weekly for developer trends, AI news, GitHub insights, and software engineering trends—helping you understand what matters and why.</p><p>Read more at <a href=\"https://claracle.com\" target=\"_blank\" rel=\"ugc noopener noreferrer\">Claracle</a></p>",
     "season_number": "{year}",
     "episode_number": "{week}",
     "publish_mode": "draft",
