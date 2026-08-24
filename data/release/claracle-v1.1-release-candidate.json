@@ -5,8 +5,8 @@
     "verified_at": "2026-08-12T22:11:00Z"
   },
   "candidate_frozen_at": "2026-08-23T18:04:43Z",
-  "candidate_product_tree_sha256": "e11a7bc532f7803b52e3aef69e750b7e20239f1fa5e74c9721b0a5ed6b651cc5",
-  "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862",
+  "candidate_product_tree_sha256": "5b2acbc43ee55f0e0a50afc7815ad2b70567956b668b3082d5cac323930010b5",
+  "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270",
   "deployment": {
     "deployed_at": null,
     "evidence": [],
@@ -21,19 +21,19 @@
           "type": "automated-summary",
           "path": "docs/review/claracle-post-relaunch/issue-722-hydration-evidence.md",
           "sha256": "5bdf27d6e43d5c5468f10e1c4226c22a6a9352c057045b7adf6488e17e5fbf75",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862"
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270"
         },
         {
           "type": "browser-contract",
           "path": "tests/visual/repository-explorer.spec.mjs",
           "sha256": "b1952b2aa82b7b458452bc5b9428027c4f39821c1be3a986bdc22507a2c4bbf5",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862"
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270"
         },
         {
           "type": "visual-evidence-contract",
           "path": "tests/visual/observatory-visual-regression.spec.mjs",
           "sha256": "87ea4ab0b8679cb8e7d527c4e01ce27d47aa9e98ebd61ad774391a10a1b78a84",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862"
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270"
         }
       ],
       "id": "DRF-01",
@@ -44,7 +44,7 @@
           "reviewer": "Squad Amy",
           "role": "Amy",
           "reviewed_at": "2026-08-23T18:04:43Z",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862",
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -53,7 +53,7 @@
           "reviewer": "Squad Fry",
           "role": "Fry",
           "reviewed_at": "2026-08-23T18:04:43Z",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862",
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -69,19 +69,19 @@
           "type": "automated-summary",
           "path": "docs/review/claracle-post-relaunch/issue-722-hydration-evidence.md",
           "sha256": "5bdf27d6e43d5c5468f10e1c4226c22a6a9352c057045b7adf6488e17e5fbf75",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862"
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270"
         },
         {
           "type": "browser-contract",
           "path": "tests/visual/observatory-a11y.spec.mjs",
           "sha256": "32e1d98b5293cff3b6f1307da21db4d6d530c665769b3656725f4da784ef9c8f",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862"
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270"
         },
         {
           "type": "visual-evidence-contract",
           "path": "tests/visual/observatory-visual-regression.spec.mjs",
           "sha256": "87ea4ab0b8679cb8e7d527c4e01ce27d47aa9e98ebd61ad774391a10a1b78a84",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862"
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270"
         }
       ],
       "id": "DRF-02",
@@ -92,7 +92,7 @@
           "reviewer": "Squad Amy",
           "role": "Amy",
           "reviewed_at": "2026-08-23T18:04:43Z",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862",
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -101,7 +101,7 @@
           "reviewer": "Squad Fry",
           "role": "Fry",
           "reviewed_at": "2026-08-23T18:04:43Z",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862",
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -117,13 +117,13 @@
           "type": "automated-summary",
           "path": "docs/review/claracle-post-relaunch/issue-722-hydration-evidence.md",
           "sha256": "5bdf27d6e43d5c5468f10e1c4226c22a6a9352c057045b7adf6488e17e5fbf75",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862"
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270"
         },
         {
           "type": "browser-contract",
           "path": "tests/visual/observatory-a11y.spec.mjs",
           "sha256": "32e1d98b5293cff3b6f1307da21db4d6d530c665769b3656725f4da784ef9c8f",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862"
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270"
         }
       ],
       "id": "DRF-03",
@@ -134,7 +134,7 @@
           "reviewer": "Squad Amy",
           "role": "Amy",
           "reviewed_at": "2026-08-23T18:04:43Z",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862",
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -143,7 +143,7 @@
           "reviewer": "Squad Fry",
           "role": "Fry",
           "reviewed_at": "2026-08-23T18:04:43Z",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862",
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -156,7 +156,7 @@
         "rationale": "Sponsor lacks screen-reader access and a genuine accessibility expert; automation cannot substitute for a live screen-reader review.",
         "compensating_control": "Automated accessibility, keyboard, and status-announcement test coverage retained in CI; no further accessibility-affecting UI changes ship without re-running the full suite. Tracked in issue #714.",
         "issue_url": "https://github.com/jmservera/SquadScope/issues/714",
-        "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862",
+        "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270",
         "decided_at": "2026-08-23T18:04:43Z",
         "expires_at": "2026-11-11T16:50:19Z"
       }
@@ -167,13 +167,13 @@
           "type": "automated-summary",
           "path": "docs/review/claracle-post-relaunch/issue-722-hydration-evidence.md",
           "sha256": "5bdf27d6e43d5c5468f10e1c4226c22a6a9352c057045b7adf6488e17e5fbf75",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862"
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270"
         },
         {
           "type": "browser-contract",
           "path": "tests/visual/observatory-a11y.spec.mjs",
           "sha256": "32e1d98b5293cff3b6f1307da21db4d6d530c665769b3656725f4da784ef9c8f",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862"
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270"
         }
       ],
       "id": "DRF-04",
@@ -184,7 +184,7 @@
           "reviewer": "Squad Fry",
           "role": "Fry",
           "reviewed_at": "2026-08-23T18:04:43Z",
-          "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862",
+          "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270",
           "disposition": "pass",
           "findings": [],
           "unresolved_work": []
@@ -207,7 +207,7 @@
         "rationale": "Sponsor lacks screen-reader access and a genuine accessibility expert; automation cannot substitute for a live screen-reader review.",
         "compensating_control": "Automated accessibility, keyboard, and status-announcement test coverage retained in CI; no further accessibility-affecting UI changes ship without re-running the full suite. Tracked in issue #714.",
         "issue_url": "https://github.com/jmservera/SquadScope/issues/714",
-        "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862",
+        "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270",
         "decided_at": "2026-08-23T18:04:43Z",
         "expires_at": "2026-11-11T16:50:19Z"
       }
@@ -313,7 +313,7 @@
   },
   "schema_version": "1.1.0",
   "sponsor": {
-    "candidate_sha": "59aee4af0a65cbee9ef240dad8e6dfa8e7f47862",
+    "candidate_sha": "2088d44bfc9c716221ddbf2f7a8ed6bc89465270",
     "decided_at": "2026-08-23T18:04:43Z",
     "reviewer": "jmservera",
     "status": "go"
