@@ -399,11 +399,39 @@
       "source_id": "SRC-2026-W34",
       "status": "resolved",
       "text": "Watch whether harness projects add hard trust features: permission boundaries, replayable logs, approval queues, and policy-aware skill loading. The skills economy has not peaked, but the next meaningful step will be less about new skill packs and more about discovery, provenance, and runtime control. If [CopilotKit/OpenBot](https://github.com/CopilotKit/OpenBot)-style action recording and [cinderline/northcinder](https://github.com/cinderline/northcinder)-style human checkpoints spread, August's agent story will move from novelty packaging to operational governance."
+    },
+    {
+      "claim_id": "CLM-2026-W35-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W35",
+      "status": "resolved",
+      "text": "Agent skills spread into design, security, and devices while trust, provenance, and review boundaries became the real bottleneck."
+    },
+    {
+      "claim_id": "CLM-2026-W35-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W35",
+      "status": "resolved",
+      "text": "The durable signal is clustered around boundaries: routing boundaries in [wang2122/sprix-sage-router](https://github.com/wang2122/sprix-sage-router), tool boundaries in [duty1g/x64dbg-mcp-server](https://github.com/duty1g/x64dbg-mcp-server), device boundaries in [ZSeven-W/dsh-ios](https://github.com/ZSeven-W/dsh-ios), and workspace boundaries in [missuo/herdrm](https://github.com/missuo/herdrm) and [iAmCorey/Wake](https://github.com/iAmCorey/Wake). These projects are credible because they solve concrete coordination and control problems created by agent adoption. The skills expansion is also real when it appears across independent authors and use cases, especially design, video, and front-end production. The noise is concentrated where attention outpaces accountability. [ShadowAqueduct/watermark-remover](https://github.com/ShadowAqueduct/watermark-remover) is not just a questionable utility; it is a sign that provenance countermeasures will be actively contested. [PentagonConure42/youtube-downloader-zen](https://github.com/PentagonConure42/youtube-downloader-zen) remains weak because its keyword-stuffed topic list and zero forks do not support its hundreds of stars. [xdreizein666/getcontact-cli](https://github.com/xdreizein666/getcontact-cli) and [lanicer/cve-2026-41940-PoC](https://github.com/lanicer/cve-2026-41940-PoC) may draw attention, but they sit closer to privacy and exploit churn than to durable ecosystem infrastructure. [Forsy-AI/biosecurity-agent](https://github.com/Forsy-AI/biosecurity-agent) is notable, but its broad claim deserves skepticism until the safety model is clearer."
+    },
+    {
+      "claim_id": "CLM-2026-W35-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W35",
+      "status": "resolved",
+      "text": "The largest absence is a serious provenance layer for agent-generated work. The week contains skills for logos, presenter videos, scroll-driven sites, and watermark removal, but little visible tooling for durable attribution, consent tracking, or output audit trails. That absence matters because press coverage is already focused on copyright, AI drug credit, and synthetic instructors. Evaluation is also underrepresented. Multi-agent routing, coding-session consoles, and MCP device control are growing faster than test harnesses for agent reliability, rollback, or policy compliance. Finally, biosecurity and offensive-security automation appear as isolated attention magnets rather than mature safety tooling, which leaves a gap between high-risk domain automation and reviewable guardrails."
+    },
+    {
+      "claim_id": "CLM-2026-W35-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W35",
+      "status": "resolved",
+      "text": "Watch whether agent skills acquire trust metadata or keep spreading as informal prompt packages. The next credible wave should connect routing, local consoles, and MCP tools with permissioning, logging, and evaluation rather than adding more surfaces for agents to touch. If the ecosystem follows this week's strongest evidence, the winning projects will make agent action less magical and more inspectable."
     }
   ],
   "counts": {
-    "claims": 57,
-    "sources": 14
+    "claims": 61,
+    "sources": 15
   },
   "months_covered": [
     "2026-05",
@@ -626,6 +654,22 @@
       "title": "Harnesses Took Over the Agent Stack",
       "top_repo": "CopilotKit/OpenBot",
       "week": "2026-W34"
+    },
+    {
+      "month": "2026-08",
+      "source_id": "SRC-2026-W35",
+      "tags": [
+        "ai-agents",
+        "agent-skills",
+        "mcp",
+        "developer-tools",
+        "ai-safety",
+        "provenance",
+        "self-hosting"
+      ],
+      "title": "Agent Skills Hit the Trust Wall",
+      "top_repo": "wang2122/sprix-sage-router",
+      "week": "2026-W35"
     }
   ],
   "year": 2026
