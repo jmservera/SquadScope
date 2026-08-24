@@ -257,7 +257,19 @@ def source_summary(paths: set[Path]) -> str:
     relative = sorted(path.relative_to(REPO_ROOT).as_posix() for path in paths)
     if len(relative) <= 3:
         return ", ".join(relative)
-    return f"{relative[0]} through {relative[-1]} ({len(relative)} weekly raw artifacts)"
+    weeks = sorted(path.stem for path in paths if WEEK_RE.fullmatch(path.stem))
+    source_dirs = set()
+    for path in paths:
+        source_root = next(
+            (root for root in (RAW_DIR, ARCHIVE_DIR) if path.is_relative_to(root)),
+            path.parent,
+        )
+        source_dirs.add(source_root.relative_to(REPO_ROOT).as_posix())
+    week_range = f"{weeks[0]} through {weeks[-1]}" if weeks else "weekly range unavailable"
+    return (
+        f"{week_range} ({len(relative)} weekly raw artifacts from "
+        f"{' and '.join(sorted(source_dirs))})"
+    )
 
 
 def row(

@@ -1,17 +1,17 @@
 +++
-title = "Most-starred MCP projects as of 2026-W33"
-date = "2026-08-10T07:34:14Z"
-lastmod = "2026-08-10T07:34:14Z"
+title = "Most-starred MCP projects as of 2026-W35"
+date = "2026-08-24T01:48:55Z"
+lastmod = "2026-08-24T01:48:55Z"
 draft = false
-summary = "Top 83 MCP-related repositories ranked by latest checked-in stars."
-description = "Model Context Protocol projects ranked by latest observed GitHub stars from Claracle raw artifacts as of 2026-W33."
+summary = "Top 94 MCP-related repositories ranked by latest checked-in stars."
+description = "Model Context Protocol projects ranked by latest observed GitHub stars from Claracle raw artifacts as of 2026-W35."
 layout = "single"
 ranking_id = "most-starred-mcp-projects"
 metric_definition = "Latest absolute GitHub stars for repositories with MCP or Model Context Protocol signals."
-as_of = "2026-08-10"
-as_of_week = "2026-W33"
+as_of = "2026-08-24"
+as_of_week = "2026-W35"
 methodology_url = "/methodology/"
-source = "data/archive/recovered-W23-W29/2026-W23/2026-W23.json through data/raw/2026-W33.json (13 weekly raw artifacts)"
+source = "2026-W21 through 2026-W35 (15 weekly raw artifacts from data/archive/recovered-W23-W29 and data/raw)"
 cadence = "Monthly regeneration from checked-in data/raw and recovered archive artifacts."
 categories = ["Data Observatory"]
 tags = ["data-pages", "github-trends", "rankings"]
@@ -25,14 +25,14 @@ repo_key = "affaan-m/ecc"
 repo_slug = "affaan-m-ecc"
 url = "https://github.com/affaan-m/ECC"
 github_url = "https://github.com/affaan-m/ECC"
-metric_value = 239078
-metric_label = "239,078 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; JavaScript."
+metric_value = 242577
+metric_label = "242,577 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; JavaScript."
 context_summary = "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode…"
 context_accessible_text = "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond."
 language = "JavaScript"
-latest_stars = 239078
-last_seen_week = "2026-W33"
+latest_stars = 242577
+last_seen_week = "2026-W35"
 
 [[ranking]]
 rank = 2
@@ -41,14 +41,14 @@ repo_key = "n8n-io/n8n"
 repo_slug = "n8n-io-n8n"
 url = "https://github.com/n8n-io/n8n"
 github_url = "https://github.com/n8n-io/n8n"
-metric_value = 200037
-metric_label = "200,037 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; TypeScript."
+metric_value = 202161
+metric_label = "202,161 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; TypeScript."
 context_summary = "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations."
 context_accessible_text = "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations."
 language = "TypeScript"
-latest_stars = 200037
-last_seen_week = "2026-W33"
+latest_stars = 202161
+last_seen_week = "2026-W35"
 
 [[ranking]]
 rank = 3
@@ -73,14 +73,14 @@ repo_key = "snailclimb/javaguide"
 repo_slug = "snailclimb-javaguide"
 url = "https://github.com/Snailclimb/JavaGuide"
 github_url = "https://github.com/Snailclimb/JavaGuide"
-metric_value = 157650
-metric_label = "157,650 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; JavaScript."
+metric_value = 157977
+metric_label = "157,977 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; JavaScript."
 context_summary = "Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发、系统设计与 AI 应用开发"
 context_accessible_text = "Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发、系统设计与 AI 应用开发"
 language = "JavaScript"
-latest_stars = 157650
-last_seen_week = "2026-W33"
+latest_stars = 157977
+last_seen_week = "2026-W35"
 
 [[ranking]]
 rank = 5
@@ -89,14 +89,14 @@ repo_key = "langgenius/dify"
 repo_slug = "langgenius-dify"
 url = "https://github.com/langgenius/dify"
 github_url = "https://github.com/langgenius/dify"
-metric_value = 151922
-metric_label = "151,922 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; TypeScript."
+metric_value = 153295
+metric_label = "153,295 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; TypeScript."
 context_summary = "Build Agentic workflows, RAG pipelines, with rich AI model and tool support on one collaborative workspace. Deploy on cloud, VPC, or self-hosted, so teams…"
 context_accessible_text = "Build Agentic workflows, RAG pipelines, with rich AI model and tool support on one collaborative workspace. Deploy on cloud, VPC, or self-hosted, so teams move from prototype to production without rebuilding the stack."
 language = "TypeScript"
-latest_stars = 151922
-last_seen_week = "2026-W33"
+latest_stars = 153295
+last_seen_week = "2026-W35"
 
 [[ranking]]
 rank = 6
@@ -105,14 +105,14 @@ repo_key = "open-webui/open-webui"
 repo_slug = "open-webui-open-webui"
 url = "https://github.com/open-webui/open-webui"
 github_url = "https://github.com/open-webui/open-webui"
-metric_value = 148353
-metric_label = "148,353 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; Python."
+metric_value = 149691
+metric_label = "149,691 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; Python."
 context_summary = "User-friendly AI Interface (Supports Ollama, OpenAI API, ...)"
 context_accessible_text = "User-friendly AI Interface (Supports Ollama, OpenAI API, ...)"
 language = "Python"
-latest_stars = 148353
-last_seen_week = "2026-W33"
+latest_stars = 149691
+last_seen_week = "2026-W35"
 
 [[ranking]]
 rank = 7
@@ -121,14 +121,14 @@ repo_key = "farion1231/cc-switch"
 repo_slug = "farion1231-cc-switch"
 url = "https://github.com/farion1231/cc-switch"
 github_url = "https://github.com/farion1231/cc-switch"
-metric_value = 126054
-metric_label = "126,054 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; Rust."
+metric_value = 129002
+metric_label = "129,002 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; Rust."
 context_summary = "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Grok Build & Hermes Agent. Only official website: ccswitch.io"
 context_accessible_text = "A cross-platform desktop All-in-One assistant for Claude Code, Codex, OpenCode, OpenClaw, Grok Build & Hermes Agent. Only official website: ccswitch.io"
 language = "Rust"
-latest_stars = 126054
-last_seen_week = "2026-W33"
+latest_stars = 129002
+last_seen_week = "2026-W35"
 
 [[ranking]]
 rank = 8
@@ -137,14 +137,14 @@ repo_key = "graphify-labs/graphify"
 repo_slug = "graphify-labs-graphify"
 url = "https://github.com/Graphify-Labs/graphify"
 github_url = "https://github.com/Graphify-Labs/graphify"
-metric_value = 104735
-metric_label = "104,735 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; Python."
+metric_value = 109846
+metric_label = "109,846 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; Python."
 context_summary = "Turn any codebase, with its docs, SQL schemas, configs, and PDFs, into a queryable knowledge graph. A /graphify skill for Claude Code, Cursor, Codex, and…"
 context_accessible_text = "Turn any codebase, with its docs, SQL schemas, configs, and PDFs, into a queryable knowledge graph. A /graphify skill for Claude Code, Cursor, Codex, and Gemini CLI: local deterministic AST parsing, every edge explained, no vector store."
 language = "Python"
-latest_stars = 104735
-last_seen_week = "2026-W33"
+latest_stars = 109846
+last_seen_week = "2026-W35"
 
 [[ranking]]
 rank = 9
@@ -153,14 +153,14 @@ repo_key = "punkpeye/awesome-mcp-servers"
 repo_slug = "punkpeye-awesome-mcp-servers"
 url = "https://github.com/punkpeye/awesome-mcp-servers"
 github_url = "https://github.com/punkpeye/awesome-mcp-servers"
-metric_value = 91743
-metric_label = "91,743 stars"
-context = "Matched MCP signal; latest observed in 2026-W32; Unknown."
+metric_value = 92719
+metric_label = "92,719 stars"
+context = "Matched MCP signal; latest observed in 2026-W34; Unknown."
 context_summary = "A collection of MCP servers."
 context_accessible_text = "A collection of MCP servers."
 language = "Unknown"
-latest_stars = 91743
-last_seen_week = "2026-W32"
+latest_stars = 92719
+last_seen_week = "2026-W34"
 
 [[ranking]]
 rank = 10
@@ -169,46 +169,46 @@ repo_key = "modelcontextprotocol/servers"
 repo_slug = "modelcontextprotocol-servers"
 url = "https://github.com/modelcontextprotocol/servers"
 github_url = "https://github.com/modelcontextprotocol/servers"
-metric_value = 89391
-metric_label = "89,391 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; TypeScript."
+metric_value = 89808
+metric_label = "89,808 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; TypeScript."
 context_summary = "Model Context Protocol Servers"
 context_accessible_text = "Model Context Protocol Servers"
 language = "TypeScript"
-latest_stars = 89391
-last_seen_week = "2026-W33"
+latest_stars = 89808
+last_seen_week = "2026-W35"
 
 [[ranking]]
 rank = 11
-repo = "lobehub/lobehub"
-repo_key = "lobehub/lobehub"
-repo_slug = "lobehub-lobehub"
-url = "https://github.com/lobehub/lobehub"
-github_url = "https://github.com/lobehub/lobehub"
-metric_value = 81463
-metric_label = "81,463 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; TypeScript."
-context_summary = "🤯 LobeHub is your Chief Agent Operator, organizing your agents into 7×24 operations by hiring, scheduling, and reporting on your entire AI team."
-context_accessible_text = "🤯 LobeHub is your Chief Agent Operator, organizing your agents into 7×24 operations by hiring, scheduling, and reporting on your entire AI team."
-language = "TypeScript"
-latest_stars = 81463
-last_seen_week = "2026-W33"
-
-[[ranking]]
-rank = 12
 repo = "koala73/worldmonitor"
 repo_key = "koala73/worldmonitor"
 repo_slug = "koala73-worldmonitor"
 url = "https://github.com/koala73/worldmonitor"
 github_url = "https://github.com/koala73/worldmonitor"
-metric_value = 80301
-metric_label = "80,301 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; TypeScript."
+metric_value = 83953
+metric_label = "83,953 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; TypeScript."
 context_summary = "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness…"
 context_accessible_text = "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface"
 language = "TypeScript"
-latest_stars = 80301
-last_seen_week = "2026-W33"
+latest_stars = 83953
+last_seen_week = "2026-W35"
+
+[[ranking]]
+rank = 12
+repo = "lobehub/lobehub"
+repo_key = "lobehub/lobehub"
+repo_slug = "lobehub-lobehub"
+url = "https://github.com/lobehub/lobehub"
+github_url = "https://github.com/lobehub/lobehub"
+metric_value = 81949
+metric_label = "81,949 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; TypeScript."
+context_summary = "🤯 LobeHub is your Chief Agent Operator, organizing your agents into 7×24 operations by hiring, scheduling, and reporting on your entire AI team."
+context_accessible_text = "🤯 LobeHub is your Chief Agent Operator, organizing your agents into 7×24 operations by hiring, scheduling, and reporting on your entire AI team."
+language = "TypeScript"
+latest_stars = 81949
+last_seen_week = "2026-W35"
 
 [[ranking]]
 rank = 13
@@ -217,14 +217,14 @@ repo_key = "netdata/netdata"
 repo_slug = "netdata-netdata"
 url = "https://github.com/netdata/netdata"
 github_url = "https://github.com/netdata/netdata"
-metric_value = 80098
-metric_label = "80,098 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; Go."
+metric_value = 80267
+metric_label = "80,267 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; Go."
 context_summary = "The fastest path to AI-powered full stack observability, even for lean teams."
 context_accessible_text = "The fastest path to AI-powered full stack observability, even for lean teams."
 language = "Go"
-latest_stars = 80098
-last_seen_week = "2026-W33"
+latest_stars = 80267
+last_seen_week = "2026-W35"
 
 [[ranking]]
 rank = 14
@@ -233,14 +233,14 @@ repo_key = "d4vinci/scrapling"
 repo_slug = "d4vinci-scrapling"
 url = "https://github.com/D4Vinci/Scrapling"
 github_url = "https://github.com/D4Vinci/Scrapling"
-metric_value = 73328
-metric_label = "73,328 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; Python."
+metric_value = 76119
+metric_label = "76,119 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; Python."
 context_summary = "🕷️ An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl!"
 context_accessible_text = "🕷️ An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl!"
 language = "Python"
-latest_stars = 73328
-last_seen_week = "2026-W33"
+latest_stars = 76119
+last_seen_week = "2026-W35"
 
 [[ranking]]
 rank = 15
@@ -281,14 +281,14 @@ repo_key = "headroomlabs-ai/headroom"
 repo_slug = "headroomlabs-ai-headroom"
 url = "https://github.com/headroomlabs-ai/headroom"
 github_url = "https://github.com/headroomlabs-ai/headroom"
-metric_value = 65698
-metric_label = "65,698 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; Python."
+metric_value = 67296
+metric_label = "67,296 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; Python."
 context_summary = "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20% fewer tokens for coding agents, 60-95% fewer tokens for JSON, same answers…"
 context_accessible_text = "Compress tool outputs, logs, files, and RAG chunks before they reach the LLM. 20% fewer tokens for coding agents, 60-95% fewer tokens for JSON, same answers. Library, proxy, MCP server."
 language = "Python"
-latest_stars = 65698
-last_seen_week = "2026-W33"
+latest_stars = 67296
+last_seen_week = "2026-W35"
 
 [[ranking]]
 rank = 18
@@ -297,14 +297,14 @@ repo_key = "upstash/context7"
 repo_slug = "upstash-context7"
 url = "https://github.com/upstash/context7"
 github_url = "https://github.com/upstash/context7"
-metric_value = 60517
-metric_label = "60,517 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; TypeScript."
+metric_value = 61118
+metric_label = "61,118 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; TypeScript."
 context_summary = "Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors"
 context_accessible_text = "Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors"
 language = "TypeScript"
-latest_stars = 60517
-last_seen_week = "2026-W33"
+latest_stars = 61118
+last_seen_week = "2026-W35"
 
 [[ranking]]
 rank = 19
@@ -313,14 +313,14 @@ repo_key = "mempalace/mempalace"
 repo_slug = "mempalace-mempalace"
 url = "https://github.com/MemPalace/mempalace"
 github_url = "https://github.com/MemPalace/mempalace"
-metric_value = 58265
-metric_label = "58,265 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; Python."
+metric_value = 58583
+metric_label = "58,583 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; Python."
 context_summary = "The best-benchmarked open-source AI memory system. And it's free."
 context_accessible_text = "The best-benchmarked open-source AI memory system. And it's free."
 language = "Python"
-latest_stars = 58265
-last_seen_week = "2026-W33"
+latest_stars = 58583
+last_seen_week = "2026-W35"
 
 [[ranking]]
 rank = 20
@@ -345,17 +345,65 @@ repo_key = "zylon-ai/private-gpt"
 repo_slug = "zylon-ai-private-gpt"
 url = "https://github.com/zylon-ai/private-gpt"
 github_url = "https://github.com/zylon-ai/private-gpt"
-metric_value = 57418
-metric_label = "57,418 stars"
-context = "Matched MCP signal; latest observed in 2026-W33; Python."
+metric_value = 57458
+metric_label = "57,458 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; Python."
 context_summary = "Complete API layer for private AI applications on local models: RAG, skills, tools, MCP, text-to-sql, and more. Works with any OpenAI-compatible inference…"
 context_accessible_text = "Complete API layer for private AI applications on local models: RAG, skills, tools, MCP, text-to-sql, and more. Works with any OpenAI-compatible inference server."
 language = "Python"
-latest_stars = 57418
-last_seen_week = "2026-W33"
+latest_stars = 57458
+last_seen_week = "2026-W35"
 
 [[ranking]]
 rank = 22
+repo = "CopilotKit/OpenBot"
+repo_key = "copilotkit/openbot"
+repo_slug = "copilotkit-openbot"
+url = "https://github.com/CopilotKit/OpenBot"
+github_url = "https://github.com/CopilotKit/OpenBot"
+metric_value = 2453
+metric_label = "2,453 stars"
+context = "Matched MCP signal; latest observed in 2026-W34; TypeScript."
+context_summary = "Open-source AI coworkers that each get a computer of their own: a browser, files and tools, with every action decided before it happens and recorded after…"
+context_accessible_text = "Open-source AI coworkers that each get a computer of their own: a browser, files and tools, with every action decided before it happens and recorded after. Bring any AG-UI agent."
+language = "TypeScript"
+latest_stars = 2453
+last_seen_week = "2026-W34"
+
+[[ranking]]
+rank = 23
+repo = "cinderline/northcinder"
+repo_key = "cinderline/northcinder"
+repo_slug = "cinderline-northcinder"
+url = "https://github.com/cinderline/northcinder"
+github_url = "https://github.com/cinderline/northcinder"
+metric_value = 1206
+metric_label = "1,206 stars"
+context = "Matched MCP signal; latest observed in 2026-W34; JavaScript."
+context_summary = "Open-source MCP server for comparing products and asking the buyer before purchase."
+context_accessible_text = "Open-source MCP server for comparing products and asking the buyer before purchase."
+language = "JavaScript"
+latest_stars = 1206
+last_seen_week = "2026-W34"
+
+[[ranking]]
+rank = 24
+repo = "duty1g/x64dbg-mcp-server"
+repo_key = "duty1g/x64dbg-mcp-server"
+repo_slug = "duty1g-x64dbg-mcp-server"
+url = "https://github.com/duty1g/x64dbg-mcp-server"
+github_url = "https://github.com/duty1g/x64dbg-mcp-server"
+metric_value = 903
+metric_label = "903 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; Zig."
+context_summary = "x64dbg-MCP Server is a native MCP (Model Context Protocol) plugin for x64dbg that exposes the debugger's full functionality over HTTP. Connect any…"
+context_accessible_text = "x64dbg-MCP Server is a native MCP (Model Context Protocol) plugin for x64dbg that exposes the debugger's full functionality over HTTP. Connect any MCP-compatible AI assistant and control x64dbg programmatically: set breakpoints, step through code, read memory, dump registers, and more. Built with Zig — zero dependencies, single-binary output, cros"
+language = "Zig"
+latest_stars = 903
+last_seen_week = "2026-W35"
+
+[[ranking]]
+rank = 25
 repo = "DenisSergeevitch/agents-best-practices"
 repo_key = "denissergeevitch/agents-best-practices"
 repo_slug = "denissergeevitch-agents-best-practices"
@@ -371,7 +419,7 @@ latest_stars = 757
 last_seen_week = "2026-W21"
 
 [[ranking]]
-rank = 23
+rank = 26
 repo = "winsznx/theeleven"
 repo_key = "winsznx/theeleven"
 repo_slug = "winsznx-theeleven"
@@ -387,7 +435,7 @@ latest_stars = 702
 last_seen_week = "2026-W27"
 
 [[ranking]]
-rank = 24
+rank = 27
 repo = "rebel0789/codexpro"
 repo_key = "rebel0789/codexpro"
 repo_slug = "rebel0789-codexpro"
@@ -403,7 +451,7 @@ latest_stars = 639
 last_seen_week = "2026-W26"
 
 [[ranking]]
-rank = 25
+rank = 28
 repo = "muhammadqasimkalhoro94-blip/claude-zeroclaw-agentics"
 repo_key = "muhammadqasimkalhoro94-blip/claude-zeroclaw-agentics"
 repo_slug = "muhammadqasimkalhoro94-blip-claude-zeroclaw-agentics"
@@ -419,7 +467,7 @@ latest_stars = 421
 last_seen_week = "2026-W22"
 
 [[ranking]]
-rank = 26
+rank = 29
 repo = "vshulcz/deja-vu"
 repo_key = "vshulcz/deja-vu"
 repo_slug = "vshulcz-deja-vu"
@@ -435,7 +483,7 @@ latest_stars = 387
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 27
+rank = 30
 repo = "sv-number/mcp-server"
 repo_key = "sv-number/mcp-server"
 repo_slug = "sv-number-mcp-server"
@@ -451,7 +499,7 @@ latest_stars = 381
 last_seen_week = "2026-W33"
 
 [[ranking]]
-rank = 28
+rank = 31
 repo = "jdevalk/specification.website"
 repo_key = "jdevalk/specification.website"
 repo_slug = "jdevalk-specification-website"
@@ -467,7 +515,7 @@ latest_stars = 342
 last_seen_week = "2026-W23"
 
 [[ranking]]
-rank = 29
+rank = 32
 repo = "testerlingcodo/gemini-antigravity-cli"
 repo_key = "testerlingcodo/gemini-antigravity-cli"
 repo_slug = "testerlingcodo-gemini-antigravity-cli"
@@ -483,7 +531,7 @@ latest_stars = 312
 last_seen_week = "2026-W22"
 
 [[ranking]]
-rank = 30
+rank = 33
 repo = "PolyMomentum-Labs/.github"
 repo_key = "polymomentum-labs/.github"
 repo_slug = "polymomentum-labs-github"
@@ -499,7 +547,7 @@ latest_stars = 287
 last_seen_week = "2026-W23"
 
 [[ranking]]
-rank = 31
+rank = 34
 repo = "SuperJJ007/CSSwitch"
 repo_key = "superjj007/csswitch"
 repo_slug = "superjj007-csswitch"
@@ -515,7 +563,7 @@ latest_stars = 263
 last_seen_week = "2026-W28"
 
 [[ranking]]
-rank = 32
+rank = 35
 repo = "PlaceNL2026/best-of-algorithmic-trading"
 repo_key = "placenl2026/best-of-algorithmic-trading"
 repo_slug = "placenl2026-best-of-algorithmic-trading"
@@ -531,7 +579,7 @@ latest_stars = 246
 last_seen_week = "2026-W21"
 
 [[ranking]]
-rank = 33
+rank = 36
 repo = "Callous-0923/agent-study"
 repo_key = "callous-0923/agent-study"
 repo_slug = "callous-0923-agent-study"
@@ -547,7 +595,7 @@ latest_stars = 245
 last_seen_week = "2026-W21"
 
 [[ranking]]
-rank = 34
+rank = 37
 repo = "eli-labz/Godcoder"
 repo_key = "eli-labz/godcoder"
 repo_slug = "eli-labz-godcoder"
@@ -563,7 +611,7 @@ latest_stars = 245
 last_seen_week = "2026-W27"
 
 [[ranking]]
-rank = 35
+rank = 38
 repo = "cristicretu/diri"
 repo_key = "cristicretu/diri"
 repo_slug = "cristicretu-diri"
@@ -579,7 +627,7 @@ latest_stars = 236
 last_seen_week = "2026-W33"
 
 [[ranking]]
-rank = 36
+rank = 39
 repo = "dex-original/okx-agent-trade-kit"
 repo_key = "dex-original/okx-agent-trade-kit"
 repo_slug = "dex-original-okx-agent-trade-kit"
@@ -595,7 +643,7 @@ latest_stars = 230
 last_seen_week = "2026-W21"
 
 [[ranking]]
-rank = 37
+rank = 40
 repo = "aresyn/codex-control-plane-mcp"
 repo_key = "aresyn/codex-control-plane-mcp"
 repo_slug = "aresyn-codex-control-plane-mcp"
@@ -611,7 +659,23 @@ latest_stars = 221
 last_seen_week = "2026-W26"
 
 [[ranking]]
-rank = 38
+rank = 41
+repo = "ZSeven-W/dsh-ios"
+repo_key = "zseven-w/dsh-ios"
+repo_slug = "zseven-w-dsh-ios"
+url = "https://github.com/ZSeven-W/dsh-ios"
+github_url = "https://github.com/ZSeven-W/dsh-ios"
+metric_value = 221
+metric_label = "221 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; TypeScript."
+context_summary = "DeepSeek Harness (DSH) plugin: a live iOS Simulator — and a USB-connected iPhone — inside the conversation. 22 agent tools for booting, building, driving the…"
+context_accessible_text = "DeepSeek Harness (DSH) plugin: a live iOS Simulator — and a USB-connected iPhone — inside the conversation. 22 agent tools for booting, building, driving the UI by accessibility identity, OCR text or list rows, plus a streaming sidebar panel you can tap and drag on."
+language = "TypeScript"
+latest_stars = 221
+last_seen_week = "2026-W35"
+
+[[ranking]]
+rank = 42
 repo = "risa-labs-inc/BossConsole"
 repo_key = "risa-labs-inc/bossconsole"
 repo_slug = "risa-labs-inc-bossconsole"
@@ -627,7 +691,7 @@ latest_stars = 199
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 39
+rank = 43
 repo = "yolfinance/yolfi-agent"
 repo_key = "yolfinance/yolfi-agent"
 repo_slug = "yolfinance-yolfi-agent"
@@ -643,7 +707,7 @@ latest_stars = 180
 last_seen_week = "2026-W26"
 
 [[ranking]]
-rank = 40
+rank = 44
 repo = "0xwilliamortiz/openclaude-improved"
 repo_key = "0xwilliamortiz/openclaude-improved"
 repo_slug = "0xwilliamortiz-openclaude-improved"
@@ -659,7 +723,7 @@ latest_stars = 175
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 41
+rank = 45
 repo = "sandbaseai/managed-agents"
 repo_key = "sandbaseai/managed-agents"
 repo_slug = "sandbaseai-managed-agents"
@@ -675,7 +739,7 @@ latest_stars = 172
 last_seen_week = "2026-W29"
 
 [[ranking]]
-rank = 42
+rank = 46
 repo = "Oft3r/agentic-trading-desk"
 repo_key = "oft3r/agentic-trading-desk"
 repo_slug = "oft3r-agentic-trading-desk"
@@ -691,7 +755,39 @@ latest_stars = 169
 last_seen_week = "2026-W28"
 
 [[ranking]]
-rank = 43
+rank = 47
+repo = "squall01337/mixamo-llm-mocap"
+repo_key = "squall01337/mixamo-llm-mocap"
+repo_slug = "squall01337-mixamo-llm-mocap"
+url = "https://github.com/squall01337/mixamo-llm-mocap"
+github_url = "https://github.com/squall01337/mixamo-llm-mocap"
+metric_value = 168
+metric_label = "168 stars"
+context = "Matched MCP signal; latest observed in 2026-W34; Python."
+context_summary = "Turn any video into a Mixamo-rig animation - GVHMR estimator, spec-driven retarget, FK apply in Blender via MCP. Works with any Mixamo character; built to be…"
+context_accessible_text = "Turn any video into a Mixamo-rig animation - GVHMR estimator, spec-driven retarget, FK apply in Blender via MCP. Works with any Mixamo character; built to be operated end-to-end by an AI agent."
+language = "Python"
+latest_stars = 168
+last_seen_week = "2026-W34"
+
+[[ranking]]
+rank = 48
+repo = "kgoedecke/doop"
+repo_key = "kgoedecke/doop"
+repo_slug = "kgoedecke-doop"
+url = "https://github.com/kgoedecke/doop"
+github_url = "https://github.com/kgoedecke/doop"
+metric_value = 165
+metric_label = "165 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; TypeScript."
+context_summary = "The open-source alternative to Paper.design. A multiplayer design canvas where humans and AI agents design together, live. MCP built in."
+context_accessible_text = "The open-source alternative to Paper.design. A multiplayer design canvas where humans and AI agents design together, live. MCP built in."
+language = "TypeScript"
+latest_stars = 165
+last_seen_week = "2026-W35"
+
+[[ranking]]
+rank = 49
 repo = "ai4s-research/open-science"
 repo_key = "ai4s-research/open-science"
 repo_slug = "ai4s-research-open-science"
@@ -707,7 +803,7 @@ latest_stars = 157
 last_seen_week = "2026-W28"
 
 [[ranking]]
-rank = 44
+rank = 50
 repo = "RongleCat/grok-go"
 repo_key = "ronglecat/grok-go"
 repo_slug = "ronglecat-grok-go"
@@ -723,7 +819,7 @@ latest_stars = 138
 last_seen_week = "2026-W29"
 
 [[ranking]]
-rank = 45
+rank = 51
 repo = "pueschel88/Tradingview-MCP"
 repo_key = "pueschel88/tradingview-mcp"
 repo_slug = "pueschel88-tradingview-mcp"
@@ -739,7 +835,7 @@ latest_stars = 133
 last_seen_week = "2026-W29"
 
 [[ranking]]
-rank = 46
+rank = 52
 repo = "opentokenz/mcpx"
 repo_key = "opentokenz/mcpx"
 repo_slug = "opentokenz-mcpx"
@@ -755,7 +851,7 @@ latest_stars = 132
 last_seen_week = "2026-W32"
 
 [[ranking]]
-rank = 47
+rank = 53
 repo = "PentHertz/grimoire"
 repo_key = "penthertz/grimoire"
 repo_slug = "penthertz-grimoire"
@@ -771,7 +867,7 @@ latest_stars = 132
 last_seen_week = "2026-W25"
 
 [[ranking]]
-rank = 48
+rank = 54
 repo = "kitforai/kitforai"
 repo_key = "kitforai/kitforai"
 repo_slug = "kitforai-kitforai"
@@ -787,7 +883,7 @@ latest_stars = 131
 last_seen_week = "2026-W29"
 
 [[ranking]]
-rank = 49
+rank = 55
 repo = "qa10devteam/behive"
 repo_key = "qa10devteam/behive"
 repo_slug = "qa10devteam-behive"
@@ -803,7 +899,7 @@ latest_stars = 127
 last_seen_week = "2026-W32"
 
 [[ranking]]
-rank = 50
+rank = 56
 repo = "PlaceNL2026/okx-agent-trade-kit"
 repo_key = "placenl2026/okx-agent-trade-kit"
 repo_slug = "placenl2026-okx-agent-trade-kit"
@@ -819,7 +915,7 @@ latest_stars = 126
 last_seen_week = "2026-W21"
 
 [[ranking]]
-rank = 51
+rank = 57
 repo = "nhevers/project-r0x"
 repo_key = "nhevers/project-r0x"
 repo_slug = "nhevers-project-r0x"
@@ -835,7 +931,7 @@ latest_stars = 124
 last_seen_week = "2026-W29"
 
 [[ranking]]
-rank = 52
+rank = 58
 repo = "Manavarya09/public-apis-live"
 repo_key = "manavarya09/public-apis-live"
 repo_slug = "manavarya09-public-apis-live"
@@ -851,7 +947,7 @@ latest_stars = 118
 last_seen_week = "2026-W26"
 
 [[ranking]]
-rank = 53
+rank = 59
 repo = "claude-code-ai-anthropic/free-claude-code-ai-desktop-app"
 repo_key = "claude-code-ai-anthropic/free-claude-code-ai-desktop-app"
 repo_slug = "claude-code-ai-anthropic-free-claude-code-ai-desktop-app"
@@ -867,7 +963,23 @@ latest_stars = 113
 last_seen_week = "2026-W25"
 
 [[ranking]]
-rank = 54
+rank = 60
+repo = "joe960913/Jixu"
+repo_key = "joe960913/jixu"
+repo_slug = "joe960913-jixu"
+url = "https://github.com/joe960913/Jixu"
+github_url = "https://github.com/joe960913/Jixu"
+metric_value = 113
+metric_label = "113 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; TypeScript."
+context_summary = "A durable single-Agent Harness for TypeScript with recoverable Threads, explicit side-effect boundaries, and a native terminal UI."
+context_accessible_text = "A durable single-Agent Harness for TypeScript with recoverable Threads, explicit side-effect boundaries, and a native terminal UI."
+language = "TypeScript"
+latest_stars = 113
+last_seen_week = "2026-W35"
+
+[[ranking]]
+rank = 61
 repo = "sosoj92/jarvis-assistant-vocal"
 repo_key = "sosoj92/jarvis-assistant-vocal"
 repo_slug = "sosoj92-jarvis-assistant-vocal"
@@ -883,7 +995,7 @@ latest_stars = 110
 last_seen_week = "2026-W33"
 
 [[ranking]]
-rank = 55
+rank = 62
 repo = "HaddenHunter/SkillForge"
 repo_key = "haddenhunter/skillforge"
 repo_slug = "haddenhunter-skillforge"
@@ -899,7 +1011,7 @@ latest_stars = 105
 last_seen_week = "2026-W33"
 
 [[ranking]]
-rank = 56
+rank = 63
 repo = "cporter202/coreclaw-api-directory"
 repo_key = "cporter202/coreclaw-api-directory"
 repo_slug = "cporter202-coreclaw-api-directory"
@@ -915,7 +1027,7 @@ latest_stars = 104
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 57
+rank = 64
 repo = "Aimino-Tech/opendocswork-mcp"
 repo_key = "aimino-tech/opendocswork-mcp"
 repo_slug = "aimino-tech-opendocswork-mcp"
@@ -931,7 +1043,7 @@ latest_stars = 102
 last_seen_week = "2026-W23"
 
 [[ranking]]
-rank = 58
+rank = 65
 repo = "michaelshimeles/boring-computers"
 repo_key = "michaelshimeles/boring-computers"
 repo_slug = "michaelshimeles-boring-computers"
@@ -947,7 +1059,7 @@ latest_stars = 93
 last_seen_week = "2026-W28"
 
 [[ranking]]
-rank = 59
+rank = 66
 repo = "ruvnet/agent-harness-generator"
 repo_key = "ruvnet/agent-harness-generator"
 repo_slug = "ruvnet-agent-harness-generator"
@@ -963,7 +1075,7 @@ latest_stars = 93
 last_seen_week = "2026-W25"
 
 [[ranking]]
-rank = 60
+rank = 67
 repo = "dabberman456/finance-mcp-app"
 repo_key = "dabberman456/finance-mcp-app"
 repo_slug = "dabberman456-finance-mcp-app"
@@ -979,7 +1091,7 @@ latest_stars = 91
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 61
+rank = 68
 repo = "JesusRS1/stock-trade-finance-api"
 repo_key = "jesusrs1/stock-trade-finance-api"
 repo_slug = "jesusrs1-stock-trade-finance-api"
@@ -995,7 +1107,7 @@ latest_stars = 91
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 62
+rank = 69
 repo = "yc-duan/fastctx"
 repo_key = "yc-duan/fastctx"
 repo_slug = "yc-duan-fastctx"
@@ -1011,7 +1123,7 @@ latest_stars = 90
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 63
+rank = 70
 repo = "icebird1998/scientific-illustrator"
 repo_key = "icebird1998/scientific-illustrator"
 repo_slug = "icebird1998-scientific-illustrator"
@@ -1027,7 +1139,7 @@ latest_stars = 87
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 64
+rank = 71
 repo = "marketcaper/mcp"
 repo_key = "marketcaper/mcp"
 repo_slug = "marketcaper-mcp"
@@ -1043,7 +1155,7 @@ latest_stars = 87
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 65
+rank = 72
 repo = "alxgntv/substack-api-mcp"
 repo_key = "alxgntv/substack-api-mcp"
 repo_slug = "alxgntv-substack-api-mcp"
@@ -1059,7 +1171,23 @@ latest_stars = 80
 last_seen_week = "2026-W32"
 
 [[ranking]]
-rank = 66
+rank = 73
+repo = "lianghsun/open-sheet"
+repo_key = "lianghsun/open-sheet"
+repo_slug = "lianghsun-open-sheet"
+url = "https://github.com/lianghsun/open-sheet"
+github_url = "https://github.com/lianghsun/open-sheet"
+metric_value = 80
+metric_label = "80 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; TypeScript."
+context_summary = "The spreadsheet framework built for agents — write the model as React, export a live .xlsx. The third medium, after open-slide and open-doc."
+context_accessible_text = "The spreadsheet framework built for agents — write the model as React, export a live .xlsx. The third medium, after open-slide and open-doc."
+language = "TypeScript"
+latest_stars = 80
+last_seen_week = "2026-W35"
+
+[[ranking]]
+rank = 74
 repo = "dikurdikur/palmier-pro-windows"
 repo_key = "dikurdikur/palmier-pro-windows"
 repo_slug = "dikurdikur-palmier-pro-windows"
@@ -1075,7 +1203,7 @@ latest_stars = 79
 last_seen_week = "2026-W26"
 
 [[ranking]]
-rank = 67
+rank = 75
 repo = "PerfectXM/mcp-db-server"
 repo_key = "perfectxm/mcp-db-server"
 repo_slug = "perfectxm-mcp-db-server"
@@ -1091,7 +1219,7 @@ latest_stars = 77
 last_seen_week = "2026-W26"
 
 [[ranking]]
-rank = 68
+rank = 76
 repo = "bybit-exchange/kaas"
 repo_key = "bybit-exchange/kaas"
 repo_slug = "bybit-exchange-kaas"
@@ -1107,7 +1235,7 @@ latest_stars = 76
 last_seen_week = "2026-W32"
 
 [[ranking]]
-rank = 69
+rank = 77
 repo = "simonlin1212/Vibe-Research"
 repo_key = "simonlin1212/vibe-research"
 repo_slug = "simonlin1212-vibe-research"
@@ -1123,7 +1251,7 @@ latest_stars = 76
 last_seen_week = "2026-W28"
 
 [[ranking]]
-rank = 70
+rank = 78
 repo = "talivia-group/agent"
 repo_key = "talivia-group/agent"
 repo_slug = "talivia-group-agent"
@@ -1139,7 +1267,7 @@ latest_stars = 71
 last_seen_week = "2026-W32"
 
 [[ranking]]
-rank = 71
+rank = 79
 repo = "lacvietanh/aki-mcp-sv"
 repo_key = "lacvietanh/aki-mcp-sv"
 repo_slug = "lacvietanh-aki-mcp-sv"
@@ -1155,7 +1283,7 @@ latest_stars = 70
 last_seen_week = "2026-W33"
 
 [[ranking]]
-rank = 72
+rank = 80
 repo = "MegaTroll222/VOX-COLLAGE-BROLL"
 repo_key = "megatroll222/vox-collage-broll"
 repo_slug = "megatroll222-vox-collage-broll"
@@ -1171,7 +1299,7 @@ latest_stars = 70
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 73
+rank = 81
 repo = "HuolalaTech/huolala-figma-mcp"
 repo_key = "huolalatech/huolala-figma-mcp"
 repo_slug = "huolalatech-huolala-figma-mcp"
@@ -1187,7 +1315,23 @@ latest_stars = 68
 last_seen_week = "2026-W25"
 
 [[ranking]]
-rank = 74
+rank = 82
+repo = "totec448-spec/chat-on-steroids"
+repo_key = "totec448-spec/chat-on-steroids"
+repo_slug = "totec448-spec-chat-on-steroids"
+url = "https://github.com/totec448-spec/chat-on-steroids"
+github_url = "https://github.com/totec448-spec/chat-on-steroids"
+metric_value = 67
+metric_label = "67 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; TypeScript."
+context_summary = "Local Windows coding and computer-use bridge for ChatGPT over MCP, limited to folders and capabilities you approve."
+context_accessible_text = "Local Windows coding and computer-use bridge for ChatGPT over MCP, limited to folders and capabilities you approve."
+language = "TypeScript"
+latest_stars = 67
+last_seen_week = "2026-W35"
+
+[[ranking]]
+rank = 83
 repo = "tonnode/mcp"
 repo_key = "tonnode/mcp"
 repo_slug = "tonnode-mcp"
@@ -1203,7 +1347,7 @@ latest_stars = 66
 last_seen_week = "2026-W30"
 
 [[ranking]]
-rank = 75
+rank = 84
 repo = "mintdotgg/mint-threejs-skills"
 repo_key = "mintdotgg/mint-threejs-skills"
 repo_slug = "mintdotgg-mint-threejs-skills"
@@ -1219,7 +1363,7 @@ latest_stars = 65
 last_seen_week = "2026-W29"
 
 [[ranking]]
-rank = 76
+rank = 85
 repo = "wassermanproductions/wassermans-filmmaker-suite"
 repo_key = "wassermanproductions/wassermans-filmmaker-suite"
 repo_slug = "wassermanproductions-wassermans-filmmaker-suite"
@@ -1235,7 +1379,7 @@ latest_stars = 65
 last_seen_week = "2026-W29"
 
 [[ranking]]
-rank = 77
+rank = 86
 repo = "nextdev-labs/mcp"
 repo_key = "nextdev-labs/mcp"
 repo_slug = "nextdev-labs-mcp"
@@ -1251,7 +1395,7 @@ latest_stars = 62
 last_seen_week = "2026-W24"
 
 [[ranking]]
-rank = 78
+rank = 87
 repo = "zmustafa/AzureSupportAgent"
 repo_key = "zmustafa/azuresupportagent"
 repo_slug = "zmustafa-azuresupportagent"
@@ -1267,7 +1411,23 @@ latest_stars = 61
 last_seen_week = "2026-W25"
 
 [[ranking]]
-rank = 79
+rank = 88
+repo = "augety121/MCP-State-Twin"
+repo_key = "augety121/mcp-state-twin"
+repo_slug = "augety121-mcp-state-twin"
+url = "https://github.com/augety121/MCP-State-Twin"
+github_url = "https://github.com/augety121/MCP-State-Twin"
+metric_value = 60
+metric_label = "60 stars"
+context = "Matched MCP signal; latest observed in 2026-W34; Go."
+context_summary = "用于可复现 AI Agent 评测的确定性、可分叉、有状态 MCP 测试世界——不对生产环境产生副作用。Deterministic, forkable, stateful MCP test worlds for reproducible AI agent evaluation—without production…"
+context_accessible_text = "用于可复现 AI Agent 评测的确定性、可分叉、有状态 MCP 测试世界——不对生产环境产生副作用。Deterministic, forkable, stateful MCP test worlds for reproducible AI agent evaluation—without production side effects."
+language = "Go"
+latest_stars = 60
+last_seen_week = "2026-W34"
+
+[[ranking]]
+rank = 89
 repo = "coleam00/helpline"
 repo_key = "coleam00/helpline"
 repo_slug = "coleam00-helpline"
@@ -1283,7 +1443,7 @@ latest_stars = 59
 last_seen_week = "2026-W22"
 
 [[ranking]]
-rank = 80
+rank = 90
 repo = "sm18lr88/STT-MCP"
 repo_key = "sm18lr88/stt-mcp"
 repo_slug = "sm18lr88-stt-mcp"
@@ -1299,7 +1459,23 @@ latest_stars = 56
 last_seen_week = "2026-W31"
 
 [[ranking]]
-rank = 81
+rank = 91
+repo = "Cripacx/mediagen"
+repo_key = "cripacx/mediagen"
+repo_slug = "cripacx-mediagen"
+url = "https://github.com/Cripacx/mediagen"
+github_url = "https://github.com/Cripacx/mediagen"
+metric_value = 54
+metric_label = "54 stars"
+context = "Matched MCP signal; latest observed in 2026-W35; TypeScript."
+context_summary = "AI image and video generation skill for Claude Code and other coding agents — Gemini, OpenAI and Kie AI behind one CLI and MCP server, with EU AI Act content…"
+context_accessible_text = "AI image and video generation skill for Claude Code and other coding agents — Gemini, OpenAI and Kie AI behind one CLI and MCP server, with EU AI Act content marking."
+language = "TypeScript"
+latest_stars = 54
+last_seen_week = "2026-W35"
+
+[[ranking]]
+rank = 92
 repo = "vixues/LeAgent"
 repo_key = "vixues/leagent"
 repo_slug = "vixues-leagent"
@@ -1315,7 +1491,7 @@ latest_stars = 53
 last_seen_week = "2026-W22"
 
 [[ranking]]
-rank = 82
+rank = 93
 repo = "robzilla1738/Codex-Workflows"
 repo_key = "robzilla1738/codex-workflows"
 repo_slug = "robzilla1738-codex-workflows"
@@ -1331,7 +1507,7 @@ latest_stars = 52
 last_seen_week = "2026-W24"
 
 [[ranking]]
-rank = 83
+rank = 94
 repo = "ryan-phq2005h1/github-mcp-server"
 repo_key = "ryan-phq2005h1/github-mcp-server"
 repo_slug = "ryan-phq2005h1-github-mcp-server"
@@ -1347,6 +1523,6 @@ latest_stars = 51
 last_seen_week = "2026-W32"
 +++
 
-Top 83 MCP-related repositories ranked by latest checked-in stars.
+Top 94 MCP-related repositories ranked by latest checked-in stars.
 
 This page is generated from checked-in Claracle artifacts. It does not perform a fresh crawl and can be regenerated with `python3 scripts/generate_data_pages.py`.
