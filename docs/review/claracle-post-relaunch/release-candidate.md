@@ -11,13 +11,13 @@ ms.topic: reference
 | Field | Value |
 |---|---|
 | Release | `claracle-v1-1` |
-| Product candidate SHA | `2088d44bfc9c716221ddbf2f7a8ed6bc89465270` |
+| Product candidate SHA | Cleared — stale frozen SHA `2088d44bfc9c716221ddbf2f7a8ed6bc89465270` invalidated per issue #730 |
 | Evidence record | `data/release/claracle-v1.1-release-candidate.json` |
 | Schema | `data/schemas/release-candidate.schema.json` |
 | Validator | `scripts/validate_release_candidate.py` |
 | Baseline | Phase 4 merge `f9fb5d88fefde9b6143adda2d57e20d18f6b5e25` |
 | Baseline deployment | GitHub Actions run `31645707266` |
-| Release status | GO; deployment verification pending for issue #722 publication hydration fix; DRF-03/DRF-05 remain deferred under issue #714 |
+| Release status | Preparing — frozen candidate invalidated; reset after product changes invalidated SHA `2088d44` (see issue #730) |
 
 The product candidate is frozen only after all runtime, workflow, content, and
 test changes pass local validation. Later evidence-only commits may update this
@@ -28,11 +28,11 @@ invalidates the candidate and every revision-bound disposition.
 
 | Finding | Automated evidence | Owner disposition | Status |
 |---|---|---|---|
-| DRF-01 | Repository topic, language, lifecycle, period, search, reset, URL, keyboard, combined-state, and visible-count Playwright assertions; four-project combined-state captures | Amy/Fry pass | Closed |
-| DRF-02 | Repository, ranking, embed, provenance, fallback, copy-disclosure, pointer, keyboard, focus, touch, and Escape assertions | Amy/Fry pass | Closed |
-| DRF-03 | Keyboard clipboard success/failure, polite status, manual-copy guidance, and retained-focus assertions | Amy/Fry automated pass; live-AT pending | Deferred — risk-accepted (issue #714) |
-| DRF-04 | Focus-visible assertions and captures for homepage, article, repository, ranking, embed, and navigation links at desktop, mobile, and Chromium browser-engine 200% page scaling | Fry pass | Closed |
-| DRF-05 | Genuine named live screen-reader review | Pending | Deferred — risk-accepted (issue #714) |
+| DRF-01 | Repository topic, language, lifecycle, period, search, reset, URL, keyboard, combined-state, and visible-count Playwright assertions; four-project combined-state captures | Evidence invalidated by product changes; re-verification required after new freeze | Open |
+| DRF-02 | Repository, ranking, embed, provenance, fallback, copy-disclosure, pointer, keyboard, focus, touch, and Escape assertions | Evidence invalidated by product changes; re-verification required after new freeze | Open |
+| DRF-03 | Keyboard clipboard success/failure, polite status, manual-copy guidance, and retained-focus assertions | Evidence invalidated by product changes; re-verification required after new freeze; waiver must be re-issued at next freeze | Open |
+| DRF-04 | Focus-visible assertions and captures for homepage, article, repository, ranking, embed, and navigation links at desktop, mobile, and Chromium browser-engine 200% page scaling | Evidence invalidated by product changes; re-verification required after new freeze | Open |
+| DRF-05 | Genuine named live screen-reader review | Waiver invalidated by product changes; must be re-issued at next freeze | Open |
 
 Automation does not close DRF-05 and does not substitute for screen-reader
 confirmation of the DRF-03 status message.
@@ -42,9 +42,8 @@ confirmation of the DRF-03 status message.
 DRF-03 and DRF-05 must record the reviewer name, date, exact candidate SHA, operating
 system/version, browser/version, screen reader/version, keyboard-only and
 screen-reader scenarios, findings, severity, disposition, and unresolved work.
-Sponsor `jmservera` explicitly deferred this evidence under the time-bounded
-waiver tracked by issue #714. The deferral is not a passing live-AT result and
-must be replaced by genuine evidence before the waiver expires.
+Any future DRF-03 or DRF-05 deferral must be re-issued against the next frozen
+candidate SHA. Until then, both findings remain open in preparing state.
 
 ## Rollback
 
@@ -60,10 +59,10 @@ responsible owner is `jmservera`.
 
 The prior candidate was invalidated when run `32654911857` showed that publish
 hydration removed main-owned repository migration evidence before freshness
-validation. Candidate `2088d44` preserves those inputs while retaining
-publish-owned generated state. Focused tests, Ruff, Checkov, and Zizmor pass.
-Deployment and all deployment-relative outcome windows remain pending until
-the merged candidate completes the weekly workflow.
+validation. Candidate `2088d44` was later invalidated by product and test
+changes after #727, and this record was reset to preparing per issue #730.
+Deployment and all deployment-relative outcome windows remain pending until a
+new candidate is frozen, reviewed, and merged through the weekly workflow.
 
 | Window | Due at |
 |---|---|
