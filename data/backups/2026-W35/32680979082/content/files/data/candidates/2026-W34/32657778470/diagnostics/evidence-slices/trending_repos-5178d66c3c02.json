@@ -1,0 +1,532 @@
+{
+  "checksum_sha256": "5178d66c3c02458c6c009a7224d62a72ca27caf5f2cfce9bc4459bb8362db37d",
+  "component": "trending_repos",
+  "provenance": {
+    "sources": {
+      "raw_json": {
+        "bytes": 401656,
+        "path": "data/raw/2026-W34.json",
+        "sha256": "8da63fc8c148fcdfcdb1680476bf61cd964739d9f06e346b041a321b972be967"
+      }
+    },
+    "week": "2026-W34"
+  },
+  "records": [
+    {
+      "created_at": "2014-07-11T13:42:37Z",
+      "description": "😎 Awesome lists about all kinds of interesting topics [NOTE: Pull requests are temporarily disabled until I have a chance to catch up with the existing ones]",
+      "full_name": "sindresorhus/awesome",
+      "language": null,
+      "source": "trending_repos",
+      "stars": 499246,
+      "stars_gained": null,
+      "topics": [
+        "awesome",
+        "awesome-list",
+        "lists",
+        "resources",
+        "unicorns"
+      ],
+      "url": "https://github.com/sindresorhus/awesome"
+    },
+    {
+      "created_at": "2016-03-20T23:49:42Z",
+      "description": "A collective list of free APIs",
+      "full_name": "public-apis/public-apis",
+      "language": "Python",
+      "source": "trending_repos",
+      "stars": 469083,
+      "stars_gained": null,
+      "topics": [
+        "api",
+        "apis",
+        "dataset",
+        "development",
+        "free",
+        "list",
+        "lists",
+        "open-source",
+        "public",
+        "public-api",
+        "public-apis",
+        "resources",
+        "software"
+      ],
+      "url": "https://github.com/public-apis/public-apis"
+    },
+    {
+      "created_at": "2014-12-24T17:49:19Z",
+      "description": "freeCodeCamp.org's open-source codebase and curriculum. Learn math, programming, and computer science for free.",
+      "full_name": "freeCodeCamp/freeCodeCamp",
+      "language": "TypeScript",
+      "source": "trending_repos",
+      "stars": 454475,
+      "stars_gained": null,
+      "topics": [
+        "careers",
+        "certification",
+        "community",
+        "curriculum",
+        "d3",
+        "education",
+        "freecodecamp",
+        "javascript",
+        "learn-to-code",
+        "math",
+        "nodejs",
+        "nonprofits",
+        "programming",
+        "react",
+        "teachers"
+      ],
+      "url": "https://github.com/freeCodeCamp/freeCodeCamp"
+    },
+    {
+      "created_at": "2013-10-11T06:50:37Z",
+      "description": ":books: Freely available programming books",
+      "full_name": "EbookFoundation/free-programming-books",
+      "language": "Python",
+      "source": "trending_repos",
+      "stars": 395078,
+      "stars_gained": null,
+      "topics": [
+        "books",
+        "education",
+        "hacktoberfest",
+        "list",
+        "resource"
+      ],
+      "url": "https://github.com/EbookFoundation/free-programming-books"
+    },
+    {
+      "created_at": "2025-11-24T10:16:47Z",
+      "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞 ",
+      "full_name": "openclaw/openclaw",
+      "language": "TypeScript",
+      "source": "trending_repos",
+      "stars": 387239,
+      "stars_gained": null,
+      "topics": [
+        "ai",
+        "assistant",
+        "crustacean",
+        "molty",
+        "openclaw",
+        "own-your-data",
+        "personal"
+      ],
+      "url": "https://github.com/openclaw/openclaw"
+    },
+    {
+      "created_at": "2017-03-15T13:45:52Z",
+      "description": "Interactive roadmaps, guides and other educational content to help developers grow in their careers.",
+      "full_name": "nilbuild/developer-roadmap",
+      "language": "TypeScript",
+      "source": "trending_repos",
+      "stars": 365233,
+      "stars_gained": null,
+      "topics": [
+        "angular-roadmap",
+        "backend-roadmap",
+        "blockchain-roadmap",
+        "computer-science",
+        "dba-roadmap",
+        "developer-roadmap",
+        "devops-roadmap",
+        "frontend-roadmap",
+        "go-roadmap",
+        "java-roadmap",
+        "javascript-roadmap",
+        "nodejs-roadmap",
+        "python-roadmap",
+        "qa-roadmap",
+        "react-roadmap",
+        "roadmap",
+        "software-architect-roadmap",
+        "vue-roadmap"
+      ],
+      "url": "https://github.com/nilbuild/developer-roadmap"
+    },
+    {
+      "created_at": "2014-06-27T21:00:06Z",
+      "description": "The definitive list that answers \"I want to do X in Python, which tool should I use?\"",
+      "full_name": "vinta/awesome-python",
+      "language": "Python",
+      "source": "trending_repos",
+      "stars": 315657,
+      "stars_gained": null,
+      "topics": [
+        "awesome",
+        "awesome-list",
+        "python",
+        "python-frameworks",
+        "python-libraries",
+        "python-tools"
+      ],
+      "url": "https://github.com/vinta/awesome-python"
+    },
+    {
+      "created_at": "2015-06-01T02:33:17Z",
+      "description": "A list of Free Software network services and web applications which can be hosted on your own servers",
+      "full_name": "awesome-selfhosted/awesome-selfhosted",
+      "language": null,
+      "source": "trending_repos",
+      "stars": 314511,
+      "stars_gained": null,
+      "topics": [
+        "awesome",
+        "awesome-list",
+        "cloud",
+        "free-software",
+        "hosting",
+        "privacy",
+        "self-hosted",
+        "selfhosted"
+      ],
+      "url": "https://github.com/awesome-selfhosted/awesome-selfhosted"
+    },
+    {
+      "created_at": "2025-10-09T19:45:18Z",
+      "description": "An agentic skills framework & software development methodology that works.",
+      "full_name": "obra/superpowers",
+      "language": "Shell",
+      "source": "trending_repos",
+      "stars": 276592,
+      "stars_gained": null,
+      "topics": [
+        "ai",
+        "brainstorming",
+        "coding",
+        "obra",
+        "sdlc",
+        "skills",
+        "subagent-driven-development",
+        "superpowers"
+      ],
+      "url": "https://github.com/obra/superpowers"
+    },
+    {
+      "created_at": "2013-05-24T16:15:54Z",
+      "description": "The library for web and native user interfaces.",
+      "full_name": "react/react",
+      "language": "JavaScript",
+      "source": "trending_repos",
+      "stars": 247676,
+      "stars_gained": null,
+      "topics": [
+        "declarative",
+        "frontend",
+        "javascript",
+        "library",
+        "react",
+        "ui"
+      ],
+      "url": "https://github.com/react/react"
+    },
+    {
+      "created_at": "2011-09-04T22:48:12Z",
+      "description": "Linux kernel source tree",
+      "full_name": "torvalds/linux",
+      "language": "C",
+      "source": "trending_repos",
+      "stars": 243953,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/torvalds/linux"
+    },
+    {
+      "created_at": "2026-01-18T00:51:51Z",
+      "description": "The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond.",
+      "full_name": "affaan-m/ECC",
+      "language": "JavaScript",
+      "source": "trending_repos",
+      "stars": 242452,
+      "stars_gained": null,
+      "topics": [
+        "ai-agents",
+        "anthropic",
+        "claude",
+        "claude-code",
+        "developer-tools",
+        "llm",
+        "mcp",
+        "productivity"
+      ],
+      "url": "https://github.com/affaan-m/ECC"
+    },
+    {
+      "created_at": "2025-07-22T22:22:28Z",
+      "description": "The agent that grows with you",
+      "full_name": "NousResearch/hermes-agent",
+      "language": "Python",
+      "source": "trending_repos",
+      "stars": 234828,
+      "stars_gained": null,
+      "topics": [
+        "ai",
+        "ai-agent",
+        "ai-agents",
+        "anthropic",
+        "chatgpt",
+        "claude",
+        "claude-code",
+        "codex",
+        "hermes",
+        "hermes-agent",
+        "llm",
+        "nous-research",
+        "openai"
+      ],
+      "url": "https://github.com/NousResearch/hermes-agent"
+    },
+    {
+      "created_at": "2026-02-03T11:15:53Z",
+      "description": "Skills for Real Engineers. Straight from my .agents directory.",
+      "full_name": "mattpocock/skills",
+      "language": "Shell",
+      "source": "trending_repos",
+      "stars": 233561,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/mattpocock/skills"
+    },
+    {
+      "created_at": "2016-07-16T09:44:01Z",
+      "description": "All Algorithms implemented in Python",
+      "full_name": "TheAlgorithms/Python",
+      "language": "Python",
+      "source": "trending_repos",
+      "stars": 223969,
+      "stars_gained": null,
+      "topics": [
+        "algorithm",
+        "algorithm-competitions",
+        "algorithms-implemented",
+        "algos",
+        "community-driven",
+        "education",
+        "hacktoberfest",
+        "interview",
+        "learn",
+        "practice",
+        "python",
+        "searches",
+        "sorting-algorithms",
+        "sorts"
+      ],
+      "url": "https://github.com/TheAlgorithms/Python"
+    },
+    {
+      "created_at": "2019-06-22T09:24:21Z",
+      "description": "Fair-code workflow automation platform with native AI capabilities. Combine visual building with custom code, self-host or cloud, 400+ integrations.",
+      "full_name": "n8n-io/n8n",
+      "language": "TypeScript",
+      "source": "trending_repos",
+      "stars": 202111,
+      "stars_gained": null,
+      "topics": [
+        "ai",
+        "apis",
+        "automation",
+        "cli",
+        "data-flow",
+        "development",
+        "integration-framework",
+        "integrations",
+        "ipaas",
+        "low-code",
+        "low-code-platform",
+        "mcp",
+        "mcp-client",
+        "mcp-server",
+        "n8n",
+        "no-code",
+        "self-hosted",
+        "typescript",
+        "workflow",
+        "workflow-automation"
+      ],
+      "url": "https://github.com/n8n-io/n8n"
+    },
+    {
+      "created_at": "2025-04-30T20:08:00Z",
+      "description": "The open source coding agent.",
+      "full_name": "anomalyco/opencode",
+      "language": "TypeScript",
+      "source": "trending_repos",
+      "stars": 200601,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/anomalyco/opencode"
+    },
+    {
+      "created_at": "2015-11-07T01:19:20Z",
+      "description": "An Open Source Machine Learning Framework for Everyone",
+      "full_name": "tensorflow/tensorflow",
+      "language": "C++",
+      "source": "trending_repos",
+      "stars": 197372,
+      "stars_gained": null,
+      "topics": [
+        "deep-learning",
+        "deep-neural-networks",
+        "distributed",
+        "machine-learning",
+        "ml",
+        "neural-network",
+        "python",
+        "tensorflow"
+      ],
+      "url": "https://github.com/tensorflow/tensorflow"
+    },
+    {
+      "created_at": "2015-09-03T20:23:38Z",
+      "description": "Visual Studio Code",
+      "full_name": "microsoft/vscode",
+      "language": "TypeScript",
+      "source": "trending_repos",
+      "stars": 189338,
+      "stars_gained": null,
+      "topics": [
+        "editor",
+        "electron",
+        "microsoft",
+        "typescript",
+        "visual-studio-code"
+      ],
+      "url": "https://github.com/microsoft/vscode"
+    },
+    {
+      "created_at": "2009-08-28T18:15:37Z",
+      "description": "🙃   A delightful community-driven (with 2,500+ contributors) framework for managing your zsh configuration. Includes 300+ optional plugins (rails, git, macOS, hub, docker, homebrew, node, php, python, etc), 140+ themes to spice up your morning, and an auto-update tool that makes it easy to keep up with the latest updates from the community.",
+      "full_name": "ohmyzsh/ohmyzsh",
+      "language": "Shell",
+      "source": "trending_repos",
+      "stars": 189324,
+      "stars_gained": null,
+      "topics": [
+        "cli",
+        "cli-app",
+        "oh-my-zsh",
+        "oh-my-zsh-plugin",
+        "oh-my-zsh-theme",
+        "ohmyzsh",
+        "plugin-framework",
+        "plugins",
+        "productivity",
+        "shell",
+        "terminal",
+        "theme",
+        "themes",
+        "zsh",
+        "zsh-configuration"
+      ],
+      "url": "https://github.com/ohmyzsh/ohmyzsh"
+    },
+    {
+      "created_at": "2026-08-13T11:56:32Z",
+      "description": "DeepSeek Harness: Everything is a Plugin.",
+      "full_name": "deepseek-ai/deepseek-harness",
+      "language": "TypeScript",
+      "source": "trending_repos",
+      "stars": 187574,
+      "stars_gained": null,
+      "topics": [
+        "ai-agents",
+        "cordis",
+        "dsh",
+        "dsh-plugin"
+      ],
+      "url": "https://github.com/deepseek-ai/deepseek-harness"
+    },
+    {
+      "created_at": "2023-03-16T09:21:07Z",
+      "description": "AutoGPT is the vision of accessible AI for everyone, to use and to build on. Our mission is to provide the tools, so that you can focus on what matters.",
+      "full_name": "Significant-Gravitas/AutoGPT",
+      "language": "Python",
+      "source": "trending_repos",
+      "stars": 186813,
+      "stars_gained": null,
+      "topics": [
+        "agentic-ai",
+        "agents",
+        "ai",
+        "artificial-intelligence",
+        "autonomous-agents",
+        "claude",
+        "gpt",
+        "llama-api",
+        "llm",
+        "openai",
+        "python"
+      ],
+      "url": "https://github.com/Significant-Gravitas/AutoGPT"
+    },
+    {
+      "created_at": "2020-10-26T04:22:55Z",
+      "description": "A feature-rich command-line audio/video downloader",
+      "full_name": "yt-dlp/yt-dlp",
+      "language": "Python",
+      "source": "trending_repos",
+      "stars": 186455,
+      "stars_gained": null,
+      "topics": [
+        "cli",
+        "downloader",
+        "python",
+        "sponsorblock",
+        "youtube-dl",
+        "youtube-downloader",
+        "yt-dlp"
+      ],
+      "url": "https://github.com/yt-dlp/yt-dlp"
+    },
+    {
+      "created_at": "2014-07-06T13:42:15Z",
+      "description": "A curated list of awesome Go frameworks, libraries and software",
+      "full_name": "avelino/awesome-go",
+      "language": "Go",
+      "source": "trending_repos",
+      "stars": 182042,
+      "stars_gained": null,
+      "topics": [
+        "awesome",
+        "awesome-list",
+        "go",
+        "golang",
+        "golang-library",
+        "hacktoberfest"
+      ],
+      "url": "https://github.com/avelino/awesome-go"
+    },
+    {
+      "created_at": "2023-06-26T19:39:32Z",
+      "description": "Get up and running with Kimi-K2.6, GLM-5.2, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models.",
+      "full_name": "ollama/ollama",
+      "language": "Go",
+      "source": "trending_repos",
+      "stars": 179262,
+      "stars_gained": null,
+      "topics": [
+        "deepseek",
+        "gemma",
+        "gemma3",
+        "glm",
+        "go",
+        "golang",
+        "gpt-oss",
+        "llama",
+        "llama3",
+        "llm",
+        "llms",
+        "minimax",
+        "mistral",
+        "ollama",
+        "qwen"
+      ],
+      "url": "https://github.com/ollama/ollama"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "trending_repos"
+}

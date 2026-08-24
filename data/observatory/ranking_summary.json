@@ -1,9 +1,9 @@
 {
   "artifact_type": "ranking_summary",
-  "generated_at": "2026-08-23T18:21:51Z",
+  "generated_at": "2026-08-24T01:48:55Z",
   "records": [
     {
-      "as_of_week": "2026-W34",
+      "as_of_week": "2026-W35",
       "metric_definition": "Latest absolute GitHub stars for repositories observed in the latest crawl month.",
       "ranking_id": "top-ai-repositories-this-month",
       "record_count": 100,
@@ -11,7 +11,7 @@
       "url": "/data/top-ai-repositories-this-month/"
     },
     {
-      "as_of_week": "2026-W34",
+      "as_of_week": "2026-W35",
       "metric_definition": "Latest absolute GitHub stars for repositories with MCP or Model Context Protocol signals.",
       "ranking_id": "most-starred-mcp-projects",
       "record_count": 94,
@@ -19,7 +19,7 @@
       "url": "/data/most-starred-mcp-projects/"
     },
     {
-      "as_of_week": "2026-W34",
+      "as_of_week": "2026-W35",
       "metric_definition": "Derived star gain: latest observed stars minus earliest observed stars in the year.",
       "ranking_id": "fastest-growing-ai-repositories-this-year",
       "record_count": 100,

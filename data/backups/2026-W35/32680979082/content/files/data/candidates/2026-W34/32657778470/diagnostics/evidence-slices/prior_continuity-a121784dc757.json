@@ -1,0 +1,28 @@
+{
+  "checksum_sha256": "a121784dc757dabe4a4fed26e7d16e214b919576fe500e59445efc8628771b9d",
+  "component": "prior_continuity",
+  "provenance": {
+    "sources": {
+      "prior_summary": {
+        "bytes": 8129,
+        "path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W33-summary.md",
+        "sha256": "db69bbc8d469f2dc7bf63b69442caa873a11dae04ea6fb304f6235ef9dfaa21a"
+      },
+      "raw_json": {
+        "bytes": 401656,
+        "path": "data/raw/2026-W34.json",
+        "sha256": "8da63fc8c148fcdfcdb1680476bf61cd964739d9f06e346b041a321b972be967"
+      }
+    },
+    "week": "2026-W34"
+  },
+  "records": [
+    {
+      "excerpt": "---\ntitle: \"Agent Skills Became the New Attack Surface\"\ndate: 2026-08-10T07:40:21Z\nweek: \"2026-W33\"\nyear: 2026\ntags: [ai-agents, agent-skills, developer-tools, ai-safety, supply-chain-security, video-generation]\ncategories: [weekly]\nrepos_featured: 50\nstars_tracked: 6377704\ntop_repo: \"AMAP-ML/LongHorizon-Harness\"\nquality_score: 100\nsummary: \"Agent skills spread into real workflows while security, reviewability, and discovery noise became the week’s hard constraints.\"\npredictions:\n  - repo: AMAP-ML/LongHorizon-Harness\n    claim_type: signal\n    direction: up\n    confidence: 0.74\n  - repo: KKKKhazix/human-writing\n    claim_type: signal\n    direction: up\n    confidence: 0.68\n  - repo: 0xwilliamortiz/claude-red\n    claim_type: signal\n    direction: up\n    confidence: 0.61\n  - repo: mikiarlo3/awesome-growth-hacking-skills\n    claim_type: noise\n    direction: down\n    confidence: 0.72\n  - repo: sv-number/mcp-server\n    claim_type: noise\n    direction: down\n    confidence: 0.77\n---\n\nAugust 20",
+      "present": true,
+      "source_path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W33-summary.md"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "prior_continuity"
+}

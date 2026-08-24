@@ -1,0 +1,476 @@
+{
+  "checksum_sha256": "97694c7c66077a4c2ee2549e90520714c740f7fdd10c5a413a9cf4ac667a270c",
+  "component": "new_repos",
+  "provenance": {
+    "sources": {
+      "raw_json": {
+        "bytes": 352726,
+        "path": "data/raw/2026-W35.json",
+        "sha256": "6e8923202ed858754b659442d923473ec6477ab9fe4129868b7eea864e449570"
+      }
+    },
+    "week": "2026-W35"
+  },
+  "records": [
+    {
+      "created_at": "2026-08-18T13:59:23Z",
+      "description": "A compact Agent Skill for highly simplified, rounded, subtly neo-skeuomorphic IP mascot logos.",
+      "full_name": "s1dashu/ip-as-logo-skill",
+      "language": null,
+      "source": "new_repos",
+      "stars": 3916,
+      "stars_gained": null,
+      "topics": [
+        "codex",
+        "codex-skill",
+        "image-generation",
+        "logo-design",
+        "mascot-design"
+      ],
+      "url": "https://github.com/s1dashu/ip-as-logo-skill"
+    },
+    {
+      "created_at": "2026-08-21T11:56:39Z",
+      "description": "Open-source ThreeUI Community catalog with live interactive components and complete Community source.",
+      "full_name": "MengTo/threeui",
+      "language": "HTML",
+      "source": "new_repos",
+      "stars": 2938,
+      "stars_gained": null,
+      "topics": [
+        "react",
+        "shaders",
+        "threejs",
+        "ui-components",
+        "webgl"
+      ],
+      "url": "https://github.com/MengTo/threeui"
+    },
+    {
+      "created_at": "2026-08-18T04:08:11Z",
+      "description": "Sprix AI at 屿智同行 — state-aware SELF/COLLABORATE/HANDOFF routing for A2A agent networks.",
+      "full_name": "wang2122/sprix-sage-router",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 1413,
+      "stars_gained": null,
+      "topics": [
+        "a2a",
+        "agent-orchestration",
+        "agent-routing",
+        "ai-agents",
+        "multi-agent-systems",
+        "python",
+        "sprix-ai",
+        "task-scheduling"
+      ],
+      "url": "https://github.com/wang2122/sprix-sage-router"
+    },
+    {
+      "created_at": "2026-08-22T14:28:41Z",
+      "description": "x64dbg-MCP Server is a native MCP (Model Context Protocol) plugin for x64dbg that exposes the debugger's full functionality over HTTP. Connect any MCP-compatible AI assistant and control x64dbg programmatically: set breakpoints, step through code, read memory, dump registers, and more.  Built with Zig — zero dependencies, single-binary output, cros",
+      "full_name": "duty1g/x64dbg-mcp-server",
+      "language": "Zig",
+      "source": "new_repos",
+      "stars": 903,
+      "stars_gained": null,
+      "topics": [
+        "ai-agents",
+        "ai-debugging",
+        "binary-analysis",
+        "claude",
+        "claude-code",
+        "malware-analysis",
+        "malware-research",
+        "malware-scanner",
+        "mcp",
+        "mcp-server",
+        "mcp-servers",
+        "x64dbg",
+        "x64dbg-mcp",
+        "x64dbg-plugin",
+        "x64dbg-tools",
+        "xdbg",
+        "zig",
+        "zig-lang",
+        "ziglang"
+      ],
+      "url": "https://github.com/duty1g/x64dbg-mcp-server"
+    },
+    {
+      "created_at": "2026-08-23T21:14:28Z",
+      "description": "Purge multi-vendor AI watermarks: clean Unicode text, apply statistical rewrite hooks, and clear C2PA plus metadata from PNG, JPEG, SVG, PDF, DOCX, HTML, and MD.",
+      "full_name": "ShadowAqueduct/watermark-remover",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 760,
+      "stars_gained": null,
+      "topics": [
+        "claude-ai",
+        "claude-code",
+        "claude-code-plugin",
+        "claude-skills",
+        "codex",
+        "codex-cli",
+        "codex-skill",
+        "codex-skills",
+        "watermark"
+      ],
+      "url": "https://github.com/ShadowAqueduct/watermark-remover"
+    },
+    {
+      "created_at": "2026-08-18T03:13:51Z",
+      "description": "DeepSeek Harness（DSH）一只住在 DSH 界面右下角的小鲸鱼娘，帮你盯着DeepSeek账户余额。QQ弹弹，支持拖拽吸附、左吸附翻转、数字滚动动画，随界面自动启用，建议直接喊来你的dsh安装",
+      "full_name": "MeteorNOX/DeepSeek-Balance-Whale-Widget",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 727,
+      "stars_gained": null,
+      "topics": [
+        "cordis",
+        "deepseek",
+        "deepseek-harness",
+        "developer-tools",
+        "dsh",
+        "dsh-plugin",
+        "dsh-plugins",
+        "floating-widget",
+        "plugin"
+      ],
+      "url": "https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget"
+    },
+    {
+      "created_at": "2026-08-18T17:29:17Z",
+      "description": "A 3D fruit fly living on your macOS desktop, driven by a live spiking simulation of the real FlyWire connectome",
+      "full_name": "DenisSergeevitch/desktop-fly",
+      "language": "Swift",
+      "source": "new_repos",
+      "stars": 704,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/DenisSergeevitch/desktop-fly"
+    },
+    {
+      "created_at": "2026-08-20T13:40:06Z",
+      "description": "Provider-neutral Codex Skill for producing verified AI presenter videos from a script and an authorized presenter image.",
+      "full_name": "cclank/lanshu-create-ai-presenter-video",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 668,
+      "stars_gained": null,
+      "topics": [
+        "ai-video",
+        "codex",
+        "codex-skill",
+        "digital-human",
+        "video-generation"
+      ],
+      "url": "https://github.com/cclank/lanshu-create-ai-presenter-video"
+    },
+    {
+      "created_at": "2026-08-19T06:55:39Z",
+      "description": "Native macOS console for herdr — all your coding agents and their live terminals, across devices",
+      "full_name": "missuo/herdrm",
+      "language": "Swift",
+      "source": "new_repos",
+      "stars": 612,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/missuo/herdrm"
+    },
+    {
+      "created_at": "2026-08-18T09:46:23Z",
+      "description": "Every coding-agent session on your Mac in one place — browse, search, resume. Rust + GPUI.",
+      "full_name": "iAmCorey/Wake",
+      "language": "Rust",
+      "source": "new_repos",
+      "stars": 545,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/iAmCorey/Wake"
+    },
+    {
+      "created_at": "2026-08-19T12:46:46Z",
+      "description": "A cPanel and WHM authentication bypassing tool",
+      "full_name": "lanicer/cve-2026-41940-PoC",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 527,
+      "stars_gained": null,
+      "topics": [
+        "cpanel",
+        "cve",
+        "cve-2026-41940",
+        "cve-scanning",
+        "vulnerability-research"
+      ],
+      "url": "https://github.com/lanicer/cve-2026-41940-PoC"
+    },
+    {
+      "created_at": "2026-08-22T15:25:08Z",
+      "description": "Claude Code skill for premium scroll-driven websites. Scroll becomes the timeline, on a real design floor, verified by screenshotting its own scroll.",
+      "full_name": "nateherkai/scroll-craft",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 500,
+      "stars_gained": null,
+      "topics": [
+        "accessibility",
+        "agent-skills",
+        "ai-web-design",
+        "anthropic",
+        "claude-code",
+        "claude-code-plugin",
+        "creative-coding",
+        "design-system",
+        "frontend",
+        "interaction-design",
+        "landing-page",
+        "scroll-animation",
+        "scrollytelling",
+        "typography",
+        "web-design"
+      ],
+      "url": "https://github.com/nateherkai/scroll-craft"
+    },
+    {
+      "created_at": "2026-08-20T03:45:11Z",
+      "description": "GetContact CLI adalah project Python untuk melakukan lookup nomor telepon lewat API GetContact, tanpa aplikasi Android dan tanpa browser.",
+      "full_name": "xdreizein666/getcontact-cli",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 479,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/xdreizein666/getcontact-cli"
+    },
+    {
+      "created_at": "2026-08-18T11:28:59Z",
+      "description": "Youtube Downloader Zen",
+      "full_name": "PentagonConure42/youtube-downloader-zen",
+      "language": null,
+      "source": "new_repos",
+      "stars": 461,
+      "stars_gained": null,
+      "topics": [
+        "4k-downloader-multithreaded-downloads",
+        "8k-download",
+        "media-downloader",
+        "python-youtube-api",
+        "video-cut-tool",
+        "youtube-4k-downloader",
+        "youtube-clip-downloader",
+        "youtube-dl-android",
+        "youtube-downloader-gui",
+        "youtube-videos-downloader",
+        "yt-downloader"
+      ],
+      "url": "https://github.com/PentagonConure42/youtube-downloader-zen"
+    },
+    {
+      "created_at": "2026-08-22T23:06:26Z",
+      "description": "AI agent that builds a live biosecurity world around any target.",
+      "full_name": "Forsy-AI/biosecurity-agent",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 371,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/Forsy-AI/biosecurity-agent"
+    },
+    {
+      "created_at": "2026-08-19T15:31:34Z",
+      "description": "Amagine3D: From hardware requirements to editable 3D designs",
+      "full_name": "amagine-ai/Amagine3D",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 315,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/amagine-ai/Amagine3D"
+    },
+    {
+      "created_at": "2026-08-18T05:49:14Z",
+      "description": "An interactive Three.js landscape study with a procedural, pointer-responsive moss world.",
+      "full_name": "MengTo/sylva",
+      "language": "HTML",
+      "source": "new_repos",
+      "stars": 305,
+      "stars_gained": null,
+      "topics": [
+        "creative-coding",
+        "github-pages",
+        "interactive-design",
+        "procedural-generation",
+        "threejs",
+        "webgl"
+      ],
+      "url": "https://github.com/MengTo/sylva"
+    },
+    {
+      "created_at": "2026-08-22T20:26:58Z",
+      "description": "NVIDIA Kimodo ported to C++/GGML",
+      "full_name": "localai-org/kimodo.cpp",
+      "language": "C++",
+      "source": "new_repos",
+      "stars": 286,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/localai-org/kimodo.cpp"
+    },
+    {
+      "created_at": "2026-08-19T13:25:08Z",
+      "description": "Autonomous Offensive Security, Bug Bounty & Red Teaming Agent Framework powered by Hermes Agent, specialized reasoning skills, and multi-model LLM orchestration.",
+      "full_name": "Zyrexnn/Cybermes",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 269,
+      "stars_gained": null,
+      "topics": [
+        "ai-agent",
+        "appsec",
+        "bug-bounty",
+        "cvss-v3",
+        "cybersecurity",
+        "devsecops",
+        "exploit-validation",
+        "hermes-agent",
+        "infosec",
+        "llm-security",
+        "nuclei",
+        "offensive-security",
+        "penetration-testing",
+        "playwright",
+        "reconnaissance",
+        "red-teaming",
+        "security-tools",
+        "sqlmap",
+        "threat-research",
+        "vulnerability-scanner"
+      ],
+      "url": "https://github.com/Zyrexnn/Cybermes"
+    },
+    {
+      "created_at": "2026-08-21T10:12:54Z",
+      "description": "让 Codex 根据最终结果生成标题、注释、commit 和 PR，减少被否决方案在交付中的残留。",
+      "full_name": "LB623/no-negative-echo",
+      "language": "Python",
+      "source": "new_repos",
+      "stars": 267,
+      "stars_gained": null,
+      "topics": [
+        "agent-skills",
+        "chinese",
+        "codex",
+        "codex-skill",
+        "prompt-engineering"
+      ],
+      "url": "https://github.com/LB623/no-negative-echo"
+    },
+    {
+      "created_at": "2026-08-18T09:28:02Z",
+      "description": "Emotion Ball 是一套面向 AI 助手的表情引擎:32 种状态表情全部由纯 SVG 与原生 JavaScript 实时驱动,零框架、零图片资源。AI 侧只需输出一个 emotionId,小球即可切换到对应表情,可直接用作聊天机器人、桌面宠物、悬浮助手的情绪表达层。",
+      "full_name": "sam70361/emotion-ball",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 245,
+      "stars_gained": null,
+      "topics": [
+        "ai",
+        "ai-agent",
+        "animation",
+        "bot",
+        "chatbot",
+        "desktop-pet",
+        "emotion",
+        "grok",
+        "grok-bot",
+        "javascript",
+        "svg",
+        "svg-animation",
+        "vanilla-javascript"
+      ],
+      "url": "https://github.com/sam70361/emotion-ball"
+    },
+    {
+      "created_at": "2026-08-18T13:00:30Z",
+      "description": "Turn any website into a compact CLI tailored for AI agents. Browse the web in hundreds of tokens, not tens of thousands.",
+      "full_name": "only-cli/oc",
+      "language": "JavaScript",
+      "source": "new_repos",
+      "stars": 230,
+      "stars_gained": null,
+      "topics": [
+        "ai-agents",
+        "browser-automation",
+        "claude-code",
+        "cli",
+        "cli-app",
+        "cli-tool",
+        "llm",
+        "markdown",
+        "web-scraping"
+      ],
+      "url": "https://github.com/only-cli/oc"
+    },
+    {
+      "created_at": "2026-08-19T18:02:50Z",
+      "description": "DeepSeek Harness (DSH) plugin: a live iOS Simulator — and a USB-connected iPhone — inside the conversation. 22 agent tools for booting, building, driving the UI by accessibility identity, OCR text or list rows, plus a streaming sidebar panel you can tap and drag on.",
+      "full_name": "ZSeven-W/dsh-ios",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 221,
+      "stars_gained": null,
+      "topics": [
+        "accessibility",
+        "ai-agents",
+        "coding-agent",
+        "deepseek-harness",
+        "dsh",
+        "dsh-plugin",
+        "ios",
+        "ios-simulator",
+        "iphone",
+        "mcp",
+        "mobile-automation",
+        "plugin",
+        "typescript",
+        "ui-automation",
+        "webdriveragent",
+        "xcode"
+      ],
+      "url": "https://github.com/ZSeven-W/dsh-ios"
+    },
+    {
+      "created_at": "2026-08-19T10:32:05Z",
+      "description": "Hand-picked ESP32 projects worth building, copying, or watching run",
+      "full_name": "s0lness/awesome-esp32",
+      "language": null,
+      "source": "new_repos",
+      "stars": 220,
+      "stars_gained": null,
+      "topics": [
+        "awesome",
+        "awesome-list",
+        "embedded",
+        "esp32",
+        "esp32-s3",
+        "iot"
+      ],
+      "url": "https://github.com/s0lness/awesome-esp32"
+    },
+    {
+      "created_at": "2026-08-18T12:46:20Z",
+      "description": "Git forge on Durable Objects",
+      "full_name": "littledivy/dgit",
+      "language": "TypeScript",
+      "source": "new_repos",
+      "stars": 207,
+      "stars_gained": null,
+      "topics": [],
+      "url": "https://github.com/littledivy/dgit"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "new_repos"
+}

@@ -1,17 +1,17 @@
 {
   "artifact_type": "ranking",
   "covered_period": {
-    "end": "2026-08-23",
-    "label": "2026-W34",
+    "end": "2026-08-24",
+    "label": "2026-W35",
     "start": "2026-05-18"
   },
-  "generated_at": "2026-08-23T18:21:51Z",
+  "generated_at": "2026-08-24T01:48:55Z",
   "metric_definition": "Latest absolute GitHub stars for repositories with MCP or Model Context Protocol signals.",
   "metric_label": "Stars",
   "provenance": {
     "generator": "scripts/generate_ranking_artifacts.py",
     "methodology_url": "/methodology/",
-    "source_checksum": "6d20a1dc5ea5ea7ab9a3f98661f36079bdc5f8117587736531834552fe880504",
+    "source_checksum": "ae2fcf1b3c8a3d5ccd7ee22dc02d11dd08b5c81a9d242e4f9a6441fca593e337",
     "source_paths": [
       "data/archive/recovered-W23-W29/2026-W23/2026-W23.json",
       "data/archive/recovered-W23-W29/2026-W24/2026-W24.json",
@@ -26,7 +26,8 @@
       "data/raw/2026-W31.json",
       "data/raw/2026-W32.json",
       "data/raw/2026-W33.json",
-      "data/raw/2026-W34.json"
+      "data/raw/2026-W34.json",
+      "data/raw/2026-W35.json"
     ]
   },
   "ranking_id": "most-starred-mcp-projects",
@@ -40,8 +41,8 @@
       "github_url": "https://github.com/affaan-m/ECC",
       "language": "JavaScript",
       "metric_key": "stars",
-      "metric_label": "242,452 stars",
-      "metric_value": 242452,
+      "metric_label": "242,577 stars",
+      "metric_value": 242577,
       "rank": 1,
       "repository_id": "affaan-m-ecc"
     },
@@ -54,8 +55,8 @@
       "github_url": "https://github.com/n8n-io/n8n",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "202,111 stars",
-      "metric_value": 202111,
+      "metric_label": "202,161 stars",
+      "metric_value": 202161,
       "rank": 2,
       "repository_id": "n8n-io-n8n"
     },
@@ -82,8 +83,8 @@
       "github_url": "https://github.com/Snailclimb/JavaGuide",
       "language": "JavaScript",
       "metric_key": "stars",
-      "metric_label": "157,974 stars",
-      "metric_value": 157974,
+      "metric_label": "157,977 stars",
+      "metric_value": 157977,
       "rank": 4,
       "repository_id": "snailclimb-javaguide"
     },
@@ -96,8 +97,8 @@
       "github_url": "https://github.com/langgenius/dify",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "153,280 stars",
-      "metric_value": 153280,
+      "metric_label": "153,295 stars",
+      "metric_value": 153295,
       "rank": 5,
       "repository_id": "langgenius-dify"
     },
@@ -110,8 +111,8 @@
       "github_url": "https://github.com/open-webui/open-webui",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "149,664 stars",
-      "metric_value": 149664,
+      "metric_label": "149,691 stars",
+      "metric_value": 149691,
       "rank": 6,
       "repository_id": "open-webui-open-webui"
     },
@@ -124,8 +125,8 @@
       "github_url": "https://github.com/farion1231/cc-switch",
       "language": "Rust",
       "metric_key": "stars",
-      "metric_label": "128,981 stars",
-      "metric_value": 128981,
+      "metric_label": "129,002 stars",
+      "metric_value": 129002,
       "rank": 7,
       "repository_id": "farion1231-cc-switch"
     },
@@ -138,8 +139,8 @@
       "github_url": "https://github.com/Graphify-Labs/graphify",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "109,771 stars",
-      "metric_value": 109771,
+      "metric_label": "109,846 stars",
+      "metric_value": 109846,
       "rank": 8,
       "repository_id": "graphify-labs-graphify"
     },
@@ -166,8 +167,8 @@
       "github_url": "https://github.com/modelcontextprotocol/servers",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "89,805 stars",
-      "metric_value": 89805,
+      "metric_label": "89,808 stars",
+      "metric_value": 89808,
       "rank": 10,
       "repository_id": "modelcontextprotocol-servers"
     },
@@ -180,8 +181,8 @@
       "github_url": "https://github.com/koala73/worldmonitor",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "83,920 stars",
-      "metric_value": 83920,
+      "metric_label": "83,953 stars",
+      "metric_value": 83953,
       "rank": 11,
       "repository_id": "koala73-worldmonitor"
     },
@@ -222,8 +223,8 @@
       "github_url": "https://github.com/D4Vinci/Scrapling",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "76,065 stars",
-      "metric_value": 76065,
+      "metric_label": "76,119 stars",
+      "metric_value": 76119,
       "rank": 14,
       "repository_id": "d4vinci-scrapling"
     },
@@ -264,8 +265,8 @@
       "github_url": "https://github.com/headroomlabs-ai/headroom",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "67,274 stars",
-      "metric_value": 67274,
+      "metric_label": "67,296 stars",
+      "metric_value": 67296,
       "rank": 17,
       "repository_id": "headroomlabs-ai-headroom"
     },
@@ -278,8 +279,8 @@
       "github_url": "https://github.com/upstash/context7",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "61,110 stars",
-      "metric_value": 61110,
+      "metric_label": "61,118 stars",
+      "metric_value": 61118,
       "rank": 18,
       "repository_id": "upstash-context7"
     },
@@ -292,8 +293,8 @@
       "github_url": "https://github.com/MemPalace/mempalace",
       "language": "Python",
       "metric_key": "stars",
-      "metric_label": "58,574 stars",
-      "metric_value": 58574,
+      "metric_label": "58,583 stars",
+      "metric_value": 58583,
       "rank": 19,
       "repository_id": "mempalace-mempalace"
     },
@@ -356,6 +357,20 @@
     {
       "comparison_label": null,
       "comparison_value": null,
+      "context_accessible_text": "x64dbg-MCP Server is a native MCP (Model Context Protocol) plugin for x64dbg that exposes the debugger's full functionality over HTTP. Connect any MCP-compatible AI assistant and control x64dbg programmatically: set breakpoints, step through code, read memory, dump registers, and more. Built with Zig \u2014 zero dependencies, single-binary output, cros",
+      "context_summary": "x64dbg-MCP Server is a native MCP (Model Context Protocol) plugin for x64dbg that exposes the debugger's full functionality over HTTP. Connect any\u2026",
+      "full_name": "duty1g/x64dbg-mcp-server",
+      "github_url": "https://github.com/duty1g/x64dbg-mcp-server",
+      "language": "Zig",
+      "metric_key": "stars",
+      "metric_label": "903 stars",
+      "metric_value": 903,
+      "rank": 24,
+      "repository_id": "duty1g-x64dbg-mcp-server"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
       "context_accessible_text": "Provider-neutral Agent Skill for Codex, Claude Code, and agentic harness design.",
       "context_summary": "Provider-neutral Agent Skill for Codex, Claude Code, and agentic harness design.",
       "full_name": "DenisSergeevitch/agents-best-practices",
@@ -364,7 +379,7 @@
       "metric_key": "stars",
       "metric_label": "757 stars",
       "metric_value": 757,
-      "rank": 24,
+      "rank": 25,
       "repository_id": "denissergeevitch-agents-best-practices"
     },
     {
@@ -378,7 +393,7 @@
       "metric_key": "stars",
       "metric_label": "702 stars",
       "metric_value": 702,
-      "rank": 25,
+      "rank": 26,
       "repository_id": "winsznx-theeleven"
     },
     {
@@ -392,22 +407,8 @@
       "metric_key": "stars",
       "metric_label": "639 stars",
       "metric_value": 639,
-      "rank": 26,
-      "repository_id": "rebel0789-codexpro"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "x64dbg-MCP Server is a native MCP (Model Context Protocol) plugin for x64dbg that exposes the debugger's full functionality over HTTP. Connect any MCP-compatible AI assistant and control x64dbg programmatically: set breakpoints, step through code, read memory, dump registers, and more. Built with Zig \u2014 zero dependencies, single-binary output, cros",
-      "context_summary": "x64dbg-MCP Server is a native MCP (Model Context Protocol) plugin for x64dbg that exposes the debugger's full functionality over HTTP. Connect any\u2026",
-      "full_name": "duty1g/x64dbg-mcp-server",
-      "github_url": "https://github.com/duty1g/x64dbg-mcp-server",
-      "language": "Zig",
-      "metric_key": "stars",
-      "metric_label": "577 stars",
-      "metric_value": 577,
       "rank": 27,
-      "repository_id": "duty1g-x64dbg-mcp-server"
+      "repository_id": "rebel0789-codexpro"
     },
     {
       "comparison_label": null,
@@ -600,8 +601,8 @@
       "github_url": "https://github.com/ZSeven-W/dsh-ios",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "217 stars",
-      "metric_value": 217,
+      "metric_label": "221 stars",
+      "metric_value": 221,
       "rank": 41,
       "repository_id": "zseven-w-dsh-ios"
     },
@@ -692,6 +693,20 @@
     {
       "comparison_label": null,
       "comparison_value": null,
+      "context_accessible_text": "The open-source alternative to Paper.design. A multiplayer design canvas where humans and AI agents design together, live. MCP built in.",
+      "context_summary": "The open-source alternative to Paper.design. A multiplayer design canvas where humans and AI agents design together, live. MCP built in.",
+      "full_name": "kgoedecke/doop",
+      "github_url": "https://github.com/kgoedecke/doop",
+      "language": "TypeScript",
+      "metric_key": "stars",
+      "metric_label": "165 stars",
+      "metric_value": 165,
+      "rank": 48,
+      "repository_id": "kgoedecke-doop"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
       "context_accessible_text": "Open Science \u2014 an open AI workbench for scientists. Open-source alternative to Claude Science: local-first, model-agnostic, reproducible AI research desktop (macOS & Windows), built on Tauri + MCP + agent skills.",
       "context_summary": "Open Science \u2014 an open AI workbench for scientists. Open-source alternative to Claude Science: local-first, model-agnostic, reproducible AI research desktop\u2026",
       "full_name": "ai4s-research/open-science",
@@ -700,22 +715,8 @@
       "metric_key": "stars",
       "metric_label": "157 stars",
       "metric_value": 157,
-      "rank": 48,
-      "repository_id": "ai4s-research-open-science"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "The open-source alternative to Paper.design. A multiplayer design canvas where humans and AI agents design together, live. MCP built in.",
-      "context_summary": "The open-source alternative to Paper.design. A multiplayer design canvas where humans and AI agents design together, live. MCP built in.",
-      "full_name": "kgoedecke/doop",
-      "github_url": "https://github.com/kgoedecke/doop",
-      "language": "TypeScript",
-      "metric_key": "stars",
-      "metric_label": "139 stars",
-      "metric_value": 139,
       "rank": 49,
-      "repository_id": "kgoedecke-doop"
+      "repository_id": "ai4s-research-open-science"
     },
     {
       "comparison_label": null,
@@ -866,8 +867,8 @@
       "github_url": "https://github.com/joe960913/Jixu",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "110 stars",
-      "metric_value": 110,
+      "metric_label": "113 stars",
+      "metric_value": 113,
       "rank": 60,
       "repository_id": "joe960913-jixu"
     },
@@ -1042,6 +1043,20 @@
     {
       "comparison_label": null,
       "comparison_value": null,
+      "context_accessible_text": "The spreadsheet framework built for agents \u2014 write the model as React, export a live .xlsx. The third medium, after open-slide and open-doc.",
+      "context_summary": "The spreadsheet framework built for agents \u2014 write the model as React, export a live .xlsx. The third medium, after open-slide and open-doc.",
+      "full_name": "lianghsun/open-sheet",
+      "github_url": "https://github.com/lianghsun/open-sheet",
+      "language": "TypeScript",
+      "metric_key": "stars",
+      "metric_label": "80 stars",
+      "metric_value": 80,
+      "rank": 73,
+      "repository_id": "lianghsun-open-sheet"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
       "context_accessible_text": "Palmier Pro AI video editor macOS windows timeline multitrack NLE footage model context protocol MCP server agent Claude Cursor Swift SwiftUI AVFoundation storyboard audio prores metal automation rendering fx",
       "context_summary": "Palmier Pro AI video editor macOS windows timeline multitrack NLE footage model context protocol MCP server agent Claude Cursor Swift SwiftUI AVFoundation\u2026",
       "full_name": "dikurdikur/palmier-pro-windows",
@@ -1050,22 +1065,8 @@
       "metric_key": "stars",
       "metric_label": "79 stars",
       "metric_value": 79,
-      "rank": 73,
-      "repository_id": "dikurdikur-palmier-pro-windows"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "The spreadsheet framework built for agents \u2014 write the model as React, export a live .xlsx. The third medium, after open-slide and open-doc.",
-      "context_summary": "The spreadsheet framework built for agents \u2014 write the model as React, export a live .xlsx. The third medium, after open-slide and open-doc.",
-      "full_name": "lianghsun/open-sheet",
-      "github_url": "https://github.com/lianghsun/open-sheet",
-      "language": "TypeScript",
-      "metric_key": "stars",
-      "metric_label": "78 stars",
-      "metric_value": 78,
       "rank": 74,
-      "repository_id": "lianghsun-open-sheet"
+      "repository_id": "dikurdikur-palmier-pro-windows"
     },
     {
       "comparison_label": null,
@@ -1168,6 +1169,20 @@
     {
       "comparison_label": null,
       "comparison_value": null,
+      "context_accessible_text": "Local Windows coding and computer-use bridge for ChatGPT over MCP, limited to folders and capabilities you approve.",
+      "context_summary": "Local Windows coding and computer-use bridge for ChatGPT over MCP, limited to folders and capabilities you approve.",
+      "full_name": "totec448-spec/chat-on-steroids",
+      "github_url": "https://github.com/totec448-spec/chat-on-steroids",
+      "language": "TypeScript",
+      "metric_key": "stars",
+      "metric_label": "67 stars",
+      "metric_value": 67,
+      "rank": 82,
+      "repository_id": "totec448-spec-chat-on-steroids"
+    },
+    {
+      "comparison_label": null,
+      "comparison_value": null,
       "context_accessible_text": "TON MCP server for Claude, ChatGPT, Cursor, Codex and any MCP client \u2014 liteserver queries over native ADNL: balances, account state, transaction history, get-methods. Private & archive endpoints supported",
       "context_summary": "TON MCP server for Claude, ChatGPT, Cursor, Codex and any MCP client \u2014 liteserver queries over native ADNL: balances, account state, transaction history\u2026",
       "full_name": "tonnode/mcp",
@@ -1176,7 +1191,7 @@
       "metric_key": "stars",
       "metric_label": "66 stars",
       "metric_value": 66,
-      "rank": 82,
+      "rank": 83,
       "repository_id": "tonnode-mcp"
     },
     {
@@ -1190,7 +1205,7 @@
       "metric_key": "stars",
       "metric_label": "65 stars",
       "metric_value": 65,
-      "rank": 83,
+      "rank": 84,
       "repository_id": "mintdotgg-mint-threejs-skills"
     },
     {
@@ -1204,22 +1219,8 @@
       "metric_key": "stars",
       "metric_label": "65 stars",
       "metric_value": 65,
-      "rank": 84,
-      "repository_id": "wassermanproductions-wassermans-filmmaker-suite"
-    },
-    {
-      "comparison_label": null,
-      "comparison_value": null,
-      "context_accessible_text": "Local Windows coding and computer-use bridge for ChatGPT over MCP, limited to folders and capabilities you approve.",
-      "context_summary": "Local Windows coding and computer-use bridge for ChatGPT over MCP, limited to folders and capabilities you approve.",
-      "full_name": "totec448-spec/chat-on-steroids",
-      "github_url": "https://github.com/totec448-spec/chat-on-steroids",
-      "language": "TypeScript",
-      "metric_key": "stars",
-      "metric_label": "64 stars",
-      "metric_value": 64,
       "rank": 85,
-      "repository_id": "totec448-spec-chat-on-steroids"
+      "repository_id": "wassermanproductions-wassermans-filmmaker-suite"
     },
     {
       "comparison_label": null,
@@ -1300,8 +1301,8 @@
       "github_url": "https://github.com/Cripacx/mediagen",
       "language": "TypeScript",
       "metric_key": "stars",
-      "metric_label": "55 stars",
-      "metric_value": 55,
+      "metric_label": "54 stars",
+      "metric_value": 54,
       "rank": 91,
       "repository_id": "cripacx-mediagen"
     },
