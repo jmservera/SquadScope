@@ -476,3 +476,37 @@ def test_rejects_non_deferred_finding_with_waiver() -> None:
     candidate["findings"][0]["waiver"] = waiver_obj()
     with pytest.raises(ValueError, match="has a waiver but is not deferred"):
         validate_at(candidate)
+
+
+def test_go_candidate_invalidated_by_later_product_changes() -> None:
+    """A later product/test change must invalidate a previously frozen GO candidate."""
+    # Build a valid GO candidate first (verify it passes)
+    candidate = make_go(defer_findings(freeze(payload())))
+    # must pass clean before we apply the invalidating change
+    validate_at(candidate)
+    # Simulate a product tree change after the candidate was frozen and went GO
+    with pytest.raises(ValueError, match="Product tree changed"):
+        validate(
+            candidate,
+            load_object(SCHEMA),
+            now=datetime(2026, 8, 13, 1, tzinfo=timezone.utc),
+            product_tree_sha256="d" * 64,
+        )
+
+
+def test_unreachable_candidate_cannot_remain_go() -> None:
+    """A GO candidate whose SHA is no longer reachable must be rejected.
+
+    Simulated by providing a candidate_revision_tree_sha256 that no longer matches
+    the declared frozen digest — equivalent to git ls-tree returning different content
+    for the squash-integrated commit.
+    """
+    candidate = make_go(defer_findings(freeze(payload())))
+    validate_at(candidate)
+    with pytest.raises(ValueError, match="Declared candidate SHA"):
+        validate(
+            candidate,
+            load_object(SCHEMA),
+            now=datetime(2026, 8, 13, 1, tzinfo=timezone.utc),
+            candidate_revision_tree_sha256="e" * 64,
+        )
