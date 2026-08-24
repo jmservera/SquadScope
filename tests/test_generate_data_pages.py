@@ -78,6 +78,20 @@ def test_generation_is_deterministic_without_crawled_at(
             shutil.rmtree(scratch)
 
 
+def test_source_summary_uses_week_range_across_source_directories() -> None:
+    paths = {
+        ROOT / "data/raw/2026-W21.json",
+        ROOT / "data/raw/2026-W22.json",
+        ROOT / "data/archive/recovered-W23-W29/2026-W23/2026-W23.json",
+        ROOT / "data/raw/2026-W24.json",
+    }
+
+    assert generate_data_pages.source_summary(paths) == (
+        "2026-W21 through 2026-W24 (4 weekly raw artifacts from "
+        "data/archive/recovered-W23-W29 and data/raw)"
+    )
+
+
 def json_payload_without_crawled_at() -> str:
     return """{
   "week": "2026-W01",
