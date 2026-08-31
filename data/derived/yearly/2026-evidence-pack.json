@@ -427,11 +427,39 @@
       "source_id": "SRC-2026-W35",
       "status": "resolved",
       "text": "Watch whether agent skills acquire trust metadata or keep spreading as informal prompt packages. The next credible wave should connect routing, local consoles, and MCP tools with permissioning, logging, and evaluation rather than adding more surfaces for agents to touch. If the ecosystem follows this week's strongest evidence, the winning projects will make agent action less magical and more inspectable."
+    },
+    {
+      "claim_id": "CLM-2026-W36-SUMMARY",
+      "claim_type": "summary",
+      "source_id": "SRC-2026-W36",
+      "status": "resolved",
+      "text": "Agent tooling shifted toward executable research, skills, and control surfaces while infrastructure and trust gaps sharpened."
+    },
+    {
+      "claim_id": "CLM-2026-W36-SIGNAL",
+      "claim_type": "signal",
+      "source_id": "SRC-2026-W36",
+      "status": "resolved",
+      "text": "The durable signal is clustered around workflow architecture. [sapientinc/PRAXIST](https://github.com/sapientinc/PRAXIST) has unusually strong new-repo attention and a concrete research-automation thesis. [Tencent/WeMM-Embedding](https://github.com/Tencent/WeMM-Embedding) matters because multimodal retrieval is a production bottleneck, not a novelty feature. [S1N6H/pentest-harness](https://github.com/S1N6H/pentest-harness) is riskier, but still significant: it shows agent harnesses moving into security labs where permissions, audit trails, and misuse prevention are not optional. The persistent strength of [openclaw/openclaw](https://github.com/openclaw/openclaw), [affaan-m/ECC](https://github.com/affaan-m/ECC), [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent), [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness), and [Significant-Gravitas/AutoGPT](https://github.com/Significant-Gravitas/AutoGPT) keeps the agent-platform layer in the center of gravity. The noise is concentrated in brand borrowing, thin wrappers, and adversarial spectacle. [MetaMask-AI/metamask-desktop](https://github.com/MetaMask-AI/metamask-desktop) has a famous-product name, crypto-heavy topic stuffing, no declared license, and only modest fork depth relative to its sudden star count; it should be treated as attention, not ecosystem evidence. [OnlyTerp/opengrok](https://github.com/OnlyTerp/opengrok) and [hkqr/my-free-code](https://github.com/hkqr/my-free-code) may satisfy real demand for model routing and provider flexibility, but both sit in a crowded wrapper category where retention will matter more than launch-week stars. [DavidCarliez/trustmebro](https://github.com/DavidCarliez/trustmebro) is not mere noise; it is a warning flare that fabricated tool output and guardrail bypasses are becoming part of the agent threat model."
+    },
+    {
+      "claim_id": "CLM-2026-W36-GAPS",
+      "claim_type": "gaps",
+      "source_id": "SRC-2026-W36",
+      "status": "resolved",
+      "text": "The biggest absence is trustworthy agent governance. The crawl has plenty of skills, harnesses, and execution surfaces, but very little visible work on permission models, signed skill provenance, audit logs, rollback semantics, or policy testing. That gap matters because the week's most interesting repos make agents more capable and more organizational without showing comparable investment in institutional controls. Evaluation is also underrepresented relative to press concern. GitHub's LLM evaluation coverage fits the moment, but the new-repo set shows more packaging than measurement. There is also limited visible traction around accessibility quality, energy-aware scheduling, and regulated-domain compliance, even though press coverage touched accessibility, power infrastructure, health, and mobility."
+    },
+    {
+      "claim_id": "CLM-2026-W36-CONCLUSION",
+      "claim_type": "conclusion",
+      "source_id": "SRC-2026-W36",
+      "status": "resolved",
+      "text": "Watch whether organizational agent projects keep gaining forks and real integrations after launch-week attention fades. The next useful signal will be less about another skill pack and more about interoperability: shared registries, permissioned MCP surfaces, evaluation harnesses, and cost observability. If projects like [sapientinc/PRAXIST](https://github.com/sapientinc/PRAXIST), [cbrock84/headcount](https://github.com/cbrock84/headcount), and [damejan80/tokentab](https://github.com/damejan80/tokentab) sustain, September's story may be agent operations rather than agent demos."
     }
   ],
   "counts": {
-    "claims": 61,
-    "sources": 15
+    "claims": 65,
+    "sources": 16
   },
   "months_covered": [
     "2026-05",
@@ -670,6 +698,21 @@
       "title": "Agent Skills Hit the Trust Wall",
       "top_repo": "wang2122/sprix-sage-router",
       "week": "2026-W35"
+    },
+    {
+      "month": "2026-08",
+      "source_id": "SRC-2026-W36",
+      "tags": [
+        "ai-agents",
+        "agent-skills",
+        "mcp",
+        "developer-tools",
+        "ai-infrastructure",
+        "trust-safety"
+      ],
+      "title": "Agents Become Work Systems, Not Chatbots",
+      "top_repo": "sapientinc/PRAXIST",
+      "week": "2026-W36"
     }
   ],
   "year": 2026
