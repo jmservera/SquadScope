@@ -1,0 +1,134 @@
+{
+  "terms": {
+    "ai-agents-in-healthcare": {
+      "aliases": [
+        "clinical",
+        "healthcare",
+        "medical",
+        "scientific",
+        "simulation"
+      ],
+      "count": 1,
+      "display_name": "AI Agents in Healthcare",
+      "first_seen": "2026-07-27",
+      "is_hub": true,
+      "last_used": "2026-07-27",
+      "order": 4,
+      "promoted": true,
+      "slug": "ai-agents-in-healthcare",
+      "times_used": 1,
+      "weekly_issue_count": 1
+    },
+    "ai-coding-agents": {
+      "aliases": [
+        "agent-skills",
+        "ai-agents",
+        "autogpt",
+        "claude-code",
+        "codex",
+        "coding-agents",
+        "openai",
+        "openhands"
+      ],
+      "count": 15,
+      "display_name": "AI Coding Agents",
+      "first_seen": "2026-05-21",
+      "is_hub": true,
+      "last_used": "2026-08-24",
+      "order": 0,
+      "promoted": true,
+      "slug": "ai-coding-agents",
+      "times_used": 15,
+      "weekly_issue_count": 15
+    },
+    "ai-machine-learning": {
+      "count": 0,
+      "display_name": "AI & Machine Learning",
+      "first_seen": null,
+      "is_hub": true,
+      "last_used": null,
+      "promoted": true,
+      "slug": "ai-machine-learning",
+      "times_used": 0,
+      "weekly_issue_count": 0
+    },
+    "developer-tools": {
+      "aliases": [
+        "build",
+        "cli",
+        "developer-tooling",
+        "developer-tools",
+        "go",
+        "javascript",
+        "observability",
+        "python",
+        "rust",
+        "testing",
+        "typescript"
+      ],
+      "count": 7,
+      "display_name": "Developer Tools",
+      "first_seen": "2026-05-25",
+      "is_hub": true,
+      "last_used": "2026-08-24",
+      "order": 3,
+      "promoted": true,
+      "slug": "developer-tools",
+      "times_used": 7,
+      "weekly_issue_count": 7
+    },
+    "local-first": {
+      "aliases": [
+        "local-first"
+      ],
+      "count": 11,
+      "display_name": "Local First",
+      "first_seen": "2026-05-25",
+      "is_hub": true,
+      "last_used": "2026-08-24",
+      "promoted": true,
+      "slug": "local-first",
+      "times_used": 11,
+      "weekly_issue_count": 11
+    },
+    "mcp-ecosystem": {
+      "aliases": [
+        "mcp",
+        "mcp-server",
+        "modelcontextprotocol",
+        "servers"
+      ],
+      "count": 4,
+      "display_name": "MCP Ecosystem",
+      "first_seen": "2026-05-21",
+      "is_hub": true,
+      "last_used": "2026-08-24",
+      "order": 1,
+      "promoted": true,
+      "slug": "mcp-ecosystem",
+      "times_used": 4,
+      "weekly_issue_count": 4
+    },
+    "open-source-llms": {
+      "aliases": [
+        "huggingface",
+        "llm",
+        "local-ai",
+        "model-routing",
+        "ollama",
+        "open-source",
+        "transformers"
+      ],
+      "count": 4,
+      "display_name": "Open-Source LLMs",
+      "first_seen": "2026-05-25",
+      "is_hub": true,
+      "last_used": "2026-07-20",
+      "order": 2,
+      "promoted": true,
+      "slug": "open-source-llms",
+      "times_used": 4,
+      "weekly_issue_count": 4
+    }
+  }
+}

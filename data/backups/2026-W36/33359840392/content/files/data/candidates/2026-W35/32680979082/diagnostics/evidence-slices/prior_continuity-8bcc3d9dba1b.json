@@ -1,0 +1,28 @@
+{
+  "checksum_sha256": "8bcc3d9dba1b7598343fc0504b705efe7614d2dc59f8ada85f20a82b25143462",
+  "component": "prior_continuity",
+  "provenance": {
+    "sources": {
+      "prior_summary": {
+        "bytes": 8107,
+        "path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W34-summary.md",
+        "sha256": "4b96b27be75ab799642ae2c942516c5a45a59771c8294cac7be311a6f408aa89"
+      },
+      "raw_json": {
+        "bytes": 352726,
+        "path": "data/raw/2026-W35.json",
+        "sha256": "6e8923202ed858754b659442d923473ec6477ab9fe4129868b7eea864e449570"
+      }
+    },
+    "week": "2026-W35"
+  },
+  "records": [
+    {
+      "excerpt": "---\ntitle: \"Harnesses Took Over the Agent Stack\"\ndate: 2026-08-23T18:27:51Z\nweek: \"2026-W34\"\nyear: 2026\ntags: [ai-agents, agent-skills, mcp, developer-tools, ai-safety, agent-governance, self-hosting]\ncategories: [weekly]\nrepos_featured: 50\nstars_tracked: 6828882\ntop_repo: \"CopilotKit/OpenBot\"\nquality_score: 100\nsummary: \"Agent work shifted from models to harnesses, skills, and control surfaces while safety and discovery trust lagged behind.\"\npredictions:\n  - repo: CopilotKit/OpenBot\n    claim_type: signal\n    direction: up\n    confidence: 0.76\n  - repo: browser-use/macos-harness\n    claim_type: signal\n    direction: up\n    confidence: 0.7\n  - repo: Spielewoy/autoprompt-skill\n    claim_type: signal\n    direction: up\n    confidence: 0.66\n  - repo: flaqai/backlink_skills\n    claim_type: noise\n    direction: down\n    confidence: 0.72\n  - repo: PentagonConure42/youtube-downloader-zen\n    claim_type: noise\n    direction: down\n    confidence: 0.69\n---\n\nAugust 2026's agent story hardened arou",
+      "present": true,
+      "source_path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W34-summary.md"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "prior_continuity"
+}

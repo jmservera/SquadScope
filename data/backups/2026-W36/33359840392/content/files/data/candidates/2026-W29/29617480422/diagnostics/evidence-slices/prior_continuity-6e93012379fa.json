@@ -1,0 +1,28 @@
+{
+  "checksum_sha256": "6e93012379fac98cc40f86d0291da914166b1f5a54d2b09727b1769e668ff497",
+  "component": "prior_continuity",
+  "provenance": {
+    "sources": {
+      "prior_summary": {
+        "bytes": 12033,
+        "path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W28-summary.md",
+        "sha256": "6518c830c646ebc5d382c657658d12b9fa2dff772a96c9fcc0c8de59040bb4c7"
+      },
+      "raw_json": {
+        "bytes": 282849,
+        "path": "data/raw/2026-W29.json",
+        "sha256": "02cc029136e100563250ce3fa3b2d3bb1cb2242cd5fb77e7d77898a0e4402452"
+      }
+    },
+    "week": "2026-W29"
+  },
+  "records": [
+    {
+      "excerpt": "---\ntitle: \"Agents Get Cheaper, Riskier, and More Specialized\"\ndate: 2026-07-06T04:23:58Z\nweek: \"2026-W28\"\nyear: 2026\ntags: [ai-agents, agent-skills, security, local-first, ai-science, inference]\ncategories: [weekly]\nrepos_featured: 242\nstars_tracked: 20536000\ntop_repo: \"elder-plinius/T3MP3ST\"\nquality_score: 87\nsummary: \"Week 28 turns agent work toward cost control, scientific workbenches, and offensive automation while spam keeps gaming discovery.\"\npredictions:\n  - repo: elder-plinius/T3MP3ST\n    claim_type: signal\n    direction: up\n    confidence: 0.72\n  - repo: Kulaxyz/token-diet\n    claim_type: signal\n    direction: up\n    confidence: 0.68\n  - repo: ai4s-research/open-science\n    claim_type: signal\n    direction: up\n    confidence: 0.66\n  - repo: CalmNoteDepot/MECCHA-VISION-ULTIMATE\n    claim_type: noise\n    direction: down\n    confidence: 0.82\n  - repo: michaelshimeles/boring-computers\n    claim_type: gap\n    direction: flat\n    confidence: 0.63\n---\n\n## This Week's Trends\n\n**Agent",
+      "present": true,
+      "source_path": "/home/runner/work/SquadScope/SquadScope/data/analyzed/2026-W28-summary.md"
+    }
+  ],
+  "schema_version": "analysis_evidence_slice_v1",
+  "slice_name": "prior_continuity"
+}
