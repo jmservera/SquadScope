@@ -13,11 +13,18 @@
       "stage": "analysis",
       "week": "2026-W35",
       "workflow_run_id": "32680979082"
+    },
+    {
+      "model": "copilot-default",
+      "run_attempt": 1,
+      "stage": "analysis",
+      "week": "2026-W36",
+      "workflow_run_id": "33359840392"
     }
   ],
   "covered_period": {
-    "end": "2026-W35",
-    "latest_record_at": "2026-08-24T01:49:42Z",
+    "end": "2026-W36",
+    "latest_record_at": "2026-08-31T05:19:53Z",
     "start": "2026-W34"
   },
   "currency": "USD",
@@ -26,7 +33,7 @@
     "model_none": 0,
     "superseded_attempts": 0
   },
-  "generated_at": "2026-08-24T01:49:42Z",
+  "generated_at": "2026-08-31T05:19:53Z",
   "pricing_basis": "scripts.track_token_usage.MODEL_PRICING_USD_PER_MILLION",
   "provenance": {
     "ledger": "data/metrics/token-usage.jsonl",
@@ -34,15 +41,15 @@
     "maximum_age_days": 30
   },
   "reconciliation": {
-    "accepted_records": 2,
-    "billable_records": 2,
-    "input_records": 8,
+    "accepted_records": 3,
+    "billable_records": 3,
+    "input_records": 9,
     "status": "reconciled"
   },
   "schema_version": "1.0.0",
   "totals": {
-    "cost": 0.248964,
-    "input_tokens": 51458,
-    "output_tokens": 6306
+    "cost": 0.368619,
+    "input_tokens": 76633,
+    "output_tokens": 9248
   }
 }
