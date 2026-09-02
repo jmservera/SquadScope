@@ -1,7 +1,7 @@
 ---
 title: "Privacy Policy"
 description: "What data Claracle collects (almost none) and how third-party analytics work."
-date: 2026-05-25
+date: 2026-09-02
 draft: false
 ---
 
@@ -15,7 +15,19 @@ The editorial pipeline behind Claracle analyzes public GitHub repository metadat
 
 ## Who we are
 
-Claracle is an editorial trend-analysis site published from the [jmservera/SquadScope GitHub repository](https://github.com/jmservera/SquadScope). For privacy questions, use GitHub issues as the maintainer contact route: [open a SquadScope issue](https://github.com/jmservera/SquadScope/issues/new).
+Claracle is an editorial trend-analysis site published from the [jmservera/SquadScope GitHub repository](https://github.com/jmservera/SquadScope). The site operator, and the controller for the processing described in this policy, is **jmservera**, the maintainer of that repository. Claracle has no separate corporate entity, registered business address, or private contact email; all contact runs through the public GitHub issue route below. For privacy questions, use GitHub issues as the maintainer contact route: [open a SquadScope issue](https://github.com/jmservera/SquadScope/issues/new).
+
+## Google Sign-In, OAuth, and Google Account data
+
+Claracle does **not** implement Google Sign-In or any Google OAuth integration. The site has no accounts, no login, and no feature that requests permission from a Google Account. Claracle does not request, access, receive, store, or share any visitor's Google Account profile or account data, whether through Google Sign-In, OAuth, or any other mechanism.
+
+The Google-related services relevant to Claracle are:
+
+- **Google Analytics 4 (GA4)** — consent-gated, described below.
+- **Google Fonts** — used to load the site's typefaces, described below.
+- **A static Google Search Console site-ownership verification tag** — connected to the maintainer's Google account for property verification, present only where configured for a given deployment, described below.
+
+None of these involve Google Sign-In, OAuth, or access to a visitor's Google Account, and none of them provide Claracle with a visitor's Google Account data.
 
 ## What is collected by third parties
 
@@ -38,6 +50,10 @@ Analytics in an embedded Claracle chart starts off. It can be enabled only when 
 ### Google Fonts
 
 Claracle loads Inter and JetBrains Mono from Google Fonts. When your browser requests those font files, Google may receive request metadata such as your IP address and user-agent under [Google's Privacy Policy](https://policies.google.com/privacy).
+
+### Google Search Console site-ownership verification
+
+Where configured for a given deployment, Claracle includes a static `google-site-verification` meta tag in the page `<head>`. This tag is connected to the maintainer's Search Console/Google account for the purpose of proving domain ownership to Google — that is what a site-verification tag is for. It does not identify, authenticate, or connect to any **visitor's** Google Account: it does not set a cookie, does not collect visitor data, and has no relationship to Google Sign-In, OAuth, or a visitor's own Google Account.
 
 ## Cookies we use
 
@@ -109,8 +125,9 @@ GitHub and Google may process data in countries outside your own. GA4 data may b
 
 ## Changes to this policy
 
-Last updated: 2026-08-02. Changes are announced through the git history of this page in the public SquadScope repository, so you can review what changed and when.
+Last updated: 2026-09-02. Changes are announced through the git history of this page in the public SquadScope repository, so you can review what changed and when.
 
+**2026-09-02:** Fixed a date inconsistency between the page frontmatter and this changelog. Added a section clarifying that Claracle does not implement Google Sign-In or Google OAuth and does not request, access, receive, store, or share any visitor's Google Account profile or account data. Documented the static Google Search Console site-ownership verification tag, clarifying that while it is connected to the maintainer's own Search Console/Google account for property-verification purposes, it does not identify, authenticate, or connect to any visitor's Google Account. Removed the prior description of a repository script intended to call the Google Search Console URL Inspection API because it is not an active, in-production data-processing practice and does not belong in this public policy. The summary list of Google-related services now reflects only what is actually in effect: GA4, Google Fonts, and the static site-ownership verification tag. Explicitly identified jmservera as the site operator and controller. This page describes Claracle's actual current practices; it does not state or imply any Google approval, certification, or guarantee.
 **2026-08-02:** Documented the no-referrer iframe snippet and frame-local, explicit analytics consent model.
 **2026-06-12:** Added Signal Check podcast section covering TTS provider, staging storage, and platform disclosures.
 
