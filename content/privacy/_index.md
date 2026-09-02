@@ -1,7 +1,7 @@
 ---
 title: "Privacy Policy"
 description: "What data Claracle collects (almost none) and how third-party analytics work."
-date: 2026-05-25
+date: 2026-09-02
 draft: false
 ---
 
@@ -15,7 +15,20 @@ The editorial pipeline behind Claracle analyzes public GitHub repository metadat
 
 ## Who we are
 
-Claracle is an editorial trend-analysis site published from the [jmservera/SquadScope GitHub repository](https://github.com/jmservera/SquadScope). For privacy questions, use GitHub issues as the maintainer contact route: [open a SquadScope issue](https://github.com/jmservera/SquadScope/issues/new).
+Claracle is an editorial trend-analysis site published from the [jmservera/SquadScope GitHub repository](https://github.com/jmservera/SquadScope). The site operator, and the controller for the processing described in this policy, is **jmservera**, the maintainer of that repository. Claracle has no separate corporate entity, registered business address, or private contact email; all contact runs through the public GitHub issue route below. For privacy questions, use GitHub issues as the maintainer contact route: [open a SquadScope issue](https://github.com/jmservera/SquadScope/issues/new).
+
+## Google Sign-In, OAuth, and Google Account data
+
+Claracle does **not** implement Google Sign-In or any Google OAuth integration. The site has no accounts, no login, and no feature that requests permission from a Google Account. Claracle does not request, access, receive, store, or share any visitor's Google Account profile or account data, whether through Google Sign-In, OAuth, or any other mechanism.
+
+The Google-related services Claracle currently uses are:
+
+- **Google Analytics 4 (GA4)** — consent-gated, described below.
+- **Google Fonts** — used to load the site's typefaces, described below.
+- **A static Google Search Console site-ownership verification tag** — present only where configured for a given deployment, described below.
+- **The Google Search Console URL Inspection API** — an operational, maintainer-authenticated call used for site publishing governance, described below.
+
+None of these involve Google Sign-In, OAuth, or access to a visitor's Google Account, and none of them provide Claracle with a visitor's Google Account data.
 
 ## What is collected by third parties
 
@@ -38,6 +51,21 @@ Analytics in an embedded Claracle chart starts off. It can be enabled only when 
 ### Google Fonts
 
 Claracle loads Inter and JetBrains Mono from Google Fonts. When your browser requests those font files, Google may receive request metadata such as your IP address and user-agent under [Google's Privacy Policy](https://policies.google.com/privacy).
+
+### Google Search Console site-ownership verification
+
+Where configured for a given deployment, Claracle includes a static `google-site-verification` meta tag in the page `<head>`. This tag only proves domain ownership to Google Search Console; it does not set a cookie, does not collect visitor data, and is not connected to Google Sign-In, OAuth, or any Google Account.
+
+### Google Search Console URL Inspection API (operational, maintainer-authenticated)
+
+Separately from the static site-ownership tag above, Claracle's publishing pipeline includes a maintainer-run script (`scripts/capture_repository_url_inspection.py`) that calls the Google Search Console URL Inspection API. This is a distinct, authenticated server-side API call, not the passive verification tag.
+
+- **What it checks:** the indexing status (verdict, coverage state, robots.txt state, last crawl time, and similar signals) of URLs on Claracle's own verified site property, as part of internal site operations and publishing governance (for example, confirming pages are indexable after a release).
+- **What it does not do:** it does not read, request, or return any visitor's Google Account data. It only queries Google's indexing status for Claracle's own published URLs; visitors and their browsers are not involved in this call at all.
+- **How it authenticates:** the call is authenticated with the site maintainer's own Google API credentials (a bearer token supplied out of band, never committed to the repository), not with any visitor's session or credentials.
+- **Who runs it:** a project maintainer, on demand, as an operational/publishing task. It is not triggered by visitor activity on the site.
+
+This disclosure describes Claracle's actual current practice. It does not state or imply that Google has reviewed, approved, or certified this use.
 
 ## Cookies we use
 
@@ -109,8 +137,9 @@ GitHub and Google may process data in countries outside your own. GA4 data may b
 
 ## Changes to this policy
 
-Last updated: 2026-08-02. Changes are announced through the git history of this page in the public SquadScope repository, so you can review what changed and when.
+Last updated: 2026-09-02. Changes are announced through the git history of this page in the public SquadScope repository, so you can review what changed and when.
 
+**2026-09-02:** Fixed a date inconsistency between the page frontmatter and this changelog. Added a section clarifying that Claracle does not implement Google Sign-In or Google OAuth and does not request, access, receive, store, or share any visitor's Google Account profile or account data. Documented the static Google Search Console site-ownership verification tag, and separately disclosed the maintainer-authenticated Google Search Console URL Inspection API call used for site publishing governance (`scripts/capture_repository_url_inspection.py`), which checks indexing status for Claracle's own site URLs and does not access visitor Google Account data. Corrected the prior list of Google-related services, which omitted the URL Inspection API, so it is now a complete and accurate enumeration. Explicitly identified jmservera as the site operator and controller. This page describes Claracle's actual current practices; it does not state or imply any Google approval, certification, or guarantee.
 **2026-08-02:** Documented the no-referrer iframe snippet and frame-local, explicit analytics consent model.
 **2026-06-12:** Added Signal Check podcast section covering TTS provider, staging storage, and platform disclosures.
 
