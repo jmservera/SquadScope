@@ -21,12 +21,12 @@ Claracle is an editorial trend-analysis site published from the [jmservera/Squad
 
 Claracle does **not** implement Google Sign-In or any Google OAuth integration. The site has no accounts, no login, and no feature that requests permission from a Google Account. Claracle does not request, access, receive, store, or share any visitor's Google Account profile or account data, whether through Google Sign-In, OAuth, or any other mechanism.
 
-The Google-related services Claracle currently uses are:
+The Google-related services and repository tooling relevant to Claracle are:
 
 - **Google Analytics 4 (GA4)** — consent-gated, described below.
 - **Google Fonts** — used to load the site's typefaces, described below.
-- **A static Google Search Console site-ownership verification tag** — present only where configured for a given deployment, described below.
-- **The Google Search Console URL Inspection API** — an operational, maintainer-authenticated call used for site publishing governance, described below.
+- **A static Google Search Console site-ownership verification tag** — connected to the maintainer's Google account for property verification, present only where configured for a given deployment, described below.
+- **A repository script that is designed to call the Google Search Console URL Inspection API**, gated behind maintainer credentials, to check indexing status for Claracle's own URLs, described below.
 
 None of these involve Google Sign-In, OAuth, or access to a visitor's Google Account, and none of them provide Claracle with a visitor's Google Account data.
 
@@ -54,18 +54,18 @@ Claracle loads Inter and JetBrains Mono from Google Fonts. When your browser req
 
 ### Google Search Console site-ownership verification
 
-Where configured for a given deployment, Claracle includes a static `google-site-verification` meta tag in the page `<head>`. This tag only proves domain ownership to Google Search Console; it does not set a cookie, does not collect visitor data, and is not connected to Google Sign-In, OAuth, or any Google Account.
+Where configured for a given deployment, Claracle includes a static `google-site-verification` meta tag in the page `<head>`. This tag is connected to the maintainer's Search Console/Google account for the purpose of proving domain ownership to Google — that is what a site-verification tag is for. It does not identify, authenticate, or connect to any **visitor's** Google Account: it does not set a cookie, does not collect visitor data, and has no relationship to Google Sign-In, OAuth, or a visitor's own Google Account.
 
-### Google Search Console URL Inspection API (operational, maintainer-authenticated)
+### Google Search Console URL Inspection API (repository tooling, maintainer credential-gated)
 
-Separately from the static site-ownership tag above, Claracle's publishing pipeline includes a maintainer-run script (`scripts/capture_repository_url_inspection.py`) that calls the Google Search Console URL Inspection API. This is a distinct, authenticated server-side API call, not the passive verification tag.
+Separately from the static site-ownership tag above, this repository includes a maintainer-oriented script (`scripts/capture_repository_url_inspection.py`) that is written to call the Google Search Console URL Inspection API to check indexing status for Claracle's own site URLs. This section discloses what the tooling is designed to request and requires; it is not a claim that authenticated calls are currently succeeding or that this tooling is in active, verified production use.
 
-- **What it checks:** the indexing status (verdict, coverage state, robots.txt state, last crawl time, and similar signals) of URLs on Claracle's own verified site property, as part of internal site operations and publishing governance (for example, confirming pages are indexable after a release).
-- **What it does not do:** it does not read, request, or return any visitor's Google Account data. It only queries Google's indexing status for Claracle's own published URLs; visitors and their browsers are not involved in this call at all.
-- **How it authenticates:** the call is authenticated with the site maintainer's own Google API credentials (a bearer token supplied out of band, never committed to the repository), not with any visitor's session or credentials.
-- **Who runs it:** a project maintainer, on demand, as an operational/publishing task. It is not triggered by visitor activity on the site.
+- **What it is designed to check:** categories of indexing-status data for URLs on Claracle's own site property — verdict, coverage state, robots.txt state, indexing state, page fetch state, last crawl time, canonical URLs, referring URLs, and sitemap associations.
+- **What it does not do:** it does not read, request, or return any visitor's Google Account data, browsing activity, or session information. Visitors and their browsers are not involved in this tooling at all; it is scoped only to Claracle's own published URLs.
+- **Credentials it requires:** the script requires a maintainer-supplied Google API bearer token (passed via a `--token-file` argument, supplied out of band and never committed to the repository) in order to run at all. No visitor session, cookie, or visitor credential is used, accepted, or capable of substituting for that token.
+- **Who would run it:** if operated correctly, a project maintainer runs this on demand as a repository/publishing task. It is not triggered by visitor activity, and it has no connection to any part of the live visitor-facing site.
 
-This disclosure describes Claracle's actual current practice. It does not state or imply that Google has reviewed, approved, or certified this use.
+This disclosure describes what this repository tooling is designed and configured to do, gated behind maintainer credentials. It does not state or imply that Google has reviewed, approved, or certified this use, and it is not a representation that authenticated production calls to the API are currently being made successfully.
 
 ## Cookies we use
 
@@ -139,7 +139,7 @@ GitHub and Google may process data in countries outside your own. GA4 data may b
 
 Last updated: 2026-09-02. Changes are announced through the git history of this page in the public SquadScope repository, so you can review what changed and when.
 
-**2026-09-02:** Fixed a date inconsistency between the page frontmatter and this changelog. Added a section clarifying that Claracle does not implement Google Sign-In or Google OAuth and does not request, access, receive, store, or share any visitor's Google Account profile or account data. Documented the static Google Search Console site-ownership verification tag, and separately disclosed the maintainer-authenticated Google Search Console URL Inspection API call used for site publishing governance (`scripts/capture_repository_url_inspection.py`), which checks indexing status for Claracle's own site URLs and does not access visitor Google Account data. Corrected the prior list of Google-related services, which omitted the URL Inspection API, so it is now a complete and accurate enumeration. Explicitly identified jmservera as the site operator and controller. This page describes Claracle's actual current practices; it does not state or imply any Google approval, certification, or guarantee.
+**2026-09-02:** Fixed a date inconsistency between the page frontmatter and this changelog. Added a section clarifying that Claracle does not implement Google Sign-In or Google OAuth and does not request, access, receive, store, or share any visitor's Google Account profile or account data. Documented the static Google Search Console site-ownership verification tag, clarifying that while it is connected to the maintainer's own Search Console/Google account for property-verification purposes, it does not identify, authenticate, or connect to any visitor's Google Account. Documented `scripts/capture_repository_url_inspection.py`, a repository script that is designed to call the Google Search Console URL Inspection API, gated behind maintainer-supplied credentials, to check indexing-status data for Claracle's own site URLs — worded to disclose the categories of data the tooling is designed to request without claiming that authenticated calls are currently succeeding in production, and to make clear visitor data and visitor Google Accounts are never involved. Corrected the prior list of Google-related services, which omitted this tooling, so it is now a complete and accurate enumeration. Explicitly identified jmservera as the site operator and controller. This page describes Claracle's actual current practices; it does not state or imply any Google approval, certification, or guarantee.
 **2026-08-02:** Documented the no-referrer iframe snippet and frame-local, explicit analytics consent model.
 **2026-06-12:** Added Signal Check podcast section covering TTS provider, staging storage, and platform disclosures.
 
